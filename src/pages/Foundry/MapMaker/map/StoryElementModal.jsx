@@ -29,7 +29,7 @@ export const StoryElementModal = ({
 
   // Trap / Reactive settings state
   const isTrapOrHazard = element.type === 'Hazard' || element.type === 'Trap' || mapObjectNode?.isTrap || !!mapObjectNode?.hazard;
-  const [trapDc, setTrapDc] = useState(mapObjectNode?.saveDc || element.dc || 14);
+  const [trapDc, setTrapDc] = useState(mapObjectNode?.saveCr || element.dc || 14);
   const [trapDamage, setTrapDamage] = useState(mapObjectNode?.damageDice || element.damage || '2d10');
   const [trapState, setTrapState] = useState(mapObjectNode?.trapState || 'armed'); // 'armed' | 'disarmed' | 'triggered'
 
@@ -55,11 +55,11 @@ export const StoryElementModal = ({
     }
   };
 
-  const handleSkillCheck = (skillName, targetDc = 14) => {
+  const handleSkillCheck = (skillName, targetCr = 14) => {
     const d1 = Math.floor(Math.random() * 10) + 1;
     const d2 = Math.floor(Math.random() * 10) + 1;
     const total = d1 + d2 + parseInt(skillBonus, 10);
-    const isSuccess = total >= targetDc;
+    const isSuccess = total >= targetCr;
 
     if (isSuccess) {
       AudioService.playTerminalBeep(980, 0.2);
@@ -73,11 +73,11 @@ export const StoryElementModal = ({
       d2,
       bonus: skillBonus,
       total,
-      dc: targetDc,
+      dc: targetCr,
       isSuccess,
       message: isSuccess
-        ? `✅ Success! Rolled ${d1}+${d2}+${skillBonus} = ${total} vs DC ${targetDc}. Concealed intelligence revealed.`
-        : `❌ Failed! Rolled ${d1}+${d2}+${skillBonus} = ${total} vs DC ${targetDc}. Critical data remains locked.`
+        ? `✅ Success! Rolled ${d1}+${d2}+${skillBonus} = ${total} vs CR ${targetCr}. Concealed intelligence revealed.`
+        : `❌ Failed! Rolled ${d1}+${d2}+${skillBonus} = ${total} vs CR ${targetCr}. Critical data remains locked.`
     });
   };
 
@@ -85,7 +85,7 @@ export const StoryElementModal = ({
     AudioService.playTerminalBeep(880, 0.1);
     if (mapObjectNode && onUpdateMapObject) {
       onUpdateMapObject(mapObjectNode.id, {
-        saveDc: parseInt(trapDc, 10),
+        saveCr: parseInt(trapDc, 10),
         damageDice: trapDamage,
         trapState: trapState
       });
@@ -288,7 +288,7 @@ export const StoryElementModal = ({
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-slate-200 text-xs flex items-center gap-1.5">
                     <Search size={14} className="text-amber-400" />
-                    <span>Investigation & Skill Check (2d10 vs DC)</span>
+                    <span>Investigation & Skill Check (2d10 vs CR)</span>
                   </h4>
                   <div className="flex items-center gap-1 font-mono text-xs">
                     <span className="text-slate-400">Skill Mod:</span>
@@ -308,7 +308,7 @@ export const StoryElementModal = ({
                     className="p-2 bg-slate-950 hover:bg-slate-900 border border-slate-700/80 rounded-lg text-[11px] font-mono text-left transition-colors cursor-pointer"
                   >
                     <div className="font-bold text-amber-300">👁️ Perception</div>
-                    <div className="text-[10px] text-slate-400">Target DC 13</div>
+                    <div className="text-[10px] text-slate-400">Target CR 13</div>
                   </button>
 
                   <button
@@ -317,7 +317,7 @@ export const StoryElementModal = ({
                     className="p-2 bg-slate-950 hover:bg-slate-900 border border-slate-700/80 rounded-lg text-[11px] font-mono text-left transition-colors cursor-pointer"
                   >
                     <div className="font-bold text-cyan-300">💻 Slicing</div>
-                    <div className="text-[10px] text-slate-400">Target DC 14</div>
+                    <div className="text-[10px] text-slate-400">Target CR 14</div>
                   </button>
 
                   <button
@@ -326,7 +326,7 @@ export const StoryElementModal = ({
                     className="p-2 bg-slate-950 hover:bg-slate-900 border border-slate-700/80 rounded-lg text-[11px] font-mono text-left transition-colors cursor-pointer"
                   >
                     <div className="font-bold text-purple-300">🔬 Forensics</div>
-                    <div className="text-[10px] text-slate-400">Target DC 15</div>
+                    <div className="text-[10px] text-slate-400">Target CR 15</div>
                   </button>
                 </div>
 
@@ -363,7 +363,7 @@ export const StoryElementModal = ({
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Save DC</label>
+                    <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Save CR</label>
                     <input
                       type="number"
                       value={trapDc}

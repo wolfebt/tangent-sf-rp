@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-1","death-dying","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ When a character's Health reaches **0**, they collapse into a critical state whe
 
 ## Dying State & Mortal Checks
 - At 0 Health, the character falls **Incapacitated** and gains the **Dying condition**.
-- At the start of each combat round, make a **Fortitude Check (DC 15)**:
+- At the start of each combat round, make a **Fortitude Check (CR 15)**:
   - **Success:** Stabilizes; character remains unconscious but is no longer bleeding out.
   - **Failure:** Suffers **1 Mortal Wound mark**.
   - **Critical Failure (Fail by 5+):** Suffers **2 Mortal Wound marks**.
@@ -57,7 +57,7 @@ If a deceased character is brought back to life via ultra-advanced TL5 cyber-sur
 
 ## Game Mechanics Rules
 ```
-Bleed Out DC: Fortitude DC 15 per round
+Bleed Out DC: Fortitude CR 15 per round
 Revivification Penalty: Reset Karma to 0, incur -5 AP Experience Debt
 ```
 

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-2","economy","eut","trade"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -35,7 +35,7 @@ sockets:
 
 # 2.06 Economic Unified Theory (EUT) & Macro-Trade Routes
 
-The Tangent Economic Unified Theory establishes an absolute mathematical link between difficulty of production (**Crafting DC**), planetary market supply/demand, interstellar freight tariffs, and item valuations.
+The Tangent Economic Unified Theory establishes an absolute mathematical link between difficulty of production (**Crafting CR**), planetary market supply/demand, interstellar freight tariffs, and item valuations.
 
 ---
 
@@ -43,18 +43,18 @@ The Tangent Economic Unified Theory establishes an absolute mathematical link be
 All goods, structures, starships, and cybernetics adhere to the **Tangent Standard Value Curve**:
 $$\text{Value (Credits)} = 10 \times 4^{(\text{DC} / 5)}$$
 
-| Crafting DC | Item / Asset Class Benchmark | Canonical Credit Value |
+| Crafting CR | Item / Asset Class Benchmark | Canonical Credit Value |
 | :---: | :--- | :---: |
-| **DC 0** | Raw scrap, basic rations, matchsticks | **10 Cr** |
-| **DC 5** | Knife, flashlight, civilian radio | **40 Cr** |
-| **DC 10** | Standard kinetic pistol, light flak vest | **160 Cr** |
-| **DC 15** | Military assault rifle, combat vac-suit | **640 Cr** |
-| **DC 20** | Plasma cannon, powered combat armor | **2,560 Cr** |
-| **DC 25** | Light combat mecha frame, neural cyber-rig | **10,240 Cr** |
-| **DC 30** | Modular orbital habitat room, scout shuttle | **40,960 Cr** |
-| **DC 35** | Armed corvette starship hull, heavy industrial core | **163,840 Cr** |
-| **DC 40** | Star destroyer spinal railgun, planetary defense node | **655,360 Cr** |
-| **DC 50** | Capital starship hull, orbital station superstructure | **10,485,760 Cr** |
+| **CR 0** | Raw scrap, basic rations, matchsticks | **10 Cr** |
+| **CR 5** | Knife, flashlight, civilian radio | **40 Cr** |
+| **CR 10** | Standard kinetic pistol, light flak vest | **160 Cr** |
+| **CR 15** | Military assault rifle, combat vac-suit | **640 Cr** |
+| **CR 20** | Plasma cannon, powered combat armor | **2,560 Cr** |
+| **CR 25** | Light combat mecha frame, neural cyber-rig | **10,240 Cr** |
+| **CR 30** | Modular orbital habitat room, scout shuttle | **40,960 Cr** |
+| **CR 35** | Armed corvette starship hull, heavy industrial core | **163,840 Cr** |
+| **CR 40** | Star destroyer spinal railgun, planetary defense node | **655,360 Cr** |
+| **CR 50** | Capital starship hull, orbital station superstructure | **10,485,760 Cr** |
 
 ---
 
@@ -65,7 +65,7 @@ $$\text{Value (Credits)} = 10 \times 4^{(\text{DC} / 5)}$$
 
 ## Game Mechanics Rules
 ```
-Item Value = 10 * 4^(DC / 5) Credits
+Item Value = 10 * 4^(CR / 5) Credits
 Raw Material Crafting Cost = 50% of Base Market Value
 Freight Tariff = 100 Cr per UDU Module per Parsec
 ```

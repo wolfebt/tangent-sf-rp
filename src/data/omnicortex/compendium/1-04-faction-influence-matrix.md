@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-1","factions","influence","warfare"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -59,7 +59,7 @@ Factions in Tangent range from local criminal syndicates to galaxy-spanning inte
 
 ## Game Mechanics Rules
 ```
-Faction Standing Check: 2d10 + Charisma Mod + Faction Influence/Reputation Rank vs DC 15.
+Faction Standing Check: 2d10 + Charisma Mod + Faction Influence/Reputation Rank vs CR 15.
 Bespoke Requisition: High faction standing grants discounts or access to restricted military hardware.
 ```
 

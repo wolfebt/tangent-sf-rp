@@ -165,8 +165,8 @@ export const executeDeckProgram = (session, programId, operativeMod = 3, customR
   const baseDiceSum = isCritTriumph ? 30 : isCritFumble ? -10 : (d1 + d2);
   const rollTotal = baseDiceSum + operativeMod;
 
-  const targetDc = session.targetNode.baseDc;
-  const isSuccess = rollTotal >= targetDc;
+  const targetCr = session.targetNode.baseDc;
+  const isSuccess = rollTotal >= targetCr;
 
   let damageDealt = 0;
   let traceChange = prog.traceCost;
@@ -176,14 +176,14 @@ export const executeDeckProgram = (session, programId, operativeMod = 3, customR
   if (isCritTriumph) {
     damageDealt = prog.baseDamage * 2;
     traceChange = Math.min(0, traceChange - 10);
-    eventLog = `🌟 CRITICAL ROOT BREACH! [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs DC ${targetDc}. Dealt ${damageDealt} massive ICE damage!`;
+    eventLog = `🌟 CRITICAL ROOT BREACH! [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs CR ${targetCr}. Dealt ${damageDealt} massive ICE damage!`;
   } else if (isCritFumble) {
     damageDealt = 0;
     traceChange += 25;
-    eventLog = `💀 CRITICAL FUMBLE! [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs DC ${targetDc}. Bio-Feedback shock! Trace surged by +${traceChange}%!`;
+    eventLog = `💀 CRITICAL FUMBLE! [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs CR ${targetCr}. Bio-Feedback shock! Trace surged by +${traceChange}%!`;
   } else if (isSuccess) {
     damageDealt = prog.baseDamage + (Math.floor(Math.random() * 5) - 2);
-    eventLog = `✅ ${prog.label} EXECUTED! [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs DC ${targetDc}. Dealt ${damageDealt} ICE damage.`;
+    eventLog = `✅ ${prog.label} EXECUTED! [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs CR ${targetCr}. Dealt ${damageDealt} ICE damage.`;
 
     if (prog.id === 'siphoncredits_pay') {
       extractedCredits = Math.floor(Math.random() * 800) + 600;
@@ -191,7 +191,7 @@ export const executeDeckProgram = (session, programId, operativeMod = 3, customR
     }
   } else {
     damageDealt = 2; // Glancing damage
-    eventLog = `⚠️ DEFENSE RESISTED: [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs DC ${targetDc}. Glancing ICE hit for 2 damage.`;
+    eventLog = `⚠️ DEFENSE RESISTED: [${d1}, ${d2}] + ${operativeMod} = ${rollTotal} vs CR ${targetCr}. Glancing ICE hit for 2 damage.`;
   }
 
   const nextIceHp = Math.max(0, session.currentIceHp - damageDealt);

@@ -59,7 +59,7 @@ test('BASTION Mechanics: Mortality State & Bleeding Out', () => {
   assert(mortality, 'Mortality state rule must exist');
   assert(mortality.mechanic_formula.includes('Stability Points = CON Score + 5'), 'Stability points must equal CON + 5');
   assert(mortality.mechanic_formula.includes('1 Stability Damage/turn'), 'Bleedout must deal 1 point/turn');
-  assert(mortality.rules_text.includes('Medicine Check (DC 15)'), 'Stabilization must require Medicine DC 15');
+  assert(mortality.rules_text.includes('Medicine Check (CR 15)'), 'Stabilization must require Medicine DC 15');
 });
 
 test('BASTION Mechanics: 1.10 Scaling and Cross-Scale Multipliers', () => {
@@ -74,8 +74,8 @@ test('BASTION Mechanics: 1.10 Scaling and Cross-Scale Multipliers', () => {
 test('BASTION Mechanics: Economatrix Tangent Standard Curve (TSC)', () => {
   const tsc = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-economatrix-standard-curve');
   assert(tsc, 'Economatrix TSC equation must exist');
-  assert(tsc.mechanic_formula.includes('Value = 10 * 4^(DC / 5)'), 'Must match canonical TSC formula');
-  assert(tsc.rules_text.includes('Purchase DC = Crafting DC'), 'Must state Purchase DC equals Crafting DC');
+  assert(tsc.mechanic_formula.includes('Value = 10 * 4^(CR / 5)'), 'Must match canonical TSC formula');
+  assert(tsc.rules_text.includes('Purchase CR = Crafting CR'), 'Must state Purchase DC equals Crafting DC');
 });
 
 test('BASTION Mechanics: Character 150 CP Creation Budget', () => {

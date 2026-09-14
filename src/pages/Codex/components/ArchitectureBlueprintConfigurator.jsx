@@ -302,7 +302,7 @@ export const ArchitectureBlueprintConfigurator = ({
           <div className="flex items-center gap-2 min-w-0">
             <Sparkles size={14} className="text-purple-400 shrink-0" />
             <span className="truncate">
-              <strong>Highest Complexity Rule Active:</strong> Base DC raised to <strong>DC {dcResult.highestComponentDC}</strong> by <em>{dcResult.highestComponentSource}</em>.
+              <strong>Highest Complexity Rule Active:</strong> Base CR raised to <strong>DC {dcResult.highestComponentDC}</strong> by <em>{dcResult.highestComponentSource}</em>.
             </span>
           </div>
           <span className="text-[10px] px-2 py-0.5 rounded bg-purple-900/80 text-purple-300 font-bold border border-purple-400/40 shrink-0">
@@ -1059,7 +1059,7 @@ export const ArchitectureBlueprintConfigurator = ({
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
               <span className="text-[10px] text-slate-400 uppercase">Field Repair Check</span>
               <div className="text-lg font-bold text-white mt-0.5">
-                DC 15 (Engineering)
+                CR 15 (Engineering)
               </div>
               <p className="text-[10px] text-slate-500 mt-1">
                 Restores {combatMetrics.field_repair_rate}.

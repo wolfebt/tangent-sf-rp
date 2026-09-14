@@ -316,7 +316,7 @@ export const OMNICORTEX_DATASETS = [
       description: "Calculation of hyperspace trajectories, gravity well avoidance, and orbital mechanics.",
       tech_level: 3,
       meta_level: 0,
-      mechanic: "Governing Attribute: Intellect (Logic). Standard DC 15 to compute safe jump coordinates through chartered corridors.",
+      mechanic: "Governing Attribute: Intellect (Logic). Standard CR 15 to compute safe jump coordinates through chartered corridors.",
       note: "Requires navigational computer or star charts."
     }
   },
@@ -395,7 +395,7 @@ export const OMNICORTEX_DATASETS = [
       modifiers: [
         { target: "Max Cyberware Nodes", type: "disadvantage", value: -4, mode: "inherent" }
       ],
-      mechanic: "Any cybernetic installation requires an opposed Fortitude check (DC 18) to avoid suffering 2d6 systemic bio-strain.",
+      mechanic: "Any cybernetic installation requires an opposed Fortitude check (CR 18) to avoid suffering 2d6 systemic bio-strain.",
       note: "Cannot be taken by Synthetic species."
     }
   },
@@ -651,7 +651,7 @@ export const OMNICORTEX_DATASETS = [
 **PARSING HEURISTICS & RULES:**
 1. **Resource Accounting:** Map action points to costs.ap, strain expenditure to costs.strain, and focus expenditure to costs.focus.
 2. **Arrays for Patterns:** area, effect, range, target, and prerequisite MUST be arrays of strings.
-3. **No LaTeX:** Write all damage and DC expressions as plain text (e.g. 2d8+3, DC 15 + ML).
+3. **No LaTeX:** Write all damage and DC expressions as plain text (e.g. 2d8+3, CR 15 + ML).
 4. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**

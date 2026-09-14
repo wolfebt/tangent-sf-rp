@@ -313,7 +313,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
                     <span>📉</span> Disadvantage on Rolls
                   </div>
                   <p className="text-[11px] text-slate-400">
-                    A common Karmic effect is the GM imposing Disadvantage (roll 2d20, take lower result) on dramatic rolls to reflect misfortune balancing cosmic scales.
+                    A common Karmic effect is the GM imposing Disadvantage (Roll 2d10 with Advantage, take lower result) on dramatic rolls to reflect misfortune balancing cosmic scales.
                   </p>
                 </div>
                 <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800 space-y-1.5">

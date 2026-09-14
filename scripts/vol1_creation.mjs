@@ -276,13 +276,13 @@ export const creationArticles = [
       '| Statistic | Calculation Formula | Description |',
       '| :--- | :--- | :--- |',
       '| **Max Hit Points (HP)** | Base (10) + (Stamina Mod * 2) + Rank Multipliers | Total physical trauma capacity |',
-      '| **Initiative Check** | d20 + Reflex Save + Agility Mod | Reaction speed at start of combat |',
-      '| **Might Check** | d20 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |',
-      '| **Fortitude Save** | d20 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |',
-      '| **Reflex Save** | d20 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |',
-      '| **Logic Check** | d20 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |',
-      '| **Will Save** | d20 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |',
-      '| **Etiquette Check** | d20 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |'
+      '| **Initiative Check** | 2d10 + Reflex Save + Agility Mod | Reaction speed at start of combat |',
+      '| **Might Check** | 2d10 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |',
+      '| **Fortitude Save** | 2d10 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |',
+      '| **Reflex Save** | 2d10 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |',
+      '| **Logic Check** | 2d10 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |',
+      '| **Will Save** | 2d10 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |',
+      '| **Etiquette Check** | 2d10 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |'
     ].join('\n'),
     mechanic: 'BaseBP = 150\nAttributeCost = 5 BP per +1 (Max +4 raw at creation)\nSkillRankCost = 1 BP per rank\nFeatureBaseCost = 3 BP (2 BP if Recommended, 1 BP Minimum)\nTotalFoundationalGrants = 60 Skill Ranks + 4 Features + 4 Traits (From Faction, Origin, Occupation)',
     guide: '1. Define concept, background, and persona goals.\n2. Deduct Species BP cost from the 150 BP pool; apply species ability modifiers and inherent traits.\n3. Allocate remaining BP to Attributes (5 BP each, max +4), Skills (1 BP each), and Features (3 BP / 2 BP).\n4. Allocate 20 Faction SP, 20 Origin SP, and 20 Occupation SP from background pools.\n5. Select 2 Origin Traits and 2 Occupation Traits.\n6. Calculate derived Hit Points, Toughness, Initiative, and Saving Throws.',
@@ -492,7 +492,7 @@ export const creationArticles = [
       '  - **Forced Rerolls:** The GM might also force the character to reroll successful rolls, introducing uncertainty and potentially turning a victory into a failure.',
       '  - **NPC Benefits:** Negative Karma can also positively affect NPCs who are directly opposing the character. This could manifest as increased luck, improved skills, or unexpected advantages that help them overcome the character\'s efforts.'
     ].join('\n'),
-    mechanic: 'BaseKarma = 3\nMaxKarmaDebt = Charisma + 1\nAdvantage = Roll 2d20, Take Highest Result\nDisadvantage = Roll 2d20, Take Lowest Result\nConditionReduction = -1 Severity Stage (Major -> Minor -> Cleared)\nSecondWind = 1 Min Focus, Replaces Light Rest',
+    mechanic: 'BaseKarma = 3\nMaxKarmaDebt = Charisma + 1\nAdvantage = Roll 2d10 with Advantage, Take Highest Result\nDisadvantage = Roll 2d10 with Advantage, Take Lowest Result\nConditionReduction = -1 Severity Stage (Major -> Minor -> Cleared)\nSecondWind = 1 Min Focus, Replaces Light Rest',
     guide: 'Spend Karma points during critical encounters to gain Advantage, reroll non-combat failures, reduce debuffs, or bend reality. Track Plot Points separately for arc-specific narrative boosts.',
     note: 'Negative Karma must never exceed Charisma + 1 and grants the GM narrative complication triggers until resolved.'
   },
@@ -551,7 +551,7 @@ export const creationArticles = [
       '1. **Incapacitation:** The character immediately falls unconscious, drops held items, and gains the **Prone** condition.',
       '2. **Death\'s Door:** If both Health and Vitality are at 0, the character is dying and enters a comatose state.',
       '3. **The Death Clock:** The character has a number of rounds equal to their **Stamina Score** (Minimum 1 round) to receive medical aid.',
-      '4. **Stabilization:** A successful **Medicine check (DC 15)** or trauma nanite injection halts the death clock.',
+      '4. **Stabilization:** A successful **Medicine Check (CR 15)** or trauma nanite injection halts the death clock.',
       '5. **Massive Damage:** Taking damage equal to or exceeding their Stamina score in a single hit while at Death\'s Door causes instant death.',
       '',
       '---',
@@ -561,7 +561,7 @@ export const creationArticles = [
       'Returning a character from the dead requires advanced TL5 medical clone synthesis or high-tier ML5 Metaphysics:',
       '- **Penalties:** The revived character loses all remaining Karma Points and incurs a **-5 Experience Debt** until repaid through heroic gameplay.'
     ].join('\n'),
-    mechanic: 'DeathClock_Rounds = max(1, StaminaScore)\nStabilization_DC = Medicine DC 15\nRevive_Penalty = Lose All Karma + 5 XP Debt',
+    mechanic: 'DeathClock_Rounds = max(1, StaminaScore)\nStabilization_DC = Medicine CR 15\nRevive_Penalty = Lose All Karma + 5 XP Debt',
     guide: 'Allies should prioritize stabilizing downed teammates within their Stamina round window.',
     note: 'Revivification should be a rare, momentous narrative arc rather than a routine transaction.'
   },
@@ -859,8 +859,8 @@ export const creationArticles = [
       '- **Attune (WIS/INT):** Drawing, channeling, and stabilizing metaphysical energy.',
       '- **Discipline Skills (6 Branches):** Dimension, Energy, Entropy, Illusion, Matter, Mental.'
     ].join('\n'),
-    mechanic: 'SkillCheck = d20 + SkillRank + LinkedAttributeMod + SituationalModifiers\nFocusBonus: Rank 1-5 (+2), Rank 6-10 (+3), Rank 11-15 (+4), Rank 16-20 (+5), Rank 21-25 (+6), Rank 26-30 (+7)',
-    guide: 'Roll d20 and add your skill rank plus the linked attribute modifier against the target DC.',
+    mechanic: 'SkillCheck = 2d10 + SkillRank + LinkedAttributeMod + SituationalModifiers\nFocusBonus: Rank 1-5 (+2), Rank 6-10 (+3), Rank 11-15 (+4), Rank 16-20 (+5), Rank 21-25 (+6), Rank 26-30 (+7)',
+    guide: 'Roll d20 and add your skill rank plus the linked attribute modifier against the Target CR.',
     note: 'Synergies: Having 5+ ranks in a prerequisite skill provides a +2 synergy bonus to related specialized checks.'
   },
   {

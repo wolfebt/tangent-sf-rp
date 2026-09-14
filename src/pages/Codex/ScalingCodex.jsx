@@ -590,7 +590,7 @@ export const ScalingCodex = ({ onOpenBuilder }) => {
                   />
                 </div>
                 <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                  <label className="text-xs font-mono font-bold text-slate-400 uppercase block">Base Save DC</label>
+                  <label className="text-xs font-mono font-bold text-slate-400 uppercase block">Base Save CR</label>
                   <input
                     type="number"
                     value={baseDC}

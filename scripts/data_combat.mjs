@@ -94,11 +94,11 @@ When targeting an active, aware opponent:
 ## 2. Unopposed Resolution (Stationary / Surprised Target)
 
 When targeting an inanimate object, a disabled vehicle, or a surprised foe:
-- Attacker rolls vs. a static **Base DC 15 (Average Medium Target at Short Range)**.
+- Attacker rolls vs. a static **Base CR 15 (Average Medium Target at Short Range)**.
 - Modified by Target Size, Range Brackets, and Movement penalties.,
     mechanic: Opposed: AttackCheck vs DefenseCheck (Defender wins tie)
 Unopposed: AttackCheck vs (15 + SizeMod + RangeMod + MoveMod),
-    guide: Declare your target, roll attack check, and compare against opposed defense roll or target DC.,
+    guide: Declare your target, roll attack check, and compare against opposed defense roll or Target CR.,
     note: Point blank shots against unopposed targets deal Advantage damage automatically.
   },
   {
@@ -135,11 +135,11 @@ Target scale and physical distance substantially modify attack rolls and un-oppo
 
 | Range Category | Distance Modifier | Effective Range Bracket | Special Combat Rule |
 | :--- | :---: | :--- | :--- |
-| **Point Blank** | **+5 (DC 10)** | Within Melee Reach (5 ft) | **Roll Damage with Advantage** |
-| **Short** | **0 (DC 15)** | Listed Base Range | Standard strike |
-| **Medium** | **-5 (DC 20)** | Up to \\times$ Base Range | Long-range aim required |
-| **Long** | **-10 (DC 25)**| Up to \\times$ Base Range | Severe trajectory drop |
-| **Extreme** | **-15 (DC 30)**| Up to \\times$ Base Range | Requires sniper optics |,
+| **Point Blank** | **+5 (CR 10)** | Within Melee Reach (5 ft) | **Roll Damage with Advantage** |
+| **Short** | **0 (CR 15)** | Listed Base Range | Standard strike |
+| **Medium** | **-5 (CR 20)** | Up to \\times$ Base Range | Long-range aim required |
+| **Long** | **-10 (CR 25)**| Up to \\times$ Base Range | Severe trajectory drop |
+| **Extreme** | **-15 (CR 30)**| Up to \\times$ Base Range | Requires sniper optics |,
     mechanic: EffectiveDC = 15 + SizeModifier + RangeModifier
 PointBlankDamage = max(DamageRoll1, DamageRoll2) + Bonus,
     guide: Check weapon base range and target size to determine applicable modifiers to your attack roll.,
@@ -290,7 +290,7 @@ When a character's Hit Points drop to zero, they enter the critical **Mortality 
 When reduced to **0 HP**:
 1. The character immediately falls **Unconscious** and **Prone**.
 2. The character begins **Bleeding Out**.
-3. At the start of each of their turns, the character must roll a **Fortitude Saving Throw (DC 15)**:
+3. At the start of each of their turns, the character must roll a **Fortitude Saving Throw (CR 15)**:
    - **Success:** The character stabilizes. Bleeding stops, but they remain unconscious at 0 HP.
    - **Failure:** The character suffers 1 point of permanent mortality trauma. After 3 failed saves, the character **Perishes**.
    - **Critical Success (Natural 20):** The character regains consciousness with 1 HP.
@@ -305,10 +305,10 @@ If a single attack reduces a character to 0 HP and the leftover damage meets or 
 
 ## Medical Stabilization
 
-An ally within reach may use a **Medicine Skill Check (DC 15)** or apply a trauma stim-pack to immediately stabilize a dying comrade.,
-    mechanic: DeathSaves: DC 15 Fortitude (3 Failures = Death, 3 Successes = Stabilized, Nat 20 = Revive 1 HP)
+An ally within reach may use a **Medicine Skill Check (CR 15)** or apply a trauma stim-pack to immediately stabilize a dying comrade.,
+    mechanic: DeathSaves: CR 15 Fortitude (3 Failures = Death, 3 Successes = Stabilized, Nat 20 = Revive 1 HP)
 MassiveDamageDeath: LeftoverDamage >= MaxHP,
-    guide: When at 0 HP, roll DC 15 Fortitude save at the start of each turn. Allies should apply first aid immediately.,
+    guide: When at 0 HP, roll CR 15 Fortitude save at the start of each turn. Allies should apply first aid immediately.,
     note: Spending 1 Karma Point immediately stabilizes a dying character and restores 1 HP.
   },
   {
@@ -522,7 +522,7 @@ Fighting in the cold silence of outer space introduces recoil inertia, 3D vector
 
 1. **Recoil Inertia (Newton's Third Law):** Firing a ballistic or heavy weapon without magnetic boot locks or micro-thruster anchors pushes the shooter backward 10 feet in the opposite direction.
 2. **3D Tactical Movement:** Combatants can move in all three dimensions. Cover can be attacked from above or below.
-3. **Suit Breaches:** Any penetrating kinetic or energy hit on a pressurized environment suit forces an immediate **Suit Seal Check (DC 15)**:
+3. **Suit Breaches:** Any penetrating kinetic or energy hit on a pressurized environment suit forces an immediate **Suit Seal Check (CR 15)**:
    - **Failure:** Rapid decompression; character suffers $ cold/hypoxia damage per round until patched.
 4. **Silent Battlefield:** Sound does not propagate in vacuum. All verbal communication requires encrypted radio frequencies or laser-comms.,
     mechanic: ZeroGRecoilDrift = 10 ft backward on ballistic fire (unless anchored)

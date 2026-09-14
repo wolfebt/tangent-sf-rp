@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","combat-matrix"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ Complete reference matrices for target size modifiers, weapon range brackets, mo
 
 ## 1. Target Size Modifiers Matrix
 
-| Size | Modifier (Target DC) |
+| Size | Modifier (Target CR) |
 | :--- | :---: |
 | **Miniscule** | **-32** |
 | **Fine** | **-16** |

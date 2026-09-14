@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. technology, equipment matrix","matrix"]
-updatedAt: "2026-09-12T08:23:46.550Z"
+updatedAt: "2026-09-14T19:51:39.821Z"
 costs:
   bp: 0
   credits: 0
@@ -96,16 +96,16 @@ The **Module** is the baseline unit of macro-scale structural volume (representi
 
 ### **Dimensional Footprint and Base Complexity**
 
-Every discrete piece of equipment is assigned a Size Category, which dictates its default capacity in Sockets, its base Structure Points (HP), and its baseline Crafting Difficulty Class (DC).3 This establishes the unflavored mechanical reality of the Agnostic Chassis before technological era or cultural skin is applied.2
+Every discrete piece of equipment is assigned a Size Category, which dictates its default capacity in Sockets, its base Structure Points (HP), and its baseline Crafting Challenge Rating (CR).3 This establishes the unflavored mechanical reality of the Agnostic Chassis before technological era or cultural skin is applied.2
 
-| SIZE&nbsp; | COMMON EXAMPLES | MASS | CAPACITY | STRUCTURE&nbsp; | CRAFTING DC |
+| SIZE&nbsp; | COMMON EXAMPLES | MASS | CAPACITY | STRUCTURE&nbsp; | Crafting CR |
 | ----- | ----- | :---: | :---: | :---: | ----- |
-| **Fine** | Data-chip, Jewelry, Piercing | \< 0.1 kg | (2 Nodes) | 2 SP | DC 5 (Simple) |
-| **Diminutive** | Datapad, Stim-injector, Sensor Fob | \< 1 kg | 1 Socket | 5 SP | DC 5 (Simple) |
-| **Tiny** | Pistol, Medkit, Hand Tool | \< 5 kg | 2 Sockets | 10 SP | DC 10 (Standard) |
-| **Small** | Rifle, Backpack Unit, Enviro-Suit | \< 10 kg | 4 Sockets | 20 SP | DC 15 (Advanced) |
-| **Medium** | Heavy Tool, Portable Generator | \< 25 kg | 8 Sockets | 40 SP | DC 20 (Expert) |
-| **Mecha** | Emplacement, Vehicle Weapon | \< 100 kg | Mounts | 100 SP (Medium) | DC 30 (Grandmaster) |
+| **Fine** | Data-chip, Jewelry, Piercing | \< 0.1 kg | (2 Nodes) | 2 SP | CR 5 (Simple) |
+| **Diminutive** | Datapad, Stim-injector, Sensor Fob | \< 1 kg | 1 Socket | 5 SP | CR 5 (Simple) |
+| **Tiny** | Pistol, Medkit, Hand Tool | \< 5 kg | 2 Sockets | 10 SP | CR 10 (Standard) |
+| **Small** | Rifle, Backpack Unit, Enviro-Suit | \< 10 kg | 4 Sockets | 20 SP | CR 15 (Advanced) |
+| **Medium** | Heavy Tool, Portable Generator | \< 25 kg | 8 Sockets | 40 SP | CR 20 (Expert) |
+| **Mecha** | Emplacement, Vehicle Weapon | \< 100 kg | Mounts | 100 SP (Medium) | CR 30 (Grandmaster) |
 | **Structure** | Building, Campus, Laboratory | \>10 Tons | Modules | 500+ SP | Variable |
 
 Items classified as "Fine" possess a mass so negligible they do not consume standard Socket capacity for inventory management.3 They may serve as minor aesthetic additions or highly miniaturized components, though they remain subject to standard durability constraints.3
@@ -177,16 +177,16 @@ Holophotonics, developed by highly advanced entities, consist of programmable ha
 
 ## **Complexity Gates and the Skill Economy**
 
-A highly advanced piece of equipment is only as effective as the operator manipulating it.3 The matrix introduces "Complexity Gates" to simulate the difficulty of mastering disparate technological tiers, directly linking the item's Crafting DC to the Skill Rank required for safe operation.3
+A highly advanced piece of equipment is only as effective as the operator manipulating it.3 The matrix introduces "Complexity Gates" to simulate the difficulty of mastering disparate technological tiers, directly linking the item's Crafting CR to the Skill Rank required for safe operation.3
 
-|  | CLASSIFICATION | CRAFT DC | SKILL&nbsp; | EFFECT OF OPERATIONAL INCOMPETENCE |
+|  | CLASSIFICATION | Craft CR | SKILL&nbsp; | EFFECT OF OPERATIONAL INCOMPETENCE |
 | ----- | ----- | ----- | ----- | ----- |
-| **T1** | **Simple** | DC 0 \- 9 | Untrained (0+) | None. The item is universally intuitive. |
-| **T2** | **Standard** | DC 10 \- 14 | Trained (6+) | The user suffers Disadvantage on all operational skill checks. |
-| **T3** | **Advanced** | DC 15 \- 19 | Expert (11+) | Cannot activate secondary or active abilities; passive functions only. |
-| **T4** | **Experimental** | DC 20+ | Master (16+) | Cannot operate the item safely, severe risk of catastrophic Glitch. |
+| **T1** | **Simple** | CR 0 \- 9 | Untrained (0+) | None. The item is universally intuitive. |
+| **T2** | **Standard** | CR 10 \- 14 | Trained (6+) | The user suffers Disadvantage on all operational skill checks. |
+| **T3** | **Advanced** | CR 15 \- 19 | Expert (11+) | Cannot activate secondary or active abilities; passive functions only. |
+| **T4** | **Experimental** | CR 20+ | Master (16+) | Cannot operate the item safely, severe risk of catastrophic Glitch. |
 
-The calculation of saving throws against standard equipment—such as resisting the blast of an explosive round or the voltage of a stun module—is mathematically anchored to this complexity.3 Unless specifically overridden by the item's stat block, standard Equipment Save DCs are calculated as 10 plus twice the Item Tier, plus the Operator's Key Ability Modifier.3 This ensures that the efficacy of gear scales logically with both the operator's proficiency and the item's intrinsic sophistication.3
+The calculation of saving throws against standard equipment—such as resisting the blast of an explosive round or the voltage of a stun module—is mathematically anchored to this complexity.3 Unless specifically overridden by the item's stat block, standard Equipment Save CRs are calculated as 10 plus twice the Item Tier, plus the Operator's Key Ability Modifier.3 This ensures that the efficacy of gear scales logically with both the operator's proficiency and the item's intrinsic sophistication.3
 
 Furthermore, characters possessing the "Technologist" feature may operate equipment ahead of their era's standard TL, requiring intense specialization across multiple fields (e.g., Biotechnology, Energy, Weaponry).9 Without this feature, attempting to repair or modify a device above the character's native Technology Level incurs a severe \-5 penalty per level of difference.9
 
@@ -236,7 +236,7 @@ Ascendancy technology is highly user-friendly, heavily shielded, and designed fo
 
 Operating on the fringes of the galaxy, the Coalition embraces "Survival Pragmatism".2 Their aesthetic is "Space Western Noir," defined by the reality that nothing is new and everything is repurposed.2 Equipment consists of scavenged parts, asymmetrical hulls, exposed wiring, welded patch-jobs, and ubiquitous hazard stripes.2 Due to sporadic maintenance capabilities, redundancy is prioritized over elegance.2
 
-Coalition equipment possesses the "Jury-Rigged" mechanical trait.3 These scavenged items are significantly cheaper to acquire, applying a \-5 DC reduction to all acquisition and crafting checks.3 However, this affordability brings extreme unreliability: on a Natural 1 skill check, the item breaks (permanently disabling a Socket) or triggers a catastrophic failure, such as inflicting 1d4 Fire damage to the operator.3 Their weaponry heavily favors cheap, loud ballistics and oversized engines bolted haphazardly onto aging frames.2
+Coalition equipment possesses the "Jury-Rigged" mechanical trait.3 These scavenged items are significantly cheaper to acquire, applying a \-5 CR reduction to all acquisition and crafting checks.3 However, this affordability brings extreme unreliability: on a Natural 1 skill check, the item breaks (permanently disabling a Socket) or triggers a catastrophic failure, such as inflicting 1d4 Fire damage to the operator.3 Their weaponry heavily favors cheap, loud ballistics and oversized engines bolted haphazardly onto aging frames.2
 
 ### 
 
@@ -290,19 +290,19 @@ Utilizing secreted hive-resin composites arranged in organic structures with gre
 
 The most significant advancement in the Equipment Matrix is the complete eradication of economic dissonance—the historically persistent fracture between the narrative abstraction of wealth and the mechanical reality of crafting and buying items.4 In legacy RPG systems, the cost to craft an item is derived from its market price, which is often assigned arbitrarily based on perceived combat utility rather than engineering complexity.4 This results in linear pricing models that fail catastrophically in science fiction settings; a starship is not merely a very large rifle, it represents an order-of-magnitude leap in manufacturing difficulty.4
 
-The Tangent Standard Economics posits a singular, mathematically rigorous solution: **Complexity Determines Value**.4 The market price of an item is simply the societal aggregate of the skill (Crafting DC) and time required to produce it.4
+The Tangent Standard Economics posits a singular, mathematically rigorous solution: **Complexity Determines Value**.4 The market price of an item is simply the societal aggregate of the skill (Crafting CR) and time required to produce it.4
 
 ### 
 
 ### **The Tangent Standard Curve (TSC)**
 
-Because the gap between a simple survival tool and a dimensional jump-gate is logarithmic, the cost scaling must be exponential.4 The market price of every physical asset within the Tangent galaxy is generated using the Tangent Standard Curve (TSC) formula. This formula dictates that an item's value in Credits equals a baseline value of 10 Credits (representing the simplest manufactured good or scrap metal at DC 0\) multiplied by a growth factor of 4, raised to the power of the item's Crafting DC divided by 5\.4 The growth factor of 4 ensures that value inherently quadruples across every tier interval of 5 DC.4
+Because the gap between a simple survival tool and a dimensional jump-gate is logarithmic, the cost scaling must be exponential.4 The market price of every physical asset within the Tangent galaxy is generated using the Tangent Standard Curve (TSC) formula. This formula dictates that an item's value in Credits equals a baseline value of 10 Credits (representing the simplest manufactured good or scrap metal at CR 0\) multiplied by a growth factor of 4, raised to the power of the item's Crafting CR divided by 5\.4 The growth factor of 4 ensures that value inherently quadruples across every tier interval of 5 CR.4
 
-By strictly adhering to this calculation, all pricing debates are eliminated. This mathematical rigidity allows Game Masters to value any new, homebrew, or precursor artifact instantly simply by assigning it a Crafting DC based on its operational complexity.4
+By strictly adhering to this calculation, all pricing debates are eliminated. This mathematical rigidity allows Game Masters to value any new, homebrew, or precursor artifact instantly simply by assigning it a Crafting CR based on its operational complexity.4
 
 **The Master Valuation Table:**
 
-| DC | COMPLEXITY | VALUE (CREDITS) | EXAMPLES (SCIFI / FANTASY) |
+| CR | COMPLEXITY | VALUE (CREDITS) | EXAMPLES (SCIFI / FANTASY) |
 | :---: | :---: | :---: | ----- |
 | **0** | **Scrap** | 10 | Raw ore, ration bar, wooden club. |
 | **5** | **Simple** | 40 | Knife, backpack, basic clothing, bandages. |
@@ -322,7 +322,7 @@ By strictly adhering to this calculation, all pricing debates are eliminated. Th
 
 Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital.4 The '99 \- AUGMENTATIONS MATRIX' utilizes Build Points (BP) for biological tolerance; the Equipment Matrix utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (BP invested at character creation) into extrinsic economic power.4
 
-The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth**: A character may automatically purchase any item with a Crafting DC equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score.4 This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase DC \= Crafting DC.4
+The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth**: A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score.4 This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase CR \= Crafting CR.4
 
 **Expanded Financial Status Hierarchy:**
 
@@ -347,9 +347,9 @@ The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealt
 
 A common failure point in abstract wealth systems is the "infinite money loop," where players attempt to use their passive Wealth Score to acquire high-value items for free and immediately sell them for infinite cash.4 Tangent mitigates this via strict friction mechanics, ensuring "Loot" (liquid Credits) remains a vital gameplay reward at all tiers.4
 
-**The Liquidity Constraint (The Gap Rule):** When a character seeks an item with a DC exceeding their Wealth Score, their passive income cannot cover the transaction.4 They must bridge the gap with liquid Credits.3 The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's DC.4
+**The Liquidity Constraint (The Gap Rule):** When a character seeks an item with a CR exceeding their Wealth Score, their passive income cannot cover the transaction.4 They must bridge the gap with liquid Credits.3 The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's CR.4
 
-For example, if an Affluent character (WS 15, Auto-Buy Limit \~640 Cr) wishes to purchase an advanced Stealth Suit (DC 18, Value \~1,470 Cr), the character applies their WS 15 leverage to cover the base lifestyle cost, leaving a remainder of 830 Credits that must be paid in liquid cash from their adventuring savings.4
+For example, if an Affluent character (WS 15, Auto-Buy Limit \~640 Cr) wishes to purchase an advanced Stealth Suit (CR 18, Value \~1,470 Cr), the character applies their WS 15 leverage to cover the base lifestyle cost, leaving a remainder of 830 Credits that must be paid in liquid cash from their adventuring savings.4
 
 **Liquidity Drag (The Fence Rate):** To further prevent market abuse, the economy imposes Liquidity Drag.4 In real-world economics and RPG simulations, the "Buy" price and "Sell" price are never identical due to fencing effort, market saturation, and legality.4 The Sell Price of an item is heavily reduced:
 
@@ -383,13 +383,13 @@ The Tool Tier Multiplier is the critical variable that allows the timeline to sc
 * **Bio (Cultivation):** x1,000 Multiplier. Hyper-Growth Vats (Auluran/Kitin) where items are grown in accelerated nutrient tanks. Requires Medicine/Nature and Engineering checks.3  
 * **Tier 5 (Genesis):** x5,000 Multiplier. Thought-responsive Polymatter loom, Holophotonics or Wish-level metaphysical fabrication.3
 
-Under this engine, a Mastercraft Titan Mech Suit (DC 30, Target PP \= 40,960) would take a hobbyist with Basic Tools (x10) over 409 days to build.4 However, an advanced engineering character utilizing a Nanoforge (x1,000) with a high check result can materialize the identical Mech Suit in less than two days.4
+Under this engine, a Mastercraft Titan Mech Suit (CR 30, Target PP \= 40,960) would take a hobbyist with Basic Tools (x10) over 409 days to build.4 However, an advanced engineering character utilizing a Nanoforge (x1,000) with a high check result can materialize the identical Mech Suit in less than two days.4
 
 ### 
 
 ### **Macro-Scale Construction and Faction Labor Pools**
 
-For astronomical projects like a Dreadnought (DC 50, Value \~10.5 Million Cr) or a Titanic Arcology (DC 60+, Value \~167 Million Cr), individual crafting is physically impossible.1 Factions utilize **Labor Pools** to execute macro-scale construction.4 The Daily PP output is simply the sum of individual workers.4
+For astronomical projects like a Dreadnought (CR 50, Value \~10.5 Million Cr) or a Titanic Arcology (CR 60+, Value \~167 Million Cr), individual crafting is physically impossible.1 Factions utilize **Labor Pools** to execute macro-scale construction.4 The Daily PP output is simply the sum of individual workers.4
 
 A shipyard employing 1,000 engineers operating Industrial (x200) tools can generate 1,000,000 PP per day, completing a capital ship in roughly 10.5 days.4 This macro-economic logic drives factional warfare; maintaining these shipyards requires an uninterrupted flow of massive liquid capital (5.25 Million Cr in raw materials per ship), forcing factions to fight for territorial resources to keep their production engines fed.4
 
@@ -405,7 +405,7 @@ The Equipment Matrix provides a unified structure for the creation, classificati
 
 ### **Weapon Anatomy and Scaling Mechanics**
 
-Every weapon in the Tangent system is defined by a standard Stat Block detailing its Core Identity (Name, Classification, Size Category, Tech Level), Combat Statistics (Damage, Range, Penetration), and Logistics (Ammunition, Bulk, Sockets, Craft DC).7
+Every weapon in the Tangent system is defined by a standard Stat Block detailing its Core Identity (Name, Classification, Size Category, Tech Level), Combat Statistics (Damage, Range, Penetration), and Logistics (Ammunition, Bulk, Sockets, Craft CR).7
 
 A critical component of the Tangent combat engine is the replacement of arbitrary "type-based" multipliers with "size-based" logic, determined by the Scaling Modifier.7
 
@@ -453,8 +453,8 @@ The Principle of Scale dictates that an Invocation installed in a Mount is funda
 
 Meta-Tech serves three distinct engineering goals:
 
-1. **Enhancement (Passive):** The application of Matter or Energy disciplines to permanently improve the physical properties of a device.10 These effects are "Always On" and do not require an action to activate.10 Examples include an *Energy Sheath* (adding \+1d6 elemental damage to a blade), *Ghost-Strike* (allowing a weapon to phase through physical DR), or *Featherweight* (altering local gravity to make armor count as a lighter weight category).10 Each Socket allocated to an Enhancement increases the item's Crafting DC by \+5, effectively quadrupling its market value.10  
-2. **Imbuement (Active):** Hard-coding a specific metaphysical Invocation (spell) into a machine, allowing a non-Awakened user to cast the effect via a physical trigger.10 The device's statistics become fixed constants based on the engineering quality.10 The Crafting DC for an Imbuement is calculated as 15 plus the Invocation Rank plus the Tech Level Modifier.10 A "Blink Belt" (TL 4\) imbued with a limited Rank 10 Teleport occupies 1 Socket and possesses a Craft DC of 20\.10  
+1. **Enhancement (Passive):** The application of Matter or Energy disciplines to permanently improve the physical properties of a device.10 These effects are "Always On" and do not require an action to activate.10 Examples include an *Energy Sheath* (adding \+1d6 elemental damage to a blade), *Ghost-Strike* (allowing a weapon to phase through physical DR), or *Featherweight* (altering local gravity to make armor count as a lighter weight category).10 Each Socket allocated to an Enhancement increases the item's Crafting CR by \+5, effectively quadrupling its market value.10  
+2. **Imbuement (Active):** Hard-coding a specific metaphysical Invocation (spell) into a machine, allowing a non-Awakened user to cast the effect via a physical trigger.10 The device's statistics become fixed constants based on the engineering quality.10 The Crafting CR for an Imbuement is calculated as 15 plus the Invocation Rank plus the Tech Level Modifier.10 A "Blink Belt" (TL 4\) imbued with a limited Rank 10 Teleport occupies 1 Socket and possesses a Craft CR of 20\.10  
 3. **Interface (Symbiotic):** Devices that amplify the user's natural metaphysical skills.10 When an Awakened user channels through an Amplifier (such as an Elemental Focus Cannon taking up 1 Mount), the Invocation's output is multiplied by the Chassis Scale.10 A spell cast through a Huge Mecha (x5 Scale) deals five times the damage and expands its area of effect proportionately.8
 
 Meta-Tech fabrication requires highly specialized conductive materials—such as Aetherium for active Imbuements or Resonance Crystals for passive Enhancements—which are extremely rare and always constitute 50% of the item's exorbitant final value.10
@@ -488,21 +488,21 @@ Factions utilizing grown biotechnology subvert traditional battery mechanics, re
 
 ### **Programmable Matter and Utility Devices**
 
-Beyond the organic growth of the Auluran, high-tech factions utilize advanced material science for everyday utility.3 Programmable Matter, often referred to as "Picotech" (TL 4, DC 25), consists of a canister of smart sand or fluid metal that can be commanded to reshape into any Simple tool, requiring user instruction to shift forms.3 Visual utility is provided by Image Projectors, which scale from TL 2 (DC 5\) units projecting 2D images with sound, up to TL 3 (DC 10\) Holo Emitters capable of projecting localized 3D holograms.3
+Beyond the organic growth of the Auluran, high-tech factions utilize advanced material science for everyday utility.3 Programmable Matter, often referred to as "Picotech" (TL 4, CR 25), consists of a canister of smart sand or fluid metal that can be commanded to reshape into any Simple tool, requiring user instruction to shift forms.3 Visual utility is provided by Image Projectors, which scale from TL 2 (CR 5\) units projecting 2D images with sound, up to TL 3 (CR 10\) Holo Emitters capable of projecting localized 3D holograms.3
 
 ### 
 
 ### **Computational Assets and Software Systems**
 
-Computers and digital decks are defined by their Processor Rating (PR).3 A Basic Processor (TL 3, DC 10\) operates at PR 0, capable only of simple calculations and data storage.3 Advanced Processors (TL 5, DC 25\) reach PR 4 and can host robust Persona AIs, possessing pseudo-intelligence and a Charisma score equal to their PR.3
+Computers and digital decks are defined by their Processor Rating (PR).3 A Basic Processor (TL 3, CR 10\) operates at PR 0, capable only of simple calculations and data storage.3 Advanced Processors (TL 5, CR 25\) reach PR 4 and can host robust Persona AIs, possessing pseudo-intelligence and a Charisma score equal to their PR.3
 
-Computers run specialized software to aid users.3 **Expert Software** (ranging from DC 10 to DC 30\) grants a direct \+1 to \+5 Aid Bonus to specific Skill checks.3 **Operation Software** allows a user to automatically "Take 10" on specific skill checks when the software is active, critically reducing the risk of catastrophic failure during routine high-stakes operations, such as orbital astrogation or systemic hacking.3
+Computers run specialized software to aid users.3 **Expert Software** (ranging from CR 10 to CR 30\) grants a direct \+1 to \+5 Aid Bonus to specific Skill checks.3 **Operation Software** allows a user to automatically "Take 10" on specific skill checks when the software is active, critically reducing the risk of catastrophic failure during routine high-stakes operations, such as orbital astrogation or systemic hacking.3
 
 ### 
 
 ### **Surveillance and Communications**
 
-Information gathering and transmission are categorized into three distinct operational spheres.3 Passive Sensors range from simple TL 2 (DC 5\) Rangefinders and Cameras to TL 3 (DC 10\) Holo-Cams.3 Comm Units dictate connection scale: Audio/Visual radios (TL 2, DC 5\) handle standard comms, Holographic transceivers (TL 3, DC 10\) project 3D representations, and Telepathic arrays (TL 4/5, DC 25\) allow for planetary-scale communication requiring the Telepathy skill.3 To protect this data, Counter-Intel gear includes TL 2 (DC 10\) Scrambler Units and advanced TL 4 (DC 20\) Encryption Suites.3
+Information gathering and transmission are categorized into three distinct operational spheres.3 Passive Sensors range from simple TL 2 (CR 5\) Rangefinders and Cameras to TL 3 (CR 10\) Holo-Cams.3 Comm Units dictate connection scale: Audio/Visual radios (TL 2, CR 5\) handle standard comms, Holographic transceivers (TL 3, CR 10\) project 3D representations, and Telepathic arrays (TL 4/5, CR 25\) allow for planetary-scale communication requiring the Telepathy skill.3 To protect this data, Counter-Intel gear includes TL 2 (CR 10\) Scrambler Units and advanced TL 4 (CR 20\) Encryption Suites.3
 
 ### 
 
@@ -510,14 +510,14 @@ Information gathering and transmission are categorized into three distinct opera
 
 Vocation tools provide direct Equipment Bonuses to relevant skill checks, scaling rapidly with the facility's volumetric footprint and the number of users supported.3
 
-* **Basic Tools:** A portable belt or pack (DC 5\) that requires Trained skill but offers no intrinsic bonus, supporting 1 user.3  
-* **Full Set:** A semi-portable caddy (DC 10\) requiring Trained skill, granting a \+2 Equipment Bonus and supporting 2 users.3  
-* **Shop/Lab:** A dedicated room (DC 20\) requiring Expert skill, granting a \+4 Equipment Bonus and supporting 5 users.3  
-* **Facility:** A building or campus (DC 30\) requiring Master skill, granting a \+6 Equipment Bonus and supporting 10 or more users.3
+* **Basic Tools:** A portable belt or pack (CR 5\) that requires Trained skill but offers no intrinsic bonus, supporting 1 user.3  
+* **Full Set:** A semi-portable caddy (CR 10\) requiring Trained skill, granting a \+2 Equipment Bonus and supporting 2 users.3  
+* **Shop/Lab:** A dedicated room (CR 20\) requiring Expert skill, granting a \+4 Equipment Bonus and supporting 5 users.3  
+* **Facility:** A building or campus (CR 30\) requiring Master skill, granting a \+6 Equipment Bonus and supporting 10 or more users.3
 
-Specific tool systems integrate directly into this hierarchy.3 Diagnostics Systems and Databases grant scaling bonuses (+2 at TL 3, \+4 at TL 4, and \+6 at TL 5\) to Repair and Knowledge checks respectively.3 Multi-Tools replicate non-powered tools at TL 3 (DC 10), powered tools at TL 4 (DC 15, \+2 Bonus), and become fully polymorphic at TL 5 (DC 25, \+4 Bonus).3
+Specific tool systems integrate directly into this hierarchy.3 Diagnostics Systems and Databases grant scaling bonuses (+2 at TL 3, \+4 at TL 4, and \+6 at TL 5\) to Repair and Knowledge checks respectively.3 Multi-Tools replicate non-powered tools at TL 3 (CR 10), powered tools at TL 4 (CR 15, \+2 Bonus), and become fully polymorphic at TL 5 (CR 25, \+4 Bonus).3
 
-Medical tools follow these exact scaling rules. A Field Surgery Pack acts as a basic kit (Tiny, DC 10\) granting a \+2 Equipment Bonus to Medicine checks. A Portable Nurse is a TL 3 unit running Expert Software that acts as an automated secondary aid. An Autodoc is a TL 4 (DC 20\) fully autonomous robotic surgeon capable of running Operation Software independently. **Operating Theaters** are Medium-sized room installations (DC 20\) granting a \+4 Equipment Bonus. Finally, a Medical Lab requires a Facility-sized architectural Module (DC 30), granting a \+6 Equipment Bonus and capable of supporting multiple trauma patients simultaneously.
+Medical tools follow these exact scaling rules. A Field Surgery Pack acts as a basic kit (Tiny, CR 10\) granting a \+2 Equipment Bonus to Medicine checks. A Portable Nurse is a TL 3 unit running Expert Software that acts as an automated secondary aid. An Autodoc is a TL 4 (CR 20\) fully autonomous robotic surgeon capable of running Operation Software independently. **Operating Theaters** are Medium-sized room installations (CR 20\) granting a \+4 Equipment Bonus. Finally, a Medical Lab requires a Facility-sized architectural Module (CR 30), granting a \+6 Equipment Bonus and capable of supporting multiple trauma patients simultaneously.
 
 ### 
 
@@ -525,7 +525,7 @@ Medical tools follow these exact scaling rules. A Field Surgery Pack acts as a b
 
 Exploration equipment interfaces directly with the core survival mechanics, specifically the degradation and restoration of the Supply Die.3 Advanced purifiers and survival canteens allow characters to actively restore degraded Supply Dice in the field without returning to civilization.3
 
-To mitigate extreme climates, explorers utilize **Enviro Fields**, a TL 3 (DC 15\) deployable generator that establishes a 20ft radius of Environmental Protection Rating (EPR) 1, shielding occupants from hostile weather and extreme temperatures.3 For vertical traversal, climbing gear scales significantly by era: Standard gear (TL 2, DC 5\) relies on ropes and pitons, Improved gear (TL 3, DC 10\) grants a \+1 bonus per Athletics skill stage, and Electro-Adhesive grips (TL 4, DC 15\) allow a user to automatically Take 10 on climb checks.3 At the apex of traversal technology, **Grav Attenuators**, a TL 5 (DC 25\) mobility device, grant a user Advantage on all climbing and traversal checks by entirely dampening localized gravity.3
+To mitigate extreme climates, explorers utilize **Enviro Fields**, a TL 3 (CR 15\) deployable generator that establishes a 20ft radius of Environmental Protection Rating (EPR) 1, shielding occupants from hostile weather and extreme temperatures.3 For vertical traversal, climbing gear scales significantly by era: Standard gear (TL 2, CR 5\) relies on ropes and pitons, Improved gear (TL 3, CR 10\) grants a \+1 bonus per Athletics skill stage, and Electro-Adhesive grips (TL 4, CR 15\) allow a user to automatically Take 10 on climb checks.3 At the apex of traversal technology, **Grav Attenuators**, a TL 5 (CR 25\) mobility device, grant a user Advantage on all climbing and traversal checks by entirely dampening localized gravity.3
 
 ## 
 
@@ -537,12 +537,12 @@ Equipment in Tangent is inherently modular, capable of evolving alongside the ch
 
 A Socket allows for the installation of optics, barrel attachments, biometric locks, or payload alterations.7 Installing a Sniper Scope consumes 1 Socket and increases Range Increment by 50% while penalizing short-range strikes.7 Installing an Under-barrel Grenade launcher consumes 2 Sockets.7
 
-* **Standard Upgrades:** Each mundane module costs its listed Socket amount and increases the Crafting DC by \+5 (or \+10 for TL4/TL5 items).  
-* **Mastercrafting (Bonus Sockets):** High-quality manufacturing allows armor to exceed standard Socket limits. For every 5 points an Acquisition or Crafting check exceeds the item's base DC, the item gains 1 Bonus Socket (up to a maximum of 1 per TL of the item).  
+* **Standard Upgrades:** Each mundane module costs its listed Socket amount and increases the Crafting CR by \+5 (or \+10 for TL4/TL5 items).  
+* **Mastercrafting (Bonus Sockets):** High-quality manufacturing allows armor to exceed standard Socket limits. For every 5 points an Acquisition or Crafting check exceeds the item's Base CR, the item gains 1 Bonus Socket (up to a maximum of 1 per TL of the item).  
 * **Socket Compression:** If a build requires more capacity, advanced engineering can compress the hardware at a severe premium.  
-  * *Efficient Design:* \-25% Socket cost (Round up). Adds \+5 DC.  
-  * *Miniaturized:* \-50% Socket cost (Round up). Requires Tech Level \+1 over item base. Adds \+10 DC.  
-  * *Integrated:* 0 Sockets (Fused to chassis). Cannot be removed. Adds \+5 DC.
+  * *Efficient Design:* \-25% Socket cost (Round up). Adds \+5 CR.  
+  * *Miniaturized:* \-50% Socket cost (Round up). Requires Tech Level \+1 over item base. Adds \+10 CR.  
+  * *Integrated:* 0 Sockets (Fused to chassis). Cannot be removed. Adds \+5 CR.
 
 &nbsp;
 
@@ -556,10 +556,10 @@ Meta-Tech represents the engineering necessary to accommodate reality-warping pa
 
 Meta-Tech fabrication requires highly specialized conductive materials (e.g., Aetherium or Resonance Crystals), which are extremely rare and always constitute 50% of the item's exorbitant final value.
 
-* **Enhancement (Passive):** Permanently improves the physical properties of the armor (e.g., *Ghost-Strike* phasing, or *Featherweight* gravity alteration). These are "Always On." Each Socket allocated to an Enhancement increases the item's Crafting DC by \+5.  
-* **Imbuement (Active):** Hard-coding a specific metaphysical Invocation into the armor, allowing a non-Awakened user to cast the effect via a physical trigger. The Crafting DC is calculated as: **15 \+ Invocation Rank \+ TL Modifier** *(TL3: \+0, TL4: \+2, TL5: \+5)*.  
-  *(Example: A "Blink Suit" imbued with a Rank 10 Teleport at TL4 occupies 1 Socket and possesses a Craft DC of 27).*  
-* **Consumable Modifier:** If a Meta-Tech module is designed for a single use (e.g., a one-time emergency planar shift that burns out the crystals), the final Meta-Tech DC is reduced by 10\.  
+* **Enhancement (Passive):** Permanently improves the physical properties of the armor (e.g., *Ghost-Strike* phasing, or *Featherweight* gravity alteration). These are "Always On." Each Socket allocated to an Enhancement increases the item's Crafting CR by \+5.  
+* **Imbuement (Active):** Hard-coding a specific metaphysical Invocation into the armor, allowing a non-Awakened user to cast the effect via a physical trigger. The Crafting CR is calculated as: **15 \+ Invocation Rank \+ TL Modifier** *(TL3: \+0, TL4: \+2, TL5: \+5)*.  
+  *(Example: A "Blink Suit" imbued with a Rank 10 Teleport at TL4 occupies 1 Socket and possesses a Craft CR of 27).*  
+* **Consumable Modifier:** If a Meta-Tech module is designed for a single use (e.g., a one-time emergency planar shift that burns out the crystals), the final Meta-Tech CR is reduced by 10\.  
 * **Interface (Symbiotic):** Devices that amplify an Awakened user's natural skills.
 
 &nbsp;

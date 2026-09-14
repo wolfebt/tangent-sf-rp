@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","3.00 combat","mechanics"]
-updatedAt: "2026-09-12T08:23:46.547Z"
+updatedAt: "2026-09-14T19:51:39.816Z"
 costs:
   bp: 0
   credits: 0
@@ -63,7 +63,7 @@ sockets:
 
 The combat system uses a 2d10 dice system that factors in character skills, abilities, and other modifiers. Combat actions are determined by Skill Rank, with higher Ranks unlocking additional actions per turn.
 
-**The Attack Roll:** 2d10 \+ Skill Rank \+ Attribute Mod \+ Situational Modifiers vs. Target Defense (DC).
+**The Attack Roll:** 2d10 \+ Skill Rank \+ Attribute Mod \+ Situational Modifiers vs. Target Defense (CR).
 
 ## 
 
@@ -207,11 +207,11 @@ Automatic weaponry functions similarly to other weapons but with special conside
 
 * **Burst Fire (Short):** 3-round burst. Expends more ammo but grants **\+1 Strike**.  
 * **Full Auto (Long):** 10+ rounds. **\-1 Recoil Penalty** per 10 rounds fired.  
-  * *Effect:* For every point the Attack Roll exceeds the Defense DC, an **additional bullet hits** (up to total fired).  
+  * *Effect:* For every point the Attack Roll exceeds the Defense CR, an **additional bullet hits** (up to total fired).  
   * *Damage:* Initial hit deals normal damage. Each extra hit deals **\+1d Damage** (only if the initial hit penetrated DR).  
 * **Area Suppression (Blasting):**  
-  * **General Area:** Targets take **\+2 Damage Dice** for every 5 points over DC 10\.  
-  * **Focused Blast Zone:** Targets take **\+100% Damage Dice** for every 10 points over DC 15\.
+  * **General Area:** Targets take **\+2 Damage Dice** for every 5 points over CR 10\.  
+  * **Focused Blast Zone:** Targets take **\+100% Damage Dice** for every 10 points over CR 15\.
 
 ## 
 
@@ -295,7 +295,7 @@ Specific body locations have their own damage thresholds.
 * **Bleeding Out:** At the beginning of the character's turn, they suffer 1 point of **Stability Damage**.  
 * **Stability Threshold:** A character has a **Stability Points** total equal to their **Constitution Score \+ 5**.  
 * **Death:** If a character's Stability Points are reduced to 0, they are considered **dead**.  
-* **Stabilization and Recovery:** The character stops **Bleeding Out** and is stabilized if they receive any magical healing or a successful **Medicine Check** (DC 15\) is made to aid them.
+* **Stabilization and Recovery:** The character stops **Bleeding Out** and is stabilized if they receive any magical healing or a successful **Medicine Check** (CR 15\) is made to aid them.
 
 &nbsp;
 
@@ -443,15 +443,15 @@ Made at \-5 to hit but with NO DEFENSE from the target, Damage is made at Advant
 
 | Status | Mechanical Effect | Cure / Removal |
 | :---- | :---- | :---- |
-| **Bleeding** | Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. | Medicine Check (DC 10\) or any Healing ability/item. |
+| **Bleeding** | Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. | Medicine Check (CR 10\) or any Healing ability/item. |
 | **Blinded** | \-5 Penalty to Attack/Defense. Visual Perception fails automatically. | Medical intervention or Time (Temporary: 1d4 rounds). |
-| **Burning** | Takes 1d6 Fire Damage per round. Panic Check (Will DC 12\) or flail/flee. | Full Action to extinguish (Stop, Drop, Roll). |
+| **Burning** | Takes 1d6 Fire Damage per round. Panic Check (Will CR 12\) or flail/flee. | Full Action to extinguish (Stop, Drop, Roll). |
 | **Dazed** | Mentally reeling. Only 1 Action per turn (Move OR Standard). No Reactions. | Ends automatically at the end of the creature's next turn. |
-| **Entangled** | Movement \= 0\. \-2 Penalty to Attack/Defense. No Dodge/Evasion. | Strength Check (DC 15\) or Cutting free (Structure damage). |
+| **Entangled** | Movement \= 0\. \-2 Penalty to Attack/Defense. No Dodge/Evasion. | Strength Check (CR 15\) or Cutting free (Structure damage). |
 | **Exhausted** | \-2 Penalty to Physical Checks (Str/Agi/Sta). Speed \-50%. No Run/Charge. | Requires 8 Hours of Rest with food/water. |
-| **Freeze** | Target is encased/chilled. Speed \= 0\. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (DC 20\) to shatter ice or Fire Dmg to melt. |
+| **Freeze** | Target is encased/chilled. Speed \= 0\. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (CR 20\) to shatter ice or Fire Dmg to melt. |
 | **Prone** | Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. | Move Action to stand up. |
-| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense \= Base (No Dex/Skill). | Constitution Save (DC 15\) at end of turn to recover. |
+| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense \= Base (No Dex/Skill). | Constitution Save (CR 15\) at end of turn to recover. |
 | **Suppressed** | Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. | Enemy stops firing, reloads, or is neutralized. |
 
 ## 
@@ -1478,7 +1478,7 @@ Combat defined by **Altitude** and **Energy Management**.
   * *Mechanic:* Opposed Pilot checks at the start of the round.  
   * *Winner:* Gains **Advantage** on attack rolls this turn and chooses positioning (Tail/Flank).  
   * *Loser:* Is considered Flat-Footed against the Winner.  
-* **Stalling:** Flying slower than the vehicle's Stall Speed forces a Pilot check (DC 20\) or the craft begins to fall.
+* **Stalling:** Flying slower than the vehicle's Stall Speed forces a Pilot check (CR 20\) or the craft begins to fall.
 
 ### 
 

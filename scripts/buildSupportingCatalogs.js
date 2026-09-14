@@ -121,7 +121,7 @@ const TARGET_SPECIFICATIONS = [
 // 7. Critical Effects (12 entries)
 const CRITICAL_EFFECTS = [
   { id: 'crit-stunned', name: 'Stunned (1 Round)', description: 'Target loses their next turn of actions and suffers -4 to all defenses.' },
-  { id: 'crit-bleed', name: 'Bleed (1d6 / round)', description: 'Inflicts persistent bleeding damage at the start of each turn until treated with Medical DC 15.' },
+  { id: 'crit-bleed', name: 'Bleed (1d6 / round)', description: 'Inflicts persistent bleeding damage at the start of each turn until treated with Medical CR 15.' },
   { id: 'crit-disarmed', name: 'Disarmed', description: 'Target held weapon or item is knocked 15 feet away into an adjacent hex.' },
   { id: 'crit-knockdown', name: 'Knocked Prone', description: 'Target is slammed into the ground, must spend movement to stand up.' },
   { id: 'crit-armor-sunder', name: 'Armor Sundered (-2 DR)', description: 'Permanently reduces the target equipped armor DR by 2 points until repaired.' },
@@ -202,10 +202,10 @@ const MODES = [
 const SPECIALS = [
   { id: 'spec-armor-piercing', name: 'Armor Piercing (AP)', description: 'Weapon projectiles or edges bypass a designated amount of target Armor DR.' },
   { id: 'spec-concealable', name: 'Concealable', description: 'Compact frame grants +4 to Stealth checks when concealing on a person.' },
-  { id: 'spec-silent', name: 'Silent', description: 'Fires with zero acoustic or flash signature; requires DC 20 Perception to pinpoint.' },
+  { id: 'spec-silent', name: 'Silent', description: 'Fires with zero acoustic or flash signature; requires CR 20 Perception to pinpoint.' },
   { id: 'spec-high-recoil', name: 'High Recoil', description: 'Requires Strength 2+ to wield without suffering -2 penalties on follow-up shots.' },
   { id: 'spec-reach', name: 'Reach (10ft)', description: 'Melee weapon allows attacks against opponents 10 feet away without provoking.' },
-  { id: 'spec-entangling', name: 'Entangling', description: 'On a successful hit, target is entangled and must pass Agility DC 15 to break free.' },
+  { id: 'spec-entangling', name: 'Entangling', description: 'On a successful hit, target is entangled and must pass Agility CR 15 to break free.' },
   { id: 'spec-tripping', name: 'Tripping', description: 'Can be used to execute trip maneuvers to knock opponents prone.' },
   { id: 'spec-guided', name: 'Guided / Tracking', description: 'Smart telemetry micro-thrusters track designated targets around light cover.' },
   { id: 'spec-unreliable', name: 'Unreliable', description: 'Jury-rigged or unstable mechanism; misfires on a natural roll of 1 or 2.' },

@@ -138,7 +138,7 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
     tags: ['planetary', 'uwp', 'civilization', 'radar', 'gravity', 'atmosphere', 'astrogation', 'world'],
     text: `Planetary systems are codified using Universal World Profiles:
 - Code: Star Type - Planet Class - Size - Atmosphere - Hydrographics - Population - Tech Level - Law Level.
-- Locomotion Hazards: Zero-G environments require Reflex checks (DC 14) during sudden directional thruster bursts.
+- Locomotion Hazards: Zero-G environments require Reflex checks (CR 14) during sudden directional thruster bursts.
 - Inertia Drift: Uncontrolled vacuum movement continues at current vector until reverse thrust or physical impact occurs.`
   },
   {

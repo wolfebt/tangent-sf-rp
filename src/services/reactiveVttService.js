@@ -17,7 +17,7 @@ export const TRAP_TYPES = {
     triggerType: 'proximity',
     triggerRadiusPx: 80, // ~2.5m
     saveType: 'Reflex (AGI)',
-    saveDc: 14,
+    saveCr: 14,
     damageDice: '2d10+4',
     baseDamage: 15,
     damageType: 'lethal',
@@ -34,7 +34,7 @@ export const TRAP_TYPES = {
     triggerType: 'step_on',
     triggerRadiusPx: 45,
     saveType: 'Reflex (AGI)',
-    saveDc: 15,
+    saveCr: 15,
     damageDice: '2d10',
     baseDamage: 12,
     damageType: 'energy',
@@ -51,7 +51,7 @@ export const TRAP_TYPES = {
     triggerType: 'proximity',
     triggerRadiusPx: 100,
     saveType: 'Fortitude (STA)',
-    saveDc: 13,
+    saveCr: 13,
     damageDice: '1d10+6',
     baseDamage: 10,
     damageType: 'chemical',
@@ -68,7 +68,7 @@ export const TRAP_TYPES = {
     triggerType: 'step_on',
     triggerRadiusPx: 40,
     saveType: 'Reflex (AGI)',
-    saveDc: 14,
+    saveCr: 14,
     damageDice: '1d10+2',
     baseDamage: 8,
     damageType: 'non_lethal',
@@ -85,7 +85,7 @@ export const TRAP_TYPES = {
     triggerType: 'proximity',
     triggerRadiusPx: 120,
     saveType: 'Tech / Slicing',
-    saveDc: 15,
+    saveCr: 15,
     damageDice: '0',
     baseDamage: 0,
     damageType: 'utility',
@@ -179,8 +179,8 @@ export function evaluateTrapTriggers(movedToken, objectsOnMap = [], allTokens = 
       const d2 = Math.floor(Math.random() * 10) + 1;
       const reflexBonus = movedToken.agility ? Math.floor((movedToken.agility - 10) / 2) : 2;
       const totalSaveRoll = d1 + d2 + reflexBonus;
-      const saveDc = obj.saveDc || trapConfig.saveDc || 14;
-      const isSaveSuccess = totalSaveRoll >= saveDc;
+      const saveCr = obj.saveCr || trapConfig.saveCr || 14;
+      const isSaveSuccess = totalSaveRoll >= saveCr;
 
       // Half damage on successful save
       const rawDamage = obj.baseDamage !== undefined ? obj.baseDamage : trapConfig.baseDamage;
@@ -199,7 +199,7 @@ export function evaluateTrapTriggers(movedToken, objectsOnMap = [], allTokens = 
         trapName: obj.label || trapConfig.name,
         trapType: obj.trapType || trapConfig.id,
         triggerDistance: Math.round(dist),
-        saveDc,
+        saveCr,
         saveRoll: totalSaveRoll,
         isSaveSuccess,
         damage: appliedDamage,
@@ -207,8 +207,8 @@ export function evaluateTrapTriggers(movedToken, objectsOnMap = [], allTokens = 
         isAlarm: trapConfig.category === 'alarm',
         soundFx: trapConfig.category === 'alarm' ? 'alarm' : 'explosion',
         logMessage: isSaveSuccess
-          ? `⚡ [TRAP EVADED] ${movedToken.label || 'Operative'} triggered ${obj.label || trapConfig.name} but SAVED (Rolled ${totalSaveRoll} vs DC ${saveDc}). Took ${appliedDamage} partial damage.`
-          : `💥 [TRAP DETONATED] ${movedToken.label || 'Operative'} triggered ${obj.label || trapConfig.name}! (Failed Save: ${totalSaveRoll} vs DC ${saveDc}). Suffer ${appliedDamage} damage${conditionToApply ? ` and [${conditionToApply}] condition` : ''}!`
+          ? `⚡ [TRAP EVADED] ${movedToken.label || 'Operative'} triggered ${obj.label || trapConfig.name} but SAVED (Rolled ${totalSaveRoll} vs CR ${saveCr}). Took ${appliedDamage} partial damage.`
+          : `💥 [TRAP DETONATED] ${movedToken.label || 'Operative'} triggered ${obj.label || trapConfig.name}! (Failed Save: ${totalSaveRoll} vs CR ${saveCr}). Suffer ${appliedDamage} damage${conditionToApply ? ` and [${conditionToApply}] condition` : ''}!`
       });
     }
   });
@@ -231,7 +231,7 @@ export function disarmTrap(trapObj, operativeBonus = 3) {
       success: true,
       roll,
       dc,
-      message: `✅ Disarm Success: Rolled ${roll} vs DC ${dc}. Trap safely rendered inert!`
+      message: `✅ Disarm Success: Rolled ${roll} vs CR ${dc}. Trap safely rendered inert!`
     };
   } else {
     AudioService.playCombatHit(false);
@@ -239,7 +239,7 @@ export function disarmTrap(trapObj, operativeBonus = 3) {
       success: false,
       roll,
       dc,
-      message: `❌ Disarm Failed: Rolled ${roll} vs DC ${dc}. Security failsafe tripped!`
+      message: `❌ Disarm Failed: Rolled ${roll} vs CR ${dc}. Security failsafe tripped!`
     };
   }
 }

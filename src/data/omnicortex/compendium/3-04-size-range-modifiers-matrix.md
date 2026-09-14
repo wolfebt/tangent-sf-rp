@@ -33,8 +33,8 @@ Target scale and physical distance substantially modify attack rolls and un-oppo
 
 | Range Category | Distance Modifier | Effective Range Bracket | Special Combat Rule |
 | :--- | :---: | :--- | :--- |
-| **Point Blank** | **+5 (DC 10)** | Within Melee Reach (5 ft) | **Roll Damage with Advantage** |
-| **Short** | **0 (DC 15)** | Listed Base Range | Standard strike |
-| **Medium** | **-5 (DC 20)** | Up to \times$ Base Range | Long-range aim required |
-| **Long** | **-10 (DC 25)**| Up to \times$ Base Range | Severe trajectory drop |
-| **Extreme** | **-15 (DC 30)**| Up to \times$ Base Range | Requires sniper optics |
+| **Point Blank** | **+5 (CR 10)** | Within Melee Reach (5 ft) | **Roll Damage with Advantage** |
+| **Short** | **0 (CR 15)** | Listed Base Range | Standard strike |
+| **Medium** | **-5 (CR 20)** | Up to \times$ Base Range | Long-range aim required |
+| **Long** | **-10 (CR 25)**| Up to \times$ Base Range | Severe trajectory drop |
+| **Extreme** | **-15 (CR 30)**| Up to \times$ Base Range | Requires sniper optics |

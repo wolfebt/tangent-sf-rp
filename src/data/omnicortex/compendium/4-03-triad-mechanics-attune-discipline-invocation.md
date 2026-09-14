@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -70,7 +70,7 @@ Metafocus Disciplines represent the knowledge and ability to consciously alter r
 ## Game Mechanics Rules
 ```
 Awakening = Grants 1 Discipline + 2 Metafocus Skills + unlocks Attune
-Attune Check = Resistance DC / Evasion DC / Meta Attack Roll
+Attune Check = Resistance CR / Evasion CR / Meta Attack Roll
 Discipline Check = Severity, Duration, AoE, and Damage Resolution
 ```
 

@@ -118,7 +118,7 @@ export const WeaponModStacker = ({
               >
                 <div className="text-xs font-bold">{ws.name}</div>
                 <div className="text-[10px] text-orange-400 mt-0.5">{ws.sockets} Socket{ws.sockets !== 1 ? 's' : ''}</div>
-                <div className="text-[9px] text-slate-500 mt-0.5">Base DC {ws.defaultDC} • {ws.handedness}</div>
+                <div className="text-[9px] text-slate-500 mt-0.5">Base CR {ws.defaultDC} • {ws.handedness}</div>
               </button>
             );
           })}

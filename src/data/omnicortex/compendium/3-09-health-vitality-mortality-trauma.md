@@ -45,4 +45,4 @@ When a character's Health Points reach 0, they immediately enter the **Mortality
 2. **Bleeding Out:** At the beginning of the character's turn, they suffer **1 point of Stability Damage**.
 3. **Stability Threshold:** A character has a Stability Points total equal to their **Constitution Score + 5**.
 4. **Death:** If Stability Points reach 0, the character expires.
-5. **Stabilization:** First aid via Medicine Check (DC 15) or metaphysical healing stabilizes the character.
+5. **Stabilization:** First aid via Medicine Check (CR 15) or metaphysical healing stabilizes the character.

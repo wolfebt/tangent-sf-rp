@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -58,30 +58,30 @@ $$\text{Essence Pool} = (\text{Sum of all 6 Ability Scores}) + (\text{Attune Ski
 
 ---
 
-## 2. The Essence Cost Scale by Base DC
+## 2. The Essence Cost Scale by Base CR
 
-The metabolic or spiritual cost of an invocation is determined by the **Base DC** required to activate the effect based on the environment and stress:
+The metabolic or spiritual cost of an invocation is determined by the **Base CR** required to activate the effect based on the environment and stress:
 
-| Difficulty | Base DC | Essence Cost | Environmental Context |
+| Difficulty | Base CR | Essence Cost | Environmental Context |
 | :--- | :---: | :---: | :--- |
-| **Very Easy** | **DC 5** | **0** | Safe areas, Sanctums, Libraries, Laboratories. |
-| **Easy** | **DC 10** | **0** | Casual travel, walking, non-hostile environments. |
-| **Average** | **DC 15** | **1** | Combat, vigorous movement, active hostility. |
-| **Difficult** | **DC 20** | **2** | Extreme activity, uncontrolled falls, crashing. |
-| **Very Difficult** | **DC 25** | **3** | High-intensity chaos, environmental catastrophes. |
-| **Nearly Impossible** | **DC 30** | **4** | Legendary feats, global reality shifts. |
-| **Miraculous** | **DC 35** | **5** | Progenitor-tier interactions (rarely for PCs). |
+| **Very Easy** | **CR 5** | **0** | Safe areas, Sanctums, Libraries, Laboratories. |
+| **Easy** | **CR 10** | **0** | Casual travel, walking, non-hostile environments. |
+| **Average** | **CR 15** | **1** | Combat, vigorous movement, active hostility. |
+| **Difficult** | **CR 20** | **2** | Extreme activity, uncontrolled falls, crashing. |
+| **Very Difficult** | **CR 25** | **3** | High-intensity chaos, environmental catastrophes. |
+| **Nearly Impossible** | **CR 30** | **4** | Legendary feats, global reality shifts. |
+| **Miraculous** | **CR 35** | **5** | Progenitor-tier interactions (rarely for PCs). |
 
 ---
 
 ## 3. Strategic Implications for Invocations
 
 ### Operational Safety (Codified Invocations)
-- **The "Sanctum" Bonus**: Performing a learned ritual in a laboratory or sanctuary (DC 5) costs **0 Essence**, as familiarity and environmental peace minimize the toll on internal reserves.
-- **The Combat Tax**: Using the exact same invocation in a firefight (DC 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst battlefield chaos.
+- **The "Sanctum" Bonus**: Performing a learned ritual in a laboratory or sanctuary (CR 5) costs **0 Essence**, as familiarity and environmental peace minimize the toll on internal reserves.
+- **The Combat Tax**: Using the exact same invocation in a firefight (CR 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst battlefield chaos.
 
 ### Free-Casting & Volatility
-- Free-Casting in a Difficult environment (DC 20) requires spending **2 Essence upfront**.
+- Free-Casting in a Difficult environment (CR 20) requires spending **2 Essence upfront**.
 - **Failure Feedback**: If the check fails, the Essence is consumed, and the caster suffers **Internalized Strain** (1 point of Non-Lethal damage per 5 points of failure; 1d6 per 5 in free-casting).
 - **Energy Surges**: If an Attune result is **0 or less**, the Essence cost for that increment is **doubled**.
 

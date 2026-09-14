@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. modular planetary matrix","matrix"]
-updatedAt: "2026-09-12T08:23:46.549Z"
+updatedAt: "2026-09-14T19:51:39.820Z"
 costs:
   bp: 0
   credits: 0
@@ -135,7 +135,7 @@ Gravity is the fundamental constraint of physical existence. It dictates movemen
 **Implications:**
 
 * **Vehicular Adaptation:** On High Gravity worlds (Tavros), wheeled vehicles suffer traction penalties. "Legs \- Hexapod/Octoped" (TL3) are optimal for stability.  
-* **Architectural Adaptation:** High-G worlds require "Reinforced" construction (+10 Build DC) or low-rise bunkers. Low-G allows for spindly, soaring towers (Elven/Fey style) and excavated caverns.
+* **Architectural Adaptation:** High-G worlds require "Reinforced" construction (+10 Build CR) or low-rise bunkers. Low-G allows for spindly, soaring towers (Elven/Fey style) and excavated caverns.
 
 ### 
 
@@ -148,12 +148,12 @@ The atmosphere determines the immediate lethality of the environment and necessa
 | CODE | TYPE | PRESSURE | SURVIVAL GEAR | MECHANICAL & HAZARD EFFECTS |
 | ----- | ----- | ----- | ----- | ----- |
 | **0** | Vacuum | 0.00 | Vacc Suit | Suffocation; Audio sensors fail; Radiation high. 1d6 decompression dmg/round. Silence rules apply. |
-| **1** | Trace | \< 0.1 | Vacc Suit | Fatigue checks (CON DC 15\) hourly; Suffocation over time. Pressure too low for lungs. |
+| **1** | Trace | \< 0.1 | Vacc Suit | Fatigue checks (CON CR 15\) hourly; Suffocation over time. Pressure too low for lungs. |
 | **2** | Very Thin | 0.1 – 0.4 | Respirator | Fatigue checks during combat; Projectile ranges \+50%. |
-| **3** | Thin | 0.4 – 0.7 | Filter Mask | Breathable for natives; Altitude sickness for visitors (Fatigue DC 15/hour). |
+| **3** | Thin | 0.4 – 0.7 | Filter Mask | Breathable for natives; Altitude sickness for visitors (Fatigue CR 15/hour). |
 | **4** | Standard | 0.7 – 1.5 | None | Earth-normal. |
 | **5** | Dense | 1.5 – 2.5 | None | High stamina; "The Bends" risk on rapid ascent. \+4 Piloting checks. |
-| **6** | Tainted | Varies | Filter Mask | Pathogen/Pollutant exposure (Fort Save DC 15). E.g., Omin II (Virulent Phage). |
+| **6** | Tainted | Varies | Filter Mask | Pathogen/Pollutant exposure (Fort Save CR 15). E.g., Omin II (Virulent Phage). |
 | **7** | Corrosive | Varies | Hazmat Suit | 1d6 Acid damage/round to gear/flesh. Degrades Armor DR by 1/min unless Sealed. |
 | **8** | Exotic | Varies | Air Supply | Unbreathable (e.g., Methane, Chlorine). Suffocation rules apply. |
 | **9** | Dense, Tainted | High | Filter Mask | Breathable pressure but contains allergens/pollutants. |
@@ -201,7 +201,7 @@ Once the physical stage is set, it must be populated with a biosphere.
 
 The biosphere is rarely benign.
 
-* **Virulent Pathogens:** "Weaponized Phage" (Type 6 Atmos) requires daily Fortitude saves (DC 15+) or "Full Environmental" suits.  
+* **Virulent Pathogens:** "Weaponized Phage" (Type 6 Atmos) requires daily Fortitude saves (CR 15+) or "Full Environmental" suits.  
 * **Predatory Fauna:** On "Savage" worlds, fauna is Aggressive. Tables feature "Pack" tactics (Kannid) or "Ambush" predators (Rakne).  
 * **Psionic Ecology:** Worlds linked to Fey/Alterian influence may have "Awakened" biospheres (Plants with Telepathy/Obfuscate). Requires "Psi-Dampener Fields."  
 * **Scaling and Mega-Fauna:** Planetary environments dictate the physical scale of native threats. Worlds with High/Extreme Gravity or Water World (100 percent) hydrographics frequently breed Mega-Fauna. Apply a Scaling Modifier (x2 to x10) to the Damage Dice and Structure Points of these native apex predators, directly reflecting the size class of the threat.
@@ -432,9 +432,9 @@ A character's Wealth Score determines purchasing power.
 
 **The Master Valuation Table**
 
-Use this table to determine the precise cost of an item based on its DC.
+Use this table to determine the precise cost of an item based on its CR.
 
-| CRAFT DC | COMPLEXITY | VALUE (CREDITS) | EXAMPLES (SCIFI / FANTASY) |
+| Craft CR | COMPLEXITY | VALUE (CREDITS) | EXAMPLES (SCIFI / FANTASY) |
 | ----- | ----- | ----- | ----- |
 | 0 | Scrap | 10 | Raw ore, ration bar, wooden club. |
 | 5 | Simple | 40 | Knife, backpack, basic clothing, bandages. |
@@ -454,7 +454,7 @@ Use this table to determine the precise cost of an item based on its DC.
 
 This table aligns a character's Wealth Score (WS) with their purchasing power.
 
-* **Purchasing Limit (Auto-Buy):** You may acquire any single item with a value up to this limit (or DC \<= WS) without spending liquid credits.
+* **Purchasing Limit (Auto-Buy):** You may acquire any single item with a value up to this limit (or CR \<= WS) without spending liquid credits.
 
 | WEALTH SCORE (WS) | FINANCIAL STATUS | PURCHASING LIMIT | LIFESTYLE DESCRIPTION |
 | ----- | ----- | ----- | ----- |
@@ -475,11 +475,11 @@ This table aligns a character's Wealth Score (WS) with their purchasing power.
 
 **Purchasing Rules**
 
-1. **The Golden Rule (Auto-Buy):** A character may automatically purchase any item with a Crafting DC equal to or less than their Wealth Score without depleting their liquid Credits or reducing their Wealth Score.  
-2. **The Liquidity Constraint (The Gap Rule):** When a character wants an item with a DC higher than their Wealth Score, they cannot simply buy it using their status. They must bridge the gap with Liquid Credits (Loot).  
-   * Cost Liquid \= Value (Item DC) \- Value (Wealth Score)  
-   * *Example:* A Wealth Score 15 character (Auto-buy limit \~640 Cr) wants a Stealth Suit (DC 18). DC 18 Value is approx 1,470 Cr. Cost: 1,470 \- 640 \= 830 Credits. The character uses their WS to cover the "base" cost but must pay 830 credits from their savings to acquire the superior item.  
-3. **The Market Availability Cap (TL/DC Cap):** The maximum Crafting DC of items natively available for purchase on a world is equal to (Planetary TL \* 5\) \+ 10\. Items above this DC are considered Imported or Contraband. Their liquid cost is doubled, and they must be acquired via the Black Market or specialized trading factions (e.g., Entari Combine).
+1. **The Golden Rule (Auto-Buy):** A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting their liquid Credits or reducing their Wealth Score.  
+2. **The Liquidity Constraint (The Gap Rule):** When a character wants an item with a CR higher than their Wealth Score, they cannot simply buy it using their status. They must bridge the gap with Liquid Credits (Loot).  
+   * Cost Liquid \= Value (Item CR) \- Value (Wealth Score)  
+   * *Example:* A Wealth Score 15 character (Auto-buy limit \~640 Cr) wants a Stealth Suit (CR 18). CR 18 Value is approx 1,470 Cr. Cost: 1,470 \- 640 \= 830 Credits. The character uses their WS to cover the "base" cost but must pay 830 credits from their savings to acquire the superior item.  
+3. **The Market Availability Cap (TL/CR Cap):** The maximum Crafting CR of items natively available for purchase on a world is equal to (Planetary TL \* 5\) \+ 10\. Items above this CR are considered Imported or Contraband. Their liquid cost is doubled, and they must be acquired via the Black Market or specialized trading factions (e.g., Entari Combine).
 
 &nbsp;
 
@@ -616,7 +616,7 @@ A character's "Origin" defines their skills and worldview based on their homewor
 
 ### **9.1 Environmental Hazards & Survival Tables**
 
-| DEGREE | FORT SAVE DC | PRIMARY EFFECT | SECONDARY EFFECT |
+| DEGREE | FORT Save CR | PRIMARY EFFECT | SECONDARY EFFECT |
 | ----- | ----- | ----- | ----- |
 | **Mild** | 12 | 1 CON drain | 1 STR |
 | **Low** | 15 | 2 CON drain | 1 STR |

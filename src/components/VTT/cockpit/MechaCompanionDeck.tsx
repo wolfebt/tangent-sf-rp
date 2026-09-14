@@ -162,7 +162,7 @@ export const MechaCompanionDeck: React.FC = () => {
           </div>
           <div className="p-1 rounded bg-slate-950 border border-slate-800 flex flex-col items-center">
             <span className="text-slate-500">EMP STATUS</span>
-            <span className="font-bold text-emerald-400">DC 15 Save</span>
+            <span className="font-bold text-emerald-400">CR 15 Save</span>
           </div>
         </div>
 

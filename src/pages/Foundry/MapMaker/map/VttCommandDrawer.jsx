@@ -117,7 +117,7 @@ const VttCommandDrawer = ({
   };
 
   const ENV_PRESETS = [
-    { id: 'zero_g', label: 'Zero-G Drift', icon: '🌌', desc: 'Floating inertia / Acrobatics DC 12' },
+    { id: 'zero_g', label: 'Zero-G Drift', icon: '🌌', desc: 'Floating inertia / Acrobatics CR 12' },
     { id: 'smoke_fog', label: 'Dense Smoke', icon: '💨', desc: 'Heavy obscurement / +4 Cover DC' },
     { id: 'radiation_leak', label: 'High Radiation', icon: '☢️', desc: '1d6 Lethal tick per turn' },
     { id: 'vacuum_decomp', label: 'Vacuum Breach', icon: '🕳️', desc: 'Requires sealed EVA suits' }

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-5","planetary","worldbuilding","uwp"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -43,8 +43,8 @@ Architects utilize the Universal World Profile system to generate star systems, 
 | Code | Atmosphere Type | Environmental Pressure | Required Breathing Gear | Survival Check |
 | :---: | :--- | :---: | :--- | :--- |
 | **0** | **Vacuum / Airless** | 0.00 atm | Full Sealed Void Suit + O2 | Instant asphyxiation without suit. |
-| **1** | **Trace Atmosphere** | 0.01 – 0.09 atm | Full Pressure Suit + Respirator | Fortitude DC 25 per min. |
-| **2** | **Very Thin** | 0.10 – 0.42 atm | Oxygen Mask / Compressor | Fortitude DC 15 (hypoxia). |
+| **1** | **Trace Atmosphere** | 0.01 – 0.09 atm | Full Pressure Suit + Respirator | Fortitude CR 25 per min. |
+| **2** | **Very Thin** | 0.10 – 0.42 atm | Oxygen Mask / Compressor | Fortitude CR 15 (hypoxia). |
 | **3** | **Thin (Breathable)** | 0.43 – 0.70 atm | None (Acclimatization needed) | Athletics -2 until acclimatized. |
 | **4** | **Standard (Earth-like)**| 0.71 – 1.49 atm | None | Standard Baseline. |
 | **5** | **Dense Atmosphere** | 1.50 – 2.49 atm | Filter Mask (High N2/CO2) | None. |

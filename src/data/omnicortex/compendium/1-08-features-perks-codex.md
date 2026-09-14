@@ -404,7 +404,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Great Fortitude, Stamina 2  
 * **Benefit:** You may roll all **Fortitude Checks** with **Advantage**.  
-  * *Usage:* Roll 2d20 and keep the highest result when making a Fortitude save.  
+  * *Usage:* Roll 2d10 with Advantage and keep the highest result when making a Fortitude save.  
 * **Special:** This does not replace the bonus from Great Fortitude; you add the bonus to the highest die result.
 
 ### 
@@ -426,7 +426,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Lightning Reflexes, Agility 2  
 * **Benefit:** You may roll all **Reflex Checks** with **Advantage**.  
-  * *Usage:* Roll 2d20 and keep the highest result when making a Reflex save.
+  * *Usage:* Roll 2d10 with Advantage and keep the highest result when making a Reflex save.
 
 ### 
 
@@ -447,7 +447,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Potent Might, Strength 2  
 * **Benefit:** You may roll all **Might Checks** with **Advantage**.  
-  * *Usage:* Roll 2d20 and keep the highest result when testing Strength against an obstacle or opponent.
+  * *Usage:* Roll 2d10 with Advantage and keep the highest result when testing Strength against an obstacle or opponent.
 
 ### 
 
@@ -468,7 +468,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Inspiring Personality, Charisma 2  
 * **Benefit:** You may roll all **Etiquette Checks** with **Advantage**.  
-  * *Usage:* Roll 2d20 and keep the highest result during social maneuvering and protocol checks.
+  * *Usage:* Roll 2d10 with Advantage and keep the highest result during social maneuvering and protocol checks.
 
 ### 
 
@@ -489,7 +489,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Iron Will, Wisdom 2  
 * **Benefit:** You may roll all **Will Checks** with **Advantage**.  
-  * *Usage:* Roll 2d20 and keep the highest result when making a Will save.
+  * *Usage:* Roll 2d10 with Advantage and keep the highest result when making a Will save.
 
 ### 
 
@@ -510,7 +510,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Insightful Reason, Intellect 2  
 * **Benefit:** You may roll all **Logic Checks** with **Advantage**.  
-  * *Usage:* Roll 2d20 and keep the highest result when performing tasks requiring deduction or complex reasoning.
+  * *Usage:* Roll 2d10 with Advantage and keep the highest result when performing tasks requiring deduction or complex reasoning.
 
 ### 
 
@@ -1088,7 +1088,7 @@ Discipline Features represent a character's connection to the metaphysical force
 
 * **Prerequisite:** Attune 6 (Trained), Key Ability Score 2  
 * **Benefit:** You gain a **\+2 Bonus** to all **Attune Checks**.  
-* **Mechanics:** In Tangent, the **Attune Check** determines the **Difficulty Class (DC)** of the Saving Throw your targets must make. Therefore, this feature directly increases the difficulty of resisting your powers.  
+* **Mechanics:** In Tangent, the **Attune Check** determines the **Challenge Rating (CR)** of the Saving Throw your targets must make. Therefore, this feature directly increases the difficulty of resisting your powers.  
 * **Purpose:** Essential for casters who want their spells to be difficult to resist.
 
 ### 
@@ -1166,7 +1166,7 @@ Discipline Features represent a character's connection to the metaphysical force
 
 * **Prerequisite:** Centering, Discipline Focus (in all currently used Disciplines)  
 * **Benefit:** You may **Take 10** on **Attune Checks** even when threatened, distracted, or in combat conditions.  
-* **Purpose:** Guarantees a consistent Save DC for your spells, removing the risk of a low roll making your spells easy to resist.
+* **Purpose:** Guarantees a consistent Save CR for your spells, removing the risk of a low roll making your spells easy to resist.
 
 ### 
 
@@ -1185,7 +1185,7 @@ Discipline Features represent a character's connection to the metaphysical force
   **Description:** The character exists in a state of flow with the universe. Power responds to their will instantly and perfectly.  
 * **Prerequisite:** Centering Master, Discipline Mastery (in all currently used Disciplines)  
 * **Benefit:** You roll **ALL** Metafocus Checks (Attune and Discipline) with **Advantage**.  
-* **Mechanics:** Roll 2d20 and keep the highest for both your Accuracy/DC (Attune) and your Power/Severity (Discipline).
+* **Mechanics:** Roll 2d10 with Advantage and keep the highest for both your Accuracy/DC (Attune) and your Power/Severity (Discipline).
 
   ### 
 
@@ -1569,7 +1569,7 @@ Utility, health, and social capabilities.
 **Description:** The character is a tactical genius who prepares for every eventuality.
 
 * **Prerequisite:** Logic 6, Intellect 3  
-* **Benefit:** If you have time to prepare for an encounter (minimum 1 hour), make a **Logic Check**. For every point your result exceeds DC 10, you create a **Bonus Pool**.  
+* **Benefit:** If you have time to prepare for an encounter (minimum 1 hour), make a **Logic Check**. For every point your result exceeds CR 10, you create a **Bonus Pool**.  
 * **Usage:** During the encounter, you can distribute these points to allies (as a free action) to add to their Attack rolls or Skill checks.
 
 ### 
@@ -1641,7 +1641,7 @@ Utility, health, and social capabilities.
 **Description:** The character can enter a deep meditative state to conserve energy or feign death.
 
 * **Prerequisite:** Wisdom 1  
-* **Benefit:** You can voluntarily slow your heartbeat and metabolism. You consume 1/10th the oxygen and food. You can appear dead to casual inspection (Medicine check DC 20 to detect life).
+* **Benefit:** You can voluntarily slow your heartbeat and metabolism. You consume 1/10th the oxygen and food. You can appear dead to casual inspection (Medicine check CR 20 to detect life).
 
 ### 
 
@@ -2226,7 +2226,7 @@ Bonuses and specialized uses for skills.
   **Description:** The character's charm is disarming and risky, but often rewarding.
 
 * **Prerequisite:** Silver Tongue, Charisma 2, Bluff 6, Diplomacy 6  
-* **Benefit:** You may choose to **Take 10** on Bluff and Diplomacy checks, OR you may roll **1d10** and add it to the d20 result (instead of a static modifier), allowing for potentially higher highs but lower lows.
+* **Benefit:** You may choose to **Take 10** on Bluff and Diplomacy checks, OR you may roll **1d10** and add it to the 2d10 result (instead of a static modifier), allowing for potentially higher highs but lower lows.
 
   ### 
 

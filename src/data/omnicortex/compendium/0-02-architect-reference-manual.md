@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-0","architect","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -39,26 +39,26 @@ The **ARCHITECT** is the Game Master, universe designer, referee, and lead story
 
 ---
 
-## 1. Difficulty Class (DC) Benchmark Table
-| Task Difficulty | DC | Benchmark Example |
+## 1. Challenge Rating (CR) Benchmark Table
+| Task Difficulty | CR | Benchmark Example |
 | :--- | :---: | :--- |
-| **Trivial** | DC 5 | Operating a standard civilian console; walking a sturdy beam. |
-| **Easy** | DC 10 | Driving on a paved road; patching a minor hydraulic leak. |
-| **Moderate** | DC 15 | Slicing a corporate terminal; picking a standard magnetic lock. |
-| **Hard** | DC 20 | Bypassing military biometric security; stabilizing a fatal arterial wound. |
-| **Heroic** | DC 25 | Overriding a starship reactor core during a battle; surviving a lethal vacuum breach. |
-| **Legendary** | DC 30 | Re-routing an ancient Progenitor meta-dimensional conduit. |
-| **Godlike** | DC 35+ | Reshaping reality across planetary sectors. |
+| **Trivial** | CR 5 | Operating a standard civilian console; walking a sturdy beam. |
+| **Easy** | CR 10 | Driving on a paved road; patching a minor hydraulic leak. |
+| **Moderate** | CR 15 | Slicing a corporate terminal; picking a standard magnetic lock. |
+| **Hard** | CR 20 | Bypassing military biometric security; stabilizing a fatal arterial wound. |
+| **Heroic** | CR 25 | Overriding a starship reactor core during a battle; surviving a lethal vacuum breach. |
+| **Legendary** | CR 30 | Re-routing an ancient Progenitor meta-dimensional conduit. |
+| **Godlike** | CR 35+ | Reshaping reality across planetary sectors. |
 
 ## Game Mechanics Rules
 ```
 Unopposed DC = 15 + Size Modifier + Range Penalty + Movement Modifier
-Design DC = (TL * 2) + (ML * 3) + Base Component Difficulty
+Design CR = (TL * 2) + (ML * 3) + Base Component Difficulty
 ```
 
 ## Gameplay Instructions
 1. Establish planetary TL and ML before designing scenes.
-2. Use Base DC 15 for average tasks under pressure; adjust in +/- 5 increments.
+2. Use Base CR 15 for average tasks under pressure; adjust in +/- 5 increments.
 3. When resolving opposed checks, award ties to the defending party.
 
 ## Designer Notes

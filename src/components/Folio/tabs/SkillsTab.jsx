@@ -1245,7 +1245,7 @@ const specMod = parseInt(spec.mod || 0, 10);
                         : `Focused specialized niche of ${skill.name}. Adds +${specRank} bonus directly to the base skill roll.`
                       }
                       formula={isInvocation
-                        ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs DC ${spec.baseDC || 15}`
+                        ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs CR ${spec.baseDC || 15}`
                         : `Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`
                       }
                       prerequisites={prereqResult.prerequisiteText || (isInvocation ? `Awakened (${spec.discipline || skill.name})` : `Trained ${skill.name} (Rank >= 1)`)}
@@ -1369,7 +1369,7 @@ const specMod = parseInt(spec.mod || 0, 10);
                         : `Focused specialized niche of ${skill.name}. Adds +${specRank} bonus directly to the base skill roll.`
                       }
                       formula={isInvocation
-                        ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs DC ${spec.baseDC || 15}`
+                        ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs CR ${spec.baseDC || 15}`
                         : `Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`
                       }
                       prerequisites={prereqResult.prerequisiteText || (isInvocation ? `Awakened (${spec.discipline || skill.name})` : `Trained ${skill.name} (Rank >= 1)`)}

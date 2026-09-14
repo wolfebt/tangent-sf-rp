@@ -98,8 +98,8 @@ Every character in Tangent is built upon **6 Core Attributes**, each coupled wit
 
 | Primary Attribute | Core Application | Sub-Attribute | Saving Throw / Check |
 | :--- | :--- | :--- | :--- |
-| **Strength (STR)** | Physical power, carrying capacity, melee force | **Might** | Raw muscular lift, break DC, grapple power |
-| **Agility (AGI)** | Dexterity, fine motor control, balance | **Reflex** | Initiative, dodge DC, acrobatics, evasion |
+| **Strength (STR)** | Physical power, carrying capacity, melee force | **Might** | Raw muscular lift, break CR, grapple power |
+| **Agility (AGI)** | Dexterity, fine motor control, balance | **Reflex** | Initiative, dodge CR, acrobatics, evasion |
 | **Stamina (STA)** | Physical endurance, cardio, cellular resilience | **Fortitude** | Disease, poison, wound stabilization, shock |
 | **Intellect (INT)** | Deductive logic, technical aptitude, memory | **Logic** | Hacking, investigation, physics, computation |
 | **Wisdom (WIS)** | Intuition, spatial awareness, perception | **Will** | Mental defense, fear resistance, psychic grit |
@@ -151,15 +151,15 @@ Your number of attacks and actions per round is governed directly by your **Comb
 ## 5. Metaphysics & Reality Manipulation
 
 If your character possesses an **Awakened Discipline**:
-- **Attune Check:** Determines the resistance DC of your spell or the evasion DC for targets.
+- **Attune Check:** Determines the Resistance CR of your spell or the Evasion CR for targets.
 - **Discipline Check:** Determines the intensity, duration, damage, or magnitude of the effect.
 - **Essence Pool:** Manage your daily Essence reserves to power Invocations and avoid Strain.`,
   mechanic: `Attack Check = 2d10 + Combat Skill Rank + Ability Mod + Weapon Modifiers
 Active Defense = 2d10 + Defense Skill + Agility Mod (each successive defense at cumulative -5; Defender wins ties)
-Spell Resistance DC = 10 + Key Ability Mod + Attune Rank + Invocation Level`,
+Spell Resistance CR = 10 + Key Ability Mod + Attune Rank + Invocation Level`,
   guide: `1. Check your Persona Folio for current HP, Armor DR, and Essence Pool.
 2. On your turn in combat, declare actions up to your Skill Stage limit.
-3. Roll 2d10 + Skill Rank + Attribute Mod vs target DC or Opposed Defense.`,
+3. Roll 2d10 + Skill Rank + Attribute Mod vs Target CR or Opposed Defense.`,
   note: `Operators should balance offensive actions with defensive reserves, as reactive defenses suffer cumulative penalties.`
 });
 
@@ -199,9 +199,9 @@ When establishing star-systems or planetary sectors, assign two fundamental rati
 
 ---
 
-## 2. Difficulty Classes (DC) & Adjudication
+## 2. Challenge Ratinges (DC) & Adjudication
 
-| Difficulty Level | Target DC | Typical Task Example |
+| Difficulty Level | Target CR | Typical Task Example |
 | :--- | :---: | :--- |
 | **Very Easy / Routine** | **5** | Driving on an open highway, noticing a loud noise |
 | **Easy / Standard** | **10** | Picking a simple lock, climbing a ladder in rain |
@@ -228,9 +228,9 @@ Architects can quickly assemble adversary statblocks using the **3-Tier Threat M
 - **Elites / Enforcers:** 30–50 HP, Armor DR 5–10, +6 to +10 attack roll, 2–3 actions per round.
 - **Bosses / Arch-Villains:** 100+ HP, Armor DR 15+, Legendary Reactions, Focus Strike +5, full Metaphysic suites.`,
   mechanic: `Unopposed DC = 15 + Size Modifier + Range Penalty + Movement Modifier
-Design DC = (TL * 2) + (ML * 3) + Base Component Difficulty`,
+Design CR = (TL * 2) + (ML * 3) + Base Component Difficulty`,
   guide: `1. Establish planetary TL and ML before designing scenes.
-2. Use Base DC 15 for average tasks under pressure; adjust in +/- 5 increments.
+2. Use Base CR 15 for average tasks under pressure; adjust in +/- 5 increments.
 3. When resolving opposed checks, award ties to the defending party.`,
   note: `Keep the story moving: if a roll fails by 1-2 points, offer a Success at a Cost rather than a hard roadblock.`
 });
@@ -255,7 +255,7 @@ BASTION processes user directives, parses tactical encounters, calculates odds, 
 ### Dice Rolling Engine Syntax
 - \`/roll [count]d[sides]+[mod]\`
 - Examples:
-  - \`/roll d20+6\` — Standard attack or skill check.
+  - \`/roll 2d10+6\` — Standard attack or skill check.
   - \`/roll 2d10+4\` — Heavy energy blaster damage roll.
   - \`/roll 3d6+2\` — Kinetic slug thrower burst roll.
 
@@ -272,7 +272,7 @@ BASTION evaluates mathematical equations across the three modules (**Omnicortex*
 \`Effective Damage = Incoming Damage - max(0, Armor DR - Armor Piercing (AP))\`
 
 ### Metaphysic Potency
-\`Potency Score = Key Ability + Discipline Skill Level + Invocation Level + 10 (or d20)\`
+\`Potency Score = Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10)\`
 
 ---
 
@@ -281,7 +281,7 @@ BASTION evaluates mathematical equations across the three modules (**Omnicortex*
 BASTION enforces strict data validation across all DBM collections:
 - **Relational Linking:** Items link to prerequisites, species link to inherent traits, and features link to skill requirements.
 - **Bi-directional Sync:** Folio character sheets dynamically query Omnicortex DBM entries in real time.`,
-  mechanic: `Input: /roll 2d20kh1+5 -> Roll 2d20, Keep Highest 1, Add 5 (Advantage Check)
+  mechanic: `Input: /Roll 2d10 with Advantagekh1+5 -> Roll 2d10 with Advantage, Keep Highest 1, Add 5 (Advantage Check)
 Damage Soak: EffectiveHP_Loss = max(1, RawDamage - max(0, TargetDR - WeaponAP))`,
   guide: `Type /roll in the BASTION chat bar to execute instant dice operations.
 Ask BASTION for rule lookups, NPC generation, and combat odds analysis.`,
@@ -569,12 +569,12 @@ The **Meta stage** of character creation in Tangent focuses on developing the me
 | :--- | :--- | :--- |
 | **Max Hit Points (HP)** | Base (10) + (Stamina Mod * 2) + Rank Multipliers | Total physical trauma capacity |
 | **Initiative Check** | 2d10 + Reflex Save + Agility Mod | Reaction speed at start of combat |
-| **Might Check** | d20 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
-| **Fortitude Save** | d20 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
-| **Reflex Save** | d20 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
-| **Logic Check** | d20 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
-| **Will Save** | d20 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
-| **Etiquette Check** | d20 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |`,
+| **Might Check** | 2d10 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
+| **Fortitude Save** | 2d10 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
+| **Reflex Save** | 2d10 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
+| **Logic Check** | 2d10 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
+| **Will Save** | 2d10 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
+| **Etiquette Check** | 2d10 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |`,
   mechanic: `BaseBP = 150
 AttributeCost = 5 BP per +1 (Max +4 raw at creation)
 SkillRankCost = 1 BP per rank
@@ -797,8 +797,8 @@ Negative Karma allows characters to push their luck and potentially face consequ
   - **NPC Benefits:** Negative Karma can also positively affect NPCs who are directly opposing the character. This could manifest as increased luck, improved skills, or unexpected advantages that help them overcome the character's efforts.`,
   mechanic: `BaseKarma = 3
 MaxKarmaDebt = Charisma + 1
-Advantage = Roll 2d20, Take Highest Result
-Disadvantage = Roll 2d20, Take Lowest Result
+Advantage = Roll 2d10 with Advantage, Take Highest Result
+Disadvantage = Roll 2d10 with Advantage, Take Lowest Result
 ConditionReduction = -1 Severity Stage (Major -> Minor -> Cleared)
 SecondWind = 1 Min Focus, Replaces Light Rest`,
   guide: `Spend Karma points during critical encounters to gain Advantage, reroll non-combat failures, reduce debuffs, or bend reality. Track Plot Points separately for arc-specific narrative boosts.`,
@@ -860,7 +860,7 @@ When a character's Health drops to **0 HP**:
 1. **Incapacitation:** The character immediately falls unconscious, drops held items, and gains the **Prone** condition.
 2. **Death's Door:** If both Health and Vitality are at 0, the character is dying and enters a comatose state.
 3. **The Death Clock:** The character has a number of rounds equal to their **Stamina Score** (Minimum 1 round) to receive medical aid.
-4. **Stabilization:** A successful **Medicine check (DC 15)** or trauma nanite injection halts the death clock.
+4. **Stabilization:** A successful **Medicine Check (CR 15)** or trauma nanite injection halts the death clock.
 5. **Massive Damage:** Taking damage equal to or exceeding their Stamina score in a single hit while at Death's Door causes instant death.
 
 ---
@@ -870,7 +870,7 @@ When a character's Health drops to **0 HP**:
 Returning a character from the dead requires advanced TL5 medical clone synthesis or high-tier ML5 Metaphysics:
 - **Penalties:** The revived character loses all remaining Karma Points and incurs a **-5 Experience Debt** until repaid through heroic gameplay.`,
   mechanic: `DeathClock_Rounds = max(1, StaminaScore)
-Stabilization_DC = Medicine DC 15
+Stabilization_DC = Medicine CR 15
 Revive_Penalty = Lose All Karma + 5 XP Debt`,
   guide: `Allies should prioritize stabilizing downed teammates within their Stamina round window.`,
   note: `Revivification should be a rare, momentous narrative arc rather than a routine transaction.`
@@ -2274,13 +2274,13 @@ addArticle({
   entry_type: 'Core Rule',
   description: `# 1.07.00 Skills System & Benchmark DCs
 
-Skills in Tangent represent formal education, physical conditioning, tradecraft, and instinctual reflexes. All skill checks use the universal d20 engine.
+Skills in Tangent represent formal education, physical conditioning, tradecraft, and instinctual reflexes. All skill checks use the universal 2d10 engine.
 
 ---
 
 ## The Skill Check Formula
 
-$$\\text{Skill Check} = d20 + \\text{Skill Rank} + \\text{Associated Attribute Mod} + \\text{Situational Modifiers}$$
+$$\\text{Skill Check} = 2d10 + \\text{Skill Rank} + \\text{Associated Attribute Mod} + \\text{Situational Modifiers}$$
 
 ---
 
@@ -2298,7 +2298,7 @@ $$\\text{Skill Check} = d20 + \\text{Skill Rank} + \\text{Associated Attribute M
 
 ---
 
-## Universal Target Difficulty Classes (DCs)
+## Universal Target Challenge Ratings (CRs)
 
 | DC Rating | Difficulty | Example Task |
 | :---: | :--- | :--- |
@@ -2309,7 +2309,7 @@ $$\\text{Skill Check} = d20 + \\text{Skill Rank} + \\text{Associated Attribute M
 | **25** | **Very Hard** | Disarming an active antimatter explosive; tracking footprints in hard vacuum. |
 | **30** | **Extreme** | Out-piloting a guided missile swarm; overriding an alien military AI core. |
 | **35+** | **Deific** | Reshaping reality or performing impossible theoretical physics calculations. |`,
-  mechanic: `SkillCheck = d20 + SkillRank + AttributeMod + SituationalMod vs DC
+  mechanic: `SkillCheck = 2d10 + SkillRank + AttributeMod + SituationalMod vs CR
 Creation Cap: Rank 6 recommended, Rank 11 maximum`,
   guide: `To perform a skill check: roll d20, add your skill rank and attribute modifier, and compare against the Architect's DC.`,
   note: `Opposed checks resolve against the opponent's active skill check. Defender wins all ties.`
@@ -2331,30 +2331,30 @@ Physical skills govern gross and fine motor control, bodily power, vehicle opera
 ## 1. Acrobatics (Key: Agility / Reflex)
 - **Applications:** Balance, tumbling, diving through narrow openings, escaping physical restraints, high-speed parkour.
 - **Sample DCs:**
-  - *DC 10:* Walking across a narrow 6-inch beam in calm conditions.
-  - *DC 15:* Tumbling across grease-covered catwalks under gunfire.
-  - *DC 20:* Escaping military-grade stasis cuffs without tools.
-  - *DC 25:* Free-running across moving planetary defense cannons.
+  - *CR 10:* Walking across a narrow 6-inch beam in calm conditions.
+  - *CR 15:* Tumbling across grease-covered catwalks under gunfire.
+  - *CR 20:* Escaping military-grade stasis cuffs without tools.
+  - *CR 25:* Free-running across moving planetary defense cannons.
 
 ---
 
 ## 2. Athletics (Key: Strength / Might or Stamina / Fortitude)
 - **Applications:** Sprinting, climbing sheer rockfaces, swimming through heavy surf, long jumps, pushing heavy blast doors.
 - **Sample DCs:**
-  - *DC 10:* Climbing a brick wall with ample handholds.
-  - *DC 15:* Forcing open a jammed blast door with raw muscle.
-  - *DC 20:* Swimming against an ocean rip-current in full armor.
-  - *DC 25:* Clearing a 30-foot chasm in heavy gravity.
+  - *CR 10:* Climbing a brick wall with ample handholds.
+  - *CR 15:* Forcing open a jammed blast door with raw muscle.
+  - *CR 20:* Swimming against an ocean rip-current in full armor.
+  - *CR 25:* Clearing a 30-foot chasm in heavy gravity.
 
 ---
 
 ## 3. Piloting (Key: Agility / Reflex or Intellect / Logic)
 - **Applications:** Operating ground vehicles, atmospheric skimmers, starfighters, heavy freighters, and mecha.
 - **Sample DCs:**
-  - *DC 10:* Standard planetary orbit exit and docking maneuvers.
-  - *DC 15:* High-speed canyon chase through hazardous terrain.
-  - *DC 20:* Threading a dense asteroid storm with active sensor jamming.
-  - *DC 25:* Executing a slip-space micro-jump inside a planetary atmosphere.
+  - *CR 10:* Standard planetary orbit exit and docking maneuvers.
+  - *CR 15:* High-speed canyon chase through hazardous terrain.
+  - *CR 20:* Threading a dense asteroid storm with active sensor jamming.
+  - *CR 25:* Executing a slip-space micro-jump inside a planetary atmosphere.
 
 ---
 
@@ -2362,10 +2362,10 @@ Physical skills govern gross and fine motor control, bodily power, vehicle opera
 - **Applications:** Silent movement, utilizing shadows and cover, masking infrared heat signatures, bypassing optical sensors.
 - **Opposed Roll:** Stealth check vs. Observer's **Alertness check**.
 - **Modifers:** Dense foliage (+4), Darkness (+4), Sensor-Baffling Suit (+4), Moving Fast (-4).`,
-  mechanic: `Acrobatics = d20 + AcrobaticsRank + AgilityMod
-Athletics = d20 + AthleticsRank + StrengthMod
-Piloting = d20 + PilotingRank + AgilityMod
-Stealth = d20 + StealthRank + AgilityMod vs Alertness`,
+  mechanic: `Acrobatics = 2d10 + AcrobaticsRank + AgilityMod
+Athletics = 2d10 + AthleticsRank + StrengthMod
+Piloting = 2d10 + PilotingRank + AgilityMod
+Stealth = 2d10 + StealthRank + AgilityMod vs Alertness`,
   guide: `Physical skills are essential for mobility, vehicle dogfights, and stealth infiltration.`,
   note: `Piloting checks are modified by the maneuverability rating of your vehicle.`
 });
@@ -2408,9 +2408,9 @@ Knowledge skills represent formal education, specialized scientific disciplines,
 | **Tactics** | Battlefield strategy, unit deployment, siege craft | Formulating ambush battle plans and choke points |
 | **Technology** | Engineering, hardware repair, starship systems | Fixing hyper-drives, building combat turrets |
 | **Trade** | Interstellar commerce, tariff evasion, supply/demand | Finding profitable cargo routes between star systems |`,
-  mechanic: `KnowledgeCheck = d20 + KnowledgeRank + IntellectMod vs DC`,
+  mechanic: `KnowledgeCheck = 2d10 + KnowledgeRank + IntellectMod vs CR`,
   guide: `Knowledge checks allow characters to recall lore, analyze technical systems, and perform complex research.`,
-  note: `Characters without training in specialized sciences (e.g. Physics, Metaphysics) may only attempt basic DC 10 checks.`
+  note: `Characters without training in specialized sciences (e.g. Physics, Metaphysics) may only attempt basic CR 10 checks.`
 });
 
 addArticle({
@@ -2440,9 +2440,9 @@ Vocation skills represent hands-on commercial trades, craftsmanship, artistic pe
 
 ## Crafting Mechanics & Downtime Checks
 - **Crafting Time:** Determined by item Tech Level and complexity.
-- **Crafting Check:** \`d20 + Vocation Rank + Associated Mod vs Design DC\`
-- **Design DC Formula:** \`DC = (TL * 2) + Base Item Complexity (10 to 25)\``,
-  mechanic: `CraftingCheck = d20 + VocationRank + AttributeMod vs (TL * 2 + BaseComplexity)`,
+- **Crafting Check:** \`d20 + Vocation Rank + Associated Mod vs Design CR\`
+- **Design CR Formula:** \`DC = (TL * 2) + Base Item Complexity (10 to 25)\``,
+  mechanic: `CraftingCheck = 2d10 + VocationRank + AttributeMod vs (TL * 2 + BaseComplexity)`,
   guide: `Use vocation skills during campaign downtime to manufacture customized gear, repair starships, and earn trade income.`,
   note: `Crafting masterwork gear with special weapon traits requires Expert rank (Rank 11+) in the relevant vocation.`
 });
@@ -2462,7 +2462,7 @@ Social skills govern social engineering, political maneuvering, leadership, inti
 
 ## 1. Charm (Key: Charisma / Etiquette)
 - **Applications:** Flattery, seduction, making a positive first impression, winning over neutral NPCs.
-- **Check:** Opposed by target's **Will Save** or static DC 15.
+- **Check:** Opposed by target's **Will Save** or static CR 15.
 
 ---
 
@@ -2475,10 +2475,10 @@ Social skills govern social engineering, political maneuvering, leadership, inti
 ## 3. Diplomacy (Key: Charisma / Etiquette or Wisdom / Will)
 - **Applications:** Peaceful negotiation, settling disputes, treaty drafting, establishing alliances.
 - **Sample DCs:**
-  - *DC 10:* Convincing a friendly merchant to offer a modest discount.
-  - *DC 15:* Negotiating safe passage through a pirate checkpoint.
-  - *DC 20:* Halting an imminent firefight between rival factions.
-  - *DC 25:* Brokering a formal peace treaty between warring planets.
+  - *CR 10:* Convincing a friendly merchant to offer a modest discount.
+  - *CR 15:* Negotiating safe passage through a pirate checkpoint.
+  - *CR 20:* Halting an imminent firefight between rival factions.
+  - *CR 25:* Brokering a formal peace treaty between warring planets.
 
 ---
 
@@ -2491,9 +2491,9 @@ Social skills govern social engineering, political maneuvering, leadership, inti
 ## 5. Leadership & Command (Key: Charisma / Etiquette)
 - **Applications:** Directing unit combat maneuvers, rallying broken troops, maintaining party morale under fire.
 - **Combat Application:** Granting allies bonus strike accuracy or immediate reaction moves.`,
-  mechanic: `Diplomacy = d20 + DiplomacyRank + CharismaMod vs Target DC
-Deception = d20 + DeceptionRank + CharismaMod vs Investigation
-Intimidation = d20 + IntimidateRank + Charisma/Strength vs Will Save`,
+  mechanic: `Diplomacy = 2d10 + DiplomacyRank + CharismaMod vs Target CR
+Deception = 2d10 + DeceptionRank + CharismaMod vs Investigation
+Intimidation = 2d10 + IntimidateRank + Charisma/Strength vs Will Save`,
   guide: `Use social skills to avoid unnecessary bloodshed, recruit allies, and manipulate enemies.`,
   note: `Social checks are heavily influenced by the target's faction loyalty and current hostility level.`
 });
@@ -2556,7 +2556,7 @@ Metafocus skills govern the conscious manipulation of reality, psionic frequenci
 
 ## 1. The Core Attune Skill (Universal Foundation)
 - **Attune (Key: Selected Key Ability):** The universal master skill for drawing, focusing, and regulating reality-warping energy.
-- **Role:** Every character who awakens must invest in Attune. The Attune check determines the **Resistance DC** of your invocations and your resistance against enemy metaphysical attacks.
+- **Role:** Every character who awakens must invest in Attune. The Attune check determines the **Resistance CR** of your invocations and your resistance against enemy metaphysical attacks.
 
 ---
 
@@ -2575,8 +2575,8 @@ Metafocus skills govern the conscious manipulation of reality, psionic frequenci
 
 ## Minor Abilities (Cantrips)
 Characters possessing Rank 1+ in any Discipline skill can execute minor non-damaging sensory and utility tricks at will without rolling dice or expending Essence.`,
-  mechanic: `Spell Resistance DC = 10 + KeyAbilityMod + AttuneRank + InvocationLevel
-Discipline Check = d20 + DisciplineRank + KeyAbilityMod (determines severity & damage)`,
+  mechanic: `Spell Resistance CR = 10 + KeyAbilityMod + AttuneRank + InvocationLevel
+Discipline Check = 2d10 + DisciplineRank + KeyAbilityMod (determines severity & damage)`,
   guide: `To cast invocations: Attune sets the difficulty for targets to resist, while your Discipline skill determines the potency and damage.`,
   note: `Discipline skills cannot exceed double the planetary or character Metafocus Level (ML).`
 });
@@ -2653,7 +2653,7 @@ Ability features enhance your core saving throws, physical resilience, and cogni
 | **Evasiveness** | Agility 3 | On a successful saving throw against half-damage effects, suffer **Zero Damage**. | Multiple |
 | **Improved Evasiveness**| Evasiveness | On a *failed* saving throw against half-damage effects, still suffer only **Half Damage**. | Standard |`,
   mechanic: `Ranked Bonus: +2 per stage purchased (Max 5 stages)
-Advantage: Roll 2d20, take higher result`,
+Advantage: Roll 2d10 with Advantage, take higher result`,
   guide: `Invest in Ability Features to safeguard your character against deadly poison, explosions, psionic domination, and instant death effects.`,
   note: `Pairing Great Fortitude with Incredible Fortitude provides supreme protection in hostile environments.`
 });
@@ -2713,7 +2713,7 @@ Meta features allow practitioners to awaken new metaphysical disciplines, expand
 | **Overchannel** | Attune Rank 6 | Spend HP instead of Essence points to power high-level invocations. | Standard |
 | **Psychic Fortress** | Will 4 | Suffer zero damage from enemy telepathic backlash; gain +4 Will vs mental probes. | Standard |
 | **Essence Siphon** | Entropy Rank 6 | Regain 1d4 Essence points whenever a target is slain by your necrotic invocation. | Standard |
-| **Resilient Weave** | Attune Rank 5 | Your active spell fields cannot be dispelled without a critical DC 25 dispel check. | Standard |`,
+| **Resilient Weave** | Attune Rank 5 | Your active spell fields cannot be dispelled without a critical CR 25 dispel check. | Standard |`,
   mechanic: `Deep Attunement: +4 Max Essence per rank
 Overchannel: 1 Essence Point = 2 HP sacrificed`,
   guide: `Crucial for Adepts, Arcanists, and Psions looking to cast multiple invocations in high-stakes combat.`,
@@ -2738,12 +2738,12 @@ General, social, and karma features grant economic power, planetary fame, lucky 
 | **Wealth (High Capital)** | Character Creation | **+4 bonus** to starting and permanent Wealth score. | Ranked |
 | **High Status / Rank** | Level 1 | Recognized diplomatic rank, noble nobility, or military officer status. | Ranked |
 | **Underworld Connections**| Streetwise 3 | Access to illicit black market weapons, fences, and safehouses across all starports. | Standard |
-| **Good Karma / Lucky** | Character Creation | Gain **+2 Karma Points** per session; spend 1 point to reroll any failed d20 check. | Ranked |
+| **Good Karma / Lucky** | Character Creation | Gain **+2 Karma Points** per session; spend 1 point to reroll any failed 2d10 check. | Ranked |
 | **Indomitable Spirit** | Wisdom 3 | Once per session, automatically succeed on a death or stabilization saving throw. | Standard |
 | **Silver Tongue** | Charisma 3 | +2 on all Deception and Diplomacy checks during high-stakes negotiations. | Standard |
 | **Jack of All Trades** | Intellect 3 | Can make untrained skill checks in all skills without suffering the untrained penalty. | Standard |
 | **Danger Sense** | Alertness 4 | Cannot be surprised in combat; gain +2 to Reflex saves against traps. | Standard |`,
-  mechanic: `Lucky: Spend 1 Karma Point -> Reroll any d20 check, take new result
+  mechanic: `Lucky: Spend 1 Karma Point -> Reroll any 2d10 check, take new result
 Wealth: +4 Wealth per stage`,
   guide: `Karma and Social features provide exceptional flexibility and narrative control outside pure combat.`,
   note: `Karma points refresh at the beginning of each game session.`
@@ -2992,7 +2992,7 @@ Complete reference matrices for target size modifiers, weapon range brackets, mo
 
 ## 1. Target Size Modifiers Matrix
 
-| Size | Modifier (Target DC) |
+| Size | Modifier (Target CR) |
 | :--- | :---: |
 | **Miniscule** | **-32** |
 | **Fine** | **-16** |
@@ -3157,7 +3157,7 @@ Traumatic physical impact from vectors generally larger than the target's body (
 - **Concussive / Impact:** Traumatic whole-body damage split equally between Vitality and Health; halves or ignores DR.
 
 ### Energy Damage Types
-- **Pyro / Fire:** Burns and incinerates; crits inflict the **Burning** status effect (1d6 Fire/round + Will DC 12 panic).
+- **Pyro / Fire:** Burns and incinerates; crits inflict the **Burning** status effect (1d6 Fire/round + Will CR 12 panic).
 - **Cryo / Cold:** Endothermic chill slowing movement; crits inflict the **Freeze** status effect (Speed 0, vulnerable).
 - **Spectral / Phase:** Incorporeal energy that **ignores physical Armor DR entirely** to disrupt life essence.
 - **Sonic / Sound:** Vibrational acoustic resonance that **ignores most physical armor** and deafens foes.
@@ -3257,7 +3257,7 @@ When a character's Health Points reach 0, they enter the **Mortality State**:
 2. **Bleeding Out:** At the beginning of the character's turn, they suffer **1 point of Stability Damage**.
 3. **Stability Threshold:** A character has a Stability Points total equal to their **Constitution Score + 5**.
 4. **Death:** If Stability Points reach 0, the character expires.
-5. **Stabilization:** First aid via Medicine Check (DC 15) or metaphysical healing stabilizes the character.`,
+5. **Stabilization:** First aid via Medicine Check (CR 15) or metaphysical healing stabilizes the character.`,
   mechanic: `HitLocation: 1d10 (1 Head, 2-4 Torso, 5-6 Arm, 7-0 Leg; 1d6 melee)
 CalledShots: -2 Torso/Leg, -4 Head/Arm
 TraumaSaves: Head (Reason), Torso (Fort), Arm (Ref), Leg (Might); duration = points under CR
@@ -3320,20 +3320,20 @@ Complete reference matrix of the 10 tactical combat status effects, mechanical p
 
 | Status | Mechanical Effect | Cure / Removal |
 | :--- | :--- | :--- |
-| **Bleeding** | Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. | Medicine Check (DC 10) or any Healing ability/item. |
+| **Bleeding** | Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. | Medicine Check (CR 10) or any Healing ability/item. |
 | **Blinded** | -5 Penalty to Attack/Defense. Visual Perception fails automatically. | Medical intervention or Time (Temporary: 1d4 rounds). |
-| **Burning** | Takes 1d6 Fire Damage per round. Panic Check (Will DC 12) or flail/flee. | Full Action to extinguish (Stop, Drop, Roll). |
+| **Burning** | Takes 1d6 Fire Damage per round. Panic Check (Will CR 12) or flail/flee. | Full Action to extinguish (Stop, Drop, Roll). |
 | **Dazed** | Mentally reeling. Only 1 Action per turn (Move OR Standard). No Reactions. | Ends automatically at the end of the creature\'s next turn. |
-| **Entangled** | Movement = 0. -2 Penalty to Attack/Defense. No Dodge/Evasion. | Strength Check (DC 15) or Cutting free (Structure damage). |
+| **Entangled** | Movement = 0. -2 Penalty to Attack/Defense. No Dodge/Evasion. | Strength Check (CR 15) or Cutting free (Structure damage). |
 | **Exhausted** | -2 Penalty to Physical Checks (Str/Agi/Sta). Speed -50%. No Run/Charge. | Requires 8 Hours of Rest with food/water. |
-| **Freeze** | Target is encased/chilled. Speed = 0. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (DC 20) to shatter ice or Fire Dmg to melt. |
+| **Freeze** | Target is encased/chilled. Speed = 0. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (CR 20) to shatter ice or Fire Dmg to melt. |
 | **Prone** | Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. | Move Action to stand up. |
-| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill). | Constitution Save (DC 15) at end of turn to recover. |
+| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill). | Constitution Save (CR 15) at end of turn to recover. |
 | **Suppressed** | Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. | Enemy stops firing, reloads, or is neutralized. |`,
-  mechanic: `Bleeding: 1d4 dmg/turn ignores DR (Medicine DC 10)
-Burning: 1d6 fire/rnd + Will DC 12 panic (Full Action Stop/Drop/Roll)
-Freeze: Speed 0, Vulnerable Phys/Sonic (Str DC 20 or Fire)
-Stunned: 0 Actions, Drop items, Base Defense (Con DC 15)`,
+  mechanic: `Bleeding: 1d4 dmg/turn ignores DR (Medicine CR 10)
+Burning: 1d6 fire/rnd + Will CR 12 panic (Full Action Stop/Drop/Roll)
+Freeze: Speed 0, Vulnerable Phys/Sonic (Str CR 20 or Fire)
+Stunned: 0 Actions, Drop items, Base Defense (Con CR 15)`,
   guide: `Track conditions on the Folio and Foundry combat tracker during active skirmishes.`,
   note: `Prone provides +2 Defense per range category after Point Blank vs. ranged attacks.`
 });
@@ -3357,8 +3357,8 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 | :--- | :---: | :---: | :---: | :--- |
 | **Walk** | **1x (Base)** | 30 ft / 6s (6 kph) | Standard baseline | None |
 | **Jog** | **2x** | 60 ft / 6s | **-2 penalty** | None |
-| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | **Athletics DC 10+** (every min, cum. -1) |
-| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | **Athletics DC 15+** (every min, cum. -1) |
+| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | **Athletics CR 10+** (every min, cum. -1) |
+| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | **Athletics CR 15+** (every min, cum. -1) |
 | **Crawl** | **1/2x** | 15 ft / 6s | **+2 stealth**; gains **Prone** | None |
 | **Slow Crawl** | **1/4x** | 7.5 ft / 6s | **+4 stealth**; gains **Prone** | None |
 
@@ -3370,10 +3370,10 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 | :--- | :---: | :---: | :---: | :--- |
 | **Flight** | **1x Fly (2x Walk)** | 60 ft / 6s | Standard flyer baseline | None |
 | **Sail** | **2x Fly (4x Walk)** | 120 ft / 6s | **-2 penalty** | None |
-| **Surge / Soar** | **4x Fly (8x Walk)** *(5x with Soar)* | 240 ft *(300 ft)* | **-4 penalty** | **Acrobatics DC 10+** (every min, cum. -1) |
-| **Diving** | **2x Current Speed** *(9x with Soar)* | Up to 480+ ft | **-4 penalty** | **Acrobatics DC 15+** |
-| **Gliding** | Maintains speed, drops 1ft per 5ft horiz | 60 ft horiz / 12 ft fall | **+2 bonus** | **Acrobatics DC 10+** |
-| **Hover / Controlled Descent** | **1/2 Fly or less** | 30 ft or static | Observation ready | **Acrobatics DC 15+** |
+| **Surge / Soar** | **4x Fly (8x Walk)** *(5x with Soar)* | 240 ft *(300 ft)* | **-4 penalty** | **Acrobatics CR 10+** (every min, cum. -1) |
+| **Diving** | **2x Current Speed** *(9x with Soar)* | Up to 480+ ft | **-4 penalty** | **Acrobatics CR 15+** |
+| **Gliding** | Maintains speed, drops 1ft per 5ft horiz | 60 ft horiz / 12 ft fall | **+2 bonus** | **Acrobatics CR 10+** |
+| **Hover / Controlled Descent** | **1/2 Fly or less** | 30 ft or static | Observation ready | **Acrobatics CR 15+** |
 
 ### Aerial Combat Rules
 - **High Ground Bonus**: Airborne combatants above grounded foes gain **+2 Strike** and **+2 Critical Threat Range**.
@@ -3386,9 +3386,9 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 | Pace | Speed Multiplier | Medium Speed (15 ft base) | Action Modifiers | Skill Check |
 | :--- | :---: | :---: | :---: | :--- |
 | **Swimming** | **1x Swim (1/2 Walk)** | 15 ft / 6s (3 kph) | Standard swim | None |
-| **Glide** | **2x Swim (1x Walk)** | 30 ft / 6s | **-2 penalty** | **Athletics (Swim) DC 10+** |
-| **Stroke** | **4x Swim (2x Walk)** | 60 ft / 6s | **-4 penalty** | **Athletics (Swim) DC 15+** |
-| **Treading** | **1/2 Swim or less** | 7.5 ft / 6s | **+2 bonus** | **Athletics (Swim) DC 5+** |
+| **Glide** | **2x Swim (1x Walk)** | 30 ft / 6s | **-2 penalty** | **Athletics (Swim) CR 10+** |
+| **Stroke** | **4x Swim (2x Walk)** | 60 ft / 6s | **-4 penalty** | **Athletics (Swim) CR 15+** |
+| **Treading** | **1/2 Swim or less** | 7.5 ft / 6s | **+2 bonus** | **Athletics (Swim) CR 5+** |
 *(Swimming Feature elevates rates to: 1x Walk [30 ft] Swim, 2x Walk [60 ft] Glide, 3x Walk [90 ft] Stroke).*
 
 ---
@@ -3397,12 +3397,12 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 
 | Pace | Base Speed Ratio | Medium Speed | Action Modifiers | Skill Check |
 | :--- | :---: | :---: | :---: | :--- |
-| **Easy Climb (DC 10+)** | **1/2 Walk** | 15 ft / 6s | Standard climb | **Athletics (Climb)** vs DC 10 |
-| **Moderate Climb (DC 15+)**| **1/4 Walk** | 7.5 ft / 6s | Challenging surface | **Athletics (Climb)** vs DC 15 |
-| **Difficult Climb (DC 20+)** | **1/10 Walk** | 3 ft / 6s | Sheer wall / ice | **Athletics (Climb)** vs DC 20 |
+| **Easy Climb (CR 10+)** | **1/2 Walk** | 15 ft / 6s | Standard climb | **Athletics (Climb)** vs CR 10 |
+| **Moderate Climb (CR 15+)**| **1/4 Walk** | 7.5 ft / 6s | Challenging surface | **Athletics (Climb)** vs CR 15 |
+| **Difficult Climb (CR 20+)** | **1/10 Walk** | 3 ft / 6s | Sheer wall / ice | **Athletics (Climb)** vs CR 20 |
 | **Scaling** | **1x Walk** | 30 ft / 6s | **-2 penalty** | Athletics (Climb) at **-5** |
 | **Fast Ascent** | **2x Walk** | 60 ft / 6s | **-4 penalty** | Athletics (Climb) at **-10** |
-| **Fast Descent** | **4x Walk** | 120 ft / 6s | **-4 penalty** | **DC 20** or Athletics at **-10** |
+| **Fast Descent** | **4x Walk** | 120 ft / 6s | **-4 penalty** | **CR 20** or Athletics at **-10** |
 *(Climbing Feature elevates rates to: 1x Walk Climb, 2x Scale, 3x Fast Ascent, 6x Fast Descent).*
 
 ---
@@ -3419,14 +3419,14 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 
 ## 6. Movement Fatigue & Exhaustion Rules
 
-- **Trigger**: Sprinting for **5 consecutive combat rounds** or **10 minutes of hurried travel** triggers a **Stamina-based Fortitude Check (DC 15)**.
+- **Trigger**: Sprinting for **5 consecutive combat rounds** or **10 minutes of hurried travel** triggers a **Stamina-based Fortitude Check (CR 15)**.
 - **Check Progression**: Checked every minute with a **cumulative -1 penalty** per successive roll.
 - **Failure Penalty**: On failure, take **1 point of non-lethal damage per 5 points missed** below the DC (or 5 flat points on standard failure).
 - **Exhaustion State**: If Vitality is reduced to 0, take **2 physical Health damage** and gain the **Exhausted** condition (**-2 to all active checks and half movement speed**) until taking a **Light Rest (Nap)**.`,
   mechanic: `GroundPaces: Walk(1x), Jog(2x), Run(4x/5x), Sprint(6x/7x)
 AerialRam: +1d per FlightStage + 1 Impact per 10ft Speed
 Exhausted: -2 to all checks, Movement Speed halved`,
-  guide: `Track pace multiples during movement actions and prompt Fortitude DC 15 checks upon sustained sprint triggers.`,
+  guide: `Track pace multiples during movement actions and prompt Fortitude CR 15 checks upon sustained sprint triggers.`,
   note: `Running, Swimming, Climbing, and Soar features augment speed multiples without increasing subtlety penalties.`
 });
 
@@ -3466,7 +3466,7 @@ Vehicular combat operates on the standard 6-second Combat Round:
   - *Depth Bands:* Surface (standard), Periscope Depth (concealment), Deep (breaches are catastrophic).
 - **Atmospheric (Aerial):**
   - *Dogfight:* Opposed Pilot checks at start of round. Winner gains **Advantage** on attacks and chooses positioning (Tail/Flank); loser is **Flat-Footed** against winner.
-  - *Stalling:* Flying below Stall Speed requires **DC 20 Pilot check** or craft enters terminal fall.
+  - *Stalling:* Flying below Stall Speed requires **CR 20 Pilot check** or craft enters terminal fall.
 - **Interstellar (Space):**
   - *Newtonian Drift:* Maintains velocity in zero-G; cut engines to drift silently (Stealth).
   - *Heat Signatures:* Firing energy weapons or thrusters flares signature (passive detection). Active ping required for "Cold" ships.
@@ -3533,12 +3533,12 @@ Rules for combat in microgravity, explosive decompression, vacuum exposure, radi
 
 ## 1. Microgravity & Zero-G Combat
 - **Newtonian Recoil:** Firing a kinetic ballistic weapon without magnetic boots or thrusters pushes the shooter backward 5 feet and imposes a **-2 penalty on subsequent attacks**.
-- **Movement:** Moving in Zero-G requires an **Athletics (Zero-G) or Acrobatics check (DC 10)** to push off surfaces. Failing the check leaves the character drifting uncontrollably.
+- **Movement:** Moving in Zero-G requires an **Athletics (Zero-G) or Acrobatics check (CR 10)** to push off surfaces. Failing the check leaves the character drifting uncontrollably.
 
 ---
 
 ## 2. Vacuum Exposure & Decompression
-- **Explosive Decompression:** Suffer 2d6 explosive trauma; immediate Fortitude save (DC 15) to avoid lung rupture.
+- **Explosive Decompression:** Suffer 2d6 explosive trauma; immediate Fortitude save (CR 15) to avoid lung rupture.
 - **Vacuum Exposure:**
   - Round 1: Gas escapes lungs; character is stunned.
   - Round 2: Blood boiling begins; takes **2d10 environmental damage** per round.
@@ -3602,7 +3602,7 @@ Unlike "Vancian" magic systems where spells are distinct, immutable memory packe
 - **Wisdom Based (Willpower and Intuition)**: Divine, Nature, Cosmic.
 - **Charisma Based (Confidence and Dominance)**: Bardic, Hereditary, Granted.`,
   mechanic: `MaxDisciplineRank = ML * 2 (Attune is not limited by ML)
-Potency = KeyAbilityMod + DisciplineSkillRank + InvocationLevel + 10 (or d20)
+Potency = KeyAbilityMod + DisciplineSkillRank + InvocationLevel + 10 (or 2d10)
 EssencePool = Sum(6 Abilities) + AttuneRank + Sum(DisciplineSkillRanks)`,
   guide: `Establish your character's Key Ability, awakened disciplines, and starting ML caps during character creation.`,
   note: `Attune is the foundation of all reality manipulation and is exempt from planetary ML restrictions.`
@@ -3635,7 +3635,7 @@ $$\\text{Potency Score} = [\\text{Key Ability} + \\text{Discipline Skill Level} 
 - **Bonus**: Invocation Levels are added directly to the Discipline Skill checks they are based on *(Invocations are considered Discipline Specializations)*.
 - **Operational Safety**: The user effectively **"Takes 10"** by default on the Discipline check:
   $$\\text{Default Potency} = \\text{Key Ability Mod} + \\text{Discipline Skill Level} + \\text{Invocation Level} + 10$$
-  *(A roll using d20 may still be attempted if a better result is desired).*
+  *(A roll using 2d10 may still be attempted if a better result is desired).*
 
 ---
 
@@ -3653,7 +3653,7 @@ $$\\text{Potency Score} = [\\text{Key Ability} + \\text{Discipline Skill Level} 
 - **Fizzle / Transposition (Discipline $\\le 0$)**: Dramatic fizzle to transposed energy.
 - **Internalized Strain (Failure)**: Failing a check deals **1 point of Non-Lethal Damage per 5 points of failure** (1d6 per 5 in free-casting). Cannot be soaked by Stamina or Armor.
 - **Fumble**: Requires a check to see if the caster suffers the effect themselves.`,
-  mechanic: `CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or d20)
+  mechanic: `CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or 2d10)
 InternalizedStrain = floor(FailureMargin / 5) * 1 NonLethal HP
 EnergySurge = Attune <= 0 -> EssenceCost * 2`,
   guide: `Use codified invocations for reliable Take 10 operational safety in combat; use free-casting for flexible narrative problem solving.`,
@@ -3683,26 +3683,26 @@ $$\\text{Essence Pool} = (\\text{Sum of all 6 Ability Scores}) + (\\text{Attune 
 
 ---
 
-## 2. The Essence Cost Scale by Base DC
+## 2. The Essence Cost Scale by Base CR
 
-The metabolic or spiritual cost of an invocation is determined by the Base DC required to activate the effect based on the environment and stress:
+The metabolic or spiritual cost of an invocation is determined by the Base CR required to activate the effect based on the environment and stress:
 
-| Difficulty | Base DC | Essence Cost | Environmental Context |
+| Difficulty | Base CR | Essence Cost | Environmental Context |
 | :--- | :---: | :---: | :--- |
-| **Very Easy** | **DC 5** | **0** | Safe areas, Sanctums, Libraries, Laboratories. |
-| **Easy** | **DC 10** | **0** | Casual travel, walking, non-hostile environments. |
-| **Average** | **DC 15** | **1** | Combat, vigorous movement, active hostility. |
-| **Difficult** | **DC 20** | **2** | Extreme activity, uncontrolled falls, crashing. |
-| **Very Difficult** | **DC 25** | **3** | High-intensity chaos, environmental catastrophes. |
-| **Nearly Impossible** | **DC 30** | **4** | Legendary feats, global reality shifts. |
-| **Miraculous** | **DC 35** | **5** | Progenitor-tier interactions (rarely for PCs). |
+| **Very Easy** | **CR 5** | **0** | Safe areas, Sanctums, Libraries, Laboratories. |
+| **Easy** | **CR 10** | **0** | Casual travel, walking, non-hostile environments. |
+| **Average** | **CR 15** | **1** | Combat, vigorous movement, active hostility. |
+| **Difficult** | **CR 20** | **2** | Extreme activity, uncontrolled falls, crashing. |
+| **Very Difficult** | **CR 25** | **3** | High-intensity chaos, environmental catastrophes. |
+| **Nearly Impossible** | **CR 30** | **4** | Legendary feats, global reality shifts. |
+| **Miraculous** | **CR 35** | **5** | Progenitor-tier interactions (rarely for PCs). |
 
 ---
 
 ## 3. Strategic Economy & Volatility
-- **The "Sanctum" Bonus**: Learned rituals performed in a laboratory (DC 5) cost **0 Essence**.
-- **The Combat Tax**: The same invocation in a firefight (DC 15) imposes an immediate **1 Essence** cost.
-- **Free-Casting Upfront**: Spontaneous effects in a Difficult environment (DC 20) require **2 Essence upfront**.
+- **The "Sanctum" Bonus**: Learned rituals performed in a laboratory (CR 5) cost **0 Essence**.
+- **The Combat Tax**: The same invocation in a firefight (CR 15) imposes an immediate **1 Essence** cost.
+- **Free-Casting Upfront**: Spontaneous effects in a Difficult environment (CR 20) require **2 Essence upfront**.
 - **Energy Surges**: If an Attune check is 0 or less, the Essence cost is **doubled**.
 
 ---
@@ -3713,7 +3713,7 @@ The metabolic or spiritual cost of an invocation is determined by the Base DC re
 - **The Burn (Life-Force Channeling)**: If an operative's Essence Pool is empty, each point of Essence needed deals **2 points of direct Health damage** (cannot be absorbed by Armor DR or Stamina).`,
   mechanic: `EssencePool = Sum(6 Abilities) + AttuneRank + Sum(DisciplineSkillRanks)
 TheBurn = 1 Essence : 2 Direct Health Damage (Bypasses DR & Stamina)
-BaseDCCosts = { DC5: 0, DC10: 0, DC15: 1, DC20: 2, DC25: 3, DC30: 4, DC35: 5 }`,
+BaseDCCosts = { CR 5: 0, CR 10: 0, CR 15: 1, CR 20: 2, CR 25: 3, CR 30: 4, CR 35: 5 }`,
   guide: `Monitor your Essence pool closely during dungeon crawls and prolonged firefights. When empty, beware The Burn.`,
   note: `The Burn inflicts non-soakable Health trauma, representing physical breakdown from channeling unshielded power.`
 });
@@ -3820,7 +3820,7 @@ The **Discipline of Entropy** governs the breakdown of systems, molecular decay,
 
 ### Level 1 Invocations
 - **Decay Touch:** Inflict rapid cellular corrosion dealing **2d6 Necrotic damage** and degrading target armor DR by 2.
-- **Jinx (Probability Curse):** Impose a **-3 penalty** on target's next two d20 rolls (Will save resists).
+- **Jinx (Probability Curse):** Impose a **-3 penalty** on target's next two 2d10 rolls (Will save resists).
 - **Disrupt Circuitry:** Cause an electronic weapon or cyber-limb to malfunction for 1 round.
 
 ### Level 2 Invocations
@@ -3838,7 +3838,7 @@ The **Discipline of Entropy** governs the breakdown of systems, molecular decay,
 - **Aura of Decay:** 30-foot aura around caster causing all incoming kinetic bullets to corrode, granting **+8 DR**.
 
 ### Level 5 Invocations
-- **Total Unmaking:** Target must make an immediate Fortitude save (DC 25) or be instantly disintegrated into fine ash.`,
+- **Total Unmaking:** Target must make an immediate Fortitude save (CR 25) or be instantly disintegrated into fine ash.`,
   mechanic: `Life Siphon: 2 Essence -> 3d6 Necrotic Damage + Heal 50%
 Entropic Blast: 3 Essence -> 5d8 Entropy Damage (Ignores Armor DR)`,
   guide: `Entropy adepts excel at bypassing high Armor DR and crippling enemy combat statistics.`,
@@ -3884,7 +3884,7 @@ The **Discipline of Illusion** governs the manipulation of light refraction, sen
   mechanic: `Invisibility: 1 Essence -> Total Concealment (+8 Stealth, Advantage on first attack)
 Holographic Decoy: 1 Essence -> 50% Miss Chance`,
   guide: `Illusion adepts excel at infiltration, social infiltration, diversion, and avoiding direct combat.`,
-  note: `True-sight cybernetic sensors roll an Investigation check against your Attune DC to see through illusions.`
+  note: `True-sight cybernetic sensors roll an Investigation check against your Attune CR to see through illusions.`
 });
 
 addArticle({
@@ -3965,7 +3965,7 @@ The **Discipline of Mental** governs telepathy, mind-reading, empathic sensing, 
 - **Synaptic Overload:** Inflict massive neural burning dealing **6d10 Psychic damage** and stunning target for 2 rounds.
 
 ### Level 5 Invocations
-- **Total Mind Seizure:** Permanently rewrite target's personality, loyalties, and core memories (Requires Will DC 25 to resist).`,
+- **Total Mind Seizure:** Permanently rewrite target's personality, loyalties, and core memories (Requires Will CR 25 to resist).`,
   mechanic: `Psychic Strike: 2 Essence -> 3d8 Psychic Damage (Bypasses Physical Armor DR)
 Domination: 4 Essence -> Full Mind Control for 1 minute (Will DC)`,
   guide: `Mental adepts dominate intelligence gathering, silent squad coordination, and disabling priority targets.`,

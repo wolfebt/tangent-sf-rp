@@ -182,7 +182,7 @@ export const CODEX_MATRICES = [
     archetypes: [
       {
         name: 'Outworld Frontier Outpost (Mudskipper)',
-        prompt: 'Ubiquitous on colonization worlds. Cheap, durable, air-droppable. Medium (10x10ft) Single Story at TL3 Plasteel (DR 20, 100 SP, DC 15, ~640 Cr) with Bunk, Comms Array, and Air-Lock.',
+        prompt: 'Ubiquitous on colonization worlds. Cheap, durable, air-droppable. Medium (10x10ft) Single Story at TL3 Plasteel (DR 20, 100 SP, CR 15, ~640 Cr) with Bunk, Comms Array, and Air-Lock.',
         preset: {
           name: 'Frontier Outpost (The "Mudskipper")',
           footprint: 'Medium',
@@ -200,7 +200,7 @@ export const CODEX_MATRICES = [
       },
       {
         name: 'The "Sand-Skimmer" (Mobile Base)',
-        prompt: 'A slow but steady ground crawler favored by Outworlds scavengers and nomads. Medium (10x10ft) Single Story TL3 with Ground Crawler propulsion treads (DC 20, ~2,560 Cr).',
+        prompt: 'A slow but steady ground crawler favored by Outworlds scavengers and nomads. Medium (10x10ft) Single Story TL3 with Ground Crawler propulsion treads (CR 20, ~2,560 Cr).',
         preset: {
           name: 'The "Sand-Skimmer" Mobile Base',
           footprint: 'Medium',
@@ -219,7 +219,7 @@ export const CODEX_MATRICES = [
       },
       {
         name: 'Syndicate Executive Penthouse',
-        prompt: 'A floating luxury pod atop a massive arcology. Huge (40x40ft) Single Story TL4 Nanocarbon (DR 30, 750 SP, DC 30, ~41,000 Cr) with Luxury Suite, Secure Vault, and Holo-Lounge.',
+        prompt: 'A floating luxury pod atop a massive arcology. Huge (40x40ft) Single Story TL4 Nanocarbon (DR 30, 750 SP, CR 30, ~41,000 Cr) with Luxury Suite, Secure Vault, and Holo-Lounge.',
         preset: {
           name: 'Syndicate Executive Penthouse',
           footprint: 'Huge',
@@ -231,12 +231,12 @@ export const CODEX_MATRICES = [
           craft_dc: 30,
           specialized_modules: ['luxury_suite', 'secure_vault', 'holodeck'],
           description: 'A floating pod atop a massive arcology. Featuring bulletproof glass, seamless white composites, and a nanocarbon frame.',
-          mechanic: 'Palatial Frame (+8 DC). Luxury Suite grants +1 Morale; Secure Vault has DR 30 walls and DC 30 hack resistance.'
+          mechanic: 'Palatial Frame (+8 CR). Luxury Suite grants +1 Morale; Secure Vault has DR 30 walls and CR 30 hack resistance.'
         }
       },
       {
         name: 'Impyrium Forward Command Bunker',
-        prompt: 'A prefabricated war-room dropped from orbit. Gargantuan (80x80ft) Single Story TL3 Duranium (DR 25, 1,600 SP, DC 32, ~70,000 Cr) with Command Center, Barracks, Micro-Fusion generator, Deflector Shields, and Vulcan Point-Defense.',
+        prompt: 'A prefabricated war-room dropped from orbit. Gargantuan (80x80ft) Single Story TL3 Duranium (DR 25, 1,600 SP, CR 32, ~70,000 Cr) with Command Center, Barracks, Micro-Fusion generator, Deflector Shields, and Vulcan Point-Defense.',
         preset: {
           name: 'Impyrium Forward Command Bunker',
           footprint: 'Gargantuan',
@@ -256,7 +256,7 @@ export const CODEX_MATRICES = [
       },
       {
         name: 'Arcology Habitat (Mega-Structure)',
-        prompt: 'A massive, self-sustaining city-state structure. Titanic (2,000x2,000ft) Skyscraper (100 Stories) TL4 Nanocarbon (15 Million SP, 1,000,000 Modules, DC 80+, ~42 Billion Cr).',
+        prompt: 'A massive, self-sustaining city-state structure. Titanic (2,000x2,000ft) Skyscraper (100 Stories) TL4 Nanocarbon (15 Million SP, 1,000,000 Modules, CR 80+, ~42 Billion Cr).',
         preset: {
           name: 'Ascendancy Solar Arcology Habitat',
           footprint: 'Titanic',
@@ -444,7 +444,7 @@ export const CODEX_MATRICES = [
       { name: 'category', label: 'Gear Category', type: 'select', options: ['Electronics', 'Medical & Pharma', 'Surveillance & Recon', 'Survival & Environmental', 'Tactical Utility', 'Data & Infiltration', 'Maintenance & Tools'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'craft_dc', label: 'Crafting DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines item market value via TSC formula' },
+      { name: 'craft_dc', label: 'Crafting CR', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines item market value via TSC formula' },
       { name: 'weight', label: 'Weight (kg)', type: 'number' },
       { name: 'cost', label: 'Credit Cost (Override)', type: 'number' },
       { name: 'availability', label: 'Market Availability', type: 'select', options: ['Everywhere', 'Common', 'Uncommon', 'Rare', 'Restricted / Military', 'Black Market Only'] },
@@ -925,7 +925,7 @@ export const CODEX_MATRICES = [
       { name: 'wielding', label: 'Wielding Configuration', type: 'select', options: ['One-Handed', 'Two-Handed', 'Versatile', 'Independent', 'Mounted / Heavy Tripod'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'craft_dc', label: 'Crafting DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines weapon credit market value via Tangent Standard Curve' },
+      { name: 'craft_dc', label: 'Crafting CR', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines weapon credit market value via Tangent Standard Curve' },
       { name: 'weight', label: 'Weight (kg)', type: 'number' },
       { name: 'ap', label: 'Armor Piercing (AP)', type: 'number' },
       { name: 'critical_score', label: 'Critical Threat Range', type: 'text', placeholder: 'E.g., 19-20 (x2)' },

@@ -21,18 +21,18 @@ export const additionalArchitectMatrices = [
 | Device Class | Operational Function | Essence / Focus Bonus | Strain Buffer | Typical Cost |
 | :--- | :--- | :---: | :---: | :---: |
 | **Psi-Amplifier Headset** | Amplifies telepathic and kinetic potency. | +2 to Attune Checks | 1 Free Strain Soak | 2,500 Cr |
-| **Aetheric Focus Crystal** | Stabilizes invocation geometric variance. | +2 Spell DC / Damage | Negates Minor Backlash | 1,200 Cr |
+| **Aetheric Focus Crystal** | Stabilizes invocation geometric variance. | +2 Spell CR / Damage | Negates Minor Backlash | 1,200 Cr |
 | **Resonance Capacitance Rig**| External storage of metaphysical Essence. | +10 Stored Essence | — | 5,000 Cr |
-| **Metashift Null-Cage** | Projects localized null-field suppressing ML. | Suppresses ML by -3 | Forces Will DC 20 | 8,000 Cr |
+| **Metashift Null-Cage** | Projects localized null-field suppressing ML. | Suppresses ML by -3 | Forces Will CR 20 | 8,000 Cr |
 | **Soul-Forged Weapon Matrix**| Infuses kinetic blade with elemental energy. | Deals +2d6 Energy damage | — | 3,500 Cr |
 
 ---
 
 ## II. Attunement & Hardware Installation
-- Installing Meta-Tech into cybernetic chassis or weapon sockets requires a combined **Engineering (Tech) DC 15** and **Attune Check DC 15**.
+- Installing Meta-Tech into cybernetic chassis or weapon sockets requires a combined **Engineering (Tech) CR 15** and **Attune Check CR 15**.
 - Incompatible resonance frequencies cause hardware overheating, dealing 1d8 Thermal damage to the wielder on a natural 1.`,
     mechanic: `Psi-Amp Bonus: +2 to Attune and Potency checks.
-Resonance Overload: Casting on a natural 1 forces a DC 15 Fortitude save to avoid equipment burnout.`,
+Resonance Overload: Casting on a natural 1 forces a CR 15 Fortitude save to avoid equipment burnout.`,
     guide: `Equip focus relics in weapon or armor sockets to enhance invocation potency.`,
     note: `Meta-Tech requires regular calibration during rest cycles.`
   },
@@ -145,7 +145,7 @@ Factions in Tangent range from local criminal syndicates to galaxy-spanning inte
 - **Neutral (0):** Standard commercial access; full scrutiny from border patrols.
 - **Hostile (-2):** Denied docking; bounty hunters and security forces actively track operative movements.
 - **At War (-4):** Shoot-on-sight across all territorial star systems.`,
-    mechanic: `Faction Standing Check: 2d10 + Charisma Mod + Faction Influence/Reputation Rank vs DC 15.
+    mechanic: `Faction Standing Check: 2d10 + Charisma Mod + Faction Influence/Reputation Rank vs CR 15.
 Bespoke Requisition: High faction standing grants discounts or access to restricted military hardware.`,
     guide: `Track faction disposition shifts in the campaign log as operatives complete or botch operations.`,
     note: `Betraying an allied faction instantly shifts standing to Hostile.`

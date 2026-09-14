@@ -501,9 +501,9 @@ export const DEFAULT_SPECIES_MOVEMENT = [
       "focus": 0,
       "ap": 0
     },
-    "description": "Maximum aerial sprint (4x Fly) requiring Acrobatics check (DC 10+) each minute.",
+    "description": "Maximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute.",
     "modifiers": [],
-    "body": "# Flying: Surge / Soar Pace (4x Fly)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nMaximum aerial sprint (4x Fly) requiring Acrobatics check (DC 10+) each minute."
+    "body": "# Flying: Surge / Soar Pace (4x Fly)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nMaximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute."
   },
   {
     "id": "species_movement-glide",
@@ -621,9 +621,9 @@ export const DEFAULT_SPECIES_MOVEMENT = [
       "focus": 0,
       "ap": 0
     },
-    "description": "Fast running pace (4x Base Walk) requiring Athletics check (DC 10+) each minute.",
+    "description": "Fast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute.",
     "modifiers": [],
-    "body": "# Ground: Running Pace (4x Base)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nFast running pace (4x Base Walk) requiring Athletics check (DC 10+) each minute."
+    "body": "# Ground: Running Pace (4x Base)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nFast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute."
   },
   {
     "id": "movement-slow-crawl",
@@ -661,9 +661,9 @@ export const DEFAULT_SPECIES_MOVEMENT = [
       "focus": 0,
       "ap": 0
     },
-    "description": "Maximum land sprint (6x Base Walk) requiring demanding Athletics check (DC 15+) each minute.",
+    "description": "Maximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute.",
     "modifiers": [],
-    "body": "# Ground: Sprinting Pace (6x Base)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nMaximum land sprint (6x Base Walk) requiring demanding Athletics check (DC 15+) each minute."
+    "body": "# Ground: Sprinting Pace (6x Base)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nMaximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute."
   },
   {
     "id": "movement-walk",
@@ -1041,9 +1041,9 @@ export const DEFAULT_SPECIES_MOVEMENT = [
       "focus": 0,
       "ap": 0
     },
-    "description": "Maximum aquatic power-stroke sprint (4x Swim) requiring Athletics DC 15+.",
+    "description": "Maximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+.",
     "modifiers": [],
-    "body": "# Swimming: Stroke Pace (4x Swim)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n\n## Description\nMaximum aquatic power-stroke sprint (4x Swim) requiring Athletics DC 15+."
+    "body": "# Swimming: Stroke Pace (4x Swim)\n\n**Category**: Species Movement (PACE)  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n\n## Description\nMaximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+."
   },
   {
     "id": "movement-swim",

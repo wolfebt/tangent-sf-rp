@@ -17,7 +17,7 @@ export const resolutionArticles = [
       '',
       '\\text{Check Result} = d20 + \\text{Skill Rank} + \\text{Linked Attribute Modifier} + \\text{Situational Modifiers}',
       '',
-      '- **Success:** If the total meets or exceeds the Target Difficulty Class (**DC**) or Opposed Defense score, the action succeeds.',
+      '- **Success:** If the total meets or exceeds the Target Challenge Rating (**DC**) or Opposed Defense score, the action succeeds.',
       '- **Failure:** If the total is less than the DC or Opposed Defense score, the action fails or introduces a narrative complication.',
       '',
       '---',
@@ -32,7 +32,7 @@ export const resolutionArticles = [
       '',
       '### 2. Unopposed Checks (Static Environmental Tasks)',
       'When a character interacts with a static object, bypasses security, or targets a stationary or surprised foe:',
-      '- Attacker rolls against a fixed **Difficulty Class (DC)** set by the Architect or determined by standard benchmarks.'
+      '- Attacker rolls against a fixed **Challenge Rating (CR)** set by the Architect or determined by standard benchmarks.'
     ].join('\n'),
     mechanic: 'Check = d20 + SkillRank + AttrMod + MiscMod\nOpposed: AttackerRoll > DefenderRoll (Defender wins on equal scores)',
     guide: 'Roll d20, add your skill rank and attribute modifier, and report the total to the Architect.',
@@ -40,21 +40,21 @@ export const resolutionArticles = [
   },
   {
     id: '2-02-difficulty-classes-challenge-ratings',
-    name: '2.02 Difficulty Classes & Challenge Ratings',
+    name: '2.02 Challenge Ratinges & Challenge Ratings',
     category: 'compendium',
     entry_type: 'Core Rule',
     parent: '2.00 CORE RESOLUTION',
     order: 2,
     description: [
-      '# 2.02 Difficulty Classes & Challenge Ratings',
+      '# 2.02 Challenge Ratinges & Challenge Ratings',
       '',
-      'Difficulty Classes (**DCs**) define the difficulty of tasks across the galaxy, ranging from routine maintenance to deific reality-shaping.',
+      'Challenge Ratinges (**DCs**) define the difficulty of tasks across the galaxy, ranging from routine maintenance to deific reality-shaping.',
       '',
       '---',
       '',
       '## Standard Benchmark DC Table',
       '',
-      '| DC | Difficulty Rating | Required Skill Level | Example Task |',
+      '| CR | Difficulty Rating | Required Skill Level | Example Task |',
       '| :---: | :--- | :--- | :--- |',
       '| **5** | Very Easy / Routine | Untrained | Climbing a sturdy ladder, driving in clear weather |',
       '| **10** | Easy / Standard | Novice (Rank 1–5) | Picking a basic padlock, basic computer file search |',
@@ -92,8 +92,8 @@ export const resolutionArticles = [
       '',
       '## Core Rules of Advantage & Disadvantage',
       '',
-      '- **Advantage:** Roll **two twenty-sided dice ($)** and take the **higher result**. Add your standard skill and attribute modifiers.',
-      '- **Disadvantage:** Roll **two twenty-sided dice ($)** and take the **lower result**. Add your standard skill and attribute modifiers.',
+      '- **Advantage:** Roll **2d10 twice** and take the **higher total** and take the **higher result**. Add your standard skill and attribute modifiers.',
+      '- **Disadvantage:** Roll **2d10 twice** and take the **higher total** and take the **lower result**. Add your standard skill and attribute modifiers.',
       '',
       '---',
       '',
@@ -194,7 +194,7 @@ export const resolutionArticles = [
       '- **GM Discretion:** Allowance and triggering of Karmic Debt effects is at the GM\'s discretion.',
       '- **Karmic Effects:** GM may impose **Disadvantage on rolls** (roll twice, take lower), force **Rerolls** on successful checks, or grant **NPC Benefits** (increased luck/skills to opponents).'
     ].join('\n'),
-    mechanic: 'BaseKarma = 3\nMaxKarmaDebt = Charisma + 1\nAdvantage = Roll 2d20, Take Highest Result\nDisadvantage = Roll 2d20, Take Lowest Result\nConditionReduction = -1 Severity Stage (Major -> Minor -> Cleared)\nSecondWind = 1 Min Focus, Replaces Light Rest',
+    mechanic: 'BaseKarma = 3\nMaxKarmaDebt = Charisma + 1\nAdvantage = Roll 2d10 with Advantage, Take Highest Result\nDisadvantage = Roll 2d10 with Advantage, Take Lowest Result\nConditionReduction = -1 Severity Stage (Major -> Minor -> Cleared)\nSecondWind = 1 Min Focus, Replaces Light Rest',
     guide: 'Declare "I Got This" before rolling; declare "Not What I Meant" immediately after rolling. Spend into Karmic Debt only during life-or-death emergencies.',
     note: 'Negative Karma grants the Architect dramatic complication triggers until the debt is worked off or reset.'
   }

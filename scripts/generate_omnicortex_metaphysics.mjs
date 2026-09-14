@@ -80,7 +80,7 @@ name: 'Essence Pool Economy, Costs & The Burn'
 category: rules
 description: >-
   The comprehensive Essence Pool calculation (Substrate + Conduit + Breadth),
-  Base DC cost scale, Sanctum bonus, Combat tax, and The Burn life-force channeling.
+  Base CR cost scale, Sanctum bonus, Combat tax, and The Burn life-force channeling.
 ${standardCostsAndSockets}
 ---
 
@@ -113,28 +113,28 @@ $$\\text{Essence Pool} = (\\text{Sum of all 6 Ability Scores}) + (\\text{Attune 
 
 ## 2. The Essence Cost Scale
 
-The metabolic or spiritual cost of an invocation is determined by the **Base DC** required to activate the effect based on the current environment and stress levels:
+The metabolic or spiritual cost of an invocation is determined by the **Base CR** required to activate the effect based on the current environment and stress levels:
 
-| Difficulty | Base DC | Essence Cost | Environmental Context |
+| Difficulty | Base CR | Essence Cost | Environmental Context |
 | :--- | :---: | :---: | :--- |
-| **Very Easy** | **DC 5** | **0 Essence** | Safe areas, Sanctums, Libraries, Laboratories. |
-| **Easy** | **DC 10** | **0 Essence** | Casual travel, walking, non-hostile environments. |
-| **Average** | **DC 15** | **1 Essence** | Combat, vigorous movement, active hostility. |
-| **Difficult** | **DC 20** | **2 Essence** | Extreme activity, uncontrolled falls, crashing. |
-| **Very Difficult** | **DC 25** | **3 Essence** | High-intensity chaos, environmental catastrophes. |
-| **Nearly Impossible** | **DC 30** | **4 Essence** | Legendary feats, global reality shifts. |
-| **Miraculous** | **DC 35** | **5 Essence** | Progenitor-tier interactions (rarely for PCs). |
+| **Very Easy** | **CR 5** | **0 Essence** | Safe areas, Sanctums, Libraries, Laboratories. |
+| **Easy** | **CR 10** | **0 Essence** | Casual travel, walking, non-hostile environments. |
+| **Average** | **CR 15** | **1 Essence** | Combat, vigorous movement, active hostility. |
+| **Difficult** | **CR 20** | **2 Essence** | Extreme activity, uncontrolled falls, crashing. |
+| **Very Difficult** | **CR 25** | **3 Essence** | High-intensity chaos, environmental catastrophes. |
+| **Nearly Impossible** | **CR 30** | **4 Essence** | Legendary feats, global reality shifts. |
+| **Miraculous** | **CR 35** | **5 Essence** | Progenitor-tier interactions (rarely for PCs). |
 
 ---
 
 ## 3. Strategic Economy & Volatility
 
 ### Operational Safety (Codified Invocations)
-- **The "Sanctum" Bonus**: Performing a learned ritual in a laboratory or sanctum (DC 5) costs **0 Essence**, as familiarity and environmental stability minimize the toll on internal reserves.
-- **The Combat Tax**: Using the exact same invocation in a firefight (DC 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst battlefield chaos.
+- **The "Sanctum" Bonus**: Performing a learned ritual in a laboratory or sanctum (CR 5) costs **0 Essence**, as familiarity and environmental stability minimize the toll on internal reserves.
+- **The Combat Tax**: Using the exact same invocation in a firefight (CR 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst battlefield chaos.
 
 ### Free-Casting & Volatility
-- Free-Casting (spontaneous metaphysics) remains high-risk: attempting a spontaneous effect in a Difficult environment (DC 20) consumes **2 Essence upfront**.
+- Free-Casting (spontaneous metaphysics) remains high-risk: attempting a spontaneous effect in a Difficult environment (CR 20) consumes **2 Essence upfront**.
 - **Failure and Feedback**: If the check fails, the Essence is consumed, and the caster suffers **Internalized Strain** (1 point of Non-Lethal damage per 5 points of failure; 1d6 per 5 points under high volatility).
 - **Energy Surges**: If an Attune result is **0 or less**, the Essence cost for that increment is **doubled** as the reservoir leaks uncontrollably into the local environment.
 
@@ -176,7 +176,7 @@ Metaphysical actions are resolved through the distinct interplay of the **Attune
 ### Free-Casting (Spontaneous)
 - Involves narrating an improvised effect within the thematic sphere of the character's active Discipline.
 - **Process**:
-  1. Make an **Attune check** to draw and channel energy (sets resistance DC or attack roll).
+  1. Make an **Attune check** to draw and channel energy (sets Resistance CR or attack roll).
   2. Make a **Discipline check** to determine severity, magnitude, and area.
 - **Risks**: High volatility; Essence is consumed upfront, and failures inflict Internalized Strain.
 
@@ -191,14 +191,14 @@ Metaphysical actions are resolved through the distinct interplay of the **Attune
 
 ## 2. Metaphysic Checks & Difficulty Scale
 
-Base DC for activating a Metafocus Discipline or Invocation:
-- **Very Easy (DC 5)**: Safe Quiet Area, Sanctum, Laboratory, Library. (0 Essence)
-- **Easy (DC 10)**: Casual, Non-Hostile Environment, Walking, Passenger in Vehicle. (0 Essence)
-- **Average (DC 15)**: Very Active or Hostile Environment, Vigorous Movement, Combat. (1 Essence)
-- **Difficult (DC 20)**: Extreme Activity, Crashing, Uncontrolled Fall. (2 Essence)
-- **Very Difficult (DC 25)**: High-Intensity Chaos, Environmental Catastrophes. (3 Essence)
-- **Nearly Impossible (DC 30)**: Legendary Feats, Global Reality Shifts. (4 Essence)
-- **Miraculous (DC 35)**: Progenitor-tier interactions (rarely for PCs). (5 Essence)
+Base CR for activating a Metafocus Discipline or Invocation:
+- **Very Easy (CR 5)**: Safe Quiet Area, Sanctum, Laboratory, Library. (0 Essence)
+- **Easy (CR 10)**: Casual, Non-Hostile Environment, Walking, Passenger in Vehicle. (0 Essence)
+- **Average (CR 15)**: Very Active or Hostile Environment, Vigorous Movement, Combat. (1 Essence)
+- **Difficult (CR 20)**: Extreme Activity, Crashing, Uncontrolled Fall. (2 Essence)
+- **Very Difficult (CR 25)**: High-Intensity Chaos, Environmental Catastrophes. (3 Essence)
+- **Nearly Impossible (CR 30)**: Legendary Feats, Global Reality Shifts. (4 Essence)
+- **Miraculous (CR 35)**: Progenitor-tier interactions (rarely for PCs). (5 Essence)
 
 ---
 
@@ -281,7 +281,7 @@ Combat involving metaphysical manifestations follows precise attack and counter-
 
 ## 1. The Attack Roll
 - **Attack Check**: **Attune** is used for the Attack Roll:
-  $$\\text{Meta Attack Roll} = d20 + \\text{Attune Rank} + \\text{Key Ability Mod} + \\text{Situational Modifiers}$$
+  $$\\text{Meta Attack Roll} = 2d10 + \\text{Attune Rank} + \\text{Key Ability Mod} + \\text{Situational Modifiers}$$
 - **Target Defense**: The defender opposes the attack using standard combat defenses (Reflex / Evasion / Will / Fortitude depending on whether the effect is a projectile, psychic blast, or bio-curse).
 - **Potency Resolution**: Damage, range, and secondary conditions are determined by the active Metafocus Skill and Invocation.
 
@@ -596,7 +596,7 @@ governing_attributes:
   - Charisma
 description: >-
   The universal conduit skill for drawing and channeling energy. Required for all Disciplines.
-  Sets Resistance/Evasion DC, resolves Attack Rolls and Opposed Countering, and expands Essence capacity.
+  Sets Resistance/Evasion CR, resolves Attack Rolls and Opposed Countering, and expands Essence capacity.
 trained_only: true
 specialties:
   - Channeling & Conduit Regulation
@@ -622,8 +622,8 @@ The universal master conduit skill for drawing, regulating, and channeling metap
 ### Core Rules & Mechanics
 - **Exempt from ML Cap**: The Attune skill is **not limited by planetary Metafocus Level (ML)**.
 - **Conduit of Essence**: Your character's permanent Attune rank is added directly to their **Essence Pool**.
-- **Resistance & Evasion DC**: Sets the difficulty for targets resisting or evading your metaphysical effects:
-  $$\\text{Target DC} = 10 + \\text{Attune Check Modifier} + \\text{Key Ability Mod}$$
+- **Resistance & Evasion CR**: Sets the difficulty for targets resisting or evading your metaphysical effects:
+  $$\\text{Target CR} = 10 + \\text{Attune Check Modifier} + \\text{Key Ability Mod}$$
 - **Meta Combat Attack Rolls**: Used for all metaphysical Strike and Attack rolls.
 - **Counter Effect**: Used in Step 1 of opposed Counter Effect checks to seize control of an incoming conduit.
 - **Concentration**: Tested when taking damage to avoid losing sustained invocations.

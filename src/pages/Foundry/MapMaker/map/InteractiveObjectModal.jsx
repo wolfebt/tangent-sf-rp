@@ -77,8 +77,8 @@ const InteractiveObjectModal = ({
 
   const handleHackCheck = () => {
     const roll = Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + parseInt(hackSkillMod, 10);
-    const targetDc = objType.hackDc || 13;
-    const isSuccess = roll >= targetDc;
+    const targetCr = objType.hackDc || 13;
+    const isSuccess = roll >= targetCr;
 
     if (isSuccess) {
       AudioService.playTerminalBeep(980, 0.2);
@@ -87,17 +87,17 @@ const InteractiveObjectModal = ({
         isHacked: true,
         doorState: 'open'
       });
-      addLog(`✅ Slicing Success: Rolled ${roll} vs DC ${targetDc}! Mainframe breached.`);
+      addLog(`✅ Slicing Success: Rolled ${roll} vs CR ${targetCr}! Mainframe breached.`);
     } else {
       AudioService.playCombatHit(false);
-      addLog(`❌ Slicing Failed: Rolled ${roll} vs DC ${targetDc}. Firewall locked.`);
+      addLog(`❌ Slicing Failed: Rolled ${roll} vs CR ${targetCr}. Firewall locked.`);
     }
   };
 
   const handleForceCheck = () => {
     const roll = Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + parseInt(strMod, 10);
-    const targetDc = objType.strengthDc || 18;
-    const isSuccess = roll >= targetDc;
+    const targetCr = objType.strengthDc || 18;
+    const isSuccess = roll >= targetCr;
 
     if (isSuccess) {
       AudioService.playCombatHit(true);
@@ -106,10 +106,10 @@ const InteractiveObjectModal = ({
         structure: 0,
         doorState: 'breached'
       });
-      addLog(`💥 Breach Success: Rolled ${roll} vs DC ${targetDc}! Bulkhead forced open.`);
+      addLog(`💥 Breach Success: Rolled ${roll} vs CR ${targetCr}! Bulkhead forced open.`);
     } else {
       AudioService.playCombatHit(false);
-      addLog(`🛡️ Breach Resisted: Rolled ${roll} vs DC ${targetDc}. Structure intact.`);
+      addLog(`🛡️ Breach Resisted: Rolled ${roll} vs CR ${targetCr}. Structure intact.`);
     }
   };
 

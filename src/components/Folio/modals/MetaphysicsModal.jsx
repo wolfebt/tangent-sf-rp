@@ -1438,7 +1438,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                                 type="button"
                                 onClick={() => handleRollInvocation(power)}
                                 className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
-                                title={`Roll 2d10 + ${calc.totalScore} vs Base DC ${calc.baseDC}`}
+                                title={`Roll 2d10 + ${calc.totalScore} vs Base CR ${calc.baseDC}`}
                               >
                                 <span>🎲</span>
                                 <span>+{calc.totalScore}</span>
@@ -1522,7 +1522,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                               </span>
                             </div>
                             <div className="flex items-center justify-between text-slate-400 pt-0.5 border-t border-slate-850">
-                              <span>Cost: <strong className="text-purple-300">{calc.baseEssenceCost} Essence</strong> (Base DC {calc.baseDC})</span>
+                              <span>Cost: <strong className="text-purple-300">{calc.baseEssenceCost} Essence</strong> (Base CR {calc.baseDC})</span>
                               <span>Target Save: <strong className="text-amber-300">DC {calc.targetSaveDC}</strong></span>
                             </div>
                           </div>
@@ -1769,7 +1769,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                         <div>Save: <span className="text-amber-300">{item.resistance}</span></div>
                         {isInv && (
                           <div className="col-span-2">
-                            Base DC {item.baseDC} ({calc.baseEssenceCost} Essence)
+                            Base CR {item.baseDC} ({calc.baseEssenceCost} Essence)
                           </div>
                         )}
                       </div>
@@ -1885,7 +1885,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Base DC Difficulty</label>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Base CR Difficulty</label>
                   <input
                     type="number"
                     value={customForm.baseDC}

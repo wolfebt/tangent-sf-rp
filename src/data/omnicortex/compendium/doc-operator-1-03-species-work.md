@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","1.03 species (work)","mechanics"]
-updatedAt: "2026-09-12T08:23:46.542Z"
+updatedAt: "2026-09-14T19:51:39.811Z"
 costs:
   bp: 0
   credits: 0
@@ -2866,7 +2866,7 @@ Swimming&nbsp;
 
 &nbsp;
 
-\*Tiburon Syndrome \- Taboo to eat mammals / red meat (fish and fowl are acceptable) induces growth in the R-Brain and changes in physical appearance \- taking a more feral appearance and with increased aggression, claws grow out on fingers and toes and an increased hunger (double to triple meat consumption \- possibly lead to cannibalism). Gains Scent ability but may berserk at the smell of blood (Rage \- Will save (DC 15\) to fight)
+\*Tiburon Syndrome \- Taboo to eat mammals / red meat (fish and fowl are acceptable) induces growth in the R-Brain and changes in physical appearance \- taking a more feral appearance and with increased aggression, claws grow out on fingers and toes and an increased hunger (double to triple meat consumption \- possibly lead to cannibalism). Gains Scent ability but may berserk at the smell of blood (Rage \- Will save (CR 15\) to fight)
 
 &nbsp;
 
@@ -6048,7 +6048,7 @@ Resistance \- Heat 10
 
 **Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.
 
-Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of DC10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).&nbsp;
+Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of CR 10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).&nbsp;
 
 Many quite enjoy feeding and have learned to gain additional energy from it.
 
@@ -6454,7 +6454,7 @@ Integrated Severe Augmentations
 
 **BP Cost:**&nbsp;
 
-**Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require DC 30, Technical Scanner with a DC 25 and Biomed Scanners with a DC 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
+**Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require CR 30, Technical Scanner with a CR 25 and Biomed Scanners with a CR 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
 
 &nbsp;
 

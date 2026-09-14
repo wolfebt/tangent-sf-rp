@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. technology, augmentations matrix","matrix"]
-updatedAt: "2026-09-12T08:23:46.550Z"
+updatedAt: "2026-09-14T19:51:39.821Z"
 costs:
   bp: 0
   credits: 0
@@ -56,7 +56,7 @@ The augmentation system provides a progression from basic prosthetics to god-lik
 1. **Build Points (BP)**: Represents neurological and biological capacity. Standard mods cost 2 BP. Specialized traits or simple options cost 1 BP.  
 2. **Nodes**: Represents the physical mass and room available in a limb or organ. If a body part's Node capacity is exceeded, the part malfunctions or suffers structural failure. Typically, Structure Points (SP) are matched 1-to-1 with Node Capacity.  
 3. **Sockets**: Standardized hardpoints for modular gear and internal upgrades. Limb-based sockets are often pre-determined by the chassis. Internally will take 10 nodes per socket integrated.  
-4. **Credits (Cr)**: The financial cost of hardware and surgery. Calculated via the formula: Value \= 10 \* 4^(DC/5).
+4. **Credits (Cr)**: The financial cost of hardware and surgery. Calculated via the formula: Value \= 10 \* 4^(CR / 5).
 
 ### 
 
@@ -99,7 +99,7 @@ The augmentation system provides a progression from basic prosthetics to god-lik
 
 These modifications are so prevalent they are considered basic personal choices. They do not require the Augmented Feature.
 
-| Augment | Stage | Effect/Description | DC | Cost (Cr) |
+| Augment | Stage | Effect/Description | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- |
 | **ID Chip** | (Negligible) | Subdermal identity, licenses, and banking. | 5 | 40 |
 | **Skinwatch** | (Negligible) | Subdermal LED timepiece and calendar. | 5 | 40 |
@@ -134,7 +134,7 @@ This category covers the replacement of limbs and organs with synthetic counterp
 
 Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital housings which receive a Hardening Multiplier.
 
-| Replacement Component | Stage | SP (Health) | Nodes | Sockets | DC | Cost (Cr) |
+| Replacement Component | Stage | SP (Health) | Nodes | Sockets | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Hand** | (Negligible) | 5 | 5 | 0 | 16 | 844 |
 | **Forearm**&nbsp; | (Negligible) | 10 | 10 | 2\* | 20 | 2,560 |
@@ -156,7 +156,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ### **4.2 Hand & Foot Options (1 BP Per Option)**
 
-| Option | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Option | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Hammer Fist**&nbsp; | (Standard) | 1d8 Blunt Unarmed Damage. | 2 | 15 | 640 |
 | **Blade Fist / Claws**&nbsp; | (Standard) | 1d8 Slashing; Retractable. | 1 | 15 | 640 |
@@ -176,7 +176,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ### **4.3 Limb Upgrades (1 BP Per Upgrade)**
 
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Armor Plating** | (Standard) | Tiered DR 10 / 20 / 40 (Heavy). | 5 | 15 | \+15% Base |
 | **Hydraulic Rams**&nbsp; | (Standard) | \+2/+4/+6 (Heavy) Strength for Grapple/Damage only. | 8 | 25 | 10,240 |
@@ -190,7 +190,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 | **Sectional Joint**&nbsp; | (Standard) | Limb can detach (requires CPU). | 3 | 20 | 2,560 |
 | **Telescoping Limb** | (Heavy) | Grants \+5ft Reach. | 4 | 20 | 2,560 |
 | **Micro-Missile Launcher**&nbsp; | (Heavy) | Holds 4 mini-missiles (Arm/Shoulder). | 5 | 25 | 10,240 |
-| **Skinlike / Synthskin**&nbsp; | (Standard) | Looks real (DC 25 Awareness to spot). | 0 | 25 | 10,240 |
+| **Skinlike / Synthskin**&nbsp; | (Standard) | Looks real (CR 25 Awareness to spot). | 0 | 25 | 10,240 |
 | **Jump Boost (Legs)**&nbsp; | (Heavy) | \+10 to Jump checks (Requires Pair). | 4 | 20 | 2,560 |
 | **Speed Boost (Legs)**&nbsp; | (Standard) | \+10/+20/+30 Ground Move (Requires Pair). | 5 | 25 | 10,240+ |
 
@@ -198,12 +198,12 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ### **4.4 Exotic Limbs (TL 4\)**
 
-| Augment | Stage | Modifier | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Modifier | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
-| **Synth Tentacle**&nbsp; | (Negligible) | As Synth Arm, \+100% Cost, \+10 DC. | 15 | 35 | 163,840 |
+| **Synth Tentacle**&nbsp; | (Negligible) | As Synth Arm, \+100% Cost, \+10 CR. | 15 | 35 | 163,840 |
 | **Digitigrade Leg**&nbsp; | (Negligible) | As Synth Leg, \+25% Cost. | 15 | 20 | 2,560 |
-| **Insectoid Limb**&nbsp; | (Negligible) | As Synth Arm/Leg, \+50% Cost, \+5 DC. | 12 | 25 | 10,240 |
-| **Synth Wing**&nbsp; | (Negligible) | As Leg (Flight), \+100% Cost, \+5 DC. | 20 | 30 | 40,960 |
+| **Insectoid Limb**&nbsp; | (Negligible) | As Synth Arm/Leg, \+50% Cost, \+5 CR. | 12 | 25 | 10,240 |
+| **Synth Wing**&nbsp; | (Negligible) | As Leg (Flight), \+100% Cost, \+5 CR. | 20 | 30 | 40,960 |
 
 ## 
 
@@ -227,7 +227,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 *\*30 from torso and 5 from auxiliary locations. Powered armor increases external socket capacity overall by 3 (typically torso-back/shoulders).*
 
-| Augment | Stage | Effect/Description | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect/Description | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Air Supply**&nbsp; | (Standard) | Internal compressed air; 60 mins of Oxygen. | 5 | 15 | 640 |
 | **Anti-Shock** | (Standard) | Electricity Resistance 10, Augments impervious. | 4 | 20 | 2,560 |
@@ -265,7 +265,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 **Standard BP Cost: 2 BP**
 
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Nightvision**&nbsp; | (Standard) | Night Vision 60ft. | 2 | 15 | 640 |
 | **Ocular Drone**&nbsp; | (Standard) | Cyber-eye detaches to act as remote spy cam. | 3 | 25 | 10,240 |
@@ -294,7 +294,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 **Standard BP Cost: 2 BP**
 
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Neural Processor**&nbsp; | (Standard) | Foundation for CPU mods; \+1 Logic. | 3 | 15 | 640 |
 | **Ghost Jack**&nbsp; | (Standard) | Interface for digitized consciousness chips. | 2 | 25 | 10,240 |
@@ -319,7 +319,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 **Immune to Massive Damage/EMP | Standard BP Cost: 2 BP**
 
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Body Conversion**&nbsp; | (Extreme) | Non-Typical Anatomy \+ Synth chassis use. | 30 | 30 | 40,960 |
 | **Chameleon Skin**&nbsp; | (Standard) | Active camo-weave. \+4 Stealth (Stationary). | 4 | 25 | 10,240 |
@@ -364,7 +364,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 **Apex Technology | Standard BP Cost: 1 BP (1/2 Cost)**
 
-| Augment | Stage | Effect | BP | DC | Cost (Cr) |
+| Augment | Stage | Effect | BP | CR | Cost (Cr) |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Matter Recon Forge**&nbsp; | (Extreme) | Resurrects from single cell in 1d4 days. | 5 | 40 | 655,360 |
 | **Phase Shift Gen**&nbsp; | (Extreme) | Temporary intangibility to bypass matter. | 4 | 35 | 163,840 |
@@ -437,7 +437,7 @@ Non-permanent, external harnesses that provide mechanical advantages without sur
 * **Standard Interface**: Wearables (0 BP) require an **Interface Port** (Internal or External) to sync with neural impulses. Without a port, the item suffers \-2 to all associated checks, checks at disadvantage or it is not usable at all, in addition to any security options.  
 * **Limitations**: One wearable item per primary body location. External sockets cannot exceed 1 per 10 Nodes of base capacity.
 
-| Augment | Location | Nodes | DC | Cost (Cr) | Description |
+| Augment | Location | Nodes | CR | Cost (Cr) | Description |
 | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Exo-Harness** | Torso | 25 | 15 | 640 | Strength & Armor frame. \+1 Strength, DR 10\. |
 | **Battle Gauntlet** | Arm | 8 (Each) | 5 | 40 | Reinforced gauntlet. 1d6 Blunt. DR 10\. Single or pair. |
@@ -508,43 +508,43 @@ Symbiotes are independent or semi-independent living organisms engineered to bon
 
 Grafts are vat-grown limbs, organs, or carapaces surgically attached to the host.
 
-* **Integration:** Grafting can be performed via TL4 Medical Surgery (Requires 1d4+1 weeks of recovery) or instantly via the **Grafting Invocation** (Matter: Transmutation DC 20).  
+* **Integration:** Grafting can be performed via TL4 Medical Surgery (Requires 1d4+1 weeks of recovery) or instantly via the **Grafting Invocation** (Matter: Transmutation CR 20).  
 * **Mechanic:** Grafts replace biological baseline parts. They are seamless and often indistinguishable from the host's natural body unless specifically engineered for a visibly alien aesthetic (e.g., grafting a Draconic arm onto a Human).
 
 ### **4.3 Genetic Modifications (Retroviruses & Mutations)**
 
 Unlike physical additions, genetic mods alter the host's DNA to naturally develop new traits.
 
-* **Integration:** Injected via retroviral serums or triggered by the **Mutation Invocation** (Matter: Transmutation DC 18).  
+* **Integration:** Injected via retroviral serums or triggered by the **Mutation Invocation** (Matter: Transmutation CR 18).  
 * **Mechanic:** Grants access to standard Species Features (e.g., *Low-Light Vision, Water Breathing, Claws, Exoskeleton*) for species that do not naturally possess them. These are paid for via BP or high Credit costs.
 
 ## **5\. CATALOG OF BIOLOGICAL MATRIX**
 
-Below are examples of standard Biological Augmentations, utilizing the TL, Node, DC, and Value metrics of the unified Tangent economy.
+Below are examples of standard Biological Augmentations, utilizing the TL, Node, CR, and Value metrics of the unified Tangent economy.
 
 ### **Bio-Weapons & Offense**
 
 **Symbiotic Venom Gland**
 
-* **Location:** Head (Jaw) or Arm (Wrist) | **Nodes:** 5 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Head (Jaw) or Arm (Wrist) | **Nodes:** 5 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** A parasitic gland that synthesizes potent toxins.  
 * **Mechanic:** Grants the *Venom* Species Feature. The host can coat a weapon or deliver the toxin via bite/spit. Generates 3 doses per day.
 
 **Bone-Spur Extrusions (Wolverine Claws)**
 
-* **Location:** Arm (Forearm) | **Nodes:** 5 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Arm (Forearm) | **Nodes:** 5 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Genetically enforced osteogenesis allowing the host to extend dense, calcified blades from their knuckles or wrists.  
 * **Mechanic:** 1d6 Piercing/Slashing damage. Retractable. Undetectable by security scanners when retracted.
 
 **Myomeric Tendril Grafts**
 
-* **Location:** Torso (Back/Shoulders) | **Nodes:** 15 | **TL:** 4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Torso (Back/Shoulders) | **Nodes:** 15 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** Two heavily muscled, prehensile tentacles spliced into the host's spinal column, mimicking the natural biology of the Sefalin.  
 * **Mechanic:** Grants the *Prehensile Tentacles* feature. Can be used to make Unarmed strikes (1d4 Blunt, Reach 10ft) and grants Advantage on all Grapple checks.
 
 **Acid-Spitter Gland**
 
-* **Location:** Head (Throat) | **Nodes:** 5 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Head (Throat) | **Nodes:** 5 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** A bio-engineered sac placed near the esophagus that produces a highly corrosive, binary liquid.  
 * **Mechanic:** Ranged Unarmed Attack (Range 15ft). Deals 1d6 Corrosive damage. Can melt through standard constraints (handcuffs, ropes) in 1 round.
 
@@ -552,19 +552,19 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 
 **Sub-Dermal Chitin Plating**
 
-* **Location:** Torso / Full Body | **Nodes:** 20 | **TL:** 4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Torso / Full Body | **Nodes:** 20 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** The host's skin is genetically sequenced to grow a flexible, impact-resistant chitinous layer just beneath the epidermis (similar to the Auluran/Thorn natural defenses).  
 * **Mechanic:** Grants the *Exoskeleton (Light)* feature. DR equal to Strength Doubled. Does not stack with worn armor.
 
 **Redundant Vital Organs**
 
-* **Location:** Torso | **Nodes:** 15 | **TL:** 4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Torso | **Nodes:** 15 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** Cloned backup organs (secondary heart, tertiary lung) grafted into the chest cavity.  
 * **Mechanic:** Grants Advantage on Fortitude saves against toxins, diseases, and exhaustion. If the host suffers a Critical Hit that would normally destroy a vital organ, the redundant organ takes over, reducing the effect to Disabled instead of Destroyed.
 
 **Impact-Reactive Adipose Tissue**
 
-* **Location:** Full Body | **Nodes:** 15 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Full Body | **Nodes:** 15 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** A thick, slightly gelatinous layer of fat and connective tissue that hardens instantly upon kinetic impact.  
 * **Mechanic:** Grants Resistance 5 vs. Blunt damage. The host also gains Advantage on Stamina checks to resist environmental cold.
 
@@ -572,25 +572,25 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 
 **Aether-Leech Symbiote**
 
-* **Location:** Spine / Nervous System | **Nodes:** 10 | **TL:** 5 | **DC:** 25 | **Value:** 10,240 Cr  
+* **Location:** Spine / Nervous System | **Nodes:** 10 | **TL:** 5 | **CR:** 25 | **Value:** 10,240 Cr  
 * **Description:** A glowing, bio-luminescent parasite that feeds on the Universal Resonance.  
 * **Mechanic:** Acts as an Essence Battery. Stores up to 5 points of Essence that the host can draw upon for Invocations or Symbiotic Meta-Tech. Regenerates 1 Essence per day from ambient background radiation.
 
 **Chromatophore Skin Graft**
 
-* **Location:** Full Body Skin | **Nodes:** 10 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Full Body Skin | **Nodes:** 10 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Pigment-containing, light-reflecting cells grafted into the dermal layer, mimicking the biology of a cephalopod.  
 * **Mechanic:** Grants the *Chameleon* Species Feature. The host can actively shift their skin color and pattern to blend into their environment, gaining \+4 to Stealth checks when stationary.
 
 **Echolocation Cavity**
 
-* **Location:** Head | **Nodes:** 5 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Head | **Nodes:** 5 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** A surgically widened sinus cavity and altered vocal cords that allow the host to emit high-frequency clicks, inspired by Mobula sensory biology.  
 * **Mechanic:** Grants the *Blindsense (Sound)* feature within a 30ft radius. The host can operate without penalty in absolute darkness so long as they can emit sound.
 
 **Pheromone Synthesizer**
 
-* **Location:** Torso (Skin Glands) | **Nodes:** 5 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Torso (Skin Glands) | **Nodes:** 5 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Exocrine glands spliced into the sweat pores that secrete highly potent, mood-altering pheromones.  
 * **Mechanic:** The host gains a \+2 Bonus to specific Manipulation skills (Diplomacy, Bluff, or Handle Animal) against biological targets within 15ft.
 
@@ -598,19 +598,19 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 
 **Amphibious Lung Graft**
 
-* **Location:** Torso | **Nodes:** 10 | **TL:** 4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Torso | **Nodes:** 10 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Spliced amphibian tissue that lines the lungs and trachea, allowing the body to extract oxygen directly from water.  
 * **Mechanic:** Grants the *Water Breathing* feature. The host can survive underwater indefinitely without environmental gear.
 
 **Photosynthetic Skin Splicing**
 
-* **Location:** Full Body Skin | **Nodes:** 10 | **TL:** 4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Full Body Skin | **Nodes:** 10 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** An adaptation of Thorn biology, embedding chloroplast-like cells into the host's epidermis. The skin takes on a faint greenish or cyan hue.  
 * **Mechanic:** Grants the *Chloroplast* feature. The host only requires 1/4th the normal caloric intake of food, provided they spend at least 4 hours a day in direct sunlight or high-intensity UV light.
 
 **Toxin-Filter Liver**
 
-* **Location:** Torso | **Nodes:** 10 | **TL:** 4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Torso | **Nodes:** 10 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** A heavily augmented, vat-grown liver designed specifically for high-risk chemical environments and espionage.  
 * **Mechanic:** Grants *Poison Immunity*. The host automatically succeeds on Fortitude saves against ingested or injected non-magical poisons and narcotics.
 
@@ -618,13 +618,13 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 
 **Hive-Mind Node Symbiote**
 
-* **Location:** Head (Cerebral Cortex) | **Nodes:** 5 | **TL:** 5 | **DC:** 25 | **Value:** 10,240 Cr  
+* **Location:** Head (Cerebral Cortex) | **Nodes:** 5 | **TL:** 5 | **CR:** 25 | **Value:** 10,240 Cr  
 * **Description:** A microscopic, psionically resonant parasite originally derived from Riezen bio-swarms. It nests in the brain stem and reaches out to similar organisms.  
 * **Mechanic:** Grants the *Mind Link* feature with any other willing creature that possesses the exact same symbiote. The link has a planetary range and cannot be jammed by conventional TL3-TL4 electronic countermeasures.
 
 **Adrenal Hyper-Gland**
 
-* **Location:** Torso (Kidneys) | **Nodes:** 5 | **TL:** 4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Torso (Kidneys) | **Nodes:** 5 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** A spliced adrenal gland that can be consciously triggered to flood the host's system with combat stimulants.  
 * **Mechanic:** Once per day, as a Swift Action, the host can activate the gland to gain the *Mighty Surge* feature (+4 to Strength/Agility checks and saving throws for 1 minute). When the effect ends, the host suffers 1 level of Exhaustion/Fatigue.
 
@@ -667,7 +667,7 @@ Standard Meta-Tech is scaled by Sockets. When implanting Meta-Tech into a biolog
 
 Meta-Augs cannot be built from standard materials. They adhere to the Economic Unified Field Theory:
 
-* **Passive Enhancements** (e.g., Tattoos of Protection) require *Resonance Crystals*. DC \= Base Item DC \+ (Sockets Used x 5).  
+* **Passive Enhancements** (e.g., Tattoos of Protection) require *Resonance Crystals*. CR \= Base Item CR \+ (Sockets Used x 5).  
 * **Active Imbuements** (e.g., Psi-Crystal Blasters) require *Aetherium*. Raw materials always cost 50% of the final market Value.
 
 **Tech Level (TL) and Meta Level (ML) Synergy:**
@@ -704,25 +704,25 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 
 **Psi-Implant (Third-Eye Node)**
 
-* **Location:** Head (Cerebral Cortex) | **Nodes:** 10 (1 Socket) | **TL/ML:** 4/4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Head (Cerebral Cortex) | **Nodes:** 10 (1 Socket) | **TL/ML:** 4/4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** A surgically grown and implanted psycho-reactive lobe that forcibly stimulates the pineal gland. Often visibly glowing beneath the skin of the forehead.  
 * **Mechanic:** Grants the *Awakened (Mental)* feature and access to psionic abilities for a character who does not naturally possess them. If the character is already Awakened, it provides \+10 bonus Essence points specifically reserved for Mental Invocations.
 
 **Aether-Node Implant**
 
-* **Location:** Spine / Brain Stem | **Nodes:** 10 (1 Socket) | **TL/ML:** 5/4 | **DC:** 25 | **Value:** 10,240 Cr  
+* **Location:** Spine / Brain Stem | **Nodes:** 10 (1 Socket) | **TL/ML:** 5/4 | **CR:** 25 | **Value:** 10,240 Cr  
 * **Description:** A pinnacle-tier synthetic connection directly linking the host's nervous system to the Universal Resonance (The Aether).  
 * **Mechanic:** Grants access to one specific Metafocus Discipline (e.g., Energy, Matter, Dimension) without requiring the biological Awakened feature. The user utilizes their Intellect attribute for all power checks and scaling.
 
 **Feat Plexus (Metaphysical Neural Socket)**
 
-* **Location:** Head / Upper Spine | **Nodes:** 10 (1 Socket) | **TL/ML:** 5/5 | **DC:** 30 | **Value:** 40,960 Cr  
+* **Location:** Head / Upper Spine | **Nodes:** 10 (1 Socket) | **TL/ML:** 5/5 | **CR:** 30 | **Value:** 40,960 Cr  
 * **Description:** A supreme piece of Cyber-Occult engineering. A physical metallic port grafted to the spine that accepts encoded Aether-chips.  
 * **Mechanic:** Allows the user to run up to 4 simultaneous "Feature Circuits." The user can swap out Aether-chips (requiring 1 minute) to temporarily gain access to high-tier metaphysical Talents, Skill Features, or Invocations that they do not permanently own.
 
 **Temporal Stutter Drive**
 
-* **Location:** Head (Cerebral Cortex) | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 5/5 | **DC:** 35 | **Value:** 163,840 Cr  
+* **Location:** Head (Cerebral Cortex) | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 5/5 | **CR:** 35 | **Value:** 163,840 Cr  
 * **Description:** A localized reality disruption module. It uses immense Aetherium reserves to fracture the time stream directly around the user's localized consciousness.  
 * **Mechanic:** Once per day, as a Swift Action, the user triggers a *Time Stop*. The user takes one complete extra turn while the rest of the universe is frozen. The user can move, use items, or cast buff/utility invocations, but cannot deal direct damage or move other creatures during this frozen turn.
 
@@ -730,13 +730,13 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 
 **Ocular Resonance Matrix (Ethersight Lenses)**
 
-* **Location:** Head (Eyes) | **Nodes:** 5 (0.5 Sockets) | **TL/ML:** 4/4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Head (Eyes) | **Nodes:** 5 (0.5 Sockets) | **TL/ML:** 4/4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** Synthetic or faceted crystal lenses that replace the biological eyes, hardwired to perceive the flow of Conscious Light.  
 * **Mechanic:** Grants the *Ethersight* and *Acute Sense (Vision)* features. The user can clearly see invisible or phased creatures, magical auras, and the lingering residue of recently cast Invocations within 60 feet.
 
 **Echo-Chamber Tympanum**
 
-* **Location:** Head (Ears) | **Nodes:** 5 (0.5 Sockets) | **TL/ML:** 3/4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Head (Ears) | **Nodes:** 5 (0.5 Sockets) | **TL/ML:** 3/4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** An intricate gold-and-bone filigree replacement for the inner ear structure, enchanted with Mental and Dimensional properties.  
 * **Mechanic:** Grants *Uncanny Sense (Hearing)*. Additionally, the user can spend 1 Essence to actively "listen" to the psychic residue of a room, gaining impressions of strong emotions or telepathic conversations that occurred within the last 24 hours.
 
@@ -744,25 +744,25 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 
 **Aegis Runes (Tattoos of Warding)**
 
-* **Location:** Torso or Full Body | **Nodes:** 10 (1 Socket) | **TL/ML:** 2/3 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Torso or Full Body | **Nodes:** 10 (1 Socket) | **TL/ML:** 2/3 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Intricate, geometric tattoos inked using crushed Resonance Crystals. They glow faintly with Entropy (Order) energy when struck.  
 * **Mechanic:** A Passive Enhancement granting the host Damage Resistance. Functions identically to the *Stoneskin* or *Force Armor* invocations. Grants a permanent DR 5 against physical (Kinetic/Blunt/Slashing) damage.
 
 **Conduit Scarification (Energy Channeling)**
 
-* **Location:** Arms (Both) | **Nodes:** 10 per arm | **TL/ML:** 2/4 | **DC:** 20 | **Value:** 2,560 Cr  
+* **Location:** Arms (Both) | **Nodes:** 10 per arm | **TL/ML:** 2/4 | **CR:** 20 | **Value:** 2,560 Cr  
 * **Description:** Ritualistic scars filled with conductive gold and Aetherium paste. Favored by Vajar Battle-Mages and Alterian spell-swords.  
 * **Mechanic:** Acts as a Symbiotic Interface. Grants a \+2 Bonus to Attune checks for a specific Energy Discipline (e.g., Fire, Lightning). Furthermore, the user's Unarmed strikes deal an additional 1d6 damage of that specific energy type.
 
 **Null-Void Sigils (Anti-Magic Tattoos)**
 
-* **Location:** Full Body | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 2/5 | **DC:** 25 | **Value:** 10,240 Cr  
+* **Location:** Full Body | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 2/5 | **CR:** 25 | **Value:** 10,240 Cr  
 * **Description:** Sweeping, jagged tattoos made with void-touched ink sourced from the Shadow Plane. They act as a grounding rod against the Universal Resonance.  
 * **Mechanic:** Grants Advantage on all Saving Throws against Invocations and Meta-Tech effects. However, due to the nullifying nature of the ink, the user cannot be targeted by beneficial Invocations (Healing, Buffs) unless they take a Standard Action to mentally suppress the tattoos' effect for one round.
 
 **Beast-Spirit Totem Inks**
 
-* **Location:** Chest or Back | **Nodes:** 10 (1 Socket) | **TL/ML:** 2/3 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Chest or Back | **Nodes:** 10 (1 Socket) | **TL/ML:** 2/3 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Primal artwork depicting a specific apex predator, animated by trapped dimensional/spiritual energy.  
 * **Mechanic:** Active Imbuement. The user can spend 1 Essence as a Swift Action to animate the tattoo. For 1 minute, the user glows with an ethereal overlay of the beast, gaining the *Mighty Surge* and *Natural Weapons* (1d6 damage) features.
 
@@ -770,35 +770,35 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 
 **Sun-Fire Vambraces (Impyrium Relic Design)**
 
-* **Location:** Arms (Forearms) | **Nodes:** 10 each arm (2 Sockets) | **TL/ML:** 4/4 | **DC:** 25 | **Value:** 10,240 Cr  
+* **Location:** Arms (Forearms) | **Nodes:** 10 each arm (2 Sockets) | **TL/ML:** 4/4 | **CR:** 25 | **Value:** 10,240 Cr  
 * **Description:** Golden, seamless forearm plating infused with living crystal, channeling the Energy (Fire) Discipline directly from the user's pulse.  
 * **Mechanic:** Active Imbuement. Allows the user to cast a Rank 10 Energy (Fire) Blast without requiring the Invocation skill. Deals 3d6 \+ Intellect/Wisdom modifier in Fire damage (Range: Medium). Costs 1 Essence per shot.
 
 **Dimensional Tear Gland**
 
-* **Location:** Head (Throat/Mouth) or Hand (Palm) | **Nodes:** 10 (1 Socket) | **TL/ML:** 5/5 | **DC:** 30 | **Value:** 40,960 Cr  
+* **Location:** Head (Throat/Mouth) or Hand (Palm) | **Nodes:** 10 (1 Socket) | **TL/ML:** 5/5 | **CR:** 30 | **Value:** 40,960 Cr  
 * **Description:** A horrific and highly illegal graft that embeds a micro-singularity focus into the body, allowing the user to weaponize Tangent space.  
-* **Mechanic:** Once per day, or by expending 5 Essence, the user can trigger a *Dimension (Teleport)* attack. The user projects a localized spatial anomaly at a target within Close range. The target must make a DC 20 Reflex save or be banished into a pocket dimension for 1d4 rounds, returning disoriented and suffering 2d6 cold damage from the void.
+* **Mechanic:** Once per day, or by expending 5 Essence, the user can trigger a *Dimension (Teleport)* attack. The user projects a localized spatial anomaly at a target within Close range. The target must make a CR 20 Reflex save or be banished into a pocket dimension for 1d4 rounds, returning disoriented and suffering 2d6 cold damage from the void.
 
 ### **Structural & Systemic Overlays**
 
 **Shadow-Glass Bone Lacing**
 
-* **Location:** Full Skeleton | **Nodes:** 20 (2 Sockets) | **TL/ML:** 4/4 | **DC:** 25 | **Value:** 10,240 Cr  
+* **Location:** Full Skeleton | **Nodes:** 20 (2 Sockets) | **TL/ML:** 4/4 | **CR:** 25 | **Value:** 10,240 Cr  
 * **Description:** A Kovian Tribunal specialty. The host's marrow is infused with a liquid state of obsidian and Void energy, darkening their blood and hardening their bones.  
 * **Mechanic:** The user gains the *Energy Resistance (Necrotic/Shadow)* feature. Additionally, due to the light-absorbing nature of the void energy, the user gains a permanent \+2 bonus to all Stealth checks, and their physical mass no longer registers on standard thermal imaging.
 
 **Telekinetic Anchor Crystals**
 
-* **Location:** Legs / Calves | **Nodes:** 10 (1 Socket) | **TL/ML:** 4/4 | **DC:** 15 | **Value:** 640 Cr  
+* **Location:** Legs / Calves | **Nodes:** 10 (1 Socket) | **TL/ML:** 4/4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Deep blue lapis-lazuli matrices grafted onto the shin bones. They constantly project a localized gravitational tether.  
 * **Mechanic:** A Passive Enhancement utilizing the Dimension/Force disciplines. The user gains a \+10 bonus to Stability checks against being knocked prone, tripped, or forcibly moved. The user takes half damage from falling, as the crystals automatically assert telekinetic drag upon high-velocity descent.
 
 **Aether-Pump Heart**
 
-* **Location:** Torso (Heart) | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 4/5 | **DC:** 35 | **Value:** 163,840 Cr  
+* **Location:** Torso (Heart) | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 4/5 | **CR:** 35 | **Value:** 163,840 Cr  
 * **Description:** The ultimate biological replacement. The host's biological heart is removed and replaced with a spinning, frictionless Aetherium crystal turbine that pumps liquid resonance through the veins instead of blood.  
-* **Mechanic:** The user no longer ages and gains the *Ageless* and *Regeneration* (1 HP per minute) features. The user's Vitality maximum is permanently increased by \+20. However, the user becomes critically vulnerable to anti-magic: entering an established Null-Void field or being struck by a targeted Metaphysical EMP forces a DC 20 Fortitude save, or the user drops immediately to 0 Health.
+* **Mechanic:** The user no longer ages and gains the *Ageless* and *Regeneration* (1 HP per minute) features. The user's Vitality maximum is permanently increased by \+20. However, the user becomes critically vulnerable to anti-magic: entering an established Null-Void field or being struck by a targeted Metaphysical EMP forces a CR 20 Fortitude save, or the user drops immediately to 0 Health.
 
 &nbsp;
 

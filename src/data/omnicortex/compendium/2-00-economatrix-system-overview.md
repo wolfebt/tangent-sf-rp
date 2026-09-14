@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-2","economatrix","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -54,12 +54,12 @@ The Tangent Economatrix bridges abstract **Wealth Scores (WS)** representing sus
 ## 2. Liquid Currency & Denominations
 - **Credit (Cr):** The universal interstellar fiat currency backed by standard energy and refined mineral reserves.
 - **Mega-Credit (MCr):** $1\text{ MCr} = 1,000,000\text{ Credits}$. Used for starship hull construction, orbital station leasing, and planetary corporate acquisitions.
-- **Crafting DC Formula:** Value $= 10 \times 4^{(\text{DC}/5)}$ Credits.
+- **Crafting CR Formula:** Value $= 10 \times 4^{(\text{DC}/5)}$ Credits.
 
 ## Game Mechanics Rules
 ```
 Liquid Credits: Transactional currency for purchasing equipment, bribes, black market mods.
-Wealth Score Check: Static check (no roll required). If Item Crafting/Purchase DC <= Wealth Score, item is acquired immediately. If DC > WS, must roll or pool funds.
+Wealth Score Check: Static check (no roll required). If Item Crafting/Purchase CR <= Wealth Score, item is acquired immediately. If DC > WS, must roll or pool funds.
 ```
 
 ## Gameplay Instructions

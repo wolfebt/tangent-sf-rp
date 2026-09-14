@@ -220,7 +220,7 @@ const AoEResolutionModal = ({
               <span>{preset.icon}</span> {preset.label}
             </span>
             <span className="font-mono text-[11px] text-cyan-300">
-              Base: {preset.baseDamage} Dmg | Save: {preset.saveType} DC {preset.saveDc} | Shape: {preset.shape.toUpperCase()}
+              Base: {preset.baseDamage} Dmg | Save: {preset.saveType} DC {preset.saveCr} | Shape: {preset.shape.toUpperCase()}
             </span>
           </div>
           <p className="text-[11px] text-slate-400">{preset.description}</p>
@@ -266,7 +266,7 @@ const AoEResolutionModal = ({
                         </span>
                       </div>
                       <span className="text-[10px] text-slate-400 font-mono">
-                        Save Roll: <span className={outcome.saved ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>{outcome.saveRoll} vs DC {outcome.saveDc}</span>
+                        Save Roll: <span className={outcome.saved ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>{outcome.saveRoll} vs CR {outcome.saveCr}</span>
                         {outcome.saved ? ' (Passed -50%)' : ' (Failed Full Dmg)'}
                       </span>
                     </div>

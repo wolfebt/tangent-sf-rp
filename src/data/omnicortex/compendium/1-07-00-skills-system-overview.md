@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -35,13 +35,13 @@ sockets:
 
 # 1.07.00 Skills System & Benchmark DCs
 
-Skills in Tangent represent formal education, physical conditioning, tradecraft, and instinctual reflexes. All skill checks use the universal d20 engine.
+Skills in Tangent represent formal education, physical conditioning, tradecraft, and instinctual reflexes. All skill checks use the universal 2d10 engine.
 
 ---
 
 ## The Skill Check Formula
 
-$$\text{Skill Check} = d20 + \text{Skill Rank} + \text{Associated Attribute Mod} + \text{Situational Modifiers}$$
+$$\text{Skill Check} = 2d10 + \text{Skill Rank} + \text{Associated Attribute Mod} + \text{Situational Modifiers}$$
 
 ---
 
@@ -59,7 +59,7 @@ $$\text{Skill Check} = d20 + \text{Skill Rank} + \text{Associated Attribute Mod}
 
 ---
 
-## Universal Target Difficulty Classes (DCs)
+## Universal Target Challenge Ratings (CRs)
 
 | DC Rating | Difficulty | Example Task |
 | :---: | :--- | :--- |
@@ -73,7 +73,7 @@ $$\text{Skill Check} = d20 + \text{Skill Rank} + \text{Associated Attribute Mod}
 
 ## Game Mechanics Rules
 ```
-SkillCheck = d20 + SkillRank + AttributeMod + SituationalMod vs DC
+SkillCheck = 2d10 + SkillRank + AttributeMod + SituationalMod vs CR
 Creation Cap: Rank 6 recommended, Rank 11 maximum
 ```
 

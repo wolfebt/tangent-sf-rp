@@ -45,11 +45,11 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
   const targetSize = parseInt(targetToken.sizeModifier || 0, 10); // Target size reduces DC if large, increases if small
   const coverBonus = targetToken.inCover ? (targetToken.coverType === 'full' ? 5 : 2) : 0;
   const evasionBonus = targetToken.isEvasive ? 2 : 0;
-  const totalDefenseDc = Math.max(5, targetBaseDef - targetSize + coverBonus + evasionBonus);
+  const totalDefenseCr = Math.max(5, targetBaseDef - targetSize + coverBonus + evasionBonus);
 
   // CRITICAL CANONICAL RULE: "DEFENDER WINS ALL TIES"
-  const isHit = totalAttack > totalDefenseDc && !isFumble;
-  const margin = totalAttack - totalDefenseDc;
+  const isHit = totalAttack > totalDefenseCr && !isFumble;
+  const margin = totalAttack - totalDefenseCr;
 
   // 3. Damage Calculation
   // Formula: (Weapon Dice + Ability Mod + Precision) - (Target Armor DR + Target CON Mod)
@@ -131,14 +131,14 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
 
   let resultSummary = '';
   if (isHit) {
-    resultSummary = `🎯 HIT! (${totalAttack} vs DC ${totalDefenseDc}) on ${location.toUpperCase()} for ${effectiveDamage} DMG [${targetHp} → ${newHp} HP]`;
+    resultSummary = `🎯 HIT! (${totalAttack} vs CR ${totalDefenseCr}) on ${location.toUpperCase()} for ${effectiveDamage} DMG [${targetHp} → ${newHp} HP]`;
     if (entersMortalityState) {
       resultSummary += isTargetDead ? ' 💀 TARGET KILLED!' : ` ⚠️ MORTALITY STATE! Bleeding Out [${remainingStability}/${maxStabilityPoints} Stability]`;
     } else if (statusInflicted) {
       resultSummary += ` • ${statusInflicted}`;
     }
   } else {
-    resultSummary = `💨 MISS! (${totalAttack} vs DC ${totalDefenseDc} - Defender Wins)`;
+    resultSummary = `💨 MISS! (${totalAttack} vs CR ${totalDefenseCr} - Defender Wins)`;
   }
 
   return {
@@ -150,7 +150,7 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     d2,
     baseRoll,
     totalAttack,
-    defenseDc: totalDefenseDc,
+    defenseDc: totalDefenseCr,
     isHit,
     isTriumph,
     isFumble,

@@ -727,7 +727,7 @@ const PerceptionEssenceMovementModal = ({
                 <div className="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
                   <div className="text-slate-300 text-[11px]">
                     {isDead && <span className="text-red-400">Hero is deceased. Revivification invokes The High Cost of Dying (-All Karma, -5 AP Debt).</span>}
-                    {atDeathsDoor && <span className="text-rose-300">Hero is Comatose at Death's Door! Apply Medicine DC 15 check or healing tech.</span>}
+                    {atDeathsDoor && <span className="text-rose-300">Hero is Comatose at Death's Door! Apply Medicine CR 15 check or healing tech.</span>}
                     {isIncapacitated && <span className="text-amber-300">Hero is unconscious at 0 Health, but buffered by remaining Vitality.</span>}
                   </div>
 
@@ -739,7 +739,7 @@ const PerceptionEssenceMovementModal = ({
                           onClick={() => stabilizeCharacter && stabilizeCharacter({ hasHealingEffect: true })}
                           className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-600 text-white rounded text-[10.5px] font-bold uppercase tracking-wider border border-emerald-400 transition-colors cursor-pointer"
                         >
-                          🩹 Stabilize (DC 15)
+                          🩹 Stabilize (CR 15)
                         </button>
                         <button
                           type="button"
@@ -1471,7 +1471,7 @@ const PerceptionEssenceMovementModal = ({
                   <thead>
                     <tr className="border-b border-slate-800 text-[10px] uppercase text-slate-400 bg-slate-900/60">
                       <th className="py-2 px-3">Difficulty Tier</th>
-                      <th className="py-2 px-2 text-center">Base DC</th>
+                      <th className="py-2 px-2 text-center">Base CR</th>
                       <th className="py-2 px-2 text-center font-bold text-purple-300">Essence Cost</th>
                       <th className="py-2 px-3">Environmental Context</th>
                     </tr>
@@ -1549,7 +1549,7 @@ const PerceptionEssenceMovementModal = ({
                   Hero Locomotion &amp; Speed Telemetry
                 </span>
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-amber-950 border border-amber-600/50 text-amber-300 font-bold">
-                  Fatigue Save: Fortitude {fortitudeTotal >= 0 ? `+${fortitudeTotal}` : fortitudeTotal} (DC 15)
+                  Fatigue Save: Fortitude {fortitudeTotal >= 0 ? `+${fortitudeTotal}` : fortitudeTotal} (CR 15)
                 </span>
               </div>
 
@@ -1666,7 +1666,7 @@ const PerceptionEssenceMovementModal = ({
                           {walkSpeed * 4} ft ({Math.round(walkSpeed * 4 * 0.3)}m)
                         </td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Requires <strong>Athletics DC 10+</strong> every minute of sustained exertion</td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Requires <strong>Athletics CR 10+</strong> every minute of sustained exertion</td>
                       </tr>
                       <tr className="hover:bg-slate-900/40">
                         <td className="py-2 px-3 font-bold text-rose-400">Sprinting</td>
@@ -1675,7 +1675,7 @@ const PerceptionEssenceMovementModal = ({
                           {walkSpeed * 6} ft ({Math.round(walkSpeed * 6 * 0.3)}m)
                         </td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-8 Penalty</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Maximum burst; <strong>Athletics DC 15+</strong>. Triggers Fatigue Save after 5 rounds!</td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Maximum burst; <strong>Athletics CR 15+</strong>. Triggers Fatigue Save after 5 rounds!</td>
                       </tr>
                       <tr className="hover:bg-slate-900/40">
                         <td className="py-2 px-3 font-bold text-slate-300">Crawl</td>
@@ -1740,28 +1740,28 @@ const PerceptionEssenceMovementModal = ({
                         <td className="py-2 px-2 text-center font-mono text-slate-400">4.0x Fly (8x Walk)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{flyBaseSpeed * 4} ft ({Math.round(flyBaseSpeed * 4 * 0.3)}m)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Rapid pursuit &amp; intercept; <strong>Acrobatics DC 10+</strong> every min (5x with Soar trait)</td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Rapid pursuit &amp; intercept; <strong>Acrobatics CR 10+</strong> every min (5x with Soar trait)</td>
                       </tr>
                       <tr className="hover:bg-slate-900/40">
                         <td className="py-2 px-3 font-bold text-rose-400">Diving</td>
                         <td className="py-2 px-2 text-center font-mono text-slate-400">2.0x Current (Up to 8x Fly)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">Up to {flyBaseSpeed * 8} ft ({Math.round(flyBaseSpeed * 8 * 0.3)}m)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Steep high-speed power dive; requires <strong>Acrobatics DC 15+</strong> (9x with Soar trait)</td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Steep high-speed power dive; requires <strong>Acrobatics CR 15+</strong> (9x with Soar trait)</td>
                       </tr>
                       <tr className="hover:bg-slate-900/40">
                         <td className="py-2 px-3 font-bold text-emerald-300">Gliding</td>
                         <td className="py-2 px-2 text-center font-mono text-slate-400">Maintains Forward Speed</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{flyBaseSpeed} ft ({Math.round(flyBaseSpeed * 0.3)}m)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-emerald-400">+2 Bonus</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Controlled descent; drops 1 ft per 5 ft horizontal; <strong>Acrobatics DC 10+</strong></td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Controlled descent; drops 1 ft per 5 ft horizontal; <strong>Acrobatics CR 10+</strong></td>
                       </tr>
                       <tr className="hover:bg-slate-900/40">
                         <td className="py-2 px-3 font-bold text-slate-300">Hover / Controlled Descent</td>
                         <td className="py-2 px-2 text-center font-mono text-slate-400">1/2 Fly or Less (Static)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{Math.round(flyBaseSpeed * 0.5)} ft or 0 ft</td>
                         <td className="py-2 px-2 text-center text-slate-400">Baseline (0)</td>
-                        <td className="py-2 px-3 text-slate-400 text-[11px]">Holding stationary altitude; <strong>Acrobatics DC 15+</strong> (unless possessing native hover)</td>
+                        <td className="py-2 px-3 text-slate-400 text-[11px]">Holding stationary altitude; <strong>Acrobatics CR 15+</strong> (unless possessing native hover)</td>
                       </tr>
                     </tbody>
                   </table>
@@ -1826,21 +1826,21 @@ const PerceptionEssenceMovementModal = ({
                         <td className="py-2 px-2 text-center font-mono text-slate-400">2.0x Swim (1.0x Walk)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{swimBaseSpeed * 2} ft ({Math.round(swimBaseSpeed * 2 * 0.3)}m)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-2 Penalty</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Hurried swimming pace; requires <strong>Athletics (Swimming) DC 10+</strong></td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Hurried swimming pace; requires <strong>Athletics (Swimming) CR 10+</strong></td>
                       </tr>
                       <tr className="hover:bg-slate-900/40">
                         <td className="py-2 px-3 font-bold text-orange-400">Stroke</td>
                         <td className="py-2 px-2 text-center font-mono text-slate-400">4.0x Swim (2.0x Walk)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{swimBaseSpeed * 4} ft ({Math.round(swimBaseSpeed * 4 * 0.3)}m)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Full power stroke exertion; requires <strong>Athletics (Swimming) DC 15+</strong></td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Full power stroke exertion; requires <strong>Athletics (Swimming) CR 15+</strong></td>
                       </tr>
                       <tr className="hover:bg-slate-900/40">
                         <td className="py-2 px-3 font-bold text-emerald-300">Treading</td>
                         <td className="py-2 px-2 text-center font-mono text-slate-400">1/2 Swim or Less</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{Math.round(swimBaseSpeed * 0.5 * 10) / 10} ft</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-emerald-400">+2 Bonus</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Maintaining surface position; +2 to actions; <strong>Athletics (Swimming) DC 5+</strong></td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Maintaining surface position; +2 to actions; <strong>Athletics (Swimming) CR 5+</strong></td>
                       </tr>
                     </tbody>
                   </table>
@@ -1872,7 +1872,7 @@ const PerceptionEssenceMovementModal = ({
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                     <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-emerald-300">Easy (DC 10+)</span>
+                        <span className="font-bold text-emerald-300">Easy (CR 10+)</span>
                         <span className="font-mono text-cyan-300 font-bold">{Math.round(walkSpeed * 0.5)} ft/rd</span>
                       </div>
                       <div className="text-[9px] text-slate-500 font-mono mt-0.5">1/2 Walking Speed</div>
@@ -1881,7 +1881,7 @@ const PerceptionEssenceMovementModal = ({
 
                     <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-amber-300">Moderate (DC 15+)</span>
+                        <span className="font-bold text-amber-300">Moderate (CR 15+)</span>
                         <span className="font-mono text-cyan-300 font-bold">{Math.round(walkSpeed * 0.25)} ft/rd</span>
                       </div>
                       <div className="text-[9px] text-slate-500 font-mono mt-0.5">1/4 Walking Speed</div>
@@ -1890,7 +1890,7 @@ const PerceptionEssenceMovementModal = ({
 
                     <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-rose-300">Difficult (DC 20+)</span>
+                        <span className="font-bold text-rose-300">Difficult (CR 20+)</span>
                         <span className="font-mono text-cyan-300 font-bold">{Math.max(1, Math.round(walkSpeed * 0.1))} ft/rd</span>
                       </div>
                       <div className="text-[9px] text-slate-500 font-mono mt-0.5">1/10 Walking Speed</div>
@@ -1931,7 +1931,7 @@ const PerceptionEssenceMovementModal = ({
                         <td className="py-2 px-2 text-center font-mono text-slate-400">4.0x Walk</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{walkSpeed * 4} ft ({Math.round(walkSpeed * 4 * 0.3)}m)</td>
                         <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                        <td className="py-2 px-3 text-slate-300 text-[11px]">Descending at quadruple speed; <strong>DC 20 Athletics (Climb)</strong> or <strong>-10 penalty</strong></td>
+                        <td className="py-2 px-3 text-slate-300 text-[11px]">Descending at quadruple speed; <strong>CR 20 Athletics (Climb)</strong> or <strong>-10 penalty</strong></td>
                       </tr>
                     </tbody>
                   </table>
@@ -2014,15 +2014,15 @@ const PerceptionEssenceMovementModal = ({
                 <div className="bg-slate-950 p-3 rounded-lg border border-rose-900/60 space-y-1.5">
                   <div className="font-bold text-rose-300 font-mono text-[11px]">1. Fatigue Check Triggers</div>
                   <ul className="list-disc pl-4 space-y-1 text-slate-300 text-[11px]">
-                    <li><strong>Sprint Trigger:</strong> 5 consecutive combat rounds of sprinting forces an immediate <strong>Stamina Fortitude Check (DC 15)</strong>.</li>
-                    <li><strong>Hurried Travel:</strong> 10 minutes of hurried travel forces an immediate <strong>Stamina Fortitude Check (DC 15)</strong>.</li>
+                    <li><strong>Sprint Trigger:</strong> 5 consecutive combat rounds of sprinting forces an immediate <strong>Stamina Fortitude Check (CR 15)</strong>.</li>
+                    <li><strong>Hurried Travel:</strong> 10 minutes of hurried travel forces an immediate <strong>Stamina Fortitude Check (CR 15)</strong>.</li>
                   </ul>
                 </div>
 
                 <div className="bg-slate-950 p-3 rounded-lg border border-rose-900/60 space-y-1.5">
                   <div className="font-bold text-amber-300 font-mono text-[11px]">2. Failure Penalties &amp; Damage</div>
                   <ul className="list-disc pl-4 space-y-1 text-slate-300 text-[11px]">
-                    <li><strong>Vitality Damage:</strong> Failure inflicts <strong>5 points of Non-Lethal Vitality damage</strong> (+1 pt per 5 points missed below DC 15).</li>
+                    <li><strong>Vitality Damage:</strong> Failure inflicts <strong>5 points of Non-Lethal Vitality damage</strong> (+1 pt per 5 points missed below CR 15).</li>
                     <li><strong>Exhaustion Condition:</strong> When Vitality hits 0, takes <strong>2 Health damage</strong> and gains <strong>Exhausted</strong> (-2 to all active checks, 1/2 move speed) until taking a <strong>Light Rest (Nap)</strong>.</li>
                   </ul>
                 </div>

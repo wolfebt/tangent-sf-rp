@@ -59,11 +59,11 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
   - CR 15 is modified by Target Size, Range, and Movement Speed.
 - **Engine Implementation Target:** `diceService.js`, `tacticalVitalsAndDice.test.mjs`, `bastionMechanics.test.mjs`.
 
-### `RULE-RES-02`: Challenge Rating (CR) & Difficulty Class (DC) Ladder
+### `RULE-RES-02`: Challenge Rating (CR) Benchmark Ladder
 - **Domain:** Resolution & Dice
 - **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`
 - **Standard Difficulty Table:**
-  | Difficulty Tier | DC / CR | Description & Environmental Context |
+  | Difficulty Tier | CR | Description & Environmental Context |
   | :--- | :---: | :--- |
   | **Very Easy** | 5 | Safe, quiet area; controlled laboratory; no pressure. |
   | **Easy** | 10 | Casual, non-hostile conditions; simple maintenance. |
@@ -93,7 +93,7 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
 - **Mechanics:**
   - **Advantage:** Roll damage or check dice twice and take the higher total (e.g., Point-Blank ballistic shots, Sneak Attacks against unaware targets).
   - **Disadvantage:** Roll dice twice and take the lower total (e.g., severe encumbrance, sensory blind firing).
-  - Syntax supported in BASTION Dice Dock: `/roll 2d20kh1+mod`, `/roll 2d10kh1+mod`.
+  - Syntax supported in BASTION Dice Dock: `/roll 2d10+mod`, `/roll 2d10kh1+mod`.
 
 ### `RULE-RES-05`: Karma Points Economy & The 6 Canonical Spending Actions
 - **Domain:** Resolution & Dice
@@ -330,7 +330,7 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
 - **Threshold Formulas:**
   - **Disabled Limb ($\ge 1/3\text{ Max Health}$):**
     - Suffer $\ge 1/3$ of max Health in a single strike to a limb disables it (or causes Unconsciousness if to Head).
-    - Requires Stamina Check ($\text{DC } 10 + \text{Damage Taken}$) to continue using the limb.
+    - Requires Stamina Check ($\text{CR } 10 + \text{Damage Taken}$) to continue using the limb.
     - Penalties: $-4$ to all actions (Head), $-4\text{ STR/AGI}$ (Arm), Halved Ground Speed & no sprinting (Leg).
   - **Destroyed Limb ($\ge 2/3\text{ Max Health}$):**
     - Suffer $\ge 2/3$ of max Health to a location mangles, severs, or vaporizes it beyond use.
@@ -347,7 +347,7 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
   - **Stability Point Pool:**
     $$\text{Stability Points} = \text{Constitution (Stamina) Score} + 5$$
   - When Stability Points reach $0$, the operative undergoes clinical death.
-  - **Stabilization:** Bleeding out ceases upon receiving a successful **Medicine Check (DC 15)** or metaphysical healing.
+  - **Stabilization:** Bleeding out ceases upon receiving a successful **Medicine Check (CR 15)** or metaphysical healing.
 
 ### `RULE-CMB-07`: Ranged Fire, Distance Bands & Automatic Fire
 - **Domain:** Tactical Combat
@@ -448,22 +448,22 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
 - **Domain:** Economatrix
 - **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`
 - **The Universal Valuation Equation:**
-  $$\text{Market Value (Credits)} = 10 \times 4^{(\text{Crafting DC} / 5)}$$
+  $\text{Market Value (Credits)} = 10 \times 4^{(\text{Crafting CR} / 5)}$
 - **Standard Milestone Values:**
-  - $\text{DC } 0$: $10\text{ Credits}$ (Raw scrap / basic ration).
-  - $\text{DC } 5$: $40\text{ Credits}$ (Hand tool / common blade).
-  - $\text{DC } 10$: $160\text{ Credits}$ (Sidearm / light armor).
-  - $\text{DC } 15$: $640\text{ Credits}$ (Standard Ballistic Assault Rifle).
-  - $\text{DC } 20$: $2,560\text{ Credits}$ (Military Plasma Rifle).
-  - $\text{DC } 25$: $10,240\text{ Credits}$ (Advanced Cybernetic Rig / Heavy Exosuit).
-  - $\text{DC } 30$: $40,960\text{ Credits}$ (Combat Vehicle / Prototype Emitter).
+  - $\text{CR } 0$: $10\text{ Credits}$ (Raw scrap / basic ration).
+  - $\text{CR } 5$: $40\text{ Credits}$ (Hand tool / common blade).
+  - $\text{CR } 10$: $160\text{ Credits}$ (Sidearm / light armor).
+  - $\text{CR } 15$: $640\text{ Credits}$ (Standard Ballistic Assault Rifle).
+  - $\text{CR } 20$: $2,560\text{ Credits}$ (Military Plasma Rifle).
+  - $\text{CR } 25$: $10,240\text{ Credits}$ (Advanced Cybernetic Rig / Heavy Exosuit).
+  - $\text{CR } 30$: $40,960\text{ Credits}$ (Combat Vehicle / Prototype Emitter).
 
 ### `RULE-ECO-02`: The Golden Rule of Tangent Wealth
 - **Domain:** Economatrix
 - **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`
 - **Rule Text:**
-  $$\text{Purchase DC} = \text{Crafting DC} \le \text{Wealth Score}$$
-  - A character may automatically requisition/purchase any item whose Crafting DC is less than or equal to their Wealth Score without depleting liquid credits or reducing their Wealth Score.
+  $\text{Purchase CR} = \text{Crafting CR} \le \text{Wealth Score}$
+  - A character may automatically requisition/purchase any item whose Crafting CR is less than or equal to their Wealth Score without depleting liquid credits or reducing their Wealth Score.
 
 ### `RULE-ECO-03`: Universal Cost Equation (Tech & Meta Multipliers)
 - **Domain:** Economatrix
@@ -504,7 +504,7 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
 - **Domain:** Metaphysics
 - **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`
 - **The Triad Structure:**
-  1. **Attune Skill:** General energy drawing and channeling skill. Sets the **Difficulty Class (DC)** of the resistance or attack check.
+  1. **Attune Skill:** General energy drawing and channeling skill. Sets the **Challenge Rating (CR)** of the resistance or attack check.
   2. **Discipline Skill:** Manipulates metaphysical patterns. Sets **Severity and Damage Dice**.
   3. **Invocations:** Codified muscle memory. Invocations allow casters to **"Take 10"** by default on Discipline checks for operational safety.
 
@@ -512,8 +512,8 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
 - **Domain:** Metaphysics
 - **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`
 - **Potency Formula:**
-  $$\text{Potency Score} = \text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \quad \text{(or } d20\text{)}$$
-  - Casters Take 10 by default to prevent catastrophic failure during tactical operations. They may opt to roll $d20$ or $2d10$ when attempting higher results.
+  $\text{Potency Score} = \text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \quad \text{(or } 2d10\text{)}$
+  - Casters Take 10 by default to prevent catastrophic failure during tactical operations. They may opt to roll $2d10$ when attempting higher results.
 
 ### `RULE-META-03`: The 6 Core Disciplines
 - **Domain:** Metaphysics
@@ -612,7 +612,7 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
 - **Domain:** Environmental Hazards
 - **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`
 - **Rules:**
-  - **Zero-G Maneuvering:** Requires **Reflex Check (DC 14)** when executing abrupt directional thrust maneuvers; failure results in tumbling and $-4\text{ to-hit}$.
+  - **Zero-G Maneuvering:** Requires **Reflex Check (CR 14)** when executing abrupt directional thrust maneuvers; failure results in tumbling and $-4\text{ to-hit}$.
   - **Inertial Drift:** Unanchored movement continues unabated in a straight vector each round until reverse thrusters or solid impact occurs.
   - **Vacuum Decompression:** Biological entities exposed to hard vacuum lose all VP instantly and suffer $2\text{ HP damage per round}$ from explosive decompression and hypoxia.
 
@@ -627,7 +627,7 @@ When adjudicating disputes or generating content, BASTION adheres to this strict
   | **Disarmed** | Drops held weapon/item $1d6\text{ ft}$ away. | Action required to retrieve weapon. |
   | **Hobbled** | Movement speed reduced by $50\%$; cannot jump or charge. | 1 round per point failed on Might Save. |
   | **Prone** | $-2\text{ Strike}$ in melee; $+2\text{ Def}$ vs ranged; granting $+2$ to melee attackers. | Move action ($15\text{ ft speed}$) to stand. |
-  | **Disoriented** | $-2$ to all cognitive, perception, and ranged attack checks. | Medicine check DC 12 or 2 rounds. |
+  | **Disoriented** | $-2$ to all cognitive, perception, and ranged attack checks. | Medicine check CR 12 or 2 rounds. |
   | **Incapacitated** | Cannot take any actions; drops objects; automatically hit in melee. | Recovery from 0 HP or resuscitation. |
   | **Blind / Deaf** | Ranged attacks suffer Disadvantage; automatic failure on vision checks. | Cyber-repair or metaphysical restoration. |
 
@@ -640,7 +640,7 @@ This matrix cross-references every rule with its implementation status in the Ta
 | Rule ID | Rule Title | Primary Source Citation | Codebase Implementation Location | Automated Test File | Implementation Status |
 | :--- | :--- | :--- | :--- | :--- | :---: |
 | `RULE-RES-01` | 2d10 Dual Resolution Standard | `3.00 COMBAT.md § Core` | `src/services/diceService.js`, `bastionService.js` | `bastionMechanics.test.mjs` | **FULL** |
-| `RULE-RES-02` | CR / DC Difficulty Ladder | `2.00 ECONOMATRIX.md` | `src/data/mechanicsData.js`, `omnicortexVectorRag.ts` | `bastionMechanics.test.mjs` | **FULL** |
+| `RULE-RES-02` | Challenge Rating (CR) Ladder | `2.00 ECONOMATRIX.md` | `src/data/mechanicsData.js`, `omnicortexVectorRag.ts` | `bastionMechanics.test.mjs` | **FULL** |
 | `RULE-RES-03` | Criticals & Natural 20/2 | `3.00 COMBAT.md § Criticals` | `src/services/diceService.js` | `bastionMechanics.test.mjs` | **FULL** |
 | `RULE-RES-04` | Advantage / Disadvantage | `src/data/omnicortex/rules/` | `src/services/diceService.js` (`kh1` notation) | `bastionMechanics.test.mjs` | **FULL** |
 | `RULE-RES-05` | Karma Points 6 Spending Actions | `2.04 KARMA POINTS & FATE` | `src/data/mechanicsData.js`, `omnicortexVectorRag.ts` | `bastionMechanics.test.mjs` | **FULL** |
@@ -669,8 +669,8 @@ This matrix cross-references every rule with its implementation status in the Ta
 | `RULE-SCL-01` | 14 Size Tiers & Multipliers | `1.10 SCALING.md` | `src/engines/tangentScalingEngine.js`, `mechanicsData.js`| `bastionMechanics.test.mjs` | **FULL** |
 | `RULE-SCL-02` | Starship Proximity Blast ($1/10$)| `1.10 SCALING.md` | `src/data/mechanicsData.js` | `bastionMechanics.test.mjs` | **FULL** |
 | `RULE-SCL-03` | Meta-Tech Chassis Scaling | `1.10 SCALING.md § Meta-Tech` | `src/data/mechanicsData.js` | `bastionMechanics.test.mjs` | **FULL** |
-| `RULE-ECO-01` | Tangent Standard Curve ($10 \cdot 4^{DC/5}$)| `2.00 ECONOMATRIX.md § 2.2` | `src/data/mechanicsData.js`, `omnicortexVectorRag.ts` | `bastionMechanics.test.mjs` | **FULL** |
-| `RULE-ECO-02` | Golden Rule: Purchase DC = Craft DC | `2.00 ECONOMATRIX.md § 3.1` | `src/data/mechanicsData.js` | `bastionMechanics.test.mjs` | **FULL** |
+| `RULE-ECO-01` | Tangent Standard Curve ($10 \cdot 4^{CR/5}$)| `2.00 ECONOMATRIX.md § 2.2` | `src/data/mechanicsData.js`, `omnicortexVectorRag.ts` | `bastionMechanics.test.mjs` | **FULL** |
+| `RULE-ECO-02` | Golden Rule: Purchase CR = Crafting CR | `2.00 ECONOMATRIX.md § 3.1` | `src/data/mechanicsData.js` | `bastionMechanics.test.mjs` | **FULL** |
 | `RULE-ECO-03` | Cost $= \text{Base} \cdot (2^{TL}) \cdot (1.5^{ML})$| `2.00 ECONOMATRIX.md` | `src/services/omnicortexVectorRag.ts` | `bastionService.js` | **FULL** |
 | `RULE-ECO-04` | Tech Levels (TL 0–5) | `2.00 ECONOMATRIX.md § 2.01` | `src/data/omnicortex/rules/`, `omnicortexVectorRag.ts` | `stage2.test.mjs` | **FULL** |
 | `RULE-ECO-05` | 7-Tier Crafting Timetables | `2.00 ECONOMATRIX.md § 4.01` | `src/data/mechanicsData.js` | `bastionMechanics.test.mjs` | **FULL** |

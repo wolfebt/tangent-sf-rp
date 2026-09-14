@@ -13,10 +13,10 @@ export const CANONICAL_AOE_PRESETS = [
     baseDamage: 14,
     damageType: 'lethal',
     saveType: 'Reflex',
-    saveDc: 14,
+    saveCr: 14,
     falloff: true,
     appliedCondition: 'Prone',
-    description: 'High-explosive shrapnel burst. Core zone takes 14 lethal damage; outer perimeter takes 7 damage. Reflex DC 14 for half.'
+    description: 'High-explosive shrapnel burst. Core zone takes 14 lethal damage; outer perimeter takes 7 damage. Reflex CR 14 for half.'
   },
   {
     id: 'plasma_grenade',
@@ -27,10 +27,10 @@ export const CANONICAL_AOE_PRESETS = [
     baseDamage: 18,
     damageType: 'lethal',
     saveType: 'Reflex',
-    saveDc: 15,
+    saveCr: 15,
     falloff: false,
     appliedCondition: 'Burning',
-    description: 'Superheated thermal plasma blast. Inflicts 18 lethal damage and inflicts Burning condition. Reflex DC 15 for half.'
+    description: 'Superheated thermal plasma blast. Inflicts 18 lethal damage and inflicts Burning condition. Reflex CR 15 for half.'
   },
   {
     id: 'flamethrower_sweep',
@@ -42,10 +42,10 @@ export const CANONICAL_AOE_PRESETS = [
     baseDamage: 12,
     damageType: 'lethal',
     saveType: 'Reflex',
-    saveDc: 13,
+    saveCr: 13,
     falloff: false,
     appliedCondition: 'Burning',
-    description: '60° sweeping jet of liquid promethium. Inflicts 12 lethal damage and sets targets Burning. Reflex DC 13 for half.'
+    description: '60° sweeping jet of liquid promethium. Inflicts 12 lethal damage and sets targets Burning. Reflex CR 13 for half.'
   },
   {
     id: 'particle_lance',
@@ -57,7 +57,7 @@ export const CANONICAL_AOE_PRESETS = [
     baseDamage: 22,
     damageType: 'lethal',
     saveType: 'Reflex',
-    saveDc: 16,
+    saveCr: 16,
     falloff: false,
     appliedCondition: null,
     description: 'Coherent particle beam penetrating all targets in a linear vector for 22 lethal AP 6 damage.'
@@ -71,10 +71,10 @@ export const CANONICAL_AOE_PRESETS = [
     baseDamage: 16,
     damageType: 'concussive',
     saveType: 'Fortitude',
-    saveDc: 14,
+    saveCr: 14,
     falloff: true,
     appliedCondition: 'Stunned',
-    description: 'Acoustic shockwave splitting 50/50 between Vitality and Health, knocking targets Prone and Stunned on failed Fort DC 14.'
+    description: 'Acoustic shockwave splitting 50/50 between Vitality and Health, knocking targets Prone and Stunned on failed Fort CR 14.'
   },
   {
     id: 'hazard_plasma_leak',
@@ -85,7 +85,7 @@ export const CANONICAL_AOE_PRESETS = [
     baseDamage: 6,
     damageType: 'lethal',
     saveType: 'Reflex',
-    saveDc: 12,
+    saveCr: 12,
     falloff: false,
     appliedCondition: 'Burning',
     description: 'Environmental hazard tile. Inflicts 6 thermal lethal damage and Burning to any token entering or ending turn inside.'
@@ -99,7 +99,7 @@ export const CANONICAL_AOE_PRESETS = [
     baseDamage: 4,
     damageType: 'lethal',
     saveType: 'Fortitude',
-    saveDc: 15,
+    saveCr: 15,
     falloff: false,
     appliedCondition: 'RadioactiveSickness',
     description: 'Environmental radiation leak. Inflicts 4 direct unsoakable lethal trauma and Radioactive Sickness.'
@@ -245,7 +245,7 @@ export const resolveAoEImpact = (preset, affectedResults = [], options = {}) => 
       ? customSaveRolls[token.id]
       : (Math.floor(Math.random() * 10) + 1 + Math.floor(Math.random() * 10) + 1 + saveBonus);
 
-    const saved = rollTotal >= preset.saveDc;
+    const saved = rollTotal >= preset.saveCr;
     const saveModifier = saved ? 0.5 : 1.0;
 
     const damageAfterSave = Math.ceil(rawDamage * saveModifier);
@@ -277,7 +277,7 @@ export const resolveAoEImpact = (preset, affectedResults = [], options = {}) => 
       zone,
       rawDamage,
       saveRoll: rollTotal,
-      saveDc: preset.saveDc,
+      saveCr: preset.saveCr,
       saved,
       saveModifier,
       totalSoak,

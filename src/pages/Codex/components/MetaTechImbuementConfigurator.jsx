@@ -238,13 +238,13 @@ export const MetaTechImbuementConfigurator = ({ formData = {}, onChange }) => {
             </select>
           </div>
 
-          {/* Device Save DC & Target Save */}
+          {/* Device Save CR & Target Save */}
           <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl space-y-1 flex flex-col justify-between">
             <label className="text-[10px] uppercase font-bold text-slate-400 block">
               Device Power Rating
             </label>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-300">Device Save DC:</span>
+              <span className="text-xs text-slate-300">Device Save CR:</span>
               <span className="text-sm font-bold text-amber-400 font-mono">DC {10 + Math.floor(invocationRank / 2)}</span>
             </div>
             <div className="text-[9px] text-slate-500">

@@ -276,7 +276,7 @@ The character's Skill Rank also directly modifies the skill check. A higher Skil
 
 ### **Difficulty of the Task**
 
-The Game Master (GM) determines the difficulty of the task being attempted, which is often represented by a Difficulty Class (DC) or a Challenge Rating (CR). More challenging tasks have higher DCs or CRs, requiring higher skill check results to succeed. This ensures that characters face appropriate challenges based on their abilities and the circumstances of the situation.
+The Game Master (GM) determines the difficulty of the task being attempted, which is often represented by a Challenge Rating (CR) or a Challenge Rating (CR). More challenging tasks have higher DCs or CRs, requiring higher skill check results to succeed. This ensures that characters face appropriate challenges based on their abilities and the circumstances of the situation.
 
 ### **Competence**
 
@@ -420,9 +420,9 @@ These skills rely on the character's bodily fitness, coordination, and agility.
 * **Ability:** Agility  
 * **Description:** Acrobatics is the skill of performing feats of gymnastics, extraordinary balance, and dance (and related performance arts), and breaking falls. It is used whenever a character attempts to make a physical maneuver that requires agility, balance, and coordination. This can include things like jumping over obstacles, swinging from ropes, or performing aerial maneuvers. The ability to perform feats of gymnastics, balance, tumbling, and breaking falls. It covers keeping one's footing on slippery surfaces or tightropes and maneuvering through threatened areas without being hit.  
 * **Mechanics:**  
-  * *Balance:* DC 10 (narrow surface) to DC 20+ (razor edge).  
-  * *Tumble:* DC 15 to move through an enemy's threatened area without provoking an attack.  
-  * *Break Fall:* Reduce falling damage (DC 15 ignores first 10ft).  
+  * *Balance:* CR 10 (narrow surface) to CR 20+ (razor edge).  
+  * *Tumble:* CR 15 to move through an enemy's threatened area without provoking an attack.  
+  * *Break Fall:* Reduce falling damage (CR 15 ignores first 10ft).  
 * **Specialties:**   
   * **Tumbling:** Executing offensive or defensive rolls across hard or hazardous terrain.  
   * **Tightrope & Ledge Balancing:** Retaining equilibrium along narrow beams, girders, and razor edges.  
@@ -442,9 +442,9 @@ These skills rely on the character's bodily fitness, coordination, and agility.
 * **Ability:** Strength  
 * **Description:** Athletics is the skill of a character's general physical capabilities – running, jumping, climbing, swimming, and other broadly physical activities. It reflects a character's overall fitness and physical prowess. Athletics is used whenever a character attempts to perform a physical feat that requires strength and endurance. A measure of general physical prowess. It encompasses running, jumping, climbing, swimming, and lifting heavy objects.  
 * **Mechanics:**  
-  * *Climb:* DC 10 (rope with knots) to DC 25 (sheer surface). Speed is usually half base speed.  
+  * *Climb:* CR 10 (rope with knots) to CR 25 (sheer surface). Speed is usually half base speed.  
   * *Jump:* DC equals the distance in feet (running start).  
-  * *Swim:* DC 10 (calm water) to DC 20 (stormy water). Failure by 5 or more risks drowning.  
+  * *Swim:* CR 10 (calm water) to CR 20 (stormy water). Failure by 5 or more risks drowning.  
 * **Specialties:**   
   * **Sprinting:** Short-burst explosive acceleration over open terrain.  
   * **Endurance Running:** Long-distance marches and prolonged pursuits without fatigue.  
@@ -465,7 +465,7 @@ These skills rely on the character's bodily fitness, coordination, and agility.
 * **Description:** Piloting is the skill of operating mecha, vehicles of various types, such as aircraft, spacecraft, or boats. It reflects a character's ability to navigate, steer, and control various vehicles. Piloting is used whenever a character attempts to pilot a vehicle, whether in combat or during a peaceful journey. This can include things like flying a spaceship through an asteroid field, navigating a boat through a storm, or driving a car through a high-speed chase.   
 * **Mechanics:**  
   * *Normal Operation:* No roll required for standard travel.  
-  * *Stunts/Combat:* DC depends on maneuver difficulty (DC 15 for sharp turns at speed, DC 25 for "threading the needle").  
+  * *Stunts/Combat:* DC depends on maneuver difficulty (CR 15 for sharp turns at speed, CR 25 for "threading the needle").  
 * **Specialties:**   
   * **Wheeled & Tracked Vehicles:** Driving rovers, combat buggies, tanks, and mobile command platforms.  
   * **Hovercraft & Grav-Speeders:** Operating repulsorlift bikes, grav-skimmers, and low-altitude platforms.  
@@ -513,7 +513,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Alertness is the skill of being aware of one's surroundings and noticing changes or potential threats in the environment. It reflects a character's ability to pay attention to details and react quickly to unexpected situations. Alertness is used whenever a character needs to be aware of their surroundings, whether it's to avoid danger or to gather information. This can include things like noticing a hidden door, detecting a trap, or identifying a potential ambush.  
 * **Mechanics:**  
   * *Spot/Listen:* Opposed by Stealth.  
-  * *Search:* DC 10 (easy) to DC 30 (microscopic detail).  
+  * *Search:* CR 10 (easy) to CR 30 (microscopic detail).  
 * **Specialties:**   
   * **Visual Spotting:** Identifying hidden snipers, optical glints, camouflaged personnel, and concealed traps.  
   * **Auditory Listening:** Eavesdropping through bulkheads, picking out hushed footsteps, and identifying weapon charging hums.  
@@ -533,7 +533,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Academics is the skill of knowledge acquisition and analysis. It reflects a character's ability to research and understand complex topics. Academics is used whenever a character needs to research a topic, analyze data, or draw conclusions based on evidence. This can include things like researching a new technology, analyzing an artwork or deciphering old texts.   
 * **Mechanics:**  
-  * *Research:* DC 15 to find obscure information in a library/database.  
+  * *Research:* CR 15 to find obscure information in a library/database.  
 * **Specialties:**   
   * **Research Methodology:** Efficiently querying galactic libraries, university databases, and scholarly compendiums.  
   * **Critical Epistemology:** Evaluating the validity, systemic bias, and objective truth of complex source materials.  
@@ -552,9 +552,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 
 * **Ability:** Intellect  
 * **Mechanics:**  
-  * *Common Knowledge:* DC 10\.  
-  * *Obscure Fact:* DC 20\.  
-  * *Lost/Forbidden Knowledge:* DC 30+.  
+  * *Common Knowledge:* CR 10\.  
+  * *Obscure Fact:* CR 20\.  
+  * *Lost/Forbidden Knowledge:* CR 30+.  
 * **Skill Lists:**
 
 ### 
@@ -564,9 +564,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** The skill of determining the value, authenticity, and origin of items. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods.  
 * **Mechanics:**  
-  * **Value Item:** DC 10 (Common) to DC 30 (Unique/Alien).  
+  * **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).  
   * **Detect Forgery:** Opposed check vs. Forgery (Bluff/Craft).  
-  * **Identify Properties:** DC 15+ to determine what a specific device or artifact does.  
+  * **Identify Properties:** CR 15+ to determine what a specific device or artifact does.  
 * **Specialties:**   
   * **Antiquities & Relics:** Dating and pricing ancient artifacts, dynastic treasures, and pre-collapse relics.  
     * **Gems & Exotic Minerals:** Assessing crystalline purity, carats, cut, and value of rare planetary ores.  
@@ -586,9 +586,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** The skill of understanding markets, corporate structures, economics, and business operations. It allows a character to analyze market trends, understand financial systems, and manage business ventures.  
 * **Mechanics:**  
-  * *Analyze Market:* DC 15 to predict trends or find investment opportunities.  
-  * *Corporate Insight:* DC 20 to understand internal company politics or organizational structures.  
-  * *Negotiation:* DC 15+ to facilitate business deals.  
+  * *Analyze Market:* CR 15 to predict trends or find investment opportunities.  
+  * *Corporate Insight:* CR 20 to understand internal company politics or organizational structures.  
+  * *Negotiation:* CR 15+ to facilitate business deals.  
 * **Specialties:**   
   * **Corporate Law & Governance:** Understanding regulatory filings, compliance liabilities, and corporate charters.  
     * **Market Trend Analysis:** Forecasting supply, demand, and economic fluctuations across star sectors.  
@@ -606,9 +606,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis.  
 * **Mechanics:**  
-  * **Operate Remote System:** DC 10 to DC 25 depending on security.  
+  * **Operate Remote System:** CR 10 to CR 25 depending on security.  
   * **Hacking:** DC is determined by the target system's firewall/security rating (Security Level \+ 10).  
-  * **Programming:** DC 15 (Simple Script) to DC 30+ (AI architecture).  
+  * **Programming:** CR 15 (Simple Script) to CR 30+ (AI architecture).  
 * **Specialties:**   
   * **Network Intrusion (Hacking):** Cracking firewalls, breaching intrusion detection systems, and gaining administrative root.  
     * **Cyber-Defense & Hardening:** Patching zero-day vulnerabilities, setting up honeypots, and countering rival hackers.  
@@ -628,8 +628,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Culture is the skill of understanding and appreciating different cultures. It reflects a character's ability to understand the customs, beliefs, and practices of different groups of people. Culture is used whenever a character needs to interact with people from different cultures, whether it's to negotiate a deal or to avoid offending someone. This can include things like understanding social norms, speaking different languages, and recognizing cultural symbols.   
 * **Mechanics:**  
-  * **Etiquette Knowledge:** DC 10 (Common custom) to DC 25 (Obscure ritual).  
-  * **Identify Origin:** DC 15 to identify a person's origin based on dress or behavior.  
+  * **Etiquette Knowledge:** CR 10 (Common custom) to CR 25 (Obscure ritual).  
+  * **Identify Origin:** CR 15 to identify a person's origin based on dress or behavior.  
 * **Specialties:**   
   * **Impyrium High Society:** Navigating the subtle etiquette, titles, and ancestral hierarchies of the imperial core.  
     * **Dynasty Lineages:** Understanding the honor codes, draconic influences, and clan hierarchies of the Dynasty.  
@@ -649,8 +649,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** History is the skill of understanding and interpreting historical events. It reflects a character's ability to understand the past and how it has shaped the present. History is used whenever a character needs to understand the context of a situation, whether it's to solve a mystery or to plan a strategy. This can include things like researching historical events, analyzing historical documents, and interpreting historical artifacts.   
 * **Mechanics:**  
-  * **Recall Event:** DC 10 (Recent/Famous) to DC 30 (Pre-history/Lost).  
-  * **Legend Lore:** DC 20 to know rumors or legends about a specific place or item.  
+  * **Recall Event:** CR 10 (Recent/Famous) to CR 30 (Pre-history/Lost).  
+  * **Legend Lore:** CR 20 to know rumors or legends about a specific place or item.  
 * **Specialties:**   
   * **Ancient Civilizations:** Studying the structures, fall, and artifacts of long-dead interstellar empires.  
     * **Galactic Wars & Campaigns:** Recalling operational movements, treaties, and turning points of sector-wide conflicts.  
@@ -670,8 +670,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect (sometimes Perception)  
 * **Description:** The application of deductive reasoning, forensics, and information gathering to solve mysteries. It differs from Alertness (which is spotting things) by focusing on *analyzing* what is found.  
 * **Mechanics:**  
-  * **Analyze Clue:** DC 15 to determine how a clue fits into the larger picture.  
-  * **Search/Forensics:** DC 15+ to find microscopic evidence or wiped data.  
+  * **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.  
+  * **Search/Forensics:** CR 15+ to find microscopic evidence or wiped data.  
 * **Specialties:**   
   * **Crime Scene Reconstruction:** Determining angles of fire, point of entry, sequence of events, and struggles.  
     * **Forensic Ballistics & Trauma:** Matching projectile deformation, burn marks, and wound tracks to weapons.  
@@ -702,7 +702,7 @@ These skills utilize the character's mind, education, and sensory acuity.
   Sign \- Hand gesture communication  
   ***Note** \- Regional and World variants are very common but are usually based on a listed language (for most communication a check is generally not needed, indicating fluency in chosen language \- whether spoken, written or any other context of that dialect. Rare dialects and old forms of the language will require checks to understand and communicate).*  
 * **Mechanics:**  
-  * **Decipher Script:** DC 20 (Simple code/Unknown dialect) to DC 30+ (Ancient/Alien cipher).  
+  * **Decipher Script:** CR 20 (Simple code/Unknown dialect) to CR 30+ (Ancient/Alien cipher).  
   * **Fluency:** Ranks determine fluency (1-2: Broken, 3-5: Fluent, 6+: Native/Technical).  
 * **Specialties:**   
   * **Trade Common Fluency:** Reading, writing, and speaking the primary universal interstellar commerce tongue.  
@@ -723,9 +723,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** The skill of managing the flow of resources, supply chains, and large-scale operations. It reflects a character's ability to plan efficient movement, optimize inventory levels, and coordinate resource allocation. Logistics is used whenever a character needs to organize complex logistical operations, whether for military, industrial, or commercial purposes.  
 * **Mechanics:**  
-  * *Supply Chain Management:* DC 15 to establish efficient supply routes or storage solutions.  
-  * *Resource Allocation:* DC 20 to optimize resource distribution during high-demand or crisis scenarios.  
-  * *Transport Planning:* DC 15+ to coordinate complex multi-modal shipments or fleet movements.  
+  * *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.  
+  * *Resource Allocation:* CR 20 to optimize resource distribution during high-demand or crisis scenarios.  
+  * *Transport Planning:* CR 15+ to coordinate complex multi-modal shipments or fleet movements.  
 * **Specialties:**   
   * **Interstellar Supply Chains:** Organizing transport schedules across jump gates and hyperspace lanes.  
     * **Fleet Fuel & Resource Management:** Calculating propellant reserves, reactor fuel burn, and life support replenishment.  
@@ -745,9 +745,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom (Intellect for surgery/diagnosis)  
 * **Description:** Medicine is the skill of understanding and treating medical conditions. It reflects a character's ability to diagnose and treat illnesses and injuries. Medicine is used whenever a character needs to heal themselves or others, whether it's to save a life or to prevent an infection. This can include things like diagnosing illnesses, performing surgeries, and administering medication.   
 * **Mechanics:**  
-  * **First Aid:** DC 15 to stabilize a dying character.  
-  * **Long-term Care:** DC 15 to double natural healing rates for a patient.  
-  * **Surgery/Treat Disease:** DC varies by severity (DC 15 to DC 30).  
+  * **First Aid:** CR 15 to stabilize a dying character.  
+  * **Long-term Care:** CR 15 to double natural healing rates for a patient.  
+  * **Surgery/Treat Disease:** DC varies by severity (CR 15 to CR 30).  
 * **Specialties:**   
   * **Combat Trauma & Triage:** Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests.  
     * **Field Surgery:** Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions.  
@@ -765,9 +765,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Metaphysics is the skill of understanding the fundamental nature of reality, existence, and the underlying principles of the universe. It reflects a character's ability to grasp abstract concepts, perceive patterns in the fabric of existence, and understand the limits of physical laws. Metaphysics is used whenever a character needs to comprehend anomalies, navigate realities, or understand the nature of psionic or magical energy.  
 * **Mechanics:**  
-  * *Identify Pattern:* DC 15 to recognize repeating cosmological or mystical patterns.  
-  * *Analyze Reality:* DC 20 to determine if a location is subject to unusual physical or planar laws.  
-  * *Theorize:* DC 25 to formulate a hypothesis about a high-level cosmic event.  
+  * *Identify Pattern:* CR 15 to recognize repeating cosmological or mystical patterns.  
+  * *Analyze Reality:* CR 20 to determine if a location is subject to unusual physical or planar laws.  
+  * *Theorize:* CR 25 to formulate a hypothesis about a high-level cosmic event.  
 * **Specialties:**   
   * **Planar Mechanics:** Charting the geometry, boundaries, and bleed-through zones of alternate dimensions.  
     * **Cosmological Anomaly Analysis:** Diagnosing spatial rifts, localized reality tears, and planar convergence points.  
@@ -787,8 +787,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect (or Wisdom for practical application)  
 * **Description:** Nature is the skill of understanding and interacting with the natural world. It reflects a character's ability to survive in the wilderness and understand the ecology of different environments. Nature is used whenever a character needs to navigate through the wilderness, whether it's to hunt for food or to avoid danger. This can include things like tracking animals, identifying plants, and surviving in extreme environments.   
 * **Mechanics:**  
-  * **Identify Creature:** DC 10 \+ Creature's Rarity/CR.  
-  * **Foraging/Remedies:** DC 15 to find herbal antidotes or food.  
+  * **Identify Creature:** CR 10 \+ Creature's Rarity/CR.  
+  * **Foraging/Remedies:** CR 15 to find herbal antidotes or food.  
 * **Specialties:**   
   * **Alien Botany:** Identifying toxic, medicinal, and nutritional properties of wild planetary plants.  
     * **Zoology & Beast Behavior:** Predicting predator attack vectors, nesting grounds, and pack dynamics.  
@@ -808,7 +808,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect (Astrogation) or Wisdom (Survival)  
 * **Description:** Navigation is the skill of understanding and using navigational tools. It reflects a character's ability to navigate through different environments, whether it's on land, sea, or air. Navigation is used whenever a character needs to travel to a specific location, whether it's to explore a new area or to deliver a package. This can include things like using a map and compass, piloting a ship, or flying a plane.  
 * **Mechanics:**  
-  * **Plot Course:** DC 10 (Familiar) to DC 25 (Uncharted/Hazardous).  
+  * **Plot Course:** CR 10 (Familiar) to CR 25 (Uncharted/Hazardous).  
   * **Astrogation:** Calculating FTL jumps (DC varies by distance and route stability).  
 * **Specialties:**   
   * **Astrogation & FTL Calculations:** Plotting jump-vectors through hyperspace, avoiding gravity wells and stars.  
@@ -829,8 +829,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Nobility is the skill of understanding and interacting with the aristocracy. It reflects a character's ability to navigate a society's social hierarchy and interact with people of high status. Nobility is used whenever a character needs to interact with the aristocracy, whether it's to gain political power or to secure a marriage alliance. This can include things like understanding court etiquette, negotiating with nobles, and identifying noble titles.   
 * **Mechanics:**  
-  * **Identify Heraldry:** DC 10 (Major House) to DC 25 (Obscure lineage).  
-  * **Political Insight:** DC 15 to understand current political intrigues.  
+  * **Identify Heraldry:** CR 10 (Major House) to CR 25 (Obscure lineage).  
+  * **Political Insight:** CR 15 to understand current political intrigues.  
 * **Specialties:**   
   * **Imperial Dynasties:** Tracing succession charts, legitimate heirs, and marriage covenants of Great Houses.  
     * **Heraldry & Insignia:** Identifying house crests, livery patterns, honor banners, and personal sigils.  
@@ -850,8 +850,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Physics is the skill of understanding and applying the laws of physics. It reflects a character's ability to understand the physical world and use that knowledge to solve problems. Physics is used whenever a character needs to understand the behavior of physical objects, whether it's to design a machine or to solve a puzzle. This can include things like calculating trajectories, designing experiments, and understanding the properties of matter and energy.   
 * **Mechanics:**  
-  * **Solve Problem:** DC 15 to DC 30 depending on complexity.  
-  * **Analyze Anomaly:** DC 20+ to understand spatial distortions or energy fields.  
+  * **Solve Problem:** CR 15 to CR 30 depending on complexity.  
+  * **Analyze Anomaly:** CR 20+ to understand spatial distortions or energy fields.  
 * **Specialties:**   
   * **Astrophysics:** Modeling stellar life cycles, black hole event horizons, neutron stars, and accretion disks.  
     * **Quantum Mechanics:** Calculating particle superposition, quantum entanglement communications, and tunneling.  
@@ -871,7 +871,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Religion is the skill of understanding and practicing religious beliefs. It reflects a character's ability to understand the beliefs and practices of different religions, and to practice their own religion. Religion is used whenever a character needs to interact with people of different faiths, whether it's to negotiate a peace treaty or to perform a religious ceremony. This can include things like understanding religious texts, performing religious rituals, and interpreting religious symbols.  
 * **Mechanics:**  
-  * **Identify Symbol/Rite:** DC 10 (Common) to DC 25 (Secret Cult).  
+  * **Identify Symbol/Rite:** CR 10 (Common) to CR 25 (Secret Cult).  
   * **Theological Debate:** Supported by Diplomacy checks.  
 * **Specialties:**   
   * **Pantheons & Cosmic Deities:** Recalling the domains, alignments, and mythologies of recognized sector gods.  
@@ -892,8 +892,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Science is the skill of understanding and applying the scientific method. It reflects a character's ability to understand the natural world and use that knowledge to solve problems. Science is used whenever a character needs to understand the behavior of natural phenomena, whether it's to design an experiment or to solve a mystery. This can include things like designing experiments, analyzing data, and interpreting scientific theories.   
 * **Mechanics:**  
-  * **Lab Work:** DC 15 to perform experiments.  
-  * **Identify Substance:** DC 15 to DC 25\.  
+  * **Lab Work:** CR 15 to perform experiments.  
+  * **Identify Substance:** CR 15 to CR 25\.  
 * **Specialties:**   
   * **Inorganic Chemistry:** Synthesizing acids, industrial catalysts, synthetic polymers, and inert shielding reagents.  
     * **Biochemistry:** Analyzing cellular metabolism, amino acid structures, and enzymatic reaction triggers.  
@@ -913,8 +913,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom  
 * **Description:** Survival is the skill of surviving in extreme environments. It reflects a character's ability to find food, water, and shelter in the wilderness, and to avoid danger. Survival is used whenever a character needs to survive in the wilderness, whether it's to explore a new area or to escape from danger. This can include things like finding food and water, building shelter, and avoiding predators.   
 * **Mechanics:**  
-  * **Track:** DC varies by surface (Soft ground DC 10, Hard floor DC 20+).  
-  * **Survival:** DC 15 to provide food/water for self; \+2 DC per additional person.  
+  * **Track:** DC varies by surface (Soft ground CR 10, Hard floor CR 20+).  
+  * **Survival:** CR 15 to provide food/water for self; \+2 DC per additional person.  
   * **Endure Elements:** Grants bonuses to Fortitude saves against weather.  
 * **Specialties:**   
   * **Foraging:** Sourcing edible roots, insects, fruits, and clean sustenance in untamed wilderness.  
@@ -936,7 +936,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Knowledge of strategy, warfare, and small unit operations. It allows a character to predict enemy movements and plan effective ambushes.  
 * **Mechanics:**  
   * **Predict Strategy:** Opposed check vs. Enemy Tactics/Bluff.  
-  * **Combat Bonus:** A successful check (DC 15+) prior to combat might grant the team a \+1 Initiative or Attack bonus for the first round (GM discretion).  
+  * **Combat Bonus:** A successful check (CR 15+) prior to combat might grant the team a \+1 Initiative or Attack bonus for the first round (GM discretion).  
 * **Specialties:**   
   * **Close-Quarters Battle (CQB):** Clearing rooms, stacking doors, leapfrogging down corridors, and fatal funnel control.  
     * **Squad Fireteam Maneuvers:** Coordinating bounding overwatch, flanking suppression, and tactical withdrawals.  
@@ -956,9 +956,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Technology is the skill of understanding and using advanced technology. It reflects a character's ability to understand the underlying principles of technology and general concept of its usage.   
 * **Mechanics:**  
-  * **Repair:** DC 15 (Simple fix) to DC 30 (Rebuild from scrap).  
+  * **Repair:** CR 15 (Simple fix) to CR 30 (Rebuild from scrap).  
   * **Disable Device:** DC depends on device complexity/security rating.  
-  * **Identify Tech:** DC 10 \+ Tech Level difference.  
+  * **Identify Tech:** CR 10 \+ Tech Level difference.  
 * **Specialties:**   
   * **Archaic Technology:** Restoring and fabricating muscle-powered, spring, and clockwork mechanical systems.  
     * **Advanced Directed Energy Systems:** Calibrating laser lenses, tuning particle coils, and replacing cooling magnets.  
@@ -976,8 +976,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** The skill of understanding and navigating the complexities of commercial exchange. It reflects a character"s ability to identify market needs, navigate trade routes, understand commercial laws, and manage mercantile relationships. Trade is used whenever a character needs to buy, sell, or transport goods. This can include things like negotiating contracts, assessing commodity values, and understanding trade regulations.  
 * **Mechanics:**  
-  * *Analyze Market:* DC 15 to identify trade opportunities, demand, or supply shortages.  
-  * *Trade Law:* DC 20 to understand tariffs, trade agreements, or restricted goods in a sector.  
+  * *Analyze Market:* CR 15 to identify trade opportunities, demand, or supply shortages.  
+  * *Trade Law:* CR 20 to understand tariffs, trade agreements, or restricted goods in a sector.  
 * **Specialties:**   
   * **Commodity Arbitrage:** Buying low in resource-rich frontier sectors and selling high in industrialized core worlds.  
     * **Tariff & Customs Evasion:** Structuring cargo routing to legally minimize planetary import taxes and duties.  
@@ -1010,8 +1010,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect or Charisma  
 * **Description:** Administrator is the skill of managing and organizing people and resources. It reflects a character's ability to lead and coordinate groups of people, and to manage budgets and schedules. Administrator is used whenever a character needs to manage a team, whether it's to complete a project or to run a business. This can include things like delegating tasks, setting goals, and managing finances.   
 * **Mechanics:**  
-  * *Bureaucracy:* DC 15 to locate specific files or get a permit approved quickly.  
-  * *Logistics:* DC 20 to organize a complex supply chain or fleet movement.  
+  * *Bureaucracy:* CR 15 to locate specific files or get a permit approved quickly.  
+  * *Logistics:* CR 20 to organize a complex supply chain or fleet movement.  
 * **Specialties:**   
   * **Civil Bureaucracy:** Fast-tracking applications, navigating red tape, and processing government licenses.  
     * **Colony Management:** Allocating water, housing, power, and labor to maintain frontier outpost stability.  
@@ -1031,8 +1031,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Alchemist is the skill of understanding and creating potions and other magical substances. It reflects a character's ability to mix and manipulate chemicals and magical ingredients. Alchemist is used whenever a character needs to create a potion or other magical substance, whether it's to heal an injury or to create a powerful spell. This can include things like mixing ingredients, analyzing substances, and creating magical effects.   
 * **Mechanics:**  
-  * *Identify Substance:* DC 15 to identify a chemical or potion.  
-  * *Craft Compound:* DC varies (Acid DC 15, Panacea DC 25). Failure by 5 or more may cause an explosion or exposure.  
+  * *Identify Substance:* CR 15 to identify a chemical or potion.  
+  * *Craft Compound:* DC varies (Acid CR 15, Panacea CR 25). Failure by 5 or more may cause an explosion or exposure.  
 * **Specialties:**   
   * **Combat Stimulants:** Synthesizing adrenal boosters, coagulants, and reflex-accelerating injections.  
     * **Panaceas & Antitoxins:** Compounding broad-spectrum antivenoms and toxin-neutralizing serums.  
@@ -1052,7 +1052,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Charisma  
 * **Description:** Ambassador is the skill of negotiating and representing one's country or organization. It reflects a character's ability to communicate effectively with people from different cultures and backgrounds, negotiate treaties, and represent one's country or organization in a foreign land. Ambassador is used whenever a character needs to promote their country's interests and maintain good relations with other countries. This can include things like negotiating trade agreements, resolving disputes, and building alliances.   
 * **Mechanics:**  
-  * *Protocol:* DC 15 to know the correct etiquette for a specific alien court.  
+  * *Protocol:* CR 15 to know the correct etiquette for a specific alien court.  
   * *Negotiate Treaty:* Opposed check vs. rival Ambassador.  
 * **Specialties:**   
   * **First Contact Protocols:** Establishing non-hostile communications with uncontacted or newly awakened species.  
@@ -1073,8 +1073,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Architect is the skill of designing and building structures. It reflects a character's ability to create and design buildings and other structures, design blueprints, create models, and oversee construction. Architect is used whenever a character needs to create a structure, whether it's a house, a castle, or a city. This can include things like designing layouts, creating blueprints, and managing construction crews.   
 * **Mechanics:**  
-  * *Design:* Create blueprints for a structure (DC 15 for a house, DC 30 for a space elevator).  
-  * *Assess Weakness:* DC 20 to find a structural weak point in a building (grants bonus to Demolitionist).  
+  * *Design:* Create blueprints for a structure (CR 15 for a house, CR 30 for a space elevator).  
+  * *Assess Weakness:* CR 20 to find a structural weak point in a building (grants bonus to Demolitionist).  
 * **Specialties:**   
   * **Arcology Design:** Engineering self-contained mega-structures housing millions with integrated air and waste loops.  
     * **Starship Naval Architecture:** Designing structural bulkheads, internal frame load paths, and compartmental layouts.  
@@ -1094,8 +1094,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Archivist is the skill of preserving and organizing historical documents and artifacts. It reflects a character's ability to collect and preserve historical records and artifacts, catalog artifacts, preserve documents, and research historical events. Archivist is used whenever a character needs to preserve and make accessible historical records for future generations. This can include things like cataloging artifacts, preserving documents, and researching historical events.   
 * **Mechanics:**  
-  * *Deep Search:* DC 20 to find a specific, non-digitized record or deleted file fragment.  
-  * *Preservation:* DC 15 to restore damaged books or data drives.  
+  * *Deep Search:* CR 20 to find a specific, non-digitized record or deleted file fragment.  
+  * *Preservation:* CR 15 to restore damaged books or data drives.  
 * **Specialties:**   
   * **Ancient Tome Preservation:** Restoring, sealing, and handling fragile parchment, papyrus, and crystalline plates.  
     * **Data Recovery & File Reconstruction:** Extracting readable data from melted drives, corrupted memory, and shattered chips.  
@@ -1115,9 +1115,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect (for design) or Agility (for fine detail)  
 * **Description:** Armorer is the skill of creating and repairing different types of armor. It reflects a character's ability to forge metal, repair damaged armor, and create new designs. Armorer is used whenever a character needs to ensure that armor is functional and effective. This can include things like repairing damaged armor to creating a new suit.   
 * **Mechanics:**  
-  * *Repair Armor:* Restore armor points (DC 15 \+ Tech Level).  
+  * *Repair Armor:* Restore armor points (CR 15 \+ Tech Level).  
   * *Craft Armor:* Create new armor (Time required varies).  
-  * *Fit Armor:* DC 15 to resize armor for a different species.  
+  * *Fit Armor:* CR 15 to resize armor for a different species.  
 * **Specialties:**   
   * **Archaic Plate & Mail:** Forging, quenching, and strapping tempered steel and bronze personal armor.  
     * **Ballistic Weaves & Flak Suits:** Stitching layered kevlar, carbon-nanotube fabrics, and impact-dispersion vests.  
@@ -1158,7 +1158,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect or Wisdom  
 * **Description:** Artificer is the skill of creating metaphysical empowered items, such as devices, potions, or enchanted weapons. It reflects a character's ability to mix special ingredients, empower weapons, and create magical effects. Artificer is used whenever a character needs to create magical or psionic items that are functional and effective. This can include things like mixing magical ingredients, enchanting weapons, and creating magical effects. The specific craft of combining technology with metaphysical (magical/psionic) energies. This is the skill used to create "enchanted" or "psi-active" items.  
 * **Mechanics:**  
-  * *Imprint Item:* Bind a spell or psionic effect to an object (DC 20 \+ Spell Level).  
+  * *Imprint Item:* Bind a spell or psionic effect to an object (CR 20 \+ Spell Level).  
   * *Analyze Artifact:* Identify the properties of a magitech item.  
 * **Specialties:**   
   * **Focusing Crystals:** Cutting, polishing, and aligning quartz and alien crystals to channel raw meta-currents.  
@@ -1179,8 +1179,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom or Charisma  
 * **Description:** Broker is the skill of negotiating and managing financial transactions. It reflects a character's ability to negotiate contracts, manage investments, and analyze financial data. Broker is used whenever a character needs to ensure that financial transactions are profitable and beneficial for their clients. This can include things like negotiating deals, managing investments, and analyzing market data.  
 * **Mechanics:**  
-  * *Appraise Market:* DC 15 to know if a commodity is selling above or below average value in this system.  
-  * *Secure Deal:* DC 20 to find a buyer for illegal or rare goods.  
+  * *Appraise Market:* CR 15 to know if a commodity is selling above or below average value in this system.  
+  * *Secure Deal:* CR 20 to find a buyer for illegal or rare goods.  
 * **Specialties:**   
   * **Black Market Contraband:** Connecting sellers of illicit narcotics, military tech, and unvetted chips with buyers.  
     * **Securities & Equities:** Brokering large blocks of corporate stock, municipal bonds, and venture equities.  
@@ -1200,8 +1200,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Charisma  
 * **Description:** Celebrity is the skill of managing one's public image and interacting with fans and the media. It reflects a character's ability to manage social interactions, give interviews, and attend public events. Celebrity is used whenever a character needs to maintain a positive public image and promote their brand.  
 * **Mechanics:**  
-  * *Work the Crowd:* DC 15 to gain access to a VIP area based on recognition.  
-  * *Spin:* DC 20 to mitigate a scandal or bad reputation event.  
+  * *Work the Crowd:* CR 15 to gain access to a VIP area based on recognition.  
+  * *Spin:* CR 20 to mitigate a scandal or bad reputation event.  
 * **Specialties:**   
   * **Holonet Streaming & Broadcast:** Presenting engaging video streams, entertaining live feeds, and hosting shows.  
     * **Public Relations Spin:** Turning scandalous mistakes, arrests, or failures into sympathetic PR victories.  
@@ -1221,8 +1221,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom or Intellect  
 * **Description:** Constable is the skill of enforcing the law and maintaining order. It reflects a character's ability to investigate crimes, make arrests, and protect citizens. Constable is used whenever a character needs to ensure that laws are upheld and that citizens are safe. This can include things like investigating crimes, making arrests, and protecting citizens.   
 * **Mechanics:**  
-  * *Procedure:* DC 15 to know the jurisdiction and rights in a specific sector.  
-  * *Collect Evidence:* DC 15 to properly bag and tag evidence without contaminating it.  
+  * *Procedure:* CR 15 to know the jurisdiction and rights in a specific sector.  
+  * *Collect Evidence:* CR 15 to properly bag and tag evidence without contaminating it.  
 * **Specialties:**   
   * **Patrol Procedures:** Walking beats, spotting suspicious street activity, and projecting an authoritative presence.  
     * **Riot & Crowd Control:** Deploying shield walls, tear gas lines, and batons to break up violent civil mobs.  
@@ -1243,7 +1243,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Courtesan is the skill of entertaining and pleasing others. It reflects a character's ability to dance, sing, or be intimate in a professional manner. Courtesan is used whenever a character needs to provide entertainment and pleasure to their clients. Professional companionship, high-society socialization, and the art of conversation and entertainment. Often overlaps with spying.  
 * **Mechanics:**  
   * *Seduction/Charm:* Opposed by Wisdom (Insight).  
-  * *Gather Rumors:* DC 15 to pick up sensitive information during social interactions.  
+  * *Gather Rumors:* CR 15 to pick up sensitive information during social interactions.  
 * **Specialties:**   
   * **High-Society Etiquette:** Effortlessly fitting into noble galas, elite banquets, and decadent private revues.  
     * **Pillow Talk & Eavesdropping:** Coaxing military secrets, executive passcodes, and hidden plots from wealthy patrons.  
@@ -1263,8 +1263,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom or Agility  
 * **Description:** Culinarian is the skill of cooking and preparing food. It reflects a character's ability to prepare ingredients, cook meals, and present food. Culinarian is used whenever a character needs to create delicious and nutritious meals. This can include things like preparing ingredients, cooking meals, and presenting food.   
 * **Mechanics:**  
-  * *Prepare Meal:* DC 10 (Standard) to DC 30 (Banquet). High success grants temporary morale bonuses to those who eat.  
-  * *Identify Ingredients:* DC 15 to taste a poison or strange alien spice.  
+  * *Prepare Meal:* CR 10 (Standard) to CR 30 (Banquet). High success grants temporary morale bonuses to those who eat.  
+  * *Identify Ingredients:* CR 15 to taste a poison or strange alien spice.  
 * **Specialties:**   
   * **Xenofood Neutralization:** Processing, cooking, and detoxifying strange alien flora and fauna for human consumption.  
     * **Haute Cuisine & Fine Dining:** Preparing multi-course, visually stunning gourmet meals for high nobility and executives.  
@@ -1284,8 +1284,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Demolitionist is the skill of creating and using explosives. It reflects a character's ability to create bombs, set charges, and detonate explosives for various purposes. Demolitionist is used whenever a character needs to ensure that explosives are used safely and effectively. This can include things like creating bombs, disarming bombs, setting charges, and detonating explosives for various purposes.   
 * **Mechanics:**  
-  * *Set Charge:* DC 15 for simple breach, DC 25 to collapse a structure without damaging surroundings.  
-  * *Defuse:* DC depends on the bomb's complexity (usually DC 20+). Failure by 5+ triggers the device.  
+  * *Set Charge:* CR 15 for simple breach, CR 25 to collapse a structure without damaging surroundings.  
+  * *Defuse:* DC depends on the bomb's complexity (usually CR 20+). Failure by 5+ triggers the device.  
 * **Specialties:**   
   * **Structural Controlled Implosion:** Calculating load points to drop high-rise buildings and towers within their footprints.  
     * **Combat Breaching Charges:** Setting linear shaped charges to blow open reinforced steel doors without killing the stack.  
@@ -1305,9 +1305,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect or Agility  
 * **Description:** Electrician is the skill of understanding and working with electrical systems. It reflects a character's ability to install and repair electrical systems, such as wiring, circuits, outlets, switches, and lighting fixtures. Electrician is used whenever a character needs to ensure that electrical systems are safe and functional. This can include things like installing and repairing electrical systems, such as wiring, circuits, outlets, switches, and lighting fixtures. Wiring, circuitry, and power systems. Distinct from Computers (software) and Mechanic (moving parts).  
 * **Mechanics:**  
-  * *Bypass Security:* DC 20 to hotwire an electronic lock.  
-  * *Repair Circuit:* DC 15 to fix a fried panel.  
-  * *Restore Power:* DC 20 to reroute power in a damaged ship.  
+  * *Bypass Security:* CR 20 to hotwire an electronic lock.  
+  * *Repair Circuit:* CR 15 to fix a fried panel.  
+  * *Restore Power:* CR 20 to reroute power in a damaged ship.  
 * **Specialties:**   
   * **High-Voltage Distribution:** Laying heavy-duty power lines, substations, and industrial 10,000-volt transformers.  
     * **Micro-Electronics & PCBs:** Soldering surface-mount resistors, micro-chips, and delicate data bus relays.  
@@ -1327,8 +1327,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Engineering is the skill of using scientific principles to design and build mecha, automata (simple robotics) and similar structures and mechanisms. It reflects a character's ability to apply mathematical and scientific concepts to create new products or improve existing ones. Engineers work in various industries, including mechanical, electrical, computer and architectural skills. Engineering is using various components together to craft something larger and more complex, whereas the components themselves are covered by particular skills such as Mechanical or Electrical.  
 * **Mechanics:**  
-  * *Diagnose Issue:* DC 15 to identify why the Hyperdrive isn't engaging.  
-  * *Boost System:* DC 20 to temporarily increase engine output or shield strength.  
+  * *Diagnose Issue:* CR 15 to identify why the Hyperdrive isn't engaging.  
+  * *Boost System:* CR 20 to temporarily increase engine output or shield strength.  
 * **Specialties:**   
   * **Starship FTL Propulsion:** Servicing warp field coils, hyperdrive motivators, and dimensional jump engines.  
     * **Sublight Thruster Assemblies:** Maintaining ion drives, fusion torches, and chemical reaction thrusters.  
@@ -1348,9 +1348,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom or Constitution  
 * **Description:** Farmer is the skill of cultivating crops and raising livestock. It reflects a character's ability to manage soil health, plant and harvest crops, and tend to animals. Farmer is used whenever a character needs to produce food, manage agricultural operations, or work with livestock. This can include things like preparing fields, planting seeds, and ensuring animal health.  
 * **Mechanics:**  
-  * *Crop Management:* DC 15 to ensure a successful harvest despite poor conditions.  
-  * *Animal Husbandry:* DC 15 to breed or treat livestock.  
-  * *Soil Analysis:* DC 20 to determine optimal crops for a specific environment.  
+  * *Crop Management:* CR 15 to ensure a successful harvest despite poor conditions.  
+  * *Animal Husbandry:* CR 15 to breed or treat livestock.  
+  * *Soil Analysis:* CR 20 to determine optimal crops for a specific environment.  
 * **Specialties:**   
   * **Hydroponics & Aeroponics:** Managing vertical water-nutrient tanks, pH balances, and LED grow-light cycles.  
   * **Broad-Acre Grain Farming:** Operating harvesters, planting vast cereal fields, and timing seasonal crop rotations.  
@@ -1370,8 +1370,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom or Constitution  
 * **Description:** Groundskeeper is the skill of managing and maintaining outdoor spaces, such as parks or gardens. It reflects a character's ability to mow lawns, trim hedges, plant flowers, and maintain other outdoor features. Groundskeepers are responsible for ensuring that outdoor spaces are safe, functional, and aesthetically pleasing. This can include things like mowing lawns, trimming hedges, and planting flowers.  
 * **Mechanics:**  
-  * *Cultivate:* DC 15 to grow specific plants in a hostile environment.  
-  * *Terraform:* DC 25 to operate large scale atmosphere processors.  
+  * *Cultivate:* CR 15 to grow specific plants in a hostile environment.  
+  * *Terraform:* CR 25 to operate large scale atmosphere processors.  
 * **Specialties:**   
   * **Landscape Gardening:** Designing flower beds, trimming hedges, laying sod, and styling ornamental gardens.  
     * **Arboriculture & Tree Surgery:** Felling dangerous deadwood, pruning high branches, and treating tree infections.  
@@ -1391,8 +1391,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Charisma or Wisdom  
 * **Description:** Training and controlling animals or beasts.  
 * **Mechanics:**  
-  * *Train:* Long-term check to teach a creature a trick (DC 15-25).  
-  * *Control:* DC 15 to calm a spooked animal; DC 20 to command an attacking beast.  
+  * *Train:* Long-term check to teach a creature a trick (CR 15-25).  
+  * *Control:* CR 15 to calm a spooked animal; CR 20 to command an attacking beast.  
 * **Specialties:**   
   * **Riding Mount Training:** Breaking, saddling, and training equines, alien lizards, and quadrupeds for riding.  
     * **Combat Attack Training:** Teaching canines and alien predators to bite on command, hold targets, and ignore gunfire.  
@@ -1410,8 +1410,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Strength or Constitution  
 * **Description:** Laborer is the skill of performing manual tasks, such as digging ditches, carrying heavy objects, or building structures. It reflects a character's ability to perform physical labor and complete tasks that require strength and endurance. Workers are responsible for completing manual tasks safely and efficiently. This can include things like digging ditches, carrying heavy objects, and building structures. Laborers will be knowledgeable of various tools and equipment of the trade.  
 * **Mechanics:**  
-  * *Endurance Work:* DC 15 to work a double shift without fatigue.  
-  * *Operate Heavy Machinery:* DC 10 to use forklifts, drills, or exosuits for work (not combat).  
+  * *Endurance Work:* CR 15 to work a double shift without fatigue.  
+  * *Operate Heavy Machinery:* CR 10 to use forklifts, drills, or exosuits for work (not combat).  
 * **Specialties:**   
   * **Dockworking & Stevedoring:** Unloading shipping containers, rigging cranes, and securing cargo nets on docks.  
     * **Deep Shaft Mining:** Wielding jackhammers, swinging pickaxes, mucking ore, and timbering mine shafts.  
@@ -1431,8 +1431,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Agility or Intellect  
 * **Description:** Mechanic is the skill of repairing and maintaining components of machines and vehicles. It reflects a character's ability to diagnose and fix mechanical problems, and to perform routine maintenance tasks. Mechanics are responsible for ensuring machines and vehicles are safe and functional. This can include things like repairing engines, replacing parts, and performing oil changes.   
 * **Mechanics:**  
-  * *Repair:* DC 15 (Simple part) to DC 30 (Rebuild engine).  
-  * *Jury-Rig:* DC 20 to make a temporary fix with inadequate tools (lasts 1d6 hours).  
+  * *Repair:* CR 15 (Simple part) to CR 30 (Rebuild engine).  
+  * *Jury-Rig:* CR 20 to make a temporary fix with inadequate tools (lasts 1d6 hours).  
 * **Specialties:**   
   * **Internal Combustion Engines:** Rebuilding piston engines, tuning carburetors, timing camshafts, and replacing spark plugs.  
     * **Turbines & Jet Propulsion:** Balancing compressor blades, repairing fuel injectors, and rebuilding jet burner cans.  
@@ -1452,8 +1452,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect  
 * **Description:** Researcher is the skill of conducting research and analyzing data. It reflects a character's ability to gather information, analyze it, and draw conclusions. Researchers are responsible for ensuring that information is accurate and reliable. This can include things like conducting surveys, analyzing data, and writing reports.  
 * **Mechanics:**  
-  * *Conduct Experiment:* DC 20 to test a hypothesis.  
-  * *Synthesize Data:* DC 15 to combine multiple clues into a theory.  
+  * *Conduct Experiment:* CR 20 to test a hypothesis.  
+  * *Synthesize Data:* CR 15 to combine multiple clues into a theory.  
 * **Specialties:**   
   * **Experimental Design:** Structuring double-blind trials, control groups, and repeatable lab procedures.  
     * **Empirical Data Modeling:** Plotting statistical regressions, identifying standard deviations, and mapping anomalies.  
@@ -1473,8 +1473,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom or Intellect  
 * **Description:** Salvager is the skill of salvaging materials or items from wrecked or damaged ships, buildings, or other structures. It reflects a character's ability to identify and extract valuable materials or items from damaged structures. Salvagers are responsible for ensuring that materials or items are extracted safely and efficiently. This can include things like salvaging metal from a shipwreck, or extracting valuable items from a damaged building.   
 * **Mechanics:**  
-  * *Valuation:* DC 15 to know if a piece of junk is worth credits.  
-  * *Extraction:* DC 20 to remove a component without breaking it.  
+  * *Valuation:* CR 15 to know if a piece of junk is worth credits.  
+  * *Extraction:* CR 20 to remove a component without breaking it.  
 * **Specialties:**   
   * **Deep Space Derelict Cutting:** Using industrial plasma torches to slice open airless starship hulls and structural spines.  
     * **Structural Stabilization:** Bracing sagging ship decks and collapsed buildings with jacks to prevent crushing collapses.  
@@ -1494,9 +1494,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Constitution or Intellect  
 * **Description:** Knowledge of military life, hierarchy, logistics, and field procedures. Does *not* replace Combat skills (shooting/hitting), but covers the *job* of being a soldier.  
 * **Mechanics:**  
-  * *Regulations:* DC 10 to know the rules of engagement.  
-  * *Field Maintenance:* DC 15 to clean and maintain gear in the field.  
-  * *Drill:* DC 15 to march or coordinate a squad efficiently.  
+  * *Regulations:* CR 10 to know the rules of engagement.  
+  * *Field Maintenance:* CR 15 to clean and maintain gear in the field.  
+  * *Drill:* CR 15 to march or coordinate a squad efficiently.  
 * **Specialties:**   
   * **Field Gear Maintenance:** Stripping, cleaning, and oiling service rifles, boots, and webbing to military inspection code.  
     * **Military Regulations & Law:** Knowing the rules of engagement, uniform codes, lawful orders, and court-martial laws.  
@@ -1516,8 +1516,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intelect  
 * **Description:** Tailor is the skill of designing and creating clothing items, such as dresses, suits, or light armor or armor dressings. It reflects a character's ability to create clothing that is functional and aesthetically pleasing. Tailors are responsible for ensuring that clothing items fit well and are made from high-quality materials. This can include things like designing patterns, cutting fabric, and sewing clothing items.   
 * **Mechanics:**  
-  * *Craft Outfit:* DC 15 (Common) to DC 25 (High Fashion/Armored).  
-  * *Disguise Prep:* DC 20 to alter clothing to fit a disguise.  
+  * *Craft Outfit:* CR 15 (Common) to CR 25 (High Fashion/Armored).  
+  * *Disguise Prep:* CR 20 to alter clothing to fit a disguise.  
 * **Specialties:**   
   * **High-Society Couture:** Designing and hand-stitching bespoke silk suits, evening gowns, and noble court capes.  
     * **Ballistic Fabric Weaving:** Splicing flexible aramid, carbon-weave, and spider-silk fibers into puncture-proof business suits.  
@@ -1537,8 +1537,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Agility or Wisdom  
 * **Description:** Transporter is the skill of transporting people or goods from one place to another, such as by driving, flying, or sailing. Transporters are responsible for ensuring people or goods are transported safely and efficiently. The professional moving of goods or people. Includes piloting commercial vehicles, loading cargo efficiently, and route planning.  
 * **Mechanics:**  
-  * *Load Cargo:* DC 15 to maximize cargo space or secure dangerous goods.  
-  * *Route Navigation:* DC 15 to find the fastest/safest route.  
+  * *Load Cargo:* CR 15 to maximize cargo space or secure dangerous goods.  
+  * *Route Navigation:* CR 15 to find the fastest/safest route.  
 * **Specialties:**   
   * **Long-Haul Space Trucking:** Piloting heavy multi-container cargo freighters across deep-space shipping routes safely.  
     * **Armored Cash Transit:** Driving heavy security vaults and defensive bullion trucks through hostile urban zones.  
@@ -1558,9 +1558,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Intellect or Strength  
 * **Description:** Weaponsmith is the skill of creating and repairing weapons, such as swords, guns, or bows. It reflects a character's ability to create weapons that are functional and effective. Weaponsmiths are responsible for ensuring that weapons are made from high-quality materials and are designed to be effective in combat. This can include things like forging metal, sharpening blades, and repairing damaged weapons.  
 * **Mechanics:**  
-  * *Repair Weapon:* DC 15 to fix a jammed or broken weapon.  
-  * *Craft Weapon:* DC varies by complexity (Sword DC 15, Laser Rifle DC 25).  
-  * *Modify:* DC 20 to add a scope, silencer, or increased capacity.  
+  * *Repair Weapon:* CR 15 to fix a jammed or broken weapon.  
+  * *Craft Weapon:* DC varies by complexity (Sword CR 15, Laser Rifle CR 25).  
+  * *Modify:* CR 20 to add a scope, silencer, or increased capacity.  
 * **Specialties:**   
   * **Bladed Weapon Forging:** Folding, quenching, grinding, and heat-treating high-carbon steel and monomolecular edges.  
     * **Ballistic Firearm Gunsmithing:** Rifling barrels, tuning gas blocks, polishing feed ramps, and lightening trigger pulls.  
@@ -1586,9 +1586,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 **Core Mechanic:** **d20 \+ Skill Rank \+ Charisma Mod vs. Challenge Rating (CR)**
 
 * **Performance/Busking:** The result determines the quality of the show and potential tips/wealth earned.  
-  * *DC 10:* Amateur performance (Standard success).  
-  * *DC 20:* Professional/Memorable performance.  
-  * *DC 30:* Legendary performance.  
+  * *CR 10:* Amateur performance (Standard success).  
+  * *CR 20:* Professional/Memorable performance.  
+  * *CR 30:* Legendary performance.  
 * **Influence:** You can use these skills to alter the attitude of an NPC (Make them Friendly/Helpful).
 
 ### 
@@ -1599,7 +1599,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Acting is the skill of portraying a character or role in a performance. It reflects a character's ability to use body language, facial expressions, and tone of voice to convey emotions and communicate effectively. Acting is used whenever a character needs to deceive or persuade others, or to perform in a play or other theatrical production. The ability to embody a character, fake emotions, or improvise a persona. Unlike Disguise (which is visual), Acting is behavioral. It allows a character to pass as a soldier, a doctor, or a beggar through mannerisms and speech patterns alone.  
 * **Mechanics:**  
   * *Impersonation:* Opposed check vs. **Insight**.  
-  * *Distraction:* Create a scene to draw attention away from allies (DC 15).  
+  * *Distraction:* Create a scene to draw attention away from allies (CR 15).  
 * **Specialties:**   
   * **Voice & Accent Mimicry:** Replicating the specific cadence, regional dialect, and vocal pitch of specific individuals.  
     * **Improvisational Roleplay:** Reacting organically in character when an undercover cover story goes completely off the rails.  
@@ -1620,7 +1620,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Comedy is the skill of making people laugh or feel amused. It reflects a character's ability to use humor and wit to entertain others. Comedy is used whenever a character needs to lighten the mood or entertain others, or to perform in a comedy show or other comedic production. The art of humor, satire, and timing. Used to entertain, defuse tense situations, or provoke an enemy into making a mistake (Taunt).  
 * **Mechanics:**  
   * *Entertain:* Standard performance mechanics.  
-  * *Defuse Hostility:* DC 20 to turn a Hostile NPC to Indifferent (if they have a sense of humor).  
+  * *Defuse Hostility:* CR 20 to turn a Hostile NPC to Indifferent (if they have a sense of humor).  
   * *Taunt:* Opposed check vs. **Willpower**. Success causes the target to focus on you or suffer a penalty to Logic/Discipline due to anger.  
 * **Specialties:**   
   * **Stand-Up Routines:** Delivering written comedic material, setups, and punchlines to pack cantinas and clubs.  
@@ -1642,7 +1642,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Dancing is the skill of moving rhythmically to music. It reflects a character's ability to use body movements to express emotions and communicate effectively. Dancing is used whenever a character needs to entertain others or perform in a dance show or other performance. Rhythmic bodily movement to music. This skill covers everything from high-society ballroom dancing to club dancing or traditional folk dances. It is a display of grace, stamina, and social awareness.  
 * **Mechanics:**  
   * *Performance:* Standard performance mechanics.  
-  * *Partnering:* DC 15 to expertly lead or follow a partner, granting them a \+2 bonus to their own Social checks during the event.  
+  * *Partnering:* CR 15 to expertly lead or follow a partner, granting them a \+2 bonus to their own Social checks during the event.  
 * **Specialties:**   
   * **Ballroom & Court Waltz:** Gliding gracefully through formal waltzes and minuet dances at aristocratic high galas.  
     * **Club & Rave Freestyle:** Moving fluidly to pounding electronic music, light-shows, and underground dance beats.  
@@ -1704,8 +1704,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Agility (Dexterity) or Charisma (Misdirection)  
 * **Description:** Legerdemain is the skill of performing sleight of hand tricks and illusions. It reflects a character's ability to use misdirection and other techniques to deceive others. Legerdemain is used whenever a character needs to deceive or entertain others such as switching items, stealing or performing a stage or table magic show. Sleight of hand, stage magic, and manual dexterity. While often used for entertainment, it is the primary skill for pickpocketing, palming small objects, and concealing weapons.  
 * **Mechanics:**  
-  * *Pickpocket:* DC 20 to take an item unnoticed (or opposed by Alertness).  
-  * *Conceal Item:* DC 15 to hide a small weapon/item on your person (opposed by Search).  
+  * *Pickpocket:* CR 20 to take an item unnoticed (or opposed by Alertness).  
+  * *Conceal Item:* CR 15 to hide a small weapon/item on your person (opposed by Search).  
   * *Stage Magic:* Perform a trick to entertain or distract.  
 * **Specialties:**   
   * **Pickpocketing:** Slitting purse strings, slipping wallets from coats, and lifting keycards unnoticed.  
@@ -1726,7 +1726,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Charisma  
 * **Description:** Oratory is the skill of public speaking. It reflects a character's ability to use language and tone of voice to persuade and inspire others. Oratory is used whenever a character needs to convince a group to take a certain course of action, or to deliver a speech or other public address. The art of public speaking. Used to inspire crowds, deliver sermons, debate in court/senate, or give orders on a battlefield.  
 * **Mechanics:**  
-  * *Inspire:* DC 15 to grant allies a \+1 morale bonus to Willpower saves for 1 hour.  
+  * *Inspire:* CR 15 to grant allies a \+1 morale bonus to Willpower saves for 1 hour.  
   * *Persuade Crowd:* Shift the attitude of a group (opposed by the group's collective Will or a set DC).  
 * **Specialties:**   
   * **Political Rally Speeches:** Delivering fiery, populist orations that sweep elections and energize masses of voters.  
@@ -1748,7 +1748,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Percussion is the skill of playing percussion instruments, like drums or cymbals. It reflects a character's ability to create music using percussion instruments. Percussion is used whenever a character needs to create music or perform in a musical production. Proficiency with instruments that are struck, shaken, or scraped. This is often the foundation of musical timing and rhythm.  
 * **Mechanics:**  
   * *Performance:* Standard performance mechanics.  
-  * *Rhythm:* DC 15 to maintain a beat that helps others coordinate physical tasks (e.g., rowing, marching), granting a \+1 bonus to their endurance-based checks.  
+  * *Rhythm:* CR 15 to maintain a beat that helps others coordinate physical tasks (e.g., rowing, marching), granting a \+1 bonus to their endurance-based checks.  
 * **Specialties:**   
   * **Acoustic Drum Kits:** Playing intricate rock, jazz, and metal beats using snare, kick, tom-toms, and cymbals.  
     * **Military War Drums & Snares:** Keeping the marching cadence, signaling battle lines, and drumming troops into action.  
@@ -1769,7 +1769,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Singing is the skill of using one's voice to create music. It reflects a character's ability to use pitch, tone, and rhythm to convey emotions and communicate effectively. Singing is used whenever a character needs to entertain others or perform in a musical production. The use of the voice as an instrument. This creates a powerful connection with audiences without the need for equipment.  
 * **Mechanics:**  
   * *Performance:* Standard performance mechanics.  
-  * *Project Voice:* DC 15 to be heard clearly over loud noise/combat.  
+  * *Project Voice:* CR 15 to be heard clearly over loud noise/combat.  
 * **Specialties:**   
   * **Classical Opera:** Projecting high, unamplified vibrato vocals across full orchestras with crystalline resonance.  
     * **Rock & Metal Belting:** Singing powerful, gritty, overdriven lead vocals with intentional rasp and chest-drive.  
@@ -1809,7 +1809,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Charisma  
 * **Description:** Style is the skill of creating a unique and distinctive appearance. It reflects a character's ability to use clothing, accessories, and other techniques to create a unique and memorable look. Style is used whenever a character needs to make a good impression or to stand out from the crowd. The knowledge of fashion, grooming, and personal aesthetics. It is the ability to make an impression before speaking a word. It involves dressing appropriately for high society or looking intimidating in street armor.  
 * **Mechanics:**  
-  * *First Impression:* DC 15 to grant a \+2 bonus to the first **Diplomacy** or **Intimidate** check made in an encounter.  
+  * *First Impression:* CR 15 to grant a \+2 bonus to the first **Diplomacy** or **Intimidate** check made in an encounter.  
   * *Blend In:* Dress to match a specific social caste or group (opposed by Culture/Streetwise).  
 * **Specialties:**   
   * **High-Society Elegance:** Selecting tailored suits, noble sashes, and jewelry that radiate immense wealth and status.  
@@ -1855,7 +1855,7 @@ These skills are used to influence others, hide intentions, or read social situa
 * **Description:** Insight is the skill of understanding and empathizing with others. It reflects a character's ability to comprehend and appropriately react to both broad problems of society and interpersonal struggles. Insight is used whenever a character needs to understand the emotions and feelings of others, whether it's to avoid conflict or to build relationships. This can include things like identifying social cues, taking others' perspectives, demonstrating empathy and compassion, and showing concern for the feelings of others. The skill of understanding and empathizing with others. It reflects a character's ability to comprehend and appropriately react to both broad societal problems and interpersonal struggles. Insight is used to read emotions, detect lies, and understand hidden motives.  
 * **Mechanics:**  
   * **Insight:** Opposed check vs. **Bluff**. Success reveals if the target is lying or hiding something.  
-  * **Read Situation:** DC 15 to pick up on social dynamics or hidden tension in a room.  
+  * **Read Situation:** CR 15 to pick up on social dynamics or hidden tension in a room.  
 * **Specialties:**  
   * **Lie Detection:** Catching subtle facial tics, vocal pitch spikes, and pupil dilations that expose falsehoods.  
     * **Emotional Empathy:** Sensing buried grief, simmering rage, or sheer panic beneath a calm exterior.  
@@ -1877,7 +1877,7 @@ These skills are used to influence others, hide intentions, or read social situa
 * **Mechanics:**  
   * **Deceive:** Opposed check vs. **Insight (Sense Motive)**.  
   * **Feint:** Opposed check vs. **Insight** (or Defense) in combat to deny a target their Agility bonus to Defense for the next attack.  
-  * **Create Distraction:** DC 15+ to momentarily divert attention (often used to Hide).  
+  * **Create Distraction:** CR 15+ to momentarily divert attention (often used to Hide).  
 * **Specialties:**  
   * **Fast-Talking:** Overwhelming security guards and dock officials with rapid jargon and manufactured emergencies.  
     * **Tactical Feints:** Misleading an opponent's combat guard with false eye glances, fake lunges, and baiting strikes.  
@@ -1896,7 +1896,7 @@ These skills are used to influence others, hide intentions, or read social situa
 * **Description:** Barter is the skill of trading goods and services without relying solely on currency. It reflects a character's ability to negotiate value, haggle for better prices, and reach mutually beneficial agreements in trade. Barter is used whenever a character needs to acquire items, services, or information through direct exchange. This includes assessing the relative value of goods, identifying market trends, and convincing others of the worth of a trade. The art of negotiation and exchange.  
 * **Mechanics:**  
   * **Negotiate:** Opposed check vs. the target's **Diplomacy** or **Insight**.  
-  * **Appraise:** DC 15+ to determine the true value or rarity of an object or service.  
+  * **Appraise:** CR 15+ to determine the true value or rarity of an object or service.  
 * **Specialties:**  
   * **Street Market Haggling:** Whittling down the asking price of street vendors and cantina fences credit by credit.  
     * **Bulk Discount Negotiation:** Securing large percentage-off price breaks when buying weapon crates or fuel tons in bulk.  
@@ -1916,9 +1916,9 @@ These skills are used to influence others, hide intentions, or read social situa
 * **Ability:** Charisma  
 * **Description:** Diplomacy is the skill of negotiating and persuading others. It reflects a character's ability to communicate effectively and build relationships with others. Diplomacy is used whenever a character needs to convince someone of something that is true, whether it's to gain support or to resolve a conflict. This can include things like negotiating a peace treaty, convincing a king to support a cause, or persuading a merchant to lower their prices. The art of negotiation, persuasion, and maintaining positive relations. It is used to convince others of the truth, gain support, resolve conflicts peacefully, and navigate complex social hierarchies.  
 * **Mechanics:**  
-  * **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). DC depends on the starting attitude (DC 15 for Indifferent, DC 25+ for Hostile).  
+  * **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). DC depends on the starting attitude (CR 15 for Indifferent, CR 25+ for Hostile).  
   * **Negotiation:** Opposed check vs. the target's **Diplomacy** or **Insight**.  
-  * **Gather Information (Formal):** DC 15+ to find information through official channels or high society.  
+  * **Gather Information (Formal):** CR 15+ to find information through official channels or high society.  
 * **Specialties:**  
   * **Hostility De-escalation:** Talking down armed, angry standoffs and convincing aggressive groups to lower their weapons.  
     * **Formal Treaty Drafting:** Formulating compromise terms, ceasefire articles, and non-aggression treaties between factions.  
@@ -1959,8 +1959,8 @@ These skills are used to influence others, hide intentions, or read social situa
 * **Ability:** Charisma  
 * **Description:** Leadership is the skill of inspiring, organizing, and guiding others toward a common goal. It reflects a character's ability to motivate their allies, maintain morale, and direct the flow of a team or larger group. Leadership is used whenever a character needs to command respect, manage a team, or provide direction in challenging circumstances. It covers leading troops in battle, managing organizational structures, or simply keeping a group focused and cohesive under pressure.  
 * **Mechanics:**  
-  * *Inspire:* DC 15 to grant allies a \+1 morale bonus to specific checks or saves for a duration.  
-  * *Organize:* DC 20 to coordinate a team's efforts for a complex project, reducing time or increasing efficiency.  
+  * *Inspire:* CR 15 to grant allies a \+1 morale bonus to specific checks or saves for a duration.  
+  * *Organize:* CR 20 to coordinate a team's efforts for a complex project, reducing time or increasing efficiency.  
   * *Opposed Check:* Used to maintain morale against fear or discord effects.  
 * **Specialties:**   
   * **Battlefield Tactical Command:** Issuing clear, authoritative firing and movement orders in the deafening noise of combat.  
@@ -1979,8 +1979,8 @@ These skills are used to influence others, hide intentions, or read social situa
 * **Ability:** Charisma (or Wisdom)  
 * **Description:** Streetwise is the skill of navigating the criminal underworld and understanding the social dynamics of the streets. It reflects a character's ability to survive and thrive in dangerous and unpredictable environments. Streetwise is used whenever a character needs to gather information or make connections in the criminal underworld, whether it's to gain access to resources or to avoid danger. This can include things like finding a black market dealer, identifying a gang's territory, or navigating a dangerous neighborhood. Knowledge of the urban environment, criminal underworld, and how to navigate the "streets." It involves gathering information from informal contacts, finding black markets, and avoiding trouble in dangerous neighborhoods.  
 * **Mechanics:**  
-  * **Gather Information (Informal):** DC 10-20 to pick up rumors, find a specific person, or locate illicit goods. Takes 1d4 hours.  
-  * **Urban Survival:** DC 15 to find a safe house or avoid street gangs.  
+  * **Gather Information (Informal):** CR 10-20 to pick up rumors, find a specific person, or locate illicit goods. Takes 1d4 hours.  
+  * **Urban Survival:** CR 15 to find a safe house or avoid street gangs.  
   * **Network:** locating a fence or fixer.  
 * **Specialties:**  
   * **Black Market Fences:** Locating reliable criminal brokers who buy hot cyberware, stolen weapons, and unmarked bullion.  
@@ -2236,7 +2236,7 @@ Attribute: Varies (Intellect for Mages/Tech, Wisdom for Priests/Psychics, Charis
 Type: Meta Skill  
 Attune represents the character's ability to open a conduit to their power source and shape it safely. It is the "Accuracy" and "Control" stat of the meta system.
 
-* **Setting the Save DC:** When you cast an Invocation that allows a Resistance Check (Reflex, Fortitude, or Will), the DC is determined by your Attune check.  
+* **Setting the Save CR:** When you cast an Invocation that allows a Resistance Check (Reflex, Fortitude, or Will), the DC is determined by your Attune check.  
   * *DC Formula:* d20 \+ Attune Rank \+ Ability Mod  
   * *Passive DC:* 10 \+ Attune Rank \+ Ability Mod (Used when taking 10\)  
 * **Overcoming Resistance:** If a target has Spell Resistance (SR) or Psionic Dampening, the Attune check must exceed the target's SR.  
@@ -2244,7 +2244,7 @@ Attune represents the character's ability to open a conduit to their power sourc
 * **Specialties:**  
   * **Conduit Channeling:** Opening your physical body and neural pathways to flow raw meta-energy without self-damage.  
   * **Concentration Under Stress:** Sustaining an active invocation while taking direct ballistic damage or running through fire.  
-  * **Spell DC Augmentation:** Tightening the metaphysical weave to make your invocations vastly harder for targets to resist.  
+  * **Spell CR Augmentation:** Tightening the metaphysical weave to make your invocations vastly harder for targets to resist.  
   * **Overcoming Resistance (SR/PR):** Pushing raw energy through an enemy's innate spell resistance or psionic dampeners.  
   * **Runic Circle Scribing:** Drawing physical geometric runes on floors to anchor massive, long-duration rituals safely.  
   * **Metascience Calibration:** Tuning sensory implants and detection crystals to measure ambient magical currents accurately.  
@@ -2599,7 +2599,7 @@ Meta users can choose to **Focus** on their invocation.
 Using a complementary skill to boost the Meta effect.
 
 * *Example:* Using **Anatomy (Knowledge)** to boost a **Wither (Entropy)** spell.  
-* *Mechanic:* Roll Anatomy vs DC 10\. For every 5 points over 10, gain \+1 to the Attune/Damage roll.
+* *Mechanic:* Roll Anatomy vs CR 10\. For every 5 points over 10, gain \+1 to the Attune/Damage roll.
 
 # **SKILL GROUPS & TITLES**
 
@@ -2938,7 +2938,7 @@ In Tangent, when a character takes an action that relies on a particular skill, 
 
 ## **Adding Skill Rank**
 
-The character's Skill Rank in the relevant skill is added to the d20 roll. This represents their level of training, experience, and expertise in that skill. A higher Skill Rank provides a larger bonus, increasing the character's chances of success.
+The character's Skill Rank in the relevant skill is added to the 2d10 roll. This represents their level of training, experience, and expertise in that skill. A higher Skill Rank provides a larger bonus, increasing the character's chances of success.
 
 ## **Adding Ability Score**
 
@@ -2965,22 +2965,22 @@ Using a different but related skill to aid in a check.
 
 Some characters might have special abilities or features that grant them bonuses or impose penalties on specific skill checks.
 
-## **Rolling a d20**
+## **rolling 2d10**
 
 The core mechanic of a Skill Check involves rolling a 20-sided die (d20). This introduces an element of chance, reflecting the unpredictability of real-world actions and the possibility of unexpected successes or failures.
 
 ### **ARBITRATION OF REALITY (SETTING DIFFICULTY)**
 
-Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rating (CR) or Difficulty Class (DC).
+Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rating (CR) or Challenge Rating (CR).
 
-* Simple (DC 0): Routine actions (Walking, breathing). Automatic Success.  
-* Very Easy (DC 5): Minimal chance of failure (Climbing a ladder).  
-* Easy (DC 10): Standard competency (Driving in traffic).  
-* Average (DC 15): Professional standard (Repairing a common device). The baseline for "Trained" individuals.  
-* Difficult (DC 20): Expert level (Hacking a secure server).  
-* Very Difficult (DC 25): Master level (Tracking across stone).  
-* Nearly Impossible (DC 30): Heroic feat (Leaping a canyon).  
-* Miraculous (DC 35+): Defying probability (Persuading a zealot).  
+* Simple (CR 0): Routine actions (Walking, breathing). Automatic Success.  
+* Very Easy (CR 5): Minimal chance of failure (Climbing a ladder).  
+* Easy (CR 10): Standard competency (Driving in traffic).  
+* Average (CR 15): Professional standard (Repairing a common device). The baseline for "Trained" individuals.  
+* Difficult (CR 20): Expert level (Hacking a secure server).  
+* Very Difficult (CR 25): Master level (Tracking across stone).  
+* Nearly Impossible (CR 30): Heroic feat (Leaping a canyon).  
+* Miraculous (CR 35+): Defying probability (Persuading a zealot).  
   
 
 
@@ -3000,10 +3000,10 @@ Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rat
 
   ### **Comparing to the Target Number**
 
-  The final sum of the d20 roll, Skill Rank, Ability Score modifier, and any other modifiers is then compared to a target number set by the Game Master (GM). This target number, often referred to as the Difficulty Class (DC) or Challenge Rating (CR), represents the difficulty of the task being attempted. If the character's total equals or exceeds the target number, they succeed in the action. If their total falls below the target number, they fail.
+  The final sum of the 2d10 roll, Skill Rank, Ability Score modifier, and any other modifiers is then compared to a target number set by the Game Master (GM). This target number, often referred to as the Challenge Rating (CR) or Challenge Rating (CR), represents the difficulty of the task being attempted. If the character's total equals or exceeds the target number, they succeed in the action. If their total falls below the target number, they fail.
 
 
-  *Example: A character with a Stealth skill of 12 and a Dexterity modifier of \+3 attempts to sneak past a group of guards. The GM sets the DC for this Stealth check at 15, considering the alertness of the guards and the environmental conditions. The character rolls a 10 on their d20, adds their Stealth rank (+12) and their Dexterity modifier (+3), resulting in a total of 25\. Since 25 exceeds the DC of 15, the character successfully sneaks past the guards undetected.*
+  *Example: A character with a Stealth skill of 12 and a Dexterity modifier of \+3 attempts to sneak past a group of guards. The GM sets the DC for this Stealth check at 15, considering the alertness of the guards and the environmental conditions. The character rolls a 10 on 2d10, adds their Stealth rank (+12) and their Dexterity modifier (+3), resulting in a total of 25\. Since 25 exceeds the DC of 15, the character successfully sneaks past the guards undetected.*
 
 ***Skill Checks are a fundamental mechanic in Tangent, used to resolve a wide range of actions and challenges throughout the game. They provide a structured and transparent way to determine success or failure, while also allowing for flexibility and customization based on the character's abilities, the difficulty of the task, and the GM's discretion. This system ensures that skill checks are both engaging and fair, reflecting the character's capabilities and the inherent risks and rewards of their actions.***
 
@@ -3011,7 +3011,7 @@ Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rat
 
 # **SKILL USE**
 
-In Tangent, the success of actions and tasks attempted by characters is determined through Skill Checks. These checks involve rolling a d20 die and adding relevant modifiers to determine if the character succeeds in their endeavors.
+In Tangent, the success of actions and tasks attempted by characters is determined through Skill Checks. These checks involve rolling 2d10 dice and adding relevant modifiers to determine if the character succeeds in their endeavors.
 
 ## **Task**
 
@@ -3077,7 +3077,7 @@ Crafting tasks use CRs in a slightly different manner. In addition to indicating
 
 ### **Taking 10**
 
-In non-threatening or low-stress situations, characters can choose to take a fixed value of 10 for their Skill Check instead of rolling the d20. This represents a conservative approach, relying on consistent competence rather than risking a failed roll.
+In non-threatening or low-stress situations, characters can choose to take a fixed value of 10 for their Skill Check instead of rolling 2d10. This represents a conservative approach, relying on consistent competence rather than risking a failed roll.
 
 ### **Taking 20**
 
@@ -3117,7 +3117,7 @@ If a character makes a Reason (Intellect) check to decipher an ancient text and 
 
 # **ADVANTAGE**
 
-In Tangent, Rolling with Advantage is a powerful mechanic that significantly increases the chances of success in various situations. When you have Advantage, you roll the d20 twice (or more, depending on the number of Advantage effects you have), and you choose the higher of the two rolls. This effectively boosts the probability of obtaining a high roll, thereby improving your odds of meeting or surpassing the Challenge Rating (CR) associated with the task or check.
+In Tangent, Rolling with Advantage is a powerful mechanic that significantly increases the chances of success in various situations. When you have Advantage, you roll 2d10 twice (or more, depending on the number of Advantage effects you have), and you choose the higher of the two rolls. This effectively boosts the probability of obtaining a high roll, thereby improving your odds of meeting or surpassing the Challenge Rating (CR) associated with the task or check.
 
 Rolling with Advantage is particularly useful in situations where the odds are stacked against you. When you're facing a challenging encounter or a difficult skill check, having Advantage can tip the scales in your favor. It can also be helpful when you're trying to pull off a risky maneuver or when you need to make a crucial decision.
 
@@ -3133,11 +3133,11 @@ When rolling with Advantage, you roll the d20 die twice (or more, depending on t
 
 ### **Stacking Effects**
 
-Multiple sources of Advantage generally stack, meaning you get to roll an additional d20 for each Advantage effect. For example, if you have two Advantage effects, you would roll three d20s and choose the best result.
+Multiple sources of Advantage generally stack, meaning you get to roll an additional set of 2d10 for each Advantage effect. For example, if you have two Advantage effects, you would roll 2d10 three times and choose the best result.
 
 ### **Countering Disadvantage**
 
-Advantage directly counters Disadvantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a single d20 as normal.
+Advantage directly counters Disadvantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a single standard 2d10 as normal.
 
 ### **Karma Point**
 
@@ -3187,11 +3187,11 @@ When rolling with Disadvantage, you roll the d20 die twice (or more, depending o
 
 ### **Stacking Effects**
 
-Multiple sources of Disadvantage generally stack, meaning you get an additional d20 roll for each Disadvantage effect. For example, if you have two Disadvantage effects, you would roll three d20s and choose the worst result.
+Multiple sources of Disadvantage generally stack, meaning you get an additional 2d10 roll for each Disadvantage effect. For example, if you have two Disadvantage effects, you would roll 2d10 three times and choose the worst result.
 
 ### **Countering Advantage**
 
-Disadvantage directly counters Advantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a single d20 as normal.
+Disadvantage directly counters Advantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a single standard 2d10 as normal.
 
 ### **Karma Point**
 
@@ -3360,7 +3360,7 @@ Full DC benchmarks, synergistic bonuses, and specialization rules.
 
 
 ## Tactical Guide
-Consult specific skill entries for Difficulty Classes, roll mechanics, and required tools.
+Consult specific skill entries for Challenge Ratinges, roll mechanics, and required tools.
 
 
 ## Architect Notes

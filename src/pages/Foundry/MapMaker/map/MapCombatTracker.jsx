@@ -823,7 +823,7 @@ const MapCombatTracker = ({
       const tgtX = (target.x || 0) * scale + position.x;
       const tgtY = (target.y || 0) * scale + position.y;
       setTimeout(() => {
-        onTriggerFloatingText(tgtX, tgtY, outcome.isHit ? `💥 -${outcome.effectiveDamage} HP (${outcome.location.toUpperCase()})` : `💨 MISSED (${outcome.totalAttack} vs DC ${outcome.defenseDc})`, outcome.isHit ? 'damage' : 'miss');
+        onTriggerFloatingText(tgtX, tgtY, outcome.isHit ? `💥 -${outcome.effectiveDamage} HP (${outcome.location.toUpperCase()})` : `💨 MISSED (${outcome.totalAttack} vs CR ${outcome.defenseDc})`, outcome.isHit ? 'damage' : 'miss');
       }, 300);
     }
 
@@ -1760,7 +1760,7 @@ const MapCombatTracker = ({
                               handleStabilizeToken(token);
                             }}
                             className="px-1.5 py-0.5 bg-emerald-900 hover:bg-emerald-700 text-emerald-100 border border-emerald-500/80 rounded text-[7.5px] font-bold uppercase transition-colors"
-                            title="Stabilize with Medicine (DC 15) or Healing Magic/Tech"
+                            title="Stabilize with Medicine (CR 15) or Healing Magic/Tech"
                           >
                             🩹 Stabilize
                           </button>

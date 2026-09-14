@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. modular faction matrix","matrix"]
-updatedAt: "2026-09-12T08:23:46.549Z"
+updatedAt: "2026-09-14T19:51:39.819Z"
 costs:
   bp: 0
   credits: 0

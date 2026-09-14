@@ -42,7 +42,7 @@ export const CANONICAL_WHISPER_CARDS = [
     pacingTrigger: 'stall',
     title: 'Data-Purge / Core Meltdown Countdown',
     description: 'The mainframe initiates a 3-round wipe sequence. Operatives must reach and hack the terminal before sensitive files vanish.',
-    actionEffect: 'Starts a 3-round progress clock on the map with DC 14 Cybernetics check.'
+    actionEffect: 'Starts a 3-round progress clock on the map with CR 14 Cybernetics check.'
   },
   {
     id: 'tactical_retreat',

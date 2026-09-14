@@ -209,7 +209,7 @@ export const AimeCockpitDeck: React.FC = () => {
             onChange={(e) => setCustomCheckText(e.target.value)}
             rows={2}
             className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-xs text-slate-200 font-mono focus:outline-none focus:border-purple-500"
-            placeholder="e.g. Reflex check 12 vs DC 15 against thermal vent"
+            placeholder="e.g. Reflex check 12 vs CR 15 against thermal vent"
           />
 
           <button

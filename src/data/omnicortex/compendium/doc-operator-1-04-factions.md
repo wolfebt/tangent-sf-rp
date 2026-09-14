@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","1.04 factions","mechanics"]
-updatedAt: "2026-09-12T08:23:46.543Z"
+updatedAt: "2026-09-14T19:51:39.812Z"
 costs:
   bp: 0
   credits: 0
@@ -719,7 +719,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 35 / 163,840 Credits
+**Cost/Wealth:** CR 35 / 163,840 Credits
 
 **CORE STATISTICS**
 
@@ -727,7 +727,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 * **Structure (SP):** 150 SP (50 Base x 3.0 TL 4\)  
 * **Mounts:** 5  
 * **Damage Resistance (DR):** 15 (Nanocarbon Skin)  
-* **Defense (DC):** 20  
+* **Defense (CR):** 20  
   **MOVEMENT & PROPULSION**  
 * **Primary Mode:** Bipedal Myomer  
 * **Speed:** 40 ft/rnd (Tactical)  
@@ -745,7 +745,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 40 / 655,360 Credits
+**Cost/Wealth:** CR 40 / 655,360 Credits
 
 **CORE STATISTICS**
 
@@ -753,7 +753,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 * **Structure (SP):** 3,750 SP (250 Base x 5 Scale x 3.0 TL 4\)  
 * **Mounts:** 25  
 * **Damage Resistance (DR):** 30 (Energy Shields \+ Plating)  
-* **Defense (DC):** 15  
+* **Defense (CR):** 15  
   **MOVEMENT & PROPULSION**  
 * **Primary Mode:** Gravitonic Flight / Tangent Drive (FTL)  
 * **Speed:** 1,000 ft/rnd (Aero) / FTL Capable  
@@ -771,7 +771,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 40 / 655,360 Credits
+**Cost/Wealth:** CR 40 / 655,360 Credits
 
 **CORE STATISTICS**
 
@@ -779,7 +779,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 * **Structure (SP):** 600 SP (100 Base x 2 Scale x 3.0 TL 4\)  
 * **Mounts:** 10  
 * **Damage Resistance (DR):** 45 (Heavy Force-Glass & Grav-Plating)  
-* **Defense (DC):** 12  
+* **Defense (CR):** 12  
   **MOVEMENT & PROPULSION**  
 * **Primary Mode:** Anti-Gravity Repulsors  
 * **Speed:** 60 ft/rnd (Tactical)  
@@ -796,7 +796,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 35 / 163,840 Credits
+**Cost/Wealth:** CR 35 / 163,840 Credits
 
 **CORE STATISTICS**
 
@@ -804,7 +804,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 * **Structure (SP):** 600 SP (100 Base x 2 Scale x 3.0 TL 4\)  
 * **Mounts:** 10  
 * **Damage Resistance (DR):** 20 (Light Poly-Fiber)  
-* **Defense (DC):** 22  
+* **Defense (CR):** 22  
   **MOVEMENT & PROPULSION**  
 * **Primary Mode:** High-Velocity Repulsor  
 * **Speed:** 180 ft/rnd (Tactical)  
@@ -821,7 +821,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 45 / 2,621,440 Credits
+**Cost/Wealth:** CR 45 / 2,621,440 Credits
 
 **CORE STATISTICS**
 
@@ -829,7 +829,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 * **Structure (SP):** 3,750 SP (250 Base x 5 Scale x 3.0 TL 4\)  
 * **Mounts:** 25  
 * **Damage Resistance (DR):** 35 (Reinforced Aether-Lattice)  
-* **Defense (DC):** 18  
+* **Defense (CR):** 18  
   **MOVEMENT & PROPULSION**  
 * **Primary Mode:** Impulse Thrusters / Grav-Assisted Vectoring  
 * **Speed:** 1,200 ft/rnd (Tactical Aero)  
@@ -846,7 +846,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 25 / 10,240 Credits
+**Cost/Wealth:** CR 25 / 10,240 Credits
 
 **CORE STATISTICS**
 
@@ -854,7 +854,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 * **Structure (SP):** 38 SP (25 Base x 0.5 Scale x 3.0 TL 4\)  
 * **Mounts:** 2  
 * **Damage Resistance (DR):** 10 (Polished Brass Finish)  
-* **Defense (DC):** 24  
+* **Defense (CR):** 24  
   **MOVEMENT & PROPULSION**  
 * **Primary Mode:** Micro-Grav Thrusters  
 * **Speed:** 50 ft/rnd (Tactical)  

@@ -99,7 +99,7 @@ addArticle({
   perspective: 'both',
   entry_type: 'System Overview',
   description: introRaw,
-  mechanic: 'UDU Hierarchy: 1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes.\nStandard 150 BP starting pool, 1-for-1 AP progression.\nEconomic Curve: Value = 10 * 4^(DC / 5).\nSurvival: Base 30 Vitality, Base 30 Health, Structure = Vitality + Health.',
+  mechanic: 'UDU Hierarchy: 1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes.\nStandard 150 BP starting pool, 1-for-1 AP progression.\nEconomic Curve: Value = 10 * 4^(CR / 5).\nSurvival: Base 30 Vitality, Base 30 Health, Structure = Vitality + Health.',
   guide: 'Read this first to understand the core physics, capacity metrics, and mathematical philosophy of Tangent.',
   note: 'Source of Truth: docs/game rules/operator/1.00 INTRODUCTION.md'
 });
@@ -136,7 +136,7 @@ addArticle({
   perspective: 'operator',
   entry_type: 'Core Rule',
   description: extractSection(charCreationRaw, '# **ATTRIBUTES**', '# **PERCEPTION**') || extractSection(charCreationRaw, '# **ABILITY SCORES**', '# **SPECIES**'),
-  mechanic: 'Attribute Checks: 2 + (Attribute * 2) + d20 vs Challenge Rating (CR).\nStrength (Might), Agility (Reflex), Stamina (Fortitude), Intellect (Reason), Wisdom (Willpower), Charisma (Etiquette).\nCost: 5 BP per +1 score (max +4 starting). Increases check base by +2. Separate check increase costs 1 BP per +1.',
+  mechanic: 'Attribute Checks: 2 + (Attribute * 2) + 2d10 vs Challenge Rating (CR).\nStrength (Might), Agility (Reflex), Stamina (Fortitude), Intellect (Reason), Wisdom (Willpower), Charisma (Etiquette).\nCost: 5 BP per +1 score (max +4 starting). Increases check base by +2. Separate check increase costs 1 BP per +1.',
   guide: 'Attribute checks act as saves and fallbacks when a specific skill check is not applicable. Do not substitute attribute checks for trained skills.'
 });
 
@@ -172,7 +172,7 @@ addArticle({
   perspective: 'operator',
   entry_type: 'Game Mechanic',
   description: extractSection(charCreationRaw, '# **MOVEMENT**', '# **REST**'),
-  mechanic: 'Ground Paces: Walk (Base 30ft/rnd), Jog (2x speed, -2 subtlety), Run (4x speed, -4 subtlety, DC 10+ Athletics check), Sprint (6x speed, -8 subtlety, DC 15+ Athletics check), Crawl (1/2 speed, +2 stealth, Prone), Slow Crawl (1/4 speed, +4 stealth, Prone).\nFlying: Flight (2x walk speed), Sail (2x flight, -2 subtlety), Surge (4x flight, DC 10+ Acrobatics), Dive (2x speed, DC 15+ Acrobatics), Glide (+2 bonus, DC 10+ Acrobatics), Hover (1/2 speed, DC 15+ Acrobatics).\nSwimming: Swim (1/2 walk speed), Glide (2x swim, DC 10+ Athletics), Stroke (4x swim, DC 15+ Athletics), Treading (1/2 swim, DC 5+ Athletics).\nClimbing: Easy (1/2 walk, DC 10+), Moderate (1/4 walk, DC 15+), Difficult (1/10 walk, DC 20+).\nBurrowing: Burrow (1/4 walk), Tunnel (2x burrow), Excavation (1/8 walk).\nFatigue Trigger: DC 15 Fortitude check after sprinting 5 consecutive rounds or 10 min hurried travel. Failure = 5 non-lethal Vitality damage; if depleted, 2 Health damage + Exhausted condition.',
+  mechanic: 'Ground Paces: Walk (Base 30ft/rnd), Jog (2x speed, -2 subtlety), Run (4x speed, -4 subtlety, CR 10+ Athletics check), Sprint (6x speed, -8 subtlety, CR 15+ Athletics check), Crawl (1/2 speed, +2 stealth, Prone), Slow Crawl (1/4 speed, +4 stealth, Prone).\nFlying: Flight (2x walk speed), Sail (2x flight, -2 subtlety), Surge (4x flight, CR 10+ Acrobatics), Dive (2x speed, CR 15+ Acrobatics), Glide (+2 bonus, CR 10+ Acrobatics), Hover (1/2 speed, CR 15+ Acrobatics).\nSwimming: Swim (1/2 walk speed), Glide (2x swim, CR 10+ Athletics), Stroke (4x swim, CR 15+ Athletics), Treading (1/2 swim, CR 5+ Athletics).\nClimbing: Easy (1/2 walk, CR 10+), Moderate (1/4 walk, CR 15+), Difficult (1/10 walk, CR 20+).\nBurrowing: Burrow (1/4 walk), Tunnel (2x burrow), Excavation (1/8 walk).\nFatigue Trigger: CR 15 Fortitude check after sprinting 5 consecutive rounds or 10 min hurried travel. Failure = 5 non-lethal Vitality damage; if depleted, 2 Health damage + Exhausted condition.',
   guide: 'Ensure players account for movement mode penalties when performing stealth or precision actions while moving.'
 });
 
@@ -196,7 +196,7 @@ addArticle({
   perspective: 'operator',
   entry_type: 'Core Rule',
   description: extractSection(charCreationRaw, '# **DEATH & DYING**', '# **EXPERIENCE**'),
-  mechanic: '0 Health: Incapacitated immediately, drop items, fall Prone.\nDeath\'s Door (0 Health & 0 Vitality): Character is Comatose. Clock = Stamina score rounds (min 1 round) to receive medical aid.\nStabilization: DC 15 Medicine check or healing magic/tech stops clock.\nDeath: Permanent if clock runs out.\nMassive Damage: Taking single hit >= STA while at Death\'s Door causes instant permanent death.\nRevivification (The High Cost of Dying): Requires rare TL5 tech or high Metaphysics. Penalty: Lose ALL remaining Karma Points and suffer -5 Experience Debt (reduction in traits or future experience).',
+  mechanic: '0 Health: Incapacitated immediately, drop items, fall Prone.\nDeath\'s Door (0 Health & 0 Vitality): Character is Comatose. Clock = Stamina score rounds (min 1 round) to receive medical aid.\nStabilization: CR 15 Medicine check or healing magic/tech stops clock.\nDeath: Permanent if clock runs out.\nMassive Damage: Taking single hit >= STA while at Death\'s Door causes instant permanent death.\nRevivification (The High Cost of Dying): Requires rare TL5 tech or high Metaphysics. Penalty: Lose ALL remaining Karma Points and suffer -5 Experience Debt (reduction in traits or future experience).',
   guide: 'Field medics must act before the dying character\'s Stamina clock expires.'
 });
 
@@ -297,8 +297,8 @@ addArticle({
   perspective: 'both',
   entry_type: 'Skills Codex',
   description: skillsRaw,
-  mechanic: 'All skills cost 1 BP per rank.\nSkill Tiers: 0 Untrained, 1-5 Novice, 6-10 Professional/Trained, 11-15 Expert, 16-20 Master, 21-25 Grand Master, 26-30 Pinnacle.\nCategories: Physical, Mental (Knowledges & Vocations), Social (Manipulation & Expression), Metafocus (Attune & Disciplines), Combat (Archaic, Modern, Advanced).\nFull DC benchmarks, synergistic bonuses, and specialization rules.',
-  guide: 'Consult specific skill entries for Difficulty Classes, roll mechanics, and required tools.',
+  mechanic: 'All skills cost 1 BP per rank.\nSkill Tiers: 0 Untrained, 1-5 Novice, 6-10 Professional/Trained, 11-15 Expert, 16-20 Master, 21-25 Grand Master, 26-30 Pinnacle.\nCategories: Physical, Mental (Knowledges & Vocations), Social (Manipulation & Expression), Metafocus (Attune & Disciplines), Combat (Archaic, Modern, Advanced).\nFull CR benchmarks, synergistic bonuses, and specialization rules.',
+  guide: 'Consult specific skill entries for Challenge Ratings, roll mechanics, and required tools.',
   note: 'Source of Truth: docs/game rules/operator/1.07 SKILLS.md'
 });
 
@@ -327,7 +327,7 @@ addArticle({
   perspective: 'operator',
   entry_type: 'Hindrance Codex',
   description: hindrancesRaw,
-  mechanic: 'Hindrances grant bonus BP during character creation (Minor 3 BP, Moderate 6 BP, Major 9 BP; Disability 3/6/9/18 BP; Age 5/10 BP; Tech Impairment 10/20/30 BP).\nRecommended Cap: 15 BP maximum from Hindrances.\nDistinction: Hindrances (Character Flaws) grant BP; Rolling with Hindrance is the situational mechanic (roll 2d20, take lowest).',
+  mechanic: 'Hindrances grant bonus BP during character creation (Minor 3 BP, Moderate 6 BP, Major 9 BP; Disability 3/6/9/18 BP; Age 5/10 BP; Tech Impairment 10/20/30 BP).\nRecommended Cap: 15 BP maximum from Hindrances.\nDistinction: Hindrances (Character Flaws) grant BP; Rolling with Hindrance is the situational mechanic (roll 2d10 with Disadvantage, taking lowest).',
   guide: 'Use hindrances to add narrative depth and character flaws while funding advanced skills and features.',
   note: 'Source of Truth: docs/game rules/operator/1.09 HINDRANCES.md'
 });
@@ -357,7 +357,7 @@ addArticle({
   perspective: 'both',
   entry_type: 'Core Rule',
   description: economatrixRaw,
-  mechanic: 'Tangent Standard Curve (TSC): Value (Credits) = 10 * 4^(DC / 5).\nGolden Rule of Tangent Wealth: A character may automatically purchase any item with a Crafting DC <= Wealth Score without depleting liquid Credits or reducing Wealth Score (Purchase DC = Crafting DC).\nLiquid Credits for transactions exceeding Wealth limits.\n1 MCr (Mega-Credit) = 1,000,000 Credits.\nCrafting DC is the Prime Mover of value, time, and fabrication tiers.',
+  mechanic: 'Tangent Standard Curve (TSC): Value (Credits) = 10 * 4^(CR / 5).\nGolden Rule of Tangent Wealth: A character may automatically purchase any item with a Crafting CR <= Wealth Score without depleting liquid Credits or reducing Wealth Score (Purchase CR = Crafting CR).\nLiquid Credits for transactions exceeding Wealth limits.\n1 MCr (Mega-Credit) = 1,000,000 Credits.\nCrafting CR is the Prime Mover of value, time, and fabrication tiers.',
   guide: 'Use the TSC curve to value any item, weapon, augmentation, or starship in credits based on crafting difficulty.',
   note: 'Source of Truth: docs/game rules/operator/2.00 ECONOMATRIX.md'
 });
@@ -387,7 +387,7 @@ addArticle({
   perspective: 'both',
   entry_type: 'Core Rule',
   description: metaphysicsRaw,
-  mechanic: 'Triad: Attune (Accuracy/Resistance DC), Discipline (Severity/Damage), Invocation (Specialization technique).\nMetafocus Levels: ML 0 (Null), ML 1 (Rare), ML 2 (Selective), ML 3 (Cultured), ML 4 (Standardized), ML 5 (Advanced), ML 6 (Deific).\nKey Ability Sources: INT (Psychic, Arcane, Akashic); WIS (Divine, Nature, Cosmic); CHA (Bardic, Hereditary, Granted).\nPotency Calculation: [Key Ability + Discipline Skill Level + Invocation Level + 10 (or d20)].\nFree-Casting (Spontaneous roll) vs Codified Invocations (Takes 10 by default).\nEssence Pool Formula: Sum of ALL Attributes (STR+AGI+STA+INT+WIS+CHA) + Attune Rank.\n6 Disciplines: Dimension, Energy, Entropy, Illusion, Matter, Mental.',
+  mechanic: 'Triad: Attune (Accuracy/Resistance CR), Discipline (Severity/Damage), Invocation (Specialization technique).\nMetafocus Levels: ML 0 (Null), ML 1 (Rare), ML 2 (Selective), ML 3 (Cultured), ML 4 (Standardized), ML 5 (Advanced), ML 6 (Deific).\nKey Ability Sources: INT (Psychic, Arcane, Akashic); WIS (Divine, Nature, Cosmic); CHA (Bardic, Hereditary, Granted).\nPotency Calculation: [Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10)].\nFree-Casting (Spontaneous roll) vs Codified Invocations (Takes 10 by default).\nEssence Pool Formula: Sum of ALL Attributes (STR+AGI+STA+INT+WIS+CHA) + Attune Rank.\n6 Disciplines: Dimension, Energy, Entropy, Illusion, Matter, Mental.',
   guide: 'Requires Awakened feature. Invocations scale across Novice, Trained, Expert, Master, and Pinnacle stages.',
   note: 'Source of Truth: docs/game rules/operator/4.00 METAPHYSICS.md'
 });
@@ -404,7 +404,7 @@ const architectFiles = [
   { file: '99. MODULAR FACTION MATRIX.md', id: 'doc-architect-99-modular-faction-matrix', name: '99. MODULAR FACTION MATRIX (SOCIOLOGICAL CHASSIS)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 7, perspective: 'architect', entry_type: 'Faction Matrix', desc: '4-phase faction construction: Archetype selection, Mechanical skeleton (TL, ML, Wealth), Sociological profile, and Visual semiotics.' },
   { file: '99. MODULAR PLANETARY MATRIX.md', id: 'doc-architect-99-modular-planetary-matrix', name: '99. MODULAR PLANETARY MATRIX (WORLD-BUILDING CODEX)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 8, perspective: 'architect', entry_type: 'Planetary Matrix', desc: 'Ontological engineering: Morgan-Keenan stellar classes (O, B, A, F, G, K, M, D), geophysical chassis, atmospheric types, biomes, law levels, government codes.' },
   { file: '99. MODULAR SPECIES MATRIX.md', id: 'doc-architect-99-modular-species-matrix', name: '99. MODULAR SPECIES MATRIX (XENOLOGICAL BLUEPRINT)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 9, perspective: 'architect', entry_type: 'Species Matrix', desc: 'Standardized species entry template: Overview, biology, psychology, culture, technology/meta integration, trait costs (Basic 1, Adv 2, Elite 4).' },
-  { file: '99. TECHNOLOGY, ARCHITECTURAL MATRIX.md', id: 'doc-architect-99-technology-architectural-matrix', name: '99. ARCHITECTURAL MATRIX (TAXONOMY & CONSTRUCTION)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 10, perspective: 'architect', entry_type: 'Architectural Matrix', desc: 'Macro-structural engineering: 1 Module = 10 Mounts (400 sq ft / 10 tons). Tangent Standard Curve pricing Value = 10 * 4^(DC / 5).' },
+  { file: '99. TECHNOLOGY, ARCHITECTURAL MATRIX.md', id: 'doc-architect-99-technology-architectural-matrix', name: '99. ARCHITECTURAL MATRIX (TAXONOMY & CONSTRUCTION)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 10, perspective: 'architect', entry_type: 'Architectural Matrix', desc: 'Macro-structural engineering: 1 Module = 10 Mounts (400 sq ft / 10 tons). Tangent Standard Curve pricing Value = 10 * 4^(CR / 5).' },
   { file: '99. TECHNOLOGY, ARMOR MATRIX.md', id: 'doc-architect-99-technology-armor-matrix', name: '99. ARMOR MATRIX (MATERIAL MITIGATION OF TRAUMA)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 11, perspective: 'architect', entry_type: 'Armor Matrix', desc: 'Agnostic chassis vs cultural skin. DR, SP, mobility penalties, size scaling (Diminutive to Colossal), and secondary layering protocols.' },
   { file: '99. TECHNOLOGY, AUGMENTATIONS MATRIX.md', id: 'doc-architect-99-technology-augmentations-matrix', name: '99. AUGMENTATIONS MATRIX (PHYSICAL FORM & NODES)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 12, perspective: 'architect', entry_type: 'Augmentations Matrix', desc: 'Economy of self: BP, Nodes (1-to-1 SP), Sockets (10 nodes/socket). Standard (L1, 6 BP credit), Heavy (L2, +6 BP credit), Extreme (L3, +6 BP credit).' },
   { file: '99. TECHNOLOGY, EQUIPMENT MATRIX.md', id: 'doc-architect-99-technology-equipment-matrix', name: '99. EQUIPMENT MATRIX (MATERIAL FOUNDATION & UDU)', parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING', order: 13, perspective: 'architect', entry_type: 'Equipment Matrix', desc: 'UDU hierarchy: Tier 0 Nodes (<10g), Tier 1 Socket (<1kg), Tier 2 Mount (<100kg), Tier 3 Module (<10t). 10:1 ratio across all tiers.' },

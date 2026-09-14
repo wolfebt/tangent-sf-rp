@@ -2129,7 +2129,7 @@ const CANONICAL_SPECIES_SPECS = [
     specific_skill_bonuses: [{ skill: 'Athletics (Grapple)', bonus: 2 }, { skill: 'Intimidation', bonus: 1 }],
     bonus_skills: 0,
     bonus_skill_choices: ['Athletics', 'Intimidation', 'Combat', 'Attune'],
-    inherent_features: ['Large Size (12-18ft serpentine body, Reach 10ft)', 'Awakened (Serpentine Metaphysics)', 'Constriction (Deals double damage on successful grapple hold)', 'Venomous Fangs (Paralytic Poison DC 15)'],
+    inherent_features: ['Large Size (12-18ft serpentine body, Reach 10ft)', 'Awakened (Serpentine Metaphysics)', 'Constriction (Deals double damage on successful grapple hold)', 'Venomous Fangs (Paralytic Poison CR 15)'],
     bonus_features: 1,
     bonus_feature_choices: ['Hypnotic Gaze', 'Shed Skin (Escape Restraints)', 'Thermal Pit Sense'],
     recommended_features: ['feature-constriction'],

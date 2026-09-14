@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. modular character matrix","matrix"]
-updatedAt: "2026-09-12T08:23:46.548Z"
+updatedAt: "2026-09-14T19:51:39.819Z"
 costs:
   bp: 0
   credits: 0
@@ -146,7 +146,7 @@ While both support the players, they function under entirely different mechanica
 Neutrals (merchants, bureaucrats, civilians) can exist at any power level. A bartender might be Tier 0, while a Corporate CEO might be a Tier 15 Administrator.
 
 * **The Narrative Block:** To save Game Master prep time, Neutrals do not require full combat stat blocks. They are tracked using only three metrics: Concept, Key Skill (e.g., Administration Rank 22), and Disposition (Friendly, Indifferent, Hostile).  
-* **Combat Trigger & Desperate Evasion:** If forced into violence, a Neutral utilizes the full Health and Vitality pools of their assigned Tier Chassis, making high-level politicians and scholars extremely durable. However, because they lack combat training, they must roll all attacks using the Untrained (Rank 0\) mechanics (Attack Roll \= d20 \+ Attribute Mod only). While their attacks are Untrained, they retain their full Tier Action Economy exclusively for Movement, Evasion, and activating defenses. A High-Tier Neutral taking the *Total Defense* or *Flee* action may substitute their highest Vocation or Knowledge Skill Rank for their Defense Rank. This represents their ability to intuitively trigger automated defenses, utilize advanced personal shielding, or expertly navigate their home terrain to avoid strikes.
+* **Combat Trigger & Desperate Evasion:** If forced into violence, a Neutral utilizes the full Health and Vitality pools of their assigned Tier Chassis, making high-level politicians and scholars extremely durable. However, because they lack combat training, they must roll all attacks using the Untrained (Rank 0\) mechanics (Attack Roll \= 2d10 \+ Attribute Mod only). While their attacks are Untrained, they retain their full Tier Action Economy exclusively for Movement, Evasion, and activating defenses. A High-Tier Neutral taking the *Total Defense* or *Flee* action may substitute their highest Vocation or Knowledge Skill Rank for their Defense Rank. This represents their ability to intuitively trigger automated defenses, utilize advanced personal shielding, or expertly navigate their home terrain to avoid strikes.
 
 #### 
 

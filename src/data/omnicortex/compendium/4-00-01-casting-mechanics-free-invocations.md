@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","metaphysics-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ Practitioners of Metaphysics can manipulate reality through two distinct methodo
 
 ## 1. The Potency Calculation Formula
 
-$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } 2d10 \text{)}]$$
 
 - **Attune Check**: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.
 - **Discipline Check**: Used to determine the severity of Effects and/or Damage.
@@ -53,7 +53,7 @@ $$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \
 - **Bonus**: Invocation Levels are added directly to the Discipline Skill checks they are based on *(Invocations are considered Discipline Specializations)*.
 - **Operational Safety**: The user effectively **"Takes 10"** by default on the Discipline check:
   $$\text{Default Potency} = \text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10$$
-  *(A roll using d20 may still be attempted if a better result is desired).*
+  *(A roll using 2d10 may still be attempted if a better result is desired).*
 
 ---
 
@@ -74,7 +74,7 @@ $$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \
 
 ## Game Mechanics Rules
 ```
-CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or d20)
+CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or 2d10)
 InternalizedStrain = floor(FailureMargin / 5) * 1 NonLethal HP
 EnergySurge = Attune <= 0 -> EssenceCost * 2
 ```

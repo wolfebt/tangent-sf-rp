@@ -298,9 +298,9 @@ Skills are organized into **5 Major Skill Groups**. Every rank adds a +1 bonus t
 ### V. Metafocus Skills (INT / WIS / CHA)
 - **Attune (WIS/INT):** Drawing, channeling, and stabilizing metaphysical energy.
 - **Discipline Skills (6 Branches):** Dimension, Energy, Entropy, Illusion, Matter, Mental.,
-    mechanic: SkillCheck = d20 + SkillRank + LinkedAttributeMod + SituationalModifiers
+    mechanic: SkillCheck = 2d10 + SkillRank + LinkedAttributeMod + SituationalModifiers
 FocusBonus: Rank 1-5 (+2), Rank 6-10 (+3), Rank 11-15 (+4), Rank 16-20 (+5), Rank 21-25 (+6), Rank 26-30 (+7),
-    guide: Roll d20 and add your skill rank plus the linked attribute modifier against the target DC.,
+    guide: Roll d20 and add your skill rank plus the linked attribute modifier against the Target CR.,
     note: Synergies: Having 5+ ranks in a prerequisite skill provides a +2 synergy bonus to related specialized checks.
   },
   {

@@ -16,11 +16,11 @@
   },
   {
     "id": "rule-res-02",
-    "title": "Challenge Rating (CR) & Difficulty Class (DC) Ladder",
+    "title": "Challenge Rating (CR) & Challenge Rating (CR) Ladder",
     "domain": "resolution & dice",
     "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`",
     "formula": "",
-    "text": "[RULE-RES-02] Challenge Rating (CR) & Difficulty Class (DC) Ladder\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`\n- **Standard Difficulty Table:**\n  | Difficulty Tier | DC / CR | Description & Environmental Context |\n  | :--- | :---: | :--- |\n  | **Very Easy** | 5 | Safe, quiet area; controlled laboratory; no pressure. |\n  | **Easy** | 10 | Casual, non-hostile conditions; simple maintenance. |\n  | **Average** | 15 | Active hostile environment; tactical combat; standard target. |\n  | **Difficult** | 20 | Severe chaos; high stress; crashing vehicle; bad weather. |\n  | **Very Difficult** | 25 | Extreme crisis; zero gravity storm; active suppressive fire. |\n  | **Heroic** | 30 | Masterwork threshold; near impossible physical feat. |\n  | **Legendary** | 35+ | Transcendent or",
+    "text": "[RULE-RES-02] Challenge Rating (CR) & Challenge Rating (CR) Ladder\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`\n- **Standard Difficulty Table:**\n  | Difficulty Tier | CR | Description & Environmental Context |\n  | :--- | :---: | :--- |\n  | **Very Easy** | 5 | Safe, quiet area; controlled laboratory; no pressure. |\n  | **Easy** | 10 | Casual, non-hostile conditions; simple maintenance. |\n  | **Average** | 15 | Active hostile environment; tactical combat; standard target. |\n  | **Difficult** | 20 | Severe chaos; high stress; crashing vehicle; bad weather. |\n  | **Very Difficult** | 25 | Extreme crisis; zero gravity storm; active suppressive fire. |\n  | **Heroic** | 30 | Masterwork threshold; near impossible physical feat. |\n  | **Legendary** | 35+ | Transcendent or",
     "tags": [
       "rule-res-02",
       "challenge",
@@ -53,7 +53,7 @@
     "domain": "resolution & dice",
     "citation": "`docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`",
     "formula": "",
-    "text": "[RULE-RES-04] Advantage & Disadvantage Rolling\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`\n- **Mechanics:**\n  - **Advantage:** Roll damage or check dice twice and take the higher total (e.g., Point-Blank ballistic shots, Sneak Attacks against unaware targets).\n  - **Disadvantage:** Roll dice twice and take the lower total (e.g., severe encumbrance, sensory blind firing).\n  - Syntax supported in BASTION Dice Dock: `/roll 2d20kh1+mod`, `/roll 2d10kh1+mod`.",
+    "text": "[RULE-RES-04] Advantage & Disadvantage Rolling\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`\n- **Mechanics:**\n  - **Advantage:** Roll damage or check dice twice and take the higher total (e.g., Point-Blank ballistic shots, Sneak Attacks against unaware targets).\n  - **Disadvantage:** Roll dice twice and take the lower total (e.g., severe encumbrance, sensory blind firing).\n  - Syntax supported in BASTION Dice Dock: `/Roll 2d10 with Advantagekh1+mod`, `/roll 2d10kh1+mod`.",
     "tags": [
       "rule-res-04",
       "advantage",
@@ -352,7 +352,7 @@
     "domain": "tactical combat",
     "citation": "`docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`",
     "formula": "",
-    "text": "[RULE-CMB-06] The Mortality State (0 HP) & Bleedout\nCitation: `docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`\n- **Rules:**\n  - When Health Points drop to $0$:\n    1. Operative falls **Prone** and is **Incapacitated**.\n    2. Enters **Bleeding Out** status. At the start of their turn, suffers $1\\text{ point of Stability Damage}$.\n  - **Stability Point Pool:**\n    $$\\text{Stability Points} = \\text{Constitution (Stamina) Score} + 5$$\n  - When Stability Points reach $0$, the operative undergoes clinical death.\n  - **Stabilization:** Bleeding out ceases upon receiving a successful **Medicine Check (DC 15)** or metaphysical healing.",
+    "text": "[RULE-CMB-06] The Mortality State (0 HP) & Bleedout\nCitation: `docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`\n- **Rules:**\n  - When Health Points drop to $0$:\n    1. Operative falls **Prone** and is **Incapacitated**.\n    2. Enters **Bleeding Out** status. At the start of their turn, suffers $1\\text{ point of Stability Damage}$.\n  - **Stability Point Pool:**\n    $$\\text{Stability Points} = \\text{Constitution (Stamina) Score} + 5$$\n  - When Stability Points reach $0$, the operative undergoes clinical death.\n  - **Stabilization:** Bleeding out ceases upon receiving a successful **Medicine Check (CR 15)** or metaphysical healing.",
     "tags": [
       "rule-cmb-06",
       "the",
@@ -475,7 +475,7 @@
     "domain": "economatrix",
     "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`",
     "formula": "",
-    "text": "[RULE-ECO-01] Tangent Standard Curve (TSC)\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`\n- **The Universal Valuation Equation:**\n  $$\\text{Market Value (Credits)} = 10 \\times 4^{(\\text{Crafting DC} / 5)}$$\n- **Standard Milestone Values:**\n  - $\\text{DC } 0$: $10\\text{ Credits}$ (Raw scrap / basic ration).\n  - $\\text{DC } 5$: $40\\text{ Credits}$ (Hand tool / common blade).\n  - $\\text{DC } 10$: $160\\text{ Credits}$ (Sidearm / light armor).\n  - $\\text{DC } 15$: $640\\text{ Credits}$ (Standard Ballistic Assault Rifle).\n  - $\\text{DC } 20$: $2,560\\text{ Credits}$ (Military Plasma Rifle).\n  - $\\text{DC } 25$: $10,240\\text{ Credits}$ (Advanced Cybernetic Rig / Heavy Exosuit).\n  - $\\text{DC } 30$: $40,960\\text{ Credits}$ (Combat Vehicle / Prototype Emitter).",
+    "text": "[RULE-ECO-01] Tangent Standard Curve (TSC)\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`\n- **The Universal Valuation Equation:**\n  $$\\text{Market Value (Credits)} = 10 \\times 4^{(\\text{Crafting CR} / 5)}$$\n- **Standard Milestone Values:**\n  - $\\text{DC } 0$: $10\\text{ Credits}$ (Raw scrap / basic ration).\n  - $\\text{DC } 5$: $40\\text{ Credits}$ (Hand tool / common blade).\n  - $\\text{DC } 10$: $160\\text{ Credits}$ (Sidearm / light armor).\n  - $\\text{DC } 15$: $640\\text{ Credits}$ (Standard Ballistic Assault Rifle).\n  - $\\text{DC } 20$: $2,560\\text{ Credits}$ (Military Plasma Rifle).\n  - $\\text{DC } 25$: $10,240\\text{ Credits}$ (Advanced Cybernetic Rig / Heavy Exosuit).\n  - $\\text{DC } 30$: $40,960\\text{ Credits}$ (Combat Vehicle / Prototype Emitter).",
     "tags": [
       "rule-eco-01",
       "tangent",
@@ -490,7 +490,7 @@
     "domain": "economatrix",
     "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`",
     "formula": "",
-    "text": "[RULE-ECO-02] The Golden Rule of Tangent Wealth\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`\n- **Rule Text:**\n  $$\\text{Purchase DC} = \\text{Crafting DC} \\le \\text{Wealth Score}$$\n  - A character may automatically requisition/purchase any item whose Crafting DC is less than or equal to their Wealth Score without depleting liquid credits or reducing their Wealth Score.",
+    "text": "[RULE-ECO-02] The Golden Rule of Tangent Wealth\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`\n- **Rule Text:**\n  $$\\text{Purchase CR} = \\text{Crafting CR} \\le \\text{Wealth Score}$$\n  - A character may automatically requisition/purchase any item whose Crafting CR is less than or equal to their Wealth Score without depleting liquid credits or reducing their Wealth Score.",
     "tags": [
       "rule-eco-02",
       "the",
@@ -553,7 +553,7 @@
     "domain": "metaphysics",
     "citation": "`docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`",
     "formula": "",
-    "text": "[RULE-META-01] The Metaphysics Triad\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`\n- **The Triad Structure:**\n  1. **Attune Skill:** General energy drawing and channeling skill. Sets the **Difficulty Class (DC)** of the resistance or attack check.\n  2. **Discipline Skill:** Manipulates metaphysical patterns. Sets **Severity and Damage Dice**.\n  3. **Invocations:** Codified muscle memory. Invocations allow casters to **\"Take 10\"** by default on Discipline checks for operational safety.",
+    "text": "[RULE-META-01] The Metaphysics Triad\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`\n- **The Triad Structure:**\n  1. **Attune Skill:** General energy drawing and channeling skill. Sets the **Challenge Rating (CR)** of the resistance or attack check.\n  2. **Discipline Skill:** Manipulates metaphysical patterns. Sets **Severity and Damage Dice**.\n  3. **Invocations:** Codified muscle memory. Invocations allow casters to **\"Take 10\"** by default on Discipline checks for operational safety.",
     "tags": [
       "rule-meta-01",
       "the",
@@ -567,7 +567,7 @@
     "domain": "metaphysics",
     "citation": "`docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`",
     "formula": "",
-    "text": "[RULE-META-02] Potency Calculation & \"Take 10\" Rule\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`\n- **Potency Formula:**\n  $$\\text{Potency Score} = \\text{Key Ability} + \\text{Discipline Skill Level} + \\text{Invocation Level} + 10 \\quad \\text{(or } d20\\text{)}$$\n  - Casters Take 10 by default to prevent catastrophic failure during tactical operations. They may opt to roll $d20$ or $2d10$ when attempting higher results.",
+    "text": "[RULE-META-02] Potency Calculation & \"Take 10\" Rule\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`\n- **Potency Formula:**\n  $$\\text{Potency Score} = \\text{Key Ability} + \\text{Discipline Skill Level} + \\text{Invocation Level} + 10 \\quad \\text{(or } d20\\text{)}$$\n  - Casters Take 10 by default to prevent catastrophic failure during tactical operations. They may opt to roll $2d10$ or $2d10$ when attempting higher results.",
     "tags": [
       "rule-meta-02",
       "potency",
@@ -709,7 +709,7 @@
     "domain": "environmental hazards",
     "citation": "`docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`",
     "formula": "",
-    "text": "[RULE-HAZ-01] Zero-G Locomotion & Vacuum Decompression\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`\n- **Domain:** Environmental Hazards\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`\n- **Rules:**\n  - **Zero-G Maneuvering:** Requires **Reflex Check (DC 14)** when executing abrupt directional thrust maneuvers; failure results in tumbling and $-4\\text{ to-hit}$.\n  - **Inertial Drift:** Unanchored movement continues unabated in a straight vector each round until reverse thrusters or solid impact occurs.\n  - **Vacuum Decompression:** Biological entities exposed to hard vacuum lose all VP instantly and suffer $2\\text{ HP damage per round}$ from explosive decompression and hypoxia.",
+    "text": "[RULE-HAZ-01] Zero-G Locomotion & Vacuum Decompression\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`\n- **Domain:** Environmental Hazards\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`\n- **Rules:**\n  - **Zero-G Maneuvering:** Requires **Reflex Check (CR 14)** when executing abrupt directional thrust maneuvers; failure results in tumbling and $-4\\text{ to-hit}$.\n  - **Inertial Drift:** Unanchored movement continues unabated in a straight vector each round until reverse thrusters or solid impact occurs.\n  - **Vacuum Decompression:** Biological entities exposed to hard vacuum lose all VP instantly and suffer $2\\text{ HP damage per round}$ from explosive decompression and hypoxia.",
     "tags": [
       "rule-haz-01",
       "zero-g",

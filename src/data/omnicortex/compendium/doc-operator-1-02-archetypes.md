@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","1.02 archetypes","mechanics"]
-updatedAt: "2026-09-12T08:23:46.539Z"
+updatedAt: "2026-09-14T19:51:39.809Z"
 costs:
   bp: 0
   credits: 0
@@ -2137,7 +2137,7 @@ Here is the list of Signature Features for all archetypes, categorized by their 
 Aesthetic: A flurry of authorized permits and supply-chain re-routing.  
 Classification: Operational Sentinel Feature (3 BP, or 2 BP if Bureaucrat)  
 Activation: Passive (During downtime or resource acquisition)  
-Effect: Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (DC) of the task is reduced by 5\. Additionally, write-offs and financial loopholes allow the team to recover 15% of all credits spent on gear or repairs at the end of any mission.
+Effect: Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5\. Additionally, write-offs and financial loopholes allow the team to recover 15% of all credits spent on gear or repairs at the end of any mission.
 
  Guardian's Ward (The Warden)  
 Aesthetic: Roots and glowing spiritual energy weave into a defensive barrier.  
@@ -2161,7 +2161,7 @@ Effect: While active, your movement speed is halved, but you project a 2-meter "
 Aesthetic: Fast application of derm-sealers, stimulants, and trauma clamps under fire.  
 Classification: Medical Sentinel Feature (3 BP, or 2 BP if Field Medic)  
 Activation: 1 Major Action  
-Effect: You treat a downed or critically wounded ally. You make a Medicine check (DC 15). On a success, you restore Vitality equal to your Wisdom Attribute multiplied by 5, and the target immediately regains consciousness if they were unconscious. This feature can be used in high-threat environments without drawing attacks of opportunity.
+Effect: You treat a downed or critically wounded ally. You make a Medicine check (CR 15). On a success, you restore Vitality equal to your Wisdom Attribute multiplied by 5, and the target immediately regains consciousness if they were unconscious. This feature can be used in high-threat environments without drawing attacks of opportunity.
 
  Stage Presence (The Thespian / Virtuoso)  
 Aesthetic: Commanding the room's attention with perfect posture and voice.  
@@ -2173,13 +2173,13 @@ Effect: You perform a dramatic display, song, or authoritative declaration. All 
 Aesthetic: Slipping behind a target unseen, striking with lethal precision.  
 Classification: Combat Operative Feature (3 BP, or 2 BP if Silent Blade)  
 Activation: Passive (Triggered when attacking an unaware target)  
-Effect: When you attack a target while completely hidden or undetected, your attack automatically deals critical damage. If using a physical weapon, you bypass the target's Damage Reduction (DR) entirely. If the target is an NPC of equal or lower Tier, they must make a Constitution Save (DC equal to your Attack Roll) or be instantly incapacitated.
+Effect: When you attack a target while completely hidden or undetected, your attack automatically deals critical damage. If using a physical weapon, you bypass the target's Damage Reduction (DR) entirely. If the target is an NPC of equal or lower Tier, they must make a Constitution Save (CR equal to your Attack Roll) or be instantly incapacitated.
 
  Cyber Warfare (The Decker / Slicer)  
 Aesthetic: Code cascading down an interface screen as firewalls crumble.  
 Classification: Tech Savant Feature (3 BP, or 2 BP if Decker/Slicer)  
 Activation: 1 Major Action (Targeting any connected electronic system, vehicle, or cybernetic implant)  
-Effect: You execute a rapid intrusion packet. Make a Technology check (DC equal to 10 \+ target's Tech Level \* 2). On a success, you gain complete control over the target system for 3 rounds. If targeting a cybernetic implant, you can disable the implant or force the user to drop their weapon. If targeting a turret or drone, it treats enemies as allies and allies as enemies.
+Effect: You execute a rapid intrusion packet. Make a Technology check (CR equal to 10 \+ target's Tech Level \* 2). On a success, you gain complete control over the target system for 3 rounds. If targeting a cybernetic implant, you can disable the implant or force the user to drop their weapon. If targeting a turret or drone, it treats enemies as allies and allies as enemies.
 
  Arcane Weaving (The Magus)  
 Aesthetic: Tracing geometric runes in the air as reality warps.  

@@ -18,8 +18,8 @@ Every character in Tangent is built upon **6 Core Attributes**, each coupled wit
 
 | Primary Attribute | Core Application | Sub-Attribute | Saving Throw / Check |
 | :--- | :--- | :--- | :--- |
-| **Strength (STR)** | Physical power, carrying capacity, melee force | **Might** | Raw muscular lift, break DC, grapple power |
-| **Agility (AGI)** | Dexterity, fine motor control, balance | **Reflex** | Initiative, dodge DC, acrobatics, evasion |
+| **Strength (STR)** | Physical power, carrying capacity, melee force | **Might** | Raw muscular lift, break CR, grapple power |
+| **Agility (AGI)** | Dexterity, fine motor control, balance | **Reflex** | Initiative, dodge CR, acrobatics, evasion |
 | **Stamina (STA)** | Physical endurance, cardio, cellular resilience | **Fortitude** | Disease, poison, wound stabilization, shock |
 | **Intellect (INT)** | Deductive logic, technical aptitude, memory | **Logic** | Hacking, investigation, physics, computation |
 | **Wisdom (WIS)** | Intuition, spatial awareness, perception | **Will** | Mental defense, fear resistance, psychic grit |
@@ -70,16 +70,16 @@ Your number of attacks and actions per round is governed directly by your **Comb
 ## Metaphysics & Reality Manipulation
 
 If your character possesses an **Awakened Discipline**:
-- **Attune Check:** Determines the resistance DC of your spell or the evasion DC for targets.
+- **Attune Check:** Determines the Resistance CR of your spell or the Evasion CR for targets.
 - **Discipline Check:** Determines the intensity, duration, damage, or magnitude of the effect.
 - **Essence Pool:** Manage your daily Essence reserves to power Invocations and avoid Strain.,
     mechanic: // OPERATOR ACTION DERIVATION FORMULAS
 Attack Check = d20 + Combat Skill Rank + Ability Mod + Weapon Modifiers
 Active Defense = d20 + Defense Skill + Agility Mod (each successive defense at cumulative -5)
-Spell Resistance DC = 10 + Key Ability Mod + Attune Rank + Invocation Level,
+Spell Resistance CR = 10 + Key Ability Mod + Attune Rank + Invocation Level,
     guide: Step 1: Check your Persona Folio for current HP, Armor DR, and Essence Pool.
 Step 2: On your turn in combat, declare actions up to your Skill Stage limit.
-Step 3: Roll d20 + Skill Rank + Attribute Mod vs target DC or Opposed Defense.,
+Step 3: Roll d20 + Skill Rank + Attribute Mod vs Target CR or Opposed Defense.,
     note: Operators should balance offensive actions with defensive reserves, as reactive defenses suffer cumulative penalties.
   },
   {
@@ -118,9 +118,9 @@ When establishing star-systems or planetary sectors, assign two fundamental rati
 
 ---
 
-## 2. Difficulty Classes (DC) & Adjudication
+## 2. Challenge Ratinges (DC) & Adjudication
 
-| Difficulty Level | Target DC | Typical Task Example |
+| Difficulty Level | Target CR | Typical Task Example |
 | :--- | :---: | :--- |
 | **Very Easy / Routine** | **5** | Driving on an open highway, noticing a loud noise |
 | **Easy / Standard** | **10** | Picking a simple lock, climbing a ladder in rain |
@@ -148,9 +148,9 @@ Architects can quickly assemble adversary statblocks using the **3-Tier Threat M
 - **Bosses / Arch-Villains:** 100+ HP, Armor DR 15+, Legendary Reactions, Focus Strike +5, full Metaphysic suites.,
     mechanic: // ARCHITECT UNOPPOSED DC FORMULA
 Unopposed DC = 15 + Size Modifier + Range Penalty + Movement Modifier
-Design DC = (TL * 2) + (ML * 3) + Base Component Difficulty,
+Design CR = (TL * 2) + (ML * 3) + Base Component Difficulty,
     guide: 1. Establish the planetary TL and ML before designing scenes.
-2. Use Base DC 15 for average tasks under pressure; adjust by +/- 5 increments.
+2. Use Base CR 15 for average tasks under pressure; adjust by +/- 5 increments.
 3. When resolving opposed checks, award ties to the defending party.,
     note: Keep the story moving: if a roll fails by 1-2 points, offer a 'Success at a Cost' rather than a hard roadblock.
   },
@@ -174,7 +174,7 @@ BASTION processes user directives, parses tactical encounters, calculates odds, 
 ### Dice Rolling Engine Syntax
 - \/roll [count]d[sides]+[mod]\
 - Examples:
-  - \/roll d20+6\ — Standard attack or skill check.
+  - \/roll 2d10+6\ — Standard attack or skill check.
   - \/roll 2d10+4\ — Heavy energy blaster damage roll.
   - \/roll 3d6+2\ — Kinetic slug thrower burst roll.
 
@@ -201,7 +201,7 @@ BASTION enforces strict data validation across all DBM collections:
 - **Relational Linking:** Items link to prerequisites, species link to inherent traits, and features link to skill requirements.
 - **Bi-directional Sync:** Folio character sheets dynamically query Omnicortex DBM entries in real time.,
     mechanic: // BASTION PARSER SPECIFICATION
-Input: "/roll 2d20kh1+5" -> Roll 2d20, Keep Highest 1, Add 5 (Advantage Check)
+Input: "/Roll 2d10 with Advantagekh1+5" -> Roll 2d10 with Advantage, Keep Highest 1, Add 5 (Advantage Check)
 Damage Soak: EffectiveHP_Loss = max(1, RawDamage - max(0, TargetDR - WeaponAP)),
     guide: Type /roll in the BASTION chat bar to execute instant dice operations.
 Ask BASTION for rule lookups, NPC generation, and combat odds analysis.,

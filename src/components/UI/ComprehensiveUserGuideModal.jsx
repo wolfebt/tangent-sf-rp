@@ -713,7 +713,7 @@ const CodexGuideSection = ({ onCopy, copiedSnippet }) => (
         </h4>
         <button
           type="button"
-          onClick={() => onCopy('V = 10 * 4^(DC / 5); MaterialCost = V * 0.50; DailyPP = max(1, (Check - 10) * TierMult);', 'tsc-formula')}
+          onClick={() => onCopy('V = 10 * 4^(CR / 5); MaterialCost = V * 0.50; DailyPP = max(1, (Check - 10) * TierMult);', 'tsc-formula')}
           className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] flex items-center gap-1 transition-all"
         >
           {copiedSnippet === 'tsc-formula' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
@@ -724,7 +724,7 @@ const CodexGuideSection = ({ onCopy, copiedSnippet }) => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
         <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
           <div className="text-amber-300 font-bold">Tangent Standard Curve (TSC)</div>
-          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Market Value = 10 * 4^(DC / 5)</div>
+          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Market Value = 10 * 4^(CR / 5)</div>
           <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Material Cost = floor(Market Value * 0.50)</div>
         </div>
 
@@ -1404,7 +1404,7 @@ const RulesGuideSection = () => (
             ⚡ Massive Damage &amp; Stabs
           </div>
           <p className="text-slate-300 text-[11px] leading-relaxed">
-            Taking damage in a single hit equal to or exceeding your Stamina score directly to Health triggers an immediate DC 15 Fortitude check. Failure causes instant death or instantaneous coma. A successful DC 15 Medicine check stops the Death Clock.
+            Taking damage in a single hit equal to or exceeding your Stamina score directly to Health triggers an immediate CR 15 Fortitude check. Failure causes instant death or instantaneous coma. A successful CR 15 Medicine check stops the Death Clock.
           </p>
         </div>
 
@@ -1447,7 +1447,7 @@ const RulesGuideSection = () => (
             🏃 Movement Fatigue Triggers
           </div>
           <p className="text-slate-300 text-[11px] leading-relaxed">
-            Sprinting for <strong>5 consecutive combat rounds</strong> or maintaining hurried forced march for <strong>10 minutes</strong> triggers a mandatory <strong>DC 15 Stamina Fortitude Check</strong>.
+            Sprinting for <strong>5 consecutive combat rounds</strong> or maintaining hurried forced march for <strong>10 minutes</strong> triggers a mandatory <strong>CR 15 Stamina Fortitude Check</strong>.
           </p>
           <div className="text-[10.5px] text-slate-400 border-t border-slate-800/80 pt-1.5">
             Failure: Suffer 5 points of non-lethal Vitality damage. If Vitality is 0, take 2 Health damage and become <strong className="text-amber-300">Exhausted</strong> (-2 to active checks, half movement speed) until receiving a Light Rest.
@@ -1490,13 +1490,13 @@ const RulesGuideSection = () => (
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
           <div className="font-bold text-sky-300 font-mono uppercase text-xs">🦅 Aerial Flight &amp; Ramming</div>
           <p className="text-slate-400 text-[10.5px]">
-            Hovering requires DC 15 Acrobatics. Soaring grants <strong className="text-cyan-300">High Ground (+2 Strike/+2 Crit)</strong>. Aerial rams deal +1d damage per flight stage and +1 impact per 10ft of speed to both flyer and target.
+            Hovering requires CR 15 Acrobatics. Soaring grants <strong className="text-cyan-300">High Ground (+2 Strike/+2 Crit)</strong>. Aerial rams deal +1d damage per flight stage and +1 impact per 10ft of speed to both flyer and target.
           </p>
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
           <div className="font-bold text-teal-300 font-mono uppercase text-xs">🧗 Climbing &amp; Descents</div>
           <p className="text-slate-400 text-[10.5px]">
-            Base climbing is 1/2 speed. Scaling (2×, DC 15), Fast Ascent (3×, DC 18), and Fast Descent (6×, DC 20 Athletics) permit rapid vertical maneuvers across sheer cliff faces.
+            Base climbing is 1/2 speed. Scaling (2×, CR 15), Fast Ascent (3×, CR 18), and Fast Descent (6×, CR 20 Athletics) permit rapid vertical maneuvers across sheer cliff faces.
           </p>
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">

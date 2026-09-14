@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","metaphysics-discipline"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -73,4 +73,4 @@ Holographic Decoy: 1 Essence -> 50% Miss Chance
 Illusion adepts excel at infiltration, social infiltration, diversion, and avoiding direct combat.
 
 ## Designer Notes
-True-sight cybernetic sensors roll an Investigation check against your Attune DC to see through illusions.
+True-sight cybernetic sensors roll an Investigation check against your Attune CR to see through illusions.

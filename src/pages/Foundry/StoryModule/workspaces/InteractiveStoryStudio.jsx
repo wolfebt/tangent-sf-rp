@@ -214,7 +214,7 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
       total,
       isSuccess,
       protagonistName: activeProtagonist?.name || 'Party',
-      text: `${activeProtagonist?.name || 'Operative'} [${skillName}]: Rolled ${d1}+${d2}+${attrMod} = ${total} vs DC ${dc} (${isSuccess ? 'SUCCESS' : 'FAILURE'})`
+      text: `${activeProtagonist?.name || 'Operative'} [${skillName}]: Rolled ${d1}+${d2}+${attrMod} = ${total} vs CR ${dc} (${isSuccess ? 'SUCCESS' : 'FAILURE'})`
     });
   };
 
@@ -282,9 +282,9 @@ FORMAT YOUR OUTPUT AS VALID JSON:
   "gate": {
     "prompt": "What does the operative do next?",
     "options": [
-      { "id": "1", "text": "Aggressive or kinetic move...", "skill": "Kinetics / Ballistics DC 12" },
-      { "id": "2", "text": "Tactical, technical, or stealth move...", "skill": "Slicing / Stealth DC 13" },
-      { "id": "3", "text": "Diplomatic, psionic, or unconventional move...", "skill": "Perception / Psionics DC 12" }
+      { "id": "1", "text": "Aggressive or kinetic move...", "skill": "Kinetics / Ballistics CR 12" },
+      { "id": "2", "text": "Tactical, technical, or stealth move...", "skill": "Slicing / Stealth CR 13" },
+      { "id": "3", "text": "Diplomatic, psionic, or unconventional move...", "skill": "Perception / Psionics CR 12" }
     ]
   }
 }`;
@@ -311,9 +311,9 @@ FORMAT YOUR OUTPUT AS VALID JSON:
           gate: {
             prompt: "What is your next tactical move?",
             options: [
-              { id: "1", text: "Press the offensive under cover", skill: "Ballistics DC 12" },
-              { id: "2", text: "Access local terminal to slice blast doors", skill: "Slicing DC 13" },
-              { id: "3", text: "Reposition and flank target perimeter", skill: "Agility DC 11" }
+              { id: "1", text: "Press the offensive under cover", skill: "Ballistics CR 12" },
+              { id: "2", text: "Access local terminal to slice blast doors", skill: "Slicing CR 13" },
+              { id: "3", text: "Reposition and flank target perimeter", skill: "Agility CR 11" }
             ]
           }
         };

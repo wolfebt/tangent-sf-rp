@@ -36,7 +36,7 @@ export const ARCHETYPE_SCALING_RULES = {
     title: 'NPC Tier 1 (Novice / Minion)',
     health: 25,
     vitality: 25,
-    attackRoll: 'd20 + 3 (Primary Attribute)',
+    attackRoll: '2d10 + 3 (Primary Attribute)',
     defense: '11 + Secondary Attribute',
     derivedSaves: '+2',
     signatureFeatures: '1 basic feature passive effect only.'
@@ -45,7 +45,7 @@ export const ARCHETYPE_SCALING_RULES = {
     title: 'NPC Tier 2 (Veteran / Professional)',
     health: 50,
     vitality: 50,
-    attackRoll: 'd20 + 5 (Primary Attribute + 2)',
+    attackRoll: '2d10 + 5 (Primary Attribute + 2)',
     defense: '13 + Secondary Attribute',
     derivedSaves: '+4',
     signatureFeatures: '1 active feature, used once per combat.'
@@ -54,7 +54,7 @@ export const ARCHETYPE_SCALING_RULES = {
     title: 'NPC Tier 3 (Master / Boss)',
     health: 100,
     vitality: 100,
-    attackRoll: 'd20 + 8 (Primary Attribute + 5)',
+    attackRoll: '2d10 + 8 (Primary Attribute + 5)',
     defense: '15 + Secondary Attribute',
     derivedSaves: '+7',
     signatureFeatures: '2 features, fully active.'
@@ -63,7 +63,7 @@ export const ARCHETYPE_SCALING_RULES = {
     title: 'NPC Tier 4 (Pinnacle / Legendary)',
     health: 200,
     vitality: 200,
-    attackRoll: 'd20 + 12 (Primary Attribute + 8)',
+    attackRoll: '2d10 + 12 (Primary Attribute + 8)',
     defense: '18 + Secondary Attribute',
     derivedSaves: '+10',
     signatureFeatures: '3 features, fully active, can spend 1 action to recharge.'

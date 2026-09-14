@@ -91,7 +91,7 @@ const SkillChallengeModal = ({
     }
 
     if (onBroadcastMessage) {
-      onBroadcastMessage(`[SKILL CHALLENGE]: ${selectedHero.label} rolled ${selectedSkill} (${rollTotal} vs DC ${activeChallenge.baseDc}): Progress [${updated.currentSuccesses}/${updated.requiredSuccesses}] | Alert [${updated.currentFailures}/${updated.maxFailures}]`);
+      onBroadcastMessage(`[SKILL CHALLENGE]: ${selectedHero.label} rolled ${selectedSkill} (${rollTotal} vs CR ${activeChallenge.baseDc}): Progress [${updated.currentSuccesses}/${updated.requiredSuccesses}] | Alert [${updated.currentFailures}/${updated.maxFailures}]`);
     }
 
     setIsSuccessAtCost(false);

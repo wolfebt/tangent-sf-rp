@@ -86,7 +86,7 @@ const DEFAULT_WEAPONS: WeaponAction[] = [
     damageDice: '2d10+2',
     damageType: 'disruption',
     range: '30 ft (AoE 15ft)',
-    special: 'Stuns Cyberware (EMP DC 15)',
+    special: 'Stuns Cyberware (EMP CR 15)',
     baseModifier: 2
   }
 ];

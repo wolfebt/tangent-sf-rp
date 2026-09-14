@@ -166,9 +166,9 @@ export const AdventurePrintModal = ({
                         The sector operates on auxiliary power. Bulkhead doors remain locked until security terminals are breached or forced.
                       </p>
                       <ul className="list-disc pl-4 space-y-1 text-[11px] text-slate-700">
-                        <li><strong>Bulkhead Door:</strong> Hardened durasteel. Armor DR 8, 60 Structure. Tech Slicing DC 14.</li>
-                        <li><strong>Proximity Plasma Mine:</strong> Concealed floor mine. Reflex DC 14 vs 15 lethal blast damage (Burning).</li>
-                        <li><strong>Environmental Hazard:</strong> Low oxygen vacuum breach. Fortitude DC 14 each turn.</li>
+                        <li><strong>Bulkhead Door:</strong> Hardened durasteel. Armor DR 8, 60 Structure. Tech Slicing CR 14.</li>
+                        <li><strong>Proximity Plasma Mine:</strong> Concealed floor mine. Reflex CR 14 vs 15 lethal blast damage (Burning).</li>
+                        <li><strong>Environmental Hazard:</strong> Low oxygen vacuum breach. Fortitude CR 14 each turn.</li>
                       </ul>
                     </div>
                   </div>

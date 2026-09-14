@@ -60,7 +60,7 @@ export default function EconomatrixLootGeneratorModal({
       const template = ITEM_TEMPLATES[Math.min(ITEM_TEMPLATES.length - 1, Math.floor(Math.random() * ITEM_TEMPLATES.length))];
       const dc = Math.max(5, template.dc + (techLevel - 3) * 2);
       
-      // Calculate TSC value V = 10 * 4^(DC / 5)
+      // Calculate TSC value V = 10 * 4^(CR / 5)
       let value = calculateCreditValue ? calculateCreditValue(dc) : Math.round(10 * Math.pow(4, dc / 5));
 
       // Trade code modifier
@@ -225,7 +225,7 @@ export default function EconomatrixLootGeneratorModal({
 
                     <div className="flex items-center justify-between pt-1 border-t border-slate-800/60 text-[9px] text-slate-500">
                       <span>Category: {item.type}</span>
-                      <span>Crafting DC {item.dc}</span>
+                      <span>Crafting CR {item.dc}</span>
                     </div>
                   </div>
                 ))}

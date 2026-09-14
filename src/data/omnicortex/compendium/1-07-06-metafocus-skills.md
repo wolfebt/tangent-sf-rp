@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","skill-codex"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ Metafocus skills govern the conscious manipulation of reality, psionic frequenci
 
 ## 1. The Core Attune Skill (Universal Foundation)
 - **Attune (Key: Selected Key Ability):** The universal master skill for drawing, focusing, and regulating reality-warping energy.
-- **Role:** Every character who awakens must invest in Attune. The Attune check determines the **Resistance DC** of your invocations and your resistance against enemy metaphysical attacks.
+- **Role:** Every character who awakens must invest in Attune. The Attune check determines the **Resistance CR** of your invocations and your resistance against enemy metaphysical attacks.
 
 ---
 
@@ -63,8 +63,8 @@ Characters possessing Rank 1+ in any Discipline skill can execute minor non-dama
 
 ## Game Mechanics Rules
 ```
-Spell Resistance DC = 10 + KeyAbilityMod + AttuneRank + InvocationLevel
-Discipline Check = d20 + DisciplineRank + KeyAbilityMod (determines severity & damage)
+Spell Resistance CR = 10 + KeyAbilityMod + AttuneRank + InvocationLevel
+Discipline Check = 2d10 + DisciplineRank + KeyAbilityMod (determines severity & damage)
 ```
 
 ## Gameplay Instructions

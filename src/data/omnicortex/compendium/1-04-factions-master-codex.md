@@ -698,7 +698,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 35 / 163,840 Credits
+**Cost/Wealth:** CR 35 / 163,840 Credits
 
 **CORE STATISTICS**
 
@@ -724,7 +724,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 40 / 655,360 Credits
+**Cost/Wealth:** CR 40 / 655,360 Credits
 
 **CORE STATISTICS**
 
@@ -750,7 +750,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 40 / 655,360 Credits
+**Cost/Wealth:** CR 40 / 655,360 Credits
 
 **CORE STATISTICS**
 
@@ -775,7 +775,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 35 / 163,840 Credits
+**Cost/Wealth:** CR 35 / 163,840 Credits
 
 **CORE STATISTICS**
 
@@ -800,7 +800,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 45 / 2,621,440 Credits
+**Cost/Wealth:** CR 45 / 2,621,440 Credits
 
 **CORE STATISTICS**
 
@@ -825,7 +825,7 @@ Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari 
 
 **Tech Level:** 4 (Stellar)
 
-**Cost/Wealth:** DC 25 / 10,240 Credits
+**Cost/Wealth:** CR 25 / 10,240 Credits
 
 **CORE STATISTICS**
 

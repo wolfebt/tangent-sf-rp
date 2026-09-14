@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","feature-codex"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -48,7 +48,7 @@ Meta features allow practitioners to awaken new metaphysical disciplines, expand
 | **Overchannel** | Attune Rank 6 | Spend HP instead of Essence points to power high-level invocations. | Standard |
 | **Psychic Fortress** | Will 4 | Suffer zero damage from enemy telepathic backlash; gain +4 Will vs mental probes. | Standard |
 | **Essence Siphon** | Entropy Rank 6 | Regain 1d4 Essence points whenever a target is slain by your necrotic invocation. | Standard |
-| **Resilient Weave** | Attune Rank 5 | Your active spell fields cannot be dispelled without a critical DC 25 dispel check. | Standard |
+| **Resilient Weave** | Attune Rank 5 | Your active spell fields cannot be dispelled without a critical CR 25 dispel check. | Standard |
 
 ## Game Mechanics Rules
 ```

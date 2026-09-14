@@ -33,7 +33,7 @@ Unlike "Vancian" magic systems where spells are distinct, immutable memory packe
 
 Whether practiced as high-tech Arcanism by the Alterian Enclave, transcendental psionics by the Mondi, divine miracles by the Ascendancy, or void corruption by the Sha'Nor, all reality manipulation shares a singular mathematical foundation rooted in the Triad.`,
     mechanic: `Metaphysic Triad = { Attune, Discipline, Invocation }
-Potency = Key Ability Mod + Discipline Skill Level + Invocation Level + 10 (or d20 roll)`,
+Potency = Key Ability Mod + Discipline Skill Level + Invocation Level + 10 (or 2d10 roll)`,
     guide: `Awaken a discipline feature during character creation to unlock access to Attune and its associated Metafocus skills.`,
     note: `Metaphysical phenomena interact with technological sensors, manifesting as localized tachyon spikes and quantum flux.`
   },
@@ -117,7 +117,7 @@ Metafocus Disciplines represent the knowledge and ability to consciously alter r
 - Adds Invocation Level directly to the Discipline check as a specialization bonus.
 - Provides default **Operational Safety ("Take 10")** to eliminate volatile backlash in standard conditions.`,
     mechanic: `Awakening = Grants 1 Discipline + 2 Metafocus Skills + unlocks Attune
-Attune Check = Resistance DC / Evasion DC / Meta Attack Roll
+Attune Check = Resistance CR / Evasion CR / Meta Attack Roll
 Discipline Check = Severity, Duration, AoE, and Damage Resolution`,
     guide: `When casting, roll Attune to establish the target difficulty or attack accuracy, then resolve Discipline potency.`,
     note: `Minor abilities and cantrips require zero Essence expenditure and resolve automatically without a roll.`
@@ -155,7 +155,7 @@ The **Key Ability** is chosen at Awakening and determines the "flavor," cosmolog
 - **Manifestation**: Overwhelming vocal harmonics, roaring aura of majesty, prismatic emotional flares, bleeding watercolor transitions.
 - **Key Attribute**: **Charisma (CHA)**.`,
     mechanic: `SourceMod = KeyAbilityMod (INT, WIS, or CHA chosen at Awakening)
-Potency = SourceMod + DisciplineSkillRank + InvocationLevel + 10 (or d20)`,
+Potency = SourceMod + DisciplineSkillRank + InvocationLevel + 10 (or 2d10)`,
     guide: `Select your Key Ability upon taking the Awakened Feature. All your invocation formulas and save DCs will utilize this modifier.`,
     note: `A character's Key Ability modifier also determines their hourly Essence recovery rate during Light Rest.`
   },
@@ -177,9 +177,9 @@ Adepts can manifest metaphysical phenomena through two fundamentally distinct me
 | Feature | Codified Invocations | Spontaneous Free-Casting |
 | :--- | :--- | :--- |
 | **Preparation** | Rote muscle memory etched into neural pathways | Improvised on the fly in real-time narrative |
-| **Operational Safety** | **Takes 10 by default** on Discipline check | Must roll $d20$ for every step |
+| **Operational Safety** | **Takes 10 by default** on Discipline check | must roll $2d10$ for every step |
 | **Potency Bonus** | **+ Invocation Level added to Discipline check** | No Invocation Level bonus added |
-| **Essence Cost** | Scaled strictly to environmental Base DC (0 to 5) | Paid upfront; cost doubled on Attune $\\le 0$ |
+| **Essence Cost** | Scaled strictly to environmental Base CR (0 to 5) | Paid upfront; cost doubled on Attune $\\le 0$ |
 | **Volatility / Risk** | Highly reliable; minimal backfire risk | **High volatility; failure inflicts Internalized Strain** |
 | **Tactical Role** | Battle-tested combat strikes, shields, and teleports | Creative problem-solving and narrative utility |
 
@@ -196,14 +196,14 @@ $$\\text{Potency Score} = [\\text{Key Ability} + \\text{Discipline Skill Level} 
 
 ## Metaphysic Checks & Environmental Difficulty
 
-The Base DC for activating an Invocation or Discipline depends on the local operational stress:
-- **Very Easy (DC 5)**: Safe Quiet Area, Sanctum, Laboratory, Library. (0 Essence)
-- **Easy (DC 10)**: Casual, Non-Hostile Environment, Walking, Passenger in Vehicle. (0 Essence)
-- **Average (DC 15)**: Very Active or Hostile Environment, Vigorous Movement, Combat. (1 Essence)
-- **Difficult (DC 20)**: Extreme Activity, Crashing, Uncontrolled Fall. (2 Essence)
-- **Very Difficult (DC 25)**: High-Intensity Chaos, Environmental Catastrophes. (3 Essence)
-- **Nearly Impossible (DC 30)**: Legendary Feats, Global Reality Shifts. (4 Essence)
-- **Miraculous (DC 35)**: Progenitor-tier interactions (rarely for PCs). (5 Essence)
+The Base CR for activating an Invocation or Discipline depends on the local operational stress:
+- **Very Easy (CR 5)**: Safe Quiet Area, Sanctum, Laboratory, Library. (0 Essence)
+- **Easy (CR 10)**: Casual, Non-Hostile Environment, Walking, Passenger in Vehicle. (0 Essence)
+- **Average (CR 15)**: Very Active or Hostile Environment, Vigorous Movement, Combat. (1 Essence)
+- **Difficult (CR 20)**: Extreme Activity, Crashing, Uncontrolled Fall. (2 Essence)
+- **Very Difficult (CR 25)**: High-Intensity Chaos, Environmental Catastrophes. (3 Essence)
+- **Nearly Impossible (CR 30)**: Legendary Feats, Global Reality Shifts. (4 Essence)
+- **Miraculous (CR 35)**: Progenitor-tier interactions (rarely for PCs). (5 Essence)
 
 ---
 
@@ -215,7 +215,7 @@ The Base DC for activating an Invocation or Discipline depends on the local oper
 - **Fizzle / Transposition (Discipline Check $\\le 0$)**: Causes an unintended effect, from a dramatic fizzle to transposed elemental energy.
 - **Internalized Strain (Failure)**: Failing a check deals **1 point of Non-Lethal Damage per 5 points of failure** (1d6 per 5 in free-casting). This is painful strain from Channeling and cannot be absorbed by Stamina or Armor.
 - **Fumble**: Requires a check to see if the caster suffers the effect themselves.`,
-    mechanic: `CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or d20)
+    mechanic: `CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or 2d10)
 InternalizedStrain = floor(FailureMargin / 5) * 1 NonLethal HP
 EnergySurge = Attune <= 0 -> EssenceCost * 2`,
     guide: `Use codified invocations with Take 10 during chaotic gunfights; save spontaneous free-casting for out-of-combat problem solving.`,
@@ -253,30 +253,30 @@ $$\\text{Essence Pool} = (\\text{Sum of all 6 Ability Scores}) + (\\text{Attune 
 
 ---
 
-## 2. The Essence Cost Scale by Base DC
+## 2. The Essence Cost Scale by Base CR
 
-The metabolic or spiritual cost of an invocation is determined by the **Base DC** required to activate the effect based on the environment and stress:
+The metabolic or spiritual cost of an invocation is determined by the **Base CR** required to activate the effect based on the environment and stress:
 
-| Difficulty | Base DC | Essence Cost | Environmental Context |
+| Difficulty | Base CR | Essence Cost | Environmental Context |
 | :--- | :---: | :---: | :--- |
-| **Very Easy** | **DC 5** | **0** | Safe areas, Sanctums, Libraries, Laboratories. |
-| **Easy** | **DC 10** | **0** | Casual travel, walking, non-hostile environments. |
-| **Average** | **DC 15** | **1** | Combat, vigorous movement, active hostility. |
-| **Difficult** | **DC 20** | **2** | Extreme activity, uncontrolled falls, crashing. |
-| **Very Difficult** | **DC 25** | **3** | High-intensity chaos, environmental catastrophes. |
-| **Nearly Impossible** | **DC 30** | **4** | Legendary feats, global reality shifts. |
-| **Miraculous** | **DC 35** | **5** | Progenitor-tier interactions (rarely for PCs). |
+| **Very Easy** | **CR 5** | **0** | Safe areas, Sanctums, Libraries, Laboratories. |
+| **Easy** | **CR 10** | **0** | Casual travel, walking, non-hostile environments. |
+| **Average** | **CR 15** | **1** | Combat, vigorous movement, active hostility. |
+| **Difficult** | **CR 20** | **2** | Extreme activity, uncontrolled falls, crashing. |
+| **Very Difficult** | **CR 25** | **3** | High-intensity chaos, environmental catastrophes. |
+| **Nearly Impossible** | **CR 30** | **4** | Legendary feats, global reality shifts. |
+| **Miraculous** | **CR 35** | **5** | Progenitor-tier interactions (rarely for PCs). |
 
 ---
 
 ## 3. Strategic Implications for Invocations
 
 ### Operational Safety (Codified Invocations)
-- **The "Sanctum" Bonus**: Performing a learned ritual in a laboratory or sanctuary (DC 5) costs **0 Essence**, as familiarity and environmental peace minimize the toll on internal reserves.
-- **The Combat Tax**: Using the exact same invocation in a firefight (DC 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst battlefield chaos.
+- **The "Sanctum" Bonus**: Performing a learned ritual in a laboratory or sanctuary (CR 5) costs **0 Essence**, as familiarity and environmental peace minimize the toll on internal reserves.
+- **The Combat Tax**: Using the exact same invocation in a firefight (CR 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst battlefield chaos.
 
 ### Free-Casting & Volatility
-- Free-Casting in a Difficult environment (DC 20) requires spending **2 Essence upfront**.
+- Free-Casting in a Difficult environment (CR 20) requires spending **2 Essence upfront**.
 - **Failure Feedback**: If the check fails, the Essence is consumed, and the caster suffers **Internalized Strain** (1 point of Non-Lethal damage per 5 points of failure; 1d6 per 5 in free-casting).
 - **Energy Surges**: If an Attune result is **0 or less**, the Essence cost for that increment is **doubled**.
 
@@ -577,7 +577,7 @@ Composite Invocations require ranks in multiple Disciplines and represent the pi
 - **Canonical Invocations**:
   - *Life Transfer (Drain/Heal)*: Drains physical vitality from an enemy to instantly knit flesh on an ally.
   - *Flesh Crafting (Reshaping)*: Physically reshapes muscle, bone, and skin to grant natural weapons, gills, or new facial identities.`,
-    mechanic: `CompositePotency = KeyAbilityMod + LowestRequisiteSkillRank + InvocationLevel + 10 (or d20)`,
+    mechanic: `CompositePotency = KeyAbilityMod + LowestRequisiteSkillRank + InvocationLevel + 10 (or 2d10)`,
     guide: `Train multiple disciplines to qualify for composite invocations that combine the capabilities of both spheres.`,
     note: `Composite Invocations count as known Invocations for both disciplines, but require both Awakened features.`
   },
@@ -596,7 +596,7 @@ Combat involving metaphysical manifestations follows precise attack rolls, defen
 
 ## 1. The Metaphysic Attack Roll
 - **Attack Roll**: **Attune** is used for the Attack Roll:
-  $$\\text{Meta Attack Roll} = d20 + \\text{Attune Rank} + \\text{Key Ability Mod} + \\text{Situational Modifiers}$$
+  $$\\text{Meta Attack Roll} = 2d10 + \\text{Attune Rank} + \\text{Key Ability Mod} + \\text{Situational Modifiers}$$
 - **Target Defense**: Target defense is treated similarly to conventional physical or ranged attacks (opposed by Reflex Evasion, Fortitude, or Willpower).
 - **Potency Resolution**: Damage, range, and secondary conditions are determined by the active Metafocus Skill and Invocation.
 

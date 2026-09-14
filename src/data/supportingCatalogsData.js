@@ -485,7 +485,7 @@ export const DEFAULT_CRITICAL_EFFECTS = [
   {
     "id": "crit-bleed",
     "name": "Bleed (1d6 / round)",
-    "description": "Inflicts persistent bleeding damage at the start of each turn until treated with Medical DC 15."
+    "description": "Inflicts persistent bleeding damage at the start of each turn until treated with Medical CR 15."
   },
   {
     "id": "crit-disarmed",
@@ -812,7 +812,7 @@ export const DEFAULT_SPECIALS = [
   {
     "id": "spec-silent",
     "name": "Silent",
-    "description": "Fires with zero acoustic or flash signature; requires DC 20 Perception to pinpoint."
+    "description": "Fires with zero acoustic or flash signature; requires CR 20 Perception to pinpoint."
   },
   {
     "id": "spec-high-recoil",
@@ -827,7 +827,7 @@ export const DEFAULT_SPECIALS = [
   {
     "id": "spec-entangling",
     "name": "Entangling",
-    "description": "On a successful hit, target is entangled and must pass Agility DC 15 to break free."
+    "description": "On a successful hit, target is entangled and must pass Agility CR 15 to break free."
   },
   {
     "id": "spec-tripping",

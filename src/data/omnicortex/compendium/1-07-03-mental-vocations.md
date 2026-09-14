@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","skill-codex"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -53,12 +53,12 @@ Vocation skills represent hands-on commercial trades, craftsmanship, artistic pe
 
 ## Crafting Mechanics & Downtime Checks
 - **Crafting Time:** Determined by item Tech Level and complexity.
-- **Crafting Check:** `d20 + Vocation Rank + Associated Mod vs Design DC`
-- **Design DC Formula:** `DC = (TL * 2) + Base Item Complexity (10 to 25)`
+- **Crafting Check:** `d20 + Vocation Rank + Associated Mod vs Design CR`
+- **Design CR Formula:** `DC = (TL * 2) + Base Item Complexity (10 to 25)`
 
 ## Game Mechanics Rules
 ```
-CraftingCheck = d20 + VocationRank + AttributeMod vs (TL * 2 + BaseComplexity)
+CraftingCheck = 2d10 + VocationRank + AttributeMod vs (TL * 2 + BaseComplexity)
 ```
 
 ## Gameplay Instructions

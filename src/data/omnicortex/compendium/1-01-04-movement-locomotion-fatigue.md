@@ -42,13 +42,13 @@ A hurried pace, twice the walk speed, but with a \-2 penalty to actions requirin
 
 ## **Running**
 
-A fast pace, four times the walk speed, with a \-4 penalty to subtle actions and requiring a successful Athletics check (DC 10+) to avoid fatigue.
+A fast pace, four times the walk speed, with a \-4 penalty to subtle actions and requiring a successful Athletics check (CR 10+) to avoid fatigue.
 
 &nbsp;
 
 ## **Sprinting**
 
-The fastest pace, six times the walk speed, with a \-8 penalty to subtle actions and a higher Athletics check (DC 15+) to avoid fatigue.
+The fastest pace, six times the walk speed, with a \-8 penalty to subtle actions and a higher Athletics check (CR 15+) to avoid fatigue.
 
 &nbsp;
 
@@ -94,25 +94,25 @@ A slightly faster pace, double the Flight speed, but with a \-2 penalty to actio
 
 ## **Surge**
 
-A rapid pace, four times the Flight speed, but with a \-4 penalty to subtle actions and requiring a successful Acrobatics check (DC 10+) to avoid fatigue. This is ideal for chasing fleeing enemies or making quick escapes.
+A rapid pace, four times the Flight speed, but with a \-4 penalty to subtle actions and requiring a successful Acrobatics check (CR 10+) to avoid fatigue. This is ideal for chasing fleeing enemies or making quick escapes.
 
 &nbsp;
 
 ## **Diving**
 
-A high-speed descent, double the current flying speed, with a \-4 penalty to actions and a more challenging Acrobatics check (DC 15+). This maneuver is perfect for initiating surprise attacks or evading ranged attacks from above.
+A high-speed descent, double the current flying speed, with a \-4 penalty to actions and a more challenging Acrobatics check (CR 15+). This maneuver is perfect for initiating surprise attacks or evading ranged attacks from above.
 
 &nbsp;
 
 ## **Gliding**
 
-Controlled descent, maintaining speed while slowly losing altitude. This maneuver offers a \+2 bonus to actions and requires a less demanding Acrobatics check (DC 10+). It's useful for conserving energy or making precise landings.
+Controlled descent, maintaining speed while slowly losing altitude. This maneuver offers a \+2 bonus to actions and requires a less demanding Acrobatics check (CR 10+). It's useful for conserving energy or making precise landings.
 
 &nbsp;
 
 ## **Hover/Controlled Descent**
 
-The slowest flying pace, half of the typical Flight speed or less, with a challenging Acrobatics check (DC 15+). This enables precise positioning and observation.
+The slowest flying pace, half of the typical Flight speed or less, with a challenging Acrobatics check (CR 15+). This enables precise positioning and observation.
 
 &nbsp;
 
@@ -148,19 +148,19 @@ Standard pace, half the base walking speed. No modifiers apply.
 
 ## **Glide**
 
-A hurried pace, twice the swimming speed, but with a \-2 penalty to actions requiring subtlety, stealth, or precision. Requires an Athletics (Swimming) check (DC 10+).
+A hurried pace, twice the swimming speed, but with a \-2 penalty to actions requiring subtlety, stealth, or precision. Requires an Athletics (Swimming) check (CR 10+).
 
 &nbsp;
 
 ## **Stroke**
 
-A fast pace, four times the swimming speed, but with a \-4 penalty to subtle actions. Requires an Athletics (Swimming) check (DC 15+).
+A fast pace, four times the swimming speed, but with a \-4 penalty to subtle actions. Requires an Athletics (Swimming) check (CR 15+).
 
 &nbsp;
 
 ## **Treading**
 
-The slowest pace, half the swimming speed or less, with a possible \+2 bonus to actions. Requires an Athletics (Swimming) check (DC 5+).
+The slowest pace, half the swimming speed or less, with a possible \+2 bonus to actions. Requires an Athletics (Swimming) check (CR 5+).
 
 &nbsp;
 
@@ -184,7 +184,7 @@ Climbing movement in Tangent involves ascending or descending vertical surfaces,
 
 ## **Climbing**
 
-Standard pace on an Easy Climb (DC 10+), half the base walking speed, a Moderate Climb (DC 15+) would be a quarter and a Difficult Climb (DC 20+) could be a tenth. These difficulties may be modified by gear used and possible environmental conditions.
+Standard pace on an Easy Climb (CR 10+), half the base walking speed, a Moderate Climb (CR 15+) would be a quarter and a Difficult Climb (CR 20+) could be a tenth. These difficulties may be modified by gear used and possible environmental conditions.
 
 Requires Athletics (Climbing) checks to avoid falling with the DC based on the surface of what is being scaled (plus any modifiers).
 
@@ -204,7 +204,7 @@ Climbing at double speed, with a \-4 penalty to subtle actions. Requires an Athl
 
 ## **Fast Descent**
 
-Descending at quadruple speed without injury, but with a \-4 penalty to subtle actions. Requires a DC 20 Athletics (Climbing) check or a \-10 to Climbing Checks (Athletics)
+Descending at quadruple speed without injury, but with a \-4 penalty to subtle actions. Requires a CR 20 Athletics (Climbing) check or a \-10 to Climbing Checks (Athletics)
 
 &nbsp;
 
@@ -251,7 +251,7 @@ A focused effort to create a larger space within the ground, such as a chamber o
 &nbsp;
 
 MOVEMENT FATIGUE RULES  
-Trigger: A character must make a Stamina-based Fortitude Check (DC 15\) after sprinting for 5 consecutive rounds in combat, or after 10 minutes of hurried travel.
+Trigger: A character must make a Stamina-based Fortitude Check (CR 15\) after sprinting for 5 consecutive rounds in combat, or after 10 minutes of hurried travel.
 
 Penalty for Failure: On a failure, the character takes 5 points of non-lethal Vitality damage. If their Vitality is depleted, they take 2 points of physical Health damage and gain the Exhausted condition (-2 to all active checks and half movement speed) until they take a Light Rest (Nap).
 
@@ -260,12 +260,12 @@ Penalty for Failure: On a failure, the character takes 5 points of non-lethal Vi
 
 
 ## Canonical Mechanics
-Ground Paces: Walk (Base 30ft/rnd), Jog (2x speed, -2 subtlety), Run (4x speed, -4 subtlety, DC 10+ Athletics check), Sprint (6x speed, -8 subtlety, DC 15+ Athletics check), Crawl (1/2 speed, +2 stealth, Prone), Slow Crawl (1/4 speed, +4 stealth, Prone).
-Flying: Flight (2x walk speed), Sail (2x flight, -2 subtlety), Surge (4x flight, DC 10+ Acrobatics), Dive (2x speed, DC 15+ Acrobatics), Glide (+2 bonus, DC 10+ Acrobatics), Hover (1/2 speed, DC 15+ Acrobatics).
-Swimming: Swim (1/2 walk speed), Glide (2x swim, DC 10+ Athletics), Stroke (4x swim, DC 15+ Athletics), Treading (1/2 swim, DC 5+ Athletics).
-Climbing: Easy (1/2 walk, DC 10+), Moderate (1/4 walk, DC 15+), Difficult (1/10 walk, DC 20+).
+Ground Paces: Walk (Base 30ft/rnd), Jog (2x speed, -2 subtlety), Run (4x speed, -4 subtlety, CR 10+ Athletics check), Sprint (6x speed, -8 subtlety, CR 15+ Athletics check), Crawl (1/2 speed, +2 stealth, Prone), Slow Crawl (1/4 speed, +4 stealth, Prone).
+Flying: Flight (2x walk speed), Sail (2x flight, -2 subtlety), Surge (4x flight, CR 10+ Acrobatics), Dive (2x speed, CR 15+ Acrobatics), Glide (+2 bonus, CR 10+ Acrobatics), Hover (1/2 speed, CR 15+ Acrobatics).
+Swimming: Swim (1/2 walk speed), Glide (2x swim, CR 10+ Athletics), Stroke (4x swim, CR 15+ Athletics), Treading (1/2 swim, CR 5+ Athletics).
+Climbing: Easy (1/2 walk, CR 10+), Moderate (1/4 walk, CR 15+), Difficult (1/10 walk, CR 20+).
 Burrowing: Burrow (1/4 walk), Tunnel (2x burrow), Excavation (1/8 walk).
-Fatigue Trigger: DC 15 Fortitude check after sprinting 5 consecutive rounds or 10 min hurried travel. Failure = 5 non-lethal Vitality damage; if depleted, 2 Health damage + Exhausted condition.
+Fatigue Trigger: CR 15 Fortitude check after sprinting 5 consecutive rounds or 10 min hurried travel. Failure = 5 non-lethal Vitality damage; if depleted, 2 Health damage + Exhausted condition.
 
 
 ## Tactical Guide

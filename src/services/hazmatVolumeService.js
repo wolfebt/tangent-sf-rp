@@ -12,60 +12,60 @@ export const HAZMAT_TYPES = {
     name: 'High Radiation Leak',
     icon: '☢️',
     saveType: 'Fortitude (STA)',
-    saveDc: 14,
+    saveCr: 14,
     tickDamage: 6,
     condition: 'Irradiated',
-    description: 'Harmful ionizing radiation. DC 14 Fortitude save or take 6 lethal damage and gain Irradiated condition.'
+    description: 'Harmful ionizing radiation. CR 14 Fortitude save or take 6 lethal damage and gain Irradiated condition.'
   },
   toxic_gas: {
     id: 'toxic_gas',
     name: 'Corrosive / Neuro-Toxic Gas',
     icon: '🧪',
     saveType: 'Fortitude (STA)',
-    saveDc: 13,
+    saveCr: 13,
     tickDamage: 7,
     condition: 'Poisoned',
-    description: 'Airborne chemical agents. DC 13 Fortitude save or suffer 7 lethal damage and Poisoned condition.'
+    description: 'Airborne chemical agents. CR 13 Fortitude save or suffer 7 lethal damage and Poisoned condition.'
   },
   vacuum_breach: {
     id: 'vacuum_breach',
     name: 'Hard Vacuum Decompression',
     icon: '🕳️',
     saveType: 'Fortitude (STA)',
-    saveDc: 16,
+    saveCr: 16,
     tickDamage: 12,
     condition: 'Asphyxiating',
-    description: 'Decompressed atmosphere. Requires sealed EVA suit or DC 16 Fortitude save vs 12 lethal damage.'
+    description: 'Decompressed atmosphere. Requires sealed EVA suit or CR 16 Fortitude save vs 12 lethal damage.'
   },
   plasma_fire: {
     id: 'plasma_fire',
     name: 'Superheated Plasma Fire',
     icon: '🔥',
     saveType: 'Reflex (AGI)',
-    saveDc: 15,
+    saveCr: 15,
     tickDamage: 10,
     condition: 'Burning',
-    description: 'Direct thermal exposure. DC 15 Reflex save or take 10 lethal damage and catch Burning.'
+    description: 'Direct thermal exposure. CR 15 Reflex save or take 10 lethal damage and catch Burning.'
   },
   zero_g: {
     id: 'zero_g',
     name: 'Zero-G Inertia Zone',
     icon: '🌌',
     saveType: 'Acrobatics (AGI)',
-    saveDc: 12,
+    saveCr: 12,
     tickDamage: 0,
     condition: 'Drifting',
-    description: 'Loss of gravitational anchor. DC 12 Acrobatics check to stabilize; otherwise -2 Disadvantage to attack.'
+    description: 'Loss of gravitational anchor. CR 12 Acrobatics check to stabilize; otherwise -2 Disadvantage to attack.'
   },
   electric_surge: {
     id: 'electric_surge',
     name: 'High-Voltage Conduit Arcing',
     icon: '⚡',
     saveType: 'Reflex (AGI)',
-    saveDc: 14,
+    saveCr: 14,
     tickDamage: 8,
     condition: 'Stunned',
-    description: 'Exposed electrical conduit. DC 14 Reflex save or suffer 8 energy damage and become Stunned.'
+    description: 'Exposed electrical conduit. CR 14 Reflex save or suffer 8 energy damage and become Stunned.'
   }
 };
 
@@ -106,7 +106,7 @@ export function evaluateHazmatTick(token, hazardZones = []) {
     
     // Simulate save roll: 1d10 + STA/AGI mod (~3)
     const roll = Math.floor(Math.random() * 10) + 1 + (token.staMod || token.agiMod || 3);
-    const savePassed = roll >= hazardType.saveDc;
+    const savePassed = roll >= hazardType.saveCr;
     const damage = savePassed ? Math.floor(hazardType.tickDamage / 2) : hazardType.tickDamage;
 
     AudioService.playTerminalBeep(savePassed ? 800 : 400, 0.04);
@@ -116,12 +116,12 @@ export function evaluateHazmatTick(token, hazardZones = []) {
       hazardName: hazardType.name,
       icon: hazardType.icon,
       saveType: hazardType.saveType,
-      saveDc: hazardType.saveDc,
+      saveCr: hazardType.saveCr,
       roll,
       savePassed,
       damage,
       condition: !savePassed ? hazardType.condition : null,
-      message: `${hazardType.icon} ${token.label || 'Operative'} in ${hazardType.name}: ${savePassed ? 'PASSED save' : 'FAILED save'} (Roll: ${roll} vs DC ${hazardType.saveDc}) → ${damage} DMG${!savePassed && hazardType.condition ? ` + [${hazardType.condition}]` : ''}`
+      message: `${hazardType.icon} ${token.label || 'Operative'} in ${hazardType.name}: ${savePassed ? 'PASSED save' : 'FAILED save'} (Roll: ${roll} vs CR ${hazardType.saveCr}) → ${damage} DMG${!savePassed && hazardType.condition ? ` + [${hazardType.condition}]` : ''}`
     });
   });
 

@@ -38,7 +38,7 @@ export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceG
   const [newThreatTier, setNewThreatTier] = useState('Tier 1 (Minion)');
   const [newThreatHp, setNewThreatHp] = useState('12');
   const [newThreatDr, setNewThreatDr] = useState('2');
-  const [newThreatAttack, setNewThreatAttack] = useState('Kinetic Carbine (2d10+2, DC 12)');
+  const [newThreatAttack, setNewThreatAttack] = useState('Kinetic Carbine (2d10+2, CR 12)');
 
   // AI Generation loading states
   const [isGeneratingReadAloud, setIsGeneratingReadAloud] = useState(false);
@@ -139,10 +139,10 @@ Tone: Immediate, immersive, atmospheric (lighting, sounds, temperature, ozone sm
 Scenario: "${activeNode.title || 'Scene'}"
 Guidance Gems: ${guidanceGems || 'Sci-Fi'}
 Format each on its own line:
-- [Perception DC 12] description of clue or sensor alert
-- [Tech / Slicing DC 13] description of terminal or hackable system
-- [Agility / Cover DC 11] description of tactical terrain or obstacle
-- [Culture / Faction DC 12] description of insignia or lore interactable`;
+- [Perception CR 12] description of clue or sensor alert
+- [Tech / Slicing CR 13] description of terminal or hackable system
+- [Agility / Cover CR 11] description of tactical terrain or obstacle
+- [Culture / Faction CR 12] description of insignia or lore interactable`;
 
     try {
       const result = await generateContent({ prompt, context: activeNode });
@@ -169,9 +169,9 @@ Format each on its own line:
 Scenario: "${activeNode.title || 'Scene'}"
 Format strictly as JSON array:
 [
-  {"name": "Adversary 1", "tier": "Tier 1 (Minion)", "hp": "12", "dr": "1", "attack": "Kinetic Carbine (2d10, DC 11)"},
-  {"name": "Adversary 2", "tier": "Tier 2 (Operative)", "hp": "24", "dr": "3", "attack": "Plasma Scattergun (2d10+4, DC 13)"},
-  {"name": "Adversary 3", "tier": "Tier 3 (Apex/Boss)", "hp": "45", "dr": "5", "attack": "Particle Lance & Force Blade (2d10+6, DC 15)"}
+  {"name": "Adversary 1", "tier": "Tier 1 (Minion)", "hp": "12", "dr": "1", "attack": "Kinetic Carbine (2d10, CR 11)"},
+  {"name": "Adversary 2", "tier": "Tier 2 (Operative)", "hp": "24", "dr": "3", "attack": "Plasma Scattergun (2d10+4, CR 13)"},
+  {"name": "Adversary 3", "tier": "Tier 3 (Apex/Boss)", "hp": "45", "dr": "5", "attack": "Particle Lance & Force Blade (2d10+6, CR 15)"}
 ]`;
 
     try {
@@ -351,7 +351,7 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
                   type="text"
                   value={newBulletText}
                   onChange={(e) => setNewBulletText(e.target.value)}
-                  placeholder="e.g. [Tech DC 13] Bypass security console to vent chamber..."
+                  placeholder="e.g. [Tech CR 13] Bypass security console to vent chamber..."
                   className="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
                 />
                 <button

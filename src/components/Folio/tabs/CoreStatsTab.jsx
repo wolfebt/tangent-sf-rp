@@ -751,7 +751,7 @@ const CoreStatsTab = () => {
                     title="Karma Pool"
                     badge="Metaphysical Destiny"
                     badgeColor="cyan"
-                    description="Spend 1 Karma to roll with Advantage, reroll any d20 check, or survive fatal damage at 0 Health. Negative values indicate Karmic Debt."
+                    description="Spend 1 Karma to roll with Advantage, Reroll any 2d10 check, or survive fatal damage at 0 Health. Negative values indicate Karmic Debt."
                     formula={`Current: ${currentKarma} / Max: ${maxKarma}`}
                     tags={['Reroll', 'Advantage', 'Survival']}
                   >
@@ -1335,7 +1335,7 @@ const CoreStatsTab = () => {
                         <div className="text-[10px] text-rose-300/80">
                           {isStabilized
                             ? 'Character is unconscious and severely wounded, but no longer actively dying.'
-                            : 'Character is Comatose. Medical aid (Medicine DC 15) or healing tech/magic must be applied before the clock expires!'}
+                            : 'Character is Comatose. Medical aid (Medicine CR 15) or healing tech/magic must be applied before the clock expires!'}
                         </div>
                       </div>
                     </div>
@@ -1347,9 +1347,9 @@ const CoreStatsTab = () => {
                             type="button"
                             onClick={() => stabilizeCharacter({ hasHealingEffect: true })}
                             className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-600 text-white rounded text-[11px] font-bold uppercase tracking-wider border border-emerald-400 shadow-sm transition-colors cursor-pointer"
-                            title="Apply Medicine (DC 15) or healing to stop the death clock"
+                            title="Apply Medicine (CR 15) or healing to stop the death clock"
                           >
-                            🩹 Stabilize (DC 15)
+                            🩹 Stabilize (CR 15)
                           </button>
                           <button
                             type="button"

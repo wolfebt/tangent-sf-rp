@@ -207,7 +207,7 @@ export const MovementRulesModal = ({
                       {walkSpeed * 4} ft ({Math.round(walkSpeed * 4 * 0.3)}m)
                     </td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                    <td className="py-2 px-3 text-slate-300 text-[11px]">Requires <strong>Athletics DC 10+</strong> every minute of sustained exertion</td>
+                    <td className="py-2 px-3 text-slate-300 text-[11px]">Requires <strong>Athletics CR 10+</strong> every minute of sustained exertion</td>
                   </tr>
                   <tr className="hover:bg-slate-900/40">
                     <td className="py-2 px-3 font-bold text-rose-400">Sprinting</td>
@@ -216,7 +216,7 @@ export const MovementRulesModal = ({
                       {walkSpeed * 6} ft ({Math.round(walkSpeed * 6 * 0.3)}m)
                     </td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-8 Penalty</td>
-                    <td className="py-2 px-3 text-slate-300 text-[11px]">Maximum burst; <strong>Athletics DC 15+</strong>. Triggers Fatigue Save after 5 rounds!</td>
+                    <td className="py-2 px-3 text-slate-300 text-[11px]">Maximum burst; <strong>Athletics CR 15+</strong>. Triggers Fatigue Save after 5 rounds!</td>
                   </tr>
                   <tr className="hover:bg-slate-900/40">
                     <td className="py-2 px-3 font-bold text-slate-300">Crawl</td>
@@ -281,28 +281,28 @@ export const MovementRulesModal = ({
                     <td className="py-2 px-2 text-center font-mono text-slate-400">4.0x Fly (8x Walk)</td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{flyBaseSpeed * 4} ft ({Math.round(flyBaseSpeed * 4 * 0.3)}m)</td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                    <td className="py-2 px-3 text-slate-300 text-[11px]">Rapid pursuit &amp; intercept; <strong>Acrobatics DC 10+</strong> every min</td>
+                    <td className="py-2 px-3 text-slate-300 text-[11px]">Rapid pursuit &amp; intercept; <strong>Acrobatics CR 10+</strong> every min</td>
                   </tr>
                   <tr className="hover:bg-slate-900/40">
                     <td className="py-2 px-3 font-bold text-rose-400">Diving</td>
                     <td className="py-2 px-2 text-center font-mono text-slate-400">2.0x Current (Up to 8x)</td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">Up to {flyBaseSpeed * 8} ft ({Math.round(flyBaseSpeed * 8 * 0.3)}m)</td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-rose-400">-4 Penalty</td>
-                    <td className="py-2 px-3 text-slate-300 text-[11px]">Steep high-speed power dive; requires <strong>Acrobatics DC 15+</strong></td>
+                    <td className="py-2 px-3 text-slate-300 text-[11px]">Steep high-speed power dive; requires <strong>Acrobatics CR 15+</strong></td>
                   </tr>
                   <tr className="hover:bg-slate-900/40">
                     <td className="py-2 px-3 font-bold text-emerald-300">Gliding</td>
                     <td className="py-2 px-2 text-center font-mono text-slate-400">Maintains Speed</td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">{flyBaseSpeed} ft ({Math.round(flyBaseSpeed * 0.3)}m)</td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-emerald-400">+2 Bonus</td>
-                    <td className="py-2 px-3 text-slate-300 text-[11px]">Controlled descent; drops 1 ft per 5 ft horizontal; <strong>Acrobatics DC 10+</strong></td>
+                    <td className="py-2 px-3 text-slate-300 text-[11px]">Controlled descent; drops 1 ft per 5 ft horizontal; <strong>Acrobatics CR 10+</strong></td>
                   </tr>
                   <tr className="hover:bg-slate-900/40">
                     <td className="py-2 px-3 font-bold text-slate-300">Hover</td>
                     <td className="py-2 px-2 text-center font-mono text-slate-400">Static / 0</td>
                     <td className="py-2 px-2 text-center font-mono font-bold text-cyan-300">0 ft</td>
                     <td className="py-2 px-2 text-center text-slate-400">Baseline (0)</td>
-                    <td className="py-2 px-3 text-slate-400 text-[11px]">Stationary altitude; <strong>Acrobatics DC 15+</strong> unless having native hover trait</td>
+                    <td className="py-2 px-3 text-slate-400 text-[11px]">Stationary altitude; <strong>Acrobatics CR 15+</strong> unless having native hover trait</td>
                   </tr>
                 </tbody>
               </table>
@@ -349,7 +349,7 @@ export const MovementRulesModal = ({
                   <span>Swim Pace</span>
                   <span className="font-mono text-cyan-300">{swimBaseSpeed} ft</span>
                 </div>
-                <p className="text-[11px] text-slate-400">Calm waters: <strong>Athletics DC 10</strong>. Rough sea: <strong>DC 15</strong>. Stormy tempest: <strong>DC 20+</strong>.</p>
+                <p className="text-[11px] text-slate-400">Calm waters: <strong>Athletics CR 10</strong>. Rough sea: <strong>CR 15</strong>. Stormy tempest: <strong>CR 20+</strong>.</p>
               </div>
 
               <div className="bg-slate-900/80 p-3 rounded-lg border border-slate-800 space-y-1">
@@ -365,7 +365,7 @@ export const MovementRulesModal = ({
                   <span>Suffocation</span>
                   <span className="font-mono text-rose-400">Lethal</span>
                 </div>
-                <p className="text-[11px] text-slate-400">When breath expires, character must pass <strong>Fortitude DC 15 (+1/round)</strong> or drop to 0 Health Comatose.</p>
+                <p className="text-[11px] text-slate-400">When breath expires, character must pass <strong>Fortitude CR 15 (+1/round)</strong> or drop to 0 Health Comatose.</p>
               </div>
             </div>
           </div>
@@ -382,10 +382,10 @@ export const MovementRulesModal = ({
                 <span className="font-mono text-[10px] text-orange-400">Base: {climbBaseSpeed} ft</span>
               </div>
               <p className="text-[11px] text-slate-300 leading-relaxed">
-                Standard climbing pace is 1/2 Ground speed. Ladder/Rope: <strong>DC 5</strong>. Rough rock: <strong>DC 12</strong>. Smooth sheer bulkhead: <strong>DC 20</strong>.
+                Standard climbing pace is 1/2 Ground speed. Ladder/Rope: <strong>CR 5</strong>. Rough rock: <strong>CR 12</strong>. Smooth sheer bulkhead: <strong>CR 20</strong>.
               </p>
               <div className="p-2 rounded bg-rose-950/40 border border-rose-800/40 text-[10.5px] text-rose-200">
-                <strong>Fall Damage:</strong> Deals <strong>1d6 Concussive damage per 10 feet fallen</strong> (split 50/50 between Vitality and Health). Acrobatics check reduces effective height by 10 ft per 5 points above DC 15.
+                <strong>Fall Damage:</strong> Deals <strong>1d6 Concussive damage per 10 feet fallen</strong> (split 50/50 between Vitality and Health). Acrobatics check reduces effective height by 10 ft per 5 points above CR 15.
               </div>
             </div>
 
@@ -400,7 +400,7 @@ export const MovementRulesModal = ({
                 Loose soil/sand: Full burrow speed. Hard compacted earth: 1/2 speed. Solid stone: Requires plasma cutter, diamond-drill rig, or Earth invocation.
               </p>
               <div className="p-2 rounded bg-slate-900 border border-slate-800 text-[10.5px] text-slate-400">
-                Subterranean burrowing grants total cover against surface optical and radar targeting, but can be tracked via seismic sensors (Technology DC 12).
+                Subterranean burrowing grants total cover against surface optical and radar targeting, but can be tracked via seismic sensors (Technology CR 12).
               </div>
             </div>
           </div>
@@ -413,7 +413,7 @@ export const MovementRulesModal = ({
             Movement Fatigue System &amp; Forced March
           </div>
           <p className="text-[11px] text-slate-300 leading-relaxed">
-            Characters can walk or march for 8 hours per day safely. Each hour beyond 8 requires a <strong>Fortitude Saving Throw (DC 10 + 2 per additional hour)</strong>. On failure, the character takes 1d6 Non-Lethal damage and suffers the <em>Fatigued</em> condition (-2 to all physical attribute checks and movement speed reduced by 10 ft).
+            Characters can walk or march for 8 hours per day safely. Each hour beyond 8 requires a <strong>Fortitude Saving Throw (CR 10 + 2 per additional hour)</strong>. On failure, the character takes 1d6 Non-Lethal damage and suffers the <em>Fatigued</em> condition (-2 to all physical attribute checks and movement speed reduced by 10 ft).
           </p>
         </div>
 

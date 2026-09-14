@@ -76,7 +76,7 @@ These effects are "Always On" or reactive. They do not require an Action to acti
 
 #### **3.1 Weapon Enhancement Examples**
 
-*Cost: Adds to Base DC (+5 DC per Socket).*
+*Cost: Adds to Base CR (+5 DC per Socket).*
 
 | Enhancement&nbsp; | Discipline Base | Sockets | Effect |
 | :---- | :---- | :---- | :---- |
@@ -90,7 +90,7 @@ These effects are "Always On" or reactive. They do not require an Action to acti
 
 #### **3.2 Protective Enhancement Examples**
 
-*Cost: Adds to Base DC (+5 DC per Socket).*
+*Cost: Adds to Base CR (+5 DC per Socket).*
 
 | Enhancement&nbsp; | Discipline Base | Sockets | Effect |
 | :---- | :---- | :---- | :---- |
@@ -121,7 +121,7 @@ When an Invocation is built into an item, its variable stats become **Fixed Cons
 
 &nbsp;
 
-* **Accuracy / Save DC:** \* The **Save DC** against the device is 10 \+ (Fixed Rank / 2\) \+ Device Quality.  
+* **Accuracy / Save CR:** \* The **Save CR** against the device is 10 \+ (Fixed Rank / 2\) \+ Device Quality.  
   * The **Attack Roll** uses the wielder's **Technology (Operation)** or **Combat (Ranged)** skill, *not* the device's Rank.
 
 &nbsp;
@@ -357,16 +357,16 @@ This section aligns Meta-Tech creation with the **Tangent Economic Unified Field
 
 #### **7.1 The Fabrication Formula**
 
-To determine the Crafting DC (and thus the Market Value) of any Meta-Tech device, use the following logic:
+To determine the Crafting CR (and thus the Market Value) of any Meta-Tech device, use the following logic:
 
 &nbsp;
 
 Passive Enhancement DC:
 
-DC \= Base Item DC \+ (Sockets Used x 5\)
+DC \= Base Item CR \+ (Sockets Used x 5\)
 
 * *Explanation:* Every Socket used for an enhancement increases the complexity by \+5 DC, effectively quadrupling the item's value (shifting it one Wealth Tier).  
-* *Example:* A Rifle (DC 15\) with an Energy Sheath (1 Socket) becomes DC 20 (Expert). Value jumps from 640 Cr to 2,560 Cr.
+* *Example:* A Rifle (CR 15\) with an Energy Sheath (1 Socket) becomes CR 20 (Expert). Value jumps from 640 Cr to 2,560 Cr.
 
 &nbsp;
 
@@ -376,7 +376,7 @@ DC \= 15 \+ (Invocation Rank) \+ (TL Modifier)
 
 * *Base Constant:* 15 (The complexity of containment fields).  
 * *TL Modifiers:* TL3 (+0), TL4 (+2), TL5 (+5).  
-* *Example:* A Rank 10 Fire Wand (TL3) \= 15 \+ 10 \+ 0 \= **DC 25**. (Market Value \~10,240 Cr).
+* *Example:* A Rank 10 Fire Wand (TL3) \= 15 \+ 10 \+ 0 \= **CR 25**. (Market Value \~10,240 Cr).
 
 &nbsp;
 
@@ -385,7 +385,7 @@ Consumable Modifier (Single Use):
 DC \= Standard Formula \- 10
 
 * *Explanation:* Creating a device that burns out after one use requires far less stabilization than a permanent relic.  
-* *Example:* A Rank 10 Healing Potion \= (15 \+ 10\) \- 10 \= **DC 15**. (Market Value \~640 Cr).
+* *Example:* A Rank 10 Healing Potion \= (15 \+ 10\) \- 10 \= **CR 15**. (Market Value \~640 Cr).
 
   #### 
 

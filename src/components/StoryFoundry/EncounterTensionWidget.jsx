@@ -46,7 +46,7 @@ export const COMPLICATION_TEMPLATES = [
     title: 'Adversary Morale Break',
     icon: Skull,
     color: 'cyan',
-    text: 'The enemy squad falters! With their vanguard falling, remaining minions must pass a DC 12 Willpower check or scatter in panic.'
+    text: 'The enemy squad falters! With their vanguard falling, remaining minions must pass a CR 12 Willpower check or scatter in panic.'
   },
   {
     category: 'parley',
@@ -60,7 +60,7 @@ export const COMPLICATION_TEMPLATES = [
     title: 'Catastrophic Meltdown Countdown',
     icon: Bomb,
     color: 'purple',
-    text: 'A reactor failsafe triggers a 3-round self-destruct sequence! An operative must pass a DC 16 Technology check to stabilize the core.'
+    text: 'A reactor failsafe triggers a 3-round self-destruct sequence! An operative must pass a CR 16 Technology check to stabilize the core.'
   }
 ];
 

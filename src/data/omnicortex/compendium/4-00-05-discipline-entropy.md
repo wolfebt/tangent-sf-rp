@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","metaphysics-discipline"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -43,7 +43,7 @@ The **Discipline of Entropy** governs the breakdown of systems, molecular decay,
 
 ### Level 1 Invocations
 - **Decay Touch:** Inflict rapid cellular corrosion dealing **2d6 Necrotic damage** and degrading target armor DR by 2.
-- **Jinx (Probability Curse):** Impose a **-3 penalty** on target's next two d20 rolls (Will save resists).
+- **Jinx (Probability Curse):** Impose a **-3 penalty** on target's next two 2d10 rolls (Will save resists).
 - **Disrupt Circuitry:** Cause an electronic weapon or cyber-limb to malfunction for 1 round.
 
 ### Level 2 Invocations
@@ -61,7 +61,7 @@ The **Discipline of Entropy** governs the breakdown of systems, molecular decay,
 - **Aura of Decay:** 30-foot aura around caster causing all incoming kinetic bullets to corrode, granting **+8 DR**.
 
 ### Level 5 Invocations
-- **Total Unmaking:** Target must make an immediate Fortitude save (DC 25) or be instantly disintegrated into fine ash.
+- **Total Unmaking:** Target must make an immediate Fortitude save (CR 25) or be instantly disintegrated into fine ash.
 
 ## Game Mechanics Rules
 ```

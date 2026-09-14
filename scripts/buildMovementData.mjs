@@ -71,8 +71,8 @@ The character’s typical movement type (usually ground) and how fast they move 
 | :--- | :---: | :---: | :--- | :--- |
 | **Walk** | **1x (Base)** | 30 ft / rd | Default pace; no penalties | None |
 | **Jog** | **2x** | 60 ft / rd | **-2 penalty** to subtlety, stealth, or precision | None |
-| **Running** | **4x** *(5x with Runner)* | 120 ft / rd *(150 ft)* | **-4 penalty** to subtle actions | **Athletics (DC 10+)** each minute |
-| **Sprinting** | **6x** *(7x with Runner)* | 180 ft / rd *(210 ft)* | **-8 penalty** to subtle actions | **Athletics (DC 15+)** each minute |
+| **Running** | **4x** *(5x with Runner)* | 120 ft / rd *(150 ft)* | **-4 penalty** to subtle actions | **Athletics (CR 10+)** each minute |
+| **Sprinting** | **6x** *(7x with Runner)* | 180 ft / rd *(210 ft)* | **-8 penalty** to subtle actions | **Athletics (CR 15+)** each minute |
 | **Crawl** | **1/2x** | 15 ft / rd | **+2 bonus** to stealth; gains **Prone** condition | None |
 | **Slow Crawl** | **1/4x** | 7.5 ft / rd | **+4 bonus** to stealth; gains **Prone** condition | None |
 
@@ -126,10 +126,10 @@ Flying movement in Tangent offers characters a variety of speeds and maneuvers, 
 | :--- | :---: | :---: | :--- | :--- |
 | **Flight** | **1x Flight (2x Walk)** | 60 ft / rd | Standard flying speed; default for flyers | None |
 | **Sail** | **2x Flight (4x Walk)** | 120 ft / rd | **-2 penalty** to subtlety, stealth, or precision | None |
-| **Surge / Soar** | **4x Flight (8x Walk)** *(5x with Soar)* | 240 ft / rd *(300 ft)* | **-4 penalty** to subtle actions | **Acrobatics (DC 10+)** each minute |
-| **Diving** | **2x Current Speed** *(9x with Soar)* | Variable (up to 480+ ft) | **-4 penalty** to actions | **Acrobatics (DC 15+)** |
-| **Gliding** | Maintains speed, loses altitude | 60 ft horiz / 12 ft fall | **+2 bonus** to actions | **Acrobatics (DC 10+)** |
-| **Hover / Controlled Descent** | **1/2 Flight or less** | 30 ft / rd or static | Enables precise positioning & observation | **Acrobatics (DC 15+)** |
+| **Surge / Soar** | **4x Flight (8x Walk)** *(5x with Soar)* | 240 ft / rd *(300 ft)* | **-4 penalty** to subtle actions | **Acrobatics (CR 10+)** each minute |
+| **Diving** | **2x Current Speed** *(9x with Soar)* | Variable (up to 480+ ft) | **-4 penalty** to actions | **Acrobatics (CR 15+)** |
+| **Gliding** | Maintains speed, loses altitude | 60 ft horiz / 12 ft fall | **+2 bonus** to actions | **Acrobatics (CR 10+)** |
+| **Hover / Controlled Descent** | **1/2 Flight or less** | 30 ft / rd or static | Enables precise positioning & observation | **Acrobatics (CR 15+)** |
 
 ## Flying Rules & Combat Interactions
 - **High Ground Bonus**: ANY Flying will likely grant the **High Ground bonus (+2 Strike / +2 Crit)** against grounded opponents.
@@ -181,9 +181,9 @@ Swimming movement in Tangent is determined by a character's base speed, typicall
 | Pace | Speed Multiplier | Medium Speed | Tactical & Action Modifiers | Fatigue & Skill Check |
 | :--- | :---: | :---: | :--- | :--- |
 | **Swimming** | **1x Swim (1/2 Walk)** | 15 ft / rd | Standard pace; no modifiers apply | None |
-| **Glide** | **2x Swim (1x Walk)** | 30 ft / rd | **-2 penalty** to subtlety, stealth, or precision | **Athletics (Swimming) DC 10+** |
-| **Stroke** | **4x Swim (2x Walk)** | 60 ft / rd | **-4 penalty** to subtle actions | **Athletics (Swimming) DC 15+** |
-| **Treading** | **1/2 Swim or less** | 7.5 ft / rd | Possible **+2 bonus** to actions | **Athletics (Swimming) DC 5+** |
+| **Glide** | **2x Swim (1x Walk)** | 30 ft / rd | **-2 penalty** to subtlety, stealth, or precision | **Athletics (Swimming) CR 10+** |
+| **Stroke** | **4x Swim (2x Walk)** | 60 ft / rd | **-4 penalty** to subtle actions | **Athletics (Swimming) CR 15+** |
+| **Treading** | **1/2 Swim or less** | 7.5 ft / rd | Possible **+2 bonus** to actions | **Athletics (Swimming) CR 5+** |
 
 ## Fatigue & Aquatic Hazards
 - **Fatigue Checks**: Athletics (Swimming) checks ward off fatigue and muscle strain. On a failure, take **1 point of non-lethal damage per 5 points missed**, followed by a **Will check** of the same difficulty.
@@ -229,9 +229,9 @@ sockets:
 Climbing movement in Tangent involves ascending or descending vertical surfaces, and is influenced by a character's base speed which in turn is affected by the difficulty of the climb. Different climbing speeds are available, each with its own mechanics and effects.
 
 ## Surface Difficulty & Base Speed
-- **Easy Climb (DC 10+)**: Half base walking speed (15 ft / rd).
-- **Moderate Climb (DC 15+)**: Quarter base walking speed (7.5 ft / rd).
-- **Difficult Climb (DC 20+)**: Tenth base walking speed (3 ft / rd).
+- **Easy Climb (CR 10+)**: Half base walking speed (15 ft / rd).
+- **Moderate Climb (CR 15+)**: Quarter base walking speed (7.5 ft / rd).
+- **Difficult Climb (CR 20+)**: Tenth base walking speed (3 ft / rd).
 *Difficulties may be modified by climbing gear, harness systems, and environmental conditions (ice, rain, slime).*
 
 ## Climbing Movement Paces
@@ -241,7 +241,7 @@ Climbing movement in Tangent involves ascending or descending vertical surfaces,
 | **Climbing** | Standard Surface Pace | 15 / 7.5 / 3 ft | Standard climb; requires check to avoid falling | **Athletics (Climbing)** vs Surface DC |
 | **Scaling** | **1x Base Walk Speed** | 30 ft / rd | **-2 penalty** to subtle actions | **Athletics (Climbing)** at **-5 penalty** |
 | **Fast Ascent** | **2x Base Walk Speed** | 60 ft / rd | **-4 penalty** to subtle actions | **Athletics (Climbing)** at **-10 penalty** |
-| **Fast Descent** | **4x Base Walk Speed** | 120 ft / rd | Descends without injury; **-4 penalty** to actions | **DC 20 Athletics (Climbing)** or **-10 to check** |
+| **Fast Descent** | **4x Base Walk Speed** | 120 ft / rd | Descends without injury; **-4 penalty** to actions | **CR 20 Athletics (Climbing)** or **-10 to check** |
 
 ## Fatigue, Falling & Holding On
 - **Fatigue Checks**: Athletics (Climbing) checks ward off fatigue and muscle strain. On a failure, take **1 point of non-lethal damage per 5 points missed**, followed by a **Will check** of the same difficulty.
@@ -403,7 +403,7 @@ sockets:
 **Category**: Tactical Conditions & Status Effects  
 
 ## Trigger
-- Occurs when a character fails a Stamina-based Fortitude check (DC 15) from sustained sprinting (5 consecutive rounds) or hurried travel (10+ minutes) and exhausts their non-lethal Vitality pool, taking subsequent Health damage.
+- Occurs when a character fails a Stamina-based Fortitude check (CR 15) from sustained sprinting (5 consecutive rounds) or hurried travel (10+ minutes) and exhausts their non-lethal Vitality pool, taking subsequent Health damage.
 - Also triggered by metaphysical strain, prolonged starvation, or extreme environmental exposure.
 
 ## Mechanics & Debuffs
@@ -449,8 +449,8 @@ sockets:
 ## Movement Paces Table
 - **Walk (1x)**: 30 ft/rd (Medium humanoid baseline). Standard pace, no penalties.
 - **Jog (2x)**: 60 ft/rd. -2 penalty to subtle/stealth/precision actions.
-- **Running (4x / 5x with Runner)**: 120 ft/rd. -4 penalty to subtle actions. Athletics DC 10+ each minute.
-- **Sprinting (6x / 7x with Runner)**: 180 ft/rd. -8 penalty to subtle actions. Athletics DC 15+ each minute.
+- **Running (4x / 5x with Runner)**: 120 ft/rd. -4 penalty to subtle actions. Athletics CR 10+ each minute.
+- **Sprinting (6x / 7x with Runner)**: 180 ft/rd. -8 penalty to subtle actions. Athletics CR 15+ each minute.
 - **Crawl (1/2x)**: 15 ft/rd. +2 bonus to stealth; gains Prone condition.
 - **Slow Crawl (1/4x)**: 7.5 ft/rd. +4 bonus to stealth; gains Prone condition.
 `);
@@ -489,10 +489,10 @@ sockets:
 ## Aerial Paces
 - **Flight (1x Fly / 2x Walk)**: 60 ft/rd. Default pace.
 - **Sail (2x Fly / 4x Walk)**: 120 ft/rd. -2 penalty to subtle actions.
-- **Surge / Soar (4x Fly / 8x Walk, 5x Fly with Soar)**: 240 ft/rd (300 ft). -4 penalty. Acrobatics DC 10+ each minute.
-- **Diving (2x current speed, 9x Fly with Soar)**: High-speed descent. -4 penalty. Acrobatics DC 15+.
-- **Gliding**: Maintains speed, loses altitude (5ft horiz / 1ft fall). +2 bonus to actions. Acrobatics DC 10+.
-- **Hover / Controlled Descent (1/2 Fly or less)**: 30 ft/rd or stationary. Acrobatics DC 15+.
+- **Surge / Soar (4x Fly / 8x Walk, 5x Fly with Soar)**: 240 ft/rd (300 ft). -4 penalty. Acrobatics CR 10+ each minute.
+- **Diving (2x current speed, 9x Fly with Soar)**: High-speed descent. -4 penalty. Acrobatics CR 15+.
+- **Gliding**: Maintains speed, loses altitude (5ft horiz / 1ft fall). +2 bonus to actions. Acrobatics CR 10+.
+- **Hover / Controlled Descent (1/2 Fly or less)**: 30 ft/rd or stationary. Acrobatics CR 15+.
 `);
 
 writeFile(path.join(rulesDir, 'rule-flying-ram-impact-damage.md'), `---
@@ -607,8 +607,8 @@ sockets:
 **Category**: Core Resolution & Survival Rules  
 
 ## Trigger & Saving Throw
-- **Combat Sprint Trigger**: Sprinting for **5 consecutive rounds** in tactical combat forces a **Stamina-based Fortitude Check (DC 15)**.
-- **Hurried Travel Trigger**: Hurried or forced-march travel for **10 minutes** forces a **Stamina-based Fortitude Check (DC 15)**.
+- **Combat Sprint Trigger**: Sprinting for **5 consecutive rounds** in tactical combat forces a **Stamina-based Fortitude Check (CR 15)**.
+- **Hurried Travel Trigger**: Hurried or forced-march travel for **10 minutes** forces a **Stamina-based Fortitude Check (CR 15)**.
 
 ## Failure Consequences
 - **Vitality Damage**: On a failure, take **5 points of non-lethal Vitality damage**.
@@ -853,8 +853,8 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 | :--- | :---: | :---: | :---: | :--- |
 | **Walk** | **1x (Base)** | 30 ft / 6s (6 kph) | Standard baseline | None |
 | **Jog** | **2x** | 60 ft / 6s | **-2 penalty** | None |
-| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | **Athletics DC 10+** (every min, cum. -1) |
-| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | **Athletics DC 15+** (every min, cum. -1) |
+| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | **Athletics CR 10+** (every min, cum. -1) |
+| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | **Athletics CR 15+** (every min, cum. -1) |
 | **Crawl** | **1/2x** | 15 ft / 6s | **+2 stealth**; gains **Prone** | None |
 | **Slow Crawl** | **1/4x** | 7.5 ft / 6s | **+4 stealth**; gains **Prone** | None |
 
@@ -866,10 +866,10 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 | :--- | :---: | :---: | :---: | :--- |
 | **Flight** | **1x Fly (2x Walk)** | 60 ft / 6s | Standard flyer baseline | None |
 | **Sail** | **2x Fly (4x Walk)** | 120 ft / 6s | **-2 penalty** | None |
-| **Surge / Soar** | **4x Fly (8x Walk)** *(5x with Soar)* | 240 ft *(300 ft)* | **-4 penalty** | **Acrobatics DC 10+** (every min, cum. -1) |
-| **Diving** | **2x Current Speed** *(9x with Soar)* | Up to 480+ ft | **-4 penalty** | **Acrobatics DC 15+** |
-| **Gliding** | Maintains speed, drops 1ft per 5ft horiz | 60 ft horiz / 12 ft fall | **+2 bonus** | **Acrobatics DC 10+** |
-| **Hover / Controlled Descent** | **1/2 Fly or less** | 30 ft or static | Observation ready | **Acrobatics DC 15+** |
+| **Surge / Soar** | **4x Fly (8x Walk)** *(5x with Soar)* | 240 ft *(300 ft)* | **-4 penalty** | **Acrobatics CR 10+** (every min, cum. -1) |
+| **Diving** | **2x Current Speed** *(9x with Soar)* | Up to 480+ ft | **-4 penalty** | **Acrobatics CR 15+** |
+| **Gliding** | Maintains speed, drops 1ft per 5ft horiz | 60 ft horiz / 12 ft fall | **+2 bonus** | **Acrobatics CR 10+** |
+| **Hover / Controlled Descent** | **1/2 Fly or less** | 30 ft or static | Observation ready | **Acrobatics CR 15+** |
 
 ### Aerial Combat Rules
 - **High Ground Bonus**: Airborne combatants above grounded foes gain **+2 Strike** and **+2 Critical Threat Range**.
@@ -882,9 +882,9 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 | Pace | Speed Multiplier | Medium Speed (15 ft base) | Action Modifiers | Skill Check |
 | :--- | :---: | :---: | :---: | :--- |
 | **Swimming** | **1x Swim (1/2 Walk)** | 15 ft / 6s (3 kph) | Standard swim | None |
-| **Glide** | **2x Swim (1x Walk)** | 30 ft / 6s | **-2 penalty** | **Athletics (Swim) DC 10+** |
-| **Stroke** | **4x Swim (2x Walk)** | 60 ft / 6s | **-4 penalty** | **Athletics (Swim) DC 15+** |
-| **Treading** | **1/2 Swim or less** | 7.5 ft / 6s | **+2 bonus** | **Athletics (Swim) DC 5+** |
+| **Glide** | **2x Swim (1x Walk)** | 30 ft / 6s | **-2 penalty** | **Athletics (Swim) CR 10+** |
+| **Stroke** | **4x Swim (2x Walk)** | 60 ft / 6s | **-4 penalty** | **Athletics (Swim) CR 15+** |
+| **Treading** | **1/2 Swim or less** | 7.5 ft / 6s | **+2 bonus** | **Athletics (Swim) CR 5+** |
 *(Swimming Feature elevates rates to: 1x Walk [30 ft] Swim, 2x Walk [60 ft] Glide, 3x Walk [90 ft] Stroke).*
 
 ---
@@ -893,12 +893,12 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 
 | Pace | Base Speed Ratio | Medium Speed | Action Modifiers | Skill Check |
 | :--- | :---: | :---: | :---: | :--- |
-| **Easy Climb (DC 10+)** | **1/2 Walk** | 15 ft / 6s | Standard climb | **Athletics (Climb)** vs DC 10 |
-| **Moderate Climb (DC 15+)**| **1/4 Walk** | 7.5 ft / 6s | Challenging surface | **Athletics (Climb)** vs DC 15 |
-| **Difficult Climb (DC 20+)** | **1/10 Walk** | 3 ft / 6s | Sheer wall / ice | **Athletics (Climb)** vs DC 20 |
+| **Easy Climb (CR 10+)** | **1/2 Walk** | 15 ft / 6s | Standard climb | **Athletics (Climb)** vs CR 10 |
+| **Moderate Climb (CR 15+)**| **1/4 Walk** | 7.5 ft / 6s | Challenging surface | **Athletics (Climb)** vs CR 15 |
+| **Difficult Climb (CR 20+)** | **1/10 Walk** | 3 ft / 6s | Sheer wall / ice | **Athletics (Climb)** vs CR 20 |
 | **Scaling** | **1x Walk** | 30 ft / 6s | **-2 penalty** | Athletics (Climb) at **-5** |
 | **Fast Ascent** | **2x Walk** | 60 ft / 6s | **-4 penalty** | Athletics (Climb) at **-10** |
-| **Fast Descent** | **4x Walk** | 120 ft / 6s | **-4 penalty** | **DC 20** or Athletics at **-10** |
+| **Fast Descent** | **4x Walk** | 120 ft / 6s | **-4 penalty** | **CR 20** or Athletics at **-10** |
 *(Climbing Feature elevates rates to: 1x Walk Climb, 2x Scale, 3x Fast Ascent, 6x Fast Descent).*
 
 ---
@@ -915,7 +915,7 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 
 ## 6. Movement Fatigue & Exhaustion Rules
 
-- **Trigger**: Sprinting for **5 consecutive combat rounds** or **10 minutes of hurried travel** triggers a **Stamina-based Fortitude Check (DC 15)**.
+- **Trigger**: Sprinting for **5 consecutive combat rounds** or **10 minutes of hurried travel** triggers a **Stamina-based Fortitude Check (CR 15)**.
 - **Check Progression**: Checked every minute with a **cumulative -1 penalty** per successive roll.
 - **Failure Penalty**: On failure, take **1 point of non-lethal damage per 5 points missed** below the DC (or 5 flat points on standard failure).
 - **Exhaustion State**: If Vitality is reduced to 0, take **2 physical Health damage** and gain the **Exhausted** condition (**-2 to all active checks and half movement speed**) until taking a **Light Rest (Nap)**.
@@ -981,9 +981,9 @@ const speciesMovementDataJS = [
   '    mediumBaseSpeed: 15,',
   '    description: "Vertical ascent and descent across scalable terrain.",',
   '    paces: {',
-  '      easy: { id: "easy", name: "Easy Climb (DC 10+)", multiplier: 0.5, speed: 15, checkDC: 10, checkSkill: "Athletics (Climbing)", description: "Half walking speed." },',
-  '      moderate: { id: "moderate", name: "Moderate Climb (DC 15+)", multiplier: 0.25, speed: 7.5, checkDC: 15, checkSkill: "Athletics (Climbing)", description: "Quarter walking speed." },',
-  '      difficult: { id: "difficult", name: "Difficult Climb (DC 20+)", multiplier: 0.1, speed: 3, checkDC: 20, checkSkill: "Athletics (Climbing)", description: "Tenth walking speed." },',
+  '      easy: { id: "easy", name: "Easy Climb (CR 10+)", multiplier: 0.5, speed: 15, checkDC: 10, checkSkill: "Athletics (Climbing)", description: "Half walking speed." },',
+  '      moderate: { id: "moderate", name: "Moderate Climb (CR 15+)", multiplier: 0.25, speed: 7.5, checkDC: 15, checkSkill: "Athletics (Climbing)", description: "Quarter walking speed." },',
+  '      difficult: { id: "difficult", name: "Difficult Climb (CR 20+)", multiplier: 0.1, speed: 3, checkDC: 20, checkSkill: "Athletics (Climbing)", description: "Tenth walking speed." },',
   '      scaling: { id: "scaling", name: "Scaling", multiplier: 1.0, featureMultiplier: 2.0, speed: 30, actionMod: -2, checkDC: 5, checkSkill: "Athletics (Climbing)", checkPenalty: -5, description: "Ascending at full base walking speed." },',
   '      fast_ascent: { id: "fast_ascent", name: "Fast Ascent", multiplier: 2.0, featureMultiplier: 3.0, speed: 60, actionMod: -4, checkDC: 10, checkSkill: "Athletics (Climbing)", checkPenalty: -10, description: "Ascending at double speed." },',
   '      fast_descent: { id: "fast_descent", name: "Fast Descent", multiplier: 4.0, featureMultiplier: 6.0, speed: 120, actionMod: -4, checkDC: 20, checkSkill: "Athletics (Climbing)", checkPenalty: -10, description: "Rapid uninjured vertical descent." }',
@@ -1045,8 +1045,8 @@ Ground movement is based on a character's base speed, typically represented by w
 | :--- | :---: | :---: | :---: | :--- |
 | **Walk** | **1x** | 30 ft / rd | Baseline | None |
 | **Jog** | **2x** | 60 ft / rd | **-2 penalty** | None |
-| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | Athletics DC 10+ (every min, cum. -1) |
-| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | Athletics DC 15+ (every min, cum. -1) |
+| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | Athletics CR 10+ (every min, cum. -1) |
+| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | Athletics CR 15+ (every min, cum. -1) |
 | **Crawl** | **1/2x** | 15 ft / rd | **+2 stealth**; Prone | None |
 | **Slow Crawl** | **1/4x** | 7.5 ft / rd | **+4 stealth**; Prone | None |
 
@@ -1059,10 +1059,10 @@ Standard Flying Speed is double base walking speed (**60 ft / round** for Medium
 | :--- | :---: | :---: | :---: | :--- |
 | **Flight** | **1x Fly (2x Walk)** | 60 ft / rd | Baseline | None |
 | **Sail** | **2x Fly (4x Walk)** | 120 ft / rd | **-2 penalty** | None |
-| **Surge / Soar** | **4x Fly (8x Walk)** *(5x with Soar)* | 240 ft *(300 ft)* | **-4 penalty** | Acrobatics DC 10+ (every min, cum. -1) |
-| **Diving** | **2x Current** *(9x with Soar)* | Up to 480+ ft | **-4 penalty** | Acrobatics DC 15+ |
-| **Gliding** | Maintains speed, drops 1ft / 5ft horiz | 60 ft / rd | **+2 bonus** | Acrobatics DC 10+ |
-| **Hover / Controlled Descent** | **1/2 Fly or less** | 30 ft or static | Baseline | Acrobatics DC 15+ |
+| **Surge / Soar** | **4x Fly (8x Walk)** *(5x with Soar)* | 240 ft *(300 ft)* | **-4 penalty** | Acrobatics CR 10+ (every min, cum. -1) |
+| **Diving** | **2x Current** *(9x with Soar)* | Up to 480+ ft | **-4 penalty** | Acrobatics CR 15+ |
+| **Gliding** | Maintains speed, drops 1ft / 5ft horiz | 60 ft / rd | **+2 bonus** | Acrobatics CR 10+ |
+| **Hover / Controlled Descent** | **1/2 Fly or less** | 30 ft or static | Baseline | Acrobatics CR 15+ |
 
 - **High Ground**: Flyers above ground targets gain **+2 Strike / +2 Crit**.
 - **Aerial Rams**: Deal **+1d per Flight Stage + 1 Impact Damage per 10 ft of speed** to all involved.
@@ -1075,24 +1075,24 @@ Standard Swimming Speed is half base walking speed (**15 ft / round [1.83 mph / 
 | Pace | Multiplier | Medium Speed | Subtlety Mod | Check & Fatigue |
 | :--- | :---: | :---: | :---: | :--- |
 | **Swimming** | **1x Swim (1/2 Walk)** | 15 ft / rd | Baseline | None |
-| **Glide** | **2x Swim (1x Walk)** | 30 ft / rd | **-2 penalty** | Athletics (Swim) DC 10+ |
-| **Stroke** | **4x Swim (2x Walk)** | 60 ft / rd | **-4 penalty** | Athletics (Swim) DC 15+ |
-| **Treading** | **1/2 Swim or less** | 7.5 ft / rd | **+2 bonus** | Athletics (Swim) DC 5+ |
+| **Glide** | **2x Swim (1x Walk)** | 30 ft / rd | **-2 penalty** | Athletics (Swim) CR 10+ |
+| **Stroke** | **4x Swim (2x Walk)** | 60 ft / rd | **-4 penalty** | Athletics (Swim) CR 15+ |
+| **Treading** | **1/2 Swim or less** | 7.5 ft / rd | **+2 bonus** | Athletics (Swim) CR 5+ |
 *(Swimming Feature: Swimming 30 ft, Glide 60 ft, Stroke 90 ft).*
 
 ---
 
 ## 4. Climbing Movement
 Climbing speed depends on surface difficulty:
-- **Easy (DC 10+)**: 15 ft / rd (1/2 walk).
-- **Moderate (DC 15+)**: 7.5 ft / rd (1/4 walk).
-- **Difficult (DC 20+)**: 3 ft / rd (1/10 walk).
+- **Easy (CR 10+)**: 15 ft / rd (1/2 walk).
+- **Moderate (CR 15+)**: 7.5 ft / rd (1/4 walk).
+- **Difficult (CR 20+)**: 3 ft / rd (1/10 walk).
 
 | Pace | Speed Ratio | Medium Speed | Subtlety Mod | Check & Fatigue |
 | :--- | :---: | :---: | :---: | :--- |
 | **Scaling** | **1x Walk** | 30 ft / rd | **-2 penalty** | Athletics (Climb) at **-5 penalty** |
 | **Fast Ascent** | **2x Walk** | 60 ft / rd | **-4 penalty** | Athletics (Climb) at **-10 penalty** |
-| **Fast Descent** | **4x Walk** | 120 ft / rd | **-4 penalty** | DC 20 Athletics (Climb) or **-10 penalty** |
+| **Fast Descent** | **4x Walk** | 120 ft / rd | **-4 penalty** | CR 20 Athletics (Climb) or **-10 penalty** |
 *(Climbing Feature: Climbing 30 ft, Scaling 60 ft, Fast Ascent 90 ft, Fast Descent 180 ft).*
 
 ---
@@ -1109,8 +1109,8 @@ Standard Burrowing Speed is 1/4 walking speed (**7.5 ft / rd** for Medium humano
 ---
 
 ## 6. Movement Fatigue Rules
-- **Sprint Trigger**: 5 consecutive combat rounds of sprinting forces a **Stamina-based Fortitude Check (DC 15)**.
-- **Hurried Travel Trigger**: 10 minutes of hurried travel forces a **Stamina-based Fortitude Check (DC 15)**.
+- **Sprint Trigger**: 5 consecutive combat rounds of sprinting forces a **Stamina-based Fortitude Check (CR 15)**.
+- **Hurried Travel Trigger**: 10 minutes of hurried travel forces a **Stamina-based Fortitude Check (CR 15)**.
 - **Failure**: Takes **5 points of non-lethal Vitality damage** (1 pt per 5 points missed below DC).
 - **Depletion to Exhaustion**: When Vitality reaches 0, takes **2 physical Health damage** and suffers the **Exhausted condition** (**-2 to all active checks and half movement speed**) until taking a **Light Rest (Nap)**.
 `);

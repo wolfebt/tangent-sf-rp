@@ -81,7 +81,7 @@
       '',
       '### 1. The Attune Skill (Drawing Energy)',
       '- **Role:** Measures how cleanly you channel raw reality energy without causing feedback.',
-      '- **Roll Purpose:** Sets the **Evasion DC** or **Resistance DC** that targets must roll against to resist the spell.',
+      '- **Roll Purpose:** Sets the **Evasion CR** or **Resistance CR** that targets must roll against to resist the spell.',
       '',
       '### 2. The Discipline Skill (Shaping Reality)',
       '- **Role:** Measures mastery over a specific branch of physics (*Dimension, Energy, Entropy, Illusion, Matter, Mental*).',
@@ -92,7 +92,7 @@
       '- **Benefit:** Adds its **Invocation Level** as a static bonus to the Discipline check, eliminating volatility.'
     ].join('\n'),
     mechanic: 'TargetResistanceDC = 10 + AttuneCheckMod + KeyAbilityMod\nEffectSeverity = d20 + DisciplineSkillRank + InvocationLevel + KeyAbilityMod',
-    guide: 'Roll an Attune check to establish target DC, then roll your Discipline skill check to determine damage or effect.',
+    guide: 'Roll an Attune check to establish Target CR, then roll your Discipline skill check to determine damage or effect.',
     note: 'Free-casting does not add an Invocation Level bonus and carries higher risk of strain.'
   },
   {
@@ -187,7 +187,7 @@
       '',
       '- When a character\'s Essence drops to **0**, they can choose to **Overchannel**:',
       '  - Each point of Essence spent beyond zero inflicts **2 points of direct HP damage** that completely bypasses Armor DR.',
-      '  - The character must make a **Fortitude Save (DC 10 + Points Overchanneled)**:',
+      '  - The character must make a **Fortitude Save (CR 10 + Points Overchanneled)**:',
       '    - **Failure:** Suffers **Metaphysic Burnout** (incapable of channeling for 24 hours).',
       '    - **Critical Failure (Nat 1):** Suffers permanent neurological or sensory impairment.',
       '',

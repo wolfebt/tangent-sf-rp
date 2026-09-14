@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","1.09 hindrances","mechanics"]
-updatedAt: "2026-09-12T08:23:46.545Z"
+updatedAt: "2026-09-14T19:51:39.815Z"
 costs:
   bp: 0
   credits: 0
@@ -124,7 +124,7 @@ In the Tangent Role-Playing System, **Hindrances** are negative traits, flaws, o
 
 **Important:** Do not confuse **Hindrances (Character Flaws)** with the **Rolling with Hindrance** mechanic.  
 **Hindrances (Capital D):** Permanent or semi-permanent character traits chosen at creation (e.g., "Blindness," "Debt").  
-**Rolling with Hindrance (lowercase d):** A situational mechanic where a player must roll two d20s and take the **lowest** result.  
+**Rolling with Hindrance (lowercase d):** A situational mechanic where a player must roll 2d10 twice and take the **lowest** result (Disadvantage).  
 *Note:* Some Character Hindrances (like *Impaired Sense*) may cause a player to *Roll with Hindrance* on specific checks.
 
 ## 
@@ -240,7 +240,7 @@ BP Value: 3 (Minor) / 6 (Moderate) / 9 (Major)
 Category: Psychological  
 The character has an overwhelming desire for something, be it wealth, attention, or power.  
 **Types:** Greed (Money), Lechery (Romance/Lust), Ambition (Power/Status), Conspicuousness (Fame/Attention).  
-**Mechanic:** When presented with the object of their desire, the character must make a Will Save (DC 15 \+ Severity) to avoid acting on the impulse immediately, regardless of danger or propriety.  
+**Mechanic:** When presented with the object of their desire, the character must make a Will Save (CR 15 \+ Severity) to avoid acting on the impulse immediately, regardless of danger or propriety.  
 *Minor (3 BP):* Grumbles or complains if denied.  
 *Moderate (6 BP):* Will take risks or suffer social faux pas to acquire it.  
 *Major (9 BP):* Will steal, betray, or fight to satisfy the craving.
@@ -287,9 +287,9 @@ BP Value: 3 / 6 / 9 / 12
 Category: Psychological  
 The character suffers from emotional volatility or regulation issues, making consistent reactions difficult.  
 **Minor (3 BP):** Mood swings. The character's emotional state fluctuates, leading to minor social awkwardness or misunderstandings. \-2 penalty to social interactions when under pressure or stressed.  
-**Moderate (6 BP):** Prone to outbursts or deep withdrawal. The character struggles to contain intense feelings. Must make a Will save (DC 15\) to avoid breaking down, flying into a rage, or freezing up (e.g., *Stunned* for 1 round) when faced with significant emotional triggers or pressure.  
-**Major (9 BP):** Debilitating. The character's emotional state frequently overrides rational thought. The character may become Catatonic (Unable to act, *Defenseless*) or Hysterical (Must make a *Charge* or *Attack* against a random target) during combat or high-stress scenes. Will Save DC 20 to act normally. This must be checked at the start of any round where the character takes damage or witnesses a traumatic event.  
-**Severe (12 BP):** Crippling instability. The character's emotional state is a liability. They have a permanent \-2 penalty to all Will saves. In any stressful or combat situation, they must make a Will Save (DC 18\) at the start of their turn or suffer from a random, debilitating emotional state (e.g., *Panicked*, *Paralyzed*, or *Staggered* due to overwhelming rage/grief) for the round. They also require constant emotional support or monitoring from allies.
+**Moderate (6 BP):** Prone to outbursts or deep withdrawal. The character struggles to contain intense feelings. Must make a Will save (CR 15\) to avoid breaking down, flying into a rage, or freezing up (e.g., *Stunned* for 1 round) when faced with significant emotional triggers or pressure.  
+**Major (9 BP):** Debilitating. The character's emotional state frequently overrides rational thought. The character may become Catatonic (Unable to act, *Defenseless*) or Hysterical (Must make a *Charge* or *Attack* against a random target) during combat or high-stress scenes. Will Save CR 20 to act normally. This must be checked at the start of any round where the character takes damage or witnesses a traumatic event.  
+**Severe (12 BP):** Crippling instability. The character's emotional state is a liability. They have a permanent \-2 penalty to all Will saves. In any stressful or combat situation, they must make a Will Save (CR 18\) at the start of their turn or suffer from a random, debilitating emotional state (e.g., *Panicked*, *Paralyzed*, or *Staggered* due to overwhelming rage/grief) for the round. They also require constant emotional support or monitoring from allies.
 
 ### 
 

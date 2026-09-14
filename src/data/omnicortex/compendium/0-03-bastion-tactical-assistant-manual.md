@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","core-engine-manual"]
-updatedAt: "2026-09-12T08:23:46.535Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -46,7 +46,7 @@ BASTION processes user directives, parses tactical encounters, calculates odds, 
 ### Dice Rolling Engine Syntax
 - `/roll [count]d[sides]+[mod]`
 - Examples:
-  - `/roll d20+6` — Standard attack or skill check.
+  - `/roll 2d10+6` — Standard attack or skill check.
   - `/roll 2d10+4` — Heavy energy blaster damage roll.
   - `/roll 3d6+2` — Kinetic slug thrower burst roll.
 
@@ -63,7 +63,7 @@ BASTION evaluates mathematical equations across the three modules (**Omnicortex*
 `Effective Damage = Incoming Damage - max(0, Armor DR - Armor Piercing (AP))`
 
 ### Metaphysic Potency
-`Potency Score = Key Ability + Discipline Skill Level + Invocation Level + 10 (or d20)`
+`Potency Score = Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10)`
 
 ---
 
@@ -75,7 +75,7 @@ BASTION enforces strict data validation across all DBM collections:
 
 ## Game Mechanics Rules
 ```
-Input: /roll 2d20kh1+5 -> Roll 2d20, Keep Highest 1, Add 5 (Advantage Check)
+Input: /Roll 2d10 with Advantagekh1+5 -> Roll 2d10 with Advantage, Keep Highest 1, Add 5 (Advantage Check)
 Damage Soak: EffectiveHP_Loss = max(1, RawDamage - max(0, TargetDR - WeaponAP))
 ```
 

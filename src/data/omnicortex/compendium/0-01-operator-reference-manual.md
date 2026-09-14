@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-0","operator","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -51,7 +51,7 @@ Role-Playing Games in Tangent provide a collaborative narrative experience where
 
 ## Game Mechanics Rules
 ```
-Check Formula: 2d10 (Combat) or d20 (Skill/Attribute) + Skill Rank + Attribute Mod + Situational Modifiers vs DC
+Check Formula: 2d10 (All Checks: Combat, Skill, Attribute) + Skill Rank + Attribute Mod + Situational Modifiers vs CR
 Degree of Success: Success by 5+ grants Critical Impact; Defender wins all ties on opposed checks
 ```
 

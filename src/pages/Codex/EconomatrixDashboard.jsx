@@ -217,7 +217,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
           <div className="lg:col-span-6 p-5 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-5">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
-                <Calculator size={16} /> Crafting Difficulty Class: DC {tscDC}
+                <Calculator size={16} /> Crafting Challenge Rating: DC {tscDC}
               </h3>
               <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300">
                 {tscComplexity}
@@ -421,7 +421,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
             </div>
 
             <p className="text-[11px] font-mono text-slate-500">
-              The Golden Rule: You may automatically purchase any item with Crafting DC ≤ your Wealth Score without depleting cash.
+              The Golden Rule: You may automatically purchase any item with Crafting CR ≤ your Wealth Score without depleting cash.
             </p>
           </div>
         </div>
@@ -449,7 +449,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Target Item DC</label>
+                <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Target Item CR</label>
                 <input
                   type="number"
                   min={0}
@@ -521,7 +521,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
             </h3>
 
             <div>
-              <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Item Crafting DC: {craftDC}</label>
+              <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Item Crafting CR: {craftDC}</label>
               <input
                 type="range"
                 min={0}
@@ -648,7 +648,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
             </div>
 
             <p className="text-[11px] font-mono text-slate-400 italic">
-              A major shipyard employing 1,000 workers with Industrial tools (200x) can construct a DC 50 Dreadnought (10.48M Cr) in 10.5 days.
+              A major shipyard employing 1,000 workers with Industrial tools (200x) can construct a CR 50 Dreadnought (10.48M Cr) in 10.5 days.
             </p>
           </div>
         </div>

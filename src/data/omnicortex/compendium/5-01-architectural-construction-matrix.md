@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-5","architecture","construction","udu"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -57,17 +57,17 @@ To maintain mathematical consistency across personal inventory, vehicular engine
 ## II. Structural Categories & Material Hardness
 | Tech Level | Primary Material Class | Base Wall DR | Structural Integrity / 10x10 Section | Fire / Breach DC |
 | :---: | :--- | :---: | :---: | :---: |
-| **TL 0** | Timber, Adobe, Chiseled Stone | DR 3 | 25 HP | DC 12 |
-| **TL 1** | Cast Iron, Masonry, Riveted Steel | DR 6 | 50 HP | DC 16 |
-| **TL 2** | Reinforced Concrete, Structural Steel | DR 10 | 100 HP | DC 20 |
-| **TL 3** | Carbon-Plasteel Composites | DR 18 | 200 HP | DC 25 |
-| **TL 4** | Densified Hyper-Alloys & Grav-Plating | DR 30 | 400 HP | DC 30 |
-| **TL 5** | Hard-Light Lattices & Quantum Laminated Bulkheads | DR 50 | 800 HP | DC 35+ |
+| **TL 0** | Timber, Adobe, Chiseled Stone | DR 3 | 25 HP | CR 12 |
+| **TL 1** | Cast Iron, Masonry, Riveted Steel | DR 6 | 50 HP | CR 16 |
+| **TL 2** | Reinforced Concrete, Structural Steel | DR 10 | 100 HP | CR 20 |
+| **TL 3** | Carbon-Plasteel Composites | DR 18 | 200 HP | CR 25 |
+| **TL 4** | Densified Hyper-Alloys & Grav-Plating | DR 30 | 400 HP | CR 30 |
+| **TL 5** | Hard-Light Lattices & Quantum Laminated Bulkheads | DR 50 | 800 HP | CR 35+ |
 
 ---
 
 ## III. Construction Economic Formula
-The complexity of a structure (**Crafting DC**) directly dictates its monetary market value via the Tangent Standard Curve:
+The complexity of a structure (**Crafting CR**) directly dictates its monetary market value via the Tangent Standard Curve:
 $$\text{Value (Credits)} = 10 \times 4^{(\text{DC} / 5)}$$
 
 ## Game Mechanics Rules

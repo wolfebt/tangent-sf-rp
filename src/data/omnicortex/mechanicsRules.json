@@ -26,7 +26,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.891Z"
+    "updatedAt": "2026-09-14T20:01:48.531Z"
   },
   {
     "id": "mech-combat-actions-by-skill-tier",
@@ -54,7 +54,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-combat-initiative",
@@ -78,7 +78,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-combat-edge-system",
@@ -111,7 +111,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-combat-damage-calculation",
@@ -139,7 +139,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-combat-called-shots-locations",
@@ -173,7 +173,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-combat-disabled-destroyed-thresholds",
@@ -181,7 +181,7 @@
     "category": "combat",
     "citation": "docs/game rules/operator/3.00 COMBAT.md § Limb Damage & Critical Injuries",
     "summary": "Taking 1/3 of Health in damage disables a limb (or causes unconsciousness if Head). Taking 2/3 of Health destroys it.",
-    "mechanic_formula": "Disabled = Damage >= 1/3 Health (Sta Check DC 10 + damage to use) | Destroyed = Damage >= 2/3 Health",
+    "mechanic_formula": "Disabled = Damage >= 1/3 Health (Sta Check CR 10 + damage to use) | Destroyed = Damage >= 2/3 Health",
     "rules_text": "Specific body locations have distinct structural thresholds:\n- Disabled (1/3rd Health):\n  * Taking 1/3rd of the Health score in damage to a limb disables it (or Unconsciousness if Head).\n  * Stamina Check with CR of 10 + damage taken to keep using it.\n  * Penalties: -4 on all actions for Head, -4 STR and Agility for Arm, Half Ground Speed and no Rush maneuver for Leg.\n  * Medical attention or metaphysics required to heal properly.\n- Destroyed (2/3rds Health):\n  * Taking 2/3rds of Health to an area mangles or severs it beyond ANY further use (Brain Death if Head).\n- Synthetic Limbs:\n  * Synthetic limbs take 50% more damage before being Disabled or Destroyed compared to biological limbs, but do not receive a Stamina check to stay functional once Disabled.",
     "examples": [
       "A character with 30 Health takes 10 damage to an arm (1/3 of 30). The arm is Disabled (-4 STR/AGI) unless a Stamina check vs CR 20 (10 + 10) succeeds.",
@@ -201,7 +201,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-combat-mortality-state",
@@ -209,10 +209,10 @@
     "category": "combat",
     "citation": "docs/game rules/operator/3.00 COMBAT.md § The Mortality State",
     "summary": "At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (CON + 5) reach 0.",
-    "mechanic_formula": "Stability Points = CON Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine DC 15",
-    "rules_text": "When Health Points reach 0, characters enter the Mortality State:\n- Unconscious and Incapacitated: Character falls Prone and is Incapacitated immediately.\n- Bleeding Out: At the beginning of their turn, the character suffers 1 point of Stability Damage.\n- Stability Threshold: Character has Stability Points equal to Constitution Score + 5.\n- Death: When Stability Points reach 0, the character is clinically dead.\n- Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (DC 15).",
+    "mechanic_formula": "Stability Points = CON Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15",
+    "rules_text": "When Health Points reach 0, characters enter the Mortality State:\n- Unconscious and Incapacitated: Character falls Prone and is Incapacitated immediately.\n- Bleeding Out: At the beginning of their turn, the character suffers 1 point of Stability Damage.\n- Stability Threshold: Character has Stability Points equal to Constitution Score + 5.\n- Death: When Stability Points reach 0, the character is clinically dead.\n- Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (CR 15).",
     "examples": [
-      "An operative with CON +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (DC 15), death occurs."
+      "An operative with CON +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs."
     ],
     "tags": [
       "mortality state",
@@ -222,14 +222,14 @@
       "stability points",
       "con + 5",
       "stabilization",
-      "medicine dc 15",
+      "medicine cr 15",
       "combat",
       "rules",
       "mechanics",
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-scaling-14-tiers",
@@ -256,24 +256,24 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-economatrix-standard-curve",
     "title": "Tangent Standard Curve (TSC) & Wealth Score",
     "category": "economatrix",
     "citation": "docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework",
-    "summary": "Item value quadruples every +5 DC increment: Value = 10 * 4^(DC / 5). Purchase DC equals Crafting DC.",
-    "mechanic_formula": "Value = 10 * 4^(DC / 5) | Purchase DC = Crafting DC <= Wealth Score",
-    "rules_text": "The Tangent Economic Matrix establishes that Complexity Determines Value:\n- Tangent Standard Curve (TSC): Value = 10 * 4^(DC / 5).\n  * Base good at DC 0 costs 10 Credits.\n  * DC 5: 40 Credits.\n  * DC 10: 160 Credits.\n  * DC 15 (Standard Ballistic Rifle): 640 Credits.\n  * DC 20 (Plasma Rifle): 2,560 Credits.\n  * DC 25: 10,240 Credits.\n- The Golden Rule of Tangent Wealth: Purchase DC = Crafting DC.\n  * A character may automatically purchase any item with a Crafting DC equal to or less than their Wealth Score without depleting liquid credits or reducing their Wealth Score.\n- 7 Crafting Timetable Tiers: Tier 1 (1 hr), Tier 2 (8 hrs), Tier 3 (1-3 days), Tier 4 (1-2 wks), Tier 5 (1 mo), Tier 6 (6 mos), Tier 7 (Years/Megastructure).",
+    "summary": "Item value quadruples every +5 DC increment: Value = 10 * 4^(CR / 5). Purchase CR equals Crafting CR.",
+    "mechanic_formula": "Value = 10 * 4^(CR / 5) | Purchase CR = Crafting CR <= Wealth Score",
+    "rules_text": "The Tangent Economic Matrix establishes that Complexity Determines Value:\n- Tangent Standard Curve (TSC): Value = 10 * 4^(CR / 5).\n  * Base good at CR 0 costs 10 Credits.\n  * CR 5: 40 Credits.\n  * CR 10: 160 Credits.\n  * CR 15 (Standard Ballistic Rifle): 640 Credits.\n  * CR 20 (Plasma Rifle): 2,560 Credits.\n  * CR 25: 10,240 Credits.\n- The Golden Rule of Tangent Wealth: Purchase CR = Crafting CR.\n  * A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid credits or reducing their Wealth Score.\n- 7 Crafting Timetable Tiers: Tier 1 (1 hr), Tier 2 (8 hrs), Tier 3 (1-3 days), Tier 4 (1-2 wks), Tier 5 (1 mo), Tier 6 (6 mos), Tier 7 (Years/Megastructure).",
     "examples": [
-      "An operative with Wealth Score 16 can automatically requisition any standard gear with Crafting DC 16 or below without spending cash."
+      "An operative with Wealth Score 16 can automatically requisition any standard gear with Crafting CR 16 or below without spending cash."
     ],
     "tags": [
       "economatrix",
       "tsc",
       "tangent standard curve",
-      "crafting dc",
+      "crafting cr",
       "wealth score",
       "value",
       "credits",
@@ -282,16 +282,16 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-metaphysics-triad-casting",
     "title": "Metaphysics Triad & Take-10 Invocation Casting",
     "category": "metaphysics",
     "citation": "docs/game rules/operator/4.00 METAPHYSICS.md § Core Mechanics",
-    "summary": "Metaphysics operates on Attune, Discipline, and Invocation. Potency = Key Ability + Discipline Skill + Invocation Level + 10 (or d20).",
-    "mechanic_formula": "Potency = Key Ability + Discipline Skill Level + Invocation Level + 10 (or d20) | Strain = 1 Non-Lethal / 5 pts under DC",
-    "rules_text": "Reality manipulation operates on a distinct mechanical triad:\n- Attune Skill: General energy channeling skill. Sets the Difficulty Class of Resistance or Attack check.\n- Discipline Skill: Manipulates patterns; sets Severity and Damage.\n- Invocations: Codified muscle memory. Users \"Take 10\" by default on Discipline checks for operational safety.\n- Source Key Ability:\n  * Intelligence: Psychic, Arcane, Akashic.\n  * Wisdom: Divine, Nature, Cosmic.\n  * Charisma: Bardic, Hereditary, Granted.\n- Metafocus Levels (ML): ML 0 Null to ML 6 Deific (ML 6 NPC only). Starting character max Discipline skill = 2 * ML.\n- Internalized Strain: Failing a casting check deals 1 point of Non-Lethal Damage per 5 points of failure (bypasses Stamina and Armor).",
+    "summary": "Metaphysics operates on Attune, Discipline, and Invocation. Potency = Key Ability + Discipline Skill + Invocation Level + 10 (or 2d10).",
+    "mechanic_formula": "Potency = Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10) | Strain = 1 Non-Lethal / 5 pts under CR",
+    "rules_text": "Reality manipulation operates on a distinct mechanical triad:\n- Attune Skill: General energy channeling skill. Sets the Challenge Rating of Resistance or Attack check.\n- Discipline Skill: Manipulates patterns; sets Severity and Damage.\n- Invocations: Codified muscle memory. Users \"Take 10\" by default on Discipline checks for operational safety.\n- Source Key Ability:\n  * Intelligence: Psychic, Arcane, Akashic.\n  * Wisdom: Divine, Nature, Cosmic.\n  * Charisma: Bardic, Hereditary, Granted.\n- Metafocus Levels (ML): ML 0 Null to ML 6 Deific (ML 6 NPC only). Starting character max Discipline skill = 2 * ML.\n- Internalized Strain: Failing a casting check deals 1 point of Non-Lethal Damage per 5 points of failure (bypasses Stamina and Armor).",
     "examples": [
       "An arcanist with INT +3, Telekinesis Skill 4, and Kinetic Lance Level 2 casts with Take 10 default: Potency = 3 + 4 + 2 + 10 = 19."
     ],
@@ -309,7 +309,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-character-150cp-creation",
@@ -337,7 +337,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-companion-40cp-formula",
@@ -346,7 +346,7 @@
     "citation": "docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition & Construction",
     "summary": "Companions must be unlocked by purchasing the COMPANION feature (3 CP, Cha 1). May purchase multiple times for additional cohorts or +10 CP build budget.",
     "mechanic_formula": "Companion Feature = 3 CP (Cha 1) | Cohort Budget = Form (15 CP) + Function (25 CP) = 40 CP Base | +10 CP per Rank above Rank 1",
-    "rules_text": "Access and construction of loyal cohorts follow strict modular rules:\n- Unlocking the Companion Feature:\n  * Just as Metaphysics requires the Awakened feature and Augmentations require the Augmented feature, access to Companions must be unlocked by purchasing the Companion feature (3 CP, Prerequisite: Charisma 1).\n  * Ranked & Multiple: Taking this feature again allows either purchasing an additional 40 CP companion OR granting +10 CP to an existing companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).\n- Modular Construction Matrix:\n  * Form Package: 15 CP (Anatomy, size, speed, base vitals).\n  * Function Package: 25 CP (Role, attribute bonuses, skills, protocols).\n  * Base Companion: 40 CP total at Rank 1.\n- Chassis Typologies:\n  * Biological: Uses Vitality + Health. Recovers via natural sleep and Medicine.\n  * Synthetic: Uses Structure Points (60 SP base for Medium, scaled by size tier). Zero Vitality. Immune to non-lethal damage, poison, disease, fatigue. Requires Engineering repair.\n  * Metaphysical: Uses Essence as health. Grappling immunity if incorporeal. Attunement recovery.",
+    "rules_text": "Access and construction of loyal cohorts follow strict modular rules:\n- Unlocking the Companion Feature:\n  * Just as Metaphysics requires the Awakened feature and Augmentations require the Augmented feature, access to Companions must be unlocked by purchasing the Companion feature (3 CP, Prerequisite: Charisma 1).\n  * Ranked & Multiple: Taking this feature again allows either purchasing an additional 40 CP companion OR granting +10 CP to an existing companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).\n- Modular Construction Matrix:\n  * Form Package: 15 CP (Anatomy, size, speed, base vitals).\n  * Function Package: 25 CP (Role, attribute bonuses, skills, protocols).\n  * Base Companion: 40 CP total at Rank 1.\n- Chassis Typologies:\n  * Biological: Uses Vitality + Health. Recovers via natural sleep and Medicine.\n  * Synthetic: Uses Structure Points (SP = VP + HP). Zero Vitality. Immune to non-lethal damage, poison, disease, fatigue. Requires Engineering repair.\n  * Metaphysical: Uses Essence as health. Grappling immunity if incorporeal. Attunement recovery.",
     "examples": [
       "Operative purchases Companion feature (3 CP), assembling a 40 CP Biological War Hound: Predator Form (15 CP) + Guardian Function (25 CP).",
       "Operative purchases Companion feature a 2nd time: chooses to unlock a 2nd companion (a 40 CP Sky-Eye Recon Drone) or upgrade the War Hound to Rank 2 (50 CP budget)."
@@ -367,14 +367,14 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-12T06:04:47.892Z"
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-vitals-30-30-60",
-    "title": "Vitals & Structure Pools: 30 VP / 30 HP / 60 SP Base",
-    "category": "vitals_integrity",
-    "citation": "docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals",
-    "summary": "Biological entities start with 30 Vitality and 30 Health with NO stamina-based bonus on VP or HP. Synthetics and Constructs operate on 60 Structure Points base (for Medium size, scaled by size tier).",
+    "title": "Vitals & Structure: 30 VP / 30 HP / 60 SP Base (No Stamina Bonus)",
+    "category": "vitals",
+    "citation": "docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals & Derivations",
+    "summary": "Characters start with Base Vitality 30, Base Health 30, and Base Structure 60 (for Medium synthetics). Stamina does NOT add to VP or HP, but provides natural DR (Toughness).",
     "mechanic_formula": "Vitality Base = 30 | Health Base = 30 | Structure Base = 60 * Size Scaling Multiplier | Stamina = Natural DR (Toughness)",
     "rules_text": "Vitals and physical resilience are strictly decoupled from flat stamina additions:\n- Biological Entities:\n  * Base Vitality = 30 points.\n  * Base Health = 30 points.\n  * Stamina does NOT add to base Vitality or Health; instead, Stamina provides point-for-point natural Damage Reduction (DR / Toughness), reducing penetrating damage by a minimum of 1.\n  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).\n- Synthetics, Constructs & Mecha:\n  * Base Structure = 60 Structure Points (SP) for Medium size, adjusted by Size Tier scaling multiplier.\n  * Zero Vitality (VP = 0). Completely immune to non-lethal damage, biological poisons, disease, sleep, and fatigue.",
     "examples": [
@@ -395,8 +395,8 @@
       "mechanics",
       "bastion"
     ],
-    "status": "approved",
-    "updatedAt": "2026-09-14T03:50:00.000Z"
+    "status": "pending_approval",
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-karma-spending-actions",
@@ -420,12 +420,13 @@
       "so mote it be",
       "by will alone",
       "karmic debt",
+      "core_resolution",
       "rules",
       "mechanics",
       "bastion"
     ],
-    "status": "approved",
-    "updatedAt": "2026-09-14T03:50:00.000Z"
+    "status": "pending_approval",
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-augmentations-body-alteration-tiers",
@@ -448,12 +449,13 @@
       "heavy augmentation",
       "severe augmentation",
       "full body conversion",
+      "technology",
       "rules",
       "mechanics",
       "bastion"
     ],
-    "status": "approved",
-    "updatedAt": "2026-09-14T03:50:00.000Z"
+    "status": "pending_approval",
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   },
   {
     "id": "mech-mecha-vehicles-all-sorts",
@@ -477,11 +479,12 @@
       "walkers",
       "fighter jets",
       "starships",
+      "technology",
       "rules",
       "mechanics",
       "bastion"
     ],
-    "status": "approved",
-    "updatedAt": "2026-09-14T03:50:00.000Z"
+    "status": "pending_approval",
+    "updatedAt": "2026-09-14T20:01:48.532Z"
   }
 ]

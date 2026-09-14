@@ -197,7 +197,7 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
             <div className="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
               <div className="text-slate-300 text-[11px]">
                 {isDead && <span className="text-red-400">Hero is deceased. Revivification invokes The High Cost of Dying (-All Karma, -5 AP Debt).</span>}
-                {atDeathsDoor && <span className="text-rose-300">Hero is Comatose at Death's Door! Apply Medicine DC 15 check or healing tech.</span>}
+                {atDeathsDoor && <span className="text-rose-300">Hero is Comatose at Death's Door! Apply Medicine CR 15 check or healing tech.</span>}
                 {isIncapacitated && <span className="text-amber-300">Hero is unconscious at 0 Health, but buffered by remaining Vitality.</span>}
               </div>
 
@@ -209,7 +209,7 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
                       onClick={() => stabilizeCharacter({ hasHealingEffect: true })}
                       className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-600 text-white rounded text-[10.5px] font-bold uppercase tracking-wider border border-emerald-400 transition-colors cursor-pointer"
                     >
-                      🩹 Stabilize (DC 15)
+                      🩹 Stabilize (CR 15)
                     </button>
                     <button
                       type="button"
@@ -395,10 +395,10 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 border-t border-slate-800 text-xs">
                 <div className="bg-slate-950/80 p-3 rounded-lg border border-emerald-800/60 space-y-1">
                   <div className="font-bold text-emerald-300 flex items-center gap-1.5">
-                    <span>🩹</span> Stabilization (DC 15)
+                    <span>🩹</span> Stabilization (CR 15)
                   </div>
                   <p className="text-[11px] text-slate-300">
-                    A successful <strong>Medicine (DC 15) check</strong> or the application of healing tech/magic stops the Death Clock. The character remains unconscious and severely wounded, but is no longer actively dying.
+                    A successful <strong>Medicine (CR 15) check</strong> or the application of healing tech/magic stops the Death Clock. The character remains unconscious and severely wounded, but is no longer actively dying.
                   </p>
                 </div>
 

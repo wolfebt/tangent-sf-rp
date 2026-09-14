@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","skill-codex"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ Social skills govern social engineering, political maneuvering, leadership, inti
 
 ## 1. Charm (Key: Charisma / Etiquette)
 - **Applications:** Flattery, seduction, making a positive first impression, winning over neutral NPCs.
-- **Check:** Opposed by target's **Will Save** or static DC 15.
+- **Check:** Opposed by target's **Will Save** or static CR 15.
 
 ---
 
@@ -54,10 +54,10 @@ Social skills govern social engineering, political maneuvering, leadership, inti
 ## 3. Diplomacy (Key: Charisma / Etiquette or Wisdom / Will)
 - **Applications:** Peaceful negotiation, settling disputes, treaty drafting, establishing alliances.
 - **Sample DCs:**
-  - *DC 10:* Convincing a friendly merchant to offer a modest discount.
-  - *DC 15:* Negotiating safe passage through a pirate checkpoint.
-  - *DC 20:* Halting an imminent firefight between rival factions.
-  - *DC 25:* Brokering a formal peace treaty between warring planets.
+  - *CR 10:* Convincing a friendly merchant to offer a modest discount.
+  - *CR 15:* Negotiating safe passage through a pirate checkpoint.
+  - *CR 20:* Halting an imminent firefight between rival factions.
+  - *CR 25:* Brokering a formal peace treaty between warring planets.
 
 ---
 
@@ -73,9 +73,9 @@ Social skills govern social engineering, political maneuvering, leadership, inti
 
 ## Game Mechanics Rules
 ```
-Diplomacy = d20 + DiplomacyRank + CharismaMod vs Target DC
-Deception = d20 + DeceptionRank + CharismaMod vs Investigation
-Intimidation = d20 + IntimidateRank + Charisma/Strength vs Will Save
+Diplomacy = 2d10 + DiplomacyRank + CharismaMod vs Target CR
+Deception = 2d10 + DeceptionRank + CharismaMod vs Investigation
+Intimidation = 2d10 + IntimidateRank + Charisma/Strength vs Will Save
 ```
 
 ## Gameplay Instructions

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -71,7 +71,7 @@ Unlike "Vancian" magic systems where spells are distinct, immutable memory packe
 ## Game Mechanics Rules
 ```
 MaxDisciplineRank = ML * 2 (Attune is not limited by ML)
-Potency = KeyAbilityMod + DisciplineSkillRank + InvocationLevel + 10 (or d20)
+Potency = KeyAbilityMod + DisciplineSkillRank + InvocationLevel + 10 (or 2d10)
 EssencePool = Sum(6 Abilities) + AttuneRank + Sum(DisciplineSkillRanks)
 ```
 

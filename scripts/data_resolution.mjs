@@ -16,7 +16,7 @@ The Tangent Roleplaying System is driven by a unified **twenty-sided die (d20)**
 
 \\text{Check Result} = d20 + \\text{Skill Rank} + \\text{Linked Attribute Modifier} + \\text{Situational Modifiers}
 
-- **Success:** If the total meets or exceeds the Target Difficulty Class (**DC**) or Opposed Defense score, the action succeeds.
+- **Success:** If the total meets or exceeds the Target Challenge Rating (**DC**) or Opposed Defense score, the action succeeds.
 - **Failure:** If the total is less than the DC or Opposed Defense score, the action fails or introduces a narrative complication.
 
 ---
@@ -31,7 +31,7 @@ When an action is actively resisted by another conscious entity (e.g. Melee Stri
 
 ### 2. Unopposed Checks (Static Environmental Tasks)
 When a character interacts with a static object, bypasses security, or targets a stationary or surprised foe:
-- Attacker rolls against a fixed **Difficulty Class (DC)** set by the Architect or determined by standard benchmarks.,
+- Attacker rolls against a fixed **Challenge Rating (CR)** set by the Architect or determined by standard benchmarks.,
     mechanic: Check = d20 + SkillRank + AttrMod + MiscMod
 Opposed: AttackerRoll > DefenderRoll (Defender wins on equal scores),
     guide: Roll d20, add your skill rank and attribute modifier, and report the total to the Architect.,
@@ -39,20 +39,20 @@ Opposed: AttackerRoll > DefenderRoll (Defender wins on equal scores),
   },
   {
     id: "2-02-difficulty-classes-challenge-ratings",
-    name: "2.02 Difficulty Classes & Challenge Ratings",
+    name: "2.02 Challenge Ratinges & Challenge Ratings",
     category: "compendium",
     entry_type: "Core Rule",
     parent: "2.00 CORE RESOLUTION",
     order: 2,
-    description: # 2.02 Difficulty Classes & Challenge Ratings
+    description: # 2.02 Challenge Ratinges & Challenge Ratings
 
-Difficulty Classes (**DCs**) define the difficulty of tasks across the galaxy, ranging from routine maintenance to deific reality-shaping.
+Challenge Ratinges (**DCs**) define the difficulty of tasks across the galaxy, ranging from routine maintenance to deific reality-shaping.
 
 ---
 
 ## Standard Benchmark DC Table
 
-| DC | Difficulty Rating | Required Skill Level | Example Task |
+| CR | Difficulty Rating | Required Skill Level | Example Task |
 | :---: | :--- | :--- | :--- |
 | **5** | Very Easy / Routine | Untrained | Climbing a sturdy ladder, driving in clear weather |
 | **10** | Easy / Standard | Novice (Rank 1–5) | Picking a basic padlock, basic computer file search |
@@ -89,8 +89,8 @@ Circumstances in Tangent can grant significant situational leverage (**Advantage
 
 ## Core Rules of Advantage & Disadvantage
 
-- **Advantage:** Roll **two twenty-sided dice ($)** and take the **higher result**. Add your standard skill and attribute modifiers.
-- **Disadvantage:** Roll **two twenty-sided dice ($)** and take the **lower result**. Add your standard skill and attribute modifiers.
+- **Advantage:** Roll **2d10 twice** and take the **higher total** and take the **higher result**. Add your standard skill and attribute modifiers.
+- **Disadvantage:** Roll **2d10 twice** and take the **higher total** and take the **lower result**. Add your standard skill and attribute modifiers.
 
 ---
 
@@ -142,7 +142,7 @@ Advantage + Disadvantage = 1d20 + Modifiers,
 
 An Operator can spend 1 Karma Point to achieve one of the following heroic feats:
 
-1. **Fate Reroll:** Reroll any single failed d20 check (attack, saving throw, or skill check) and take the new result.
+1. **Fate Reroll:** Reroll any single failed 2d10 check (attack, saving throw, or skill check) and take the new result.
 2. **Impose Disadvantage:** Force an enemy targeting you to roll their attack with Disadvantage.
 3. **Cheat Death:** When reduced to 0 HP and entering the Mortality state, immediately stabilize and regain 1 HP.
 4. **Extra Reaction:** Execute an additional active defense reaction without suffering the cumulative -5 multiple defense penalty.

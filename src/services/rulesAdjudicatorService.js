@@ -4,11 +4,11 @@
  */
 
 export const RANGE_BRACKETS = [
-  { id: 'point_blank', label: 'Point Blank (Within Reach)', icon: '🎯', attackMod: 5, unopposedDC: 10, description: '+5 Strike bonus, damage dice rolled with Advantage (Ballistic/Energy), DC 10 unopposed.' },
-  { id: 'short', label: 'Short Range (Base Range)', icon: '📏', attackMod: 0, unopposedDC: 15, description: 'Standard effective range for the weapon. DC 15 unopposed.' },
-  { id: 'medium', label: 'Medium Range (Up to 2x Base)', icon: '📐', attackMod: -5, unopposedDC: 20, description: '-5 Attack penalty. DC 20 unopposed.' },
-  { id: 'long', label: 'Long Range (Up to 5x Base)', icon: '🔭', attackMod: -10, unopposedDC: 25, description: '-10 Attack penalty. DC 25 unopposed.' },
-  { id: 'extreme', label: 'Extreme Range (Up to 10x Base)', icon: '🌌', attackMod: -15, unopposedDC: 30, description: '-15 Attack penalty. DC 30 unopposed.' }
+  { id: 'point_blank', label: 'Point Blank (Within Reach)', icon: '🎯', attackMod: 5, unopposedDC: 10, description: '+5 Strike bonus, damage dice rolled with Advantage (Ballistic/Energy), CR 10 unopposed.' },
+  { id: 'short', label: 'Short Range (Base Range)', icon: '📏', attackMod: 0, unopposedDC: 15, description: 'Standard effective range for the weapon. CR 15 unopposed.' },
+  { id: 'medium', label: 'Medium Range (Up to 2x Base)', icon: '📐', attackMod: -5, unopposedDC: 20, description: '-5 Attack penalty. CR 20 unopposed.' },
+  { id: 'long', label: 'Long Range (Up to 5x Base)', icon: '🔭', attackMod: -10, unopposedDC: 25, description: '-10 Attack penalty. CR 25 unopposed.' },
+  { id: 'extreme', label: 'Extreme Range (Up to 10x Base)', icon: '🌌', attackMod: -15, unopposedDC: 30, description: '-15 Attack penalty. CR 30 unopposed.' }
 ];
 
 export const SIZE_MODIFIERS = [

@@ -1,20 +1,20 @@
 ---
 id: "2-02-difficulty-classes-challenge-ratings"
-name: "2.02 Difficulty Classes & Challenge Ratings"
+name: "2.02 Challenge Ratinges & Challenge Ratings"
 category: "compendium"
 entry_type: "Core Rule"
 parent: "2.00 CORE RESOLUTION"
 order: 2
 ---
-# 2.02 Difficulty Classes & Challenge Ratings
+# 2.02 Challenge Ratinges & Challenge Ratings
 
-Difficulty Classes (**DCs**) define the difficulty of tasks across the galaxy, ranging from routine maintenance to deific reality-shaping.
+Challenge Ratinges (**DCs**) define the difficulty of tasks across the galaxy, ranging from routine maintenance to deific reality-shaping.
 
 ---
 
 ## Standard Benchmark DC Table
 
-| DC | Difficulty Rating | Required Skill Level | Example Task |
+| CR | Difficulty Rating | Required Skill Level | Example Task |
 | :---: | :--- | :--- | :--- |
 | **5** | Very Easy / Routine | Untrained | Climbing a sturdy ladder, driving in clear weather |
 | **10** | Easy / Standard | Novice (Rank 1–5) | Picking a basic padlock, basic computer file search |

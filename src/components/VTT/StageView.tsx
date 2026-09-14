@@ -2696,12 +2696,12 @@ export const StageView: React.FC<StageViewProps> = ({
           useEngineStore.getState().toggleCondition(downedAllyNearby.id, 'status_stabilized');
           useEngineStore.getState().applyDamage(downedAllyNearby.id, -1);
           setCombatLog(prev => [
-            `[FIRST AID SUCCESS] ${selectedToken.name} stabilized ${downedAllyNearby.name} (Roll: ${d1}+${d2}+4 = ${medRoll} vs DC 15). Bleeding out halted!`,
+            `[FIRST AID SUCCESS] ${selectedToken.name} stabilized ${downedAllyNearby.name} (Roll: ${d1}+${d2}+4 = ${medRoll} vs CR 15). Bleeding out halted!`,
             ...prev.slice(0, 8)
           ]);
         } else {
           setCombatLog(prev => [
-            `[FIRST AID FAILED] ${selectedToken.name} attempted to stabilize ${downedAllyNearby.name} (Roll: ${medRoll} vs DC 15).`,
+            `[FIRST AID FAILED] ${selectedToken.name} attempted to stabilize ${downedAllyNearby.name} (Roll: ${medRoll} vs CR 15).`,
             ...prev.slice(0, 8)
           ]);
         }
@@ -2865,7 +2865,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
     if (!isHit) {
       setCombatLog(prev => [
-        `[COMBAT MISS] ${selectedToken.name} targeted ${targetedLimb.toUpperCase()} of ${targetToken.name} with ${attackWeapon.toUpperCase()}. 2d10 Roll: ${d1}+${d2}=${d1+d2} (Total Attack: ${totalAttack} vs DC ${targetDefenseDC} - Defender Wins Ties). [Cover: ${coverCheck.coverType.toUpperCase()}]`,
+        `[COMBAT MISS] ${selectedToken.name} targeted ${targetedLimb.toUpperCase()} of ${targetToken.name} with ${attackWeapon.toUpperCase()}. 2d10 Roll: ${d1}+${d2}=${d1+d2} (Total Attack: ${totalAttack} vs CR ${targetDefenseDC} - Defender Wins Ties). [Cover: ${coverCheck.coverType.toUpperCase()}]`,
         ...prev.slice(0, 8)
       ]);
       return;

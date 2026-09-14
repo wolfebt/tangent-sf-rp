@@ -52,7 +52,7 @@ The augmentation system provides a progression from basic prosthetics to god-lik
 *TL 3+ | 0 BP Cost | 0 Nodes*  
 These modifications are so prevalent they are considered basic personal choices. They do not require the Augmented Feature.
 
-| Augment | Stage | Effect/Description | DC | Cost (Cr) |
+| Augment | Stage | Effect/Description | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: |
 | **ID Chip** | (Negligible) | Subdermal identity, licenses, and banking. | 5 | 40 |
 | **Skinwatch** | (Negligible) | Subdermal LED timepiece and calendar. | 5 | 40 |
@@ -81,7 +81,7 @@ This category covers the replacement of limbs and organs with synthetic counterp
 ### 4.1 Synth Limbs & Structural Integrity (TL 3)
 Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital housings which receive a Hardening Multiplier.
 
-| Replacement Component | Stage | SP (Health) | Nodes | Sockets | DC | Cost (Cr) |
+| Replacement Component | Stage | SP (Health) | Nodes | Sockets | CR | Cost (Cr) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Hand** | (Negligible) | 5 | 5 | 0 | 16 | 844 |
 | **Forearm** | (Negligible) | 10 | 10 | 2* | 20 | 2,560 |
@@ -99,7 +99,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 *\*\*Installation of an Upper Arm or Upper Leg prosthetic entails the full limb assembly.*
 
 ### 4.2 Hand & Foot Options (1 BP Per Option)
-| Option | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Option | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Hammer Fist** | (Standard) | 1d8 Blunt Unarmed Damage. | 2 | 15 | 640 |
 | **Blade Fist / Claws** | (Standard) | 1d8 Slashing; Retractable. | 1 | 15 | 640 |
@@ -116,7 +116,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 | **Web Foot** | (Standard) | Swim Speed +50%. | 2 | 15 | 640 |
 
 ### 4.3 Limb Upgrades (1 BP Per Upgrade)
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Armor Plating** | (Standard) | Tiered DR 10 / 20 / 40 (Heavy). | 5 | 15 | +15% Base |
 | **Hydraulic Rams** | (Standard) | +2/+4/+6 (Heavy) Strength for Grapple/Damage only. | 8 | 25 | 10,240 |
@@ -130,12 +130,12 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 | **Sectional Joint** | (Standard) | Limb can detach (requires CPU). | 3 | 20 | 2,560 |
 | **Telescoping Limb** | (Heavy) | Grants +5ft Reach. | 4 | 20 | 2,560 |
 | **Micro-Missile Launcher** | (Heavy) | Holds 4 mini-missiles (Arm/Shoulder). | 5 | 25 | 10,240 |
-| **Skinlike / Synthskin** | (Standard) | Looks real (DC 25 Awareness to spot). | 0 | 25 | 10,240 |
+| **Skinlike / Synthskin** | (Standard) | Looks real (CR 25 Awareness to spot). | 0 | 25 | 10,240 |
 | **Jump Boost (Legs)** | (Heavy) | +10 to Jump checks (Requires Pair). | 4 | 20 | 2,560 |
 | **Speed Boost (Legs)** | (Standard) | +10/+20/+30 Ground Move (Requires Pair). | 5 | 25 | 10,240+ |
 
 ### 4.4 Exotic Limbs (TL 4)
-| Augment | Stage | Modifier | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Modifier | Nodes | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Synth Tentacle** | (Negligible) | As Synth Arm, +100% Cost, +10 DC. | 15 | 35 | 163,840 |
 | **Digitigrade Leg** | (Negligible) | As Synth Leg, +25% Cost. | 15 | 20 | 2,560 |
@@ -159,7 +159,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 *\*30 from torso and 5 from auxiliary locations. Powered armor increases external socket capacity overall by 3 (typically torso-back/shoulders).*
 
 ### 5.2 General Body Modifications
-| Augment | Stage | Effect/Description | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect/Description | Nodes | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Air Supply** | (Standard) | Internal compressed air; 60 mins of Oxygen. | 5 | 15 | 640 |
 | **Anti-Shock** | (Standard) | Electricity Resistance 10, Augments impervious. | 4 | 20 | 2,560 |
@@ -194,7 +194,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 ## 6. Sensory Modifications (TL 3)
 *Standard BP Cost: 2 BP*
 
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Nightvision** | (Standard) | Night Vision 60ft. | 2 | 15 | 640 |
 | **Ocular Drone** | (Standard) | Cyber-eye detaches to act as remote spy cam. | 3 | 25 | 10,240 |
@@ -220,7 +220,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 ## 7. Brain Modifications (TL 3)
 *Standard BP Cost: 2 BP*
 
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Neural Processor** | (Standard) | Foundation for CPU mods; +1 Logic. | 3 | 15 | 640 |
 | **Ghost Jack** | (Standard) | Interface for digitized consciousness chips. | 2 | 25 | 10,240 |
@@ -242,7 +242,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 ## 8. TL4 Enhanced Augmentations
 *Immune to Massive Damage/EMP | Standard BP Cost: 2 BP*
 
-| Augment | Stage | Effect | Nodes | DC | Cost (Cr) |
+| Augment | Stage | Effect | Nodes | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Body Conversion** | (Extreme) | Non-Typical Anatomy + Synth chassis use. | 30 | 30 | 40,960 |
 | **Chameleon Skin** | (Standard) | Active camo-weave. +4 Stealth (Stationary). | 4 | 25 | 10,240 |
@@ -284,7 +284,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 ## 9. TL5 Advanced Augmentations
 *Apex Technology | Standard BP Cost: 1 BP (1/2 Cost)*
 
-| Augment | Stage | Effect | BP | DC | Cost (Cr) |
+| Augment | Stage | Effect | BP | CR | Cost (Cr) |
 | :--- | :---: | :--- | :---: | :---: | :---: |
 | **Matter Recon Forge** | (Extreme) | Resurrects from single cell in 1d4 days. | 5 | 40 | 655,360 |
 | **Phase Shift Gen** | (Extreme) | Temporary intangibility to bypass matter. | 4 | 35 | 163,840 |
@@ -337,7 +337,7 @@ Non-permanent, external harnesses that provide mechanical advantages without sur
 - **Standard Interface:** Wearables (0 BP) require an Interface Port (Internal or External) to sync with neural impulses. Without a port, the item suffers -2 to all associated checks, checks at disadvantage or it is not usable at all, in addition to any security options.
 - **Limitations:** One wearable item per primary body location. External sockets cannot exceed 1 per 10 Nodes of base capacity.
 
-| Augment | Location | Nodes | DC | Cost (Cr) | Description |
+| Augment | Location | Nodes | CR | Cost (Cr) | Description |
 | :--- | :--- | :---: | :---: | :---: | :--- |
 | **Exo-Harness** | Torso | 25 | 15 | 640 | Strength & Armor frame. +1 Strength, DR 10. |
 | **Battle Gauntlet** | Arm | 8 (Each) | 5 | 40 | Reinforced gauntlet. 1d6 Blunt. DR 10. Single or pair. |

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","1.05 origins","mechanics"]
-updatedAt: "2026-09-12T08:23:46.543Z"
+updatedAt: "2026-09-14T19:51:39.812Z"
 costs:
   bp: 0
   credits: 0

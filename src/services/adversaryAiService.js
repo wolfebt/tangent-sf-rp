@@ -12,7 +12,7 @@ export const ADVERSARY_ROLES = {
       return {
         action: 'Swarm & Flank',
         targetName: target?.label || 'Closest Operative',
-        description: `Move adjacent to ${target?.label || 'nearest hero'} to establish a flanking angle (+2 Attack bonus). If leader takes critical damage, make DC 12 Morale check.`,
+        description: `Move adjacent to ${target?.label || 'nearest hero'} to establish a flanking angle (+2 Attack bonus). If leader takes critical damage, make CR 12 Morale check.`,
         suggestedActionType: 'standard_strike'
       };
     }
@@ -69,7 +69,7 @@ export const ADVERSARY_ROLES = {
           phase: 'Phase 3: Enraged Desperation',
           action: 'Overcharge Meltdown Salvo',
           targetName: 'Entire Party (AoE)',
-          description: `Health critical (<35%)! Boss enters Phase 3: Unleashes full-auto spinal barrage (AoE 10m burst, DC 16 Reflex save or take 3d10+6 damage).`,
+          description: `Health critical (<35%)! Boss enters Phase 3: Unleashes full-auto spinal barrage (AoE 10m burst, CR 16 Reflex save or take 3d10+6 damage).`,
           suggestedActionType: 'aoe_barrage'
         };
       } else if (hpRatio <= 0.65) {

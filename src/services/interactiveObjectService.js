@@ -41,7 +41,7 @@ export const OBJECT_TYPES = {
     states: ['open', 'closed', 'locked', 'sealed', 'breached'],
     hackDc: 14,
     strengthDc: 18,
-    description: 'Heavy durasteel security bulkhead. Can be sliced (Tech DC 14), forced (STR DC 18), or breached with explosives.'
+    description: 'Heavy durasteel security bulkhead. Can be sliced (Tech CR 14), forced (STR CR 18), or breached with explosives.'
   },
   security_terminal: {
     id: 'security_terminal',
@@ -136,8 +136,8 @@ export function interactWithObject(objectNode, operativeToken, actionType = 'hac
     dc,
     isSuccess,
     resultText: isSuccess
-      ? `🔓 ${operativeToken?.label || 'Operative'} successfully sliced ${objType.name}! (Roll: ${roll} vs DC ${dc})`
-      : `🚫 Slicing failed on ${objType.name}! Security lockdown engaged (Roll: ${roll} vs DC ${dc}).`
+      ? `🔓 ${operativeToken?.label || 'Operative'} successfully sliced ${objType.name}! (Roll: ${roll} vs CR ${dc})`
+      : `🚫 Slicing failed on ${objType.name}! Security lockdown engaged (Roll: ${roll} vs CR ${dc}).`
   };
 }
 

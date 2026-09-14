@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. technology, architectural matrix","matrix"]
-updatedAt: "2026-09-12T08:23:46.549Z"
+updatedAt: "2026-09-14T19:51:39.821Z"
 costs:
   bp: 0
   credits: 0
@@ -55,9 +55,9 @@ The Tangent Construction System allows players and GMs to design, build, and man
 
 ### **Economic Integration**
 
-In alignment with the Tangent Economic Matrix, the complexity of a structure (**Crafting DC**) directly dictates its monetary value. The relationship is exponential, defined by the Tangent Standard Curve formula:
+In alignment with the Tangent Economic Matrix, the complexity of a structure (**Crafting CR**) directly dictates its monetary value. The relationship is exponential, defined by the Tangent Standard Curve formula:
 
-> **Value (Credits) \= 10 \* 4^(DC / 5\)**
+> **Value (Credits) \= 10 \* 4^(CR / 5\)**
 
 *Note: This Value represents the raw construction and material cost. The "Real Estate" market price (Land Value) is a separate modifier based on Planetary Population and Law Level (World Codes).*
 
@@ -101,16 +101,16 @@ The UDU hierarchy relies on a strict 10:1 conversion ratio. **1 Module equals 10
 
 ### **Dimensional Footprint and Base Complexity**
 
-Every discrete piece of equipment is assigned a Size Category, which dictates its base Structure Points (SP) and its baseline Crafting Difficulty Class (DC). This establishes the unflavored mechanical reality of the Agnostic Chassis.
+Every discrete piece of equipment is assigned a Size Category, which dictates its base Structure Points (SP) and its baseline Crafting Challenge Rating (CR). This establishes the unflavored mechanical reality of the Agnostic Chassis.
 
-| Size | Common Examples | Mass | Capacity | Structure | Crafting DC |
+| Size | Common Examples | Mass | Capacity | Structure | Crafting CR |
 | :---- | :---- | :---- | :---- | :---- | :---- |
-| **Fine** | Data-chip, Piercing | \< 0.1 kg | (2 Nodes) | 2 SP | DC 5 (Simple) |
-| **Diminutive** | Datapad, Sensor Fob | \< 1 kg | 1 Socket | 5 SP | DC 5 (Simple) |
-| **Tiny** | Pistol, Medkit | \< 5 kg | 2 Sockets | 10 SP | DC 10 (Standard) |
-| **Small** | Rifle, Enviro-Suit | \< 10 kg | 4 Sockets | 20 SP | DC 15 (Advanced) |
-| **Medium** | Heavy Tool, Generator | \< 25 kg | 8 Sockets | 40 SP | DC 20 (Expert) |
-| **Mecha** | Emplacement, Turret | \< 100 kg | Mounts | 100 SP (Medium) | DC 30 (Grandmaster) |
+| **Fine** | Data-chip, Piercing | \< 0.1 kg | (2 Nodes) | 2 SP | CR 5 (Simple) |
+| **Diminutive** | Datapad, Sensor Fob | \< 1 kg | 1 Socket | 5 SP | CR 5 (Simple) |
+| **Tiny** | Pistol, Medkit | \< 5 kg | 2 Sockets | 10 SP | CR 10 (Standard) |
+| **Small** | Rifle, Enviro-Suit | \< 10 kg | 4 Sockets | 20 SP | CR 15 (Advanced) |
+| **Medium** | Heavy Tool, Generator | \< 25 kg | 8 Sockets | 40 SP | CR 20 (Expert) |
+| **Mecha** | Emplacement, Turret | \< 100 kg | Mounts | 100 SP (Medium) | CR 30 (Grandmaster) |
 | **Structure** | Building, Laboratory | \> 10 Tons | Modules | 500+ SP | Variable |
 
 > *Items classified as "Fine" possess a mass so negligible they do not consume standard Socket capacity for inventory management. They may serve as minor aesthetic additions or highly miniaturized components, though they remain subject to standard durability constraints.*
@@ -137,9 +137,9 @@ Lower-sized mecha garaging is based on the displaced mass of the Mecha vs the Mo
 
 ### **1\. Footprint & Scale (Size Category)**
 
-The Size Category of a building refers to its ground-level footprint—the physical area it occupies on a map. This determines the base capacity for Modules, calculated against the baseline of 1 Module equating to roughly 400 square feet (a 20x20 area). This footprint also determines the structural integrity of the foundation, and the baseline Craft DC.
+The Size Category of a building refers to its ground-level footprint—the physical area it occupies on a map. This determines the base capacity for Modules, calculated against the baseline of 1 Module equating to roughly 400 square feet (a 20x20 area). This footprint also determines the structural integrity of the foundation, and the baseline Craft CR.
 
-| Size | Examples (Footprint) | Dimensions | Sq. Ft | Modules | SP | DC | Cost |
+| Size | Examples (Footprint) | Dimensions | Sq. Ft | Modules | SP | CR | Cost |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | **Miniscule** | Micro-Sensor | \< 0.5 x 0.5 ft | \< 0.25 | \~0.001 | 1 | 2 | \~15 Cr |
 | **Fine** | Comm-Relay | 0.5 x 0.5 ft | 0.25 | 0.002 | 2 | 5 | \~40 Cr |
@@ -160,17 +160,17 @@ The Size Category of a building refers to its ground-level footprint—the physi
 
 * **Base Modules:** The functional capacity of the ground floor.  
 * **Base SP (Structure Points):** The integrity of the ground floor shell.  
-* **Craft DC:** The difficulty check to design or build a single-story structure of this footprint.
+* **Craft CR:** The difficulty check to design or build a single-story structure of this footprint.
 
 ### 
 
 ### **2\. Verticality (Height Scaling)**
 
-To create tall structures (towers, skyscrapers, apartments), apply a Height Class modifier to the Base Footprint. This determines the Total Modules, Total Structure Points, and increases the DC (and thus Value).
+To create tall structures (towers, skyscrapers, apartments), apply a Height Class modifier to the Base Footprint. This determines the Total Modules, Total Structure Points, and increases the CR (and thus Value).
 
 * **Total Modules** \= Base Modules \* Stories  
 * **Total SP** \= Base SP \* Stories  
-* **Total Craft DC** \= Base Craft DC \+ Craft Modifier
+* **Total Craft CR** \= Base Craft CR \+ Craft Modifier
 
 | Height Class | Stories | Examples | Craft Mod |
 | :---- | :---- | :---- | :---- |
@@ -198,14 +198,14 @@ The efficiency, durability, and operational methodology of a structure's chassis
 
 ### 
 
-### **Era Summaries & DC Modifiers**
+### **Era Summaries & CR Modifiers**
 
-* **TL 0: The Stone Age:** Wood, stone, hide. **Trait:** Degrading (Hardness/DR 5, x0.50 SP Multiplier). **Base DC Mod:** \-10 DC.  
-* **TL 1: The Metal Age:** Brick, iron-beam framing. Steam/Coal power. (Hardness/DR 10, x0.75 SP Multiplier). **Base DC Mod:** \-5 DC.  
-* **TL 2: The Data Age:** Steel-reinforced concrete, glass. Hydrocarbon/fission power. (Hardness/DR 15, x1.0 SP Multiplier). **Base DC Mod:** \-2 DC.  
-* **TL 3: The Space Age:** Plasteel, Duranium. Fusion power. Hermetic seals standard. (Hardness/DR 20, x2.0 SP Multiplier). **Base DC Mod:** \+0 DC.  
-* **TL 4: The Stellar Age:** Smart-fabrics, nanocarbon, crystal-matrix walls. Repulsorlift foundations. (Hardness/DR 30, x3.0 SP Multiplier). **Base DC Mod:** \+5 DC.  
-* **TL 5: The Galactic Age:** Polymatter, Hard-light emitters. Dimensional compression. (Hardness/DR 50+, x5.0 SP Multiplier). **Base DC Mod:** \+10 DC.
+* **TL 0: The Stone Age:** Wood, stone, hide. **Trait:** Degrading (Hardness/DR 5, x0.50 SP Multiplier). **Base CR Mod:** \-10 CR.  
+* **TL 1: The Metal Age:** Brick, iron-beam framing. Steam/Coal power. (Hardness/DR 10, x0.75 SP Multiplier). **Base CR Mod:** \-5 CR.  
+* **TL 2: The Data Age:** Steel-reinforced concrete, glass. Hydrocarbon/fission power. (Hardness/DR 15, x1.0 SP Multiplier). **Base CR Mod:** \-2 CR.  
+* **TL 3: The Space Age:** Plasteel, Duranium. Fusion power. Hermetic seals standard. (Hardness/DR 20, x2.0 SP Multiplier). **Base CR Mod:** \+0 CR.  
+* **TL 4: The Stellar Age:** Smart-fabrics, nanocarbon, crystal-matrix walls. Repulsorlift foundations. (Hardness/DR 30, x3.0 SP Multiplier). **Base CR Mod:** \+5 CR.  
+* **TL 5: The Galactic Age:** Polymatter, Hard-light emitters. Dimensional compression. (Hardness/DR 50+, x5.0 SP Multiplier). **Base CR Mod:** \+10 CR.
 
 ## 
 
@@ -217,10 +217,10 @@ The efficiency, durability, and operational methodology of a structure's chassis
 
 Construction is not performed in a vacuum. The specific conditions of a world impose modifiers on the Design and Construction phases.
 
-* **Low Gravity (\<0.8G):** Structures can be taller and lighter. \-2 DC to Design checks. Verticality Craft Modifiers are halved.  
-* **High Gravity (\>1.5G):** Structures require reinforced foundations. \+5 DC to Design/Build checks. Verticality Craft Modifiers are doubled. Failure typically results in collapse during the build phase.  
+* **Low Gravity (\<0.8G):** Structures can be taller and lighter. \-2 CR to Design checks. Verticality Craft Modifiers are halved.  
+* **High Gravity (\>1.5G):** Structures require reinforced foundations. \+5 CR to Design/Build checks. Verticality Craft Modifiers are doubled. Failure typically results in collapse during the build phase.  
 * **Vacuum / Toxic / Corrosive:** Requires "Life Support" Module. Total Construction Cost increases by 20% for hermetic sealing and airlocks *(Note: Standard and free on TL3+ structures).*  
-* **Liquid (Aquatic):** Requires "Pressure Hull" reinforcement. \+5 DC. Total Cost increases by 50%.
+* **Liquid (Aquatic):** Requires "Pressure Hull" reinforcement. \+5 CR. Total Cost increases by 50%.
 
 ## 
 
@@ -234,19 +234,19 @@ Architecture in Tangent is inherently modular, capable of evolving alongside its
 
 ### 
 
-### **The Highest Complexity Rule (DC Stacking)**
+### **The Highest Complexity Rule (CR Stacking)**
 
-To prevent abstract exponential cost bloat, mundane rooms (barracks, standard cargo, basic generators) **do not** individually increase the building's Crafting DC; their complexity is absorbed by the Base Footprint DC.
+To prevent abstract exponential cost bloat, mundane rooms (barracks, standard cargo, basic generators) **do not** individually increase the building's Crafting CR; their complexity is absorbed by the Base Footprint CR.
 
-However, if a player installs a highly advanced specialized module (such as a Holodeck DC 35 or an Antimatter Core DC 30\) into a building with a lower overall DC, **the building's total Base DC is raised to match the highest complex component installed**.
+However, if a player installs a highly advanced specialized module (such as a Holodeck CR 35 or an Antimatter Core CR 30\) into a building with a lower overall CR, **the building's total Base CR is raised to match the highest complex component installed**.
 
-Certain structural modifications apply flat penalties to the final DC:
+Certain structural modifications apply flat penalties to the final CR:
 
-* **Mastercrafting (Bonus Capacity):** For every **5 points** an Acquisition or Crafting check exceeds the building's base DC, the structure gains **1 Bonus UDU Slot** (e.g., 10 Bonus Mounts or 1 Bonus Module of capacity, up to a maximum of 1 Bonus per Tech Level of the item/structure).  
+* **Mastercrafting (Bonus Capacity):** For every **5 points** an Acquisition or Crafting check exceeds the building's Base CR, the structure gains **1 Bonus UDU Slot** (e.g., 10 Bonus Mounts or 1 Bonus Module of capacity, up to a maximum of 1 Bonus per Tech Level of the item/structure).  
 * **UDU Compression (Spatial Engineering):**  
-  * **Efficient Design:** \-25% UDU Capacity cost (Round up). Adds \+5 DC.  
-  * **Miniaturized:** \-50% UDU Capacity cost (Round up). Requires Tech Level \+1 over the structure's base TL. Adds \+10 DC.  
-  * **Integrated:** 0 UDU Capacity (Fused seamlessly into the chassis/foundation). Cannot be removed or swapped later. Adds \+5 DC.
+  * **Efficient Design:** \-25% UDU Capacity cost (Round up). Adds \+5 CR.  
+  * **Miniaturized:** \-50% UDU Capacity cost (Round up). Requires Tech Level \+1 over the structure's base TL. Adds \+10 CR.  
+  * **Integrated:** 0 UDU Capacity (Fused seamlessly into the chassis/foundation). Cannot be removed or swapped later. Adds \+5 CR.
 
 ## 
 
@@ -273,8 +273,8 @@ This principle dictates that an Invocation installed in a larger chassis is fund
 
 Meta-Tech serves three distinct structural engineering goals:
 
-* **Enhancement (Passive):** "Always On" improvements. Each UDU allocated increases the structure's Crafting DC by \+5.  
-* **Imbuement (Active):** Hard-coding a spell into a building's mainframe to be cast via command console. Crafting DC \= 15 \+ Invocation Rank \+ TL Modifier (TL3: \+0, TL4: \+2, TL5: \+5).  
+* **Enhancement (Passive):** "Always On" improvements. Each UDU allocated increases the structure's Crafting CR by \+5.  
+* **Imbuement (Active):** Hard-coding a spell into a building's mainframe to be cast via command console. Crafting CR \= 15 \+ Invocation Rank \+ TL Modifier (TL3: \+0, TL4: \+2, TL5: \+5).  
 * **Interface (Symbiotic):** Facilities that amplify an Awakened user's natural skills. The Invocation's output is multiplied by the Chassis Scale (e.g., casting through a Colossal Arcology x20 Scale deals twenty times the damage).
 
 ## 
@@ -304,7 +304,7 @@ Factions utilizing grown biotechnology (like the Auluran and Thorn) subvert trad
 
 ### **Programmable Matter and Structural Utility**
 
-Programmable Matter, known as "Picotech" at the structural scale (TL 4, DC 25), consists of reservoirs of smart sand or fluid metal built into the foundation. It can be commanded to reshape hallways, deploy internal cover, or generate Simple tools directly from the walls.
+Programmable Matter, known as "Picotech" at the structural scale (TL 4, CR 25), consists of reservoirs of smart sand or fluid metal built into the foundation. It can be commanded to reshape hallways, deploy internal cover, or generate Simple tools directly from the walls.
 
 ## 
 
@@ -324,24 +324,24 @@ Programmable Matter, known as "Picotech" at the structural scale (TL 4, DC 25), 
 
 ### **Step 1: Footprint & Scale (Size)**
 
-Structures define their size by their Footprint and their capacity by Modules. The Base DC (Section II) represents the Crafting DC for a single-story chassis at Tech Level 3\. Determine the Verticality (Height Scaling) to lock in the Base Size DC and total Module Capacity.
+Structures define their size by their Footprint and their capacity by Modules. The Base CR (Section II) represents the Crafting CR for a single-story chassis at Tech Level 3\. Determine the Verticality (Height Scaling) to lock in the Base Size CR and total Module Capacity.
 
 ### 
 
 ### **Step 2: Frame Type & Configuration**
 
-The physical form of the structure dictates its utility and its Complexity Modifier, which is added to the Base DC to determine the final cost.
+The physical form of the structure dictates its utility and its Complexity Modifier, which is added to the Base CR to determine the final cost.
 
 | Frame | Examples | Modifiers | Complexity |
 | :---- | :---- | :---- | :---- |
-| **Industrial** | Factories, Warehouses | Function over form; boxy, bare concrete/metal. | \-2 DC |
-| **Standard** | Civilian Housing, Shops | Basic habitation with standard utilities. | \+0 DC |
-| **Elevated** | Built on Stilts, Platforms | \+25% Modules (expand outward), \-25% SP (foundation stress). | \+2 DC |
-| **Tower** | Spires, Skyscrapers | Verticality focus, wind-shear resistant. | \+2 DC |
-| **Subterranean** | Bunkers, Vaults | Dug into earth/rock. \+15% SP, \-15% Modules (hard to expand). | \+5 DC |
-| **Biomimetic** | Grown Arcologies | Mimics local flora/geography; highly customized. | \+5 DC |
-| **Dynamic** | Mekan Geometry | Modularly shifting rooms and hallways. | \+5 DC |
-| **Palatial** | Castles, Megacorps | Highly versatile, prioritizing defense and extreme luxury. | \+8 DC |
+| **Industrial** | Factories, Warehouses | Function over form; boxy, bare concrete/metal. | \-2 CR |
+| **Standard** | Civilian Housing, Shops | Basic habitation with standard utilities. | \+0 CR |
+| **Elevated** | Built on Stilts, Platforms | \+25% Modules (expand outward), \-25% SP (foundation stress). | \+2 CR |
+| **Tower** | Spires, Skyscrapers | Verticality focus, wind-shear resistant. | \+2 CR |
+| **Subterranean** | Bunkers, Vaults | Dug into earth/rock. \+15% SP, \-15% Modules (hard to expand). | \+5 CR |
+| **Biomimetic** | Grown Arcologies | Mimics local flora/geography; highly customized. | \+5 CR |
+| **Dynamic** | Mekan Geometry | Modularly shifting rooms and hallways. | \+5 CR |
+| **Palatial** | Castles, Megacorps | Highly versatile, prioritizing defense and extreme luxury. | \+8 CR |
 
 ### 
 
@@ -366,10 +366,10 @@ Allocate your building's total capacity into Rooms (Modules) and Sub-Scale Hardp
 
 ### **Step 5: Finalization & The Productivity Engine (Build Time)**
 
-Establish the Final DC of the chassis by combining the Footprint DC, Frame Modifier, Environmental Modifiers, and checking against the "Highest Complexity Rule" (if an installed module has a higher DC than the base, the building's DC raises to match it). Calculate final Structure Points, Value, and Build Time.
+Establish the Final CR of the chassis by combining the Footprint CR, Frame Modifier, Environmental Modifiers, and checking against the "Highest Complexity Rule" (if an installed module has a higher CR than the base, the building's CR raises to match it). Calculate final Structure Points, Value, and Build Time.
 
 * **Final SP:** Base SP \* Height Stories \* Tech Level SP Multiplier  
-* **Value:** Value (Credits) \= 10 \* 4^(DC/5)  
+* **Value:** Value (Credits) \= 10 \* 4^(CR / 5)  
 * **Build Time:** The Target Productivity Points (PP) required to finish the structure equals its Credit Value.  
 * **Daily Progress:** (PP) \= (Craft Check Result \- 10\) \* Tool Tier Multiplier \* Crew Size
 
@@ -393,7 +393,7 @@ Establish the Final DC of the chassis by combining the Footprint DC, Frame Modif
 
 ## ---
 
-## **IX. COMPONENT ENGINEERING CATALOG (DC TABLES)**
+## **IX. COMPONENT ENGINEERING CATALOG (CR Tables)**
 
 > **NOTE ON SCALED VALUES:** To determine the actual operational values for a specific Structure, you must scale the component to the Structure's Frame (e.g., Huge is x5 Scale).
 
@@ -403,13 +403,13 @@ Establish the Final DC of the chassis by combining the Footprint DC, Frame Modif
 
 ### **9.1 Hardpoints: Armor Plating & Energy Shields (Uses MOUNTS)**
 
-In Tier 3 Architectural engineering, there is a strict delineation between the Frame (Chassis) and the Shell (Armor). The Frame dictates the total Structure Points (SP). The Shell provides Damage Resistance (DR). Armor DC is calculated per "Layer".
+In Tier 3 Architectural engineering, there is a strict delineation between the Frame (Chassis) and the Shell (Armor). The Frame dictates the total Structure Points (SP). The Shell provides Damage Resistance (DR). Armor CR is calculated per "Layer".
 
 &nbsp;
 
 **PHYSICAL PLATING**
 
-| Armor Type | TL | DC | Effect (DR) | Capacity Cost (Mounts) |
+| Armor Type | TL | CR | Effect (DR) | Capacity Cost (Mounts) |
 | :---- | :---- | :---- | :---- | :---- |
 | Industrial Steel Plate | 2 | 12 | DR 5 | 1 x Scale Modifier |
 | Ceramic Composite | 3 | 18 | DR 10 | 2 x Scale Modifier |
@@ -421,7 +421,7 @@ In Tier 3 Architectural engineering, there is a strict delineation between the F
 
 **ENERGY SHIELDS**
 
-| Armor Type | TL | DC | Effect (DR) | Capacity Cost (Mounts) |
+| Armor Type | TL | CR | Effect (DR) | Capacity Cost (Mounts) |
 | :---- | :---- | :---- | :---- | :---- |
 | Deflector Screen (Ray Shield) | 3 | 22 | DR 10 vs Energy only | 2 x Scale Modifier |
 | Kinetic Barrier | 4 | 25 | DR 10 vs Physical only | 2 x Scale Modifier |
@@ -432,7 +432,7 @@ In Tier 3 Architectural engineering, there is a strict delineation between the F
 
 **SPECIALTY COATINGS**
 
-| Armor Type | TL | DC | Effect (DR) | Capacity Cost (Mounts) |
+| Armor Type | TL | CR | Effect (DR) | Capacity Cost (Mounts) |
 | :---- | :---- | :---- | :---- | :---- |
 | Stealth Coating (Radar Absorbent) | 3 | 20 | \+4 Stealth vs Sensors | 0 |
 | Thermal Dispersion | 3 | 18 | \+4 Stealth vs Thermal | 0 |
@@ -450,7 +450,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 **BALLISTIC WEAPONRY (KINETIC)**
 
-| Weapon Name | TL | DC | Mounts | Damage | Range | Notes |
+| Weapon Name | TL | CR | Mounts | Damage | Range | Notes |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | Vulcan Minigun (Light) | 3 | 15 | 1 | 2d10 Ballistic | 2,000ft | Auto-Fire, Anti-Infantry |
 | Light Autocannon (Light) | 3 | 18 | 2 | 3d10 Ballistic | 3,000ft | Burst Fire |
@@ -464,7 +464,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 **ENERGY WEAPONRY**
 
-| Weapon Name | TL | DC | Mounts | Damage | Range | Notes |
+| Weapon Name | TL | CR | Mounts | Damage | Range | Notes |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | Pulse Laser Battery (Light) | 3 | 18 | 1 | 2d8 Energy | 3,000ft | Accurate (+1 to Hit) |
 | Plasma Flamer (Light) | 3 | 20 | 2 | 3d6 Thermal | Cone (100ft) | Ignores DR, Overheat risk |
@@ -478,7 +478,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 **INDUSTRIAL & CLOSE-PROXIMITY DEFENSES**
 
-| Weapon Name | TL | DC | Mounts | Damage | Reach | Notes |
+| Weapon Name | TL | CR | Mounts | Damage | Reach | Notes |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | Hydraulic Siege Ram | 2 | 12 | 1 | 2d8 Bludgeon | Touch | Knockback. x2 dmg to structures. |
 | Industrial Harvester Saw | 2 | 15 | 2 | 3d10 Slashing | Touch | Sundering (Destroys Armor) |
@@ -492,14 +492,14 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 ### **9.3 Hardpoints: Sensors & Aux Systems (Uses MOUNTS)**
 
-| System Name | TL | DC | Function | Mounts |
+| System Name | TL | CR | Function | Mounts |
 | :---- | :---- | :---- | :---- | :---- |
 | Passive Sensor Array | 2 | 5 | Rangefinders and external Cameras. | 5 |
 | Sensor Suite (Radar/Lidar) | 3 | 15 | Range 5 miles. Detects movement. | 10 (1 Module) |
 | Sensor Suite (Omni-Scan) | 4 | 25 | Range Orbit. Detects Life/Energy/Structure. | 20 (2 Modules) |
 | Comm Array (A/V Radio) | 2 | 5 | Standard audio/visual planetary comms. | 5 |
 | Scrambler Unit | 2 | 10 | Protects local comms from basic slicing. | 5 |
-| ECM / Advanced Encryption | 4 | 20 | Scrambles comms/missiles (DC 15+ check to slice). | 20 (2 Modules) |
+| ECM / Advanced Encryption | 4 | 20 | Scrambles comms/missiles (CR 15+ check to slice). | 20 (2 Modules) |
 | Automated Targeting Base | 3 | 15 | \+1 to base Automated Defense attacks. | 10 (1 Module) |
 | Smoke/Chaff Launcher | 2 | 12 | Obscures Vision (Reaction Action to incoming fire). | 1 |
 | Tractor Beam | 4 | 25 | Immobilize Target (Str vs Str check to hold vessels). | 2 |
@@ -509,7 +509,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 ### **9.4 Facilities: Living & Social (Uses MODULES)**
 
-| Module Name | TL | DC | Function | Modules |
+| Module Name | TL | CR | Function | Modules |
 | :---- | :---- | :---- | :---- | :---- |
 | Capsule / Coffin Block | 3 | 22 | Ultra-high density (20 pods). Morale: Poor. | 1 |
 | Barracks | 1 | 12 | High-density bunks (12 troops). | 2 |
@@ -524,7 +524,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 ### **9.5 Facilities: Vocation, Core & Logistics (Uses MODULES)**
 
-| Module Name | TL | DC | Function | Modules |
+| Module Name | TL | CR | Function | Modules |
 | :---- | :---- | :---- | :---- | :---- |
 | Command Center / Bridge | 2 | 10 | Basic manual controls and tactical oversight. | 2 |
 | Neural-Link Ops Center | 4 | 25 | \+2 Initiative/Tactics. Direct brain interface. | 2 |
@@ -535,7 +535,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 | Fabricator Workshop | 3 | 25 | 50% reduced Crafting time for personal items. | 2 |
 | Fabricator (Nano-Forge) | 5 | 40 | Creates complex ammo/items automatically in the field. | 4 |
 | Server Farm | 3 | 24 | AI hosting. \+2 Computing defense. | 2 |
-| Secure Vault | 3 | 30 | Reinforced (DR 30 walls). DC 30 Break/Hack to enter. | 1 |
+| Secure Vault | 3 | 30 | Reinforced (DR 30 walls). CR 30 Break/Hack to enter. | 1 |
 | Brig / Detention Center | 3 | 24 | 10 Cells with force fields. | 4 |
 | Cargo Bay (Expandable) | 2 | 10 | Converts Modules to bulk Tonnage (1,000 tons). | 2+ |
 | Garage Bay | 2 | 14 | Stores 2 Large Ground Vehicles safely. | 1 |
@@ -546,7 +546,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 ### **9.6 Facilities: Medical & Hazard Mitigation (Uses MODULES)**
 
-| Module Name | TL | DC | Function | Modules |
+| Module Name | TL | CR | Function | Modules |
 | :---- | :---- | :---- | :---- | :---- |
 | Life Support (Environmental) | 3 | 15 | Sealed vs Vacuum/Poison. 24hr emergency air. | 1 |
 | Base Purification Plant | 3 | 20 | Advanced recyclers. Actively restores degraded Supply Dice. | 2 |
@@ -563,7 +563,7 @@ Structural weapon emplacements function as automated base defenses, heavy siege 
 
 ### **9.7 Core Internals (Generators & Infrastructure)**
 
-| Component | TL | DC | Notes |
+| Component | TL | CR | Notes |
 | :---- | :---- | :---- | :---- |
 | Internal Combustion Generator | 2 | 12 | Requires liquid fuel. Loud, creates heavy exhaust. |
 | High-Capacity Battery Bank | 3 | 15 | Silent. Limited operational duration if cut off. |
@@ -596,11 +596,11 @@ Converting a static building into a mobile platform requires massive, specially 
 
 ### **Propulsion Systems (Mobile Architectures)**
 
-Adding mobility to a structure introduces unique engineering checks. The DC listed in the table below represents the specific complexity of that propulsion system.
+Adding mobility to a structure introduces unique engineering checks. The CR listed in the table below represents the specific complexity of that propulsion system.
 
-In accordance with the **Highest Complexity Rule** (see Section V), this DC is treated as a modification cost: it is not simply added on top of the structure's base cost. Instead, if the propulsion system's DC is higher than the building's current DC, the building's overall Crafting DC is raised to match it. The spatial burden of mobility is paid via the 20% Chassis Tax. The Base Speed is multiplied by the Structure's Scaling Modifier to determine final Tactical Speed (unless speed is capped by mass).
+In accordance with the **Highest Complexity Rule** (see Section V), this CR is treated as a modification cost: it is not simply added on top of the structure's base cost. Instead, if the propulsion system's CR is higher than the building's current CR, the building's overall Crafting CR is raised to match it. The spatial burden of mobility is paid via the 20% Chassis Tax. The Base Speed is multiplied by the Structure's Scaling Modifier to determine final Tactical Speed (unless speed is capped by mass).
 
-| Propulsion Type | TL | DC | Speed | Notes / Handling |
+| Propulsion Type | TL | CR | Speed | Notes / Handling |
 | :---- | :---- | :---- | :---- | :---- |
 | **Ground Crawler** (Treads) | 2 | 20 | 20 ft/rnd | Glacial Handling. Requires massive gearing/suspension. |
 | **Independent Suspension** | 2 | 25 | 40 ft/rnd | Ignores light terrain penalties. (For smaller mobile bases). |
@@ -689,7 +689,7 @@ Buildings have Structure Points (SP) representing their total integrity, but tac
 Structures are not eternal. Weather, entropy, and use degrade them.
 
 * **Annual Upkeep:** 2% of Total Value per year. Failure to pay results in "Dilapidated" status (-5 DR, \-10% SP).  
-* **Repair Action:** Field Patch requires Knowledge (Engineering) or Vocation (Builder) check DC 15\. Restores 10% SP per hour. Cost: 10% of Building Value in materials. Reconstruction is required if SP \< 0 (Collapse).
+* **Repair Action:** Field Patch requires Knowledge (Engineering) or Vocation (Builder) check CR 15\. Restores 10% SP per hour. Cost: 10% of Building Value in materials. Reconstruction is required if SP \< 0 (Collapse).
 
 ## 
 
@@ -722,7 +722,7 @@ When committing a new architectural design to the master lore compendium or a se
 * **Structure Points (SP):** \[Total SP\]  
 * **Damage Resist:** \[Armor Value\]  
 * **Total Modules:** \[Module Capacity\]  
-* **Wealth Cost:** \[Crafting DC / WS Requirement\]  
+* **Wealth Cost:** \[Crafting CR / WS Requirement\]  
 * **Cost (Cr):** \[Liquid Credit Value\]
 
 &nbsp;
@@ -785,7 +785,7 @@ When committing a new architectural design to the master lore compendium or a se
 * **Structure Points:** 100 SP  
 * **Damage Resist:** DR 20 (Plasteel)  
 * **Total Modules:** 0.25 Modules  
-* **Wealth Cost:** 20 (Highest Complexity Rule applied from Propulsion DC)  
+* **Wealth Cost:** 20 (Highest Complexity Rule applied from Propulsion CR)  
 * **Cost (Cr):** \~2,560 Credits
 
 **GENERIC DESCRIPTION:** A slow but steady ground crawler favored by Outworlds scavengers and nomads. It offers the protection of a static building but crawls at a maximum speed of 15 MPH to follow resource veins.
@@ -978,7 +978,7 @@ The same statistical building block functions differently depending on the facti
 
 ## **XV. ECONOMIC INTEGRATION: THE TANGENT STANDARD ECONOMICS**
 
-The most significant advancement in the Tangent Framework is the complete eradication of economic dissonance—the historically persistent fracture between the narrative abstraction of wealth and the mechanical reality of crafting and buying items. The Tangent Standard Economics posits a singular, mathematically rigorous solution: **Complexity Determines Value.** The market price of a structure or item is simply the societal aggregate of the skill (Crafting DC) and time required to produce it.
+The most significant advancement in the Tangent Framework is the complete eradication of economic dissonance—the historically persistent fracture between the narrative abstraction of wealth and the mechanical reality of crafting and buying items. The Tangent Standard Economics posits a singular, mathematically rigorous solution: **Complexity Determines Value.** The market price of a structure or item is simply the societal aggregate of the skill (Crafting CR) and time required to produce it.
 
 ### 
 
@@ -986,17 +986,17 @@ The most significant advancement in the Tangent Framework is the complete eradic
 
 Because the gap between a simple survival tent and a sprawling moon base is logarithmic, the cost scaling must be exponential. The market price of every physical asset within the Tangent galaxy is generated using the Tangent Standard Curve (TSC) formula.
 
-This formula dictates that an item's value in Credits equals a baseline value of 10 Credits (representing the simplest manufactured good or scrap metal at DC 0\) multiplied by a growth factor of 4, raised to the power of the item's Crafting DC divided by 5\. The growth factor of 4 ensures that value inherently quadruples across every tier interval of 5 DC.
+This formula dictates that an item's value in Credits equals a baseline value of 10 Credits (representing the simplest manufactured good or scrap metal at CR 0\) multiplied by a growth factor of 4, raised to the power of the item's Crafting CR divided by 5\. The growth factor of 4 ensures that value inherently quadruples across every tier interval of 5 CR.
 
-> **Value (Credits) \= 10 \* 4^(DC / 5\)**
+> **Value (Credits) \= 10 \* 4^(CR / 5\)**
 
-By strictly adhering to this calculation, all pricing debates are eliminated. This mathematical rigidity allows Game Masters to value any new, homebrew, or precursor architectural artifact instantly simply by assigning it a Crafting DC based on its operational complexity.
+By strictly adhering to this calculation, all pricing debates are eliminated. This mathematical rigidity allows Game Masters to value any new, homebrew, or precursor architectural artifact instantly simply by assigning it a Crafting CR based on its operational complexity.
 
 &nbsp;
 
 **The Master Valuation Table**
 
-| Craft DC | Complexity | Value (Credits) | Examples (Sci-Fi / Fantasy) |
+| Craft CR | Complexity | Value (Credits) | Examples (Sci-Fi / Fantasy) |
 | :---- | :---- | :---- | :---- |
 | **0** | Scrap | 10 | Raw ore, ration bar, wooden club. |
 | **5** | Simple | 40 | Knife, backpack, basic clothing, bandages. |
@@ -1016,7 +1016,7 @@ By strictly adhering to this calculation, all pricing debates are eliminated. Th
 
 Character economic power is quantified by the **Wealth Score (WS)**, a static rating of economic leverage representing credit rating, active investments, salary, and social capital.
 
-The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth:** A character may automatically purchase any item or fund any construction project with a Crafting DC equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score. This aligns the abstraction of "lifestyle" with the concrete math of acquisition: Purchase DC \= Crafting DC.
+The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth:** A character may automatically purchase any item or fund any construction project with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score. This aligns the abstraction of "lifestyle" with the concrete math of acquisition: Purchase CR \= Crafting CR.
 
 &nbsp;
 
@@ -1047,11 +1047,11 @@ A common failure point in abstract wealth systems is the "infinite money loop," 
 
 **The Liquidity Constraint (The Gap Rule):**
 
-When a character seeks to build or buy an asset with a DC exceeding their Wealth Score, their passive income cannot cover the transaction. They must bridge the gap with liquid Credits. The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's DC.
+When a character seeks to build or buy an asset with a CR exceeding their Wealth Score, their passive income cannot cover the transaction. They must bridge the gap with liquid Credits. The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's CR.
 
-> **Cost (Liquid) \= Value (Item DC) \- Value (Wealth Score)**
+> **Cost (Liquid) \= Value (Item CR) \- Value (Wealth Score)**
 
-*Example:* A Wealth Score 15 character (Auto-buy limit \~640 Cr) wants to construct a Secure Frontier Outpost (DC 18, Value \~1,470 Cr). They use their WS 15 leverage to cover the base material cost, leaving 830 Credits that must be paid in liquid cash from their adventuring savings or corporate backing.
+*Example:* A Wealth Score 15 character (Auto-buy limit \~640 Cr) wants to construct a Secure Frontier Outpost (CR 18, Value \~1,470 Cr). They use their WS 15 leverage to cover the base material cost, leaving 830 Credits that must be paid in liquid cash from their adventuring savings or corporate backing.
 
 &nbsp;
 
@@ -1081,13 +1081,13 @@ To construct a building, the creator must accumulate a Target PP equal exactly t
 
 *(See Section VIII, Step 5 for the comprehensive Tool Tier Multiplier table).*
 
-Under this engine, a Mastercraft Arcology Module (DC 30, Target PP \= 40,960) would take a hobbyist with Basic Tools (x10 multiplier) over 409 days to build. However, an advanced engineering team utilizing a Nanoforge (x1,000 multiplier) with a high check result can materialize the identical structure in less than two days.
+Under this engine, a Mastercraft Arcology Module (CR 30, Target PP \= 40,960) would take a hobbyist with Basic Tools (x10 multiplier) over 409 days to build. However, an advanced engineering team utilizing a Nanoforge (x1,000 multiplier) with a high check result can materialize the identical structure in less than two days.
 
 &nbsp;
 
 **Macro-Scale Construction and Faction Labor Pools:**
 
-For astronomical projects like a Dreadnought Shipyard (DC 50, Value \~10.5 Million Cr) or a Titanic Arcology (DC 60+, Value \~167 Million Cr), individual crafting is physically impossible. Factions utilize Labor Pools to execute macro-scale construction. The Daily PP output is simply the sum of individual workers multiplied by their tools.
+For astronomical projects like a Dreadnought Shipyard (CR 50, Value \~10.5 Million Cr) or a Titanic Arcology (CR 60+, Value \~167 Million Cr), individual crafting is physically impossible. Factions utilize Labor Pools to execute macro-scale construction. The Daily PP output is simply the sum of individual workers multiplied by their tools.
 
 A planetary shipyard employing 1,000 structural engineers operating Industrial (x200) fabrication tools can generate 1,000,000 PP per day, completing a massive capital installation in roughly 10.5 days. This macro-economic logic drives factional warfare; maintaining these construction yards requires an uninterrupted flow of massive liquid capital (5.25 Million Cr in raw materials per installation), forcing factions to fight for territorial resources to keep their production engines fed.
 

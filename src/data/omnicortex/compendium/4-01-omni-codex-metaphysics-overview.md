@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -58,7 +58,7 @@ Whether practiced as high-tech Arcanism by the Alterian Enclave, transcendental 
 ## Game Mechanics Rules
 ```
 Metaphysic Triad = { Attune, Discipline, Invocation }
-Potency = Key Ability Mod + Discipline Skill Level + Invocation Level + 10 (or d20 roll)
+Potency = Key Ability Mod + Discipline Skill Level + Invocation Level + 10 (or 2d10 roll)
 ```
 
 ## Gameplay Instructions

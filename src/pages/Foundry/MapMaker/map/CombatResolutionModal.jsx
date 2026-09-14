@@ -386,7 +386,7 @@ export default function CombatResolutionModal({
       target: targetToken?.label || 'Target',
       badge: isCritHit ? '⚡' : '⚔️',
       summary: `${attackerToken?.label || 'Attacker'} struck ${targetToken?.label || 'Target'} (${finalLocation.label}): ${netDamage} net dmg`,
-      details: `Weapon: ${customWeaponName} | Attack: ${computedOutcome.totalAttackRoll} vs DC ${computedOutcome.targetDefenseDC} | Raw: ${computedOutcome.rawDamage} - Armor DR: ${computedOutcome.soakedByArmor} - Soak: ${computedOutcome.soakedByToughness} = ${netDamage} Net (${damageClass.toUpperCase()})`
+      details: `Weapon: ${customWeaponName} | Attack: ${computedOutcome.totalAttackRoll} vs CR ${computedOutcome.targetDefenseDC} | Raw: ${computedOutcome.rawDamage} - Armor DR: ${computedOutcome.soakedByArmor} - Soak: ${computedOutcome.soakedByToughness} = ${netDamage} Net (${damageClass.toUpperCase()})`
     });
 
     // Optional Broadcast to CommLink Chat
@@ -770,7 +770,7 @@ export default function CombatResolutionModal({
               onClick={handleExecuteResolution}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-600 via-orange-600 to-amber-500 hover:from-amber-500 hover:to-orange-500 text-white font-black text-sm uppercase tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.4)] border border-amber-300/40 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-[0.99]"
             >
-              <Dices className="w-5 h-5" /> Execute Attack &amp; Adjudicate Strike (2d10 vs DC {effectiveDefenseDC})
+              <Dices className="w-5 h-5" /> Execute Attack &amp; Adjudicate Strike (2d10 vs CR {effectiveDefenseDC})
             </button>
 
             {/* Resolution Results Panel */}
@@ -792,7 +792,7 @@ export default function CombatResolutionModal({
                       )
                     ) : (
                       <span className="px-2.5 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-black text-xs uppercase flex items-center gap-1.5">
-                        <XCircle className="w-4 h-4 text-rose-400" /> MISSED / DEFLECTED ({attackRollResult.total} vs DC {effectiveDefenseDC})
+                        <XCircle className="w-4 h-4 text-rose-400" /> MISSED / DEFLECTED ({attackRollResult.total} vs CR {effectiveDefenseDC})
                       </span>
                     )}
 
@@ -890,7 +890,7 @@ export default function CombatResolutionModal({
                 {computedOutcome.triggersMassiveDamage && (
                   <div className="p-2.5 rounded-lg bg-rose-950/80 border border-rose-500 text-rose-200 text-xs font-bold flex items-center gap-2">
                     <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
-                    <span>⚠️ MASSIVE DAMAGE TRIGGERED: Direct lethal Health damage $\ge$ STA. Target must pass DC 15 Fortitude Save or die instantly!</span>
+                    <span>⚠️ MASSIVE DAMAGE TRIGGERED: Direct lethal Health damage $\ge$ STA. Target must pass CR 15 Fortitude Save or die instantly!</span>
                   </div>
                 )}
                 {computedOutcome.triggersDeathClock && (

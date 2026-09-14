@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -62,7 +62,7 @@ The **Key Ability** is chosen at Awakening and determines the "flavor," cosmolog
 ## Game Mechanics Rules
 ```
 SourceMod = KeyAbilityMod (INT, WIS, or CHA chosen at Awakening)
-Potency = SourceMod + DisciplineSkillRank + InvocationLevel + 10 (or d20)
+Potency = SourceMod + DisciplineSkillRank + InvocationLevel + 10 (or 2d10)
 ```
 
 ## Gameplay Instructions

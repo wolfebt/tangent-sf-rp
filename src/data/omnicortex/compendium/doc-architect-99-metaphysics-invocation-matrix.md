@@ -89,10 +89,10 @@ This defines the complexity of the "shape" the caster must form. It sets the tar
 &nbsp;
 
 * **Static DC:** Used for environmental or self-targeted effects.  
-  * **Simple (DC 10):** Minor sensory effects, cleaning, lighting a candle.  
-  * **Standard (DC 15):** Most Tier 1 combat effects, basic defenses.  
-  * **Difficult (DC 20):** Complex illusions, transmutation, teleportation.  
-  * **Extreme (DC 25+):** Reality tearing, resurrection, massive structures.
+  * **Simple (CR 10):** Minor sensory effects, cleaning, lighting a candle.  
+  * **Standard (CR 15):** Most Tier 1 combat effects, basic defenses.  
+  * **Difficult (CR 20):** Complex illusions, transmutation, teleportation.  
+  * **Extreme (CR 25+):** Reality tearing, resurrection, massive structures.
 
 &nbsp;
 
@@ -105,7 +105,7 @@ This defines the complexity of the "shape" the caster must form. It sets the tar
 
 ### **3.2 DC Adjustments (Time, Range, Area, Duration)**
 
-Designing an Invocation involves balancing power against difficulty. The **Base DC** is modified by the specific parameters of the effect. Use the following tables to adjust the DC required to cast the Invocation.
+Designing an Invocation involves balancing power against difficulty. The **Base CR** is modified by the specific parameters of the effect. Use the following tables to adjust the DC required to cast the Invocation.
 
 &nbsp;
 
@@ -240,9 +240,9 @@ A concentrated beam of superheated plasma.
 
 | Parameters |  |  |  |
 | :---- | :---- | :---- | :---- |
-| **Base Difficulty** | DC 15 (Static) | **Time** | Standard Action |
+| **Base Difficulty** | CR 15 (Static) | **Time** | Standard Action |
 | **Range** | Medium | **Area** | Single Target |
-| **Duration** | Instant | **Resistance** | (Defense check vs Attune DC) |
+| **Duration** | Instant | **Resistance** | (Defense check vs Attune CR) |
 
 Effect:
 
@@ -272,9 +272,9 @@ A localized distortion of gravity that crushes and slows.
 
 | Parameters |  |  |  |
 | :---- | :---- | :---- | :---- |
-| **Base Difficulty** | DC 20 (Static) | **Time** | Standard Action |
+| **Base Difficulty** | CR 20 (Static) | **Time** | Standard Action |
 | **Range** | Medium | **Area** | 20ft Radius Sphere |
-| **Duration** | Sustained | **Resistance** | Fortitude (vs Attune DC) |
+| **Duration** | Sustained | **Resistance** | Fortitude (vs Attune CR) |
 
 Effect:
 

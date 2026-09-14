@@ -24,7 +24,7 @@ Vehicular combat escalates the core 2d10 rules across 4 Domains of War (*Land, N
 - **The Dogfight:** Opposed Pilot checks at start of round.
   - *Winner:* Gains **Advantage** on attack rolls this round and chooses positioning (**Tail / Flank**).
   - *Loser:* Considered **Flat-Footed** against the winner.
-- **Stalling:** Flying slower than Stall Speed forces a **Pilot Check (DC 20)** or craft enters a terminal fall.
+- **Stalling:** Flying slower than Stall Speed forces a **Pilot Check (CR 20)** or craft enters a terminal fall.
 
 ---
 

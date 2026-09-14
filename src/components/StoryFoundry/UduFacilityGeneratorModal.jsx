@@ -76,7 +76,7 @@ export default function UduFacilityGeneratorModal({
         doors: Math.floor(Math.random() * 2) + 1,
         hasTerminal,
         hasHazard,
-        hazardType: hasHazard ? (Math.random() > 0.5 ? 'Electrified Plasma Conduit (2d8 Dmg)' : 'Toxic Gas Leak (DC 14 Fort)') : null,
+        hazardType: hasHazard ? (Math.random() > 0.5 ? 'Electrified Plasma Conduit (2d8 Dmg)' : 'Toxic Gas Leak (CR 14 Fort)') : null,
         hasLoot,
         lootType: hasLoot ? 'Military Supply Crate (Tier 2 Salvage)' : null
       });

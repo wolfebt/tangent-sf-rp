@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","metaphysics-discipline"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -61,7 +61,7 @@ The **Discipline of Mental** governs telepathy, mind-reading, empathic sensing, 
 - **Synaptic Overload:** Inflict massive neural burning dealing **6d10 Psychic damage** and stunning target for 2 rounds.
 
 ### Level 5 Invocations
-- **Total Mind Seizure:** Permanently rewrite target's personality, loyalties, and core memories (Requires Will DC 25 to resist).
+- **Total Mind Seizure:** Permanently rewrite target's personality, loyalties, and core memories (Requires Will CR 25 to resist).
 
 ## Game Mechanics Rules
 ```

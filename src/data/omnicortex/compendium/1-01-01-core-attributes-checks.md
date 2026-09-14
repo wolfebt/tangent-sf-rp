@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-1","attributes","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -49,7 +49,7 @@ Characters are defined by **6 Primary Attributes**, each paired with a dedicated
 ## Game Mechanics Rules
 ```
 Attribute Modifier Range: -5 to +10
-Sub-Attribute Check = d20 + Sub-Attribute Bonus + Relevant Skill Rank
+Sub-Attribute Check = 2d10 + Sub-Attribute Bonus + Relevant Skill Rank
 ```
 
 ## Gameplay Instructions

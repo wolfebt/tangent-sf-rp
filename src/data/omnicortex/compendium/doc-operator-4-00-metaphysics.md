@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","4.00 metaphysics","mechanics"]
-updatedAt: "2026-09-12T08:23:46.547Z"
+updatedAt: "2026-09-14T19:51:39.817Z"
 costs:
   bp: 0
   credits: 0
@@ -105,7 +105,7 @@ The Key Ability is chosen at Awakening and determines the "flavor" of the source
 
 The potency of an effect is calculated as follows:
 
-> \[Key Ability \+ Discipline Skill Level \+ Invocation Level \+ 10 (or d20)\]
+> \[Key Ability \+ Discipline Skill Level \+ Invocation Level \+ 10 (or 2d10)\]
 
 * Attune Check: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.  
 * Discipline Check: Used to determine the severity of Effects and/or Damage.
@@ -117,7 +117,7 @@ The potency of an effect is calculated as follows:
 1. ## **Free-Casting (Spontaneous):**
 
    * Involves a narrative of the effect within the confines of the Discipline’s level.  
-   * Process: Make an Attune check to draw/channel energy (sets DC/Attack), followed by a Discipline Skill check for severity.  
+   * Process: Make an Attune check to draw/channel energy (sets CR/Attack), followed by a Discipline Skill check for severity.  
    * Risks: High volatility.
 
 2. ## **Invocations (Codified):**
@@ -130,12 +130,12 @@ The potency of an effect is calculated as follows:
 
 ### **Metaphysic Checks & Difficulty**
 
-Base DC for activating a Metafocus Discipline or Invocation:
+Base CR for activating a Metafocus Discipline or Invocation:
 
-* Very Easy (DC 5): Safe Quiet Area, Sanctum, Laboratory, Library.  
-* Easy (DC 10): Casual, Non-Hostile Environment, Walking, Passenger in Vehicle.  
-* Average (DC 15): Very Active or Hostile Environment, Vigorous Movement, Combat.  
-* Difficult (DC 20): Extreme Activity, Crashing, Uncontrolled Fall.
+* Very Easy (CR 5): Safe Quiet Area, Sanctum, Laboratory, Library.  
+* Easy (CR 10): Casual, Non-Hostile Environment, Walking, Passenger in Vehicle.  
+* Average (CR 15): Very Active or Hostile Environment, Vigorous Movement, Combat.  
+* Difficult (CR 20): Extreme Activity, Crashing, Uncontrolled Fall.
 
 &nbsp;
 
@@ -228,17 +228,17 @@ Your character’s total Essence capacity represents their comprehensive "lodest
 
 ### **The Essence Cost Scale**
 
-In this framework, the metabolic or spiritual cost of an invocation is determined by the **Base DC** required to activate the effect based on the current environment and stress levels.
+In this framework, the metabolic or spiritual cost of an invocation is determined by the **Base CR** required to activate the effect based on the current environment and stress levels.
 
-| Difficulty | Base DC | Essence&nbsp; | Environmental Context |
+| Difficulty | Base CR | Essence&nbsp; | Environmental Context |
 | ----- | :---: | :---: | ----- |
-| **Very Easy** | DC 5 | **0**&nbsp; | Safe areas, Sanctums, Libraries, Laboratories. |
-| **Easy** | DC 10 | **0**&nbsp; | Casual travel, walking, non-hostile environments. |
-| **Average** | DC 15 | **1**&nbsp; | Combat, vigorous movement, active hostility. |
-| **Difficult** | DC 20 | **2**&nbsp; | Extreme activity, uncontrolled falls, crashing. |
-| **Very Difficult** | DC 25 | **3**&nbsp; | High-intensity chaos, environmental catastrophes. |
-| **Nearly Impossible** | DC 30 | **4**&nbsp; | Legendary feats, global reality shifts. |
-| **Miraculous** | DC 35 | **5**&nbsp; | Progenitor-tier interactions (rarely for PCs). |
+| **Very Easy** | CR 5 | **0**&nbsp; | Safe areas, Sanctums, Libraries, Laboratories. |
+| **Easy** | CR 10 | **0**&nbsp; | Casual travel, walking, non-hostile environments. |
+| **Average** | CR 15 | **1**&nbsp; | Combat, vigorous movement, active hostility. |
+| **Difficult** | CR 20 | **2**&nbsp; | Extreme activity, uncontrolled falls, crashing. |
+| **Very Difficult** | CR 25 | **3**&nbsp; | High-intensity chaos, environmental catastrophes. |
+| **Nearly Impossible** | CR 30 | **4**&nbsp; | Legendary feats, global reality shifts. |
+| **Miraculous** | CR 35 | **5**&nbsp; | Progenitor-tier interactions (rarely for PCs). |
 
 &nbsp;
 
@@ -252,8 +252,8 @@ This cost structure fundamentally changes the economy of **Codified Invocations*
 
 Codified Invocations represent rote muscle memory where a user can effectively **"Take 10"** on their Discipline check.
 
-* **The "Sanctum" Bonus:** If an Arcanist performs a learned ritual in a laboratory (DC 5), they pay **0 Essence**, as their familiarity and the stable environment minimize the toll on their internal reservoir.  
-* **The Combat Tax:** Using the same invocation in a firefight (DC 15\) imposes an immediate **1 Essence** cost to stabilize the conduit amidst the chaos.
+* **The "Sanctum" Bonus:** If an Arcanist performs a learned ritual in a laboratory (CR 5), they pay **0 Essence**, as their familiarity and the stable environment minimize the toll on their internal reservoir.  
+* **The Combat Tax:** Using the same invocation in a firefight (CR 15\) imposes an immediate **1 Essence** cost to stabilize the conduit amidst the chaos.
 
   #### 
 
@@ -261,7 +261,7 @@ Codified Invocations represent rote muscle memory where a user can effectively *
 
 **Free-Casting** (spontaneous metaphysics) remains high-risk.
 
-* If a player attempts a spontaneous effect in a **Difficult** environment (DC 20), they must spend **2 Essence** upfront.  
+* If a player attempts a spontaneous effect in a **Difficult** environment (CR 20), they must spend **2 Essence** upfront.  
 * **Failure and Feedback:** If the check fails, the Essence is still consumed, and the character suffers **Internalized Strain** (1d6 points of Non-Lethal damage per 5 points of failure).  
 * **Energy Surges:** If an **Attune** result is 0 or less, the Essence cost for that increment is doubled as the reservoir "leaks" into the environment during the surge.
 
@@ -271,7 +271,7 @@ Codified Invocations represent rote muscle memory where a user can effectively *
 
 As characters develop their training and skills, their Essence Pool grows, allowing them to absorb the higher costs of Master and Pinnacle tier effects.
 
-* **Extreme Range/Area:** Large area effects (Cones/Lines) or Extended ranges often push the DC into the 25–30+ range. A character must have a substantial pool to manifest these legendary feats frequently.
+* **Extreme Range/Area:** Large area effects (Cones/Lines) or Extended ranges often push the CR into the 25–30+ range. A character must have a substantial pool to manifest these legendary feats frequently.
 
 ### 
 
@@ -517,7 +517,7 @@ Divine power is not about figuring out the universe (Arcane) or bending it (Psyc
 
 # **Entropy Invocations**
 
-The following Invocations belong to the **Entropy Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Entropy: Chaos or Entropy: Order) for shaping, intensity, and effect resolution.
+The following Invocations belong to the **Entropy Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Entropy: Chaos or Entropy: Order) for shaping, intensity, and effect resolution.
 
 ## 
 
@@ -654,7 +654,7 @@ Afflicts a creature with a metaphysical burden that hinders their actions.
 **Scaling Function:**
 
 * **Severity:** Penalty to Rolls \= \-1 per Stage.  
-* **Integrity:** Remove Curse DC \= Base \+ (2 per Stage).
+* **Integrity:** Remove Curse CR \= Base \+ (2 per Stage).
 
 ### 
 
@@ -997,7 +997,7 @@ Parameters:
 * **Range:** Short  
 * **Area:** Single Creature/Object  
 * **Duration:** Instantaneous  
-* **Resistance:** Opposed Check (vs Curse DC)
+* **Resistance:** Opposed Check (vs Curse CR)
 
 Effect Description:
 
@@ -1125,7 +1125,7 @@ Drives out possessing spirits, demons, or entities.
 **Scaling Function:**
 
 * **Power:** Damage to Spirit \= 2d6 per Stage (Force/Holy).  
-* **Severity:** Save DC increases by \+1 per Stage.
+* **Severity:** Save CR increases by \+1 per Stage.
 
 &nbsp;
 
@@ -1139,7 +1139,7 @@ Drives out possessing spirits, demons, or entities.
 
 # **Dimension Invocations**
 
-The following Invocations belong to the **Dimension Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Dimension: Summoning or Dimension: Teleport) for shaping, duration, and effect resolution.
+The following Invocations belong to the **Dimension Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Dimension: Summoning or Dimension: Teleport) for shaping, duration, and effect resolution.
 
 ## 
 
@@ -1269,7 +1269,7 @@ Fills an area with sticky, dimensionally-anchored strands.
 
 **Scaling Function:**
 
-* **Severity:** Escape/Break DC \= Base DC \+ (1 per Stage).  
+* **Severity:** Escape/break CR \= Base CR \+ (1 per Stage).  
 * **Integrity:** Strands have 5 HP per Stage.
 
 ### 
@@ -1421,11 +1421,11 @@ Relocation of position without the subject traveling between the points of space
 
 **Familiarity Difficulty Table:**
 
-* **Very Familiar** (or clearly visible): DC 5  
-* **Well Known** (or seen recently): DC 10  
-* **Visited** (or seen once): DC 15  
-* **Known** (heard or seen a poor image of): DC 20  
-* **Unknown**: DC 25
+* **Very Familiar** (or clearly visible): CR 5  
+* **Well Known** (or seen recently): CR 10  
+* **Visited** (or seen once): CR 15  
+* **Known** (heard or seen a poor image of): CR 20  
+* **Unknown**: CR 25
 
 **Scaling Function:**
 
@@ -1563,7 +1563,7 @@ Opens a stable, two-way wormhole connecting to another location.
 
 # **Energy Invocations**
 
-The following Invocations belong to the **Energy Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Energy: Elemental or Energy: Force) for shaping, intensity, and effect resolution.
+The following Invocations belong to the **Energy Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Energy: Elemental or Energy: Force) for shaping, intensity, and effect resolution.
 
 ## 
 
@@ -1867,7 +1867,7 @@ Parameters:
 * **Range:** Self  
 * **Area:** 60ft Line or 30ft Cone  
 * **Duration:** Instantaneous  
-* **Resistance:** Strength/Athletics Check vs. Spell DC
+* **Resistance:** Strength/Athletics Check vs. Spell CR
 
 Effect Description:
 
@@ -1975,7 +1975,7 @@ Parameters:
 * **Range:** Medium  
 * **Area:** Single Target or 5ft Square  
 * **Duration:** Instantaneous  
-* **Resistance:** Strength Save vs. Spell DC
+* **Resistance:** Strength Save vs. Spell CR
 
 Effect Description:
 
@@ -2003,7 +2003,7 @@ Parameters:
 
 Effect Description:
 
-Projectiles of hardened force that strike unerringly and cannot be dodged but may be blocked with a Defense check vs the Attune DC.
+Projectiles of hardened force that strike unerringly and cannot be dodged but may be blocked with a Defense check vs the Attune CR.
 
 **Scaling Function:**
 
@@ -2217,7 +2217,7 @@ Creates a shimmering outer bubble of force that excludes physical matter.
 
 # **Illusion Invocations**
 
-The following Invocations belong to the **Illusion Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Illusion: Phantasm or Illusion: Shadow) for shaping, complexity, and believability.
+The following Invocations belong to the **Illusion Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Illusion: Phantasm or Illusion: Shadow) for shaping, complexity, and believability.
 
 ## 
 
@@ -2338,7 +2338,7 @@ Parameters:
 * **Range:** Personal or Touch  
 * **Area:** Single Creature/Object  
 * **Duration:** 10 Minutes/Level  
-* **Resistance:** Insight Check vs. Attune DC
+* **Resistance:** Insight Check vs. Attune CR
 
 Effect Description:
 
@@ -2395,7 +2395,7 @@ Creates a complex, moving scene involving visual, auditory, olfactory, and therm
 **Scaling Function:**
 
 * **Area:** Cube size scales per Stage.  
-* **Believability:** Save DC increases by \+1 per Stage.
+* **Believability:** Save CR increases by \+1 per Stage.
 
 ### 
 
@@ -2580,7 +2580,7 @@ Solidifies shadows into a melee weapon. It deals real damage, though part of the
 **Scaling Function:**
 
 * **Damage:** 1d6 Cold/Psychic Damage per Stage.  
-* **Reality:** Will Save DC to disbelieve increases by \+1 per Stage.
+* **Reality:** Will Save CR to disbelieve increases by \+1 per Stage.
 
 ### 
 
@@ -2641,7 +2641,7 @@ Evokes a blast of roiling shadow energy that mimics a physical attack.
 
 # **Matter Invocations**
 
-The following Invocations belong to the **Matter Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Matter: Enhancement or Matter: Transmutation) for shaping, complexity, and effect resolution.
+The following Invocations belong to the **Matter Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Matter: Enhancement or Matter: Transmutation) for shaping, complexity, and effect resolution.
 
 ## 
 
@@ -2713,7 +2713,7 @@ Parameters:
 * **Range:** Touch  
 * **Area:** Door, Chest, or Portal  
 * **Duration:** Permanent (until dispelled/broken)  
-* **Resistance:** None (DC to break)
+* **Resistance:** None (CR to break)
 
 Effect Description:
 
@@ -2721,7 +2721,7 @@ Magically secures an object, fusing the materials at the molecular level.
 
 **Scaling Function:**
 
-* **Security:** Break/Lockpick DC increases by \+5 per Stage.  
+* **Security:** Break/Lockpick CR increases by \+5 per Stage.  
 * **Integrity:** Object gains \+10 Hardness per Stage.
 
 ### 
@@ -3132,7 +3132,7 @@ Transmutes organic flesh into solid stone.
 
 **Scaling Function:**
 
-* **Severity:** Save DC increases by \+1 per Stage.  
+* **Severity:** Save CR increases by \+1 per Stage.  
 * **Speed:** At Stage 1-3, takes 1d4 rounds to complete (Slowed condition). At Stage 4+, instant.
 
 ### 
@@ -3193,7 +3193,7 @@ Alters the physical form to produce a specific biological enhancement (gills, cl
 
 # **Mental Invocations**
 
-The following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.
+The following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.
 
 ## 
 
@@ -3256,7 +3256,7 @@ Issues a one-word command (e.g., "Halt," "Drop," "Flee") to a creature.
 **Scaling Function:**
 
 * **Quantity:** Number of targets \= 1 per Stage.  
-* **Severity:** Save DC increases by \+1 per Stage.
+* **Severity:** Save CR increases by \+1 per Stage.
 
 ### 
 
@@ -3376,7 +3376,7 @@ Scrambles the victims' thought patterns, causing erratic behavior.
 **Scaling Function:**
 
 * **Duration:** 1 Round per Stage.  
-* **Severity:** Save DC increases by \+1 per Stage.
+* **Severity:** Save CR increases by \+1 per Stage.
 
 ### 
 
@@ -3714,7 +3714,7 @@ Creates an invisible psychic sensor to see/hear a distant location.
 
 **Scaling Function:**
 
-* **Clarity:** Sensor visibility reduces (DC to spot increases by \+2 per Stage).  
+* **Clarity:** Sensor visibility reduces (CR to spot increases by \+2 per Stage).  
 * **Senses:** At Stage 3+, can use Darkvision/Special Senses through the sensor.
 
 ### 

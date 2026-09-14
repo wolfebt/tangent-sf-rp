@@ -2994,8 +2994,8 @@ export const DEFAULT_AUGMENTATIONS = [
     },
     "modifiers": [],
     "modifications": [],
-    "description": "Looks real (DC 25 Awareness to spot).",
-    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Looks real (DC 25 Awareness to spot).\r\n**Nodes:** 0"
+    "description": "Looks real (CR 25 Awareness to spot).",
+    "body": "Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**\r\n\r\n**Effect:** Looks real (CR 25 Awareness to spot).\r\n**Nodes:** 0"
   },
   {
     "id": "skinwatch",

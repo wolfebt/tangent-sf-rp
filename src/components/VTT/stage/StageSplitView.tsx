@@ -290,7 +290,7 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
                     <span className="text-[9.5px] px-1 py-0.2 rounded bg-purple-950 text-purple-400 border border-purple-800">NEXUS L5</span>
                   </div>
                   <div className="text-[10px] text-slate-400 mt-1">
-                    HP: 75 &bull; Armor DR: 10 &bull; Mind Rend (2d10+8 Disruption, DC 18 Save)
+                    HP: 75 &bull; Armor DR: 10 &bull; Mind Rend (2d10+8 Disruption, CR 18 Save)
                   </div>
                 </div>
               </div>

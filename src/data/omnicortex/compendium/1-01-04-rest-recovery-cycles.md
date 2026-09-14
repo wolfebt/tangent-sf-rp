@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-1","rest-recovery","mechanics"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -51,7 +51,7 @@ Tangent features three distinct rest cycles to balance tactical recovery and ext
 ## 3. Full Rest & Sleep (8 Hours)
 - **Time Required:** 8 hours of uninterrupted rest in a safe habitat or starship cabin.
 - **Recovery:** Restores **100% of Vitality Pool**, restores **Stamina Score + 5 Health Points**, and clears all standard fatigue levels.
-- Medical attention (Physician DC 15 check) during a Full Rest doubles Health recovery.
+- Medical attention (Physician CR 15 check) during a Full Rest doubles Health recovery.
 
 ## Game Mechanics Rules
 ```

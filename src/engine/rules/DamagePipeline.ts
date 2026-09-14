@@ -4,7 +4,7 @@
  * Strictly adheres to docs/game rules/operator/3.00 COMBAT.md:
  * - Total Damage = (Raw Damage) - (Target Armor DR + Target CON Mod)
  * - Specialized damage types: Force (ignores 1/2 Armor DR), Spectral/Mental (ignores physical DR), Concussive (ignores 1/2 DR, splits between Vitality and Health)
- * - Limb damage thresholds: 1/3rd Health = Disabled (Stamina Save DC 10 + damage), 2/3rds = Destroyed
+ * - Limb damage thresholds: 1/3rd Health = Disabled (Stamina Save CR 10 + damage), 2/3rds = Destroyed
  * - Synthetic limbs: 50% more damage capacity before Disabled/Destroyed (no Stamina check)
  * - 0 Health: The Mortality State (Unconscious, Incapacitated, Bleeding Out 1 Stability Dmg/round)
  * - Stability Points = Constitution Score + 5 (Dead ONLY when Stability Points <= 0)

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","operator-rule"]
-updatedAt: "2026-09-12T08:23:46.535Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -303,12 +303,12 @@ The **Meta stage** of character creation in Tangent focuses on developing the me
 | :--- | :--- | :--- |
 | **Max Hit Points (HP)** | Base (10) + (Stamina Mod * 2) + Rank Multipliers | Total physical trauma capacity |
 | **Initiative Check** | 2d10 + Reflex Save + Agility Mod | Reaction speed at start of combat |
-| **Might Check** | d20 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
-| **Fortitude Save** | d20 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
-| **Reflex Save** | d20 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
-| **Logic Check** | d20 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
-| **Will Save** | d20 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
-| **Etiquette Check** | d20 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |
+| **Might Check** | 2d10 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
+| **Fortitude Save** | 2d10 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
+| **Reflex Save** | 2d10 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
+| **Logic Check** | 2d10 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
+| **Will Save** | 2d10 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
+| **Etiquette Check** | 2d10 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |
 
 ## Game Mechanics Rules
 ```

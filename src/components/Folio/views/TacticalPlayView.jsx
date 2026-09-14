@@ -1509,7 +1509,7 @@ export const TacticalPlayView = ({
                               type="button"
                               onClick={() => handleRollCheck(`${weapon.name} Invocation Check`, weapon.attackMod)}
                               className="px-2.5 py-1 bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-200 rounded font-mono font-bold text-xs cursor-pointer transition-colors shadow flex items-center gap-1"
-                              title={`Roll 2d10 + Meta Check (${weapon.attackMod >= 0 ? `+${weapon.attackMod}` : weapon.attackMod}) vs DC ${weapon.baseDC || 14}`}
+                              title={`Roll 2d10 + Meta Check (${weapon.attackMod >= 0 ? `+${weapon.attackMod}` : weapon.attackMod}) vs CR ${weapon.baseDC || 14}`}
                             >
                               <Zap size={12} className="text-purple-400" />
                               <span>Cast ({weapon.attackMod >= 0 ? `+${weapon.attackMod}` : weapon.attackMod})</span>

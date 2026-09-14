@@ -26,7 +26,7 @@ Role-Playing Games in Tangent provide a collaborative narrative experience where
 3. **Faction, Origin & Occupation:** Foundations granting 60 skill ranks, 4 traits, and 4 features.
 4. **Technology & Gear:** Equip weapons, armor, and gear calibrated to campaign Tech Level (TL 0–5).
 5. **Secondary Tracks:** Compute Vitality, Health, Structure, Defense, Damage Resistance (DR), and Karma.`,
-    mechanic: `Check Formula: 2d10 (Combat) or d20 (Skill/Attribute) + Skill Rank + Attribute Mod + Situational Modifiers vs DC
+    mechanic: `Check Formula: 2d10 (All Checks: Combat, Skill, Attribute) + Skill Rank + Attribute Mod + Situational Modifiers vs CR
 Degree of Success: Success by 5+ grants Critical Impact; Defender wins all ties on opposed checks`,
     guide: `1. Open your Persona Folio.
 2. Track Vitality for stamina/minor hits and Health for lethal trauma.
@@ -51,20 +51,20 @@ The **ARCHITECT** is the Game Master, universe designer, referee, and lead story
 
 ---
 
-## 1. Difficulty Class (DC) Benchmark Table
-| Task Difficulty | DC | Benchmark Example |
+## 1. Challenge Rating (CR) Benchmark Table
+| Task Difficulty | CR | Benchmark Example |
 | :--- | :---: | :--- |
-| **Trivial** | DC 5 | Operating a standard civilian console; walking a sturdy beam. |
-| **Easy** | DC 10 | Driving on a paved road; patching a minor hydraulic leak. |
-| **Moderate** | DC 15 | Slicing a corporate terminal; picking a standard magnetic lock. |
-| **Hard** | DC 20 | Bypassing military biometric security; stabilizing a fatal arterial wound. |
-| **Heroic** | DC 25 | Overriding a starship reactor core during a battle; surviving a lethal vacuum breach. |
-| **Legendary** | DC 30 | Re-routing an ancient Progenitor meta-dimensional conduit. |
-| **Godlike** | DC 35+ | Reshaping reality across planetary sectors. |`,
+| **Trivial** | CR 5 | Operating a standard civilian console; walking a sturdy beam. |
+| **Easy** | CR 10 | Driving on a paved road; patching a minor hydraulic leak. |
+| **Moderate** | CR 15 | Slicing a corporate terminal; picking a standard magnetic lock. |
+| **Hard** | CR 20 | Bypassing military biometric security; stabilizing a fatal arterial wound. |
+| **Heroic** | CR 25 | Overriding a starship reactor core during a battle; surviving a lethal vacuum breach. |
+| **Legendary** | CR 30 | Re-routing an ancient Progenitor meta-dimensional conduit. |
+| **Godlike** | CR 35+ | Reshaping reality across planetary sectors. |`,
     mechanic: `Unopposed DC = 15 + Size Modifier + Range Penalty + Movement Modifier
-Design DC = (TL * 2) + (ML * 3) + Base Component Difficulty`,
+Design CR = (TL * 2) + (ML * 3) + Base Component Difficulty`,
     guide: `1. Establish planetary TL and ML before designing scenes.
-2. Use Base DC 15 for average tasks under pressure; adjust in +/- 5 increments.
+2. Use Base CR 15 for average tasks under pressure; adjust in +/- 5 increments.
 3. When resolving opposed checks, award ties to the defending party.`,
     note: `Keep the story moving: if a roll fails by 1-2 points, offer a Success at a Cost rather than a hard roadblock.`
   },
@@ -89,7 +89,7 @@ Design DC = (TL * 2) + (ML * 3) + Base Component Difficulty`,
 | **Score** | Attributes | Raw modifier of an Attribute (e.g. Strength +2). | -5 to +10 (Caps vary by Species/Tier) |
 | **BP** | Creation | **Build Points**. Character creation currency. | Standard: 150 BP |
 | **AP** | Progression | **Award Points**. Experience points spent 1-for-1 like BP ($1\\text{ AP} = 1\\text{ BP}$). | Standard: 1-3 AP/session |
-| **DC** | Mechanics | **Difficulty Class**. Target number to meet or exceed. | 0 (Simple) to 40+ (Godlike) |
+| **DC** | Mechanics | **Challenge Rating**. Target number to meet or exceed. | 0 (Simple) to 40+ (Godlike) |
 | **Karma** | Resources | Heroic meta-currency pool for rerolls. | Base 3. Refreshes per Session. |
 | **Tier** | Scale | Power scale for items, adversaries, and zones. | Tier 0 (Civilian) to Tier 5 (Cosmic) |
 
@@ -118,7 +118,7 @@ Standard Metric: **1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes = 10,000 UDU
 | **Stigma** | Social | Reaction penalty resulting from prejudice or xenophobia. | Variable penalty to social checks. |`,
     mechanic: `1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes = 10,000 UDU
 Essence Pool = (STR + AGI + STA + INT + WIS + CHA) + Attune Rank
-Crafting Value Formula: Value = 10 * 4^(DC / 5) Credits`,
+Crafting Value Formula: Value = 10 * 4^(CR / 5) Credits`,
     guide: `Reference this glossary for canonical term definitions, formulas, and math ranges.`,
     note: `All modules, apps, and calculators strictly adhere to these UDU capacity and attribute formulas.`
   }

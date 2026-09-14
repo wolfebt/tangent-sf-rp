@@ -23,7 +23,7 @@ const HazmatVolumeManagerModal = ({
   const [selectedType, setSelectedType] = useState('radiation_leak');
   const [zoneLabel, setZoneLabel] = useState('Radiation Hotspot');
   const [zoneRadius, setZoneRadius] = useState(120);
-  const [saveDc, setSaveDc] = useState(14);
+  const [saveCr, setSaveDc] = useState(14);
   const [tickDamage, setTickDamage] = useState(6);
   const [appliedCondition, setAppliedCondition] = useState('Irradiated');
 
@@ -32,7 +32,7 @@ const HazmatVolumeManagerModal = ({
     if (!haz) return;
     setSelectedType(typeKey);
     setZoneLabel(haz.name);
-    setSaveDc(haz.saveDc);
+    setSaveDc(haz.saveCr);
     setTickDamage(haz.tickDamage);
     setAppliedCondition(haz.condition);
   };
@@ -47,7 +47,7 @@ const HazmatVolumeManagerModal = ({
       x: 300 + Math.random() * 200,
       y: 300 + Math.random() * 200,
       radius: parseInt(zoneRadius, 10) || 120,
-      saveDc: parseInt(saveDc, 10) || 14,
+      saveCr: parseInt(saveCr, 10) || 14,
       tickDamage: parseInt(tickDamage, 10) || 6,
       condition: appliedCondition,
       color: selectedType === 'radiation_leak' ? '#eab308' : selectedType === 'toxic_gas' ? '#22c55e' : selectedType === 'vacuum_breach' ? '#a855f7' : selectedType === 'plasma_fire' ? '#f97316' : '#06b6d4'
@@ -168,10 +168,10 @@ const HazmatVolumeManagerModal = ({
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] text-slate-400 uppercase font-bold">Save DC</label>
+                  <label className="text-[10px] text-slate-400 uppercase font-bold">Save CR</label>
                   <input
                     type="number"
-                    value={saveDc}
+                    value={saveCr}
                     onChange={(e) => setSaveDc(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-700 rounded px-2 py-1 text-xs text-slate-200 mt-1 font-mono"
                   />
@@ -233,7 +233,7 @@ const HazmatVolumeManagerModal = ({
                             {zone.label || hazType.name}
                           </h4>
                           <p className="text-[10px] text-slate-400 font-mono">
-                            DC {zone.saveDc} • Dmg: {zone.tickDamage} • Radius: {zone.radius}px
+                            DC {zone.saveCr} • Dmg: {zone.tickDamage} • Radius: {zone.radius}px
                           </p>
                         </div>
                       </div>

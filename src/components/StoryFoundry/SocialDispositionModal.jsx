@@ -143,7 +143,7 @@ const SocialDispositionModal = ({
     }
 
     if (onBroadcastMessage) {
-      onBroadcastMessage(`[SOCIAL NEGOTIATION]: ${activeHero.label} rolled ${selectedAction.label} vs ${activeNpc.label}: Total ${rollTotal} vs DC ${targetDc} — ${shift.shiftReason}`);
+      onBroadcastMessage(`[SOCIAL NEGOTIATION]: ${activeHero.label} rolled ${selectedAction.label} vs ${activeNpc.label}: Total ${rollTotal} vs CR ${targetDc} — ${shift.shiftReason}`);
     }
   };
 
@@ -329,7 +329,7 @@ const SocialDispositionModal = ({
           {/* Roll Action Button */}
           <div className="flex items-center justify-between pt-2 border-t border-slate-800">
             <span className="text-[11px] text-slate-400">
-              Formula: <span className="font-mono text-cyan-300">2d10 + {selectedAction.attribute} + {selectedAction.skill} vs DC {currentDef.baseDc}</span>
+              Formula: <span className="font-mono text-cyan-300">2d10 + {selectedAction.attribute} + {selectedAction.skill} vs CR {currentDef.baseDc}</span>
             </span>
 
             <button
@@ -350,7 +350,7 @@ const SocialDispositionModal = ({
                 <span>🎲</span> {lastCheckResult.heroLabel} ({lastCheckResult.actionLabel}): [{lastCheckResult.d1}, {lastCheckResult.d2}] + {lastCheckResult.totalMod} = <span className="text-amber-300 text-sm">{lastCheckResult.rollTotal}</span>
               </span>
               <span className={lastCheckResult.shift.marginOfSuccess >= 0 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
-                Target DC {lastCheckResult.targetDc} (Margin {lastCheckResult.shift.marginOfSuccess >= 0 ? `+${lastCheckResult.shift.marginOfSuccess}` : lastCheckResult.shift.marginOfSuccess})
+                Target CR {lastCheckResult.targetDc} (Margin {lastCheckResult.shift.marginOfSuccess >= 0 ? `+${lastCheckResult.shift.marginOfSuccess}` : lastCheckResult.shift.marginOfSuccess})
               </span>
             </div>
             <p className="text-[11px] text-slate-300">{lastCheckResult.shift.shiftReason}</p>

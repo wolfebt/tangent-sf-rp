@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","combat-matrix"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -41,12 +41,12 @@ Rules for combat in microgravity, explosive decompression, vacuum exposure, radi
 
 ## 1. Microgravity & Zero-G Combat
 - **Newtonian Recoil:** Firing a kinetic ballistic weapon without magnetic boots or thrusters pushes the shooter backward 5 feet and imposes a **-2 penalty on subsequent attacks**.
-- **Movement:** Moving in Zero-G requires an **Athletics (Zero-G) or Acrobatics check (DC 10)** to push off surfaces. Failing the check leaves the character drifting uncontrollably.
+- **Movement:** Moving in Zero-G requires an **Athletics (Zero-G) or Acrobatics check (CR 10)** to push off surfaces. Failing the check leaves the character drifting uncontrollably.
 
 ---
 
 ## 2. Vacuum Exposure & Decompression
-- **Explosive Decompression:** Suffer 2d6 explosive trauma; immediate Fortitude save (DC 15) to avoid lung rupture.
+- **Explosive Decompression:** Suffer 2d6 explosive trauma; immediate Fortitude save (CR 15) to avoid lung rupture.
 - **Vacuum Exposure:**
   - Round 1: Gas escapes lungs; character is stunned.
   - Round 2: Blood boiling begins; takes **2d10 environmental damage** per round.

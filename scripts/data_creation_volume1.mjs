@@ -68,7 +68,7 @@ Characters are defined by **6 Primary Attributes**, each paired with a dedicated
 | **Wisdom (WIS)** | Intuition, situational awareness, willpower | **Will** | Mental defense, resisting psionic domination, fear checks. |
 | **Charisma (CHA)** | Social presence, leadership, voice timbre | **Etiquette** | Diplomatic negotiation, deceit detection, command morale. |`,
     mechanic: `Attribute Modifier Range: -5 to +10
-Sub-Attribute Check = d20 + Sub-Attribute Bonus + Relevant Skill Rank`,
+Sub-Attribute Check = 2d10 + Sub-Attribute Bonus + Relevant Skill Rank`,
     guide: `Sub-attributes serve as saving throw modifiers against hazards and spells.`,
     note: `Raising a Primary Attribute by +1 score automatically increases linked Sub-Attribute checks by +2.`
   },
@@ -107,7 +107,7 @@ Tangent divides damage into two primary layers to represent the difference betwe
 - Immune to biological toxins, bleeding, and organic disease.
 - Requires mechanical repair kits, nano-lathes, and Engineering checks to restore.`,
     mechanic: `Damage Flow: Incoming Damage - Armor DR -> Vitality -> Health (overflow).
-At 0 Health: Character falls Unconscious and makes Mortal Wound Fortitude checks (DC 15).`,
+At 0 Health: Character falls Unconscious and makes Mortal Wound Fortitude checks (CR 15).`,
     guide: `Track Vitality as your active combat cushion; preserve Health points at all costs.`,
     note: `Critical hits by default deal double damage to Vitality, or may bypass directly to Health with specialized features.`
   },
@@ -133,7 +133,7 @@ At 0 Health: Character falls Unconscious and makes Mortal Wound Fortitude checks
 - **Base Pool:** Every character starts with **3 Karma Points** (can be augmented by Luck attributes and features).
 - **Session Refresh:** Karma fully refreshes to its maximum pool at the beginning of each game session.
 - **Spending Karma:**
-  - **Heroic Reroll (1 Karma):** Reroll any failed d20 check (must keep the second result).
+  - **Heroic Reroll (1 Karma):** reroll any failed 2d10 check (must keep the second result).
   - **Defy Death (2 Karma):** Automatically succeed on a fatal Mortal Wound stabilization check.
   - **Surge Action (1 Karma):** Gain +1 bonus Action in a tactical combat round.
   - **Narrative Twist (1 Karma):** Introduce a plausible favorable detail to the immediate scene with Architect consent.`,
@@ -172,7 +172,7 @@ Tangent features three distinct rest cycles to balance tactical recovery and ext
 ## 3. Full Rest & Sleep (8 Hours)
 - **Time Required:** 8 hours of uninterrupted rest in a safe habitat or starship cabin.
 - **Recovery:** Restores **100% of Vitality Pool**, restores **Stamina Score + 5 Health Points**, and clears all standard fatigue levels.
-- Medical attention (Physician DC 15 check) during a Full Rest doubles Health recovery.`,
+- Medical attention (Physician CR 15 check) during a Full Rest doubles Health recovery.`,
     mechanic: `Respite: d10 + Stamina Vitality
 Light Rest (2h): 100% Vitality
 Full Rest (8h): 100% Vitality + (Stamina + 5) Health`,
@@ -199,7 +199,7 @@ When a character's Health reaches **0**, they collapse into a critical state whe
 
 ## Dying State & Mortal Checks
 - At 0 Health, the character falls **Incapacitated** and gains the **Dying condition**.
-- At the start of each combat round, make a **Fortitude Check (DC 15)**:
+- At the start of each combat round, make a **Fortitude Check (CR 15)**:
   - **Success:** Stabilizes; character remains unconscious but is no longer bleeding out.
   - **Failure:** Suffers **1 Mortal Wound mark**.
   - **Critical Failure (Fail by 5+):** Suffers **2 Mortal Wound marks**.
@@ -212,7 +212,7 @@ If a deceased character is brought back to life via ultra-advanced TL5 cyber-sur
 1. **Karma Reset:** Immediate loss of all current Karma points (resets to 0).
 2. **-5 Experience Debt:** The existential trauma imposes a **-5 AP Debt**.
 3. Future AP awards must pay down this debt 1-for-1 before normal advancement resumes, or by reducing existing traits.`,
-    mechanic: `Bleed Out DC: Fortitude DC 15 per round
+    mechanic: `Bleed Out DC: Fortitude CR 15 per round
 Revivification Penalty: Reset Karma to 0, incur -5 AP Experience Debt`,
     guide: `Allies should use First Aid or Trauma Kits immediately to stabilize dying squadmates.`,
     note: `Stabilization removes the Dying condition, leaving the character unconscious at 0 Health.`
@@ -318,8 +318,8 @@ Locomotion in Tangent encompasses five primary modes: **Ground, Flying, Swimming
 | :--- | :---: | :---: | :---: | :--- |
 | **Walk** | **1x** | 30 ft / rd | Baseline | None |
 | **Jog** | **2x** | 60 ft / rd | **-2 penalty** | None |
-| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | Athletics DC 10+ (every min, cum. -1) |
-| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | Athletics DC 15+ (every min, cum. -1) |
+| **Running** | **4x** *(5x with Runner)* | 120 ft *(150 ft)* | **-4 penalty** | Athletics CR 10+ (every min, cum. -1) |
+| **Sprinting** | **6x** *(7x with Runner)* | 180 ft *(210 ft)* | **-8 penalty** | Athletics CR 15+ (every min, cum. -1) |
 | **Crawl** | **1/2x** | 15 ft / rd | **+2 stealth**; Prone | None |
 | **Slow Crawl** | **1/4x** | 7.5 ft / rd | **+4 stealth**; Prone | None |
 
@@ -330,10 +330,10 @@ Locomotion in Tangent encompasses five primary modes: **Ground, Flying, Swimming
 | :--- | :---: | :---: | :---: | :--- |
 | **Flight** | **1x Fly (2x Walk)** | 60 ft / rd | Baseline | None |
 | **Sail** | **2x Fly (4x Walk)** | 120 ft / rd | **-2 penalty** | None |
-| **Surge / Soar** | **4x Fly (8x Walk)** | 240 ft *(300 ft with Soar)* | **-4 penalty** | Acrobatics DC 10+ (cum. -1/min) |
-| **Diving** | **2x Current** | Up to 480+ ft | **-4 penalty** | Acrobatics DC 15+ |
-| **Gliding** | Maintains speed, drops 1ft / 5ft horiz | 60 ft / rd | **+2 bonus** | Acrobatics DC 10+ |
-| **Hover / Descent** | **1/2 Fly or less** | 30 ft or static | Baseline | Acrobatics DC 15+ |
+| **Surge / Soar** | **4x Fly (8x Walk)** | 240 ft *(300 ft with Soar)* | **-4 penalty** | Acrobatics CR 10+ (cum. -1/min) |
+| **Diving** | **2x Current** | Up to 480+ ft | **-4 penalty** | Acrobatics CR 15+ |
+| **Gliding** | Maintains speed, drops 1ft / 5ft horiz | 60 ft / rd | **+2 bonus** | Acrobatics CR 10+ |
+| **Hover / Descent** | **1/2 Fly or less** | 30 ft or static | Baseline | Acrobatics CR 15+ |
 
 - **High Ground Tactical Advantage:** Flying above ground targets grants **+2 Strike / +2 Crit**.
 - **Aerial Rams:** Deal **+1d per Flight Stage + 1 Impact Damage per 10 ft of speed** to all colliding entities.
@@ -342,19 +342,19 @@ Locomotion in Tangent encompasses five primary modes: **Ground, Flying, Swimming
 
 ## 3. Swimming, Climbing & Burrowing Paces
 - **Swimming:** Standard 15 ft / rd (1/2 walk). Glide (30 ft), Stroke (60 ft), Treading (7.5 ft).
-- **Climbing:** Scaling (30 ft at -5 check), Fast Ascent (60 ft at -10 check), Fast Descent (120 ft, DC 20).
+- **Climbing:** Scaling (30 ft at -5 check), Fast Ascent (60 ft at -10 check), Fast Descent (120 ft, CR 20).
 - **Burrowing:** Standard 7.5 ft / rd (1/4 walk). Tunneling (15 ft, -2 mod), Excavation (3.75 ft).
 
 ---
 
 ## 4. Movement Fatigue Rules
-- **Sprint Trigger:** 5 consecutive combat rounds of sprinting forces a **Stamina Fortitude Check (DC 15)**.
-- **Hurried Travel Trigger:** 10 minutes of hurried pace forces a **Stamina Fortitude Check (DC 15)**.
+- **Sprint Trigger:** 5 consecutive combat rounds of sprinting forces a **Stamina Fortitude Check (CR 15)**.
+- **Hurried Travel Trigger:** 10 minutes of hurried pace forces a **Stamina Fortitude Check (CR 15)**.
 - **Failure:** Incurs **5 points of non-lethal Vitality damage** (+1 pt per 5 points missed below DC).
 - **Depletion to Exhaustion:** At 0 Vitality, takes **2 Health damage** and gains the **Exhausted condition** (-2 to all active checks, half speed) until taking a Light Rest.`,
     mechanic: `Base Pace: 30 ft / 6-sec round.
 Sprint: 6x base pace.
-Fatigue Check: Fortitude DC 15 after 5 rounds of sprint or 10 min of hurried march.`,
+Fatigue Check: Fortitude CR 15 after 5 rounds of sprint or 10 min of hurried march.`,
     guide: `Track tactical movement speeds on grid hexes (1 square = 5 ft).`,
     note: `Encumbrance reduces base pace by 5 to 15 ft depending on armor weight.`
   },

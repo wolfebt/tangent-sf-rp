@@ -13,7 +13,7 @@ export const RULEBOOK_CORPUS = [
     keywords: ['2d10', 'roll', 'check', 'critical', 'fumble', 'triumph', 'double', 'skill check', 'resolution'],
     summary: 'Roll 2d10 + Skill Level + Linked Attribute + Situational Modifiers vs. Target Defense DC.',
     content: `All checks in Tangent SF RP utilize the 2d10 Dual-Resolution System.
-- **Roll Formula:** 2d10 + Skill Rank + Linked Attribute Modifier + Modifiers vs. DC.
+- **Roll Formula:** 2d10 + Skill Rank + Linked Attribute Modifier + Modifiers vs CR.
 - **Critical Triumph (Natural Double 10s):** Counts as an automatic 30 on the dice plus modifiers. Triggers exceptional narrative breakthrough or max weapon damage.
 - **Critical Fumble (Natural Double 1s):** Counts as an automatic -10 on the dice plus modifiers. Triggers weapon malfunction, accidental slip, or adverse complication.
 - **Margin of Success (MoS):** If Roll exceeds DC by 10 or more (MoS ≥ 10), the strike achieves a Critical Hit (+50% bonus damage).`
@@ -41,10 +41,10 @@ export const RULEBOOK_CORPUS = [
     source: 'Architect’s Field Manual',
     page: 52,
     keywords: ['massive damage', 'death clock', 'death', 'stabilize', 'dying', 'incapacitated', 'stamina', 'unconscious'],
-    summary: 'Lethal hits >= Stamina force a DC 15 Fortitude save; Health at 0 begins a Stamina-round death clock.',
+    summary: 'Lethal hits >= Stamina force a CR 15 Fortitude save; Health at 0 begins a Stamina-round death clock.',
     content: `Wound trauma and mortality mechanics:
-- **Massive Damage Rule:** If a single lethal strike to Health equals or exceeds the target's Stamina (STA) score, the target must immediately make a **DC 15 Fortitude Save** or suffer instant heart failure/fatal shock (Death's Door).
-- **Death Clock:** When an operative's Health drops to 0, they fall unconscious and prone. A countdown begins equal to their **Stamina score in combat rounds**. If not stabilized via Medicine (DC 15) or trauma tech before the clock reaches 0, the operative dies.
+- **Massive Damage Rule:** If a single lethal strike to Health equals or exceeds the target's Stamina (STA) score, the target must immediately make a **CR 15 Fortitude Save** or suffer instant heart failure/fatal shock (Death's Door).
+- **Death Clock:** When an operative's Health drops to 0, they fall unconscious and prone. A countdown begins equal to their **Stamina score in combat rounds**. If not stabilized via Medicine (CR 15) or trauma tech before the clock reaches 0, the operative dies.
 - **Revivification Debt:** If resuscitated from death, the operative carries a **-5 AP Experience Debt** until repaid.`
   },
   {
@@ -115,15 +115,15 @@ export const RULEBOOK_CORPUS = [
     source: 'Economatrix Trade Matrix',
     page: 12,
     keywords: ['economy', 'price', 'credits', 'tsc', 'dc', 'valuation', 'trade', 'margin', 'cost'],
-    summary: 'Item base cost follows V = 10 * 4^(DC / 5) with planetary trade code multipliers.',
+    summary: 'Item base cost follows V = 10 * 4^(CR / 5) with planetary trade code multipliers.',
     content: `Canonical market pricing in the TSC (Terran Standard Credit) system:
-- **Core Formula:** Value V = 10 * 4^(DC / 5).
+- **Core Formula:** Value V = 10 * 4^(CR / 5).
 - **Examples:**
-  - DC 5 Item = 40 TSC (Basic tool, simple blade)
-  - DC 10 Item = 160 TSC (Standard sidearm, light armor)
-  - DC 15 Item = 640 TSC (Plasma carbine, cybernetic oculars)
-  - DC 20 Item = 2,560 TSC (Military assault mecha hardpoint, starfighter sub-engine)
-  - DC 25 Item = 10,240 TSC (Heavy battleship spinal accelerator)
+  - CR 5 Item = 40 TSC (Basic tool, simple blade)
+  - CR 10 Item = 160 TSC (Standard sidearm, light armor)
+  - CR 15 Item = 640 TSC (Plasma carbine, cybernetic oculars)
+  - CR 20 Item = 2,560 TSC (Military assault mecha hardpoint, starfighter sub-engine)
+  - CR 25 Item = 10,240 TSC (Heavy battleship spinal accelerator)
 - **Trade Codes:** Agricultural worlds discount food/bioware by 25%; Industrial worlds discount tech/weapons by 20%.`
   },
   {

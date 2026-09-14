@@ -192,7 +192,7 @@ addMechanic({
   category: 'combat',
   citation: 'docs/game rules/operator/3.00 COMBAT.md § Limb Damage & Critical Injuries',
   summary: 'Taking 1/3 of Health in damage disables a limb (or causes unconsciousness if Head). Taking 2/3 of Health destroys it.',
-  mechanic_formula: 'Disabled = Damage >= 1/3 Health (Sta Check DC 10 + damage to use) | Destroyed = Damage >= 2/3 Health',
+  mechanic_formula: 'Disabled = Damage >= 1/3 Health (Sta Check CR 10 + damage to use) | Destroyed = Damage >= 2/3 Health',
   rules_text: `Specific body locations have distinct structural thresholds:
 - Disabled (1/3rd Health):
   * Taking 1/3rd of the Health score in damage to a limb disables it (or Unconsciousness if Head).
@@ -216,17 +216,17 @@ addMechanic({
   category: 'combat',
   citation: 'docs/game rules/operator/3.00 COMBAT.md § The Mortality State',
   summary: 'At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (CON + 5) reach 0.',
-  mechanic_formula: 'Stability Points = CON Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine DC 15',
+  mechanic_formula: 'Stability Points = CON Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15',
   rules_text: `When Health Points reach 0, characters enter the Mortality State:
 - Unconscious and Incapacitated: Character falls Prone and is Incapacitated immediately.
 - Bleeding Out: At the beginning of their turn, the character suffers 1 point of Stability Damage.
 - Stability Threshold: Character has Stability Points equal to Constitution Score + 5.
 - Death: When Stability Points reach 0, the character is clinically dead.
-- Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (DC 15).`,
+- Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (CR 15).`,
   examples: [
-    'An operative with CON +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (DC 15), death occurs.'
+    'An operative with CON +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs.'
   ],
-  tags: ['mortality state', '0 hp', 'incapacitated', 'bleeding out', 'stability points', 'con + 5', 'stabilization', 'medicine dc 15']
+  tags: ['mortality state', '0 hp', 'incapacitated', 'bleeding out', 'stability points', 'con + 5', 'stabilization', 'Medicine CR 15']
 });
 
 /* =========================================================================
@@ -275,23 +275,23 @@ addMechanic({
   title: 'Tangent Standard Curve (TSC) & Wealth Score',
   category: 'economatrix',
   citation: 'docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework',
-  summary: 'Item value quadruples every +5 DC increment: Value = 10 * 4^(DC / 5). Purchase DC equals Crafting DC.',
-  mechanic_formula: 'Value = 10 * 4^(DC / 5) | Purchase DC = Crafting DC <= Wealth Score',
+  summary: 'Item value quadruples every +5 DC increment: Value = 10 * 4^(CR / 5). Purchase CR equals Crafting CR.',
+  mechanic_formula: 'Value = 10 * 4^(CR / 5) | Purchase CR = Crafting CR <= Wealth Score',
   rules_text: `The Tangent Economic Matrix establishes that Complexity Determines Value:
-- Tangent Standard Curve (TSC): Value = 10 * 4^(DC / 5).
-  * Base good at DC 0 costs 10 Credits.
-  * DC 5: 40 Credits.
-  * DC 10: 160 Credits.
-  * DC 15 (Standard Ballistic Rifle): 640 Credits.
-  * DC 20 (Plasma Rifle): 2,560 Credits.
-  * DC 25: 10,240 Credits.
-- The Golden Rule of Tangent Wealth: Purchase DC = Crafting DC.
-  * A character may automatically purchase any item with a Crafting DC equal to or less than their Wealth Score without depleting liquid credits or reducing their Wealth Score.
+- Tangent Standard Curve (TSC): Value = 10 * 4^(CR / 5).
+  * Base good at CR 0 costs 10 Credits.
+  * CR 5: 40 Credits.
+  * CR 10: 160 Credits.
+  * CR 15 (Standard Ballistic Rifle): 640 Credits.
+  * CR 20 (Plasma Rifle): 2,560 Credits.
+  * CR 25: 10,240 Credits.
+- The Golden Rule of Tangent Wealth: Purchase CR = Crafting CR.
+  * A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid credits or reducing their Wealth Score.
 - 7 Crafting Timetable Tiers: Tier 1 (1 hr), Tier 2 (8 hrs), Tier 3 (1-3 days), Tier 4 (1-2 wks), Tier 5 (1 mo), Tier 6 (6 mos), Tier 7 (Years/Megastructure).`,
   examples: [
-    'An operative with Wealth Score 16 can automatically requisition any standard gear with Crafting DC 16 or below without spending cash.'
+    'An operative with Wealth Score 16 can automatically requisition any standard gear with Crafting CR 16 or below without spending cash.'
   ],
-  tags: ['economatrix', 'tsc', 'tangent standard curve', 'crafting dc', 'wealth score', 'value', 'credits']
+  tags: ['economatrix', 'tsc', 'tangent standard curve', 'Crafting CR', 'wealth score', 'value', 'credits']
 });
 
 /* =========================================================================
@@ -303,10 +303,10 @@ addMechanic({
   title: 'Metaphysics Triad & Take-10 Invocation Casting',
   category: 'metaphysics',
   citation: 'docs/game rules/operator/4.00 METAPHYSICS.md § Core Mechanics',
-  summary: 'Metaphysics operates on Attune, Discipline, and Invocation. Potency = Key Ability + Discipline Skill + Invocation Level + 10 (or d20).',
-  mechanic_formula: 'Potency = Key Ability + Discipline Skill Level + Invocation Level + 10 (or d20) | Strain = 1 Non-Lethal / 5 pts under DC',
+  summary: 'Metaphysics operates on Attune, Discipline, and Invocation. Potency = Key Ability + Discipline Skill + Invocation Level + 10 (or 2d10).',
+  mechanic_formula: 'Potency = Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10) | Strain = 1 Non-Lethal / 5 pts under CR',
   rules_text: `Reality manipulation operates on a distinct mechanical triad:
-- Attune Skill: General energy channeling skill. Sets the Difficulty Class of Resistance or Attack check.
+- Attune Skill: General energy channeling skill. Sets the Challenge Rating of Resistance or Attack check.
 - Discipline Skill: Manipulates patterns; sets Severity and Damage.
 - Invocations: Codified muscle memory. Users "Take 10" by default on Discipline checks for operational safety.
 - Source Key Ability:
@@ -373,6 +373,118 @@ addMechanic({
     'Operative purchases Companion feature a 2nd time: chooses to unlock a 2nd companion (a 40 CP Sky-Eye Recon Drone) or upgrade the War Hound to Rank 2 (50 CP budget).'
   ],
   tags: ['companions', 'companion feature', 'unlock', '40 cp', 'form package', 'function package', 'chassis', 'biological', 'synthetic', 'metaphysical']
+});
+
+/* =========================================================================
+   6. VITALS & STRUCTURE: BASE VALUES & NO STAMINA BONUS
+   ========================================================================= */
+
+addMechanic({
+  id: 'mech-vitals-30-30-60',
+  title: 'Vitals & Structure: 30 VP / 30 HP / 60 SP Base (No Stamina Bonus)',
+  category: 'vitals',
+  citation: 'docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals & Derivations',
+  summary: 'Characters start with Base Vitality 30, Base Health 30, and Base Structure 60 (for Medium synthetics). Stamina does NOT add to VP or HP, but provides natural DR (Toughness).',
+  mechanic_formula: 'Vitality Base = 30 | Health Base = 30 | Structure Base = 60 * Size Scaling Multiplier | Stamina = Natural DR (Toughness)',
+  rules_text: `Vitals and physical resilience are strictly decoupled from flat stamina additions:
+- Biological Entities:
+  * Base Vitality = 30 points.
+  * Base Health = 30 points.
+  * Stamina does NOT add to base Vitality or Health; instead, Stamina provides point-for-point natural Damage Reduction (DR / Toughness), reducing penetrating damage by a minimum of 1.
+  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).
+- Synthetics, Constructs & Mecha:
+  * Base Structure = 60 Structure Points (SP) for Medium size, adjusted by Size Tier scaling multiplier.
+  * Zero Vitality (VP = 0). Completely immune to non-lethal damage, biological poisons, disease, sleep, and fatigue.`,
+  examples: [
+    'Standard human operative starts with 30 VP and 30 HP. Stamina +3 provides DR 3 natural Toughness against penetrating damage.',
+    'Medium synthetic android starts with 60 SP, 0 VP. A Large synthetic frame (x2 scale) starts with 120 SP.'
+  ],
+  tags: ['vitals', 'vitality', 'health', 'structure', '30 base', '60 base', 'synthetics', 'stamina', 'toughness']
+});
+
+/* =========================================================================
+   7. KARMA POINTS ECONOMY: 6 CANONICAL ACTIONS
+   ========================================================================= */
+
+addMechanic({
+  id: 'mech-karma-spending-actions',
+  title: 'Karma Points Economy & The 6 Canonical Spending Actions',
+  category: 'core_resolution',
+  citation: 'docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md',
+  summary: 'Characters have a default pool of 3 Karma Points (resets per session, no rest recovery). 6 canonical spending actions (1 KP each) provide narrative and tactical agency.',
+  mechanic_formula: 'Starting Pool = 3 KP | 6 Actions @ 1 KP each | Karmic Debt Limit = Charisma + 1',
+  rules_text: `Karma represents tactical luck and narrative control:
+- Pool Management:
+  * Starting baseline is 3 Karma Points.
+  * Resets to full at the start of each session; does NOT recover through short or long rest.
+  * Maximum pool increased by the Karmic Blessing feature (+1 per rank) or GM story milestones.
+- The 6 Canonical Karma Spending Actions (1 KP each):
+  1. "I Got This": Declared BEFORE rolling. Grants Advantage on any single roll (attacks, saves, checks, damage).
+  2. "Not What I Meant": Declared IMMEDIATELY AFTER an initial roll. Discard and reroll an Ability Check or non-combat Skill Check (must accept 2nd result; combat/attack rolls excluded).
+  3. "Shake it Off": Declared anytime suffering a temporary condition. Reduces condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).
+  4. "Second Wind": 1 full minute of focus replaces a Light Rest; recharges daily limited-use abilities, traits, and special attacks.
+  5. "So Mote it Be": Declared simultaneously with a metaphysical skill/feat. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feat.
+  6. "By Will Alone": Declared with GM approval. Push past normal limits or emulate a feature for a scene.
+- Negative Karma (Karmic Debt):
+  * May spend into negative karma up to Charisma score + 1. GM may impose Disadvantages or NPC luck bonuses.`,
+  examples: [
+    "Operative declares 'I Got This' before firing a plasma sniper shot: rolls 2d10 attack twice with Advantage.",
+    "Operative afflicted by Stunned spends 1 KP on 'Shake it Off' to reduce condition severity to dazed."
+  ],
+  tags: ['karma', 'karma points', 'i got this', 'not what i meant', 'shake it off', 'second wind', 'so mote it be', 'by will alone', 'karmic debt']
+});
+
+/* =========================================================================
+   8. AUGMENTATIONS: BODY ALTERATION TIERS (NO MAX STRAIN)
+   ========================================================================= */
+
+addMechanic({
+  id: 'mech-augmentations-body-alteration-tiers',
+  title: 'Augmentation System: Body Alteration Tiers (No Max Strain)',
+  category: 'technology',
+  citation: 'docs/game rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md',
+  summary: 'The Augmentation system has NO max strain. Tiers are defined by physical body alteration percentages: Augmentation (<20%), Heavy Augmentation (<50%), and Severe Augmentation (>50% up to FBC).',
+  mechanic_formula: 'Tier 1: Augmentation (<20% alteration) | Tier 2: Heavy Augmentation (<50% alteration) | Tier 3: Severe Augmentation (>50% up to FBC)',
+  rules_text: `Cybernetic and biological modifications are categorized without strain ceilings:
+- Strain Ceilings Removed: There is NO maximum strain score limiting cyberware installation.
+- The 3 Body Alteration Tiers:
+  1. Augmentation (Tier 1): < 20% body alterations. Minor prosthetics, sensory upgrades, standard subdermal armor, and utility cyberware.
+  2. Heavy Augmentation (Tier 2): < 50% body alterations. Extensive industrial/military hardware, structural skeletal reinforcement, and bulky limbs.
+  3. Severe Augmentation (Tier 3): > 50% body alterations up to Full Body Conversion (FBC). More machine or bio-construct than original being; allows radical physiological and size alterations.
+- Negligible Fashionware (< 5%): Basic subdermal ID chips, cosmetic bioware, and skinwatches require no feature.`,
+  examples: [
+    'Operative replaces a cybernetic forearm (<20% body alteration): classified as Tier 1 Augmentation.',
+    'Operative undergoes Full Body Conversion (>50% body alteration): classified as Tier 3 Severe Augmentation.'
+  ],
+  tags: ['augmentations', 'cybernetics', 'bioware', 'no max strain', 'body alteration', 'heavy augmentation', 'severe augmentation', 'full body conversion']
+});
+
+/* =========================================================================
+   9. MECHA: UNIVERSAL VEHICULAR TAXONOMY
+   ========================================================================= */
+
+addMechanic({
+  id: 'mech-mecha-vehicles-all-sorts',
+  title: 'Mecha Taxonomy: Vehicles Across All Form Factors',
+  category: 'technology',
+  citation: 'docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md',
+  summary: 'Mecha encompasses vehicles of all sorts across the entire technological spectrum — from hoverboards, motorcycles, and cars to power armor, walkers, fighter jets, and starships.',
+  mechanic_formula: 'Mecha Classification: Personal/Mount -> Ground Vehicle -> Power Armor -> Walker -> Atmospheric Aircraft -> Starship',
+  rules_text: `Mecha is the universal vehicle and vehicular chassis classification in Tangent:
+- Universal Scope: Mecha is not limited to giant humanoid robots. It spans:
+  * Personal Conveyances: Hoverboards, mag-skiffs, jump-harnesses.
+  * Wheeled & Ground Vehicles: Motorcycles, technicals, armored cars, tanks.
+  * Exoskeletons & Power Armor: Powered battle suits, heavy environmental rigs.
+  * Walkers: Bipedal, tripedal, and quad-legged tactical combat walkers.
+  * Atmospheric Aircraft: Fighter jets, VTOL gunships, planetary shuttles.
+  * Spacecraft & Starships: System corvettes, frigates, cruisers, dreadnoughts.
+- Vitals & Scale: All mecha operate on Structure Points (60 SP base for Medium size), scaled by the 14 volumetric size categories.
+- Modular Sockets: Mecha feature modular socket allocations for weapon hardpoints, sensor suites, shield capacitors, and meta-tech invocation modules.`,
+  examples: [
+    'A military combat hoverboard is classified under Mecha as a Small personal vehicle with Structure Points.',
+    'An orbital fighter jet is classified under Mecha as a Large/Huge aircraft operating with mecha chassis rules.'
+  ],
+  tags: ['mecha', 'vehicles', 'hoverboards', 'motorcycles', 'cars', 'power armor', 'walkers', 'fighter jets', 'starships']
 });
 
 /* =========================================================================

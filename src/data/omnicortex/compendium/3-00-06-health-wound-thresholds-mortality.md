@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","combat-matrix"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -97,7 +97,7 @@ When a character's Health Points reach 0, they enter the **Mortality State**:
 2. **Bleeding Out:** At the beginning of the character's turn, they suffer **1 point of Stability Damage**.
 3. **Stability Threshold:** A character has a Stability Points total equal to their **Constitution Score + 5**.
 4. **Death:** If Stability Points reach 0, the character expires.
-5. **Stabilization:** First aid via Medicine Check (DC 15) or metaphysical healing stabilizes the character.
+5. **Stabilization:** First aid via Medicine Check (CR 15) or metaphysical healing stabilizes the character.
 
 ## Game Mechanics Rules
 ```

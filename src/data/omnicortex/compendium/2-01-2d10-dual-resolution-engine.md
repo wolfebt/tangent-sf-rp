@@ -16,7 +16,7 @@ The Tangent Roleplaying System is driven by a canonical **two-ten-sided-dice (2d
 
 $$\text{Check Result} = 2d10 + \text{Skill Rank} + \text{Linked Attribute Modifier} + \text{Situational Modifiers}$$
 
-- **Success:** If the total strictly exceeds the Target Difficulty Class (**DC** / **CR**) or Opposed Defense score, the action succeeds.
+- **Success:** If the total strictly exceeds the Target Challenge Rating (**DC** / **CR**) or Opposed Defense score, the action succeeds.
 - **Failure:** If the total is less than or equal to the Opposed Defense score, or less than the DC/CR, the action fails.
 - **Natural Roll Extremes:**
   - **Natural 20 (Double 10s):** Critical Success. Doubles base weapon damage dice, adds $+30$ to base attack score, or triggers special surge.
@@ -34,6 +34,6 @@ When an action is actively resisted by another conscious entity (e.g. Combat Str
 
 ### 2. Unopposed Checks (Static Environmental Tasks)
 When a character interacts with a static object, bypasses security, or targets a stationary, unaware, or surprised foe:
-- Attacker rolls against a Challenge Rating (**CR**) or Difficulty Class (**DC**):
+- Attacker rolls against a Challenge Rating (**CR**) or Challenge Rating (**DC**):
   - Baseline for an unaware/stationary medium target within short range: **CR 15 (Average)**.
   - Baseline CR 15 is modified by target Size (e.g. Tiny $-4$, Large $+2$, etc.), Range, and Movement Speed.

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","core-engine-manual"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -87,7 +87,7 @@ Traumatic physical impact from vectors generally larger than the target's body (
 - **Concussive / Impact:** Traumatic whole-body damage split equally between Vitality and Health; halves or ignores DR.
 
 ### Energy Damage Types
-- **Pyro / Fire:** Burns and incinerates; crits inflict the **Burning** status effect (1d6 Fire/round + Will DC 12 panic).
+- **Pyro / Fire:** Burns and incinerates; crits inflict the **Burning** status effect (1d6 Fire/round + Will CR 12 panic).
 - **Cryo / Cold:** Endothermic chill slowing movement; crits inflict the **Freeze** status effect (Speed 0, vulnerable).
 - **Spectral / Phase:** Incorporeal energy that **ignores physical Armor DR entirely** to disrupt life essence.
 - **Sonic / Sound:** Vibrational acoustic resonance that **ignores most physical armor** and deafens foes.

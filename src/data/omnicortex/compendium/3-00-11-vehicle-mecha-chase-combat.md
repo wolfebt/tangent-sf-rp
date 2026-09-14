@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","combat-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -62,7 +62,7 @@ Vehicular combat operates on the standard 6-second Combat Round:
   - *Depth Bands:* Surface (standard), Periscope Depth (concealment), Deep (breaches are catastrophic).
 - **Atmospheric (Aerial):**
   - *Dogfight:* Opposed Pilot checks at start of round. Winner gains **Advantage** on attacks and chooses positioning (Tail/Flank); loser is **Flat-Footed** against winner.
-  - *Stalling:* Flying below Stall Speed requires **DC 20 Pilot check** or craft enters terminal fall.
+  - *Stalling:* Flying below Stall Speed requires **CR 20 Pilot check** or craft enters terminal fall.
 - **Interstellar (Space):**
   - *Newtonian Drift:* Maintains velocity in zero-G; cut engines to drift silently (Stealth).
   - *Heat Signatures:* Firing energy weapons or thrusters flares signature (passive detection). Active ping required for "Cold" ships.

@@ -53,7 +53,7 @@ If Health is 0 and Vitality is depleted (0), the character enters the "Death's D
 
   * #### **Stabilization**
 
-  A successful Medicine (DC 15\) check or the application of healing magic/tech stops the clock. The character remains unconscious but is no longer dying.
+  A successful Medicine (CR 15\) check or the application of healing magic/tech stops the clock. The character remains unconscious but is no longer dying.
 
   * #### **Death**
 
@@ -87,7 +87,7 @@ This is the return from the dead option. It is generally rare, involves high-lev
 ## Canonical Mechanics
 0 Health: Incapacitated immediately, drop items, fall Prone.
 Death's Door (0 Health & 0 Vitality): Character is Comatose. Clock = Stamina score rounds (min 1 round) to receive medical aid.
-Stabilization: DC 15 Medicine check or healing magic/tech stops clock.
+Stabilization: CR 15 Medicine check or healing magic/tech stops clock.
 Death: Permanent if clock runs out.
 Massive Damage: Taking single hit >= STA while at Death's Door causes instant permanent death.
 Revivification (The High Cost of Dying): Requires rare TL5 tech or high Metaphysics. Penalty: Lose ALL remaining Karma Points and suffer -5 Experience Debt (reduction in traits or future experience).

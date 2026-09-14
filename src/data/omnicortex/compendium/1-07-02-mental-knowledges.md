@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","skill-codex"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.806Z"
 costs:
   bp: 0
   credits: 0
@@ -67,11 +67,11 @@ Knowledge skills represent formal education, specialized scientific disciplines,
 
 ## Game Mechanics Rules
 ```
-KnowledgeCheck = d20 + KnowledgeRank + IntellectMod vs DC
+KnowledgeCheck = 2d10 + KnowledgeRank + IntellectMod vs CR
 ```
 
 ## Gameplay Instructions
 Knowledge checks allow characters to recall lore, analyze technical systems, and perform complex research.
 
 ## Designer Notes
-Characters without training in specialized sciences (e.g. Physics, Metaphysics) may only attempt basic DC 10 checks.
+Characters without training in specialized sciences (e.g. Physics, Metaphysics) may only attempt basic CR 10 checks.

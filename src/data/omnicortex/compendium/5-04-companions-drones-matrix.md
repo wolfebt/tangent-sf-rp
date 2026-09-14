@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-5","companions","drones","mounts"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -43,7 +43,7 @@ Companions encompass autonomous combat drones, biological hunting beasts, famili
 | Companion Class | Control Link | Base HP / Structure | Attack Profile | Special Function |
 | :--- | :--- | :---: | :--- | :--- |
 | **Recon Drone** | Neural / Comms Link | 15 Structure | Stun Dart (1d6 Non-lethal) | 360-degree thermal sensor, stealth flight (+6). |
-| **Combat War-Hound**| Verbal / Pheromonal | 35 Health | Bite (2d6+2 Kinetic, Trip) | Scent tracking (DC 10), takedown grapple. |
+| **Combat War-Hound**| Verbal / Pheromonal | 35 Health | Bite (2d6+2 Kinetic, Trip) | Scent tracking (CR 10), takedown grapple. |
 | **Security Automaton**| Data Uplink | 60 Structure | Integrated Blaster (2d8 Energy) | Bodyguard reaction (absorbs hit for master). |
 | **Aetheric Familiar** | Psionic Resonance | 20 Health | Mind Shock (1d10 Psychic) | Telepathic relay, extends master spell range +30m. |
 | **Cyber-Steed Mount**| Saddle Rig / Neural | 80 Structure | Trample (2d10 Impact) | Ground Pace 90 ft / round, carrying capacity 300kg. |
@@ -53,7 +53,7 @@ Companions encompass autonomous combat drones, biological hunting beasts, famili
 ## II. Command & Action Economy
 - **Direct Command (1 Action):** Master spends 1 action to command companion to execute a specialized maneuver or attack.
 - **Autonomous Sub-routine:** If uncommanded, companion executes default defensive posture or returns to master's side.
-- **Loyalty & Morale Checks:** Biological companions make Will/Loyalty checks (DC 15) when reduced below 50% Health or facing supernatural terror.
+- **Loyalty & Morale Checks:** Biological companions make Will/Loyalty checks (CR 15) when reduced below 50% Health or facing supernatural terror.
 
 ## Game Mechanics Rules
 ```
@@ -65,4 +65,4 @@ Drone Control Radius: Standard Comms = 500m; Neural Link = Line of Sight.
 Equip combat drones with socket mods (extra sensor packages, suppressed thrusters, reinforced plating).
 
 ## Designer Notes
-Destroyed synthetic drones can be repaired via Mechanics DC 15; dead biological beasts require revivification or cloning.
+Destroyed synthetic drones can be repaired via Mechanics CR 15; dead biological beasts require revivification or cloning.

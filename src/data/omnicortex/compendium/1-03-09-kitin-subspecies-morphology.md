@@ -10,7 +10,7 @@ tl: 3
 ml: 1
 cost: 15
 tags: ["compendium","volume-1","species","kitin","arthropod"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -44,7 +44,7 @@ While most Kitin operate in direct consensus with the Hive Mind, unique solitary
 - **Inherent Natural Armor:** Chitinous Exoskeleton granting **DR 4 Kinetic / DR 3 Energy**.
 - **Multi-Limbed Physiology:** 4 arms (2 primary weapon limbs, 2 secondary utility limbs).
 - **Wall Climbing:** Natural climbing pace equal to walking pace (30 ft / round).
-- **Senses:** Darkvision 60 ft, Pheromone Tracking (Scent DC 10).
+- **Senses:** Darkvision 60 ft, Pheromone Tracking (Scent CR 10).
 - **Stigma:** High Social Stigma (-3 to social checks with xenophobic factions).
 
 ## Game Mechanics Rules

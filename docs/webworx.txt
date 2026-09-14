@@ -10,3 +10,26 @@ pillar selections
 
 
 
+
+
+COLORS - the following will be the new assigned colors for our schema - 
+true black (page background) and charcoal (modal backgrounds and slider bars)
+cyan (primary accent for titles, major labels, borders of modals and fields, user id tag)
+
+additional accents/reference colors -
+teal (for any dark green such as VITALITY bars, )
+
+emerald (for any bright green such as karma, bonuses)
+
+saphire (for most blues such as )
+
+rose (for most reds such as HEALTH bars, penalties, hindrances section)
+
+magenta (for dark reds such as augmentations)
+
+amber (for oranges such as meta platform access like comms and database access)
+
+gold (for yellows such as armor and damage reduction values)
+
+electric purple (for strong accents such as energy shields (DR and AP), ADE studio and metaphysics section)
+

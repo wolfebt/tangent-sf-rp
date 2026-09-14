@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","volume-0","glossary","core-rule"]
-updatedAt: "2026-09-12T08:23:46.536Z"
+updatedAt: "2026-09-14T19:51:39.807Z"
 costs:
   bp: 0
   credits: 0
@@ -42,7 +42,7 @@ sockets:
 | **Score** | Attributes | Raw modifier of an Attribute (e.g. Strength +2). | -5 to +10 (Caps vary by Species/Tier) |
 | **BP** | Creation | **Build Points**. Character creation currency. | Standard: 150 BP |
 | **AP** | Progression | **Award Points**. Experience points spent 1-for-1 like BP ($1\text{ AP} = 1\text{ BP}$). | Standard: 1-3 AP/session |
-| **DC** | Mechanics | **Difficulty Class**. Target number to meet or exceed. | 0 (Simple) to 40+ (Godlike) |
+| **DC** | Mechanics | **Challenge Rating**. Target number to meet or exceed. | 0 (Simple) to 40+ (Godlike) |
 | **Karma** | Resources | Heroic meta-currency pool for rerolls. | Base 3. Refreshes per Session. |
 | **Tier** | Scale | Power scale for items, adversaries, and zones. | Tier 0 (Civilian) to Tier 5 (Cosmic) |
 
@@ -74,7 +74,7 @@ Standard Metric: **1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes = 10,000 UDU
 ```
 1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes = 10,000 UDU
 Essence Pool = (STR + AGI + STA + INT + WIS + CHA) + Attune Rank
-Crafting Value Formula: Value = 10 * 4^(DC / 5) Credits
+Crafting Value Formula: Value = 10 * 4^(CR / 5) Credits
 ```
 
 ## Gameplay Instructions

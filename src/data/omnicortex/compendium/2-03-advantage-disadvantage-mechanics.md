@@ -14,8 +14,8 @@ Circumstances in Tangent can grant significant situational leverage (**Advantage
 
 ## Core Rules of Advantage & Disadvantage
 
-- **Advantage:** Roll **two twenty-sided dice ($)** and take the **higher result**. Add your standard skill and attribute modifiers.
-- **Disadvantage:** Roll **two twenty-sided dice ($)** and take the **lower result**. Add your standard skill and attribute modifiers.
+- **Advantage:** Roll **2d10 twice** and take the **higher total** and take the **higher result**. Add your standard skill and attribute modifiers.
+- **Disadvantage:** Roll **2d10 twice** and take the **higher total** and take the **lower result**. Add your standard skill and attribute modifiers.
 
 ---
 
