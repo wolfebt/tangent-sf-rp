@@ -168,3 +168,62 @@ test('Augmentation Stage: getAugmentationStage returns canonical stage', () => {
   assert.equal(getAugmentationStage({ name: 'Matter Reconstruction', stage: 'Extreme' }), 'Extreme');
 });
 
+test('Prerequisite Evaluator: Species never have prerequisites in any way', () => {
+  const blankCharacter = {
+    features: [],
+    skills: {},
+    'skill-athletics-rank': 0
+  };
+
+  const sampleSpecies = {
+    id: 'species-aeld-celestine',
+    name: 'Celestine (Alterian)',
+    category: 'species',
+    parent_species: 'Aeld'
+  };
+
+  // Check with canonical collection key 'species'
+  const resCol = checkPrerequisite(sampleSpecies, blankCharacter, 'species');
+  assert.equal(resCol.hasPrerequisite, false);
+  assert.equal(resCol.isPossessed, true);
+  assert.equal(resCol.unmetReasons.length, 0);
+  assert.equal(resCol.prerequisiteText, '');
+
+  // Check without explicit itemType (falling back to category: 'species')
+  const resCategory = checkPrerequisite(sampleSpecies, blankCharacter);
+  assert.equal(resCategory.hasPrerequisite, false);
+  assert.equal(resCategory.isPossessed, true);
+  assert.equal(resCategory.unmetReasons.length, 0);
+
+  // Check that species name does NOT trigger specialization base skill prerequisite
+  assert.ok(!resCol.unmetReasons.some(r => r.includes('base skill')));
+  assert.ok(!resCategory.unmetReasons.some(r => r.includes('base skill')));
+});
+
+test('Prerequisite Evaluator: Skill Specializations correctly require trained base skill without affecting species', () => {
+  const untrainedChar = {
+    'skill-firearms-rank': 0
+  };
+  const trainedChar = {
+    'skill-firearms-rank': 2
+  };
+
+  const specItem = {
+    name: 'Sniper Rifles',
+    category: 'specializations',
+    baseSkillName: 'Firearms',
+    baseSkillId: 'firearms'
+  };
+
+  const resFail = checkPrerequisite(specItem, untrainedChar, 'specializations');
+  assert.equal(resFail.hasPrerequisite, true);
+  assert.equal(resFail.isPossessed, false);
+  assert.ok(resFail.unmetReasons.some(r => r.includes('Firearms Rank 1+')));
+
+  const resPass = checkPrerequisite(specItem, trainedChar, 'specializations');
+  assert.equal(resPass.hasPrerequisite, true);
+  assert.equal(resPass.isPossessed, true);
+  assert.equal(resPass.unmetReasons.length, 0);
+});
+
+

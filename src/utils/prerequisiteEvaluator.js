@@ -200,6 +200,26 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
 
   const rawItem = typeof item === 'object' ? item : { name: String(item) };
   const typeKey = (itemType || rawItem.category || rawItem.type || 'features').toLowerCase();
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // SPECIES: Species NEVER have prerequisites under any circumstances
+  // ══════════════════════════════════════════════════════════════════════════
+  if (
+    typeKey === 'species' ||
+    typeKey.startsWith('species') ||
+    rawItem.category === 'species' ||
+    rawItem.type === 'species' ||
+    rawItem.parent_species !== undefined ||
+    (typeof rawItem.id === 'string' && rawItem.id.startsWith('species-'))
+  ) {
+    return {
+      hasPrerequisite: false,
+      isPossessed: true,
+      prerequisiteText: '',
+      unmetReasons: []
+    };
+  }
+
   const isAugmentation = typeKey.includes('aug') || rawItem.category === 'augmentations' || rawItem.isAugmentation;
 
   // If no characterData provided (e.g. anonymous browsing outside folio), assume met to avoid breaking UI
@@ -335,7 +355,7 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   // ══════════════════════════════════════════════════════════════════════════
   // 2. SKILL SPECIALIZATIONS PREREQUISITE EVALUATION
   // ══════════════════════════════════════════════════════════════════════════
-  if (typeKey.includes('spec') || rawItem.isSpecialization || options.isSpecialization) {
+  if ((typeKey.includes('specializ') || typeKey === 'specialization' || typeKey === 'specializations') || rawItem.isSpecialization || options.isSpecialization) {
     const baseSkillId = rawItem.baseSkillId || options.baseSkillId || options.skillId;
     const baseSkillName = rawItem.baseSkillName || options.baseSkillName || rawItem.skill || 'Base Skill';
     const rawPrereq = rawItem.prerequisites || rawItem.prereq;

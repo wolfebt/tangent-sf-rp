@@ -641,6 +641,9 @@ export const UniversalCatalogModal = ({
         return nameB.localeCompare(nameA);
       }
       if (sortOption === 'prereq') {
+        if (canonicalColKey === 'species') {
+          return nameA.localeCompare(nameB);
+        }
         const pA = checkPrerequisite(a, characterData, canonicalColKey);
         const pB = checkPrerequisite(b, characterData, canonicalColKey);
         const unmetA = pA.hasPrerequisite && !pA.isPossessed ? 1 : 0;
@@ -1321,8 +1324,11 @@ export const UniversalCatalogModal = ({
                 <tbody className="divide-y divide-slate-800/60">
                   {processedItems.map((item, idx) => {
                     const isSelected = isItemSelected(item);
-                    const prereqResult = checkPrerequisite(item, characterData, canonicalColKey);
-                    const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+                    const isSpeciesCol = canonicalColKey === 'species';
+                    const prereqResult = isSpeciesCol
+                      ? { hasPrerequisite: false, isPossessed: true, prerequisiteText: '', unmetReasons: [] }
+                      : checkPrerequisite(item, characterData, canonicalColKey);
+                    const isPrereqUnmet = !isSpeciesCol && prereqResult.hasPrerequisite && !prereqResult.isPossessed;
                     const itemPillars = (canonicalColKey === 'features' && pillarFeatureSets)
                       ? getPillarFeatureRecommendations(item, pillarFeatureSets, characterData)
                       : [];
@@ -1480,8 +1486,11 @@ export const UniversalCatalogModal = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
               {processedItems.map((item, idx) => {
                 const isSelected = isItemSelected(item);
-                const prereqResult = checkPrerequisite(item, characterData, canonicalColKey);
-                const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+                const isSpeciesCol = canonicalColKey === 'species';
+                const prereqResult = isSpeciesCol
+                  ? { hasPrerequisite: false, isPossessed: true, prerequisiteText: '', unmetReasons: [] }
+                  : checkPrerequisite(item, characterData, canonicalColKey);
+                const isPrereqUnmet = !isSpeciesCol && prereqResult.hasPrerequisite && !prereqResult.isPossessed;
                 const itemPillars = (canonicalColKey === 'features' && pillarFeatureSets)
                   ? getPillarFeatureRecommendations(item, pillarFeatureSets, characterData)
                   : [];
