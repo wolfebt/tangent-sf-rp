@@ -42,9 +42,9 @@ export interface BastionValidationResult {
 
 export class BastionRulesAgent {
   private readonly MAX_BP = 150;
-  private readonly ATTR_BASE = 10;
+  private readonly ATTR_BASE = 0;
   private readonly ATTR_COST_PER_POINT = 5;
-  private readonly SKILL_COST_PER_RANK = 2;
+  private readonly SKILL_COST_PER_RANK = 1;
 
   /**
    * Generates a fully compliant Tangent character statblock with structured output.
@@ -62,8 +62,8 @@ Tech Level: TL${techLevel}
 
 Rules:
 - 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma.
-- Baseline attributes start at 10. Each +1 above 10 costs 5 BP.
-- Skills cost 2 BP per rank (max rank 5 for starting characters).
+- Baseline attributes start at 0 (soft cap +4 at creation). Each +1 costs 5 BP.
+- Skills cost 1 BP per rank (max rank 5 for starting characters).
 - Total BP spent must be exactly 150.
 `;
 
@@ -118,24 +118,28 @@ Rules:
         species: species,
         background: concept,
         attributes: {
-          strength: 13, // +3 = 15 BP
-          agility: 14,  // +4 = 20 BP
-          stamina: 13,  // +3 = 15 BP
-          intellect: 12,// +2 = 10 BP
-          wisdom: 13,   // +3 = 15 BP
-          charisma: 13  // +3 = 15 BP (Total Attr = 90 BP)
+          strength: 3, // 15 BP
+          agility: 4,  // 20 BP
+          stamina: 3,  // 15 BP
+          intellect: 2,// 10 BP
+          wisdom: 3,   // 15 BP
+          charisma: 3  // 15 BP (Total Attr = 90 BP)
         },
         skills: {
-          Firearms: 4,     // 8 BP
-          Athletics: 3,    // 6 BP
-          Perception: 3,   // 6 BP
-          Electronics: 4,  // 8 BP
-          Stealth: 3,      // 6 BP
-          FirstAid: 3,     // 6 BP
-          Demolitions: 3,  // 6 BP
-          Piloting: 2,     // 4 BP
-          Survival: 2,     // 4 BP
-          Melee: 3         // 6 BP (Total Skills = 60 BP)
+          Firearms: 5,     // 5 BP
+          Athletics: 5,    // 5 BP
+          Perception: 4,   // 4 BP
+          Electronics: 4,  // 4 BP
+          Stealth: 4,      // 4 BP
+          FirstAid: 4,     // 4 BP
+          Demolitions: 4,  // 4 BP
+          Piloting: 4,     // 4 BP
+          Survival: 4,     // 4 BP
+          Melee: 5,        // 5 BP
+          Engineering: 4,  // 4 BP
+          Tactics: 4,      // 4 BP
+          Medicine: 4,     // 4 BP
+          Security: 5      // 5 BP (Total Skills = 60 BP)
         },
         traits: [],
         augmentations: []

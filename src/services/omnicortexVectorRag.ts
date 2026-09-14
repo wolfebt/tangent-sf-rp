@@ -7,10 +7,12 @@
 
 import compendiumSeed from '../data/compendiumSeed.json';
 import { BASTION_MECHANICS_DATASET } from '../data/mechanicsData.js';
+import specializedRules from '../data/omnicortexSpecializedRules.json';
+import catalogChunks from '../data/bastionCatalogChunks.json';
 
 export interface RuleChunk {
   id: string;
-  category: 'combat' | 'economatrix' | 'udu' | 'metaphysics' | 'character_creation' | 'planetary' | 'bestiary' | 'factions' | 'species' | 'lore' | 'vitals_integrity' | 'scaling' | 'technology' | 'companions';
+  category: 'combat' | 'economatrix' | 'udu' | 'metaphysics' | 'character_creation' | 'planetary' | 'bestiary' | 'factions' | 'species' | 'lore' | 'vitals_integrity' | 'scaling' | 'technology' | 'companions' | string;
   title: string;
   citation: string;
   text: string;
@@ -262,10 +264,39 @@ function buildMechanicsChunks(): RuleChunk[] {
   });
 }
 
-// Combine Foundational Rules, Mechanics Dataset, and Compendium Seed Articles
+function buildSpecializedRuleChunks(): RuleChunk[] {
+  if (!Array.isArray(specializedRules)) return [];
+
+  return specializedRules.map((r: any) => ({
+    id: `specialized-${r.id}`,
+    category: (r.category || 'combat') as RuleChunk['category'],
+    title: r.name || r.id,
+    citation: `Omnicortex Rule: ${r.id}`,
+    text: `${r.name}\n${r.description || ''}\n${r.body || ''}`.trim(),
+    tags: [...(Array.isArray(r.tags) ? r.tags : []), (r.name || '').toLowerCase(), 'rule', 'tactical']
+  }));
+}
+
+function buildCatalogChunks(): RuleChunk[] {
+  if (!Array.isArray(catalogChunks)) return [];
+
+  return catalogChunks.map((c: any) => ({
+    id: `catalog-${c.id}`,
+    category: (c.domain || 'combat') as RuleChunk['category'],
+    title: c.title,
+    citation: c.citation || 'BASTION Canonical Ruleset Master Catalog',
+    text: c.text,
+    tags: [...(Array.isArray(c.tags) ? c.tags : []), 'catalog', 'canonical', 'ruleset'],
+    formula: c.formula || ''
+  }));
+}
+
+// Combine Foundational Rules, Mechanics Dataset, Catalog Chunks, Specialized Rules, and Compendium Articles
 export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
   ...buildMechanicsChunks(),
+  ...buildCatalogChunks(),
   ...CANONICAL_FOUNDATIONAL_CHUNKS,
+  ...buildSpecializedRuleChunks(),
   ...buildCompendiumChunks()
 ];
 

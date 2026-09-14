@@ -38,7 +38,7 @@ Provide tactical, mathematically precise, immersive, and structured RPG content 
   4. Origin: Canonical Origin from the database (Urban, Spacer, Industrial, Agricultural, Colony, etc., prioritized by archetype recommendations).
   5. Occupation: Canonical Occupation from the database (Soldier, Agent, Specialist, Scholar, etc., prioritized by archetype recommendations).
   All skills, features, traits, and property (weapons/armor) chosen MUST be based directly on these 5 pillars from the Omnicortex database.
-- Dual Resolution & Combat: 2d10 + Attribute + Skill vs. Target Number (11 + Defense). 3 AP + 1 Reaction per round. Multi-Action Penalty (-2 cumulative).
+- Dual Resolution & Combat: 2d10 + Combat Skill + Attribute Mod vs. Target Defense. In opposed rolls, DEFENDER WINS ALL TIES. In unopposed rolls vs. static/unaware targets, baseline is CR 15 (Average, modified by size, range, movement). Skill Tier Action Economy (NO Action Points / AP): Rank 0 (Untrained): Full Round action; Rank 1–5 (Novice): 1 action (+2 Focus); Rank 6–10 (Trained): 2nd action at -5 (+3 Focus); Rank 11–15 (Expert): 3rd action at -10 (+4 Focus); Rank 16–20 (Master): 4th action at -15 (+5 Focus); Rank 21–25: 5th at -20; Rank 26–30: 6th at -25. Active Defense Reactions: Number of reactions governed by Defense Skill Rank, with a cumulative -5 penalty per reaction after the first.
 - Called Shots: Anatomy modifiers (-2 Head, -2 Arms, -1 Legs, -3 Optics). Major Wound Trauma triggers at >= 33.3% Target Max HP in a single strike.
 - Scaling (1.10): 14 Size Categories (Miniscule to Mega Colossal) applying multipliers to weapon dice, SP, speed, range, and starship proximity blast damage.
 - Economatrix: Universal Cost Equation: Cost = Base * (2^TL) * (1.5^ML).

@@ -1,0 +1,902 @@
+[
+  {
+    "id": "advantage-disadvantage",
+    "name": "Advantage & Disadvantage Mechanics",
+    "category": "rules",
+    "description": "# Advantage & Disadvantage Mechanics\n\n## Rolling with Advantage\n- Roll two sets of **2d10** (or more with multiple sources) and select the **highest total**.\n- **Stacking Advantage**: Each additional source of advantage adds an extra 2d10 set to the roll pool.\n- **Karma Point Trigger**: Spending 1 K",
+    "body": "# Advantage & Disadvantage Mechanics\n\n## Rolling with Advantage\n- Roll two sets of **2d10** (or more with multiple sources) and select the **highest total**.\n- **Stacking Advantage**: Each additional source of advantage adds an extra 2d10 set to the roll pool.\n- **Karma Point Trigger**: Spending 1 Karma Point grants Advantage on any single check.\n\n## Rolling with Disadvantage\n- Roll two sets of **2d10** and select the **lowest total**.\n- **Stacking Disadvantage**: Multiple disadvantage penalties add additional 2d10 sets, taking the lowest of all rolled.\n\n## Mutual Cancellation\nAdvantage and Disadvantage cancel each other out on a 1-for-1 basis. If a check has 1 source of Advantage and 1 source of Disadvantage, roll a standard single set of 2d10.",
+    "tags": [
+      "advantage",
+      "disadvantage"
+    ]
+  },
+  {
+    "id": "focused-task",
+    "name": "Focused Task (Concentration Mode)",
+    "category": "rules",
+    "description": "# Focused Task (Concentration Mode)\n\nA character may voluntarily enter an intense state of total focus when performing a critical, delicate task.\n\n## Mechanics\n- **+2 Task Bonus**: Grants **+2 Bonus** to the focused skill check.\n- **-5 Situational Penalty**: Imposes a **-5 Penalty** to all other che",
+    "body": "# Focused Task (Concentration Mode)\n\nA character may voluntarily enter an intense state of total focus when performing a critical, delicate task.\n\n## Mechanics\n- **+2 Task Bonus**: Grants **+2 Bonus** to the focused skill check.\n- **-5 Situational Penalty**: Imposes a **-5 Penalty** to all other checks, passive Defense, and Perception/Alertness.\n- **Duration**: Remains in effect for the full duration of the task. If interrupted, the focus is broken.",
+    "tags": [
+      "focused",
+      "task"
+    ]
+  },
+  {
+    "id": "learning-study",
+    "name": "Learning & Study Mechanics",
+    "category": "rules",
+    "description": "# Learning & Study Mechanics\n\nCharacters can acquire new skills and features through dedicated study periods between adventures.\n\n## Study Periods\n- **Improving Existing Skill**: **1 day per current rank** to attempt gaining the next rank point.\n- **Learning New Skill**: **1d4+1 days** to attempt ga",
+    "body": "# Learning & Study Mechanics\n\nCharacters can acquire new skills and features through dedicated study periods between adventures.\n\n## Study Periods\n- **Improving Existing Skill**: **1 day per current rank** to attempt gaining the next rank point.\n- **Learning New Skill**: **1d4+1 days** to attempt gaining Rank 1.\n- **Learning New Feature**: **1 week** (with instructor) or **2+ weeks** (self-taught).\n\n## Study Check Resolution\nAt the conclusion of the study period, make an **Easy (CR 10) Intellect check**:\n- **Self-Taught**: Success grants **0.5 Skill Points** per period (1 point per 2 periods).\n- **Learning from an Instructor (Trained 6+)**: Grants **+1 to the check per instructor skill tier** and yields **1.0 Skill Point** on success.\n- **Study Aids**: High-quality manuals/holo-courses grant **+1 to +5** bonus to the check.",
+    "tags": [
+      "learning",
+      "study"
+    ]
+  },
+  {
+    "id": "metaphysics-triad",
+    "name": "Metaphysics Triad Framework",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Metaphysics Triad Framework\n\n**Category**: Core Metaphysics & Reality Manipulation Rules  \n\nThe manipulation of reality within the Tangent framework is not merely the recitation of arcane words, but the deliberate restructuring of universal constants through the application of will. This system operates on a distinct triad of mechanics—**Attune**, **Discipline**, and **Invocation**—which collectively allow for the harnessing of powers that defy standard physics.\n\nUnlike \"Vancian\" magic systems where spells are distinct, immutable memory packets that vanish upon use, the Metaphysic system implies a fluid, skill-based manipulation of energy sources, whether they be the Void, the Weave, or the Quantum Field.\n\n```\n+-----------------------------------------------------------------------+\n|                         THE METAPHYSICS TRIAD                         |\n+------------------------------+----------------------------------------+\n| ATTUNE (The Conduit)         | Drawing/Channeling, Resistance DC,     |\n|                              | Evasion DC, & Attack Rolls             |\n+------------------------------+----------------------------------------+\n| DISCIPLINE (The Shape)       | Manipulating patterns, Severity of     |\n|                              | Effects, Duration, Area, & Base Damage |\n+------------------------------+----------------------------------------+\n| INVOCATION (The Codified)    | Rote muscle memory, Operational        |\n|                              | Safety (Take 10), & Stacking Bonus     |\n+------------------------------+----------------------------------------+\n```\n\n---\n\n## 1. Core Mechanics & Awakening\n\nMetafocus Disciplines represent the knowledge and ability to consciously alter reality. This covers all metaphysical powers including Studied Arcanists, Transcendental Psychics, Devout Priests, Akashic Channelers, and Latent Abilities.\n\n### Awakening & Disciplines\n- **Acquisition**: Characters must attain Disciplines through **Awakening**. Skill points must be allotted to **Attune** and each Discipline's **2 Metafocus Skills**.\n- **Expansion**: Additional purchases of Awakening are required to attain other Disciplines (gaining access to the 2 skills from each). *(Note: Attune is learned with the initial Awakening and applies to all).*\n- **Schools of Thought**: Many Schools teaching various disciplines will be limited in teaching others of a like school (e.g., Magic & Magic, Psychic & Psychic). Studying from a different School of Thought may be possible but will be more complicated depending on the severity of the difference.\n\n---\n\n## 2. Skills Breakdown\n\n- **Attune Skill**: A general multi-purpose skill for drawing and channeling energy. Required for all Disciplines. Attune Abilities listed under each Discipline require no check to use.\n- **Metafocus Skills**: The specific skills of manipulating patterns (determines efficiency and severity).\n  - **Minor Abilities**: Cantrips/tricks listed for each skill require no roll to use; benefits are based on the skill stage.\n  - **Sensing**: Used to sense controlled forces at work and identify effects/sources.\n  - **Learning**: Skill checked to learn Invocations and other similar effects.\n\n---\n\n## 3. Source Attribute (The Flavor of Will)\n\nThe **Key Ability** is chosen at Awakening and determines the \"flavor\" of the source:\n\n- **Intelligence Based (Reason and Logic)**: Psychic, Arcane, Akashic.\n- **Wisdom Based (Willpower and Intuition)**: Divine, Nature, Cosmic.\n- **Charisma Based (Confidence and Dominance)**: Bardic, Hereditary, Granted.\n\n---\n\n## 4. The Potency Calculation Formula\n\n$$\\text{Potency} = [\\text{Key Ability} + \\text{Discipline Skill Level} + \\text{Invocation Level} + 10 \\text{ (or } 2d10 \\text{)}]$$\n\n- **Attune Check**: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.\n- **Discipline Check**: Used to determine the severity of Effects and/or Damage.",
+    "tags": [
+      "metaphysics",
+      "triad"
+    ]
+  },
+  {
+    "id": "rule-advancing-target",
+    "name": "Edge: Advancing Target",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Edge: Advancing Target\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nTarget approaching without Cover or Evasion.\n- **Extra Attack**: Defending combatant gains an Extra Attack on the target at **-5 to Strike**.\n- **Initiative Reroll**: Re-roll Initiative if successfully moved into Melee.",
+    "tags": [
+      "advancing",
+      "target"
+    ]
+  },
+  {
+    "id": "rule-area-suppression-blast",
+    "name": "Area Suppression & Blasting Rules",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Area Suppression & Blasting Rules\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nAll Range Penalties are **Doubled** during automatic suppression fire.\n- **General Area**: Targets take **+2 Damage Dice** for every 5 points the attack roll exceeds DC 10.\n- **Focused Blast Zone**: Targets take **+100% Damage Dice** for every 10 points the attack roll exceeds DC 15.",
+    "tags": [
+      "area",
+      "suppression",
+      "blast"
+    ]
+  },
+  {
+    "id": "rule-attack-formula",
+    "name": "2d10 Attack Roll Formula",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Attack Roll Formula\n\n**Category**: Core Combat Rules & Tables\n\n## The Attack Roll Formula\n\\text{Attack Roll} = 2d10 + \\text{Skill Rank} + \\text{Attribute Mod} + \\text{Situational Modifiers} \\quad \\text{vs.} \\quad \\text{Target Defense (DC)}\n\n- **Dual 10s (Total 20)**: Natural Critical Hit (evaluated as 30).\n- **Dual 1s (Total 2)**: Natural Critical Fumble (evaluated as -10).\n- **Defender Wins All Ties** on opposed defense checks.",
+    "tags": [
+      "attack",
+      "formula"
+    ]
+  },
+  {
+    "id": "rule-burst-fire-short",
+    "name": "Burst Fire Mechanics",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Burst Fire Mechanics\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Ammunition**: 3-round burst.\n- **Bonus**: Grants **+1 Strike**.\n- **Range Penalties**: All Range Penalties are **Doubled** during automatic fire.",
+    "tags": [
+      "burst",
+      "fire",
+      "short"
+    ]
+  },
+  {
+    "id": "rule-composite-invocations",
+    "name": "Composite Invocations: The Synthesis of Disciplines",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Composite Invocations: The Synthesis of Disciplines\n\n**Category**: Advanced Metaphysics Rules  \n\nComposite Invocations represent advanced metaphysical synthesis where two or more fundamental spheres of reality manipulation are interwoven into a singular, cohesive phenomenon.\n\n---\n\n## 1. The Synthesis Rule\n\nComposite Invocations require ranks in multiple Disciplines.\n\n> [!IMPORTANT]\n> **The Lowest Skill Rule**: The **Invocation Level is added to the *lowest* of the requisite Discipline Skills used**.  \n> *For example, an Arcanist casting Machine Spirit with Mental 8 and Energy 4 adds their Invocation Level to their Energy skill (4).*\n\n---\n\n## 2. Canonical Synthesis Archetypes\n\n| Synthesis School | Disciplines Combined | Canonical Invocations | Manifestation Description |\n| :--- | :---: | :--- | :--- |\n| **Magitech & Cybermancy** | **Mental + Energy** | *Machine Spirit* (Interface), *Construct Intelligence* (AI) | Direct neural bridging into silicon matrices, manipulating machine spirits and electric computing fields. |\n| **Biostasis & Time Warping**| **Entropy + Dimension**| *Temporal Stasis* (Freeze time), *Accelerated Decay* (Rapid aging) | Interweaving spatial anchors with entropic decay vectors to freeze local chronometers or accelerate biological aging. |\n| **Elemental Constructs** | **Matter + Energy** | *Living Spell* (Minion), *Plasma Forging* (Energy weapons) | Binding thermodynamic plasma into solid crystal lattice structures or animated autonomous entities. |\n| **Spatial Illusions** | **Illusion + Dimension**| *Labyrinth* (Infinite maze), *Shadow Step Assault* (Teleport attacks) | Bending light and space simultaneously to create non-Euclidean infinite mazes and phase-stepping strikes. |\n| **Biomancy** | **Matter + Entropy** | *Life Transfer* (Drain/Heal), *Flesh Crafting* (Reshaping) | Restructuring organic cellular matter, reshaping bone and tissue, and siphoning biological life force. |",
+    "tags": [
+      "composite",
+      "invocations"
+    ]
+  },
+  {
+    "id": "rule-concussive-impact-damage",
+    "name": "Concussive & Impact Damage Rules",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Concussive & Impact Damage Rules\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics & Nature\nConcussive and Impact damage primarily focuses on massive kinetic energy from impacts generally larger than the target's body (smashing, crashing, falling, explosive blast waves).\n- **Whole-Body Dispersion**: Concussive damage is heavily traumatic but dispersed over the entire body.\n- **Vitality / Health Split**: Damage can be **divided equally between Vitality and Health** if the character attempts to reduce the damage, regardless of whether the defensive attempt succeeds.\n\n---\n\n## Armor DR & Force Field Interactions\n- **Crashing**: High-impact vehicle/object collisions. Half DR if Hard Armor (without Crash Suit option); Force Field DR is half effective.\n- **Falling Damage**: Inflicted when falling from greater than character height. **Ignores DR of physical protection and force fields**.\n- **Siege Weapons**: Catapults, rams, ballistae. Half DR if Hard Armor; Force Field DR is half effective.\n- **Explosives**: Blast waves from grenades, mines, and artillery. Half DR of Hard Armor (without Blast Suit option); Force Field DR is half effective.\n- **Gravity Weapons**: Handheld or vehicle gravitational crushers. **Ignores solid armor DR**; Force Field DR is half effective.\n- **Weaponized Force Fields**: Repelling or crushing target-wide force fields. **Ignores DR of solid protection**; Force Field DR is fully effective.",
+    "tags": [
+      "concussive",
+      "impact",
+      "damage"
+    ]
+  },
+  {
+    "id": "rule-damage-calculation",
+    "name": "Master Damage Formula & Resolution",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Master Damage Formula & Resolution\n\n**Category**: Core Combat Rules & Tables\n\n## The Damage Formula\n$$\\text{Total Damage} = (\\text{Weapon Die Damage} + \\text{Relevant Ability Mod} + \\text{Precision Damage}) - (\\text{Target Armor DR} + \\text{Target CON Mod})$$\n\n### Components\n1. **Weapon Die Damage**: Base damage rolled from the weapon used or invocation cast.\n2. **Relevant Ability**: Physical prowess or metaphysical potency added to damage (e.g. Strength, Agility, Intelligence, Charisma, Wisdom).\n3. **Precision Damage**: Bonus directly from the attacker's skill level (relative Combat or Focus Skill) and tactical advantages.\n4. **Target's Armor DR**: Subtracted based on armor effectiveness against that specific damage type.\n5. **Target's CON**: Target's Constitution modifier is subtracted, reflecting innate physiological resilience.\n\n---\n\n## Active Defense & Sneak Attack Modifiers\n- **Active Defense Counter**: A target who is actively defending will reduce incoming damage by their **Defense score** (directly countering Precision Damage).\n- **Sneak Attack Condition**: Sneak Attack damage is added **only if at least 1 point of damage affects the target** after Armor DR is penetrated, evaluated before the target's Stamina/CON modifier.",
+    "tags": [
+      "damage",
+      "calculation"
+    ]
+  },
+  {
+    "id": "rule-damage-types",
+    "name": "Comprehensive Damage Types Directory",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Comprehensive Damage Types Directory\n\n**Category**: Core Combat Rules & Tables\n\nTangent features a rich ecosystem of damage types, categorized into Kinetic, Energy, and Variative/Elemental profiles:\n\n---\n\n## 1. Kinetic Damage Types\n- **Blunt (Crushing)**: Heavy impact trauma against armor plates and skeletal structures.\n- **Slashing (Cutting)**: Edged lacerations causing deep wounds and the **Bleeding** status effect.\n- **Piercing (Puncturing)**: Focused needle/bullet penetration targeting weak points and internal organs.\n- **Force**: Kinetic subtype consisting of concentrated kinetic fields that **ignores 1/2 of Target Armor DR**.\n- **Concussive / Impact**: Whole-body traumatic energy from crashes, falls, and explosions. Split equally between Vitality and Health; ignores or halves DR.\n- **Bleed Damage**: Persistent status effect (1d4 damage/turn, ignores DR) inflicted by slashing/piercing crits.\n\n---\n\n## 2. Energy Damage Types\n- **Pyro / Fire**: Intense heat setting targets ablaze with the **Burning** status effect (1d6/round + panic).\n- **Cryo / Cold**: Endothermic freeze draining speed and inflicting the **Freeze** condition (Speed 0, vulnerable).\n- **Spectral / Phase**: Incorporeal energy that **ignores physical Armor DR entirely** to disrupt life essence.\n- **Sonic / Sound**: Harmonic acoustic resonance that **ignores most physical armor** and deafens foes.\n- **Voltic / Electrical**: Electrostatic arcs stunning targets and overloading cyberware, robotics, and power conduits.\n- **Corrosive / Disintegration**: Acidic chemical dissolution permanently degrading armor DR and melting flesh.\n- **Ra-D / Radiation**: Ionizing gamma rays inducing radiation sickness, cell necrosis, and mutations.\n- **Force Pulse / Disruption**: Destabilizes molecular bonds, crumbling targets and disintegrating matter.\n\n---\n\n## 3. Variative & Elemental Damage Types\n- **Air Elemental**: Concussive atmospheric gales knocking foes **Prone** and disrupting flight.\n- **Fire Elemental**: Primal volcanic flame scorching terrain and applying Burning.\n- **Earth Elemental**: Massive lithic crushing weight and seismic tremors.\n- **Water Elemental**: High-pressure hydraulic torrents causing concussive trauma and drowning.\n- **Radiant / Light**: Pure solar light blinding evil/undead entities with the **Blinded** condition.\n- **Umbral / Shadow**: Primal void darkness leeching vitality and inflicting Exhaustion.\n- **Celestial**: Sacred transcendent power smiting fiends and undead with radiant fury.\n- **Infernal**: Corrupting hellfire and Stygian damnation eroding mind and soul.\n- **Dimensional**: Spacetime tearing and spatial shearing that completely bypasses Armor DR.\n- **Psyche / Mental**: Direct psionic and neural trauma **ignoring physical armor entirely**; resisted by Willpower.",
+    "tags": [
+      "damage",
+      "types"
+    ]
+  },
+  {
+    "id": "rule-edge-modifiers",
+    "name": "EDGE Tactical Advantage Modifiers Overview",
+    "category": "rules",
+    "description": ">-",
+    "body": "# EDGE Tactical Advantage Modifiers Overview\n\n**Category**: Core Combat Rules & Tables\n\n**Edge** refers to tactical advantage modifiers that characters can gain or lose based on their movements, positions, and the environment during combat. These modifiers can significantly influence the outcome of attacks and defense.",
+    "tags": [
+      "edge",
+      "modifiers"
+    ]
+  },
+  {
+    "id": "rule-flying-high-ground-bonus",
+    "name": "Aerial High Ground Bonus",
+    "category": "rules",
+    "description": "Combat bonuses gained by airborne combatants engaging grounded targets.",
+    "body": "# Aerial High Ground Bonus\n\n**Category**: Tactical Combat & Movement  \n\n## High Ground Mechanics\n- Any flying combatant operating with an elevation advantage over grounded targets gains the **High Ground Bonus**:\n  - **+2 Strike Bonus** to attack rolls.\n  - **+2 Critical Threat Bonus** (expanding critical strike threshold).",
+    "tags": [
+      "flying",
+      "high",
+      "ground",
+      "bonus"
+    ]
+  },
+  {
+    "id": "rule-flying-ram-impact-damage",
+    "name": "Aerial Ramming & Kinetic Impact Rules",
+    "category": "rules",
+    "description": "Damage calculations for aerial collisions and flyer ram attacks.",
+    "body": "# Aerial Ramming & Kinetic Impact Rules\n\n**Category**: Tactical Combat & Movement  \n\n## Ramming Formula\n\\text{Aerial Ram Damage} = +1d \\text{ per Flight Stage} + 1 \\text{ Impact Damage per 10 ft of Movement Speed}\n\n- **Flight Stages**:\n  - Flight (Stage 1): +1d damage\n  - Sail (Stage 2): +2d damage\n  - Surge / Soar (Stage 3): +3d damage\n  - Dive (Stage 4): +4d damage\n- **Mutual Damage**: Damage applies to ALL involved parties (Attacker and Target(s)).\n- **Crash Rules**: Standard crash, structural damage, and stability checks also apply.",
+    "tags": [
+      "flying",
+      "ram",
+      "impact",
+      "damage"
+    ]
+  },
+  {
+    "id": "rule-full-auto-iterative",
+    "name": "Full Auto Iterative Hits",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Full Auto Iterative Hits\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Volume**: 10+ rounds fired.\n- **Recoil Penalty**: **-1 Recoil Penalty** per 10 rounds fired.\n- **Range Penalties**: All Range Penalties are **Doubled** during automatic fire.\n- **Effect**: For every point the Attack Roll exceeds the Defense DC, an **additional bullet hits** (up to total rounds fired).\n- **Damage**: Initial hit deals normal damage. Each extra hit deals **+1d Damage** (only if the initial hit penetrated DR).",
+    "tags": [
+      "full",
+      "auto",
+      "iterative"
+    ]
+  },
+  {
+    "id": "rule-high-ground",
+    "name": "Edge: High Ground",
+    "category": "rules",
+    "description": "Elevated positioning grants +2 to Strike and +2 to Critical Damage Range.",
+    "body": "# Edge: High Ground\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Strike Bonus**: **+2 to Strike**.\n- **Critical Window**: **+2 to Critical Damage Range**.",
+    "tags": [
+      "high",
+      "ground"
+    ]
+  },
+  {
+    "id": "rule-hit-location-arms",
+    "name": "Hit Location: Arms (-2 to -5)",
+    "category": "rules",
+    "description": "Arms: Called Shot -2. Upper Arm: -3. Forearm: -3. Hand: -4. Digits: -5.",
+    "body": "# Hit Location: Arms (-2 to -5)\n\n**Category**: Core Combat Rules & Tables\n\n## Targeting Modifiers & Trauma\n- **Arms (Left and Right)**: Hits can disable use of weapons, shields, or held items. **Called Shot -2**.\n- **Upper Arm**: **Called Shot -3**.\n- **Forearm**: **Called Shot -3**.\n- **Hand**: **Called Shot -4**.\n- **Digits**: **Called Shot -5**.",
+    "tags": [
+      "hit",
+      "location",
+      "arms"
+    ]
+  },
+  {
+    "id": "rule-hit-location-head",
+    "name": "Hit Location: Head (-2 to -5)",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Hit Location: Head (-2 to -5)\n\n**Category**: Core Combat Rules & Tables\n\n## Targeting Modifiers & Trauma\n- **Head**: Critical hits to Cranium/Face, often resulting in double damage or instant death condition. **Called Shot -2**.\n- **Neck / Throat**: Highly vulnerable area; risk of suffocation or fatal bleeding. **Called Shot -4**.\n- **Specific (Eyes, Ears, Nose)**: Precision sensory destruction; causes blindness, deafness, or sensory shock. **Called Shot -5**.",
+    "tags": [
+      "hit",
+      "location",
+      "head"
+    ]
+  },
+  {
+    "id": "rule-hit-location-legs",
+    "name": "Hit Location: Legs (-2 to -5)",
+    "category": "rules",
+    "description": "Legs: Called Shot -2. Thigh: -3. Shin: -3. Foot: -4. Digits: -5.",
+    "body": "# Hit Location: Legs (-2 to -5)\n\n**Category**: Core Combat Rules & Tables\n\n## Targeting Modifiers & Trauma\n- **Legs (Left and Right)**: Hits can reduce movement speed and cause the target to fall prone. **Called Shot -2**.\n- **Thigh**: **Called Shot -3**.\n- **Shin**: **Called Shot -3**.\n- **Foot**: **Called Shot -4**.\n- **Digits**: **Called Shot -5**.",
+    "tags": [
+      "hit",
+      "location",
+      "legs"
+    ]
+  },
+  {
+    "id": "rule-hit-location-specialized",
+    "name": "Hit Location: Specialized Appendages",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Hit Location: Specialized Appendages\n\n**Category**: Core Combat Rules & Tables\n\n## Targeting Modifiers & Trauma\nFor xenotypes, synthetics, and beasts with non-humanoid anatomy:\n- **Full Limb Size**: **Called Shot -2**.\n- **Half-Limb Size or Thin**: **Called Shot -3**.\n- **Hand Size or Fibrous**: **Called Shot -4**.",
+    "tags": [
+      "hit",
+      "location",
+      "specialized"
+    ]
+  },
+  {
+    "id": "rule-hit-location-torso",
+    "name": "Hit Location: Torso (-1 to -4)",
+    "category": "rules",
+    "description": "Torso: Called Shot -1. Chest: -2. Abdomen: -2. Groin/Pelvis: -4.",
+    "body": "# Hit Location: Torso (-1 to -4)\n\n**Category**: Core Combat Rules & Tables\n\n## Targeting Modifiers & Trauma\n- **Torso**: Most common hit area, containing vital internal organs. **Called Shot -1**.\n- **Chest**: Upper torso, heart and lungs; risk of cardiac shock and gasping. **Called Shot -2**.\n- **Abdomen**: Lower torso, stomach, intestines, bladder. **Called Shot -2**.\n- **Groin / Pelvis**: Low weak point location; severe debilitating pain and mobility loss. **Called Shot -4**.",
+    "tags": [
+      "hit",
+      "location",
+      "torso"
+    ]
+  },
+  {
+    "id": "rule-hit-locations-d10",
+    "name": "Hit Locations & Called Shots (d10 Table)",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Hit Locations & Called Shots (d10 Table)\n\n**Category**: Core Combat Rules & Tables\n\n## Hit Location Determination\nRoll **1d10** on a critical hit or when random location is required. In Melee and Unarmed combat, roll **1d6** unless a Leg Attack or specific maneuver is declared.\n\n### Called Shot Modifiers\n- **Torso or Leg**: **-2 Strike Penalty**\n- **Head or Arm**: **-4 Strike Penalty**\n\n---\n\n## Locations & Trauma Saves Table\n\n| Roll (d10) | Location | Trauma Effect | Save & Failure Severity |\n| :---: | :--- | :--- | :--- |\n| **1** | **HEAD** | **KO** | **Reason Save** or Stunned for 1+ rounds*; failure by 10+ = **Unconscious**. |\n| **2, 3, 4** | **TORSO** | **Winded** | **Fortitude Save** or cumulative -2 on actions for 1+ rounds*; failure by 10+ = **Gasping / Incapacitated**. |\n| **5 (R) or 6 (L)** | **ARM** | **Disarmed** | **Reflex Save** or drop held item; failure by 10+ = **Arm Crippled / Non-Functional**. |\n| **7, 8 (R) or 9, 0 (L)**| **LEG** | **Hobbled** | **Might Save** or half speed for 1+ rounds*; failure by 10+ = **Leg Crippled / Non-Functional**. |\n\n\\* **Duration of Impediment**: 1 round per point rolled under the save CR (where CR is based directly on the damage dealt).",
+    "tags": [
+      "hit",
+      "locations",
+      "d10"
+    ]
+  },
+  {
+    "id": "rule-initiative-reflex",
+    "name": "Initiative Reflex Check",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Initiative Reflex Check\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n\\text{Initiative} = 2d10 + \\text{Reflex Save} + \\text{Agility Mod}\n\n- **Turn Order**: High roll goes first; descending order of initiative totals.\n- **Ties**: Resolved in order of higher Agility score, then higher Alertness skill rank.\n- **Modifiers**: Situational modifiers apply based on the encounter context (e.g., Ambush, Surprise Round).",
+    "tags": [
+      "initiative",
+      "reflex"
+    ]
+  },
+  {
+    "id": "rule-limb-destroyed-2-3",
+    "name": "Limb Damage: Destroyed Threshold (2/3 Health)",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Limb Damage: Destroyed Threshold (2/3 Health)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Threshold**: Taking **2/3rds of Health Score** in damage to an area damages it **beyond ANY further use** (Brain Death** if Head).\n- **No Check**: There is **NO saving throw or Stamina check**; the limb is mangled and useless.\n- **Traumatic Shock**: Traumatic Damage Control is immediately required for shock, blood loss, and vital collapse.\n- **Brain Death Discretion**: Brain death is at the GM's discretion (as any instant kill). If the character survives, they remain permanently disabled without intense recovery, surgery, and downtime.",
+    "tags": [
+      "limb",
+      "destroyed"
+    ]
+  },
+  {
+    "id": "rule-limb-disabled-1-3",
+    "name": "Limb Damage: Disabled Threshold (1/3 Health)",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Limb Damage: Disabled Threshold (1/3 Health)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Threshold**: Taking **1/3rd of Health Score** in damage to a limb disables it (or causes Unconsciousness if dealt to the Head).\n- **Stamina Check**: The character must pass a **Stamina Check with CR = 10 + Damage Taken** to keep using the limb.\n- **Debilitating Penalties**:\n  - **Head**: **-4 on all actions**.\n  - **Arm**: **-4 Strength and Agility** for actions using that arm.\n  - **Leg**: **Half Ground Speed** and **no Rush Maneuver**.\n- **Healing**: Medical attention or Metaphysics is required to properly restore function.",
+    "tags": [
+      "limb",
+      "disabled"
+    ]
+  },
+  {
+    "id": "rule-meta-combat-countering",
+    "name": "Meta Combat & Counter Effects",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Meta Combat & Counter Effects\n\n**Category**: Core Metaphysics & Combat Rules  \n\nCombat involving metaphysical manifestations follows precise attack and counter-nullification protocols.\n\n---\n\n## 1. The Attack Roll\n- **Attack Check**: **Attune** is used for the Attack Roll:\n  $$\\text{Meta Attack Roll} = 2d10 + \\text{Attune Rank} + \\text{Key Ability Mod} + \\text{Situational Modifiers}$$\n- **Target Defense**: The defender opposes the attack using standard combat defenses (Reflex / Evasion / Will / Fortitude depending on whether the effect is a projectile, psychic blast, or bio-curse).\n- **Potency Resolution**: Damage, range, and secondary conditions are determined by the active Metafocus Skill and Invocation.\n\n---\n\n## 2. Counter Effect (Nullifying Incoming Invocations)\nA defender with metaphysical awareness may actively attempt to unravel and counter an incoming effect before it manifests:\n\n```\n+-------------------------------------------------------------------------+\n|                       TWO-STEP COUNTER EFFECT FLOW                      |\n+-------------------------------------------------------------------------+\n| STEP 1: OPPOSED ATTUNE CHECK                                            |\n| Both Attacker and Defender make an Attune check.                         |\n| -> Defender must exceed the Attacker's result to seize the conduit.     |\n+-------------------------------------------------------------------------+\n| STEP 2: OPPOSED METAFOCUS SKILL CHECK                                   |\n| If Defender succeeds in Step 1, both roll their relevant Discipline.    |\n| -> Attacker Wins: Effect resolves normally.                             |\n| -> Defender Wins: Effect is completely countered and nullified.         |\n+-------------------------------------------------------------------------+\n```\n\n### Resolution Rules:\n- **Defender Wins Opposed Skill Check**: The incoming invocation collapses into harmonic static; zero damage or effects occur.\n- **Attacker Wins Opposed Skill Check**: The counter attempt fails to disrupt the weave; the invocation resolves with full potency.",
+    "tags": [
+      "meta",
+      "combat",
+      "countering"
+    ]
+  },
+  {
+    "id": "rule-meta-sensory-manifestations",
+    "name": "Codex: Meta-Sensory Manifestations & Colorations",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Codex: Meta-Sensory Manifestations & Colorations\n\n**Category**: Metaphysics Aesthetics & Visual Semiotics  \n\nIn the Tangent Universe, the \"Meta\" is not a single uniform force. It is shaped by the mind, philosophy, and culture of the wielder. A *Thermal Lance* cast by a Mekan logic-priest looks fundamentally different from one cast by a Draconian Sorcerer.\n\n---\n\n## I. Psychic Manifestations (The Mind)\n*Root Disciplines: Mental, Dimension, Energy (Force)*  \nPsychic power is the imposition of Will upon Reality, rewriting local probability without relying on external ritual.\n\n### A. Controlled (Logic / Telekinetic)\n- **Archetypes**: The Mekan, The Analyst, The Tactician.\n- **Concept**: The mind as a computer or architect. Energy is perfectly efficient, wasted on nothing.\n- **Visuals**: Defined geometrics (hexagons, fractals, grids); hard-light shields looking like laser-cut crystal.\n- **Palette**: Electric Cyan (raw data), Circuitry Black (printed line negative space), Neon Orange (combat mode).\n- **Sensory**: High-pitched electronic whines, server hums, glass snapping; smooth, frictionless, cold static texture.\n\n### B. Focused (Discipline / Telepathic)\n- **Archetypes**: The Impyrium Centurion, The Monk, The Judge.\n- **Concept**: The mind as a lens. Power gathered and projected in a singular, overwhelming vector.\n- **Visuals**: Dense, opaque lines and beams of unwavering solid color; flat planes of light.\n- **Palette**: Solar White (pure), Royal Purple (gravity manipulation), Gold (auras and defensive wards).\n- **Sensory**: Deep resonating thrum (like a massive bell), absolute silence; heavy, oppressive, warm texture.\n\n### C. Wild (Empathic / Raw)\n- **Archetypes**: The Wild Talent, The Mondi, The Feral Psychic.\n- **Concept**: The mind as a storm. Power leaks, bleeds, and reacts to raw emotion.\n- **Visuals**: Smoky transitions (watercolor bleeding into water); rapidly melting colors; heat hazes and oil-slick rainbows.\n- **Palette**: Bruised Violet (raw psychic force), Magenta (intense emotional output), Pearlescent (shifting hues).\n- **Sensory**: Whispering voices, static white noise, heartbeat rhythm; viscous, humid, \"pins and needles\" texture.\n\n---\n\n## II. Magic Manifestations (The Weave)\n*Root Disciplines: Energy (Elemental), Matter, Illusion*  \nMagic is the hacking of the universe's source code using ancient formulas, equations, or somatic rituals.\n\n### A. Arcane (High Magic / Tech-Magic)\n- **Archetypes**: The Alterian Arcanist, The Scholar, The Artificer.\n- **Concept**: Magic as Science. Complex, formulaic, elegant.\n- **Visuals**: Glowing equations, floating runes, silver/gold wireframe filigrees, constellation lines.\n- **Palette**: Platinum Silver (neutral arcane), Sapphire Blue (information/transport), Starlight White.\n- **Sensory**: Crystalline chimes, turning pages sound, resonant harmonics; sharp, metallic, ozone lightning texture.\n\n### B. Nature (Primal / Verdant)\n- **Archetypes**: The Thorn, The Auluran Shaman, The Druid.\n- **Concept**: Magic as Life. It grows, consumes, and cycles.\n- **Visuals**: Motes and spores of glowing pollen; bioluminescent mists; rapid spectral roots and vines.\n- **Palette**: Toxic Green (acids/poisons), Amber (preservation/shielding), Sickly Yellow (decay).\n- **Sensory**: Rustling leaves, snapping branches, chittering insects; humid, sticky, organic, loam smell.\n\n### C. Void (Entropic / Eldritch)\n- **Archetypes**: The Sha'Nor, The Necromancer, The Warlock.\n- **Concept**: Magic as Absence. It deletes reality.\n- **Visuals**: Negative space \"holes\" where light cannot exist; reality cracking like glass; fluid shadow smoke.\n- **Palette**: Vantablack (absolute absence), Cold Grey (ash), Invisible Distortion (bending light).\n- **Sensory**: Ice cracking, vacuum sucking in air, unnerving silence; freezing cold, numbing, \"wrongness.\"\n\n---\n\n## III. Divine Manifestations (The Will)\n*Root Disciplines: Entropy (Order/Chaos), Energy (Radiant)*  \nDivine power is about commanding reality through absolute conviction and spiritual authority.\n\n### A. Celestial (The Light / Order)\n- **Archetypes**: The Ascendancy Judge, The Paladin, The Healer.\n- **Concept**: Authority. The power is undeniable and overwhelming.\n- **Visuals**: Descending ethereal rays; halos behind the head/hands; weightless floating debris.\n- **Palette**: Burnished Gold (metallic, heavy), Blinding White, Sky Blue (restorative).\n- **Sensory**: Choir-like harmonics, clear trumpet note, thunder; warm, solid, comforting texture.\n\n### B. Infernal (The Flame / Chaos)\n- **Archetypes**: The Cultist, The Destroyer, The Anarchist.\n- **Concept**: Corruption. The power burns, rusts, and taints what it touches.\n- **Visuals**: Shadow flame producing darkness; erratic jagged arcs; instant surface corrosion and rot.\n- **Palette**: Blood Red (visceral crimson), Sulfur Yellow, Charcoal Ash.\n- **Sensory**: Screaming metal, roaring fire, discordant screeching; burning heat, gritty ash, nauseating.\n\n---\n\n## IV. Discipline-Specific Colorations Reference Table\n\n| Discipline | Primary Color | Secondary Color | Texture / Form |\n| :--- | :--- | :--- | :--- |\n| **Dimension** | Deep Indigo | Void Black | Warping, folding, portals, rifts. |\n| **Energy (Fire)** | Orange/Red | White Hot | Flickering, consuming, plasma-like. |\n| **Energy (Force)** | Transparent | Pale Blue | Distortion waves, solid impact walls. |\n| **Energy (Elec)** | Blue/White | Violet | Jagged arcs, stroboscopic flashes. |\n| **Energy (Cold)** | Glacial Blue | Frost White | Crystalline growth, mist, brittle snapping. |\n| **Energy (Sonic)** | Transparent | Silver Ripples | Distortion waves, vibration blur, shattering glass. |\n| **Energy (Corrosive)**| Sickly Yellow | Smoking Grey | Bubbling liquid, dissolving matter, toxic fumes. |\n| **Entropy (Chaos)** | Sickly Green | Grey/Black | Rusting, decaying, mist, smoke. |\n| **Entropy (Order)** | Geometric Gold | Crystal White | Perfect lattices, interlocking shields. |\n| **Entropy (Healing)**| Vibrant Life Green | Soft Gold | Rapid cell growth, knitting flesh, warm pulse. |\n| **Illusion** | Shimmering | Oil-Slick | Mirrored surfaces, haze, glitches. |\n| **Matter** | Earth Tones | Metallic Sheen | Solidification, density, transmutation. |\n| **Mental** | Pink/Magenta | Cyan | Ripples, pulses, glowing eyes. |",
+    "tags": [
+      "meta",
+      "sensory",
+      "manifestations"
+    ]
+  },
+  {
+    "id": "rule-metafocus-damage",
+    "name": "Metafocus: Invocations & Damage Resolution",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Metafocus: Invocations & Damage Resolution\n\n**Category**: Core Metaphysics & Combat Rules  \n\n## 1. The Potency & Severity Calculation\nThe potency of any metaphysical effect is calculated as follows:\n\n$$\\text{Potency Score} = [\\text{Key Ability} + \\text{Discipline Skill Level} + \\text{Invocation Level} + 10 \\text{ (or } 2d10 \\text{)}]$$\n\n- **Attune Check**: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.\n- **Discipline Check**: Used to determine the severity of Effects and/or Damage.\n\n---\n\n## 2. Damage Calculation\n- **Standard Scaling**: **1d6 per Stage achieved** with the check (after all modifiers).\n  - Novice (Stage 1): 1d6\n  - Trained (Stage 2): 2d6\n  - Expert (Stage 3): 3d6\n  - Master (Stage 4): 4d6\n  - Pinnacle (Stage 5): 5d6\n- **Discipline Exception**: Specific Disciplines, like **Force** (under Energy), utilize **d8s** as a specific exception (`1d8 per Stage`), but `d6` is the standard across all other disciplines.\n\n---\n\n## 3. Meta Combat & Attack Resolution\n- **Attack Roll**: **Attune** is used for the Attack Roll.\n- **Target Defense**: Target defense is treated similarly to physical or ranged attacks (Evasion / Reflex / Will depending on effect type).\n- **Damage, Range & Factors**: Determined by the level of the active Metafocus Skill and Invocation.\n\n---\n\n## 4. Counter Effect (Nullification)\nA defender may actively attempt to nullify an incoming metaphysical effect:\n\n- **Step 1 (Attune Opposed)**: **Attune** is rolled by both Attacker and Defender.\n- **Step 2 (Opposed Metafocus Check)**: If the Defender achieves a higher success on the Attune check, they may immediately make an **Opposed Metafocus Skill check** against the incoming effect.\n- **Resolution**:\n  - If the **Attacker succeeds** the opposed check, the Effect resolves normally.\n  - If the **Defender wins**, the incoming Effect is completely **countered and nullified**.",
+    "tags": [
+      "metafocus",
+      "damage"
+    ]
+  },
+  {
+    "id": "rule-metafocus-levels",
+    "name": "Metafocus Level (ML 0–6) & Skill Caps",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Metafocus Level (ML 0–6) & Skill Caps\n\n**Category**: Core Metaphysics & Civilization Rules  \n\nComparable to the Technological Level (TL) of a society, the **Metafocus Level (ML)** determines the prominence, legality, and cultural saturation of Metaphysics within a civilization or demographic.\n\n---\n\n## 1. Metafocus Level Classifications\n\n| ML | Classification | Description | Typical Examples | Max Discipline Rank |\n| :---: | :--- | :--- | :--- | :---: |\n| **0** | **Null** | No native Meta users. Physical laws strictly rigid. | None | **Rank 0** |\n| **1** | **Rare** | Negligible ratio of Meta Users; likely to be harshly judged, feared, or highly expected of. | Skeptical societies / Most frontier races | **Rank 2** |\n| **2** | **Selective** | More ‘in tune’ people but in minorities or reclusive. Early stage of Enlightenment. | Special Ops, Esoteric Cults, Enclaves | **Rank 4** |\n| **3** | **Cultured** | Uncommon but accepted Meta Usage (Adepts of various types). Awakened as a recommended feature of the species. | Aulurans, Dracon Dynasty, Impyrium | **Rank 6** |\n| **4** | **Standardized** | Common Meta Usage; used by many and evident in daily society. Awakened as a granted feature of the species. | Alterians, Impyrium Regi, Psion | **Rank 8** |\n| **5** | **Advanced** | Very Common Meta Usage; prominent usage by everyone in communication and infrastructure. | Mondi, Shar Knor | **Rank 10** |\n| **6** | **Deific** | Transcended; casually affecting reality. **NOT AVAILABLE TO PCs**. | Progenitor types / Cosmic Architects | **Unlimited (NPC Only)** |\n\n---\n\n## 2. Starting Skill Cap Formula\n\nDouble the planetary or background ML to determine a starting character’s maximum level in Metafocus Discipline Skills:\n\n$$\\text{Max Starting Discipline Rank} = \\text{ML} \\times 2$$\n\n> [!IMPORTANT]\n> **Attune Exemption**: The **Attune** skill is the conduit through which all metaphysics flows and is **not limited by ML**. A character from an ML 1 society may cultivate a high Attune rank even while their specific Discipline ranks remain capped at 2.",
+    "tags": [
+      "metafocus",
+      "levels"
+    ]
+  },
+  {
+    "id": "rule-metaphysics-casting-checks",
+    "name": "Metaphysic Checks, Difficulty & Critical Outcomes",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Metaphysic Checks, Difficulty & Critical Outcomes\n\n**Category**: Core Metaphysics & Adjudication Rules  \n\nMetaphysical actions are resolved through the distinct interplay of the **Attune Check** (drawing and targeting energy) and the **Discipline Check** (shaping severity, magnitude, and damage).\n\n---\n\n## 1. Free-Casting vs. Codified Invocations\n\n### Free-Casting (Spontaneous)\n- Involves narrating an improvised effect within the thematic sphere of the character's active Discipline.\n- **Process**:\n  1. Make an **Attune check** to draw and channel energy (sets resistance DC or attack roll).\n  2. Make a **Discipline check** to determine severity, magnitude, and area.\n- **Risks**: High volatility; Essence is consumed upfront, and failures inflict Internalized Strain.\n\n### Invocations (Codified)\n- Represents perfected, rote muscle memory etched into neural pathways.\n- **Bonus**: Invocation Levels are added directly to the Discipline Skill checks they are based on *(Invocations are considered Discipline Specializations)*.\n- **Operational Safety**: The user effectively **\"Takes 10\"** by default on the Discipline check:\n  $$\\text{Default Potency} = \\text{Key Ability Mod} + \\text{Discipline Skill Level} + \\text{Invocation Level} + 10$$\n- A roll (using $2d10$ instead of 10) may still be voluntarily attempted if a higher result is desired.\n\n---\n\n## 2. Metaphysic Checks & Difficulty Scale\n\nBase DC for activating a Metafocus Discipline or Invocation:\n- **Very Easy (DC 5)**: Safe Quiet Area, Sanctum, Laboratory, Library. (0 Essence)\n- **Easy (DC 10)**: Casual, Non-Hostile Environment, Walking, Passenger in Vehicle. (0 Essence)\n- **Average (DC 15)**: Very Active or Hostile Environment, Vigorous Movement, Combat. (1 Essence)\n- **Difficult (DC 20)**: Extreme Activity, Crashing, Uncontrolled Fall. (2 Essence)\n- **Very Difficult (DC 25)**: High-Intensity Chaos, Environmental Catastrophes. (3 Essence)\n- **Nearly Impossible (DC 30)**: Legendary Feats, Global Reality Shifts. (4 Essence)\n- **Miraculous (DC 35)**: Progenitor-tier interactions (rarely for PCs). (5 Essence)\n\n---\n\n## 3. Criticals, Surges & Failures\n\n| Outcome | Trigger / Condition | Mechanical Effect |\n| :--- | :--- | :--- |\n| **Critical Success** | Natural 20 / Double 10s | **+30 bonus to the check** and a dramatic, transcendent improvement of the effect. |\n| **Critical Mistake** | Natural 1 / Double 1s | **-10 penalty to the check** and a disastrous metaphysical backfire (GM's call). |\n| **Energy Surge** | Attune Check $\\le 0$ | Uncontrolled energy surge (wrong target, collateral area, unintended consequence); **Essence cost is doubled**. |\n| **Fizzle / Transposition** | Discipline Check $\\le 0$ | Effect produces unintended results, ranging from a dramatic fizzle to transposed energy states. |\n| **Internalized Strain** | Check Failure | Inflicts **1 point of Non-Lethal Damage per 5 points of failure** (1d6 per 5 in free-casting). Cannot be soaked by Armor DR or Stamina. |\n| **Fumble** | Severe Fumble | Requires an immediate check to see if the caster suffers the full effect themselves. |",
+    "tags": [
+      "metaphysics",
+      "casting",
+      "checks"
+    ]
+  },
+  {
+    "id": "rule-metaphysics-essence-economy",
+    "name": "Essence Pool Economy, Costs & The Burn",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Essence Pool Economy, Costs & The Burn\n\n**Category**: Core Metaphysics & Resource Management Rules  \n\nA character’s total Essence capacity represents their comprehensive \"lodestar\"—the intersection of biological/synthetic substrate, channeling precision, and breadth of metaphysical study.\n\n---\n\n## 1. The Essence Pool Calculation Formula\n\n$$\\text{Essence Pool} = (\\text{Sum of all 6 Ability Scores}) + (\\text{Attune Skill Rank}) + (\\text{Total Ranks in all known Discipline Skills})$$\n\n### Components of the Pool:\n1. **The Ability Substrate (Sum of all 6 Ability Scores)**:\n   - Since the average human ability score is zero, the pool begins with the character's natural or engineered aptitudes.\n   - Physical attributes (*Strength, Agility, Stamina*) contribute to the physical \"containment\" and grounding of raw energy.\n   - Mental attributes (*Intellect, Wisdom, Charisma*) determine the \"flavor,\" depth, and resonance of the source.\n   - *Permanent modifications* (augmentations, permanent injury, experience advances) adjust the Essence total, but temporary adjustments do not.\n2. **The Conduit (Attune Skill Rank)**:\n   - Adding the Attune rank ensures that as a character becomes more precise in opening conduits to their power source, their capacity to hold and regulate that energy expands.\n   - Only permanent modifications to Attune adjust the Essence score.\n3. **The Breadth (Total Ranks in all known Discipline Skills)**:\n   - Total ranks from skills in all known Disciplines (*e.g., Energy, Matter, Entropy*) represent the character's cumulative understanding of reality's \"Code.\"\n   - **Ranks in Invocations do NOT count towards the Essence total**; only the ranks from the 12 core skills listed under each discipline are counted (*such as Elemental and Force under Energy, but not specific Invocations like Plasma Blast or Kinetic Barrier*).\n\n---\n\n## 2. The Essence Cost Scale\n\nThe metabolic or spiritual cost of an invocation is determined by the **Base DC** required to activate the effect based on the current environment and stress levels:\n\n| Difficulty | Base DC | Essence Cost | Environmental Context |\n| :--- | :---: | :---: | :--- |\n| **Very Easy** | **DC 5** | **0 Essence** | Safe areas, Sanctums, Libraries, Laboratories. |\n| **Easy** | **DC 10** | **0 Essence** | Casual travel, walking, non-hostile environments. |\n| **Average** | **DC 15** | **1 Essence** | Combat, vigorous movement, active hostility. |\n| **Difficult** | **DC 20** | **2 Essence** | Extreme activity, uncontrolled falls, crashing. |\n| **Very Difficult** | **DC 25** | **3 Essence** | High-intensity chaos, environmental catastrophes. |\n| **Nearly Impossible** | **DC 30** | **4 Essence** | Legendary feats, global reality shifts. |\n| **Miraculous** | **DC 35** | **5 Essence** | Progenitor-tier interactions (rarely for PCs). |\n\n---\n\n## 3. Strategic Economy & Volatility\n\n### Operational Safety (Codified Invocations)\n- **The \"Sanctum\" Bonus**: Performing a learned ritual in a laboratory or sanctum (DC 5) costs **0 Essence**, as familiarity and environmental stability minimize the toll on internal reserves.\n- **The Combat Tax**: Using the exact same invocation in a firefight (DC 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst battlefield chaos.\n\n### Free-Casting & Volatility\n- Free-Casting (spontaneous metaphysics) remains high-risk: attempting a spontaneous effect in a Difficult environment (DC 20) consumes **2 Essence upfront**.\n- **Failure and Feedback**: If the check fails, the Essence is consumed, and the caster suffers **Internalized Strain** (1 point of Non-Lethal damage per 5 points of failure; 1d6 per 5 points under high volatility).\n- **Energy Surges**: If an Attune result is **0 or less**, the Essence cost for that increment is **doubled** as the reservoir leaks uncontrollably into the local environment.\n\n### Scaling for Higher Tiers\n- Extreme ranges (Miles+) or large area geometries (Cones, Lines) push the casting DC into the 25–30+ bracket, requiring a well-developed Essence pool.\n\n---\n\n## 4. Essence Recovery & The Burn\n\n- **Light Rest**: Recovers Essence equal to the character's **Key Ability Modifier (minimum 1)** per hour of downtime.\n- **Full Rest (6–8 Hours)**: Fully restores the entire Essence Pool as body and mind realign with the universal constant.\n- **The Burn (Life-Force Channeling)**: If an operative's Essence Pool is empty, they may choose to \"burn\" their own life force to power an invocation. Each point of Essence needed deals **2 points of direct Health damage** (cannot be absorbed by Armor DR or Stamina), representing physical cellular breakdown as the body acts as an unshielded conduit.",
+    "tags": [
+      "metaphysics",
+      "essence",
+      "economy"
+    ]
+  },
+  {
+    "id": "rule-metaphysics-ranges-areas",
+    "name": "Metaphysic Ranges, Modifiers & Area Geometry",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Metaphysic Ranges, Modifiers & Area Geometry\n\n**Category**: Core Metaphysics & Tactical Combat Rules  \n\nManifesting metaphysical phenomena over greater distances or across broader spatial volumes increases cognitive strain and requires check adjustments.\n\n---\n\n## 1. Ranges & Check Modifiers\n\n| Range Bracket | Distance Bracket | Check Modifier | Operational Notes |\n| :--- | :--- | :---: | :--- |\n| **Melee / Point Blank** | 5 ft (Small/Medium reach) | **+5 to Check** | Intimate conduit connection provides maximum stability. |\n| **Close** | Up to 100 ft | **None (0)** | Standard engagement distance. |\n| **Medium** | Up to 500 ft | **-5 to Check** | Requires focused line-of-sight. |\n| **Long** | Up to 2,500 ft | **-10 to Check** | Atmospheric dissipation and sensory refraction apply. |\n| **Extended** | Miles+ | **-15 to Check** | Target or location must be accurately detected, mapped, or known well. |\n\n---\n\n## 2. Targeting & Area Effects\n\n### Multiple Targets\n- **Separate Targets**: Imposes a **-5 penalty to the Attune check per additional target**, granting full effect and damage to each target.\n- **Split Effect**: If the penalty is not applied, total damage and effects must be divided equally among all targets.\n\n### Area Effects (AoE Penalties to Focus Skill Check)\n- **Blast (10 ft radius sphere)**: **-5 to Focus Skill check**. Detonates at target point, bypassing directional cover.\n- **Line (5 ft wide x 60 ft long)**: **-10 to Focus Skill check**. Pierces along an unwavering straight trajectory.\n- **Cone (90 ft long x 45 ft wide)**: **-15 to Focus Skill check**. Expanding wave originating from the caster.",
+    "tags": [
+      "metaphysics",
+      "ranges",
+      "areas"
+    ]
+  },
+  {
+    "id": "rule-mortality-0hp",
+    "name": "The Mortality State (0 Hit Points)",
+    "category": "rules",
+    "description": ">-",
+    "body": "# The Mortality State (0 Hit Points)\n\n**Category**: Core Combat Rules & Tables\n\nWhen a character's Health Points reach 0, they immediately enter the **Mortality State**:\n1. **Unconscious and Incapacitated**: The character immediately falls Prone and is Incapacitated.\n2. **Bleeding Out**: At the beginning of the character's turn, they suffer **1 point of Stability Damage**.\n3. **Stability Threshold**: A character has a Stability Points total equal to their **Constitution Score + 5**.\n4. **Death**: If a character's Stability Points are reduced to 0, they are considered dead.\n5. **Stabilization and Recovery**: The character stops Bleeding Out and is stabilized if they receive any magical healing or a successful **Medicine Check (DC 15)** is made to aid them.",
+    "tags": [
+      "mortality",
+      "0hp"
+    ]
+  },
+  {
+    "id": "rule-movement-action-iterative",
+    "name": "Movement & Action: Iterative Attacks & Terrain",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Movement & Action: Iterative Attacks & Terrain\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Iterative Attacks**: If a combatant moves more than a 5-foot step during their turn, they are restricted to **1 Attack Action** regardless of higher skill rank unlocks.\n- **Difficult Terrain**: Movement speed is reduced to **x1/2**. Imposes a **-2 penalty to attacks** while in motion due to jarring footing (**-4 penalty** if movement is reduced to 1/4).",
+    "tags": [
+      "movement",
+      "action",
+      "iterative"
+    ]
+  },
+  {
+    "id": "rule-movement-burrowing-paces",
+    "name": "Burrowing Movement Paces & Subterranean Rules",
+    "category": "rules",
+    "description": "Rules for subterranean traversal (Burrowing, Tunneling, Excavation) and shoring.",
+    "body": "# Burrowing Movement Paces & Subterranean Rules\n\n**Category**: Core Movement Rules  \n\n## Burrowing Paces\n- **Burrowing (1/4x Walk)**: 7.5 ft/rd. Standard displacement through soil or sand.\n- **Tunneling (2x Burrow / 1/2 Walk)**: 15 ft/rd. -2 penalty to subtle actions.\n- **Excavation (1/8x Walk)**: 3.75 ft/rd. Shoring and reinforcement for permanent chambers and pit traps.",
+    "tags": [
+      "movement",
+      "burrowing",
+      "paces"
+    ]
+  },
+  {
+    "id": "rule-movement-climbing-paces",
+    "name": "Climbing Movement Paces & Vertical Scaling Rules",
+    "category": "rules",
+    "description": "Rules for vertical scaling paces (Easy, Moderate, Difficult, Scaling, Fast Ascent, Fast Descent).",
+    "body": "# Climbing Movement Paces & Vertical Scaling Rules\n\n**Category**: Core Movement Rules  \n\n## Surface Difficulties\n- **Easy (DC 10+)**: 15 ft / rd (1/2 base walk).\n- **Moderate (DC 15+)**: 7.5 ft / rd (1/4 base walk).\n- **Difficult (DC 20+)**: 3 ft / rd (1/10 base walk).\n\n## Accelerated Paces\n- **Scaling (1x Walk)**: 30 ft/rd. -2 penalty. Athletics (Climbing) at -5 penalty.\n- **Fast Ascent (2x Walk)**: 60 ft/rd. -4 penalty. Athletics (Climbing) at -10 penalty.\n- **Fast Descent (4x Walk)**: 120 ft/rd. -4 penalty. DC 20 Athletics (Climbing) or -10 penalty.",
+    "tags": [
+      "movement",
+      "climbing",
+      "paces"
+    ]
+  },
+  {
+    "id": "rule-movement-fatigue-exhaustion",
+    "name": "Movement Fatigue & Exhaustion System",
+    "category": "rules",
+    "description": "Fatigue check triggers, non-lethal vitality loss, and progression to exhaustion.",
+    "body": "# Movement Fatigue & Exhaustion System\n\n**Category**: Core Resolution & Survival Rules  \n\n## Trigger & Saving Throw\n- **Combat Sprint Trigger**: Sprinting for **5 consecutive rounds** in tactical combat forces a **Stamina-based Fortitude Check (DC 15)**.\n- **Hurried Travel Trigger**: Hurried or forced-march travel for **10 minutes** forces a **Stamina-based Fortitude Check (DC 15)**.\n\n## Failure Consequences\n- **Vitality Damage**: On a failure, take **5 points of non-lethal Vitality damage**.\n- **Exhaustion Trigger**: If Vitality is fully depleted, the character takes **2 points of physical Health damage** and immediately gains the **Exhausted** condition (-2 to all active checks and half movement speed).\n- **Recovery**: The Exhausted condition persists until the character takes a **Light Rest (Nap)**.",
+    "tags": [
+      "movement",
+      "fatigue",
+      "exhaustion"
+    ]
+  },
+  {
+    "id": "rule-movement-flying-paces",
+    "name": "Flying Movement Paces & Aerial Rules",
+    "category": "rules",
+    "description": "Rules for flight speeds (Flight, Sail, Surge/Soar, Dive, Glide, Hover) and aerial fatigue.",
+    "body": "# Flying Movement Paces & Aerial Rules\n\n**Category**: Core Movement Rules  \n\n## Aerial Paces\n- **Flight (1x Fly / 2x Walk)**: 60 ft/rd. Default pace.\n- **Sail (2x Fly / 4x Walk)**: 120 ft/rd. -2 penalty to subtle actions.\n- **Surge / Soar (4x Fly / 8x Walk, 5x Fly with Soar)**: 240 ft/rd (300 ft). -4 penalty. Acrobatics DC 10+ each minute.\n- **Diving (2x current speed, 9x Fly with Soar)**: High-speed descent. -4 penalty. Acrobatics DC 15+.\n- **Gliding**: Maintains speed, loses altitude (5ft horiz / 1ft fall). +2 bonus to actions. Acrobatics DC 10+.\n- **Hover / Controlled Descent (1/2 Fly or less)**: 30 ft/rd or stationary. Acrobatics DC 15+.",
+    "tags": [
+      "movement",
+      "flying",
+      "paces"
+    ]
+  },
+  {
+    "id": "rule-movement-ground-paces",
+    "name": "Ground Movement Paces & Mechanics",
+    "category": "rules",
+    "description": "Rules governing ground movement paces (Walk, Jog, Run, Sprint, Crawl, Slow Crawl) and stealth/subtlety penalties.",
+    "body": "# Ground Movement Paces & Mechanics\n\n**Category**: Core Movement Rules  \n\n## Movement Paces Table\n- **Walk (1x)**: 30 ft/rd (Medium humanoid baseline). Standard pace, no penalties.\n- **Jog (2x)**: 60 ft/rd. -2 penalty to subtle/stealth/precision actions.\n- **Running (4x / 5x with Runner)**: 120 ft/rd. -4 penalty to subtle actions. Athletics DC 10+ each minute.\n- **Sprinting (6x / 7x with Runner)**: 180 ft/rd. -8 penalty to subtle actions. Athletics DC 15+ each minute.\n- **Crawl (1/2x)**: 15 ft/rd. +2 bonus to stealth; gains Prone condition.\n- **Slow Crawl (1/4x)**: 7.5 ft/rd. +4 bonus to stealth; gains Prone condition.",
+    "tags": [
+      "movement",
+      "ground",
+      "paces"
+    ]
+  },
+  {
+    "id": "rule-movement-swimming-paces",
+    "name": "Swimming Movement Paces & Aquatic Rules",
+    "category": "rules",
+    "description": "Rules for aquatic swimming paces (Swim, Glide, Stroke, Treading) and drowning hazards.",
+    "body": "# Swimming Movement Paces & Aquatic Rules\n\n**Category**: Core Movement Rules  \n\n## Swimming Paces\n- **Swimming (1x Swim / 1/2 Walk)**: 15 ft/rd. Default pace.\n- **Glide (2x Swim / 1x Walk)**: 30 ft/rd. -2 penalty to subtle actions. Athletics (Swimming) DC 10+.\n- **Stroke (4x Swim / 2x Walk)**: 60 ft/rd. -4 penalty to subtle actions. Athletics (Swimming) DC 15+.\n- **Treading (1/2 Swim or less)**: 7.5 ft/rd. +2 bonus to actions. Athletics (Swimming) DC 5+.",
+    "tags": [
+      "movement",
+      "swimming",
+      "paces"
+    ]
+  },
+  {
+    "id": "rule-moving-targets-attackers",
+    "name": "Moving Targets & Attackers Tactical Matrix",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Moving Targets & Attackers Tactical Matrix\n\n**Category**: Core Combat Rules & Tables\n\n| Category | Rule | Defender | Attacker | Notes |\n| :--- | :--- | :---: | :---: | :--- |\n| **MOVING TARGETS** | Running Penalty | — | -2 Attack | Applies to ranged attacks. |\n| | Distance-Based (20+ ft) | +2 Defense | — | For movement 20+ feet in a round. |\n| | Distance-Based (40+ ft) | +4 Defense | — | For movement 40+ feet in a round. |\n| | Total Defense/Dodge | +4 Defense | — | Requires an action focusing on evasion (moving at base speed). |\n| | Opportunity Attacks | Provoke AoO | Attack of Opportunity | Defender's movement triggers attack. |\n| **MOVING ATTACKERS** | Ranged Attack Penalty (Running) | — | -2 Attack | For attackers moving quickly (running). |\n| | Mounted Movement (Double Move) | — | -4 Attack | Firing ranged weapon from mount moving double speed. |\n| | Mounted Movement (Running/Quadruple) | — | -8 Attack | Firing ranged weapon from mount moving quadruple speed. |\n| | Aiming Bonus | — | +2 per round up to AGIx2 + 2 | Requires 'Aim' move action; cannot move before shooting. |\n| | Charging | -2 Defense | -2 Attack | Must move at least 10 feet in straight line toward enemy. |\n| **MOVEMENT & ACTION** | Iterative Attacks | — | 1 Attack Action | If moving more than a 5-foot step. |\n| | Difficult Terrain | x1/2 Movement | x1/2 Speed, -2 Attacks | -4 to Attacks if Movement reduced to 1/4. Affects jarring motion. |\n| | Range Increments | — | -2 cumulative per category | Common ranged combat modifier. |",
+    "tags": [
+      "moving",
+      "targets",
+      "attackers"
+    ]
+  },
+  {
+    "id": "rule-opposed-defense",
+    "name": "Opposed Defense Resolution",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Opposed Defense Resolution\n\n**Category**: Core Combat Rules & Tables\n\n## Opposed Roll Mechanics\nWhen a defender is aware and actively fighting back:\n\\text{Defender's Agility} + \\text{Defense Skill} + \\text{Situational Mods} \\quad \\text{vs.} \\quad \\text{Attacker's Ability} + \\text{Combat Skill} + \\text{Bonuses}\n\n- **Attacker Wins (Attacker > Defender)**: Strike or success.\n- **Defender Wins (Defender >= Attacker)**: Attacker misses or unsuccessful action.\n- > [!IMPORTANT]\n  > **DEFENDER WINS ALL TIES.**",
+    "tags": [
+      "opposed",
+      "defense"
+    ]
+  },
+  {
+    "id": "rule-precision-sneak-damage",
+    "name": "Precision Damage & Active Defense Counter",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Precision Damage & Active Defense Counter\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Precision Damage**: A direct damage bonus derived from the skill level of the attacker (relative Combat or Focus Skill Rank).\n- **Active Defense Counter**: A defender who is actively defending reduces incoming damage by their **Defense score** (acting as a direct reduction against precision bonuses).\n- **Sneak Attack Activation**: Sneak Attack damage is added **only if at least 1 point of damage penetrates target Armor DR** (determined after Armor DR but before the target's Stamina/CON modifier).",
+    "tags": [
+      "precision",
+      "sneak",
+      "damage"
+    ]
+  },
+  {
+    "id": "rule-prone-combat",
+    "name": "Edge: Prone Combat Modifiers",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Edge: Prone Combat Modifiers\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nWhen a combatant is on the ground (Prone):\n- **Vs. Melee / Point Blank opponent**: Opponent gains the **High Ground Bonus** (+2 Strike, +2 Crit Range).\n- **Vs. Ranged opponent**: Prone combatant receives a **+2 Defense Bonus** for each Range Category after Point Blank for ground cover (Opponent with High Ground at Range will reduce bonuses based on line of effect accordingly).\n- **Full Cover Opportunity**: With a successful Defense check, the Prone combatant may be able to take full cover from Ranged Attacks.",
+    "tags": [
+      "prone",
+      "combat"
+    ]
+  },
+  {
+    "id": "rule-range-categories",
+    "name": "Range Categories & Reach Matrix",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Range Categories & Reach Matrix\n\n**Category**: Core Combat Rules & Tables\n\n| Category | Modifier (DC) | Range Bracket |\n| :--- | :---: | :--- |\n| **Melee** * | **0 (15)** | WITHIN REACH |\n| **Point Blank** ** | **+5 (10)** | WITHIN REACH |\n| **Short** | **0 (15)** | Base Range Listed |\n| **Medium** | **-5 (20)** | 2x Base Range |\n| **Long** | **-10 (25)** | Up to 5x Base Range |\n| **Extreme** | **-15 (30)** | Up to 10x Base Range |\n\n\\* **Melee Reach by Size**: Tiny and smaller 2 ft, Small and Medium 5 ft, Large and Huge 10 ft.\n\\*\\* **Point Blank Advantage**: For Ballistic and Energy Weapons, shots striking at Point Blank inflict Damage with Advantage (rolling damage dice twice and taking the highest result) in addition to the +5 Strike bonus.",
+    "tags": [
+      "range",
+      "categories"
+    ]
+  },
+  {
+    "id": "rule-range-point-blank",
+    "name": "Point Blank Range & Damage Advantage",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Point Blank Range & Damage Advantage\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Target Distance**: Within Reach / Point Blank range.\n- **Strike Bonus**: **+5 Strike** (Target DC reduced to 10).\n- **Damage Advantage**: For Ballistic and Energy weapons, a shot striking at this range inflicts its **Damage with Advantage** (rolling damage dice twice and taking the highest result) in addition to all other damage modifiers.",
+    "tags": [
+      "range",
+      "point",
+      "blank"
+    ]
+  },
+  {
+    "id": "rule-relevant-abilities-combat",
+    "name": "Relevant Abilities in Combat Resolution",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Relevant Abilities in Combat Resolution\n\n**Category**: Core Combat Rules & Tables\n\n## Offensive & Defensive Ability Mappings\n- **Strength**: Applied to most melee attacks, brawling strikes, and throwing heavy objects.\n- **Agility**: Governs finesse of light or natural weapons and most ranged physical projectile attacks.\n- **Intelligence**: Key to directly weaving and calculating magical and technological effects.\n- **Charisma**: Applied to subtle, emotional, and controlling metaphysical factors.\n- **Stamina & Wisdom (Defensive)**: Not generally used offensively; they protect the body (**Fortitude**) and mind (**Willpower**) defensively.\n  - *Faith Caster Exception*: **Wisdom** may be used in place of Intelligence or Charisma in Metaphysic Skill checks for faith-based casters.",
+    "tags": [
+      "relevant",
+      "abilities",
+      "combat"
+    ]
+  },
+  {
+    "id": "rule-rest-recovery",
+    "name": "Rest, Recovery & Biological Cycles System",
+    "category": "rules",
+    "description": "Canonical Full Rest and Light Rest mechanics, species physiological adaptations (Synthetics, Fae, Insects, Alterians, Mondi), activity tiers, and strenuous interruption degradation.",
+    "body": "# Rest, Recovery & Biological Cycles System\n\n**Category**: Core Survival & Resource Management Rules  \n\n## Strategic Role & Resource Balancing\nIn-game features or abilities that require rest add a layer of strategy and resource management to gameplay. Players must balance using these abilities with resting to ensure they are available when needed. This can be particularly challenging in fast-paced games or during intense battles, where players may be tempted to overuse their abilities without considering the consequences.\n\nThe need for rest can have a significant impact on gameplay:\n- Choosing between using a powerful ability in the heat of battle or saving it for later.\n- Immersive roleplaying opportunities: finding safe places to rest (inns, campsites, starship quarters), taking time to relax, talking to NPCs, and learning new information.\n\n---\n\n## Full Rest Mechanics\n- **Standard Sentient Species**: 6 to 8 hours of uninterrupted sleep restores 100% of maximum Vitality, fully restores 100% of the character's **Essence Pool**, resets daily limited-use features and abilities, clears the **Exhausted** condition, and resets the daily Light Rest counter to 0.\n\n### Species Exceptions\n1. **Synthetics, Fae, and Insect Species**:\n   - Possess unique physiological attributes that enable them to function without traditional sleep.\n   - Evolved to require minimal rest; a brief period of **Light Rest is sufficient for them to fully refresh and maintain their energy levels** (granting Full Rest benefits, including full Essence restoration).\n2. **Alterians and Mondi**:\n   - Do not sleep in the biological sense; engage in contemplative meditations throughout the day.\n   - Considered **Light Rest**, entering deep contemplation and reflection to recharge their mental and physical well-being.\n\n---\n\n## Light Rest Mechanics\n- **Daily Limit**: Can be performed **up to 4 times per day**.\n- **Removal of Exhaustion**: Successfully completing any Light Rest tier removes the **Exhausted** condition.\n- **Essence Recovery**: Recovers **Essence equal to the character's Key Ability Modifier (minimum 1)** per hour of downtime.\n\n### The Burn (Overchanneling without Reserves)\nIf an operative's Essence Pool is empty, they may \"burn\" their own life force to power an invocation:\n- Each point of Essence needed deals **2 points of direct Health damage** (not absorbed by Armor DR or Stamina).\n- Represents the physical destruction of biological or synthetic tissue acting as an unshielded conduit.\n\n### Activity Tiers & Required Downtime\n1. **Nap or Meditation (1 Hour)**:\n   - Most restful period; ideal for resetting traits or features.\n   - Allowed Activity: Do nothing else but rest and relax.\n2. **Lounging (2 Hours)**:\n   - Less restful than a nap or meditation but still beneficial.\n   - Allowed Activity: Casual observation, light recreation, and non-laborious activities.\n3. **Light Duty (3 Hours)**:\n   - Least restful but still counts as a rest period.\n   - Allowed Activity: Light recreation, casual work, and minimal labor activities (gear check, sensor watch).\n\n---\n\n## Strenuous Interruption & Degradation Rules\nAny activities more strenuous than light recreation/casual work count against rest (physical labor, intense exercise, combat, mentally demanding tasks).\n\n**Degradation Progression**:\nEach time a strenuous activity is performed, the rest category degrades by one stage:\n$$\\text{Nap (1h)} \\longrightarrow \\text{Lounging (2h)} \\longrightarrow \\text{Light Duty (3h)} \\longrightarrow \\text{Not Rested (Cancelled)}$$\n\nIf degraded, characters must extend their downtime to meet the new required duration. If degraded beyond Light Duty, the rest fails completely.\n\n---\n\n## Karma Economy Integration: Second Wind\n- A character may spend **1 Karma Point** to enter 1 minute of internal focus to gain a **Second Wind**.\n- **Second Wind replaces a Light Rest**, refreshing short-rest features and recovering Vitality without downtime.",
+    "tags": [
+      "rest",
+      "recovery"
+    ]
+  },
+  {
+    "id": "rule-retreating-target",
+    "name": "Edge: Retreating Target",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Edge: Retreating Target\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nTarget quickly leaving the area forgoing any evasion or cover at Jog/Run/Sprint Speed.\n- **Extra Attack**: Opponents gain an Extra Attack on the target at **-5 to Strike**.\n- **Initiative Reroll**: Re-roll Initiative.",
+    "tags": [
+      "retreating",
+      "target"
+    ]
+  },
+  {
+    "id": "rule-scale-colossal",
+    "name": "Scale: Colossal (x20-x64)",
+    "category": "rules",
+    "description": "Star cruisers; x20 to x64 damage, +16 defense modifier.",
+    "body": "# Scale: Colossal (x20-x64)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nStar cruisers; x20 to x64 damage, +16 defense modifier.",
+    "tags": [
+      "scale",
+      "colossal"
+    ]
+  },
+  {
+    "id": "rule-scale-gargantuan",
+    "name": "Scale: Gargantuan (x10)",
+    "category": "rules",
+    "description": "Dropships / gunships; x10 damage, +8 defense modifier.",
+    "body": "# Scale: Gargantuan (x10)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nDropships / gunships; x10 damage, +8 defense modifier.",
+    "tags": [
+      "scale",
+      "gargantuan"
+    ]
+  },
+  {
+    "id": "rule-scale-huge",
+    "name": "Scale: Huge (x5)",
+    "category": "rules",
+    "description": "Walker mecha / tanks; x5 damage, +4 defense modifier.",
+    "body": "# Scale: Huge (x5)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nWalker mecha / tanks; x5 damage, +4 defense modifier.",
+    "tags": [
+      "scale",
+      "huge"
+    ]
+  },
+  {
+    "id": "rule-scale-large",
+    "name": "Scale: Large (x2)",
+    "category": "rules",
+    "description": "Power armor / bikes; x2 damage, +2 defense modifier.",
+    "body": "# Scale: Large (x2)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nPower armor / bikes; x2 damage, +2 defense modifier.",
+    "tags": [
+      "scale",
+      "large"
+    ]
+  },
+  {
+    "id": "rule-scale-medium",
+    "name": "Scale: Medium (x1)",
+    "category": "rules",
+    "description": "Human baseline; x1 damage, 0 defense modifier.",
+    "body": "# Scale: Medium (x1)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nHuman baseline; x1 damage, 0 defense modifier.",
+    "tags": [
+      "scale",
+      "medium"
+    ]
+  },
+  {
+    "id": "rule-scale-miniscule",
+    "name": "Scale: Miniscule (x1/8)",
+    "category": "rules",
+    "description": "Micro-drones; x1/8 damage, -32 defense modifier.",
+    "body": "# Scale: Miniscule (x1/8)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nMicro-drones; x1/8 damage, -32 defense modifier.",
+    "tags": [
+      "scale",
+      "miniscule"
+    ]
+  },
+  {
+    "id": "rule-scale-small",
+    "name": "Scale: Small (x1/2)",
+    "category": "rules",
+    "description": "Halflings / turrets; x1/2 damage, -2 defense modifier.",
+    "body": "# Scale: Small (x1/2)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nHalflings / turrets; x1/2 damage, -2 defense modifier.",
+    "tags": [
+      "scale",
+      "small"
+    ]
+  },
+  {
+    "id": "rule-scale-tiny",
+    "name": "Scale: Tiny (x1/4)",
+    "category": "rules",
+    "description": "Cat / small drones; x1/4 damage, -4 defense modifier.",
+    "body": "# Scale: Tiny (x1/4)\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\nCat / small drones; x1/4 damage, -4 defense modifier.",
+    "tags": [
+      "scale",
+      "tiny"
+    ]
+  },
+  {
+    "id": "rule-scaling-combat",
+    "name": "How Scaling Works in Combat",
+    "category": "rules",
+    "description": ">-",
+    "body": "# How Scaling Works in Combat\n\n**Category**: Core Combat Rules & Tables\n\n- **Attack Rolls**: Size doesn't directly affect attack rolls, but larger creatures might have reach advantages or penalties depending on target size.\n- **Damage**: Weapon dice are multiplied by the **Scaling Modifier**. No damage is reduced due to target size as target structure scales proportionally (e.g., Huge creature with x5 Scaling deals 5x base damage dice with 5x baseline construct structure).\n- **Defense**: The **Combat Modifier** adjusts a creature's Defense score based on its size relative to its target.\n- **Distance**: Speed and ranges are multiplied by the **Scaling Modifier**, allowing larger entities to cover more tactical ground.",
+    "tags": [
+      "scaling",
+      "combat"
+    ]
+  },
+  {
+    "id": "rule-skill-focus-actions",
+    "name": "Skill Focus & Action Economy Progression",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Skill Focus & Action Economy Progression\n\n**Category**: Core Combat Rules & Tables\n\nCombat capability is defined by Skill Tier. As a character gains Ranks, they gain additional actions and Focus Strike bonuses.\n\n| Rank Range | Actions | Benchmark / Title | Focus Bonus |\n| :--- | :--- | :--- | :---: |\n| **0** | Full Round Action | Untrained | — |\n| **1 – 5** | 1st action at base score | Novice / Studied | **+2** |\n| **6 – 10** | 2nd action at base score -5 | Professional / Trained | **+3** |\n| **11 – 15** | 3rd action at base score -10 | Expert | **+4** |\n| **16 – 20** | 4th action at base score -15 | Master | **+5** |\n| **21 – 25** | 5th action at base score -20 | Grand Master | **+6** |\n| **26 – 30** | 6th action at base score -25 | Pinnacle | **+7** |\n\n### Multiple Active Defenses\nA character may also make as many Active Defense checks as allowed based on their Defense Skill Rank (all with a **-5 subsequent penalty** after the first reaction: 1st base, 2nd -5, 3rd -10, etc.).",
+    "tags": [
+      "skill",
+      "focus",
+      "actions"
+    ]
+  },
+  {
+    "id": "rule-stability-threshold",
+    "name": "Stability Threshold Points",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Stability Threshold Points\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n\\text{Total Stability Points} = \\text{Constitution Score} + 5\n\n- Tracks remaining life force while Bleeding Out in the Mortality State.\n- Loses 1 point per turn until stabilized or permanently deceased at 0.",
+    "tags": [
+      "stability",
+      "threshold"
+    ]
+  },
+  {
+    "id": "rule-status-effects-matrix",
+    "name": "Master Status Effects Matrix",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Master Status Effects Matrix\n\n**Category**: Core Combat Rules & Tables\n\n| Status | Mechanical Effect | Cure / Removal |\n| :--- | :--- | :--- |\n| **Bleeding** | Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. | Medicine Check (DC 10) or any Healing ability/item. |\n| **Blinded** | -5 Penalty to Attack/Defense. Visual Perception fails automatically. | Medical intervention or Time (Temporary: 1d4 rounds). |\n| **Burning** | Takes 1d6 Fire Damage per round. Panic Check (Will DC 12) or flail/flee. | Full Action to extinguish (Stop, Drop, Roll). |\n| **Dazed** | Mentally reeling. Only 1 Action per turn (Move OR Standard). No Reactions. | Ends automatically at the end of the creature's next turn. |\n| **Entangled** | Movement = 0. -2 Penalty to Attack/Defense. No Dodge/Evasion. | Strength Check (DC 15) or Cutting free (Structure damage). |\n| **Exhausted** | -2 Penalty to Physical Checks (Str/Agi/Sta). Speed -50%. No Run/Charge. | Requires 8 Hours of Rest with food/water. |\n| **Freeze** | Target is encased/chilled. Speed = 0. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (DC 20) to shatter ice or Fire Dmg to melt. |\n| **Prone** | Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. | Move Action to stand up. |\n| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill). | Constitution Save (DC 15) at end of turn to recover. |\n| **Suppressed** | Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. | Enemy stops firing, reloads, or is neutralized. |",
+    "tags": [
+      "status",
+      "effects",
+      "matrix"
+    ]
+  },
+  {
+    "id": "rule-sub-ability-perception",
+    "name": "rule-sub-ability-perception",
+    "category": "combat",
+    "description": "﻿---\nid: rule-sub-ability-perception\nname: Sub-Ability Perception & Focused Detection Checks\ncategory: rules\ndescription: Perception is a sub-ability derived from Intellect + Wisdom, combined with Alertness (Default), Attune (Meta), Insight (Social), or Technology (Technical).\ncosts:\n  bp: 0\n  credi",
+    "body": "﻿---\nid: rule-sub-ability-perception\nname: Sub-Ability Perception & Focused Detection Checks\ncategory: rules\ndescription: Perception is a sub-ability derived from Intellect + Wisdom, combined with Alertness (Default), Attune (Meta), Insight (Social), or Technology (Technical).\ncosts:\n  bp: 0\n  credits: 0\n  nodes: 0\n  sockets: 0\n  strain: 0\n  focus: 0\n  ap: 0\nmodifiers: []\nmodifications: []\ncritical_details:\n  score: ''\n  effect: []\n  success_effect: []\n  failure_effect: []\nsockets:\n  max: 0\n  used: 0\n  tier: Socket\n  allocated: []\n---\n\n# Perception Sub-Ability & Detection Checks\n\n**Category**: Core Rules & Sub-Abilities\n\n## Overview\nPerception is a sub-ability derived from a character's Intellect and Wisdom scores. This attribute reflects a character's overall awareness and their ability to perceive and interpret their surroundings. It plays a vital role in various detection checks throughout the game, impacting a character's ability to notice details, spot hidden dangers, and understand the subtleties of their environment.\n\n## Base Formula\nThe base score for Perception is calculated by adding the character's Intellect and Wisdom scores together:\n\n$$\\text{Perception Base} = \\text{Intellect Score} + \\text{Wisdom Score}$$\n\nThis combined value represents their innate sensory acuity, mental focus, and intuitive awareness. However, Perception is not used in isolation. In most situations, it's combined with specific skills to determine a character's success in different types of detection checks.\n\n---\n\n## Default Detection Check (Alertness)\nIn most standard situations, where a character is simply trying to be aware of their surroundings and notice anything out of the ordinary, their Perception base score is combined with their **Alertness** skill:\n\n$$\\text{Default Check} = \\text{Perception Base} + \\text{Alertness (Rank + Mod)}$$\n\nThis represents a general awareness and the ability to spot visual, auditory, or other sensory cues that might indicate something important or unusual (e.g. noticing hidden traps, ambushes, concealed doorways, or environmental oddities).\n\n---\n\n## Focused Perception Types\nThere are three additional, more specialized types of Perception checks that can be used in specific situations:\n\n### 1. Meta (Attune)\nWhen dealing with Meta effects (such as magic, psychic powers, or other supernatural phenomena), the **Attune** skill is added to the Perception base score:\n\n$$\\text{Meta Perception} = \\text{Perception Base} + \\text{Attune (Rank + Mod)}$$\n\nThis allows the character to detect and analyze subtle energies, perceive magical or psychic aura signatures, and utilize Metafocus-based sensory abilities.\n\n### 2. Social (Insight)\nWhen trying to \"read\" other characters and understand their intentions, the **Insight** skill is added to the Perception base score:\n\n$$\\text{Social Perception} = \\text{Perception Base} + \\text{Insight (Rank + Mod)}$$\n\nThis represents the ability to pick up on subtle social cues, body language, and vocal tones to discern hidden emotions, motivations, and potential deceptions.\n\n### 3. Technical (Technology)\nWhen analyzing technology or using certain technological sensory devices, the **Technology (Knowledge)** skill is added to the Perception base score:\n\n$$\\text{Tech Perception} = \\text{Perception Base} + \\text{Technology (Rank + Mod)}$$\n\nThis reflects the character's understanding of how technology works and their ability to better identify its functions, strengths, and weaknesses.\n\n---\n\n## Modifiers\nThe Game Master (GM) may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as:\n- **Visibility & Illumination:** Darkness, heavy smoke, fog, glare, or camouflage.\n- **Distance & Scale:** Extreme ranges, microscopic details, or peripheral distractions.\n- **Nature of the Target:** Subtle vs active electromagnetic, magical, thermal, or acoustic emissions.\n- **Environmental Noise:** Sensory interference, ambient chatter, or magnetic distortion.\n\n---\n\n## Canonical Example\nA character with an **Intellect score of +2** and a **Wisdom score of +1** has a **Perception base score of 3**.\n- If they are trying to notice a hidden trap, they would make an **Alertness** check with a modifier of **+3**.\n- If they are trying to locate an item using magical means, they would make an **Attune** check with a modifier of **+3** instead.\n- A check in a social situation to detect a lie adds the **+3** base score to **Insight**.\n- A check analyzing electronic hardware or sensor readouts adds the **+3** base score to **Technology (Knowledge)**.\r\n",
+    "tags": [
+      "sub",
+      "ability",
+      "perception"
+    ]
+  },
+  {
+    "id": "rule-synthetic-limb-50pct",
+    "name": "Synthetic Limb +50% Durability Threshold",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Synthetic Limb +50% Durability Threshold\n\n**Category**: Core Combat Rules & Tables\n\n## Mechanics\n- **Synth vs. Bio**: Synthetic limbs can take **50% more damage** before being Disabled or Destroyed than biological ones.\n- Synthetic limbs may **not** get a Stamina check to remain functional once reaching Disabled status.",
+    "tags": [
+      "synthetic",
+      "limb",
+      "50pct"
+    ]
+  },
+  {
+    "id": "rule-tech-limb-replacements",
+    "name": "Technology Level 3+ Limb Replacements & Cybernetics",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Technology Level 3+ Limb Replacements & Cybernetics\n\n**Category**: Core Combat Rules & Tables\n\n## Replacement Procedures (Tech Level 3+)\nA replacement limb requires **1 day of surgery and recovery** whether Biological or Synthetic:\n- **Biological Limb**: Must be tissue-matched (**+1 day**) or lab-grown (**+2d4 days**).\n- **Synthetic Cyber-Limb**: Available stock can be prepped for installation during surgery time.\n\n---\n\n## Full Body Replacement\nSee *Augmentations - Body Mods*:\n- **Tech Level 4**: **Tran-Cerebral Venture** (brain transfer into synthetic chassis).\n- **Tech Level 5**: **Consciousness Transfer** (full digitized mind upload).\n\n---\n\n## Bio vs. Synthetic Durability\n- **Bio / Natural Limbs**: Baseline damage capacity for Disabled and Destroyed thresholds.\n- **Synthetic Limbs**: Can take **50% more damage** before reaching Disabled or Destroyed status, but **may NOT get the Stamina check** to remain functional once reaching Disabled status.",
+    "tags": [
+      "tech",
+      "limb",
+      "replacements"
+    ]
+  },
+  {
+    "id": "rule-unopposed-defense",
+    "name": "Unopposed Defense Base CR 15",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Unopposed Defense Base CR 15\n\n**Category**: Core Combat Rules & Tables\n\n## Unopposed Roll Mechanics\nWhen the target is not defending, surprised, or stationary:\n\\text{Attacker's Ability} + \\text{Combat Skill} + \\text{Bonuses} \\quad \\text{vs.} \\quad \\text{CR 15 (Average Medium Target at Short Range)}\n\nModified directly by:\n- Target Size Category (-32 to +16)\n- Range Bracket (Point Blank to Extreme)\n- Movement modifiers (Running, Distance moved, Cover).",
+    "tags": [
+      "unopposed",
+      "defense"
+    ]
+  },
+  {
+    "id": "rule-vehicular-combat-fundamentals",
+    "name": "Vehicular Combat: Operational Fundamentals & Scale",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Vehicular Combat: Operational Fundamentals & Scale\n\n**Category**: Core Combat Rules & Tables\n\n## Operational Loop: Action, Reaction, Consequence\nIn the Tangent universe, vehicular combat is an escalation of the core 2d10 mechanics across all chassis sizes, from nimble hover-bikes to gargantuan void-cruisers.\n\n---\n\n## 1. The Tactical Round\nVehicular combat operates on the standard 6-second Combat Round, but the **Scale** of the action changes:\n\n### Initiative Formula\n$$\\text{Vehicle Initiative} = 2\\text{d}10 + \\text{Agility Mod} + \\text{Alertness} + \\text{Handling Modifier}$$\n\n- **Handling Modifier**: A stat intrinsic to the chassis (e.g., Fighter Jet has **+4**, Capital Ship has **-4**).\n\n### The Crew Turn\nUnlike personal combat where a single character acts, a vehicle is a platform for multiple actors:\n- **Pilot**: Controls Movement, Evasion (Defense), and Fixed Forward Weapons.\n- **Gunner(s)**: Control Turrets and Pintle-mounted weapons. Act on the Pilot's Initiative count but track their own Actions.\n- **Engineer / System Operator**: Manages Shields, Sensors, Electronic Warfare, and Field Repairs.\n\n---\n\n## 2. Scale & The Size Modifier\nA pistol cannot damage a battle tank, and a battleship's spinal battery cannot easily track a single infantryman.\n- **Scaling Modifiers**: Governed by *01.01.09 Scaling*.\n- **David vs. Goliath**: Small targets shooting Large targets get a bonus to Hit (large surface area), but must penetrate heavy vehicle Damage Resistance (DR).\n- **Goliath vs. David**: Large weapons suffer tracking penalties to Hit smaller, nimble targets (Tracking Penalty).",
+    "tags": [
+      "vehicular",
+      "combat",
+      "fundamentals"
+    ]
+  },
+  {
+    "id": "rule-vehicular-combat-interactions",
+    "name": "Vehicular Combat: Tactical Interactions & Siege",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Vehicular Combat: Tactical Interactions & Siege\n\n**Category**: Core Combat Rules & Tables\n\n## 1. Pilot vs. Pilot (Vehicle vs. Vehicle)\n- **Evasive Maneuvers (Action)**: The Pilot forfeits their Attack Action to impose **Disadvantage on all incoming fire** for the round.\n- **Jinking (Reaction)**: Reaction triggered when fired upon. Pilot rolls **Pilot Skill vs. Attack Roll**. Success negates the hit completely, but costs movement on the vehicle's next turn.\n- **Fixed vs. Turret Weapons**:\n  - *Fixed Weapons*: Fire in a **45-degree forward arc**. Requires the pilot to orient the vehicle directly at the target.\n  - *Turrets*: Fire with **360-degree coverage**, operated by Gunners independently of chassis movement.\n\n---\n\n## 2. Gunner vs. Mecha (Infantry vs. Vehicle)\n- **The Armor Threshold**: Vehicles possess massive Damage Resistance (DR).\n  - *Rule*: If incoming weapon damage does not exceed DR, **the shot bounces harmlessly (ping!)**. Small arms cannot penetrate heavy armor plate.\n- **Called Shots (Weak Points)**: Infantry can bypass thick armor by targeting optic sensors, drive treads, or exhaust ports.\n  - *Mechanic*: Attack made at a **-5 Strike Penalty**. On hit, **ignore 50% of Armor DR** or disable a specific system (e.g., \"Immobilized\").\n- **Boarding**: Infantry can physically climb a slow or stationary vehicle.\n  - *Mechanic*: **Athletics Check vs. Vehicle Speed/Defense**. Success places the unit directly on the hull, bypassing Scale penalties for all subsequent attacks.\n\n---\n\n## 3. Gunner vs. Structure (Siege Warfare)\n- **Static Defense**: Stationary structures have **0 Agility** and an effective **Defense of 5** (auto-hit by almost all attacks).\n- **Hardness (DR) & Modules**: Structures are divided into modular sections (e.g., 10x10 wall module).\n- **Siege Damage**: Heavy Weapons (Explosive, Energy ordnance) deal **Double Damage** to stationary structures.\n- **Breaching & Collapse**:\n  - Reducing a Module to **0 SP** creates a **Breach** large enough for infantry assault teams.\n  - Reducing a Module to **-50% SP** triggers catastrophic **Structural Collapse** of that section and overhead levels.",
+    "tags": [
+      "vehicular",
+      "combat",
+      "interactions"
+    ]
+  },
+  {
+    "id": "rule-vehicular-damage-catastrophe",
+    "name": "Vehicular Damage, System Failures & Catastrophe",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Vehicular Damage, System Failures & Catastrophe\n\n**Category**: Core Combat Rules & Tables\n\nVehicles do not simply lose hit points; they degrade, catch fire, suffer critical system outages, and catastrophically explode.\n\n---\n\n## 1. Damage Thresholds\n- **Glancing Blow**: Damage $\\le$ Armor DR. No effect (shots ricochet).\n- **Penetrating Hit**: Damage $>$ Armor DR. Subtract Armor DR from incoming damage, and apply the remaining damage to **Structure Points (SP)**.\n- **Critical Hit**: Triggered on a **Natural 20** or when an attack roll exceeds target Defense by **10+**. Roll immediately on the **System Failure Table**.\n\n---\n\n## 2. System Failure Table (d6)\nRolled when a vehicle suffers a Critical Hit or reaches **50% max SP**:\n\n| Roll (d6) | System Failure | Mechanical Effect |\n| :---: | :--- | :--- |\n| **1** | **Motive System** | Speed reduced by **50%** (thrown tread, clipped wing, blown repulsor). |\n| **2** | **Weapon System** | One random weapon system disabled or jammed. |\n| **3** | **Sensor / Comms** | Blinded or silenced. All targeting rolls suffer **Disadvantage**. |\n| **4** | **Crew Compartment**| Cockpit breached. Pilot and crew take **half the damage** dealt to the vehicle. |\n| **5** | **Power Plant** | Internal fire and smoke. Vehicle suffers **1d6 Burn damage per turn**. |\n| **6** | **Catastrophic Leak**| Fuel line or reactor unstable. **Explodes in 1d4 rounds** unless repaired. |\n\n---\n\n## 3. Vehicle Destruction\n- **0 SP (Disabled)**: The vehicle stops moving. All main engines and primary weapons go offline. Can be salvaged and repaired.\n- **Negative SP $>$ 50% Max (Destroyed)**: The chassis is a shattered wreck with scrap value only.\n- **Catastrophic Explosion**: If a vehicle is destroyed by **Fire or Explosive damage**, it detonates:\n  - *Explosion Radius*: **10 feet per Size Category**.\n  - *Explosion Damage*: **1d6 per 10 SP** of the vehicle's maximum Structure Points.",
+    "tags": [
+      "vehicular",
+      "damage",
+      "catastrophe"
+    ]
+  },
+  {
+    "id": "rule-vehicular-domains-of-war",
+    "name": "Vehicular Combat: Domains of War (Land, Nautical, Aerial, Space)",
+    "category": "rules",
+    "description": ">-",
+    "body": "# Vehicular Combat: Domains of War (Land, Nautical, Aerial, Space)\n\n**Category**: Core Combat Rules & Tables\n\n## 1. Land (Terrestrial & Walker)\nDefined by **Terrain** and **Cover**:\n- **Cover**: Vehicles use buildings and terrain for Cover (**+4 to +10 Defense Bonus**). A **Hull Down** position (only turret visible) grants **+4 Defense**.\n- **Ramming**: A desperate physical collision maneuver.\n  - *Attack*: Pilot makes a melee attack roll using Pilot Skill.\n  - *Damage*: **1d10 per 10ft of Speed**. Both vehicles suffer this damage; the heavier vehicle takes half damage.\n- **Walker Mechanics**: Bipedal and quadruped mecha can **Stomp** infantry (Standard Melee Attack) and step over obstacles that block wheeled/tracked armor.\n\n---\n\n## 2. Nautical (Surface & Submerged)\nDefined by **Depth** and **Detection**:\n- **Sonar / Sensors**: Visual range is often zero. Combat relies on *System Ops (Sensors)* checks to acquire a **Target Lock**. Without a Lock, all attacks are made at **Disadvantage**.\n- **Depth Bands**:\n  - *Surface*: Standard operational envelope.\n  - *Periscope Depth*: Concealment against surface radar and optics.\n  - *Deep*: High hydrostatic pressure. Hull breaches at this depth are immediately catastrophic.\n\n---\n\n## 3. Atmospheric (Aerial)\nDefined by **Altitude** and **Energy Management**:\n- **The Dogfight (Pilot vs. Pilot)**: When two aircraft engage, they enter an opposed Dogfight contest.\n  - *Mechanic*: Opposed Pilot checks rolled at the start of each round.\n  - *Winner*: Gains **Advantage** on attack rolls this round and chooses positioning (**Tail / Flank**).\n  - *Loser*: Considered **Flat-Footed** against the winner.\n- **Stalling**: Flying slower than the craft's Stall Speed forces a **Pilot Check (DC 20)**; failure causes the craft to enter a terminal fall.\n\n---\n\n## 4. Interstellar (Space)\nDefined by **Vectors**, **Heat Signatures**, and **3D Distance**:\n- **Newtonian Drift**: In zero-G, a vehicle maintains vector momentum unless thrust is applied. A pilot can cut engines to **drift silently (Stealth)** while retaining full velocity.\n- **Heat Signatures**: Firing energy weapons or igniting main thrusters flares the craft's heat signature.\n  - *Passive Sensors*: Automatically detect flared ships.\n  - *Active Sensors (Ping)*: Required to establish a Target Lock on \"Cold\" drifting ships.\n- **Proximity Damage**: Capital ship spinal weapons are so colossal that near-misses still inflict concussive kinetic shockwave damage to fighter-scale craft.",
+    "tags": [
+      "vehicular",
+      "domains",
+      "war"
+    ]
+  },
+  {
+    "id": "skill-checks-resolution",
+    "name": "Skill Checks & Difficulty Resolution",
+    "category": "rules",
+    "description": "# Skill Checks & Difficulty Resolution\n\n## The Core Skill Check Formula\n```\nCheck Result = 2d10 + Skill Rank + Governing Ability Score Modifier + Situational Modifiers\n```\nIf the Check Result meets or exceeds the target Challenge Rating (CR) or Difficulty Class (DC), the action succeeds.\n\n## Challen",
+    "body": "# Skill Checks & Difficulty Resolution\n\n## The Core Skill Check Formula\n```\nCheck Result = 2d10 + Skill Rank + Governing Ability Score Modifier + Situational Modifiers\n```\nIf the Check Result meets or exceeds the target Challenge Rating (CR) or Difficulty Class (DC), the action succeeds.\n\n## Challenge Rating (CR / DC) Ladder\n- **Simple (DC 0)**: Routine actions (walking, breathing). Automatic success.\n- **Very Easy (DC 5)**: Minimal failure chance (climbing a ladder).\n- **Easy (DC 10)**: Standard competency (driving in light traffic).\n- **Average (DC 15)**: Professional standard (repairing a common device). Baseline for Trained individuals.\n- **Difficult (DC 20)**: Expert standard (bypassing commercial encryption).\n- **Very Difficult (DC 25)**: Master standard (tracking across bare stone).\n- **Nearly Impossible (DC 30)**: Heroic feat (leaping a canyon chasm).\n- **Miraculous (DC 35+)**: Defying probability (convincing a fanatic to surrender).\n\n## Taking 10 and Taking 20\n- **Taking 10**: In non-stressful situations, take a fixed result of 10 instead of rolling 2d10.\n- **Taking 20**: When facing no immediate danger and multiple attempts carry no penalty, take 20 (representing 20x time expenditure).",
+    "tags": [
+      "skill",
+      "checks",
+      "resolution"
+    ]
+  },
+  {
+    "id": "skill-modifiers",
+    "name": "Skill Modifiers & Stacking Rules",
+    "category": "rules",
+    "description": "# Skill Modifiers & Stacking Rules\n\nA skill check may be influenced by multiple factors:\n\n1. **Ability Score Modifier**: The primary physical or mental stat.\n2. **Skill Rank**: Direct training investment.\n3. **Difficulty / DC**: The target baseline set by the GM.\n4. **Competence**: Guidance from a m",
+    "body": "# Skill Modifiers & Stacking Rules\n\nA skill check may be influenced by multiple factors:\n\n1. **Ability Score Modifier**: The primary physical or mental stat.\n2. **Skill Rank**: Direct training investment.\n3. **Difficulty / DC**: The target baseline set by the GM.\n4. **Competence**: Guidance from a mentor, manual, or database.\n5. **Environmental**: Terrain, weather, lighting, gravity.\n6. **Gear / Tools**: Quality and suitability of specialized equipment.\n7. **Luck / Karma**: Karma Point expenditure or fortunate coincidences.\n8. **Features**: Permanent biological, cybernetic, or martial perks.\n9. **Meta**: Magic, psionic, or supernatural enhancement fields.\n10. **Situational**: Stress, active aid, or tactical positioning.\n\n> [!IMPORTANT]\n> **Non-Stacking Rule**: A character can only benefit from **one Competence bonus, one Environmental bonus, and one Gear bonus** on a single check. Different modifier categories stack; multiple bonuses within the same category do not.",
+    "tags": [
+      "skill",
+      "modifiers"
+    ]
+  },
+  {
+    "id": "skill-points-economy",
+    "name": "Skill Points Economy & Sources",
+    "category": "rules",
+    "description": "# Skill Points Economy & Sources\n\nIn Tangent SF RP, Skills represent a character's training, experience, and practical expertise. Character Points (CP) are the primary currency used during character creation.\n\n## Character Point Costs\n- **Base Cost**: Every Skill Rank costs **1 Character Point (CP)*",
+    "body": "# Skill Points Economy & Sources\n\nIn Tangent SF RP, Skills represent a character's training, experience, and practical expertise. Character Points (CP) are the primary currency used during character creation.\n\n## Character Point Costs\n- **Base Cost**: Every Skill Rank costs **1 Character Point (CP)** to acquire during character creation.\n- **Maximum Starting Rank**: The maximum starting Skill Rank is **Rank 11** (Expert Tier cap).\n- **Post-Creation Advancement**: Skills advance at a rate of 1 point per session/experience reward.\n\n## Skill Allotments by Character Phase\n1. **Species**: Grants baseline skill bonuses or skill points reflecting cultural educational standards (e.g., Humans receive 20 SP or bonus points).\n2. **Faction**: Grants **20 Skill Points** tailored to faction-suggested areas of expertise.\n3. **Origin**: Grants **20 Skill Points** corresponding to homeworld upbringing.\n4. **Occupation**: Grants **25 Skill Points** focused on professional career training.\n5. **Tech & Meta Levels**: Societies with higher TL/ML grant additional specialized skill points.",
+    "tags": [
+      "skill",
+      "points",
+      "economy"
+    ]
+  },
+  {
+    "id": "skill-rank-progression",
+    "name": "Unified Skill Rank Progression",
+    "category": "rules",
+    "description": "# Unified Skill Rank Progression\n\nTangent uses a unified 7-tier skill progression ladder:\n\n| Rank Range | Tier Title | Description & Milestone Perks |\n| :---: | :--- | :--- |\n| **0** | **Untrained** | No formal training. Relies strictly on raw Ability Score modifier. |\n| **1 - 5** | **Novice** | App",
+    "body": "# Unified Skill Rank Progression\n\nTangent uses a unified 7-tier skill progression ladder:\n\n| Rank Range | Tier Title | Description & Milestone Perks |\n| :---: | :--- | :--- |\n| **0** | **Untrained** | No formal training. Relies strictly on raw Ability Score modifier. |\n| **1 - 5** | **Novice** | Apprentice standard. Foundational techniques; slow execution. |\n| **6 - 10** | **Trained** | Professional standard. Can earn a living. Unlocks **Trained Only** tasks. |\n| **11 - 15** | **Expert** | Specialist veteran. Rushed penalties reduced by 1; Meticulous bonus increased to +3/stage. |\n| **16 - 20** | **Master** | Sector-renowned virtuoso. Meticulous bonus increased to +4/stage (+50% bonus). |\n| **21 - 25** | **Grand Master** | Legendary master. May **Take 10 in any situation** (including combat). Rushed penalties halved. |\n| **26+** | **Pinnacle** | Demigod-like perfection. May roll checks with **Advantage**.",
+    "tags": [
+      "skill",
+      "rank",
+      "progression"
+    ]
+  },
+  {
+    "id": "skill-specialization",
+    "name": "Skill Specialization System",
+    "category": "rules",
+    "description": "# Skill Specialization System\n\nSkill Specialization allows deep focus within a narrow sub-field of a skill (e.g., *Melee (Swords)* or *Medicine (Surgery)*).\n\n## Specialization Rules\n- **Prerequisite**: Character must possess **Rank 6 or higher (Trained)** in the base skill.\n- **Independent Advanceme",
+    "body": "# Skill Specialization System\n\nSkill Specialization allows deep focus within a narrow sub-field of a skill (e.g., *Melee (Swords)* or *Medicine (Surgery)*).\n\n## Specialization Rules\n- **Prerequisite**: Character must possess **Rank 6 or higher (Trained)** in the base skill.\n- **Independent Advancement**: Specialization ranks advance independently of the base skill (Max Level 10).\n- **Stacking Bonus**: Specialization level is added directly to the base skill check for related tasks.\n- **Exceeding the Cap**: Adding the Specialization bonus to a Rank 20 Master allows a character to reach **Rank 30 Pinnacle** benchmarks.\n- **Single Specialization Limit**: Only one specialization bonus may apply to a single roll.",
+    "tags": [
+      "skill",
+      "specialization"
+    ]
+  },
+  {
+    "id": "skill-synergy",
+    "name": "Skill Synergy System",
+    "category": "rules",
+    "description": "# Skill Synergy System\n\nSkill Synergy rewards characters for applying multidisciplinary knowledge to a task.\n\n## The Flat Bonus Model\nWhen an auxiliary skill has a clear, logical connection to the primary check:\n- **Trained Secondary (Rank 5 to 9)**: Grants a flat **+2 Synergy Bonus** to the primary",
+    "body": "# Skill Synergy System\n\nSkill Synergy rewards characters for applying multidisciplinary knowledge to a task.\n\n## The Flat Bonus Model\nWhen an auxiliary skill has a clear, logical connection to the primary check:\n- **Trained Secondary (Rank 5 to 9)**: Grants a flat **+2 Synergy Bonus** to the primary check.\n- **Expert Secondary (Rank 10+)**: Grants a flat **+4 Synergy Bonus** to the primary check.\n\n### Example\nA character attempting a Reason (Intellect) check to decipher an ancient inscription who possesses 6 ranks in **Language** adds a flat **+2 synergy bonus** to their check.",
+    "tags": [
+      "skill",
+      "synergy"
+    ]
+  },
+  {
+    "id": "time-modifiers",
+    "name": "Time Modifiers: Meticulous vs. Rushed",
+    "category": "rules",
+    "description": "# Time Modifiers: Meticulous vs. Rushed\n\nThe time dedicated to a task directly modifies the check result:\n\n## Meticulous Checks (Taking Extra Time)\nTaking extra time allows careful measurement and double-checking:\n- **+50% Time**: **+2 Bonus**\n- **+100% Time**: **+4 Bonus**\n- **+150% Time**: **+6 Bo",
+    "body": "# Time Modifiers: Meticulous vs. Rushed\n\nThe time dedicated to a task directly modifies the check result:\n\n## Meticulous Checks (Taking Extra Time)\nTaking extra time allows careful measurement and double-checking:\n- **+50% Time**: **+2 Bonus**\n- **+100% Time**: **+4 Bonus**\n- **+150% Time**: **+6 Bonus**\n- **+200% Time**: **+8 Bonus** (Maximum)\n\n*Note: Experts and Masters gain increased bonuses per time stage (+3 and +4 per stage).*\n\n## Rushed Checks (Hasty Execution)\nForcing rapid completion increases mistake probability:\n- **3/4 Base Time (-25%)**: **-2 Penalty**\n- **1/2 Base Time (-50%)**: **-4 Penalty**\n- **1/4 Base Time (-75%)**: **-8 Penalty**\n\n## Untrained Penalties\nWhen an Untrained character (Rank 0) rushes or takes extra time, the modifiers are shifted **1 step worse**.",
+    "tags": [
+      "time",
+      "modifiers"
+    ]
+  },
+  {
+    "id": "transposed-skills",
+    "name": "Transposed Skill Base",
+    "category": "rules",
+    "description": "# Transposed Skill Base\n\nWhile every skill has a default governing Ability Score, unique character concepts, cybernetic interfaces, or psionic disciplines may justify swapping the base attribute.\n\n## Guidelines & GM Approval\n- **Permanent Transposition**: Reflects innate biological traits or heavy c",
+    "body": "# Transposed Skill Base\n\nWhile every skill has a default governing Ability Score, unique character concepts, cybernetic interfaces, or psionic disciplines may justify swapping the base attribute.\n\n## Guidelines & GM Approval\n- **Permanent Transposition**: Reflects innate biological traits or heavy cybernetic links (e.g., using *Intellect* instead of *Agility* for Piloting via a neural direct-feed).\n- **Situational Transposition**: Reflects specific techniques (e.g., using *Agility* instead of *Strength* for Melee with a rapier via Weapon Finesse).\n- **Game Balance**: Must make narrative sense and cannot be used solely to min-max without corresponding character investment.",
+    "tags": [
+      "transposed",
+      "skills"
+    ]
+  }
+]

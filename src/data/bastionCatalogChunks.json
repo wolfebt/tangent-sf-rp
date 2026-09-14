@@ -1,0 +1,736 @@
+[
+  {
+    "id": "rule-res-01",
+    "title": "2d10 Dual Resolution Standard",
+    "domain": "resolution & dice",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Core Mechanics`; `src/data/omnicortex/rules/rule-attack-formula.md`",
+    "formula": "\\text{Check Total} = 2d10 + \\text{Attribute Modifier} + \\text{Skill Rank} + \\text{Situational Modifiers}",
+    "text": "[RULE-RES-01] 2d10 Dual Resolution Standard\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Core Mechanics`; `src/data/omnicortex/rules/rule-attack-formula.md`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Core Mechanics`; `src/data/omnicortex/rules/rule-attack-formula.md`\n- **Summary:** All standard checks and combat actions use a two-ten-sided-dice ($2d10$) curve rather than a flat linear $d20$.\n- **Formula:**\n  $$\\text{Check Total} = 2d10 + \\text{Attribute Modifier} + \\text{Skill Rank} + \\text{Situational Modifiers}$$\n- **Opposed Roll Resolution:**\n  - Attacker's Check vs. Defender's Defense Check ($\\text{Agility} + \\text{Defense Skill} + \\text{Modifiers}$).\n  - Attacker strictly exceeds Defender: **Success / Hit**.\n  - Defender strictly exceeds Attacker: **Attacker Misses / Unsuccessful**.\n  - **DEFENDER WINS ALL TIES.**\n- **Unopposed Roll Resolution:**\n  - Target unaware, immobilized, or environme",
+    "tags": [
+      "rule-res-01",
+      "2d10",
+      "dual",
+      "resolution",
+      "standard"
+    ]
+  },
+  {
+    "id": "rule-res-02",
+    "title": "Challenge Rating (CR) & Difficulty Class (DC) Ladder",
+    "domain": "resolution & dice",
+    "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`",
+    "formula": "",
+    "text": "[RULE-RES-02] Challenge Rating (CR) & Difficulty Class (DC) Ladder\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.02`; `4.00 METAPHYSICS.md § Checks`\n- **Standard Difficulty Table:**\n  | Difficulty Tier | DC / CR | Description & Environmental Context |\n  | :--- | :---: | :--- |\n  | **Very Easy** | 5 | Safe, quiet area; controlled laboratory; no pressure. |\n  | **Easy** | 10 | Casual, non-hostile conditions; simple maintenance. |\n  | **Average** | 15 | Active hostile environment; tactical combat; standard target. |\n  | **Difficult** | 20 | Severe chaos; high stress; crashing vehicle; bad weather. |\n  | **Very Difficult** | 25 | Extreme crisis; zero gravity storm; active suppressive fire. |\n  | **Heroic** | 30 | Masterwork threshold; near impossible physical feat. |\n  | **Legendary** | 35+ | Transcendent or",
+    "tags": [
+      "rule-res-02",
+      "challenge",
+      "rating",
+      "(cr)",
+      "difficulty",
+      "class",
+      "(dc)",
+      "ladder"
+    ]
+  },
+  {
+    "id": "rule-res-03",
+    "title": "Critical Hits & Critical Fumbles",
+    "domain": "resolution & dice",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Critical Hits`; `4.00 METAPHYSICS.md § Criticals`",
+    "formula": "",
+    "text": "[RULE-RES-03] Critical Hits & Critical Fumbles\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Critical Hits`; `4.00 METAPHYSICS.md § Criticals`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Critical Hits`; `4.00 METAPHYSICS.md § Criticals`\n- **Natural Roll Outcomes:**\n  - **Critical Success (Natural 20 / Double 10s):**\n    - Doubles base weapon damage dice.\n    - Adds $+30$ to the base attack score.\n    - Triggers roll on Hit Location / Critical Severity table or grants bonus tactical action.\n    - Metaphysics: Dramatic amplification of effect, zero strain.\n  - **Critical Fumble (Natural 2 / Double 1s):**\n    - Subtracts $-10$ from base check score.\n    - Triggers weapon jam, stumble, energy backfire, or loss of action.\n    - Metaphysics: Disastrous backfire; potential self-inflicted damage.",
+    "tags": [
+      "rule-res-03",
+      "critical",
+      "hits",
+      "critical",
+      "fumbles"
+    ]
+  },
+  {
+    "id": "rule-res-04",
+    "title": "Advantage & Disadvantage Rolling",
+    "domain": "resolution & dice",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`",
+    "formula": "",
+    "text": "[RULE-RES-04] Advantage & Disadvantage Rolling\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Advantage`; `src/data/omnicortex/rules/advantage-disadvantage.md`\n- **Mechanics:**\n  - **Advantage:** Roll damage or check dice twice and take the higher total (e.g., Point-Blank ballistic shots, Sneak Attacks against unaware targets).\n  - **Disadvantage:** Roll dice twice and take the lower total (e.g., severe encumbrance, sensory blind firing).\n  - Syntax supported in BASTION Dice Dock: `/roll 2d20kh1+mod`, `/roll 2d10kh1+mod`.",
+    "tags": [
+      "rule-res-04",
+      "advantage",
+      "disadvantage",
+      "rolling"
+    ]
+  },
+  {
+    "id": "rule-res-05",
+    "title": "Karma Points Economy & The 6 Canonical Spending Actions",
+    "domain": "resolution & dice",
+    "citation": "`docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md`; `src/data/omnicortex/compendium/2-04-karma-points-fate-modification.md`",
+    "formula": "",
+    "text": "[RULE-RES-05] Karma Points Economy & The 6 Canonical Spending Actions\nCitation: `docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md`; `src/data/omnicortex/compendium/2-04-karma-points-fate-modification.md`\n- **Domain:** Resolution & Dice\n- **Citation:** `docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md`; `src/data/omnicortex/compendium/2-04-karma-points-fate-modification.md`\n- **Karma Pool Fundamentals:**\n  - **Starting Pool:** Characters possess **3 Karma Points (KP)** by default.\n  - **Session Reset:** Karma resets to maximum (default 3) at the start of each game session. **Karma is NOT recovered via short or long rest.**\n  - **Pool Expansion:** The *Karmic Blessing* feature increases the maximum Karma Pool by **+1 KP per rank**. Otherwise, GM awards expand the pool at major milestones.\n  - **Heroic Gain:** The GM / Architect may award 1 Karma Point immediately for exceptionally heroic, creative, or awesome actions.\n- **The 6 Canonical Spending Actions (1 KP each):**\n  | A",
+    "tags": [
+      "rule-res-05",
+      "karma",
+      "points",
+      "economy",
+      "the",
+      "canonical",
+      "spending",
+      "actions"
+    ]
+  },
+  {
+    "id": "rule-attr-01",
+    "title": "The 6 Core Attributes",
+    "domain": "attributes",
+    "citation": "`docs/game rules/operator/1.01 CHARACTER CREATION.md § Ability Scores`",
+    "formula": "",
+    "text": "[RULE-ATTR-01] The 6 Core Attributes\nCitation: `docs/game rules/operator/1.01 CHARACTER CREATION.md § Ability Scores`\n- **Domain:** Attributes\n- **Citation:** `docs/game rules/operator/1.01 CHARACTER CREATION.md § Ability Scores`\n- **Baseline & Cost:**\n  - Human baseline is $0$.\n  - Creation cost: $5\\text{ CP (Character Points)}$ per $+1$ score.\n  - Soft cap at character creation: $+4$ (before species/cybernetic adjustments).\n- **The Core Six:**\n  1. **Strength (STR):** Raw muscle force, melee damage, carrying capacity, heavy thrown weapons.\n  2. **Agility (AGI):** Precision, speed, ranged weapon accuracy, physical defense, reaction timing.\n  3. **Stamina (STA):** Physical endurance, toxin resistance, and **natural Damage Reduction (Toughness)**.\n  4. **Intellect (INT):** Pure deductive logic, engineering crafting, scientific acumen, arcane metaphysics.\n  5. **Wisdom (WIS):** Intuition, perception, situat",
+    "tags": [
+      "rule-attr-01",
+      "the",
+      "core",
+      "attributes"
+    ]
+  },
+  {
+    "id": "rule-attr-02",
+    "title": "Canonical Sub-Attribute Base Score Derivation",
+    "domain": "attributes",
+    "citation": "`docs/game rules/operator/1.01 CHARACTER CREATION.md § Sub-Attributes`; `attributeUtils.js`",
+    "formula": "",
+    "text": "[RULE-ATTR-02] Canonical Sub-Attribute Base Score Derivation\nCitation: `docs/game rules/operator/1.01 CHARACTER CREATION.md § Sub-Attributes`; `attributeUtils.js`\n- **Domain:** Attributes\n- **Citation:** `docs/game rules/operator/1.01 CHARACTER CREATION.md § Sub-Attributes`; `attributeUtils.js`\n- **Universal Derivation Equation:**\n  $$\\text{Sub-Attribute Base Score} = 2 + (\\text{Primary Attribute Score} \\times 2)$$\n- **Primary-to-Sub Attribute Pairs:**\n  | Primary Attribute | Derived Sub-Attribute | Canonical In-Game Function |\n  | :--- | :--- | :--- |\n  | **Strength (STR)** | **Might Check** | Heavy lifting, door breaching, resisting knockback, grapple checks. |\n  | **Agility (AGI)** | **Reflex Check** | Initiative order, dodging explosions, evading falling debris. |\n  | **Stamina (STA)** | **Fortitude Check** | Resisting poisons, surviving major wounds, consciousness checks. |\n  | **Intellect (INT)** | **Reason / Logic Check** | Decrypting signals",
+    "tags": [
+      "rule-attr-02",
+      "canonical",
+      "sub-attribute",
+      "base",
+      "score",
+      "derivation"
+    ]
+  },
+  {
+    "id": "rule-vit-01",
+    "title": "Biological Vitals (Vitality & Health — 30 Base)",
+    "domain": "vitals & integrity",
+    "citation": "`docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals`; `src/engines/tangentConstants.js § VITALITY_HEALTH_STRUCTURE_RULES`",
+    "formula": "",
+    "text": "[RULE-VIT-01] Biological Vitals (Vitality & Health — 30 Base)\nCitation: `docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals`; `src/engines/tangentConstants.js § VITALITY_HEALTH_STRUCTURE_RULES`\n- **Domain:** Vitals & Integrity\n- **Citation:** `docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals`; `src/engines/tangentConstants.js § VITALITY_HEALTH_STRUCTURE_RULES`\n- **Starting Base Pools:**\n  $$\\text{Starting Base Vitality} = 30\\text{ Points}$$\n  $$\\text{Starting Base Health} = 30\\text{ Points}$$\n- **Decoupled from Stamina Addition:**\n  - **There is NO Stamina-based bonus added directly to base Vitality or Health.**\n  - Instead, **Stamina provides point-for-point natural Damage Reduction (DR / Toughness)**, reducing penetrating damage before soak by a minimum of $1$.\n  - Vitality and Health pools may be increased strictly via:\n    - **Size Tier Scaling** (e.g., larger size categories).\n    - **Species Traits & Features**.\n    - **Character Point (CP) Purchases:** $1\\text{",
+    "tags": [
+      "rule-vit-01",
+      "biological",
+      "vitals",
+      "(vitality",
+      "health",
+      "base)"
+    ]
+  },
+  {
+    "id": "rule-vit-02",
+    "title": "Synthetic, Construct & Mecha Integrity (Structure Points — 60 Base)",
+    "domain": "vitals & integrity",
+    "citation": "`docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md`; `src/engines/tangentConstants.js`",
+    "formula": "",
+    "text": "[RULE-VIT-02] Synthetic, Construct & Mecha Integrity (Structure Points — 60 Base)\nCitation: `docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md`; `src/engines/tangentConstants.js`\n- **Domain:** Vitals & Integrity\n- **Citation:** `docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md`; `src/engines/tangentConstants.js`\n- **Structure Pool Formula:**\n  $$\\text{Starting Base Structure Points (SP)} = 60\\text{ SP for Medium Size} \\times \\text{Size Scaling Multiplier}$$\n  - **Synthetics, Constructs, and Mecha have ZERO Vitality ($\\text{VP} = 0$).**\n  - Structure increases at $1\\text{ CP}$ per $2\\text{ Structure Points}$.\n  - **Immunities:** Complete immunity to non-lethal damage, fatigue, biological poisons, disease, suffocation, and sleep.\n  - **Repair:** Cannot recover via biological rest; requires Engineering repair checks, nanite paste, or replacement components.",
+    "tags": [
+      "rule-vit-02",
+      "synthetic,",
+      "construct",
+      "mecha",
+      "integrity",
+      "(structure",
+      "points",
+      "base)"
+    ]
+  },
+  {
+    "id": "rule-vit-03",
+    "title": "Carrying Capacity & Encumbrance Scaling",
+    "domain": "attributes & vitals",
+    "citation": "`docs/game rules/operator/1.01 CHARACTER CREATION.md § Carrying Capacity`; `tangentScalingEngine.js`",
+    "formula": "",
+    "text": "[RULE-VIT-03] Carrying Capacity & Encumbrance Scaling\nCitation: `docs/game rules/operator/1.01 CHARACTER CREATION.md § Carrying Capacity`; `tangentScalingEngine.js`\n- **Domain:** Attributes & Vitals\n- **Citation:** `docs/game rules/operator/1.01 CHARACTER CREATION.md § Carrying Capacity`; `tangentScalingEngine.js`\n- **Equations:**\n  $$\\text{Light Load (Unencumbered)} = (\\text{STR} + 5) \\times 10\\text{ lbs} \\times \\text{Scale Multiplier}$$\n  $$\\text{Medium Load (-2 AGI/Reflex)} = (\\text{STR} + 5) \\times 20\\text{ lbs} \\times \\text{Scale Multiplier}$$\n  $$\\text{Maximum Lift (Zero Move)} = (\\text{STR} + 5) \\times 40\\text{ lbs} \\times \\text{Scale Multiplier}$$\n\n---\n\n## DOMAIN 2: CHARACTER CREATION, ADVANCEMENT & THE 5 PILLARS",
+    "tags": [
+      "rule-vit-03",
+      "carrying",
+      "capacity",
+      "encumbrance",
+      "scaling"
+    ]
+  },
+  {
+    "id": "rule-char-01",
+    "title": "150 Character Point (CP) Budget",
+    "domain": "character creation",
+    "citation": "`docs/game rules/operator/1.01 CHARACTER CREATION.md § Character Points`",
+    "formula": "",
+    "text": "[RULE-CHAR-01] 150 Character Point (CP) Budget\nCitation: `docs/game rules/operator/1.01 CHARACTER CREATION.md § Character Points`\n- **Domain:** Character Creation\n- **Citation:** `docs/game rules/operator/1.01 CHARACTER CREATION.md § Character Points`\n- **Initial Allocation Pool:** $150\\text{ CP (Character Points / Build Points)}$\n- **Point Costs:**\n  - **Attributes:** $5\\text{ CP}$ per $+1$ score (Base 0, soft cap +4).\n  - **Sub-Attributes:** $1\\text{ CP}$ per $+1$ bonus above base formula.\n  - **Skills:** $1\\text{ CP}$ per rank.\n  - **Features:** $3\\text{ CP}$ base cost (minimum $1\\text{ CP}$ with archetype discounts).\n  - **Vitality / Health:** $1\\text{ CP} = +2\\text{ points}$ (max $+5 \\times \\text{STA}$).\n  - **Property / Requisitions:** Purchased via Wealth Score or CP conversion.\n- **Award Points (AP):** Experience points awarded during play convert $1\\text{-to-}1$ with CP ($1\\text{ AP} = 1\\text{ CP}$).\n- **The",
+    "tags": [
+      "rule-char-01",
+      "150",
+      "character",
+      "point",
+      "(cp)",
+      "budget"
+    ]
+  },
+  {
+    "id": "rule-char-02",
+    "title": "The 5 Pillars Character Creation Protocol",
+    "domain": "character creation",
+    "citation": "`bastionService.js § CANONICAL CHARACTER CREATION PROTOCOL`; `bastionCharacterEngine.js`",
+    "formula": "",
+    "text": "[RULE-CHAR-02] The 5 Pillars Character Creation Protocol\nCitation: `bastionService.js § CANONICAL CHARACTER CREATION PROTOCOL`; `bastionCharacterEngine.js`\n- **Domain:** Character Creation\n- **Citation:** `bastionService.js § CANONICAL CHARACTER CREATION PROTOCOL`; `bastionCharacterEngine.js`\n- **Execution Mandate:** When generating, validating, or arbitrating personas, BASTION strictly draws from the canonical database across the 5 Pillars in exact sequence:\n  1. **Archetype:** Closest matching canonical Archetype from the 100 Archetypes (Sentinels, Operatives, Visionaries, Savants).\n  2. **Species:** Canonical Species (Humans, Celestine Aeld, Synthetics, Aulurans, Kitin, Gen-E, Dracon, Kovian, Vajar, etc.).\n  3. **Faction:** Canonical Faction (Incorporated Planetary Syndication, Dracon Dynasty, Impyrium Dominion, Free Worlds Coalition, etc.).\n  4. **Origin:** Canonical Environmental Origin (Urban/Megacity, Asteroid Belt/Spacer, Agri-World, ",
+    "tags": [
+      "rule-char-02",
+      "the",
+      "pillars",
+      "character",
+      "creation",
+      "protocol"
+    ]
+  },
+  {
+    "id": "rule-char-03",
+    "title": "The Three 20-Point Background Skill Pools",
+    "domain": "character creation",
+    "citation": "`docs/game rules/operator/1.01 CHARACTER CREATION.md § Backgrounds`",
+    "formula": "",
+    "text": "[RULE-CHAR-03] The Three 20-Point Background Skill Pools\nCitation: `docs/game rules/operator/1.01 CHARACTER CREATION.md § Backgrounds`\n- **Domain:** Character Creation\n- **Citation:** `docs/game rules/operator/1.01 CHARACTER CREATION.md § Backgrounds`\n- **Free Foundational Budget (0 CP Cost):**\n  - **Faction Skill Pool:** $20\\text{ Skill Points (SP)}$ spent within designated Faction skill lists.\n  - **Origin Skill Pool:** $20\\text{ Skill Points (SP)}$ spent within designated Origin skill lists.\n  - **Occupation Skill Pool:** $20\\text{ Skill Points (SP)}$ spent within designated Career skill lists.\n  - **Total Benefit:** Grants exactly $60\\text{ skill ranks}$, $4\\text{ foundational features}$, and $4\\text{ traits}$ for free.",
+    "tags": [
+      "rule-char-03",
+      "the",
+      "three",
+      "20-point",
+      "background",
+      "skill",
+      "pools"
+    ]
+  },
+  {
+    "id": "rule-char-04",
+    "title": "Hindrances & Karmic Debt",
+    "domain": "character creation",
+    "citation": "`docs/game rules/operator/1.09 HINDRANCES.md § Flaws & Rebates`",
+    "formula": "",
+    "text": "[RULE-CHAR-04] Hindrances & Karmic Debt\nCitation: `docs/game rules/operator/1.09 HINDRANCES.md § Flaws & Rebates`\n- **Domain:** Character Creation\n- **Citation:** `docs/game rules/operator/1.09 HINDRANCES.md § Flaws & Rebates`\n- **Mechanics:**\n  - Minor Hindrance: Grants $+1\\text{ CP}$ or $+2\\text{ CP}$ rebate to starting pool.\n  - Major Hindrance: Grants $+3\\text{ CP}$ or $+5\\text{ CP}$ rebate.\n  - Maximum allowable rebate from Hindrances: $-20\\text{ CP}$.\n\n---\n\n## DOMAIN 3: SKILLS, SPECIALIZATION & PROGRESSION ECONOMY",
+    "tags": [
+      "rule-char-04",
+      "hindrances",
+      "karmic",
+      "debt"
+    ]
+  },
+  {
+    "id": "rule-skl-01",
+    "title": "Skill Tiers, Focus Bonuses & Action Economy",
+    "domain": "skills & combat",
+    "citation": "`docs/game rules/operator/1.07 SKILLS.md § Ranks`; `3.00 COMBAT.md § Skill Focus & Actions`",
+    "formula": "",
+    "text": "[RULE-SKL-01] Skill Tiers, Focus Bonuses & Action Economy\nCitation: `docs/game rules/operator/1.07 SKILLS.md § Ranks`; `3.00 COMBAT.md § Skill Focus & Actions`\n- **Domain:** Skills & Combat\n- **Citation:** `docs/game rules/operator/1.07 SKILLS.md § Ranks`; `3.00 COMBAT.md § Skill Focus & Actions`\n- **Canonical Tier Hierarchy:**\n  | Skill Rank | Classification Tier | Focus Bonus | Actions Allowed Per Turn |\n  | :---: | :--- | :---: | :--- |\n  | **Rank 0** | **Untrained** | $+0$ | Requires Full-Round Action for a single attempt. |\n  | **Rank 1–5** | **Novice / Studied** | $+2$ | 1 Attack / Skill Action at base score. |\n  | **Rank 6–10** | **Professional / Trained**| $+3$ | 2nd Action unlocked at base score $-5$. |\n  | **Rank 11–15**| **Expert** | $+4$ | 3rd Action unlocked at base score $-10$. |\n  | **Rank 16–20**| **Master** | $+5$ | 4th Action unlocked at base score $-15$. |\n  | **Rank 21–25**| **Grand Master** | $+6$ | 5th Action unlocked at bas",
+    "tags": [
+      "rule-skl-01",
+      "skill",
+      "tiers,",
+      "focus",
+      "bonuses",
+      "action",
+      "economy"
+    ]
+  },
+  {
+    "id": "rule-skl-02",
+    "title": "Active Defense Reaction Economy",
+    "domain": "skills & combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Active Defense`; `rule-opposed-defense.md`",
+    "formula": "",
+    "text": "[RULE-SKL-02] Active Defense Reaction Economy\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Active Defense`; `rule-opposed-defense.md`\n- **Domain:** Skills & Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Active Defense`; `rule-opposed-defense.md`\n- **Mechanics:**\n  - Characters may make as many Active Defense checks (parry, block, dodge) per round as allowed by their Defense / Melee Skill Tier.\n  - 1st Active Defense: Performed at base defense rating.\n  - 2nd and subsequent Active Defenses in the same round suffer a cumulative $-5\\text{ penalty}$ per reaction (e.g., 2nd at $-5$, 3rd at $-10$, 4th at $-15$).",
+    "tags": [
+      "rule-skl-02",
+      "active",
+      "defense",
+      "reaction",
+      "economy"
+    ]
+  },
+  {
+    "id": "rule-skl-03",
+    "title": "Skill Synergies, Transposition & Focused Tasks",
+    "domain": "skills",
+    "citation": "`docs/game rules/operator/1.07 SKILLS.md § Synergy & Transposition`",
+    "formula": "",
+    "text": "[RULE-SKL-03] Skill Synergies, Transposition & Focused Tasks\nCitation: `docs/game rules/operator/1.07 SKILLS.md § Synergy & Transposition`\n- **Domain:** Skills\n- **Citation:** `docs/game rules/operator/1.07 SKILLS.md § Synergy & Transposition`\n- **Rules:**\n  - **Skill Synergy:** Having 5+ ranks in a synergistic skill grants a $+2$ synergy bonus to related skill checks (e.g., Engineering grants $+2$ to Demolitions).\n  - **Transposition:** An operative attempting a specialized task without the specific skill may transpose a related skill at a $-5\\text{ penalty}$ (e.g., using Heavy Weapons to fire an exotic artillery platform).\n  - **Focused Tasks:** Taking twice the standard time grants $+2\\text{ to-hit / check}$; taking $10\\times$ standard time grants $+5$.\n\n---\n\n## DOMAIN 4: TACTICAL COMBAT ENGINE",
+    "tags": [
+      "rule-skl-03",
+      "skill",
+      "synergies,",
+      "transposition",
+      "focused",
+      "tasks"
+    ]
+  },
+  {
+    "id": "rule-cmb-01",
+    "title": "Initiative Determination",
+    "domain": "tactical combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Initiative`",
+    "formula": "\\text{Initiative} = 2d10 + \\text{Reflex Save Score} + \\text{Agility Modifier}",
+    "text": "[RULE-CMB-01] Initiative Determination\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Initiative`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Initiative`\n- **Formula:**\n  $$\\text{Initiative} = 2d10 + \\text{Reflex Save Score} + \\text{Agility Modifier}$$\n- Highest roll acts first. Ties are strictly broken by raw **Agility Score**, then by raw **Intuition / Wisdom**.\n- Surprised combatants forfeit their first action round.",
+    "tags": [
+      "rule-cmb-01",
+      "initiative",
+      "determination"
+    ]
+  },
+  {
+    "id": "rule-cmb-02",
+    "title": "The EDGE Tactical Advantage System",
+    "domain": "tactical combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Edge`; `src/data/omnicortex/rules/rule-edge-modifiers.md`",
+    "formula": "",
+    "text": "[RULE-CMB-02] The EDGE Tactical Advantage System\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Edge`; `src/data/omnicortex/rules/rule-edge-modifiers.md`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Edge`; `src/data/omnicortex/rules/rule-edge-modifiers.md`\n- **Tactical Modifiers Matrix:**\n  | Tactical Edge | Condition & Rule Text | Attacker Bonus | Defender Impact |\n  | :--- | :--- | :---: | :---: |\n  | **Aiming** | Sights locked onto target. Attacker cannot move. Max bonus $= \\text{AGI} \\times 2 + 2$ or $1/2$ Skill. | $+2 / \\text{round}$ | — |\n  | **Flanking** | Two or more allies engaging target from opposing $90^\\circ+$ angles. | $+2\\text{ Strike}$ | Target loses cover |\n  | **High Ground** | Positioned elevated relative to target (catwalk, ridge, flight). | $+2\\text{ Strike}, +2\\text{ Crit Range}$ | — |\n  | **Advancing Target** | Target approaches attacker without using Cover or Evasive moveme",
+    "tags": [
+      "rule-cmb-02",
+      "the",
+      "edge",
+      "tactical",
+      "advantage",
+      "system"
+    ]
+  },
+  {
+    "id": "rule-cmb-03",
+    "title": "Combat Damage & Soak Calculation",
+    "domain": "tactical combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Damage & Health`; `rule-damage-calculation.md`",
+    "formula": "",
+    "text": "[RULE-CMB-03] Combat Damage & Soak Calculation\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Damage & Health`; `rule-damage-calculation.md`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Damage & Health`; `rule-damage-calculation.md`\n- **Damage Equation:**\n  $$\\text{Effective Damage} = (\\text{Weapon Dice} + \\text{Ability Mod} + \\text{Precision/Skill}) - (\\text{Target Armor DR} + \\text{Target Stamina DR})$$\n- **Damage Subtypes & Armor Penetration (AP):**\n  - **Kinetic / Ballistic:** Standard absorption against Armor DR and Stamina DR.\n  - **Force Damage Subtype:** Overwhelming kinetic pulse; **completely ignores $50\\%$ of Target Armor DR**.\n  - **Armor Piercing (AP):** Reduces Target Armor DR by the AP rating before soak is applied ($\\max(0, \\text{DR} - \\text{AP})$).\n  - Minimum damage on a successful penetrating strike is always $1$.",
+    "tags": [
+      "rule-cmb-03",
+      "combat",
+      "damage",
+      "soak",
+      "calculation"
+    ]
+  },
+  {
+    "id": "rule-cmb-04",
+    "title": "Called Shots & Hit Location Saving Throws",
+    "domain": "tactical combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Locations & Called Shots`",
+    "formula": "",
+    "text": "[RULE-CMB-04] Called Shots & Hit Location Saving Throws\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Locations & Called Shots`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Locations & Called Shots`\n- **Called Shot Modifiers & Status Effects:**\n  | Body Location | Called Shot Penalty | Location Effect & Saving Throw | Extreme Failure (Fail by 10+) |\n  | :--- | :---: | :--- | :--- |\n  | **Torso (Center Mass)**| $-1$ (Chest $-2$, Groin $-4$) | **Winded:** Fortitude Save vs. Net Damage. Fail $= -2$ actions. | Gasping / Incapacitated. |\n  | **Head / Sensory** | $-2$ (Neck $-4$, Eyes $-5$) | **Stunned / KO:** Reason Save vs. Net Damage. Fail $=$ Stunned. | Immediate Unconsciousness. |\n  | **Arms / Forelimbs** | $-2$ (Hand $-4$, Digits $-5$) | **Disarmed:** Reflex Save vs. Net Damage. Fail $=$ Drop weapon. | Arm Severed / Crippled. |\n  | **Legs / Hindlimbs** | $-2$ (Foot $-4$, ",
+    "tags": [
+      "rule-cmb-04",
+      "called",
+      "shots",
+      "hit",
+      "location",
+      "saving",
+      "throws"
+    ]
+  },
+  {
+    "id": "rule-cmb-05",
+    "title": "Limb Damage Thresholds: Disabled & Destroyed",
+    "domain": "tactical combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Limb Damage`; `rule-limb-disabled-1-3.md`",
+    "formula": "",
+    "text": "[RULE-CMB-05] Limb Damage Thresholds: Disabled & Destroyed\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Limb Damage`; `rule-limb-disabled-1-3.md`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Limb Damage`; `rule-limb-disabled-1-3.md`\n- **Threshold Formulas:**\n  - **Disabled Limb ($\\ge 1/3\\text{ Max Health}$):**\n    - Suffer $\\ge 1/3$ of max Health in a single strike to a limb disables it (or causes Unconsciousness if to Head).\n    - Requires Stamina Check ($\\text{DC } 10 + \\text{Damage Taken}$) to continue using the limb.\n    - Penalties: $-4$ to all actions (Head), $-4\\text{ STR/AGI}$ (Arm), Halved Ground Speed & no sprinting (Leg).\n  - **Destroyed Limb ($\\ge 2/3\\text{ Max Health}$):**\n    - Suffer $\\ge 2/3$ of max Health to a location mangles, severs, or vaporizes it beyond use.\n    - Head hit at this threshold inflicts instant **Brain Death**.\n  - **Synthetic Limb Advantage:** Synthetic ",
+    "tags": [
+      "rule-cmb-05",
+      "limb",
+      "damage",
+      "thresholds:",
+      "disabled",
+      "destroyed"
+    ]
+  },
+  {
+    "id": "rule-cmb-06",
+    "title": "The Mortality State (0 HP) & Bleedout",
+    "domain": "tactical combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`",
+    "formula": "",
+    "text": "[RULE-CMB-06] The Mortality State (0 HP) & Bleedout\nCitation: `docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § The Mortality State`; `rule-mortality-0hp.md`\n- **Rules:**\n  - When Health Points drop to $0$:\n    1. Operative falls **Prone** and is **Incapacitated**.\n    2. Enters **Bleeding Out** status. At the start of their turn, suffers $1\\text{ point of Stability Damage}$.\n  - **Stability Point Pool:**\n    $$\\text{Stability Points} = \\text{Constitution (Stamina) Score} + 5$$\n  - When Stability Points reach $0$, the operative undergoes clinical death.\n  - **Stabilization:** Bleeding out ceases upon receiving a successful **Medicine Check (DC 15)** or metaphysical healing.",
+    "tags": [
+      "rule-cmb-06",
+      "the",
+      "mortality",
+      "state",
+      "hp)",
+      "bleedout"
+    ]
+  },
+  {
+    "id": "rule-cmb-07",
+    "title": "Ranged Fire, Distance Bands & Automatic Fire",
+    "domain": "tactical combat",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Ranged Combat`; `rule-range-categories.md`",
+    "formula": "",
+    "text": "[RULE-CMB-07] Ranged Fire, Distance Bands & Automatic Fire\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Ranged Combat`; `rule-range-categories.md`\n- **Domain:** Tactical Combat\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Ranged Combat`; `rule-range-categories.md`\n- **Distance Modifiers:**\n  - **Point Blank (Within Reach):** $+5\\text{ Strike (CR 10)}$, **Damage rolled with Advantage**.\n  - **Short Range (Base Listed):** $+0\\text{ Strike (CR 15)}$.\n  - **Medium Range ($2\\times\\text{ Base}$):** $-5\\text{ Strike (CR 20)}$.\n  - **Long Range ($5\\times\\text{ Base}$):** $-10\\text{ Strike (CR 25)}$.\n  - **Extreme Range ($10\\times\\text{ Base}$):** $-15\\text{ Strike (CR 30)}$.\n- **Fire Modes:**\n  - **Single Shot:** Standard action, 1 munition consumed.\n  - **Short Burst (3 rounds):** $+2\\text{ to-hit}$ or $+1d\\text{ damage}$; consumes 3 rounds.\n  - **Full Automatic:** Sweeps an area or concentrates fire. Iterative recoil applies ",
+    "tags": [
+      "rule-cmb-07",
+      "ranged",
+      "fire,",
+      "distance",
+      "bands",
+      "automatic",
+      "fire"
+    ]
+  },
+  {
+    "id": "rule-mov-01",
+    "title": "Locomotion Paces & Ground Movement",
+    "domain": "movement & locomotion",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Movement Modes`; `rule-movement-ground-paces.md`",
+    "formula": "",
+    "text": "[RULE-MOV-01] Locomotion Paces & Ground Movement\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Movement Modes`; `rule-movement-ground-paces.md`\n- **Domain:** Movement & Locomotion\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Movement Modes`; `rule-movement-ground-paces.md`\n- **Base Ground Speed:** Humans and medium bipeds have a base speed of $30\\text{ ft per round}$.\n- **Paces Table:**\n  | Pace | Multiplier | Distance / Round | Tactical Restrictions & Penalties |\n  | :--- | :---: | :---: | :--- |\n  | **Walk** | $1\\times$ | $30\\text{ ft}$ | Standard move action; can make attacks without penalty. |\n  | **Jog** | $2\\times$ | $60\\text{ ft}$ | Double move; $-2$ to ranged attack rolls. |\n  | **Run** | $3\\times$ | $90\\text{ ft}$ | Full round move; $-4$ to attack; forces Advancing/Retreating triggers. |\n  | **Sprint** | $4\\times$ | $120\\text{ ft}$ | All actions spent running straight; $-8$ to all actions; cannot evade. |",
+    "tags": [
+      "rule-mov-01",
+      "locomotion",
+      "paces",
+      "ground",
+      "movement"
+    ]
+  },
+  {
+    "id": "rule-mov-02",
+    "title": "Specialized Modes (Climbing, Swimming, Flying, Burrowing)",
+    "domain": "movement & locomotion",
+    "citation": "`src/data/omnicortex/rules/rule-movement-flying-paces.md`; `rule-movement-swimming-paces.md`",
+    "formula": "",
+    "text": "[RULE-MOV-02] Specialized Modes (Climbing, Swimming, Flying, Burrowing)\nCitation: `src/data/omnicortex/rules/rule-movement-flying-paces.md`; `rule-movement-swimming-paces.md`\n- **Domain:** Movement & Locomotion\n- **Citation:** `src/data/omnicortex/rules/rule-movement-flying-paces.md`; `rule-movement-swimming-paces.md`\n- **Rules:**\n  - **Climbing & Swimming:** Operates at $1/2\\text{ Base Speed}$ unless the operative possesses specific movement traits or Athletics/Swimming skill ranks.\n  - **Burrowing:** Operates at $1/4\\text{ Base Speed}$ through soft earth, $1/10$ through solid rock (requires specialized equipment/claws).\n  - **Flight:**\n    - High Ground bonus constantly active ($+2\\text{ Strike}, +2\\text{ Crit Range}$) against grounded targets.\n    - **Ramming Impact Damage:** Flying ram deals $1d6\\text{ per } 10\\text{ ft of speed}$ to target and self.",
+    "tags": [
+      "rule-mov-02",
+      "specialized",
+      "modes",
+      "(climbing,",
+      "swimming,",
+      "flying,",
+      "burrowing)"
+    ]
+  },
+  {
+    "id": "rule-mov-03",
+    "title": "Fatigue, Exhaustion & Recovery",
+    "domain": "movement & locomotion",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Fatigue`; `rule-rest-recovery.md`",
+    "formula": "",
+    "text": "[RULE-MOV-03] Fatigue, Exhaustion & Recovery\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Fatigue`; `rule-rest-recovery.md`\n- **Domain:** Movement & Locomotion\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Fatigue`; `rule-rest-recovery.md`\n- **Exhaustion Stages:**\n  1. **Stage 1 (Winded):** $-2$ to all physical checks, cannot Sprint.\n  2. **Stage 2 (Fatigued):** Half movement speed, $-4$ to all checks.\n  3. **Stage 3 (Exhausted):** Ground speed reduced to $5\\text{ ft}$, $-6$ to all checks, takes $1\\text{ non-lethal damage per round}$ of exertion.\n  4. **Stage 4 (Collapse):** Unconscious for $1d4\\text{ hours}$.\n- **Recovery:** Short Rest ($15\\text{ minutes}$) recovers $50\\%$ of lost Vitality Points; Full Night's Sleep ($8\\text{ hours}$) restores full VP and natural Health regeneration.\n\n---\n\n## DOMAIN 6: 14-TIER VOLUMETRIC SCALING MATRIX",
+    "tags": [
+      "rule-mov-03",
+      "fatigue,",
+      "exhaustion",
+      "recovery"
+    ]
+  },
+  {
+    "id": "rule-scl-01",
+    "title": "14 Size Categories & Multipliers",
+    "domain": "volumetric scaling",
+    "citation": "`docs/game rules/operator/1.10 SCALING.md § Size Categories`",
+    "formula": "",
+    "text": "[RULE-SCL-01] 14 Size Categories & Multipliers\nCitation: `docs/game rules/operator/1.10 SCALING.md § Size Categories`\n- **Domain:** Volumetric Scaling\n- **Citation:** `docs/game rules/operator/1.10 SCALING.md § Size Categories`\n- **The Master Scaling Table:**\n  | Size Category | Scaling Multiplier | STR Mod | Combat Mod | Stealth Mod | Max Dimension | Max Weight | Reach |\n  | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n  | **Miniscule** | $-5ds$ ($1/12$) | $-32$ | $+32$ | $+20$ | $< 1\\text{ in}$ | $< 1\\text{ oz}$ | $1\\text{ in}$ |\n  | **Fine** | $-4ds$ ($1/6$) | $-16$ | $+16$ | $+16$ | $< 6\\text{ in}$ | $< 1/8\\text{ lb}$| $6\\text{ in}$ |\n  | **Diminutive** | $-3ds$ ($1/3$) | $-8$ | $+8$ | $+12$ | $< 1\\text{ ft}$ | $< 1\\text{ lb}$ | $1\\text{ ft}$ |\n  | **Tiny** | $-2ds$ ($1/2$) | $-4$ | $+4$ | $+8$ | $< 2\\text{ ft}$ | $< 8\\text{ lbs}$ | $2\\text{ ft}$ |\n  | **Small** | $-1ds$ ($2/3$) | $-",
+    "tags": [
+      "rule-scl-01",
+      "size",
+      "categories",
+      "multipliers"
+    ]
+  },
+  {
+    "id": "rule-scl-02",
+    "title": "Starship Proximity Indirect Damage",
+    "domain": "volumetric scaling",
+    "citation": "`docs/game rules/operator/1.10 SCALING.md § Special Rules for Starships`",
+    "formula": "",
+    "text": "[RULE-SCL-02] Starship Proximity Indirect Damage\nCitation: `docs/game rules/operator/1.10 SCALING.md § Special Rules for Starships`\n- **Domain:** Volumetric Scaling\n- **Citation:** `docs/game rules/operator/1.10 SCALING.md § Special Rules for Starships`\n- **Rule Text:**\n  - Capital-scale weapons (Enormous+) vaporize smaller targets in the direct blast.\n  - In addition, they deal **$1/10\\text{ Indirect Damage}$** (overpressure, secondary shockwaves, debris) to all targets within a radius equal to:\n    $$\\text{Proximity Blast Radius} = \\frac{\\text{Attacker STR Modifier}}{2}\\text{ in feet}$$",
+    "tags": [
+      "rule-scl-02",
+      "starship",
+      "proximity",
+      "indirect",
+      "damage"
+    ]
+  },
+  {
+    "id": "rule-scl-03",
+    "title": "Meta-Tech Invocation Scale Multiplier",
+    "domain": "volumetric scaling & metaphysics",
+    "citation": "`docs/game rules/operator/1.10 SCALING.md § Meta-Tech`",
+    "formula": "",
+    "text": "[RULE-SCL-03] Meta-Tech Invocation Scale Multiplier\nCitation: `docs/game rules/operator/1.10 SCALING.md § Meta-Tech`\n- **Domain:** Volumetric Scaling & Metaphysics\n- **Citation:** `docs/game rules/operator/1.10 SCALING.md § Meta-Tech`\n- **Rule:** When an Invocation or Meta-Tech emitter is installed on a vehicle/mecha chassis, all numerical parameters (Damage Dice, Range, Area of Effect) multiply by the chassis scale:\n  $$\\text{Final Invocation Dice} = \\text{Base Damage Dice} \\times \\text{Chassis Scale Multiplier}$$\n\n---\n\n## DOMAIN 7: ECONOMATRIX, MANUFACTURING & TECH LEVELS",
+    "tags": [
+      "rule-scl-03",
+      "meta-tech",
+      "invocation",
+      "scale",
+      "multiplier"
+    ]
+  },
+  {
+    "id": "rule-eco-01",
+    "title": "Tangent Standard Curve (TSC)",
+    "domain": "economatrix",
+    "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`",
+    "formula": "",
+    "text": "[RULE-ECO-01] Tangent Standard Curve (TSC)\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework`\n- **The Universal Valuation Equation:**\n  $$\\text{Market Value (Credits)} = 10 \\times 4^{(\\text{Crafting DC} / 5)}$$\n- **Standard Milestone Values:**\n  - $\\text{DC } 0$: $10\\text{ Credits}$ (Raw scrap / basic ration).\n  - $\\text{DC } 5$: $40\\text{ Credits}$ (Hand tool / common blade).\n  - $\\text{DC } 10$: $160\\text{ Credits}$ (Sidearm / light armor).\n  - $\\text{DC } 15$: $640\\text{ Credits}$ (Standard Ballistic Assault Rifle).\n  - $\\text{DC } 20$: $2,560\\text{ Credits}$ (Military Plasma Rifle).\n  - $\\text{DC } 25$: $10,240\\text{ Credits}$ (Advanced Cybernetic Rig / Heavy Exosuit).\n  - $\\text{DC } 30$: $40,960\\text{ Credits}$ (Combat Vehicle / Prototype Emitter).",
+    "tags": [
+      "rule-eco-01",
+      "tangent",
+      "standard",
+      "curve",
+      "(tsc)"
+    ]
+  },
+  {
+    "id": "rule-eco-02",
+    "title": "The Golden Rule of Tangent Wealth",
+    "domain": "economatrix",
+    "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`",
+    "formula": "",
+    "text": "[RULE-ECO-02] The Golden Rule of Tangent Wealth\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § The Wealth Matrix`\n- **Rule Text:**\n  $$\\text{Purchase DC} = \\text{Crafting DC} \\le \\text{Wealth Score}$$\n  - A character may automatically requisition/purchase any item whose Crafting DC is less than or equal to their Wealth Score without depleting liquid credits or reducing their Wealth Score.",
+    "tags": [
+      "rule-eco-02",
+      "the",
+      "golden",
+      "rule",
+      "tangent",
+      "wealth"
+    ]
+  },
+  {
+    "id": "rule-eco-03",
+    "title": "Universal Cost Equation (Tech & Meta Multipliers)",
+    "domain": "economatrix",
+    "citation": "`src/services/omnicortexVectorRag.ts § rule-economatrix-pricing`",
+    "formula": "",
+    "text": "[RULE-ECO-03] Universal Cost Equation (Tech & Meta Multipliers)\nCitation: `src/services/omnicortexVectorRag.ts § rule-economatrix-pricing`\n- **Domain:** Economatrix\n- **Citation:** `src/services/omnicortexVectorRag.ts § rule-economatrix-pricing`\n- **Cost Scaling Formula:**\n  $$\\text{Cost (Credits)} = \\text{Base Cost} \\times (2^{\\text{TL}}) \\times (1.5^{\\text{ML}})$$\n  - Each $+1\\text{ Tech Level (TL)}$ doubles the baseline manufacturing cost.\n  - Each $+1\\text{ Meta Level (ML)}$ increases cost by $50\\%$ due to psionic/aether containment matrices.",
+    "tags": [
+      "rule-eco-03",
+      "universal",
+      "cost",
+      "equation",
+      "(tech",
+      "meta",
+      "multipliers)"
+    ]
+  },
+  {
+    "id": "rule-eco-04",
+    "title": "Tech Level (TL 0–5) Classifications",
+    "domain": "economatrix & technology",
+    "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § 2.01`; `99. TECHNOLOGY.md`",
+    "formula": "",
+    "text": "[RULE-ECO-04] Tech Level (TL 0–5) Classifications\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.01`; `99. TECHNOLOGY.md`\n- **Domain:** Economatrix & Technology\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.01`; `99. TECHNOLOGY.md`\n- **The 6 Tech Eras:**\n  - **TL 0 (Primitive / Archaic):** Forged iron, black powder, bows, mechanical gears.\n  - **TL 1 (Industrial / Mechanical):** Combustion engines, rifled ballistics, hydraulic steel plating.\n  - **TL 2 (Advanced Electronic / Modern):** Microchips, Kevlar, early railguns, titanium alloys.\n  - **TL 3 (Interstellar / Cybernetic - Baseline):** Plasma accelerators, neural cyberware, deflector shields, FTL warp drives.\n  - **TL 4 (Nanotech / Hard-Light):** Programmable smart-matter, photonic barriers, cold fusion, bio-synthetic clones.\n  - **TL 5 (Precursor / Singularity):** Dimensional folding, dark energy manipulation, self-repairing chronomet",
+    "tags": [
+      "rule-eco-04",
+      "tech",
+      "level",
+      "(tl",
+      "0–5)",
+      "classifications"
+    ]
+  },
+  {
+    "id": "rule-eco-05",
+    "title": "7-Tier Crafting Timetables",
+    "domain": "economatrix",
+    "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § 4.01 Crafting Timetables`",
+    "formula": "",
+    "text": "[RULE-ECO-05] 7-Tier Crafting Timetables\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § 4.01 Crafting Timetables`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § 4.01 Crafting Timetables`\n- **Tiers:**\n  - **Tier 1:** 1 Hour (Consumables, ammunition, field repairs).\n  - **Tier 2:** 8 Hours (Personal weapons, light cyberware, small modifications).\n  - **Tier 3:** 1–3 Days (Powered armor, heavy ordnance, targeting modules).\n  - **Tier 4:** 1–2 Weeks (Atmospheric flyers, industrial machinery, clinic implants).\n  - **Tier 5:** 1 Month (Light spacecraft, armored mecha, orbital shuttles).\n  - **Tier 6:** 6 Months (Frigates, capital escort ships, orbital defense batteries).\n  - **Tier 7:** Years / Megastructures (Dreadnoughts, space stations, planetary terraformers).\n\n---\n\n## DOMAIN 8: METAPHYSICS TRIAD, DISCIPLINES & INVOCATIONS",
+    "tags": [
+      "rule-eco-05",
+      "7-tier",
+      "crafting",
+      "timetables"
+    ]
+  },
+  {
+    "id": "rule-meta-01",
+    "title": "The Metaphysics Triad",
+    "domain": "metaphysics",
+    "citation": "`docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`",
+    "formula": "",
+    "text": "[RULE-META-01] The Metaphysics Triad\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § Skills Breakdown`\n- **The Triad Structure:**\n  1. **Attune Skill:** General energy drawing and channeling skill. Sets the **Difficulty Class (DC)** of the resistance or attack check.\n  2. **Discipline Skill:** Manipulates metaphysical patterns. Sets **Severity and Damage Dice**.\n  3. **Invocations:** Codified muscle memory. Invocations allow casters to **\"Take 10\"** by default on Discipline checks for operational safety.",
+    "tags": [
+      "rule-meta-01",
+      "the",
+      "metaphysics",
+      "triad"
+    ]
+  },
+  {
+    "id": "rule-meta-02",
+    "title": "Potency Calculation & \"Take 10\" Rule",
+    "domain": "metaphysics",
+    "citation": "`docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`",
+    "formula": "",
+    "text": "[RULE-META-02] Potency Calculation & \"Take 10\" Rule\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § The Mechanics of Casting`\n- **Potency Formula:**\n  $$\\text{Potency Score} = \\text{Key Ability} + \\text{Discipline Skill Level} + \\text{Invocation Level} + 10 \\quad \\text{(or } d20\\text{)}$$\n  - Casters Take 10 by default to prevent catastrophic failure during tactical operations. They may opt to roll $d20$ or $2d10$ when attempting higher results.",
+    "tags": [
+      "rule-meta-02",
+      "potency",
+      "calculation",
+      "\"take",
+      "10\"",
+      "rule"
+    ]
+  },
+  {
+    "id": "rule-meta-03",
+    "title": "The 6 Core Disciplines",
+    "domain": "metaphysics",
+    "citation": "`docs/game rules/operator/4.00 METAPHYSICS.md § Disciplines`",
+    "formula": "",
+    "text": "[RULE-META-03] The 6 Core Disciplines\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § Disciplines`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § Disciplines`\n- **Disciplines:**\n  1. **Dimension:** Teleportation, spatial distortion, pocket dimensions, gateway transit.\n  2. **Energy:** Thermal, electrical, acoustic, and radiant energy channeling.\n  3. **Entropy:** Decay, thermal dissipation, kinetic dampening, molecular breakdown.\n  4. **Illusion:** Sensory deception, hard-light holocasting, light bending, phantasms.\n  5. **Matter:** Telekinesis, transmutation, density control, molecular restructuring.\n  6. **Mental:** Telepathy, thought-shielding, sensory empathy, emotional influence.",
+    "tags": [
+      "rule-meta-03",
+      "the",
+      "core",
+      "disciplines"
+    ]
+  },
+  {
+    "id": "rule-meta-04",
+    "title": "Key Abilities & Awakening Sources",
+    "domain": "metaphysics",
+    "citation": "`docs/game rules/operator/4.00 METAPHYSICS.md § Source Attribute`",
+    "formula": "",
+    "text": "[RULE-META-04] Key Abilities & Awakening Sources\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § Source Attribute`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § Source Attribute`\n- **Attunement Sources:**\n  - **Intellect (INT):** Psychic, Arcane, Akashic schools (Logic and Pattern manipulation).\n  - **Wisdom (WIS):** Divine, Nature, Cosmic schools (Intuition and Faith resonance).\n  - **Charisma (CHA):** Bardic, Hereditary, Granted schools (Willpower projection and Dominance).",
+    "tags": [
+      "rule-meta-04",
+      "key",
+      "abilities",
+      "awakening",
+      "sources"
+    ]
+  },
+  {
+    "id": "rule-meta-05",
+    "title": "Internalized Strain & Metaphysic Surges",
+    "domain": "metaphysics",
+    "citation": "`docs/game rules/operator/4.00 METAPHYSICS.md § Criticals & Failure`",
+    "formula": "",
+    "text": "[RULE-META-05] Internalized Strain & Metaphysic Surges\nCitation: `docs/game rules/operator/4.00 METAPHYSICS.md § Criticals & Failure`\n- **Domain:** Metaphysics\n- **Citation:** `docs/game rules/operator/4.00 METAPHYSICS.md § Criticals & Failure`\n- **Failure Consequences:**\n  - **Internalized Strain:** Failing a casting check inflicts **$1\\text{ point of Non-Lethal Damage per } 5\\text{ points of failure}$**. This damage bypasses Stamina and Armor DR entirely.\n  - **Energy Surge ($\\text{Attune Check } \\le 0$):** Uncontrolled energy discharge hitting random allies or exploding in a radius.\n  - **Fizzle / Transposition ($\\text{Discipline Check } \\le 0$):** The effect fails or mutates into an inverted power manifestation.\n\n---\n\n## DOMAIN 9: MODULAR ENTITIES: COMPANIONS, VEHICLES & MECHA",
+    "tags": [
+      "rule-meta-05",
+      "internalized",
+      "strain",
+      "metaphysic",
+      "surges"
+    ]
+  },
+  {
+    "id": "rule-comp-01",
+    "title": "Companion Feature Unlock & 40 CP Formula",
+    "domain": "modular entities",
+    "citation": "`docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition`; `mechanicsData.js`",
+    "formula": "",
+    "text": "[RULE-COMP-01] Companion Feature Unlock & 40 CP Formula\nCitation: `docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition`; `mechanicsData.js`\n- **Domain:** Modular Entities\n- **Citation:** `docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition`; `mechanicsData.js`\n- **Access Mandate:**\n  - Companions cannot be purchased as simple equipment. Access requires purchasing the **Companion Feature**:\n    - **Cost:** $3\\text{ CP}$ (Prerequisite: Charisma $\\ge 1$).\n    - **Initial Cohort Budget:** $40\\text{ CP Base Budget}$.\n  - **Ranked Progression:**\n    - Taking the feature a 2nd time allows either unlocking a second $40\\text{ CP}$ cohort OR adding $+10\\text{ CP}$ to an existing companion's budget (Rank 1: $40\\text{ CP}$, Rank 2: $50\\text{ CP}$, Rank 3: $60\\text{ CP}$, etc.).",
+    "tags": [
+      "rule-comp-01",
+      "companion",
+      "feature",
+      "unlock",
+      "formula"
+    ]
+  },
+  {
+    "id": "rule-comp-02",
+    "title": "Modular Construction Matrix (Form + Function)",
+    "domain": "modular entities",
+    "citation": "`docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § 3. Construction`",
+    "formula": "",
+    "text": "[RULE-COMP-02] Modular Construction Matrix (Form + Function)\nCitation: `docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § 3. Construction`\n- **Domain:** Modular Entities\n- **Citation:** `docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § 3. Construction`\n- **Budget Division:**\n  $$\\text{Base Companion Budget (40 CP)} = \\text{Form Package (15 CP)} + \\text{Function Package (25 CP)}$$\n  - **Form Package ($15\\text{ CP}$):** Determines physical anatomy, size category, baseline structure, natural weaponry, and movement modes.\n  - **Function Package ($25\\text{ CP}$):** Determines behavioral AI/instincts, attribute bonuses, trained skills, and specialized protocols (Guardian, Scout, Interceptor).",
+    "tags": [
+      "rule-comp-02",
+      "modular",
+      "construction",
+      "matrix",
+      "(form",
+      "function)"
+    ]
+  },
+  {
+    "id": "rule-comp-03",
+    "title": "Companion Chassis Typologies",
+    "domain": "modular entities",
+    "citation": "`docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Step 1`",
+    "formula": "",
+    "text": "[RULE-COMP-03] Companion Chassis Typologies\nCitation: `docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Step 1`\n- **Domain:** Modular Entities\n- **Citation:** `docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Step 1`\n- **Chassis Types:**\n  - **Biological:** Possesses Vitality and Health; recovers through natural rest and medicine.\n  - **Synthetic:** Structure Points ($60\\text{ SP Base for Medium}$, scaled by size tier); zero Vitality; immune to non-lethal, poison, disease, fatigue; repaired via Engineering.\n  - **Metaphysical:** Uses Essence as health buffer; incorporeal grapple immunity; recovers via attunement rest.",
+    "tags": [
+      "rule-comp-03",
+      "companion",
+      "chassis",
+      "typologies"
+    ]
+  },
+  {
+    "id": "rule-veh-01",
+    "title": "Mecha Taxonomy — Vehicles Across All Form Factors",
+    "domain": "vehicles & mecha",
+    "citation": "`docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md`; `3.00 COMBAT.md § 3.00.11`",
+    "formula": "",
+    "text": "[RULE-VEH-01] Mecha Taxonomy — Vehicles Across All Form Factors\nCitation: `docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md`; `3.00 COMBAT.md § 3.00.11`\n- **Domain:** Vehicles & Mecha\n- **Citation:** `docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md`; `3.00 COMBAT.md § 3.00.11`\n- **Universal Vehicle Definition:**\n  - In the Tangent system, **Mecha encompasses vehicles of all sorts across the entire technological spectrum**:\n    - **Personal / Micro-Conveyances:** Hoverboards, jump-harnesses, grav-skiffs.\n    - **Wheeled & Ground Vehicles:** Motorcycles, technicals, armored rovers, personnel carriers, tanks.\n    - **Exoskeletons & Power Armor:** Powered battle frames, industrial power armor, heavy boarding suits.\n    - **Tactical Walkers:** Bipedal scout walkers, heavy assault bipeds, multipedal artillery walkers.\n    - **Atmospheric Aircraft:** Fighter jets, supersonic interceptors, VTOL gunships, planetary shuttles.\n    - **Space",
+    "tags": [
+      "rule-veh-01",
+      "mecha",
+      "taxonomy",
+      "vehicles",
+      "across",
+      "all",
+      "form",
+      "factors"
+    ]
+  },
+  {
+    "id": "rule-tech-01",
+    "title": "Augmentation System: Body Alteration Tiers (No Max Strain)",
+    "domain": "technology & augmentations",
+    "citation": "`docs/game rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md`; `1.08 FEATURES.md`",
+    "formula": "",
+    "text": "[RULE-TECH-01] Augmentation System: Body Alteration Tiers (No Max Strain)\nCitation: `docs/game rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md`; `1.08 FEATURES.md`\n- **Domain:** Technology & Augmentations\n- **Citation:** `docs/game rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md`; `1.08 FEATURES.md`\n- **Strain Removal:**\n  - **There is NO maximum strain score limiting cyberware or bioware installations.**\n- **The 3 Body Alteration Tiers:**\n  | Augmentation Tier | Body Alteration % | Feature Required | Mechanical Scope & Access |\n  | :--- | :---: | :--- | :--- |\n  | **Augmentation (Tier 1)** | $< 20\\%$ | **Augmented** (3 CP) | Minor cybernetic limbs, neural interfaces, sensory upgrades, standard dermal plating, utility implants. |\n  | **Heavy Augmentation (Tier 2)**| $< 50\\%$ | **Heavy Augmentations** (3 CP, Prereq: Augmented, STA 2) | Intensive industrial/military replacements, heavy skeletal reinforcement, high-DR armor plating, bulky combat",
+    "tags": [
+      "rule-tech-01",
+      "augmentation",
+      "system:",
+      "body",
+      "alteration",
+      "tiers",
+      "(no",
+      "max",
+      "strain)"
+    ]
+  },
+  {
+    "id": "rule-haz-01",
+    "title": "Zero-G Locomotion & Vacuum Decompression",
+    "domain": "environmental hazards",
+    "citation": "`docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`",
+    "formula": "",
+    "text": "[RULE-HAZ-01] Zero-G Locomotion & Vacuum Decompression\nCitation: `docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`\n- **Domain:** Environmental Hazards\n- **Citation:** `docs/game rules/operator/3.00 COMBAT.md § Zero-G`; `rule-zero-g-environmental-hazards.md`\n- **Rules:**\n  - **Zero-G Maneuvering:** Requires **Reflex Check (DC 14)** when executing abrupt directional thrust maneuvers; failure results in tumbling and $-4\\text{ to-hit}$.\n  - **Inertial Drift:** Unanchored movement continues unabated in a straight vector each round until reverse thrusters or solid impact occurs.\n  - **Vacuum Decompression:** Biological entities exposed to hard vacuum lose all VP instantly and suffer $2\\text{ HP damage per round}$ from explosive decompression and hypoxia.",
+    "tags": [
+      "rule-haz-01",
+      "zero-g",
+      "locomotion",
+      "vacuum",
+      "decompression"
+    ]
+  },
+  {
+    "id": "rule-stat-01",
+    "title": "Core Status Conditions Matrix",
+    "domain": "conditions & status effects",
+    "citation": "`src/data/omnicortex/rules/rule-status-effects-matrix.md`; `3.00 COMBAT.md`",
+    "formula": "",
+    "text": "[RULE-STAT-01] Core Status Conditions Matrix\nCitation: `src/data/omnicortex/rules/rule-status-effects-matrix.md`; `3.00 COMBAT.md`\n- **Domain:** Conditions & Status Effects\n- **Citation:** `src/data/omnicortex/rules/rule-status-effects-matrix.md`; `3.00 COMBAT.md`\n- **Condition Definitions:**\n  | Condition | Mechanical Effects & Restrictions | Removal / Duration |\n  | :--- | :--- | :--- |\n  | **Stunned** | Cannot take actions or reactions. Armor DR reduced by $2$. | 1 round per point failed on Reason Save. |\n  | **Winded** | $-2\\text{ penalty}$ to all actions; cannot run or sprint. | Fortitude check or 1 round rest. |\n  | **Disarmed** | Drops held weapon/item $1d6\\text{ ft}$ away. | Action required to retrieve weapon. |\n  | **Hobbled** | Movement speed reduced by $50\\%$; cannot jump or charge. | 1 round per point failed on Might Save. |\n  | **Prone** | $-2\\text{ Strike}$ in melee; $+2\\text{ Def}$ vs ranged; granting $",
+    "tags": [
+      "rule-stat-01",
+      "core",
+      "status",
+      "conditions",
+      "matrix"
+    ]
+  }
+]
