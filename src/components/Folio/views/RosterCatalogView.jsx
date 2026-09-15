@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useDeferredValue } from 'react';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { AudioService } from '../../../services/audioService';
@@ -21,6 +21,8 @@ export const RosterCatalogView = ({
 }) => {
   const [catalogTab, setCatalogTab] = useState('my-roster'); // 'my-roster' | 'public-gallery'
   const [searchQuery, setSearchQuery] = useState('');
+  // ⚡ Bolt: Using useDeferredValue for searchQuery to prevent UI stutter when filtering rosters.
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const [viewMode, setViewMode] = useState('card'); // 'card' | 'table'
   const [editingNoteDocId, setEditingNoteDocId] = useState(null);
   const [noteTextState, setNoteTextState] = useState('');
@@ -61,8 +63,8 @@ export const RosterCatalogView = ({
 
   // Filter roster by search query
   const filteredRoster = activeSourceList.filter((char) => {
-    if (!searchQuery.trim()) return true;
-    const query = searchQuery.toLowerCase();
+    if (!deferredSearchQuery.trim()) return true;
+    const query = deferredSearchQuery.toLowerCase();
     const name = (char['char-name'] || '').toLowerCase();
     const species = getFieldValue(char['char-species']).toLowerCase();
     const faction = getFieldValue(char['char-faction']).toLowerCase();
