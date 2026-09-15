@@ -10,7 +10,7 @@ tl: 4
 ml: 3
 cost: 0
 tags: ["compendium","volume-4","meta-tech","focus","psionics"]
-updatedAt: "2026-09-15T07:26:06.682Z"
+updatedAt: "2026-09-15T07:48:15.249Z"
 costs:
   bp: 0
   credits: 0

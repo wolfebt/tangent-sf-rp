@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. technology, armor matrix","matrix"]
-updatedAt: "2026-09-15T07:26:06.694Z"
+updatedAt: "2026-09-15T07:48:15.264Z"
 costs:
   bp: 0
   credits: 0

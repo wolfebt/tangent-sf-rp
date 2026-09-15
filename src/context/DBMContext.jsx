@@ -84,12 +84,12 @@ export const isOmnicortexDeleted = (item, tombstones = null) => {
   return (id && set.has(id)) || (name && set.has(name));
 };
 
-const filterInitialData = (dataList) => {
+export const filterInitialData = (dataList) => {
   const tombstones = getOmnicortexTombstones();
   return (dataList || []).filter(item => !isOmnicortexDeleted(item, tombstones));
 };
 
-const getFallbackSeedForCategory = (catK) => {
+export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'compendium' || catK === 'rules_codex') return compendiumSeedData;
   if (catK === 'archetypes') return DEFAULT_ARCHETYPES;
   if (catK === 'species') return DEFAULT_SPECIES;
@@ -340,6 +340,37 @@ export const DBMProvider = ({ children }) => {
         type: 'error',
         title: 'Sync Failed',
         text: err.message || 'Could not sync species to Firestore.'
+      });
+      return false;
+    }
+  }, [showToast]);
+
+  // Sync all Canonical Factions to Firestore Cloud
+  const syncCanonicalFactions = useCallback(async () => {
+    try {
+      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${DEFAULT_FACTIONS.length} canonical factions to cloud...` });
+      const operations = DEFAULT_FACTIONS.map(item => ({
+        ref: doc(db, 'factions', item.id),
+        data: {
+          ...item,
+          updatedAt: new Date().toISOString()
+        },
+        merge: true
+      }));
+
+      await commitChunkedBatches(operations, 450);
+      showToast({
+        type: 'success',
+        title: 'Factions Synced',
+        text: `All ${DEFAULT_FACTIONS.length} canonical factions successfully synced to Firestore.`
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncCanonicalFactions failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not sync factions to Firestore.'
       });
       return false;
     }
@@ -829,6 +860,7 @@ export const DBMProvider = ({ children }) => {
       importJSON,
       syncCanonicalCompendium,
       syncCanonicalSpecies,
+      syncCanonicalFactions,
       syncMasterSpeciesMatrix,
       handleExportMasterJSON,
       handleImportMasterJSON,

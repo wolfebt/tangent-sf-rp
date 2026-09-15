@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","occupation-profile"]
-updatedAt: "2026-09-15T07:26:06.681Z"
+updatedAt: "2026-09-15T07:48:15.248Z"
 costs:
   bp: 0
   credits: 0

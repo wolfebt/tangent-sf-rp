@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","1.01 character creation","mechanics"]
-updatedAt: "2026-09-15T07:26:06.683Z"
+updatedAt: "2026-09-15T07:48:15.254Z"
 costs:
   bp: 0
   credits: 0

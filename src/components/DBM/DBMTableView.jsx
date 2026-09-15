@@ -316,8 +316,9 @@ export const DBMTableView = ({
   const columnsDropdownRef = useRef(null);
   const filtersDropdownRef = useRef(null);
   const fileMenuRef = useRef(null);
-  const { syncCanonicalSpecies } = useDBM() || {};
+  const { syncCanonicalSpecies, syncCanonicalFactions } = useDBM() || {};
   const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
+  const [isSyncingFactions, setIsSyncingFactions] = useState(false);
 
   const codexMatrixId = CATEGORY_TO_CODEX_MATRIX[currentKey] || CATEGORY_TO_CODEX_MATRIX[currentConfig?.parent] || null;
 
@@ -1184,6 +1185,27 @@ export const DBMTableView = ({
                   >
                     <span>🧬</span>
                     <span>{isSyncingSpecies ? 'Syncing...' : 'Sync Cloud Species (81)'}</span>
+                  </button>
+                )}
+
+                {isAdmin && currentKey === 'factions' && syncCanonicalFactions && (
+                  <button
+                    onClick={async () => {
+                      setIsFileMenuOpen(false);
+                      if (window.confirm(`Sync all 40 canonical factions from local definitions to Firestore cloud collection? This will overwrite or update cloud factions documents.`)) {
+                        setIsSyncingFactions(true);
+                        try {
+                          await syncCanonicalFactions();
+                        } finally {
+                          setIsSyncingFactions(false);
+                        }
+                      }
+                    }}
+                    disabled={isSyncingFactions}
+                    className="w-full text-left px-2.5 py-1.5 bg-amber-950/40 hover:bg-amber-900/60 text-amber-300 rounded flex items-center gap-2 transition-colors font-medium border border-amber-500/30"
+                  >
+                    <span>🚩</span>
+                    <span>{isSyncingFactions ? 'Syncing...' : 'Sync Cloud Factions (40)'}</span>
                   </button>
                 )}
 
