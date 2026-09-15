@@ -2,10 +2,37 @@
 id: "1-09-hindrances-karmic-debt-codex"
 name: "1.09 Hindrances & Karmic Debt Codex"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "1.00 CHARACTER CREATION"
 order: 9
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["hindrances","karmic","debt","codex"]
+updatedAt: "2026-09-14T16:40:07.828Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 1.09 Hindrances & Karmic Debt Codex
 
 Hindrances are character flaws, phobias, debts, and physical disabilities that grant bonus **Build Points (BP)** at character creation.
@@ -34,3 +61,14 @@ Hindrances are character flaws, phobias, debts, and physical disabilities that g
 
 - **Recommended Limit:** No character should take more than **15 BP** of Hindrances.
 - **Overcoming Hindrances:** A character may buy off a Hindrance during a campaign by paying its BP cost in experience points and completing a relevant story arc.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.09 Hindrances & Karmic Debt Codex.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

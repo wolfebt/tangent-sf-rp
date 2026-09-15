@@ -10,6 +10,27 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","core-rule"]
+updatedAt: "2026-09-14T16:40:07.839Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **METAPHYSICS**
@@ -109,7 +130,7 @@ The potency of an effect is calculated as follows:
 
 ### **Metaphysic Checks & Difficulty**
 
-Base CR for activating a Metafocus Discipline or Invocation:
+Base DC for activating a Metafocus Discipline or Invocation:
 
 * Very Easy (CR 5): Safe Quiet Area, Sanctum, Laboratory, Library.  
 * Easy (CR 10): Casual, Non-Hostile Environment, Walking, Passenger in Vehicle.  
@@ -3837,3 +3858,14 @@ Requires Awakened feature. Invocations scale across Novice, Trained, Expert, Mas
 
 ## Architect Notes
 Source of Truth: docs/game rules/operator/4.00 METAPHYSICS.md
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 4.00 METAPHYSICS & REALITY MANIPULATION (OMNI-CODEX).
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

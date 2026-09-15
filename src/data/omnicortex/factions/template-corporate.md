@@ -1,11 +1,22 @@
 ---
 id: template-corporate
-name: Corporate Subsidiary
+name: "Corporate Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Branch office, megacorporate extraction subsidiary, or planetary retail
-  franchise operating for shareholder profit.
+faction_type: "Generic Template"
+archetype: "Profit-Driven Syndicates"
+driving_mandate: "Maximize profits, control resources, expand market share"
+symbol_sigil: "The Suits / The Board / The Brand"
+capital_world: "Variable (Corporate HQ Worlds)"
+tech_level: "3"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Highly diverse (Humans prevalent)"
+typical_archetypes: ["The Executive","The Fixer","The Auditor","The Corporate Spy","The PR Rep","The Security Chief","The Data Broker","The R\\&D Scientist","The HR Enforcer","The Asset Liquidator"]
+skill_package: ["Finance (+5)","Diplomacy (Negotiation) (+5)","Computers (+4)","Insight (+3)","Streetwise (+3)"]
+recommended_features: ["Benefit (Wealth)","Benefit (Clearance)","Silver Tongue","Connected","Well-Informed","Golden Smile","Legal Immunity","Platinum Personality","Corporate Sponsorship","Ruthless Negotiation"]
+features: ["Benefit (Wealth)","Benefit (Clearance)","Silver Tongue","Connected","Well-Informed","Golden Smile","Legal Immunity","Platinum Personality","Corporate Sponsorship","Ruthless Negotiation"]
+bonus_features: ["Benefit (Wealth)"]
+description: "Factions characterized entirely by their focus on profit and market dominance. They operate as sovereign nations, wielding wealth and private security forces to control resources, expand their influence, and develop new technologies at the expense of ethics"
 costs:
   bp: 0
   credits: 0
@@ -26,63 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Corporate Subsidiary (Generic Faction Template)
+## **3\. CORPORATE**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Branch office, megacorporate extraction subsidiary, or planetary retail franchise operating for shareholder profit.
+* **Overview:** Factions characterized entirely by their focus on profit and market dominance. They operate as sovereign nations, wielding wealth and private security forces to control resources, expand their influence, and develop new technologies at the expense of ethics.  
+* **Key Themes:** Unfettered Capitalism, Corporate Espionage, Profit over People.  
+* **Relationship to Others:** Transactional. Everyone is a customer or a competitor.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** \[Name\] Megacorporation / Holdings / Enterprises  
+* **Colloquialisms:** The Suits / The Board / The Brand  
+* **Archetype:** Profit-Driven Syndicates  
+* **Capital/Key World:** Variable (Corporate HQ Worlds)  
+* **Driving Mandate:** Maximize profits, control resources, expand market share.  
+* **Motto:** "Growth is the only metric of success."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their focus on profit.   
-**Attitudes**    
-Greedy, ruthless, opportunistic, profit-driven, pragmatic, competitive  
-**Goals**    
-Maximize profits, control resources, expand their influence, expand market, acquire resources, develop new technologies  
-**Strengths**    
-Wealthy, well-connected, advanced technology, skilled in business and management  
-**Weaknesses**    
-Lack of ethics, tendency to prioritize short-term gains over long-term stability, vulnerability to public opinion, vulnerability to corporate espionage, prioritizing profit over ethics, potential for corruption  
-**Technology** 3  
-**Skills** Knowledge and Manipulation  
-**Features** 2 Skill or General Features
+* **Ideology & Culture:** Greedy, ruthless, opportunistic, profit-driven, pragmatic, competitive.  
+* **Social Structure:** Rigid corporate hierarchy (Intern to CEO).  
+* **View on Outsiders:** Viewed through the lens of demographics and exploitability.  
+* **Law & Order:** Corporate policy enforced by private military contractors.
 
-Corporate CEO  
-Market Manipulator  
-Corporate Trooper  
-Corporate Agent  
-Corporate Worker
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3  
+* **Strengths:** Wealthy, well-connected, advanced technology, skilled in business and management.  
+* **Weaknesses:** Lack of ethics, prioritizes short-term gains, vulnerability to public opinion and corporate espionage, corruption.  
+* **Military Doctrine:** Cost-effective deployment of mercenaries and high-tech private security.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Highly diverse (Humans prevalent).  
+* **Faction Skill Package (20 Points):**  
+  * Finance (+5)  
+  * Diplomacy (Negotiation) (+5)  
+  * Computers (+4)  
+  * Insight (+3)  
+  * Streetwise (+3)  
+* **Typical Archetypes:** The Executive, The Fixer, The Auditor, The Corporate Spy, The PR Rep, The Security Chief, The Data Broker, The R\&D Scientist, The HR Enforcer, The Asset Liquidator.  
+* **Recommended Features (1 BP Discount):** Benefit (Wealth), Benefit (Clearance), Silver Tongue, Connected, Well-Informed, Golden Smile, Legal Immunity, Platinum Personality, Corporate Sponsorship, Ruthless Negotiation.
 
-These factions are characterized by their focus on profit.   
-**Attitudes**    
-Greedy, ruthless, opportunistic, profit-driven, pragmatic, competitive  
-**Goals**    
-Maximize profits, control resources, expand their influence, expand market, acquire resources, develop new technologies  
-**Strengths**    
-Wealthy, well-connected, advanced technology, skilled in business and management  
-**Weaknesses**    
-Lack of ethics, tendency to prioritize short-term gains over long-term stability, vulnerability to public opinion, vulnerability to corporate espionage, prioritizing profit over ethics, potential for corruption  
-**Technology** 3  
-**Skills** Knowledge and Manipulation  
-**Features** 2 Skill or General Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Corporate CEO  
-Market Manipulator  
-Corporate Trooper  
-Corporate Agent  
-Corporate Worker
-
+* **Design Directive:** Sleek, expensive, and intimidatingly clean.  
+* **Atmosphere Tokens:** Glass boardrooms, tailored suits, holographic stock tickers, neon advertising.  
+* **HI-FI INK Guidance:** Corporate Noir, Glass boardrooms, glowing data-tables, sharp suits with hidden armor, high-altitude city views. Cold, wealthy, untouchable.

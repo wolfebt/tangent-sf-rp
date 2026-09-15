@@ -2,10 +2,37 @@
 id: "3-13-ranged-burst-automatic-fire"
 name: "3.13 Ranged, Burst & Automatic Fire"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 13
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["ranged","burst","automatic","fire"]
+updatedAt: "2026-09-14T16:40:07.836Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.13 Ranged, Burst & Automatic Fire
 
 Modern ballistic and energy firearms feature selective firing modes with distinct tactical tradeoffs. All Range penalties are **Doubled** during automatic fire.
@@ -21,3 +48,14 @@ Modern ballistic and energy firearms feature selective firing modes with distinc
 | **Full Auto (Long Burst)**| 10+ Rounds | **-1 Recoil per 10 rds** | **Extra hits** for every point over Defense DC (+1d damage per hit) |
 | **Area Suppression (General)**| 20 Rounds | Targets Grid Area | Targets take **+2 Damage Dice** for every 5 points over CR 10 |
 | **Focused Blast Zone** | 30 Rounds | Concentrated Zone | Targets take **+100% Damage Dice** for every 10 points over CR 15 |
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.13 Ranged, Burst & Automatic Fire.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

@@ -30,6 +30,9 @@ function syncFactions() {
     const id = data.id || file.replace(/\.md$/, '');
     const name = data.name || data.title || id;
 
+    const recFeatures = Array.isArray(data.recommended_features) ? data.recommended_features : (Array.isArray(data.features) ? data.features : []);
+    const bonusFeats = Array.isArray(data.bonus_features) ? data.bonus_features : (recFeatures.length > 0 ? [recFeatures[0]] : []);
+
     const factionObj = {
       id,
       name,
@@ -41,7 +44,13 @@ function syncFactions() {
       capital_world: data.capital_world || '',
       tech_level: data.tech_level ? String(data.tech_level) : '3',
       meta_level: data.meta_level ? String(data.meta_level) : '0',
+      wealth_modifier: data.wealth_modifier ? String(data.wealth_modifier) : '0',
+      prominent_species: data.prominent_species || '',
+      typical_archetypes: Array.isArray(data.typical_archetypes) ? data.typical_archetypes : [],
       skill_package: Array.isArray(data.skill_package) ? data.skill_package : (data.skill_package ? [data.skill_package] : []),
+      recommended_features: recFeatures,
+      features: recFeatures,
+      bonus_features: bonusFeats,
       description: data.description || '',
       costs: data.costs || { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],

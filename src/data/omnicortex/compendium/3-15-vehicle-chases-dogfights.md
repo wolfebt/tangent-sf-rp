@@ -2,10 +2,37 @@
 id: "3-15-vehicle-chases-dogfights"
 name: "3.15 Vehicular Combat, Dogfights & System Failures"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 15
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["vehicle","chases","dogfights"]
+updatedAt: "2026-09-14T16:40:07.836Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.15 Vehicular Combat, Dogfights & System Failures
 
 Vehicular combat escalates the core 2d10 rules across 4 Domains of War (*Land, Nautical, Atmospheric, Interstellar*).
@@ -48,3 +75,14 @@ Rolled when a vehicle suffers a Critical Hit (Natural 20 or exceed Defense by 10
 - **Catastrophic Explosion:** Detonates if destroyed by Fire or Explosive damage.
   - *Radius:* **10 feet per Size Category**.
   - *Damage:* **1d6 per 10 SP** of the vehicle's maximum structure.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.15 Vehicular Combat, Dogfights & System Failures.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

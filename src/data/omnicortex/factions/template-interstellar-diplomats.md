@@ -1,11 +1,22 @@
 ---
 id: template-interstellar-diplomats
-name: Interstellar Diplomatic Corps
+name: "Interstellar Diplomats Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Neutral peacekeeping envoys, treaty negotiators, and embassy attachés
-  resolving interstellar crises.
+faction_type: "Generic Template"
+archetype: "Peacemakers"
+driving_mandate: "Maintain stability, forge alliances, prevent galactic war"
+symbol_sigil: "The Talkers / The Middlemen / The White Flags"
+capital_world: "A neutral, heavily defended space station or garden world"
+tech_level: "4"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Cosmopolitan (A mix of all species)"
+typical_archetypes: ["The Ambassador","The Peacekeeper","The Analyst","The Bodyguard","The Spy"]
+skill_package: ["Diplomacy (+5)","Insight (+5)","Academics (+4)","History (+3)","Language (+3)"]
+recommended_features: ["Silver Tongue","Trustworthy","Golden Smile","Connected","Linguist","Scholar","Inspiring Personality","Benefit (Immunity)","Educated","Insightful Reason"]
+features: ["Silver Tongue","Trustworthy","Golden Smile","Connected","Linguist","Scholar","Inspiring Personality","Benefit (Immunity)","Educated","Insightful Reason"]
+bonus_features: ["Silver Tongue"]
+description: "Independent coalitions and neutral mediators who specialize in maintaining the fragile galactic peace. Operating out of neutral sectors, they forge treaties, mediate trade disputes, and oversee the rules of war"
 costs:
   bp: 0
   credits: 0
@@ -26,59 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Interstellar Diplomatic Corps (Generic Faction Template)
+## **10\. INTERSTELLAR DIPLOMATS**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Neutral peacekeeping envoys, treaty negotiators, and embassy attachés resolving interstellar crises.
+* **Overview:** Independent coalitions and neutral mediators who specialize in maintaining the fragile galactic peace. Operating out of neutral sectors, they forge treaties, mediate trade disputes, and oversee the rules of war.  
+* **Key Themes:** Peacemakers, Soft Power, Espionage, High Society, Neutral Ground.  
+* **Relationship to Others:** Officially welcomed by all; secretly spied upon by everyone. Allowed to cross borders freely during wartime.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The Galactic Assembly / The Concordat  
+* **Colloquialisms:** The Talkers / The Middlemen / The White Flags  
+* **Archetype:** Peacemakers  
+* **Capital/Key World:** A neutral, heavily defended space station or garden world.  
+* **Driving Mandate:** Maintain stability, forge alliances, prevent galactic war.  
+* **Motto:** "Words build what weapons destroy."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their focus on diplomacy and negotiation.   
-**Attitudes**    
-Diplomatic, pragmatic, idealistic, cautious, cooperative  
-**Goals**    
-Maintain peace and stability, promote cooperation between factions, prevent conflicts, form alliances, resolve conflicts between other factions  
-**Strengths**    
-Skilled in diplomacy and negotiation, access to resources and information, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and mediate disputes  
-**Weaknesses**    
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to manipulation or deception, potential for internal divisions, reliance on diplomacy and negotiation over military force  
-**Technology** 4  
-**Skills** Knowledge and Manipulation  
-**Features** 2 General or Skill Features
+* **Ideology & Culture:** Refined, patient, intellectual, outwardly peaceful, secretly calculating.  
+* **Social Structure:** A meritocracy based on charisma, intellect, and political lineage.  
+* **View on Outsiders:** Everyone is a client, a threat, or a piece on the diplomatic board.  
+* **Law & Order:** Exceedingly polite but ruthless. Crimes are handled quietly to avoid political scandal.
 
-Ambassador  
-Intelligence Analyst  
-Peacekeeper
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 4  
+* **Strengths:** High resources, unparalleled access to information, diplomatic immunity, highly advanced defensive technology.  
+* **Weaknesses:** Vulnerability to direct, overwhelming military force; internal corruption; reliance on soft power.  
+* **Military Doctrine:** Total avoidance of combat. Rely on elite bodyguards and impenetrable deflector shields to extract personnel.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Cosmopolitan (A mix of all species).  
+* **Faction Skill Package (20 Points):**  
+  * Diplomacy (+5)  
+  * Insight (+5)  
+  * Academics (+4)  
+  * History (+3)  
+  * Language (+3)  
+* **Typical Archetypes:** The Ambassador, The Peacekeeper, The Analyst, The Bodyguard, The Spy.  
+* **Recommended Features (1 BP Discount):** Silver Tongue, Trustworthy, Golden Smile, Connected, Linguist, Scholar, Inspiring Personality, Benefit (Immunity), Educated, Insightful Reason.
 
-These factions are characterized by their focus on diplomacy and negotiation.   
-**Attitudes**    
-Diplomatic, pragmatic, idealistic, cautious, cooperative  
-**Goals**    
-Maintain peace and stability, promote cooperation between factions, prevent conflicts, form alliances, resolve conflicts between other factions  
-**Strengths**    
-Skilled in diplomacy and negotiation, access to resources and information, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and mediate disputes  
-**Weaknesses**    
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to manipulation or deception, potential for internal divisions, reliance on diplomacy and negotiation over military force  
-**Technology** 4  
-**Skills** Knowledge and Manipulation  
-**Features** 2 General or Skill Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Ambassador  
-Intelligence Analyst  
-Peacekeeper
-
+* **Design Directive:** Pristine, elegant, and secure.  
+* **Atmosphere Tokens:** Pristine embassy halls, flowing ceremonial robes, high-end defensive shields, polished marble, holographic treaties.  
+* **HI-FI INK Guidance:** Diplomatic Elite, Clean Sci-Fi. Grand assembly halls, polished marble floors, pristine white uniforms, subtle high-tech security fields. Serene, tense, wealthy.

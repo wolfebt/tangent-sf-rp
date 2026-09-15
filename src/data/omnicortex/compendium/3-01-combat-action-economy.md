@@ -2,10 +2,37 @@
 id: "3-01-combat-action-economy"
 name: "3.01 Combat Action Economy & Skill Tier Progression"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 1
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["combat","action","economy"]
+updatedAt: "2026-09-14T16:40:07.834Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.01 Combat Action Economy & Skill Tier Progression
 
 Combat in Tangent is fast-paced and tactical. The number of actions a character can perform in a single 6-second round is governed by their **Skill Tier** in the relevant combat discipline.
@@ -29,3 +56,14 @@ Combat in Tangent is fast-paced and tactical. The number of actions a character 
 ## Multiple Active Defenses
 
 Characters may execute multiple active defense reactions (Dodge, Parry, Kinetic Block) in response to incoming attacks within a single round. Each consecutive defense roll after the first suffers a cumulative **-5 penalty** (1st defense: base; 2nd defense: -5; 3rd defense: -10; 4th defense: -15).
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.01 Combat Action Economy & Skill Tier Progression.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

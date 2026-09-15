@@ -2,10 +2,37 @@
 id: "3-09-health-vitality-mortality-trauma"
 name: "3.09 Health, Vitality, Limb Trauma & Mortality State (0 HP Rules)"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 9
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["health","vitality","mortality","trauma"]
+updatedAt: "2026-09-14T16:40:07.835Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.09 Health, Vitality, Limb Trauma & Mortality State (0 HP Rules)
 
 Combat lethality in Tangent tracks vital hit points, limb damage thresholds, and the **Mortality State (0 HP)**.
@@ -46,3 +73,14 @@ When a character's Health Points reach 0, they immediately enter the **Mortality
 3. **Stability Threshold:** A character has a Stability Points total equal to their **Constitution Score + 5**.
 4. **Death:** If Stability Points reach 0, the character expires.
 5. **Stabilization:** First aid via Medicine Check (CR 15) or metaphysical healing stabilizes the character.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.09 Health, Vitality, Limb Trauma & Mortality State (0 HP Rules).
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

@@ -2,10 +2,37 @@
 id: "2-04-karma-points-fate-modification"
 name: "2.04 Karma Points & Fate Modification"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "2.00 CORE RESOLUTION"
 order: 4
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["karma","points","fate","modification"]
+updatedAt: "2026-09-14T16:40:07.831Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 2.04 Karma Points & Fate Modification
 
 **Karma** is an essential aspect of the Tangent RPG system that provides players with a limited resource they can strategically use to influence various aspects of the game. It serves as a pool of points that can be spent to affect dice rolls, modify character actions, and even shape narrative outcomes.
@@ -71,3 +98,14 @@ Characters may spend Karma into the negatives when out of points, entering "Karm
 - **Debt Limit:** Capped at **Charisma score + 1** (e.g. Charisma 3 allows down to -4 Karma).
 - **GM Discretion:** Allowance and triggering of Karmic Debt effects is at the GM's discretion.
 - **Karmic Effects:** GM may impose **Disadvantage on rolls** (roll twice, take lower), force **Rerolls** on successful checks, or grant **NPC Benefits** (increased luck/skills to opponents).
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 2.04 Karma Points & Fate Modification.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

@@ -2,10 +2,37 @@
 id: "1-04-factions-galactic-polities-codex"
 name: "1.04 Factions & Galactic Polities Codex"
 category: "compendium"
-entry_type: "Worldbuilding"
 parent: "1.00 CHARACTER CREATION"
 order: 4
+perspective: "both"
+entry_type: "Worldbuilding"
+tl: 3
+ml: 0
+cost: 0
+tags: ["factions","galactic","polities","codex"]
+updatedAt: "2026-09-14T16:40:07.818Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 1.04 Factions & Galactic Polities Codex
 
 Factions in Tangent represent the interstellar sovereign powers, megacorporate syndicates, monastic orders, and mercenary guilds that vie for control of the galaxy.
@@ -43,3 +70,14 @@ Factions in Tangent represent the interstellar sovereign powers, megacorporate s
 ## The 25 Generic Organizational Templates
 
 Architects and Operators can utilize the **25 Generic Faction Templates** (e.g. Free Trader Consortium, Frontier Militia, Smuggler Ring, Research Institute) to rapidly construct custom organizations with ready-to-use 20 SP packages.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.04 Factions & Galactic Polities Codex.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

@@ -2,10 +2,37 @@
 id: "3-05-movement-target-modifiers"
 name: "3.05 Movement & Target Situational Modifiers"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 5
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["movement","target","modifiers"]
+updatedAt: "2026-09-14T16:40:07.835Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.05 Movement & Target Situational Modifiers
 
 Physical motion and battlefield positioning dynamically affect targeting accuracy and defensive evasion.
@@ -24,3 +51,14 @@ Physical motion and battlefield positioning dynamically affect targeting accurac
 | **Moving Attackers** | Ranged Shot while Running | — | **-2 Attack** | Fire on the move |
 | | Mounted / Vehicle (Double Move)| — | **-4 Attack** | Firing from moving platform |
 | | Mounted / Vehicle (Quad Speed) | — | **-8 Attack** | Firing from high-speed pursuit |
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.05 Movement & Target Situational Modifiers.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

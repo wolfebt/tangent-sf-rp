@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium"]
-updatedAt: "2026-09-14T19:51:39.807Z"
+updatedAt: "2026-09-15T07:26:06.682Z"
 costs:
   bp: 0
   credits: 0

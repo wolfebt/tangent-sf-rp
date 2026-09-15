@@ -1,11 +1,22 @@
 ---
 id: template-religious-cult
-name: Religious Cult
+name: "Religious Cult Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Zealous monastic sect, sun-worshiping pilgrims, or ascetic devotees following
-  an infallible living prophet.
+faction_type: "Generic Template"
+archetype: "Fanatical Orders"
+driving_mandate: "Spread the true faith, prepare for the end, or ascend to a higher plane"
+symbol_sigil: "The Fanatics / The Cult / The Zealots"
+capital_world: "A hidden compound, a hollowed-out asteroid, or a deep-space temple"
+tech_level: "3"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Variable"
+typical_archetypes: ["The Prophet","The Inquisitor","The Ascetic","The Martyr","The Zealot Vanguard"]
+skill_package: ["Discipline (+5)","Intimidate (+4)","Insight (+4)","Melee Combat (+4)","Academics (Theology) (+3)"]
+recommended_features: ["Iron Will","Fearless","Indomitable Will","Resolute","Pain Tolerance","Diehard","Unsettling Aura","Power Attack","Channel Smite","Awakened"]
+features: ["Iron Will","Fearless","Indomitable Will","Resolute","Pain Tolerance","Diehard","Unsettling Aura","Power Attack","Channel Smite","Awakened"]
+bonus_features: ["Iron Will"]
+description: "Fanatical splinter groups following a charismatic leader, a bizarre cosmic event, or a dangerous dogma. They are highly insular, demanding absolute devotion from their members, and often prepare for a violent cosmic reckoning"
 costs:
   bp: 0
   credits: 0
@@ -26,63 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Religious Cult (Generic Faction Template)
+## **18\. RELIGIOUS CULT**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Zealous monastic sect, sun-worshiping pilgrims, or ascetic devotees following an infallible living prophet.
+* **Overview:** Fanatical splinter groups following a charismatic leader, a bizarre cosmic event, or a dangerous dogma. They are highly insular, demanding absolute devotion from their members, and often prepare for a violent cosmic reckoning.  
+* **Key Themes:** Fanatical Orders, Dogma, Brainwashing, Martyrdom.  
+* **Relationship to Others:** Hostile or deeply manipulative, seeking to convert outsiders or destroy them as heretics.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The Order of \[Entity\] / The Holy Vanguard  
+* **Colloquialisms:** The Fanatics / The Cult / The Zealots  
+* **Archetype:** Fanatical Orders  
+* **Capital/Key World:** A hidden compound, a hollowed-out asteroid, or a deep-space temple.  
+* **Driving Mandate:** Spread the true faith, prepare for the end, or ascend to a higher plane.  
+* **Motto:** "Faith requires sacrifice."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their devotion to a particular belief system or spiritual leader.   
-**Attitudes**    
-Fanatical, zealous, dogmatic, secretive  
-**Goals**    
-Spread their belief system, eliminate non-believers, prepare for the end times, recruit new followers, achieve spiritual enlightenment  
-**Strengths**    
-Strong community bonds, charismatic leaders, willingness to die for their beliefs, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge  
-**Weaknesses**    
-Vulnerability to internal divisions, difficulty communicating with non-believers, tendency to prioritize their own beliefs over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances  
-**Technology** 3  
-**Skills** Knowledge and Manipulation  
-**Features** 2 General or Discipline Features
+* **Ideology & Culture:** Dogmatic, brainwashed, entirely subservient to the leadership.  
+* **Social Structure:** A strict pyramid with the Prophet/Leader at the absolute peak.  
+* **View on Outsiders:** Unbelievers meant to be converted, ignored, or purged.  
+* **Law & Order:** Strict adherence to holy texts; punishments are often ritualistic and brutal.
 
-The Prophet  
-The Missionary  
-The Inquisitor  
-The Cultist  
-The Ascetic
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3  
+* **Strengths:** Absolutely fearless, unified purpose, charismatic leadership capable of moving masses.  
+* **Weaknesses:** Dogmatic and inflexible, easily manipulated by their leaders, alienated from galactic society.  
+* **Military Doctrine:** Suicide tactics, overwhelming zeal, and a total disregard for their own casualties.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Variable.  
+* **Faction Skill Package (20 Points):**  
+  * Discipline (+5)  
+  * Intimidate (+4)  
+  * Insight (+4)  
+  * Melee Combat (+4)  
+  * Academics (Theology) (+3)  
+* **Typical Archetypes:** The Prophet, The Inquisitor, The Ascetic, The Martyr, The Zealot Vanguard.  
+* **Recommended Features (1 BP Discount):** Iron Will, Fearless, Indomitable Will, Resolute, Pain Tolerance, Diehard, Unsettling Aura, Power Attack, Channel Smite, Awakened.
 
-These factions are characterized by their devotion to a particular belief system or spiritual leader.   
-**Attitudes**    
-Fanatical, zealous, dogmatic, secretive  
-**Goals**    
-Spread their belief system, eliminate non-believers, prepare for the end times, recruit new followers, achieve spiritual enlightenment  
-**Strengths**    
-Strong community bonds, charismatic leaders, willingness to die for their beliefs, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge  
-**Weaknesses**    
-Vulnerability to internal divisions, difficulty communicating with non-believers, tendency to prioritize their own beliefs over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances  
-**Technology** 3  
-**Skills** Knowledge and Manipulation  
-**Features** 2 General or Discipline Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-The Prophet  
-The Missionary  
-The Inquisitor  
-The Cultist  
-The Ascetic
-
+* **Design Directive:** Uniform, ritualistic, and unsettling.  
+* **Atmosphere Tokens:** Flowing robes, branded holy symbols, grand but hidden altars, unified color schemes, incense.  
+* **HI-FI INK Guidance:** Sci-Fi Cult, Dark Devotion. Dimly lit temples, masses of followers in identical robes, glowing esoteric symbols, grand altars. Fanatical, unsettling, devoted.

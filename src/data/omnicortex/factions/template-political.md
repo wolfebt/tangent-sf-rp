@@ -1,11 +1,22 @@
 ---
 id: template-political
-name: Political Movement
+name: "Political Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Grassroots political party, labor union, or ideological faction campaigning
-  for constitutional reform.
+faction_type: "Generic Template"
+archetype: "Ideological Blocs"
+driving_mandate: "Control the government, spread the ideology, pass favorable legislation"
+symbol_sigil: "The Suits / The Spin-Doctors / The Lobby"
+capital_world: "Usually operating out of major galactic capitals"
+tech_level: "3 to 4"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Highly Cosmopolitan"
+typical_archetypes: ["The Politician","The Campaign Strategist","The Lobbyist","The Spin-Doctor","The Black-Ops Fixer"]
+skill_package: ["Diplomacy (+5)","Insight (+5)","Bluff (+4)","History (+3)","Computers (Data-Mining) (+3)"]
+recommended_features: ["Silver Tongue","Connected","Inspiring Personality","Trustworthy","Golden Smile","Well-Informed","Benefit (Wealth)","Deceitful","Lie Detector","Benefit (Immunity)"]
+features: ["Silver Tongue","Connected","Inspiring Personality","Trustworthy","Golden Smile","Well-Informed","Benefit (Wealth)","Deceitful","Lie Detector","Benefit (Immunity)"]
+bonus_features: ["Silver Tongue"]
+description: "Ideological blocs and powerful lobbying groups fighting for control over existing governmental structures. They fight their wars in boardrooms, assembly halls, and the media, utilizing propaganda, subversion, and massive capital to shape the galaxy's laws to their advantage"
 costs:
   bp: 0
   credits: 0
@@ -26,61 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Political Movement (Generic Faction Template)
+## **15\. POLITICAL**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Grassroots political party, labor union, or ideological faction campaigning for constitutional reform.
+* **Overview:** Ideological blocs and powerful lobbying groups fighting for control over existing governmental structures. They fight their wars in boardrooms, assembly halls, and the media, utilizing propaganda, subversion, and massive capital to shape the galaxy's laws to their advantage.  
+* **Key Themes:** Ideological Blocs, Bureaucratic Warfare, Propaganda, Lobbying, Subversion.  
+* **Relationship to Others:** Parasitic or manipulative. They exist within larger factions (like the Syndicate or Coalition) attempting to steer the ship from within.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The \[Ideology\] Bloc / The Centrist Party / The Vanguard  
+* **Colloquialisms:** The Suits / The Spin-Doctors / The Lobby  
+* **Archetype:** Ideological Blocs  
+* **Capital/Key World:** Usually operating out of major galactic capitals.  
+* **Driving Mandate:** Control the government, spread the ideology, pass favorable legislation.  
+* **Motto:** "Perception is reality."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their focus on politics.   
-**Attitudes**    
-Idealistic, pragmatic, power-hungry, Manipulative, strategic, ambitious  
-**Goals**    
-Control the government, promote their ideology, maintain order, gain power, influence, or control over other factions or territories  
-**Strengths**    
-Access to resources and information, skilled politicians and diplomats, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and manipulate other factions  
-**Weaknesses**    
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to internal divisions and power struggles, potential for corruption, reliance on alliances and political maneuvering  
-**Technology** 3  
-**Skills** Knowledge and Manipulation  
-**Features** 2 Skill Features
+* **Ideology & Culture:** Manipulative, ambitious, driven by ideological purity or sheer greed.  
+* **Social Structure:** Campaign hierarchies, donors, lobbyists, and politicians.  
+* **View on Outsiders:** Voters to be swayed or opponents to be discredited.  
+* **Law & Order:** They write the laws, ensuring loopholes exist for their own benefit.
 
-Politician  
-Political Strategist  
-Lobbyist  
-Activist
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3 to 4  
+* **Strengths:** Massive political influence, control over media/propaganda, deep financial backing.  
+* **Weaknesses:** Infighting, corruption, gridlock, physically weak if stripped of their protection.  
+* **Military Doctrine:** Information warfare, smear campaigns, and deploying elite, deniable black-ops to remove political rivals.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Highly Cosmopolitan.  
+* **Faction Skill Package (20 Points):**  
+  * Diplomacy (+5)  
+  * Insight (+5)  
+  * Bluff (+4)  
+  * History (+3)  
+  * Computers (Data-Mining) (+3)  
+* **Typical Archetypes:** The Politician, The Campaign Strategist, The Lobbyist, The Spin-Doctor, The Black-Ops Fixer.  
+* **Recommended Features (1 BP Discount):** Silver Tongue, Connected, Inspiring Personality, Trustworthy, Golden Smile, Well-Informed, Benefit (Wealth), Deceitful, Lie Detector, Benefit (Immunity).
 
-These factions are characterized by their focus on politics.   
-**Attitudes**    
-Idealistic, pragmatic, power-hungry, Manipulative, strategic, ambitious  
-**Goals**    
-Control the government, promote their ideology, maintain order, gain power, influence, or control over other factions or territories  
-**Strengths**    
-Access to resources and information, skilled politicians and diplomats, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and manipulate other factions  
-**Weaknesses**    
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to internal divisions and power struggles, potential for corruption, reliance on alliances and political maneuvering  
-**Technology** 3  
-**Skills** Knowledge and Manipulation  
-**Features** 2 Skill Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Politician  
-Political Strategist  
-Lobbyist  
-Activist
-
+* **Design Directive:** Pristine, branded, and manipulative.  
+* **Atmosphere Tokens:** Holotables, pristine offices, tailored suits, massive propaganda banners, media drones.  
+* **HI-FI INK Guidance:** Political Thriller, High Society. Pristine offices, sharp suits, floating holographic data, massive digital banners. Tense, wealthy, deceitful.

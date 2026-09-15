@@ -18,7 +18,7 @@ const buildSteps = [
   { name: 'Sizes', script: 'buildSpeciesSize.mjs' },
   { name: 'Movement', script: 'bridgeSpeciesMovement.mjs' },
   { name: 'Equipment & Invocations', script: 'syncOmnicortexEquipment.mjs' },
-  { name: 'Compendium Seed', script: 'compileCompendium.mjs' }
+  { name: 'Compendium Seed', script: 'syncMasterCanonicalCompendium.mjs' }
 ];
 
 console.log('================================================================');

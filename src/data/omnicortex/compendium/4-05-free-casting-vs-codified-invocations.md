@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium"]
-updatedAt: "2026-09-14T19:51:39.807Z"
+updatedAt: "2026-09-15T07:26:06.681Z"
 costs:
   bp: 0
   credits: 0
@@ -54,7 +54,7 @@ Adepts can manifest metaphysical phenomena through two fundamentally distinct me
 
 ## The Potency Calculation Formula
 
-$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } 2d10 \text{)}]$$
+$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
 
 - **Attune Check**: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.
 - **Discipline Check**: Used to determine the severity of Effects and/or Damage.

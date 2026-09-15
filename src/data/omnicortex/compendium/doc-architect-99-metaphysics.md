@@ -10,6 +10,27 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","metaphysics-matrix"]
+updatedAt: "2026-09-14T16:40:07.844Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **METAPHYSICS FRAMEWORK**
@@ -120,3 +141,14 @@ Consult this Architect matrix when designing game assets, calculating build budg
 
 ## Architect Notes
 Source of Truth: docs/game rules/architect/99. METAPHYSICS (1).md
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 99. METAPHYSICS FRAMEWORK & TRANSCENDENCE.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

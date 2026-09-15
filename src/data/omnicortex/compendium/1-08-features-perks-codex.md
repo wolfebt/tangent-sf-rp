@@ -10,6 +10,27 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","features-codex"]
+updatedAt: "2026-09-14T16:40:07.827Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **FEATURES**
@@ -2787,3 +2808,14 @@ Select features that synergize with your archetype chassis and occupational spec
 
 ## Architect Notes
 Source of Truth: docs/game rules/operator/1.08 FEATURES.md
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.08 FEATURES & PERKS MASTER CODEX.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

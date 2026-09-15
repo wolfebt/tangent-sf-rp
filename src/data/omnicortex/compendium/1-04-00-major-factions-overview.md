@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","major-faction-(primary)"]
-updatedAt: "2026-09-14T19:51:39.806Z"
+updatedAt: "2026-09-15T07:26:06.681Z"
 costs:
   bp: 0
   credits: 0
@@ -53,15 +53,18 @@ Choosing a **Major Primary Faction** grants the following:
 | Faction Name | Archetype | Tech Level | Meta Level | Capital / Core World | Driving Mandate |
 | :--- | :--- | :---: | :---: | :--- | :--- |
 | **Dracon Dynasty** | Feudal Technocracy / Space Monarchy | **TL 3** | **ML 3** | Draconis | Protect the Realm; Expand through Diplomacy. |
-| **The Syndicate** | Cyber-Corporate Cyberocracy | **TL 4** | **ML 2** | Premius | Eliminate Friction; Maximize Efficiency. |
-| **Free Worlds Coalition** | Democratic Confederation / Frontier League | **TL 3** | **ML 2** | Libertalia | Self-Determination; Resist Imperial Dominion. |
-| **The Ascendancy** | Psionic Theocracy / Transcendence | **TL 3** | **ML 5** | Solace | Uplift the Mind; Attune to the Quantum Weave. |
+| **The Syndicate** | High-Tech Cyberocracy / Corporate Hegemony | **TL 4** | **ML 2** | Premius | Eliminate Friction; Maximize Efficiency. |
+| **The Entari Combine** | Mega-Conglomerate / Hydro-Mineral Technocracy | **TL 3** | **ML 1** | Entari Prime | Resource Monopolization; Industrial Domination. |
+| **Free Worlds Coalition** | Democratic Confederation / Frontier League | **TL 3** | **ML 2** | Libertalia | Defend Self-Determination; Resist Imperial Dominion. |
+| **The Outworlds** | Frontier Scavengers / Anarcho-Syndicates | **TL 3** | **ML 1** | Rust-Haven | Survival through Independence; Defy Central Authority. |
+| **The Ascendancy** | Psionic Theocracy / Transcendence Hegemony | **TL 3** | **ML 5** | Solace | Uplift Sentient Consciousness; Attune to the Cosmic Weave. |
+| **The Mekan Collective** | Synthetic Technocracy / Machine Consciousness | **TL 5** | **ML 1** | Mekan Prime | Perfection of Form; Eradication of Biological Inefficiency. |
 | **Auluran Clans** | Nomadic Starfarers / Bio-Smiths | **TL 4** | **ML 3** | The Great Armada | Preserve the Fleet; Honor the Ancestor Pods. |
-| **Elven Providence** | Ancient Sages / Star-Weavers | **TL 4** | **ML 4** | Illyria | Harmonize Nature with High Science. |
-| **Kovian Tribunal** | Technocratic Arbiters / Lawbringers | **TL 4** | **ML 1** | Kovia Prime | Order through Logic; Eradicate Chaos. |
-| **Vajar** | Warrior Clades / Honorbound Legions | **TL 3** | **ML 2** | Vajarath | Glory in Battle; Strength through Trial. |
-| **Impyrium Dominion** | Imperial Autocracy / Solar Empire | **TL 4** | **ML 3** | Sol-Invictus | Total Subjugation; The Grand Imperial Design. |
-| **Radiant Impyrium** | Divine Solar Hegemony | **TL 4** | **ML 4** | Aethelgard | Purity through Light; Divine Right of Rule. |
+| **Elven Providence** | Ancient High Magitech Hegemony | **TL 4** | **ML 4** | Altheria / Illyria | Preserve Ancient Legacy; Navigate Ideological Schisms. |
+| **Kovian Tribunal (Nocturne)** | Supremacist / Isolationist / Magocracy | **TL 4** | **ML 3** | Umbra Prime | Dominance through Darkness; Eradicate Weakness. |
+| **Vajar Tribes (Wilder)** | Primal Nomads / Survivalist Clans | **TL 3** | **ML 3** | Vajarath | Honor the Ancestors; Strength through Hardship. |
+| **Impyrium Dominion** | Militaristic Autocracy / Totalitarian Empire | **TL 4** | **ML 3** | Sol-Invictus | Total Order; Subjugation through Military Might. |
+| **Radiant Impyrium** | Enlightened Monarchy / High Imperial Hegemony | **TL 4** | **ML 4** | Aethelgard | Order through Illumination; The Golden Age of Man. |
 
 ## Game Mechanics Rules
 ```

@@ -10,7 +10,7 @@ tl: 4
 ml: 1
 cost: 0
 tags: ["compendium","volume-1","factions","kitin","hive-mind"]
-updatedAt: "2026-09-14T19:51:39.807Z"
+updatedAt: "2026-09-15T07:26:06.682Z"
 costs:
   bp: 0
   credits: 0

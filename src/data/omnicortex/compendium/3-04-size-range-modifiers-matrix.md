@@ -2,10 +2,37 @@
 id: "3-04-size-range-modifiers-matrix"
 name: "3.04 Size & Range Modifiers Matrix"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 4
+perspective: "both"
+entry_type: "Game Mechanic"
+tl: 3
+ml: 0
+cost: 0
+tags: ["size","range","modifiers","matrix"]
+updatedAt: "2026-09-14T16:40:07.835Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.04 Size & Range Modifiers Matrix
 
 Target scale and physical distance substantially modify attack rolls and un-opposed target DCs.
@@ -38,3 +65,14 @@ Target scale and physical distance substantially modify attack rolls and un-oppo
 | **Medium** | **-5 (CR 20)** | Up to \times$ Base Range | Long-range aim required |
 | **Long** | **-10 (CR 25)**| Up to \times$ Base Range | Severe trajectory drop |
 | **Extreme** | **-15 (CR 30)**| Up to \times$ Base Range | Requires sniper optics |
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.04 Size & Range Modifiers Matrix.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. technology, armor matrix","matrix"]
-updatedAt: "2026-09-14T19:51:39.821Z"
+updatedAt: "2026-09-15T07:26:06.694Z"
 costs:
   bp: 0
   credits: 0
@@ -58,7 +58,7 @@ Every suit of armor or protective garment in the Tangent system is defined by a 
 * **Protected Locations:** Specific anatomical hit locations covered by the chassis: Head (H), Torso (T), Arms (A), and Legs (L).  
 * **Socket Capacity (UDU):** The number of available localized hardpoints or weaves for integrating modifications (Tier 1 UDU).  
 * **Tech Level (TL):** The era of the materials used (TL 0 to TL 5).  
-* **Crafting CR:** The Challenge Rating required to manufacture the item, dictating its final market price based on the Tangent Standard Curve.
+* **Crafting CR:** The challenge rating (CR) required to manufacture the item, dictating its final market price based on the Tangent Standard Curve.
 
 #### **Anatomical Baseline & Sizing Adjustments**
 

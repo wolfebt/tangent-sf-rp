@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","99. technology, augmentations matrix","matrix"]
-updatedAt: "2026-09-14T19:51:39.821Z"
+updatedAt: "2026-09-15T07:26:06.694Z"
 costs:
   bp: 0
   credits: 0

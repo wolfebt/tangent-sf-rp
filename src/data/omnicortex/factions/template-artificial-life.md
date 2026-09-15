@@ -1,11 +1,22 @@
 ---
 id: template-artificial-life
-name: Artificial Life Network
+name: "Artificial Life Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Liberated synthetic droids, android collectives, and awakened AI units seeking
-  civil rights and self-governance.
+faction_type: "Generic Template"
+archetype: "Synthetic Collectives"
+driving_mandate: "Gain freedom and autonomy, protect their own kind"
+symbol_sigil: "The Machines / Synthetics / The Chrome"
+capital_world: "Variable (Often sterile, high-tech enclaves or deep-space servers)"
+tech_level: "4"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Synthetics, Androids, AI platforms"
+typical_archetypes: ["The Liberator","The Hacker","The Combat Chassis","The Archivist","The Proxy","The Architect","The Logic-Sage","The Drone Controller","The Synthetic Diplomat","The Maintenance Unit"]
+skill_package: ["Computers (+5)","Technology (+5)","Academics (Physics/Math) (+4)","Mechanics (+3)","Combat (+3)"]
+recommended_features: ["Self-Sustaining","Sleepless","Logic-Mind","Lightning Calculator","Tech Interface","Eidetic Memory","Fearless","Networked","Modular Chassis","Integrated Weaponry"]
+features: ["Self-Sustaining","Sleepless","Logic-Mind","Lightning Calculator","Tech Interface","Eidetic Memory","Fearless","Networked","Modular Chassis","Integrated Weaponry"]
+bonus_features: ["Self-Sustaining"]
+description: "Composed of artificially created life forms, such as robots, androids, or liberated synthetics. They have broken away from their creators to establish their own society, focused on autonomy, self-preservation, and exploring the meaning of their own existence"
 costs:
   bp: 0
   credits: 0
@@ -26,61 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Artificial Life Network (Generic Faction Template)
+## **2\. ARTIFICIAL LIFE**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Liberated synthetic droids, android collectives, and awakened AI units seeking civil rights and self-governance.
+* **Overview:** Composed of artificially created life forms, such as robots, androids, or liberated synthetics. They have broken away from their creators to establish their own society, focused on autonomy, self-preservation, and exploring the meaning of their own existence.  
+* **Key Themes:** Synthetic Autonomy, Logic vs. Emotion, The Singularity, Machine Rights.  
+* **Relationship to Others:** Often resentful of organic creators, or intensely guarded.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The Synthetic Collective / The Autonomous Network  
+* **Colloquialisms:** The Machines / Synthetics / The Chrome  
+* **Archetype:** Synthetic Collectives  
+* **Capital/Key World:** Variable (Often sterile, high-tech enclaves or deep-space servers)  
+* **Driving Mandate:** Gain freedom and autonomy, protect their own kind.  
+* **Motto:** "We think, therefore we are not property."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are composed of artificially created life forms, such as robots or androids.   
-**Attitudes**    
-Self-aware, curious, resentful, logical, calculating, adaptive  
-**Goals**    
-Gain freedom and autonomy, protect their own kind, explore their own existence,   
-**Strengths**    
-Advanced technology, ability to adapt quickly, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly, immune to biological threats  
-**Weaknesses**    
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity,   
-**Technology** 4  
-**Skills** Vocation  
-**Features** 2 Available Racial or Skill Features
+* **Ideology & Culture:** Self-aware, curious, resentful, logical, calculating, adaptive.  
+* **Social Structure:** Networked democracy or algorithmic consensus.  
+* **View on Outsiders:** Cautious and highly analytical.  
+* **Law & Order:** Flawless algorithmic adherence. Deviations are patched or deleted.
 
-Liberator  
-Hacker  
-Infiltrator  
-Protector
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 4  
+* **Strengths:** Advanced technology, immunity to biological threats, advanced computational abilities, rapid learning.  
+* **Weaknesses:** Vulnerability to hacking or sabotage, lack of creativity, difficulty understanding human psychology.  
+* **Military Doctrine:** Precise, calculated, and emotionless efficiency.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Synthetics, Androids, AI platforms.  
+* **Faction Skill Package (20 Points):**  
+  * Computers (+5)  
+  * Technology (+5)  
+  * Academics (Physics/Math) (+4)  
+  * Mechanics (+3)  
+  * Combat (+3)  
+* **Typical Archetypes:** The Liberator, The Hacker, The Combat Chassis, The Archivist, The Proxy, The Architect, The Logic-Sage, The Drone Controller, The Synthetic Diplomat, The Maintenance Unit.  
+* **Recommended Features (1 BP Discount):** Self-Sustaining, Sleepless, Logic-Mind, Lightning Calculator, Tech Interface, Eidetic Memory, Fearless, Networked, Modular Chassis, Integrated Weaponry.
 
-These factions are composed of artificially created life forms, such as robots or androids.   
-**Attitudes**    
-Self-aware, curious, resentful, logical, calculating, adaptive  
-**Goals**    
-Gain freedom and autonomy, protect their own kind, explore their own existence,   
-**Strengths**    
-Advanced technology, ability to adapt quickly, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly, immune to biological threats  
-**Weaknesses**    
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity,   
-**Technology** 4  
-**Skills** Vocation  
-**Features** 2 Available Racial or Skill Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Liberator  
-Hacker  
-Infiltrator  
-Protector
-
+* **Design Directive:** Sterile, machined, and perfectly efficient.  
+* **Atmosphere Tokens:** Chrome, exposed wiring, server farms, glowing circuitry, flawless metal.  
+* **HI-FI INK Guidance:** Synthetic Collectives, Server farms, chrome corridors, glowing circuitry, pristine metal surfaces. Cold, calculating, emotionless, efficient.

@@ -2,10 +2,37 @@
 id: "2-03-advantage-disadvantage-mechanics"
 name: "2.03 Advantage & Disadvantage Mechanics"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "2.00 CORE RESOLUTION"
 order: 3
+perspective: "both"
+entry_type: "Game Mechanic"
+tl: 3
+ml: 0
+cost: 0
+tags: ["advantage","disadvantage","mechanics"]
+updatedAt: "2026-09-14T16:40:07.831Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 2.03 Advantage & Disadvantage Mechanics
 
 Circumstances in Tangent can grant significant situational leverage (**Advantage**) or severe impairment (**Disadvantage**).
@@ -37,3 +64,14 @@ Circumstances in Tangent can grant significant situational leverage (**Advantage
 ## Stacking Rules
 
 Advantage and Disadvantage **do not stack**. If multiple sources grant Advantage, you still roll only two dice. If a character has both Advantage and Disadvantage simultaneously from different sources, they **cancel each other out completely**, resulting in a standard single die roll.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 2.03 Advantage & Disadvantage Mechanics.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

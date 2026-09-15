@@ -10,6 +10,27 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","skills-codex"]
+updatedAt: "2026-09-14T16:40:07.824Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **SKILLS**
@@ -3365,3 +3386,14 @@ Consult specific skill entries for Challenge Ratinges, roll mechanics, and requi
 
 ## Architect Notes
 Source of Truth: docs/game rules/operator/1.07 SKILLS.md
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.07 MASTER SKILLS CODEX (COMPLETE RULES & BENCHMARKS).
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

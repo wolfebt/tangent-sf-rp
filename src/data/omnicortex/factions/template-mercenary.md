@@ -1,11 +1,22 @@
 ---
 id: template-mercenary
-name: Mercenary Company
+name: "Mercenary Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Soldiers of fortune, gunships for hire, and security contractors fighting for
-  the highest corporate bidder.
+faction_type: "Generic Template"
+archetype: "Guns for Hire"
+driving_mandate: "Fulfill the contract, get paid, survive"
+symbol_sigil: "Mercs / Hired Guns / Dogs of War"
+capital_world: "Variable (Often operate from massive fleet-carriers or lawless frontier stations)"
+tech_level: "3"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Highly diverse"
+typical_archetypes: ["The Shock Trooper","The Sniper","The Tactician","The Combat Medic","The Quartermaster"]
+skill_package: ["Combat (Any) (+5)","Tactics (+4)","Survival (+4)","Mechanics (+4)","Athletics (+3)"]
+recommended_features: ["Weapon Focus","Tough","Armor Proficiency","Combat Reflexes","Danger Sense","Burst Attack","Gearhead","Diehard","Endurance","Weapon Improvisation"]
+features: ["Weapon Focus","Tough","Armor Proficiency","Combat Reflexes","Danger Sense","Burst Attack","Gearhead","Diehard","Endurance","Weapon Improvisation"]
+bonus_features: ["Weapon Focus"]
+description: "Private Military Companies (PMCs) and independent warbands who fight for the highest bidder. They hold no allegiance to flags, kings, or causes—only to the contract"
 costs:
   bp: 0
   credits: 0
@@ -26,65 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Mercenary Company (Generic Faction Template)
+## **11\. MERCENARY**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Soldiers of fortune, gunships for hire, and security contractors fighting for the highest corporate bidder.
+* **Overview:** Private Military Companies (PMCs) and independent warbands who fight for the highest bidder. They hold no allegiance to flags, kings, or causes—only to the contract.  
+* **Key Themes:** Guns for Hire, The Contract, Brotherhood, Expendable Assets, High-Tech Warfare.  
+* **Relationship to Others:** Hired by everyone, trusted by no one. They are the disposable blades of the major powers.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** \[Company Name\] Solutions / The Vanguard / The Blood-Sworn  
+* **Colloquialisms:** Mercs / Hired Guns / Dogs of War  
+* **Archetype:** Guns for Hire  
+* **Capital/Key World:** Variable (Often operate from massive fleet-carriers or lawless frontier stations)  
+* **Driving Mandate:** Fulfill the contract, get paid, survive.  
+* **Motto:** "Loyalty ends when the credits run out."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their focus on providing military services for hire.    
-**Attitudes**    
-Opportunistic, ruthless, efficient, professional, pragmatic, loyal (to the highest bidder)  
-**Goals**    
-Secure lucrative contracts, build their reputation, achieve personal wealth and power  
-**Strengths**    
-Skilled in combat and tactics, access to advanced weaponry and equipment, adaptable to various situations and employers  
-**Weaknesses**    
-Potential for betrayal or desertion, difficulty maintaining loyalty, tendency to prioritize their own interests over the greater good, loyalty tied to financial gain, difficulty forming long-term alliances  
-**Technology** 3  
-**Skills** Vocation and Combat  
-**Features** 2 General or Combat Features
+* **Ideology & Culture:** Pragmatic, cynical, fiercely loyal to their immediate squad mates.  
+* **Social Structure:** A strict military hierarchy based entirely on combat experience and survival.  
+* **View on Outsiders:** Clients, targets, or civilians in the way.  
+* **Law & Order:** Governed by "The Contract." Desertion is met with lethal internal discipline.
 
-Shock Trooper  
-Sniper  
-Infiltrator  
-Medic  
-Tactician  
-Pilot
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3  
+* **Strengths:** High combat skill, extreme adaptability, battle-tested veterans, lack of bureaucratic red tape.  
+* **Weaknesses:** Zero political loyalty, high turnover rate, reliant on clients for major funding and resupply.  
+* **Military Doctrine:** Highly variable based on the contract (Assassination, Siege, Escort, or Shock Assault).
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Highly diverse.  
+* **Faction Skill Package (20 Points):**  
+  * Combat (Any) (+5)  
+  * Tactics (+4)  
+  * Survival (+4)  
+  * Mechanics (+4)  
+  * Athletics (+3)  
+* **Typical Archetypes:** The Shock Trooper, The Sniper, The Tactician, The Combat Medic, The Quartermaster.  
+* **Recommended Features (1 BP Discount):** Weapon Focus, Tough, Armor Proficiency, Combat Reflexes, Danger Sense, Burst Attack, Gearhead, Diehard, Endurance, Weapon Improvisation.
 
-These factions are characterized by their focus on providing military services for hire.    
-**Attitudes**    
-Opportunistic, ruthless, efficient, professional, pragmatic, loyal (to the highest bidder)  
-**Goals**    
-Secure lucrative contracts, build their reputation, achieve personal wealth and power  
-**Strengths**    
-Skilled in combat and tactics, access to advanced weaponry and equipment, adaptable to various situations and employers  
-**Weaknesses**    
-Potential for betrayal or desertion, difficulty maintaining loyalty, tendency to prioritize their own interests over the greater good, loyalty tied to financial gain, difficulty forming long-term alliances  
-**Technology** 3  
-**Skills** Vocation and Combat  
-**Features** 2 General or Combat Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Shock Trooper  
-Sniper  
-Infiltrator  
-Medic  
-Tactician  
-Pilot
-
+* **Design Directive:** Tactical, scarred, and heavily armed.  
+* **Atmosphere Tokens:** Tactical webbing, mismatched high-end gear, drop-ships, scarred armor, ballistic plating, weapon grease.  
+* **HI-FI INK Guidance:** Military Sci-Fi, Tactical, Gritty. Dropship interiors, heavy ballistic plating, customized weaponry, ammo bandoliers, blast scarring. Tense, violent.

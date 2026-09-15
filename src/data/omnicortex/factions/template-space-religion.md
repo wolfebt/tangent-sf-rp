@@ -1,11 +1,22 @@
 ---
 id: template-space-religion
-name: Space Faith Pilgrimage
+name: "Space Religion Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Nomadic void-ark fleet traveling between holy celestial phenomena and
-  star-shrine systems.
+faction_type: "Generic Template"
+archetype: "Cosmic Devout"
+driving_mandate: "Protect holy sites, achieve enlightenment, spread peace"
+symbol_sigil: "The Pilgrims / The Monks / Star-Gazers"
+capital_world: "A sacred nebula, an ancient temple-world, or a drifting monastery ship"
+tech_level: "3 (Often integrated with ML 3/4)"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Variable"
+typical_archetypes: ["The Mystic","The Pilgrim","The Oracle","The Temple Guardian","The Chaplain"]
+skill_package: ["Discipline (+5)","History (+4)","Insight (+4)","Diplomacy (+4)","Attune (+3)"]
+recommended_features: ["Centering","Iron Will","Educated","Magical Aptitude","Harmonious Center","Trustworthy","Awakened","Defensive Combat Training","Sense","Insightful Reason"]
+features: ["Centering","Iron Will","Educated","Magical Aptitude","Harmonious Center","Trustworthy","Awakened","Defensive Combat Training","Sense","Insightful Reason"]
+bonus_features: ["Centering"]
+description: "Factions built around cosmic devotion, guarding ancient holy sites or seeking universal enlightenment through the stars. They blend high technology with deep mysticism, viewing the cosmos as a divine tapestry"
 costs:
   bp: 0
   credits: 0
@@ -26,61 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Space Faith Pilgrimage (Generic Faction Template)
+## **22\. SPACE RELIGION**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Nomadic void-ark fleet traveling between holy celestial phenomena and star-shrine systems.
+* **Overview:** Factions built around cosmic devotion, guarding ancient holy sites or seeking universal enlightenment through the stars. They blend high technology with deep mysticism, viewing the cosmos as a divine tapestry.  
+* **Key Themes:** Cosmic Devout, Pilgrimage, Mysticism, Sacred Sites.  
+* **Relationship to Others:** Generally peaceful unless their holy sites are threatened; often mediate disputes through spiritual authority.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The Celestial Path / The Astral Convocation  
+* **Colloquialisms:** The Pilgrims / The Monks / Star-Gazers  
+* **Archetype:** Cosmic Devout  
+* **Capital/Key World:** A sacred nebula, an ancient temple-world, or a drifting monastery ship.  
+* **Driving Mandate:** Protect holy sites, achieve enlightenment, spread peace.  
+* **Motto:** "The stars guide those who listen."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their religious beliefs related to space and the cosmos.   
-**Attitudes**    
-Devout, spiritual, mystical, Spiritual, devout, contemplative  
-**Goals**    
-Spread their faith, protect their holy sites, explore the spiritual nature of the universe, spread their beliefs, recruit new followers, achieve spiritual enlightenment  
-**Strengths**    
-Strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge  
-**Weaknesses**    
-Vulnerability to persecution, difficulty communicating with non-believers, tendency to prioritize their own spiritual goals over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances  
-**Technology** 3  
-**Skills** Knowledge and Discipline  
-**Features** 2 Skill or Discipline Features
+* **Ideology & Culture:** Serene, devout, philosophical, deeply traditional.  
+* **Social Structure:** Theocratic hierarchy led by High Mystics or Oracles.  
+* **View on Outsiders:** Lost souls in need of guidance, or dangerous heathens if they desecrate the sacred.  
+* **Law & Order:** Religious law and spiritual penance.
 
-Pilgrim  
-Missionary  
-Mystic  
-Oracle
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3 (Often integrated with ML 3/4).  
+* **Strengths:** Deep mystical insight, unbreakable communal bonds, access to ancient arcane knowledge.  
+* **Weaknesses:** Persecution by secular powers, internal theological schisms, pacifism exploited by aggressors.  
+* **Military Doctrine:** Primarily defensive; utilizing shielding, evasion, and powerful warding magic to protect the flock.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Variable.  
+* **Faction Skill Package (20 Points):**  
+  * Discipline (+5)  
+  * History (+4)  
+  * Insight (+4)  
+  * Diplomacy (+4)  
+  * Attune (+3)  
+* **Typical Archetypes:** The Mystic, The Pilgrim, The Oracle, The Temple Guardian, The Chaplain.  
+* **Recommended Features (1 BP Discount):** Centering, Iron Will, Educated, Magical Aptitude, Harmonious Center, Trustworthy, Awakened, Defensive Combat Training, Sense, Insightful Reason.
 
-These factions are characterized by their religious beliefs related to space and the cosmos.   
-**Attitudes**    
-Devout, spiritual, mystical, Spiritual, devout, contemplative  
-**Goals**    
-Spread their faith, protect their holy sites, explore the spiritual nature of the universe, spread their beliefs, recruit new followers, achieve spiritual enlightenment  
-**Strengths**    
-Strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge  
-**Weaknesses**    
-Vulnerability to persecution, difficulty communicating with non-believers, tendency to prioritize their own spiritual goals over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances  
-**Technology** 3  
-**Skills** Knowledge and Discipline  
-**Features** 2 Skill or Discipline Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Pilgrim  
-Missionary  
-Mystic  
-Oracle
-
+* **Design Directive:** Serene, ancient, and deeply symbolic.  
+* **Atmosphere Tokens:** Temples carved into asteroids, flowing silk garments, incense, glowing ancient texts, chimes.  
+* **HI-FI INK Guidance:** Sci-Fi Mysticism, Space Religion. Grand stone temples floating in nebulas, flowing robes, glowing halos, ancient script on high-tech surfaces. Serene, profound, ancient.

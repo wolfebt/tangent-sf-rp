@@ -2,10 +2,37 @@
 id: "3-14-scale-multipliers-vehicle-mecha"
 name: "3.14 Scale Multipliers & Vehicle/Mecha Combat"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 14
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["scale","multipliers","vehicle","mecha"]
+updatedAt: "2026-09-14T16:40:07.836Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.14 Scale Multipliers & Vehicle/Mecha Combat
 
 When personnel-scale firearms interact with armored mecha or starships, **Scale Multipliers** ensure realistic armor protection and destructive force.
@@ -27,3 +54,14 @@ When personnel-scale firearms interact with armored mecha or starships, **Scale 
 ## Scale Damage Calculation Rules
 - When a personnel weapon strikes a **Vehicle-Scale (5x)** target: Personnel damage is divided by 5 before applying vehicle Armor DR.
 - When a **Vehicle-Scale (5x)** weapon strikes a Personnel target: Damage is multiplied by 5, almost always resulting in instant vaporization.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.14 Scale Multipliers & Vehicle/Mecha Combat.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

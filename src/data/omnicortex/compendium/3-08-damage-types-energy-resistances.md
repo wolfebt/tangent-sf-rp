@@ -2,10 +2,37 @@
 id: "3-08-damage-types-energy-resistances"
 name: "3.08 Master Damage Types Directory & Energy Profiles"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 8
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["damage","types","energy","resistances"]
+updatedAt: "2026-09-14T16:40:07.835Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.08 Master Damage Types Directory & Energy Profiles
 
 Tangent features a rich ecosystem of damage types categorized into Kinetic, Energy, and Variative/Elemental profiles across Archaic, Modern, Advanced Tech, and Metaphysical vectors.
@@ -40,3 +67,14 @@ Tangent features a rich ecosystem of damage types categorized into Kinetic, Ener
 | **Infernal** | Variative | Corrupting hellfire and Stygian soul-taint | Infernal relics, hellfire curses, infernal evocation |
 | **Dimensional** | Variative | Reality tearing that **completely bypasses Armor DR** | Phase rifts, spatial cannons, pocket dimension collapses |
 | **Psyche / Mental** | Variative | Direct psionic neural trauma **ignoring physical Armor DR** | Neural disruptors, psychic assaults, telepathy |
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.08 Master Damage Types Directory & Energy Profiles.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

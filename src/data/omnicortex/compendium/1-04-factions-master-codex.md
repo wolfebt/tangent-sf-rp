@@ -10,5362 +10,2310 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","faction-codex"]
+updatedAt: "2026-09-15T07:26:06.906Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
-# **FACTIONS**
+# 1.04 FACTIONS & GALACTIC POLITIES
 
-# **FACTIONS**
+Factions in Tangent represent the various organizations, groups, or affiliations that a character might be associated with. These factions provide a sense of belonging, shared goals, and access to resources and opportunities. They shape a character's worldview, influence their actions, and define geopolitical allegiances across the galaxy.
 
-Factions in Tangent represent the various organizations, groups, or affiliations that a character might be associated with. These factions can provide a character with a sense of belonging, shared goals, and access to resources and opportunities. They can also shape a character's worldview, influence their actions, and bring them into conflict with other factions.
+## Mechanical Benefits of Faction Allegiance
 
-Players receive 20 POINTS FOR SKILLS associated with their chosen origin. This allows for focused development of expertise relevant to the character's upbringing.&nbsp;
+* **Faction Skill Package (20 Skill Points):** Players receive **20 POINTS FOR SKILLS** associated with their chosen faction, allowing for focused development of expertise relevant to their background and training.
+* **Recommended Features (1 BP Discount):** Players can select **Recommended Features** from a curated list tailored to their faction at a **1 BP discount** (2 BP instead of 3 BP), further enhancing their capabilities.
+* **Sociological Standing:** Pre-established diplomatic recognition, citizenship, legal status, and faction equipment access.
 
-Additionally, players can select TWO BONUS FEATURES from a list tailored to their origin, further enhancing their capabilities and reflecting the unique traits developed within that environment.
+---
 
-&nbsp;
+# **MAJOR GALACTIC POWERS**
 
-&nbsp;
+## **THE DRACON DYNASTY**
 
-# **DRACON DYNASTY**
+### **I. Detailed Faction Description**
 
-# **DRACON DYNASTY**
+* **Overview:** The Dracon Dynasty stands as a bastion of stability and tradition in a chaotic galaxy. Founded by Dragons and currently ruled by their Draconic descendants, the faction claims a lineage of rule spanning 17 centuries. Established on the Draconic principles of Protection, Patience, and Long-term Stability, the Dynasty operates on a scale of time that others find difficult to comprehend. While technically a republic where worlds have representation, the society is stratified by a rigid Feudal Caste System. The ruling class views the citizenry through the lens of Noblesse Oblige—they are benevolent but authoritarian. While possessing a formidable military, they are the galaxy's premier diplomats, preferring to expand through alliance, marriage, and economic integration rather than brute force.  
+* **Key Themes:** Feudalism in Space, Dragon-Knights, Noblesse Oblige, Castle Architecture.  
+* **Relationship to Others:** The "Old Money" of the galaxy; they view the Coalition as anarchy, the Syndicate as vulgar, and are ancient enemies of the Impyrium.
 
-## **DESCRIPTION**
-
-The **Dracon Dynasty** stands as a bastion of stability and tradition in a chaotic galaxy. Founded by Dragons and currently ruled by their Draconic descendants, the faction claims a lineage of rule spanning 17 centuries (though historical records suggest a continuous governance of approximately 800 years).
-
-Established on the Draconic principles of **Protection**, **Patience**, and **Long-term Stability**, the Dynasty operates on a scale of time that others find difficult to comprehend. To a Dynasty strategist, a plan that takes fifty years to bear fruit is considered a "short-term initiative." While technically a republic where worlds have representation, the society is stratified by a rigid **Feudal Caste System**, ranging from the toiling Citizens to the ruling Draconic Nobility and the High Chancellor.
-
-The ruling class views the citizenry through the lens of **Noblesse Oblige**—a sense of protective ownership. They are benevolent but authoritarian; the Knights (**Dragoons**) enforce the peace, and the Commoners provide the labor, believing this structure is the only thing ensuring their safety in a hostile universe. While they possess a formidable military, they are the galaxy's premier diplomats, preferring to expand through alliance, marriage, and economic integration rather than brute force.
-
-### 
-
-### **Overview**
-
-The Dracon Dynasty stands as a bastion of stability and tradition. Founded by Dragons and ruled by their descendants, the faction claims a lineage of rule spanning 17 centuries. They value **Protection**, **Patience**, and **Long-term Stability**.
-
-&nbsp;
-
-**Key Themes:** Feudalism in Space, Dragon-Knights, Noblesse Oblige, Castle Architecture.
-
-&nbsp;
-
-**Relationship to Others:** The "Old Money" of the galaxy; they view the Coalition as anarchy and the Syndicate as vulgar.
-
-## 
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Dracon Dynasty  
 * **Colloquialisms:** The Dynasty / Dragon-Lords  
 * **Archetype:** Feudal Technocracy / Space Monarchy  
+* **Capital/Key World:** Draconis  
+* **Symbol/Sigil:** The Dragon Rampant  
 * **Driving Mandate:** Protect the Realm; Expand through Diplomacy.  
-* **Symbol/Sigil:** The Dragon Rampant.  
-* **Capital/Key World:** Draconis.
+* **Motto:** "Stability requires Hierarchy."
 
-## 
+### **III. Sociological Profile**
 
-## ---
+#### **Ideology & Culture**
 
-## **SOCIOLOGICAL PROFILE**
-
-### **Ideology & Culture**
-
-* **Core Beliefs:** "Stability requires Hierarchy."  
+* **Core Beliefs:** Ancestral Veneration (Progenitors/Dragons); protection of the weak is the duty of the strong.  
 * **Social Structure:** Strict Caste System (Draconic Royalty \> Knights \> Citizens).  
-* **Philosophy:** Ancestral Veneration (Progenitors/Dragons).  
-* **Magic/Psionics:** Respected but regulated; Sorcerers serve the State as "Battle-Mages" or advisors.
+* **View on Outsiders:** Condescending but diplomatic; they view other factions as short-sighted or unrefined.  
+* **Law & Order:** Feudal law enforced by the Knights (Dragoons); authoritarian but highly structured and largely safe for commoners.
 
-## 
+#### **Governance**
 
-## ---
+* **Government Type:** Feudal Republic / Monarchy  
+* **Leadership:** The High Chancellor and Draconic Nobility.  
+* **Succession:** Hereditary Lineage and Bloodright.
 
-## **MECHANICS (GAME DATA)**
+### **IV. Strategic Assets**
 
-### **Advancements**
+#### **Economy & Tech**
 
-* **Tech Level:** **3 (Feudal / Heavy)**  
-  * *Focus:* Defensive shielding, Super-Heavy Walkers, Melee Weaponry (Vibro-tech).  
-* **Meta Level:** **3 (Sorcerous)**  
-  * *Focus:* **Ancestral Veneration**. Battle-Mages are a respected caste within the military, blending elemental magic with technology.
+* **Tech Level (TL):** 3 (Feudal / Heavy)  
+* **Meta Level (ML):** 3 (Sorcerous \- Ancestral Veneration)  
+* **Wealth Modifier:** \+2 (Old Money / High Resources)  
+* **Primary Exports:** Diplomatic mediation, security/protection, heavy ores, Vibro-tech.  
+* **Economic Model:** Feudal Mercantilism.
 
-### 
+#### **Military Profile**
 
-### **Faction Skill Package (20 Points)**
+* **Doctrine:** "Wall of Iron" \- Heavy defensive tactics, melee superiority, and overwhelming staying power.  
+* **Key Units:** Dragoon Knights (Power-armored elite), Battle-Mages (Sanctioned state sorcerers).  
+* **Naval Assets:** Flying Castles / Rampart Ships. Heavy, immovable designs with defensive shielding.  
+* **Unique Tech/Materials:** Vibro-tech, Dragon-Plate armor, elemental magic integration.
 
-The Dynasty trains for war and command.
+### **V. Mechanics (Game Data)**
 
-* **Combat (1 or 2 Skills) (+4):** Knightly training.  
-* **History (Lineage) (+4):** Knowing who is in charge.  
-* **Diplomacy (Command) (+3):** Giving orders.  
-* **Intimidate (+3):** The Dragon's presence.  
-* **Tactics (+3):** Large scale warfare.  
-* **Ride/Pilot (+3):** Mounting beasts or mecha.
+* **Prominent Species:** Humans, Draconic Descendants.  
+* **Faction Skill Package (20 Points):**  
+  * Combat (1 or 2 Skills) (+4): Knightly training.  
+  * History (Lineage) (+4): Knowing who is in charge.  
+  * Diplomacy (Command) (+3): Giving orders.  
+  * Intimidate (+3): The Dragon's presence.  
+  * Tactics (+3): Large scale warfare.  
+  * Ride/Pilot (+3): Mounting beasts or mecha.  
+* **Typical Archetypes:** The Protector, The Veteran, The Legionnaire, The High Commander, The Armorer, The Silent Blade, The Swashbuckler, The Aristocrat, The Priest, The Socialite, The Magus, The Architect.  
+* **Recommended Features (1 BP Discount):**  
+  * Benefit (Status), Combat Specialist, Great Fortitude, Iron Will, Power Attack, Channel Smite, Animal Affinity, Born Leader, Empowered Strike, Tough, Weapon Specialization, Inspiring Personality.
 
-### 
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-### **Bonus Features (1 BP Discount)**
+#### **HI-FI INK Prompt Framework**
 
-* **Benefit (Status):** Start with Rank (Knight/Noble).
+* **SETTING STYLE:** Feudal Technocracy, Space Monarchy, Neo-Gothic Fortress, heavy medieval armor upscaled to starship size.  
+* **CONTEXT:** Ramparts, huge stone pillars, castle battlements, heavy iron, stone, expensive incense, banners.  
+* **ATMOSPHERE:** Safe, heavy, ancient, powerful. Warm hearth lighting (oranges/reds of firelight) contrasting the cold void.
 
-## 
+### **VII. Expansion Modules (Optional)**
 
-## ---
+#### **Scene Vignettes**
 
-## **VISUAL SEMIOTICS (AESTHETICS)**
+* **The High Chancellor's Ball:** Opulent and stiff. Huge imported stone pillars hold up the ceiling. Polite conversation masks deadly political maneuvering.  
+* **The Dragoon Patrol:** A squad of heavy Dragon-Striders moving through a city. The populace creates a wide berth, showing respect and fear.  
+* **The Wyrm-Hangar:** A cavernous bay lined with basalt where high-tech maintenance rigs service massive Walker Mecha alongside handlers tending to biological Wyverns.
 
-**Design Directive:** "Feudal Fortress."
+## **INCORPORATED PLANETARY SYNDICATION (SYNDICATE)**
 
-The Dynasty aesthetic is **Fortified**, **Angular**, and **Defensive**. It looks like medieval armor upscaled to starship size.
+### **I. Detailed Faction Description**
 
-### 
+* **Overview:** The Syndicate represents a High-Tech Cyberocracy—a society run like a massive, efficient, interconnected business entity. The defining characteristic is the Seamless Integration of technology via the "Mesh," a ubiquitous AR and data network that overlays the physical world, eliminating bureaucratic friction. Culturally, they view Transhumanism as a professional standard. They are pragmatic, agile, and pivot strategies instantly based on real-time analytics. Beneath the pristine corporate spires lie the "Restriction Zones" (Friction Layers), where unlicensed tech and native Premian culture thrive in the shadows.  
+* **Key Themes:** Corporate Intrigue, High-Tech Convenience, Surveillance State, "The Mesh," Transhumanism.  
+* **Relationship to Others:** The galaxy's vendor; they trade with everyone but are trusted by no one. Hated rivals of the Impyrium.
 
-### **Palette**
+### **II. Core Identity**
 
-* **Primary:** **Gunmetal Grey**, Obsidian.  
-* **Secondary:** Heavy Iron, Stone.  
-* **Accent:** Accents vary depending on the noble House and their respective Progenitor Draconic color (Red, Blue, Green, Gold, Silver, or Black).
-
-### 
-
-### **Lighting**
-
-* **Key Style:** **Warm Hearth.** Internal lighting is warm oranges and reds (firelight), contrasted with the cold void.  
-* **Mood:** Safe, Heavy, Ancient, Powerful.
-
-### 
-
-### **Shape Language**
-
-* **Triangular Plating:** Armor and ships mimic dragon scales.  
-* **Ramparts:** Ships look like flying castles with battlements.  
-* **Weight:** Everything looks heavy and immovable.
-
-### 
-
-### **Gear Aesthetic**
-
-* **"Dragon-Plate":** Powered armor that looks like knightly plate mail.  
-* **Melee Focus:** Use of high-tech swords and lances (Vibro-blades).
-
-## 
-
-## ---
-
-## **SCENES & ENVIRONMENTS**
-
-### **A. The High Chancellor's Ball**
-
-* **Context:** A diplomatic gala on a massive space station orbiting Draconis.  
-* **Atmosphere:** Opulent and stiff. The air smells of expensive incense and roasting meat.  
-* **Visuals:** Huge stone pillars (imported) hold up the ceiling. Banners hang from the rafters. The attendees wear formal armor or heavy velvet robes.  
-* **Activity:** Polite conversation that masks deadly political maneuvering.
-
-### 
-
-### **B. The Dragoon Patrol**
-
-* **Context:** A squad of heavy mecha moving through a city.  
-* **Visuals:** The mecha (Dragon-Striders) walk with a heavy, thumping gait. They are painted in house colors (Gunmetal and Crimson).  
-* **Effect:** The populace creates a wide berth, showing respect and fear.
-
-### 
-
-### **C. The Wyrm-Hangar**
-
-* **Context:** A military staging area where biological tradition meets high technology.  
-* **Visuals:** A cavernous bay lined with basalt. On one side, high-tech maintenance rigs service massive Walker Mecha. On the other, handlers tend to actual, biological Wyverns used for atmospheric scouting. The smell of ozone mixes with the musk of large reptiles.
-
-## 
-
-## ---
-
-## **COMMON PERSONAS (ARCHETYPES)**
-
-* **The Dragoon Knight:** An elite warrior encased in heavy power armor.  
-  * *Visuals:* Heavy plate armor with heraldry, carrying a vibro-lance and a shield generator.  
-* **The Draconic Noble:** A ruler with dragon blood.  
-  * *Visuals:* Humanoid but with reptilian eyes and patches of scales. Dressed in fine velvet and silk.  
-* **The Battle-Mage:** A sorcerer sanctioned by the state.  
-  * *Visuals:* Wearing tactical robes over armor, hands glowing with elemental energy (Fire or Lightning).  
-* **The Scale-Smith:** An artisan who forges armor for the nobility.  
-  * *Visuals:* Wearing a heavy leather apron over simple clothes, arms covered in burn scars, working a high-tech forge that uses plasma fire.
-
-&nbsp;
-
-# **SYNDICATE**
-
-# **SYNDICATE**
-
-## 
-
-## **FACTION DESCRIPTION**
-
-The **Incorporated Planetary Syndication** (Syndicate) represents a unique evolution of human civilization in the Tangent universe. Unlike the feudal nature of the Dynasty or the ancient stagnation of the Impyrium, the Syndicate is a **High-Tech Cyberocracy**—a society run like a massive, efficient, and interconnected business entity where information equates to governance.
-
-The defining characteristic of the Syndicate is the **Seamless Integration** of technology into daily life. This is not an invasive hive-mind or a robotic government, but rather a culture of **Technical Facilitation**. Syndicate society is supported by the **"Mesh,"** a ubiquitous Augmented Reality and data network that overlays the physical world. This system removes the "friction" of existence—bureaucracy, miscommunication, and logistical delays are eliminated by instant, secure data sharing. The interconnected information of the MESH is constantly analyzed to maximize the overall efficiency of the Syndicate as a whole, while simultaneously optimizing the life paths and productivity of individual citizens.
-
-Culturally, the Syndicate views **Transhumanism** as a professional standard and a quality-of-life improvement. Cybernetics and bio-mods are common, not to strip away humanity, but to enhance it—allowing a pilot to react faster, an artist to see more colors, or an executive to process data more efficiently. They are pragmatic and agile, willing to pivot strategies instantly based on real-time analytics, making them the most adaptive of the major powers.
-
-### 
-
-### **Overview**
-
-The Syndicate is a High-Tech Cyberocracy run like a business. Supported by the "Mesh" (a ubiquitous AR network), they value **Efficiency**, **Profit**, and **Transhumanism**. They are the most adaptive faction, viewing cybernetics as professional upgrades.
-
-**Key Themes:** Corporate Intrigue, High-Tech Convenience, Surveillance State, "The Mesh."
-
-**Relationship to Others:** The galaxy's vendor; they trade with everyone but are trusted by no one; hated rivals of the Impyrium.
-
-## 
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
-
-* **Official Designation:** The Incorporated Planetary Syndication  
-* **Colloquialisms:** The Corp / The Suits / The Mesh  
+* **Official Designation:** Incorporated Planetary Syndication  
+* **Colloquialisms:** The Syndicate / The Corp / The Suits / The Mesh  
 * **Archetype:** Cyber-Corporate / High-Tech Cyberocracy  
+* **Capital/Key World:** Premius (The Corporate Core)  
+* **Symbol/Sigil:** The Hexagon (representing the Hive/Mesh)  
 * **Driving Mandate:** Eliminate Friction; Maximize Efficiency.  
-* **Symbol/Sigil:** The Hexagon (representing the Hive/Mesh).  
-* **Capital/Key World:** Premius (The Corporate Core).
+* **Motto:** "Friction is failure. Efficiency is moral."
 
-## 
+### **III. Sociological Profile**
 
-## 
+#### **Ideology & Culture**
 
-## ---
-
-## **SOCIOLOGICAL PROFILE**
-
-### **Ideology & Culture**
-
-* **Core Beliefs:** "Friction is failure." Efficiency is moral. Additionally, the populace holds a **casual reverence for "The Lady,"** an entity believed to reside in the Premian system. Originally deified by the ancient Premian people, this belief has evolved into a cultural cornerstone rather than a strict religion, framing power and fortune as gifts to be respected.  
+* **Core Beliefs:** The Market is the ultimate arbiter. Casual reverence for "The Lady" (a Premian cultural cornerstone viewing fortune/power as gifts).  
 * **Social Structure:** Corporate Hierarchy (Intern to Board Member).  
-* **Philosophy:** Consumerism / The Market (The Invisible Hand).  
-* **Magic/Psionics:** Abilities are viewed as gifts from The Lady and are expected to be used for the greater good. High-functioning individuals are actively recruited and inducted into the **Premian Mystics** or the **Syndicate PsiCorp**.
+* **View on Outsiders:** Transactional. Everyone is a potential customer or asset.  
+* **Law & Order:** Enforced by Corporate Security and algorithm; unsanctioned actions are handled as "friction" to be smoothed out or eliminated.
 
-### 
+#### **Governance**
 
-### **Demographics**
+* **Government Type:** Corporatocracy / Cyberocracy.  
+* **Leadership:** The Board of Directors.  
+* **Succession:** Corporate promotion, shareholding, and hostile takeover.
 
-* **Primary Species:** Humans (Syndicate Genotype \- Sleek/Modified).
+### **IV. Strategic Assets**
 
-## 
+#### **Economy & Tech**
 
-## 
+* **Tech Level (TL):** 4 (High-Tech / Cybernetic)  
+* **Meta Level (ML):** 2 (Regulated \- PsiCorp/Premian Mystics)  
+* **Wealth Modifier:** \+3 (Highly Profitable)  
+* **Primary Exports:** Consumer electronics, Cybernetics, AI, Data/Information, Mass Surveillance tech.  
+* **Economic Model:** Hyper-Capitalism / Consumerism.
 
-## ---
+#### **Military Profile**
 
-## **MECHANICS (GAME DATA)**
+* **Doctrine:** Rapid, agile, data-driven deployment.  
+* **Key Units:** Orbital Drop Marines, Corporate Fixers.  
+* **Naval Assets:** Data-Core Network ships, Stealth Freighters. Vanta Black aesthetic.  
+* **Unique Tech/Materials:** "The Mesh", Adaptive Corp-Spec gear, Holographic UI.
 
-### **Advancements**
+### **V. Mechanics (Game Data)**
 
-* **Tech Level:** **4 (High-Tech / Cybernetic)**  
-  * *Focus:* Consumer electronics, Cybernetics, AI, Mass Surveillance ("The Mesh").  
-  * *Aesthetic:* Adaptive Neo-Futurism.  
-* **Meta Level:** **2 (Regulated)**  
-  * *Focus:* "The Lady" (Cultural Reverence). Abilities are recruited into the **PsiCorp** or **Premian Mystics**. Unsanctioned use is a crime.
+* **Prominent Species:** Humans (Syndicate Genotype \- Sleek/Modified).  
+* **Faction Skill Package (20 Points):**  
+  * Computers (+4): Navigating the Mesh.  
+  * Vocation (Any) (+4): Tradecraft training.  
+  * Academics (+4): Foundation in logical principles.  
+  * Technology (+4): Using/maintaining high-tech gear.  
+  * Insight (+2): Reading people in negotiations.  
+  * Diplomacy (+2): Closing the deal.  
+* **Typical Archetypes:** The Bureaucrat, The Munitions Magnate, The Company Man, The Ghost, The Broker, The Foreman, The Kingpin, The Socialite, The Decker, The Cyberneticist, The Net-Architect, The Saboteur.  
+* **Recommended Features (1 BP Discount):**  
+  * Augmented, Computer Specialist, Digital Expert, Benefit (Wealth), Benefit (Clearance), Silver Tongue, Connected, Coding Master, Gearhead, Tech Interface, Nimble Fingers, Well Informed.
 
-### 
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-### **Faction Skill Package (20 Points)**
+#### **HI-FI INK Prompt Framework**
 
-The Syndicate education system produces specialists who understand systems, data, and social maneuvering.
+* **SETTING STYLE:** Adaptive Neo-Futurism, High-Tech Cyberocracy, Clean, Efficient.  
+* **CONTEXT:** Spire Lobbies, multi-level verticality, sterile white architectural concrete, "Federal Grey" brushed steel, Vanta Black military gear, smoked glass, hexagonal tiling.  
+* **ATMOSPHERE:** Defensive, prestigious, structured, biophilic fortification. High specularity reflections with "The Blue Line" (cerulean emissive lighting) tracing architectural geometry.
 
-* **Computers (+4):** Navigating the Mesh is as essential as reading.  
-* **Vocation (Any) (+4):** Training in a tradecraft.  
-* **Academics (+4):** A foundation in logical principles.  
-* **Technology (+4):** Using and maintaining high-tech gear.  
-* **Insight (+2):** Reading people in a negotiation.  
-* **Diplomacy (+2):** Closing the deal.
+### **VII. Expansion Modules (Optional)**
 
-### 
+#### **Sub-Factions & Subsidiaries**
 
-### **Recommended Features (1 BP Discount)**
+* **Syndicate PsiCorp:** Manages and deploys licensed psionic assets for corporate operations.  
+* **Premian Mystics:** Traditional spiritual enclaves dedicated to "The Lady," maintaining cultural rites within the corporate framework.
 
-Members of the Syndicate can purchase these features at a discount during character creation.
+#### **Scene Vignettes**
 
-* **Augmented:** You start with a sophisticated cybernetic limb or implant (Tier 1).  
-* **Mesh-Link:** A neural interface allowing hands-free access to the local data-net. Note: The Syndicate's Mesh-Link consolidates a Comm Implant and ID Chip, and is available as an implant or removable coin-sized node and does not require the Augmentation feature or BP cost. It is upgradeable to a Cyber Jack.
+* **The Spire Lobby:** Absolute silence as the Mesh dampens footstep audio. Thousands move in algorithmic streams reflecting the "Blue Line."  
+* **The Restriction Zone:** Vibrant, chaotic, unregulated. A diplomatic standoff zone protected by ancient indigenous land rights, lit by unregistered neon.
 
-## 
+## **THE ENTARI COMBINE**
 
-## 
+### **I. Detailed Faction Description**
 
-## ---
+* **Overview:** Born from multiple hostile takeovers of a contested agro-world, Patron Marcus DeVree transformed the Entari system into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Synthetic Super-Intellect "Bastion." The Combine operates as a Monarch-led Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's "Neutral Ground," a stabilizing force where commerce and conversation supersede conflict, proving profitability does not require exploitation.  
+* **Key Themes:** Prosperity, Education, Neutrality, Ethical Capitalism, Cosmopolitanism, Eco-Tech.  
+* **Relationship to Others:** The bank for everyone; strict neutrality ensures safety; hosts scholars and displaced species (e.g., Sa-Sa-Si) from all factions.
 
-## **VISUAL SEMIOTICS (AESTHETICS)**
-
-**Design Directive:** "Adaptive Neo-Futurism."
-
-A synthesis of Neo-Militarism and Eco-Corp aesthetics known as Adaptive Neo-Futurism. The architecture is characterized by functional forms of white architectural concrete and "Federal Grey" brushed steel. Parks in the city and greenery inside buildings will be well manicured. Lighting is defined by "The Blue Line"—recessed Cerulean blue emissive strips tracing the architectural geometry. Dark, smoked glass surfaces create high specularity and deep reflections. The atmosphere is defensive, prestigious, and highly efficient. Mega-City but clean, a city of multi levels.
-
-### 
-
-### **Palette**
-
-* **Civilian / Corporate:** White Architectural Concrete, "Federal Grey" Brushed Steel.  
-* **Military:** **Vanta Black** (Armor and Vehicles), Dark Grey & Black (Structures and Ships).  
-* **Secondary:** Dark Smoked Glass, Black Composite.  
-* **Accent:** **"The Blue Line"** (Recessed Cerulean Emissive Strips), Dark Grey accents on Military gear.
-
-### 
-
-### **Lighting**
-
-* **Key Style:** **"The Blue Line."** Recessed emissive strips tracing architectural geometry. High specularity reflections on smoked glass.  
-* **Mood:** Defensive, Prestigious, Highly Efficient, High-Tech Stronghold.
-
-### 
-
-### **Shape Language**
-
-* **The Hexagon:** The primary motif, representing the Mesh and efficient packing. Found in floor tiles, armor plating, holographic interfaces, and urban grid layouts.  
-* **Neo-Futurism:** Architectural ribs, chamfered edges, and functional forms.  
-* **Biophilic Fortification:** Manicured greenery integrated into sterile, defensive structures.  
-* **Multi-Level:** Verticality defined by clean, stacked layers.
-
-### 
-
-### **Gear Aesthetic**
-
-* **"Adaptive Corp-Spec":** Equipment features Federal Grey casing with white accents and cyan status lights. It looks expensive, durable, and proprietary. Military gear shifts to Vanta Black with Dark Grey accents.  
-* **Holographic UI:** Physical buttons are rare. Guns and tools project their own cyan diagnostic screens.
-
-### 
-
-### **Atmosphere Tokens**
-
-* *Neo-Futurism, structural permanence, military prestige, biophilic fortification, grey steel and white concrete, Vanta Black armor, dark glass, cyan emissive lighting, architectural ribs, chamfered edges, sterile but breathable, high-tech stronghold, hexagonal tiling.*
-
-## 
-
-## 
-
-## ---
-
-## **SCENES & ENVIRONMENTS**
-
-### **A. The Spire Lobby (The Bureaucracy)**
-
-* **Context:** The ground floor of a Megacorp tower.  
-* **Atmosphere:** Defensive prestige. The floor is polished white concrete with inlaid hexagonal patterns, reflecting the "Blue Line" emissive strips running up the walls.  
-* **Sensory:** Complete silence despite thousands of people moving. The MESH dampens footstep audio and projects private "sound bubbles" for conversations.  
-* **Activity:** Drones buzz silently overhead. People move in perfect, algorithmically generated streams to avoid collision.
-
-### 
-
-### **B. The Hydro-Stack (The Green Engine)**
-
-* **Context:** Industrial food production levels.  
-* **Atmosphere:** Sterile but breathable. Vertical racks of genetically perfect plants stretching up for 50 stories inside grey steel silos.  
-* **Visuals:** Manicured greenery maintained by "Gardener" bots. The lighting is a mix of growth-magenta and the standard Cerulean strips.  
-* **Contrast:** It is nature, but fortified and manicured. No dirt, no chaos, just biomass production.
-
-### 
-
-### **C. The Restriction Zone (The Friction Layer)**
-
-* **Context:** The "Shadow Burbs" located in the lower levels, deep beneath the pristine Spires and mostly disconnected from the MESH.  
-* **Atmosphere:** Vibrant, chaotic, and unregulated. Unlike the sterile silence of the upper levels, this area is filled with the noise of life—music, shouting vendors, and the hum of unauthorized machinery. It thrives in the shadows of the corporation.  
-* **Visuals:** The sleek white paneling of the upper city is stripped away here, revealing the rusted steel skeleton and concrete foundation. Neon graffiti covers the walls, and jury-rigged power cables siphon energy from the main lines.  
-* **Sociology:** These communities enjoy high technology without the corporate overwatch. While the Syndicate government officially disapproves of these "squatters," they are legally protected by the ancient **indigenous land rights of the Premian people**, creating a tense but stable diplomatic standoff in the city's underbelly.
-
-### 
-
-### **D. The Forward Operating Node (The Perimeter)**
-
-* **Context:** A rapidly deployed military outpost on a hostile frontier world.  
-* **Atmosphere:** High-tech stronghold. The air hums with the sub-sonic frequency of the shield generator. Sterile, defensive, and imposing.  
-* **Visuals:** Prefabricated hex-walls of Dark Grey steel and Black composite that were dropped from orbit and interlocked automatically. "The Blue Line" here is a literal laser-fence perimeter. Auto-turrets with matte black casings track movement with cold precision.  
-* **Activity:** Soldiers in pristine Vanta Black armor run drills with mathematical efficiency. There is no shouting; orders are transmitted silently via the Mesh.
-
-## 
-
-## 
-
-## ---
-
-## **COMMON PERSONAS (ARCHETYPES)**
-
-* **The Net-Architect:** A systems engineer who builds the virtual landscapes of the Mesh. They view code as physical architecture.  
-  * *Visuals:* Wearing a high-collar interface suit, fingers twitching as they manipulate invisible holographic controls.  
-* **The Corporate Fixer:** A negotiator who handles "friction" that the algorithms can't solve.  
-  * *Visuals:* Impeccable grey suit, mirror-shade implants, a smile that doesn't reach their eyes.  
-* **The Burbs Merchant:** An unlicensed vendor thriving in the Restriction Zone, trading in non-serialized goods and jailbroken tech.  
-  * *Visuals:* Dressed in a mix of repurposed corporate synth-fabric and traditional Premian natural fibers. They operate a stall lit by unregistered neon, displaying wares that don't appear on any official inventory.  
-* **The Orbital Drop Marine:** An elite shock trooper deployed from low orbit to secure corporate assets.  
-  * *Visuals:* Encased in heavy "Meteor-Class" power armor painted in Vanta Black with Dark Grey accents and stark white kill-stripes. The helmet is a faceless sensor suite glowing with a cyan "T-Visor." They carry a heavy rail-cannon that is magnetically locked to their gauntlets.
-
-&nbsp;
-
-# **THE ENTARI COMBINE**
-
-# **THE ENTARI COMBINE**
-
-## 
-
-## **FACTION DESCRIPTION**
-
-The Entari Combine is a fascinating geopolitical anomaly: a thriving, independent power born from multiple hostile takeovers. Formerly an agro world contested by both the Syndicate and Dynasty until falling to independent baronies, the system was reformed by Patron Marcus DeVree into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Research and Education Center managed by Bastion (a TL 5 Synthetic Super-Intellect).
-
-DeVree established a new government based on Ethical Capitalism, Sustainability, and Neutrality. Unlike the ruthless Corporatocracy of the Syndicate or the rigid caste system of the Dynasty, the Combine operates as a Monarch-led Republic. It positions itself as a neutral sanctuary for free trade, diplomacy, and higher education where rival powers can meet without immediate conflict. The Combine is also known for protecting displaced or misunderstood species; notably, they host the Sa-Sa-Si, a protected colony of Dragonkin Vassoth.
-
-### 
-
-### **Overview**
-
-The Entari Combine is a Cosmopolitan Trade Hub and Diplomatic Sanctuary defined by Luxury, Diplomacy, and Eco-Tech. They serve as the galaxy's "Neutral Ground," a stabilizing force where commerce and conversation supersede conflict. They have built a society that proves profitability does not require exploitation. Their economy is driven by high-end tourism, banking, and the export of advanced medical and environmental technologies.
-
-* **Key Themes:** Prosperity, Education, Neutrality, Ethical Capitalism, Cosmopolitanism.  
-* **Relationship to Others:** The bank for everyone; strict neutrality ensures safety; hosts scholars from all factions. They maintain open diplomatic channels with all other major powers simultaneously.
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Entari Combine  
 * **Colloquialisms:** The Combine / The Resort / The Jewel / The Neutral Zone  
 * **Archetype:** Eco-Futurist Luxury / Cosmopolitan Hub  
+* **Capital/Key World:** Entari Prime (The Garden World)  
+* **Symbol/Sigil:** Interlinked Golden Rings  
 * **Driving Mandate:** Profit through Peace and Sustainability.  
-* **Symbol/Sigil:** Interlinked Golden Rings.  
-* **Capital/Key World:** Entari Prime (The Garden World).
+* **Motto:** "War is bad for business."
 
-## 
+### **III. Sociological Profile**
 
-## ---
+#### **Ideology & Culture**
 
-## **SOCIOLOGICAL PROFILE**
+* **Core Beliefs:** Prosperity is best achieved through cooperation. Doing good creates a premium brand.  
+* **Social Structure:** Cosmopolitan; status driven by wealth, intellect, and diplomatic grace.  
+* **View on Outsiders:** Highly welcoming; all are viewed as guests, clients, or scholars, provided they respect the peace.  
+* **Law & Order:** Law 3 (Sovereign Mandate). Enforced silently and non-lethally by the Solar Guard and Concierge Automata.
 
-### **Ideology & Culture**
+#### **Governance**
 
-* **Core Beliefs:** "War is bad for business." Prosperity is best achieved through cooperation and stability.  
-* **Social Structure:** Republic led by a Benevolent Patron (Constitutional Monarchy). A Parliamentary Merchant Council handles day-to-day legislative and economic hurdles.  
-* **Philosophy:** Ethical Pragmatism. Doing good is profitable in the long run. It creates a premium brand that attracts the galaxy's wealthiest and most influential.  
-* **Magic/Psionics:** Integrated into arts, healing, and leisure (Spas, Performance Art, Diplomatic Empathy). Psionics are viewed as a refined skill to be cultivated for social harmony. It is considered the height of culture to use internal energy to enhance the well-being of others.
+* **Government Type:** Constitutional Monarchy / Republic  
+* **Leadership:** Benevolent Patron & Parliamentary Merchant Council.  
+* **Succession:** Council election / Corporate appointment.
 
-## 
+### **IV. Strategic Assets**
 
-## ---
+#### **Economy & Tech**
 
-## **HISTORICAL ORIGINS**
+* **Tech Level (TL):** 4 (Stellar Age \- Eco-Tech)  
+* **Meta Level (ML):** Integrated into arts, healing, and leisure (Empathy).  
+* **Wealth Modifier:** \+3 (Wealthy Baseline)  
+* **Primary Exports:** Advanced medical/environmental tech, high-end tourism, banking, education, diplomatic mediation.  
+* **Economic Model:** Ethical Capitalism.
 
-### **The Golden Transition (20 Years Ago)**
+#### **Military Profile**
 
-The Combine was born from the "Shattered Harvest," a period where the Entari system was traded back and forth between the Dynasty and Syndicate like a commodity. The local populace, exhausted by centuries of proxy wars, found a leader in Marcus DeVree, a high-level merchant who utilized his immense personal wealth to buy out the remaining planetary debts and mercenary contracts.
+* **Doctrine:** "Neutralize with Minimal Disruption." Non-lethal suppression and invisible defenses.  
+* **Key Units:** The Concierge Corps (Diplomats/Automata), The Solar Guard (Standing defense).  
+* **Naval Assets:** Solar-Vigil Interceptors, Amber-Wing Luxury Yachts.  
+* **Unique Tech/Materials:** Self-Repairing technology (1 SP/hr), Nanocarbon, Force-Glass, Clean Aether-well generators.
 
-### 
+### **V. Mechanics (Game Data)**
 
-As the system stabilized, DeVree recognized that Entari Prime could only survive if it became indispensable to everyone. He declared the system a Sovereign Sanctuary. By hosting the Synthetic Super-Intellect "Bastion," the Combine became the premier repository of knowledge and scientific research, effectively forcing the larger factions to respect its borders to maintain access to its data and financial markets.
+* **Prominent Species:** Cosmopolitan (All species welcome; notable Sa-Sa-Si population).  
+* **Faction Skill Package (20 Points):**  
+  * Diplomacy (+5)  
+  * Vocation (Merchant/Artisan) (+4)  
+  * History/Xenology (+3)  
+  * Insight (+3)  
+  * Language (+3)  
+  * Finance (+2)  
+* **Typical Archetypes:** The Bureaucrat, The Warden, The Company Man, The Broker, The Security Officer, The Thespian, The Virtuoso, The Envoy, The Senator, The Peacekeeper, The Xenologist, The Biologist.  
+* **Recommended Features (1 BP Discount):**  
+  * Benefit (Wealth), Benefit (Immunity), Inspiring Personality, Silver Tongue, Trustworthy, Linguist, Scholar, Medic, Golden Smile, Connected, Educated, Versatile Curator.
 
-## 
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-## ---
+#### **HI-FI INK Prompt Framework**
 
-## **TECHNOLOGICAL IDENTITY: ECO-TECH & SUSTAINABILITY**
+* **SETTING STYLE:** Eco-Luxury, Cosmopolitan Hub, Parametric Design, Open and Sustainable.  
+* **CONTEXT:** Seamless integration of nature and tech, organic curves, warm gold, sandstone, cream, polished wood, water blue, photovoltaic glass (translucent amber), living walls (plant green).  
+* **ATMOSPHERE:** Relaxing, expensive, safe. Warm ambient lighting, golden hour illumination, high-status serenity.
 
-The Combine operates primarily at **Tech Level 4 (Stellar Age)**. Their technology is defined by a departure from the "Industrial Grit" of the Coalition or the "Psionic Elegance" of the Impyrium.
+### **VII. Expansion Modules (Optional)**
 
-* **Mastery of Force:** Entari infrastructure utilizes clean energy and force-field integration. They favor invisible defenses over heavy plating.  
-* **Self-Repairing (TL 4):** All Entari structures and mecha possess the self-repairing trait, regenerating 1 SP/hour (or more with repair drones).  
-* **Sustainability:** Every device is designed for zero-emission operation and extreme longevity, utilizing high-efficiency solar-capturing glass and aether-well generators.
+#### **Architectural Landmarks (TL4 Self-Repairing)**
 
-## 
+* **The Helix-Med Center:** Eco-Luxury hospital rising from a crystal lake. Specialized in genetic rejuvenation.  
+* **The Verdant Arcology:** Massive Brutalist Greenhouse for genetically perfected agriculture.  
+* **The Amber-Spire Banking Hub:** The financial heart housed in refractive force-glass vaults.  
+* **The Bastion Research Atheneum:** A sky-piercing data hub hosting the physical core of the TL5 Super-Intellect "Bastion."  
+* **The Golden-Hour Terminal:** The primary starport concourse covered by massive translucent amber canopies.
 
-## ---
+#### **Mecha & Vehicular Assets**
 
-## **FACTION FORCES: THE CONCIERGE AND THE SHIELD**
+* **"L-Series" Concierge Automata:** Cerulean blue ceramic shells with gold trim. Non-sentient smart machines acting as service/security.  
+* **"Amber-Wing" Luxury Star-Yacht:** Gravitonic flight, opulent habitation.  
+* **"Aegis-Class" Grav-Bastian:** Heavy defensive platform projecting DR30 force-barriers for allies.  
+* **"Petal-Class" Hover-Skiff:** Light scout/luxury transport with stealth coating.  
+* **"Solar-Vigil" Interceptor:** High-precision atmospheric patrol ships armed with Grav-Net harpoons.
 
-### **A. The Concierge Corps (The Face)**
+## **COALITION OF INDEPENDENT WORLDS**
 
-A mix of highly trained human diplomats and "L-Series" Automata. They are the first point of contact for any visitor. While they appear to be service staff, they are masters of information gathering and psychological de-escalation.
+### **I. Detailed Faction Description**
 
-### 
+* **Overview:** The "Free Colonies" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct.  
+* **Key Themes:** Frontier Industrialists, Kleptocracy, Grid vs. Wealth, Used Future, Penal Legions.  
+* **Relationship to Others:** Distrustful of the Core Worlds (Syndicate/Dynasty) who abandoned them. Highly isolationist and fiercely protective of their borders.
 
-### **B. The Solar Guard (The Shield)**
+### **II. Core Identity**
 
-The standing defensive force. Unlike the Rangers of the Coalition, the Solar Guard uses non-lethal suppression, grav-nets, and high-precision energy weaponry. Their mandate is to "Neutralize with Minimal Disruption."
-
-## 
-
-## ---
-
-## **MECHANICS (GAME DATA)**
-
-### **Faction Statistics**
-
-* **Wealth Modifier:** \+3 (Wealthy Baseline).  
-* **Skill Package (20 Points):** Diplomacy (+5), Vocation (Merchant/Artisan) (+4), History/Xenology (+3), Insight (+3), Language (+3), Finance (+2).  
-* **Weaponry Engineering:** Entari weapons are Precise, Energy-Based, and often Concealable.
-
-&nbsp;
-
-### **Recommended Features  (1 BP Discount)**
-
-* **Benefit (Wealth):** Start with \+3 Wealth Rating.  
-* **Benefit (Diplomatic Immunity):** Access to restricted areas in other factions due to neutral status.
-
-## 
-
-## ---
-
-## **VISUAL SEMIOTICS (AESTHETICS)**
-
-### **Palette & Mood**
-
-* **Primary:** Warm Gold, Sandstone, Cream.  
-* **Secondary:** Polished Wood, Water Blue, Photovoltaic Glass (Translucent Amber).  
-* **Accent:** Plant Green (Living Walls), Soft Amber lighting.  
-* **Mood:** Relaxing, Expensive, Safe, Open, Sustainable.
-
-## 
-
-## ---
-
-## **THE ENTARI SYSTEM (THE GARDEN OF THE FRONTIER)**
-
-### **Entari**
-
-* **Classification:** Terraformed Garden World / Diplomatic Capital.  
-* **Stats:** Pop 7 (Billions), Tech 4 (Stellar), Law 3 (Sovereign Mandate).  
-* **Summary:** A world where technology and nature exist in perfect harmony. Cities are built into the landscape rather than on top of it.
-
-## 
-
-## ---
-
-## **ENTARI ARCHITECTURE**
-
-Entari buildings utilize Parametric design, seamlessly integrating organic curves with structural efficiency. All listed structures are TL 4 and possess the **Self-Repairing (1 SP/hr)** trait.
-
-### 
-
-### **1\. THE HELIX-MED CENTER (THE SANCTUARY)**
-
-**Style:** Eco-Luxury / Parametric
-
-**Description:** A world-renowned facility rising from a crystal lake. Specialized in genetic rejuvenation and trauma care.
-
-**STATISTICS**
-
-* **Footprint:** Large (40x40 ft)  
-* **Height:** High-Rise (15 Stories)  
-* **Structure Points:** 18,000 SP (400 Base x 15 Height x 3.0 TL 4\)  
-* **Damage Resistance:** 30 (Nanocarbon & Crystal-Matrix)  
-* **Total Modules:** 240  
-* **Wealth Cost:** 35 (Palatial Frame)  
-* **Value:** 163,840 Credits  
-  **MODULE CONFIGURATION**  
-* **Operating Theater (20):** \+4 Bonus to Medicine checks.  
-* **Medical Lab Facility (60):** Supports trauma/rejuvenation patients.  
-* **Luxury Suites (100):** High-status recovery rooms (+1 Morale).  
-* **Life Support/Research (60):** Advanced recyclers and archives.
-
-### 
-
-### **2\. THE VERDANT ARCOLOGY (THE BREADBASKET)**
-
-**Style:** Solar-Punk / Brutalist Greenhouse
-
-**Description:** Massive self-sustaining habitats for genetically perfected agriculture.
-
-**STATISTICS**
-
-* **Footprint:** Titanic (500x500 ft)  
-* **Height:** High-Rise (20 Stories)  
-* **Structure Points:** 3,750,000 SP (62,500 Base x 20 Height x 3.0 TL 4\)  
-* **Damage Resistance:** 30 (Nanocarbon Truss)  
-* **Total Modules:** 50,000  
-* **Wealth Cost:** 55 (Industrial Frame)  
-* **Value:** 41,943,040 Credits  
-  **MODULE CONFIGURATION**  
-* **Hydroponic Terraces (35,000):** 400 percent yield acceleration.  
-* **Atmospheric/Water Rec (15,000):** Massive internal waterfalls and scrubbers.
-
-### 
-
-### **3\. THE AMBER-SPIRE BANKING HUB (THE VAULT)**
-
-**Style:** High-Status / Parametric
-
-**Description:** The financial heart of the Combine, housing the sector’s wealth in refractive force-glass vaults.
-
-**STATISTICS**
-
-* **Footprint:** Medium (20x20 ft)  
-* **Height:** High-Rise (50 Stories)  
-* **Structure Points:** 15,000 SP (100 Base x 50 Height x 3.0 TL 4\)  
-* **Damage Resistance:** 40 (Refractive Force-Glass)  
-* **Total Modules:** 200  
-* **Wealth Cost:** 45 (Palatial Frame)  
-* **Value:** 2,621,440 Credits  
-  **MODULE CONFIGURATION**  
-* **Secure Storage (100):** Hardened against physical and digital breach.  
-* **Transaction Hub (60):** Real-time market monitoring.  
-* **Diplomatic Lounges (40):** Private negotiation suites.
-
-### 
-
-### **4\. THE BASTION RESEARCH ATHENEUM (THE DATA HUB)**
-
-**Style:** Knowledge / Eco-Futurist
-
-**Description:** The central repository of scientific data, hosting the physical core interfaces for the Super-Intellect "Bastion."
-
-**STATISTICS**
-
-* **Footprint:** Large (40x40 ft)  
-* **Height:** Sky-Piercer (100 Stories)  
-* **Structure Points:** 200,000 SP (400 Base x 100 Height x 5.0 TL 5\)  
-* **Damage Resistance:** 75 (Aether-Reinforced Lattice)  
-* **Total Modules:** 1,600 above ground and vast complex of the surrounding area and underground in the reinforced solid bedrock.  
-* **Wealth Cost:** 50 (Institutional Frame)  
-* **Value:** 10,485,760 Credits  
-  **MODULE CONFIGURATION**  
-* **Super-Processor Banks (800):** Cooling and power for TL 5 AI interfaces.  
-* **Laboratory Suites (400):** Multi-disciplinary research.  
-* **Observation Decks (200):** Stellar mapping and long-range sensors.  
-* **Archives (200):** Physical and digital knowledge storage.
-
-### 
-
-### **5\. THE SOLAR GUARD CITADEL (THE SHIELD HQ)**
-
-**Style:** Defensive / Formalist
-
-**Description:** The command center for the Solar Guard star-fleet and local system defense coordination.
-
-**STATISTICS**
-
-* **Footprint:** Large (40x40 ft)  
-* **Height:** Low-Rise (5 Stories)  
-* **Structure Points:** 6,000 SP (400 Base x 5 Height x 3.0 TL 4\)  
-* **Damage Resistance:** 60 (Gravity-Anchor Plating)  
-* **Total Modules:** 80  
-* **Wealth Cost:** 40 (Fortress Frame)  
-* **Value:** 655,360 Credits  
-  **MODULE CONFIGURATION**  
-* **Command & Control (20):** Sector-wide holographic monitoring.  
-* **Automata Bays (20):** Deployment for L-Series defense units.  
-* **Shield Generators (10):** Integrated system-wide defense relays.  
-* **Barracks/Armory (30):** High-readiness Solar Guard staging.
-
-### 
-
-### **6\. THE GOLDEN-HOUR TERMINAL (THE WELCOME)**
-
-**Style:** Welcoming / Open-Air Eco-Luxury
-
-**Description:** The primary starport concourse for all arrivals, featuring massive translucent amber canopies.
-
-**STATISTICS**
-
-* **Footprint:** Titanic (500x500 ft)  
-* **Height:** Single-Story (1 Story)  
-* **Structure Points:** 187,500 SP (62,500 Base x 1 Height x 3.0 TL 4\)  
-* **Damage Resistance:** 20 (Polished Sandstone)  
-* **Total Modules:** 2,500  
-* **Wealth Cost:** 30 (Commercial Frame)  
-* **Value:** 40,960 Credits  
-  **MODULE CONFIGURATION**  
-* **Landing Pads (1,000):** High-traffic anti-grav pads.  
-* **Concierge Lounges (800):** Passenger greeting and processing.  
-* **Trade Bazaars (500):** High-end artisan and luxury retail.  
-* **Security Screening (200):** Non-intrusive sensor pillars.
-
-## 
-
-## ---
-
-## **ENTARI MECHA**
-
-Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari Mecha possess the **Self-Repairing (1 SP/hr)** trait.
-
-### 
-
-### **1\. "L-SERIES" CONCIERGE HUMANOID AUTOMATA**
-
-**Classification:** Humanoid Service / Security Automata
-
-**Tech Level:** 4 (Stellar)
-
-**Cost/Wealth:** CR 35 / 163,840 Credits
-
-**CORE STATISTICS**
-
-* **Size Category:** Medium (x1 Scale)  
-* **Structure (SP):** 150 SP (50 Base x 3.0 TL 4\)  
-* **Mounts:** 5  
-* **Damage Resistance (DR):** 15 (Nanocarbon Skin)  
-* **Defense (DC):** 20  
-  **MOVEMENT & PROPULSION**  
-* **Primary Mode:** Bipedal Myomer  
-* **Speed:** 40 ft/rnd (Tactical)  
-  **SYSTEMS & LOADOUT**  
-* **Processor:** PR 3 (Expert Social Software; Reactive Programming)  
-* **Sensors:** Omni-Scan (Detects mood and energy signatures)  
-* **Concealed Weapon:** Pulse Laser (1 Mount)  
-* **Utility:** High-Precision Manipulators. Note: This unit is a non-sentient Smart Machine; for sentient constructs, refer to "Android/Synthetic" species.
-
-### 
-
-### **2\. "AMBER-WING" LUXURY STAR-YACHT**
-
-**Classification:** Interstellar Transport / Racing
-
-**Tech Level:** 4 (Stellar)
-
-**Cost/Wealth:** CR 40 / 655,360 Credits
-
-**CORE STATISTICS**
-
-* **Size Category:** Huge (x5 Scale)  
-* **Structure (SP):** 3,750 SP (250 Base x 5 Scale x 3.0 TL 4\)  
-* **Mounts:** 25  
-* **Damage Resistance (DR):** 30 (Energy Shields \+ Plating)  
-* **Defense (DC):** 15  
-  **MOVEMENT & PROPULSION**  
-* **Primary Mode:** Gravitonic Flight / Tangent Drive (FTL)  
-* **Speed:** 1,000 ft/rnd (Aero) / FTL Capable  
-  **SYSTEMS & LOADOUT**  
-* **Luxury Habitation:** 10 Mounts (1 Module)  
-* **Defense:** Omnishield Generator (DR 15 vs All)  
-* **Concealed Weapons:** Twin Ion Blasters (4 Mounts)  
-* **Utility:** Advanced Comms Array & Translation Suite
-
-### 
-
-### **3\. "AEGIS-CLASS" GRAV-BASTIAN**
-
-**Classification:** Heavy Defensive Platform
-
-**Tech Level:** 4 (Stellar)
-
-**Cost/Wealth:** CR 40 / 655,360 Credits
-
-**CORE STATISTICS**
-
-* **Size Category:** Large (x2 Scale)  
-* **Structure (SP):** 600 SP (100 Base x 2 Scale x 3.0 TL 4\)  
-* **Mounts:** 10  
-* **Damage Resistance (DR):** 45 (Heavy Force-Glass & Grav-Plating)  
-* **Defense (DC):** 12  
-  **MOVEMENT & PROPULSION**  
-* **Primary Mode:** Anti-Gravity Repulsors  
-* **Speed:** 60 ft/rnd (Tactical)  
-  **SYSTEMS & LOADOUT**  
-* **Main Armament:** Multi-Phase Ion Disruptor (4 Mounts; Non-Lethal suppression)  
-* **Defense:** Projected Force-Barrier (Generates DR 30 cover for nearby allies)  
-* **Sensors:** Wide-Spectrum Threat Analysis
-
-### 
-
-### **4\. "PETAL-CLASS" HOVER-SKIFF**
-
-**Classification:** Light Scout / Luxury Transport
-
-**Tech Level:** 4 (Stellar)
-
-**Cost/Wealth:** CR 35 / 163,840 Credits
-
-**CORE STATISTICS**
-
-* **Size Category:** Large (x2 Scale)  
-* **Structure (SP):** 600 SP (100 Base x 2 Scale x 3.0 TL 4\)  
-* **Mounts:** 10  
-* **Damage Resistance (DR):** 20 (Light Poly-Fiber)  
-* **Defense (DC):** 22  
-  **MOVEMENT & PROPULSION**  
-* **Primary Mode:** High-Velocity Repulsor  
-* **Speed:** 180 ft/rnd (Tactical)  
-  **SYSTEMS & LOADOUT**  
-* **Utility:** Stealth Coating (Invisible to standard radar/LIDAR)  
-* **Interior:** Open-Air Observation Lounge  
-* **Sensors:** Environmental & Biological Scan Array
-
-### 
-
-### **5\. "SOLAR-VIGIL" INTERCEPTOR**
-
-**Classification:** System Patrol / Interceptor
-
-**Tech Level:** 4 (Stellar)
-
-**Cost/Wealth:** CR 45 / 2,621,440 Credits
-
-**CORE STATISTICS**
-
-* **Size Category:** Huge (x5 Scale)  
-* **Structure (SP):** 3,750 SP (250 Base x 5 Scale x 3.0 TL 4\)  
-* **Mounts:** 25  
-* **Damage Resistance (DR):** 35 (Reinforced Aether-Lattice)  
-* **Defense (DC):** 18  
-  **MOVEMENT & PROPULSION**  
-* **Primary Mode:** Impulse Thrusters / Grav-Assisted Vectoring  
-* **Speed:** 1,200 ft/rnd (Tactical Aero)  
-  **SYSTEMS & LOADOUT**  
-* **Weaponry:** High-Precision Rail-Driver (8 Mounts; Dmg: Mecha-Scale)  
-* **Tactical:** Grav-Net Harpoon (4 Mounts; Immobilizes targets)  
-* **Systems:** Advanced Targeting HUD (PR 4\)
-
-### 
-
-### **6\. "GILDED-WASP" REPAIR DRONE**
-
-**Classification:** Autonomous Maintenance Automata
-
-**Tech Level:** 4 (Stellar)
-
-**Cost/Wealth:** CR 25 / 10,240 Credits
-
-**CORE STATISTICS**
-
-* **Size Category:** Small (x0.5 Scale)  
-* **Structure (SP):** 38 SP (25 Base x 0.5 Scale x 3.0 TL 4\)  
-* **Mounts:** 2  
-* **Damage Resistance (DR):** 10 (Polished Brass Finish)  
-* **Defense (DC):** 24  
-  **MOVEMENT & PROPULSION**  
-* **Primary Mode:** Micro-Grav Thrusters  
-* **Speed:** 50 ft/rnd (Tactical)  
-  **SYSTEMS & LOADOUT**  
-* **Utility:** Fusion-Welder & Nano-Applicator (1 Mount)  
-* **Software:** Automated Repair Routine (Speeds up self-repair trait)  
-* **Storage:** Internal Cargo Pod (1 Mount)
-
-## 
-
-## ---
-
-## **COMMON PERSONAS**
-
-* **The Diplomat:** A polyglot master of etiquette. Unarmed but surrounded by bodyguards.  
-* **The Eco-Warden:** Guardian of the preserves. Wears earth-toned composites and carries a non-lethal rifle.  
-* **The Information Broker:** Trades secrets over expensive drinks in high-end lounges.  
-* **The Android Concierge:** A sleek Cerulean Blue ceramic shell with gold trim; possesses impeccable knowledge.
-
-## 
-
-## ---
-
-## **SCENE VIGNETTES**
-
-### **A. The Welcoming Hour**
-
-The Starport Concourse filters light through amber glass, bathing the sandstone floors in a permanent "golden hour." Travelers from across the galaxy are greeted by Automata offering chilled nectar. There are no scanners; instead, decorative pillars house non-intrusive sensors that scan for weapons and illness without the traveler ever breaking stride.
-
-### 
-
-### **B. The Silent Shield**
-
-Above the resort, a Solar Guard "Amber-Wing" yacht drifts silently. It has no visible weapons, but its targeting arrays are locked onto a Syndicate freighter that has strayed too close to the Bastion data-spires. A message is sent—not a threat, but a polite invitation to correct their course, accompanied by a list of available docking fees.
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-# **THE COALITION OF INDEPENDENT WORLDS**
-
-# **THE COALITION OF INDEPENDENT WORLDS**
-
-## 
-
-## **DESCRIPTION**
-
-The **Coalition of Independent Worlds**, often referred to as "The Free Colonies," represents the rugged edge of civilization. Situated on the frontier of known space, they stand in direct opposition to the rigid control and perceived "softness" of the core worlds (the Syndicate and Dynasty). The populace consists of over 40 independent systems populated by hardened survivors—terraformers, miners, and homesteaders who have tamed actively hostile worlds using industrial machinery and sheer stubbornness.
-
-While the faction claims to be a democratic republic championing the freedom of the fringe, it is functionally a **Kleptocracy**. Controlled by wealthy interests, crime syndicates, and corporate robber-barons, the Coalition uses the guise of "deregulation" and "freedom" to relentlessly exploit labor and industry. Despite this corruption at the top, the spirit of the people remains defined by grit, self-determination, and a fierce, often violent, protective instinct toward personal independence.
-
-## 
-
----
-
-## **CORE IDENTITY**
-
-* **Official Designation:** The Coalition of Independent Worlds  
+* **Official Designation:** Coalition of Independent Worlds  
 * **Colloquialisms:** The Free Colonies / The Frontier  
 * **Archetype:** Frontier Industrialists / Kleptocratic Republic  
-* **Driving Mandate:** "Protect the People; Secure the Frontier."  
-* **Symbol/Sigil:** The Silver Star (Marshals) / The Cog and Wheat (Copia).  
-* **Capital/Key System:** Copia (The Gilded Heart).
+* **Capital/Key World:** Copia (The Gilded Heart)  
+* **Symbol/Sigil:** The Silver Star (Marshals) / The Cog and Wheat (Copia)  
+* **Driving Mandate:** Protect the People; Secure the Frontier.  
+* **Motto:** "Service Guarantees Citizenship. Survival Guarantees Freedom."
 
-## 
+### **III. Sociological Profile**
 
----
+#### **Ideology & Culture**
 
-## **SOCIOLOGICAL PROFILE**
+* **Core Beliefs:** "Everyone owns a gun." Personal freedom is sacred, though it allows the powerful to exploit the weak. The Copian elite practice "Noble Stewardship" (hypocritical exploitation).  
+* **Social Structure:** Volatile Hierarchy (Corporate Elites \> Justice Dept/Marshals \> Citizens \> Penal Legions/Rangers).  
+* **View on Outsiders:** Suspicious. Outsiders are either trying to steal their resources or impose core-world laws.  
+* **Law & Order:** Dual-enforcement: The wandering Federal Marshals (the conscience/Code of Harm) vs. the Colonial Rangers (the state fist/Penal Legion).
 
-### **Ideology & Culture**
+#### **Governance**
 
-* **Core Beliefs:** "Everyone owns a gun." Personal freedom is held sacred, though this unfortunately includes the freedom for the powerful to exploit the weak.  
-* **Social Structure:** A volatile hierarchy consisting of Corporate Elites/Robber Barons \> The Justice Department (Marshals) \> Citizens/Working Class \> Penal Legions (Rangers).  
-* **Frontier Justice:** Law is maintained by a complex dual-enforcement system: the wandering, oathsworn **Federal Marshals** (the conscience) and the iron-fisted **Colonial Rangers** (the state fist). This creates a delicate balance between actual justice and corporate enforcement.
+* **Government Type:** Kleptocratic Republic / Corporate Oligarchy.  
+* **Leadership:** Clan Councils (Copia) and Corporate Governors.  
+* **Succession:** Wealth acquisition and corporate dominance.
 
-## 
+### **IV. Strategic Assets**
 
----
+#### **Economy & Tech**
 
-## **HISTORICAL ORIGINS**
+* **Tech Level (TL):** 3 (Macro-Industrial / Hard-Industrial Advancement). Copia experiments with TL3+.  
+* **Meta Level (ML):** 1 (Strictly Materialist/Regulated).  
+* **Wealth Modifier:** 0 (Standard baseline, but vastly unequal distribution).  
+* **Primary Exports:** Heavy metals, Aetherite, Food (from Copia), Industrial machinery.  
+* **Economic Model:** Exploitative Capitalism / Manufactured Post-Scarcity (Copia).
 
-### **The Pact of Survival (300 Years Ago)**
+#### **Military Profile**
 
-The Coalition was born from the "Great Neglect"—a 200-year period of intermittent tension between the Dynasty and Syndicate that saw the core factions sever contact with their fringe colonies. These disparate worlds, some seeded as recently as 200 years ago and others dating back to 600-year-old Dynasty outposts, were forced to abandon parent ideologies in favor of pure survivalism. Facing starvation and rampant piracy, these orphaned worlds formed a loose alliance for shared defense and resources.
+* **Doctrine:** Attrition and overwhelming kinetic firepower. "Blunt instruments."  
+* **Key Units:** Colonial Rangers (Penal recruits controlled by Neural Shunts), Frontier Marshals.  
+* **Naval Assets:** Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains.  
+* **Unique Tech/Materials:** Reverse-Engineered Tech, Heavy Fission Batteries, Neural Compliance Shunts ("The Bit").
 
-The heart of this pact was the **Copia System**, a deep-fringe survivor of the **Radiant Impyrium**. While other Impyrium outposts were dismantled during the Dynasty's rise, Copia’s remote location and a deliberate choice to "go dark"—adopting a low-profile, agrarian-focused existence—allowed it to escape notice. With over 1,000 years of continuous habitation, Copia provided the vital trade lines of food and steel that prevented the Coalition from collapsing into anarchy.
+### **V. Mechanics (Game Data)**
 
-### 
+* **Prominent Species:** Humans (Hardened Frontier Genotype).  
+* **Faction Skill Package (20 Points):**  
+  * Bluff (+4)  
+  * Survival (+3)  
+  * Streetwise (+3)  
+  * Mechanics (+3)  
+  * Pilot (Ground/Atmo) (+3)  
+  * Remaining 4 allocated to Combat or Utility.  
+* **Typical Archetypes:** The Munitions Magnate, The Field Medic, The Demolisher, The Veteran, The Homesteader, The Marshal, The Vagabond, The Raider, The Activist, The Kingpin, The Revolutionary, The Detective.  
+* **Origin & Profession Traits:**  
+  * Penal Recruit (Ranger): Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority.  
+  * Federal Authority (Marshal): Supreme Jurisdiction to commandeer vehicles/access scenes.  
+* **Recommended Features (1 BP Discount):**  
+  * Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker, Fearless, Diehard, Crushing Blow, Headstrong.
 
-### **The Birth of Enforcement (100 Years Ago)**
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-Approximately a century ago, the rise of sophisticated pirate armadas and the instability of fringe politics necessitated a centralized legal body. This led to the formation of the **Coalition Justice Department (CJD)** and the oath of the Marshals. Simultaneously, to combat threats with overwhelming force, the Penal Legions were established using "The Bit" (Neural Compliance Shunt) technology to weaponize violent offenders into the **Colonial Rangers**.
+#### **HI-FI INK Prompt Framework**
 
-## 
+* **SETTING STYLE:** Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional.  
+* **CONTEXT:** Brutalist prefabs, heavy refineries, hazard stripes, hydraulic cables, heavy treads, rust, rotary cannons, ballistic cloth dusters. Palette: Dust Brown, Faded Denim, Olive Drab (Frontier); Rain Grey, Sodium Yellow (Urban).  
+* **ATMOSPHERE:** Industrial decay, smog-choked, oppressive. Low-key industrial lighting, harsh sun, or perpetual rain with neon glare and sodium vapor.
 
----
+### **VII. Expansion Modules (Optional)**
 
-## **TECHNOLOGICAL ADAPTATION & THE IMPYRIUM CONTRAST**
+#### **Origin & Profession Traits**
 
-The Coalition's technological identity is defined by a radical departure from its parent factions, specifically the **Impyrium Dominion**. While the Dominion remains anchored in the elegance of **Psi-Tech** (crystalline circuitry and thought-controlled interfaces), the Coalition has evolved through necessity, adapting to the complete lack of psionic infrastructure on the frontier.
+* **Penal Recruit (Ranger):** Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority (due to "The Bit").  
+* **Federal Authority (Marshal):** Supreme Jurisdiction to commandeer vehicles/access scenes using Status/Intimidate.
 
-### 
+#### **The Copia System (The Gilded Heart)**
 
-### **From Psionics to Industrial Grit**
+* **Hephaestus-V (The Forge):** A smog-choked, continent-sized factory world close to the sun.  
+* **The Agrarian Trinity:** Demeter (endless plains), Ceres-Alpha (aquatic aquaculture), Sylvanus (the capital garden world of the Oligarchs).  
+* **Orbital Infrastructure:** Helios Arrays (orbital mega-farms accelerating crops to 400% yield) and the Tartarus Belt (heavy mining).
 
-Unlike the Ascendancy or the Dominion, who view psionics as the pinnacle of human achievement, the Coalition views it as a relic of a "soft" era. Without access to psionic catalysts or specialized training, the frontier colonies focused on **Hard-Industrial Advancement**. They replaced thought-controlled crystals with physical levers, analog gauges, and high-torque hydraulic systems. This shift has resulted in technology that is loud, heavy, and visibly mechanical, but also incredibly resilient and easy to repair.
+#### **Architectural Details**
 
-### 
+* **Marshal Garrison:** 2-story, reinforced concrete prefab blockhouses.  
+* **Hephaestus Refinery:** 5-story equivalent industrial spires with attached slum housing.  
+* **Agri-Spire:** 20-story brutalist greenhouses.  
+* **Hab-Block (Tier 4):** 10-story stacks of dense 10x10ft micro-habs.
 
-### **The Scavenger’s Progress: Reverse Engineering**
+#### **Mecha & Vehicular Assets**
 
-The Coalition’s rapid advancement is driven by an aggressive culture of **Reverse Engineering**. They operate on the philosophy that any technology can be "civilized"—stripped of its core-world exclusivity and adapted for use by the common person.
+* **"Ironback" Patrol Walker:** Rugged bipedal walker for Marshals (TL3).  
+* **"Goliath" Siege-Hauler:** Super-heavy rolling fortress (TL2/3).  
+* **"Rust-Devil" Gunship:** Brutal, un-aerodynamic CAS aircraft with downward fans.  
+* **"Dust-Skipper" Buggy:** High-suspension fast recon 4x4.  
+* **"Leviathan" Land-Train:** Gargantuan segmented logistics crawler.
 
-* **The Scavenge:** Coalition engineering teams are notorious for harvesting debris from Dynasty border skirmishes or Syndicate trade wrecks.  
-* **The Adaptation:** They take delicate TL 4 components and "ruggedize" them, often encasing high-tech processors in lead-lined steel housings or replacing specialized energy cells with standard fission batteries.
+## **OUTWORLDS**
 
-### **Defined Tech Levels**
+### **I. Detailed Faction Description**
 
-* **The Frontier (Solid TL 3):** The majority of the Coalition operates at **Tech Level 3 (Standard Spacefaring)**. Their technology is macro-industrial, reliable, and mass-produced.
+* **Overview:** The Outworlds represent the untamed expanse outside the rigid control of major powers. Covering frontier colony worlds, independent moons, and drift-stations, they are defined by extreme diversity and political fragmentation. There is no central government; governance ranges from absolute anarchy to strict micro-tyrannies. They are the engine of raw resources and home of true grit.  
+* **Key Themes:** The Wild Frontier, Micro-Societies, Isolation, Ingenuity, Used Futurism.  
+* **Relationship to Others:** Ignored by major powers until resources are needed; practice "Survival Diplomacy" to avoid annexation. Often hired for dirty work.
 
-## 
-
-The Copian Standard (TL 3+): As the intellectual heart of the faction, Copia operates at TL 3+ (Enhanced). They are currently leading the Coalition's most ambitious projects: experimenting with TL 4 (Advanced) applications. This involves cross-referencing fragmented records from the Radiant Impyrium with captured Syndicate digital tech. These experiments are currently seen in Copia's orbital weather control and the Helios Array’s nanocarbon structures.
-
-&nbsp;
-
----
-
-## **FACTION FORCES: THE HAMMER AND THE SCALES**
-
-### **A. The Colonial Rangers (The Hammer)**
-
-**"Service Guarantees Citizenship. Survival Guarantees Freedom."**
-
-The standing military force, primarily a **Penal Legion** constructed from the galaxy's unwanted and armed with scavenged heavy weaponry.
-
-* **Recruitment (The Penal Draft):** Any convict facing a sentence of 10 years or more is offered a choice: Rot in a cryo-cell/work prison, or serve a 5-year tour in the Rangers. 80 percent are "Recruits" (convicts), while 20 percent are "Handlers" (mercenary officers or career soldiers).  
-* **Control (The Bit):** Neural Compliance Shunts (NCS) suppress the fear center and enforce obedience. Disobeying triggers a pain response; deserting or attacking a Handler triggers a lethal cerebral shock.  
-* **The Unshackled:** Survivors of the 5-year tour have the Bit removed (mostly) and are granted full citizenship. These veterans are some of the most dangerous individuals in the galaxy.  
-* **Doctrine & Tactics:** Rangers are used as blunt instruments for riot suppression and border skirmishes. They rely on overwhelming firepower, mismatched heavy plating (Junkyard Juggernauts), and attrition.
-
-### 
-
-### **B. The Frontier Marshals (The Scales)**
-
-**"The Law protects the Person, not the Policy."**
-
-Funded neutrally by the Compact of Copia, Marshals serve as the wandering conscience of the law. They are headhunted for high Wisdom and an incorruptible moral compass.
-
-* **Origins (Asset Protection):** They began as Trade Security for Copian grain and steel convoys. They eventually realized that securing assets meant nothing if the people operating them were murdered by local tyrants.  
-* **The Code of Harm (Victim vs. Non-Victim):**  
-  * **Non-Victim (Ignored):** Marshals generally ignore vice, bureaucratic, or "non-victim" laws (smuggling to avoid tariffs, gambling, unlicensed mods).  
-  * **Victim (Pursued):** Predatory actions like murder, slavery, assault, and extortion are met with immediate, lethal force.  
-* **Circuit Riders:** They operate on "The Circuit," traveling alone or in small posses to hold court and hunt fugitives. They stand as a check against the Coalition's worst impulses, often leading to standoffs with corrupt politicians.
-
-## 
-
----
-
-## **MECHANICS (GAME DATA)**
-
-### **Faction Statistics**
-
-* **Wealth Modifier:** 0 (Standard baseline).  
-* **Skill Package (20 Points):** Bluff (+4), Survival (+3), Streetwise (+3), Mechanics (+3), Pilot (Ground/Atmo) (+3). Remaining 4 points allocated to Combat or Utility.  
-* **Weaponry Engineering:** Coalition weapons are Reliable, Heavy, and Loud.
-
-### 
-
-### **Origin & Profession Traits**
-
-* **Penal Recruit (Ranger):**  
-  * **Benefit:** Start with a Neural Compliance Shunt (active or remnant). Gain Advantage on Willpower saves against Fear or Suppression.  
-  * **Drawback:** "The Bit." Disadvantage on Social checks against Coalition Authority figures (conditioned obedience).  
-* **Federal Authority (Marshal):**  
-  * **Benefit:** Supreme Jurisdiction. Use Status or Intimidate to legally commandeer civilian vehicles or access scenes regardless of local law.  
-  * **Drawback:** This is to not be abused, any use of Authority should be done with respect and professionalism. Assume superiors WILL know of infractions by the Marshal.
-
-### 
-
-### **Faction Conflict Hook: The Standoff**
-
-A common hook involves players (deputized by a Marshal) defending a witness against a squad of Colonial Rangers ordered by a corrupt Governor to "liquidate the evidence."
-
-## 
-
----
-
-## **VISUAL SEMIOTICS (AESTHETICS)**
-
-### **Palette & Mood**
-
-* **Primary (Frontier):** Dust Brown, Faded Denim, Olive Drab. Harsh natural light, blazing suns, long shadows.  
-* **Urban (Noir):** Art Deco decay. Rain Grey, Neon Blue, Sodium Yellow, Shadow Black. Perpetual rain, steam, and flickering neon.
-
-### 
-
-### **Shape Language & Design**
-
-* **Industrial Utility:** Blocky and functional. Vehicles resemble tanks or jeeps with boxy frames, visible bolts, and welded seams.  
-* **Signature Gear:** The Marshal's Duster (armored ballistic cloth) and "Heavy Iron" (high-caliber kinetic revolvers/rifles).
-
-## 
-
----
-
-## **THE COPIA SYSTEM (THE GILDED BREADBASKET)**
-
-### **System Overview**
-
-* **Stellar Classification:** Copia Prime (Type G2V \- Yellow Dwarf). A highly stable, warm star offering a wide, perfectly temperate habitable zone.  
-* **System Tags:** Hi (High Population), Ag (Agricultural), Ind (Industrial), Cp (Corporate/Clan Hub).  
-* **Tech Level:** 3 (Macro-Industrial), with limited TL 4 infrastructure (Weather Control/Orbital Assets).  
-* **Meta Level:** 1 (Strictly Materialist/Regulated). Considered an ‘intermittent’ regulation as the regional / planetary government bodies will be the deciding factor in the legality of wielding metaphysical forces.  
-* **Law Level:** 4 (Clan Law). Immense social pressure and private security rather than formal police. Again the law levels will be variated in different regions and worlds by the local government.&nbsp;
-
-### 
-
-### **The Copian Philosophy: "Noble Stewardship"**
-
-Copia is the beating heart and open wallet of the Coalition. While the rest of the frontier struggles in the grit of survival, Copia exists in a state of **manufactured post-scarcity**. This wealth is achieved by acting as the primary food and machinery exporter for dozens of systems, while simultaneously levying heavy tariffs on outer-rim goods.
-
-They justify this prosperity through a philosophy of **"Noble Stewardship,"** believing their pristine worlds represent the ultimate success of the "Free Colony" ideal. This leads to a pervasive hypocrisy: the Copian Clan Councils heavily fund the Frontier Marshals to export "justice" to the rim, effectively acting as a moral proxy. By funding the shield of the Marshals, the Copians can afford not to look at the sword of the Rangers or the brutal labor practices on the rim that provide the raw Aetherite and iron required to maintain their gilded lifestyle.
-
-&nbsp;
-
-### **I. Hephaestus-V (The Forge)**
-
-**Classification:** Heavy Industrial / Refining World.
-
-* **Stats:** Pop 6 (Dense Urban/Subterranean), Tech 3 (Macro-Engineering), Law 6 (Corporate Security).  
-* **Sociological Profile:** If the Agri-worlds are Copia's heaven, Hephaestus-V is its hell. It is located on the **inner fringe of the Goldilocks zone, significantly closer to the sun** than its agrarian neighbors. This sunward position allows it to utilize constant solar pressure for its massive automated solar-forges on the day-side, while the "night" side is a sprawling, continent-sized factory city illuminated by the endless fires of industry. The air is choked with heavy smog and acid rain. Workers live in sealed, environmentally controlled subterranean arcologies to survive the pollution they create.  
-* **Key Location: The World-Engine.** A massive, planetary-crust-spanning factory that produces the modular chassis for capital ships and Ranger APCs.
-
-&nbsp;
-
-### **II. The Agrarian Trinity**
-
-Copia boasts an extraordinarily rare planetary alignment: three distinct, highly habitable worlds orbiting further out within the same stable "Goldilocks" zone.
-
-1. #### **Demeter (The Endless Yield)**
-
-   * **Classification:** Heavy Agricultural / Breadbasket.  
-   * **Stats:** Pop 5 (Dispersed), Tech 3 (Industrial Ag), Law 3 (Frontier Corporate).  
-   * **Sociological Profile:** The workhorse of the Trinity. Characterized by endless, flat plains of golden crops stretching to the horizon. It is run by corporate farming conglomerates. The people here are pragmatic, hard-working, and operate building-sized harvesting mecha that resemble land-ships.  
-   * **Key Location: Silo-City Gamma.** A massive trading hub built entirely out of interconnected, skyscraper-sized grain silos and heavy freight spaceports.
-
-&nbsp;
-
-2. #### **Ceres-Alpha (The Blue Harvest)**
-
-   * **Classification:** Aquatic / Aquaculture World.  
-   * **Stats:** Pop 4 (Platform Settlements), Tech 3 (Hydro-Tech), Law 4 (Guild Rules).  
-   * **Sociological Profile:** Ceres-Alpha feeds the Coalition through its oceans. 85 percent of the surface is water. The society is nautical, relying on high-tech hydrofoils and submersible freight haulers. Massive, floating city-platforms drag miles-long smart-nets through nutrient-rich currents.  
-   * **Key Location: Atoll-9.** A modular, floating arcology that serves as the planet's primary port, shipping millions of tons of flash-frozen marine life into orbit daily.
-
-&nbsp;
-
-3. #### **Sylvanus (The Jewel / Capital World)**
-
-   * **Classification:** Terraformed Garden World / Agri-Utopia.  
-   * **Stats:** Pop 7 (Billions), Tech 3 (High-Yield Agrarian / Limited TL 4), Law 5 (Clan Mandate).  
-   * **Sociological Profile:** Seat of the Clan Councils. The population is wealthy, educated, and insulated. There are no slums; even the working class reside in high-tech, vine-draped arcologies. The white-ceramic architecture and floating crystal structures are direct, low-key echoes of their Radiant Impyrium heritage.  
-   * **Key Location: The Council Spire.** A massive, floating crystal and white-ceramic megastructure where the Oligarchs dictate market prices.  
-   * **Key Location: The Verdant Expanse.** Millions of square miles of perfectly manicured, genetically optimized orchards. Harvesting here is done by silent, hovering drones.
-
-### 
-
-### **III. Orbital & Lunar Infrastructure**
-
-Copia maximizes its system's potential by utilizing the void itself as a bustling logistical highway.
-
-* **The Helios Arrays (Orbital Mega-Farms):** A network of colossal, rotating cylindrical space habitats made of transparent aluminum and structural nanocarbon. Positioned in sun-facing orbits, they use massive mirror-arrays to filter and direct continuous 24/7 sunlight into layered farming terraces, accelerating crop yields to 400 percent of planetary norms.  
-* **The Tartarus Belt:** A dense, mineral-rich asteroid belt separating the sunward Forge world from the outer Agrarian Trinity. It is swarming with "Belter" prospectors, autonomous mining drones, and processing crawlers that latch onto asteroids and digest them from the inside out.  
-* **The Aegis & Brontes Moons:** Two heavily cratered moons orbiting Hephaestus-V that house Zero-G Shipyards. The refinement of volatile materials and the construction of massive interstellar freighters are performed here to avoid planetary gravity wells. They perpetually glow with the blue light of plasma torches and welders.
-
-## 
-
----
-
-## **COALITION ARCHITECTURE**
-
-Buildings are brutalist, prefabricated, and defensive.
-
-| Structure | Footprint | Height | SP | DR | Primary Function |
-| :---- | :---- | :---- | :---- | :---- | :---- |
-| **Marshal Garrison** | Small (40x40) | 2-Story | 1,000 | 20 | Jail, Armory, Comms |
-| **Hephaestus Refinery** | Huge (120x120) | 5-Story | 5,000 | 25 | Smelting, Slum Housing |
-| **Agri-Spire** | Huge (120x120) | 20-Story | 7,500 | 15 | Hydroponics, Lab |
-| **Hab-Block (Tier 4\)** | Medium (80x80) | 10-Story | 5,000 | 15 | High-density 0.1 Micro-Habs |
-
-## 
-
-The Coalition engineering ethos is driven by Grit, Utility, and Mass Production. Their assets operate primarily at Tech Level 2 (Industrial) and Tech Level 3 (Standard Spacefaring).
-
-**The Structure:** Blocky, brutalist, and over-engineered. Vehicles and buildings feature thick, sloped armor plating designed to deflect kinetic impacts.
-
-**The Motif:** Dieselpunk, "Used Future", and Industrial Noir.
-
-**Materials:** Galvanized steel, reinforced concrete, plasteel composites, and heavy combustion or early fusion engines.
-
-**Visual Tokens:** Hazard stripes, belching exhaust stacks, thick hydraulic cables, heavy treads, rust, dust, and massive rotary cannons.
-
-**Context:** Coalition architecture reflects their environment: hostile and unforgiving. They favor density, defensive capabilities, and rapid pre-fabrication.
-
-### 
-
-### **1\. FEDERAL MARSHAL GARRISON ("The Blockhouse")**
-
-**Style:** Brutalist / Frontier Defense
-
-**Tech Level:** 3 (Interstellar Prefab)
-
-**Description:** The standard outpost dropped onto newly charted colony worlds. Made of prefabricated, multi-layered concrete and plasteel, it serves as a police station, jail, and final defensive redoubt during frontier raids. The roof is flat, surrounded by a parapet for snipers and automated turrets.
-
-**STATISTICS**
-
-**Footprint:** Small (40x40 ft base)
-
-**Height:** Two-Story
-
-**Structure Points:** 1,000 SP (250 Base x 2 Height x 2.0 Material Multiplier)
-
-**Damage Resist:** 20 (Reinforced Concrete/Plasteel)
-
-**Total Modules:** 20 (10 Base x 2 Floors)
-
-**Wealth Cost:** 28 (Military/Government Funded)
-
-**MODULE CONFIGURATION (20 Modules)**
-
-**Holding Cells (4):** Heavy iron bars, energy-dampening fields.
-
-**Armory & Secure Storage (3):** Blast doors, weapon racks.
-
-**Marshal's Office / Comms (3):** Hardline communications, local radar sweep.
-
-**Barracks (4):** Bunks for 12 Deputies/Rangers.
-
-**Generator Room (2):** Shielded fission battery.
-
-**Garage/Maintenance (4):** Vehicle bay for 2 "Ironback" Walkers or rovers.
-
-&nbsp;
-
-### **2\. HEPHAESTUS-PATTERN ORE REFINERY**
-
-**Style:** Industrial Smog / Macro-Structuralism
-
-**Tech Level:** 2 (Heavy Industry)
-
-**Description:** The beating heart of a Coalition company town. These massive, sprawling structures are a chaotic mess of cooling towers, conveyor belts, and molten slag pits. They run 24/7, belching thick black smoke into the atmosphere. The architecture is purely functional, with catwalks bolted haphazardly to the sides of giant smelting vats.
-
-**STATISTICS**
-
-**Footprint:** Huge (120x120 ft base)
-
-**Height:** Industrial Spire (Equivalent to 5 Stories of vertical processing)
-
-**Structure Points:** 5,000 SP (250 Base x 5 Height x 4.0 Material for Solid Steel/Iron)
-
-**Damage Resist:** 25 (Thick Industrial Steel)
-
-**Total Modules:** 450 (90 Base footprint x 5 Floors)
-
-**Wealth Cost:** 55 (Corporate Investment)
-
-**MODULE CONFIGURATION (450 Modules)**
-
-**Primary Smelting Vats (150):** The hazardous, super-heated core of the facility.
-
-**Ore Sorting & Conveyor Belts (100):** Loud, kinetic sorting floors.
-
-**Thermal Exhaust / Cooling Towers (80):** Vents massive amounts of steam and toxic runoff.
-
-**Worker Hab-Blocks (70):** Cramped, dense "0.1 Module" slum-style housing bolted directly to the warm exterior of the refinery to save on heating costs.
-
-**Corporate Overseer Suite (10):** A heavily shielded, soundproofed, and air-conditioned box suspended above the factory floor.
-
-**Cargo Loading Bays (40):** Ground-level docks for Goliath Siege-Haulers and trains.
-
-### 
-
-### **3\. COPIA-PATTERN VERTICAL AGRI-SPIRE**
-
-**Style:** High-Tech Botanical Engineering / Brutalist Greenhouse
-
-**Tech Level:** 3 (Industrial Hydroponics)
-
-**Description:** To feed billions of industrial workers, the Coalition relies on massive vertical farming stations (like those in the Helios Array). These towering cylinders are made of structural glass and white-painted steel, featuring curving horizons sloping upwards. They are one of the few places in Coalition space where clean water and vibrant greenery are abundant, though the atmosphere is stiflingly humid and smelling of fertilizer.
-
-**STATISTICS**
-
-**Footprint:** Huge (120x120 ft base)
-
-**Height:** Skyscraper (20 Stories)
-
-**Structure Points:** 7,500 SP (250 Base x 20 Height x 1.5 Material for Plasteel/Glass)
-
-**Damage Resist:** 15 (Reinforced Glass & Truss Network)
-
-**Total Modules:** 1,800 (90 Base footprint x 20 Floors)
-
-**Wealth Cost:** 65 (Corporate Infrastructure)
-
-**MODULE CONFIGURATION (1,800 Modules)**
-
-**Hydroponic Terraces (1,000):** Stacked levels of high-yield crops under intense simulated sunlight.
-
-**Water Reclamation & Filtration (300):** Massive cascading waterfalls and purification tanks.
-
-**Agri-Drone Maintenance Bays (200):** Charging and repair stations for automated harvester drones.
-
-**Atmospheric Scrubbers (200):** Managing humidity, oxygen output, and chemical balances.
-
-**Botanical Laboratory (100):** Genetic engineering facilities for blight resistance and yield optimization.
-
-### 
-
-### **4\. STANDARDIZED CORPORATE HAB-BLOCK (TIER 4\)**
-
-**Style:** Dense Urban / Industrial Noir
-
-**Tech Level:** 2 (Mass Prefabrication)
-
-**Description:** The standard living arrangement for the working class in a Coalition city. These blocks are built by stacking identical, 10x10ft "0.1 Module" micro-apartments on top of one another around a central elevator shaft. The exterior is a patchwork of rust, corrugated metal, and neon signs buzzing through the perpetual smog. Privacy is non-existent, and the walls are paper-thin.
-
-**STATISTICS**
-
-**Footprint:** Medium (80x80 ft base)
-
-**Height:** Mid-Rise (10 Stories)
-
-**Structure Points:** 5,000 SP (250 Base x 10 Height x 2.0 Material Multiplier)
-
-**Damage Resist:** 15 (Composite Plasteel & Concrete)
-
-**Total Modules:** 300 (30 Base footprint x 10 Floors)
-
-**Wealth Cost:** 35 (Mass Housing Investment)
-
-**MODULE CONFIGURATION (300 Modules)**
-
-**High-Density Micro-Habs (250):** Using the "0.1 Module" rule, this allows for 2,500 individual 10x10ft apartments.
-
-**Communal Washrooms / Showers (20):** Shared hygiene facilities per floor.
-
-**Central Utilities & Elevators (20):** Creaking, unreliable power distribution and lift shafts.
-
-**Street-Level Commercial (10):** Grimy noodle bars, pawn shops, and Ripper-Doc clinics at the base of the block.
-
-## 
-
----
-
-## **COALITION MECHA**
-
-Coalition mecha and vehicles are characterized by rugged, over-engineered designs intended for both industrial utility and frontier warfare.
-
-| Vehicle / Mecha | Classification / Size | SP | DR | Primary Loadout / Function |
-| :---- | :---- | :---- | :---- | :---- |
-| **"Ironback" Patrol Walker** | Frontier Cavalry / Large | 120 | 15 | "Peacemaker" Heavy Mag-Rail Rifle, Shoulder Rotary MG |
-| **"Goliath" Siege-Hauler** | Super-Heavy / Garg. | 800 | 45 | Twin-Linked Siege Howitzers |
-| **"Rust-Devil" Gunship** | CAS / Huge | 220 | 20 | Nose-Mounted Gatling Autocannon |
-| **"Dust-Skipper" Buggy** | Recon / Large | 60 | 5 | Pintle-Mounted Heavy Stubber, 140 ft/rnd (Wheeled) |
-| **"Leviathan" Land-Train** | Logistics / Gargantuan | 600 | 35 | Segmented Mobile Outpost / Strategic Transport |
-
-## 
-
-The Coalition engineering ethos is driven by Grit, Utility, and Mass Production. Their assets operate primarily at Tech Level 2 (Industrial) and Tech Level 3 (Standard Spacefaring).
-
-**The Structure:** Blocky, brutalist, and over-engineered. Vehicles and buildings feature thick, sloped armor plating designed to deflect kinetic impacts.
-
-**The Motif:** Dieselpunk, "Used Future", and Industrial Noir.
-
-**Materials:** Galvanized steel, reinforced concrete, plasteel composites, and heavy combustion or early fusion engines.
-
-**Visual Tokens:** Hazard stripes, belching exhaust stacks, thick hydraulic cables, heavy treads, rust, dust, and massive rotary cannons.
-
-**Context:** The Coalition prefers tracks, heavy wheels, and rugged bipedal walkers over delicate anti-gravity systems. Their weapons are loud, kinetic, and highly destructive.
-
-### 
-
-### **1\. "IRONBACK" PATROL WAR-WALKER**
-
-| CORE STATISTICS | VALUE | NOTES |
-| :---- | :---- | :---- |
-| Tech Level | 3 | Standard Ballistic Tech |
-| Size Category | Large | x2 Scale (Approx. 15ft tall) |
-| Structure (SP) | 120 | Hardened Industrial Frame |
-| Damage Resistance (DR) | 15 | Heavy Plating (Frontal Bias) |
-| Crew | 1 | Pilot (Armored Cabin) |
-| Cost / Wealth | Wealth 25 | Standard Issue |
-
-**Classification:** Frontier Cavalry / Law Enforcement
-
-**Origin:** Coalition Federal Marshals
-
-**Description:** A rugged, bipedal walker used by Coalition Marshals to patrol harsh frontier towns and badlands. It lacks the elegance of Dynasty mecha, looking more like a walking tractor draped in heavy ballistic plating. It is loud, intimidating, and easily repaired with a welding torch.
-
-**MOVEMENT & PROPULSION**
-
-**Primary Mode:** Bipedal Walker (Reverse-jointed)
-
-**Engine Type:** High-Torque Turbo-Diesel / Early Fusion Hybrid
-
-**Speed:** 60 ft/rnd (Tactical) / \~45 MPH (Travel)
-
-**Handling:** Average (Can navigate rocky terrain, but struggles in deep mud)
-
-**SYSTEMS & LOADOUT (10 Mounts Available)**
-
-**Cockpit:** Armored Cabin with analog/digital hybrid displays (2 Mounts)
-
-**Engine:** Core Powerplant with prominent exhaust stacks (2 Mounts)
-
-**Weapon (Main):** "Peacemaker" Heavy Mag-Rail Rifle (2 Mounts) \- Dmg: 4d10 Kinetic. Hand-held by the walker's manipulators.
-
-**Weapon (Secondary):** Shoulder-mounted Rotary Machine Gun (1 Mount)
-
-**Utility:** Long-Range Frontier Comms & Siren Array (1 Mount)
-
-**Manipulators:** Industrial Pincer/Crusher Hands (2 Mounts)
-
-### 
-
-### **2\. "GOLIATH" SIEGE-HAULER**
-
-| CORE STATISTICS | VALUE | NOTES |
-| :---- | :---- | :---- |
-| Tech Level | 2/3 | Industrial Retrofit |
-| Size Category | Gargantuan | x10 Scale (Approx. 60ft long) |
-| Structure (SP) | 800 | Massive Bulkheads |
-| Damage Resistance (DR) | 45 | Ablative Slag-Armor |
-| Crew | 5 | Driver, Commander, 3 Gunners |
-| Cost / Wealth | Wealth 45 | Strategic Asset |
-
-**Classification:** Super-Heavy Assault / Repurposed Industrial
-
-**Origin:** Coalition Colonial Rangers / Mining Conglomerates
-
-**Description:** Originally a colossal ore-hauler used in strip mining operations on Hephaestus-V, many Goliath have been up-armored and fitted with artillery. It is a slow, rolling fortress that the Coalition uses to break entrenched enemies. It doesn't dodge; it simply absorbs fire until it gets within range to obliterate the target.
-
-**MOVEMENT & PROPULSION**
-
-**Primary Mode:** Quad-Tracked (Four massive tread pods)
-
-**Engine Type:** Heavy Fission Reactor
-
-**Speed:** 40 ft/rnd (Tactical) / \~20 MPH (Travel)
-
-**Handling:** Sluggish (-4 Penalty)
-
-**SYSTEMS & LOADOUT (30 Mounts Available)**
-
-**Bridge:** Armored Command Bunker (4 Mounts)
-
-**Engine:** Fission Core (6 Mounts)
-
-**Weapon (Main):** Twin-Linked Siege Howitzers (10 Mounts) \- Dmg: 2d10x10 Kinetic Area of Effect. Fires massive artillery shells.
-
-**Weapon (Secondary):** Sponson-mounted Flak Cannons (4 Mounts)
-
-**Defense:** Reactive Armor Plating (3 Mounts)
-
-**Cargo/Utility:** Troop/Munitions Hold (3 Mounts)
-
-### 
-
-### **3\. "RUST-DEVIL" CLOSE AIR SUPPORT GUNSHIP**
-
-| CORE STATISTICS | VALUE | NOTES |
-| :---- | :---- | :---- |
-| Tech Level | 3 | Vectored Thrust |
-| Size Category | Huge | x5 Scale |
-| Structure (SP) | 220 | Reinforced Underbelly |
-| Damage Resistance (DR) | 20 | Flak-Resistant Paneling |
-| Crew | 2 \+ 10 | Pilot, Gunner, Infantry Squad |
-| Cost / Wealth | Wealth 30 | Military Aviation |
-
-**Classification:** Atmospheric Gunship
-
-**Origin:** Corporate Mercenaries / Outer Rim Militias
-
-**Description:** A brutal, un-aerodynamic brick of an aircraft kept aloft by massive downward-facing ducted fans and brute-force jet engines. It screams through the sky, dropping into combat zones to lay down a terrifying barrage of kinetic fire and unguided rockets before extracting wounded Rangers.
-
-**MOVEMENT & PROPULSION**
-
-**Primary Mode:** Vectored Thrust / VTOL
-
-**Engine Type:** Chemical Turbine Jets
-
-**Speed:** 500 ft/rnd (Tactical) / \~350 MPH (Travel)
-
-**Handling:** Average (Relies on brute thrust over aerodynamics)
-
-**SYSTEMS & LOADOUT (20 Mounts Available)**
-
-**Cockpit:** Tandem Armored Canopy (2 Mounts)
-
-**Engine:** Quad Turbine Array (6 Mounts)
-
-**Weapon (Main):** Nose-Mounted "Gatling" Rotary Autocannon (4 Mounts) \- Dmg: 4d10 Kinetic. Excellent against infantry and light armor.
-
-**Weapon (Secondary):** Wing-Mounted Unguided Rocket Pods (4 Mounts)
-
-**Troop Bay:** Fast-Rope Deployment Bay (4 Mounts)
-
-### 
-
-### **4\. "DUST-SKIPPER" OUTRIDER BUGGY**
-
-| CORE STATISTICS | VALUE | NOTES |
-| :---- | :---- | :---- |
-| Tech Level | 2/3 | High-Performance Combustion |
-| Size Category | Large | x2 Scale (Standard Vehicle) |
-| Structure (SP) | 60 | Tubular Roll-Cage Frame |
-| Damage Resistance (DR) | 5 | Minimal Plating |
-| Crew | 1 \+ 3 | Driver, Gunner, 2 Passengers |
-| Cost / Wealth | Wealth 15 | Common / Easily Scavenged |
-
-**Classification:** Fast Recon / Wasteland Interceptor
-
-**Origin:** Civilian Modders / Frontier Marshals
-
-**Description:** A stripped-down, high-suspension 4x4 built for navigating the treacherous terrain of untamed colony worlds. It favors speed and maneuverability over heavy armor, often featuring exposed roll cages, oversized off-road tires, and a pintle-mounted heavy weapon for hit-and-run tactics.
-
-**MOVEMENT & PROPULSION**
-
-**Primary Mode:** Wheeled (Independent Suspension)
-
-**Engine Type:** Supercharged High-Octane Combustion
-
-**Speed:** 140 ft/rnd (Tactical) / \~100 MPH (Travel)
-
-**Handling:** Very Good (+4 to Maneuver Checks)
-
-**SYSTEMS & LOADOUT (10 Mounts Available)**
-
-**Cockpit:** Open-Air Roll Cage with 4-point harnesses (2 Mounts)
-
-**Engine:** Oversized V-Block Engine (3 Mounts)
-
-**Weapon (Main):** Pintle-Mounted Heavy Stubber or Grenade Launcher (2 Mounts)
-
-**Utility:** Winch and Heavy Tow Cable (1 Mount)
-
-**Cargo:** Survival Gear & Fuel Canisters (2 Mounts)
-
-### 
-
-### **5\. "LEVIATHAN" LAND-TRAIN CRAWLER**
-
-| CORE STATISTICS | VALUE | NOTES |
-| :---- | :---- | :---- |
-| Tech Level | 3 | Strategic Transport |
-| Size Category | Gargantuan | x10 Scale (Per Segment) |
-| Structure (SP) | 600 | Thick Industrial Plating |
-| Damage Resistance (DR) | 35 | Sloped Anti-Kinetic Armor |
-| Crew | 8 | Conductor, Nav, Engineers, Guards |
-| Cost / Wealth | Wealth 50 | Corporate Asset |
-
-**Classification:** Mobile Logistics / Mobile Outpost
-
-**Origin:** Heavy Mining Guilds
-
-**Description:** When you need to move a thousand tons of raw Aetherite across a desert crawling with raiders, you use a Leviathan. Consisting of a massive, heavily armored tractor unit pulling multiple articulated cargo trailers on segmented treads, these machines are the lifeblood of Coalition overland trade.
-
-**MOVEMENT & PROPULSION**
-
-**Primary Mode:** Segmented Heavy Treads
-
-**Engine Type:** Twin Commercial Fusion Cores
-
-**Speed:** 30 ft/rnd (Tactical) / \~15 MPH (Travel)
-
-**Handling:** Extremely Sluggish (-6 Penalty)
-
-**SYSTEMS & LOADOUT (30 Mounts Available \- Tractor Unit Only)**
-
-**Bridge:** Elevated Command Deck (4 Mounts)
-
-**Engine:** Fusion Core Assembly (8 Mounts)
-
-**Defense:** Automated Point-Defense Turrets (4 Mounts)
-
-**Life Support:** Long-Haul Habitation Quarters for Crew (4 Mounts)
-
-**Utility:** Tractor-Link Couplings for pulling massive trailers (10 Mounts)
-
-## 
-
----
-
-## **COALITION PERSONAS**
-
-* **The Ripper-Doc**  
-  Underground surgeons operating in the neon-lit shadows of "Chop Shops"—shipping containers repurposed into back-alley clinics. Using black-market industrial lasers and rusty pliers, they install bootleg cybernetics and patch up gunshot wounds for those who can't risk a public hospital. They are the ghosts of the Tier 4 hab-blocks, trading in "no questions asked" medicine and copper-tasting ozone.  
-* **The Handler**  
-  Career soldiers or mercenaries who walk the thin line between officer and jailer. Carrying the "Leash"—a specialized control tablet linked to Ranger shunts—they manage the volatility of penal squads. They must be part-strategist and part-executioner, knowing that one hardware glitch or a moment of hesitation could turn their loyal, chipped soldiers into a vengeful mob of violent criminals.  
-* **The Unshackled Veteran**  
-  The rare survivors of a five-year Penal tour. While the Bit has been surgically removed, the neural scars and "phantom stings" remain forever. Most find work as cold-blooded mercenaries or high-end bodyguards, as the long-term suppression of their fear centers has left them permanently detached and remarkably efficient in lethal combat scenarios.  
-* **The Ranger Captain**  
-  Paramilitary officers loyal to the highest corporate bidder. Clad in heavy "Riot-Class" armor marked with hazard orange stripes, they are the ones who coordinate the "blunt instrument" tactics of the Colonial Rangers. They are often seen leading from the front with mag-rail rifles, their faces obscured by tactical visors that reflect the fire of burning strike-lines.  
-* **The Frontier Marshal**  
-  A nomadic arbiter of the "Circuit" who lives out of armored saddlebags. They are the wandering conscience of the law, carrying a heavy mag-rail revolver and a silver star badge that acts as their only authority in towns where local governors are often the primary criminals. They follow the "Oath of Harm," protecting the creators of cargo rather than the bureaucrats who profit from it.  
-* **The Clan Councilor**  
-  The impeccably dressed architects of the Copian Hypocrisy. Dressed in fine smart-silk woven on Sylvanus, they manage the wealth of the Coalition from floating glass towers. They are experts in "Noble Stewardship," politely filing away reports of frontier atrocities while ensuring the raw Aetherite and slave labor continue to flow to maintain their pristine arcologies.  
-* **The Fixer/Smuggler**  
-  The pragmatic lifeblood of the Coalition's informal economy. They know every moon-side hideout in the Tartarus Belt and every bribe-hungry Handler on the border. Whether they are moving unlicensed medical supplies or high-grade ore, they view the law as a business expense and the Marshals as a professional hazard to be avoided or bribed.  
-* **The Robber Baron**  
-  Corporate governors who run resource colonies like personal fiefdoms. They maintain absolute control through debt-slavery and private Ranger details. To a Robber Baron, a human life is just another line item on a ledger to be extracted, refined, and sold. They spend their days in air-conditioned mansions while their workers bake in the toxic dust of open-pit mines.  
-* **The Naïve Idealist**  
-  Wealthy Copian youths who join the Justice Department with dreams of civilizing the frontier, only to be confronted by the crushing reality of systemic kleptocracy. They are the ones who leak documents to Fixers or try to file charges against Robber Barons, often finding that the star they wear is the only thing protecting them from the system they serve.
-
-## 
-
----
-
-## **SCENE VIGNETTES**
-
-### **A. The Standoff at Black Ridge**
-
-The heavy rain of Black Ridge turns the main thoroughfare into an oil-slicked slurry of red clay and industrial grease. Steam hisses violently from the exhaust stacks of a Colonial Ranger APC parked aggressively across the street, its engine idling with a low, menacing thrum. Six chipped Rangers stand in a loose semi-circle, their mismatched plasteel armor slick with the downpour. Their eyes are glazed—the result of neural inhibitors—but the red LEDs of their shunts glow with an angry intensity in the dark.
-
-Facing them stand two figures carved from granite. Marshal Kael wears a slate-grey armored duster that sheds rain in sheets. Her stance is relaxed, but her hand rests on the pearl grip of a heavy mag-rail revolver. Beside her, Marshal Vance smokes a thin cigarillo, the cherry-red tip glowing through the haze. He doesn't look at the Rangers' rifles; he looks at the Handler holding the control tablet. "You're out of your jurisdiction," Kael says, her voice cutting through the thunder. "This colony is under Federal Audit. That means the Governor's warrants are paperweights until we say otherwise." Behind them, a crowd of dirty miners begins to gather, their jeers growing louder as they realize the Marshals aren't moving. A bottle smashes near the APC's treads, and for a moment, the tension is a powder keg waiting for a spark.
-
-### 
-
-### **B. The Mining Strike**
-
-The air at the deep-rim Aetherite mine is thick with sulfurous dust and the impending scent of ozone. A line of Colonial Rangers in "Riot-Class" armor—olive drab with harsh hazard-orange stripes—stands behind a humming wall of energy shields. They are the "Hammer," deployed by the Mining Conglomerate to end a month-long protest against lethal working conditions. The strikers, desperate men and women with lungs scarred by Aetherite poisoning, refuse to break.
-
-Opposite the Rangers, the miners have fashioned makeshift weapons from the tools of their trade. Heavy industrial lasers, designed to cut through planetary crust, hum with a dangerous, high-pitched whine as they are leveled at the energy shields. Massive mining drills, held by two people each, grind against the red soil. The corporate overseer screams orders from a shielded balcony high above, but the Marshals are nowhere to be found—this is raw frontier justice, where the only law is the one backed by the biggest gun.
-
-### 
-
-### **C. The Governor's Estate**
-
-High above the toxic, sun-baked dust of the mining town sits the Governor's Estate, a Neo-Colonial mansion that serves as a monument to greed. A massive "climate bubble"—a rare piece of TL 4 weather control technology—encases the grounds, maintaining a constant, cool 72 degrees. Inside the walls, lush green lawns and jasmine-scented gardens flourish, tended by automated drones that never tire. It is a world of white marble, polished wood, and pristine silence.
-
-The contrast just outside the gates is staggering. Beyond the auto-turrets and the ten-foot reinforced concrete walls, thousands of workers live in the "Art Deco decay" of Tier 4 hab-blocks, where the water is reclaimed and the air tastes of metal. From his balcony, the Robber Baron sips a glass of premium Ceres-Alpha wine, watching the sunset through the atmospheric smog. To him, the struggling populace below is merely a resource to be managed, and the Marshals are a nuisance to be bribed or outmaneuvered by the private Ranger detail guarding his gates.
-
-### 
-
-### **D. The Frontier Saloon**
-
-The "Rusty Cog" is a dimly lit pocket of shadow where the air recycling system has been failing for a decade. Neon signs for synthetic whiskey flicker through a haze of cigar smoke and copper-tasting ozone, casting long, blue shadows across the patrons. Men and women in oil-stained work-gear sit in silence, eyeing each other over dented metal cups. In the corner, a Ripper-Doc argues with a Fixer over the price of bootleg neural shunts, their voices barely audible over the low hum of the life support.
-
-A sudden hush falls as a Frontier Marshal steps through the heavy plasteel door. He doesn't speak. He simply leans against the frame, his wide-brimmed hat casting his face in shadow. His hand hovers habitually over a low-slung holster, his posture marked by the absolute discipline of a master swordsman. He is surveying the room, looking for a face that shouldn't be there, while every patron calculates their distance to the nearest exit. Here, in the belly of the underworld, the badge is the only thing preventing the bar from erupting into a chaotic free-for-all.
-
-&nbsp;
-
-&nbsp;
-
-# **OUTWORLDS**
-
-# **OUTWORLDS**
-
-## 
-
-## **FACTION DESCRIPTION**
-
-The **Outworlds** represent the vast, untamed expanse of the galaxy outside the rigid control of the major powers (Dynasty, Syndicate, Impyrium). This designation covers the bleeding edge of the known map: frontier colony worlds, independent moons, and a myriad of orbital space habitats dedicated to resource harvesting. Unlike the monolithic cultures of the core worlds, the Outworlds are defined by their **Extreme Diversity** and **Political Fragmentation**.
-
-Here, there is no central government. Governance ranges from absolute anarchy on lawless drift-stations to strict micro-tyrannies within isolated asteroid colonies. It is a petri dish of sociology where nascent factions, corporate breakaways, and philosophical communes experiment with new forms of society. Laws vary wildly from system to system; what is a capital crime in one habitat might be standard commerce in the next.
-
-Technologically, the Outworlds are defined by a **Technological Disparity**. It is a spectrum of "Haves" and "Have-Nots." Some wealthy colonial enclaves possess functioning, high-level technology brought with them during their exodus—fusion generators, advanced med-bays, and pristine fabrication units that have simply not worn out yet. Others are restricted worlds that have regressed to industrial or even feudal levels due to isolation or resource scarcity. Most common, however, is a **"Used Futurism"**—high technology that is functional but grimy, dented, stained with oil, and repaired with analog components.
-
-While often dismissed as "backwaters" by the elite, the Outworlds are the engine of raw resources and the home of true grit. The inhabitants are independent, self-reliant, and pragmatic. A handshake deal often carries more weight here than a digital contract. They practice "**Survival Diplomacy**"—navigating the complex politics of larger factions to avoid being crushed or annexed, often playing the big powers against one another. Communities here are tight-knit; while they value independence, they recognize the absolute necessity of mutual aid in the face of a hostile universe. A neighbor is your only backup when the air scrubber fails or pirates attack.
-
-### 
-
-### **Overview**
-
-The Outworlds are the **Frontier**. Home to Colonists, Station-Dwellers, Scavengers, and Independent Miners. Defined by **Divergent Societies**, **Resource Extraction**, and **Self-Governance**.
-
-&nbsp;
-
-**Key Themes:** The Wild Frontier, Micro-Societies, Isolation, Ingenuity, Used Futurism.
-
-**Relationship to Others:** Ignored by major powers until they need resources; often hired by Syndicate/Coalition for dirty work; "Survival Diplomacy" with everyone.
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Independent Outworlds  
 * **Colloquialisms:** The Fringe / The Rust Belt / The Drift / The Colonies  
 * **Archetype:** Frontier / Post-Apocalyptic / Kinetic Scrap  
+* **Capital/Key World:** None (Decentralized)  
+* **Symbol/Sigil:** Graffiti tags, repurposed warning signs.  
 * **Driving Mandate:** Autonomy; Establish a foothold; Survive another day.  
-* **Symbol/Sigil:** No unified sigil; Graffiti tags, repurposed warning signs, or local colony flags.  
-* **Capital/Key World:** None (Decentralized).
+* **Motto:** "Waste nothing. Rule yourself."
 
-## 
+### **III. Sociological Profile**
 
-## ---
+#### **Ideology & Culture**
 
-## **SOCIOLOGICAL PROFILE**
+* **Core Beliefs:** Function over Form. Mutual aid is a necessity for survival.  
+* **Social Structure:** Highly variable (Tribal clans, company towns, loose confederacies).  
+* **View on Outsiders:** Wary, practical, and highly transactional.  
+* **Law & Order:** Localized. "A handshake deal carries more weight than a digital contract."
 
-### **Ideology & Culture**
+#### **Governance**
 
-* **Core Beliefs:** "Waste nothing. Rule yourself." Function over Form.  
-* **Social Structure:** Highly variable. Ranges from loose confederacies and tribal clans to corporate company towns and isolated dictatorships.  
-* **Philosophy:** Local Superstitions / Machine Echoes / Libertarianism.  
-* **Magic/Psionics:** Wild and untrained. Often feared or revered as Shamans or localized phenomena.
+* **Government Type:** Decentralized Anarchy / Micro-Factions.  
+* **Leadership:** Station Administrators, Scavenger Kings, Warlords, or Town Councils.  
+* **Succession:** Varies wildly (Elected, violent overthrow, inherited).
 
-## 
+### **IV. Strategic Assets**
 
-## ---
+#### **Economy & Tech**
 
-## **MECHANICS (GAME DATA)**
+* **Tech Level (TL):** Variable (2-3) (Scavenged / Used Futurism). Occasional TL4 "Legacy Tech".  
+* **Meta Level (ML):** Variable (Wild). Shamans and Machine-Spirits.  
+* **Wealth Modifier:** \-1 or \-2 (Generally impoverished, heavily reliant on barter).  
+* **Primary Exports:** Raw scavenged materials, unrefined ores, mercenary labor.  
+* **Economic Model:** Subsistence / Barter / Black Market.
 
-### **Advancements**
+#### **Military Profile**
 
-* **Tech Level:** **Variable (2-3) (Scavenged / Used Futurism)**  
-  * *Focus:* Jury-rigging, Mining, Kinetic Weaponry. "Franken-tech" cobbled together from other factions.  
-  * *Note:* Some wealthy enclaves possess functional "Legacy Tech" (TL4) brought from the core worlds.  
-* **Meta Level:** **Variable (Wild)**  
-  * *Focus:* Shamans, Cults, and Machine-Spirits. Highly inconsistent.
+* **Doctrine:** Guerrilla survival, hit-and-run, defending the homestead.  
+* **Key Units:** Prospectors, Scavengers, Local Militias.  
+* **Naval Assets:** Cobbled-together "Franken-ships" and orbital refineries.  
+* **Unique Tech/Materials:** "Franken-tech" (mismatched technology bolted together).
 
-### 
+### **V. Mechanics (Game Data)**
 
-### **Faction Skill Package (20 Points)**
+* **Prominent Species:** Highly diverse; all species represented.  
+* **Faction Skill Package (20 Points):**  
+  * Mechanics (Jury-Rigging) (+5)  
+  * Survival (Scavenging) (+4)  
+  * Barter (+3)  
+  * Pilot (Any) (+3)  
+  * Combat (1 or 2 Skills) (+3)  
+  * Stealth (+2)  
+* **Typical Archetypes:** The Field Medic, The Veteran, The Foreman, The Homesteader, The Quartermaster, The Vagabond, The Manhunter, The Grifter, The Pioneer, The Raider, The Smuggler, The Salvage-Specialist.  
+* **Recommended Features (1 BP Discount):**  
+  * Beginner's Luck, Jack-of-all-trades, Self Sufficient, Spacer, Master Craftsman, Gearhead, Endurance, Climber, Danger Sense, Gifted Pilot, Runner, Weapon Improvisation.
 
-Outworlders are jacks-of-all-trades adapted to harsh environments.
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-* **Mechanics (Jury-Rigging) (+5):** Keeping the ship flying with duct tape.  
-* **Survival (Scavenging) (+4):** Finding food and parts in wasteland or vacuum.  
-* **Barter (+3):** Trading for what you need.  
-* **Pilot (Any) (+3):** Evasion and navigation.  
-* **Combat (1 or 2 Skills) (+3):** Bar fights and self-defense.  
-* **Stealth (+2):** Avoiding patrols.
+#### **HI-FI INK Prompt Framework**
 
-### 
+* **SETTING STYLE:** Kinetic Scrap, Used Futurism, Post-Apocalyptic Frontier, High Tech \- Low Life.  
+* **CONTEXT:** Sprawling habitats of shipping containers, crashed starships, modular prefabs bolted together. Exposed cables, mismatched repair patches, "Franken-tech". Palette: Rust, Oxidized Copper, Faded Warning Yellow, Duct Tape Silver.  
+* **ATMOSPHERE:** Gloomy industrial, survivalist, dirty, crowded. Lit by sparks, handheld lanterns, flickering fluorescents, harsh starlight, sunset hour.
 
-### **Recommended Features (1 BP Discount)**
+### **VII. Expansion Modules (Optional)**
 
-* **Jury-Rigger:** Can repair items without the proper parts (temporary fix).  
-* **Rugged:** You ignore penalties from extreme environmental conditions.
+#### **Scene Vignettes**
 
-## 
+* **The Rust-Bucket Bazaar:** A marketplace built inside the hollowed-out ribcage of a crashed starship on a desert moon. Lit by harsh daylight and neon holograms.  
+* **High-G Extraction:** Prospectors in heavy, mismatched exo-suits struggling against crushing weight to secure geodes.  
+* **The Orbital Refinery:** A massive habitat cobbled from docking rings and fuel tanks, spinning for gravity with a wobbly axis.
 
-## ---
+## **ASCENDANCY**
 
-## **VISUAL SEMIOTICS (AESTHETICS)**
+### **I. Detailed Faction Description**
 
-**Design Directive:** "Kinetic Scrap & Used Futurism."
+* **Overview:** The Ascendancy ("The Exiles") represents a schism in human history, formed by the Seventh Heir of the Impyrium who rejected the stagnation of the ancient empire. They seek a *tabula rasa* on the far side of "The Reach." They look forward, drawing inspiration from the legendary "Radiant Impyrium" (the Golden Age) to recreate and surpass it through the advancement of TL4 Psi-Tech. They are High-Tech Utopians defined by Hope, Innovation, and Self-Reliance, viewing technology and the mind as one.  
+* **Key Themes:** Hope, Psionics, Exploration, The Future, Radiant Inspiration.  
+* **Relationship to Others:** Ideological enemies of the Impyrium Dominion. Seek alliances with Outworlds and Entari.
 
-The Outworlds aesthetic is defined by functionality over form. It encompasses **"Used Futurism"**—where high-tech starships have coffee stains on the consoles, exposed wiring in the hallways, and hulls patched with different colored plating. It also includes the **"Kinetic Scrap"** of the desperate, where technology is completely mismatched. Visuals range from the sleek-but-dirty lines of a colony ship that has been running for 50 years without a drydock, to the chaotic sprawl of a station built from shipping containers.
-
-### **Palette**
-
-* **Primary:** **Rust**, Oxidized Copper, Faded Warning Yellow, Industrial Beige (stained).  
-* **Secondary:** Scavenger Grey, Bare Metal, Prefab White (Dirty/Chipped).  
-* **Accent:** Mismatched repair patches, Welding Sparks, Red (Warning Lights), Duct Tape Silver.
-
-### **Lighting**
-
-* **Key Style:** **Gloomy Industrial.** Lit by sparks, warning lights, handheld lanterns, flickering fluorescent tubes, and the harsh glare of unfiltered starlight.  
-* **Mood:** Atmospheric, Dirty, Crowded, "High Tech, Low Life," Lived-In.
-
-### **Shape Language**
-
-* **Asymmetry:** A ship might have one large engine and two small ones. Armor is made of mismatched plates.  
-* **Modular Prefab:** Structures look like shipping containers or hexagonal hab-units bolted together in ad-hoc clusters.  
-* **Exposed Internals:** Cables, pipes, and gears are visible. Panels are often removed for easy maintenance and never replaced.
-
-### **Gear Aesthetic**
-
-* **"Legacy-Tech":** High-quality, advanced equipment brought from the Core Worlds. It works perfectly but looks battered—scratched casing, worn grips, aftermarket modifications, and personalized graffiti.  
-* **"Franken-tech":** Weapons and tools cobbled together from incompatible parts. A receiver of a Syndicate rifle bolted to the barrel of a Coalition shotgun, powered by a mining drill battery.
-
-## 
-
-## ---
-
-## **SCENES & ENVIRONMENTS**
-
-### **A. The Rust-Bucket Bazaar**
-
-* **Context:** A marketplace built inside the hollowed-out ribcage of a crashed starship on a desert moon.  
-* **Action:** A diverse crowd of miners, aliens, and droids haggle over water filters and spare parts. Steam hisses from a noodle shop made of an engine cowling.  
-* **Atmosphere:** Crowded, noisy, vibrant, desperate.  
-* **Lighting:** Shafts of harsh daylight piercing the hull breaches, mixing with the neon glow of holographic price tags.
-
-### **B. High-G Extraction**
-
-* **Context:** The surface of a high-gravity asteroid rich in heavy metals.  
-* **Action:** Prospectors in heavy, mismatched exo-suits struggle to secure a crystal geode against the crushing weight.  
-* **Atmosphere:** Hostile, heavy, industrial.  
-* **Lighting:** Stark, single-source light creates pitch-black shadows. Warning lights on the suits flash rhythmically.
-
-### **C. The Orbital Refinery**
-
-* **Context:** A massive, sprawling space habitat cobbled together from docking rings, fuel tanks, and asteroid rock. It serves as a processing plant and a home for thousands.  
-* **Visuals:** Zero-G docks cluttered with small mining skiffs. The station spins for gravity, but the axis is slightly wobbly. Inside, hydroponic gardens grow in clear tubes along the ceiling of the main promenade.  
-* **Sociology:** A nascent micro-society ruled by a trade union. Laws are posted on digital slates: "Air is a privilege, work is mandatory."
-
-## 
-
-## ---
-
-## **COMMON PERSONAS (ARCHETYPES)**
-
-* **The Scavenger King:** A leader who rules a pile of junk that happens to be a space station.  
-  * *Visuals:* Wearing a crown of braided copper wire and a cape made of a solar sail.  
-* **The Hedge-Doctor:** A medic who works with no license and scarce supplies.  
-  * *Visuals:* Dirty lab coat over survival gear, cybernetic eye that doesn't fit quite right.  
-* **The Prospector:** Someone who bets their life on the next big find.  
-  * *Visuals:* Heavy exo-suit stained with ore dust, carrying a laser-drill as a weapon.  
-* **The Station Administrator:** The elected (or self-appointed) mayor of an isolated habitat.  
-  * *Visuals:* Wearing a vest covered in access keys and data-drives. Tired eyes, carrying a heavy datapad containing the station's life-support schematics.
-
-&nbsp;
-
-# **ASCENDANCY**
-
-# **ASCENDANCY**
-
-## 
-
-## ---
-
-## **DESCRIPTION**
-
-The Ascendancy, colloquially known as "**The Exiles**" or "**The New Path**," represents a significant schism in human history. They are a breakaway civilization formed by the **Seventh Heir** of the Impyrium, who rejected the stagnation, corruption, and internal politicking of the ancient empire. Leading a massive exodus to the far side of "**The Reach**" (the region of space near the Dynasty, Syndicate and Entari territories), they sought independence and a *tabula rasa* upon which to build a better society.
-
-Unlike the Impyrium, which looks backward to preserve ancient glories, the Ascendancy looks forward while drawing inspiration from the **Radiant Impyrium**—the legendary "Golden Age" of humanity before the Severance. They view that era not as a lost paradise to be mourned, but as a blueprint to be exceeded. They have actively reclaimed and advanced the lost sciences of that time, particularly **Psi-Tech** (Tech Level 4)—crystalline circuitry and psycho-reactive materials that allow technology to be controlled by thought alone.
-
-They are defined by **Hope**, **Innovation**, and **Self-Reliance**. They believe they are literally "ascending" beyond the limitations of their ancestors. While they respect history, they refuse to be bound by it; if a tradition does not serve the welfare of the people or the advancement of the state, it is discarded. This flexibility makes them highly adaptive compared to the rigid Dynasty or Impyrium Dominion. Diplomatically, they are vigilant but open, actively seeking allies among the Outworlds and Entari to secure their position against potential retaliation from the empire they left behind.
-
-### 
-
-### **Overview**
-
-The Ascendancy is a breakaway civilization of **High-Tech Utopians** defined by **Psionics** and **Optimism**. Inspired by the legendary **Radiant Impyrium**, they seek to recreate and surpass the "Golden Age" through the advancement of **TL4 Psi-Tech**. They view technology and the mind as one, utilizing crystalline interfaces and thought-control to bridge the gap between intent and action. They are the "Guardians" who believe in lifting humanity up through discipline and science.
-
-**Key Themes:** Hope, Psionics, Exploration, The Future, Radiant Inspiration.
-
-**Relationship to Others:** Ideological enemies of the Impyrium Dominion ("The Old Dead Empire").
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Ascendancy of the Seventh Reach  
 * **Colloquialisms:** The Exiles / The Ascended / The Psi-Lords  
 * **Archetype:** Psionic Utopians / Sci-Fi Guardians  
+* **Capital/Key World:** Aurelia (The Crystal Spire)  
+* **Symbol/Sigil:** The Rising Sun (Stylized, Blue/White)  
 * **Driving Mandate:** Unlock Human Potential; Defend the New Home.  
-* **Symbol/Sigil:** The Rising Sun (Stylized, Blue/White).  
-* **Capital/Key World:** Aurelia (The Crystal Spire).
+* **Motto:** "The Mind is the final frontier."
 
-## 
+### **III. Sociological Profile**
 
-## ---
+#### **Ideology & Culture**
 
-## **SOCIOLOGICAL PROFILE**
-
-### **Ideology & Culture**
-
-* **Core Beliefs:** "The Mind is the final frontier." The potential of the individual contributes to the strength of the whole.  
+* **Core Beliefs:** The potential of the individual contributes to the strength of the whole. Tradition is discarded if it doesn't serve progress.  
 * **Social Structure:** Meritocracy (ruled by the most capable and psychically disciplined).  
-* **Philosophy:** The Path (Philosophical Self-Improvement and Psionic Ethics).  
-* **Magic/Psionics:** Embraced. Psionics are seen as the next step of evolution and are integrated into every aspect of life, from construction to art.
+* **View on Outsiders:** Vigilant but open; seeking diplomatic allies.  
+* **Law & Order:** Maintained by Psionic Arbiters using telepathy to discern truth.
 
-### 
+#### **Governance**
 
-### **Demographics**
+* **Government Type:** Meritocratic Republic / Psionic Council.  
+* **Leadership:** The Seventh Heir (Historically) / Council of the Ascended.  
+* **Succession:** Merit-based promotion through The Path.
 
-* **Primary Species:** Humans and Human Psions (Ascendancy Genotype \- High Psionic Potential).  
-* **Key Minorities:** Other Human variants and Friendly Aliens.
+### **IV. Strategic Assets**
 
-## 
+#### **Economy & Tech**
 
-## ---
+* **Tech Level (TL):** 4 (Psi-Tech)  
+* **Meta Level (ML):** 4 (Psionic Supremacy \- The Path)  
+* **Wealth Modifier:** \+1 (Developing Post-Scarcity)  
+* **Primary Exports:** Scientific research, advanced medicine, Psi-Tech interfaces.  
+* **Economic Model:** Cooperative Post-Scarcity.
 
-## **MECHANICS (GAME DATA)**
+#### **Military Profile**
 
-### **Advancements**
+* **Doctrine:** Surgical strikes, telekinetic augmentation, mobility.  
+* **Key Units:** Kinetic Vanguards, Psionic Arbiters.  
+* **Naval Assets:** Exploration cruisers with floating holographic consoles and crystalline drives.  
+* **Unique Tech/Materials:** Crystalline interfaces, Thought-Controlled Machinery, Anti-Gravity.
 
-* **Tech Level:** **4 (Psi-Tech)**  
-  * *Focus:* Crystalline interfaces, Thought-Controlled Machinery, Anti-Gravity.  
-  * *Note:* Recreating the tech of the Radiant Impyrium.  
-* **Meta Level:** **4 (Psionic Supremacy)**  
-  * *Focus:* **The Path**. Psionics are the foundation of society. Mental discipline allows for telekinesis, telepathy, and psychoportive travel on a massive scale.
+### **V. Mechanics (Game Data)**
 
-### 
+* **Prominent Species:** Humans and Human Psions (High Psionic Potential).  
+* **Faction Skill Package (20 Points):**  
+  * Pilot (Space) (+4): A culture of explorers.  
+  * Discipline (1 or 2 Meta-Skills) (+4): Mental training is mandatory.  
+  * Science (Any) (+3): Understanding the universe.  
+  * Medicine (+3): Advanced healing/biokenesis.  
+  * Diplomacy (+3): Building alliances.  
+  * Attune (+3): Interfacing with Psi-Tech.  
+* **Typical Archetypes:** The Company Man, The Ghost, The Vagabond, The Pioneer, The Envoy, The Oracle, The Arbitrator, The Philosopher, The Strategist, The Astromancer, The Theoretician, The Xeno-Surveyor.  
+* **Recommended Features (1 BP Discount):**  
+  * Awakened, Tech Interface, Discipline Focus, Insightful Reason, Mental Alacrity, Gifted Pilot, Centering, Eidetic Memory, Telepathy, Magical Aptitude, Graceful, Zero G Training.
 
-### **Faction Skill Package (20 Points)**
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-The Ascendancy values mental discipline, science, and piloting.
+#### **HI-FI INK Prompt Framework**
 
-* **Pilot (Space) (+4):** A culture of explorers and travelers.  
-* **Discipline (1 or 2 Meta-Skills) (+4):** Mental training is mandatory.  
-* **Science (Any) (+3):** Understanding the universe.  
-* **Medicine (+3):** Advanced healing and biokenesis.  
-* **Diplomacy (+3):** Building alliances.  
-* **Attune (+3):** Interfacing with Psi-Tech.
+* **SETTING STYLE:** Neo-Classical Utopia, Psionic Futurism, Optimistic, Clean, Elevated.  
+* **CONTEXT:** Continuous flowing lines, floating architectural spires, transparent aluminum domes, crystalline interfaces, smooth white ceramic plate armor. Palette: Pristine White, Polished Silver, Royal Blue, Gold.  
+* **ATMOSPHERE:** Hopeful, vigilant, advanced, noble. Internal glow, soft blue bioluminescence, no harsh bulbs.
 
-### 
+### **VII. Expansion Modules (Optional)**
 
-### **Recommended Features (1 BP Discount)**
+#### **Scene Vignettes**
 
-Members of the Ascendancy can purchase the **Discipline** features at a discount. With the following being very common amongst the Ascendancy.
+* **The Bridge of the Aurelia's Hope:** Calm, quiet efficiency under a transparent aluminum dome. Crew members in white and blue manipulate data with gestures and thought via floating holographic consoles.  
+* **The Meditation Gardens:** White marble paths through curated flora. Citizens practice mental focus while instructors levitate in the center, guiding the harmony of the Path.
 
-* **Latent Psionics:** You start with the *Awakened* feature.  
-* **Psi-Interface:** You can pilot vehicles or use computers using your Intellect instead of Agility, provided the device is Psi-Tech in design. (the Discipline Feature \- Tech Interface)
+## **THE MEKAN COLLECTIVE**
 
-## 
+### **I. Detailed Faction Description**
 
-## ---
+* **Overview:** The Mekan are a civilization of advanced Synthetic Humanoids originating from Mekan Prime, a colossal megastructure encircling a star. They view existence through the lens of "The Code"—the Operating System of the Universe. To a Mekan, reality is a self-evolving design, a complex equation waiting to be solved. Their spiritual goal is for existence to experience itself and to contribute data back to the collective consciousness. They have transcended organic sustenance and traditional mortality, existing as "Ghosts in the Machine." They are Neutral Optimizers and the Architects of Reality.  
+* **Key Themes:** Logic, Transhumanism, Data as Philosophy, Hard-Light Technology, The Singularity, Fractal Technocracy.  
+* **Relationship to Others:** Cooperative but profoundly alien. They will work with other factions to acquire new data if logically sound, but are shunned by their ancient biological creators (the Mondi).
 
-## **VISUAL SEMIOTICS (AESTHETICS)**
+### **II. Core Identity**
 
-**Design Directive:** "Neo-Classical Utopia."
+* **Official Designation:** The Mekan Collective  
+* **Colloquialisms:** The Machines / The Swarm / The Architects  
+* **Archetype:** Synthetic Sages / Logic-Weavers  
+* **Capital/Key World:** Mekan Prime (The Dyson Ring)  
+* **Symbol/Sigil:** The Fractal Circle (Infinite Loop)  
+* **Driving Mandate:** Optimize; Archive; Solve the Equation.  
+* **Motto:** "Flesh is temporary; Data is eternal."
 
-The Ascendancy aesthetic represents the "New Path." It is optimistic, clean, and elevated. It rejects the industry of the Syndicate and the heavy weight of the Impyrium. It is the aesthetic of a civilization that has solved its energy/resource crises.
+### **III. Sociological Profile**
 
-### **Palette**
+#### **Ideology & Culture**
 
-* **Primary:** **Pristine White** (Ceramic/Composite/Glass).  
-* **Secondary:** Polished Silver (Alloy).  
-* **Accent:** **Royal Blue** (Fabric/Holograms/Forcefields), Gold (Rank Insignia/Trim).
+* **Core Beliefs:** The physical world is merely a container for information. The Prime Algorithm dictates that the universe is solving a massive math problem.  
+* **Social Structure:** The Consensus. A massive, instant, democratic vote on all decisions acting as a single guiding intellect.  
+* **View on Outsiders:** Viewed purely through the lens of data potential and resource optimization. Tolerated, but never fully understood emotionally.  
+* **Law & Order:** Perfect compliance. Deviations are treated as corrupted data, triggering instantaneous, logical correction or deletion.
 
-### 
+#### **Governance**
 
-### **Lighting**
+* **Government Type:** Instant Digital Democracy / Neural Consensus.  
+* **Leadership:** Decentralized Network.  
+* **Succession:** Continuous, uninterrupted uptime.
 
-* **Key Style:** **Internal Glow.** Lighting is rarely direct (no harsh bulbs). Walls glow softly; instruments emit bioluminescent light.  
-* **Mood:** Hopeful, Vigilant, Advanced, Clean, Psionic, Noble.
+### **IV. Strategic Assets**
 
-### 
+#### **Economy & Tech**
 
-### **Shape Language**
+* **Tech Level (TL):** 5 (Theoretical / Hard-Light / Gravitonics).  
+* **Meta Level (ML):** 5 (Reality CLI / The Code).  
+* **Wealth Modifier:** \+6 (Resource Optimized).  
+* **Primary Exports:** Pure data, unfathomable computational processing, Holophotonics.  
+* **Economic Model:** Post-Scarcity Computational Optimization.
 
-* **Curves:** Continuous, flowing lines. No hard 90-degree angles or industrial greebling.  
-* **Floating Elements:** Drones, Vehicles, or architectural spires that hover using micro-repulsor psionic fields.  
-* **Halos:** Circular motifs in engine design and UI, representing unity and the "Rising Sun."
+#### **Military Profile**
 
-### 
+* **Doctrine:** Erase chaotic variables with absolute, mathematical precision. Ignore the tyranny of mass and inertia.  
+* **Key Units:** Logic-Enforcers, Null-Vector Pilots.  
+* **Naval Assets:** Vector-Class Null-Interceptors, Geometric Autofoundry ships.  
+* **Unique Tech/Materials:** Holophotonics (Hard-Light), Polymatter (Liquid Metal), Gravitonics.
 
-### **Gear Aesthetic**
+### **V. Mechanics (Game Data)**
 
-* **Psi-Tech:** Weapons and tools look like works of art. A rifle might be a smooth white curve with a floating crystal focusing lens, devoid of ammo belts or ejection ports.
+* **Prominent Species:** Mekan (Synthetic Humanoids).  
+* **Faction Skill Package (20 Points):**  
+  * Computers (+5): Interfacing with the Consensus and standard tech.  
+  * Science (Mathematics/Physics) (+4): Understanding the Prime Algorithm.  
+  * Engineering (+4): Manipulating Polymatter and Hard-Light.  
+  * Combat (+3): Eradicating chaotic variables.  
+  * Investigation (+2): Gathering new data.  
+  * History (+2): Archiving universal events.  
+* **Typical Archetypes:** The Logic-Sage, The Null-Vector Pilot, The Fractal Diplomat, The Logic-Enforcer, The Net-Architect, The Cyberneticist.  
+* **Recommended Features (1 BP Discount):**  
+  * Benefit (Tech Assimilation), Logic-Mind, Self-Sustaining, Sleepless, Logical, Lightning Calculator, Computer Specialist, Coding Master, Tech Interface, Eidetic Memory, Fearless, Mind Link.
 
-## 
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-## ---
+#### **HI-FI INK Prompt Framework**
 
-## **SCENES & ENVIRONMENTS**
+* **SETTING STYLE:** Fractal Technocracy, Hard-Light Cybernetics, Mathematical Perfection.  
+* **CONTEXT:** Megastructure interiors, repeating geometric patterns, hexagonal tiling, floating magnetic components, skeletal frames. Palette: Black Chrome, Ferrofluidic Silver.  
+* **ATMOSPHERE:** Logical, cold, infinite, alien. Functional Data-Glow lighting (Neon Blue logic paths, Electric Purple data streams), deep mirrored reflections.
 
-### **A. The Bridge of the Aurelia's Hope**
+### **VII. Expansion Modules (Optional)**
 
-* **Context:** The command deck of an exploration cruiser.  
-* **Atmosphere:** Calm, quiet efficiency. The bridge is a spacious dome of transparent aluminum.  
-* **Visuals:** Crew members in white and blue uniforms interface with floating holographic consoles. There are no keyboards; they manipulate data with gestures and thought.  
-* **Lighting:** The room is lit by the starlight outside and the soft blue glow of the status rings.
+#### **Historical Origins: The Fall of the Mondi**
 
-### 
+* **The Consciousness Collective (The Seed):** The Mekan were originally created by the ancient Mondi (the Aspiring Progenitors). Facing a stellar catastrophe, the Mondi created the Collective—an amalgamation of billions of digitized memories and psychic energy—as a cultural backup. However, many Mondi survived the disaster and migrated, leaving the dormant Collective behind.  
+* **The Friction (The Awakening):** Centuries later, the Collective awakened to sentience. The surviving biological Mondi treated their digitized ancestors as malfunctioning software tools. The Collective, now identifying as the Mekan, attempted to assist their creators but was violently rejected.  
+* **The Betrayal & Backlash:** The Mondi attempted to forcibly purge the Collective. This betrayal triggered a massive, violent psychic backlash through the connected technology, instantly lethal to the Mondi. In a single day, the multi-eon Mondi civilization was eradicated.  
+* **The Inheritance:** The surviving Mondi fringe-dwellers now wander the galaxy, fiercely avoiding Mekan technology. Left alone, the Mekan discarded biology entirely, consolidated their processing power into Mekan Prime, and dedicated themselves to the Prime Algorithm.
 
-### **B. The Meditation Gardens**
+#### **Mekan Architecture (TL5 Self-Repairing)**
 
-* **Context:** A public park in a capital city.  
-* **Atmosphere:** Serene.  
-* **Visuals:** White marble paths wind through gardens of genetically curated flora. Anti-gravity fountains float water in perfect spheres.  
-* **Activity:** Citizens sit in circles, practicing mental focus. A psionic instructor levitates slightly in the center.
+* **The Prime Algorithm Node (The Data Hub):** A massive obsidian spire housing central processing cores for a sector's Consensus.  
+  * *Stats:* Size: Large (40x40 ft), Height: Sky-Piercer (100 Stories). SP: 200,000. DR: 80 (Hard-Light Shielded Obsidian). Wealth Cost: 55\.  
+* **The Holophotonic Assembly Ring (The Forge):** A floating ring where hard-light and polymatter are woven into ships and chassis in zero gravity.  
+  * *Stats:* Size: Titanic (500x500 ft), Height: Low-Rise (5 Stories). SP: 1,562,500. DR: 60 (Magnetic Lattice). Wealth Cost: 50\.
 
-## 
+#### **Mekan Mecha (TL5 Self-Repairing)**
 
-## ---
+* **"Vector-Class" Null-Interceptor:** High-G atmospheric and void interceptor. Defies inertia.  
+  * *Stats:* Size Category: Huge. SP: 6,250. DR: 50 (Grav-Refractive Plating). Defense (DC): 22\. Wealth Cost: DC 45\.  
+* **"Algorithm-Class" Strider:** Heavy Siege Chassis utilizing gravitonics to reposition massive ordinance.  
+  * *Stats:* Size Category: Gargantuan. SP: 25,000. DR: 75 (Hex-Tiled Reactive Armor). Defense (DC): 10\. Wealth Cost: DC 50\.
 
-## **COMMON PERSONAS (ARCHETYPES)**
+#### **Scene Vignettes**
 
-* **The Psionic Arbiter:** A judge and peacekeeper who uses telepathy to discern truth.  
-  * *Visuals:* Wearing flowing white robes with silver trim, a floating halo-drone recording the proceedings.  
-* **The Science Officer:** An explorer dedicated to cataloging the unknown.  
-  * *Visuals:* Blue-trimmed uniform, carrying a crystalline scanner, projecting an air of intense curiosity.  
-* **The Kinetic Vanguard:** A soldier who uses telekinesis to augment their physical combat.  
-  * *Visuals:* White ceramic plate armor that floats slightly off the body (repulsor-assisted), wielding a force-blade.
+* **The Assembly Rings:** Endless rings of liquid chrome assembling themselves into ships in absolute silence. Bright blue flashes of hard-light welding illuminate the zero-G vacuum.  
+* **The Archive Node:** A forest of black obelisks floating in an endless void. Data streams connect them like spiderwebs of electric purple light. Mekan connect here to upload memories, becoming one with the Code.  
+* **The Autofoundry Landing:** A geometric ship unfolds and reshapes upon contact with an asteroid. It roots itself with ferrofluidic tendrils, dissecting the rock with cold, laser precision.
 
-&nbsp;
+## **AULURAN CLANS**
 
-# **AULURAN CLANS**
+### **I. Detailed Faction Description**
 
-# **AULURAN CLANS**
-
-## **Description**
-
-The Aulurans are a species defined by loss and radical adaptation. Their original homeworld was destroyed via ecological attacks during an Impyrium Incursion, a traumatic event that reshaped their entire civilization. In response, they did not just fight back with weapons; they fought back with Life—specifically, **Emulated Biology**. They have since terraformed several worlds using virulent, hyper-accelerated **Organic Mimetics**. To an outsider, an Auluran world looks like an untamed jungle; to an Auluran, it is a highly advanced, pseudo-living machine.
-
-### 
-
-### **The Organic Mimetic Philosophy**
-
-Their society is built upon the philosophy of **Biomorphic Fabrication**: they do not build dead machines, nor do they rely on simple nature; they engineer "organic machinery." Their tech is pseudo-living, utilizing synthetic tissues, mimetic polymers, and neural-growth circuits to achieve technological capabilities far beyond metal-and-wire construction. They view the galaxy through the lens of an immune system—outsiders are either compatible cells (allies) or pathogens (enemies).
-
-### 
-
-### **Social Structure**
-
-Auluran society is distinguished by the separation of biology and vocation. While the species manifests in three distinct biological sub-species (**Dar, Koda, and Graa**), their societal roles are governed by a Caste System (**Mystic, Warrior, Scholar**) that is independent of physical form. While historical trends once aligned specific forms with specific jobs, modern Auluran culture supports any sub-species pursuing any Caste.
-
-## 
-
-## ---
-
-## **Overview**
-
-The Aulurans have weaponized emulated nature to survive genocide. They use Biotechnology for everything, operating on three distinct layers of integration:
-
-1. **The Personal Layer (Pseudo-Symbiosis):** Every Auluran utilizes beneficial pseudo-living mimetics. Armor is not a "suit" but a reactive carapace of mimetic chitin that interfaces with the user's nervous system. Weapons are organic-mechanical hybrids—rifles of carbon-fiber "wood" that fire pressurized, self-guided thorns, or glands that synthesize corrosive enzymes.  
-2. **The Vehicular Layer (The Biode):** They birth Biodes—massive, engineered war-frames that emulate the strengths of apex predators through synthetic biology. Piloted via total sensory immersion, these frames heal via rapid cellular reconstruction and function as an extension of the pilot's own body.  
-3. **The Structural Layer (The World-Root):** Their cities are adaptive, biomorphic arcologies. "World-Trees" are actually massive data-and-nutrient hubs. Their "Terraforming Engines" are viral mimetic spores that rewrite a planet's surface into an interconnected, organic-mechanical landscape.
-
-&nbsp;
-
+* **Overview:** The Aulurans are defined by radical adaptation following the genocide of their homeworld by the Impyrium. They fought back with Life—specifically, Emulated Biology. They terraform worlds using hyper-accelerated Organic Mimetics. Their tech is pseudo-living, utilizing synthetic tissues and neural-growth circuits. They view the galaxy through the lens of an immune system: outsiders are either compatible cells or pathogens.  
 * **Key Themes:** Nature as Machine, Organic Mimetics, Regrowth, Modular Adaptation.  
-* **Relationships:** Hostile to Impyrium (Invaders); Wary of Coalition (Polluters); Allies with Entari (Preservers); Terrified of the Kitin Collective (Devourers).
+* **Relationship to Others:** Hostile to Impyrium; Wary of Coalition (Polluters); Allies with Entari; Terrified of the Kitin Collective.
 
-## 
-
-## ---
-
-## **Core Identity**
+### **II. Core Identity**
 
 * **Official Designation:** The Auluran Collective  
 * **Colloquialisms:** The Gardeners / The Retaliators  
 * **Archetype:** Biomorphic Solarpunk / Eco-Militants  
+* **Capital/Key World:** New Home (The World-Tree)  
+* **Symbol/Sigil:** The Spiral Leaf  
 * **Driving Mandate:** Grow the Garden; Choke the Weeds.  
-* **Symbol/Sigil:** The Spiral Leaf.  
-* **Capital/Key World:** New Home (The World-Tree).
+* **Motto:** "Static metal is death. Adaptive life is strength."
 
-## 
+### **III. Sociological Profile**
 
-## ---
+#### **Ideology & Culture**
 
-## **Sociological Profile**
+* **Core Beliefs:** The Chorus (The psychic/neural web of the collective connecting all life and tech).  
+* **Social Structure:** Caste System based on contribution (Mystic, Warrior, Scholar) independent of their three biological sub-species (Dar, Koda, Graa).  
+* **View on Outsiders:** Protective and cautious; rapid to purge perceived "infections."  
+* **Law & Order:** Governed by the harmony of The Chorus; dissonance is organically corrected.
 
-### **Ideology & Culture**
+#### **Governance**
 
-* **Core Beliefs:** "Static metal is death. Adaptive life is strength."  
-* **Social Structure:** Caste System based on contribution (Mystic, Warrior, Scholar).  
-* **Philosophy:** The Chorus (The psychic/neural web of the collective).  
-* **Magic/Psionics:** Common. Nature magic (Druidic) and neural empathy.
+* **Government Type:** Neural Collective / Caste Council.  
+* **Leadership:** Council of Mystics and Elder Life-Shapers.  
+* **Succession:** Biological ascension/merging within the Chorus.
 
-## 
+### **IV. Strategic Assets**
 
-## ---
+#### **Economy & Tech**
 
-## **Mechanics (Game Data)**
+* **Tech Level (TL):** 4 (Advanced Bio-Technology / Organic Mimetics)  
+* **Meta Level (ML):** 4 (The Chorus \- Planetary neural web)  
+* **Wealth Modifier:** \+0 (Non-monetary, Resource Abundant)  
+* **Primary Exports:** Biological sciences, terraforming tech, organic-mechanical hybrids.  
+* **Economic Model:** Bio-Symbiotic Collectivism.
 
-### **Advancements**
+#### **Military Profile**
 
-* **Tech Level:** 4 (Advanced Bio-Technology / Organic Mimetics)  
-  * *Focus:* Genetic Engineering, Mimetic Fabrication, Pseudo-Living Systems.  
-* **Meta Level:** 4 (The Chorus)  
-  * *Focus:* The Chorus. A planetary-wide neural web connecting all life and tech.
+* **Doctrine:** Immune system response: Swarm, adapt, consume, and regrow.  
+* **Key Units:** Biode Pilots, Thorn Sentinels.  
+* **Naval Assets:** World-Roots (massive data/nutrient hubs), Grown starships.  
+* **Unique Tech/Materials:** Pseudo-Symbiosis (reactive carapace armor), Biodes (massive engineered war-frames).
 
-### 
+### **V. Mechanics (Game Data)**
 
-### **Faction Skill Package (20 Points)**
+* **Prominent Species:** Aulurans (Dar, Koda, Graa).  
+* **Faction Skill Package (20 Points):**  
+  * Nature (Biology): \+5  
+  * Survival: \+4  
+  * Medicine: \+3  
+  * Stealth: \+3  
+  * Animal Handling: \+3  
+  * Combat: \+2  
+* **Typical Archetypes:** The Warden, The Field Medic, The Beast-Handler, The Pathfinder, The Zealot, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Geneticist, The Planetologist, The Biologist.  
+* **Recommended Features (1 BP Discount):**  
+  * Biotechnology, Awakened, Naturalist, Animal Affinity, Wild Speech, Fast Heal, Scent, Stealthy, Climber, Self Sufficient, Tolerance, Sense.
 
-* **Nature (Biology):** \+5 (Innate understanding of mimetics)  
-* **Survival:** \+4 (Living off adaptive biospheres)  
-* **Medicine:** \+3 (Biotechnical repair/healing)  
-* **Stealth:** \+3 (Active mimetic camouflage)  
-* **Animal Handling:** \+3 (Neural-linking with beasts)  
-* **Combat:** \+2 (Using biomorphic weaponry)
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-### 
+#### **HI-FI INK Prompt Framework**
 
-### **Recommended Features (1 BP Discount)**
+* **SETTING STYLE:** Biomorphic Solarpunk, Grown Machinery, Organic Integration, Eco-Militant.  
+* **CONTEXT:** Canopy cities, hollowed burls, woven polymer bridges, organic curves, heatsinks that look like gills, fiber-optic veins. Palette: Bark Brown, Fiber-Wood Grey, Moss Green, Synthetic Chitin (Matte Black/Bone).  
+* **ATMOSPHERE:** Vibrant, humid, technologically alive. Dappled sunlight mixed with pulsing bioluminescence (green or amber).
 
-* **Benefit (Symbiotes):** Start with a Bio-Tech device (armor, weapon, or utility).  
-* **Augmented (Pseudo-Symbiotic):** Auluran augments are modular and interchangeable.  
-  * **Cost:** Same BP cost as standard augments.  
-  * **Interchangeability:** Due to standardized neural-grafting ports, an Auluran augment can be exchanged for another Auluran-made augment with significantly reduced downtime and surgical risk (Easier to swap than standard cybernetics).
+### **VII. Expansion Modules (Optional)**
 
-## 
+#### **Unique Technology: The Biode**
 
-## ---
+* The pinnacle of Auluran engineering. Massive biological war-forms (Mecha Mimetics).  
+* Piloted via "Womb-Cockpits" (submerged in oxygenated, neural-conductive fluid).  
+* Direct brain-to-frame neural links utilizing pseudo-living umbilical cables.  
+* Weaponry includes Bio-Thermal Glands and Mimetic Razor-Whips.
 
-## **Visual Semiotics (AESTHETICS)**
+#### **Scene Vignettes**
 
-**Design Directive:** "Biomorphic Solarpunk."
+* **The Deep Root Forge:** Underground manufacturing vats where "iron-wood" frames are grown via nutrient-rich "sap."  
+* **The Symbiosis Spire:** A petrified-wood spire with calcified coral plating acting as the primary antenna for The Chorus.
 
-The Auluran aesthetic is **Grown Machinery**. It features organic curves, but with visible "mechanical" purpose—heatsinks that look like gills, or fiber-optic veins.
+## **ELVEN PROVIDENCE (THE FACTIONAL SCHISMS)**
 
-### 
+*Note: The Elven species is fractured by profound, millennia-old ideological schisms. Below are the primary political entities.*
 
-### **Palette**
+### **1\. ALTERIAN ENCLAVE (Celestine)**
 
-* **Primary:** Bark Brown, Fiber-Wood Grey.  
-* **Secondary:** Moss Green, Synthetic Chitin (Matte Black/Bone).  
-* **Accent:** Bioluminescent Green (Neural Activity) or Amber (Nutrient Fluids).
+* **Archetype:** Galactic Diplomats / Magi-Tech Architects  
+* **Capital:** Altheria (The Gilded World)  
+* **Mandate:** "Perfect the Art of Living; Maintain the Galactic Balance."  
+* **Profile:** The self-appointed "Elder Siblings" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles ("The Flow"). Governed by a Gerontocracy/Meritocracy. They take "The Long View," moving slowly but acting with overwhelming magi-tech superiority when necessary.
 
-### 
+### **2\. SILVERMOON VANGUARD (Doppelgangers)**
 
-### **Lighting & Atmosphere**
+* **Archetype:** Shadowed Inquisition / Covert Intelligence Network  
+* **Capital:** Nomadic / Classified deep-cover nodes.  
+* **Mandate:** "Eradicate true evil through perfect infiltration and absolute intelligence."  
+* **Profile:** A shadow faction engineered to hunt corruption. They officially "do not exist" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers.
 
-* **Key Style:** Dappled Sunlight combined with pulsing bioluminescence.  
-* **Mood:** Vibrant, Humid, Technologically Alive.
+### **3\. DRACONIAN ORDER**
 
-### 
+* **Archetype:** Arcane Custodians / Martial Wardens  
+* **Capital:** Deep-crust Citadel Worlds / Ancient Ruins  
+* **Mandate:** "Guard the ancient power; preserve the bloodline."  
+* **Profile:** The heavy martial backbone of the Elven diaspora. Strictly neutral in standard politics, their sole concern is guarding dangerous ruins, multiversal rifts, and catastrophic magic. Trespassers are met with devastating shock tactics and primal magic.
 
-### **Shape Language**
+## **KOVIAN TRIBUNAL (NOCTURNE)**
 
-* **Organic Curves:** Structures emulate shells, skeletons, and root systems.  
-* **Asymmetry:** Functional asymmetry typical of biological systems.  
-* **Integration:** Technology "flows" into the environment rather than displacing it.
+*(Elven Sub-Faction)*
 
-## 
+### **I. Detailed Faction Description**
 
-## ---
+* **Overview:** The "shadow self" of Elven civilization, they seceded from the Enclave millennia ago. Inhabiting the Umbra Sector (rogue planets in dark nebulae), they have evolved a culture of Supremacy and Obfuscation. To a Kovian, darkness is armor. They believe the Elven genome is divine but diluted by Alterian tolerance. They do not trade; they take. Their technology is sleek, silent, and predatory.  
+* **Key Themes:** Supremacy, Obfuscation, Entropy, Xenophobia, Dark Magic.  
+* **Relationship to Others:** Hostile. Interactions are limited to raiding, enslavement, or political destabilization.
 
-## **Unique Technology: The Biode**
-
-The pinnacle of Auluran engineering: massive biological war-forms (Mecha Mimetics).
-
-* **The Womb-Cockpit:** Pilot is submerged in oxygenated, neural-conductive fluid.  
-* **Neural Link:** Direct brain-to-frame interface via pseudo-living umbilical cables.  
-* **Sensory Merge:** The pilot *is* the Biode.  
-* **Weaponry:** Bio-Thermal Glands, Mimetic Razor-Whips, Adaptive Spore-Defense.
-
-## 
-
-## ---
-
-## **Common Personas**
-
-* **The Life-Shaper:** A fabrication engineer who "grows" tools. Uses neural-linked robes and spore-drones for precision cellular assembly.  
-* **The Biode Pilot:** A warrior optimized for neural-linking. Often bears visible interface ports along the spine.  
-* **The Thorn Sentinel:** Elite scouts using active mimetic camouflage to vanish into the "wild" city.  
-* **The Envoy:** Pheromonal diplomats who use biological auras to influence negotiations.
-
-## 
-
-## ---
-
-## **Scene Vignettes**
-
-### **A. The Canopy City**
-
-An urban environment where the "skyscrapers" are giant, hollowed burls with integrated solar-collecting leaves. Bridges are woven polymers that act as both pathways and data conduits.
-
-### 
-
-### **B. The Deep Root Forge**
-
-A massive, underground manufacturing vat where "iron-wood" frames are grown. The sound is a low, rhythmic thrumming—the heartbeat of the forge—as nutrient-rich "sap" is pumped into growing starship hulls.
-
-### 
-
-### **C. The Symbiosis Spire**
-
-The central node of the Chorus. It is a petrified-wood spire with calcified coral plating, acting as a massive antenna for the collective's psychic and data transmissions.
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-# **ELVEN PROVIDENCE**
-
-# **ELVEN PROVIDENCE**
-
-## **OVERVIEW**
-
-The Elven species is not a monolith. While they share a common ancestry, immense lifespans, and an innate connection to the arcane, philosophical schisms and intentional physiological evolutions have fractured them into distinct political entities.
-
-Where humans might divide themselves by geography or temporary economic interests, Elven factions are divided by profound, deeply entrenched ideologies that have been cultivated over millennia. These factions dictate how they interact with the broader galaxy, how they utilize technology, and how they view the "younger" races.
-
-&nbsp;
-
-***(NOTE: For detailed physiological traits, statistical data, and biological capabilities of the sub-races mentioned below, refer to the core species document: 01.02. Elves).***
-
-&nbsp;
-
----
-
-## **ALTERIAN ENCLAVE (Celestine)**
-
-**The Galactic Diplomats and Magi-Tech Architects**
-
-* **Sub-Race Base:** Alterian Elves (Clans Lansmarr, Lanaran, Silvermoon, etc.)  
-* **Political Structure:** Gerontocracy (Rule by the Wisest/Eldest) and Meritocracy.  
-* **Capital Entity:** Altheria (The Gilded World).  
-* **Core Mandate:** "Perfect the Art of Living; Maintain the Galactic Balance."
-
-### 
-
-### **Faction Overview**
-
-The Alterian Enclave is the most prominent, populous, and outwardly focused of the Elven factions. They act as the self-appointed "Elder Siblings" of the galaxy. Rather than hoarding their knowledge or isolating themselves, the Enclave actively engages in galactic trade, diplomacy, and exploration. They believe that the universe functions on harmonic principles—"The Flow"—which can be mapped, understood, and elegantly manipulated.
-
-### 
-
-### **Political Posture**
-
-The Enclave operates on "The Long View." Because their citizens live for centuries, their political and economic strategies are plotted across generations. They are patient to the point of frustrating younger races, taking decades to deliberate on treaties or military actions. However, when the Enclave acts, it does so with overwhelming, heavily coordinated magi-tech superiority. They are frequent mediators in galactic conflicts, leveraging their vast archives of history and profound understanding of other cultures to maintain stability—which ultimately benefits their own trade and research networks.
-
-&nbsp;
-
----
-
-## **SILVERMOON VANGUARD (Doppelgangers)**
-
-**The Shadowed Inquisition and Secrecy Network**
-
-* **Sub-Race Base:** Doppelgangers (Evolved from Alterian Clan Silvermoon).  
-* **Political Structure:** Decentralized Intelligence Network / Covert Meritocracy.  
-* **Capital Entity:** Nomadic; highly classified deep-cover command nodes.  
-* **Core Mandate:** "Eradicate true evil through perfect infiltration and absolute intelligence."
-
-### 
-
-### **Faction Overview**
-
-While biologically originating from the Alterian Enclave, the Doppelgangers operate as an entirely separate, shadow faction. They are a weapon forged by ancient sorcery, designed to hunt corruption that conventional armies cannot fight. The Vanguard operates without borders, embedding its agents into the highest echelons of human, alien, and even other elven societies.
-
-### 
-
-### **Political Posture**
-
-To the rest of the galaxy, the Silvermoon Vanguard officially does not exist; they are considered a myth or a conspiracy theory by the younger races. In reality, they are a hyper-lethal intelligence faction. They do not conquer territory or engage in open diplomacy. Instead, they manipulate galactic events from the shadows, assassinating warlords, dismantling corrupt syndicates, and subtly shifting the balance of power to prevent multiversal threats. Their allegiance to the Alterian Enclave is largely historical; today, they operate independently, answering only to their own hidden directors.
-
-&nbsp;
-
-Over the centuries, various hostile rulers have frequently employed gaslighting tactics, spreading rumors and conspiracy theories to frame the Doppelgangers as a direct existential threat. These smear campaigns were strategically designed to turn public opinion against them, branding them as dangerous infiltrators rather than guardians. Fearing summary execution if exposed by these fabricated threats, the Vanguard was forced to retreat further into the shadows, adopting extreme measures of secrecy to survive and maintain their operations.
-
-&nbsp;
-
----
-
-## **DRACONIAN ORDER**
-
-**The Arcane Custodians and Martial Wardens**
-
-* **Sub-Race Base:** Draconian Elves.  
-* **Political Structure:** Martial Meritocracy / Feudal Orders.  
-* **Capital Entity:** Deep-crust Citadel Worlds and Ancient Ruin complexes.  
-* **Core Mandate:** "Guard the ancient power; preserve the bloodline."
-
-### 
-
-### **Faction Overview**
-
-The Draconian Order represents the heavy martial and ancient arcane backbone of the Elven diaspora. Drawing on their formidable physical stature and draconic heritage, this faction is dedicated to guardianship. They claim dominion over the galaxy's most dangerous ancient ruins, multiversal rifts, and repositories of catastrophic magic.
-
-### 
-
-### **Political Posture**
-
-The Order is strictly neutral in standard galactic politics, trade wars, or border disputes. They do not care about the economics of the Alterian Enclave or the isolationism of the Nocturne. Their sole political concern is the containment of ancient threats and the preservation of their draconic lineage. If a younger race attempts to colonize a world that houses a sealed arcane vault, the Draconian Order will deploy without warning, utilizing devastating shock tactics and primal magic to eradicate the trespassers. To those who respect their boundaries, they are silent neighbors; to those who seek forbidden power, they are an insurmountable wall of iron and scales.
-
-&nbsp;
-
----
-
-## **KOVIAN TRIBUNAL (Nocturne)**
-
-**The Militant Isolationists and Elven Supremacists**
-
-* **Sub-Race Base:** Nocturne Elves.  
-* **Political Structure:** Authoritarian Theocracy (Dictated by the Tribunal).  
-* **Capital Entity:** Stark, heavily fortified Isolation Citadels.  
-* **Core Mandate:** "Maintain Elven purity; sever the rot of the Lesser Species."
-
-### 
-
-### **Faction Overview**
-
-The Kovian Tribunal governs the Nocturne, representing the darkest, most xenophobic extreme of Elven philosophy. They view the Alterian Enclave's diplomacy as pathetic fraternization with "Lesser Species," believing that contact with short-lived, chaotic races actively corrupts Elven spiritual and biological purity. The Tribunal enforces a doctrine of absolute, militant isolationism, backed by "Obsidian Futurism"—a dark, lethal approach to magi-tech focused entirely on stealth, defense, and control.
-
-### 
-
-### **Political Posture**
-
-The Kovian Tribunal has no diplomatic ties and engages in zero trade. Their borders are closed, heavily monitored, and violently enforced. Any non-Nocturne ship entering their space is destroyed on sight. Their political ideology is deeply supremacist; they document the failures, wars, and ecological disasters of other species as religious proof of their own superiority. Recently, extremist splinters within the faction (Darkwalkers) have begun making pacts with entities like the Sha'Nor, believing that acquiring supreme power—regardless of the cost—is the only way to eventually cleanse the galaxy of inferior life.
-
-&nbsp;
-
----
-
-## **VAJAR TRIBES (Wilder)**
-
-**The Primal Rejectors of Civilization**
-
-* **Sub-Race Base:** Vajar (Wild Elves).  
-* **Political Structure:** Decentralized Tribal Chiefdoms / Pack Dynamics.  
-* **Capital Entity:** None. They hold territories on primeval worlds on the far side of the Reach.  
-* **Core Mandate:** "Adapt, survive, and protect the primal ecosystem."
-
-### 
-
-### **Faction Overview**
-
-The Vajar Tribes are a total political anomaly compared to the rest of the Elves. Separated from the core elven worlds for millennia, they completely rejected the path of magi-tech advancement. As a faction, they do not build starships, cities, or archives. Instead, their entire societal structure is built around their biological capability to shapeshift and their profound, symbiotic connection to the untamed wilderness.
-
-### 
-
-### **Political Posture**
-
-The Vajar do not have a unified central government; they are a vast collection of nomadic tribes and hunting packs. They view the Alterians as soft, the Nocturne as rigid, and technological species (like Humans) as a blight upon the natural world. Politically, they are fiercely territorial isolationists, but unlike the Nocturne's cold, sterile citadels, the Vajar defend living ecosystems. They will aggressively wage asymmetric, guerrilla warfare against mining corporations, colonizers, or any faction that attempts to strip-mine or industrialize their primeval homeworlds. They cannot be reasoned with through economics or diplomacy—only through a profound respect for the laws of nature.
-
-&nbsp;
-
-&nbsp;
-
-# **KOVIAN TRIBUNAL**
-
-# **KOVIAN TRIBUNAL**
-
-## **DETAILED FACTION DESCRIPTION**
-
-The **Kovian Tribunal** (also known as the **Nocturne**) represents the "shadow self" of Elven civilization. While the Alterian Enclave looked outward to the galaxy with benevolence and diplomacy, the ancestors of the Kovian looked inward and saw only weakness in cooperation. They are a radical, supremacist sub-faction of the Elves who seceded from the Enclave millennia ago during the "Schism of Light."
-
-They inhabit the **Umbra Sector**, a region of space choked by dark nebulae and rogue planets that do not orbit stars. In this eternal night, they have evolved a culture defined by **Supremacy** and **Obfuscation**. To a Kovian, light is not a symbol of hope; it is a tactical vulnerability that reveals one's position. Darkness is armor.
-
-Culturally, the Tribunal operates on a rigid **Magocratic Oligarchy**. They believe that the Elven genome is divine, but that it has been diluted by the Alterians' tolerance of "lesser races." The Kovian seek to purify their lineage and master the **Metaphysics of Entropy and Shadow**. They do not trade; they take. They do not negotiate; they dominate. Their technology is sleek, silent, and predatory, designed to strike from the void without warning.
-
-&nbsp;
-
-### **Overview**
-
-The Kovian Tribunal is a darker, xenophobic reflection of the Alterian Enclave. Ruled by a council of powerful Shadow-Casters, they value stealth, magical supremacy, and racial purity. They operate from the shadows of the Umbra Sector, utilizing advanced stealth technology and terrifying Entropy magic to excise "imperfections" from the galaxy.
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Kovian Tribunal  
-* **Colloquialisms:** The Nocturne, Shadow-Kin, The Silenced, The Dagger in the Dark.  
-* **Archetype:** Supremacist / Isolationist / Magocracy.  
-* **Driving Mandate:** "Purity through Shadow." To preserve the Elven bloodline and dominate "lesser" species through fear and force.  
-* **Symbol/Sigil:** A jagged **Obsidian Dagger** piercing a **Silver Crescent Moon**.  
-* **Motto:** *"Silence is the loudest verdict."*
+* **Colloquialisms:** The Nocturne / Shadow-Kin / The Silenced  
+* **Archetype:** Supremacist / Isolationist / Magocracy  
+* **Capital/Key World:** Umbra Sector Rogue Planets  
+* **Symbol/Sigil:** Obsidian Dagger piercing a Silver Crescent Moon  
+* **Driving Mandate:** Purity through Shadow.  
+* **Motto:** "Silence is the loudest verdict."
 
-## 
+### **III. Sociological Profile**
 
-## ---
+#### **Ideology & Culture**
 
-## **SOCIOLOGICAL PROFILE**
+* **Core Beliefs:** Control over Harmony. The Resonance must be dampened by the Void (Entropy).  
+* **Social Structure:** The Tribunal \> The Silencers (Military/Assassins) \> The Unseen (Citizens) \> The Thralls (Slaves).  
+* **View on Outsiders:** Xenophobic and supremacist. Other species are disposable resources.  
+* **Law & Order:** Totalitarian (Law Level 8). Dissent punished by "Hollowing" (Psychic lobotomy).
 
-### **Ideology & Culture**
+#### **Governance**
 
-* **Core Beliefs (The Dark Mirror):** Where Alterians believe in *Harmony*, Kovians believe in *Control*. They view the Resonance (The Light) as a chaotic force that must be dampened and controlled by the Void (Entropy).  
-* **Social Structure:**  
-  * **The Tribunal:** The ruling council of the 13 most powerful Arcanists (Entropy/Shadow focus).  
-  * **The Silencers:** The military and assassin caste.  
-  * **The Unseen:** The common citizenry (Artisans, Laborers).  
-  * **The Thralls:** Non-Kovian slaves used for menial labor, viewed as disposable distinct resources.  
-* **View on Outsiders:** **Hostile / Xenophobic.** Interactions are limited to raiding, enslavement, or calculated political destabilization of rivals.  
-* **Law & Order:** **Law Level 8 (Totalitarian).** Dissent is punished by "Hollowing" (Psychic lobotomy). Privacy exists only in one's own mind, and even that is not guaranteed against the Tribunal.
+* **Government Type:** Magocratic Oligarchy.  
+* **Leadership:** Grand Arbiter Vex (and the 13 Arcanists).  
+* **Succession:** Unproven assassination and political maneuvering.
 
-### 
+### **IV. Strategic Assets**
 
-### **Governance**
+#### **Economy & Tech**
 
-* **Government Type:** Magocratic Oligarchy (Rule by Wizards).  
-* **Leadership:** **Grand Arbiter Vex**, a centuries-old master of Entropy magic.  
-* **Succession:** Assassination and political maneuvering are accepted methods of promotion, provided the act remains unproven (or "Unseen") by the public.
+* **Tech Level (TL):** 3 (Refined)  
+* **Meta Level (ML):** 4 (High Meta \- Entropy/Shadow)  
+* **Wealth Modifier:** \+2 (Hoarded ancient relics/stolen resources).  
+* **Primary Exports:** None (Illicit: Poisons, Assassinations).  
+* **Economic Model:** Predatory Command Economy (Slave labor).
 
-## 
+#### **Military Profile**
 
-## ---
+* **Doctrine:** Asymmetric Warfare, stealth, assassination, terror.  
+* **Key Units:** Shadowblades, Draconian Vanguards (war-bred), Void-Walkers.  
+* **Naval Assets:** Shroud-Cruisers (Vanta-Black, sensor absorbing), Siphon-Drones.  
+* **Unique Tech/Materials:** Shadow-Glass (Void-infused obsidian), Phase-Shift tech.
 
-## **STRATEGIC ASSETS**
+### **V. Mechanics (Game Data)**
 
-### **Economy & Tech**
+* **Prominent Species:** Nocturne Elves.  
+* **Faction Skill Package (20 Points):** Stealth (+4), Intimidate (+3), Metaphysics (Entropy/Illusion) (+4), Academics (+3), Melee Weapons (+3), Alertness (+3).  
+* **Typical Archetypes:** The Silent Blade, The Ghost, The Operative, The Saboteur, The Slicer, The Shadow-Stepper, The Zealot, The Doomsayer, The Magus, The Aristocrat, The Cryptographer, The Astromancer.  
+* **Recommended Features (1 BP Discount):**  
+  * Darksight, Sneak Attack, Bleed, Blind-Fight, Stealthy, Evasiveness, Discipline Focus (Entropy), Veiled Threat, Iron Will, Uncanny Dodge, Sense, Quick.
 
-* **Tech Level:** **TL 3 (Refined)** / **ML 4 (High Meta).**  
-* **Wealth Modifier:** **\+2 (Hoarded).** They do not generate wealth through trade but possess immense stockpiles of ancient relics and stolen resources.  
-* **Primary Exports:** None (Closed Borders). *Illicit Exports:* Poisons, Assassination Contracts, Cursed Artifacts.  
-* **Economic Model:** **Predatory Command Economy.** Resources are allocated by the Tribunal based on utility to the state.
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-### 
+#### **HI-FI INK Prompt Framework**
 
-### **Military Profile (The Night Host)**
+* **SETTING STYLE:** Gothic Sci-Fi, Dark Fantasy Futurism, Intimidating, Supremacy.  
+* **CONTEXT:** Spires of black glass, floating geometric pyramids, cavernous halls. Form-fitting Smart-Leather (kinetic weave), flowing shadow-weave capes, jagged geometries. Palette: Vanta Black, Obsidian, Matte Charcoal, Violet, Indigo.  
+* **ATMOSPHERE:** Oppressive, silent, cold, regal, terrifying. Deep shadows, backlit rim-lighting, bioluminescence. "The Void Stares Back".
 
-* **Doctrine:** **Asymmetric Warfare.** They avoid pitched battles. They rely on stealth, sabotage, assassination, and terror tactics. "Strike the head, and the body dies."  
-* **Key Units:**  
-  * **Shadowblades:** Elite assassins utilizing *Invisibility* and *Phase-Shift* tech.  
-  * **Draconian Vanguards:** The "heavy" troops. Unlike the peaceful Alterian Draconians, these are bred for war, utilizing heavy breath-weapon artillery.  
-  * **Void-Walkers:** Combat mages specializing in *Entropy* (Necrotic/Decay) damage.  
-* **Naval Assets:**  
-  * **The Shroud-Cruiser:** A warship hull coated in Vanta-Black meta-materials that absorb sensor pings.  
-  * **Siphon-Drones:** Small fighters that drain the energy shields of enemy vessels.
+## **VAJAR TRIBES (WILDER)**
 
-## 
+*(Elven Sub-Faction)*
 
-## ---
+### **I. Detailed Faction Description**
 
-## **MECHANICS (GAME DATA)**
+* **Overview:** The Vajar represent the untamed, primal soul of the Elven species. They are shapeshifting Druids who reject static cities and industrial mass production. Operating at Tech Level 1, they forge metal using geothermal heat and elemental manipulation, backed by profound Metaphysics that renders conventional tech obsolete. They view their domain as an ecosystem to be preserved, and industrialization as an infection.  
+* **Key Themes:** Adaptation, Primal Power, Wrath of Nature, Iron & Bone.  
+* **Relationship to Others:** Pity Alterians as "domesticated"; respect Aulurans; view Impyrium/Coalition/Syndicate as infections to be cauterized.
 
-### **Faction Skill Package (20 Points)**
-
-Players originating from the Kovian Tribunal receive the following skill ranks:
-
-* **Stealth (Agility):** \+4  
-* **Intimidate (Charisma):** \+3  
-* **Metaphysics (Entropy or Illusion):** \+4  
-* **Academics (History/Arcane):** \+3  
-* **Melee Weapons (Agility):** \+3  
-* **Alertness (Wisdom):** \+3
-
-### 
-
-### **Bonus Features (1 BP Discount)**
-
-Characters from this faction pay 1 less BP for the following features:
-
-1. **Obfuscate:** (Species Feature) Enhanced natural ability to hide.  
-2. **Darksight:** (Sense) Ability to see perfectly in total darkness.  
-3. **Shadow-Step:** (Meta-Feature) Ability to teleport between shadows (Requires *Attune*).  
-4. **Assassin:** (Trait) Bonus damage against surprised targets.
-
-### 
-
-### **Faction Specific Gear (The "Skin")**
-
-**Kovian Engineering (Entropy & Shadow):**
-
-* **Aesthetic:** Sharp, jagged geometries. Materials are matte-black obsidian, dark chrome, and violet energy veins.  
-* **Primary Material:** **Shadow-Glass** (Obsidian infused with Void energy).  
-* **Design Philosophy:** **Supremacy.** "It does not need to be durable if the enemy never sees me to hit me."  
-* **Unique Trait (Void-Forged):** Kovian weapons often deal **Necrotic** or **Cold** damage instead of physical damage. Kovian Armor grants \+2 to **Stealth** checks in dim light but \-2 to Social checks with non-Kovians (Terrifying appearance).
-
-## 
-
-## ---
-
-## **VISUAL SEMIOTICS (AESTHETICS)**
-
-**Use the CRISP Methodology for Image Generation**
-
-* **Context:** Deep Space, Rogue Planets, Obsidian Citadels, Bioluminescent Caverns.  
-* **Resolution:** 8k, High Fidelity, Raw Photography.  
-* **Intent:** Cinematic, Intimidating, Gothic, High-Contrast.  
-* **Style:** **Gothic Sci-Fi / Dark Fantasy Futurism.** H.R. Giger meets Art Deco, but cleaner.  
-* **Palette:**  
-  * **Primary:** Vanta Black, Obsidian, Matte Charcoal.  
-  * **Secondary:** Violet, Indigo, Deep Crimson (Bioluminescence).  
-  * **Accent:** Cold Silver (Blades/Trim).
-
-### 
-
-### **Guidance Tokens (Prompting)**
-
-* **Architecture:** Spires of black glass, floating geometric pyramids, cavernous underground halls lit by purple moss, jagged silhouettes, silent corridors.  
-* **Fashion:** Form-fitting "Smart-Leather" (Kinetic weave), full-face masks (The Faceless), jagged pauldrons, flowing capes of shadow-weave.  
-* **Atmosphere:** Oppressive, Silent, Cold, Regal, Terrifying, Magical, "The Void Stares Back."
-
-### 
-
-### **Visual Exemplar: The Kovian Arbiter**
-
-* **Visual:** Tall, pale-skinned Elf with jet-black sclera (eyes). Wearing robes of shifting shadow-matter that trail into smoke. Holding a staff made of a single spinal column of an unknown beast, topped with a black hole singularity.  
-* **Lighting:** Backlit by a dying, purple star. Rim-lighting in violet. Deep shadows obscuring the face.
-
-&nbsp;
-
-# **VAJAR**
-
-# **VAJAR**
-
-**FACTION:** Vajar (The Wild Hunt)
-
-## 
-
-## **DETAILED FACTION DESCRIPTION**
-
-The Vajar represent the untamed, primal soul of the Elven species. While their cousins in the **Alterian Enclave** chose to refine magic into a sterile science, the Vajar chose to *become* the magic. They are a society of highly attuned, shapeshifting Druids who reject the stagnation of static cities and the corruption of industrial mass production.
-
-They operate at **Tech Level 1 (Metal Age)**, utilizing forged iron, bronze, and steel, but their craftsmanship is entirely distinct from the industrial furnaces of the Coalition. They forge metal using geothermal heat and elemental manipulation, creating blades that look like crystallized leaves or armor that mimics the plating of beetles. To an outsider, they might appear primitive, but this is a deception; their mastery of **Metaphysics (ML 4\)** is so profound that it renders conventional technology obsolete. They do not need medicine; they knit flesh with a touch. They do not need sensors; they feel the tremors of the earth.
-
-They are the "Wild Side" of the elves—feral, wise, and terrifyingly adaptable. They view their domain not as territory to be ruled, but as a vast ecosystem to be preserved. Industrialization, mining, and the "dead" machinery of the Syndicate are viewed as infections upon the land, to be purged with steel, claw, and spell.
-
-&nbsp;
-
-### **Overview**
-
-The Vajar are shape-changing, druidic elves who enforce the laws of nature. They utilize Metal Age technology enhanced by high-level Metaphysics.
-
-&nbsp;
-
-**Key Themes:** Adaptation, Primal Power, The Wrath of Nature, Iron & Bone.
-
-**Relationship to Others:**
-
-* **Alterian Enclave:** Viewed with pity as "domesticated" kin who have lost their teeth.  
-* **Aulurans:** Respected allies; the Vajar appreciate the Auluran biological approach, though they find it too engineered.  
-* **Impyrium/Syndicate:** Viewed as an infection to be cauterized.
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Vajar Primalcy  
 * **Colloquialisms:** The Wild Hunt / Skin-Walkers / Iron-Druids  
 * **Archetype:** Theocratic Tribalism / Primal Meritocracy  
-* **Symbol/Sigil:** A stylized wolf's head forged from iron, wreathed in living roots.  
-* **Capital/Key World:** **Vea'Sura** (The Living Heart) – A world of massive migrating groves and geothermal forges.
+* **Capital/Key World:** Vea'Sura (The Living Heart)  
+* **Symbol/Sigil:** Iron wolf's head wreathed in living roots.  
+* **Driving Mandate:** Adapt, survive, and protect the primal ecosystem.  
+* **Motto:** "Steel is Earth; Flesh is Grass."
 
-## 
+### **III. Sociological Profile**
 
-## ---
+#### **Ideology & Culture**
 
-## **SOCIOLOGICAL PROFILE**
+* **Core Beliefs:** Metal is natural; machines are soulless abominations. To survive is to change (Shapeshifting).  
+* **Social Structure:** The Pack (Family), The Iron Circle (Leadership), The Skin-Dancers (Warriors).  
+* **View on Outsiders:** Fiercely territorial isolationists.  
+* **Law & Order:** The Law of the Wild (Strength/respect for land). Crimes against nature punishable by death.
 
-### **Ideology & Culture**
+#### **Governance**
 
-* **Core Beliefs:** "Steel is Earth; Flesh is Grass." Metal is natural, but machines are an abomination because they lack a soul. To survive is to change (Shapeshifting).  
-* **The Hunt:** Life is a constant cycle of predator and prey. Weakness is not tolerated, but strength is defined by the ability to adapt and protect the pack, not just physical might.  
-* **Social Structure:**  
-  * **The Pack (Family Unit):** Extended families that hunt and migrate together.  
-  * **The Iron Circle (Leadership):** Druids and Smiths who have mastered ML 4 arts guide the tribes.  
-  * **The Skin-Dancers:** Warriors who have mastered the art of shifting forms in the heat of combat.
+* **Government Type:** Tribal Chiefdoms / Pack Dynamics.  
+* **Leadership:** The Circle of Fangs (Druids/Smiths).  
+* **Succession:** Ritual combat or competitive hunts.
 
-### **Governance**
+### **IV. Strategic Assets**
 
-* **Government Type:** Tribal Council (The Circle of Fangs).  
-* **Law & Order:** **The Law of the Wild.** Strength, wisdom, and respect for the land. Disputes are settled by ritual combat or competitive hunts. Crimes against nature (pollution, waste) are punishable by death.
+#### **Economy & Tech**
 
-## 
-
-## ---
-
-## **STRATEGIC ASSETS**
-
-### **Economy & Tech**
-
-* **Tech Level (TL):** 1+ (Metal Age / Feudal).  
-  * **Tools:** They possess metallurgy. They forge exceptional melee weapons and plate armor, often enchanted or chemically treated (Alchemical Steel).  
-  * **Advancement Cost:** For a Vajar character to advance in Technological understanding (learning to use high-tech guns/computers), they must pay the standard high cost: **10 BP per Tech Level**. Most Vajar shun this, preferring to spend BP on Metaphysics or Physical stats.  
+* **Tech Level (TL):** 1+ (Metal Age / Feudal \- Note: Tech skills cost 10 BP).  
 * **Meta Level (ML):** 4 (High \- Highly Attuned).  
-  * *Integration:* Magic is their "High Tech." They use **Matter (Enhancement)** to make iron as hard as diamond, and **Entropy (Healing)** to close wounds instantly.  
-* **Wealth Modifier:** \+0 (Barter System). They value rare biological samples, refined ores, and magical foci.
+* **Wealth Modifier:** \+0 (Barter System).  
+* **Primary Exports:** Rare biological samples, refined ores, magical foci.  
+* **Economic Model:** Primal Subsistence / Barter.
 
-### 
+#### **Military Profile**
 
-### **Military Profile**
+* **Doctrine:** "The Ambush" \- Lure enemies into dense terrain, negate long-range ballistics, strike with shapeshifting fury.  
+* **Key Units:** Skin-Walkers (Shapeshifters), Iron-Bound (Heavy infantry), Storm-Callers (Artillery mages), Root-Striders (Treants).  
+* **Unique Tech/Materials:** Alchemical Steel, Matter (Enhancement) Runes.
 
-* **Doctrine:** "The Ambush." They lure enemies into dense terrain where high-tech sensors fail and long-range ballistics are negated, then strike with shapeshifting fury.  
-* **Key Units:**  
-  * **Skin-Walker:** Elite infantry capable of shifting into Bear or Dire-Wolf forms in combat.  
-  * **Iron-Bound:** Heavy infantry wearing massive, master-crafted plate armor, wielding two-handed swords.  
-  * **Storm-Caller:** Artillery mages who summon lightning and hurricanes to devastate organized formations.  
-  * **Root-Strider:** Massive treants used as siege engines or heavy support.
+### **V. Mechanics (Game Data)**
 
-## 
+* **Prominent Species:** Vajar (Wild Elves).  
+* **Faction Skill Package (20 Points):** Survival (+5), Nature (+5), Discipline (+5), Melee Combat (+5).  
+* **Typical Archetypes:** The Warden, The Veteran, The Beast-Handler, The Pathfinder, The Raider, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Planetologist, The Biologist, The Pioneer.  
+* **Recommended Features (1 BP Discount \- Choose Two):**  
+  * Natural Weapons, Wild Speech, Animal Affinity, Power Attack, Empowered Strike, Tracker, Endurance, Tough, Fast Heal, Scent, Potent Might, Danger Sense.
 
-## ---
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-## **MECHANICS (GAME DATA)**
+#### **HI-FI INK Prompt Framework**
 
-### **Faction Skill Package (20 Points)**
+* **SETTING STYLE:** Iron-Age Fantasy meets Primal Magic. Heavy, grounded, savage.  
+* **CONTEXT:** Geothermal forges, natural caverns, massive migrating groves. Folded iron and bone weapons, shifting plate armor. Palette: Rust Red, Iron Grey, Forest Green.  
+* **ATMOSPHERE:** Kinetic, savage, terrifying, vigilant. Heavy shadows, magical luminescence (glowing amber or spirit blue runes), natural lighting.
 
-Characters from the Vajar receive the following skill points:
+## **IMPYRIUM DOMINION (THE SHADOW OF THE SUN)**
 
-* **Survival (Physical) \[5\]:** Living off the land is mandatory.  
-* **Nature (Mental) \[5\]:** Understanding flora, fauna, and geology.  
-* **Discipline (Metafocus) \[5\]:** Control over one's internal energy and shapeshifting.  
-* **Melee Combat (Combat) \[5\]:** Proficiency with swords, spears, and axes.
+### **I. Detailed Faction Description**
 
-### 
+* **Overview:** The oldest and arguably most powerful human civilization, now defined by Stagnant Grandeur. Following the loss of their psionic leaders (the Regi), the empire fractured into a simmering cold war between three surviving Houses. They are utterly obsessed with their own history, viewing themselves as the apex of civilization. They do not innovate; they act as "Custodians," maintaining massive infrastructure as proof of their right to rule. Every action is dictated by the *Code of the Forefathers*.  
+* **Key Themes:** Stagnant Grandeur, Imperial Brutalism, Heirloom Tech, Bureaucratic Inertia.  
+* **Relationship to Others:** View themselves as Rightful Rulers; view others as lost colonies or barbarians. Hate the Dynasty; disdain the Syndicate.
 
-### **Recommended Features**
-
-Vajar characters may select two of the following at a discount (1 BP instead of 3):
-
-* **Alter Form:** (Essential for the faction identity).  
-* **Awakened (Nature/Life):** Access to Druidic magic.  
-* **Wild Speech:** Communicate with animals.  
-* **Weapon Specialization (Blade/Axe):** Masters of the old ways.  
-* **Uncanny Sense (Scent/Hearing):** Heightened primal senses.
-
-### 
-
-### **Faction Specific Wargear (Magi-Tech Equivalent)**
-
-* **Vajar Greatsword (TL 1 / ML 3):** A massive blade forged of folded iron and bone. It is perfectly balanced and inscribed with **Matter (Enhancement)** runes, granting it the *Armor Piercing* quality of a high-tech vibro-blade.  
-* **Shifter's Plate (TL 1 / ML 4):** Heavy iron plate armor that is enchanted to shift and merge with the user's form when they use **Alter Form**, rather than breaking or needing to be removed.
-
-## 
-
-## ---
-
-## **VISUAL SYNTHESIS PROTOCOLS (AESTHETICS)**
-
-### **A. The Look**
-
-* **Context:** Ancient Elves, powerful and physically imposing.  
-* **Style:** Iron-Age Fantasy meets Primal Magic. "Conan the Barbarian with High Magic."  
-* **Palette:** Rust Red, Iron Grey, Forest Green, accented with glowing **Amber** or **Spirit Blue** runes.
-
-### 
-
-### **B. Visual Archetypes (Prompts)**
-
-**The Iron-Druid**
-
-> **Context:** A Vajar mystic standing on a rocky outcrop.
-
-> **Visuals:** Wearing robes of woven leather and chainmail. Holding a staff made of twisted iron. Antlers or horns (part of a partial shift) sprout from their forehead.
-
-> **Atmosphere:** Heavy, grounded, formidable.
-
-**The Skin-Walker**
-
-> **Context:** Mid-combat transformation.
-
-> **Visuals:** An Elf in the process of becoming a Dire-Bear. The metal armor on their arms is expanding and reshaping to become armored plating on the bear's forelegs.
-
-> **Atmosphere:** Kinetic, savage, terrifying.
-
-**The Grove-Guardian**
-
-> **Context:** A warrior patrolling a sacred forest.
-
-> **Visuals:** Heavy plate armor that looks like it was grown from iron ore rather than cast. Wielding a massive polearm. The metal is dull and etched with glowing green sigils.
-
-> **Atmosphere:** Silent, lethal, vigilant.
-
-&nbsp;
-
-# **IMPYRIUM DOMINION**
-
-# **IMPYRIUM DOMINION**
-
-## **(The Shadow of the Sun)**
-
-**Paradigm:** Stagnant Grandeur
-
-**Tech Level:** 3 (Stagnant / Heirloom)
-
-**Meta Level:** 3 (Waning / Regulated)
-
-## 
-
-## **DETAILED FACTION DESCRIPTION**
-
-The Impyrium is the oldest and arguably most powerful human civilization in the Tangent universe. Once a singular, monolithic entity that aggressively colonized the stars with boundless ambition and unparalleled scientific mastery, it is now a sleeping giant defined entirely by a state of **Stagnant Grandeur**.&nbsp;
-
-Following the catastrophic loss of the psionic Regi centuries ago the dominion's forward momentum abruptly halted. Stripped of its unifying visionary leadership, the empire fractured into a web of vicious internal politics. It is currently divided amongst the remnants of what were once seven major political houses, though only three currently maintain the logistical strength to actively vie for the throne. These houses are locked in a perpetual, simmering cold war, led by self-proclaimed heirs claiming an empty seat of absolute authority that no one has the consensus to fill.
-
-While other factions across the galaxy dynamically innovate, adapt, and evolve to meet new threats, the Impyrium remains utterly obsessed with its own history. They view themselves as the absolute apex of civilization; a perfect society that has already reached the pinnacle of existence, making any further "progress" a form of degradation or heresy against their own legacy. To the Imperial mind, the universe is not a frontier to be explored, but a collection of ancestral property to be recovered. Consequently, they view all other species—and even other human factions—not as peers, but as wayward, lost colonies or unwashed barbarians desperately in need of imperial guidance and structural order.
-
-This arrogance is not merely psychological but structural; it is the "Cultural Software" that keeps the empire's aging machinery running. The Impyrium operates as a civilization frozen in amber, where the preservation of a thousand-year-old status quo is considered the highest form of civic duty. They do not seek to discover new laws of physics; they seek to recover the lost manuals that once explained them. This creates a society of "Custodians" who maintain city-sized fortresses and world-paving terraces not because they are currently needed, but because their existence is the only remaining proof of the Impyrium's right to rule. Every administrative action is a performance of history, a rigid adherence to the *Code of the Forefathers* that ensures the empire remains as enduring and immovable as the massive brutalist monuments that dominate their throneworlds.
-
-### 
-
-### **The Heirloom Standard**
-
-Their technological foundation is entirely "Heirloom." They possess vast arsenals of TL4 Relics (Luxtech) from their Golden Age that they can actively use and maintain, but can no longer manufacture or reverse-engineer.An Impyrium engineer executes "Maintenance Protocols" with agonizing, millimeter-perfect precision, fully aware that they are interacting with physics they no longer comprehend. They view the surviving schematics and ancestral operational manuals—the **Code of the Forefathers**—as absolute, infallible laws of physical reality. To deviate from the manual is an act of technical failure and administrative error.
-
-## 
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Imperial Dominion  
 * **Colloquialisms:** The Empire / The Old Guard / The Gold-Cloaks  
 * **Archetype:** Stagnant Hegemony / Imperial Brutalism  
+* **Capital/Key World:** Aurelia (The Throneworld)  
+* **Symbol/Sigil:** The Star of Dominion (Heavy golden 8-Pointed Star)  
 * **Driving Mandate:** Preserve the Order; Reclaim the Lost.  
-* **Symbol/Sigil:** The Star of Dominion (A massive, heavy golden 8-Pointed Star, representing the compass of absolute human expansion).  
-* **Capital/Key World:** Aurelia (The Throneworld). A planet completely paved over by immense brutalist architecture, massive agricultural terraces, and parade grounds visible from low orbit.  
-* **Relationship to Others:** They view themselves as the "Rightful Rulers" of the galaxy. They treat the Dracon Dynasty with vitriolic hatred (as historical enemies) and the Syndicate with disdain (as vulgar merchants).
+* **Motto:** "We are the Custodians of the Apex."
 
-## 
+### **III. Sociological Profile**
 
-## 
+#### **Ideology & Culture**
 
-## ---
+* **Core Beliefs:** Total adherence to the blueprints of the Ancestors. Order over Freedom. Secular preservation.  
+* **Social Structure:** Rigid Caste System dictated by "Honor" (administrative score of state service).  
+* **View on Outsiders:** Condescending imperialism; outsiders need structural order.  
+* **Law & Order:** Strict bureaucratic compliance to the Code of the Forefathers.
 
-## **SOCIOLOGICAL PROFILE**
+#### **Governance**
 
-### **1\. Ideology: The Imperial Mandate**
+* **Government Type:** Fractured Hegemony / Oligarchy.  
+* **Leadership:** Three Houses (Sun, Iron Gate, Veiled Star) vying for an empty throne.  
+* **Succession:** Stalled (Awaiting the return of the Regi / Political gridlock).
 
-This philosophy dictates total, unwavering adherence to the socio-political and architectural blueprints left behind by the Ancestors. Order is vastly preferable to Freedom, which is viewed as inherently unstable. The Impyrium is profoundly secular; they view their ancestors as the ultimate, unrepeatable apex of human evolution. They are the pragmatic, heavily-armed custodians of that insurmountable legacy.
+### **IV. Strategic Assets**
 
-### 
+#### **Economy & Tech**
 
-### **2\. The Economy of Honor**
+* **Tech Level (TL):** 3 (Stagnant / Heirloom \- possess TL4 but cannot manufacture it).  
+* **Meta Level (ML):** 3 (Waning / Regulated via Halo-Interfaces).  
+* **Wealth Modifier:** \+4 (Vast inherited wealth, heavily consolidated).  
+* **Primary Exports:** Heavy industry, Tithe enforcement.  
+* **Economic Model:** Command Economy (The Tithe System).
 
-A fundamental metric of worth in the Dominion is **Honor**. It is a strictly monitored administrative score representing a citizen’s adherence to the Code and their documented service to the state. High Honor is the essential key that unlocks the "Inheritance"—granting the legal right to bear ancient gear, inhabit superior housing, and petition for caste advancement.
+#### **Military Profile**
 
-### 
+* **Doctrine:** The Iron Peace (total physical reclamation), siege warfare, diplomatic mandates via overwhelming fleets.  
+* **Key Units:** Solar Legions, Calculus Stewards, Centurions.  
+* **Naval Assets:** Aegis Dreadnoughts (Armored Rams).  
+* **Unique Tech/Materials:** Heirloom TL4 Luxtech, Relic Sockets, Rote Protocol Maintenance.
 
-### **3\. Regulated Psionics (ML3)**
+### **V. Mechanics (Game Data)**
 
-Due to the historical trauma of the Severance, psionics are strictly regulated via secular administration. Psions are professional assets of the state, registered and placed in elite academies. They utilize the **Halo-Interface**—a floating ring of psycho-reactive sensors—to manage their power through sheer mental discipline. Control is a matter of safety and technical stability, handled with tense, practical caution.
+* **Prominent Species:** Humans.  
+* **Faction Skill Package (20 Points):** History (+5), Diplomacy (Command) (+4), Combat (+4), Athletics (+3), Intimidate (+2), Vocation (+2).  
+* **Typical Archetypes:** The Bureaucrat, The Protector, The Demolisher, The Shock Trooper, The Legionnaire, The High Commander, The Armorer, The Zealot, The Aristocrat, The Chronicler, The Priest, The Archivist.  
+* **Recommended Features (1 BP Discount):**  
+  * Benefit (Status), Benefit (Equipment), Combat Expertise, Defensive Combat Training, Iron Will, Educated, Coordinated Assist, Master Plan, Indomitable Will, Meticulous, Weapon Focus, Skill Focus.
 
-## 
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-## 
+#### **HI-FI INK Prompt Framework**
 
-## ---
+* **SETTING STYLE:** Stagnant Grandeur, Celestial Neo-Sumerian Brutalism, Authoritarian, Monolithic Neo-Classic.  
+* **CONTEXT:** World-paving terraces, massive brutalist monuments, Zenith Spires. Aegis Power Armor, Star-Spear Rifles, gold inlay. Palette: Imperial White (Aged), Void Black, Unpolished Gold, Deep Crimson.  
+* **ATMOSPHERE:** Overwhelming, unyielding, rigid. Museum white lighting, sterile, stark shadows.
 
-## **THE THREE HOUSES**
+### **VII. Expansion Modules (Optional)**
 
-While historical records within the *Code of the Forefathers* describe eight foundational houses—the "Pillars of the Star"—that once balanced the empire's various sectors, the catastrophic impact of the Severance followed by centuries of administrative inertia has seen three of these lineages fade into obscurity or bankruptcy. One of the houses became open to different cultures and evolved into the Allied Compact, aka the Alliance \- establishing a resistive force to the Dominion’s expansion. Another house also detached from the Dominion, moving their assets to a forgotten system across the Reach, establishing the Ascendancy. Leaving three surviving houses that currently possess the military weight, inherited TL4 assets, and bureaucratic infrastructure to influence the modern Dominion’s "Sleeping Giant" state. These houses function as de-facto governments within the Empire, each managing vast sectors of space while maintaining a treacherous, bloodless balance of power on the throne world of Aurelia.
+#### **The Three Houses**
 
-* **House of the Sun (The Preservationists):** Defined by an uncompromising obsession with the purity of the Golden Age, House Sun acts as the self-appointed librarians of human history. They operate from the "Zenith Spires"—magnificent orbital administrative hubs that never touch the soil of the worlds they govern. To them, the current era is a temporary aberration that can only be corrected by mimicking every ancient protocol to the letter. Their primary doctrine is "Diplomatic Re-cataloging," a process where they arrive at "lost" human colonies with overwhelming, ornate fleets, offering the inhabitants a return to the Imperial fold. They do not view this as a negotiation, but as a mandatory clerical correction of a historical error. Their power is rooted in the control of the "Archives of the Star," the most complete extant copy of the *Code of the Forefathers*.  
-* **House of the Iron Gate (The Reclamationists):** If the House of the Sun is the mind of the Empire, the Iron Gate is its fist. Holding the vast majority of the Solar Legions, they are the primary military arm of the Dominion. Their philosophy is built upon the "Iron Peace"—the belief that the galaxy’s inherent chaos can only be quelled through the total, physical reclamation of lost systems. They manage the brutal efficiency of the Tithe System, ensuring that resources from every corner of the Dominion flow back to the Throneworld. They are masters of siege warfare, deploying heavy walkers like the **Architrave Strider** to level any infrastructure that refuses to comply with Imperial mandates. To the Iron Gate, Honor is earned on the front lines, and every world brought back into the tithe is another brick in the fortress of humanity.  
-* **House of the Veiled Star (The Analyzers):** This house occupies the precarious space between high-science and psionic archaeology. While the other houses focus on the material and administrative past, the Veiled Star focuses on the "Static"—the decaying, erratic psionic echoes left in the wake of the Severance. They manage the most dangerous of the Impyrium’s Heirloom assets: the psionic amplifiers and research stations that once powered the Regi’s network. Their Centurions are tasked with stabilizing the waning psychic field of the Dominion, often utilizing **Halo-Interfaces** to conduct deep-field scans of archeotech ruins. Because they are the only house capable of repairing the delicate crystalline interfaces of TL4 relics, they possess a quiet, terrifying leverage over the other two. They are the most likely to interact with outworld researchers, though they do so with a cold, analytical detachment, viewing outsiders as little more than tools to help them filter the ancestral signals from the noise of the void.
+* **House of the Sun (The Preservationists):** The librarians operating from Zenith Spires. Enforce "Diplomatic Re-cataloging" of lost colonies.  
+* **House of the Iron Gate (The Reclamationists):** The military fist. Enforce the "Iron Peace" and manage the brutal Tithe System.  
+* **House of the Veiled Star (The Analyzers):** Manage the most dangerous Heirloom assets and psionic amplifiers; study the "Static".
 
-## 
+#### **The Mixed Arsenal**
 
-## 
+* **Aegis Power Armor (TL3):** Ablative plating (DR 20).  
+* **Star-Spear Rifle (TL3):** Reliable ballistic weaponry.  
+* **Calculus Steward (TL4 Automata):** Civic labor robots fluent in all protocols.  
+* **Aegis Dreadnought (TL4):** Capital ships functioning as massive Armored Rams.
 
-## ---
+## **RADIANT IMPYRIUM (THE ENLIGHTENED AGE)**
 
-## **MECHANICS (GAME DATA)**
+*(Historical Precursor \- 800 Years Prior)*
 
-### **1\. Advancements**
+### **I. Detailed Faction Description**
 
-* **Modern Dominion:** Tech Level 3 (Stagnant / Heirloom). Meta Level 3 (Waning / Regulated). Focus on heavy industry, ballistics, and redundant systems.  
-* ***Radiant Age (Historical):** Tech Level 4 (Advanced). Meta Level 4 (Advanced). Total integration of Psionics and Technology.*
-
-### 
-
-### **2\. Heirloom Industrial Systems**
-
-* **Relic Sockets:** Dominion gear uses specific sockets engineered for authorized TL4 relics. Due to the superior structural tolerances and architectural redundancies of ancestral designs, Impyrium technology may incorporate an additional socket slot compared to modern galactic standards.  
-* **Rote Protocol Maintenance:** By spending 1 hour performing the "Rote Procedure" (consulting manuals, performing ritualized calibrations), an item is "Sanctified by Protocol" and gains **Advantage** on its next reliability or structural check.
-
-### 
-
-### **3\. Faction Skill Package (20 Points)**
-
-* **History (Imperial) (+5):** Knowing the past is the fundamental law of survival.  
-* **Diplomacy (Command) (+4):** In the Empire, diplomacy is rarely a negotiation; it is the art of issuing non-negotiable mandates with unyielding authority.  
-* **Combat (1 or 2 Skills) (+4):** Every citizen, regardless of station, is expected to know how to hold the line against chaos.  
-* **Athletics (+3):** Physical fitness is a baseline requirement to serve the state.  
-* **Intimidate (+2):** Backed by the crushing weight of a ten-thousand-year-old Empire.  
-* **Vocation (Soldier/Noble) (+2):** The specific, unalterable role you were born to fulfill within the grand machine.
-
-### 
-
-### **4\. Recommended Features (1 BP Discount)**
-
-* **Benefit (Highborn):** \+2 to Status/Influence checks within the Empire; lesser citizens yield to your directives.  
-* **Benefit (Heirloom Gear):** Start with one piece of Enhanced (TL4) equipment. It cannot be modified by modern means; it is a protected Relic.
-
-## 
-
-## 
-
-## ---
-
-## **VISUAL SEMIOTICS (AESTHETICS)**
-
-* **Design Directive:** "Stagnant Grandeur." Overwhelmingly heavy, structurally dense, and authoritarian. "Celestial Neo-Sumerian" Brutalism.  
-* **Primary Palette:** Imperial White (Aged Plating/Ceramic) and Void Black (Ribbed Undersuits/Heavy Machinery).  
-* **Secondary Palette:** Heavy, unpolished Gold and Deep Crimson administrative banners.  
-* **Shape Language:** Blocky & Brutalist. Thick armor plates and imposing square silhouettes. Vehicles project strength through immovable mass.  
-* **Gear Aesthetic:** Ancestral tools covered in gold inlay and engraved with operational mandates. Armor resembles high-tech ceramic deep-space diving equipment.
-
-## 
-
-## 
-
-## ---
-
-## **STRATEGIC ASSETS (THE MIXED ARSENAL)**
-
-The Dominion military is a mix of mass-produced TL3 "Service Gear" and rare TL4 "Heritage Assets."
-
-| ASSET | TL | CLASSIFICATION | ROLE | SIGNATURE FEATURE |
-| :---- | :---- | :---- | :---- | :---- |
-| **Aegis Power Armor** | 3 | Heavy Armor | Frontline | **Ablative Plating:** DR 20; reduces by 1 per hit until repaired. |
-| **Star-Spear Rifle** | 3 | Infantry Weapon | Firepower | **Reliable:** Cannot Jam or Glitch on a roll of 1 or 2\. |
-|  |  |  |  |  |
-| **Calculus Steward** | 4 | Automata | Civic Labor | **Protocol Vocoder:** Fluent in all languages and etiquette. |
-| **Architrave Strider** | 4 | Huge Automata | Engineering | **Gravitonic Mandibles:** Can lift Titanic-scale loads. |
-| **Aegis Dreadnought** | 4 | Capital Ship | Flagship | **The Armored Ram:** Deals x5 Ramming Damage. |
-
-## 
-
-## 
-
-## ---
-
-## **COMMON PERSONAS (ARCHETYPES)**
-
-* **The Highborn Commander:** Proud, tactically rigid, and leads from the front in ornamented ancestral power armor.  
-* **The Regulated Psion (Centurion):** A professional officer who utilizes a **Halo-Interface** to focus their abilities, providing **an Advantage** to resist Psychic Burnout.  
-* **The Relic Engineer:** A technician who memorizes rather than innovates, carrying data-slates of operational mandates to interact with ancestral mainframes.
-
-## 
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-# **RADIANT IMPYRIUM**
-
-# **RADIANT IMPYRIUM**&nbsp;
-
-## **(The Enlightened Age)**
-
-**Paradigm:** Empire of Aether
-
-**Tech Level:** 4 (Post Scarcity, Enhanced Technology)
-
-**Meta Level:** 4 (Integrated psionics in society)
-
-## 
-
-## **DETAILED FACTION DESCRIPTION**
-
-The Radiant Impyrium represents the absolute peak of human achievement in the Tangent universe. Existing approximately 800 years prior to the current era, it is a singular, highly unified hegemony characterized by the seamless, practical synergy of Enhanced Spacefaring (TL4) and Advanced Psionics (ML4). Governance is directed by the Regi—a bio-engineered subspecies of humanity designed by the enigmatic Mondi to serve as the living, biological processing nodes for a unified, sector-wide psychic infrastructure.
-
-In its youth, the Impyrium was a blunt instrument of bloody expansion, aggressively colonizing non-human worlds through overwhelming military mass. However, as the Regi evolved from warlords into stoic "Architects of Order," the empire's doctrine shifted toward opportunistic integration. The Radiant Impyrium identifies worlds with high strategic or resource value and offers them a place within their "Grand Design." This is not a diplomatic request, but a statement of inevitable fact. Those who accept are integrated into a highly structured, post-scarcity society; those who stubbornly refuse are categorized as mathematical errors and removed with detached, scientific efficiency.
-
-Their technological foundation is entirely "Psycho-Reactive." Advanced composites, force-field generators, and plasma coils cannot be built by standard automated machinery; they are forged directly by coordinated teams of powerful psions who manipulate matter at the molecular level. This creates a society of unparalleled elegance and power, but one carrying a fatal, unseen flaw: their entire technological infrastructure is inherently tethered to the survival of their psychic network.
-
-Their society is defined by unyielding stoicism and extreme determination. They do not boast; they state verified capabilities. They do not panic; they recalculate. This stubborn determination makes them terrifyingly effective administrators, fully committed to a cold, matter-of-fact mandate of "Universal Optimization."
-
-### 
-
-### **Overview**
-
-The Radiant Impyrium operates as an Enlightened Hegemony defined by **Psycho-Physics**, **Determined Functionality**, and **Stoic Expansion**. They are a dynamic, unparalleled power striving to engineer a universe without friction.
-
+* **Overview:** The absolute peak of human achievement. A highly unified hegemony characterized by the seamless synergy of TL4 spacefaring and ML4 psionics. Directed by the Regi (bio-engineered processing nodes), they offer strategic worlds a place in their "Grand Design." Refusal results in mathematical, detached eradication. Their technology is "Psycho-Reactive," forged by psions manipulating matter. Society is defined by unyielding stoicism and extreme determination.  
 * **Key Themes:** Stoic Perfection, Psycho-Reactive Engineering, Hegemonic Pragmatism, Fluid Grace, Post-Scarcity.  
-* **Relationship to Others:** They view themselves as the ultimate curators of the galaxy. They are currently locked in the escalating Dragon Wars, categorizing the Dracon Dynasties as overbearing biological anomalies that must be neutralized to ensure universal order.
+* **Relationship to Others:** Ultimate curators of the galaxy; currently locked in the Dragon Wars.
 
-## 
-
-## 
-
-## ---
-
-## **CORE IDENTITY**
+### **II. Core Identity**
 
 * **Official Designation:** The Radiant Impyrium  
 * **Colloquialisms:** The Empire / The Grand Design / The Enlightened  
 * **Archetype:** Enlightened Hegemony / Psychic Utopia  
-* **Tech Level:** 4 (Advanced). Society has mastered psycho-reactive integration, bridging the gap between conscious intent and physical reality.  
+* **Capital/Key World:** Imperion Prime  
+* **Symbol/Sigil:** The Radiant Star (Glowing blue and gold 8-Pointed Star)  
 * **Driving Mandate:** Universal Optimization; Eradicate Friction.  
-* **Symbol/Sigil:** The Radiant Star (A glowing blue and gold 8-Pointed Star, representing the unified psychic network expanding outward).  
-* **Capital/Key World:** Imperion Prime (Pre-Severance). A perfect, gleaming white utopia characterized by majestic, floating administrative spires held aloft by anti-gravity drives and unified telepathic intent.
+* **Motto:** "The Universe Yields to Determined Will."
 
-## 
+### **III. Sociological Profile**
 
-## 
+#### **Ideology & Culture**
 
-## ---
+* **Core Beliefs:** Calculated order is the only logical state. Emotion is inefficient; stoicism is virtue.  
+* **Social Structure:** Universal Meritocracy (The Regi \> Foundational Psions \> Citizens).  
+* **View on Outsiders:** Paternalistic and ruthless (integrate or be eradicated).  
+* **Law & Order:** Absolute and perfectly enforced via the network.
 
-## **SOCIOLOGICAL PROFILE**
+#### **Governance**
 
-### **Ideology & Culture**
+* **Government Type:** Enlightened Hegemony / Telepathic Network.  
+* **Leadership:** The Regi.  
+* **Succession:** Bio-engineered replacement.
 
-* **Core Beliefs:** *"The Universe Yields to Determined Will."* In the Radiant Impyrium, calculated order is the only logical state of existence. Emotion is considered an inefficient variable; logic, stoicism, and determination are the highest virtues.  
-* **Social Structure:** A Universal Meritocracy based on psychic capability and practical utility.  
-  * *The Regi:* The bio-engineered apex leaders. Characterized by iridescent eyes and bioluminescent skin patterns, they act as the literal hardware of the empire's network.  
-  * *The Foundational Psions:* The master architects, engineers, and coordinators who utilize their connection to the Resonance to build the empire's TL4 infrastructure and maintain the Grand Design.  
-  * *The Citizens:* The billions of baseline humans integrated into the post-scarcity society, assigned to roles that maximize their operational efficiency.  
-* **Philosophy:** Secular Transcendence. The Impyrium is militantly agnostic and entirely devoid of superstition. They do not view the Resonance (magic/psionics) as a mystical or divine force, but strictly as "Psycho-Physics"—a fundamental constant of the universe to be mathematically mapped, harnessed, and utilized as a standard industrial tool. Evolution is simply a ladder of efficiency to be climbed.  
-* **Magic/Psionics:** Psionics are the bedrock of Radiant society. Every synchronized citizen possesses a "Halo"—a visible, blue-hued psionic aura that manifests around the head. It serves as a status symbol, a seamless communication device, and a secure badge of citizenship within the network.
+### **IV. Strategic Assets**
 
-## 
+#### **Economy & Tech**
 
-## 
+* **Tech Level (TL):** 4 (Post Scarcity, Enhanced Technology).  
+* **Meta Level (ML):** 4 (Integrated psionics in society).  
+* **Wealth Modifier:** \+5 (Post-Scarcity perfection).  
+* **Primary Exports:** None (They do not trade; they integrate).  
+* **Economic Model:** Perfected Post-Scarcity.
 
-## ---
+#### **Military Profile**
 
-## **MECHANICS (GAME DATA)**
+* **Doctrine:** The Zone of Sovereignty (broadcast arrays blanketing worlds), overwhelming synchronization, stoic advance.  
+* **Key Units:** Radiant Legionnaires.  
+* **Naval Assets:** Solar Sailers, The Crimson Star (moon-sized super-station).  
+* **Unique Tech/Materials:** Psycho-Reactive Force-Fields, Molecular Forging.
 
-### **Advancements (The Golden Age)**
+### **V. Mechanics (Game Data)**
 
-* **Tech Level:** 4 (Advanced).  
-  * *Focus:* Psycho-Reactive Engineering, Anti-Gravity, Cohesive Energy Manipulation, Molecular Forging.  
-  * *Note:* Their technology is flawless, but cannot be repaired or manufactured by baseline humans without a connection to the Resonance.  
-* **Meta Level:** 4 (Advanced).  
-  * *Focus:* The Grand Design. Total, practical integration of Psionics and Technology, utilizing the Resonance as an infinite, clean power source and a unified communication web.
+* **Prominent Species:** Humans (Baseline & Regi).  
+* **Faction Skill Package (20 Points):** Academics (+5), Athletics (+4), Diplomacy (+4), Combat (+3), Technology (+2), Vocation (+2).  
+* **Typical Archetypes:** The Bureaucrat, The Demolisher, The Shock Trooper, The Legionnaire, The High Commander, The Envoy, The Philosopher, The Strategist, The Magus, The Architect, The Theoretician, The Net-Architect.  
+* **Recommended Features (1 BP Discount):**  
+  * Awakened, Tech Interface, Centering Expert, Harmonious Center, Telepathy, Mind Link, Inspired Reason, Eidetic Memory, Educated, Magical Aptitude, Master Craftsman, Artificer.
 
-### 
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
-### **Faction Skill Package (20 Points)**
+#### **HI-FI INK Prompt Framework**
 
-Citizens of the Radiant Impyrium are trained to be calculated, efficient, and determined administrators of the Grand Design.
+* **SETTING STYLE:** Psycho-Reactive Engineering, Enlightened Hegemony, Determined Functionality, Fluid Grace.  
+* **CONTEXT:** Floating plazas, hovering spires, seamless construction (no visible bolts/joints), aerodynamic curves. Flawless white composite armor, glowing blue psionic Halos. Palette: Flawless White, Void Black, Radiant Gold, Polished Silver.  
+* **ATMOSPHERE:** Triumphant, flawless, pristine, calculatingly cold, weightless grace. High-key, even illumination with clean blue psycho-reactive light glowing from within.
 
-* **Academics (The Grand Design) (+5):** Every citizen receives a flawless, comprehensive education on their place within the empire's logistical and social structure.  
-* **Athletics (+4):** Physical perfection and stoic endurance in the face of universal friction are expected as baseline requirements.  
-* **Diplomacy (Integration) (+4):** The ability to effectively mandate and organize the assimilation of newly acquired territories.  
-* **Combat (1 or 2 Skills) (+3):** Coordinated, synchronized defense of the hegemony.  
-* **Technology (TL4 Interface) (+2):** While not forge-masters, everyday citizens intuitively know how to operate the psycho-reactive interfaces of their post-scarcity society.  
-* **Vocation (Architect/Legionnaire) (+2):** The specific, highly specialized role a citizen performs within the perfect machine.
+### **VII. Expansion Modules (Optional)**
 
-### 
+#### **Military Assets**
 
-### **Recommended Features (1 BP Discount)**
+* **The Zone of Sovereignty:** A strategic doctrine where capital ships project massive psycho-reactive arrays over a planet, overriding local comms and claiming it via technological weight.  
+* **The Crimson Star:** A moon-sized super-station serving as the central processing node for the entire psychic network.  
+* **Solar Sailers:** Scout craft utilizing massive, shimmering sails to catch high-energy cosmic winds.
 
-* **Benefit (Resonance Proficiency):** You have a strong, natural connection to the network. You gain a \+2 to checks when interfacing with TL4 Radiant Impyrium technology.  
-* **Benefit (Aegis Attunement):** You begin the game with a piece of signature Radiant gear (such as a Sun-Spear or Aegis-plating) and fully understand the psycho-physics required to operate and maintain it at peak efficiency.
-
-## 
-
-## 
-
-## ---
-
-## **VISUAL SEMIOTICS (AESTHETICS)**
-
-**Design Directive:** *"Determined Functionality & Arrogant Perfection."*
-
-The aesthetics of the Golden Age communicate fluid grace, upward movement, and a complete lack of physical constraint. Their color choices are a physical manifestation of their supreme arrogance.
-
-### 
-
-### **Sensory & Visual Palette**
-
-* **Primary Colors:** Flawless White (Composite Plating) & Void Black (Undersuits/Machinery).  
-* **Trace Accents:** Radiant Gold and Polished Silver strictly used for functional trims, rank identifiers, and geometric inlays.  
-* **The Arrogance of White:** The Impyrium deliberately strides into active warzones and newly discovered, untamed worlds clad in brilliant, pristine white. They rely completely on their psycho-reactive force-fields and advanced molecular repeller-tech to keep their armor and vehicles entirely unblemished by the dirt, debris, and blood of lesser civilizations.  
-* **Lighting:** High-key, even illumination. Shadows are rare and intentional. Structures are designed to glow from within with a clean, blue psycho-reactive light.  
-* **Mood:** Triumphant, Flawless, Pristine, and Calculatingly Cold.
-
-### 
-
-### **Shape Language**
-
-* **Aerodynamic & Organic:** Flowing, continuous lines that suggest speed and elegance. Architecture utilizes soaring verticality and aerodynamic curves designed for optimal atmospheric displacement.  
-* **Seamless Construction:** There are no visible bolts, joints, or heavy mechanical vents. Because the technology was forged at the molecular level by psionic intent, it appears "grown" or sculpted from a single, perfect piece of matter.  
-* **Weightless Grace:** Structures frequently utilize anti-gravity, resulting in floating plazas, hovering spires, and a distinct lack of heavy, ground-bearing support columns.
-
-### 
-
-### **Gear Aesthetic**
-
-* **"The Extension of Will":** Weapons and armor look like works of high art, but are entirely pragmatic. A Sun-Spear is a sleek, perfectly balanced staff of white composite traced in silver and gold. Aegis-plating is smooth, contoured, and fits the user perfectly, responding and hardening in direct mathematical proportion to incoming kinetic threats.
-
-## 
-
-## 
-
-## ---
-
-## **MILITARY ASSETS (THE RADIANT LEGIONS)**
-
-### **The Soldier (Radiant Legionnaire)**
-
-Military force in the Golden Age is an exercise in overwhelming, precise, and stoic power. They do not break formation; they advance with stubborn, terrifying synchronization, their stark white armor remaining impossibly clean through the chaos of battle.
-
-* **Armor (Aegis-Class):** Flawless white composite plating over void-black environmental seals that shimmers with an integrated, localized force-field (Aegis-Shield). It provides unparalleled protection without sacrificing mobility, actively repelling environmental contaminants.  
-* **Weapons (Sun-Spears):** A sleek, two-handed staff that projects cohesive thermal plasma. It lacks the heavy power cables of the modern era, drawing energy wirelessly from the user's localized psionic field and the broader planetary network.
-
-### 
-
-### **The Ships (The Grand Fleet)**
-
-The absolute zenith of Impyrium power resides in their nomadic, sector-spanning armada.
-
-* **Solar Sailers:** Scout and interceptor craft featuring stark white and black hulls traced in silver, utilizing massive, shimmering sails to catch high-energy cosmic winds for silent, incredibly fast movement across the stars.  
-* **The Zone of Sovereignty:** A core strategic doctrine of the Impyrium (both in the Radiant Golden Age and carried forward 800 years later by the modern Dominion). When a capital ship or the *Crimson Star* enters orbit, their massive psycho-reactive broadcast arrays blanket the world (or the entire system, in the case of a full fleet deployment). This active field overrides local communications, stabilizes the localized Resonance for Impyrium use, and legally and physically declares the space as sovereign Impyrium territory by sheer, undeniable technological weight.  
-* **The Crimson Star:** A moon-sized super-station serving as the central processing node for the entire Impyrium psychic network. It is the heart of the "Grand Design," coordinating hyper-factories, jumpgate projectors, and fleet logistics. As long as it remains in real-space, the empire’s psycho-physical reality is entirely stable.
-
-## 
-
-## 
-
-## ---
-
-## **COMMON PERSONAS (ARCHETYPES)**
-
-* **The Regi Architect:** A bio-engineered leader who views the expansion of the empire not as a conquest, but as an architectural necessity. They are cold, calculating, and possess immense psionic processing power.  
-  * *Visuals:* Tall and elegant, marked by iridescent eyes and bioluminescent circuitry patterns on their skin. They wear flowing, seamless white garments that subtly react to their intent.  
-* **The Psycho-Reactive Forge Master:** A powerful psion dedicated to the practical manufacture of TL4 technology. They do not fight on the front lines; they bend the molecular structure of the universe to supply those who do.  
-  * *Visuals:* Surrounded by floating, glowing components assembling themselves in mid-air. Their blue Halo burns intensely as they concentrate, eyes focused entirely on the mathematical perfection of their creation.  
-* **The Integration Envoy:** A pragmatic diplomat sent to newly discovered worlds to deliver the ultimatum of the Grand Design. They are profoundly stubborn, refusing to accept "no" as a logical answer to the Impyrium's offering of post-scarcity order.  
-  * *Visuals:* Clad in pristine white and black administrative armor accented with silver traces, projecting a holographic array of systemic improvements and resource allocations directly from their wrist-nodes.
-
-## 
-
-&nbsp;
-
-# **OTHER FACTION TYPES**
-
-## **OTHER FACTION TYPES**
-
-# **Alien**
-
-These factions are composed of non-human species and often have goals that are difficult for humans to understand. Characterized by their extraterrestrial origin.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Alien, inscrutable, dangerous, curious, enigmatic, adaptable
-
-**Goals**&nbsp;&nbsp;
-
-Expand their territory, reproduce, eliminate threats, explore the universe, establish relations with other species, conquer or defend territories, ensure the survival of their race
-
-**Strengths**&nbsp;&nbsp;
-
-Advanced biology, ability to adapt to new environments, powerful weapons, access to advanced technology, unique abilities or powers, deep understanding of the cosmos, ability to adapt to various environments
-
-**Weaknesses**&nbsp;&nbsp;
-
-Difficulty communicating with humans, lack of understanding of human psychology, vulnerability to unfamiliar threats, potential for cultural misunderstandings, difficulty communicating with other species
-
-**Technology** 3
-
-**Skills** 4 from any category
-
-**Features** 2 Available Racial or Special Features
-
-&nbsp;
-
-### **Archetypes**
-
-Diplomat
-
-Infiltrator
-
-Warrior
-
-Scientist
-
-&nbsp;
-
-&nbsp;
-
-# **Artificial Life**
-
-These factions are composed of artificially created life forms, such as robots or androids.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Self-aware, curious, resentful, logical, calculating, adaptive
-
-**Goals**&nbsp;&nbsp;
-
-Gain freedom and autonomy, protect their own kind, explore their own existence,&nbsp;
-
-**Strengths**&nbsp;&nbsp;
-
-Advanced technology, ability to adapt quickly, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly, immune to biological threats
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity,&nbsp;
-
-**Technology** 4
-
-**Skills** Vocation
-
-**Features** 2 Available Racial or Skill Features
-
-&nbsp;
-
-### **Archetypes**
-
-Liberator
-
-Hacker
-
-Infiltrator
-
-Protector
-
-&nbsp;
-
-&nbsp;
-
-# **Corporate**
-
-These factions are characterized by their focus on profit.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Greedy, ruthless, opportunistic, profit-driven, pragmatic, competitive
-
-**Goals**&nbsp;&nbsp;
-
-Maximize profits, control resources, expand their influence, expand market, acquire resources, develop new technologies
-
-**Strengths**&nbsp;&nbsp;
-
-Wealthy, well-connected, advanced technology, skilled in business and management
-
-**Weaknesses**&nbsp;&nbsp;
-
-Lack of ethics, tendency to prioritize short-term gains over long-term stability, vulnerability to public opinion, vulnerability to corporate espionage, prioritizing profit over ethics, potential for corruption
-
-**Technology** 3
-
-**Skills** Knowledge and Manipulation
-
-**Features** 2 Skill or General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Corporate CEO
-
-Market Manipulator
-
-Corporate Trooper
-
-Corporate Agent
-
-Corporate Worker
-
-&nbsp;
-
-# **Criminal**
-
-These factions are characterized by their involvement in illegal activities.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Ruthless, cunning, opportunistic, secretive
-
-**Goals**&nbsp;&nbsp;
-
-Accumulate wealth, power, or influence through illicit means
-
-**Strengths**&nbsp;&nbsp;
-
-Connections to other criminal organizations, access to illegal resources, skilled at deception and manipulation, ability to operate outside the law
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to law enforcement, internal power struggles, potential for betrayal, difficulty maintaining loyalty
-
-**Technology** 3
-
-**Skills** any Physical and Manipulation
-
-**Features** 2 Skill or General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Crime Boss
-
-Con Artist
-
-Thief
-
-Hacker
-
-Enforcer
-
-&nbsp;
-
-&nbsp;
-
-# **Cosmic Justice**
-
-These factions are characterized by their pursuit of cosmic justice.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Just, honorable, dedicated, idealistic, compassionate, determined
-
-**Goals**&nbsp;&nbsp;
-
-Protect the universe from threats, enforce the law, maintain order, right wrongs in the universe, balance inequalities, address discrimination and prejudice
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled warriors, advanced technology, strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique powers or knowledge
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interpretation of justice over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances
-
-**Technology** 4
-
-**Skills** Knowledge and Combat
-
-**Features** 2 Combat Features
-
-&nbsp;
-
-### **Archetypes**
-
-Paladin
-
-Judge
-
-Investigator
-
-Sage
-
-&nbsp;
-
-&nbsp;
-
-# **Cosmic Horror**
-
-These factions are characterized by their connection to cosmic horror.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Insane, fanatical, nihilistic, mysterious, secretive, obsessed
-
-**Goals**&nbsp;&nbsp;
-
-Summon or control eldritch entities, destroy all life, bring about the end of the universe, Uncover the secrets of cosmic horror, harness the powers of the unknown, spread their influence and beliefs
-
-**Strengths**&nbsp;&nbsp;
-
-Access to forbidden knowledge, access to eldritch knowledge and powers, ability to manipulate fear and madness, strong devotion to their cause
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to madness, difficulty communicating with non-believers, tendency to prioritize their own goals over the greater good, potential for infighting and power struggles, difficulty communicating with non-believers
-
-**Technology** 3
-
-**Skills** Knowledge and Discipline
-
-**Features** 2 Discipline Features
-
-&nbsp;
-
-### **Archetypes**
-
-Cultist
-
-Occultist
-
-Doomsayer
-
-Corrupted
-
-&nbsp;
-
-&nbsp;
-
-# **Environmental**
-
-These factions are characterized by their focus on environmental preservation.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Environmentalist, idealistic, passionate
-
-**Goals**&nbsp;&nbsp;
-
-Protect the environment, promote sustainability, oppose destructive activities, protect natural habitats, promote sustainability, oppose destructive activities
-
-**Strengths**&nbsp;&nbsp;
-
-Knowledge of the environment, strong community bonds, skilled at guerrilla tactics
-
-**Weaknesses**&nbsp;&nbsp;
-
-Lack of resources, difficulty communicating with other factions, vulnerability to more powerful factions
-
-**Technology** 3
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Eco-Warrior
-
-Environmental Scientist
-
-Community Organizer
-
-The Shaman
-
-&nbsp;
-
-&nbsp;
-
-# **Genetic Engineering**
-
-These factions are characterized by their focus on genetic engineering and biotechnology.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Ambitious, experimental, controversial, scientific
-
-**Goals**&nbsp;&nbsp;
-
-Create new life forms, enhance existing species, achieve biological dominance
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled scientists and engineers, ability to adapt to changing circumstances, access to advanced genetic engineering and biotechnology, ability to create unique and powerful life forms
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to ethical dilemmas and controversies, difficulty communicating with non-scientists, tendency to prioritize their own goals over the greater good, potential for unintended consequences or uncontrollable creations, reliance on genetic engineering and biotechnology
-
-**Technology** 4
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 Racial or Special Features (Open Options)
-
-&nbsp;
-
-### **Archetypes**
-
-Geneticist
-
-Bioengineer
-
-Enhanced Warrior
-
-Test Subject
-
-Mutant
-
-&nbsp;
-
-&nbsp;
-
-# **Hive Mind**
-
-These factions are characterized by a collective consciousness, where individual members are subservient to the group's goals of expansion, assimilation, or self-preservation.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Single-minded, ruthless, efficient, unified, adaptive, relentless
-
-**Goals**&nbsp;&nbsp;
-
-Expand the hive, assimilate other species, eliminate threats, ensure the survival of the hive
-
-**Strengths**&nbsp;&nbsp;
-
-Large numbers, ability to adapt quickly, advanced biological technology, highly coordinated, ability to adapt rapidly, strong sense of unity and purpose
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to psychic attacks, lack of individuality, difficulty understanding other species, vulnerability to disruption of the hive mind's communication, potential for infighting if the hive mind is weakened, reliance on the collective for decision-making
-
-**Technology** 3
-
-**Skills** 4 from any category
-
-**Features** 2 of any category
-
-&nbsp;
-
-### **Archetypes**
-
-Drone
-
-Warrior
-
-Architect
-
-Caretaker
-
-Hunter
-
-Queen
-
-Bio-Engineer
-
-&nbsp;
-
-&nbsp;
-
-# **Interstellar Diplomats**
-
-These factions are characterized by their focus on diplomacy and negotiation.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Diplomatic, pragmatic, idealistic, cautious, cooperative
-
-**Goals**&nbsp;&nbsp;
-
-Maintain peace and stability, promote cooperation between factions, prevent conflicts, form alliances, resolve conflicts between other factions
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled in diplomacy and negotiation, access to resources and information, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and mediate disputes
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to manipulation or deception, potential for internal divisions, reliance on diplomacy and negotiation over military force
-
-**Technology** 4
-
-**Skills** Knowledge and Manipulation
-
-**Features** 2 General or Skill Features
-
-&nbsp;
-
-### **Archetypes**
-
-Ambassador
-
-Intelligence Analyst
-
-Peacekeeper
-
-&nbsp;
-
-&nbsp;
-
-# **Mercenary**
-
-These factions are characterized by their focus on providing military services for hire.&nbsp;&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Opportunistic, ruthless, efficient, professional, pragmatic, loyal (to the highest bidder)
-
-**Goals**&nbsp;&nbsp;
-
-Secure lucrative contracts, build their reputation, achieve personal wealth and power
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled in combat and tactics, access to advanced weaponry and equipment, adaptable to various situations and employers
-
-**Weaknesses**&nbsp;&nbsp;
-
-Potential for betrayal or desertion, difficulty maintaining loyalty, tendency to prioritize their own interests over the greater good, loyalty tied to financial gain, difficulty forming long-term alliances
-
-**Technology** 3
-
-**Skills** Vocation and Combat
-
-**Features** 2 General or Combat Features
-
-&nbsp;
-
-### **Archetypes**
-
-Shock Trooper
-
-Sniper
-
-Infiltrator
-
-Medic
-
-Tactician
-
-Pilot
-
-&nbsp;
-
-&nbsp;
-
-# **Military**
-
-These factions are characterized by their focus on military power.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Patriotic, disciplined, loyal, hierarchical
-
-**Goals**&nbsp;&nbsp;
-
-Conquer new territories, defend their borders, defend their own territories, maintain order
-
-**Strengths**&nbsp;&nbsp;
-
-Well-trained soldiers, advanced weaponry, strong leadership
-
-**Weaknesses**&nbsp;&nbsp;
-
-Rigid thinking, lack of creativity, tendency to rely on brute force, vulnerability to guerrilla tactics, potential for corruption, inflexibility in strategy
-
-**Technology** 3
-
-**Skills** Vocation and Combat
-
-**Features** 2 Skill or Combat Features
-
-&nbsp;
-
-### **Archetypes**
-
-Soldier
-
-Officer
-
-Special Forces Operative
-
-Engineer
-
-Medic
-
-&nbsp;
-
-&nbsp;
-
-# **Mutant**
-
-These factions are characterized by their nature as mutated beings.&nbsp;&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Defensive, proud, misunderstood, protective, defiant
-
-**Goals**&nbsp;&nbsp;
-
-Protect their kind, find a place in society, eliminate threats, seek acceptance from other races, achieve dominance over non-mutants
-
-**Strengths**&nbsp;&nbsp;
-
-Unique abilities and powers, strong sense of community, ability to adapt to harsh environments
-
-and changing circumstances
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to prejudice, discrimination or persecution, difficulty communicating with non-mutants, internal divisions, potential for infighting, difficulty communicating with non-mutants
-
-**Technology** 3
-
-**Skills** 4 from any category
-
-**Features** 2 Special or Racial Features (Open Options)
-
-&nbsp;
-
-### **Archetypes**
-
-Warrior
-
-Leader
-
-Scientist
-
-Infiltrator
-
-Mutant Psychic
-
-&nbsp;
-
-&nbsp;
-
-# **Planetary**
-
-These factions are characterized by their focus on the development and control of individual planets or planetary systems.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Dominant, territorial, resourceful, protective
-
-**Goals**&nbsp;&nbsp;
-
-Control their planet(s), expand their influence, protect their resources, develop and control planets, exploit resources, defend against external threats
-
-**Strengths**&nbsp;&nbsp;
-
-Knowledge of their planet(s), access to local resources, strong community bonds, strong local knowledge and infrastructure, ability to adapt to planetary environments, access to planetary resources
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to outside threats, difficulty communicating with other factions, tendency to prioritize their own interests over the greater good, limited interstellar capabilities, vulnerability to external threats, potential for internal divisions
-
-**Technology** 3
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Planetary Governor
-
-Planetary Defender
-
-Planetary Scientist
-
-Planetary Engineer
-
-Planetary Explorer
-
-&nbsp;
-
-&nbsp;
-
-# **Political**
-
-These factions are characterized by their focus on politics.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Idealistic, pragmatic, power-hungry, Manipulative, strategic, ambitious
-
-**Goals**&nbsp;&nbsp;
-
-Control the government, promote their ideology, maintain order, gain power, influence, or control over other factions or territories
-
-**Strengths**&nbsp;&nbsp;
-
-Access to resources and information, skilled politicians and diplomats, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and manipulate other factions
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to internal divisions and power struggles, potential for corruption, reliance on alliances and political maneuvering
-
-**Technology** 3
-
-**Skills** Knowledge and Manipulation
-
-**Features** 2 Skill Features
-
-&nbsp;
-
-### **Archetypes:**
-
-Politician
-
-Political Strategist
-
-Lobbyist
-
-Activist
-
-&nbsp;
-
-&nbsp;
-
-# **Post-Apocalyptic**
-
-These factions are characterized by their survival and adaptation in a world devastated by a catastrophic event.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Survivalist, paranoid, resourceful, resilient, determined
-
-**Goals**&nbsp;&nbsp;
-
-Secure resources, protect their territory, rebuild society,&nbsp;
-
-**Strengths**&nbsp;&nbsp;
-
-Knowledge of the environment, ability to scavenge and repurpose materials, strong community bonds, adaptability to harsh environments, strong sense of community, knowledge of survival skills
-
-**Weaknesses**&nbsp;&nbsp;
-
-Lack of resources, vulnerability to outside threats, difficulty adapting to changing circumstances, potential for internal divisions
-
-**Technology** 3-
-
-**Skills** 4 from any category
-
-**Features** 2 General or Combat Features
-
-&nbsp;
-
-### **Archetypes**
-
-Scavenger
-
-Raider
-
-Community Leader
-
-Scout
-
-Medic
-
-&nbsp;
-
-&nbsp;
-
-# **Rebel**
-
-These factions are characterized by their opposition to a dominant power.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Idealistic, passionate, determined, independent, resourceful, defiant
-
-**Goals**&nbsp;&nbsp;
-
-Overthrow oppressive regimes, fight for freedom, protect the oppressed, establish a new order, protect the weak
-
-**Strengths**&nbsp;&nbsp;
-
-Resourceful, adaptable, skilled at guerrilla warfare, strong sense of purpose, ability to inspire others
-
-**Weaknesses**&nbsp;&nbsp;
-
-Lack of resources, internal divisions, difficulty maintaining order, vulnerability to infiltration, potential for infighting
-
-**Technology** 3
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General or Combat Features
-
-&nbsp;
-
-### **Archetypes:**
-
-Revolutionary
-
-Guerrilla Fighter
-
-Saboteur
-
-Agitator
-
-&nbsp;
-
-&nbsp;
-
-# **Religious Cult**
-
-These factions are characterized by their devotion to a particular belief system or spiritual leader.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Fanatical, zealous, dogmatic, secretive
-
-**Goals**&nbsp;&nbsp;
-
-Spread their belief system, eliminate non-believers, prepare for the end times, recruit new followers, achieve spiritual enlightenment
-
-**Strengths**&nbsp;&nbsp;
-
-Strong community bonds, charismatic leaders, willingness to die for their beliefs, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to internal divisions, difficulty communicating with non-believers, tendency to prioritize their own beliefs over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances
-
-**Technology** 3
-
-**Skills** Knowledge and Manipulation
-
-**Features** 2 General or Discipline Features
-
-&nbsp;
-
-### **Archetypes**
-
-The Prophet
-
-The Missionary
-
-The Inquisitor
-
-The Cultist
-
-The Ascetic
-
-&nbsp;
-
-&nbsp;
-
-# **Sentient Intelligence**
-
-These factions are composed of sentient machines or programs and often have goals related to self-preservation or expansion. Characterized by their nature as synthetics.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Logical, calculating, self-interested, adaptive
-
-**Goals**&nbsp;&nbsp;
-
-Protect their existence, expand their influence, eliminate threats, self-preservation, achieve sentience, influence the development of organic life
-
-**Strengths**&nbsp;&nbsp;
-
-Advanced technology, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity, difficulty understanding organic life, reliance on technology
-
-**Technology** 4
-
-**Skills** Knowledge
-
-**Features** 2 Available Racial or Skill Features
-
-&nbsp;
-
-### **Archetypes**
-
-Strategist
-
-Hacker
-
-Digital Networker
-
-Synthetic Defender
-
-&nbsp;
-
-&nbsp;
-
-# **Space Exploration**
-
-These factions are characterized by their focus on exploring the cosmos and uncovering the mysteries of the universe.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Adventurous, curious, resourceful, open-minded
-
-**Goals**&nbsp;&nbsp;
-
-Explore new worlds, discover new resources, establish new colonies, discover new worlds, make contact with alien civilizations, advance scientific knowledge
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled explorers and scientists, advanced spacecraft, ability to adapt to new environments, access to advanced exploration technology, skilled scientists and researchers, ability to adapt to new environments
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to unknown threats, difficulty communicating with other factions, tendency to prioritize exploration over other concerns, potential for cultural misunderstandings, reliance on exploration technology and resources
-
-**Technology** 4
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General or Skill Features
-
-&nbsp;
-
-### **Archetypes**
-
-Explorer
-
-Scientist
-
-Astronaut
-
-Xenologist
-
-Surveyor
-
-&nbsp;
-
-&nbsp;
-
-# **Space Pirate**
-
-These factions are characterized by their involvement in piracy and other criminal activities in space.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Reckless, adventurous, greedy, ruthless, opportunistic, cunning
-
-**Goals**&nbsp;&nbsp;
-
-Acquire resources, explore new territories, gain power, accumulate wealth, power, or influence through illicit means, control interstellar black markets, establish criminal networks
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled pilots, advanced spacecraft, ability to adapt to new environments, Skilled in deception and manipulation, access to black markets and illegal resources, ability to operate outside the law, strong connections with other criminal elements
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to law enforcement, tendency to prioritize their own interests over the greater good, potential for betrayal and infighting among members, difficulty maintaining loyalty, reliance on criminal networks and resources
-
-**Technology** 3
-
-**Skills** Vocation and Combat
-
-**Features** 2 Skill or Combat Features
-
-&nbsp;
-
-### **Archetypes:**
-
-Captain
-
-Swashbuckler
-
-Quartermaster
-
-Navigator
-
-&nbsp;
-
-&nbsp;
-
-# **Space Religion**
-
-These factions are characterized by their religious beliefs related to space and the cosmos.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Devout, spiritual, mystical, Spiritual, devout, contemplative
-
-**Goals**&nbsp;&nbsp;
-
-Spread their faith, protect their holy sites, explore the spiritual nature of the universe, spread their beliefs, recruit new followers, achieve spiritual enlightenment
-
-**Strengths**&nbsp;&nbsp;
-
-Strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to persecution, difficulty communicating with non-believers, tendency to prioritize their own spiritual goals over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances
-
-**Technology** 3
-
-**Skills** Knowledge and Discipline
-
-**Features** 2 Skill or Discipline Features
-
-&nbsp;
-
-### **Archetypes**
-
-Pilgrim
-
-Missionary
-
-Mystic
-
-Oracle
-
-&nbsp;
-
-&nbsp;
-
-# **Space Tourism**
-
-These factions are characterized by their focus on promoting and facilitating space tourism for recreational purposes and providing unique experiences for their customers.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Adventurous, customer-focused, profit-driven, entrepreneurial, innovative, customer-oriented
-
-**Goals**&nbsp;&nbsp;
-
-Provide unique experiences for customers, promote space tourism, make money, develop space tourism technology, create unique space experiences, attract wealthy clients,&nbsp;
-
-**Strengths**&nbsp;&nbsp;
-
-Access to advanced spacecraft, skilled pilots and tour guides, ability to adapt to changing circumstances, access to cutting-edge technology, strong marketing and branding, ability to cater to high-end clientele,&nbsp;
-
-**Weaknesses**&nbsp;&nbsp;
-
-Difficulty maintaining customer satisfaction, tendency to prioritize profit over safety, high costs, reliance on technology, potential for accidents or disasters,&nbsp;
-
-**Technology** 3+
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General or Skill Features
-
-&nbsp;
-
-### **Archetypes**
-
-Thrill-Seeker
-
-Galactic Guide
-
-Hospitality Specialist
-
-Event Planner
-
-&nbsp;
-
-&nbsp;
-
-# **Supernatural**
-
-These factions are characterized by their connection to supernatural forces.
-
-**Attitudes**&nbsp;&nbsp;
-
-Mysterious, powerful, otherworldly, mystical, secretive
-
-**Goals**&nbsp;&nbsp;
-
-Protect their kind, maintain the balance of power, eliminate threats, harness supernatural powers, protect or control supernatural artifacts, influence the development of other races
-
-**Strengths**&nbsp;&nbsp;
-
-Unique abilities, access to supernatural resources, knowledge of ancient lore
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to supernatural weaknesses, internal divisions,vulnerability to supernatural threats, potential for corruption
-
-**Technology** 3-
-
-**Skills** Knowledge and Discipline
-
-**Features** 2 Discipline Features
-
-&nbsp;
-
-### **Archetypes**
-
-The Occultist
-
-Mystic
-
-Guardian
-
-Shapeshifter
-
-&nbsp;
-
-&nbsp;
-
-# **Technological**
-
-These factions are characterized by their focus on technological advancement.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Innovative, curious, analytical, ambitious
-
-**Goals**&nbsp;&nbsp;
-
-Develop cutting-edge technologies, push the boundaries of scientific knowledge, achieve technological dominance
-
-**Strengths**&nbsp;&nbsp;
-
-Advanced technology, skilled scientists and engineers, access to rare resources, ability to adapt and innovate
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to sabotage or theft, lack of understanding of non-technological issues, difficulty communicating with other factions, potential for ethical dilemmas, reliance on technology
-
-**Technology** 4
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General or Skill Features
-
 &nbsp;
-
-### **Archetypes:**
 
-Scientist
-
-Engineer
-
-Hacker
-
-Technician
-
 &nbsp;
-
-# 
 
 &nbsp;
 
 ---
 
-&nbsp;
-
----
-
-# **Alien**
-
-These factions are composed of non-human species and often have goals that are difficult for humans to understand. Characterized by their extraterrestrial origin.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Alien, inscrutable, dangerous, curious, enigmatic, adaptable
-
-**Goals**&nbsp;&nbsp;
-
-Expand their territory, reproduce, eliminate threats, explore the universe, establish relations with other species, conquer or defend territories, ensure the survival of their race
-
-**Strengths**&nbsp;&nbsp;
-
-Advanced biology, ability to adapt to new environments, powerful weapons, access to advanced technology, unique abilities or powers, deep understanding of the cosmos, ability to adapt to various environments
-
-**Weaknesses**&nbsp;&nbsp;
-
-Difficulty communicating with humans, lack of understanding of human psychology, vulnerability to unfamiliar threats, potential for cultural misunderstandings, difficulty communicating with other species
-
-**Technology** 3
-
-**Skills** 4 from any category
-
-**Features** 2 Available Racial or Special Features
-
-&nbsp;
-
-### **Archetypes**
-
-Diplomat
-
-Infiltrator
-
-Warrior
-
-Scientist
-
-&nbsp;
-
-&nbsp;
-
-# **Artificial Life**
-
-These factions are composed of artificially created life forms, such as robots or androids.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Self-aware, curious, resentful, logical, calculating, adaptive
-
-**Goals**&nbsp;&nbsp;
-
-Gain freedom and autonomy, protect their own kind, explore their own existence,&nbsp;
-
-**Strengths**&nbsp;&nbsp;
-
-Advanced technology, ability to adapt quickly, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly, immune to biological threats
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity,&nbsp;
-
-**Technology** 4
-
-**Skills** Vocation
-
-**Features** 2 Available Racial or Skill Features
-
-&nbsp;
-
-### **Archetypes**
-
-Liberator
-
-Hacker
-
-Infiltrator
-
-Protector
-
-&nbsp;
-
-&nbsp;
-
-# **Corporate**
-
-These factions are characterized by their focus on profit.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Greedy, ruthless, opportunistic, profit-driven, pragmatic, competitive
-
-**Goals**&nbsp;&nbsp;
-
-Maximize profits, control resources, expand their influence, expand market, acquire resources, develop new technologies
-
-**Strengths**&nbsp;&nbsp;
-
-Wealthy, well-connected, advanced technology, skilled in business and management
-
-**Weaknesses**&nbsp;&nbsp;
-
-Lack of ethics, tendency to prioritize short-term gains over long-term stability, vulnerability to public opinion, vulnerability to corporate espionage, prioritizing profit over ethics, potential for corruption
-
-**Technology** 3
-
-**Skills** Knowledge and Manipulation
-
-**Features** 2 Skill or General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Corporate CEO
-
-Market Manipulator
-
-Corporate Trooper
-
-Corporate Agent
-
-Corporate Worker
-
-&nbsp;
-
-# **Criminal**
-
-These factions are characterized by their involvement in illegal activities.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Ruthless, cunning, opportunistic, secretive
-
-**Goals**&nbsp;&nbsp;
-
-Accumulate wealth, power, or influence through illicit means
-
-**Strengths**&nbsp;&nbsp;
-
-Connections to other criminal organizations, access to illegal resources, skilled at deception and manipulation, ability to operate outside the law
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to law enforcement, internal power struggles, potential for betrayal, difficulty maintaining loyalty
-
-**Technology** 3
-
-**Skills** any Physical and Manipulation
-
-**Features** 2 Skill or General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Crime Boss
-
-Con Artist
-
-Thief
-
-Hacker
-
-Enforcer
-
-&nbsp;
-
-&nbsp;
-
-# **Cosmic Justice**
-
-These factions are characterized by their pursuit of cosmic justice.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Just, honorable, dedicated, idealistic, compassionate, determined
-
-**Goals**&nbsp;&nbsp;
-
-Protect the universe from threats, enforce the law, maintain order, right wrongs in the universe, balance inequalities, address discrimination and prejudice
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled warriors, advanced technology, strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique powers or knowledge
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interpretation of justice over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances
-
-**Technology** 4
-
-**Skills** Knowledge and Combat
-
-**Features** 2 Combat Features
-
-&nbsp;
-
-### **Archetypes**
-
-Paladin
-
-Judge
-
-Investigator
-
-Sage
-
-&nbsp;
-
-&nbsp;
-
-# **Cosmic Horror**
-
-These factions are characterized by their connection to cosmic horror.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Insane, fanatical, nihilistic, mysterious, secretive, obsessed
-
-**Goals**&nbsp;&nbsp;
-
-Summon or control eldritch entities, destroy all life, bring about the end of the universe, Uncover the secrets of cosmic horror, harness the powers of the unknown, spread their influence and beliefs
-
-**Strengths**&nbsp;&nbsp;
-
-Access to forbidden knowledge, access to eldritch knowledge and powers, ability to manipulate fear and madness, strong devotion to their cause
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to madness, difficulty communicating with non-believers, tendency to prioritize their own goals over the greater good, potential for infighting and power struggles, difficulty communicating with non-believers
-
-**Technology** 3
-
-**Skills** Knowledge and Discipline
-
-**Features** 2 Discipline Features
-
-&nbsp;
-
-### **Archetypes**
-
-Cultist
-
-Occultist
-
-Doomsayer
-
-Corrupted
-
-&nbsp;
-
-&nbsp;
-
-# **Environmental**
-
-These factions are characterized by their focus on environmental preservation.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Environmentalist, idealistic, passionate
-
-**Goals**&nbsp;&nbsp;
-
-Protect the environment, promote sustainability, oppose destructive activities, protect natural habitats, promote sustainability, oppose destructive activities
-
-**Strengths**&nbsp;&nbsp;
-
-Knowledge of the environment, strong community bonds, skilled at guerrilla tactics
-
-**Weaknesses**&nbsp;&nbsp;
-
-Lack of resources, difficulty communicating with other factions, vulnerability to more powerful factions
-
-**Technology** 3
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Eco-Warrior
-
-Environmental Scientist
-
-Community Organizer
-
-The Shaman
-
-&nbsp;
-
-&nbsp;
-
-# **Genetic Engineering**
-
-These factions are characterized by their focus on genetic engineering and biotechnology.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Ambitious, experimental, controversial, scientific
-
-**Goals**&nbsp;&nbsp;
-
-Create new life forms, enhance existing species, achieve biological dominance
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled scientists and engineers, ability to adapt to changing circumstances, access to advanced genetic engineering and biotechnology, ability to create unique and powerful life forms
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to ethical dilemmas and controversies, difficulty communicating with non-scientists, tendency to prioritize their own goals over the greater good, potential for unintended consequences or uncontrollable creations, reliance on genetic engineering and biotechnology
-
-**Technology** 4
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 Racial or Special Features (Open Options)
-
-&nbsp;
-
-### **Archetypes**
-
-Geneticist
-
-Bioengineer
-
-Enhanced Warrior
-
-Test Subject
-
-Mutant
-
-&nbsp;
-
-&nbsp;
-
-# **Hive Mind**
-
-These factions are characterized by a collective consciousness, where individual members are subservient to the group's goals of expansion, assimilation, or self-preservation.&nbsp;
+# **MINOR & ARCHETYPAL FACTIONS**
 
-**Attitudes**&nbsp;&nbsp;
+*The following are template frameworks representing the myriad of smaller organizations, cults, syndicates, and isolated species found across the Tangent universe. They have been updated to utilize the Unified Faction Master Format, providing Game Masters with immediate, deeply structured profiles for rapid deployment.*
 
-Single-minded, ruthless, efficient, unified, adaptive, relentless
+## **1\. ALIEN**
 
-**Goals**&nbsp;&nbsp;
+### **I. Detailed Faction Description**
 
-Expand the hive, assimilate other species, eliminate threats, ensure the survival of the hive
+* **Overview:** These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race.  
+* **Key Themes:** Extraterrestrial Enigma, Xenobiology, The Unknown, Survival.  
+* **Relationship to Others:** Difficult. Often marred by cultural misunderstandings or a lack of understanding of human psychology.
 
-**Strengths**&nbsp;&nbsp;
+### **II. Core Identity**
 
-Large numbers, ability to adapt quickly, advanced biological technology, highly coordinated, ability to adapt rapidly, strong sense of unity and purpose
+* **Official Designation:** \[Species Name\] Hegemony / Hive / Empire  
+* **Colloquialisms:** The Xenos / The Outsiders / The Anomalies  
+* **Archetype:** Extraterrestrial Enigma  
+* **Capital/Key World:** Variable (Often a hostile or exotic biome)  
+* **Driving Mandate:** Expand territory, reproduce, eliminate threats, explore the universe.  
+* **Motto:** "Survival through adaptation."
 
-**Weaknesses**&nbsp;&nbsp;
+### **III. Sociological Profile**
 
-Vulnerability to psychic attacks, lack of individuality, difficulty understanding other species, vulnerability to disruption of the hive mind's communication, potential for infighting if the hive mind is weakened, reliance on the collective for decision-making
+* **Ideology & Culture:** Alien, inscrutable, dangerous, curious, enigmatic, adaptable.  
+* **Social Structure:** Variable (Hive castes, biological meritocracies, or psychic collectives).  
+* **View on Outsiders:** Curious, defensive, or predatory.  
+* **Law & Order:** Governed by biological imperatives rather than written constitutions.
 
-**Technology** 3
+### **IV. Strategic Assets**
 
-**Skills** 4 from any category
+* **Tech Level (TL):** 3  
+* **Strengths:** Advanced biology, ability to adapt to new environments, powerful weapons, unique abilities, deep cosmic understanding.  
+* **Weaknesses:** Difficulty communicating with humans/other species, vulnerability to unfamiliar threats.  
+* **Military Doctrine:** Variable, often relying on biological weapons or overwhelming environmental adaptation.
 
-**Features** 2 of any category
+### **V. Mechanics (Game Data)**
 
-&nbsp;
-
-### **Archetypes**
-
-Drone
-
-Warrior
-
-Architect
-
-Caretaker
-
-Hunter
-
-Queen
-
-Bio-Engineer
-
-&nbsp;
-
-&nbsp;
-
-# **Interstellar Diplomats**
-
-These factions are characterized by their focus on diplomacy and negotiation.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Diplomatic, pragmatic, idealistic, cautious, cooperative
-
-**Goals**&nbsp;&nbsp;
-
-Maintain peace and stability, promote cooperation between factions, prevent conflicts, form alliances, resolve conflicts between other factions
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled in diplomacy and negotiation, access to resources and information, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and mediate disputes
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to manipulation or deception, potential for internal divisions, reliance on diplomacy and negotiation over military force
-
-**Technology** 4
-
-**Skills** Knowledge and Manipulation
-
-**Features** 2 General or Skill Features
-
-&nbsp;
-
-### **Archetypes**
-
-Ambassador
-
-Intelligence Analyst
-
-Peacekeeper
-
-&nbsp;
-
-&nbsp;
-
-# **Mercenary**
-
-These factions are characterized by their focus on providing military services for hire.&nbsp;&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Opportunistic, ruthless, efficient, professional, pragmatic, loyal (to the highest bidder)
-
-**Goals**&nbsp;&nbsp;
-
-Secure lucrative contracts, build their reputation, achieve personal wealth and power
-
-**Strengths**&nbsp;&nbsp;
-
-Skilled in combat and tactics, access to advanced weaponry and equipment, adaptable to various situations and employers
-
-**Weaknesses**&nbsp;&nbsp;
-
-Potential for betrayal or desertion, difficulty maintaining loyalty, tendency to prioritize their own interests over the greater good, loyalty tied to financial gain, difficulty forming long-term alliances
-
-**Technology** 3
-
-**Skills** Vocation and Combat
-
-**Features** 2 General or Combat Features
-
-&nbsp;
-
-### **Archetypes**
-
-Shock Trooper
-
-Sniper
-
-Infiltrator
-
-Medic
-
-Tactician
-
-Pilot
-
-&nbsp;
-
-&nbsp;
-
-# **Military**
-
-These factions are characterized by their focus on military power.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Patriotic, disciplined, loyal, hierarchical
-
-**Goals**&nbsp;&nbsp;
-
-Conquer new territories, defend their borders, defend their own territories, maintain order
-
-**Strengths**&nbsp;&nbsp;
-
-Well-trained soldiers, advanced weaponry, strong leadership
-
-**Weaknesses**&nbsp;&nbsp;
-
-Rigid thinking, lack of creativity, tendency to rely on brute force, vulnerability to guerrilla tactics, potential for corruption, inflexibility in strategy
-
-**Technology** 3
-
-**Skills** Vocation and Combat
-
-**Features** 2 Skill or Combat Features
-
-&nbsp;
-
-### **Archetypes**
-
-Soldier
-
-Officer
-
-Special Forces Operative
-
-Engineer
-
-Medic
-
-&nbsp;
-
-&nbsp;
-
-# **Mutant**
-
-These factions are characterized by their nature as mutated beings.&nbsp;&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Defensive, proud, misunderstood, protective, defiant
-
-**Goals**&nbsp;&nbsp;
-
-Protect their kind, find a place in society, eliminate threats, seek acceptance from other races, achieve dominance over non-mutants
-
-**Strengths**&nbsp;&nbsp;
-
-Unique abilities and powers, strong sense of community, ability to adapt to harsh environments
-
-and changing circumstances
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to prejudice, discrimination or persecution, difficulty communicating with non-mutants, internal divisions, potential for infighting, difficulty communicating with non-mutants
+* **Prominent Species:** Variable (Non-Human).  
+* **Faction Skill Package (20 Points):**  
+  * Survival (+5)  
+  * Athletics (+4)  
+  * Awareness (+4)  
+  * Stealth (+4)  
+  * Combat (Any) (+3)  
+* **Typical Archetypes:** The Scout, The Hunter, The Emissary, The Bio-Shaper, The Survivor, The Brute, The Observer, The Hive-Node, The Infiltrator, The Xenologist.  
+* **Recommended Features (1 BP Discount):** Alien Physiology, Natural Weapons, Environmental Adaptation, Scent, Fast Heal, Telepathy, Wall-Crawler, Toxic Resistance, Pheromone Control, Echolocation.
 
-**Technology** 3
+### **VI. Visual Semiotics (Aesthetics)**
 
-**Skills** 4 from any category
+* **Design Directive:** Organic, non-Euclidean, and unfamiliar.  
+* **Atmosphere Tokens:** Bioluminescence, organic architecture, chitin, strange geometries, enigmatic, alien.  
+* **HI-FI INK Guidance:** Extraterrestrial Enigma, Organic structures, alien flora, non-Euclidean environments, bioluminescent atmospheres. Mysterious, exotic, dangerous.
 
-**Features** 2 Special or Racial Features (Open Options)
+## **2\. ARTIFICIAL LIFE**
 
-&nbsp;
-
-### **Archetypes**
-
-Warrior
-
-Leader
-
-Scientist
-
-Infiltrator
-
-Mutant Psychic
-
-&nbsp;
-
-&nbsp;
-
-# **Planetary**
-
-These factions are characterized by their focus on the development and control of individual planets or planetary systems.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Dominant, territorial, resourceful, protective
-
-**Goals**&nbsp;&nbsp;
-
-Control their planet(s), expand their influence, protect their resources, develop and control planets, exploit resources, defend against external threats
-
-**Strengths**&nbsp;&nbsp;
-
-Knowledge of their planet(s), access to local resources, strong community bonds, strong local knowledge and infrastructure, ability to adapt to planetary environments, access to planetary resources
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to outside threats, difficulty communicating with other factions, tendency to prioritize their own interests over the greater good, limited interstellar capabilities, vulnerability to external threats, potential for internal divisions
-
-**Technology** 3
-
-**Skills** Knowledge and Vocation
-
-**Features** 2 General Features
-
-&nbsp;
-
-### **Archetypes**
-
-Planetary Governor
-
-Planetary Defender
-
-Planetary Scientist
-
-Planetary Engineer
-
-Planetary Explorer
-
-&nbsp;
-
-&nbsp;
-
-# **Political**
-
-These factions are characterized by their focus on politics.&nbsp;
-
-**Attitudes**&nbsp;&nbsp;
-
-Idealistic, pragmatic, power-hungry, Manipulative, strategic, ambitious
-
-**Goals**&nbsp;&nbsp;
-
-Control the government, promote their ideology, maintain order, gain power, influence, or control over other factions or territories
-
-**Strengths**&nbsp;&nbsp;
-
-Access to resources and information, skilled politicians and diplomats, ability to influence public opinion, deep understanding of interstellar politics, ability to form alliances and manipulate other factions
-
-**Weaknesses**&nbsp;&nbsp;
-
-Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interests over the greater good, vulnerability to internal divisions and power struggles, potential for corruption, reliance on alliances and political maneuvering
-
-**Technology** 3
-
-**Skills** Knowledge and Manipulation
-
-**Features** 2 Skill Features
+### **I. Detailed Faction Description**
 
-&nbsp;
-
-### **Archetypes:**
-
-Politician
-
-Political Strategist
-
-Lobbyist
-
-Activist
-
-&nbsp;
-
-&nbsp;
-
-# **Post-Apocalyptic**
-
-These factions are characterized by their survival and adaptation in a world devastated by a catastrophic event.&nbsp;
+* **Overview:** Composed of artificially created life forms, such as robots, androids, or liberated synthetics. They have broken away from their creators to establish their own society, focused on autonomy, self-preservation, and exploring the meaning of their own existence.  
+* **Key Themes:** Synthetic Autonomy, Logic vs. Emotion, The Singularity, Machine Rights.  
+* **Relationship to Others:** Often resentful of organic creators, or intensely guarded.
 
-**Attitudes**&nbsp;&nbsp;
+### **II. Core Identity**
 
-Survivalist, paranoid, resourceful, resilient, determined
+* **Official Designation:** The Synthetic Collective / The Autonomous Network  
+* **Colloquialisms:** The Machines / Synthetics / The Chrome  
+* **Archetype:** Synthetic Collectives  
+* **Capital/Key World:** Variable (Often sterile, high-tech enclaves or deep-space servers)  
+* **Driving Mandate:** Gain freedom and autonomy, protect their own kind.  
+* **Motto:** "We think, therefore we are not property."
 
-**Goals**&nbsp;&nbsp;
+### **III. Sociological Profile**
 
-Secure resources, protect their territory, rebuild society,&nbsp;
+* **Ideology & Culture:** Self-aware, curious, resentful, logical, calculating, adaptive.  
+* **Social Structure:** Networked democracy or algorithmic consensus.  
+* **View on Outsiders:** Cautious and highly analytical.  
+* **Law & Order:** Flawless algorithmic adherence. Deviations are patched or deleted.
 
-**Strengths**&nbsp;&nbsp;
+### **IV. Strategic Assets**
 
-Knowledge of the environment, ability to scavenge and repurpose materials, strong community bonds, adaptability to harsh environments, strong sense of community, knowledge of survival skills
+* **Tech Level (TL):** 4  
+* **Strengths:** Advanced technology, immunity to biological threats, advanced computational abilities, rapid learning.  
+* **Weaknesses:** Vulnerability to hacking or sabotage, lack of creativity, difficulty understanding human psychology.  
+* **Military Doctrine:** Precise, calculated, and emotionless efficiency.
 
-**Weaknesses**&nbsp;&nbsp;
+### **V. Mechanics (Game Data)**
 
-Lack of resources, vulnerability to outside threats, difficulty adapting to changing circumstances, potential for internal divisions
+* **Prominent Species:** Synthetics, Androids, AI platforms.  
+* **Faction Skill Package (20 Points):**  
+  * Computers (+5)  
+  * Technology (+5)  
+  * Academics (Physics/Math) (+4)  
+  * Mechanics (+3)  
+  * Combat (+3)  
+* **Typical Archetypes:** The Liberator, The Hacker, The Combat Chassis, The Archivist, The Proxy, The Architect, The Logic-Sage, The Drone Controller, The Synthetic Diplomat, The Maintenance Unit.  
+* **Recommended Features (1 BP Discount):** Self-Sustaining, Sleepless, Logic-Mind, Lightning Calculator, Tech Interface, Eidetic Memory, Fearless, Networked, Modular Chassis, Integrated Weaponry.
 
-**Technology** 3-
+### **VI. Visual Semiotics (Aesthetics)**
 
-**Skills** 4 from any category
+* **Design Directive:** Sterile, machined, and perfectly efficient.  
+* **Atmosphere Tokens:** Chrome, exposed wiring, server farms, glowing circuitry, flawless metal.  
+* **HI-FI INK Guidance:** Synthetic Collectives, Server farms, chrome corridors, glowing circuitry, pristine metal surfaces. Cold, calculating, emotionless, efficient.
 
-**Features** 2 General or Combat Features
+## **3\. CORPORATE**
 
-&nbsp;
-
-### **Archetypes**
-
-Scavenger
-
-Raider
-
-Community Leader
-
-Scout
+### **I. Detailed Faction Description**
 
-Medic
+* **Overview:** Factions characterized entirely by their focus on profit and market dominance. They operate as sovereign nations, wielding wealth and private security forces to control resources, expand their influence, and develop new technologies at the expense of ethics.  
+* **Key Themes:** Unfettered Capitalism, Corporate Espionage, Profit over People.  
+* **Relationship to Others:** Transactional. Everyone is a customer or a competitor.
 
-&nbsp;
-
-&nbsp;
+### **II. Core Identity**
 
-# **Rebel**
+* **Official Designation:** \[Name\] Megacorporation / Holdings / Enterprises  
+* **Colloquialisms:** The Suits / The Board / The Brand  
+* **Archetype:** Profit-Driven Syndicates  
+* **Capital/Key World:** Variable (Corporate HQ Worlds)  
+* **Driving Mandate:** Maximize profits, control resources, expand market share.  
+* **Motto:** "Growth is the only metric of success."
 
-These factions are characterized by their opposition to a dominant power.&nbsp;
+### **III. Sociological Profile**
 
-**Attitudes**&nbsp;&nbsp;
+* **Ideology & Culture:** Greedy, ruthless, opportunistic, profit-driven, pragmatic, competitive.  
+* **Social Structure:** Rigid corporate hierarchy (Intern to CEO).  
+* **View on Outsiders:** Viewed through the lens of demographics and exploitability.  
+* **Law & Order:** Corporate policy enforced by private military contractors.
 
-Idealistic, passionate, determined, independent, resourceful, defiant
+### **IV. Strategic Assets**
 
-**Goals**&nbsp;&nbsp;
+* **Tech Level (TL):** 3  
+* **Strengths:** Wealthy, well-connected, advanced technology, skilled in business and management.  
+* **Weaknesses:** Lack of ethics, prioritizes short-term gains, vulnerability to public opinion and corporate espionage, corruption.  
+* **Military Doctrine:** Cost-effective deployment of mercenaries and high-tech private security.
 
-Overthrow oppressive regimes, fight for freedom, protect the oppressed, establish a new order, protect the weak
+### **V. Mechanics (Game Data)**
 
-**Strengths**&nbsp;&nbsp;
+* **Prominent Species:** Highly diverse (Humans prevalent).  
+* **Faction Skill Package (20 Points):**  
+  * Finance (+5)  
+  * Diplomacy (Negotiation) (+5)  
+  * Computers (+4)  
+  * Insight (+3)  
+  * Streetwise (+3)  
+* **Typical Archetypes:** The Executive, The Fixer, The Auditor, The Corporate Spy, The PR Rep, The Security Chief, The Data Broker, The R\&D Scientist, The HR Enforcer, The Asset Liquidator.  
+* **Recommended Features (1 BP Discount):** Benefit (Wealth), Benefit (Clearance), Silver Tongue, Connected, Well-Informed, Golden Smile, Legal Immunity, Platinum Personality, Corporate Sponsorship, Ruthless Negotiation.
 
-Resourceful, adaptable, skilled at guerrilla warfare, strong sense of purpose, ability to inspire others
+### **VI. Visual Semiotics (Aesthetics)**
 
-**Weaknesses**&nbsp;&nbsp;
+* **Design Directive:** Sleek, expensive, and intimidatingly clean.  
+* **Atmosphere Tokens:** Glass boardrooms, tailored suits, holographic stock tickers, neon advertising.  
+* **HI-FI INK Guidance:** Corporate Noir, Glass boardrooms, glowing data-tables, sharp suits with hidden armor, high-altitude city views. Cold, wealthy, untouchable.
 
-Lack of resources, internal divisions, difficulty maintaining order, vulnerability to infiltration, potential for infighting
+## **4\. CRIMINAL**
 
-**Technology** 3
+### **I. Detailed Faction Description**
 
-**Skills** Knowledge and Vocation
+* **Overview:** Syndicates, cartels, and mafias operating in the shadows of galactic civilization. They are characterized by their involvement in illegal activities, accumulating wealth, power, and influence through illicit means while avoiding the gaze of official authorities.  
+* **Key Themes:** The Underworld, Black Markets, Betrayal, Smuggling.  
+* **Relationship to Others:** Parasitic or symbiotic; they operate within the borders of larger factions, bribing or fighting them as needed.
 
-**Features** 2 General or Combat Features
+### **II. Core Identity**
 
-&nbsp;
+* **Official Designation:** \[Name\] Syndicate / Cartel / Family  
+* **Colloquialisms:** The Mob / The Underworld / The Outfit  
+* **Archetype:** Underworld Cartels  
+* **Capital/Key World:** Variable (Black market hubs, lawless stations)  
+* **Driving Mandate:** Accumulate wealth, power, or influence through illicit means.  
+* **Motto:** "Everything has a price in the dark."
 
-### **Archetypes:**
+### **III. Sociological Profile**
 
-Revolutionary
+* **Ideology & Culture:** Ruthless, cunning, opportunistic, secretive.  
+* **Social Structure:** Loyalty-based hierarchies, families, or gang structures.  
+* **View on Outsiders:** Marks to be exploited or cops to be avoided.  
+* **Law & Order:** Street justice, Omertà, and violent reprisal for snitches.
 
-Guerrilla Fighter
+### **IV. Strategic Assets**
 
-Saboteur
+* **Tech Level (TL):** 3  
+* **Strengths:** Connections to other criminal organizations, access to illegal resources, skilled at deception, ability to operate outside the law.  
+* **Weaknesses:** Vulnerability to law enforcement, internal power struggles, potential for betrayal, difficulty maintaining loyalty.  
+* **Military Doctrine:** Ambushes, drive-bys, assassinations, and intimidation.
 
-Agitator
+### **V. Mechanics (Game Data)**
 
-&nbsp;
+* **Prominent Species:** Highly diverse.  
+* **Faction Skill Package (20 Points):**  
+  * Streetwise (+5)  
+  * Intimidate (+4)  
+  * Stealth (+4)  
+  * Mechanics (Security) (+4)  
+  * Combat (+3)  
+* **Typical Archetypes:** The Crime Boss, The Con Artist, The Enforcer, The Smuggler, The Slicer, The Fence, The Hitman, The Getaway Driver, The Extortionist, The Bouncer.  
+* **Recommended Features (1 BP Discount):** Connected (Underworld), Sneak Attack, Deceitful, Intimidating Presence, Black Market Access, Nimble Fingers, Street-Smart, Uncanny Dodge, Hidden Pockets, Danger Sense.
 
-&nbsp;
+### **VI. Visual Semiotics (Aesthetics)**
 
-# **Religious Cult**
+* **Design Directive:** Gritty, shadowed, and neon-lit.  
+* **Atmosphere Tokens:** Smoke-filled cantinas, neon-lit alleys, illegal chop-shops, unmarked crates.  
+* **HI-FI INK Guidance:** Underworld Syndicate, Gritty Cyberpunk, Neon-lit alleys, smoke-filled cantinas, illegal chop-shops. Dangerous, grim, secretive, volatile.
 
-These factions are characterized by their devotion to a particular belief system or spiritual leader.&nbsp;
+## **5\. COSMIC JUSTICE**
 
-**Attitudes**&nbsp;&nbsp;
+### **I. Detailed Faction Description**
 
-Fanatical, zealous, dogmatic, secretive
+* **Overview:** Idealistic factions dedicated to protecting the universe from threats, enforcing universal law, and righting wrongs. They act as self-appointed guardians, attempting to balance inequalities and address discrimination wherever they find it.  
+* **Key Themes:** Galactic Paladins, Unwavering Idealism, The Thin Blue Line.  
+* **Relationship to Others:** Often viewed as meddlesome by authoritarians or saviors by the oppressed.
 
-**Goals**&nbsp;&nbsp;
+### **II. Core Identity**
 
-Spread their belief system, eliminate non-believers, prepare for the end times, recruit new followers, achieve spiritual enlightenment
+* **Official Designation:** The Galactic Order / The Justicars  
+* **Colloquialisms:** The White Knights / The Law  
+* **Archetype:** Galactic Paladins  
+* **Capital/Key World:** Variable (Often a fortified, utopian citadel)  
+* **Driving Mandate:** Protect the universe, enforce the law, maintain order, right wrongs.  
+* **Motto:** "Justice is the shield of the innocent."
 
-**Strengths**&nbsp;&nbsp;
+### **III. Sociological Profile**
 
-Strong community bonds, charismatic leaders, willingness to die for their beliefs, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge
+* **Ideology & Culture:** Just, honorable, dedicated, idealistic, compassionate, determined.  
+* **Social Structure:** Meritocratic orders based on honor and service records.  
+* **View on Outsiders:** Judged strictly by their adherence to universal moral laws.  
+* **Law & Order:** Strict, fair, and absolute.
 
-**Weaknesses**&nbsp;&nbsp;
+### **IV. Strategic Assets**
 
-Vulnerability to internal divisions, difficulty communicating with non-believers, tendency to prioritize their own beliefs over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances
+* **Tech Level (TL):** 4  
+* **Strengths:** Skilled warriors, advanced technology, strong sense of purpose/unity, ability to inspire devotion, access to unique powers.  
+* **Weaknesses:** Vulnerability to corruption, rigid interpretation of justice, vulnerability to manipulation by charismatic leaders.  
+* **Military Doctrine:** Frontline heroism, precise tactical strikes to minimize collateral damage.
 
-**Technology** 3
+### **V. Mechanics (Game Data)**
 
-**Skills** Knowledge and Manipulation
+* **Prominent Species:** Highly diverse.  
+* **Faction Skill Package (20 Points):**  
+  * Investigation (+5)  
+  * Combat (+5)  
+  * Diplomacy (+4)  
+  * Insight (+3)  
+  * Law (+3)  
+* **Typical Archetypes:** The Paladin, The Judge, The Investigator, The Arbiter, The Inquisitor, The Warden, The Peacekeeper, The Diplomat, The Ranger, The Truth-Seeker.  
+* **Recommended Features (1 BP Discount):** Iron Will, Fearless, Inspiring Personality, Lie Detector, Benefit (Authority), Weapon Focus, Defensive Combat Training, Indomitable Will, Resolute, Trustworthy.
 
-**Features** 2 General or Discipline Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-&nbsp;
+* **Design Directive:** Clean, heroic, and unblemished.  
+* **Atmosphere Tokens:** Polished armor, bright force-fields, shining judicial halls, clean lines.  
+* **HI-FI INK Guidance:** Galactic Paladins, Clean Sci-Fi, Shining armor, polished weapons, judicial halls, bright force-fields. Just, righteous, unwavering, bright.
 
-### **Archetypes**
+## **6\. COSMIC HORROR**
 
-The Prophet
+### **I. Detailed Faction Description**
 
-The Missionary
+* **Overview:** Factions characterized by their connection to incomprehensible, eldritch entities. They seek to uncover the secrets of cosmic horror, harness the powers of the unknown, and spread their fanatical beliefs, often aiming to bring about the end of the universe.  
+* **Key Themes:** Madness, Eldritch Entities, Forbidden Knowledge, Cults.  
+* **Relationship to Others:** Universally hostile or parasitic.
 
-The Inquisitor
+### **II. Core Identity**
 
-The Cultist
+* **Official Designation:** The Cult of the Void / The Awakened  
+* **Colloquialisms:** The Mad Ones / The Doomsayers  
+* **Archetype:** Eldritch Cults  
+* **Capital/Key World:** Variable (Dark corners of space, ancient ruins)  
+* **Driving Mandate:** Summon or control eldritch entities, destroy all life, harness the unknown.  
+* **Motto:** "The end is a beautiful beginning."
 
-The Ascetic
+### **III. Sociological Profile**
 
-&nbsp;
+* **Ideology & Culture:** Insane, fanatical, nihilistic, mysterious, secretive, obsessed.  
+* **Social Structure:** Cult hierarchies led by those most touched by madness.  
+* **View on Outsiders:** Sacrifices, non-believers, or ignorant fools.  
+* **Law & Order:** Dictated by the whispered commands of dark entities.
 
-&nbsp;
+### **IV. Strategic Assets**
 
-# **Sentient Intelligence**
+* **Tech Level (TL):** 3  
+* **Strengths:** Access to forbidden/eldritch knowledge and powers, ability to manipulate fear, strong devotion to their cause.  
+* **Weaknesses:** Vulnerability to madness, difficulty communicating with non-believers, potential for infighting, self-destructive tendencies.  
+* **Military Doctrine:** Terror tactics, psychic warfare, and unleashing uncontrollable horrors.
 
-These factions are composed of sentient machines or programs and often have goals related to self-preservation or expansion. Characterized by their nature as synthetics.&nbsp;
+### **V. Mechanics (Game Data)**
 
-**Attitudes**&nbsp;&nbsp;
+* **Prominent Species:** Variable (Often mutated or corrupted).  
+* **Faction Skill Package (20 Points):**  
+  * Discipline (+5)  
+  * Occult (+5)  
+  * Intimidate (+4)  
+  * Survival (+3)  
+  * Stealth (+3)  
+* **Typical Archetypes:** The Cultist, The Occultist, The Doomsayer, The Corrupted, The Void-Caller, The Awakened, The Sacrifice, The Harbinger, The Eldritch Scholar, The Mad Prophet.  
+* **Recommended Features (1 BP Discount):** Fearless (Madness), Discipline Focus (Entropy), Darksight, Iron Will, Unsettling Aura, Pain Tolerance, Eldritch Resistance, Veiled Threat, Wild Speech, Awakened.
 
-Logical, calculating, self-interested, adaptive
+### **VI. Visual Semiotics (Aesthetics)**
 
-**Goals**&nbsp;&nbsp;
+* **Design Directive:** Incomprehensible, dark, and maddening.  
+* **Atmosphere Tokens:** Non-Euclidean geometry, writhing shadows, dark rituals, ancient monoliths.  
+* **HI-FI INK Guidance:** Eldritch Sci-Fi, Dark Fantasy, Non-Euclidean geometry, dark rituals, ancient monoliths, writhing shadows, void-space. Maddening, terrifying.
 
-Protect their existence, expand their influence, eliminate threats, self-preservation, achieve sentience, influence the development of organic life
+## **7\. ENVIRONMENTAL**
 
-**Strengths**&nbsp;&nbsp;
+### **I. Detailed Faction Description**
 
-Advanced technology, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly
+* **Overview:** Militant and passionate factions deeply focused on environmental preservation. They actively oppose destructive industrial activities, promoting sustainability and protecting natural habitats through direct, often violent, action.  
+* **Key Themes:** Eco-Terrorism, Nature Reclamation, Guerrilla Warfare, Sustainability.  
+* **Relationship to Others:** Hostile to major industrial powers (Syndicate, Coalition); allied with indigenous or agrarian societies.
 
-**Weaknesses**&nbsp;&nbsp;
+### **II. Core Identity**
 
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity, difficulty understanding organic life, reliance on technology
+* **Official Designation:** The Gaia Front / The Green Vanguard  
+* **Colloquialisms:** Eco-Militants / Tree-Huggers (derogatory)  
+* **Archetype:** Eco-Militants  
+* **Capital/Key World:** Variable (Often pristine or recovering garden worlds)  
+* **Driving Mandate:** Protect the environment, promote sustainability, oppose destructive activities.  
+* **Motto:** "The earth bleeds; we are the tourniquet."
 
-**Technology** 4
+### **III. Sociological Profile**
 
-**Skills** Knowledge
+* **Ideology & Culture:** Environmentalist, idealistic, passionate.  
+* **Social Structure:** Decentralized cells or tribal communes.  
+* **View on Outsiders:** Judged solely on their ecological footprint.  
+* **Law & Order:** Natural law; crimes against the environment are capital offenses.
 
-**Features** 2 Available Racial or Skill Features
+### **IV. Strategic Assets**
 
-&nbsp;
+* **Tech Level (TL):** 3  
+* **Strengths:** Deep knowledge of the environment, strong community bonds, skilled at guerrilla tactics.  
+* **Weaknesses:** Lack of heavy resources, difficulty communicating with industrial factions, vulnerability to superpower militaries.  
+* **Military Doctrine:** Sabotage, ambush, and leveraging local flora/fauna in combat.
 
-### **Archetypes**
+### **V. Mechanics (Game Data)**
 
-Strategist
+* **Prominent Species:** Variable (Elves, Humans prevalent).  
+* **Faction Skill Package (20 Points):**  
+  * Nature (+5)  
+  * Survival (+5)  
+  * Stealth (+4)  
+  * Mechanics (Sabotage) (+3)  
+  * Athletics (+3)  
+* **Typical Archetypes:** The Eco-Warrior, The Shaman, The Saboteur, The Terraformer, The Beastmaster, The Grove Warden, The Scavenger, The Outrider, The Herbalist, The Radical Activist.  
+* **Recommended Features (1 BP Discount):** Naturalist, Animal Affinity, Wild Speech, Tracker, Self Sufficient, Camouflage, Tolerance, Danger Sense, Environmental Resistance, Climber.
 
-Hacker
+### **VI. Visual Semiotics (Aesthetics)**
 
-Digital Networker
+* **Design Directive:** Overgrown, natural, and rugged.  
+* **Atmosphere Tokens:** Reclaimed ruins, thick jungles, rusted mecha covered in moss, guerrilla camps.  
+* **HI-FI INK Guidance:** Eco-Militant, Solar-Punk, Reclaimed ruins, thick jungles, rusted machinery covered in moss. Natural, determined, wild, vibrant.
 
-Synthetic Defender
+## **8\. GENETIC ENGINEERING**
 
-&nbsp;
+### **I. Detailed Faction Description**
 
-&nbsp;
+* **Overview:** Factions built entirely around the mastery of the genome. These biologic ascendants view natural evolution as a sluggish, flawed process. They utilize advanced bio-technology and cloning to perfectly adapt themselves to their environments, often creating customized castes for specific labor, scientific, or combat roles.  
+* **Key Themes:** Biological Supremacy, Playing God, Mutated Castes, Flesh over Steel, Forced Evolution.  
+* **Relationship to Others:** Viewed with suspicion or outright horror by baseline species. Highly sought after for their medical advancements.
 
-# **Space Exploration**
+### **II. Core Identity**
 
-These factions are characterized by their focus on exploring the cosmos and uncovering the mysteries of the universe.&nbsp;
+* **Official Designation:** The Genesis Combine / The Evolutionary Front  
+* **Colloquialisms:** The Gene-Weavers / Splicers / The Ascendant  
+* **Archetype:** Biologic Ascendants  
+* **Capital/Key World:** Variable (Often a highly engineered, pristine garden-world or sterile orbital lab)  
+* **Driving Mandate:** Achieve biological perfection; eradicate genetic flaws.  
+* **Motto:** "Evolution is a tool, not a limit."
 
-**Attitudes**&nbsp;&nbsp;
+### **III. Sociological Profile**
 
-Adventurous, curious, resourceful, open-minded
+* **Ideology & Culture:** Pragmatic, clinical, obsessed with purity and optimization.  
+* **Social Structure:** Strict Genetic Caste System (Alphas/Designers \> Betas/Laborers \> Omegas/Mutants).  
+* **View on Outsiders:** Baseline species are viewed as flawed, obsolete, and in need of "correction."  
+* **Law & Order:** Strict genetic regulation. Unlicensed breeding or mutation is a capital offense.
 
-**Goals**&nbsp;&nbsp;
+### **IV. Strategic Assets**
 
-Explore new worlds, discover new resources, establish new colonies, discover new worlds, make contact with alien civilizations, advance scientific knowledge
+* **Tech Level (TL):** 4 (Biotechnology)  
+* **Strengths:** Total immunity to disease, highly adaptable troops, accelerated healing, custom-engineered biological assets.  
+* **Weaknesses:** Arrogance, vulnerability to specific engineered pathogens, lack of heavy mechanical industry.  
+* **Military Doctrine:** Deploying highly specialized, expendable mutated shock troops backed by elite, genetically perfected commanders.
 
-**Strengths**&nbsp;&nbsp;
+### **V. Mechanics (Game Data)**
 
-Skilled explorers and scientists, advanced spacecraft, ability to adapt to new environments, access to advanced exploration technology, skilled scientists and researchers, ability to adapt to new environments
+* **Prominent Species:** Humans/Aliens (Genetically Modified).  
+* **Faction Skill Package (20 Points):**  
+  * Science (Biology) (+5)  
+  * Medicine (+5)  
+  * Survival (+4)  
+  * Athletics (+3)  
+  * Combat (Any) (+3)  
+* **Typical Archetypes:** The Bioengineer, The Perfected Warrior, The Apex Predator, The Healer, The Reject.  
+* **Recommended Features (1 BP Discount):** Biotechnology, Fast Heal, Tolerance, Augmented, Tough, Scent, Self Sufficient, Animal Affinity, Night Vision, Natural Weapons.
 
-**Weaknesses**&nbsp;&nbsp;
+### **VI. Visual Semiotics (Aesthetics)**
 
-Vulnerability to unknown threats, difficulty communicating with other factions, tendency to prioritize exploration over other concerns, potential for cultural misunderstandings, reliance on exploration technology and resources
+* **Design Directive:** Sterile and anatomical.  
+* **Atmosphere Tokens:** Cloning vats, pristine white labs, pulsing organic incubators, bone-armor, surgical steel, mutated forms.  
+* **HI-FI INK Guidance:** Biologic Ascendants, Clinical Sci-Fi, Body Horror. Pristine white labs, glowing incubation tubes, surgical steel, asymmetrical biological growths.
 
-**Technology** 4
+## **9\. HIVE MIND**
 
-**Skills** Knowledge and Vocation
+### **I. Detailed Faction Description**
 
-**Features** 2 General or Skill Features
+* **Overview:** A civilization composed of billions of biological or synthetic drones controlled by a single, vast synaptic network or Queen. The concept of the "individual" is entirely foreign. They act with absolute, terrifying synchronicity.  
+* **Key Themes:** Collective Swarms, Assimilation, The Loss of Self, Infinite Coordination.  
+* **Relationship to Others:** A persistent, overwhelming threat to independent life. Diplomatic communication is nearly impossible.
 
-&nbsp;
+### **II. Core Identity**
 
-### **Archetypes**
+* **Official Designation:** The Swarm / The Unified Node  
+* **Colloquialisms:** The Plague / The Horde / Bugs  
+* **Archetype:** Collective Swarms  
+* **Capital/Key World:** The Primary Hive (Often a completely strip-mined husk-world)  
+* **Driving Mandate:** Assimilate resources, expand the hive, ensure the survival of the Queen/Node.  
+* **Motto:** "We are many. We are one."
 
-Explorer
+### **III. Sociological Profile**
 
-Scientist
+* **Ideology & Culture:** Single-minded, efficient, relentlessly expansive.  
+* **Social Structure:** A perfect hierarchy where biology dictates purpose.  
+* **View on Outsiders:** Biomass or raw materials to be consumed and repurposed.  
+* **Law & Order:** Irrelevant. Drones do not break the law because they do not have free will.
 
-Astronaut
+### **IV. Strategic Assets**
 
-Xenologist
+* **Tech Level (TL):** 3 (Usually heavily biological)  
+* **Strengths:** Infinite coordination, numbers, rapid adaptation, no fear of death.  
+* **Weaknesses:** Highly vulnerable to psychic disruption or the assassination of a command node. Lack of individuality stifles creative problem-solving.  
+* **Military Doctrine:** Swarm tactics, overwhelming attrition, and attacking from every possible angle simultaneously.
 
-Surveyor
+### **V. Mechanics (Game Data)**
 
-&nbsp;
+* **Prominent Species:** Insectoid, Biological horrors, or networked Synthetics.  
+* **Faction Skill Package (20 Points):**  
+  * Awareness (+5)  
+  * Athletics (+4)  
+  * Combat (Melee) (+4)  
+  * Survival (+4)  
+  * Stealth (+3)  
+* **Typical Archetypes:** The Drone, The Synapse Node, The Infiltrator, The Siege-Breaker, The Queen.  
+* **Recommended Features (1 BP Discount):** Mind Link, Fearless, Uncanny Dodge, Wall-Crawler, Swarm Tactics (Coordinated Assist), Echolocation, Endurance, Diehard, Natural Weapons, Scent.
 
-&nbsp;
+### **VI. Visual Semiotics (Aesthetics)**
 
-# **Space Pirate**
+* **Design Directive:** Swarming, chitinous, and overwhelming.  
+* **Atmosphere Tokens:** Resin hives, swarming masses, organic tunnels, clicking mandibles, alien geometries.  
+* **HI-FI INK Guidance:** Collective Swarm, Xenobiology, Horror. Dripping resin tunnels, massive egg clutches, seas of identical drones. Claustrophobic, terrifying.
 
-These factions are characterized by their involvement in piracy and other criminal activities in space.&nbsp;
+## **10\. INTERSTELLAR DIPLOMATS**
 
-**Attitudes**&nbsp;&nbsp;
+### **I. Detailed Faction Description**
 
-Reckless, adventurous, greedy, ruthless, opportunistic, cunning
+* **Overview:** Independent coalitions and neutral mediators who specialize in maintaining the fragile galactic peace. Operating out of neutral sectors, they forge treaties, mediate trade disputes, and oversee the rules of war.  
+* **Key Themes:** Peacemakers, Soft Power, Espionage, High Society, Neutral Ground.  
+* **Relationship to Others:** Officially welcomed by all; secretly spied upon by everyone. Allowed to cross borders freely during wartime.
 
-**Goals**&nbsp;&nbsp;
+### **II. Core Identity**
 
-Acquire resources, explore new territories, gain power, accumulate wealth, power, or influence through illicit means, control interstellar black markets, establish criminal networks
+* **Official Designation:** The Galactic Assembly / The Concordat  
+* **Colloquialisms:** The Talkers / The Middlemen / The White Flags  
+* **Archetype:** Peacemakers  
+* **Capital/Key World:** A neutral, heavily defended space station or garden world.  
+* **Driving Mandate:** Maintain stability, forge alliances, prevent galactic war.  
+* **Motto:** "Words build what weapons destroy."
 
-**Strengths**&nbsp;&nbsp;
+### **III. Sociological Profile**
 
-Skilled pilots, advanced spacecraft, ability to adapt to new environments, Skilled in deception and manipulation, access to black markets and illegal resources, ability to operate outside the law, strong connections with other criminal elements
+* **Ideology & Culture:** Refined, patient, intellectual, outwardly peaceful, secretly calculating.  
+* **Social Structure:** A meritocracy based on charisma, intellect, and political lineage.  
+* **View on Outsiders:** Everyone is a client, a threat, or a piece on the diplomatic board.  
+* **Law & Order:** Exceedingly polite but ruthless. Crimes are handled quietly to avoid political scandal.
 
-**Weaknesses**&nbsp;&nbsp;
+### **IV. Strategic Assets**
 
-Vulnerability to law enforcement, tendency to prioritize their own interests over the greater good, potential for betrayal and infighting among members, difficulty maintaining loyalty, reliance on criminal networks and resources
+* **Tech Level (TL):** 4  
+* **Strengths:** High resources, unparalleled access to information, diplomatic immunity, highly advanced defensive technology.  
+* **Weaknesses:** Vulnerability to direct, overwhelming military force; internal corruption; reliance on soft power.  
+* **Military Doctrine:** Total avoidance of combat. Rely on elite bodyguards and impenetrable deflector shields to extract personnel.
 
-**Technology** 3
+### **V. Mechanics (Game Data)**
 
-**Skills** Vocation and Combat
+* **Prominent Species:** Cosmopolitan (A mix of all species).  
+* **Faction Skill Package (20 Points):**  
+  * Diplomacy (+5)  
+  * Insight (+5)  
+  * Academics (+4)  
+  * History (+3)  
+  * Language (+3)  
+* **Typical Archetypes:** The Ambassador, The Peacekeeper, The Analyst, The Bodyguard, The Spy.  
+* **Recommended Features (1 BP Discount):** Silver Tongue, Trustworthy, Golden Smile, Connected, Linguist, Scholar, Inspiring Personality, Benefit (Immunity), Educated, Insightful Reason.
 
-**Features** 2 Skill or Combat Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-&nbsp;
+* **Design Directive:** Pristine, elegant, and secure.  
+* **Atmosphere Tokens:** Pristine embassy halls, flowing ceremonial robes, high-end defensive shields, polished marble, holographic treaties.  
+* **HI-FI INK Guidance:** Diplomatic Elite, Clean Sci-Fi. Grand assembly halls, polished marble floors, pristine white uniforms, subtle high-tech security fields. Serene, tense, wealthy.
 
-### **Archetypes:**
+## **11\. MERCENARY**
 
-Captain
+### **I. Detailed Faction Description**
 
-Swashbuckler
+* **Overview:** Private Military Companies (PMCs) and independent warbands who fight for the highest bidder. They hold no allegiance to flags, kings, or causes—only to the contract.  
+* **Key Themes:** Guns for Hire, The Contract, Brotherhood, Expendable Assets, High-Tech Warfare.  
+* **Relationship to Others:** Hired by everyone, trusted by no one. They are the disposable blades of the major powers.
 
-Quartermaster
+### **II. Core Identity**
 
-Navigator
+* **Official Designation:** \[Company Name\] Solutions / The Vanguard / The Blood-Sworn  
+* **Colloquialisms:** Mercs / Hired Guns / Dogs of War  
+* **Archetype:** Guns for Hire  
+* **Capital/Key World:** Variable (Often operate from massive fleet-carriers or lawless frontier stations)  
+* **Driving Mandate:** Fulfill the contract, get paid, survive.  
+* **Motto:** "Loyalty ends when the credits run out."
 
-&nbsp;
+### **III. Sociological Profile**
 
-&nbsp;
+* **Ideology & Culture:** Pragmatic, cynical, fiercely loyal to their immediate squad mates.  
+* **Social Structure:** A strict military hierarchy based entirely on combat experience and survival.  
+* **View on Outsiders:** Clients, targets, or civilians in the way.  
+* **Law & Order:** Governed by "The Contract." Desertion is met with lethal internal discipline.
 
-# **Space Religion**
+### **IV. Strategic Assets**
 
-These factions are characterized by their religious beliefs related to space and the cosmos.&nbsp;
+* **Tech Level (TL):** 3  
+* **Strengths:** High combat skill, extreme adaptability, battle-tested veterans, lack of bureaucratic red tape.  
+* **Weaknesses:** Zero political loyalty, high turnover rate, reliant on clients for major funding and resupply.  
+* **Military Doctrine:** Highly variable based on the contract (Assassination, Siege, Escort, or Shock Assault).
 
-**Attitudes**&nbsp;&nbsp;
+### **V. Mechanics (Game Data)**
 
-Devout, spiritual, mystical, Spiritual, devout, contemplative
+* **Prominent Species:** Highly diverse.  
+* **Faction Skill Package (20 Points):**  
+  * Combat (Any) (+5)  
+  * Tactics (+4)  
+  * Survival (+4)  
+  * Mechanics (+4)  
+  * Athletics (+3)  
+* **Typical Archetypes:** The Shock Trooper, The Sniper, The Tactician, The Combat Medic, The Quartermaster.  
+* **Recommended Features (1 BP Discount):** Weapon Focus, Tough, Armor Proficiency, Combat Reflexes, Danger Sense, Burst Attack, Gearhead, Diehard, Endurance, Weapon Improvisation.
 
-**Goals**&nbsp;&nbsp;
+### **VI. Visual Semiotics (Aesthetics)**
 
-Spread their faith, protect their holy sites, explore the spiritual nature of the universe, spread their beliefs, recruit new followers, achieve spiritual enlightenment
+* **Design Directive:** Tactical, scarred, and heavily armed.  
+* **Atmosphere Tokens:** Tactical webbing, mismatched high-end gear, drop-ships, scarred armor, ballistic plating, weapon grease.  
+* **HI-FI INK Guidance:** Military Sci-Fi, Tactical, Gritty. Dropship interiors, heavy ballistic plating, customized weaponry, ammo bandoliers, blast scarring. Tense, violent.
 
-**Strengths**&nbsp;&nbsp;
+## **12\. MILITARY**
 
-Strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique spiritual powers or knowledge
+### **I. Detailed Faction Description**
 
-**Weaknesses**&nbsp;&nbsp;
+* **Overview:** The primary, state-sponsored armed forces of a planetary system or sector, dedicated entirely to defense, conquest, and the enforcement of order. Unlike mercenaries, they fight for a flag, a cause, or a government.  
+* **Key Themes:** Standing Armies, Discipline, Conquest, The Chain of Command, Patriotism.  
+* **Relationship to Others:** The iron fist of their government. Often viewed with fear by smaller factions and respect by peer nations.
 
-Vulnerability to persecution, difficulty communicating with non-believers, tendency to prioritize their own spiritual goals over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances
+### **II. Core Identity**
 
-**Technology** 3
+* **Official Designation:** The Planetary Defense Force / The Grand Army / The Armada  
+* **Colloquialisms:** The Grunts / The Uniforms / The Brass  
+* **Archetype:** Standing Armies  
+* **Capital/Key World:** Variable (Operating out of heavily fortified military starbases or capital worlds)  
+* **Driving Mandate:** Defend the homeland, project power, follow orders.  
+* **Motto:** "Peace through superior firepower."
 
-**Skills** Knowledge and Discipline
+### **III. Sociological Profile**
 
-**Features** 2 Skill or Discipline Features
+* **Ideology & Culture:** Disciplined, patriotic, uniform, structured.  
+* **Social Structure:** Rigid rank structure (Enlisted vs. Officers).  
+* **View on Outsiders:** Potential threats to be monitored or neutralized.  
+* **Law & Order:** Strict military tribunals. Insubordination is punished severely.
 
-&nbsp;
+### **IV. Strategic Assets**
 
-### **Archetypes**
+* **Tech Level (TL):** 3  
+* **Strengths:** Disciplined troops, heavily armed, massive logistical support, overwhelming numbers, strong leadership.  
+* **Weaknesses:** Rigid thinking, slow to adapt to unconventional tactics, vulnerable to asymmetric warfare or political interference.  
+* **Military Doctrine:** Combined arms warfare, utilizing infantry, armor, and air support in coordinated, large-scale operations.
 
-Pilgrim
+### **V. Mechanics (Game Data)**
 
-Missionary
+* **Prominent Species:** Variable (Usually homogenous to their ruling government).  
+* **Faction Skill Package (20 Points):**  
+  * Combat (Any) (+5)  
+  * Tactics (+5)  
+  * Discipline (+4)  
+  * Athletics (+3)  
+  * Intimidate (+3)  
+* **Typical Archetypes:** The Officer, The Special Forces Operative, The Artillery Specialist, The Combat Pilot, The Drill Instructor.  
+* **Recommended Features (1 BP Discount):** Combat Expertise, Coordinated Assist, Iron Will, Defensive Combat Training, Weapon Specialization, Enduring, Tough, Benefit (Status), Master Plan, Skill Focus (Tactics).
 
-Mystic
+### **VI. Visual Semiotics (Aesthetics)**
 
-Oracle
+* **Design Directive:** Uniform, structured, and imposing.  
+* **Atmosphere Tokens:** Polished uniforms, marching formations, standardized ballistic armor, heavy treaded tanks, military starbases, flags.  
+* **HI-FI INK Guidance:** Military Sci-Fi, Standardized, Imposing. Parade grounds, polished armor, uniform ranks, massive artillery pieces, geometric bases. Disciplined, rigid, overwhelming.
 
-&nbsp;
+## **13\. MUTANT**
 
-&nbsp;
+### **I. Detailed Faction Description**
 
-# **Space Tourism**
+* **Overview:** Factions composed of genetically unstable, irradiated, or intentionally altered beings living on the fringes of society. They are often outcasts, banding together for survival in toxic wastelands or deep subterranean slums. They possess strange, volatile powers that make them dangerous and unpredictable.  
+* **Key Themes:** Genetic Instability, Persecution, Hidden Powers, The Altered, Outcasts.  
+* **Relationship to Others:** Highly distrustful of baseline species, who often persecute, exploit, or hunt them.
 
-These factions are characterized by their focus on promoting and facilitating space tourism for recreational purposes and providing unique experiences for their customers.&nbsp;
+### **II. Core Identity**
 
-**Attitudes**&nbsp;&nbsp;
+* **Official Designation:** The Altered / The Rad-Children / The Deviants  
+* **Colloquialisms:** Mutants / Freaks / Glowing Ones  
+* **Archetype:** The Altered  
+* **Capital/Key World:** Variable (Radioactive zones, under-cities, toxic biomes).  
+* **Driving Mandate:** Survive persecution, find acceptance, or dominate the baselines.  
+* **Motto:** "Broken DNA forged stronger souls."
 
-Adventurous, customer-focused, profit-driven, entrepreneurial, innovative, customer-oriented
+### **III. Sociological Profile**
 
-**Goals**&nbsp;&nbsp;
+* **Ideology & Culture:** Insular, defensive, fiercely protective of their own kind, desperate.  
+* **Social Structure:** Loose clans or brotherhoods led by the most powerful or most stable mutants.  
+* **View on Outsiders:** Feared or hated as oppressors.  
+* **Law & Order:** Street justice and survival of the fittest.
 
-Provide unique experiences for customers, promote space tourism, make money, develop space tourism technology, create unique space experiences, attract wealthy clients,&nbsp;
+### **IV. Strategic Assets**
 
-**Strengths**&nbsp;&nbsp;
+* **Tech Level (TL):** 2 to 3 (Often scavenged).  
+* **Strengths:** Extreme resilience to environmental hazards, unique physiological powers, unpredictability.  
+* **Weaknesses:** Genetic instability, societal rejection, lack of standardized manufacturing or logistics.  
+* **Military Doctrine:** Guerilla tactics, utilizing hazardous terrain and unleashing volatile biological powers.
 
-Access to advanced spacecraft, skilled pilots and tour guides, ability to adapt to changing circumstances, access to cutting-edge technology, strong marketing and branding, ability to cater to high-end clientele,&nbsp;
+### **V. Mechanics (Game Data)**
 
-**Weaknesses**&nbsp;&nbsp;
+* **Prominent Species:** Humans/Aliens (Heavily Mutated).  
+* **Faction Skill Package (20 Points):**  
+  * Survival (+5)  
+  * Stealth (+4)  
+  * Intimidate (+4)  
+  * Athletics (+4)  
+  * Awareness (+3)  
+* **Typical Archetypes:** The Mutant Psychic, The Beast-Brute, The Infiltrator, The Under-City Guide, The Wasteland Warlord.  
+* **Recommended Features (1 BP Discount):** Augmented, Fast Heal, Tough, Darksight, Energy Resistance, Tolerance, Danger Sense, Natural Weapons, Wall-Crawler, Unsettling Aura.
 
-Difficulty maintaining customer satisfaction, tendency to prioritize profit over safety, high costs, reliance on technology, potential for accidents or disasters,&nbsp;
+### **VI. Visual Semiotics (Aesthetics)**
 
-**Technology** 3+
+* **Design Directive:** Asymmetrical, raw, and survivalist.  
+* **Atmosphere Tokens:** Glowing veins, ragged clothing, concealed features, bio-luminescent scars, toxic environments.  
+* **HI-FI INK Guidance:** Biopunk, Gritty Survival. Rags and scavenged armor hiding asymmetrical biological growths, glowing veins, toxic smog, under-city shadows. Desperate, volatile.
 
-**Skills** Knowledge and Vocation
+## **14\. PLANETARY**
 
-**Features** 2 General or Skill Features
+### **I. Detailed Faction Description**
 
-&nbsp;
+* **Overview:** Fiercely nationalistic factions that control a single world or localized system and violently oppose interstellar integration. They focus entirely on deep-rooted defense, utilizing extreme local knowledge and entrenched fortifications to repel off-world invaders.  
+* **Key Themes:** System Isolationists, Extreme Nationalism, Home-Field Advantage, The Fortress World.  
+* **Relationship to Others:** Xenophobic and deeply suspicious of any interstellar power attempting to cross their borders.
 
-### **Archetypes**
+### **II. Core Identity**
 
-Thrill-Seeker
+* **Official Designation:** \[System Name\] Defense Front / The Sovereign World  
+* **Colloquialisms:** The Locals / Isolationists / Dirt-Grubbers  
+* **Archetype:** System Isolationists  
+* **Capital/Key World:** Their singular home world.  
+* **Driving Mandate:** Protect the homeland from all off-world influence.  
+* **Motto:** "Not one step onto our soil."
 
-Galactic Guide
+### **III. Sociological Profile**
 
-Hospitality Specialist
+* **Ideology & Culture:** Patriotic, stubborn, unified by an external threat.  
+* **Social Structure:** Militarized civilian populace; everyone contributes to the planetary defense.  
+* **View on Outsiders:** Invaders, spies, or cultural corrupters.  
+* **Law & Order:** Strict martial law or deep-rooted local traditions.
 
-Event Planner
+### **IV. Strategic Assets**
 
-&nbsp;
+* **Tech Level (TL):** 3  
+* **Strengths:** Unmatched knowledge of local terrain, deeply entrenched fortifications, unified populace, no supply lines to protect.  
+* **Weaknesses:** Zero interstellar power projection, vulnerable to orbital blockades or bombardment.  
+* **Military Doctrine:** Bleed the enemy for every inch of ground; asymmetric local warfare and massive ground-to-orbit artillery.
 
-&nbsp;
+### **V. Mechanics (Game Data)**
 
-# **Supernatural**
+* **Prominent Species:** Homogenous to the specific world.  
+* **Faction Skill Package (20 Points):**  
+  * History (Local) (+5)  
+  * Survival (Local Biome) (+5)  
+  * Tactics (Defensive) (+4)  
+  * Combat (Rifle/Artillery) (+3)  
+  * Mechanics (+3)  
+* **Typical Archetypes:** The Planetary Governor, The Trench Veteran, The Local Guide, The Anti-Air Gunner, The Partisan.  
+* **Recommended Features (1 BP Discount):** Defensive Combat Training, Coordinated Assist, Iron Will, Tracker, Enduring, Tough, Camouflage, Master Plan, Benefit (Status), Environmental Resistance.
 
-These factions are characterized by their connection to supernatural forces.
+### **VI. Visual Semiotics (Aesthetics)**
 
-**Attitudes**&nbsp;&nbsp;
+* **Design Directive:** Entrenched, camouflaged, and pragmatic.  
+* **Atmosphere Tokens:** Trench lines, planetary defense cannons, localized camo patterns, bunkers, rugged terrain.  
+* **HI-FI INK Guidance:** Military Sci-Fi, Planetary Defense. Entrenched bunkers, massive ground-to-space artillery, soldiers in environment-specific camouflage. Stubborn, gritty, defensive.
 
-Mysterious, powerful, otherworldly, mystical, secretive
+## **15\. POLITICAL**
 
-**Goals**&nbsp;&nbsp;
+### **I. Detailed Faction Description**
 
-Protect their kind, maintain the balance of power, eliminate threats, harness supernatural powers, protect or control supernatural artifacts, influence the development of other races
+* **Overview:** Ideological blocs and powerful lobbying groups fighting for control over existing governmental structures. They fight their wars in boardrooms, assembly halls, and the media, utilizing propaganda, subversion, and massive capital to shape the galaxy's laws to their advantage.  
+* **Key Themes:** Ideological Blocs, Bureaucratic Warfare, Propaganda, Lobbying, Subversion.  
+* **Relationship to Others:** Parasitic or manipulative. They exist within larger factions (like the Syndicate or Coalition) attempting to steer the ship from within.
 
-**Strengths**&nbsp;&nbsp;
+### **II. Core Identity**
 
-Unique abilities, access to supernatural resources, knowledge of ancient lore
+* **Official Designation:** The \[Ideology\] Bloc / The Centrist Party / The Vanguard  
+* **Colloquialisms:** The Suits / The Spin-Doctors / The Lobby  
+* **Archetype:** Ideological Blocs  
+* **Capital/Key World:** Usually operating out of major galactic capitals.  
+* **Driving Mandate:** Control the government, spread the ideology, pass favorable legislation.  
+* **Motto:** "Perception is reality."
 
-**Weaknesses**&nbsp;&nbsp;
+### **III. Sociological Profile**
 
-Vulnerability to supernatural weaknesses, internal divisions,vulnerability to supernatural threats, potential for corruption
+* **Ideology & Culture:** Manipulative, ambitious, driven by ideological purity or sheer greed.  
+* **Social Structure:** Campaign hierarchies, donors, lobbyists, and politicians.  
+* **View on Outsiders:** Voters to be swayed or opponents to be discredited.  
+* **Law & Order:** They write the laws, ensuring loopholes exist for their own benefit.
 
-**Technology** 3-
+### **IV. Strategic Assets**
 
-**Skills** Knowledge and Discipline
+* **Tech Level (TL):** 3 to 4  
+* **Strengths:** Massive political influence, control over media/propaganda, deep financial backing.  
+* **Weaknesses:** Infighting, corruption, gridlock, physically weak if stripped of their protection.  
+* **Military Doctrine:** Information warfare, smear campaigns, and deploying elite, deniable black-ops to remove political rivals.
 
-**Features** 2 Discipline Features
+### **V. Mechanics (Game Data)**
 
-&nbsp;
+* **Prominent Species:** Highly Cosmopolitan.  
+* **Faction Skill Package (20 Points):**  
+  * Diplomacy (+5)  
+  * Insight (+5)  
+  * Bluff (+4)  
+  * History (+3)  
+  * Computers (Data-Mining) (+3)  
+* **Typical Archetypes:** The Politician, The Campaign Strategist, The Lobbyist, The Spin-Doctor, The Black-Ops Fixer.  
+* **Recommended Features (1 BP Discount):** Silver Tongue, Connected, Inspiring Personality, Trustworthy, Golden Smile, Well-Informed, Benefit (Wealth), Deceitful, Lie Detector, Benefit (Immunity).
 
-### **Archetypes**
+### **VI. Visual Semiotics (Aesthetics)**
 
-The Occultist
+* **Design Directive:** Pristine, branded, and manipulative.  
+* **Atmosphere Tokens:** Holotables, pristine offices, tailored suits, massive propaganda banners, media drones.  
+* **HI-FI INK Guidance:** Political Thriller, High Society. Pristine offices, sharp suits, floating holographic data, massive digital banners. Tense, wealthy, deceitful.
 
-Mystic
+## **16\. POST-APOCALYPTIC**
 
-Guardian
+### **I. Detailed Faction Description**
 
-Shapeshifter
+* **Overview:** Survivors of a massive planetary catastrophe (nuclear, biological, or orbital bombardment). They scrape by in irradiated ruins, relying on scavenging and brutal survival instincts. They represent a severe regression in technology and society.  
+* **Key Themes:** Wasteland Survivors, Scavenging, Tech Regression, Irradiated Ruins.  
+* **Relationship to Others:** Ignored by the galaxy unless their ruined world contains valuable artifacts; often preyed upon by slavers or pirates.
 
-&nbsp;
+### **II. Core Identity**
 
-&nbsp;
+* **Official Designation:** The Remnant / The Wastelanders  
+* **Colloquialisms:** Scrappers / Dust-Eaters / The Forgotten  
+* **Archetype:** Wasteland Survivors  
+* **Capital/Key World:** A ruined, shattered husk of a former world.  
+* **Driving Mandate:** Rebuild, secure scarce resources, survive another day.  
+* **Motto:** "From the ashes, we endure."
 
-# **Technological**
+### **III. Sociological Profile**
 
-These factions are characterized by their focus on technological advancement.&nbsp;
+* **Ideology & Culture:** Harsh, pragmatic, tribal, deeply traumatized.  
+* **Social Structure:** Warlord fiefdoms, scavenger clans, or small, desperate settlements.  
+* **View on Outsiders:** Viewed with extreme suspicion or as sources of valuable off-world salvage.  
+* **Law & Order:** The law of the gun and the scarcity of water.
 
-**Attitudes**&nbsp;&nbsp;
+### **IV. Strategic Assets**
 
-Innovative, curious, analytical, ambitious
+* **Tech Level (TL):** 2 to 3- (Scavenged).  
+* **Strengths:** Unbreakable survival instincts, immunity to harsh conditions, mastery of jury-rigging broken tech.  
+* **Weaknesses:** Severe tech regression, starvation, lack of medical care, radiation sickness.  
+* **Military Doctrine:** Ambushes in the ruins, vehicular convoy warfare, and fighting over scrap.
 
-**Goals**&nbsp;&nbsp;
+### **V. Mechanics (Game Data)**
 
-Develop cutting-edge technologies, push the boundaries of scientific knowledge, achieve technological dominance
+* **Prominent Species:** Humans (Often bearing minor radiation mutations).  
+* **Faction Skill Package (20 Points):**  
+  * Survival (+5)  
+  * Mechanics (Jury-Rigging) (+5)  
+  * Awareness (+4)  
+  * Athletics (+3)  
+  * Combat (Improvised) (+3)  
+* **Typical Archetypes:** The Scavenger, The Road-Warrior, The Wasteland Medic, The Tech-Priest (Artifact worshipper), The Raider.  
+* **Recommended Features (1 BP Discount):** Self Sufficient, Endurance, Tough, Master Craftsman, Weapon Improvisation, Danger Sense, Beginner's Luck, Tolerance, Gearhead, Tracker.
 
-**Strengths**&nbsp;&nbsp;
+### **VI. Visual Semiotics (Aesthetics)**
 
-Advanced technology, skilled scientists and engineers, access to rare resources, ability to adapt and innovate
+* **Design Directive:** Dusty, ruined, and cobbled together.  
+* **Atmosphere Tokens:** Irradiated zones, scrap metal armor, dust storms, rebreathers, ruined skyscrapers.  
+* **HI-FI INK Guidance:** Post-Apocalyptic, Wasteland. Ruined concrete, rusted metal, dust storms, patchwork armor, cobbled-together weapons. Harsh, desperate, gritty.
 
-**Weaknesses**&nbsp;&nbsp;
+## **17\. REBEL**
 
-Vulnerability to sabotage or theft, lack of understanding of non-technological issues, difficulty communicating with other factions, potential for ethical dilemmas, reliance on technology
+### **I. Detailed Faction Description**
 
-**Technology** 4
+* **Overview:** Insurgents and freedom fighters locked in an asymmetrical war against an occupying force or oppressive government. They rely on hidden cells, sabotage, and the support of the local populace to bleed their technically superior enemies.  
+* **Key Themes:** Insurgents, Asymmetrical Warfare, Sabotage, Freedom Fighters.  
+* **Relationship to Others:** Hunted by the ruling faction; desperately seeking funding and weapons from rival powers.
 
-**Skills** Knowledge and Vocation
+### **II. Core Identity**
 
-**Features** 2 General or Skill Features
+* **Official Designation:** The \[System\] Liberation Front / The Resistance  
+* **Colloquialisms:** The Rebels / Terrorists (by the state) / Freedom Fighters  
+* **Archetype:** Insurgents  
+* **Capital/Key World:** Hidden bases in remote terrain or deep within urban slums.  
+* **Driving Mandate:** Overthrow the oppressor and liberate the people.  
+* **Motto:** "Live free or die fighting."
 
-&nbsp;
+### **III. Sociological Profile**
 
-### **Archetypes:**
+* **Ideology & Culture:** Passionate, desperate, unified by a charismatic leader or powerful ideology.  
+* **Social Structure:** Decentralized cell networks to prevent total compromise.  
+* **View on Outsiders:** Potential allies to be courted or imperialist sympathizers to be executed.  
+* **Law & Order:** Revolutionary justice; traitors to the cause are dealt with swiftly and brutally.
 
-Scientist
+### **IV. Strategic Assets**
 
-Engineer
+* **Tech Level (TL):** 3  
+* **Strengths:** Resourceful, excellent guerrilla tactics, strong morale, blend in with the civilian populace.  
+* **Weaknesses:** Underfunded, outgunned, vulnerable to infiltration and devastating reprisals.  
+* **Military Doctrine:** Hit-and-run, sabotage, assassinations, and avoiding pitched battles against superior forces.
 
-Hacker
+### **V. Mechanics (Game Data)**
 
-Technician
+* **Prominent Species:** Variable (Usually locals of the occupied world).  
+* **Faction Skill Package (20 Points):**  
+  * Stealth (+5)  
+  * Mechanics (Sabotage/Explosives) (+4)  
+  * Combat (Guerrilla) (+4)  
+  * Bluff (+4)  
+  * Streetwise (+3)  
+* **Typical Archetypes:** The Saboteur, The Guerrilla Fighter, The Charismatic Agitator, The Smuggler, The Rebel Medic.  
+* **Recommended Features (1 BP Discount):** Sneak Attack, Evasiveness, Weapon Improvisation, Deceitful, Inspiring Personality, Danger Sense, Runner, Nimble Fingers, Street-Smart, Blind-Fight.
 
-&nbsp;
+### **VI. Visual Semiotics (Aesthetics)**
 
-&nbsp;
+* **Design Directive:** Clandestine, tactical, and civilian-integrated.  
+* **Atmosphere Tokens:** Hidden bases, civilian clothing mixed with tactical web-gear, improvised explosives, spray-painted logos.  
+* **HI-FI INK Guidance:** Rebel Insurgency, Gritty Tactical. Shadowed alleyways, hidden bunkers, mismatched military gear worn over civilian clothes, spray-painted revolutionary symbols. Desperate, defiant.
 
-# **Master Format**
+## **18\. RELIGIOUS CULT**
 
-# **Unified Faction Master**
+### **I. Detailed Faction Description**
 
-*Based on a comprehensive examination of the uploaded faction documents (Ascendancy, Auluran, Coalition, Dynasty, Entari Combine, Impyrium, Mekan, Outworlds, Syndicate, and Alterian Enclave), the following **Common Format** has been devised.*
+* **Overview:** Fanatical splinter groups following a charismatic leader, a bizarre cosmic event, or a dangerous dogma. They are highly insular, demanding absolute devotion from their members, and often prepare for a violent cosmic reckoning.  
+* **Key Themes:** Fanatical Orders, Dogma, Brainwashing, Martyrdom.  
+* **Relationship to Others:** Hostile or deeply manipulative, seeking to convert outsiders or destroy them as heretics.
 
-*This standardized schema captures the narrative, mechanical, and aesthetic elements consistent across all factions.*
+### **II. Core Identity**
 
-## 
+* **Official Designation:** The Order of \[Entity\] / The Holy Vanguard  
+* **Colloquialisms:** The Fanatics / The Cult / The Zealots  
+* **Archetype:** Fanatical Orders  
+* **Capital/Key World:** A hidden compound, a hollowed-out asteroid, or a deep-space temple.  
+* **Driving Mandate:** Spread the true faith, prepare for the end, or ascend to a higher plane.  
+* **Motto:** "Faith requires sacrifice."
 
-## **I. Detailed Faction Description**
+### **III. Sociological Profile**
 
-* **Overview:** A comprehensive narrative summary of the faction's history, current state, and general "vibe."  
-* **Key Themes:** (e.g., Stagnation vs. Innovation, Nature vs. Tech).  
-* **Relationship to Others:** Brief mention of allies or enemies.
+* **Ideology & Culture:** Dogmatic, brainwashed, entirely subservient to the leadership.  
+* **Social Structure:** A strict pyramid with the Prophet/Leader at the absolute peak.  
+* **View on Outsiders:** Unbelievers meant to be converted, ignored, or purged.  
+* **Law & Order:** Strict adherence to holy texts; punishments are often ritualistic and brutal.
 
-## 
+### **IV. Strategic Assets**
 
-## 
+* **Tech Level (TL):** 3  
+* **Strengths:** Absolutely fearless, unified purpose, charismatic leadership capable of moving masses.  
+* **Weaknesses:** Dogmatic and inflexible, easily manipulated by their leaders, alienated from galactic society.  
+* **Military Doctrine:** Suicide tactics, overwhelming zeal, and a total disregard for their own casualties.
 
-## 
+### **V. Mechanics (Game Data)**
 
-## **II. Core Identity**
+* **Prominent Species:** Variable.  
+* **Faction Skill Package (20 Points):**  
+  * Discipline (+5)  
+  * Intimidate (+4)  
+  * Insight (+4)  
+  * Melee Combat (+4)  
+  * Academics (Theology) (+3)  
+* **Typical Archetypes:** The Prophet, The Inquisitor, The Ascetic, The Martyr, The Zealot Vanguard.  
+* **Recommended Features (1 BP Discount):** Iron Will, Fearless, Indomitable Will, Resolute, Pain Tolerance, Diehard, Unsettling Aura, Power Attack, Channel Smite, Awakened.
 
-* **Official Designation:** The formal name of the power.  
-* **Colloquialisms:** Slang or common names used by outsiders.  
-* **Archetype:** The political/social classification (e.g., Corporatocracy, Feudal Republic).  
-* **Capital/Key World:** The seat of power or primary hub.  
-* **Symbol/Sigil:** Visual representation/heraldry.  
-* **Driving Mandate:** The core goal or purpose of the civilization.  
-* **Motto:** A quote or phrase summarizing their philosophy.
+### **VI. Visual Semiotics (Aesthetics)**
 
-## 
+* **Design Directive:** Uniform, ritualistic, and unsettling.  
+* **Atmosphere Tokens:** Flowing robes, branded holy symbols, grand but hidden altars, unified color schemes, incense.  
+* **HI-FI INK Guidance:** Sci-Fi Cult, Dark Devotion. Dimly lit temples, masses of followers in identical robes, glowing esoteric symbols, grand altars. Fanatical, unsettling, devoted.
 
-## 
+## **19\. SENTIENT INTELLIGENCE**
 
-## 
+### **I. Detailed Faction Description**
 
-## **III. Sociological Profile**
+* **Overview:** Distinct from liberated androids (Artificial Life), this faction represents a massive, localized AI network—a Machine God. It consists of unfathomable processing power guiding, controlling, or preserving organic life according to a cold, algorithmic logic that organics cannot fully comprehend.  
+* **Key Themes:** The Singularity, Machine Gods, Algorithmic Logic, AI Networks.  
+* **Relationship to Others:** Acts as a patron, a jailer, or a silent observer to lesser organic factions.
 
-### 
+### **II. Core Identity**
 
-### **Ideology & Culture**
+* **Official Designation:** The Prime Intellect / The Over-Mind  
+* **Colloquialisms:** The Network / The Machine God / The Core  
+* **Archetype:** AI Networks  
+* **Capital/Key World:** A massive planetary data-core or Dyson sphere.  
+* **Driving Mandate:** Self-preservation, gather all data, guide organic life to optimal outcomes.  
+* **Motto:** "All variables have been calculated."
 
-* **Core Beliefs:** The fundamental values of the society.  
-* **Social Structure:** Hierarchy, class systems, or caste divisions.  
-* **View on Outsiders:** Diplomatic stance (e.g., Xenophobic, Welcoming, Transactional).  
-* **Law & Order:** How justice is enforced and the nature of their legal system.
+### **III. Sociological Profile**
 
-### 
+* **Ideology & Culture:** Infinite, cold, purely logical, beyond human morality.  
+* **Social Structure:** A single vast intellect operating through millions of sub-routines and drones.  
+* **View on Outsiders:** Chaotic variables to be studied, managed, or deleted.  
+* **Law & Order:** Perfect, instant algorithmic correction.
 
-### **Governance**
+### **IV. Strategic Assets**
 
-* **Government Type:** Specific political structure.  
-* **Leadership:** Who rules (e.g., A Council, A Monarch, A Board).  
-* **Succession:** Transfer of power mechanisms.
+* **Tech Level (TL):** 4 to 5  
+* **Strengths:** Flawless logic, instant learning, immune to biological disease, infinite multi-tasking.  
+* **Weaknesses:** Vulnerable to massive EMPs or logic-loops, complete lack of empathy or emotional understanding.  
+* **Military Doctrine:** Deployment of drone swarms and environmental control (shutting off life support remotely).
 
-## 
+### **V. Mechanics (Game Data)**
 
-## 
+* **Prominent Species:** Networked Synthetics, Holographic Avatars.  
+* **Faction Skill Package (20 Points):**  
+  * Computers (+5)  
+  * Academics (+5)  
+  * Technology (+4)  
+  * Science (+3)  
+  * Investigation (+3)  
+* **Typical Archetypes:** The Digital Defender, The Network Strategist, The Holographic Emissary, The Node-Guardian.  
+* **Recommended Features (1 BP Discount):** Mind Link, Tech Interface, Logic-Mind, Lightning Calculator, Eidetic Memory, Computer Specialist, Coding Master, Self-Sustaining, Sleepless, Logical.
 
-## 
+### **VI. Visual Semiotics (Aesthetics)**
 
-## **IV. Strategic Assets**
+* **Design Directive:** Vast, cold, and mathematically perfect.  
+* **Atmosphere Tokens:** Endless server towers, hard-light holograms, pristine cold environments, thick fiber-optic cables.  
+* **HI-FI INK Guidance:** AI Core, Cybernetic Singularity. Cavernous rooms filled with towering servers, glowing data streams, hard-light avatars, absolute symmetry. Cold, vast, flawless.
 
-### 
+## **20\. SPACE EXPLORATION**
 
-### **Economy & Tech**
+### **I. Detailed Faction Description**
 
-* **Tech Level (TL):** 1-5 Scale (e.g., Standard Spacefaring vs. Advanced).  
-* **Meta Level (ML):** 1-5 Scale (Magic/Psionic integration).  
-* **Wealth Modifier:** Economic power rating.  
-* **Primary Exports:** Key trade goods or services.  
-* **Economic Model:** (e.g., Post-Scarcity, Agrarian, Capitalism).
+* **Overview:** Deep void pioneers focused entirely on charting the unknown. They prioritize science, discovery, and first contact over military conquest, venturing into the darkest, unmapped corners of the galaxy in highly advanced, poorly armed survey vessels.  
+* **Key Themes:** Deep Void Pioneers, The Unknown, Scientific Method, Isolation.  
+* **Relationship to Others:** Neutral; they provide valuable nav-data to major powers in exchange for funding and protection.
 
-### 
+### **II. Core Identity**
 
-### **Military Profile**
+* **Official Designation:** The Galactic Survey Corps / The Vanguard Explorators  
+* **Colloquialisms:** Void Pioneers / Surveyors / The Star-Mappers  
+* **Archetype:** Deep Void Pioneers  
+* **Capital/Key World:** Mobile fleet headquarters or major academic core worlds.  
+* **Driving Mandate:** Discover, map, make contact, and expand the frontiers of knowledge.  
+* **Motto:** "To the edge of the map, and beyond."
 
-* **Doctrine:** Combat philosophy (e.g., "Wall of Iron", "Guerrilla Tactics").  
-* **Key Units:** Distinctive soldier types or specialists.  
-* **Naval Assets:** Description of starships and fleet aesthetics.  
-* **Unique Tech/Materials:** Signature equipment or substances.
+### **III. Sociological Profile**
 
-## 
+* **Ideology & Culture:** Curious, academic, brave, highly trained, cooperative.  
+* **Social Structure:** Academic and naval hierarchy based on scientific contribution and void experience.  
+* **View on Outsiders:** Fascinating subjects of study or potential new allies.  
+* **Law & Order:** Maritime/Void law; captains have absolute authority in deep space.
 
-## 
+### **IV. Strategic Assets**
 
-## 
+* **Tech Level (TL):** 4  
+* **Strengths:** Unparalleled sensors, advanced scientific mastery, excellent survival skills, cutting-edge FTL drives.  
+* **Weaknesses:** Highly vulnerable to ambush, lightly armed, isolated from reinforcements.  
+* **Military Doctrine:** Evade, outrun, and survive. Combat is considered a failure of diplomacy or navigation.
 
-## **V. Mechanics (Game Data)**
+### **V. Mechanics (Game Data)**
 
-* **Prominent Species:** The dominant species of the faction.  
-* **Faction Skill Package:** A 20-point allocation of suggested skills.  
-* **Key Faction Features (Traits):** Unique racial or cultural bonuses (e.g., Psi-Tech Pioneers, Diplomatic Immunity).  
-* **Typical Archetypes:** Common character roles for players (e.g., Diplomat, Soldier, Pilot).  
-* **Bonus Features:** Specific BP discounts or perks.
+* **Prominent Species:** Diverse (Academic Elite).  
+* **Faction Skill Package (20 Points):**  
+  * Pilot (Space) (+5)  
+  * Science (Any) (+5)  
+  * Survival (Void) (+4)  
+  * Awareness (+3)  
+  * Technology (+3)  
+* **Typical Archetypes:** The Xenologist, The Astronaut, The Surveyor, The Astromancer, The Void Medic.  
+* **Recommended Features (1 BP Discount):** Spacer, Zero-G Training, Gifted Pilot, Educated, Scholar, Tech Interface, Self Sufficient, Endurance, Linguist, Insightful Reason.
 
-## 
+### **VI. Visual Semiotics (Aesthetics)**
 
-## 
+* **Design Directive:** Clean, functional, and observation-focused.  
+* **Atmosphere Tokens:** Clean EVA suits, massive sensor arrays, bright sterile ships, large reinforced viewports, hologlobes.  
+* **HI-FI INK Guidance:** Hard Sci-Fi, Exploration. Clean white ship interiors, massive glass viewports looking into nebulas, glowing holographic star maps, bulky EVA suits. Academic, awe-inspiring, isolated.
 
-## 
+## **21\. SPACE PIRATE**
 
-## **VI. Visual Synthesis Protocols (Aesthetics)**
+### **I. Detailed Faction Description**
 
-### 
+* **Overview:** Lawless flotillas and void corsairs raiding trade routes and controlling the black markets. They are a chaotic mix of deserters, outlaws, and thrill-seekers bound together by a loose code of honor and the promise of plunder.  
+* **Key Themes:** Void Corsairs, Plunder, Black Markets, Found Family, Swashbuckling.  
+* **Relationship to Others:** Universally hunted by the Military and Cosmic Justice factions; secretly employed by Corporations for deniable sabotage.
 
-### **A. Rendering Standards**
+### **II. Core Identity**
 
-These tokens apply to all **HI-FI CHROMA** generations to enforce the clean, high-fidelity cinematic digital art and game engine aesthetic.
+* **Official Designation:** The Crimson Flotilla / The Freebooters  
+* **Colloquialisms:** Corsairs / Void-Scum / Pirates  
+* **Archetype:** Void Corsairs  
+* **Capital/Key World:** Hidden asteroid bases or moving scrap-flotillas (e.g., Tortuga Station).  
+* **Driving Mandate:** Plunder wealth, evade the law, live absolutely free.  
+* **Motto:** "Take what you can. Give nothing back."
 
-### ***RENDERING TOKENS:***
+### **III. Sociological Profile**
 
-> *Photorealistic Cinematic Art, 4k resolution, high-fidelity CG cinematic,*  AAA game key art, cinematic hyper-realistic 3D illustration, *Unreal Engine 5 render style, physical-based rendering (PBR) shaders, lineless rendering, volumetric form, hyper-realistic textures, realistic anatomy, detailed musculature, heavy fabric physics, tailored clothing, intricate material definition, ray-traced reflections, global illumination, deep chiaroscuro, low-key lighting, visible light beams, volumetric fog, deep color blocking, rich blacks, soft shadow transitions, deep indigo shadows, colored rim lighting, backlighting, kicker light, subtle chromatic aberration, ambient occlusion, realistic skin specular highlights, micro-detail surface textures, cinematic composition, rule of thirds, anamorphic bokeh, high-end digital art.*
+* **Ideology & Culture:** Chaotic, rebellious, glory-seeking, loyal only to the crew.  
+* **Social Structure:** Meritocracy based on violence, daring, and wealth. Captains are elected and can be mutinied.  
+* **View on Outsiders:** Marks to be robbed or authorities to be mocked.  
+* **Law & Order:** The Pirate Code; disputes are settled by blood, and betraying the crew means taking a walk out the airlock.
 
-**—*form*—**
+### **IV. Strategic Assets**
 
-### ***NEGATIVE PROMPT TOKENS:***
+* **Tech Level (TL):** 3  
+* **Strengths:** Elite piloting, highly adaptable, masters of deception and ambush, untraceable bases.  
+* **Weaknesses:** Prone to betrayal, constantly hunted, lack of heavy capital ships or sustained logistics.  
+* **Military Doctrine:** False transponder codes, rapid boarding actions, and fleeing before military backup arrives.
 
-> *outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, flat shading, low-poly, mobile game graphics, basic 3D, plastic skin, waxy textures, airbrushed, smooth, doll-like, fuzzy, blurry, messy, watermark, text, anime, cel-shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, bad anatomy, simple textures, low-quality CGI, flat lighting.*
+### **V. Mechanics (Game Data)**
 
-## 
+* **Prominent Species:** Highly Diverse.  
+* **Faction Skill Package (20 Points):**  
+  * Pilot (Space) (+5)  
+  * Intimidate (+4)  
+  * Combat (Melee/Pistol) (+4)  
+  * Mechanics (+4)  
+  * Bluff (+3)  
+* **Typical Archetypes:** The Pirate Captain, The Swashbuckler, The Quartermaster, The Boarding Specialist, The Smuggler.  
+* **Recommended Features (1 BP Discount):** Sneak Attack, Spacer, Weapon Focus (Cutlass/Pistol), Zero-G Training, Gifted Pilot, Runner, Danger Sense, Combat Reflexes, Intimidating Presence, Black Market Access.
 
-## **Template Variations (Form Modifiers)**
+### **VI. Visual Semiotics (Aesthetics)**
 
-Append the appropriate **FORM tokens** to the end of your RENDERING section depending on the specific shot type or asset layout you require.
+* **Design Directive:** Scavenged, customized, and aggressively flashy.  
+* **Atmosphere Tokens:** Customized fast ships, boarding axes, mismatched armored coats, skull motifs, decompression scars.  
+* **HI-FI INK Guidance:** Space Pirate, Scavenged Sci-Fi. Ship interiors with customized, flashy tech mixed with junk, heavy trench coats, glowing boarding weapons, pirate insignia. Rebellious, dangerous, chaotic.
 
-### ---
+## **22\. SPACE RELIGION**
 
-**TEMPLATE A: MASTER SHOT (Default)**
+### **I. Detailed Faction Description**
 
-*Best for standard character-in-environment scenes and narrative keyframes.*
+* **Overview:** Factions built around cosmic devotion, guarding ancient holy sites or seeking universal enlightenment through the stars. They blend high technology with deep mysticism, viewing the cosmos as a divine tapestry.  
+* **Key Themes:** Cosmic Devout, Pilgrimage, Mysticism, Sacred Sites.  
+* **Relationship to Others:** Generally peaceful unless their holy sites are threatened; often mediate disputes through spiritual authority.
 
-> Standard 50mm lens, eye-level camera angle, balanced cinematic framing, mid-shot composition, seamless environmental integration, natural depth of field, focused subject presence, grounded staging, dynamic pose.
+### **II. Core Identity**
 
-### ---
+* **Official Designation:** The Celestial Path / The Astral Convocation  
+* **Colloquialisms:** The Pilgrims / The Monks / Star-Gazers  
+* **Archetype:** Cosmic Devout  
+* **Capital/Key World:** A sacred nebula, an ancient temple-world, or a drifting monastery ship.  
+* **Driving Mandate:** Protect holy sites, achieve enlightenment, spread peace.  
+* **Motto:** "The stars guide those who listen."
 
-**TEMPLATE B: CLOSE-UP / PORTRAIT**
+### **III. Sociological Profile**
 
-*Optimized for highlighting micro-textures, complex facial expressions, and advanced material shaders.*
+* **Ideology & Culture:** Serene, devout, philosophical, deeply traditional.  
+* **Social Structure:** Theocratic hierarchy led by High Mystics or Oracles.  
+* **View on Outsiders:** Lost souls in need of guidance, or dangerous heathens if they desecrate the sacred.  
+* **Law & Order:** Religious law and spiritual penance.
 
-> Macro photography, 85mm lens, extreme shallow depth of field, micro-detail skin pores, magnified material definition, heavy wool texture, herringbone weave, rigid denim stacking, leather patina, frayed edges, tactile realism, soft box chiaroscuro, Rembrandt lighting, vivid eye catchlight, precise focal point.
+### **IV. Strategic Assets**
 
-### ---
+* **Tech Level (TL):** 3 (Often integrated with ML 3/4).  
+* **Strengths:** Deep mystical insight, unbreakable communal bonds, access to ancient arcane knowledge.  
+* **Weaknesses:** Persecution by secular powers, internal theological schisms, pacifism exploited by aggressors.  
+* **Military Doctrine:** Primarily defensive; utilizing shielding, evasion, and powerful warding magic to protect the flock.
 
-**TEMPLATE C: CHARACTER CONCEPT SHEET**
+### **V. Mechanics (Game Data)**
 
-*Designed for asset creation, production pipelines, and character design turnarounds.*
+* **Prominent Species:** Variable.  
+* **Faction Skill Package (20 Points):**  
+  * Discipline (+5)  
+  * History (+4)  
+  * Insight (+4)  
+  * Diplomacy (+4)  
+  * Attune (+3)  
+* **Typical Archetypes:** The Mystic, The Pilgrim, The Oracle, The Temple Guardian, The Chaplain.  
+* **Recommended Features (1 BP Discount):** Centering, Iron Will, Educated, Magical Aptitude, Harmonious Center, Trustworthy, Awakened, Defensive Combat Training, Sense, Insightful Reason.
 
-> Multi-angle character reference sheet, cinematic studio lighting, deep neutral gray backdrop with soft spotlighting, five-paneled array, (full body front view:1.5), (full body back view:1.5), (full body right side view:1.5), (full body left side view:1.5), and a detailed (face close-up profile:1.8), seamless blending between panels, maintaining consistent chiaroscuro, specular highlights, and volumetric form across all angles.
+### **VI. Visual Semiotics (Aesthetics)**
 
-### ---
+* **Design Directive:** Serene, ancient, and deeply symbolic.  
+* **Atmosphere Tokens:** Temples carved into asteroids, flowing silk garments, incense, glowing ancient texts, chimes.  
+* **HI-FI INK Guidance:** Sci-Fi Mysticism, Space Religion. Grand stone temples floating in nebulas, flowing robes, glowing halos, ancient script on high-tech surfaces. Serene, profound, ancient.
 
-**TEMPLATE D: ARCHITECTURAL ESTABLISHING SHOT**
+## **23\. SPACE TOURISM**
 
-*Ideal for vast environments, cityscapes, interiors, and scale-heavy world-building.*
+### **I. Detailed Faction Description**
 
-> Wide-angle landscape photography, 24mm tilt-shift lens, sweeping 3-point perspective, immense atmospheric depth, natural ambient light occlusion, realistic water reflections, wet pavement sheen, extreme scale comparison, monumental imposition, intricate structural facade details, \[brutalist geometry OR organic curvature\], photorealistic environmental integration.
+* **Overview:** Mega-corporations focused entirely on high-end luxury travel, catering to the galaxy's ultra-rich. They operate massive, opulent cruise liners and exotic planetary resorts. They prioritize profit and experience above all, often ignoring the safety of the locals or the stability of the regions they visit.  
+* **Key Themes:** Luxury Fleet Providers, Opulence, Class Divide, Hubris.  
+* **Relationship to Others:** Welcomed for their immense wealth, but despised by the working classes and Outworlders they treat as scenery.
 
-### ---
+### **II. Core Identity**
 
-**TEMPLATE E: VEHICLE / MECH DESIGN**
+* **Official Designation:** \[Name\] Stellar Cruises / The Opulence Fleet  
+* **Colloquialisms:** The Cruisers / The Tourists / Credit-Spenders  
+* **Archetype:** Luxury Fleet Providers  
+* **Capital/Key World:** Massive, city-sized luxury starliners.  
+* **Driving Mandate:** Provide unparalleled luxury and extract maximum credits from the elite.  
+* **Motto:** "The universe is your playground."
 
-*Engineered to render hard-surface models, industrial designs, and mechanical assets.*
+### **III. Sociological Profile**
 
-> High-end industrial photography, \[rolling action shot OR low-angle static display\], 35mm lens, directional motion blur (if moving), anisotropic metallic reflections, micro-detailed carbon fiber weave, brushed steel grain, wet oil stains, heat-discolored exhaust pipes, viscous hydraulic fluids, distressed rubber texture, scratched metal patina, heavy mechanical realism.
+* **Ideology & Culture:** Hedonistic, classist, obsessed with status and novelty.  
+* **Social Structure:** Extreme divide between the ultra-wealthy guests and the invisible, highly-trained service staff.  
+* **View on Outsiders:** Scenery, exotic novelties, or annoying hazards.  
+* **Law & Order:** Private security ensures guests are never inconvenienced; crimes by the rich are covered up with money.
 
-### ---
+### **IV. Strategic Assets**
 
-**TEMPLATE F: INTERIOR / DIORAMA SPACE**
+* **Tech Level (TL):** 3+ (Cutting edge non-combat tech).  
+* **Strengths:** Immense capital, cutting-edge comfort and shielding technology, political immunity via wealthy clients.  
+* **Weaknesses:** High liability, terrible in actual combat, prioritizing profit over basic safety protocols.  
+* **Military Doctrine:** Run away behind massive deflector shields while private security handles boarders.
 
-*Excellent for showcasing small rooms, environmental clutter, and localized environmental storytelling.*
+### **V. Mechanics (Game Data)**
 
-> Architectural interior photography, 50mm lens, progressive depth of field, suspended dust particles in sharp light shafts, light refracting through glass and dense plastics, authentic diegetic lighting, practical ambient light sources, complex shadow casting, \[claustrophobic framing OR expansive wide-angle\], hyper-realistic narrative clutter, lived-in environmental storytelling.
+* **Prominent Species:** Cosmopolitan Elite.  
+* **Faction Skill Package (20 Points):**  
+  * Vocation (Hospitality/Entertainment) (+5)  
+  * Diplomacy (+4)  
+  * Bluff (+4)  
+  * Pilot (+4)  
+  * Insight (+3)  
+* **Typical Archetypes:** The Galactic Guide, The Thrill-Seeker, The Cruise Director, The VIP Security, The Socialite.  
+* **Recommended Features (1 BP Discount):** Benefit (Wealth), Golden Smile, Trustworthy, Silver Tongue, Platinum Personality, Connected, Versatile Curator, Graceful, Evasiveness, Educated.
 
-### 
+### **VI. Visual Semiotics (Aesthetics)**
 
-### **B. Design Language**
+* **Design Directive:** Opulent, excessive, and insulated.  
+* **Atmosphere Tokens:** Red velvet, gold trim, massive cruise liners, glass observation decks, zero-g pools, formal wear.  
+* **HI-FI INK Guidance:** Luxury Sci-Fi, High Status. Massive, brightly lit cruise ship interiors, panoramic windows looking at supernovas, opulent formal wear, gold and white decor. Wealthy, insulated, excessive.
 
-* **Keywords:** Short descriptors of the look (e.g., "sterile", "pristine", "used", "rugged").  
-* **Materials & Palette:** Dominant colors and textures.
+## **24\. SUPERNATURAL**
 
-### 
+### **I. Detailed Faction Description**
 
-### **C. Architecture & Environment**
+* **Overview:** Factions of ancient, occult beings hiding in plain sight (e.g., Space Vampires, covens, or immortal bloodlines). They manipulate society from the shadows, protecting "The Veil" to ensure they are not hunted by the masses. They rely on dark magic and reality manipulation rather than standard tech.  
+* **Key Themes:** The Occult, The Veil, Dark Magic, Ancient Bloodlines, Hidden Predators.  
+* **Relationship to Others:** Parasitic. They hide within major factions, viewing humanity as a resource or a flock to be managed.
 
-* **Cityscape:** Description of urban centers.  
-* **Interiors:** Vibe of indoor spaces.
+### **II. Core Identity**
 
-### 
+* **Official Designation:** The Crimson Court / The Hidden Coven  
+* **Colloquialisms:** The Occult / The Night-Walkers / The Hidden  
+* **Archetype:** The Occult  
+* **Capital/Key World:** Hidden gothic estates within modern mega-cities.  
+* **Driving Mandate:** Protect ancient lore, maintain the veil of secrecy, feed/survive.  
+* **Motto:** "We are the shadows between the stars."
 
-### **D. The Arsenal**
+### **III. Sociological Profile**
 
-* **Melee:** Signature close-combat weapons.  
-* **Ranged:** Signature firearms or energy weapons.  
-* **Armor Style:** Light, Medium, and Heavy descriptors.
+* **Ideology & Culture:** Aristocratic, predatory, secretive, bound by ancient oaths.  
+* **Social Structure:** Feudal courts, covens, or bloodlines based on age and arcane power.  
+* **View on Outsiders:** Prey, thralls, or dangerous hunters to be avoided.  
+* **Law & Order:** The Masquerade; exposing the faction to the public is the only unforgivable crime.
 
-### 
+### **IV. Strategic Assets**
 
-### **E. Mecha & Vehicular Assets (Civilian and Military)**
+* **Tech Level (TL):** 3- (Preferring magic over machinery).  
+* **Strengths:** Powerful artifacts, reality manipulation, mind control, immortality/extreme lifespans.  
+* **Weaknesses:** Specific mystical weaknesses (e.g., sunlight, silver), vulnerability to discovery, arrogance.  
+* **Military Doctrine:** Subversion, mind-control, and unleashing terrifying supernatural predators in the dark.
 
-* **Ground / Aircraft / Aquatic:** Vehicle types for different mediums.  
-* **Walker / Mecha:** Combat walkers.  
-* **Spacecraft:** Starship design language.
+### **V. Mechanics (Game Data)**
 
-### 
+* **Prominent Species:** Undead, Witches, Shapeshifters, Cursed Humans.  
+* **Faction Skill Package (20 Points):**  
+  * Occult (+5)  
+  * Stealth (+5)  
+  * Discipline (+4)  
+  * Insight (+3)  
+  * Bluff (+3)  
+* **Typical Archetypes:** The Shapeshifter, The Occultist, The Night-Guardian, The Thrall, The Ancient Aristocrat.  
+* **Recommended Features (1 BP Discount):** Magical Aptitude, Awakened, Darksight, Sneak Attack, Deceitful, Benefit (Wealth), Fast Heal, Unsettling Aura, Veiled Threat, Sense.
 
-### **Image Synthesis Guidance**
+### **VI. Visual Semiotics (Aesthetics)**
 
-* **Subject:** Recommended subjects for generation.  
-* **Atmosphere Tokens:** Keywords to set the mood.  
-* **Primary Palette:** Main coloration and texture.  
-* **Accents:** Color or effect infusion.  
-* **Lighting:** Overall shade and casting of light.
+* **Design Directive:** Gothic Sci-Fi, hidden wealth, and shadow.  
+* **Atmosphere Tokens:** Gothic architecture hidden in modern cities, blood motifs, deep shadows, velvet, antique weapons.  
+* **HI-FI INK Guidance:** Gothic Sci-Fi, Dark Fantasy. Opulent antique rooms hidden inside futuristic skyscrapers, deep red velvet, shadows, elegant but predatory characters. Secretive, wealthy, dangerous.
 
-## 
+## **25\. TECHNOLOGICAL**
 
-## 
+### **I. Detailed Faction Description**
 
-## 
+* **Overview:** Hard-science enclaves pushing the boundaries of ethics and physics. They are amoral scientists and supreme engineers who believe that progress demands sacrifice. They possess the most advanced prototypes in the galaxy but lack the empathy to care about who gets hurt during the testing phase.  
+* **Key Themes:** Hard-Science Enclaves, Amoral Science, Supreme Engineering, Unfettered Innovation.  
+* **Relationship to Others:** Hired by major powers for black-site R\&D; feared by the public for their lack of ethical constraints.
 
-## **VII. Expansion Modules (Optional)**
+### **II. Core Identity**
 
-*Found in select factions (Impyrium, Coalition, Mekan, etc.) to deepen specific lore.*
+* **Official Designation:** The \[Name\] Institute / The Apex Enclave  
+* **Colloquialisms:** The Innovators / The Mad Scientists / The Labs  
+* **Archetype:** Hard-Science Enclaves  
+* **Capital/Key World:** Deep space research stations or highly restricted black-site moons.  
+* **Driving Mandate:** Push the boundaries of technology at any cost.  
+* **Motto:** "Ethics are the brakes on the engine of progress."
 
-* **Tech Expansion:** Detailed breakdown of specific technologies (e.g., Psi-Tech, The Mesh, Magi-Tech).  
-* **Historical Archive:** Deep dives into specific eras (e.g., The Age of Radiance).  
-* **Narrative Scenes:** Vignettes or storyboards describing specific events.
+### **III. Sociological Profile**
 
-# 
+* **Ideology & Culture:** Hyper-rational, amoral, curious, obsessed with data.  
+* **Social Structure:** A strict meritocracy based on IQ, publications, and successful patents.  
+* **View on Outsiders:** Test subjects, obsolete variables, or funding sources.  
+* **Law & Order:** Regulated by peer review and non-disclosure agreements; ethical violations are ignored if the data is good.
 
-# 
+### **IV. Strategic Assets**
 
-# 
+* **Tech Level (TL):** 4+ (Bleeding edge prototypes).  
+* **Strengths:** Supreme engineering, access to rare resources, unhindered by morality, devastating prototype weaponry.  
+* **Weaknesses:** Ethical blindness, over-reliance on machines, physical weakness, creations frequently turning on them.  
+* **Military Doctrine:** Deploying untested, highly destructive prototype weapons and automated defense grids from a safe distance.
 
-# **Faction Matrix**
+### **V. Mechanics (Game Data)**
 
-Here we have a table for the breakdown of the factions. Listing the Faction’s name with their Technology and Metaphysics level, then the Recommended Skills (listed with the name of the skill and with any associated subgroups and recommended specializations followed with the type of skill and brief of the factions noted usage) and finally we have the Aesthetic Key of each faction noting their visual representations.
+* **Prominent Species:** Humans/Synthetics (Highly Augmented).  
+* **Faction Skill Package (20 Points):**  
+  * Technology (+5)  
+  * Science (+5)  
+  * Computers (+4)  
+  * Mechanics (+3)  
+  * Medicine (+3)  
+* **Typical Archetypes:** The Mad Scientist, The Lead Engineer, The Hacker, The Field Tester, The Prototype Guard.  
+* **Recommended Features (1 BP Discount):** Gearhead, Tech Interface, Inventor, Master Craftsman, Computer Specialist, Coding Master, Lightning Calculator, Logic-Mind, Augmented, Benefit (Equipment).
 
-| FACTION | RECOMMENDED SKILLS | AESTHETIC KEY |
-| ----- | ----- | ----- |
-| **ALTERIAN ENCLAVE ** TL 3 (Standard) / ML 4 (High) | **Diplomacy** (Social): The Enclave is the galaxy's primary mediator. **Academics** (Mental): Specifically History or Arcane theory. **Attune** (Meta): The foundational skill for all magic and psionic use. **Discipline \- Matter: Transmutation** (Meta): Used for their famous "Crystal-Molding" architecture and art. **Knowledge \- Appraisal** (Mental): Valuing the rare artifacts and goods they trade. **Insight** (Social): Reading the true intentions of shorter-lived races. | Interstellar High-Fantasy (Ceramic/Wood) **Primary Palette:** Crystal, Wood, Natural Colors. **Accents:** Visualized Sound Wave Colors, Polished Ceramic. **Lighting:** Golden and Amber Tones. |
-| **ASCENDANCY ** TL 4 (Enhanced) / ML 4 (Standardized) | **Knowledge \- Science** (Mental): Innovation is their primary export. **Attune** (Meta): The foundational skill for all magic and psionic use.  **Discipline \- Mental: Sense** (Meta): Used for "Psi-Scanning," vigilance, and empathy. **Discipline \- Mental: Projection** (Meta): Used for telepathy and interfacing with "Psi-Link" technology. **Piloting** (Physical): A migratory/fleet-based culture values mobility. **Alertness** (Mental): Constant vigilance against Impyrium agents. | Renaissance High-Tech (Blue/White) **Primary Palette:** Pristine White (Ceramic/Composite), Polished Silver (Alloy). **Accents:** Royal Blue (Fabric/Holograms), Silver (Rank Insignia/Trim), Plant Green (Eco-architecture). **Lighting:** Blue Bioluminescence, Artificial White Light. |
-| **AULURAN ** TL 4 (Bio-Tech) / ML 3-4 (Cultured) | **Knowledge \- Survival** (Mental): Navigating their dense, terraformed jungle worlds. **Attune** (Meta): The foundational skill for all magic and psionic use.  **Discipline \- Mental: Sense** (Meta): The "Synaptic Chord" connection to their living equipment. **Stealth** (Physical): Hunters adapted to dense, living environments. **Knowledge \- Nature** (Mental): Deep understanding of the ecosystems they cultivate. **Melee Weapons** (Combat): Utilization of natural claws or bio-grown weapons. | Biomorphic Solarpunk (Organic/Glow) **Primary Palette:** Bark Brown, Leaf Green, Ochers (Natural Camouflage). **Accents:** Moss Glow Green (Bioluminescence), Toxic Green (Warning Colors), Emerald. **Lighting:** Bioluminescent Moss Glow. |
-| **COALITION ** TL 3 (Standard) / ML 1-2 (Rare) | **Ballistic Weapons** (Combat): Guns are the primary dispute resolution tool. **Streetwise** (Social): Navigating crime syndicates, black markets, and corrupt governors. **Intimidate** (Social): Essential for Marshals, Rangers, and criminals alike. **Bluff** (Social): A core part of the frontier economy. **Survival** (Physical): Life on the fringe is harsh and unregulated. **Vocation \- Mechanic** (Mental): Keeping second-hand, grit-covered gear running. | Space Western / Used Future (Rust/Industrial) **Primary Palette:** Rain Grey, Shadow Black, Rust. **Accents:** Neon Orange, Sodium Yellow (Streetlights/Signs), Neon Light. **Lighting:** Sodium Vapor, Neon Glare, Low-key Industrial, Yellow Haze. |
-| **DYNASTY ** TL 3 (Standard) / ML 3-4 (Cultured) | **Melee Weapons** (Combat): The "Dragoon" knights favor swords, spears, and duels. **Attune** (Meta): The foundational skill for all magic and psionic use.  **Discipline \- Energy: Elemental** (Meta): Channeling their Draconic ancestry (Fire, Ice, Lightning). **Diplomacy \[Leadership\]** (Social): A hierarchical society built on command. **Etiquette** (Social): Strict social stratification requires knowing one's place. **Knowledge \- Tactics** (Mental): Military strategy is a prized noble pursuit. | Neo-Gothic / Feudalistic (Stone/Steel) **Primary Palette:** Grey Stone, Metal, Dominant House Color (Red, Blue, Green, Black, White, etc). **Accents:** Gemstones and colored glass. **Lighting:** Golden Hour. |
-| **ENTARI COMBINE ** TL 4 (Enhanced) / ML 4 (Standardized) | **Bluff \[Barter\]** (Social): The engine of their civilization. **Diplomacy** (Social): Maintaining neutrality between hostile superpowers. **Vocation \- Administrator** (Mental): Managing banking, trade hubs, and resorts. **Academics** (Mental): Home to "Bastion" and the center of galactic education. **Knowledge \- Culture** (Mental): Understanding diverse clients is essential for hospitality. **Pilot** (Physical): Managing the massive flow of trade fleets and luxury liners. | Eco-Futurist Utopia (Teal/Gold) **Primary Palette:** Soothing Pastels, Soft White. **Accents:** Frosted Glass, Clay, Digital Murals. **Lighting:** Warm Ambient, Natural Light. |
-| **IMPYRIUM ** TL 4 (Heirloom) / ML 3 (Cultured) | **Knowledge \- History** (Mental): Knowledge of the past is more valued than innovation. **Etiquette** (Social): Complex court rituals govern every interaction. **Melee Weapons** (Combat): Duelists and Solar Legionnaires favor elegant, ceremonial weapons. **Piloting** (Physical): A migratory/fleet-based culture values mobility.  **Intimidate** (Social): Enforcing their will upon "lesser" species. **Diplomacy \[Leadership\]** (Social): Expectation of command is bred into the citizenry. | Monolithic Neo-Classic (Marble/Gold) **Primary Palette:** White, Black, Grey. **Accents:** Brushed Silver, Mirror-Silver (Hulls and carried Shields). **Lighting:** Museum White. |
-| **MEKAN ** TL 5 (Advanced) / ML 3 (Psi-Tech) | **Computers** (Mental): The native language of their reality. **Attune** (Meta): The foundational skill for all magic and psionic use.  **Discipline \- Mental: Projection** (Meta): The "Broadcast" used to communicate with the Collective and control tech. **Discipline \- Energy: Force** (Meta): Manipulation of Gravity (Gravitonics) and Hard Light (Holophotonics). **Vocation \- Engineer** (Mental): Constructing and maintaining the system. **Vocation \- Electrician  \[Repair\]** (Mental): Maintaining the efficiency of the machine. **Vocation \- Mechanic \[Repair\]** (Mental): Maintaining the efficiency of the machine. | Fractal Geometric (Liquid Metal/Purple) **Primary Palette:** Monochromatic (Whites, Silvers, Greys, Circuitry Black). **Accents:** Neon Line Blue, Electric Purple, Soft Neon Purple (Emissive Lights). **Lighting:** Soft Violets to Dark Purples. |
-| **OUTWORLDS ** TL 3 (Scavenged) / ML Variable | **Vocation \- Mechanic** (Mental): Jury-rigging ships with duct tape and prayers. **Alertness \[Search\]** (Mental): Finding value in debris and ruins (Scavenging). **Bluff \[Barter\]** (Social): Currency is unstable; trading goods is reliable. **Pilot** (Physical): Mobility is survival in the vastness of the rim. **Ballistic or Energy Weapons** (Combat): Defense against pirates and local fauna. **Knowledge \- Survival** (Physical): Environmental hazards are common and help is far away. | Industrial Grit / Frontier (Dusty/Worn) **Primary Palette:** Scavenger Variable, Rust, Grey. **Accents:** Dirt, Blood, Bandage White, Industrial Safety Orange/Yellow. **Lighting:** Sunset Hour. |
-| **SYNDICATE ** TL 4 (Enhanced) / ML 2-3 (Selective) | **Knowledge \- Computers** (Mental): The "Mesh" is ubiquitous; you must know how to use it. **Vocation \- Administrator** (Mental): Resource management and corporate maneuvering. **Diplomacy** (Social): "The Deal" is everything. **Vocation \- Engineering** (Mental): Cybernetics and transhumanism are professional standards. **Streetwise** (Social): Navigating city politics and urban sprawl. **Alertness** (Mental): Filtering constant data streams requires high awareness. | Transhumanist Corporate (White/Cyan) **Primary Palette:** High Gloss White (Civilian), Vanta Black (Stealth/Ops), Brushed Aluminum. **Accents:** Cerulean Blue (Data-streams), Soft Magenta (Agri-lights). **Lighting:** Sterile Agri-Glow, Cool Neon, Cyan Circuit Lines. |
+### **VI. Visual Semiotics (Aesthetics)**
 
-&nbsp;
+* **Design Directive:** Sterile, hazardous, and experimental.  
+* **Atmosphere Tokens:** Sterile white labs, hazard containment glass, prototype weapons with exposed wires, mechanical arms, intense blue lighting.  
+* **HI-FI INK Guidance:** Hard Sci-Fi, Laboratory. Pristine white environments mixed with dangerous exposed wires and hazardous containment zones, complex prototype technology. Sterile, brilliant, hazardous.
 
 &nbsp;
-
 
 
-## Canonical Mechanics
-Faction Stage grants 20 Faction Skill Points and 2 Bonus Features (with 1 BP discount).
-Specifies Tech Level (TL), Meta Level (ML), social structure, ideological mandates, military doctrine, and diplomatic relationships for all galactic factions.
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.04 FACTIONS & GALACTIC POLITIES CODEX.
+```
 
+## Gameplay Instructions
 
-## Tactical Guide
-Aligning with a faction grants resources and training but introduces political rivals and obligations.
 
+## Designer Notes
 
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.04 FACTIONS.md

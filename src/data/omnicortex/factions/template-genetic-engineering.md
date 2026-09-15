@@ -1,11 +1,22 @@
 ---
 id: template-genetic-engineering
-name: Genetic Engineering Directorate
+name: "Genetic Engineering Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Bio-transhumanist institute experimenting with gene-tailored soldiers,
-  designer organs, and chimera strains.
+faction_type: "Generic Template"
+archetype: "Biologic Ascendants"
+driving_mandate: "Achieve biological perfection; eradicate genetic flaws"
+symbol_sigil: "The Gene-Weavers / Splicers / The Ascendant"
+capital_world: "Variable (Often a highly engineered, pristine garden-world or sterile orbital lab)"
+tech_level: "4 (Biotechnology)"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Humans/Aliens (Genetically Modified)"
+typical_archetypes: ["The Bioengineer","The Perfected Warrior","The Apex Predator","The Healer","The Reject"]
+skill_package: ["Science (Biology) (+5)","Medicine (+5)","Survival (+4)","Athletics (+3)","Combat (Any) (+3)"]
+recommended_features: ["Biotechnology","Fast Heal","Tolerance","Augmented","Tough","Scent","Self Sufficient","Animal Affinity","Night Vision","Natural Weapons"]
+features: ["Biotechnology","Fast Heal","Tolerance","Augmented","Tough","Scent","Self Sufficient","Animal Affinity","Night Vision","Natural Weapons"]
+bonus_features: ["Biotechnology"]
+description: "Factions built entirely around the mastery of the genome. These biologic ascendants view natural evolution as a sluggish, flawed process. They utilize advanced bio-technology and cloning to perfectly adapt themselves to their environments, often creating customized castes for specific labor, scientific, or combat roles"
 costs:
   bp: 0
   credits: 0
@@ -26,63 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Genetic Engineering Directorate (Generic Faction Template)
+## **8\. GENETIC ENGINEERING**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Bio-transhumanist institute experimenting with gene-tailored soldiers, designer organs, and chimera strains.
+* **Overview:** Factions built entirely around the mastery of the genome. These biologic ascendants view natural evolution as a sluggish, flawed process. They utilize advanced bio-technology and cloning to perfectly adapt themselves to their environments, often creating customized castes for specific labor, scientific, or combat roles.  
+* **Key Themes:** Biological Supremacy, Playing God, Mutated Castes, Flesh over Steel, Forced Evolution.  
+* **Relationship to Others:** Viewed with suspicion or outright horror by baseline species. Highly sought after for their medical advancements.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The Genesis Combine / The Evolutionary Front  
+* **Colloquialisms:** The Gene-Weavers / Splicers / The Ascendant  
+* **Archetype:** Biologic Ascendants  
+* **Capital/Key World:** Variable (Often a highly engineered, pristine garden-world or sterile orbital lab)  
+* **Driving Mandate:** Achieve biological perfection; eradicate genetic flaws.  
+* **Motto:** "Evolution is a tool, not a limit."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their focus on genetic engineering and biotechnology.   
-**Attitudes**    
-Ambitious, experimental, controversial, scientific  
-**Goals**    
-Create new life forms, enhance existing species, achieve biological dominance  
-**Strengths**    
-Skilled scientists and engineers, ability to adapt to changing circumstances, access to advanced genetic engineering and biotechnology, ability to create unique and powerful life forms  
-**Weaknesses**    
-Vulnerability to ethical dilemmas and controversies, difficulty communicating with non-scientists, tendency to prioritize their own goals over the greater good, potential for unintended consequences or uncontrollable creations, reliance on genetic engineering and biotechnology  
-**Technology** 4  
-**Skills** Knowledge and Vocation  
-**Features** 2 Racial or Special Features (Open Options)
+* **Ideology & Culture:** Pragmatic, clinical, obsessed with purity and optimization.  
+* **Social Structure:** Strict Genetic Caste System (Alphas/Designers \> Betas/Laborers \> Omegas/Mutants).  
+* **View on Outsiders:** Baseline species are viewed as flawed, obsolete, and in need of "correction."  
+* **Law & Order:** Strict genetic regulation. Unlicensed breeding or mutation is a capital offense.
 
-Geneticist  
-Bioengineer  
-Enhanced Warrior  
-Test Subject  
-Mutant
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 4 (Biotechnology)  
+* **Strengths:** Total immunity to disease, highly adaptable troops, accelerated healing, custom-engineered biological assets.  
+* **Weaknesses:** Arrogance, vulnerability to specific engineered pathogens, lack of heavy mechanical industry.  
+* **Military Doctrine:** Deploying highly specialized, expendable mutated shock troops backed by elite, genetically perfected commanders.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Humans/Aliens (Genetically Modified).  
+* **Faction Skill Package (20 Points):**  
+  * Science (Biology) (+5)  
+  * Medicine (+5)  
+  * Survival (+4)  
+  * Athletics (+3)  
+  * Combat (Any) (+3)  
+* **Typical Archetypes:** The Bioengineer, The Perfected Warrior, The Apex Predator, The Healer, The Reject.  
+* **Recommended Features (1 BP Discount):** Biotechnology, Fast Heal, Tolerance, Augmented, Tough, Scent, Self Sufficient, Animal Affinity, Night Vision, Natural Weapons.
 
-These factions are characterized by their focus on genetic engineering and biotechnology.   
-**Attitudes**    
-Ambitious, experimental, controversial, scientific  
-**Goals**    
-Create new life forms, enhance existing species, achieve biological dominance  
-**Strengths**    
-Skilled scientists and engineers, ability to adapt to changing circumstances, access to advanced genetic engineering and biotechnology, ability to create unique and powerful life forms  
-**Weaknesses**    
-Vulnerability to ethical dilemmas and controversies, difficulty communicating with non-scientists, tendency to prioritize their own goals over the greater good, potential for unintended consequences or uncontrollable creations, reliance on genetic engineering and biotechnology  
-**Technology** 4  
-**Skills** Knowledge and Vocation  
-**Features** 2 Racial or Special Features (Open Options)
+### **VI. Visual Semiotics (Aesthetics)**
 
-Geneticist  
-Bioengineer  
-Enhanced Warrior  
-Test Subject  
-Mutant
-
+* **Design Directive:** Sterile and anatomical.  
+* **Atmosphere Tokens:** Cloning vats, pristine white labs, pulsing organic incubators, bone-armor, surgical steel, mutated forms.  
+* **HI-FI INK Guidance:** Biologic Ascendants, Clinical Sci-Fi, Body Horror. Pristine white labs, glowing incubation tubes, surgical steel, asymmetrical biological growths.

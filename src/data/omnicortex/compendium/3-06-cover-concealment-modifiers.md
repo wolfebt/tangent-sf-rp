@@ -2,10 +2,37 @@
 id: "3-06-cover-concealment-modifiers"
 name: "3.06 Cover, Concealment & Environmental Modifiers"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 6
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["cover","concealment","modifiers"]
+updatedAt: "2026-09-14T16:40:07.835Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.06 Cover, Concealment & Environmental Modifiers
 
 Cover physically stops incoming kinetic and energy projectiles, while concealment obscures the target's visual profile.
@@ -22,3 +49,14 @@ Cover physically stops incoming kinetic and energy projectiles, while concealmen
 | **Full / Total Cover** | Solid reinforced blast door | **Cannot Target** | Requires indirect or penetrative fire |
 | **Light Concealment** | Light fog, haze, dim lighting | **-2 to Attacker** | Obscures fine detail |
 | **Heavy Concealment** | Dense smoke, total darkness, active camo | **-4 to Attacker** | Attacker must guess grid square without thermal optics |
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.06 Cover, Concealment & Environmental Modifiers.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

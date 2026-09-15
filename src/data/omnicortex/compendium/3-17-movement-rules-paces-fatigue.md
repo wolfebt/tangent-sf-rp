@@ -2,10 +2,37 @@
 id: "3-17-movement-rules-paces-fatigue"
 name: "3.17 Movement Modes, Tactical Paces & Fatigue Rules"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 17
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["movement","rules","paces","fatigue"]
+updatedAt: "2026-09-14T16:40:07.837Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.17 Movement Modes, Tactical Paces & Fatigue Rules
 
 Locomotion across planetary battlefields, void stations, and alien biospheres is categorized into **5 Primary Movement Modes**: Ground, Flying, Swimming, Climbing, and Burrowing.
@@ -84,3 +111,14 @@ Locomotion across planetary battlefields, void stations, and alien biospheres is
 - **Check Progression**: Checked every minute with a **cumulative -1 penalty** per successive roll.
 - **Failure Penalty**: On failure, take **1 point of non-lethal damage per 5 points missed** below the DC (or 5 flat points on standard failure).
 - **Exhaustion State**: If Vitality is reduced to 0, take **2 physical Health damage** and gain the **Exhausted** condition (**-2 to all active checks and half movement speed**) until taking a **Light Rest (Nap)**.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.17 Movement Modes, Tactical Paces & Fatigue Rules.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

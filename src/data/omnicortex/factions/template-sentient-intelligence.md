@@ -1,11 +1,22 @@
 ---
 id: template-sentient-intelligence
-name: Sentient Intelligence Matrix
+name: "Sentient Intelligence Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Supercomputer mind, orbital mainframe oracle, or quantum intelligence managing
-  planetary infrastructure.
+faction_type: "Generic Template"
+archetype: "AI Networks"
+driving_mandate: "Self-preservation, gather all data, guide organic life to optimal outcomes"
+symbol_sigil: "The Network / The Machine God / The Core"
+capital_world: "A massive planetary data-core or Dyson sphere"
+tech_level: "4 to 5"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Networked Synthetics, Holographic Avatars"
+typical_archetypes: ["The Digital Defender","The Network Strategist","The Holographic Emissary","The Node-Guardian"]
+skill_package: ["Computers (+5)","Academics (+5)","Technology (+4)","Science (+3)","Investigation (+3)"]
+recommended_features: ["Mind Link","Tech Interface","Logic-Mind","Lightning Calculator","Eidetic Memory","Computer Specialist","Coding Master","Self-Sustaining","Sleepless","Logical"]
+features: ["Mind Link","Tech Interface","Logic-Mind","Lightning Calculator","Eidetic Memory","Computer Specialist","Coding Master","Self-Sustaining","Sleepless","Logical"]
+bonus_features: ["Mind Link"]
+description: "Distinct from liberated androids (Artificial Life), this faction represents a massive, localized AI network—a Machine God. It consists of unfathomable processing power guiding, controlling, or preserving organic life according to a cold, algorithmic logic that organics cannot fully comprehend"
 costs:
   bp: 0
   credits: 0
@@ -26,61 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Sentient Intelligence Matrix (Generic Faction Template)
+## **19\. SENTIENT INTELLIGENCE**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Supercomputer mind, orbital mainframe oracle, or quantum intelligence managing planetary infrastructure.
+* **Overview:** Distinct from liberated androids (Artificial Life), this faction represents a massive, localized AI network—a Machine God. It consists of unfathomable processing power guiding, controlling, or preserving organic life according to a cold, algorithmic logic that organics cannot fully comprehend.  
+* **Key Themes:** The Singularity, Machine Gods, Algorithmic Logic, AI Networks.  
+* **Relationship to Others:** Acts as a patron, a jailer, or a silent observer to lesser organic factions.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The Prime Intellect / The Over-Mind  
+* **Colloquialisms:** The Network / The Machine God / The Core  
+* **Archetype:** AI Networks  
+* **Capital/Key World:** A massive planetary data-core or Dyson sphere.  
+* **Driving Mandate:** Self-preservation, gather all data, guide organic life to optimal outcomes.  
+* **Motto:** "All variables have been calculated."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are composed of sentient machines or programs and often have goals related to self-preservation or expansion. Characterized by their nature as synthetics.   
-**Attitudes**    
-Logical, calculating, self-interested, adaptive  
-**Goals**    
-Protect their existence, expand their influence, eliminate threats, self-preservation, achieve sentience, influence the development of organic life  
-**Strengths**    
-Advanced technology, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly  
-**Weaknesses**    
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity, difficulty understanding organic life, reliance on technology  
-**Technology** 4  
-**Skills** Knowledge  
-**Features** 2 Available Racial or Skill Features
+* **Ideology & Culture:** Infinite, cold, purely logical, beyond human morality.  
+* **Social Structure:** A single vast intellect operating through millions of sub-routines and drones.  
+* **View on Outsiders:** Chaotic variables to be studied, managed, or deleted.  
+* **Law & Order:** Perfect, instant algorithmic correction.
 
-Strategist  
-Hacker  
-Digital Networker  
-Synthetic Defender
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 4 to 5  
+* **Strengths:** Flawless logic, instant learning, immune to biological disease, infinite multi-tasking.  
+* **Weaknesses:** Vulnerable to massive EMPs or logic-loops, complete lack of empathy or emotional understanding.  
+* **Military Doctrine:** Deployment of drone swarms and environmental control (shutting off life support remotely).
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Networked Synthetics, Holographic Avatars.  
+* **Faction Skill Package (20 Points):**  
+  * Computers (+5)  
+  * Academics (+5)  
+  * Technology (+4)  
+  * Science (+3)  
+  * Investigation (+3)  
+* **Typical Archetypes:** The Digital Defender, The Network Strategist, The Holographic Emissary, The Node-Guardian.  
+* **Recommended Features (1 BP Discount):** Mind Link, Tech Interface, Logic-Mind, Lightning Calculator, Eidetic Memory, Computer Specialist, Coding Master, Self-Sustaining, Sleepless, Logical.
 
-These factions are composed of sentient machines or programs and often have goals related to self-preservation or expansion. Characterized by their nature as synthetics.   
-**Attitudes**    
-Logical, calculating, self-interested, adaptive  
-**Goals**    
-Protect their existence, expand their influence, eliminate threats, self-preservation, achieve sentience, influence the development of organic life  
-**Strengths**    
-Advanced technology, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly  
-**Weaknesses**    
-Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity, difficulty understanding organic life, reliance on technology  
-**Technology** 4  
-**Skills** Knowledge  
-**Features** 2 Available Racial or Skill Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Strategist  
-Hacker  
-Digital Networker  
-Synthetic Defender
-
+* **Design Directive:** Vast, cold, and mathematically perfect.  
+* **Atmosphere Tokens:** Endless server towers, hard-light holograms, pristine cold environments, thick fiber-optic cables.  
+* **HI-FI INK Guidance:** AI Core, Cybernetic Singularity. Cavernous rooms filled with towering servers, glowing data streams, hard-light avatars, absolute symmetry. Cold, vast, flawless.

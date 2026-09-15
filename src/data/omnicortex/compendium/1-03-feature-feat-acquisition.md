@@ -2,10 +2,37 @@
 id: "1-03-feature-feat-acquisition"
 name: "1.03 Feature & Feat Acquisition Rules"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "1.00 CHARACTER CREATION"
 order: 3
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["feature","feat","acquisition"]
+updatedAt: "2026-09-14T16:40:07.813Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 1.03 Feature & Feat Acquisition Rules
 
 Features (also termed Feats or Perks) represent distinct capabilities, combat maneuvers, specialized augmentations, and metaphysical awakenings.
@@ -27,3 +54,14 @@ Features (also termed Feats or Perks) represent distinct capabilities, combat ma
 3. **Meta Features:** Awaken metaphysical disciplines or unlock advanced Invocations (e.g. *Awakened Discipline, Meta Resonance, Overchannel*).
 4. **General Features:** Broad utility perks covering wealth, connections, cybernetics, and familiars.
 5. **Ranked Features:** Features that can be purchased multiple times. Each purchase stacks benefits, capped by the character's linked Attribute or Skill Tier.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.03 Feature & Feat Acquisition Rules.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

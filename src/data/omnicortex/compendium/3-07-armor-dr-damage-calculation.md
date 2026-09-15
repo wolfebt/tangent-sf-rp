@@ -2,10 +2,37 @@
 id: "3-07-armor-dr-damage-calculation"
 name: "3.07 Master Damage Calculation, Metafocus & Precision Resolution"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 7
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["armor","damage","calculation"]
+updatedAt: "2026-09-14T16:40:07.835Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.07 Master Damage Calculation, Metafocus & Precision Resolution
 
 Damage in Tangent is resolved through a unified formula incorporating weapon force, relevant abilities, precision bonuses, target armor protection, and natural resilience.
@@ -37,3 +64,14 @@ $$\text{Total Damage} = (\text{Weapon Dice} + \text{Relevant Ability Mod} + \tex
 - **Attack Roll:** Rolled with the **Attune Skill** (Strike roll, opposed by target Defense score or setting the saving throw CR).
 - **Damage & Magnitude:** Potency is determined by the **Invocation Tier and Discipline Skill Level**.
 - **Spontaneous Casting:** Fully supported, using the relevant **Discipline's Skill Rank**.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.07 Master Damage Calculation, Metafocus & Precision Resolution.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

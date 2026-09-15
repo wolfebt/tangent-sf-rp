@@ -5,11 +5,32 @@ category: "compendium"
 parent: "99.00 ARCHITECT MATRICES & WORLDBUILDING"
 order: 3
 perspective: "architect"
-entry_type: "Invocation Matrix"
+entry_type: "Game Mechanic"
 tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","invocation-matrix"]
+updatedAt: "2026-09-14T16:40:07.844Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **INVOCATIONS FRAMEWORK**
@@ -374,3 +395,14 @@ Consult this Architect matrix when designing game assets, calculating build budg
 
 ## Architect Notes
 Source of Truth: docs/game rules/architect/99. METAPHYSICS, INVOCATION MATRIX (1).md
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 99. INVOCATION MATRIX & DATA BLOCK ARCHITECTURE.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

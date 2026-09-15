@@ -10,7 +10,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","3.00 combat","mechanics"]
-updatedAt: "2026-09-14T19:51:39.816Z"
+updatedAt: "2026-09-15T07:26:06.690Z"
 costs:
   bp: 0
   credits: 0

@@ -2,10 +2,37 @@
 id: "3-12-status-conditions-effects"
 name: "3.12 Canonical Status Effects & Conditions Matrix"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 12
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["status","conditions","effects"]
+updatedAt: "2026-09-14T16:40:07.836Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.12 Canonical Status Effects & Conditions Matrix
 
 Complete reference matrix of all 10 tactical combat status effects, mechanical penalties, and cures/removals.
@@ -26,3 +53,14 @@ Complete reference matrix of all 10 tactical combat status effects, mechanical p
 | **Prone** | Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. | Move Action to stand up. |
 | **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill). | Constitution Save (CR 15) at end of turn to recover. |
 | **Suppressed** | Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. | Enemy stops firing, reloads, or is neutralized. |
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.12 Canonical Status Effects & Conditions Matrix.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

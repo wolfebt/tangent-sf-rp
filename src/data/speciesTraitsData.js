@@ -1262,11 +1262,21 @@ export const SPECIES_TRAITS_BASIC = [
     "mechanic": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
     "rules": "Basic Species Trait (1 BP).",
     "special_rules": "Basic Species Trait (1 BP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      }
+    ],
     "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "notes": "[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +2 to Athletics\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Strength 1, Agility 1, Stamina 1",
     "notesList": [
-      "[Rule] Basic Species Trait (1 BP)."
+      "[Modifier] +2 to Athletics",
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Strength 1, Agility 1, Stamina 1"
     ]
   },
   {
@@ -1296,9 +1306,10 @@ export const SPECIES_TRAITS_BASIC = [
     "special_rules": "Basic Species Trait (1 BP).",
     "modifiers": [],
     "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "notes": "[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Wisdom 1",
     "notesList": [
-      "[Rule] Basic Species Trait (1 BP)."
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Wisdom 1"
     ]
   },
   {
@@ -2990,9 +3001,10 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 BP).",
     "modifiers": [],
     "body": "# Fast Heal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDaily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Stamina 2",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Stamina 2"
     ]
   },
   {
@@ -3577,9 +3589,10 @@ export const SPECIES_TRAITS_ADVANCED = [
     "special_rules": "Advanced Species Trait (2 BP).",
     "modifiers": [],
     "body": "# Sleepless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not require sleep, may rest to regain metaphysical energy.",
-    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Synthetic, Elf, or Special",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Synthetic, Elf, or Special"
     ]
   },
   {
@@ -4324,9 +4337,10 @@ export const SPECIES_TRAITS_ELITE = [
     "special_rules": "Elite Species Trait (4 BP).",
     "modifiers": [],
     "body": "# Regeneration\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health.",
-    "notes": "[Rule] Elite Species Trait (4 BP).",
+    "notes": "[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Fast Heal, Sta 4",
     "notesList": [
-      "[Rule] Elite Species Trait (4 BP)."
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Fast Heal, Sta 4"
     ]
   },
   {
@@ -5775,9 +5789,10 @@ export const OCCUPATIONAL_TRAITS = [
     "special_rules": "Basic Occupational Trait (1 BP).",
     "modifiers": [],
     "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).",
+    "notes": "[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Intellect 2",
     "notesList": [
-      "[Rule] Basic Occupational Trait (1 BP)."
+      "[Rule] Basic Occupational Trait (1 BP).",
+      "[Prerequisite] Intellect 2"
     ]
   },
   {
@@ -6157,11 +6172,21 @@ export const OCCUPATIONAL_TRAITS = [
     "mechanic": "Often on the move, traveling from place to place and exploring new territories",
     "rules": "Basic Occupational Trait (1 BP).",
     "special_rules": "Basic Occupational Trait (1 BP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 defense"
+      }
+    ],
     "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).",
+    "notes": "[Modifier] +4 defense\n[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Agi 2, Dodge",
     "notesList": [
-      "[Rule] Basic Occupational Trait (1 BP)."
+      "[Modifier] +4 defense",
+      "[Rule] Basic Occupational Trait (1 BP).",
+      "[Prerequisite] Agi 2, Dodge"
     ]
   },
   {
@@ -6776,9 +6801,11 @@ export const OCCUPATIONAL_TRAITS = [
     "special_rules": "Basic Occupational Trait (1 BP).",
     "modifiers": [],
     "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] None (though usually tied to Species or Origin).",
     "notesList": [
-      "[Rule] Basic Occupational Trait (1 BP)."
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Basic Occupational Trait (1 BP).",
+      "[Prerequisite] None (though usually tied to Species or Origin)."
     ]
   },
   {
@@ -7797,9 +7824,10 @@ export const ORIGIN_TRAITS = [
     "special_rules": "Basic Origin Trait (1 BP).",
     "modifiers": [],
     "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "notes": "[Rule] Basic Origin Trait (1 BP).",
+    "notes": "[Rule] Basic Origin Trait (1 BP).\n[Prerequisite] Charisma 1",
     "notesList": [
-      "[Rule] Basic Origin Trait (1 BP)."
+      "[Rule] Basic Origin Trait (1 BP).",
+      "[Prerequisite] Charisma 1"
     ]
   },
   {
@@ -11405,9 +11433,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Origin Trait (1 BP).",
     "modifiers": [],
     "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "notes": "[Rule] Basic Origin Trait (1 BP).",
+    "notes": "[Rule] Basic Origin Trait (1 BP).\n[Prerequisite] Charisma 1",
     "notesList": [
-      "[Rule] Basic Origin Trait (1 BP)."
+      "[Rule] Basic Origin Trait (1 BP).",
+      "[Prerequisite] Charisma 1"
     ]
   },
   {
@@ -12863,9 +12892,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Advanced Species Trait (2 BP).",
     "modifiers": [],
     "body": "# Fast Heal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDaily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Stamina 2",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Stamina 2"
     ]
   },
   {
@@ -13923,9 +13953,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Occupational Trait (1 BP).",
     "modifiers": [],
     "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).",
+    "notes": "[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Intellect 2",
     "notesList": [
-      "[Rule] Basic Occupational Trait (1 BP)."
+      "[Rule] Basic Occupational Trait (1 BP).",
+      "[Prerequisite] Intellect 2"
     ]
   },
   {
@@ -14770,11 +14801,21 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "Often on the move, traveling from place to place and exploring new territories",
     "rules": "Basic Occupational Trait (1 BP).",
     "special_rules": "Basic Occupational Trait (1 BP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "defense-mod",
+        "type": "combat",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 defense"
+      }
+    ],
     "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).",
+    "notes": "[Modifier] +4 defense\n[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] Agi 2, Dodge",
     "notesList": [
-      "[Rule] Basic Occupational Trait (1 BP)."
+      "[Modifier] +4 defense",
+      "[Rule] Basic Occupational Trait (1 BP).",
+      "[Prerequisite] Agi 2, Dodge"
     ]
   },
   {
@@ -16046,9 +16087,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Elite Species Trait (4 BP).",
     "modifiers": [],
     "body": "# Regeneration\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health.",
-    "notes": "[Rule] Elite Species Trait (4 BP).",
+    "notes": "[Rule] Elite Species Trait (4 BP).\n[Prerequisite] Fast Heal, Sta 4",
     "notesList": [
-      "[Rule] Elite Species Trait (4 BP)."
+      "[Rule] Elite Species Trait (4 BP).",
+      "[Prerequisite] Fast Heal, Sta 4"
     ]
   },
   {
@@ -16350,11 +16392,21 @@ export const ALL_CANONICAL_TRAITS = [
     "mechanic": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
     "rules": "Basic Species Trait (1 BP).",
     "special_rules": "Basic Species Trait (1 BP).",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      }
+    ],
     "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "notes": "[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Modifier] +2 to Athletics\n[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Strength 1, Agility 1, Stamina 1",
     "notesList": [
-      "[Rule] Basic Species Trait (1 BP)."
+      "[Modifier] +2 to Athletics",
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Strength 1, Agility 1, Stamina 1"
     ]
   },
   {
@@ -16416,9 +16468,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Species Trait (1 BP).",
     "modifiers": [],
     "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "notes": "[Rule] Basic Species Trait (1 BP).",
+    "notes": "[Rule] Basic Species Trait (1 BP).\n[Prerequisite] Wisdom 1",
     "notesList": [
-      "[Rule] Basic Species Trait (1 BP)."
+      "[Rule] Basic Species Trait (1 BP).",
+      "[Prerequisite] Wisdom 1"
     ]
   },
   {
@@ -16899,9 +16952,10 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Advanced Species Trait (2 BP).",
     "modifiers": [],
     "body": "# Sleepless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not require sleep, may rest to regain metaphysical energy.",
-    "notes": "[Rule] Advanced Species Trait (2 BP).",
+    "notes": "[Rule] Advanced Species Trait (2 BP).\n[Prerequisite] Synthetic, Elf, or Special",
     "notesList": [
-      "[Rule] Advanced Species Trait (2 BP)."
+      "[Rule] Advanced Species Trait (2 BP).",
+      "[Prerequisite] Synthetic, Elf, or Special"
     ]
   },
   {
@@ -17091,9 +17145,11 @@ export const ALL_CANONICAL_TRAITS = [
     "special_rules": "Basic Occupational Trait (1 BP).",
     "modifiers": [],
     "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "notes": "[Rule] Basic Occupational Trait (1 BP).",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Basic Occupational Trait (1 BP).\n[Prerequisite] None (though usually tied to Species or Origin).",
     "notesList": [
-      "[Rule] Basic Occupational Trait (1 BP)."
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Basic Occupational Trait (1 BP).",
+      "[Prerequisite] None (though usually tied to Species or Origin)."
     ]
   },
   {

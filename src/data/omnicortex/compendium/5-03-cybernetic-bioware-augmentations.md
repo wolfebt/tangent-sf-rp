@@ -2,10 +2,37 @@
 id: "5-03-cybernetic-bioware-augmentations"
 name: "5.03 Cybernetic & Bioware Augmentations"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "5.00 TECHNOLOGY & GEAR"
 order: 3
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["cybernetic","bioware","augmentations"]
+updatedAt: "2026-09-14T16:40:07.842Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 99 - AUGMENTATIONS MATRIX: MODIFYING THE PHYSICAL FORM
 
 In the Tangent universe, the definition of "self" is fluid. The body is an agnostic chassis—upgradable, interchangeable, and capable of profound evolution. This catalog unifies the mechanics of Cybernetics (Replacements), Bioware (Enhancements), and Nanoware into a single matrix governed by Tech Levels (TL), Build Points (BP), and the Node System.
@@ -350,3 +377,14 @@ Non-permanent, external harnesses that provide mechanical advantages without sur
 
 ---
 *Created for the Tangent RP System. Reference Matrix 99 - AUGMENTATION.*
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 5.03 Cybernetic & Bioware Augmentations.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

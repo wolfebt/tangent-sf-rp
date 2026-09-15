@@ -5,11 +5,32 @@ category: "compendium"
 parent: "2.00 ECONOMATRIX & CRAFTING"
 order: 1
 perspective: "both"
-entry_type: "Core Rule"
+entry_type: "Game Mechanic"
 tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","core-rule"]
+updatedAt: "2026-09-14T16:40:07.830Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **Tangent \- Economic Unified Theory**
@@ -3178,7 +3199,7 @@ Tangent Standard Curve (TSC): Value (Credits) = 10 * 4^(CR / 5).
 Golden Rule of Tangent Wealth: A character may automatically purchase any item with a Crafting CR <= Wealth Score without depleting liquid Credits or reducing Wealth Score (Purchase CR = Crafting CR).
 Liquid Credits for transactions exceeding Wealth limits.
 1 MCr (Mega-Credit) = 1,000,000 Credits.
-Crafting CR is the Prime Mover of value, time, and fabrication tiers.
+Crafting DC is the Prime Mover of value, time, and fabrication tiers.
 
 
 ## Tactical Guide
@@ -3187,3 +3208,14 @@ Use the TSC curve to value any item, weapon, augmentation, or starship in credit
 
 ## Architect Notes
 Source of Truth: docs/game rules/operator/2.00 ECONOMATRIX.md
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 2.00 ECONOMATRIX & ECONOMIC UNIFIED THEORY (TSC).
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

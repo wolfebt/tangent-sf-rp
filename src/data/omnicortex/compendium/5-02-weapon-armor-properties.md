@@ -2,10 +2,37 @@
 id: "5-02-weapon-armor-properties"
 name: "5.02 Weapon & Armor Properties"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "5.00 TECHNOLOGY & GEAR"
 order: 2
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["weapon","armor","properties"]
+updatedAt: "2026-09-14T16:40:07.842Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 5.02 Weapon & Armor Properties
 
 Weapons, armor suits, and defensive shielding feature specialized mechanical properties.
@@ -30,3 +57,14 @@ Weapons, armor suits, and defensive shielding feature specialized mechanical pro
 - **Damage Reduction (DR X):** Directly absorbs $ points of incoming physical/kinetic/energy damage.
 - **Ablative Plating:** Grants high initial DR that degrades by 1 point per 10 damage absorbed until repaired.
 - **Powered Exoskeleton:** Increases wearer's raw Strength score by +2 and doubles carrying capacity.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 5.02 Weapon & Armor Properties.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

@@ -2,10 +2,37 @@
 id: "3-11-combat-maneuvers-guide"
 name: "3.11 Combat Maneuvers & EDGE Tactical Modifiers Guide"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 11
+perspective: "both"
+entry_type: "System Guide"
+tl: 3
+ml: 0
+cost: 0
+tags: ["combat","maneuvers","guide"]
+updatedAt: "2026-09-14T16:40:07.836Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.11 Combat Maneuvers & EDGE Tactical Modifiers Guide
 
 **Edge** refers to tactical advantage modifiers that characters can gain or lose based on their movements, positions, and the environment during combat.
@@ -31,3 +58,14 @@ order: 11
 - **Subtle:** Quiet, sneaky, low-key condition avoiding attention; required for availability of stealth-based Skill Actions.
 - **Feint:** Bluff check (vs Sense Motive) leads target into False Defense, allowing a **Sneak Attack at -5 to Strike** (Target has **NO Defense**).
 - **Surprise / Sneak Attack:** Target is unaware and has **NO Defense**. Attack at **-5 to hit**, Damage rolled at **Advantage**. Danger Sense allows Advantage check to be aware.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.11 Combat Maneuvers & EDGE Tactical Modifiers Guide.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

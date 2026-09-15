@@ -1,23 +1,22 @@
 ---
 id: faction-entari-combine
-name: The Entari Combine
+name: "The Entari Combine"
 category: factions
-faction_type: Major Polity
-archetype: Cosmopolitan Mercantile Federation
-driving_mandate: Facilitate Free Trade; Harbor Galactic Knowledge.
-symbol_sigil: The Golden Scales
-capital_world: Entaria Prime
-tech_level: 3-4 (Commercial / High-End)
-meta_level: 2 (Artisan Magic)
-skill_package:
-  - Barter
-  - Diplomacy
-  - Knowledge (Culture)
-  - Vocation (Broker)
-  - Languages
-description: >-
-  Vast interstellar trade alliance, bazaar worlds, artisan guilds, and museum
-  libraries celebrating galactic diversity.
+faction_type: "Major Polity"
+archetype: "Eco-Futurist Luxury / Cosmopolitan Hub"
+driving_mandate: "Profit through Peace and Sustainability"
+symbol_sigil: "Interlinked Golden Rings"
+capital_world: "Entari Prime (The Garden World)"
+tech_level: "3"
+meta_level: "1"
+wealth_modifier: "+3 (Wealthy Baseline)"
+prominent_species: "Cosmopolitan (All species welcome; notable Sa-Sa-Si population)"
+typical_archetypes: ["The Bureaucrat","The Warden","The Company Man","The Broker","The Security Officer","The Thespian","The Virtuoso","The Envoy","The Senator","The Peacekeeper","The Xenologist","The Biologist"]
+skill_package: ["Diplomacy (+5)","Vocation (Merchant/Artisan) (+4)","History/Xenology (+3)","Insight (+3)","Language (+3)","Finance (+2)"]
+recommended_features: ["Benefit (Wealth)","Benefit (Immunity)","Inspiring Personality","Silver Tongue","Trustworthy","Linguist","Scholar","Medic","Golden Smile","Connected","Educated","Versatile Curator"]
+features: ["Benefit (Wealth)","Benefit (Immunity)","Inspiring Personality","Silver Tongue","Trustworthy","Linguist","Scholar","Medic","Golden Smile","Connected","Educated","Versatile Curator"]
+bonus_features: ["Industrial Connections","Deep Diver"]
+description: "Born from multiple hostile takeovers of a contested agro-world, Patron Marcus DeVree transformed the Entari system into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Synthetic Super-Intellect \"Bastion.\" The Combine operates as a Monarch-led Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's \"Neutral Ground,\" a stabilizing force where commerce and conversation supersede conflict, proving profitability does not require exploitation"
 costs:
   bp: 0
   credits: 0
@@ -38,53 +37,95 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Major Galactic Power"
 ---
 
-# The Entari Combine
+## **THE ENTARI COMBINE**
 
-**Category**: Major Galactic Polities  
-**Archetype**: Cosmopolitan Mercantile Federation  
-**Mandate**: Facilitate Free Trade; Harbor Galactic Knowledge.  
-**Capital World**: Entaria Prime  
-**Tech Level**: 3-4 (Commercial / High-End) | **Meta Level**: 2 (Artisan Magic)
+### **I. Detailed Faction Description**
 
-## Description
-Vast interstellar trade alliance, bazaar worlds, artisan guilds, and museum libraries celebrating galactic diversity.
+* **Overview:** Born from multiple hostile takeovers of a contested agro-world, Patron Marcus DeVree transformed the Entari system into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Synthetic Super-Intellect "Bastion." The Combine operates as a Monarch-led Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's "Neutral Ground," a stabilizing force where commerce and conversation supersede conflict, proving profitability does not require exploitation.  
+* **Key Themes:** Prosperity, Education, Neutrality, Ethical Capitalism, Cosmopolitanism, Eco-Tech.  
+* **Relationship to Others:** The bank for everyone; strict neutrality ensures safety; hosts scholars and displaced species (e.g., Sa-Sa-Si) from all factions.
 
-## Faction Skill Package (20 SP Pool)
-- Barter
-- Diplomacy
-- Knowledge (Culture)
-- Vocation (Broker)
-- Languages
+### **II. Core Identity**
 
-## Bonus Features (1 BP Discount)
-- `Benefit (Wealth)`
-- `Connected`
+* **Official Designation:** The Entari Combine  
+* **Colloquialisms:** The Combine / The Resort / The Jewel / The Neutral Zone  
+* **Archetype:** Eco-Futurist Luxury / Cosmopolitan Hub  
+* **Capital/Key World:** Entari Prime (The Garden World)  
+* **Symbol/Sigil:** Interlinked Golden Rings  
+* **Driving Mandate:** Profit through Peace and Sustainability.  
+* **Motto:** "War is bad for business."
 
+### **III. Sociological Profile**
 
-## Extended Lore & Background
+#### **Ideology & Culture**
 
-The Entari Combine is a fascinating geopolitical anomaly: a thriving, independent power born from multiple hostile takeovers. Formerly an agro world contested by both the Syndicate and Dynasty until falling to independent baronies, the system was reformed by Patron Marcus DeVree into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Research and Education Center managed by Bastion (a TL 5 Synthetic Super-Intellect).  
-DeVree established a new government based on Ethical Capitalism, Sustainability, and Neutrality. Unlike the ruthless Corporatocracy of the Syndicate or the rigid caste system of the Dynasty, the Combine operates as a Monarch-led Republic. It positions itself as a neutral sanctuary for free trade, diplomacy, and higher education where rival powers can meet without immediate conflict. The Combine is also known for protecting displaced or misunderstood species; notably, they host the Sa-Sa-Si, a protected colony of Dragonkin Vassoth.
+* **Core Beliefs:** Prosperity is best achieved through cooperation. Doing good creates a premium brand.  
+* **Social Structure:** Cosmopolitan; status driven by wealth, intellect, and diplomatic grace.  
+* **View on Outsiders:** Highly welcoming; all are viewed as guests, clients, or scholars, provided they respect the peace.  
+* **Law & Order:** Law 3 (Sovereign Mandate). Enforced silently and non-lethally by the Solar Guard and Concierge Automata.
 
-The Entari Combine is a Cosmopolitan Trade Hub and Diplomatic Sanctuary defined by Luxury, Diplomacy, and Eco-Tech. They serve as the galaxy's "Neutral Ground," a stabilizing force where commerce and conversation supersede conflict. They have built a society that proves profitability does not require exploitation. Their economy is driven by high-end tourism, banking, and the export of advanced medical and environmental technologies.
+#### **Governance**
 
-The Combine was born from the "Shattered Harvest," a period where the Entari system was traded back and forth between the Dynasty and Syndicate like a commodity. The local populace, exhausted by centuries of proxy wars, found a leader in Marcus DeVree, a high-level merchant who utilized his immense personal wealth to buy out the remaining planetary debts and mercenary contracts.
+* **Government Type:** Constitutional Monarchy / Republic  
+* **Leadership:** Benevolent Patron & Parliamentary Merchant Council.  
+* **Succession:** Council election / Corporate appointment.
 
-As the system stabilized, DeVree recognized that Entari Prime could only survive if it became indispensable to everyone. He declared the system a Sovereign Sanctuary. By hosting the Synthetic Super-Intellect "Bastion," the Combine became the premier repository of knowledge and scientific research, effectively forcing the larger factions to respect its borders to maintain access to its data and financial markets.
+### **IV. Strategic Assets**
 
-The Combine operates primarily at **Tech Level 4 (Stellar Age)**. Their technology is defined by a departure from the "Industrial Grit" of the Coalition or the "Psionic Elegance" of the Impyrium.
+#### **Economy & Tech**
 
-A mix of highly trained human diplomats and "L-Series" Automata. They are the first point of contact for any visitor. While they appear to be service staff, they are masters of information gathering and psychological de-escalation.
+* **Tech Level (TL):** 4 (Stellar Age \- Eco-Tech)  
+* **Meta Level (ML):** Integrated into arts, healing, and leisure (Empathy).  
+* **Wealth Modifier:** \+3 (Wealthy Baseline)  
+* **Primary Exports:** Advanced medical/environmental tech, high-end tourism, banking, education, diplomatic mediation.  
+* **Economic Model:** Ethical Capitalism.
 
-The standing defensive force. Unlike the Rangers of the Coalition, the Solar Guard uses non-lethal suppression, grav-nets, and high-precision energy weaponry. Their mandate is to "Neutralize with Minimal Disruption."
+#### **Military Profile**
 
-Entari buildings utilize Parametric design, seamlessly integrating organic curves with structural efficiency. All listed structures are TL 4 and possess the **Self-Repairing (1 SP/hr)** trait.
+* **Doctrine:** "Neutralize with Minimal Disruption." Non-lethal suppression and invisible defenses.  
+* **Key Units:** The Concierge Corps (Diplomats/Automata), The Solar Guard (Standing defense).  
+* **Naval Assets:** Solar-Vigil Interceptors, Amber-Wing Luxury Yachts.  
+* **Unique Tech/Materials:** Self-Repairing technology (1 SP/hr), Nanocarbon, Force-Glass, Clean Aether-well generators.
 
-Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari Mecha possess the **Self-Repairing (1 SP/hr)** trait.
+### **V. Mechanics (Game Data)**
 
-The Starport Concourse filters light through amber glass, bathing the sandstone floors in a permanent "golden hour." Travelers from across the galaxy are greeted by Automata offering chilled nectar. There are no scanners; instead, decorative pillars house non-intrusive sensors that scan for weapons and illness without the traveler ever breaking stride.
+* **Prominent Species:** Cosmopolitan (All species welcome; notable Sa-Sa-Si population).  
+* **Faction Skill Package (20 Points):**  
+  * Diplomacy (+5)  
+  * Vocation (Merchant/Artisan) (+4)  
+  * History/Xenology (+3)  
+  * Insight (+3)  
+  * Language (+3)  
+  * Finance (+2)  
+* **Typical Archetypes:** The Bureaucrat, The Warden, The Company Man, The Broker, The Security Officer, The Thespian, The Virtuoso, The Envoy, The Senator, The Peacekeeper, The Xenologist, The Biologist.  
+* **Recommended Features (1 BP Discount):**  
+  * Benefit (Wealth), Benefit (Immunity), Inspiring Personality, Silver Tongue, Trustworthy, Linguist, Scholar, Medic, Golden Smile, Connected, Educated, Versatile Curator.
 
-Above the resort, a Solar Guard "Amber-Wing" yacht drifts silently. It has no visible weapons, but its targeting arrays are locked onto a Syndicate freighter that has strayed too close to the Bastion data-spires. A message is sent—not a threat, but a polite invitation to correct their course, accompanied by a list of available docking fees.
+### **VI. Visual Synthesis Protocols (Aesthetics)**
 
+#### **HI-FI INK Prompt Framework**
+
+* **SETTING STYLE:** Eco-Luxury, Cosmopolitan Hub, Parametric Design, Open and Sustainable.  
+* **CONTEXT:** Seamless integration of nature and tech, organic curves, warm gold, sandstone, cream, polished wood, water blue, photovoltaic glass (translucent amber), living walls (plant green).  
+* **ATMOSPHERE:** Relaxing, expensive, safe. Warm ambient lighting, golden hour illumination, high-status serenity.
+
+### **VII. Expansion Modules (Optional)**
+
+#### **Architectural Landmarks (TL4 Self-Repairing)**
+
+* **The Helix-Med Center:** Eco-Luxury hospital rising from a crystal lake. Specialized in genetic rejuvenation.  
+* **The Verdant Arcology:** Massive Brutalist Greenhouse for genetically perfected agriculture.  
+* **The Amber-Spire Banking Hub:** The financial heart housed in refractive force-glass vaults.  
+* **The Bastion Research Atheneum:** A sky-piercing data hub hosting the physical core of the TL5 Super-Intellect "Bastion."  
+* **The Golden-Hour Terminal:** The primary starport concourse covered by massive translucent amber canopies.
+
+#### **Mecha & Vehicular Assets**
+
+* **"L-Series" Concierge Automata:** Cerulean blue ceramic shells with gold trim. Non-sentient smart machines acting as service/security.  
+* **"Amber-Wing" Luxury Star-Yacht:** Gravitonic flight, opulent habitation.  
+* **"Aegis-Class" Grav-Bastian:** Heavy defensive platform projecting DR30 force-barriers for allies.  
+* **"Petal-Class" Hover-Skiff:** Light scout/luxury transport with stealth coating.  
+* **"Solar-Vigil" Interceptor:** High-precision atmospheric patrol ships armed with Grav-Net harpoons.

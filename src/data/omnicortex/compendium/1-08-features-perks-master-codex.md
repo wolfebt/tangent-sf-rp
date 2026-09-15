@@ -2,10 +2,37 @@
 id: "1-08-features-perks-master-codex"
 name: "1.08 Features & Perks Master Codex"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "1.00 CHARACTER CREATION"
 order: 8
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["features","perks","master","codex"]
+updatedAt: "2026-09-14T16:40:07.827Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 1.08 Features & Perks Master Codex
 
 Features are modular special abilities that define unique heroic talents.
@@ -33,3 +60,14 @@ Features are modular special abilities that define unique heroic talents.
 - **Point Blank Mastery:** Fire ranged weapons in melee reach without provoking Attacks of Opportunity; shots deal Advantage damage at point-blank range.
 - **Dual Weapon Mastery:** Attack with two weapons in a single action at a reduced -2 offhand penalty.
 - **Sniper Focus:** Take an aiming action to double the weapon's effective short range and ignore partial cover.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.08 Features & Perks Master Codex.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

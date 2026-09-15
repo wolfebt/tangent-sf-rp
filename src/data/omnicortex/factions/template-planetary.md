@@ -1,11 +1,22 @@
 ---
 id: template-planetary
-name: Planetary Government
+name: "Planetary Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Local sovereign civil government, parliamentary senate, or royal planetary
-  governor of a single star system.
+faction_type: "Generic Template"
+archetype: "System Isolationists"
+driving_mandate: "Protect the homeland from all off-world influence"
+symbol_sigil: "The Locals / Isolationists / Dirt-Grubbers"
+capital_world: "Their singular home world"
+tech_level: "3"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Homogenous to the specific world"
+typical_archetypes: ["The Planetary Governor","The Trench Veteran","The Local Guide","The Anti-Air Gunner","The Partisan"]
+skill_package: ["History (Local) (+5)","Survival (Local Biome) (+5)","Tactics (Defensive) (+4)","Combat (Rifle/Artillery) (+3)","Mechanics (+3)"]
+recommended_features: ["Defensive Combat Training","Coordinated Assist","Iron Will","Tracker","Enduring","Tough","Camouflage","Master Plan","Benefit (Status)","Environmental Resistance"]
+features: ["Defensive Combat Training","Coordinated Assist","Iron Will","Tracker","Enduring","Tough","Camouflage","Master Plan","Benefit (Status)","Environmental Resistance"]
+bonus_features: ["Defensive Combat Training"]
+description: "Fiercely nationalistic factions that control a single world or localized system and violently oppose interstellar integration. They focus entirely on deep-rooted defense, utilizing extreme local knowledge and entrenched fortifications to repel off-world invaders"
 costs:
   bp: 0
   credits: 0
@@ -26,63 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Planetary Government (Generic Faction Template)
+## **14\. PLANETARY**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Local sovereign civil government, parliamentary senate, or royal planetary governor of a single star system.
+* **Overview:** Fiercely nationalistic factions that control a single world or localized system and violently oppose interstellar integration. They focus entirely on deep-rooted defense, utilizing extreme local knowledge and entrenched fortifications to repel off-world invaders.  
+* **Key Themes:** System Isolationists, Extreme Nationalism, Home-Field Advantage, The Fortress World.  
+* **Relationship to Others:** Xenophobic and deeply suspicious of any interstellar power attempting to cross their borders.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** \[System Name\] Defense Front / The Sovereign World  
+* **Colloquialisms:** The Locals / Isolationists / Dirt-Grubbers  
+* **Archetype:** System Isolationists  
+* **Capital/Key World:** Their singular home world.  
+* **Driving Mandate:** Protect the homeland from all off-world influence.  
+* **Motto:** "Not one step onto our soil."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their focus on the development and control of individual planets or planetary systems.   
-**Attitudes**    
-Dominant, territorial, resourceful, protective  
-**Goals**    
-Control their planet(s), expand their influence, protect their resources, develop and control planets, exploit resources, defend against external threats  
-**Strengths**    
-Knowledge of their planet(s), access to local resources, strong community bonds, strong local knowledge and infrastructure, ability to adapt to planetary environments, access to planetary resources  
-**Weaknesses**    
-Vulnerability to outside threats, difficulty communicating with other factions, tendency to prioritize their own interests over the greater good, limited interstellar capabilities, vulnerability to external threats, potential for internal divisions  
-**Technology** 3  
-**Skills** Knowledge and Vocation  
-**Features** 2 General Features
+* **Ideology & Culture:** Patriotic, stubborn, unified by an external threat.  
+* **Social Structure:** Militarized civilian populace; everyone contributes to the planetary defense.  
+* **View on Outsiders:** Invaders, spies, or cultural corrupters.  
+* **Law & Order:** Strict martial law or deep-rooted local traditions.
 
-Planetary Governor  
-Planetary Defender  
-Planetary Scientist  
-Planetary Engineer  
-Planetary Explorer
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3  
+* **Strengths:** Unmatched knowledge of local terrain, deeply entrenched fortifications, unified populace, no supply lines to protect.  
+* **Weaknesses:** Zero interstellar power projection, vulnerable to orbital blockades or bombardment.  
+* **Military Doctrine:** Bleed the enemy for every inch of ground; asymmetric local warfare and massive ground-to-orbit artillery.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Homogenous to the specific world.  
+* **Faction Skill Package (20 Points):**  
+  * History (Local) (+5)  
+  * Survival (Local Biome) (+5)  
+  * Tactics (Defensive) (+4)  
+  * Combat (Rifle/Artillery) (+3)  
+  * Mechanics (+3)  
+* **Typical Archetypes:** The Planetary Governor, The Trench Veteran, The Local Guide, The Anti-Air Gunner, The Partisan.  
+* **Recommended Features (1 BP Discount):** Defensive Combat Training, Coordinated Assist, Iron Will, Tracker, Enduring, Tough, Camouflage, Master Plan, Benefit (Status), Environmental Resistance.
 
-These factions are characterized by their focus on the development and control of individual planets or planetary systems.   
-**Attitudes**    
-Dominant, territorial, resourceful, protective  
-**Goals**    
-Control their planet(s), expand their influence, protect their resources, develop and control planets, exploit resources, defend against external threats  
-**Strengths**    
-Knowledge of their planet(s), access to local resources, strong community bonds, strong local knowledge and infrastructure, ability to adapt to planetary environments, access to planetary resources  
-**Weaknesses**    
-Vulnerability to outside threats, difficulty communicating with other factions, tendency to prioritize their own interests over the greater good, limited interstellar capabilities, vulnerability to external threats, potential for internal divisions  
-**Technology** 3  
-**Skills** Knowledge and Vocation  
-**Features** 2 General Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Planetary Governor  
-Planetary Defender  
-Planetary Scientist  
-Planetary Engineer  
-Planetary Explorer
-
+* **Design Directive:** Entrenched, camouflaged, and pragmatic.  
+* **Atmosphere Tokens:** Trench lines, planetary defense cannons, localized camo patterns, bunkers, rugged terrain.  
+* **HI-FI INK Guidance:** Military Sci-Fi, Planetary Defense. Entrenched bunkers, massive ground-to-space artillery, soldiers in environment-specific camouflage. Stubborn, gritty, defensive.

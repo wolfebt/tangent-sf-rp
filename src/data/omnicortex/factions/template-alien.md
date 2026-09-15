@@ -1,11 +1,22 @@
 ---
 id: template-alien
-name: Alien Enclave
+name: "Alien Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Non-human species enclave maintaining sovereign biological traditions, unique
-  languages, and xeno-technologies.
+faction_type: "Generic Template"
+archetype: "Extraterrestrial Enigma"
+driving_mandate: "Expand territory, reproduce, eliminate threats, explore the universe"
+symbol_sigil: "The Xenos / The Outsiders / The Anomalies"
+capital_world: "Variable (Often a hostile or exotic biome)"
+tech_level: "3"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Variable (Non-Human)"
+typical_archetypes: ["The Scout","The Hunter","The Emissary","The Bio-Shaper","The Survivor","The Brute","The Observer","The Hive-Node","The Infiltrator","The Xenologist"]
+skill_package: ["Survival (+5)","Athletics (+4)","Awareness (+4)","Stealth (+4)","Combat (Any) (+3)"]
+recommended_features: ["Alien Physiology","Natural Weapons","Environmental Adaptation","Scent","Fast Heal","Telepathy","Wall-Crawler","Toxic Resistance","Pheromone Control","Echolocation"]
+features: ["Alien Physiology","Natural Weapons","Environmental Adaptation","Scent","Fast Heal","Telepathy","Wall-Crawler","Toxic Resistance","Pheromone Control","Echolocation"]
+bonus_features: ["Alien Physiology"]
+description: "These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race"
 costs:
   bp: 0
   credits: 0
@@ -26,61 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Alien Enclave (Generic Faction Template)
+## **1\. ALIEN**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Non-human species enclave maintaining sovereign biological traditions, unique languages, and xeno-technologies.
+* **Overview:** These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race.  
+* **Key Themes:** Extraterrestrial Enigma, Xenobiology, The Unknown, Survival.  
+* **Relationship to Others:** Difficult. Often marred by cultural misunderstandings or a lack of understanding of human psychology.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** \[Species Name\] Hegemony / Hive / Empire  
+* **Colloquialisms:** The Xenos / The Outsiders / The Anomalies  
+* **Archetype:** Extraterrestrial Enigma  
+* **Capital/Key World:** Variable (Often a hostile or exotic biome)  
+* **Driving Mandate:** Expand territory, reproduce, eliminate threats, explore the universe.  
+* **Motto:** "Survival through adaptation."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are composed of non-human species and often have goals that are difficult for humans to understand. Characterized by their extraterrestrial origin.   
-**Attitudes**    
-Alien, inscrutable, dangerous, curious, enigmatic, adaptable  
-**Goals**    
-Expand their territory, reproduce, eliminate threats, explore the universe, establish relations with other species, conquer or defend territories, ensure the survival of their race  
-**Strengths**    
-Advanced biology, ability to adapt to new environments, powerful weapons, access to advanced technology, unique abilities or powers, deep understanding of the cosmos, ability to adapt to various environments  
-**Weaknesses**    
-Difficulty communicating with humans, lack of understanding of human psychology, vulnerability to unfamiliar threats, potential for cultural misunderstandings, difficulty communicating with other species  
-**Technology** 3  
-**Skills** 4 from any category  
-**Features** 2 Available Racial or Special Features
+* **Ideology & Culture:** Alien, inscrutable, dangerous, curious, enigmatic, adaptable.  
+* **Social Structure:** Variable (Hive castes, biological meritocracies, or psychic collectives).  
+* **View on Outsiders:** Curious, defensive, or predatory.  
+* **Law & Order:** Governed by biological imperatives rather than written constitutions.
 
-Diplomat  
-Infiltrator  
-Warrior  
-Scientist
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3  
+* **Strengths:** Advanced biology, ability to adapt to new environments, powerful weapons, unique abilities, deep cosmic understanding.  
+* **Weaknesses:** Difficulty communicating with humans/other species, vulnerability to unfamiliar threats.  
+* **Military Doctrine:** Variable, often relying on biological weapons or overwhelming environmental adaptation.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Variable (Non-Human).  
+* **Faction Skill Package (20 Points):**  
+  * Survival (+5)  
+  * Athletics (+4)  
+  * Awareness (+4)  
+  * Stealth (+4)  
+  * Combat (Any) (+3)  
+* **Typical Archetypes:** The Scout, The Hunter, The Emissary, The Bio-Shaper, The Survivor, The Brute, The Observer, The Hive-Node, The Infiltrator, The Xenologist.  
+* **Recommended Features (1 BP Discount):** Alien Physiology, Natural Weapons, Environmental Adaptation, Scent, Fast Heal, Telepathy, Wall-Crawler, Toxic Resistance, Pheromone Control, Echolocation.
 
-These factions are composed of non-human species and often have goals that are difficult for humans to understand. Characterized by their extraterrestrial origin.   
-**Attitudes**    
-Alien, inscrutable, dangerous, curious, enigmatic, adaptable  
-**Goals**    
-Expand their territory, reproduce, eliminate threats, explore the universe, establish relations with other species, conquer or defend territories, ensure the survival of their race  
-**Strengths**    
-Advanced biology, ability to adapt to new environments, powerful weapons, access to advanced technology, unique abilities or powers, deep understanding of the cosmos, ability to adapt to various environments  
-**Weaknesses**    
-Difficulty communicating with humans, lack of understanding of human psychology, vulnerability to unfamiliar threats, potential for cultural misunderstandings, difficulty communicating with other species  
-**Technology** 3  
-**Skills** 4 from any category  
-**Features** 2 Available Racial or Special Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-Diplomat  
-Infiltrator  
-Warrior  
-Scientist
-
+* **Design Directive:** Organic, non-Euclidean, and unfamiliar.  
+* **Atmosphere Tokens:** Bioluminescence, organic architecture, chitin, strange geometries, enigmatic, alien.  
+* **HI-FI INK Guidance:** Extraterrestrial Enigma, Organic structures, alien flora, non-Euclidean environments, bioluminescent atmospheres. Mysterious, exotic, dangerous.

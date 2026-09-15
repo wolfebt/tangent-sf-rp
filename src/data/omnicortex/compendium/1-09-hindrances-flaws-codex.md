@@ -10,6 +10,27 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","hindrance-codex"]
+updatedAt: "2026-09-14T16:40:07.828Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **HINDRANCES**
@@ -454,3 +475,14 @@ Use hindrances to add narrative depth and character flaws while funding advanced
 
 ## Architect Notes
 Source of Truth: docs/game rules/operator/1.09 HINDRANCES.md
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.09 HINDRANCES & KARMIC DEBT CODEX.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

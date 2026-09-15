@@ -979,15 +979,18 @@ Choosing a **Major Primary Faction** grants the following:
 | Faction Name | Archetype | Tech Level | Meta Level | Capital / Core World | Driving Mandate |
 | :--- | :--- | :---: | :---: | :--- | :--- |
 | **Dracon Dynasty** | Feudal Technocracy / Space Monarchy | **TL 3** | **ML 3** | Draconis | Protect the Realm; Expand through Diplomacy. |
-| **The Syndicate** | Cyber-Corporate Cyberocracy | **TL 4** | **ML 2** | Premius | Eliminate Friction; Maximize Efficiency. |
-| **Free Worlds Coalition** | Democratic Confederation / Frontier League | **TL 3** | **ML 2** | Libertalia | Self-Determination; Resist Imperial Dominion. |
-| **The Ascendancy** | Psionic Theocracy / Transcendence | **TL 3** | **ML 5** | Solace | Uplift the Mind; Attune to the Quantum Weave. |
+| **The Syndicate** | High-Tech Cyberocracy / Corporate Hegemony | **TL 4** | **ML 2** | Premius | Eliminate Friction; Maximize Efficiency. |
+| **The Entari Combine** | Mega-Conglomerate / Hydro-Mineral Technocracy | **TL 3** | **ML 1** | Entari Prime | Resource Monopolization; Industrial Domination. |
+| **Free Worlds Coalition** | Democratic Confederation / Frontier League | **TL 3** | **ML 2** | Libertalia | Defend Self-Determination; Resist Imperial Dominion. |
+| **The Outworlds** | Frontier Scavengers / Anarcho-Syndicates | **TL 3** | **ML 1** | Rust-Haven | Survival through Independence; Defy Central Authority. |
+| **The Ascendancy** | Psionic Theocracy / Transcendence Hegemony | **TL 3** | **ML 5** | Solace | Uplift Sentient Consciousness; Attune to the Cosmic Weave. |
+| **The Mekan Collective** | Synthetic Technocracy / Machine Consciousness | **TL 5** | **ML 1** | Mekan Prime | Perfection of Form; Eradication of Biological Inefficiency. |
 | **Auluran Clans** | Nomadic Starfarers / Bio-Smiths | **TL 4** | **ML 3** | The Great Armada | Preserve the Fleet; Honor the Ancestor Pods. |
-| **Elven Providence** | Ancient Sages / Star-Weavers | **TL 4** | **ML 4** | Illyria | Harmonize Nature with High Science. |
-| **Kovian Tribunal** | Technocratic Arbiters / Lawbringers | **TL 4** | **ML 1** | Kovia Prime | Order through Logic; Eradicate Chaos. |
-| **Vajar** | Warrior Clades / Honorbound Legions | **TL 3** | **ML 2** | Vajarath | Glory in Battle; Strength through Trial. |
-| **Impyrium Dominion** | Imperial Autocracy / Solar Empire | **TL 4** | **ML 3** | Sol-Invictus | Total Subjugation; The Grand Imperial Design. |
-| **Radiant Impyrium** | Divine Solar Hegemony | **TL 4** | **ML 4** | Aethelgard | Purity through Light; Divine Right of Rule. |`,
+| **Elven Providence** | Ancient High Magitech Hegemony | **TL 4** | **ML 4** | Altheria / Illyria | Preserve Ancient Legacy; Navigate Ideological Schisms. |
+| **Kovian Tribunal (Nocturne)** | Supremacist / Isolationist / Magocracy | **TL 4** | **ML 3** | Umbra Prime | Dominance through Darkness; Eradicate Weakness. |
+| **Vajar Tribes (Wilder)** | Primal Nomads / Survivalist Clans | **TL 3** | **ML 3** | Vajarath | Honor the Ancestors; Strength through Hardship. |
+| **Impyrium Dominion** | Militaristic Autocracy / Totalitarian Empire | **TL 4** | **ML 3** | Sol-Invictus | Total Order; Subjugation through Military Might. |
+| **Radiant Impyrium** | Enlightened Monarchy / High Imperial Hegemony | **TL 4** | **ML 4** | Aethelgard | Order through Illumination; The Golden Age of Man. |`,
   mechanic: `FactionSkillPoints = 20
 FactionFeatureDiscount = 1 BP per recommended feature (Min 1 BP)`,
   guide: `Choose one Major Faction during Step 4 of character creation. Allocate your 20 Faction Skill Points and select 2 Faction Features.`,
@@ -1412,6 +1415,178 @@ The **Impyrium Dominion** (and its fanatical spiritual core, the **Radiant Impyr
 Bonus Feat: Imperial Discipline / Solar Wrath at 2 BP`,
   guide: `Ideal for imperial legionnaires, solar inquisitors, fleet officers, and noble scicons.`,
   note: `The Impyrium views the Syndicate as corporate heretics and the Coalition as chaotic rebels.`
+});
+
+addArticle({
+  id: '1-04-13-the-entari-combine',
+  name: '1.04.13 The Entari Combine (Hydro-Mineral Technocracy)',
+  parent: '1.04 FACTIONS & GALACTIC POLITIES',
+  order: 11,
+  perspective: 'operator',
+  entry_type: 'Major Faction (Primary)',
+  description: `# 1.04.13 The Entari Combine (Hydro-Mineral Technocracy)
+
+The **Entari Combine** is an industrial mega-conglomerate dominating oceanic extraction, heavy mining rigs, and planetary refinement networks across the galactic frontier.
+
+---
+
+## Core Identity & Mandate
+- **Official Designation:** The Entari Combine
+- **Colloquialisms:** The Dredgers / The Rig-Barons / The Oil-Lords
+- **Archetype:** Planetary Mega-Conglomerate / Hydro-Mineral Technocracy
+- **Driving Mandate:** Resource Monopolization; Industrial Domination.
+- **Symbol / Sigil:** The Geared Droplet.
+- **Capital World:** Entari Prime (Oceanic Rig Arcology World).
+
+---
+
+## Game Mechanics & Advancements
+- **Tech Level:** **TL 3 (Heavy Industrial / Dredging)** — High-pressure submersibles, mining walkers, thermal drills.
+- **Meta Level:** **ML 1 (Minimal)** — Pragmatic industrial focus with minimal esoteric practice.
+
+### Faction Skill Package (20 Points)
+- **Technology (Industrial) (+4):** Heavy rigging, maintenance, and planetary refineries.
+- **Streetwise (+4):** Smuggling ore, port negotiation, and corporate contracts.
+- **Combat (Heavy Weapons) (+4):** Enforcing perimeter security and rig defense.
+- **Survival (Aquatic / High Pressure) (+4):** Extreme environment operation.
+- **Business (+4):** Resource quotas, commodities trading, and labor syndicates.
+
+### Bonus Features (1 BP Discount)
+- **Industrial Connections:** High-level access to mining gear and black market ore markets.
+- **Deep Diver / Environmental Seal:** Natural resilience to extreme pressure and toxic vapors.`,
+  mechanic: `Faction Package: Technology +4, Streetwise +4, Combat +4, Survival +4, Business +4 = 20 SP
+Bonus Feat: Industrial Connections / Deep Diver at 2 BP`,
+  guide: `Ideal for industrial scicon operatives, heavy riggers, ore barons, and corporate mercenaries.`,
+  note: `The Combine operates with aggressive economic mercantilism and strict extraction quotas.`
+});
+
+addArticle({
+  id: '1-04-14-the-mekan-collective',
+  name: '1.04.14 The Mekan Collective (Synthetic Technocracy)',
+  parent: '1.04 FACTIONS & GALACTIC POLITIES',
+  order: 12,
+  perspective: 'operator',
+  entry_type: 'Major Faction (Primary)',
+  description: `# 1.04.14 The Mekan Collective (Synthetic Technocracy)
+
+The **Mekan Collective** is a supreme machine civilization of uploaded consciousnesses, awakened synthetic chassis, and automated planetary foundries.
+
+---
+
+## Core Identity & Mandate
+- **Official Designation:** The Sovereign Mekan Collective
+- **Colloquialisms:** The Iron Mind / Clockwork Hegemony / The Synthetics
+- **Archetype:** Synthetic Technocracy / Machine Consciousness
+- **Driving Mandate:** Perfection of Form; Eradication of Biological Inefficiency.
+- **Symbol / Sigil:** The Cog of Eternity.
+- **Capital World:** Mekan Prime (Foundry Core Arcology).
+
+---
+
+## Game Mechanics & Advancements
+- **Tech Level:** **TL 5 (Hyper-Advanced Synthetic)** — Nanofabrication, self-repairing alloys, quantum processing.
+- **Meta Level:** **ML 1 (Algorithmic Logic)** — Empirical logic models rejecting irrational mysticism.
+
+### Faction Skill Package (20 Points)
+- **Computers (+5):** Algorithmic processing, sub-network routing, and core security.
+- **Technology (Cybernetics) (+5):** Chassis maintenance, neural links, and automated repairs.
+- **Mechanics (+4):** Fabrication rigs, engine cores, and heavy hydraulics.
+- **Science (+3):** Computational physics and materials engineering.
+- **Combat (+3):** Precision ballistic and laser target telemetry.
+
+### Bonus Features (1 BP Discount)
+- **Machine Logic:** Complete immunity to psychological coercion and emotional manipulation.
+- **Reinforced Chassis:** Inherent armor plating bonus or structural integrity boost.`,
+  mechanic: `Faction Package: Computers +5, Technology +5, Mechanics +4, Science +3, Combat +3 = 20 SP
+Bonus Feat: Machine Logic / Reinforced Chassis at 2 BP`,
+  guide: `Ideal for synthetics, combat chassis, cyber-monks, drone commanders, and code architects.`,
+  note: `Mekan units view flesh-based emotional outbursts as systemic anomalies to be corrected.`
+});
+
+addArticle({
+  id: '1-04-15-outworlds',
+  name: '1.04.15 The Outworlds (Frontier Scavengers & Free League)',
+  parent: '1.04 FACTIONS & GALACTIC POLITIES',
+  order: 13,
+  perspective: 'operator',
+  entry_type: 'Major Faction (Primary)',
+  description: `# 1.04.15 The Outworlds (Frontier Scavengers & Free League)
+
+The **Outworlds** encompass the untamed rim systems, asteroid drift habitats, and lawless border settlements where outcasts, independent scicon crews, and scavengers thrive beyond empire borders.
+
+---
+
+## Core Identity & Mandate
+- **Official Designation:** The Outworlds Free League
+- **Colloquialisms:** The Drifters / The Rim / Scrappers
+- **Archetype:** Frontier Scavengers / Anarcho-Syndicates
+- **Driving Mandate:** Survival through Independence; Defy Central Authority.
+- **Symbol / Sigil:** The Crossed Rivets over Asteroid Field.
+- **Capital World:** Rust-Haven (Decentralized Asteroid Station).
+
+---
+
+## Game Mechanics & Advancements
+- **Tech Level:** **TL 3 (Scrap / Modular)** — Repurposed industrial gear, jury-rigged drives, rugged armor.
+- **Meta Level:** **ML 1 (Wild Fringe)** — Unregulated natural psions and hedge mystics.
+
+### Faction Skill Package (20 Points)
+- **Survival (+5):** Deep vacuum, abandoned hulls, and hostile asteroid environments.
+- **Piloting (+4):** Navigating debris belts and evading patrol corvettes.
+- **Mechanics (+4):** Jury-rigging scrap, patching hull breaches, and salvage tech.
+- **Combat (+4):** Close-quarters corridor firefights and boarding actions.
+- **Streetwise (+3):** Black market contacts and bartering salvage.
+
+### Bonus Features (1 BP Discount)
+- **Scavenger Instinct:** Bonus on searching derelicts and identifying valuable tech cache components.
+- **Rugged Survival:** Resistance to deprivation, starvation, and toxic environments.`,
+  mechanic: `Faction Package: Survival +5, Piloting +4, Mechanics +4, Combat +4, Streetwise +3 = 20 SP
+Bonus Feat: Scavenger Instinct / Rugged Survival at 2 BP`,
+  guide: `Ideal for salvage operators, asteroid miners, drifters, survivalists, and rim gunners.`,
+  note: `Outworlders recognize no imperial decree; loyalty is earned through shared survival.`
+});
+
+addArticle({
+  id: '1-04-16-radiant-impyrium',
+  name: '1.04.16 Radiant Impyrium (The Enlightened Age)',
+  parent: '1.04 FACTIONS & GALACTIC POLITIES',
+  order: 14,
+  perspective: 'operator',
+  entry_type: 'Major Faction (Primary)',
+  description: `# 1.04.16 Radiant Impyrium (The Enlightened Age)
+
+The **Radiant Impyrium** represents the golden zenith of solar human civilization—an enlightened interstellar empire where high metaphysics, radiant energy sciences, and noble statecraft harmonize.
+
+---
+
+## Core Identity & Mandate
+- **Official Designation:** The Sovereign Radiant Impyrium
+- **Colloquialisms:** The Golden Throne / The Dawn-Guard / Solar Ascendants
+- **Archetype:** Enlightened Monarchy / High Imperial Hegemony
+- **Driving Mandate:** Order through Illumination; The Golden Age of Man.
+- **Symbol / Sigil:** The Golden Sunburst over Radiant Spire.
+- **Capital World:** Aethelgard (Solar Dyson Arcology).
+
+---
+
+## Game Mechanics & Advancements
+- **Tech Level:** **TL 4 (Solar Super-Tech)** — Hard-light arrays, radiant shields, solar plasma lances.
+- **Meta Level:** **ML 4 (Solar Metaphysics)** — Sun-weaving, radiant healing, and aura mastery.
+
+### Faction Skill Package (20 Points)
+- **Combat (Solar / Plasma) (+5):** Mastery of radiant weaponry and golden blades.
+- **Attune (+4):** Channeling high solar essence and metaphysical shields.
+- **Culture (Imperial Court) (+4):** Aristocratic protocol, heraldry, and golden age diplomacy.
+- **Tactics (+4):** Sun-fleet maneuvers and coordinated vanguard deployments.
+- **Diplomacy (+3):** High statecraft and interstellar treaties.
+
+### Bonus Features (1 BP Discount)
+- **Solar Aura:** Emanating an awe-inspiring radiance that grants social and morale advantages.
+- **High Imperial Status:** Starting with noble standing and imperial resources.`,
+  mechanic: `Faction Package: Combat +5, Attune +4, Culture +4, Tactics +4, Diplomacy +3 = 20 SP
+Bonus Feat: Solar Aura / High Imperial Status at 2 BP`,
+  guide: `Ideal for solar paladins, golden fleet commanders, high diplomats, and enlightened scicons.`,
+  note: `The Radiant Impyrium seeks to lead all sentient races into a golden age of peace and unity.`
 });
 
 /* =========================================================================

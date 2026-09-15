@@ -1,11 +1,22 @@
 ---
 id: template-supernatural
-name: Supernatural Order
+name: "Supernatural Faction Template"
 category: factions
-faction_type: Generic Template
-description: >-
-  Ancient sorcerous cabal, psi-academy, or astral wardens guarding occult relics
-  and dangerous invocations.
+faction_type: "Generic Template"
+archetype: "The Occult"
+driving_mandate: "Protect ancient lore, maintain the veil of secrecy, feed/survive"
+symbol_sigil: "The Occult / The Night-Walkers / The Hidden"
+capital_world: "Hidden gothic estates within modern mega-cities"
+tech_level: "3- (Preferring magic over machinery)"
+meta_level: "0"
+wealth_modifier: "0"
+prominent_species: "Undead, Witches, Shapeshifters, Cursed Humans"
+typical_archetypes: ["The Shapeshifter","The Occultist","The Night-Guardian","The Thrall","The Ancient Aristocrat"]
+skill_package: ["Occult (+5)","Stealth (+5)","Discipline (+4)","Insight (+3)","Bluff (+3)"]
+recommended_features: ["Magical Aptitude","Awakened","Darksight","Sneak Attack","Deceitful","Benefit (Wealth)","Fast Heal","Unsettling Aura","Veiled Threat","Sense"]
+features: ["Magical Aptitude","Awakened","Darksight","Sneak Attack","Deceitful","Benefit (Wealth)","Fast Heal","Unsettling Aura","Veiled Threat","Sense"]
+bonus_features: ["Magical Aptitude"]
+description: "Factions of ancient, occult beings hiding in plain sight (e.g., Space Vampires, covens, or immortal bloodlines). They manipulate society from the shadows, protecting \"The Veil\" to ensure they are not hunted by the masses. They rely on dark magic and reality manipulation rather than standard tech"
 costs:
   bp: 0
   credits: 0
@@ -26,61 +37,54 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Faction Template"
 ---
 
-# Supernatural Order (Generic Faction Template)
+## **24\. SUPERNATURAL**
 
-**Category**: Generic Faction Templates  
-**Type**: Modular Organizational Template
+### **I. Detailed Faction Description**
 
-## Overview
-Ancient sorcerous cabal, psi-academy, or astral wardens guarding occult relics and dangerous invocations.
+* **Overview:** Factions of ancient, occult beings hiding in plain sight (e.g., Space Vampires, covens, or immortal bloodlines). They manipulate society from the shadows, protecting "The Veil" to ensure they are not hunted by the masses. They rely on dark magic and reality manipulation rather than standard tech.  
+* **Key Themes:** The Occult, The Veil, Dark Magic, Ancient Bloodlines, Hidden Predators.  
+* **Relationship to Others:** Parasitic. They hide within major factions, viewing humanity as a resource or a flock to be managed.
 
-## Customization Guidelines
-- Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
-- Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
-- Select 1-2 Recommended Features reflecting the faction's primary trade.
+### **II. Core Identity**
 
+* **Official Designation:** The Crimson Court / The Hidden Coven  
+* **Colloquialisms:** The Occult / The Night-Walkers / The Hidden  
+* **Archetype:** The Occult  
+* **Capital/Key World:** Hidden gothic estates within modern mega-cities.  
+* **Driving Mandate:** Protect ancient lore, maintain the veil of secrecy, feed/survive.  
+* **Motto:** "We are the shadows between the stars."
 
-## Extended Lore & Background
+### **III. Sociological Profile**
 
-These factions are characterized by their connection to supernatural forces.  
-**Attitudes**    
-Mysterious, powerful, otherworldly, mystical, secretive  
-**Goals**    
-Protect their kind, maintain the balance of power, eliminate threats, harness supernatural powers, protect or control supernatural artifacts, influence the development of other races  
-**Strengths**    
-Unique abilities, access to supernatural resources, knowledge of ancient lore  
-**Weaknesses**    
-Vulnerability to supernatural weaknesses, internal divisions,vulnerability to supernatural threats, potential for corruption  
-**Technology** 3-  
-**Skills** Knowledge and Discipline  
-**Features** 2 Discipline Features
+* **Ideology & Culture:** Aristocratic, predatory, secretive, bound by ancient oaths.  
+* **Social Structure:** Feudal courts, covens, or bloodlines based on age and arcane power.  
+* **View on Outsiders:** Prey, thralls, or dangerous hunters to be avoided.  
+* **Law & Order:** The Masquerade; exposing the faction to the public is the only unforgivable crime.
 
-The Occultist  
-Mystic  
-Guardian  
-Shapeshifter
+### **IV. Strategic Assets**
 
+* **Tech Level (TL):** 3- (Preferring magic over machinery).  
+* **Strengths:** Powerful artifacts, reality manipulation, mind control, immortality/extreme lifespans.  
+* **Weaknesses:** Specific mystical weaknesses (e.g., sunlight, silver), vulnerability to discovery, arrogance.  
+* **Military Doctrine:** Subversion, mind-control, and unleashing terrifying supernatural predators in the dark.
 
+### **V. Mechanics (Game Data)**
 
-## Extended Lore & Background
+* **Prominent Species:** Undead, Witches, Shapeshifters, Cursed Humans.  
+* **Faction Skill Package (20 Points):**  
+  * Occult (+5)  
+  * Stealth (+5)  
+  * Discipline (+4)  
+  * Insight (+3)  
+  * Bluff (+3)  
+* **Typical Archetypes:** The Shapeshifter, The Occultist, The Night-Guardian, The Thrall, The Ancient Aristocrat.  
+* **Recommended Features (1 BP Discount):** Magical Aptitude, Awakened, Darksight, Sneak Attack, Deceitful, Benefit (Wealth), Fast Heal, Unsettling Aura, Veiled Threat, Sense.
 
-These factions are characterized by their connection to supernatural forces.  
-**Attitudes**    
-Mysterious, powerful, otherworldly, mystical, secretive  
-**Goals**    
-Protect their kind, maintain the balance of power, eliminate threats, harness supernatural powers, protect or control supernatural artifacts, influence the development of other races  
-**Strengths**    
-Unique abilities, access to supernatural resources, knowledge of ancient lore  
-**Weaknesses**    
-Vulnerability to supernatural weaknesses, internal divisions,vulnerability to supernatural threats, potential for corruption  
-**Technology** 3-  
-**Skills** Knowledge and Discipline  
-**Features** 2 Discipline Features
+### **VI. Visual Semiotics (Aesthetics)**
 
-The Occultist  
-Mystic  
-Guardian  
-Shapeshifter
-
+* **Design Directive:** Gothic Sci-Fi, hidden wealth, and shadow.  
+* **Atmosphere Tokens:** Gothic architecture hidden in modern cities, blood motifs, deep shadows, velvet, antique weapons.  
+* **HI-FI INK Guidance:** Gothic Sci-Fi, Dark Fantasy. Opulent antique rooms hidden inside futuristic skyscrapers, deep red velvet, shadows, elegant but predatory characters. Secretive, wealthy, dangerous.

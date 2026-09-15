@@ -10,6 +10,27 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","core-rule"]
+updatedAt: "2026-09-14T16:40:07.810Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **DEATH & DYING**
@@ -95,4 +116,14 @@ Revivification (The High Cost of Dying): Requires rare TL5 tech or high Metaphys
 
 ## Tactical Guide
 Field medics must act before the dying character's Stamina clock expires.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.01.06 Death, Dying, Mortal Wounds & Revivification.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
 

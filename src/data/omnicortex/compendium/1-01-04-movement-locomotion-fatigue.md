@@ -10,6 +10,27 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["compendium","game-mechanic"]
+updatedAt: "2026-09-14T16:40:07.809Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **MOVEMENT**
@@ -270,4 +291,14 @@ Fatigue Trigger: CR 15 Fortitude check after sprinting 5 consecutive rounds or 1
 
 ## Tactical Guide
 Ensure players account for movement mode penalties when performing stealth or precision actions while moving.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 1.01.04 Movement Modes, Paces & Sprinting Fatigue.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
 

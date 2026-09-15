@@ -2,10 +2,37 @@
 id: "2-02-difficulty-classes-challenge-ratings"
 name: "2.02 Challenge Ratinges & Challenge Ratings"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "2.00 CORE RESOLUTION"
 order: 2
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["difficulty","classes","challenge","ratings"]
+updatedAt: "2026-09-14T16:40:07.831Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 2.02 Challenge Ratinges & Challenge Ratings
 
 Challenge Ratinges (**DCs**) define the difficulty of tasks across the galaxy, ranging from routine maintenance to deific reality-shaping.
@@ -31,3 +58,14 @@ Challenge Ratinges (**DCs**) define the difficulty of tasks across the galaxy, r
 - **CR equal to Party Level:** Standard, balanced combat encounter.
 - **CR = Party Level + 2:** Challenging encounter requiring tactical coordination.
 - **CR = Party Level + 4:** Deadly boss encounter; risk of character mortality is high.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 2.02 Challenge Ratinges & Challenge Ratings.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

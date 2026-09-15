@@ -2,10 +2,37 @@
 id: "3-03-attack-defense-resolution"
 name: "3.03 Attack & Defense Resolution (Opposed & Unopposed)"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 3
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["attack","defense","resolution"]
+updatedAt: "2026-09-14T16:40:07.835Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.03 Attack & Defense Resolution (Opposed & Unopposed)
 
 Combat interactions are categorized into two core resolutions using the **2d10 system**:
@@ -28,3 +55,14 @@ When targeting an active, aware opponent:
 When targeting an inanimate object, a disabled vehicle, or a surprised foe:
 - Attacker rolls vs. a static **Base CR 15 (Average Medium Target at Short Range)**.
 - Modified by Target Size, Range Brackets, and Movement penalties.
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.03 Attack & Defense Resolution (Opposed & Unopposed).
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

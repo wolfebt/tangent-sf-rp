@@ -2,10 +2,37 @@
 id: "3-10-hit-locations-called-shots-matrix"
 name: "3.10 Hit Locations & Called Shots (d10 Table)"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "3.00 COMBAT"
 order: 10
+perspective: "both"
+entry_type: "Game Mechanic"
+tl: 3
+ml: 0
+cost: 0
+tags: ["hit","locations","called","shots","matrix"]
+updatedAt: "2026-09-14T16:40:07.836Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 3.10 Hit Locations & Called Shots (d10 Table)
 
 Combatants can attempt precise **Called Shots** or roll for random hit locations on critical strikes using a **d10** (or **1d6 in Melee/Unarmed** unless a Leg attack/maneuver is declared).
@@ -28,3 +55,14 @@ Combatants can attempt precise **Called Shots** or roll for random hit locations
 | **7, 8 (R) or 9, 0 (L)**| **LEG** | **Hobbled** | **Might Save** or half speed for 1+ rounds*; failure by 10+ = **Leg Crippled / Non-Functional**. |
 
 \* **Duration of Impediment:** 1 round per point rolled under the save CR (where CR is based directly on the damage dealt).
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 3.10 Hit Locations & Called Shots (d10 Table).
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+

@@ -1,5 +1,22 @@
 ---
-name: Radiant Impyrium
+id: faction-radiant-impyrium
+name: "Radiant Impyrium"
+category: factions
+faction_type: "Major Polity"
+archetype: "Enlightened Hegemony / Psychic Utopia"
+driving_mandate: "Universal Optimization; Eradicate Friction"
+symbol_sigil: "The Radiant Star (Glowing blue and gold 8-Pointed Star)"
+capital_world: "Imperion Prime"
+tech_level: "4"
+meta_level: "4"
+wealth_modifier: "+5 (Post-Scarcity perfection)"
+prominent_species: "Humans (Baseline & Regi)"
+typical_archetypes: ["The Bureaucrat","The Demolisher","The Shock Trooper","The Legionnaire","The High Commander","The Envoy","The Philosopher","The Strategist","The Magus","The Architect","The Theoretician","The Net-Architect"]
+skill_package: []
+recommended_features: ["Awakened","Tech Interface","Centering Expert","Harmonious Center","Telepathy","Mind Link","Inspired Reason","Eidetic Memory","Educated","Magical Aptitude","Master Craftsman","Artificer"]
+features: ["Awakened","Tech Interface","Centering Expert","Harmonious Center","Telepathy","Mind Link","Inspired Reason","Eidetic Memory","Educated","Magical Aptitude","Master Craftsman","Artificer"]
+bonus_features: ["Solar Aura","High Imperial Status"]
+description: "The absolute peak of human achievement. A highly unified hegemony characterized by the seamless synergy of TL4 spacefaring and ML4 psionics. Directed by the Regi (bio-engineered processing nodes), they offer strategic worlds a place in their \"Grand Design.\" Refusal results in mathematical, detached eradication. Their technology is \"Psycho-Reactive,\" forged by psions manipulating matter. Society is defined by unyielding stoicism and extreme determination"
 costs:
   bp: 0
   credits: 0
@@ -20,23 +37,87 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+faction_classification: "Major Galactic Power"
 ---
-# Radiant Impyrium
-This is a generated stub for Radiant Impyrium.
 
+## **RADIANT IMPYRIUM (THE ENLIGHTENED AGE)**
 
-## Extended Lore & Background
+*(Historical Precursor \- 800 Years Prior)*
 
-The Radiant Impyrium represents the absolute peak of human achievement in the Tangent universe. Existing approximately 800 years prior to the current era, it is a singular, highly unified hegemony characterized by the seamless, practical synergy of Enhanced Spacefaring (TL4) and Advanced Psionics (ML4). Governance is directed by the Regi—a bio-engineered subspecies of humanity designed by the enigmatic Mondi to serve as the living, biological processing nodes for a unified, sector-wide psychic infrastructure.  
-In its youth, the Impyrium was a blunt instrument of bloody expansion, aggressively colonizing non-human worlds through overwhelming military mass. However, as the Regi evolved from warlords into stoic "Architects of Order," the empire's doctrine shifted toward opportunistic integration. The Radiant Impyrium identifies worlds with high strategic or resource value and offers them a place within their "Grand Design." This is not a diplomatic request, but a statement of inevitable fact. Those who accept are integrated into a highly structured, post-scarcity society; those who stubbornly refuse are categorized as mathematical errors and removed with detached, scientific efficiency.  
-Their technological foundation is entirely "Psycho-Reactive." Advanced composites, force-field generators, and plasma coils cannot be built by standard automated machinery; they are forged directly by coordinated teams of powerful psions who manipulate matter at the molecular level. This creates a society of unparalleled elegance and power, but one carrying a fatal, unseen flaw: their entire technological infrastructure is inherently tethered to the survival of their psychic network.  
-Their society is defined by unyielding stoicism and extreme determination. They do not boast; they state verified capabilities. They do not panic; they recalculate. This stubborn determination makes them terrifyingly effective administrators, fully committed to a cold, matter-of-fact mandate of "Universal Optimization."
+### **I. Detailed Faction Description**
 
-The Radiant Impyrium operates as an Enlightened Hegemony defined by **Psycho-Physics**, **Determined Functionality**, and **Stoic Expansion**. They are a dynamic, unparalleled power striving to engineer a universe without friction.
+* **Overview:** The absolute peak of human achievement. A highly unified hegemony characterized by the seamless synergy of TL4 spacefaring and ML4 psionics. Directed by the Regi (bio-engineered processing nodes), they offer strategic worlds a place in their "Grand Design." Refusal results in mathematical, detached eradication. Their technology is "Psycho-Reactive," forged by psions manipulating matter. Society is defined by unyielding stoicism and extreme determination.  
+* **Key Themes:** Stoic Perfection, Psycho-Reactive Engineering, Hegemonic Pragmatism, Fluid Grace, Post-Scarcity.  
+* **Relationship to Others:** Ultimate curators of the galaxy; currently locked in the Dragon Wars.
 
-Citizens of the Radiant Impyrium are trained to be calculated, efficient, and determined administrators of the Grand Design.
+### **II. Core Identity**
 
-Military force in the Golden Age is an exercise in overwhelming, precise, and stoic power. They do not break formation; they advance with stubborn, terrifying synchronization, their stark white armor remaining impossibly clean through the chaos of battle.
+* **Official Designation:** The Radiant Impyrium  
+* **Colloquialisms:** The Empire / The Grand Design / The Enlightened  
+* **Archetype:** Enlightened Hegemony / Psychic Utopia  
+* **Capital/Key World:** Imperion Prime  
+* **Symbol/Sigil:** The Radiant Star (Glowing blue and gold 8-Pointed Star)  
+* **Driving Mandate:** Universal Optimization; Eradicate Friction.  
+* **Motto:** "The Universe Yields to Determined Will."
 
-The absolute zenith of Impyrium power resides in their nomadic, sector-spanning armada.
+### **III. Sociological Profile**
 
+#### **Ideology & Culture**
+
+* **Core Beliefs:** Calculated order is the only logical state. Emotion is inefficient; stoicism is virtue.  
+* **Social Structure:** Universal Meritocracy (The Regi \> Foundational Psions \> Citizens).  
+* **View on Outsiders:** Paternalistic and ruthless (integrate or be eradicated).  
+* **Law & Order:** Absolute and perfectly enforced via the network.
+
+#### **Governance**
+
+* **Government Type:** Enlightened Hegemony / Telepathic Network.  
+* **Leadership:** The Regi.  
+* **Succession:** Bio-engineered replacement.
+
+### **IV. Strategic Assets**
+
+#### **Economy & Tech**
+
+* **Tech Level (TL):** 4 (Post Scarcity, Enhanced Technology).  
+* **Meta Level (ML):** 4 (Integrated psionics in society).  
+* **Wealth Modifier:** \+5 (Post-Scarcity perfection).  
+* **Primary Exports:** None (They do not trade; they integrate).  
+* **Economic Model:** Perfected Post-Scarcity.
+
+#### **Military Profile**
+
+* **Doctrine:** The Zone of Sovereignty (broadcast arrays blanketing worlds), overwhelming synchronization, stoic advance.  
+* **Key Units:** Radiant Legionnaires.  
+* **Naval Assets:** Solar Sailers, The Crimson Star (moon-sized super-station).  
+* **Unique Tech/Materials:** Psycho-Reactive Force-Fields, Molecular Forging.
+
+### **V. Mechanics (Game Data)**
+
+* **Prominent Species:** Humans (Baseline & Regi).  
+* **Faction Skill Package (20 Points):** Academics (+5), Athletics (+4), Diplomacy (+4), Combat (+3), Technology (+2), Vocation (+2).  
+* **Typical Archetypes:** The Bureaucrat, The Demolisher, The Shock Trooper, The Legionnaire, The High Commander, The Envoy, The Philosopher, The Strategist, The Magus, The Architect, The Theoretician, The Net-Architect.  
+* **Recommended Features (1 BP Discount):**  
+  * Awakened, Tech Interface, Centering Expert, Harmonious Center, Telepathy, Mind Link, Inspired Reason, Eidetic Memory, Educated, Magical Aptitude, Master Craftsman, Artificer.
+
+### **VI. Visual Synthesis Protocols (Aesthetics)**
+
+#### **HI-FI INK Prompt Framework**
+
+* **SETTING STYLE:** Psycho-Reactive Engineering, Enlightened Hegemony, Determined Functionality, Fluid Grace.  
+* **CONTEXT:** Floating plazas, hovering spires, seamless construction (no visible bolts/joints), aerodynamic curves. Flawless white composite armor, glowing blue psionic Halos. Palette: Flawless White, Void Black, Radiant Gold, Polished Silver.  
+* **ATMOSPHERE:** Triumphant, flawless, pristine, calculatingly cold, weightless grace. High-key, even illumination with clean blue psycho-reactive light glowing from within.
+
+### **VII. Expansion Modules (Optional)**
+
+#### **Military Assets**
+
+* **The Zone of Sovereignty:** A strategic doctrine where capital ships project massive psycho-reactive arrays over a planet, overriding local comms and claiming it via technological weight.  
+* **The Crimson Star:** A moon-sized super-station serving as the central processing node for the entire psychic network.  
+* **Solar Sailers:** Scout craft utilizing massive, shimmering sails to catch high-energy cosmic winds.
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;

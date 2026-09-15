@@ -2,10 +2,37 @@
 id: "5-04-gear-tools-field-equipment"
 name: "5.04 Gear, Tools & Field Equipment"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "5.00 TECHNOLOGY & GEAR"
 order: 4
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["gear","tools","field","equipment"]
+updatedAt: "2026-09-14T16:40:07.843Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 5.04 Gear, Tools & Field Equipment
 
 Exploration and tactical missions require specialized field kits, communication arrays, and survival gear.
@@ -23,3 +50,14 @@ Exploration and tactical missions require specialized field kits, communication 
 | **Atmospheric Breather Mask**| Filters toxic gases, smoke, and biological spores| Immunity to inhaled airborne toxins for 8 hours |
 | **Grav-Chute (Drop Pack)** | Slows terminal velocity falls from high altitudes | Completely negates falling damage when deployed |
 | **Ration Cubes & Water Purifier**| Sustenance in hostile wilderness | Sustains 1 character for 10 days in uncultivated biomes |
+
+## Game Mechanics Rules
+```
+Governing canonical rules for 5.04 Gear, Tools & Field Equipment.
+```
+
+## Gameplay Instructions
+
+
+## Designer Notes
+
