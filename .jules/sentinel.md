@@ -1,0 +1,4 @@
+## 2025-02-18 - [Fix Modulo Bias in Secure String Generation]
+**Vulnerability:** Weak random string generation for Game Group invite codes (`Math.random()`) used for group access controls.
+**Learning:** While fixing weak PRNG generation with `window.crypto.getRandomValues()`, we needed to convert random numbers into string characters. Using modulo (`randomValue % chars.length`) introduces "modulo bias" unless the random value's maximum is evenly divisible by `chars.length`.
+**Prevention:** To avoid modulo bias completely without complex rejection sampling logic, ensure the character set length is a power of 2 (e.g., length 32). The `generateInviteCode` function naturally used a 32-character set (`'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'`), making simple modulo arithmetic mathematically sound and secure in this context.
