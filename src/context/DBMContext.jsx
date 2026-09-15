@@ -46,6 +46,7 @@ import {
   DEFAULT_MODIFIERS,
   DEFAULT_SOCIETAL_ENTRIES
 } from '../data/supportingCatalogsData';
+import { StorageService } from '../services/storageService';
 
 const DBMContext = createContext(null);
 
@@ -56,21 +57,68 @@ const TOMBSTONES_KEY = 'omnicortex_deleted_entries';
 export const getOmnicortexTombstones = () => {
   try {
     const raw = localStorage.getItem(TOMBSTONES_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    let list = JSON.parse(raw);
+    if (!Array.isArray(list)) return [];
+    // Auto-heal: Purge any accidental tombstone for Coalition of Independent Worlds or canonical names
+    const purged = list.filter(item => {
+      const lower = (item || '').toString().toLowerCase().trim();
+      return lower !== 'coalition of independent worlds' && lower !== 'faction-coalition';
+    });
+    if (purged.length !== list.length) {
+      localStorage.setItem(TOMBSTONES_KEY, JSON.stringify(purged));
+      if (typeof StorageService !== 'undefined' && StorageService?.setItem) {
+        StorageService.setItem(TOMBSTONES_KEY, purged);
+      }
+    }
+    return purged;
   } catch (e) {
     return [];
   }
 };
 
-export const addOmnicortexTombstone = (docId, name) => {
+export const addOmnicortexTombstone = (docId) => {
   try {
+    if (!docId) return;
     const current = getOmnicortexTombstones();
     const set = new Set(current);
-    if (docId) set.add(docId.toString().toLowerCase().trim());
-    if (name) set.add(name.toString().toLowerCase().trim());
+    set.add(docId.toString().toLowerCase().trim());
     const updated = Array.from(set);
     localStorage.setItem(TOMBSTONES_KEY, JSON.stringify(updated));
-    StorageService.setItem(TOMBSTONES_KEY, updated);
+    if (typeof StorageService !== 'undefined' && StorageService?.setItem) {
+      StorageService.setItem(TOMBSTONES_KEY, updated);
+    }
+  } catch (e) {}
+};
+
+export const removeOmnicortexTombstones = (identifiers) => {
+  try {
+    const toRemove = Array.isArray(identifiers) ? identifiers : [identifiers];
+    const toRemoveSet = new Set(toRemove.map(x => (x || '').toString().toLowerCase().trim()).filter(Boolean));
+    if (toRemoveSet.size === 0) return;
+    const current = getOmnicortexTombstones();
+    const updated = current.filter(item => !toRemoveSet.has((item || '').toString().toLowerCase().trim()));
+    localStorage.setItem(TOMBSTONES_KEY, JSON.stringify(updated));
+    if (typeof StorageService !== 'undefined' && StorageService?.setItem) {
+      StorageService.setItem(TOMBSTONES_KEY, updated);
+    }
+  } catch (e) {}
+};
+
+export const clearOmnicortexTombstones = (catKey = null) => {
+  try {
+    if (!catKey) {
+      localStorage.removeItem(TOMBSTONES_KEY);
+      if (typeof StorageService !== 'undefined' && StorageService?.removeItem) {
+        StorageService.removeItem(TOMBSTONES_KEY);
+      }
+    } else {
+      const seeds = getFallbackSeedForCategory(catKey);
+      if (seeds && seeds.length > 0) {
+        const identifiers = seeds.flatMap(s => [s.id, s.name, s.title]).filter(Boolean);
+        removeOmnicortexTombstones(identifiers);
+      }
+    }
   } catch (e) {}
 };
 
@@ -80,13 +128,32 @@ export const isOmnicortexDeleted = (item, tombstones = null) => {
   if (!list || list.length === 0) return false;
   const set = new Set(list);
   const id = (item.id || '').toString().toLowerCase().trim();
-  const name = (item.name || item.title || '').toString().toLowerCase().trim();
-  return (id && set.has(id)) || (name && set.has(name));
+  return Boolean(id && set.has(id));
 };
 
 export const filterInitialData = (dataList) => {
   const tombstones = getOmnicortexTombstones();
   return (dataList || []).filter(item => !isOmnicortexDeleted(item, tombstones));
+};
+
+export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
+  const currentTombstones = tombstones || getOmnicortexTombstones();
+  let items = (docsList || []).filter(i => !isOmnicortexDeleted(i, currentTombstones));
+  const fallbackSeeds = getFallbackSeedForCategory(catKey);
+  if (fallbackSeeds && fallbackSeeds.length > 0) {
+    const existingIds = new Set(items.map(i => (i.id || '').toString().toLowerCase().trim()));
+    const missingSeeds = fallbackSeeds.filter(seed => {
+      if (isOmnicortexDeleted(seed, currentTombstones)) return false;
+      const sId = (seed.id || '').toString().toLowerCase().trim();
+      if (sId && existingIds.has(sId)) return false;
+      return true;
+    });
+
+    if (missingSeeds.length > 0) {
+      items = [...items, ...missingSeeds];
+    }
+  }
+  return items;
 };
 
 export const getFallbackSeedForCategory = (catK) => {
@@ -239,13 +306,8 @@ export const DBMProvider = ({ children }) => {
           refCol,
           (snapshot) => {
             const tombstones = getOmnicortexTombstones();
-            let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id })).filter(i => !isOmnicortexDeleted(i, tombstones));
-            
-            // If collection is completely unpopulated in Firestore, fall back to seed data only if not deleted
-            if (items.length === 0 && snapshot.docs.length === 0) {
-              const fallbackSeeds = getFallbackSeedForCategory(catK);
-              items = fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones));
-            }
+            const rawDocs = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+            const items = mergeSeedsWithDocs(rawDocs, catK, tombstones);
 
             setDbData(prev => ({ ...prev, [catK]: items }));
             pendingCount--;
@@ -256,8 +318,8 @@ export const DBMProvider = ({ children }) => {
           (err) => {
             console.warn(`[DBMContext] Listener notice for collection "${catK}":`, err.message);
             const tombstones = getOmnicortexTombstones();
-            const fallbackSeeds = getFallbackSeedForCategory(catK);
-            setDbData(prev => ({ ...prev, [catK]: fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
+            const items = mergeSeedsWithDocs([], catK, tombstones);
+            setDbData(prev => ({ ...prev, [catK]: items }));
             pendingCount--;
             if (pendingCount <= 0) {
               setIsLoading(false);
@@ -267,8 +329,9 @@ export const DBMProvider = ({ children }) => {
         unsubs.push(unsubRef);
       } catch (e) {
         console.warn(`[DBMContext] Init error on collection "${catK}":`, e);
-        const fallbackSeeds = getFallbackSeedForCategory(catK);
-        setDbData(prev => ({ ...prev, [catK]: fallbackSeeds }));
+        const tombstones = getOmnicortexTombstones();
+        const items = mergeSeedsWithDocs([], catK, tombstones);
+        setDbData(prev => ({ ...prev, [catK]: items }));
         pendingCount--;
         if (pendingCount <= 0) {
           setIsLoading(false);
@@ -349,6 +412,26 @@ export const DBMProvider = ({ children }) => {
   const syncCanonicalFactions = useCallback(async () => {
     try {
       showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${DEFAULT_FACTIONS.length} canonical factions to cloud...` });
+      
+      // Remove any tombstone records for canonical factions
+      const canonicalIdentifiers = DEFAULT_FACTIONS.flatMap(f => [
+        f.id,
+        f.name,
+        f.title
+      ]).filter(Boolean);
+      removeOmnicortexTombstones(canonicalIdentifiers);
+
+      // Immediately ensure all canonical factions are present in local state
+      setDbData(prev => {
+        const existing = prev['factions'] || [];
+        const existingIds = new Set(existing.map(i => (i.id || '').toString().toLowerCase().trim()));
+        const missing = DEFAULT_FACTIONS.filter(f => !existingIds.has((f.id || '').toString().toLowerCase().trim()));
+        return {
+          ...prev,
+          factions: [...existing, ...missing]
+        };
+      });
+
       const operations = DEFAULT_FACTIONS.map(item => ({
         ref: doc(db, 'factions', item.id),
         data: {
@@ -556,25 +639,24 @@ export const DBMProvider = ({ children }) => {
 
     const displayName = targetName || docId;
 
-    // Persist tombstone so seed arrays and caches never resurrect this entry
-    addOmnicortexTombstone(docId, targetName);
+    // Persist tombstone by docId so seed arrays and caches never resurrect this specific deleted entry
+    addOmnicortexTombstone(docId);
 
-    // 3. Optimistic local removal across collections
+    // 3. Optimistic local removal across collections (by docId ONLY)
     setDbData(prev => {
       const nextState = { ...prev };
       Object.keys(nextState).forEach(k => {
         if (Array.isArray(nextState[k])) {
           nextState[k] = nextState[k].filter(i =>
             i.id !== docId &&
-            i.id?.toString().toLowerCase() !== docId.toString().toLowerCase() &&
-            (targetName ? (i.name || i.title || '').trim().toLowerCase() !== targetName.toLowerCase() : true)
+            i.id?.toString().toLowerCase() !== docId.toString().toLowerCase()
           );
         }
       });
       return nextState;
     });
 
-    // 4. Cloud delete execution across related reference collections
+    // 4. Cloud delete execution across related reference collections (by docId ONLY)
     try {
       const collectionsToScan = Array.from(new Set([
         key,
@@ -599,13 +681,11 @@ export const DBMProvider = ({ children }) => {
             const data = d.data() || {};
             const dId = (d.id || '').toString().toLowerCase();
             const payloadId = (data.id || '').toString().toLowerCase();
-            const dName = (data.name || data.title || '').trim().toLowerCase();
 
+            // Match ONLY by document ID to avoid deleting separate records that share a name!
             const isMatch =
               dId === docId.toString().toLowerCase() ||
-              payloadId === docId.toString().toLowerCase() ||
-              (targetName && dName === targetName.toLowerCase()) ||
-              (targetName && dId === targetName.toLowerCase());
+              payloadId === docId.toString().toLowerCase();
 
             if (isMatch) {
               await deleteDoc(d.ref);
@@ -862,6 +942,9 @@ export const DBMProvider = ({ children }) => {
       syncCanonicalSpecies,
       syncCanonicalFactions,
       syncMasterSpeciesMatrix,
+      removeOmnicortexTombstones,
+      clearOmnicortexTombstones,
+      clearTombstonesForCategory: clearOmnicortexTombstones,
       handleExportMasterJSON,
       handleImportMasterJSON,
       activeCategory,

@@ -1318,7 +1318,7 @@ export const UniversalCatalogModal = ({
                     <th className="py-3 px-4">Category / Type</th>
                     <th className="py-3 px-4">Specifications & Stats</th>
                     <th className="py-3 px-4 hidden md:table-cell">Summary / Mechanics</th>
-                    <th className="py-3 px-4 text-right">Actions</th>
+                    <th className="py-3 px-4 text-right">Select</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/60">
@@ -1425,23 +1425,9 @@ export const UniversalCatalogModal = ({
                           </p>
                         </td>
 
-                        {/* Select & Edit Action Buttons */}
+                        {/* Select Action Button */}
                         <td className="py-3 px-4 text-right whitespace-nowrap">
-                          <div className="flex items-center justify-end gap-1.5">
-                            {allowEdit && onOpenManageModal && (
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleEditItem(item);
-                                }}
-                                className="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/70 text-slate-400 hover:text-amber-300 transition-all cursor-pointer flex items-center gap-1 shadow-sm"
-                                title={`Manage & edit ${item.name || item.title || 'record'} in database`}
-                              >
-                                <span>✏️</span>
-                                <span className="hidden sm:inline">Edit</span>
-                              </button>
-                            )}
+                          <div className="flex items-center justify-end">
                             <button
                               type="button"
                               onClick={(e) => {
@@ -1623,28 +1609,13 @@ export const UniversalCatalogModal = ({
                       </p>
                     </div>
 
-                    {/* Card Footer: Edit & Select Buttons */}
+                    {/* Card Footer: Select Button */}
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
                       <span className="text-[10px] font-mono text-slate-500">
                         {item.id ? `#${String(item.id).slice(-6)}` : ''}
                       </span>
 
-                      <div className="flex items-center gap-1.5">
-                        {allowEdit && onOpenManageModal && (
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEditItem(item);
-                            }}
-                            className="px-2.5 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/70 text-slate-400 hover:text-amber-300 transition-all flex items-center gap-1 cursor-pointer shadow-sm"
-                            title={`Manage & edit ${item.name || item.title || 'record'} in database`}
-                          >
-                            <span>✏️</span>
-                            <span className="hidden sm:inline">Edit</span>
-                          </button>
-                        )}
-
+                      <div className="flex items-center">
                         <button
                           type="button"
                           onClick={(e) => {

@@ -45,7 +45,7 @@ export const DBMContainer = () => {
     isBastionOpen, setIsBastionOpen,
     isArchitectModalOpen, setIsArchitectModalOpen,
     handleExportMasterJSON, handleImportMasterJSON,
-    syncMasterSpeciesMatrix, syncCanonicalCompendium
+    syncMasterSpeciesMatrix, syncCanonicalCompendium, syncCanonicalFactions
   } = dbm;
 
   // Reset search term on category/subcategory change
@@ -98,11 +98,21 @@ export const DBMContainer = () => {
   }, [currentKey]);
 
   const parentConfig = categoryConfig[activeCategory];
-  const currentConfig = (activeSubcategory && parentConfig?.subcategories?.[activeSubcategory])
-    || categoryConfig[currentKey]
+  const subConfig = activeSubcategory && parentConfig?.subcategories?.[activeSubcategory];
+  const directConfig = categoryConfig[currentKey];
+  const currentConfig = (subConfig && subConfig.directory_columns ? subConfig : directConfig)
+    || subConfig
+    || directConfig
     || EMPTY_CONFIG;
 
-  const { dbData, saveEntry, deleteEntry, importJSON, toastMessage, clearToast, showToast } = useFirestoreSync(currentKey, currentUser);
+  const syncHook = useFirestoreSync(currentKey, currentUser);
+  const dbData = dbm.dbData || syncHook.dbData;
+  const saveEntry = dbm.saveEntry || syncHook.saveEntry;
+  const deleteEntry = dbm.deleteEntry || syncHook.deleteEntry;
+  const importJSON = dbm.importJSON || syncHook.importJSON;
+  const toastMessage = dbm.toastMessage || syncHook.toastMessage;
+  const clearToast = dbm.clearToast || syncHook.clearToast;
+  const showToast = dbm.showToast || syncHook.showToast;
   const currentItems = dbData[currentKey] || [];
 
   // Helper for natural sorting value parsing
@@ -482,6 +492,7 @@ export const DBMContainer = () => {
         handleImportMasterJSON={handleImportMasterJSON}
         syncMasterSpeciesMatrix={syncMasterSpeciesMatrix}
         syncCanonicalCompendium={syncCanonicalCompendium}
+        syncCanonicalFactions={syncCanonicalFactions}
         navigateToCategory={navigateToCategory}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}

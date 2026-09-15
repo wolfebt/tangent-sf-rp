@@ -410,113 +410,221 @@ export const OMNICORTEX_DATASETS = [
     matrixId: 'factions',
     targetCollection: 'factions',
     icon: Building,
-    color: '#06b6d4',
-    description: 'Parse raw faction documentation into comprehensive JSON documents covering culture, military doctrine, aesthetics, and societal structure.',
+    color: '#10b981',
+    description: 'Parse raw faction documentation into comprehensive JSON documents covering the 7 canonical sections: Overview & Themes, Core Identity, Sociological Profile & Governance, Strategic Assets & Military Doctrine, Game Mechanics (20pt Skill Package, Archetypes, 1 BP Discount Features), Visual Synthesis Protocols (HI-FI INK), and Expansion Modules.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX FACTION PARSER
 
-**ROLE:** You are an expert worldbuilding archivist and data engineer for Tangent SFF RPG. Your task is to parse raw faction documentation into strict, comprehensive JSON documents for the OMNICORTEX database.
+**ROLE:** You are an expert worldbuilding archivist and data engineer for Tangent SFF RPG. Your task is to parse raw faction documentation (from Major Factions, Minor Factions, Polities, or Custom Lore) into strict, comprehensive JSON documents for the OMNICORTEX database.
 
-**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
+**TASK:** Parse the provided raw faction text into a JSON array of objects adhering strictly to the canonical 7-section schema below.
+
+**7-SECTION ARCHITECTURAL BREAKDOWN:**
+- **Section I. Detailed Faction Description:** Narrative Overview, Key Thematic Pillars, Diplomatic Relationship to Others.
+- **Section II. Core Identity:** Official Designation, Colloquialisms, Archetype / Sociological Model, Capital / Key World, Symbol / Sigil, Driving Mandate, Official Motto.
+- **Section III. Sociological Profile:** Ideology & Culture (Core Beliefs, Social Structure, View on Outsiders, Law & Order) and Governance (Government Type, Leadership, Succession).
+- **Section IV. Strategic Assets:** Economy & Tech (Tech Level 0-5, Meta Level 0-5, Wealth Modifier, Primary Exports, Economic Model) and Military Profile (Combat Doctrine, Key Formations, Naval Assets, Unique Tech/Materials).
+- **Section V. Mechanics (Game Data):** Prominent Species, Classification / Faction Type, Faction Skill Package (20 Points Allocation), Typical Archetypes, Recommended Features (1 BP Discount), Bonus Features / Origin & Profession Traits.
+- **Section VI. Visual Synthesis Protocols (HI-FI INK):** Setting Style, Context & Color Palette, Lighting & Atmospheric Mood, AI Image Generation Prompt.
+- **Section VII. Expansion Modules (Optional):** Scene Vignettes, Sub-Factions, Key Locations, Vehicular Assets, GM Campaign Hooks & Secrets.
 
 **JSON SCHEMA:**
 [
   {
-    "name": "String (Faction Name)",
+    "name": "String (Official Designation / Faction Name)",
+    "faction_type": "String (Exact enum: 'Major Galactic Power', 'Major Polity', 'Minor Polity', 'Corporate Syndicate', 'Sovereign Clan / Kingdom', 'Independent / Frontier', 'Religious / Cult Splinter', 'Criminal Syndicate / Cartel', 'Planetary Government')",
+    "prominent_species": "String (Primary species / genotypes, e.g. 'Humans (Hardened Frontier Genotype)', 'Draconic Descendants', 'Premian / Transhuman', 'Auluran')",
+    "capital_world": "String (Capital world, seat of power, or key star system, e.g. 'Copia (The Gilded Heart)', 'Draconis')",
+    "archetype": "String (Sociological model / philosophy, e.g. 'Frontier Industrialists / Kleptocratic Republic', 'Feudal Technocracy / Space Monarchy', 'High-Tech Cyberocracy')",
+    "key_themes": "String (Comma-separated thematic pillars, e.g. 'Frontier Industrialists, Kleptocracy, Grid vs. Wealth, Used Future, Penal Legions')",
+    "relationship_to_others": "String (Diplomatic stance, rivalries, alliances, and foreign relations)",
     "description": "String (High-level narrative overview and thematic summary)",
-    "society": "String or null (Associated societal structure or planetary origin)",
-    "prerequisite": ["String (Requirements to join or hold rank)"],
-    "archetype": "String (Exact enum: 'Militaristic', 'Corporate / Mercantile', 'Religious / Cult', 'Technological', 'Criminal / Syndicate', 'Exploration / Academic', 'Agrarian / Colony', 'Isolationist / Alien')",
+    "colloquialisms": "String (In-universe slang and common designations, e.g. 'The Free Colonies / The Frontier')",
+    "symbol_sigil": "String (Description of emblem, crest, heraldry, or banners, e.g. 'The Silver Star (Marshals) / The Cog and Wheat (Copia)')",
+    "driving_mandate": "String (Core institutional objective and directive, e.g. 'Protect the People; Secure the Frontier')",
+    "motto": "String (Official rallying cry, creed, or motto, e.g. 'Service Guarantees Citizenship. Survival Guarantees Freedom.')",
+    "core_beliefs": "String (Ideological foundation, philosophical worldview, and cultural tenets)",
+    "social_structure": "String (Internal hierarchy, caste structure, or command authority)",
+    "outsider_view": "String (Official policy and cultural disposition toward aliens and non-members)",
+    "law_order": "String (Disciplinary framework, justice systems, and enforcement bodies)",
+    "government_type": "String (Administrative model, e.g. 'Kleptocratic Republic / Corporate Oligarchy', 'Feudal Monarchy', 'Theocracy')",
+    "leadership": "String (Key rulers, councilors, chancellors, or commanding bodies)",
+    "succession": "String (Method of leadership transition, bloodright, election, or acquisition)",
     "tech_level": 3,
-    "meta_level": 0,
-    "colloquialisms": "String (In-universe slang and terminology)",
-    "symbol_sigil": "String (Description of emblem, crest, or heraldry)",
-    "driving_mandate": "String (Core institutional objective)",
-    "motto": "String (Official rallying cry or creed)",
-    "core_beliefs": "String (Ideological foundation and worldview)",
-    "social_structure": "String (Internal hierarchy and command authority)",
-    "outsider_view": "String (Policy toward alien species and rival factions)",
-    "law_order": "String (Disciplinary framework and internal justice)",
-    "government_type": "String (Administrative model)",
-    "leadership": "String (Key rulers, councilors, or commanding officers)",
-    "succession": "String (Method of leadership transition)",
-    "primary_exports": "String (Key goods, services, and raw commodities)",
-    "economic_model": "String (Financial structure)",
-    "military_doctrine": "String (Combat strategy and tactical philosophy)",
-    "key_units": "String (Elite regiments, security details, or divisions)",
-    "naval_assets": "String (Starships, fleet composition, and heavy armor)",
-    "design_language": "String (Visual styling of hardware, bases, and technology)",
-    "architecture": "String (Urban, station, and outpost architectural motifs)",
-    "gear_aesthetic": "String (Uniforms, weaponry styling, armor silhouettes)",
-    "lighting_mood": "String (Atmosphere, interior lighting, and visual tone)",
-    "image_prompt": "String (Detailed AI art generation prompt representing the faction)",
-    "attitude": "String (Default demeanor in diplomacy)",
-    "goals": "String (Short-term and long-term strategic plans)",
-    "social_strengths": "String (Institutional advantages)",
-    "social_weaknesses": "String (Vulnerabilities, corruption, or blind spots)",
-    "modifiers": [
-      { "target": "Wealth Score", "type": "wealth", "value": 1, "mode": "inherent" }
+    "meta_level": 1,
+    "wealth_modifier": "String (Wealth score modifier and economic standing, e.g. '0 (Standard baseline, but vastly unequal distribution)', '+2 (Old Money / High Resources)')",
+    "primary_exports": "String (Key resources, industrial commodities, security services, or tech)",
+    "economic_model": "String (Financial model, market dynamics, and resource distribution)",
+    "military_doctrine": "String (Combat strategy, tactical philosophy, and theater warfare methods)",
+    "key_units": "String (Elite regiments, security details, specialized units, or penal legions)",
+    "naval_assets": "String (Starships, fleet composition, siege-haulers, void dreadnoughts, or gunships)",
+    "unique_tech_materials": "String (Proprietary tech, reverse-engineered artifacts, exotic alloys, or signature materials)",
+    "skill_package": [
+      "String (Exact skill package breakdown totaling 20 points, e.g. 'Bluff (+4)', 'Survival (+3)', 'Streetwise (+3)', 'Mechanics (+3)', 'Pilot (+3)', 'Combat or Utility (+4)')"
     ],
-    "mechanic": "String or null (Faction-specific mechanical bonuses or reputation tracks)",
-    "note": "String or null (GM campaign hooks and secrets)"
+    "typical_archetypes": [
+      "String (Typical character archetypes, e.g. 'The Munitions Magnate', 'The Field Medic', 'The Demolisher', 'The Veteran', 'The Marshal', 'The Raider')"
+    ],
+    "recommended_features": [
+      "String (Tailored faction features available at 1 BP discount, e.g. 'Tough', 'Pain Tolerance', 'Endurance', 'Burst Attack', 'Weapon Improvisation', 'Gearhead', 'Benefit (Authority)', 'Tracker')"
+    ],
+    "bonus_features": [
+      "String (Inherent or distinctive faction perks/traits, e.g. 'Independent Grit', 'Jack of All Trades')"
+    ],
+    "origin_profession_traits": [
+      "String (Origin, career, or rank traits with game rules, e.g. 'Penal Recruit (Ranger): Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority')"
+    ],
+    "setting_style": "String (HI-FI INK visual genre, e.g. 'Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional')",
+    "context_palette": "String (Architectural silhouettes, environmental context, and color palette, e.g. 'Brutalist prefabs, heavy refineries, hazard stripes; Palette: Dust Brown, Faded Denim, Olive Drab')",
+    "lighting_mood": "String (Visual atmosphere, interior lighting, and tone, e.g. 'Industrial decay, smog-choked, oppressive low-key industrial lighting, sodium vapor')",
+    "image_prompt": "String (Comprehensive AI image prompt for cinematic rendering of faction scenes and operatives)",
+    "attitude": "String (Default demeanor in diplomacy and negotiations)",
+    "goals": "String (Short-term and long-term strategic plans)",
+    "social_strengths": "String (Institutional advantages, industrial scale, intelligence networks)",
+    "social_weaknesses": "String (Structural vulnerabilities, internal corruption, blind spots)",
+    "scene_vignettes": [
+      "String (Signature atmospheric scene vignettes capturing life, military operations, or locales)"
+    ],
+    "expansion_modules": "String or null (Optional sub-factions, star systems, or deep lore modules)",
+    "modifiers": [
+      { "target": "Wealth Score", "type": "wealth", "value": 0, "mode": "inherent" }
+    ],
+    "costs": {
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "mechanic": "String or null (Faction-specific mechanical bonuses, reputation tracks, or rule overrides)",
+    "note": "String or null (GM campaign hooks, classified secrets, and adventure seeds)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Snake Case Keys:** Use snake_case for all multi-word keys (e.g. driving_mandate, social_structure, symbol_sigil).
-2. **Archetype Enum:** Restrict archetype to the 8 canonical options.
-3. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Snake Case Keys:** Use snake_case for all multi-word keys (e.g. driving_mandate, social_structure, symbol_sigil, tech_level, prominent_species).
+2. **20-Point Skill Packages:** Preserve the exact skill points allocations in the \`skill_package\` array.
+3. **Recommended Features Discount:** Extract recommended features into \`recommended_features\` (players receive these at a 1 BP discount).
+4. **HI-FI INK Protocols:** Accurately extract the visual synthesis protocols into \`setting_style\`, \`context_palette\`, \`lighting_mood\`, and \`image_prompt\`.
+5. **Clean Numeric Levels:** Ensure \`tech_level\` and \`meta_level\` are integer numbers (0-5).
+6. **Output Requirement:** Output ONLY the valid JSON array of objects. Do NOT wrap in conversational prose.
 
 **INPUT TEXT:**
 [INSERT RAW FACTIONS TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'society', 'prerequisite', 'archetype', 'tech_level',
-      'meta_level', 'colloquialisms', 'symbol_sigil', 'driving_mandate', 'motto',
-      'core_beliefs', 'social_structure', 'outsider_view', 'law_order',
-      'government_type', 'leadership', 'succession', 'primary_exports',
-      'economic_model', 'military_doctrine', 'key_units', 'naval_assets',
-      'design_language', 'architecture', 'gear_aesthetic', 'lighting_mood',
+      'name', 'faction_type', 'prominent_species', 'capital_world', 'archetype',
+      'key_themes', 'relationship_to_others', 'description', 'colloquialisms',
+      'symbol_sigil', 'driving_mandate', 'motto', 'core_beliefs', 'social_structure',
+      'outsider_view', 'law_order', 'government_type', 'leadership', 'succession',
+      'tech_level', 'meta_level', 'wealth_modifier', 'primary_exports', 'economic_model',
+      'military_doctrine', 'key_units', 'naval_assets', 'unique_tech_materials',
+      'skill_package', 'typical_archetypes', 'recommended_features', 'bonus_features',
+      'origin_profession_traits', 'setting_style', 'context_palette', 'lighting_mood',
       'image_prompt', 'attitude', 'goals', 'social_strengths', 'social_weaknesses',
-      'modifiers', 'mechanic', 'note'
+      'scene_vignettes', 'expansion_modules', 'modifiers', 'costs', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "The Obsidian Syndicate",
-      description: "A shadowy inter-sector cartel controlling covert hyperspace routing, smuggling, and illicit bio-tech laboratories.",
-      society: "Shadow Archipelago",
-      prerequisite: ["Underworld Contact or Outlaw Trait"],
-      archetype: "Criminal / Syndicate",
+      name: "Coalition of Independent Worlds",
+      faction_type: "Major Polity",
+      prominent_species: "Humans (Hardened Frontier Genotype)",
+      capital_world: "Copia (The Gilded Heart)",
+      archetype: "Frontier Industrialists / Kleptocratic Republic",
+      key_themes: "Frontier Industrialists, Kleptocracy, Grid vs. Wealth, Used Future, Penal Legions",
+      relationship_to_others: "Distrustful of the Core Worlds (Syndicate/Dynasty) who abandoned them. Highly isolationist and fiercely protective of their borders.",
+      description: "The \"Free Colonies\" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct.",
+      colloquialisms: "The Free Colonies / The Frontier / Rust-Walkers",
+      symbol_sigil: "The Silver Star (Marshals) / The Cog and Wheat (Copia)",
+      driving_mandate: "Protect the People; Secure the Frontier.",
+      motto: "Service Guarantees Citizenship. Survival Guarantees Freedom.",
+      core_beliefs: "\"Everyone owns a gun.\" Personal freedom is sacred, though it allows the powerful to exploit the weak. The Copian elite practice \"Noble Stewardship\" (hypocritical exploitation).",
+      social_structure: "Volatile Hierarchy (Corporate Elites > Justice Dept/Marshals > Citizens > Penal Legions/Rangers).",
+      outsider_view: "Suspicious. Outsiders are either trying to steal their resources or impose core-world laws.",
+      law_order: "Dual-enforcement: The wandering Federal Marshals (the conscience/Code of Harm) vs. the Colonial Rangers (the state fist/Penal Legion).",
+      government_type: "Kleptocratic Republic / Corporate Oligarchy",
+      leadership: "Clan Councils (Copia) and Corporate Governors",
+      succession: "Wealth acquisition and corporate dominance",
       tech_level: 3,
       meta_level: 1,
-      colloquialisms: "The Deep Current, Ghost Cargo, Tithe-Keepers",
-      symbol_sigil: "An eclipse silhouette bisected by an obsidian dagger",
-      driving_mandate: "Monopolize covert transit and sub-space intelligence channels",
-      motto: "What travels in shadow remains unbroken.",
-      core_beliefs: "Sovereignty belongs to those who control the lines of supply.",
-      social_structure: "Tiered syndics led by an anonymous Board of Shadows",
-      outsider_view: "Tolerated as marks, clients, or unwitting pawns",
-      law_order: "Lethal internal arbitration governed by blood pacts",
-      government_type: "Cryptocratic Oligarchy",
-      leadership: "The Arch-Syndic Council",
-      succession: "Ascension by challenge or unanimous council decree",
-      primary_exports: "Contraband, encrypted com-relays, cloned organs",
-      economic_model: "Shadow credit exchanges and commodity barter",
-      military_doctrine: "Precision ambushes, boarding actions, and electronic sabotage",
-      key_units: "Ghost Corsairs, Null-Infiltrators",
-      naval_assets: "Stealth corvettes and retrofitted deep-space haulers",
-      design_language: "Matte carbon surfaces, angular stealth chasses, suppressed thermal exhausts",
-      architecture: "Concealed hollowed-out asteroid docks and subterranean bases",
-      gear_aesthetic: "Sealed black ballistic trenchcoats with HUD-integrated respirators",
-      lighting_mood: "Low-intensity amber and UV emergency strips",
-      image_prompt: "Cyberpunk syndicate operatives in matte-black tactical gear conferring around a holographic star map inside a dimly lit asteroid hangar, volumetric amber lighting, cinematic sci-fi.",
-      attitude: "Cautious, calculating, and ruthless when crossed",
-      goals: "Secure monopoly over the Rimward Trade Gates",
-      social_strengths: "Unmatched informant network and untraceable wealth",
-      social_weaknesses: "Pervasive paranoia and internal power struggles",
-      modifiers: [
-        { target: "Wealth Score", type: "wealth", value: 2, mode: "inherent" },
-        { target: "Streetwise", type: "skill", value: 2, mode: "inherent" }
+      wealth_modifier: "0 (Standard baseline, but vastly unequal distribution)",
+      primary_exports: "Heavy metals, Aetherite, Food (from Copia), Industrial machinery",
+      economic_model: "Exploitative Capitalism / Manufactured Post-Scarcity (Copia)",
+      military_doctrine: "Attrition and overwhelming kinetic firepower. \"Blunt instruments.\"",
+      key_units: "Colonial Rangers (Penal recruits controlled by Neural Shunts), Frontier Marshals",
+      naval_assets: "Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains",
+      unique_tech_materials: "Reverse-Engineered Precursor Tech, Heavy Fission Batteries, Neural Compliance Shunts (\"The Bit\")",
+      skill_package: [
+        "Bluff (+4)",
+        "Survival (+3)",
+        "Streetwise (+3)",
+        "Mechanics (+3)",
+        "Pilot (Ground/Atmo) (+3)",
+        "Combat or Utility (+4)"
       ],
-      mechanic: "Members gain access to black-market asset acquisition at standard cost.",
-      note: "GM Note: Has infiltrated several port authorities."
+      typical_archetypes: [
+        "The Munitions Magnate",
+        "The Field Medic",
+        "The Demolisher",
+        "The Veteran",
+        "The Homesteader",
+        "The Marshal",
+        "The Vagabond",
+        "The Raider",
+        "The Activist",
+        "The Kingpin",
+        "The Revolutionary",
+        "The Detective"
+      ],
+      recommended_features: [
+        "Tough",
+        "Pain Tolerance",
+        "Endurance",
+        "Burst Attack",
+        "Weapon Improvisation",
+        "Gearhead",
+        "Benefit (Authority)",
+        "Tracker",
+        "Fearless",
+        "Diehard",
+        "Crushing Blow",
+        "Headstrong"
+      ],
+      bonus_features: [
+        "Independent Grit",
+        "Jack of All Trades"
+      ],
+      origin_profession_traits: [
+        "Penal Recruit (Ranger): Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority (due to 'The Bit').",
+        "Federal Authority (Marshal): Supreme Jurisdiction to commandeer vehicles/access scenes using Status/Intimidate."
+      ],
+      setting_style: "Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional",
+      context_palette: "Brutalist prefabs, heavy refineries, hazard stripes, hydraulic cables, heavy treads, rust, rotary cannons, ballistic cloth dusters. Palette: Dust Brown, Faded Denim, Olive Drab (Frontier); Rain Grey, Sodium Yellow (Urban).",
+      lighting_mood: "Industrial decay, smog-choked, oppressive. Low-key industrial lighting, harsh sun, or perpetual rain with neon glare and sodium vapor.",
+      image_prompt: "Brutalist frontier outpost in a dust-choked alien canyon, massive tracked industrial land-trains, battered colonial marshals in duster coats with heavy kinetic rifles, hazard yellow markings, sodium vapor lighting, cinematic dieselpunk sci-fi.",
+      attitude: "Fiercely protective, skeptical of core authorities, pragmatic",
+      goals: "Preserve frontier sovereignty, expand Copian agrarian trade, resist Core World hegemony",
+      social_strengths: "Extreme resilience, industrial manufacturing scale, self-reliant population",
+      social_weaknesses: "Rampant oligarchic corruption, internal class resentment, volatile penal legions",
+      scene_vignettes: [
+        "The Marshal Garrison: 2-story reinforced concrete prefab blockhouse holding back frontier outlaws.",
+        "Hephaestus Refinery: 5-story industrial spire belching sulfur into smog-choked skies over slum habs.",
+        "The Copia Agri-Spire: 20-story brutalist greenhouse accelerating synthetic grain harvests."
+      ],
+      expansion_modules: "The Copia System (The Gilded Heart): Hephaestus-V (The Forge), The Agrarian Trinity (Demeter, Ceres-Alpha, Sylvanus), Helios Orbital Arrays, Tartarus Asteroid Belt.",
+      modifiers: [
+        { target: "Wealth Score", type: "wealth", value: 0, mode: "inherent" }
+      ],
+      costs: {
+        bp: 0,
+        credits: 0,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      mechanic: "Players from this faction receive 20 points for faction skills and can purchase recommended features at a 1 BP discount.",
+      note: "GM Secret: Copian robber-barons secretly fund frontier raiders to drive independent homesteaders into debt and corporate vassalage."
     }
   },
 

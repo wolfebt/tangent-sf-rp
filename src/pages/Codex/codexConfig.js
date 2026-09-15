@@ -990,10 +990,18 @@ export const CODEX_MATRICES = [
     badge: 'Sociology Matrix',
     defaultValues: {
       name: '',
-      archetype: 'Militaristic',
+      faction_type: 'Major Polity',
+      archetype: 'Frontier Industrialists / Kleptocratic Republic',
+      prominent_species: 'Humans',
+      capital_world: '',
+      tech_level: 3,
       tl: 3,
-      wealth_modifier: 0,
+      meta_level: 1,
+      ml: 1,
+      wealth_modifier: '0',
       description: '',
+      key_themes: '',
+      relationship_to_others: '',
       colloquialisms: '',
       symbol_sigil: '',
       driving_mandate: '',
@@ -1010,47 +1018,143 @@ export const CODEX_MATRICES = [
       military_doctrine: '',
       key_units: '',
       naval_assets: '',
-      design_language: '',
-      architecture: '',
-      gear_aesthetic: '',
+      unique_tech_materials: '',
+      skill_package: '',
+      typical_archetypes: '',
+      recommended_features: '',
+      bonus_features: '',
+      origin_profession_traits: '',
+      setting_style: '',
+      context_palette: '',
       lighting_mood: '',
       image_prompt: '',
-      inherent_features: [],
-      specific_skill_bonuses: []
+      scene_vignettes: '',
+      expansion_modules: '',
+      mechanic: '',
+      note: ''
     },
     fields: [
-      { name: 'name', label: 'Faction Name', type: 'text', required: true, placeholder: 'E.g., Free Worlds Coalition' },
-      { name: 'archetype', label: 'Archetype', type: 'select', options: ['Militaristic', 'Corporate / Mercantile', 'Religious / Cult', 'Technological', 'Criminal / Syndicate', 'Exploration / Academic', 'Agrarian / Colony', 'Isolationist / Alien'] },
+      // 1. Primary Classification & Core Identity
+      { name: 'name', label: 'Faction Name', type: 'text', required: true, placeholder: 'E.g., Coalition of Independent Worlds' },
+      { name: 'faction_type', label: 'Faction Classification / Type', type: 'select', options: [
+        'Major Galactic Power',
+        'Major Polity',
+        'Minor Polity',
+        'Corporate Syndicate',
+        'Sovereign Clan / Kingdom',
+        'Independent / Frontier',
+        'Religious / Cult Splinter',
+        'Criminal Syndicate / Cartel',
+        'Planetary Government'
+      ] },
+      { name: 'archetype', label: 'Faction Archetype / Sociological Model', type: 'text', placeholder: 'E.g., Frontier Industrialists / Kleptocratic Republic' },
+      { name: 'prominent_species', label: 'Prominent Species / Genotypes', type: 'text', placeholder: 'E.g., Humans (Hardened Frontier Genotype), Draconic Descendants' },
+      { name: 'capital_world', label: 'Capital World / Key Star System', type: 'text', placeholder: 'E.g., Copia (The Gilded Heart), Draconis' },
+
+      // 2. Thematic & Narrative Overview
+      { name: 'description', label: 'Detailed Faction Overview', type: 'textarea', aiEnabled: true, placeholder: 'Comprehensive narrative summary of the faction, historical origin, and cultural ethos...' },
+      { name: 'key_themes', label: 'Key Themes (Comma-Separated)', type: 'text', placeholder: 'E.g., Frontier Industrialists, Kleptocracy, Grid vs. Wealth, Used Future, Penal Legions' },
+      { name: 'relationship_to_others', label: 'Diplomatic Posture & Foreign Relations', type: 'textarea', placeholder: 'How this faction views rival powers, trade partners, and alien neighbors...' },
+      { name: 'symbol_sigil', label: 'Symbol / Sigil / Heraldry', type: 'text', placeholder: 'E.g., The Silver Star (Marshals) / The Cog and Wheat (Copia)' },
+      { name: 'driving_mandate', label: 'Driving Mandate / Core Objective', type: 'textarea', placeholder: 'E.g., Protect the People; Secure the Frontier' },
+      { name: 'motto', label: 'Official Motto / Rallying Cry', type: 'text', placeholder: 'E.g., "Service Guarantees Citizenship. Survival Guarantees Freedom."' },
+      { name: 'colloquialisms', label: 'Colloquialisms / In-Universe Slang', type: 'text', placeholder: 'E.g., The Free Colonies, Rust-Walkers, The Gilded Core' },
+
+      // 3. Strategic Assets & Economic Profile
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'wealth_modifier', label: 'Wealth Modifier', type: 'number' },
-      { name: 'description', label: 'General Overview', type: 'textarea' },
-      { name: 'colloquialisms', label: 'Colloquialisms / Slang', type: 'text' },
-      { name: 'symbol_sigil', label: 'Symbol / Sigil', type: 'text' },
-      { name: 'driving_mandate', label: 'Driving Mandate', type: 'textarea' },
-      { name: 'motto', label: 'Motto', type: 'text' },
-      { name: 'core_beliefs', label: 'Core Beliefs', type: 'textarea' },
-      { name: 'social_structure', label: 'Social Structure', type: 'textarea' },
-      { name: 'outsider_view', label: 'View on Outsiders', type: 'textarea' },
-      { name: 'law_order', label: 'Law & Order', type: 'textarea' },
-      { name: 'government_type', label: 'Government Type', type: 'text' },
-      { name: 'leadership', label: 'Leadership', type: 'text' },
-      { name: 'succession', label: 'Succession Rules', type: 'text' },
-      { name: 'primary_exports', label: 'Primary Exports', type: 'text' },
-      { name: 'economic_model', label: 'Economic Model', type: 'text' },
-      { name: 'military_doctrine', label: 'Military Doctrine', type: 'textarea' },
-      { name: 'key_units', label: 'Key Units', type: 'textarea' },
-      { name: 'naval_assets', label: 'Naval Assets', type: 'textarea' },
-      { name: 'design_language', label: 'Design Language', type: 'textarea' },
-      { name: 'architecture', label: 'Architecture', type: 'textarea' },
-      { name: 'gear_aesthetic', label: 'Gear Aesthetic', type: 'textarea' },
-      { name: 'lighting_mood', label: 'Lighting / Mood', type: 'textarea' },
-      { name: 'image_prompt', label: 'AI Image Prompt Guidance', type: 'textarea' }
+      { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'wealth_modifier', label: 'Wealth Modifier (Score / Context)', type: 'text', placeholder: 'E.g., 0 (Standard baseline), +2 (Old Money / High Resources)' },
+      { name: 'primary_exports', label: 'Primary Exports & Strategic Commodities', type: 'text', placeholder: 'E.g., Heavy metals, Aetherite, Food, Industrial machinery' },
+      { name: 'economic_model', label: 'Economic Model & Trade System', type: 'text', placeholder: 'E.g., Exploitative Capitalism / Manufactured Post-Scarcity' },
+
+      // 4. Sociological Profile & Governance
+      { name: 'core_beliefs', label: 'Core Beliefs & Ideological Foundations', type: 'textarea', placeholder: 'E.g., Personal freedom is sacred, though it allows the powerful to exploit the weak...' },
+      { name: 'social_structure', label: 'Social Structure & Internal Hierarchy', type: 'textarea', placeholder: 'E.g., Volatile Hierarchy: Corporate Elites > Marshals > Citizens > Penal Legions' },
+      { name: 'outsider_view', label: 'View on Outsiders & Aliens', type: 'textarea', placeholder: 'E.g., Suspicious. Outsiders are either trying to steal resources or impose core laws...' },
+      { name: 'law_order', label: 'Law, Order & Enforcement Bodies', type: 'textarea', placeholder: 'E.g., Federal Marshals (Code of Harm) vs Colonial Rangers (Penal Legion)' },
+      { name: 'government_type', label: 'Government / Administrative Model', type: 'text', placeholder: 'E.g., Kleptocratic Republic / Corporate Oligarchy' },
+      { name: 'leadership', label: 'Ruling Leadership / Key Figures', type: 'text', placeholder: 'E.g., Clan Councils (Copia) and Corporate Governors' },
+      { name: 'succession', label: 'Succession & Leadership Transition', type: 'text', placeholder: 'E.g., Wealth acquisition, corporate dominance, bloodright' },
+
+      // 5. Military Profile & Defense Doctrine
+      { name: 'military_doctrine', label: 'Military Doctrine & Combat Strategy', type: 'textarea', placeholder: 'E.g., Attrition and overwhelming kinetic firepower. "Blunt instruments."' },
+      { name: 'key_units', label: 'Key Military Units & Formations', type: 'textarea', placeholder: 'E.g., Colonial Rangers (Neural Shunt Recruits), Frontier Marshals' },
+      { name: 'naval_assets', label: 'Naval & Void Fleet Assets', type: 'textarea', placeholder: 'E.g., Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains' },
+      { name: 'unique_tech_materials', label: 'Unique Tech & Signature Materials', type: 'textarea', placeholder: 'E.g., Reverse-Engineered Precursor Tech, Heavy Fission Batteries, Neural Compliance Shunts' },
+
+      // 6. Mechanics & Player Character Options
+      { name: 'skill_package', label: 'Faction Skill Package (20 Points Allocation)', type: 'textarea', placeholder: 'E.g., Bluff (+4), Survival (+3), Streetwise (+3), Mechanics (+3), Pilot (+3), Combat/Utility (+4)' },
+      { name: 'typical_archetypes', label: 'Typical Character Archetypes', type: 'textarea', placeholder: 'E.g., The Munitions Magnate, The Field Medic, The Demolisher, The Veteran, The Marshal, The Raider' },
+      { name: 'recommended_features', label: 'Recommended Features (1 BP Discount)', type: 'textarea', placeholder: 'E.g., Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker' },
+      { name: 'bonus_features', label: 'Bonus Features & Origin Traits', type: 'textarea', placeholder: 'E.g., Independent Grit, Jack of All Trades, Penal Recruit, Federal Authority' },
+      { name: 'mechanic', label: 'Faction-Specific Rules & Mechanical Perks', type: 'textarea', placeholder: 'Special rule effects, reputation tracks, or faction-specific bonuses...' },
+
+      // 7. Visual Synthesis Protocols (HI-FI INK)
+      { name: 'setting_style', label: 'HI-FI INK Setting Style', type: 'text', placeholder: 'E.g., Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional' },
+      { name: 'context_palette', label: 'Visual Context & Color Palette', type: 'textarea', placeholder: 'E.g., Brutalist prefabs, heavy refineries, hazard stripes. Palette: Dust Brown, Faded Denim, Olive Drab' },
+      { name: 'lighting_mood', label: 'Lighting, Atmosphere & Tone', type: 'textarea', placeholder: 'E.g., Industrial decay, smog-choked, oppressive low-key industrial lighting, sodium vapor' },
+      { name: 'image_prompt', label: 'AI Image Prompt Guidance', type: 'textarea', placeholder: 'Detailed cinematic prompt for AI concept rendering...' },
+
+      // 8. Expansion Modules & GM Notes
+      { name: 'scene_vignettes', label: 'Signature Scene Vignettes', type: 'textarea', placeholder: 'E.g., The Marshal Garrison, The Refinery Floor, The Hab-Block Stacks...' },
+      { name: 'expansion_modules', label: 'Expansion Modules & Sub-Factions', type: 'textarea', placeholder: 'Optional sub-factions, star systems, or deep lore modules...' },
+      { name: 'note', label: 'GM Campaign Notes & Secrets', type: 'textarea', placeholder: 'Confidential GM plot hooks, hidden corruption, or classified agendas...' }
     ],
-    computedOutputs: [], // Or add custom computed if needed
-    computeOnSave: (formData, engines) => formData, // Just pass through, maybe we compute something?
+    computedOutputs: [
+      {
+        id: 'faction_power',
+        label: 'Strategic Power Tier',
+        icon: 'ShieldAlert',
+        engine: 'econ',
+        fn: 'getComplexityTier',
+        inputField: 'tl',
+        format: 'badge',
+        color: '#10b981'
+      }
+    ],
+    computeOnSave: (formData) => {
+      const tl = Number(formData.tech_level ?? formData.tl ?? 3) || 3;
+      const ml = Number(formData.meta_level ?? formData.ml ?? 1) || 0;
+      const wealth = Number(formData.wealth_modifier ?? 0) || 0;
+      const influence = Math.min(5, Math.max(1, Math.round((tl + ml + (wealth >= 0 ? 1 : 0)) / 2)));
+      return {
+        tech_level: tl,
+        meta_level: ml,
+        wealth_modifier: formData.wealth_modifier || '0',
+        influence_rating: influence,
+        faction_classification: formData.faction_type || 'Major Polity',
+        computed_at: new Date().toISOString()
+      };
+    },
     archetypes: [
-      { name: 'Corporate Hegemony', prompt: 'A massive interplanetary conglomerate that acts as a sovereign nation.' },
-      { name: 'Warrior Nomads', prompt: 'A fleet-based culture of proud warriors who rely on raiding.' }
+      {
+        name: 'Frontier Industrialists (The Coalition)',
+        prompt: 'Consisting of 40+ independent frontier worlds tamed with heavy industrial machinery; functionally a kleptocratic republic championing frontier self-reliance and grit.'
+      },
+      {
+        name: 'Feudal Technocracy (The Dracon Dynasty)',
+        prompt: 'A 17-century space monarchy governed by Dragon-Knights and noblesse oblige; premier diplomats wielding heavy vibro-tech and flying castle rampart ships.'
+      },
+      {
+        name: 'High-Tech Cyberocracy (The Syndicate)',
+        prompt: 'A seamless corporate cyberocracy run on "The Mesh" AR data network; highly agile transhumanist mercantile empire with restricted underworld friction layers.'
+      },
+      {
+        name: 'Theocratic Hegemony (The Radiant Impyrium)',
+        prompt: 'A zealous sol-centric theocracy enforcing solar purity, inquisitorial purges, and burning plasma crusades across the known sectors.'
+      },
+      {
+        name: 'Nomadic Clan Federation (The Auluran Clans)',
+        prompt: 'A massive nomadic matriarchal fleet culture bound by honor, survival instincts, and ancestral clan traditions aboard void-arks.'
+      },
+      {
+        name: 'Cybernetic Collectivism (The Mekan)',
+        prompt: 'A synthetic machine intelligence society seeking supreme structural logic and cybernetic integration, detached from organic frailty.'
+      },
+      {
+        name: 'Occult Void Enclave (The Alterian Enclave)',
+        prompt: 'An ancient psionic and esoteric enclave manipulating probability, void-sorcery, and classified relic technology from secret cloaked sanctuaries.'
+      }
     ]
   },
   {

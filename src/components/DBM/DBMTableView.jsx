@@ -155,45 +155,6 @@ const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin, hand
           {formatCellValue(item[col])}
         </div>
       ))}
-      <div className="w-24 shrink-0 flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleOpenItem(item, true);
-          }}
-          className="p-1 rounded bg-slate-900 hover:bg-amber-600/30 border border-slate-700 hover:border-amber-500/50 text-slate-400 hover:text-amber-300 transition-all cursor-pointer text-xs"
-          title="Edit Entry"
-        >
-          ✏️
-        </button>
-        {isAdmin && handleDuplicateEntry && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDuplicateEntry(item);
-            }}
-            className="p-1 rounded bg-slate-900 hover:bg-cyan-600/30 border border-slate-700 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer text-xs"
-            title="Duplicate / Clone Entry"
-          >
-            📋
-          </button>
-        )}
-        {isAdmin && handleDeleteEntry && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDeleteEntry(item);
-            }}
-            className="p-1 rounded bg-slate-900 hover:bg-red-600/30 border border-slate-700 hover:border-red-500/50 text-slate-400 hover:text-red-300 transition-all cursor-pointer text-xs"
-            title="Delete Entry"
-          >
-            🗑️
-          </button>
-        )}
-      </div>
     </div>
   );
 };
@@ -237,47 +198,6 @@ const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin, handle
           {formatCellValue(item[col])}
         </td>
       ))}
-      <td className="p-2 w-24 text-right shrink-0">
-        <div className="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleOpenItem(item, true);
-            }}
-            className="p-1 rounded bg-slate-900 hover:bg-amber-600/30 border border-slate-700 hover:border-amber-500/50 text-slate-400 hover:text-amber-300 transition-all cursor-pointer text-xs"
-            title="Edit Entry"
-          >
-            ✏️
-          </button>
-          {isAdmin && handleDuplicateEntry && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDuplicateEntry(item);
-              }}
-              className="p-1 rounded bg-slate-900 hover:bg-cyan-600/30 border border-slate-700 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer text-xs"
-              title="Duplicate / Clone Entry"
-            >
-              📋
-            </button>
-          )}
-          {isAdmin && handleDeleteEntry && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteEntry(item);
-              }}
-              className="p-1 rounded bg-slate-900 hover:bg-red-600/30 border border-slate-700 hover:border-red-500/50 text-slate-400 hover:text-red-300 transition-all cursor-pointer text-xs"
-              title="Delete Entry"
-            >
-              🗑️
-            </button>
-          )}
-        </div>
-      </td>
     </tr>
   );
 };
@@ -316,7 +236,7 @@ export const DBMTableView = ({
   const columnsDropdownRef = useRef(null);
   const filtersDropdownRef = useRef(null);
   const fileMenuRef = useRef(null);
-  const { syncCanonicalSpecies, syncCanonicalFactions } = useDBM() || {};
+  const { syncCanonicalSpecies, syncCanonicalFactions, clearTombstonesForCategory } = useDBM() || {};
   const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
   const [isSyncingFactions, setIsSyncingFactions] = useState(false);
 
@@ -1209,6 +1129,22 @@ export const DBMTableView = ({
                   </button>
                 )}
 
+                {isAdmin && currentKey === 'factions' && clearTombstonesForCategory && (
+                  <button
+                    onClick={async () => {
+                      setIsFileMenuOpen(false);
+                      clearTombstonesForCategory('factions');
+                      if (syncCanonicalFactions) {
+                        await syncCanonicalFactions();
+                      }
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 rounded flex items-center gap-2 transition-colors font-medium border border-emerald-500/30"
+                  >
+                    <span>🔄</span>
+                    <span>Restore All 40 Factions</span>
+                  </button>
+                )}
+
                 <div className="border-t border-slate-800 my-0.5" />
 
                 <button
@@ -1367,9 +1303,6 @@ export const DBMTableView = ({
                     </th>
                   );
                 })}
-                <th className="p-3 w-24 text-right text-[10px] uppercase font-bold tracking-wider text-slate-400">
-                  Actions
-                </th>
               </tr>
             </thead>
           </table>

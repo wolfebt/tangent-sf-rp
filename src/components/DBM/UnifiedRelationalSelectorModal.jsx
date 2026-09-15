@@ -599,7 +599,6 @@ export const UnifiedRelationalSelectorModal = ({
                         <th className="py-2.5 px-3">Designation / Record</th>
                         <th className="py-2.5 px-3">Type / Category</th>
                         <th className="py-2.5 px-3 hidden md:table-cell">Overview</th>
-                        <th className="py-2.5 px-3 text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/60">
@@ -632,17 +631,6 @@ export const UnifiedRelationalSelectorModal = ({
                             </td>
                             <td className="py-2.5 px-3 text-slate-400 max-w-xs truncate hidden md:table-cell">
                               {item.description || '—'}
-                            </td>
-                            <td className="py-2.5 px-3 text-right whitespace-nowrap" onClick={e => e.stopPropagation()}>
-                              <button
-                                type="button"
-                                onClick={(e) => handleOpenEditManage(item, e)}
-                                className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/70 text-slate-400 hover:text-amber-300 transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
-                                title={`Edit ${item.name || item.id} in database`}
-                              >
-                                <span>✏️</span>
-                                <span>Edit</span>
-                              </button>
                             </td>
                           </tr>
                         );
@@ -708,16 +696,6 @@ export const UnifiedRelationalSelectorModal = ({
                                 }`}>
                                   {item.type}
                                 </span>
-                              )}
-                              {!isCategoryGroup && (
-                                <button
-                                  type="button"
-                                  onClick={(e) => { e.stopPropagation(); handleOpenEditManage(item, e); }}
-                                  className="p-1 rounded text-[10px] bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/70 text-slate-400 hover:text-amber-300 transition-all cursor-pointer"
-                                  title={`Edit ${item.name || item.id} in database`}
-                                >
-                                  <span>✏️</span>
-                                </button>
                               )}
                             </div>
                           </div>

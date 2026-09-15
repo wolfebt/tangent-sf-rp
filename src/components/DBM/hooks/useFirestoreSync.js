@@ -7,7 +7,7 @@ import { validateDbmEntry } from '../../../utils/dbmValidators';
 import compendiumSeedData from '../../../data/compendiumSeed.json';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
-import { getOmnicortexTombstones, addOmnicortexTombstone, isOmnicortexDeleted, getFallbackSeedForCategory } from '../../../context/DBMContext';
+import { getOmnicortexTombstones, addOmnicortexTombstone, isOmnicortexDeleted, getFallbackSeedForCategory, mergeSeedsWithDocs } from '../../../context/DBMContext';
 
 export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) => {
   const [dbData, setDbData] = useState(() => {
@@ -17,7 +17,8 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       compendium: compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones)),
       archetypes: DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones)),
       species: DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones)),
-      ...(currentKey ? { [currentKey]: currentSeeds.filter(s => !isOmnicortexDeleted(s, tombstones)) } : {})
+      factions: mergeSeedsWithDocs([], 'factions', tombstones),
+      ...(currentKey ? { [currentKey]: mergeSeedsWithDocs([], currentKey, tombstones) } : {})
     };
   });
   const [isLoading, setIsLoading] = useState(true);
@@ -65,25 +66,22 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       const colRef = collection(db, currentKey);
       const unsubCurrent = onSnapshot(colRef, (snapshot) => {
         const tombstones = getOmnicortexTombstones();
-        let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id })).filter(i => !isOmnicortexDeleted(i, tombstones));
-        if (items.length === 0 && snapshot.docs.length === 0) {
-          const fallbackSeeds = getFallbackSeedForCategory(currentKey);
-          items = fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones));
-        }
+        const rawDocs = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+        const items = mergeSeedsWithDocs(rawDocs, currentKey, tombstones);
         setDbData(prev => ({ ...prev, [currentKey]: items }));
         setIsLoading(false);
       }, (err) => {
         console.warn(`Firestore listener error for ${currentKey}:`, err.message);
         const tombstones = getOmnicortexTombstones();
-        const fallbackSeeds = getFallbackSeedForCategory(currentKey);
-        setDbData(prev => ({ ...prev, [currentKey]: fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
+        const items = mergeSeedsWithDocs([], currentKey, tombstones);
+        setDbData(prev => ({ ...prev, [currentKey]: items }));
         setLoadError(`Failed to load ${currentKey}.`);
         setIsLoading(false);
       });
       unsubs.push(unsubCurrent);
 
       // 2. Pre-fetch reference collections in background for relational selector parity
-      const allCatKeys = new Set(['rules_codex', 'compendium']);
+      const allCatKeys = new Set(['rules_codex', 'compendium', 'factions']);
       Object.keys(categoryConfig).forEach(parentK => {
         const parent = categoryConfig[parentK];
         if (parent.viewType !== 'guide') {
@@ -105,16 +103,13 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
             const refCol = collection(db, catK);
             const unsubRef = onSnapshot(refCol, (snapshot) => {
               const tombstones = getOmnicortexTombstones();
-              let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id })).filter(i => !isOmnicortexDeleted(i, tombstones));
-              if (items.length === 0 && snapshot.docs.length === 0) {
-                const fallbackSeeds = getFallbackSeedForCategory(catK);
-                items = fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones));
-              }
+              const rawDocs = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+              const items = mergeSeedsWithDocs(rawDocs, catK, tombstones);
               setDbData(prev => ({ ...prev, [catK]: items }));
             }, (err) => {
               const tombstones = getOmnicortexTombstones();
-              const fallbackSeeds = getFallbackSeedForCategory(catK);
-              setDbData(prev => ({ ...prev, [catK]: fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
+              const items = mergeSeedsWithDocs([], catK, tombstones);
+              setDbData(prev => ({ ...prev, [catK]: items }));
             });
             unsubs.push(unsubRef);
           } catch (e) {
@@ -224,25 +219,24 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
 
     const displayName = targetName || docId;
 
-    // Persist tombstone so seed arrays and caches never resurrect this entry
-    addOmnicortexTombstone(docId, targetName);
+    // Persist tombstone by docId so seed arrays and caches never resurrect this specific deleted entry
+    addOmnicortexTombstone(docId);
 
-    // 2. Optimistically remove from all local categories
+    // 2. Optimistically remove from all local categories (by docId ONLY)
     setDbData(prev => {
       const nextState = { ...prev };
       Object.keys(nextState).forEach(k => {
         if (Array.isArray(nextState[k])) {
           nextState[k] = nextState[k].filter(i =>
             i.id !== docId &&
-            i.id?.toString().toLowerCase() !== docId.toString().toLowerCase() &&
-            (targetName ? (i.name || i.title || '').trim().toLowerCase() !== targetName.toLowerCase() : true)
+            i.id?.toString().toLowerCase() !== docId.toString().toLowerCase()
           );
         }
       });
       return nextState;
     });
 
-    // 3. Process delete in cloud across collections
+    // 3. Process delete in cloud across collections (by docId ONLY)
     try {
       const collectionsToScan = Array.from(new Set([
         key,
@@ -267,13 +261,11 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
             const data = d.data() || {};
             const dId = (d.id || '').toString().toLowerCase();
             const payloadId = (data.id || '').toString().toLowerCase();
-            const dName = (data.name || data.title || '').trim().toLowerCase();
 
+            // Match ONLY by document ID to avoid deleting separate records that share a name!
             const isMatch =
               dId === docId.toString().toLowerCase() ||
-              payloadId === docId.toString().toLowerCase() ||
-              (targetName && dName === targetName.toLowerCase()) ||
-              (targetName && dId === targetName.toLowerCase());
+              payloadId === docId.toString().toLowerCase();
 
             if (isMatch) {
               await deleteDoc(d.ref);

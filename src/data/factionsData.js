@@ -272,100 +272,6 @@ export const DEFAULT_FACTIONS = [
     "body": "## **AULURAN CLANS**\n\n### **I. Detailed Faction Description**\n\n* **Overview:** The Aulurans are defined by radical adaptation following the genocide of their homeworld by the Impyrium. They fought back with Life—specifically, Emulated Biology. They terraform worlds using hyper-accelerated Organic Mimetics. Their tech is pseudo-living, utilizing synthetic tissues and neural-growth circuits. They view the galaxy through the lens of an immune system: outsiders are either compatible cells or pathogens.  \n* **Key Themes:** Nature as Machine, Organic Mimetics, Regrowth, Modular Adaptation.  \n* **Relationship to Others:** Hostile to Impyrium; Wary of Coalition (Polluters); Allies with Entari; Terrified of the Kitin Collective.\n\n### **II. Core Identity**\n\n* **Official Designation:** The Auluran Collective  \n* **Colloquialisms:** The Gardeners / The Retaliators  \n* **Archetype:** Biomorphic Solarpunk / Eco-Militants  \n* **Capital/Key World:** New Home (The World-Tree)  \n* **Symbol/Sigil:** The Spiral Leaf  \n* **Driving Mandate:** Grow the Garden; Choke the Weeds.  \n* **Motto:** \"Static metal is death. Adaptive life is strength.\"\n\n### **III. Sociological Profile**\n\n#### **Ideology & Culture**\n\n* **Core Beliefs:** The Chorus (The psychic/neural web of the collective connecting all life and tech).  \n* **Social Structure:** Caste System based on contribution (Mystic, Warrior, Scholar) independent of their three biological sub-species (Dar, Koda, Graa).  \n* **View on Outsiders:** Protective and cautious; rapid to purge perceived \"infections.\"  \n* **Law & Order:** Governed by the harmony of The Chorus; dissonance is organically corrected.\n\n#### **Governance**\n\n* **Government Type:** Neural Collective / Caste Council.  \n* **Leadership:** Council of Mystics and Elder Life-Shapers.  \n* **Succession:** Biological ascension/merging within the Chorus.\n\n### **IV. Strategic Assets**\n\n#### **Economy & Tech**\n\n* **Tech Level (TL):** 4 (Advanced Bio-Technology / Organic Mimetics)  \n* **Meta Level (ML):** 4 (The Chorus \\- Planetary neural web)  \n* **Wealth Modifier:** \\+0 (Non-monetary, Resource Abundant)  \n* **Primary Exports:** Biological sciences, terraforming tech, organic-mechanical hybrids.  \n* **Economic Model:** Bio-Symbiotic Collectivism.\n\n#### **Military Profile**\n\n* **Doctrine:** Immune system response: Swarm, adapt, consume, and regrow.  \n* **Key Units:** Biode Pilots, Thorn Sentinels.  \n* **Naval Assets:** World-Roots (massive data/nutrient hubs), Grown starships.  \n* **Unique Tech/Materials:** Pseudo-Symbiosis (reactive carapace armor), Biodes (massive engineered war-frames).\n\n### **V. Mechanics (Game Data)**\n\n* **Prominent Species:** Aulurans (Dar, Koda, Graa).  \n* **Faction Skill Package (20 Points):**  \n  * Nature (Biology): \\+5  \n  * Survival: \\+4  \n  * Medicine: \\+3  \n  * Stealth: \\+3  \n  * Animal Handling: \\+3  \n  * Combat: \\+2  \n* **Typical Archetypes:** The Warden, The Field Medic, The Beast-Handler, The Pathfinder, The Zealot, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Geneticist, The Planetologist, The Biologist.  \n* **Recommended Features (1 BP Discount):**  \n  * Biotechnology, Awakened, Naturalist, Animal Affinity, Wild Speech, Fast Heal, Scent, Stealthy, Climber, Self Sufficient, Tolerance, Sense.\n\n### **VI. Visual Synthesis Protocols (Aesthetics)**\n\n#### **HI-FI INK Prompt Framework**\n\n* **SETTING STYLE:** Biomorphic Solarpunk, Grown Machinery, Organic Integration, Eco-Militant.  \n* **CONTEXT:** Canopy cities, hollowed burls, woven polymer bridges, organic curves, heatsinks that look like gills, fiber-optic veins. Palette: Bark Brown, Fiber-Wood Grey, Moss Green, Synthetic Chitin (Matte Black/Bone).  \n* **ATMOSPHERE:** Vibrant, humid, technologically alive. Dappled sunlight mixed with pulsing bioluminescence (green or amber).\n\n### **VII. Expansion Modules (Optional)**\n\n#### **Unique Technology: The Biode**\n\n* The pinnacle of Auluran engineering. Massive biological war-forms (Mecha Mimetics).  \n* Piloted via \"Womb-Cockpits\" (submerged in oxygenated, neural-conductive fluid).  \n* Direct brain-to-frame neural links utilizing pseudo-living umbilical cables.  \n* Weaponry includes Bio-Thermal Glands and Mimetic Razor-Whips.\n\n#### **Scene Vignettes**\n\n* **The Deep Root Forge:** Underground manufacturing vats where \"iron-wood\" frames are grown via nutrient-rich \"sap.\"  \n* **The Symbiosis Spire:** A petrified-wood spire with calcified coral plating acting as the primary antenna for The Chorus."
   },
   {
-    "id": "faction-coalition-of-independent-worlds",
-    "name": "Coalition of Independent Worlds",
-    "category": "factions",
-    "faction_type": "Major Polity",
-    "archetype": "Frontier Industrialists / Kleptocratic Republic",
-    "driving_mandate": "Protect the People; Secure the Frontier",
-    "symbol_sigil": "The Silver Star (Marshals) / The Cog and Wheat (Copia)",
-    "capital_world": "Copia (The Gilded Heart)",
-    "tech_level": "3",
-    "meta_level": "2",
-    "wealth_modifier": "0 (Standard baseline, but vastly unequal distribution)",
-    "prominent_species": "Humans (Hardened Frontier Genotype)",
-    "typical_archetypes": [
-      "The Munitions Magnate",
-      "The Field Medic",
-      "The Demolisher",
-      "The Veteran",
-      "The Homesteader",
-      "The Marshal",
-      "The Vagabond",
-      "The Raider",
-      "The Activist",
-      "The Kingpin",
-      "The Revolutionary",
-      "The Detective"
-    ],
-    "skill_package": [
-      "Bluff (+4)",
-      "Survival (+3)",
-      "Streetwise (+3)",
-      "Mechanics (+3)",
-      "Pilot (Ground/Atmo) (+3)",
-      "Remaining 4 allocated to Combat or Utility"
-    ],
-    "recommended_features": [
-      "Tough",
-      "Pain Tolerance",
-      "Endurance",
-      "Burst Attack",
-      "Weapon Improvisation",
-      "Gearhead",
-      "Benefit (Authority)",
-      "Tracker",
-      "Fearless",
-      "Diehard",
-      "Crushing Blow",
-      "Headstrong"
-    ],
-    "features": [
-      "Tough",
-      "Pain Tolerance",
-      "Endurance",
-      "Burst Attack",
-      "Weapon Improvisation",
-      "Gearhead",
-      "Benefit (Authority)",
-      "Tracker",
-      "Fearless",
-      "Diehard",
-      "Crushing Blow",
-      "Headstrong"
-    ],
-    "bonus_features": [
-      "Independent Grit",
-      "Jack of All Trades"
-    ],
-    "description": "The \"Free Colonies\" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct",
-    "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "modifiers": [],
-    "modifications": [],
-    "critical_details": {
-      "score": "",
-      "effect": [],
-      "success_effect": [],
-      "failure_effect": []
-    },
-    "sockets": {
-      "max": 0,
-      "used": 0,
-      "tier": "Socket",
-      "allocated": []
-    },
-    "faction_classification": "Major Galactic Power",
-    "body": "## **COALITION OF INDEPENDENT WORLDS**\n\n### **I. Detailed Faction Description**\n\n* **Overview:** The \"Free Colonies\" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct.  \n* **Key Themes:** Frontier Industrialists, Kleptocracy, Grid vs. Wealth, Used Future, Penal Legions.  \n* **Relationship to Others:** Distrustful of the Core Worlds (Syndicate/Dynasty) who abandoned them. Highly isolationist and fiercely protective of their borders.\n\n### **II. Core Identity**\n\n* **Official Designation:** Coalition of Independent Worlds  \n* **Colloquialisms:** The Free Colonies / The Frontier  \n* **Archetype:** Frontier Industrialists / Kleptocratic Republic  \n* **Capital/Key World:** Copia (The Gilded Heart)  \n* **Symbol/Sigil:** The Silver Star (Marshals) / The Cog and Wheat (Copia)  \n* **Driving Mandate:** Protect the People; Secure the Frontier.  \n* **Motto:** \"Service Guarantees Citizenship. Survival Guarantees Freedom.\"\n\n### **III. Sociological Profile**\n\n#### **Ideology & Culture**\n\n* **Core Beliefs:** \"Everyone owns a gun.\" Personal freedom is sacred, though it allows the powerful to exploit the weak. The Copian elite practice \"Noble Stewardship\" (hypocritical exploitation).  \n* **Social Structure:** Volatile Hierarchy (Corporate Elites \\> Justice Dept/Marshals \\> Citizens \\> Penal Legions/Rangers).  \n* **View on Outsiders:** Suspicious. Outsiders are either trying to steal their resources or impose core-world laws.  \n* **Law & Order:** Dual-enforcement: The wandering Federal Marshals (the conscience/Code of Harm) vs. the Colonial Rangers (the state fist/Penal Legion).\n\n#### **Governance**\n\n* **Government Type:** Kleptocratic Republic / Corporate Oligarchy.  \n* **Leadership:** Clan Councils (Copia) and Corporate Governors.  \n* **Succession:** Wealth acquisition and corporate dominance.\n\n### **IV. Strategic Assets**\n\n#### **Economy & Tech**\n\n* **Tech Level (TL):** 3 (Macro-Industrial / Hard-Industrial Advancement). Copia experiments with TL3+.  \n* **Meta Level (ML):** 1 (Strictly Materialist/Regulated).  \n* **Wealth Modifier:** 0 (Standard baseline, but vastly unequal distribution).  \n* **Primary Exports:** Heavy metals, Aetherite, Food (from Copia), Industrial machinery.  \n* **Economic Model:** Exploitative Capitalism / Manufactured Post-Scarcity (Copia).\n\n#### **Military Profile**\n\n* **Doctrine:** Attrition and overwhelming kinetic firepower. \"Blunt instruments.\"  \n* **Key Units:** Colonial Rangers (Penal recruits controlled by Neural Shunts), Frontier Marshals.  \n* **Naval Assets:** Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains.  \n* **Unique Tech/Materials:** Reverse-Engineered Tech, Heavy Fission Batteries, Neural Compliance Shunts (\"The Bit\").\n\n### **V. Mechanics (Game Data)**\n\n* **Prominent Species:** Humans (Hardened Frontier Genotype).  \n* **Faction Skill Package (20 Points):**  \n  * Bluff (+4)  \n  * Survival (+3)  \n  * Streetwise (+3)  \n  * Mechanics (+3)  \n  * Pilot (Ground/Atmo) (+3)  \n  * Remaining 4 allocated to Combat or Utility.  \n* **Typical Archetypes:** The Munitions Magnate, The Field Medic, The Demolisher, The Veteran, The Homesteader, The Marshal, The Vagabond, The Raider, The Activist, The Kingpin, The Revolutionary, The Detective.  \n* **Origin & Profession Traits:**  \n  * Penal Recruit (Ranger): Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority.  \n  * Federal Authority (Marshal): Supreme Jurisdiction to commandeer vehicles/access scenes.  \n* **Recommended Features (1 BP Discount):**  \n  * Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker, Fearless, Diehard, Crushing Blow, Headstrong.\n\n### **VI. Visual Synthesis Protocols (Aesthetics)**\n\n#### **HI-FI INK Prompt Framework**\n\n* **SETTING STYLE:** Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional.  \n* **CONTEXT:** Brutalist prefabs, heavy refineries, hazard stripes, hydraulic cables, heavy treads, rust, rotary cannons, ballistic cloth dusters. Palette: Dust Brown, Faded Denim, Olive Drab (Frontier); Rain Grey, Sodium Yellow (Urban).  \n* **ATMOSPHERE:** Industrial decay, smog-choked, oppressive. Low-key industrial lighting, harsh sun, or perpetual rain with neon glare and sodium vapor.\n\n### **VII. Expansion Modules (Optional)**\n\n#### **Origin & Profession Traits**\n\n* **Penal Recruit (Ranger):** Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority (due to \"The Bit\").  \n* **Federal Authority (Marshal):** Supreme Jurisdiction to commandeer vehicles/access scenes using Status/Intimidate.\n\n#### **The Copia System (The Gilded Heart)**\n\n* **Hephaestus-V (The Forge):** A smog-choked, continent-sized factory world close to the sun.  \n* **The Agrarian Trinity:** Demeter (endless plains), Ceres-Alpha (aquatic aquaculture), Sylvanus (the capital garden world of the Oligarchs).  \n* **Orbital Infrastructure:** Helios Arrays (orbital mega-farms accelerating crops to 400% yield) and the Tartarus Belt (heavy mining).\n\n#### **Architectural Details**\n\n* **Marshal Garrison:** 2-story, reinforced concrete prefab blockhouses.  \n* **Hephaestus Refinery:** 5-story equivalent industrial spires with attached slum housing.  \n* **Agri-Spire:** 20-story brutalist greenhouses.  \n* **Hab-Block (Tier 4):** 10-story stacks of dense 10x10ft micro-habs.\n\n#### **Mecha & Vehicular Assets**\n\n* **\"Ironback\" Patrol Walker:** Rugged bipedal walker for Marshals (TL3).  \n* **\"Goliath\" Siege-Hauler:** Super-heavy rolling fortress (TL2/3).  \n* **\"Rust-Devil\" Gunship:** Brutal, un-aerodynamic CAS aircraft with downward fans.  \n* **\"Dust-Skipper\" Buggy:** High-suspension fast recon 4x4.  \n* **\"Leviathan\" Land-Train:** Gargantuan segmented logistics crawler."
-  },
-  {
     "id": "faction-coalition",
     "name": "Coalition of Independent Worlds",
     "category": "factions",
@@ -3298,6 +3204,78 @@ export const DEFAULT_FACTIONS = [
     },
     "faction_classification": "Major Galactic Power",
     "body": "## **OUTWORLDS**\n\n### **I. Detailed Faction Description**\n\n* **Overview:** The Outworlds represent the untamed expanse outside the rigid control of major powers. Covering frontier colony worlds, independent moons, and drift-stations, they are defined by extreme diversity and political fragmentation. There is no central government; governance ranges from absolute anarchy to strict micro-tyrannies. They are the engine of raw resources and home of true grit.  \n* **Key Themes:** The Wild Frontier, Micro-Societies, Isolation, Ingenuity, Used Futurism.  \n* **Relationship to Others:** Ignored by major powers until resources are needed; practice \"Survival Diplomacy\" to avoid annexation. Often hired for dirty work.\n\n### **II. Core Identity**\n\n* **Official Designation:** The Independent Outworlds  \n* **Colloquialisms:** The Fringe / The Rust Belt / The Drift / The Colonies  \n* **Archetype:** Frontier / Post-Apocalyptic / Kinetic Scrap  \n* **Capital/Key World:** None (Decentralized)  \n* **Symbol/Sigil:** Graffiti tags, repurposed warning signs.  \n* **Driving Mandate:** Autonomy; Establish a foothold; Survive another day.  \n* **Motto:** \"Waste nothing. Rule yourself.\"\n\n### **III. Sociological Profile**\n\n#### **Ideology & Culture**\n\n* **Core Beliefs:** Function over Form. Mutual aid is a necessity for survival.  \n* **Social Structure:** Highly variable (Tribal clans, company towns, loose confederacies).  \n* **View on Outsiders:** Wary, practical, and highly transactional.  \n* **Law & Order:** Localized. \"A handshake deal carries more weight than a digital contract.\"\n\n#### **Governance**\n\n* **Government Type:** Decentralized Anarchy / Micro-Factions.  \n* **Leadership:** Station Administrators, Scavenger Kings, Warlords, or Town Councils.  \n* **Succession:** Varies wildly (Elected, violent overthrow, inherited).\n\n### **IV. Strategic Assets**\n\n#### **Economy & Tech**\n\n* **Tech Level (TL):** Variable (2-3) (Scavenged / Used Futurism). Occasional TL4 \"Legacy Tech\".  \n* **Meta Level (ML):** Variable (Wild). Shamans and Machine-Spirits.  \n* **Wealth Modifier:** \\-1 or \\-2 (Generally impoverished, heavily reliant on barter).  \n* **Primary Exports:** Raw scavenged materials, unrefined ores, mercenary labor.  \n* **Economic Model:** Subsistence / Barter / Black Market.\n\n#### **Military Profile**\n\n* **Doctrine:** Guerrilla survival, hit-and-run, defending the homestead.  \n* **Key Units:** Prospectors, Scavengers, Local Militias.  \n* **Naval Assets:** Cobbled-together \"Franken-ships\" and orbital refineries.  \n* **Unique Tech/Materials:** \"Franken-tech\" (mismatched technology bolted together).\n\n### **V. Mechanics (Game Data)**\n\n* **Prominent Species:** Highly diverse; all species represented.  \n* **Faction Skill Package (20 Points):**  \n  * Mechanics (Jury-Rigging) (+5)  \n  * Survival (Scavenging) (+4)  \n  * Barter (+3)  \n  * Pilot (Any) (+3)  \n  * Combat (1 or 2 Skills) (+3)  \n  * Stealth (+2)  \n* **Typical Archetypes:** The Field Medic, The Veteran, The Foreman, The Homesteader, The Quartermaster, The Vagabond, The Manhunter, The Grifter, The Pioneer, The Raider, The Smuggler, The Salvage-Specialist.  \n* **Recommended Features (1 BP Discount):**  \n  * Beginner's Luck, Jack-of-all-trades, Self Sufficient, Spacer, Master Craftsman, Gearhead, Endurance, Climber, Danger Sense, Gifted Pilot, Runner, Weapon Improvisation.\n\n### **VI. Visual Synthesis Protocols (Aesthetics)**\n\n#### **HI-FI INK Prompt Framework**\n\n* **SETTING STYLE:** Kinetic Scrap, Used Futurism, Post-Apocalyptic Frontier, High Tech \\- Low Life.  \n* **CONTEXT:** Sprawling habitats of shipping containers, crashed starships, modular prefabs bolted together. Exposed cables, mismatched repair patches, \"Franken-tech\". Palette: Rust, Oxidized Copper, Faded Warning Yellow, Duct Tape Silver.  \n* **ATMOSPHERE:** Gloomy industrial, survivalist, dirty, crowded. Lit by sparks, handheld lanterns, flickering fluorescents, harsh starlight, sunset hour.\n\n### **VII. Expansion Modules (Optional)**\n\n#### **Scene Vignettes**\n\n* **The Rust-Bucket Bazaar:** A marketplace built inside the hollowed-out ribcage of a crashed starship on a desert moon. Lit by harsh daylight and neon holograms.  \n* **High-G Extraction:** Prospectors in heavy, mismatched exo-suits struggling against crushing weight to secure geodes.  \n* **The Orbital Refinery:** A massive habitat cobbled from docking rings and fuel tanks, spinning for gravity with a wobbly axis."
+  },
+  {
+    "id": "faction-silvermoon-vanguard",
+    "name": "The Silvermoon Vanguard",
+    "category": "factions",
+    "faction_type": "Major Polity",
+    "archetype": "Shadowed Inquisition / Covert Intelligence Network",
+    "driving_mandate": "Eradicate true evil through perfect infiltration and absolute intelligence",
+    "symbol_sigil": "The Silver Crescent in Shadow",
+    "capital_world": "Nomadic / Classified Deep-Cover Nodes",
+    "tech_level": "4",
+    "meta_level": "3",
+    "wealth_modifier": "+2",
+    "prominent_species": "Doppelgangers, Elves",
+    "typical_archetypes": [
+      "The Infiltrator",
+      "The Shadow Investigator",
+      "The Deep Cover Operative",
+      "The Silent Assassin",
+      "The Mind-Hunter"
+    ],
+    "skill_package": [
+      "Deception (+5)",
+      "Stealth (+5)",
+      "Awareness (+4)",
+      "Investigation (+4)",
+      "Combat (Melee) (+3)"
+    ],
+    "recommended_features": [
+      "Shapeshifter",
+      "Mimic Voice",
+      "Master of Disguise",
+      "Unshakable Mind",
+      "Clandestine Network"
+    ],
+    "features": [
+      "Shapeshifter",
+      "Mimic Voice",
+      "Master of Disguise",
+      "Unshakable Mind",
+      "Clandestine Network"
+    ],
+    "bonus_features": [
+      "Shapeshifter",
+      "Clandestine Network"
+    ],
+    "description": "A shadow faction engineered to hunt existential corruption. Officially non-existent to younger races, they manipulate galactic events from the shadows via infiltration and surgical strikes",
+    "costs": {
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "faction_classification": "Major Galactic Power",
+    "body": "## **SILVERMOON VANGUARD (Doppelgangers)**\n\n*Part of Elven Providence (The Factional Schisms)*\n\n* **Archetype:** Shadowed Inquisition / Covert Intelligence Network  \n* **Capital:** Nomadic / Classified deep-cover nodes.  \n* **Mandate:** \"Eradicate true evil through perfect infiltration and absolute intelligence.\"  \n* **Profile:** A shadow faction engineered to hunt corruption. They officially \"do not exist\" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers."
   },
   {
     "id": "faction-vajar",

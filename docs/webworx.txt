@@ -17,11 +17,11 @@ true black (page background) and charcoal (modal backgrounds and slider bars)
 cyan (primary accent for titles, major labels, borders of modals and fields, user id tag)
 
 additional accents/reference colors -
-teal (for any dark green such as VITALITY bars, )
+teal (for any dark green such as VITALITY bars, primary shadow color)
 
 emerald (for any bright green such as karma, bonuses)
 
-saphire (for most blues such as )
+saphire (for most blues)
 
 rose (for most reds such as HEALTH bars, penalties, hindrances section)
 

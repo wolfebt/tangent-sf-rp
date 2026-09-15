@@ -263,19 +263,32 @@ export function adaptSparkItemToFirestore(datasetKey, rawItem) {
             ...parseModifiersString(sanitized.modifiers, 'faction', 'inherent')
           ];
 
+      const skillPkg = ensureArray(sanitized.skill_package ?? sanitized.skillPackage ?? sanitized.skills);
+      const typicalArchs = ensureArray(sanitized.typical_archetypes ?? sanitized.typicalArchetypes ?? sanitized.archetypes);
+      const recFeatures = ensureArray(sanitized.recommended_features ?? sanitized.recommendedFeatures ?? sanitized.features);
+      const bonusFeats = ensureArray(sanitized.bonus_features ?? sanitized.bonusFeatures);
+      const origTraits = ensureArray(sanitized.origin_profession_traits ?? sanitized.originProfessionTraits ?? sanitized.traits);
+
       adapted = {
         ...adapted,
+        category: 'factions',
+        faction_type: sanitized.faction_type || sanitized.factionType || sanitized.faction_classification || sanitized.classification || 'Major Polity',
+        prominent_species: sanitized.prominent_species || sanitized.prominentSpecies || 'Humans',
+        capital_world: sanitized.capital_world || sanitized.capitalWorld || sanitized.capital || sanitized.hq_location || sanitized.hqLocation || '',
+        archetype: sanitized.archetype || sanitized.socialArchetype || 'Frontier Industrialists / Kleptocratic Republic',
+        key_themes: sanitized.key_themes || sanitized.keyThemes || '',
+        relationship_to_others: sanitized.relationship_to_others || sanitized.relationshipToOthers || '',
         description: sanitized.description || '',
         society: sanitized.society || 'Standard Planetary Society',
         prerequisite: ensureArray(sanitized.prerequisite ?? sanitized.prerequisites),
-        archetype: sanitized.archetype || sanitized.socialArchetype || 'Militaristic',
         alignment: sanitized.alignment || 'Neutral',
         influence_level: parseNumericValue(sanitized.influence_level ?? sanitized.influenceLevel, 3),
-        hq_location: sanitized.hq_location ?? sanitized.hqLocation ?? 'Various',
+        hq_location: sanitized.capital_world || sanitized.capitalWorld || sanitized.hq_location || sanitized.hqLocation || 'Various',
         hostile_factions: ensureArray(sanitized.hostile_factions ?? sanitized.hostileFactions),
         allied_factions: ensureArray(sanitized.allied_factions ?? sanitized.alliedFactions),
-        tech_level: parseNumericValue(sanitized.tech_level ?? sanitized.techLevel, 3),
-        meta_level: parseNumericValue(sanitized.meta_level ?? sanitized.metaLevel, 0),
+        tech_level: parseNumericValue(sanitized.tech_level ?? sanitized.techLevel ?? sanitized.tl, 3),
+        meta_level: parseNumericValue(sanitized.meta_level ?? sanitized.metaLevel ?? sanitized.ml, 1),
+        wealth_modifier: sanitized.wealth_modifier !== undefined ? String(sanitized.wealth_modifier) : (sanitized.wealthModifier !== undefined ? String(sanitized.wealthModifier) : '0'),
         colloquialisms: sanitized.colloquialisms || '',
         symbol_sigil: sanitized.symbol_sigil || sanitized.symbolSigil || '',
         driving_mandate: sanitized.driving_mandate || sanitized.drivingMandate || '',
@@ -292,7 +305,16 @@ export function adaptSparkItemToFirestore(datasetKey, rawItem) {
         military_doctrine: sanitized.military_doctrine || sanitized.militaryDoctrine || '',
         key_units: sanitized.key_units || sanitized.keyUnits || '',
         naval_assets: sanitized.naval_assets || sanitized.navalAssets || '',
-        design_language: sanitized.design_language || sanitized.designLanguage || '',
+        unique_tech_materials: sanitized.unique_tech_materials || sanitized.uniqueTechMaterials || '',
+        skill_package: skillPkg,
+        typical_archetypes: typicalArchs,
+        recommended_features: recFeatures,
+        bonus_features: bonusFeats,
+        origin_profession_traits: origTraits,
+        features: recFeatures,
+        design_language: sanitized.design_language || sanitized.designLanguage || sanitized.setting_style || sanitized.settingStyle || '',
+        setting_style: sanitized.setting_style || sanitized.settingStyle || sanitized.design_language || '',
+        context_palette: sanitized.context_palette || sanitized.contextPalette || sanitized.palette || '',
         architecture: sanitized.architecture || '',
         gear_aesthetic: sanitized.gear_aesthetic || sanitized.gearAesthetic || '',
         lighting_mood: sanitized.lighting_mood || sanitized.lightingMood || '',
@@ -301,6 +323,11 @@ export function adaptSparkItemToFirestore(datasetKey, rawItem) {
         goals: sanitized.goals || '',
         social_strengths: sanitized.social_strengths || sanitized.socialStrengths || '',
         social_weaknesses: sanitized.social_weaknesses || sanitized.socialWeaknesses || '',
+        scene_vignettes: ensureArray(sanitized.scene_vignettes ?? sanitized.sceneVignettes),
+        expansion_modules: sanitized.expansion_modules || sanitized.expansionModules || '',
+        costs: sanitized.costs && typeof sanitized.costs === 'object'
+          ? { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0, ...sanitized.costs }
+          : { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
         modifiers: modernModifiers,
         mechanic: sanitized.mechanic || sanitized.gameMechanicsAndNotes || sanitized.gameMechanics || '',
         note: sanitized.note || sanitized.notes || '',

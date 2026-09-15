@@ -379,7 +379,11 @@ export const categoryConfig = {
             planetary_design: { label: 'PLANETARY SPECS' },
             universe: { label: 'UNIVERSE' },
             philosophy: { label: 'PHILOSOPHY & RELIGION' },
-            factions: { label: 'FACTION' },
+            factions: {
+                label: 'FACTIONS',
+                viewType: 'table',
+                directory_columns: ['name', 'faction_type', 'archetype', 'tech_level', 'meta_level', 'prominent_species', 'description']
+            },
             technology: { label: 'TECHNOLOGY' },
             setting: { label: 'SETTING' },
             scene: { label: 'SCENE (AIME)' }
