@@ -139,6 +139,8 @@ export default function FactionClocksModal({
           </div>
           <button
             onClick={onClose}
+            aria-label="Close modal"
+            title="Close modal"
             className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-950/40 rounded-lg transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -203,6 +205,8 @@ export default function FactionClocksModal({
                       type="button"
                       onClick={() => handleTickClock(fac.id, -1)}
                       disabled={fac.clockTicks <= 0}
+                      aria-label="Decrease clock ticks"
+                      title="Decrease clock ticks"
                       className="p-1 rounded bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-400 disabled:opacity-40"
                     >
                       <Minus className="w-3 h-3" />
@@ -211,6 +215,8 @@ export default function FactionClocksModal({
                       type="button"
                       onClick={() => handleTickClock(fac.id, 1)}
                       disabled={isCompleted}
+                      aria-label="Increase clock ticks"
+                      title="Increase clock ticks"
                       className="p-1 rounded bg-purple-950 hover:bg-purple-800 border border-purple-700 text-purple-300 disabled:opacity-40"
                     >
                       <Plus className="w-3 h-3" />
@@ -218,6 +224,8 @@ export default function FactionClocksModal({
                     <button
                       type="button"
                       onClick={() => handleDeleteFaction(fac.id)}
+                      aria-label="Delete faction clock"
+                      title="Delete faction clock"
                       className="p-1 rounded bg-slate-950 hover:bg-red-950 border border-slate-800 hover:border-red-700 text-slate-500 hover:text-red-300 ml-1"
                     >
                       <Trash2 className="w-3 h-3" />
