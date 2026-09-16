@@ -1,21 +1,41 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useStory } from '../context/CampaignContext';
 import { useFolio } from '../context/FolioContext';
 import { useDBM } from '../context/DBMContext';
 import { useGroup } from '../context/GroupContext';
+import { useChat } from '../context/ChatContext';
 import { LandingDrawerArea } from '../components/Hub/LandingDrawerArea';
 import { GameSquadsWidget } from '../components/Hub/GameSquadsWidget';
 import { CommCenterWidget } from '../components/Hub/CommCenterWidget';
 import { UserSettingsModal } from '../components/UserSettingsModal';
-import { Menu, X, Globe } from 'lucide-react';
+import { 
+  Menu, 
+  X, 
+  Globe, 
+  Users, 
+  BookOpen, 
+  Database, 
+  Boxes, 
+  Layers, 
+  MapPin, 
+  Shield, 
+  Radio, 
+  Settings, 
+  Volume2, 
+  VolumeX,
+  Compass
+} from 'lucide-react';
 import { AudioService } from '../services/audioService';
 
 const Home = () => {
+  const navigate = useNavigate();
   const { currentUser, userHandle, openAuthModal } = useAuth();
   const { universeState, mapsCatalog, elementsCatalog } = useStory();
   const { personaRoster, roster } = useFolio();
   const { groups, pendingInvites } = useGroup();
+  const { totalUnreadCount = 0 } = useChat() || {};
   const dbContext = useDBM() || {};
   const dbData = dbContext.dbData || {};
 
@@ -24,6 +44,8 @@ const Home = () => {
     if (typeof window !== 'undefined') return window.innerWidth < 1024;
     return false;
   });
+
+  const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -54,7 +76,6 @@ const Home = () => {
   }, 0);
   const scenarioCount = universeState?.scenarios?.length || 0;
   const mapCount = (mapsCatalog?.length || 0) + (universeState?.maps?.length || 0);
-  const aimeCardsCount = universeState?.creativeState?.storyCards?.length || 0;
 
   const displayIdentity = userHandle
     ? `@${userHandle}`
@@ -63,6 +84,12 @@ const Home = () => {
   const handleSelectDrawer = (drawerId) => {
     setActiveDrawer(prev => prev === drawerId ? null : drawerId);
     if (isMobile) setIsMobileDrawerOpen(false);
+  };
+
+  const toggleAudio = () => {
+    const next = AudioService.toggleMute();
+    setIsAudioMuted(next);
+    if (!next) AudioService.playTerminalBeep(1100, 0.04);
   };
 
   return (
@@ -122,18 +149,25 @@ const Home = () => {
             <div className="space-y-1.5 text-[10.5px] font-mono">
               {[
                 { label: 'PERSONA FOLIO', id: 'persona-folio', color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400' },
+                { label: 'COMPENDIUM', id: 'compendium', color: 'text-blue-300 border-blue-500/40 hover:border-blue-400', action: () => navigate('/compendium') },
                 { label: 'OMNICORTEX', id: 'omnicortex', color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400' },
                 { label: 'CODEX BUILDERS', id: 'codex', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400' },
                 { label: 'VTT & MAPS', id: 'foundry-maps', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },
                 { label: 'SCENARIOS', id: 'foundry-scenarios', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },
-                { label: 'AIME STUDIO', id: 'foundry-aime', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },
                 { label: 'GAME TEAMS', id: 'game-groups', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400' },
                 { label: 'CHANNELS', id: 'comms', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400' },
               ].map(item => (
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => handleSelectDrawer(item.id)}
+                  onClick={() => {
+                    if (item.action) {
+                      item.action();
+                      setIsMobileDrawerOpen(false);
+                    } else {
+                      handleSelectDrawer(item.id);
+                    }
+                  }}
                   className={`w-full px-3 py-2 rounded-lg bg-slate-900/60 border font-bold uppercase tracking-wider transition-all text-left ${item.color} ${activeDrawer === item.id ? 'bg-slate-800/80' : ''}`}
                 >
                   {item.label}
@@ -165,10 +199,10 @@ const Home = () => {
         </div>
       )}
 
-      {/* ── Main Content Area ── */}
-      <div className="flex-1 min-h-0 flex flex-col overflow-hidden no-scrollbar">
-        <div className="flex-1 min-h-0 w-full p-3 sm:p-4 lg:p-5 flex flex-col gap-2 sm:gap-3 overflow-hidden">
-
+      {/* ── Main Workspace Body with Center Workspace ── */}
+      <div className="flex-1 min-h-0 flex flex-row overflow-hidden no-scrollbar">
+        {/* Center Workspace Area */}
+        <div className="flex-1 min-h-0 w-full p-2.5 sm:p-4 lg:p-5 flex flex-col gap-2 sm:gap-3 overflow-hidden">
           {/* Mobile: top action bar */}
           {isMobile && (
             <div className="flex items-center justify-between gap-2 bg-slate-900/90 backdrop-blur-md p-2.5 rounded-xl border border-slate-800 shadow-lg shrink-0 z-30">
@@ -220,7 +254,7 @@ const Home = () => {
                   onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
                 />
               ) : (
-                /* Idle state — prompt to select a module, shifted to middle-top dark space of background */
+                /* Idle state — guidance prompt */
                 <div className="flex-1 flex flex-col items-center justify-start pt-12 sm:pt-16 lg:pt-20 p-8 text-center font-mono space-y-4 animate-fadeIn">
                   <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shifting-wb-box-shadow">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="shifting-wb-drop-shadow">
@@ -229,10 +263,10 @@ const Home = () => {
                   </div>
                   <div className="space-y-1.5 max-w-lg">
                     <h3 className="text-sm sm:text-base font-bold tracking-widest text-cyan-300 uppercase shifting-wb-text-shadow">
-                      UNIFIED DASHBOARD WORKSPACE READY
+                      UNIFIED OPERATIONS HUB READY
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto shifting-wb-text-shadow leading-relaxed">
-                      Select a module from the navigation bar above to load a workspace.
+                      Select any module from the guidance rail on the left to launch an active workspace.
                     </p>
                     {!currentUser && (
                       <div className="pt-2">
@@ -254,7 +288,7 @@ const Home = () => {
               )}
             </div>
           ) : (
-            /* Mobile: drawer content when open, or idle prompt in middle top dark space */
+            /* Mobile: drawer content when open, or idle prompt */
             activeDrawer ? (
               <div
                 className="w-full flex-1 min-h-0 flex flex-col overflow-hidden"
@@ -275,7 +309,7 @@ const Home = () => {
                 </div>
                 <div className="space-y-1 max-w-sm">
                   <h3 className="text-xs sm:text-sm font-bold tracking-widest text-cyan-300 uppercase shifting-wb-text-shadow">
-                    UNIFIED DASHBOARD WORKSPACE READY
+                    UNIFIED OPERATIONS HUB READY
                   </h3>
                   <p className="text-[11px] sm:text-xs text-slate-300 shifting-wb-text-shadow leading-relaxed">
                     Tap MODULES above to load a workspace.
@@ -300,18 +334,18 @@ const Home = () => {
             )
           )}
         </div>
-
-        {/* Global Settings Modal */}
-        <UserSettingsModal
-          isOpen={isSettingsOpen}
-          onClose={() => setIsSettingsOpen(false)}
-        />
-
-        {/* Footer */}
-        <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4">
-          <span>CYBERNETIC INTERFACE INITIALIZED</span>
-        </footer>
       </div>
+
+      {/* Global Settings Modal */}
+      <UserSettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
+
+      {/* Footer */}
+      <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4">
+        <span>CYBERNETIC INTERFACE INITIALIZED</span>
+      </footer>
     </div>
   );
 };

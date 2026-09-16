@@ -2,7 +2,8 @@
 id: movement-flight-maneuver
 name: Improved Maneuverability
 category: species_movement
-classification: adjuster
+classification: modifier
+movement_tier: modifier
 target_mode: Flying
 speed_modifier: 0
 is_additive: false
@@ -22,9 +23,11 @@ costs:
 ---
 # Improved Maneuverability
 
-**Category**: Species Movement (ADJUSTER)  
+**Category**: Species Movement (MODIFIER)  
+**Classification**: modifier  
 **Target Mode**: Flying  
 **Cost**: +1 BP  
+**Speed Modifier**: 0 ft (Additive)  
 
 ## Description
 Flight maneuverability improves by 1 step (Clumsy > Poor > Average > Good > Perfect). Ranked.

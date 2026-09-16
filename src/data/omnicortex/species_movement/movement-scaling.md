@@ -2,7 +2,8 @@
 id: movement-scaling
 name: 'Climbing: Scaling Pace (1x Walk)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Climbing
 multiplier: 1
 speed: 30
@@ -19,7 +20,8 @@ costs:
 ---
 # Climbing: Scaling Pace (1x Walk)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Climbing  
 **Cost**: +0 BP  
 

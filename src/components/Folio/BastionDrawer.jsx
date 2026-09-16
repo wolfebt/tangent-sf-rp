@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { useFolio } from '../../context/FolioContext';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
-import { synthesizeCharacterWithBastion } from '../../services/bastionCharacterEngine';
+import {
+  synthesizeCharacterWithBastion,
+  getArchetypeRecommendations,
+  getSpeciesRecommendations,
+  getFactionRecommendations,
+  getOriginRecommendations,
+  getOccupationRecommendations,
+  calculateRulesLedger
+} from '../../services/bastionCharacterEngine';
+import { DEFAULT_ARCHETYPES } from '../../data/archetypesData.js';
+import { DEFAULT_SPECIES } from '../../data/speciesData.js';
+import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
+import { DEFAULT_ORIGINS } from '../../data/originsData.js';
+import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
 
 const CHARACTER_FIELDS = [
   // Core Identity
@@ -98,7 +111,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   // Generator State
-  const [generatorMode, setGeneratorMode] = useState('synthesis'); // 'synthesis' (5 pillars) | 'fields' (selective)
+  const [generatorMode, setGeneratorMode] = useState('staged'); // 'staged' (user-in-the-loop) | 'synthesis' (1-click 5 pillars) | 'fields' (selective)
   const [synthesizedResult, setSynthesizedResult] = useState(null);
   const [selectedFields, setSelectedFields] = useState({
     'char-name': true,
@@ -111,6 +124,128 @@ const BastionDrawer = ({ isOpen, onClose }) => {
   const [genStatus, setGenStatus] = useState(null);
   // Overwrite protection mode: false = Fill Blank Only (default safe mode), true = Allow Overwriting
   const [overwriteMode, setOverwriteMode] = useState(false);
+
+  // Staged Generator State (User in the Loop)
+  const [stagedStep, setStagedStep] = useState(0); // 0: Archetype, 1: Species, 2: Faction & Origin, 3: Occupation, 4: Rules & Stats, 5: Dossier
+  const [stagedPrompt, setStagedPrompt] = useState('Covert stealth sniper operative');
+  const [stagedArchetype, setStagedArchetype] = useState(null);
+  const [stagedSpecies, setStagedSpecies] = useState(null);
+  const [stagedFaction, setStagedFaction] = useState(null);
+  const [stagedOrigin, setStagedOrigin] = useState(null);
+  const [stagedOccupation, setStagedOccupation] = useState(null);
+  const [stagedRawAttrs, setStagedRawAttrs] = useState({
+    'attr-strength': 0,
+    'attr-agility': 3,
+    'attr-stamina': 1,
+    'attr-intellect': 2,
+    'attr-wisdom': 0,
+    'attr-charisma': 0
+  });
+  const [stagedTechLevel, setStagedTechLevel] = useState(characterData?.['tech-level'] || 3);
+  const [stagedCustomName, setStagedCustomName] = useState('');
+  const [stagedCustomMotive, setStagedCustomMotive] = useState('');
+
+  // Staged Recommendations Computations
+  const archetypeRecs = useMemo(() => {
+    return getArchetypeRecommendations(stagedPrompt, DEFAULT_ARCHETYPES, 3);
+  }, [stagedPrompt]);
+
+  const activeArchetype = stagedArchetype || archetypeRecs[0]?.archetype || DEFAULT_ARCHETYPES[0];
+
+  const speciesRecs = useMemo(() => {
+    return getSpeciesRecommendations(activeArchetype, stagedPrompt, DEFAULT_SPECIES, 3);
+  }, [activeArchetype, stagedPrompt]);
+
+  const activeSpecies = stagedSpecies || speciesRecs[0]?.species || DEFAULT_SPECIES[0];
+
+  const factionRecs = useMemo(() => {
+    return getFactionRecommendations(activeArchetype, stagedPrompt, DEFAULT_FACTIONS, 3);
+  }, [activeArchetype, stagedPrompt]);
+
+  const activeFaction = stagedFaction || factionRecs[0]?.faction || DEFAULT_FACTIONS[0];
+
+  const originRecs = useMemo(() => {
+    return getOriginRecommendations(activeArchetype, stagedPrompt, DEFAULT_ORIGINS, 3);
+  }, [activeArchetype, stagedPrompt]);
+
+  const activeOrigin = stagedOrigin || originRecs[0]?.origin || DEFAULT_ORIGINS[0];
+
+  const occupationRecs = useMemo(() => {
+    return getOccupationRecommendations(activeArchetype, stagedPrompt, DEFAULT_OCCUPATIONS, 3);
+  }, [activeArchetype, stagedPrompt]);
+
+  const activeOccupation = stagedOccupation || occupationRecs[0]?.occupation || DEFAULT_OCCUPATIONS[0];
+
+  // Rules Ledger for Stage 4
+  const stagedRulesLedger = useMemo(() => {
+    return calculateRulesLedger({
+      archetype: activeArchetype,
+      species: activeSpecies,
+      faction: activeFaction,
+      origin: activeOrigin,
+      occupation: activeOccupation,
+      techLevel: stagedTechLevel,
+      rawAttributes: stagedRawAttrs
+    });
+  }, [activeArchetype, activeSpecies, activeFaction, activeOrigin, activeOccupation, stagedTechLevel, stagedRawAttrs]);
+
+  // Complete Dossier Synthesis for Stage 5
+  const stagedPersonaResult = useMemo(() => {
+    return synthesizeCharacterWithBastion({
+      prompt: stagedPrompt,
+      preferredArchetype: activeArchetype?.name,
+      preferredSpecies: activeSpecies?.name,
+      preferredFaction: activeFaction?.name,
+      preferredOrigin: activeOrigin?.name,
+      preferredOccupation: activeOccupation?.name,
+      techLevel: stagedTechLevel,
+      rawAttributes: stagedRawAttrs
+    });
+  }, [stagedPrompt, activeArchetype, activeSpecies, activeFaction, activeOrigin, activeOccupation, stagedTechLevel, stagedRawAttrs]);
+
+  const handleApplyStagedPersona = async () => {
+    if (!stagedPersonaResult?.character || !applyGuidedCharacter) return;
+    setIsGenerating(true);
+    try {
+      const finalPayload = {
+        ...stagedPersonaResult.character,
+        'char-name': stagedCustomName.trim() || stagedPersonaResult.character['char-name'],
+        'char-motive': stagedCustomMotive.trim() || stagedPersonaResult.character['char-motive']
+      };
+      const ok = await applyGuidedCharacter(finalPayload);
+      if (ok) {
+        setGenStatus({ success: `Applied Staged Persona "${finalPayload['char-name']}" to active Folio sheet!` });
+      }
+    } catch (err) {
+      setGenStatus({ error: `Apply error: ${err.message}` });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleOpenInGuidedCreator = () => {
+    if (!stagedPersonaResult?.character) return;
+    const finalPayload = {
+      ...stagedPersonaResult.character,
+      'char-name': stagedCustomName.trim() || stagedPersonaResult.character['char-name'],
+      'char-motive': stagedCustomMotive.trim() || stagedPersonaResult.character['char-motive']
+    };
+    try {
+      localStorage.setItem('bastion_staged_draft', JSON.stringify(finalPayload));
+      window.dispatchEvent(new CustomEvent('open-folio-guided-creator', { detail: finalPayload }));
+      setGenStatus({ success: 'Loaded Staged Persona into Guided Character Creator!' });
+    } catch (e) {
+      console.warn('Error saving staged draft to localStorage:', e);
+    }
+  };
+
+  const updateRawAttr = (attrKey, delta) => {
+    setStagedRawAttrs(prev => {
+      const current = prev[attrKey] || 0;
+      const next = Math.max(0, Math.min(4, current + delta)); // Canonical ceiling: max 4 at creation
+      return { ...prev, [attrKey]: next };
+    });
+  };
 
   if (!isOpen) return null;
 
@@ -493,29 +628,808 @@ const BastionDrawer = ({ isOpen, onClose }) => {
               <div className="flex bg-slate-950 p-1 rounded-lg border border-cyan-900/40 gap-1 shrink-0">
                 <button
                   type="button"
+                  onClick={() => setGeneratorMode('staged')}
+                  className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
+                    generatorMode === 'staged'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <span>🧭 Staged Persona</span>
+                </button>
+                <button
+                  type="button"
                   onClick={() => setGeneratorMode('synthesis')}
-                  className={`flex-1 py-1.5 px-2 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                  className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
                     generatorMode === 'synthesis'
                       ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <span>🏛️ 5 Pillars Synthesizer</span>
+                  <span>⚡ 1-Click Fast</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setGeneratorMode('fields')}
-                  className={`flex-1 py-1.5 px-2 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                  className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
                     generatorMode === 'fields'
                       ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <span>📝 Selective Fields</span>
+                  <span>📝 Selective</span>
                 </button>
               </div>
 
-              {/* Sub-Mode 1: 5 Pillars Synthesizer */}
+              {/* Sub-Mode 0: Staged Persona Generator (User in the Loop) */}
+              {generatorMode === 'staged' && (
+                <div className="space-y-3">
+                  {/* Stage Progress Stepper */}
+                  <div className="bg-slate-950/90 p-1 rounded-lg border border-cyan-900/50 flex items-center justify-between text-[10px] font-mono gap-1">
+                    {[
+                      { step: 0, label: '1. Archetype' },
+                      { step: 1, label: '2. Species' },
+                      { step: 2, label: '3. Faction/Origin' },
+                      { step: 3, label: '4. Occupation' },
+                      { step: 4, label: '5. Rules & Stats' },
+                      { step: 5, label: '6. Dossier' }
+                    ].map(s => (
+                      <button
+                        key={s.step}
+                        type="button"
+                        onClick={() => setStagedStep(s.step)}
+                        className={`px-1.5 py-1 rounded transition-all truncate text-center flex-1 ${
+                          stagedStep === s.step
+                            ? 'bg-cyan-950 text-cyan-300 font-bold border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                            : stagedStep > s.step
+                            ? 'text-emerald-400 hover:text-emerald-300 bg-slate-900/60'
+                            : 'text-slate-500 hover:text-slate-300'
+                        }`}
+                      >
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Stage 0: Concept & Archetype */}
+                  {stagedStep === 0 && (
+                    <div className="space-y-3">
+                      <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                            Stage 1 of 6: Concept & Archetype Chassis
+                          </span>
+                          <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-700/50">
+                            100 Canonical Archetypes
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-300">
+                          Define your persona concept or tactical archetype. BASTION evaluates your prompt and ranks canonical archetypes from the 4 Spheres (Sentinels, Operatives, Visionaries, Savants).
+                        </p>
+                        <div className="flex flex-wrap gap-1 pt-1">
+                          {[
+                            'Covert Operative Sniper',
+                            'Syndicate Cyber-Decker',
+                            'Frontline Shock Trooper',
+                            'Alterian Diplomat Envoy',
+                            'Combat Trauma Medic',
+                            'Awakened Mystic Mentalist'
+                          ].map(preset => (
+                            <button
+                              key={preset}
+                              type="button"
+                              onClick={() => {
+                                setStagedPrompt(preset);
+                                setStagedArchetype(null);
+                              }}
+                              className="px-2 py-0.5 rounded bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-800 text-[10px] transition-colors"
+                            >
+                              + {preset}
+                            </button>
+                          ))}
+                        </div>
+                        <textarea
+                          rows={2}
+                          value={stagedPrompt}
+                          onChange={(e) => {
+                            setStagedPrompt(e.target.value);
+                            setStagedArchetype(null);
+                          }}
+                          placeholder="Enter character concept, tactical role, cybernetics, or background..."
+                          className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2 rounded text-xs outline-none font-sans"
+                        />
+                      </div>
+
+                      {/* BASTION Archetype Recommendations */}
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px]">
+                            🤖 BASTION Recommendations ({archetypeRecs.length} Matches)
+                          </span>
+                          <span className="text-slate-400 text-[10px]">Click to Select Chassis</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-2">
+                          {archetypeRecs.map((rec) => {
+                            const isSelected = (activeArchetype?.name === rec.archetype.name);
+                            return (
+                              <div
+                                key={rec.archetype.name}
+                                onClick={() => setStagedArchetype(rec.archetype)}
+                                className={`p-2.5 rounded-lg border transition-all cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-amber-950/40 border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800 hover:border-slate-700'
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      <span className="font-bold text-amber-300 text-xs">{rec.archetype.name}</span>
+                                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-slate-300 border border-slate-700">
+                                        {rec.archetype.sphere}
+                                      </span>
+                                      {rec.isTopPick && (
+                                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-900/80 text-amber-200 border border-amber-600 font-bold">
+                                          ⭐ Top Pick
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-[11px] text-slate-300 mt-0.5">{rec.archetype.core_concept || rec.archetype.summary}</p>
+                                    <div className="flex items-center gap-2 mt-1 text-[10px] text-slate-400 font-mono">
+                                      <span>Role: {rec.archetype.tactical_role}</span>
+                                      <span>•</span>
+                                      <span>Attrs: {rec.archetype.primary_attribute} / {rec.archetype.secondary_attribute}</span>
+                                    </div>
+                                    <p className="text-[10px] text-cyan-300/80 italic mt-1 font-sans">
+                                      💡 {rec.rationale}
+                                    </p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase shrink-0 transition-all ${
+                                      isSelected
+                                        ? 'bg-amber-500 text-slate-950 font-black'
+                                        : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-700'
+                                    }`}
+                                  >
+                                    {isSelected ? '✓ Selected' : 'Select'}
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Or Select Any Other Archetype */}
+                        <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+                          <span className="text-[10px] text-slate-400">Browse all 100 Archetypes:</span>
+                          <select
+                            value={activeArchetype?.name || ''}
+                            onChange={(e) => {
+                              const found = DEFAULT_ARCHETYPES.find(a => a.name === e.target.value);
+                              if (found) setStagedArchetype(found);
+                            }}
+                            className="bg-slate-950 border border-slate-700 text-xs text-slate-200 rounded px-2 py-1 outline-none"
+                          >
+                            {DEFAULT_ARCHETYPES.map(a => (
+                              <option key={a.name} value={a.name}>{a.name} ({a.sphere})</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Step Navigation */}
+                      <div className="pt-2 flex justify-end">
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(1)}
+                          className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                        >
+                          <span>Continue to Species Selection</span>
+                          <span>→</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Stage 1: Lineage & Species */}
+                  {stagedStep === 1 && (
+                    <div className="space-y-3">
+                      <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                            Stage 2 of 6: Canonical Species & Lineage
+                          </span>
+                          <span className="text-[10px] font-bold text-amber-300">
+                            Archetype: {activeArchetype?.name}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-300">
+                          BASTION recommends canonical species matching {activeArchetype?.name}'s core attributes ({activeArchetype?.primary_attribute} & {activeArchetype?.secondary_attribute}).
+                        </p>
+                      </div>
+
+                      {/* Species Recommendations */}
+                      <div className="space-y-2">
+                        <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px] block">
+                          🤖 Recommended Species ({speciesRecs.length} Options)
+                        </span>
+
+                        <div className="grid grid-cols-1 gap-2">
+                          {speciesRecs.map((rec) => {
+                            const isSelected = (activeSpecies?.name === rec.species.name);
+                            return (
+                              <div
+                                key={rec.species.name}
+                                onClick={() => setStagedSpecies(rec.species)}
+                                className={`p-2.5 rounded-lg border transition-all cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-cyan-950/40 border-cyan-500/80 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
+                                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800 hover:border-slate-700'
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      <span className="font-bold text-cyan-300 text-xs">{rec.species.name}</span>
+                                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono font-bold">
+                                        {rec.attributeModifiersSummary}
+                                      </span>
+                                      {rec.isTopPick && (
+                                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-900/80 text-amber-200 border border-amber-600 font-bold">
+                                          ⭐ Synergized Pick
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-[11px] text-slate-300 mt-1">{rec.species.summary || rec.species.description}</p>
+                                    {rec.inherentTraits?.length > 0 && (
+                                      <div className="text-[10px] text-slate-400 font-mono mt-1">
+                                        Inherent: {rec.inherentTraits.slice(0, 3).join(', ')}
+                                      </div>
+                                    )}
+                                    <p className="text-[10px] text-cyan-300/80 italic mt-1 font-sans">
+                                      💡 {rec.rationale}
+                                    </p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase shrink-0 transition-all ${
+                                      isSelected
+                                        ? 'bg-cyan-500 text-slate-950 font-black'
+                                        : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-700'
+                                    }`}
+                                  >
+                                    {isSelected ? '✓ Selected' : 'Select'}
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* All Species Dropdown */}
+                        <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+                          <span className="text-[10px] text-slate-400">Or pick from all species:</span>
+                          <select
+                            value={activeSpecies?.name || ''}
+                            onChange={(e) => {
+                              const found = DEFAULT_SPECIES.find(s => s.name === e.target.value);
+                              if (found) setStagedSpecies(found);
+                            }}
+                            className="bg-slate-950 border border-slate-700 text-xs text-slate-200 rounded px-2 py-1 outline-none"
+                          >
+                            {DEFAULT_SPECIES.map(s => (
+                              <option key={s.name} value={s.name}>{s.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Step Navigation */}
+                      <div className="pt-2 flex justify-between">
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(0)}
+                          className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-xs transition-colors"
+                        >
+                          ← Back
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(2)}
+                          className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                        >
+                          <span>Continue to Faction & Origin</span>
+                          <span>→</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Stage 2: Faction & Origin */}
+                  {stagedStep === 2 && (
+                    <div className="space-y-3">
+                      <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-1.5">
+                        <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider block">
+                          Stage 3 of 6: Interstellar Allegiance & Homeworld
+                        </span>
+                        <p className="text-[11px] text-slate-300">
+                          Each grants a dedicated 20 SP background skill package. Recommendations are canonically derived from {activeArchetype?.name}'s doctrine.
+                        </p>
+                      </div>
+
+                      {/* Faction Section */}
+                      <div className="space-y-2">
+                        <span className="text-purple-400 font-bold uppercase tracking-wider text-[10px] block">
+                          🏛️ Canonical Faction (20 SP Package)
+                        </span>
+                        <div className="grid grid-cols-1 gap-1.5">
+                          {factionRecs.map(rec => {
+                            const isSelected = (activeFaction?.name === rec.faction.name);
+                            return (
+                              <div
+                                key={rec.faction.name}
+                                onClick={() => setStagedFaction(rec.faction)}
+                                className={`p-2 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-2 ${
+                                  isSelected
+                                    ? 'bg-purple-950/40 border-purple-500/80'
+                                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800'
+                                }`}
+                              >
+                                <div className="min-w-0">
+                                  <span className="font-bold text-purple-300 text-xs block">{rec.faction.name}</span>
+                                  <span className="text-[10px] text-slate-400 block truncate">{rec.rationale}</span>
+                                  <span className="text-[9px] text-slate-500 font-mono">Skills: {rec.skillPackage?.slice(0, 3).join(', ')}</span>
+                                </div>
+                                <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase shrink-0 ${
+                                  isSelected ? 'bg-purple-600 text-white' : 'bg-slate-900 text-slate-400'
+                                }`}>
+                                  {isSelected ? '✓ Picked' : 'Select'}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Origin Section */}
+                      <div className="space-y-2 pt-2 border-t border-slate-800">
+                        <span className="text-emerald-400 font-bold uppercase tracking-wider text-[10px] block">
+                          🌍 Homeworld Origin (20 SP Package + 2 Traits)
+                        </span>
+                        <div className="grid grid-cols-1 gap-1.5">
+                          {originRecs.map(rec => {
+                            const isSelected = (activeOrigin?.name === rec.origin.name);
+                            return (
+                              <div
+                                key={rec.origin.name}
+                                onClick={() => setStagedOrigin(rec.origin)}
+                                className={`p-2 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-2 ${
+                                  isSelected
+                                    ? 'bg-emerald-950/40 border-emerald-500/80'
+                                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800'
+                                }`}
+                              >
+                                <div className="min-w-0">
+                                  <span className="font-bold text-emerald-300 text-xs block">{rec.origin.name}</span>
+                                  <span className="text-[10px] text-slate-400 block truncate">{rec.rationale}</span>
+                                  <span className="text-[9px] text-slate-500 font-mono">Skills: {rec.skills?.slice(0, 3).join(', ')}</span>
+                                </div>
+                                <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase shrink-0 ${
+                                  isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-900 text-slate-400'
+                                }`}>
+                                  {isSelected ? '✓ Picked' : 'Select'}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Step Navigation */}
+                      <div className="pt-2 flex justify-between">
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(1)}
+                          className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-xs transition-colors"
+                        >
+                          ← Back
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(3)}
+                          className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                        >
+                          <span>Continue to Occupation</span>
+                          <span>→</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Stage 3: Occupation */}
+                  {stagedStep === 3 && (
+                    <div className="space-y-3">
+                      <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-1.5">
+                        <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider block">
+                          Stage 4 of 6: Professional Career & Training
+                        </span>
+                        <p className="text-[11px] text-slate-300">
+                          Occupations provide the third 20 SP skill package, 2 occupational traits, and career features. BASTION suggests options aligned with {activeArchetype?.name}.
+                        </p>
+                      </div>
+
+                      {/* Occupation Recommendations */}
+                      <div className="space-y-2">
+                        <span className="text-sky-400 font-bold uppercase tracking-wider text-[10px] block">
+                          💼 Canonical Occupations ({occupationRecs.length} Matches)
+                        </span>
+
+                        <div className="grid grid-cols-1 gap-2">
+                          {occupationRecs.map((rec) => {
+                            const isSelected = (activeOccupation?.name === rec.occupation.name);
+                            return (
+                              <div
+                                key={rec.occupation.name}
+                                onClick={() => setStagedOccupation(rec.occupation)}
+                                className={`p-2.5 rounded-lg border transition-all cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-sky-950/40 border-sky-500/80 shadow-[0_0_12px_rgba(56,189,248,0.25)]'
+                                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800 hover:border-slate-700'
+                                }`}
+                              >
+                                <div className="flex items-start justify-between gap-2">
+                                  <div className="min-w-0">
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                      <span className="font-bold text-sky-300 text-xs">{rec.occupation.name}</span>
+                                      {rec.isTopPick && (
+                                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-900/80 text-amber-200 border border-amber-600 font-bold">
+                                          ⭐ Career Match
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-[11px] text-slate-300 mt-1">{rec.occupation.summary || rec.occupation.description}</p>
+                                    <div className="text-[10px] text-slate-400 font-mono mt-1">
+                                      Professional Skills: {rec.skills?.slice(0, 4).join(', ')}
+                                    </div>
+                                    <p className="text-[10px] text-cyan-300/80 italic mt-1 font-sans">
+                                      💡 {rec.rationale}
+                                    </p>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase shrink-0 transition-all ${
+                                      isSelected
+                                        ? 'bg-sky-500 text-slate-950 font-black'
+                                        : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-700'
+                                    }`}
+                                  >
+                                    {isSelected ? '✓ Selected' : 'Select'}
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* All Occupations Dropdown */}
+                        <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+                          <span className="text-[10px] text-slate-400">Or choose from all occupations:</span>
+                          <select
+                            value={activeOccupation?.name || ''}
+                            onChange={(e) => {
+                              const found = DEFAULT_OCCUPATIONS.find(oc => oc.name === e.target.value);
+                              if (found) setStagedOccupation(found);
+                            }}
+                            className="bg-slate-950 border border-slate-700 text-xs text-slate-200 rounded px-2 py-1 outline-none"
+                          >
+                            {DEFAULT_OCCUPATIONS.map(oc => (
+                              <option key={oc.name} value={oc.name}>{oc.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Step Navigation */}
+                      <div className="pt-2 flex justify-between">
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(2)}
+                          className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-xs transition-colors"
+                        >
+                          ← Back
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(4)}
+                          className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                        >
+                          <span>Review Rules & Allocate Stats</span>
+                          <span>→</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Stage 4: Rules Ledger & Stat Allocation */}
+                  {stagedStep === 4 && (
+                    <div className="space-y-3">
+                      {/* Rules Budget Ledger */}
+                      <div className="bg-slate-950/95 border border-cyan-500/40 rounded-lg p-3 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                            Stage 5 of 6: 150 BP Rules Economics & Core Stats
+                          </span>
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
+                            stagedRulesLedger.bpRemaining >= 0
+                              ? 'bg-emerald-950 text-emerald-300 border border-emerald-600/50'
+                              : 'bg-red-950 text-red-300 border border-red-600/50'
+                          }`}>
+                            Budget: {stagedRulesLedger.bpRemaining} / 150 BP Available
+                          </span>
+                        </div>
+
+                        <p className="text-[11px] text-slate-300">
+                          Tangent creation rules: Base attributes cost 5 BP per point (max +4 raw before species bonuses). Sub-attributes derive from Base 2 + (Primary * 2).
+                        </p>
+
+                        <div className="grid grid-cols-3 gap-1.5 text-[10px] font-mono pt-1">
+                          <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-center">
+                            <span className="text-slate-400 block text-[9px]">Attributes Cost</span>
+                            <span className="text-amber-300 font-bold">{stagedRulesLedger.breakdown.attributesCost} BP</span>
+                          </div>
+                          <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-center">
+                            <span className="text-slate-400 block text-[9px]">Species Cost</span>
+                            <span className="text-cyan-300 font-bold">{stagedRulesLedger.breakdown.speciesCost} BP</span>
+                          </div>
+                          <div className="p-1.5 rounded bg-slate-900 border border-slate-800 text-center">
+                            <span className="text-slate-400 block text-[9px]">Tech Level Cost</span>
+                            <span className="text-sky-300 font-bold">{stagedRulesLedger.breakdown.techLevelCost} BP</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 6 Core Attributes Allocator */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px]">
+                            Core Attributes (Max +4 Raw at Creation)
+                          </span>
+                          <span className="text-slate-400 text-[10px]">5 BP per raw point</span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { key: 'attr-strength', name: 'Strength', sub: 'Might' },
+                            { key: 'attr-agility', name: 'Agility', sub: 'Reflex' },
+                            { key: 'attr-stamina', name: 'Stamina', sub: 'Fortitude' },
+                            { key: 'attr-intellect', name: 'Intellect', sub: 'Logic' },
+                            { key: 'attr-wisdom', name: 'Wisdom', sub: 'Will' },
+                            { key: 'attr-charisma', name: 'Charisma', sub: 'Etiquette' }
+                          ].map(attr => {
+                            const raw = stagedRawAttrs[attr.key] || 0;
+                            const spMod = stagedRulesLedger.speciesModifiers[attr.key] || 0;
+                            const finalVal = raw + spMod;
+                            const subKey = `attr-${attr.sub.toLowerCase()}`;
+                            const subVal = stagedRulesLedger.finalAttributes[subKey] ?? ((finalVal * 2) + 2);
+
+                            return (
+                              <div key={attr.key} className="p-2 bg-slate-900/90 border border-slate-800 rounded-lg space-y-1">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold text-slate-200 text-xs">{attr.name}</span>
+                                  <span className="text-[10px] text-slate-400 font-mono">{attr.sub}: {subVal}</span>
+                                </div>
+                                <div className="flex items-center justify-between pt-0.5">
+                                  <div className="text-[11px] font-mono">
+                                    <span className="text-amber-300 font-bold">+{raw}</span>
+                                    {spMod !== 0 && (
+                                      <span className="text-cyan-300 text-[10px] ml-1">({spMod > 0 ? `+${spMod}` : spMod})</span>
+                                    )}
+                                    <span className="text-slate-500 mx-1">=</span>
+                                    <span className="text-white font-black text-xs">+{finalVal}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() => updateRawAttr(attr.key, -1)}
+                                      disabled={raw <= 0}
+                                      className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 disabled:opacity-30 font-mono text-xs flex items-center justify-center font-bold cursor-pointer"
+                                    >
+                                      -
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => updateRawAttr(attr.key, 1)}
+                                      disabled={raw >= 4}
+                                      className="w-5 h-5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-600 text-cyan-200 disabled:opacity-30 font-mono text-xs flex items-center justify-center font-bold cursor-pointer"
+                                    >
+                                      +
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Foundation Skills Summary */}
+                      <div className="p-2.5 bg-slate-950/80 border border-slate-800 rounded-lg space-y-1 text-[11px]">
+                        <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block">
+                          Foundation Skill Packages (60 Free Skill Ranks)
+                        </span>
+                        <div className="text-slate-300 space-y-0.5 text-[10px] font-mono">
+                          <div>• Faction ({activeFaction?.name}): 20 SP dedicated pool</div>
+                          <div>• Origin ({activeOrigin?.name}): 20 SP dedicated pool</div>
+                          <div>• Occupation ({activeOccupation?.name}): 20 SP dedicated pool</div>
+                        </div>
+                      </div>
+
+                      {/* Tech Level Selector */}
+                      <div className="flex items-center justify-between p-2 bg-slate-900/90 border border-slate-800 rounded-lg">
+                        <span className="text-[10px] text-slate-300 font-bold uppercase tracking-wider">
+                          Technology Level:
+                        </span>
+                        <div className="flex gap-1">
+                          {[0, 1, 2, 3, 4, 5].map(tl => (
+                            <button
+                              key={tl}
+                              type="button"
+                              onClick={() => setStagedTechLevel(tl)}
+                              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-all ${
+                                stagedTechLevel === tl
+                                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500'
+                                  : 'bg-slate-950 text-slate-400 hover:text-white'
+                              }`}
+                            >
+                              TL-{tl}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Step Navigation */}
+                      <div className="pt-2 flex justify-between">
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(3)}
+                          className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-xs transition-colors"
+                        >
+                          ← Back
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(5)}
+                          className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                        >
+                          <span>Synthesize Persona Dossier</span>
+                          <span>→</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Stage 5: Final Review & Apply */}
+                  {stagedStep === 5 && stagedPersonaResult && (
+                    <div className="space-y-3">
+                      <div className="bg-slate-950 border border-emerald-500/50 rounded-lg p-3 space-y-2.5 shadow-lg">
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                          <div className="flex-1 mr-2">
+                            <span className="text-[9px] text-cyan-400 uppercase font-bold tracking-wider block">
+                              Validated 5-Pillar Persona
+                            </span>
+                            <input
+                              type="text"
+                              value={stagedCustomName || stagedPersonaResult.character['char-name']}
+                              onChange={(e) => setStagedCustomName(e.target.value)}
+                              placeholder="Operative Designation..."
+                              className="bg-transparent text-amber-300 font-bold text-sm outline-none border-b border-amber-500/40 focus:border-amber-400 w-full"
+                            />
+                          </div>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-600/50 font-bold shrink-0">
+                            150 BP Compliant
+                          </span>
+                        </div>
+
+                        {/* 5 Pillars Badges */}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-[10px]">
+                          <div className="p-1.5 rounded bg-amber-950/40 border border-amber-600/40">
+                            <span className="text-slate-400 block text-[9px]">1. Archetype</span>
+                            <span className="font-bold text-amber-300 truncate block">{stagedPersonaResult.pillars.archetype.name}</span>
+                          </div>
+                          <div className="p-1.5 rounded bg-cyan-950/40 border border-cyan-600/40">
+                            <span className="text-slate-400 block text-[9px]">2. Species</span>
+                            <span className="font-bold text-cyan-300 truncate block">{stagedPersonaResult.pillars.species.name}</span>
+                          </div>
+                          <div className="p-1.5 rounded bg-purple-950/40 border border-purple-600/40">
+                            <span className="text-slate-400 block text-[9px]">3. Faction</span>
+                            <span className="font-bold text-purple-300 truncate block">{stagedPersonaResult.pillars.faction.name}</span>
+                          </div>
+                          <div className="p-1.5 rounded bg-emerald-950/40 border border-emerald-600/40">
+                            <span className="text-slate-400 block text-[9px]">4. Origin</span>
+                            <span className="font-bold text-emerald-300 truncate block">{stagedPersonaResult.pillars.origin.name}</span>
+                          </div>
+                          <div className="p-1.5 rounded bg-sky-950/40 border border-sky-600/40 col-span-2 sm:col-span-2">
+                            <span className="text-slate-400 block text-[9px]">5. Occupation</span>
+                            <span className="font-bold text-sky-300 truncate block">{stagedPersonaResult.pillars.occupation.name}</span>
+                          </div>
+                        </div>
+
+                        {/* Stats & Property Summary */}
+                        <div className="p-2 bg-slate-900/90 rounded border border-slate-800 text-[10px] space-y-1 font-mono">
+                          <div>
+                            <span className="text-slate-400 uppercase">Core Stats:</span> STR {stagedPersonaResult.character['attr-strength']}, AGI {stagedPersonaResult.character['attr-agility']}, STA {stagedPersonaResult.character['attr-stamina']}, INT {stagedPersonaResult.character['attr-intellect']}, WIS {stagedPersonaResult.character['attr-wisdom']}, CHA {stagedPersonaResult.character['attr-charisma']}
+                          </div>
+                          <div>
+                            <span className="text-slate-400 uppercase">Sub-Attributes:</span> Might {stagedPersonaResult.character['attr-might']}, Reflex {stagedPersonaResult.character['attr-reflex']}, Fort {stagedPersonaResult.character['attr-fortitude']}, Logic {stagedPersonaResult.character['attr-logic']}, Will {stagedPersonaResult.character['attr-will']}, Etiq {stagedPersonaResult.character['attr-etiquette']}
+                          </div>
+                          <div>
+                            <span className="text-slate-400 uppercase">Skills ({stagedPersonaResult.allocationsReport.skillsCount}):</span> {stagedPersonaResult.character.skills.slice(0, 5).map(s => `${s.name} ${s.rank}`).join(', ')}...
+                          </div>
+                          <div>
+                            <span className="text-slate-400 uppercase">Property (TL-{stagedTechLevel}):</span> {stagedPersonaResult.character.weapons.map(w => w.name).join(', ')} · {stagedPersonaResult.character.armor.map(a => a.name).join(', ')}
+                          </div>
+                        </div>
+
+                        {/* Narrative Summary */}
+                        <div className="space-y-1">
+                          <span className="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Backstory Dossier</span>
+                          <p className="text-[11px] text-slate-300 leading-relaxed max-h-28 overflow-y-auto bg-slate-900/60 p-2 rounded border border-slate-800 font-sans">
+                            {stagedPersonaResult.character.backstory}
+                          </p>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                          <button
+                            type="button"
+                            onClick={handleApplyStagedPersona}
+                            disabled={isGenerating}
+                            className="py-2.5 px-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                          >
+                            <span>✅ Apply to Folio</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleOpenInGuidedCreator}
+                            className="py-2.5 px-3 bg-gradient-to-r from-cyan-700 to-blue-700 hover:from-cyan-600 hover:to-blue-600 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
+                          >
+                            <span>🧭 Open in Wizard</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Step Navigation */}
+                      <div className="flex justify-between">
+                        <button
+                          type="button"
+                          onClick={() => setStagedStep(4)}
+                          className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-xs transition-colors"
+                        >
+                          ← Back to Stats
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setStagedStep(0);
+                            setStagedArchetype(null);
+                            setStagedSpecies(null);
+                            setStagedFaction(null);
+                            setStagedOrigin(null);
+                            setStagedOccupation(null);
+                          }}
+                          className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded text-xs transition-colors"
+                        >
+                          🔄 Reset Builder
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Sub-Mode 1: 5 Pillars Fast Auto-Synthesizer */}
               {generatorMode === 'synthesis' && (
                 <div className="space-y-3">
                   <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-2">

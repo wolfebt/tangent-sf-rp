@@ -21,7 +21,7 @@ export const BARK_CATEGORIES = {
   ],
   leader_down: [
     "Sector Commander is down! Fall back to secondary positions!",
-    "Squad lead eliminated! Who has tactical command?!",
+    "Team lead eliminated! Who has tactical command?!",
     "Command frequency is silent! Secure the perimeter or retreat!"
   ],
   taking_damage: [

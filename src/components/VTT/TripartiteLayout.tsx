@@ -10,12 +10,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Maximize2, 
-  Minimize2, 
-  PanelLeftClose, 
-  PanelLeftOpen, 
-  PanelRightClose, 
-  PanelRightOpen 
+  Minimize2 
 } from 'lucide-react';
 import { useUILayoutStore } from './store/uiLayoutStore';
 
@@ -203,50 +198,20 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
         <main className="relative flex-1 h-full w-full overflow-hidden bg-black flex flex-col z-0">
           {centerStage}
 
-          {/* Floating Canvas Quick Controls Bar (Top Center / Overlay) */}
-          <div className="absolute top-2.5 right-3 z-20 flex items-center gap-1.5 bg-[#0e131b]/80 border border-slate-800/80 rounded-lg p-1 backdrop-blur-md shadow-xl text-slate-300">
-            {/* Quick Zen Mode Toggle */}
-            <button
-              type="button"
-              onClick={toggleZenMode}
-              className={`p-1.5 rounded-md text-xs font-mono transition-all flex items-center gap-1 cursor-pointer ${
-                isZenMode 
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]' 
-                  : 'hover:bg-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-              title={isZenMode ? "Exit Zen Full-Stage View (F)" : "Enter Zen Full-Stage View (F)"}
-            >
-              {isZenMode ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
-              <span className="text-[10px] font-bold hidden sm:inline">{isZenMode ? 'EXIT ZEN' : 'ZEN (F)'}</span>
-            </button>
-
-            {/* Quick Panel Toggle Indicators */}
-            {leftPanel && (
+          {/* Floating Exit Zen Mode Button (Only shown when stage is in full-bleed Zen Mode) */}
+          {isZenMode && (
+            <div className="absolute top-2.5 right-3 z-30 flex items-center gap-1.5 bg-[#0e131b]/90 border border-cyan-500/50 rounded-lg p-1 backdrop-blur-md shadow-[0_0_12px_rgba(34,211,238,0.25)] text-slate-300 animate-in fade-in duration-150">
               <button
                 type="button"
-                onClick={toggleLeftCollapse}
-                className={`p-1.5 rounded-md text-xs transition-colors cursor-pointer ${
-                  !isLeftCollapsed ? 'text-cyan-400 bg-cyan-950/40' : 'text-slate-500 hover:text-slate-300'
-                }`}
-                title="Toggle Left Catalog ([)"
+                onClick={toggleZenMode}
+                className="px-2 py-1 rounded-md text-xs font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 transition-all flex items-center gap-1.5 cursor-pointer shadow-[0_0_8px_rgba(34,211,238,0.3)]"
+                title="Exit Zen Full-Stage View (F)"
               >
-                {!isLeftCollapsed ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} />}
+                <Minimize2 size={13} />
+                <span className="text-[10px]">EXIT ZEN (F)</span>
               </button>
-            )}
-
-            {rightPanel && (
-              <button
-                type="button"
-                onClick={toggleRightCollapse}
-                className={`p-1.5 rounded-md text-xs transition-colors cursor-pointer ${
-                  !isRightCollapsed ? 'text-amber-400 bg-amber-950/40' : 'text-slate-500 hover:text-slate-300'
-                }`}
-                title="Toggle Right Cockpit (])"
-              >
-                {!isRightCollapsed ? <PanelRightClose size={13} /> : <PanelRightOpen size={13} />}
-              </button>
-            )}
-          </div>
+            </div>
+          )}
         </main>
 
         {/* ========================================================================= */}

@@ -86,7 +86,11 @@ export const GroupProvider = ({ children }) => {
   const selectGroup = useCallback((groupId) => {
     AudioService.playTerminalBeep(1100, 0.02);
     setActiveGroupId(groupId);
-  }, []);
+    const targetGroup = groups.find(g => g.id === groupId);
+    if (targetGroup) {
+      GroupService.ensureTeamFrequency(targetGroup, currentUser);
+    }
+  }, [groups, currentUser]);
 
   // Modal inspection triggers for invite confirmation
   const openInviteConfirmation = useCallback((invite) => {
@@ -274,7 +278,8 @@ export const GroupProvider = ({ children }) => {
     updateMemberPersona,
     updateGroup,
     leaveGroup,
-    deleteGroup
+    deleteGroup,
+    ensureTeamFrequency: (targetGroup) => GroupService.ensureTeamFrequency(targetGroup, currentUser)
   };
 
   return (

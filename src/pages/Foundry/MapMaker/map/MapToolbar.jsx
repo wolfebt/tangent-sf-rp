@@ -474,7 +474,7 @@ const MapToolbar = ({
                 ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
                 : 'text-amber-400 hover:text-amber-200 hover:bg-slate-800/80 border border-transparent'
             }`}
-            title="Open Folio Hero & Squad Spawner Drawer"
+            title="Open Folio Hero & Team Spawner Drawer"
           >
             <span>📜</span>
             <span className="hidden xl:inline">Heroes</span>

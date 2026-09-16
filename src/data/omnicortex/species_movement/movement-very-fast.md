@@ -2,7 +2,8 @@
 id: movement-very-fast
 name: Very Fast (+20 ft Ground)
 category: species_movement
-classification: adjuster
+classification: modifier
+movement_tier: modifier
 target_mode: Ground
 speed_modifier: 20
 is_additive: true
@@ -22,7 +23,8 @@ costs:
 ---
 # Very Fast (+20 ft Ground)
 
-**Category**: Species Movement (ADJUSTER)  
+**Category**: Species Movement (MODIFIER)  
+**Classification**: modifier  
 **Target Mode**: Ground  
 **Cost**: +4 BP  
 **Speed Modifier**: +20 ft (Additive)  

@@ -2,7 +2,8 @@
 id: movement-excavation
 name: 'Burrowing: Excavation Pace (0.1875x Walk)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Burrowing
 multiplier: 0.1875
 speed: 3.75
@@ -21,7 +22,8 @@ costs:
 ---
 # Burrowing: Excavation Pace (0.1875x Walk)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Burrowing  
 **Cost**: +0 BP  
 

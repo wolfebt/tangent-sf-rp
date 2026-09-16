@@ -2,7 +2,8 @@
 id: movement-flight
 name: 'Flying: Flight Pace (1x Fly)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Flying
 multiplier: 1
 speed: 60
@@ -19,7 +20,8 @@ costs:
 ---
 # Flying: Flight Pace (1x Fly)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Flying  
 **Cost**: +0 BP  
 

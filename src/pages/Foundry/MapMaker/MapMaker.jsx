@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import VttCommandDrawer from './map/VttCommandDrawer';
-import OperativeTacticalHud from './map/OperativeTacticalHud';
+import OperativeCockpitRail from './map/OperativeCockpitRail';
 import { createTacticalPing, filterExpiredPings } from '../../../services/mapPingService';
 import { createDefaultTeamRoster, canUserControlToken, isUserArchitect, VTT_ROLES } from '../../../services/vttTeamService';
 
@@ -20,6 +20,7 @@ import { computeVisibilityPolygon } from '../../../services/raycastVisionService
 import { toggleDoorState, damageWallSegment } from '../../../schemas/vttWallSchema';
 import SpatialAudio from '../../../services/spatialAudioService';
 import MapToolbar from './map/MapToolbar';
+import ArchitectConsoleRail from './map/ArchitectConsoleRail';
 import MapToolsPanel from './map/MapToolsPanel';
 import MapLayersPanel from './map/MapLayersPanel';
 import MapCombatTracker from './map/MapCombatTracker';
@@ -286,6 +287,29 @@ const MapPane = ({ mapExportPngRef }) => {
   const [gridSnap, setGridSnap] = useState(true);
   const [gridSize, setGridSize] = useState(40);
   const [measurementUnit, setMeasurementUnit] = useState('meters');
+
+  // Dual Navigation Rails (Left Operative Cockpit & Right Architect Console)
+  const [isLeftRailCollapsed, setIsLeftRailCollapsed] = useState(false);
+  const [isLeftRailPinned, setIsLeftRailPinned] = useState(false);
+  const [isRightRailCollapsed, setIsRightRailCollapsed] = useState(false);
+  const [isRightRailPinned, setIsRightRailPinned] = useState(false);
+
+  // Synchronize rails with VTT role
+  useEffect(() => {
+    if (vttRole === 'operative') {
+      setIsLeftRailCollapsed(false);
+      setIsRightRailCollapsed(true);
+    } else {
+      setIsRightRailCollapsed(false);
+    }
+  }, [vttRole]);
+
+  const handleSelectToken = (tokenId) => {
+    setSelectedId(tokenId);
+    if (tokenId && vttRole === 'architect') {
+      setIsLeftRailCollapsed(false);
+    }
+  };
 
   // Ping Auto-Decay Timer
   useEffect(() => {
@@ -1136,6 +1160,7 @@ const MapPane = ({ mapExportPngRef }) => {
   };
 
   useEffect(() => {
+    if (!containerRef.current) return;
     const handleResize = () => {
       if (containerRef.current) {
         setStageSize({
@@ -1145,8 +1170,14 @@ const MapPane = ({ mapExportPngRef }) => {
       }
     };
     handleResize();
+
+    const ro = new ResizeObserver(() => handleResize());
+    ro.observe(containerRef.current);
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -1768,56 +1799,33 @@ const MapPane = ({ mapExportPngRef }) => {
         );
       })()}
 
-      {/* Studio Work Area: Docked VTT Left Menu + Canvas Container */}
+      {/* Studio Work Area: Dual Rails (Left Operative Cockpit + Center Canvas + Right Architect Console) */}
       <div className="flex-1 flex overflow-hidden relative">
 
-        <MapToolsPanel
-          showToolsPanel={showToolsPanel} setShowToolsPanel={setShowToolsPanel}
-          showSettingsPanel={showSettingsPanel} setShowSettingsPanel={setShowSettingsPanel}
-          activeTool={activeTool} setActiveTool={setActiveTool}
-          selectedTerrain={selectedTerrain} setSelectedTerrain={setSelectedTerrain}
-          terrainWidth={terrainWidth} setTerrainWidth={setTerrainWidth}
-          selectedObjectType={selectedObjectType} setSelectedObjectType={setSelectedObjectType}
-          selectedWallType={selectedWallType} setSelectedWallType={setSelectedWallType}
-          doorLockDc={doorLockDc} setDoorLockDc={setDoorLockDc}
-          rulerAvailableAp={rulerAvailableAp} setRulerAvailableAp={setRulerAvailableAp}
-          activeSensorMode={activeSensorMode} setActiveSensorMode={setActiveSensorMode}
-          pencilColor={pencilColor} setPencilColor={setPencilColor}
-          pencilWidth={pencilWidth} setPencilWidth={setPencilWidth}
-          tokenType={tokenType} setTokenType={setTokenType}
-          tokenLabelInput={tokenLabelInput} setTokenLabelInput={setTokenLabelInput}
-          tokenOmnicortexData={tokenOmnicortexData}
-          onOpenOmnicortexLink={() => setIsTokenSelectorOpen(true)}
-          textLabelInput={textLabelInput} setTextLabelInput={setTextLabelInput}
-          textColor={textColor} setTextColor={setTextColor}
-          textSize={textSize} setTextSize={setTextSize}
-          fogEnabled={fogEnabled} setFogEnabled={setFogEnabled}
-          currentMapScale={currentMap?.type || 'Planetary'}
-          customAssets={universeState.customAssets || { terrains: [], objects: [] }}
-          selectedLightColor={selectedLightColor} setSelectedLightColor={setSelectedLightColor}
-          selectedLightRadius={selectedLightRadius} setSelectedLightRadius={setSelectedLightRadius}
-          selectedLightAnimation={selectedLightAnimation} setSelectedLightAnimation={setSelectedLightAnimation}
-          onOpenAssetManager={() => setIsAssetManagerOpen(true)}
-          onOpenHeroDrawer={() => setShowHeroDrawer(true)}
-          onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
-          showStoryDrawer={showStoryDrawer}
-          setShowStoryDrawer={setShowStoryDrawer}
-          showAutomationConsole={showAutomationConsole}
-          setShowAutomationConsole={setShowAutomationConsole}
-          onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
-          onOpenUvttImport={() => setIsUvttModalOpen(true)}
-          onOpenLayersPanel={() => setShowLayersPanel(true)}
-        />
-
-        <MapLayersPanel
-          showLayersPanel={showLayersPanel} setShowLayersPanel={setShowLayersPanel}
-          mapLayers={mapLayers}
-          toggleLayerVisibility={toggleLayerVisibility}
-          toggleLayerLock={toggleLayerLock}
-          deleteCustomLayer={deleteCustomLayer}
-          newLayerNameInput={newLayerNameInput}
-          setNewLayerNameInput={setNewLayerNameInput}
-          addCustomLayer={addCustomLayer}
+        {/* Primary Left Nav Rail: Operative Cockpit */}
+        <OperativeCockpitRail
+          tokens={tokens}
+          activeTokenId={selectedId || tokens[0]?.id}
+          onSelectActiveToken={handleSelectToken}
+          vttRole={vttRole}
+          isPinned={isLeftRailPinned}
+          onTogglePin={() => setIsLeftRailPinned(prev => !prev)}
+          isCollapsed={isLeftRailCollapsed}
+          onToggleCollapse={() => setIsLeftRailCollapsed(prev => !prev)}
+          targetToken={tokens.find(t => t.id !== (selectedId || tokens[0]?.id) && (t.type === 'hostile' || t.type === 'adversary' || t.type === 'npc'))}
+          onTriggerAttack={(attId, tgtId, netDmg) => {
+            triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `TARGET ENGAGED: 2d10 ATTACK (-${netDmg} DMG)`, 'damage');
+          }}
+          onDropPing={(pingType) => handleDropTacticalPing(pingType)}
+          onTriggerFloatingText={triggerFloatingCombatText}
+          onBroadcastMessage={(msg) => {
+            triggerFloatingCombatText(window.innerWidth / 2, 80, msg, 'karma');
+          }}
+          activeSensorMode={activeSensorMode}
+          onChangeSensorMode={setActiveSensorMode}
+          onUpdateTokenHealth={handleUpdateTokenHealth}
+          onUpdateTokenVitality={handleUpdateTokenVitality}
+          onUpdateTokenStructure={handleUpdateTokenStructure}
         />
 
         <FolioHeroTokenDrawer
@@ -1963,6 +1971,7 @@ const MapPane = ({ mapExportPngRef }) => {
 
         {/* Canvas Area */}
         <div
+          ref={containerRef}
           onDragOver={(e) => {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'copy';
@@ -1994,21 +2003,6 @@ const MapPane = ({ mapExportPngRef }) => {
             </button>
           </div>
 
-          {/* Operative Player Tactical HUD */}
-          {vttRole === 'operative' && (
-            <OperativeTacticalHud
-              userControlledTokens={tokens}
-              activeTokenId={selectedId || tokens[0]?.id}
-              onSelectActiveToken={(id) => setSelectedId(id)}
-              targetToken={tokens.find(t => t.id !== selectedId && t.type !== 'link')}
-              onTriggerAttack={(attId, tgtId) => {
-                triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `TARGET ENGAGED: 2d10 ATTACK`, 'damage');
-              }}
-              onDropPing={(pingType) => handleDropTacticalPing(pingType)}
-              onTriggerFloatingText={triggerFloatingCombatText}
-            />
-          )}
-
           {!currentMap ? (
             <div className="absolute inset-0 flex items-center justify-center text-slate-500 font-bold text-xl italic">
               Please create or select a map.
@@ -2024,7 +2018,12 @@ const MapPane = ({ mapExportPngRef }) => {
               onWheel={handleWheel}
               onMouseDown={(e) => {
                 const clickedOnEmpty = e.target === e.target.getStage() || e.target.name() === 'bgRect';
-                if (clickedOnEmpty && activeTool === 'select') setSelectedId(null);
+                if (clickedOnEmpty && activeTool === 'select') {
+                  setSelectedId(null);
+                  if (!isLeftRailPinned && vttRole === 'architect') {
+                    setIsLeftRailCollapsed(true);
+                  }
+                }
                 handleMouseDown(e);
               }}
               onMouseMove={handleMouseMove}
@@ -2229,7 +2228,7 @@ const MapPane = ({ mapExportPngRef }) => {
                           isEraser={activeTool === 'eraser'}
                           isLocked={isLayerLocked('layer_tokens')}
                           onErase={eraseElement}
-                          onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) setSelectedId(token.id); }}
+                          onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) handleSelectToken(token.id); }}
                           onDoubleClick={() => { if (token.type === 'link' && token.targetMapId) { setActiveMapId(token.targetMapId); setSelectedId(null); } }}
                           onChange={(newAttrs) => {
                             const nextTokens = produce(tokens, draft => {
@@ -2316,6 +2315,79 @@ const MapPane = ({ mapExportPngRef }) => {
             </Stage>
           )}
         </div>
+
+        {/* Secondary Right Nav Rail: Architect Console (World-building & Director, hidden in operative role) */}
+        {vttRole !== 'operative' && (
+          <ArchitectConsoleRail
+            activeTool={activeTool}
+            setActiveTool={setActiveTool}
+            isCollapsed={isRightRailCollapsed}
+            onToggleCollapse={() => setIsRightRailCollapsed(prev => !prev)}
+            isPinned={isRightRailPinned}
+            onTogglePin={() => setIsRightRailPinned(prev => !prev)}
+            selectedTerrain={selectedTerrain}
+            setSelectedTerrain={setSelectedTerrain}
+            terrainWidth={terrainWidth}
+            setTerrainWidth={setTerrainWidth}
+            selectedObjectType={selectedObjectType}
+            setSelectedObjectType={setSelectedObjectType}
+            selectedWallType={selectedWallType}
+            setSelectedWallType={setSelectedWallType}
+            doorLockDc={doorLockDc}
+            setDoorLockDc={setDoorLockDc}
+            rulerAvailableAp={rulerAvailableAp}
+            setRulerAvailableAp={setRulerAvailableAp}
+            activeSensorMode={activeSensorMode}
+            setActiveSensorMode={setActiveSensorMode}
+            pencilColor={pencilColor}
+            setPencilColor={setPencilColor}
+            pencilWidth={pencilWidth}
+            setPencilWidth={setPencilWidth}
+            tokenType={tokenType}
+            setTokenType={setTokenType}
+            tokenLabelInput={tokenLabelInput}
+            setTokenLabelInput={setTokenLabelInput}
+            tokenOmnicortexData={tokenOmnicortexData}
+            onOpenOmnicortexLink={() => setIsTokenSelectorOpen(true)}
+            textLabelInput={textLabelInput}
+            setTextLabelInput={setTextLabelInput}
+            textColor={textColor}
+            setTextColor={setTextColor}
+            textSize={textSize}
+            setTextSize={setTextSize}
+            fogEnabled={fogEnabled}
+            setFogEnabled={setFogEnabled}
+            currentMapScale={currentMap?.type || 'Planetary'}
+            customAssets={universeState.customAssets || { terrains: [], objects: [] }}
+            selectedLightColor={selectedLightColor}
+            setSelectedLightColor={setSelectedLightColor}
+            selectedLightRadius={selectedLightRadius}
+            setSelectedLightRadius={setSelectedLightRadius}
+            selectedLightAnimation={selectedLightAnimation}
+            setSelectedLightAnimation={setSelectedLightAnimation}
+            mapLayers={mapLayers}
+            onToggleLayerVisibility={toggleLayerVisibility}
+            onToggleLayerLock={toggleLayerLock}
+            onDeleteCustomLayer={deleteCustomLayer}
+            newLayerNameInput={newLayerNameInput}
+            setNewLayerNameInput={setNewLayerNameInput}
+            onAddCustomLayer={addCustomLayer}
+            onApplyEnvironmentPreset={(envId) => {
+              triggerFloatingCombatText(window.innerWidth / 2, 100, `ENVIRONMENT: ${envId.toUpperCase()}`, 'karma');
+            }}
+            onBatchTokenAction={(action) => {
+              triggerFloatingCombatText(window.innerWidth / 2, 100, `BATCH ACTION: ${action.toUpperCase()}`, 'heal');
+            }}
+            onBroadcastMessage={(msg) => {
+              triggerFloatingCombatText(window.innerWidth / 2, 80, msg, 'karma');
+            }}
+            onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+            onOpenHeroDrawer={() => setShowHeroDrawer(true)}
+            onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
+            onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
+            onOpenUvttImport={() => setIsUvttModalOpen(true)}
+          />
+        )}
       </div>
 
       {/* Contextual Radial Action Wheel */}

@@ -269,10 +269,10 @@ const HubGuideSection = ({ onCopy, copiedSnippet }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
         <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-          <Activity size={15} /> Active Campaign & Squad Operations
+          <Activity size={15} /> Active Campaign & Team Operations
         </h4>
         <p className="text-xs text-slate-300">
-          The <strong className="text-white">CampaignOpsWidget</strong> displays the active campaign title, scenario hierarchy count, sector map count, and direct link to ADE Studio. The <strong className="text-white">GameSquadsWidget</strong> tracks multiplayer parties, active squads, invite join codes (<code className="text-amber-300 font-mono">?join=GRP-XXXXXX</code>), and squad roster synchronization.
+          The <strong className="text-white">CampaignOpsWidget</strong> displays the active campaign title, scenario hierarchy count, sector map count, and direct link to ADE Studio. The <strong className="text-white">GameSquadsWidget</strong> tracks multiplayer parties, active teams, invite join codes (<code className="text-amber-300 font-mono">?join=GRP-XXXXXX</code>), and team roster synchronization.
         </p>
       </div>
 
@@ -323,7 +323,7 @@ const HubGuideSection = ({ onCopy, copiedSnippet }) => (
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
           <div className="text-emerald-300 font-bold font-mono uppercase mb-1">Comms Dock (`Alt+C`)</div>
-          <p className="text-slate-400 text-[11px]">Persistent sliding transmission tray for instant party chat, squad coordination, and verified dice cards.</p>
+          <p className="text-slate-400 text-[11px]">Persistent sliding transmission tray for instant party chat, team coordination, and verified dice cards.</p>
         </div>
       </div>
     </div>
@@ -987,7 +987,7 @@ const CommsGuideSection = () => (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
         <div className="font-bold text-cyan-300 font-mono uppercase">📡 Public & Faction Channels</div>
-        <p className="text-slate-400 text-[11px]">Broadcast on open channels (Holonet) or join encrypted channels accessible only to authorized squad members.</p>
+        <p className="text-slate-400 text-[11px]">Broadcast on open channels (Holonet) or join encrypted channels accessible only to authorized team members.</p>
       </div>
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
         <div className="font-bold text-emerald-300 font-mono uppercase">🔒 Direct Operative Comms</div>
@@ -1031,7 +1031,7 @@ const UtilitiesGuideSection = () => (
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
           <div className="font-bold text-emerald-300 font-mono">Advantage / Disadvantage</div>
-          <p className="text-slate-400 text-[11px]">Toggle Advantage or Disadvantage with automated higher/lower selection and instant broadcast to squad chat and VTT logs.</p>
+          <p className="text-slate-400 text-[11px]">Toggle Advantage or Disadvantage with automated higher/lower selection and instant broadcast to team chat and VTT logs.</p>
         </div>
       </div>
     </div>

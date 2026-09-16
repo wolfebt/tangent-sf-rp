@@ -3,25 +3,46 @@
 
 :root {
   /* Surface & Background Palette */
-  --color-bg-core: #090d16;
-  --color-bg-surface: #0d1117;
-  --color-bg-surface-elevated: #161b22;
-  --color-bg-card: rgba(22, 27, 34, 0.85);
-  --color-bg-glass: rgba(13, 17, 23, 0.75);
-  --color-bg-glass-heavy: rgba(9, 13, 22, 0.92);
+  --color-bg-core: #000000;                      /* True Black (page background) */
+  --color-bg-surface: #12161f;                   /* Charcoal (modal backgrounds, surfaces) */
+  --color-bg-surface-elevated: #161922;          /* Elevated Charcoal */
+  --color-bg-card: rgba(18, 22, 31, 0.90);       /* Charcoal Card */
+  --color-bg-modal: rgba(18, 22, 31, 0.96);      /* Charcoal Modal */
+  --color-bg-glass: rgba(18, 22, 31, 0.82);      /* Charcoal Glass */
+  --color-bg-glass-heavy: rgba(10, 13, 18, 0.96);
+  --color-slider-track: #12161f;                 /* Charcoal Slider Bars & Scrollbar Tracks */
 
-  /* Primary Brand Accents */
-  --color-accent-cyan: #22d3ee;
+  /* Primary Brand Accent */
+  --color-accent-cyan: #22d3ee;                  /* Cyan (titles, major labels, modal & field borders, user id tag) */
   --color-accent-cyan-hover: #06b6d4;
   --color-accent-cyan-glow: rgba(34, 211, 238, 0.35);
 
-  --color-accent-amber: #f59e0b;
+  /* Additional Accents & Reference Colors */
+  --color-accent-teal: #0d5c63;                  /* Teal (dark green: vitality bars, primary shadow color) */
+  --color-accent-teal-hover: #0f766e;
+  --color-accent-teal-glow: rgba(13, 92, 99, 0.45);
+
+  --color-accent-emerald: #10b981;               /* Emerald (bright green: karma, bonuses) */
+  --color-accent-emerald-glow: rgba(16, 185, 129, 0.35);
+
+  --color-accent-sapphire: #2563eb;              /* Sapphire (most blues) */
+  --color-accent-sapphire-glow: rgba(37, 99, 235, 0.35);
+
+  --color-accent-rose: #f43f5e;                  /* Rose (most reds: health bars, penalties, hindrances) */
+  --color-accent-rose-glow: rgba(244, 63, 94, 0.35);
+
+  --color-accent-magenta: #be185d;               /* Magenta (dark reds: augmentations) */
+  --color-accent-magenta-glow: rgba(190, 24, 93, 0.35);
+
+  --color-accent-amber: #f59e0b;                 /* Amber (oranges: comms, database/omnicortex access) */
   --color-accent-amber-hover: #d97706;
   --color-accent-amber-glow: rgba(245, 158, 11, 0.35);
 
-  --color-accent-emerald: #10b981;
-  --color-accent-purple: #a855f7;
-  --color-accent-crimson: #ef4444;
+  --color-accent-gold: #eab308;                  /* Gold (yellows: armor, damage reduction values) */
+  --color-accent-gold-glow: rgba(234, 179, 8, 0.35);
+
+  --color-accent-purple: #a855f7;                /* Electric Purple (strong accents: energy shields DR/AP, ADE studio, metaphysics) */
+  --color-accent-purple-glow: rgba(168, 85, 247, 0.40);
 
   /* Text Colors */
   --color-text-primary: #f8fafc;
@@ -32,13 +53,19 @@
   /* Borders & Dividers */
   --color-border-subtle: rgba(255, 255, 255, 0.08);
   --color-border-medium: rgba(255, 255, 255, 0.16);
-  --color-border-cyan: rgba(34, 211, 238, 0.4);
-  --color-border-amber: rgba(245, 158, 11, 0.4);
+  --color-border-cyan: rgba(34, 211, 238, 0.45); /* Cyan borders for modals and fields */
+  --color-border-modal: rgba(34, 211, 238, 0.50);
+  --color-border-field: rgba(34, 211, 238, 0.40);
+  --color-border-amber: rgba(245, 158, 11, 0.40);
+  --color-border-teal: rgba(13, 92, 99, 0.50);
 
   /* Shadows & Glows */
   --glow-cyan: 0 0 15px var(--color-accent-cyan-glow);
+  --glow-teal: 0 0 15px var(--color-accent-teal-glow);
   --glow-amber: 0 0 15px var(--color-accent-amber-glow);
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glow-purple: 0 0 15px var(--color-accent-purple-glow);
+  --shadow-primary: 0 8px 32px 0 rgba(0, 0, 0, 0.7), 0 0 16px var(--color-accent-teal-glow);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.6), 0 0 12px var(--color-accent-teal-glow);
 
   /* Layout Dimensions */
   --hud-height: 56px;
@@ -60,10 +87,10 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Global Unified Cross-Browser Custom Scrollbar */
+/* Global Unified Cross-Browser Custom Scrollbar (Charcoal track, Cyan thumb) */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #0284c7 #090d16;
+  scrollbar-color: #0284c7 var(--color-slider-track);
 }
 
 ::-webkit-scrollbar {
@@ -72,13 +99,13 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: var(--color-slider-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #1e2533;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(34, 211, 238, 0.25);
+  border: 1px solid rgba(34, 211, 238, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -88,5 +115,5 @@
 }
 
 ::-webkit-scrollbar-corner {
-  background: #090d16;
+  background: var(--color-bg-core);
 }

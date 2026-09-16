@@ -2,7 +2,8 @@
 id: movement-hover-descent
 name: 'Flying: Hover & Controlled Descent (0.5x Fly)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Flying
 multiplier: 0.5
 speed: 30
@@ -19,7 +20,8 @@ costs:
 ---
 # Flying: Hover & Controlled Descent (0.5x Fly)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Flying  
 **Cost**: +0 BP  
 

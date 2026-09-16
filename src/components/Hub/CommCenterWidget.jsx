@@ -172,7 +172,7 @@ export const CommCenterWidget = ({
                 setIsCreateModalOpen(true);
               }}
               className="px-1.5 py-0.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white rounded font-bold flex items-center gap-0.5 transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)] text-[8.5px]"
-              title="Create Custom Channel / Squad Relay"
+              title="Create Custom Channel / Team Relay"
             >
               <Plus size={10} />
               <span>+ CHANNEL</span>

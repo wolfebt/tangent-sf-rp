@@ -130,7 +130,7 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
   return (
     <div
       ref={containerRef}
-      className="fixed z-50 pointer-events-auto select-none"
+      className="fixed z-[1000] pointer-events-auto select-none"
       style={{ left: `${position.x}px`, top: `${position.y}px` }}
       onClick={(e) => e.stopPropagation()}
     >
@@ -207,7 +207,7 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
               )}
 
               {/* Hover Tooltip Label */}
-              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1.5 hidden group-hover:flex flex-col items-center pointer-events-none z-30 whitespace-nowrap">
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1.5 hidden group-hover:flex flex-col items-center pointer-events-none z-[999999] whitespace-nowrap">
                 <div className="bg-slate-950/95 border border-cyan-500/50 px-2 py-1 rounded shadow-xl backdrop-blur-md text-center">
                   <span className="text-[10px] font-bold text-cyan-200 block uppercase tracking-wider">{act.label}</span>
                   <span className="text-[8.5px] text-slate-400 block">{act.sub}</span>

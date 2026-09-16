@@ -12,7 +12,8 @@ import {
   X,
   Heart,
   Activity,
-  Lock
+  Lock,
+  Radio
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useFolio } from '../../context/FolioContext';
@@ -20,6 +21,11 @@ import { useAuth } from '../../context/AuthContext';
 import { AudioService } from '../../services/audioService';
 import { rollDice } from '../../services/diceService';
 import { PersonaLogService, ACTION_TYPES } from '../../services/personaLogService';
+import { 
+  getFolioTombstones, 
+  isFolioPersonaDeleted, 
+  isPersonaEmptyTemplate 
+} from '../../utils/personaValidationUtils';
 
 export const MessageInput = ({ isCompact = false }) => {
   const { 
@@ -29,7 +35,9 @@ export const MessageInput = ({ isCompact = false }) => {
     setSpeakingMode, 
     selectedPersona, 
     setSelectedPersona,
-    activeChannel
+    activeChannel,
+    broadcastToVtt,
+    setBroadcastToVtt
   } = useChat();
   const { personaRoster, roster, characterData } = useFolio();
   const { currentUser, userHandle } = useAuth();
@@ -42,13 +50,23 @@ export const MessageInput = ({ isCompact = false }) => {
 
   // Collect all available personas from Folio catalog / roster / active characterData
   const allPersonas = useMemo(() => {
-    const list = Array.isArray(personaRoster) ? [...personaRoster] : Array.isArray(roster) ? [...roster] : [];
-    if (characterData && (characterData['char-name'] || characterData.name)) {
-      const activeId = characterData['character-doc-id'] || characterData.id || 'active_char';
-      if (!list.some(p => (p['character-doc-id'] || p.id) === activeId)) {
-        list.unshift(characterData);
+    const tombstones = getFolioTombstones();
+    const list = [];
+    const seen = new Set();
+    const source = Array.isArray(personaRoster) && personaRoster.length > 0 
+      ? personaRoster 
+      : (Array.isArray(roster) && roster.length > 0 ? roster : (characterData ? [characterData] : []));
+
+    source.forEach(p => {
+      if (!p) return;
+      const pId = p['character-doc-id'] || p.id;
+      const pName = p['char-name'] || p.name;
+      if (pId && pName && !seen.has(pId) && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
+        seen.add(pId);
+        list.push(p);
       }
-    }
+    });
+
     return list;
   }, [personaRoster, roster, characterData]);
 
@@ -293,23 +311,69 @@ export const MessageInput = ({ isCompact = false }) => {
                 title="Insert [Codex Link] brackets for auto-link tooltips"
               >
                 <BookOpen size={11} />
-                <span className="hidden sm:inline">[Codex Link]</span>
+                <span className="hidden sm:inline">[Codex]</span>
+              </button>
+
+              {/* RPG Narrative Emote /me */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  setText(prev => prev.startsWith('/me ') ? prev : `/me ${prev}`);
+                }}
+                className="flex items-center gap-1 px-2 py-1 bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-300 rounded-lg text-[10.5px] font-bold transition-colors cursor-pointer"
+                title="Insert /me narrative action"
+              >
+                <span>/me</span>
+              </button>
+
+              {/* RPG OOC Aside /ooc */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  setText(prev => prev.startsWith('/ooc ') ? prev : `/ooc ${prev}`);
+                }}
+                className="flex items-center gap-1 px-2 py-1 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 rounded-lg text-[10.5px] font-bold transition-colors cursor-pointer"
+                title="Insert /ooc aside"
+              >
+                <span>/ooc</span>
               </button>
             </div>
 
-            {/* Quick Dice Roll Launcher */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1200, 0.02);
-                setIsDiceModalOpen(prev => !prev);
-              }}
-              className="flex items-center gap-1 px-2.5 py-1 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 rounded-lg text-[11px] font-bold transition-all shadow-[0_0_10px_rgba(245,158,11,0.15)] cursor-pointer"
-              title="Launch Tactical Dice Roller"
-            >
-              <Dices size={13} />
-              <span>DICE ENGINE</span>
-            </button>
+            <div className="flex items-center gap-1.5">
+              {/* Broadcast to VTT toggle */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.02);
+                  setBroadcastToVtt(prev => !prev);
+                }}
+                className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold border transition-all cursor-pointer ${
+                  broadcastToVtt
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.2)]'
+                    : 'bg-slate-950 text-slate-500 border-slate-800 hover:text-slate-300'
+                }`}
+                title="Toggle Broadcast Rolls to VTT Stage"
+              >
+                <Radio size={11} className={broadcastToVtt ? 'animate-pulse text-amber-400' : ''} />
+                <span>VTT SYNC: {broadcastToVtt ? 'ON' : 'OFF'}</span>
+              </button>
+
+              {/* Quick Dice Roll Launcher */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.02);
+                  setIsDiceModalOpen(prev => !prev);
+                }}
+                className="flex items-center gap-1 px-2.5 py-1 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 rounded-lg text-[11px] font-bold transition-all shadow-[0_0_10px_rgba(245,158,11,0.15)] cursor-pointer"
+                title="Launch Tactical Dice Roller"
+              >
+                <Dices size={13} />
+                <span>DICE ENGINE</span>
+              </button>
+            </div>
           </div>
 
           {/* Quick Dice Roll Inline Popover */}

@@ -302,7 +302,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
       {activeCategory === 'personae' && (
         <div className="space-y-1">
           <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 px-1 mb-1 flex items-center justify-between">
-            <span>Hero Operatives & Squad</span>
+            <span>Hero Operatives & Team</span>
             <span className="text-emerald-400 font-bold">{personaRoster.length}</span>
           </div>
 

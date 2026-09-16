@@ -2,7 +2,8 @@
 id: movement-climb
 name: 'Climbing: Standard Climb Pace (0.5x Walk)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Climbing
 multiplier: 0.5
 speed: 15
@@ -19,7 +20,8 @@ costs:
 ---
 # Climbing: Standard Climb Pace (0.5x Walk)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Climbing  
 **Cost**: +0 BP  
 

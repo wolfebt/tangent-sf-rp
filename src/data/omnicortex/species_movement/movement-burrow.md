@@ -2,7 +2,8 @@
 id: movement-burrow
 name: 'Burrowing: Standard Burrow Pace (0.375x Walk)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Burrowing
 multiplier: 0.375
 speed: 7.5
@@ -19,7 +20,8 @@ costs:
 ---
 # Burrowing: Standard Burrow Pace (0.375x Walk)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Burrowing  
 **Cost**: +0 BP  
 

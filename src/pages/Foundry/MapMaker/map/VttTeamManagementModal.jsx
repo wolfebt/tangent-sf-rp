@@ -77,7 +77,7 @@ const VttTeamManagementModal = ({
   const handleBroadcastRoster = () => {
     AudioService.playTerminalBeep(1200, 0.15);
     if (onBroadcastMessage) {
-      onBroadcastMessage(`[VTT ROSTER]: Squad roster synchronized across all ${currentRoster.teams.length} teams.`);
+      onBroadcastMessage(`[VTT ROSTER]: Team roster synchronized across all ${currentRoster.teams.length} teams.`);
     }
   };
 
@@ -96,7 +96,7 @@ const VttTeamManagementModal = ({
                   VTT Team, Co-Architect &amp; Roster Console
                 </h3>
                 <span className="text-[10px] px-2 py-0.5 rounded-full font-mono font-bold bg-cyan-950 border border-cyan-500/60 text-cyan-200">
-                  SQUAD PROTOCOL v4.1
+                  TEAM PROTOCOL v4.1
                 </span>
               </div>
               <p className="text-xs text-slate-400">
@@ -118,7 +118,7 @@ const VttTeamManagementModal = ({
           {/* Left Column: Teams & Roles */}
           <div className="flex flex-col gap-3">
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col gap-2 text-xs">
-              <span className="text-[10px] uppercase font-bold text-slate-400">Active Squads &amp; Factions:</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400">Active Teams &amp; Factions:</span>
               <div className="grid grid-cols-2 gap-2">
                 {currentRoster.teams.map(t => (
                   <button
@@ -309,7 +309,7 @@ const VttTeamManagementModal = ({
             onClick={handleBroadcastRoster}
             className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-700 text-cyan-300 text-xs font-mono font-bold rounded transition-colors cursor-pointer"
           >
-            📡 Broadcast Squad Roster
+            📡 Broadcast Team Roster
           </button>
 
           <button

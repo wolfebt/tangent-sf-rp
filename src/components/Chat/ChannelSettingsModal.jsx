@@ -454,7 +454,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
                     >
                       <div className="flex items-center gap-1.5 mb-0.5">
                         <Lock size={13} />
-                        <span>ENCRYPTED SQUAD</span>
+                        <span>ENCRYPTED TEAM</span>
                       </div>
                       <p className="text-[10px] text-slate-400 font-normal">
                         Restricted to invited operators only.

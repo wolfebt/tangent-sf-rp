@@ -29,8 +29,10 @@ import { AudioService } from '../../../services/audioService';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
 import { CombatArbitrator } from '../../../engine/rules/CombatArbitrator';
+import { DEFAULT_WEAPONRY } from '../../../data/weaponryData';
+import { resolveAllTacticalAttacks } from '../../../utils/combatUtils';
 
-export type CalledShotLocation = 'head' | 'torso' | 'limbs' | 'chassis';
+export type CalledShotLocation = 'head' | 'torso' | 'limbs' | 'chassis' | 'arm' | 'leg';
 
 interface WeaponAction {
   id: string;
@@ -44,51 +46,72 @@ interface WeaponAction {
   baseModifier: number;
 }
 
-const DEFAULT_WEAPONS: WeaponAction[] = [
-  {
-    id: 'wpn-plasma-carbine',
-    name: 'Heavy Plasma Carbine',
-    skillName: 'Energy Weapons',
-    skillRank: 7, // Trained -> 2 attacks
-    damageDice: '2d10+6',
-    damageType: 'thermal',
-    range: '40 / 120 ft',
-    special: 'Melts Armor DR',
+const getWeaponOrDefault = (id: string, fallback: Partial<WeaponAction>): WeaponAction => {
+  const w = (DEFAULT_WEAPONRY as any[])?.find(item => item.id === id);
+  if (!w) return fallback as WeaponAction;
+  const isMelee = (w.body || '').includes('Category: MELEE') || w.range === '-';
+  const isHeavy = (w.body || '').includes('HEAVY');
+  const isEnergy = (w.body || '').includes('ENERGY');
+  const dmgMatch = (w.damage || '').match(/\d+d\d+(?:\s*[+-]\s*\d+)?/i);
+  const damageDice = dmgMatch ? dmgMatch[0].replace(/\s+/g, '') : '2d8';
+  return {
+    id: `wpn-${w.id}`,
+    name: w.name,
+    skillName: isMelee ? 'Weaponry' : (isHeavy ? 'Heavy Weapons' : (isEnergy ? 'Energy Weapons' : 'Marksmanship')),
+    skillRank: 6,
+    damageDice,
+    damageType: (isEnergy ? 'energy' : 'kinetic') as any,
+    range: w.range || (isMelee ? 'Melee (5 ft)' : '60 ft'),
+    special: w.description ? w.description.replace(/^\*\*Special:\*\*\s*/i, '') : undefined,
     baseModifier: 3
-  },
-  {
-    id: 'wpn-mag-rifle',
-    name: 'Gauss Rail Rifle',
-    skillName: 'Firearms',
-    skillRank: 8, // Trained -> 2 attacks
-    damageDice: '2d10+8',
+  };
+};
+
+const DEFAULT_WEAPONS: WeaponAction[] = [
+  getWeaponOrDefault('assault-rifle', {
+    id: 'wpn-assault-rifle',
+    name: 'Assault Rifle',
+    skillName: 'Marksmanship',
+    skillRank: 6,
+    damageDice: '2d8+2',
     damageType: 'kinetic',
     range: '80 / 300 ft',
-    special: 'Piercing IV (AP 4)',
-    baseModifier: 4
-  },
-  {
-    id: 'wpn-monoblade',
-    name: 'Monofilament Vibro-Blade',
-    skillName: 'Melee',
-    skillRank: 6, // Trained -> 2 attacks
-    damageDice: '2d10+5',
+    special: 'Standard ballistic assault rifle',
+    baseModifier: 3
+  }),
+  getWeaponOrDefault('laser-rifle', {
+    id: 'wpn-laser-rifle',
+    name: 'Laser Rifle',
+    skillName: 'Energy Weapons',
+    skillRank: 6,
+    damageDice: '2d10+4',
+    damageType: 'energy',
+    range: '100 / 300 ft',
+    special: 'Coherent thermal energy beam',
+    baseModifier: 3
+  }),
+  getWeaponOrDefault('great-sword', {
+    id: 'wpn-sword',
+    name: 'Tactical Vibroblade',
+    skillName: 'Weaponry',
+    skillRank: 6,
+    damageDice: '2d6+2',
     damageType: 'kinetic',
     range: 'Melee (5 ft)',
-    special: 'Rend / Bleed',
-    baseModifier: 5
-  },
-  {
-    id: 'wpn-emp-grenade',
-    name: 'Disruption EMP Grenade',
+    special: 'High-frequency flesh lacerations',
+    baseModifier: 4
+  }),
+  getWeaponOrDefault('flamer', {
+    id: 'wpn-flamer',
+    name: 'Flamer',
     skillName: 'Heavy Weapons',
-    skillRank: 4, // Novice -> 1 attack
-    damageDice: '2d10+2',
-    damageType: 'disruption',
-    range: '30 ft (AoE 15ft)',
-    special: 'Stuns Cyberware (EMP CR 15)',
+    skillRank: 4,
+    damageDice: '2d6',
+    damageType: 'thermal',
+    range: '30 ft Cone',
+    special: 'Pyro burn & ignites flammables',
     baseModifier: 2
-  }
+  })
 ];
 
 const TACTICAL_MANEUVERS = [
@@ -190,8 +213,35 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
     targetName: string;
   } | null>(null);
 
-  // Derive active weapons from folio characterData.attacks if present, otherwise fallback to DEFAULT_WEAPONS
+  // Derive active weapons dynamically from folio characterData using universal tactical resolver, falling back to canonical DEFAULT_WEAPONS
   const folioAttacks = useMemo<WeaponAction[]>(() => {
+    if (characterData && typeof characterData === 'object' && Object.keys(characterData).length > 0) {
+      try {
+        const resolved = resolveAllTacticalAttacks(characterData);
+        if (Array.isArray(resolved) && resolved.length > 0) {
+          return resolved.map((a: any, idx: number) => {
+            const skillName = a.skill || a.skillName || a.discipline || 'Combat';
+            const rank = parseInt(a.rank || a.skillRank || 6, 10) || 6;
+            const dmgMatch = (a.damage || '').match(/\d+d\d+(?:\s*[+-]\s*\d+)?/i);
+            const damageDice = dmgMatch ? dmgMatch[0].replace(/\s+/g, '') : (a.damage || '2d10');
+            return {
+              id: a.id || `folio-atk-${idx}`,
+              name: a.name || `Weapon #${idx + 1}`,
+              skillName,
+              skillRank: rank,
+              damageDice,
+              damageType: (a.type || a.damageType || 'kinetic').toLowerCase() as any,
+              range: a.range || 'Standard',
+              special: a.notes || undefined,
+              baseModifier: parseInt(a.score || a.modifier || 0, 10) || 0
+            };
+          });
+        }
+      } catch (err) {
+        console.warn('TangentActionDeck: Error resolving tactical attacks:', err);
+      }
+    }
+
     let rawAttacks = characterData?.attacks;
     if (typeof rawAttacks === 'string') {
       try { rawAttacks = JSON.parse(rawAttacks); } catch { rawAttacks = []; }
@@ -214,41 +264,58 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
       });
     }
     return DEFAULT_WEAPONS;
-  }, [characterData?.attacks]);
+  }, [characterData]);
 
   // Primary active weapon (first weapon by default)
   const activeWeapon = folioAttacks[0] || DEFAULT_WEAPONS[0];
   const activeSkillTier = combatArbitrator.getActionTier(activeWeapon.skillRank);
   const maxAttacks = activeSkillTier.actionsCount;
 
-  // Called Shot Modifiers based on 3.00 COMBAT.md:
-  // "Called shots impose a -5 Strike penalty to hit."
+  // Called Shot Modifiers based on 3.00 COMBAT.md & rule-hit-locations-d10.md:
+  // - Head / Cranium: -4 Strike Penalty (Reason save vs Dmg or KO/Stunned; fail by 10+ Unconscious)
+  // - Torso / Center Mass: -2 Strike Penalty (Fortitude save vs Dmg or Winded -2 actions; fail by 10+ Incapacitated)
+  // - Arms / Upper Limbs: -4 Strike Penalty (Reflex save vs Dmg or Disarmed; fail by 10+ Arm Crippled)
+  // - Legs / Lower Chassis: -2 Strike Penalty (Might save vs Dmg or Hobbled 1/2 speed; fail by 10+ Leg Crippled)
   const CALLED_SHOT_CONFIGS: Record<CalledShotLocation, { label: string; hitPenalty: number; effect: string; color: string }> = {
     head: { 
       label: 'Head / Optics', 
-      hitPenalty: -5, 
-      effect: '+100% Crit Dmg, Blind/Brain Death check',
+      hitPenalty: -4, 
+      effect: 'Reason Save vs Dmg (KO/Stunned; fail by 10+ Unconscious)',
       color: 'text-red-400 border-red-500/60 bg-red-950/30'
     },
     torso: { 
       label: 'Torso / Center Mass', 
-      hitPenalty: 0, 
-      effect: 'Standard damage vs full Armor DR',
+      hitPenalty: -2, 
+      effect: 'Fortitude Save vs Dmg (Winded -2 actions; fail by 10+ Incapacitated)',
       color: 'text-amber-300 border-amber-500/60 bg-amber-950/30'
     },
     limbs: { 
-      label: 'Limbs / Actuators', 
-      hitPenalty: -5, 
-      effect: 'Cripples movement (-15ft) & disarm / limb disabled check',
+      label: 'Arms / Actuators', 
+      hitPenalty: -4, 
+      effect: 'Reflex Save vs Dmg (Disarmed; fail by 10+ Arm Crippled)',
+      color: 'text-sky-300 border-sky-500/60 bg-sky-950/30'
+    },
+    arm: { 
+      label: 'Arms / Actuators', 
+      hitPenalty: -4, 
+      effect: 'Reflex Save vs Dmg (Disarmed; fail by 10+ Arm Crippled)',
       color: 'text-sky-300 border-sky-500/60 bg-sky-950/30'
     },
     chassis: { 
-      label: 'Reactor / Chassis', 
-      hitPenalty: -5, 
-      effect: 'Penetrates 50% Armor DR, System Overload DC',
+      label: 'Legs / Locomotion', 
+      hitPenalty: -2, 
+      effect: 'Might Save vs Dmg (Hobbled 1/2 speed; fail by 10+ Leg Crippled)',
+      color: 'text-purple-300 border-purple-500/60 bg-purple-950/30'
+    },
+    leg: { 
+      label: 'Legs / Locomotion', 
+      hitPenalty: -2, 
+      effect: 'Might Save vs Dmg (Hobbled 1/2 speed; fail by 10+ Leg Crippled)',
       color: 'text-purple-300 border-purple-500/60 bg-purple-950/30'
     }
   };
+
+  const DISPLAY_CALLED_SHOT_LOCATIONS: CalledShotLocation[] = ['head', 'torso', 'limbs', 'chassis'];
 
   // Turn / Round Reset
   const handleTurnReset = () => {
@@ -437,7 +504,7 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
       </div>
 
       {/* ===================================================================== */}
-      {/* CALLED SHOTS TRAUMA TARGET MATRIX (-5 STRIKE PENALTY)                 */}
+      {/* CALLED SHOTS TRAUMA TARGET MATRIX (3.10 CANONICAL PENALTIES)          */}
       {/* ===================================================================== */}
       <div className="p-2.5 rounded-lg bg-[#0a0e16] border border-slate-800/90 space-y-2">
         <div className="flex items-center justify-between text-xs">
@@ -445,16 +512,16 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
             <Crosshair size={13} className="text-amber-400" />
             CALLED SHOT MATRIX
           </span>
-          <span className="text-[10px] text-amber-400/90 font-bold">
-            {CALLED_SHOT_CONFIGS[calledShotTarget].hitPenalty === 0 ? 'Normal (+0)' : '-5 Strike Penalty'}
+          <span className="text-[10px] text-amber-400/90 font-bold font-mono">
+            {CALLED_SHOT_CONFIGS[calledShotTarget]?.hitPenalty === 0 ? 'Normal (+0)' : `${CALLED_SHOT_CONFIGS[calledShotTarget]?.hitPenalty} Strike Penalty`}
           </span>
         </div>
 
         {/* 4-Way Location Grid */}
         <div className="grid grid-cols-2 gap-1.5 text-xs">
-          {(Object.keys(CALLED_SHOT_CONFIGS) as CalledShotLocation[]).map((loc) => {
+          {DISPLAY_CALLED_SHOT_LOCATIONS.map((loc) => {
             const cfg = CALLED_SHOT_CONFIGS[loc];
-            const isSelected = calledShotTarget === loc;
+            const isSelected = calledShotTarget === loc || (loc === 'limbs' && calledShotTarget === 'arm') || (loc === 'chassis' && calledShotTarget === 'leg');
             return (
               <button
                 key={loc}

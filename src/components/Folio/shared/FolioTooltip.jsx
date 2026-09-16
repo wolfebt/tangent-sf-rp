@@ -54,46 +54,99 @@ export const FolioTooltip = ({
 
   const calculatePosition = useCallback(() => {
     if (!triggerRef.current) return;
-    const rect = triggerRef.current.getBoundingClientRect();
-    const tooltipWidth = maxWidth;
-    const estimatedHeight = 160; // Approximate height for boundary check
-    const margin = 8;
+    const triggerRect = triggerRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
+    const margin = 12;
+
+    // Get measured tooltip dimensions if rendered, otherwise fallback to reasonable estimates
+    const tooltipRect = tooltipRef.current?.getBoundingClientRect();
+    const tooltipWidth = tooltipRect?.width || Math.min(maxWidth, viewportWidth - margin * 2);
+    const tooltipHeight = tooltipRect?.height || 220;
+
+    const spaceAbove = triggerRect.top - margin;
+    const spaceBelow = viewportHeight - triggerRect.bottom - margin;
+    const spaceLeft = triggerRect.left - margin;
+    const spaceRight = viewportWidth - triggerRect.right - margin;
 
     let targetPos = position;
+
     if (position === 'auto') {
-      // If there's not enough room above, flip to bottom
-      if (rect.top - estimatedHeight < margin) {
+      // Default to top or bottom depending on where it fits best
+      if (spaceAbove >= tooltipHeight) {
+        targetPos = 'top';
+      } else if (spaceBelow >= tooltipHeight) {
         targetPos = 'bottom';
       } else {
-        targetPos = 'top';
+        // Neither has full space: place where there is more vertical room
+        targetPos = spaceAbove >= spaceBelow ? 'top' : 'bottom';
       }
+    } else if (position === 'top' && spaceAbove < tooltipHeight && spaceBelow > spaceAbove) {
+      targetPos = 'bottom';
+    } else if (position === 'bottom' && spaceBelow < tooltipHeight && spaceAbove > spaceBelow) {
+      targetPos = 'top';
+    } else if (position === 'left' && spaceLeft < tooltipWidth && spaceRight > spaceLeft) {
+      targetPos = 'right';
+    } else if (position === 'right' && spaceRight < tooltipWidth && spaceLeft > spaceRight) {
+      targetPos = 'left';
     }
 
     let top = 0;
     let left = 0;
 
     if (targetPos === 'top') {
-      top = rect.top - margin;
-      left = rect.left + rect.width / 2;
+      top = triggerRect.top - margin;
+      left = triggerRect.left + triggerRect.width / 2;
     } else if (targetPos === 'bottom') {
-      top = rect.bottom + margin;
-      left = rect.left + rect.width / 2;
+      top = triggerRect.bottom + margin;
+      left = triggerRect.left + triggerRect.width / 2;
     } else if (targetPos === 'left') {
-      top = rect.top + rect.height / 2;
-      left = rect.left - margin;
+      top = triggerRect.top + triggerRect.height / 2;
+      left = triggerRect.left - margin;
     } else if (targetPos === 'right') {
-      top = rect.top + rect.height / 2;
-      left = rect.right + margin;
+      top = triggerRect.top + triggerRect.height / 2;
+      left = triggerRect.right + margin;
     }
 
-    // Clamp horizontal position so tooltip doesn't bleed offscreen
-    const halfWidth = tooltipWidth / 2;
-    if (left - halfWidth < margin) {
-      left = margin + halfWidth;
-    } else if (left + halfWidth > viewportWidth - margin) {
-      left = viewportWidth - margin - halfWidth;
+    // Horizontal clamping: for top/bottom placements, left is centered (translate(-50%))
+    if (targetPos === 'top' || targetPos === 'bottom') {
+      const halfWidth = tooltipWidth / 2;
+      if (left - halfWidth < margin) {
+        left = margin + halfWidth;
+      } else if (left + halfWidth > viewportWidth - margin) {
+        left = viewportWidth - margin - halfWidth;
+      }
+    } else if (targetPos === 'left') {
+      // translate(-100%, -50%)
+      if (left - tooltipWidth < margin) {
+        left = margin + tooltipWidth;
+      }
+    } else if (targetPos === 'right') {
+      // translate(0%, -50%)
+      if (left + tooltipWidth > viewportWidth - margin) {
+        left = viewportWidth - margin - tooltipWidth;
+      }
+    }
+
+    // Vertical clamping: ensure tooltip does not bleed outside top or bottom
+    if (targetPos === 'top') {
+      // tooltip extends from top - tooltipHeight to top
+      if (top - tooltipHeight < margin) {
+        top = margin + tooltipHeight;
+      }
+    } else if (targetPos === 'bottom') {
+      // tooltip extends from top to top + tooltipHeight
+      if (top + tooltipHeight > viewportHeight - margin) {
+        top = viewportHeight - margin - tooltipHeight;
+      }
+    } else {
+      // left or right: centered vertically (translate(..., -50%))
+      const halfHeight = tooltipHeight / 2;
+      if (top - halfHeight < margin) {
+        top = margin + halfHeight;
+      } else if (top + halfHeight > viewportHeight - margin) {
+        top = viewportHeight - margin - halfHeight;
+      }
     }
 
     setCoords({ top, left, actualPosition: targetPos });
@@ -123,6 +176,13 @@ export const FolioTooltip = ({
       setIsOpen(true);
     }
   };
+
+  // Re-calculate position after tooltip mounts/renders to ensure accurate dimensions
+  useEffect(() => {
+    if (isOpen) {
+      calculatePosition();
+    }
+  }, [isOpen, calculatePosition]);
 
   // Close when clicking outside or pressing Escape
   useEffect(() => {
@@ -163,19 +223,32 @@ export const FolioTooltip = ({
     };
   }, [isOpen, calculatePosition]);
 
-  // Color mapping for badge & accent glow
+  // Color mapping for badge & accent glow (Aligned to Tangent SF RP Schema)
   const getBadgeClasses = (color) => {
     switch (color) {
+      case 'teal':
+        return 'bg-teal-950/90 text-teal-300 border-teal-500/50';
       case 'emerald':
         return 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50';
-      case 'purple':
-        return 'bg-purple-950/90 text-purple-300 border-purple-500/50';
-      case 'amber':
-        return 'bg-amber-950/90 text-amber-300 border-amber-500/50';
-      case 'rose':
-        return 'bg-rose-950/90 text-rose-300 border-rose-500/50';
+      case 'sapphire':
       case 'blue':
         return 'bg-blue-950/90 text-blue-300 border-blue-500/50';
+      case 'rose':
+      case 'red':
+        return 'bg-rose-950/90 text-rose-300 border-rose-500/50';
+      case 'magenta':
+      case 'pink':
+      case 'fuchsia':
+        return 'bg-pink-950/90 text-pink-300 border-pink-500/50';
+      case 'amber':
+      case 'orange':
+        return 'bg-amber-950/90 text-amber-300 border-amber-500/50';
+      case 'gold':
+      case 'yellow':
+        return 'bg-yellow-950/90 text-yellow-300 border-yellow-500/50';
+      case 'purple':
+      case 'electric-purple':
+        return 'bg-purple-950/90 text-purple-300 border-purple-500/50';
       case 'slate':
         return 'bg-slate-800 text-slate-300 border-slate-700';
       case 'cyan':
@@ -235,15 +308,15 @@ export const FolioTooltip = ({
               : 'translate(0%, -50%)',
         maxWidth: `${maxWidth}px`,
         width: 'max-content',
-        zIndex: 99999
+        zIndex: 999999
       }}
-      className="pointer-events-auto select-text font-sans text-left transition-all duration-150 animate-in fade-in zoom-in-95"
+      className="pointer-events-auto select-text font-sans text-left transition-all duration-150 animate-in fade-in zoom-in-95 z-[999999]"
       onMouseEnter={() => {
         if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       }}
       onMouseLeave={hideTooltip}
     >
-      <div className="bg-[#0b111e]/95 backdrop-blur-md border border-cyan-500/50 rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.85),0_0_15px_rgba(6,182,212,0.25)] p-3 space-y-2 text-slate-200">
+      <div className="bg-[#12161f]/98 backdrop-blur-md border border-cyan-500/50 rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.85),0_0_15px_rgba(13,92,99,0.35)] p-3 space-y-2 text-slate-200 max-h-[calc(100vh-2rem)] overflow-y-auto custom-scrollbar">
         
         {/* Header: Title + Badge */}
         <div className="flex items-start justify-between gap-2 border-b border-cyan-900/60 pb-1.5">

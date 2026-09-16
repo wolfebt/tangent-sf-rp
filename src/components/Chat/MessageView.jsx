@@ -23,11 +23,14 @@ import {
   MessageSquare,
   Flame,
   Info,
-  ExternalLink
+  ExternalLink,
+  Mic,
+  MicOff
 } from 'lucide-react';
 import ChatParser from '../UI/ChatParser';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
+import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useGroup } from '../../context/GroupContext';
 import { AudioService } from '../../services/audioService';
 import { GameGroupModal } from '../Groups/GameGroupModal';
@@ -36,9 +39,15 @@ import { ChannelSettingsModal } from './ChannelSettingsModal';
 export const MessageView = ({ messages = [], loading = false, activeChannel }) => {
   const { currentUser } = useAuth();
   const { startDirectMessage, pendingCharacterNotes = [], selectChannel } = useChat();
+  const { 
+    isConnected: isVoiceConnected, 
+    currentRoomName, 
+    connectToVoiceRoom, 
+    disconnectVoiceRoom 
+  } = useVoiceChat();
   const { groups, selectGroup } = useGroup();
   
-  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isDossierOpen, setIsDossierOpen] = useState(false);
   
@@ -50,17 +59,17 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     }
   }, [messages?.length, loading]);
 
-  const isSquadChannel = activeChannel?.type === 'group' || !!activeChannel?.groupId;
+  const isTeamChannel = activeChannel?.type === 'group' || !!activeChannel?.groupId;
   const isPersonaLogChannel = activeChannel?.type === 'persona_log' || activeChannel?.id?.startsWith('persona_log_');
   
-  const linkedSquad = isSquadChannel 
+  const linkedTeam = isTeamChannel 
     ? (groups.find(g => g.id === activeChannel?.groupId || g.channelId === activeChannel?.id) || null)
     : null;
 
-  const handleOpenSquadModal = () => {
-    if (linkedSquad) {
-      selectGroup(linkedSquad.id);
-      setIsSquadModalOpen(true);
+  const handleOpenTeamModal = () => {
+    if (linkedTeam) {
+      selectGroup(linkedTeam.id);
+      setIsTeamModalOpen(true);
     }
   };
 
@@ -172,7 +181,12 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
               {expression && label && <span className="text-slate-500 text-[10px]">({expression})</span>}
             </div>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {(msg.broadcastToVtt || msg.metadata?.broadcastToVtt) && (
+                <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8.5px] font-bold">
+                  VTT SYNCED
+                </span>
+              )}
               {isAdvantage && (
                 <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-bold">
                   ADVANTAGE: I GOT THIS
@@ -219,7 +233,30 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       );
     }
 
-    // 3. System Notification Message
+    // 3. Narrative RPG Action / Emote (/me, /act)
+    if (msg.type === 'narrative_action') {
+      return (
+        <div className="mt-1 p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/30 text-purple-200 text-xs sm:text-sm font-serif italic shadow-inner">
+          <span className="font-sans font-bold text-purple-300 not-italic mr-1.5 font-mono text-xs">
+            * {msg.senderHandle}
+          </span>
+          <ChatParser text={msg.text || ''} />
+        </div>
+      );
+    }
+
+    // 4. OOC Remark (/ooc)
+    if (msg.type === 'ooc_remark') {
+      return (
+        <div className="mt-0.5 text-xs text-slate-400 font-mono italic">
+          <span className="text-slate-500 font-bold not-italic mr-1">(( OOC:</span>
+          <ChatParser text={msg.text || ''} />
+          <span className="text-slate-500 font-bold not-italic ml-1">))</span>
+        </div>
+      );
+    }
+
+    // 5. System Notification Message
     if (msg.type === 'system') {
       return (
         <div className="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 text-[11px] font-mono text-cyan-300 flex items-center gap-2">
@@ -229,7 +266,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       );
     }
 
-    // 4. Standard Text or In-Character Dialogue
+    // 6. Standard Text or In-Character Dialogue
     return (
       <div className={`mt-0.5 text-xs sm:text-sm leading-relaxed ${
         msg.isIC ? 'text-slate-100 font-sans font-medium' : 'text-slate-300 font-sans'
@@ -255,9 +292,9 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   )}
                 </h3>
 
-                {isSquadChannel && (
+                {isTeamChannel && (
                   <span className="px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] rounded font-bold uppercase shrink-0">
-                    SQUAD
+                    TEAM
                   </span>
                 )}
 
@@ -275,14 +312,46 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 
             {/* Quick Actions */}
             <div className="flex items-center gap-2 shrink-0">
-              {linkedSquad && (
+              {linkedTeam && (
                 <button
                   type="button"
-                  onClick={handleOpenSquadModal}
+                  onClick={handleOpenTeamModal}
                   className="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold transition-all flex items-center gap-1 cursor-pointer"
                 >
                   <Users size={12} />
-                  <span className="hidden sm:inline">SQUAD HUB</span>
+                  <span className="hidden sm:inline">TEAM HUB</span>
+                </button>
+              )}
+
+              {/* Live Voice Comms Action Button */}
+              {!isPersonaLogChannel && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const targetRoom = `tangent_freq_${activeChannel.id}`;
+                    if (isVoiceConnected && currentRoomName === targetRoom) {
+                      disconnectVoiceRoom();
+                    } else {
+                      connectToVoiceRoom(targetRoom, activeChannel.displayName || activeChannel.name);
+                    }
+                  }}
+                  className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
+                    isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
+                      ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.4)] animate-pulse'
+                      : 'bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 hover:text-cyan-200 border-cyan-500/40'
+                  }`}
+                  title={
+                    isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
+                      ? 'Leave Voice Frequency'
+                      : 'Connect Live Voice Transmission'
+                  }
+                >
+                  <Radio size={12} className={isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}` ? 'animate-spin text-emerald-400' : 'text-cyan-400'} />
+                  <span>
+                    {isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
+                      ? 'VOICE ACTIVE'
+                      : 'VOICE COMMS'}
+                  </span>
                 </button>
               )}
 
@@ -599,12 +668,12 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
         />
       )}
 
-      {/* Squad Modal */}
-      {isSquadModalOpen && linkedSquad && (
+      {/* Team Modal */}
+      {isTeamModalOpen && linkedTeam && (
         <GameGroupModal
-          isOpen={isSquadModalOpen}
-          onClose={() => setIsSquadModalOpen(false)}
-          group={linkedSquad}
+          isOpen={isTeamModalOpen}
+          onClose={() => setIsTeamModalOpen(false)}
+          group={linkedTeam}
         />
       )}
     </div>

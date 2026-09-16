@@ -2,7 +2,8 @@
 id: movement-fast-descent
 name: 'Climbing: Fast Descent Pace (4x Walk)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Climbing
 multiplier: 4
 speed: 120
@@ -19,7 +20,8 @@ costs:
 ---
 # Climbing: Fast Descent Pace (4x Walk)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Climbing  
 **Cost**: +0 BP  
 

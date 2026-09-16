@@ -2,7 +2,8 @@
 id: movement-climb-improved
 name: Enhanced Climb Speed (+10 ft Climb)
 category: species_movement
-classification: adjuster
+classification: modifier
+movement_tier: modifier
 target_mode: Climbing
 speed_modifier: 10
 is_additive: true
@@ -20,7 +21,8 @@ costs:
 ---
 # Enhanced Climb Speed (+10 ft Climb)
 
-**Category**: Species Movement (ADJUSTER)  
+**Category**: Species Movement (MODIFIER)  
+**Classification**: modifier  
 **Target Mode**: Climbing  
 **Cost**: +1 BP  
 **Speed Modifier**: +10 ft (Additive)  

@@ -158,7 +158,7 @@ export const TopNavBar = ({
   const omniActive = activeDrawer === 'omnicortex' || activeDrawer === 'dbm' || activeDrawer === 'codex';
 
   const foundryDrawers = ['foundry-scenarios', 'foundry-scenarios-workspace', 'foundry-elements', 'foundry-elements-workspace', 'foundry-maps', 'foundry-maps-workspace', 'foundry-aime', 'foundry-aime-workspace'];
-  const commsDrawers = ['game-groups', 'squads', 'comms', 'comm-center'];
+  const commsDrawers = ['game-groups', 'teams', 'squads', 'comms', 'comm-center'];
 
   const foundryAnyActive = foundryDrawers.includes(activeDrawer);
   const commsAnyActive = commsDrawers.includes(activeDrawer);
@@ -225,7 +225,7 @@ export const TopNavBar = ({
           icon={Users}
           badge={inviteCount > 0 ? `${inviteCount} ⚡` : teamCount}
           color="amber"
-          isActive={activeDrawer === 'game-groups' || activeDrawer === 'squads'}
+          isActive={activeDrawer === 'game-groups' || activeDrawer === 'teams' || activeDrawer === 'squads'}
           onClick={() => onSelectDrawer('game-groups')}
         />
         <SubPill

@@ -2,7 +2,8 @@
 id: movement-walk
 name: 'Ground: Walk Pace (1x Base)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Ground
 multiplier: 1
 speed: 30
@@ -19,7 +20,8 @@ costs:
 ---
 # Ground: Walk Pace (1x Base)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Ground  
 **Cost**: +0 BP  
 

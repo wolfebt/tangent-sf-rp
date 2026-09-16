@@ -3,14 +3,17 @@
 
 /* :root variables mapped to unified design tokens */
 :root {
-    --dark-bg: var(--color-bg-surface);
-    --glass-bg: var(--color-bg-glass);
-    --panel-border: var(--color-border-subtle);
+    --dark-bg: var(--color-bg-core);
+    --surface-bg: var(--color-bg-surface);
+    --glass-bg: var(--color-bg-modal);
+    --panel-border: var(--color-border-cyan);
     --light-text: var(--color-text-primary);
     --medium-text: var(--color-text-secondary);
-    --accent-cyan: #083344; /* Dark Cyan accent */
-    --accent-green: #0D5C63; /* Dark Green accent */
-    --accent-red: var(--color-accent-crimson);
+    --accent-cyan: var(--color-accent-cyan); /* Cyan primary accent */
+    --accent-teal: var(--color-accent-teal); /* Teal dark green */
+    --accent-green: var(--color-accent-teal);
+    --accent-amber: var(--color-accent-amber); /* Amber database meta access */
+    --accent-red: var(--color-accent-rose);
     --font-main: var(--font-sans);
     --border-cyan: var(--color-accent-cyan);
 }
@@ -58,7 +61,7 @@ body {
 }
 
 .animated-gradient {
-    background: linear-gradient(90deg, #34EBF7, #083344, #0D5C63); /* Updated Gradient */
+    background: linear-gradient(90deg, #22d3ee, #0d5c63, #f59e0b); /* Updated Gradient */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -66,10 +69,10 @@ body {
     background-size: 200% 200%;
 }
 
-/* New style for the section header text */
+/* Section header text */
 .sci-fi-title-text {
-    color: #22d3ee; /* Bright blue color */
-    text-shadow: 0 0 8px rgba(13, 214, 125, 0.6); /* Fine green glow */
+    color: var(--color-accent-cyan); /* Bright cyan */
+    text-shadow: 0 0 8px var(--color-accent-teal-glow, rgba(13, 92, 99, 0.6));
 }
 
 @keyframes gradient-animation {
@@ -127,19 +130,14 @@ body {
     overflow: hidden;
 }
 
-/* Glass Panel Style - a key part of the sci-fi aesthetic */
+/* Glass Panel Style - Charcoal modal background with Cyan border & Teal shadow */
 .glass-panel {
     background-color: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 0.75rem;
-    /* New gradient border effect */
-    border-width: 1px;
-    border-style: solid;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(to bottom right, var(--accent-green), var(--accent-cyan));
-    /* Add an inner glow for depth */
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(13, 92, 99, 0.2);
+    border: 1px solid var(--border-cyan);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--color-accent-teal-glow, rgba(13, 92, 99, 0.2));
 }
 
 /* Sidebar button styling */

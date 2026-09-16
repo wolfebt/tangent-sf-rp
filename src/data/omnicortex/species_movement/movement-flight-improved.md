@@ -2,7 +2,8 @@
 id: movement-flight-improved
 name: Improved Flight Speed (+10 ft Flight)
 category: species_movement
-classification: adjuster
+classification: modifier
+movement_tier: modifier
 target_mode: Flying
 speed_modifier: 10
 is_additive: true
@@ -20,7 +21,8 @@ costs:
 ---
 # Improved Flight Speed (+10 ft Flight)
 
-**Category**: Species Movement (ADJUSTER)  
+**Category**: Species Movement (MODIFIER)  
+**Classification**: modifier  
 **Target Mode**: Flying  
 **Cost**: +1 BP  
 **Speed Modifier**: +10 ft (Additive)  

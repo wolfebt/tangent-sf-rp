@@ -1,12 +1,13 @@
 /**
  * TANGENT SFF RP: VTT Team & Permissions Management Service
- * Manages squads/teams, Lead Architect & Co-Architect grants, and multi-character bindings per player.
+ * Manages teams, Lead Architect & Co-Architect grants, and multi-character bindings per player.
  */
 
 export const VTT_ROLES = {
   ARCHITECT_LEAD: 'lead_architect', // Full authoritative GM
   CO_ARCHITECT: 'co_architect',       // Assistant GM (moves OpFor, runs hazards, initiative)
-  SQUAD_LEAD: 'squad_lead',           // Player Squad Leader (tactical pings, focus targets)
+  TEAM_LEAD: 'team_lead',             // Player Team Leader (tactical pings, focus targets)
+  SQUAD_LEAD: 'team_lead',           // Backward compatibility alias
   OPERATIVE: 'operative',             // Standard Player with assigned unit(s)
   SPECTATOR: 'spectator'              // Read-only spectator
 };
@@ -14,18 +15,18 @@ export const VTT_ROLES = {
 export const CANONICAL_TEAMS = [
   {
     id: 'team_alpha',
-    name: 'Alpha Strike Squad',
+    name: 'Alpha Strike Team',
     color: '#06b6d4', // Cyan
     badge: '🔷',
-    type: 'player_squad',
+    type: 'player_team',
     description: 'Primary operative strike team.'
   },
   {
     id: 'team_bravo',
-    name: 'Bravo Support Unit',
+    name: 'Bravo Support Team',
     color: '#3b82f6', // Blue
     badge: '🔹',
-    type: 'player_squad',
+    type: 'player_team',
     description: 'Secondary tactical fireteam.'
   },
   {
@@ -135,7 +136,7 @@ export const bindCharactersToUser = (roster, userId, tokenIds) => {
 };
 
 /**
- * Sets user role (e.g. promotes to CO_ARCHITECT or SQUAD_LEAD).
+ * Sets user role (e.g. promotes to CO_ARCHITECT or TEAM_LEAD).
  */
 export const setUserRole = (roster, userId, newRole) => {
   const current = roster.userAssignments[userId] || {

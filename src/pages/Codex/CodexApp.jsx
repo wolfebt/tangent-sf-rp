@@ -31,6 +31,7 @@ import { EconomatrixDashboard } from './EconomatrixDashboard';
 import { TechnologyCodex } from './TechnologyCodex';
 import { ScalingCodex } from './ScalingCodex';
 import { CodexIngestionEngine } from './CodexIngestionEngine';
+import { CodexDatasetDashboard } from './CodexDatasetDashboard';
 import { AudioService } from '../../services/audioService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
@@ -269,7 +270,7 @@ export const CodexApp = () => {
               <Icon size={20} />
             </div>
 
-            {/* Matrix HUD Selector Pill with Quick-Jump Dropdown */}
+            {/* Dedicated Matrix HUD Title */}
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase tracking-wider" style={{ background: `${currentMatrix.color}20`, color: currentMatrix.color }}>
@@ -279,20 +280,10 @@ export const CodexApp = () => {
                 <span className="text-[10px] font-mono text-slate-400 truncate hidden sm:inline">{currentMatrix.category}</span>
               </div>
 
-              <div className="relative inline-flex items-center mt-0.5 group">
-                <select
-                  value={activeMatrixId}
-                  onChange={(e) => handleSelectMatrix(e.target.value)}
-                  className="appearance-none bg-transparent hover:bg-slate-800/60 pr-6 py-0.5 rounded text-sm sm:text-base font-extrabold font-mono tracking-wide text-white uppercase cursor-pointer outline-none transition-colors border-b border-transparent hover:border-amber-400"
-                  title="Click to Quick-Jump to another Matrix"
-                >
-                  {CODEX_MATRICES.map((m) => (
-                    <option key={m.id} value={m.id} className="bg-slate-900 text-slate-200">
-                      {m.name} MATRIX ({m.category})
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown size={13} className="absolute right-0 text-amber-400 pointer-events-none group-hover:translate-y-0.5 transition-transform" />
+              <div className="flex items-center gap-2 mt-0.5">
+                <h1 className="text-sm sm:text-base font-extrabold font-mono tracking-wide text-white uppercase truncate">
+                  {currentMatrix.name} MATRIX
+                </h1>
               </div>
             </div>
           </div>
@@ -307,7 +298,7 @@ export const CodexApp = () => {
                   ? 'bg-amber-600/90 text-white shadow-sm border border-amber-500/60'
                   : 'text-slate-400 hover:text-amber-200 hover:bg-slate-900/60'
               }`}
-              title={`Open ${currentMatrix.name} Cockpit Studio`}
+              title={`Open ${currentMatrix.name} STUDIO`}
             >
               <Sliders size={13} className={activeMode === 'guided' ? 'text-amber-200' : 'text-slate-400'} />
               <span>Studio</span>
@@ -412,305 +403,16 @@ export const CodexApp = () => {
               <CodexIngestionEngine initialDatasetKey={datasetParam || currentMatrix.ingestionKey || 'species'} />
             ) : null
           ) : (
-            <div className="space-y-4">
-              {/* Records Filter & Control HUD */}
-              <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-slate-900/60 backdrop-blur-md border border-slate-800/80 shadow-md">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder={`Filter ${currentMatrix.name.toLowerCase()}...`}
-                      className="pl-8 pr-3 py-1.5 bg-slate-950/90 border border-slate-700/80 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400 font-mono w-44 sm:w-60 shadow-inner"
-                    />
-                    <Search size={12} className="absolute left-2.5 top-2.5 text-slate-500" />
-                  </div>
-
-                  {/* Tech Level (TL) Filter Chips */}
-                  <div className="flex items-center bg-slate-950/90 border border-slate-800 rounded-xl p-0.5 text-[10px] font-mono">
-                    {['ALL', '0', '1', '2', '3', '4', '5'].map((tl) => (
-                      <button
-                        key={tl}
-                        type="button"
-                        onClick={() => {
-                          AudioService.playTerminalBeep(950, 0.02);
-                          setTlFilter(tl);
-                        }}
-                        className={`px-2.5 py-1 rounded-lg transition-all font-bold uppercase cursor-pointer ${
-                          tlFilter === tl
-                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
-                            : 'text-slate-400 hover:text-slate-200'
-                        }`}
-                      >
-                        {tl === 'ALL' ? 'All TL' : `TL${tl}`}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span className="text-[11px] font-mono text-slate-400">
-                    Showing <strong className="text-slate-200">{filteredEntries.length}</strong> of {matrixEntries.length}
-                  </span>
-
-                  {/* Cards vs High-Density Table View Toggle */}
-                  <div className="flex items-center bg-slate-950/90 border border-slate-800 rounded-xl p-0.5">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        AudioService.playTerminalBeep(900, 0.02);
-                        setRecordsViewMode('cards');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                        recordsViewMode === 'cards'
-                          ? 'bg-slate-800 text-amber-300 shadow-sm'
-                          : 'text-slate-500 hover:text-slate-300'
-                      }`}
-                      title="Card Grid View"
-                    >
-                      <LayoutGrid size={14} />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        AudioService.playTerminalBeep(900, 0.02);
-                        setRecordsViewMode('table');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                        recordsViewMode === 'table'
-                          ? 'bg-slate-800 text-cyan-300 shadow-sm'
-                          : 'text-slate-500 hover:text-slate-300'
-                      }`}
-                      title="Tactical Table View"
-                    >
-                      <Table size={14} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Records Content */}
-              {filteredEntries.length === 0 ? (
-                <div className="flex flex-col items-center justify-center text-center p-10 rounded-2xl bg-slate-900/20 border border-dashed border-slate-800 min-h-[320px]">
-                  <div 
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center mb-3 opacity-60"
-                    style={{ background: `${currentMatrix.color}15`, color: currentMatrix.color }}
-                  >
-                    <Icon size={28} />
-                  </div>
-                  <h3 className="text-base font-mono font-bold text-slate-300 uppercase tracking-wide">
-                    {matrixEntries.length === 0
-                      ? `No ${currentMatrix.name} Entries In Omnicortex`
-                      : `No Entries Matching Filter (TL ${tlFilter})`}
-                  </h3>
-                  <p className="text-xs text-slate-400 max-w-md mt-1 mb-5 font-mono">
-                    {matrixEntries.length === 0
-                      ? currentMatrix.description
-                      : 'Try selecting All TL or clearing your search filter.'}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-3">
-                    {matrixEntries.length > 0 && tlFilter !== 'ALL' && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setTlFilter('ALL');
-                          setSearchTerm('');
-                        }}
-                        className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold uppercase transition-all"
-                      >
-                        Clear Filters
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={handleCreateNew}
-                      className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer"
-                    >
-                      <Plus size={14} />
-                      <span>New Blueprint</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsAiModalOpen(true)}
-                      className="px-4 py-2 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer"
-                    >
-                      <Cpu size={14} />
-                      <span>Synthesize with BASTION</span>
-                    </button>
-                  </div>
-                </div>
-              ) : recordsViewMode === 'table' ? (
-                /* High-Density Tactical Table View */
-                <div className="rounded-2xl border border-slate-800/80 bg-slate-900/40 backdrop-blur-md overflow-hidden shadow-lg">
-                  <table className="w-full text-left font-mono text-xs border-collapse">
-                    <thead>
-                      <tr className="bg-slate-950/80 text-slate-400 border-b border-slate-800 text-[10px] uppercase tracking-wider">
-                        <th className="py-2.5 px-4 font-bold">Designation / Title</th>
-                        <th className="py-2.5 px-2 text-center w-16">TL</th>
-                        <th className="py-2.5 px-2 text-center w-16">ML</th>
-                        <th className="py-2.5 px-3 text-right w-28">Value (Cr)</th>
-                        <th className="py-2.5 px-3 w-36">Category / Type</th>
-                        <th className="py-2.5 px-4">Summary / Mechanics</th>
-                        <th className="py-2.5 px-4 text-right w-28">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-800/50 text-slate-300">
-                      {filteredEntries.map((item) => {
-                        const itemName = item.name || item.title || 'Untitled';
-                        const tl = item.tl ?? item.tech_level ?? 0;
-                        const ml = item.ml ?? item.meta_level ?? 0;
-                        const cr = item._computed?.credit_value || item.cost || item.price || 0;
-
-                        return (
-                          <tr
-                            key={item.id}
-                            onClick={() => handleEdit(item)}
-                            className="hover:bg-slate-800/50 transition-colors cursor-pointer group"
-                          >
-                            <td className="py-2 px-4 font-bold text-slate-200 group-hover:text-amber-300 transition-colors">
-                              {itemName}
-                            </td>
-                            <td className="py-2 px-2 text-center">
-                              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-800 border border-slate-700 text-cyan-300">
-                                TL{tl}
-                              </span>
-                            </td>
-                            <td className="py-2 px-2 text-center">
-                              {ml > 0 ? (
-                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-950 border border-purple-800 text-purple-300">
-                                  ML{ml}
-                                </span>
-                              ) : (
-                                <span className="text-slate-600 text-[10px]">—</span>
-                              )}
-                            </td>
-                            <td className="py-2 px-3 text-right font-bold text-amber-300">
-                              {cr ? `${Number(cr).toLocaleString()} Cr` : '—'}
-                            </td>
-                            <td className="py-2 px-3 text-[11px] text-slate-400 truncate max-w-[140px]">
-                              {item.category || item.type || currentMatrix.name}
-                            </td>
-                            <td className="py-2 px-4 text-[11px] text-slate-400 line-clamp-1">
-                              {item.description || item.fields?.summary || item.mechanic || '—'}
-                            </td>
-                            <td className="py-2 px-4 text-right">
-                              <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
-                                <button
-                                  type="button"
-                                  onClick={() => handleEdit(item)}
-                                  className="p-1 rounded text-slate-400 hover:text-amber-300 hover:bg-slate-700/60 transition-colors"
-                                  title="Open in Cockpit Studio"
-                                >
-                                  <Edit3 size={13} />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={(e) => handleDuplicate(item, e)}
-                                  className="p-1 rounded text-slate-400 hover:text-cyan-300 hover:bg-slate-700/60 transition-colors"
-                                  title="Duplicate / Clone Blueprint"
-                                >
-                                  <Copy size={13} />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={(e) => handleDelete(item, e)}
-                                  className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
-                                  title="Delete Blueprint"
-                                >
-                                  <Trash2 size={13} />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                /* Cards Grid View */
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-max">
-                  {filteredEntries.map((item) => {
-                    const itemName = item.name || item.title || 'Untitled';
-                    const tl = item.tl ?? item.tech_level ?? 0;
-                    const ml = item.ml ?? item.meta_level ?? 0;
-
-                    return (
-                      <div
-                        key={item.id}
-                        onClick={() => handleEdit(item)}
-                        className="bg-slate-900/50 backdrop-blur-md border border-slate-800 hover:border-amber-500/50 rounded-2xl p-4 flex flex-col justify-between gap-3 group cursor-pointer hover:bg-slate-800/60 hover:shadow-[0_8px_25px_rgba(245,158,11,0.12)] transition-all transform hover:-translate-y-0.5"
-                      >
-                        <div>
-                          <div className="flex items-start justify-between gap-2 mb-1.5">
-                            <h3 className="font-mono font-bold text-sm text-slate-200 group-hover:text-amber-300 transition-colors line-clamp-1">
-                              {itemName}
-                            </h3>
-                            <div className="flex items-center gap-1 shrink-0">
-                              {item._computed?.credit_value ? (
-                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 font-bold border border-amber-500/40">
-                                  {Number(item._computed.credit_value).toLocaleString()} Cr
-                                </span>
-                              ) : null}
-                              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300 font-bold border border-slate-700">
-                                TL{tl}
-                              </span>
-                              {ml > 0 && (
-                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 font-bold border border-purple-800">
-                                  ML{ml}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
-                            {item.description || item.fields?.summary || item.mechanic || 'No description provided.'}
-                          </p>
-                        </div>
-
-                        {/* Card Footer */}
-                        <div className="flex items-center justify-between pt-3 border-t border-slate-800/80 text-[10px] font-mono text-slate-500 mt-auto">
-                          <span className="truncate max-w-[110px]">
-                            {item.category || item.type || currentMatrix.name}
-                          </span>
-
-                          <div className="flex items-center gap-1">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEdit(item);
-                              }}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-amber-300 hover:bg-slate-700/60 transition-colors"
-                              title="Open in Cockpit Studio"
-                            >
-                              <Edit3 size={13} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => handleDuplicate(item, e)}
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-300 hover:bg-slate-700/60 transition-colors"
-                              title="Duplicate Blueprint"
-                            >
-                              <Copy size={13} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => handleDelete(item, e)}
-                              className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
-                              title="Delete Blueprint"
-                            >
-                              <Trash2 size={13} />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+            <CodexDatasetDashboard
+              matrix={currentMatrix}
+              records={matrixEntries}
+              onOpenBuilder={handleCreateNew}
+              onEditItem={handleEdit}
+              onDuplicateItem={handleDuplicate}
+              onDeleteItem={handleDelete}
+              onOpenAiSynthesizer={() => setIsAiModalOpen(true)}
+              onOpenIngestion={() => setIsIngestionModalOpen(true)}
+            />
           )}
         </div>
 

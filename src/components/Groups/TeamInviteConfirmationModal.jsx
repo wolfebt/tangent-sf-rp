@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { 
   X, 
@@ -64,7 +64,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
       await acceptInvite(invite.id, invite.groupId, chosenPersona);
       onClose();
     } catch (err) {
-      console.error('Failed to accept squad invite:', err);
+      console.error('Failed to accept team invite:', err);
     } finally {
       setSubmitting(false);
     }
@@ -76,7 +76,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
       await declineInvite(invite.id);
       onClose();
     } catch (err) {
-      console.error('Failed to decline squad invite:', err);
+      console.error('Failed to decline team invite:', err);
     } finally {
       setSubmitting(false);
     }
@@ -123,7 +123,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
         {/* Modal Body */}
         <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs font-mono">
           
-          {/* Squad Dossier Card */}
+          {/* Team Dossier Card */}
           <div className="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/30 space-y-2.5">
             <div className="flex items-center justify-between">
               <span className="text-base font-bold text-white tracking-wide font-mono flex items-center gap-1.5">
@@ -152,7 +152,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
             <div className="flex items-center justify-between pt-1 text-[10px] text-slate-500">
               <span className="flex items-center gap-1 text-emerald-400">
                 <Radio size={11} />
-                <span>Tied-in Squad Frequency will unlock upon deployment</span>
+                <span>Tied-in Team Frequency will unlock upon deployment</span>
               </span>
               <span>Invited {new Date(invite.createdAt || Date.now()).toLocaleDateString()}</span>
             </div>
@@ -166,7 +166,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                 <span>DECLINE FIRETEAM COMMISSION?</span>
               </div>
               <p className="text-slate-300 text-[11px] leading-relaxed">
-                Are you sure you want to decline this commission from <strong className="text-white">@{gmHandle}</strong> for squad <strong className="text-white">"{groupName}"</strong>? The invitation will be dismissed from your inbox.
+                Are you sure you want to decline this commission from <strong className="text-white">@{gmHandle}</strong> for team <strong className="text-white">"{groupName}"</strong>? The invitation will be dismissed from your inbox.
               </p>
               <div className="flex items-center justify-end gap-2 pt-1">
                 <button
@@ -202,7 +202,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
               {allPersonas.length === 0 ? (
                 <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center space-y-1">
                   <p className="text-slate-400 text-xs">No saved character sheets found in Folio.</p>
-                  <p className="text-[10px] text-slate-500">You will join this squad as an Observer / Spectator.</p>
+                  <p className="text-[10px] text-slate-500">You will join this team as an Observer / Spectator.</p>
                 </div>
               ) : (
                 <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
@@ -309,7 +309,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                   className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-40 text-white text-xs font-mono font-bold transition-all flex items-center gap-1.5 shadow-[0_0_20px_rgba(16,185,129,0.3)] cursor-pointer"
                 >
                   <Check size={14} />
-                  <span>{submitting ? 'DEPLOYING...' : isFull ? 'SQUAD CAPACITY FULL' : 'CONFIRM & DEPLOY TO SQUAD'}</span>
+                  <span>{submitting ? 'DEPLOYING...' : isFull ? 'TEAM CAPACITY FULL' : 'CONFIRM & DEPLOY TO TEAM'}</span>
                 </button>
               </div>
             </>

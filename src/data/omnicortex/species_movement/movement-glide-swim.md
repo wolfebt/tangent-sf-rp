@@ -2,7 +2,8 @@
 id: movement-glide-swim
 name: 'Swimming: Glide Pace (2x Swim)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Swimming
 multiplier: 2
 speed: 60
@@ -19,7 +20,8 @@ costs:
 ---
 # Swimming: Glide Pace (2x Swim)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Swimming  
 **Cost**: +0 BP  
 

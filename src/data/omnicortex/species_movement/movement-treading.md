@@ -2,7 +2,8 @@
 id: movement-treading
 name: 'Swimming: Treading Pace (0.25x Swim)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Swimming
 multiplier: 0.25
 speed: 7.5
@@ -19,7 +20,8 @@ costs:
 ---
 # Swimming: Treading Pace (0.25x Swim)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Swimming  
 **Cost**: +0 BP  
 

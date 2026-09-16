@@ -281,7 +281,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                       <span>Operative Identity</span>
                     </h4>
                     <p className="text-[11px] text-slate-400">
-                      Configure your public callsign and shared transmission details across squads and sessions.
+                      Configure your public callsign and shared transmission details across teams and sessions.
                     </p>
                   </div>
 
@@ -315,7 +315,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                       className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-white p-2.5 rounded-xl text-xs font-mono outline-none transition-colors"
                     />
                     <p className="text-[10px] text-slate-400 italic">
-                      Optional external comms handles visible to your party members and squad commanders.
+                      Optional external comms handles visible to your party members and team commanders.
                     </p>
                   </div>
 

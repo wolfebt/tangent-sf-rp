@@ -8,6 +8,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { GridType, GridScaleTier } from '../../../engine/index';
 
 export type CatalogCategory = 
   | 'story' 
@@ -23,13 +24,12 @@ export type CockpitTab =
   | 'vitals' 
   | 'actions' 
   | 'mecha' 
-  | 'inventory' 
-  | 'notes' 
-  | 'inspector' 
-  | 'multiselect'
-  | 'aime';
+  | 'bastion' 
+  | 'inspector'
+  | 'aime' 
+  | 'notes';
 
-export type UserVttRole = 'player' | 'gm';
+export type UserVttRole = 'player' | 'gm' | 'operative' | 'architect' | 'spectator';
 
 export interface VttLayoutPreferences {
   isLeftCollapsed: boolean;
@@ -41,28 +41,28 @@ export interface VttLayoutPreferences {
   userRole: UserVttRole;
 }
 
-const STORAGE_KEY = 'tangent_vtt_layout_prefs';
+const STORAGE_KEY = 'tangent_vtt_layout_prefs_v2';
 
 const DEFAULT_PREFS: VttLayoutPreferences = {
   isLeftCollapsed: false,
   isRightCollapsed: false,
-  leftWidth: 300,
-  rightWidth: 360,
-  activeCategory: 'scenes',
-  activeCockpitTab: 'vitals',
-  userRole: 'gm',
+  leftWidth: 320,
+  rightWidth: 380,
+  activeCategory: 'armory',
+  activeCockpitTab: 'inspector',
+  userRole: 'architect',
 };
 
 function loadStoredPrefs(): VttLayoutPreferences {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      return { ...DEFAULT_PREFS, ...JSON.parse(raw) };
-    }
+    if (!raw) return DEFAULT_PREFS;
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_PREFS, ...parsed };
   } catch (e) {
-    console.warn('[uiLayoutStore] Failed to load layout preferences:', e);
+    console.warn('[uiLayoutStore] Failed to load stored layout preferences:', e);
+    return DEFAULT_PREFS;
   }
-  return DEFAULT_PREFS;
 }
 
 function savePrefs(prefs: Partial<VttLayoutPreferences>) {
@@ -78,6 +78,33 @@ export interface UILayoutState extends VttLayoutPreferences {
   isZenMode: boolean;
   leftPopoutOpen: boolean;
   rightPopoutOpen: boolean;
+
+  // Tactical Stage Viewport Controls
+  isGridVisible: boolean;
+  gridSnap: boolean;
+  gridType: GridType;
+  scaleTier: GridScaleTier;
+  isDynamicLightingEnabled: boolean;
+  isMultiplayerSimActive: boolean;
+
+  // Tactical Token Selection
+  selectedTokenId: string | null;
+  targetTokenId: string | null;
+
+  // Architect Cartography State
+  activeArchitectTool: 'select' | 'wall' | 'terrain' | 'fill' | 'light' | 'pencil' | 'text' | 'eraser' | 'object' | 'hazard' | 'token' | 'ruler';
+  selectedWallType: string;
+  doorLockDc: number;
+  selectedTerrain: string;
+  terrainBrushWidth: number;
+  selectedObjectType: string;
+  selectedLightColor: string;
+  selectedLightRadius: number;
+  selectedLightAnimation: string;
+  pencilColor: string;
+  pencilWidth: number;
+  rulerAvailableAp: number;
+  activeLeftTab: 'cockpit' | 'catalog';
 
   // Actions
   toggleLeftCollapse: () => void;
@@ -95,6 +122,36 @@ export interface UILayoutState extends VttLayoutPreferences {
   setUserRole: (role: UserVttRole) => void;
   setLeftPopoutOpen: (open: boolean) => void;
   setRightPopoutOpen: (open: boolean) => void;
+
+  // Tactical Actions
+  toggleGridVisible: () => void;
+  setGridVisible: (visible: boolean) => void;
+  toggleGridSnap: () => void;
+  setGridSnap: (snap: boolean) => void;
+  setGridType: (type: GridType) => void;
+  setScaleTier: (tier: GridScaleTier) => void;
+  toggleDynamicLighting: () => void;
+  setDynamicLightingEnabled: (enabled: boolean) => void;
+  toggleMultiplayerSim: () => void;
+  setMultiplayerSimActive: (active: boolean) => void;
+  setSelectedTokenId: (id: string | null) => void;
+  setTargetTokenId: (id: string | null) => void;
+
+  // Cartography Tool Actions
+  setActiveArchitectTool: (tool: 'select' | 'wall' | 'terrain' | 'fill' | 'light' | 'pencil' | 'text' | 'eraser' | 'object' | 'hazard' | 'token' | 'ruler') => void;
+  setSelectedWallType: (type: string) => void;
+  setDoorLockDc: (dc: number) => void;
+  setSelectedTerrain: (terrain: string) => void;
+  setTerrainBrushWidth: (width: number) => void;
+  setSelectedObjectType: (type: string) => void;
+  setSelectedLightColor: (color: string) => void;
+  setSelectedLightRadius: (radius: number) => void;
+  setSelectedLightAnimation: (anim: string) => void;
+  setPencilColor: (color: string) => void;
+  setPencilWidth: (width: number) => void;
+  setRulerAvailableAp: (ap: number) => void;
+  setActiveLeftTab: (tab: 'cockpit' | 'catalog') => void;
+
   resetLayout: () => void;
 }
 
@@ -107,6 +164,113 @@ export const useUILayoutStore = create<UILayoutState>()(
       isZenMode: false,
       leftPopoutOpen: false,
       rightPopoutOpen: false,
+
+      // Tactical Stage Viewport Defaults
+      isGridVisible: true,
+      gridSnap: true,
+      gridType: GridType.Square,
+      scaleTier: GridScaleTier.Encounter,
+      isDynamicLightingEnabled: true,
+      isMultiplayerSimActive: false,
+
+      // Tactical Viewport Actions
+      toggleGridVisible: () => set((draft) => {
+        draft.isGridVisible = !draft.isGridVisible;
+      }),
+      setGridVisible: (visible: boolean) => set((draft) => {
+        draft.isGridVisible = visible;
+      }),
+      toggleGridSnap: () => set((draft) => {
+        draft.gridSnap = !draft.gridSnap;
+      }),
+      setGridSnap: (snap: boolean) => set((draft) => {
+        draft.gridSnap = snap;
+      }),
+      setGridType: (type: GridType) => set((draft) => {
+        draft.gridType = type;
+      }),
+      setScaleTier: (tier: GridScaleTier) => set((draft) => {
+        draft.scaleTier = tier;
+      }),
+      // Tactical Token Selection Defaults
+      selectedTokenId: 'op-jax',
+      targetTokenId: 'mech-vanguard',
+
+      // Architect Cartography Defaults
+      activeArchitectTool: 'select',
+      selectedWallType: 'solid',
+      doorLockDc: 14,
+      selectedTerrain: 'grassland',
+      terrainBrushWidth: 30,
+      selectedObjectType: 'crate_heavy',
+      selectedLightColor: '#f59e0b',
+      selectedLightRadius: 180,
+      selectedLightAnimation: 'flicker',
+      pencilColor: '#22d3ee',
+      pencilWidth: 4,
+      rulerAvailableAp: 4,
+      activeLeftTab: 'cockpit',
+
+      // Tactical Actions
+      setSelectedTokenId: (id) => set((draft) => {
+        draft.selectedTokenId = id;
+      }),
+      setTargetTokenId: (id) => set((draft) => {
+        draft.targetTokenId = id;
+      }),
+
+      // Cartography Tool Actions
+      setActiveArchitectTool: (tool) => set((draft) => {
+        draft.activeArchitectTool = tool;
+      }),
+      setSelectedWallType: (type) => set((draft) => {
+        draft.selectedWallType = type;
+      }),
+      setDoorLockDc: (dc) => set((draft) => {
+        draft.doorLockDc = dc;
+      }),
+      setSelectedTerrain: (terrain) => set((draft) => {
+        draft.selectedTerrain = terrain;
+      }),
+      setTerrainBrushWidth: (width) => set((draft) => {
+        draft.terrainBrushWidth = width;
+      }),
+      setSelectedObjectType: (type) => set((draft) => {
+        draft.selectedObjectType = type;
+      }),
+      setSelectedLightColor: (color) => set((draft) => {
+        draft.selectedLightColor = color;
+      }),
+      setSelectedLightRadius: (radius) => set((draft) => {
+        draft.selectedLightRadius = radius;
+      }),
+      setSelectedLightAnimation: (anim) => set((draft) => {
+        draft.selectedLightAnimation = anim;
+      }),
+      setPencilColor: (color) => set((draft) => {
+        draft.pencilColor = color;
+      }),
+      setPencilWidth: (width) => set((draft) => {
+        draft.pencilWidth = width;
+      }),
+      setRulerAvailableAp: (ap) => set((draft) => {
+        draft.rulerAvailableAp = ap;
+      }),
+      setActiveLeftTab: (tab) => set((draft) => {
+        draft.activeLeftTab = tab;
+      }),
+      toggleDynamicLighting: () => set((draft) => {
+        draft.isDynamicLightingEnabled = !draft.isDynamicLightingEnabled;
+      }),
+      setDynamicLightingEnabled: (enabled: boolean) => set((draft) => {
+        draft.isDynamicLightingEnabled = enabled;
+      }),
+      toggleMultiplayerSim: () => set((draft) => {
+        draft.isMultiplayerSimActive = !draft.isMultiplayerSimActive;
+      }),
+      setMultiplayerSimActive: (active: boolean) => set((draft) => {
+        draft.isMultiplayerSimActive = active;
+      }),
 
       toggleLeftCollapse: () => set((draft) => {
         draft.isLeftCollapsed = !draft.isLeftCollapsed;

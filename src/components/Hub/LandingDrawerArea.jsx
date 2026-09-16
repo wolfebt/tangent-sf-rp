@@ -53,7 +53,7 @@ export const LandingDrawerArea = ({
         {activeDrawer === 'codex' && (
           <CodexDrawer onClose={onCloseDrawer} />
         )}
-        {(activeDrawer === 'game-groups' || activeDrawer === 'squads') && (
+        {(activeDrawer === 'game-groups' || activeDrawer === 'teams' || activeDrawer === 'squads') && (
           <GameGroupsDrawer onClose={onCloseDrawer} />
         )}
         {(activeDrawer === 'comms' || activeDrawer === 'comm-center') && (

@@ -103,11 +103,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const [isFolioMenuOpen, setIsFolioMenuOpen] = useState(false);
   const [isFoundryMenuOpen, setIsFoundryMenuOpen] = useState(false);
   const [isCommsMenuOpen, setIsCommsMenuOpen] = useState(false);
-  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
 
   // Global custom event listeners for Team Management
   useEffect(() => {
-    const handleOpenTeamModal = () => setIsSquadModalOpen(true);
+    const handleOpenTeamModal = () => setIsTeamModalOpen(true);
     window.addEventListener('open-team-management', handleOpenTeamModal);
     window.addEventListener('open-squad-modal', handleOpenTeamModal);
     return () => {
@@ -219,7 +219,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
   return (
     <>
-      <header className="w-full h-[52px] min-h-[52px] bg-[#0d1117]/95 backdrop-blur-md border-b border-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 sm:gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
+      <header className="w-full h-[52px] min-h-[52px] bg-[#12161f]/95 backdrop-blur-md border-b border-cyan-500/30 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 sm:gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
         {/* Left Section: Brand Logo & Primary Navigation Group */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <NavLink 
@@ -233,148 +233,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             <span className="text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Role Playing Engine</span>
           </NavLink>
 
-          {/* Primary Navigation Suite (Positioned on the Left, Sleek & Narrow with Full Labels) */}
-          <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0 flex-nowrap">
-            {/* 1. FOLIO Button */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1150, 0.03);
-                navigate('/folio');
-                window.dispatchEvent(new CustomEvent('open-folio-catalog'));
-              }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
-                isFolio
-                  ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200'
-                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-200 hover:text-cyan-300'
-              }`}
-              title="Open Persona Folio Operative Catalog (/folio)"
-            >
-              <div className={`p-0.5 rounded border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
-                <Users size={12} className="sm:w-3.5 sm:h-3.5" />
-              </div>
-              <span>FOLIO</span>
-              {isFolio && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse inline-block shadow-[0_0_6px_rgba(34,211,238,0.8)]" />}
-            </button>
-
-            {/* 2. COMPENDIUM Button (Separated Wiki Window) */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1150, 0.03);
-                navigate('/compendium');
-              }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
-                isCompendium
-                  ? 'bg-sky-950/70 border-sky-400 text-sky-200'
-                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-sky-400 text-slate-200 hover:text-sky-300'
-              }`}
-              title="Open Compendium Lore & Rules Wiki (/compendium)"
-            >
-              <div className={`p-0.5 rounded border shrink-0 ${isCompendium ? 'bg-sky-500/25 border-sky-400/60 text-sky-300' : 'bg-sky-500/10 border-sky-500/30 text-sky-400'}`}>
-                <BookOpen size={12} className="sm:w-3.5 sm:h-3.5" />
-              </div>
-              <span>COMPENDIUM</span>
-              {isCompendium && <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse inline-block shadow-[0_0_6px_rgba(56,189,248,0.8)]" />}
-            </button>
-
-            {/* 3. OMNICORTEX Button */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1150, 0.03);
-                navigate('/dbm');
-              }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
-                isDBM
-                  ? 'bg-emerald-950/70 border-emerald-400 text-emerald-200'
-                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400 text-slate-200 hover:text-emerald-300'
-              }`}
-              title="Open Omnicortex Master Database (/dbm)"
-            >
-              <div className={`p-0.5 rounded border shrink-0 ${isDBM ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
-                <Database size={12} className="sm:w-3.5 sm:h-3.5" />
-              </div>
-              <span>OMNICORTEX</span>
-              {isDBM && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]" />}
-            </button>
-
-            {/* 4. CODEX Button (Guided Asset Builders & Rules Matrices) */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1150, 0.03);
-                navigate('/codex');
-              }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
-                isCodex
-                  ? 'bg-amber-950/70 border-amber-400 text-amber-200'
-                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
-              }`}
-              title="Open Rules Codex & Guided Asset Builders (/codex)"
-            >
-              <div className={`p-0.5 rounded border shrink-0 ${isCodex ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
-                <Boxes size={12} className="sm:w-3.5 sm:h-3.5" />
-              </div>
-              <span>CODEX</span>
-              {isCodex && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_6px_rgba(245,158,11,0.8)]" />}
-            </button>
-
-            {/* 4. ADE STUDIO Button (Opens to Catalog/Dashboard) */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1150, 0.03);
-                navigate('/foundry');
-              }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
-                isFoundry
-                  ? 'bg-purple-950/70 border-purple-400 text-purple-200'
-                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400 text-slate-200 hover:text-purple-300'
-              }`}
-              title="Open ADE Studio Catalog & VTT Dashboard (/foundry)"
-            >
-              <div className={`p-0.5 rounded border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
-                <Layers size={12} className="sm:w-3.5 sm:h-3.5" />
-              </div>
-              <span>ADE STUDIO</span>
-              {isFoundry && <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse inline-block shadow-[0_0_6px_rgba(168,85,247,0.8)]" />}
-            </button>
-
-            {/* 5. COMMS Button */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1150, 0.03);
-                if (onToggleCommsDock) {
-                  onToggleCommsDock();
-                } else {
-                  navigate('/comms');
-                }
-              }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none relative whitespace-nowrap cyan-shadow-thin ${
-                isComms || isCommsDockOpen
-                  ? 'bg-amber-950/70 border-amber-400 text-amber-200'
-                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
-              }`}
-              title={
-                pendingCharacterNotes && pendingCharacterNotes.length > 0
-                  ? `CommLink Relay: ${pendingCharacterNotes.map(n => `${n.name} (${n.unread})`).join(', ')}`
-                  : "Open CommLink Relay Matrix Modal (Alt+C)"
-              }
-            >
-              <div className={`p-0.5 rounded border shrink-0 ${isComms || isCommsDockOpen ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
-                <Radio size={12} className="sm:w-3.5 sm:h-3.5" />
-              </div>
-              <span>COMMS</span>
-              {totalUnreadCount > 0 && (
-                <span className="w-3.5 h-3.5 bg-amber-500 text-black text-[8.5px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse" title={`${totalUnreadCount} pending transmission(s)`}>
-                  {totalUnreadCount}
-                </span>
-              )}
-              {(isComms || isCommsDockOpen) && totalUnreadCount === 0 && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_6px_rgba(245,158,11,0.8)]" />}
-            </button>
-          </nav>
         </div>
 
         {/* Center Section: Dynamic Contextual Header Options for Active Page */}
@@ -719,8 +577,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 </div>
               )}
 
-              {/* Active Category Indicator */}
-              <div className="px-2 py-0.5 bg-emerald-950/60 border border-emerald-500/40 rounded-md text-[11px] font-mono text-emerald-300 font-bold uppercase hidden sm:block cyan-shadow-thin">
+              {/* Active Category Indicator (Amber Database Access) */}
+              <div className="px-2 py-0.5 bg-amber-950/60 border border-amber-500/50 rounded-md text-[11px] font-mono text-amber-300 font-bold uppercase hidden sm:block cyan-shadow-thin">
                 {activeCategory ? activeCategory.toUpperCase() : 'DATABASE'}
               </div>
 
@@ -729,16 +587,16 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <button
                   type="button"
                   onClick={() => setIsDbmMenuOpen(prev => !prev)}
-                  className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-emerald-500/40 text-emerald-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin"
+                  className="px-2 sm:px-2.5 py-1 bg-[#12161f] hover:bg-slate-800 border border-amber-500/50 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin"
                   title="System Tools & Actions Menu"
                 >
                   <span>⚙️</span>
                   <span className="hidden md:inline">Tools</span>
-                  <span className="text-[10px] text-emerald-400">▼</span>
+                  <span className="text-[10px] text-amber-400">▼</span>
                 </button>
 
                 {isDbmMenuOpen && (
-                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-[#161b22] border border-emerald-500/40 rounded-lg shadow-2xl p-2 z-50 flex flex-col gap-1.5 backdrop-blur-md">
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-[#12161f] border border-cyan-500/40 rounded-lg shadow-2xl p-2 z-50 flex flex-col gap-1.5 backdrop-blur-md">
                     <div className="px-2 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 mb-0.5">
                       Omnicortex Options
                     </div>
@@ -966,24 +824,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 type="button"
                 onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/story'); }}
                 className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
-                  location.pathname.includes('/story') ? 'bg-purple-600 text-white' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
+                  (location.pathname.includes('/story') || location.pathname.includes('/elements') || location.pathname.includes('/ade'))
+                    ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(168,85,247,0.4)]'
+                    : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
                 }`}
-                title="Story Weaver Arc & Scenarios"
+                title="Story Foundry ADE (Story Weaver, Elements Forge, OSR Spread & Interactive Play)"
               >
                 <span>📖</span>
-                <span className="hidden md:inline">Stories</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/elements'); }}
-                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
-                  location.pathname.includes('/elements') ? 'bg-purple-600 text-white' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
-                }`}
-                title="Element Forge Blueprints"
-              >
-                <span>🔨</span>
-                <span className="hidden md:inline">Elements</span>
+                <span className="hidden md:inline">Story Foundry</span>
               </button>
 
               <button
@@ -1040,13 +888,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1200, 0.03);
-                  setIsSquadModalOpen(true);
+                  setIsTeamModalOpen(true);
                 }}
                 className="px-2 sm:px-2.5 py-1 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
-                title="Team & Squad Management"
+                title="Team Management"
               >
                 <Users size={13} />
-                <span className="hidden sm:inline">Squads</span>
+                <span className="hidden sm:inline">Teams</span>
               </button>
 
               <button
@@ -1105,7 +953,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   AudioService.playTerminalBeep(1000, 0.02);
                   setIsSettingsOpen(true);
                 }}
-                className="flex items-center gap-1.5 sm:gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono transition-colors cursor-pointer group cyan-shadow-thin"
+                className="flex items-center gap-1.5 sm:gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#161922] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group cyan-shadow-thin"
                 title={
                   cloudSaveStatus === 'saving'
                     ? 'Cloud Sync: Saving to Cloud...'
@@ -1355,12 +1203,12 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       type="button"
                       onClick={() => {
                         setIsMobileNavOpen(false);
-                        setIsSquadModalOpen(true);
+                        setIsTeamModalOpen(true);
                       }}
                       className="p-2 bg-slate-900/60 hover:bg-emerald-950/40 border border-slate-800 hover:border-emerald-500/40 rounded-lg text-left transition-colors cursor-pointer"
                     >
                       <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <Users size={13} className="text-emerald-400" /> Team &amp; Squads
+                        <Users size={13} className="text-emerald-400" /> Teams
                       </div>
                     </button>
                     <button
@@ -1453,10 +1301,10 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         initialTab={guideInitialTab}
       />
 
-      {/* Global Team & Squad Management Modal */}
+      {/* Global Team Management Modal */}
       <GameGroupModal
-        isOpen={isSquadModalOpen}
-        onClose={() => setIsSquadModalOpen(false)}
+        isOpen={isTeamModalOpen}
+        onClose={() => setIsTeamModalOpen(false)}
         initialTab="roster"
       />
     </>

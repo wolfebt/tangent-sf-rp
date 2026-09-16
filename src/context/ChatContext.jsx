@@ -3,6 +3,13 @@ import { useAuth } from './AuthContext';
 import { useFolio } from './FolioContext';
 import { ChatService, DEFAULT_PUBLIC_CHANNELS } from '../services/chatService';
 import { AudioService } from '../services/audioService';
+import { rollDice } from '../services/diceService';
+import { 
+  getFolioTombstones, 
+  isFolioPersonaDeleted, 
+  isPersonaEmptyTemplate, 
+  getEffectiveUserHandle 
+} from '../utils/personaValidationUtils';
 
 const ChatContext = createContext();
 
@@ -29,6 +36,8 @@ export const ChatProvider = ({ children }) => {
   const [speakingMode, setSpeakingMode] = useState('OOC'); // 'OOC' | 'IC'
   const [selectedPersona, setSelectedPersona] = useState(null);
   const [directSortMode, setDirectSortMode] = useState('alphabetical'); // 'alphabetical' | 'recent'
+  const [activeNavTab, setActiveNavTab] = useState('matrix'); // 'matrix' | 'roster' | 'teams' | 'vtt' | 'logs' | 'settings'
+  const [broadcastToVtt, setBroadcastToVtt] = useState(false);
 
   // Decoupled persona selection: support ad-hoc operative picking without globally forcing active character
   useEffect(() => {
@@ -41,6 +50,89 @@ export const ChatProvider = ({ children }) => {
   useEffect(() => {
     ChatService.initDefaultChannels();
   }, []);
+
+  // Canonical current user characters derived cleanly from FolioContext
+  const currentUserCharacters = useMemo(() => {
+    const tombstones = getFolioTombstones();
+    const list = [];
+    const seen = new Set();
+    const source = Array.isArray(personaRoster) && personaRoster.length > 0
+      ? personaRoster
+      : (Array.isArray(roster) && roster.length > 0 ? roster : (folioActivePersona ? [folioActivePersona] : []));
+
+    source.forEach(p => {
+      if (!p) return;
+      const pId = p['character-doc-id'] || p.id;
+      const pName = p['char-name'] || p.name;
+      if (pId && pName && !seen.has(pId) && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
+        seen.add(pId);
+        list.push({
+          id: pId,
+          'character-doc-id': pId,
+          name: pName,
+          species: p['char-species'] || p.species || 'Human',
+          role: p['char-concept'] || p.role || p['char-occu'] || 'Specialist',
+          avatar: p.avatar || null,
+          ownerUid: currentUser?.uid,
+          ownerHandle: userHandle || getEffectiveUserHandle(currentUser),
+          isOnline: true
+        });
+      }
+    });
+
+    return list;
+  }, [personaRoster, roster, folioActivePersona, currentUser, userHandle]);
+
+  // Presence Heartbeat & Window Lifecyle Management
+  useEffect(() => {
+    if (!currentUser) return;
+
+    const currentPersona = selectedPersona || folioActivePersona;
+    const personasSummary = currentUserCharacters.map(c => ({
+      id: c.id,
+      'character-doc-id': c.id,
+      name: c.name,
+      species: c.species,
+      role: c.role,
+      avatar: c.avatar
+    }));
+
+    ChatService.updateUserPresence(currentUser, 'online', {
+      userHandle,
+      activePersona: currentPersona,
+      personasSummary
+    });
+
+    const interval = setInterval(() => {
+      ChatService.updateUserPresence(currentUser, 'online', {
+        userHandle,
+        activePersona: selectedPersona || folioActivePersona,
+        personasSummary
+      });
+    }, 60000);
+
+    const handleVisibilityChange = () => {
+      const isVisible = document.visibilityState === 'visible';
+      ChatService.updateUserPresence(currentUser, isVisible ? 'online' : 'idle', {
+        userHandle,
+        activePersona: selectedPersona || folioActivePersona,
+        personasSummary
+      });
+    };
+
+    const handleBeforeUnload = () => {
+      ChatService.updateUserPresence(currentUser, 'offline');
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [currentUser, userHandle, selectedPersona, folioActivePersona, currentUserCharacters]);
 
   // Subscribe to channels visible to current user
   useEffect(() => {
@@ -60,17 +152,24 @@ export const ChatProvider = ({ children }) => {
     };
   }, [currentUser]);
 
-  // Load user directory for direct messages / invites
+  // Real-time listener for entire network directory and presence
+  useEffect(() => {
+    const unsubscribe = ChatService.subscribeToUsersPresence(currentUser?.uid, (users) => {
+      setUserDirectory(users);
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [currentUser]);
+
+  // Manual refresh fallback
   const refreshUserDirectory = useCallback(async () => {
     if (currentUser) {
       const users = await ChatService.fetchUsersDirectory(currentUser.uid);
       setUserDirectory(users);
     }
   }, [currentUser]);
-
-  useEffect(() => {
-    refreshUserDirectory();
-  }, [refreshUserDirectory]);
 
   // Subscribe to active channel messages
   useEffect(() => {
@@ -196,11 +295,83 @@ export const ChatProvider = ({ children }) => {
     return notes;
   }, [unreadCounts, channels]);
 
+  // Set of character IDs belonging to current user
+  const userPersonaIds = useMemo(() => {
+    const ids = new Set();
+    (personaRoster || []).forEach(p => {
+      const id = p['character-doc-id'] || p.id;
+      if (id) ids.add(id);
+    });
+    (roster || []).forEach(p => {
+      const id = p['character-doc-id'] || p.id;
+      if (id) ids.add(id);
+    });
+    if (selectedPersona) {
+      const id = selectedPersona['character-doc-id'] || selectedPersona.id;
+      if (id) ids.add(id);
+    }
+    return ids;
+  }, [personaRoster, roster, selectedPersona]);
+
+  // Effective Network User Directory reconciling live Firestore directory with local user & tombstone filters
+  const effectiveUserDirectory = useMemo(() => {
+    const list = [];
+    const seenUids = new Set();
+    const tombstones = getFolioTombstones();
+
+    (userDirectory || []).forEach(u => {
+      if (!u || !u.uid) return;
+      seenUids.add(u.uid);
+
+      const isCurrent = currentUser && u.uid === currentUser.uid;
+      const effectiveHandle = isCurrent 
+        ? (userHandle || getEffectiveUserHandle(currentUser))
+        : getEffectiveUserHandle(u);
+
+      // If this is current user, always enforce canonical currentUserCharacters
+      if (isCurrent) {
+        list.push({
+          ...u,
+          userHandle: effectiveHandle,
+          isOnline: true,
+          characters: currentUserCharacters
+        });
+      } else {
+        // Filter other users' characters against tombstones and empty templates
+        const filteredChars = (Array.isArray(u.characters) ? u.characters : []).filter(c => {
+          const cId = c.id || c['character-doc-id'] || c.name;
+          return cId && !isFolioPersonaDeleted(cId, tombstones) && !isPersonaEmptyTemplate(c) && !c.isDeleted;
+        });
+
+        list.push({
+          ...u,
+          userHandle: effectiveHandle,
+          characters: filteredChars
+        });
+      }
+    });
+
+    // Ensure current user is ALWAYS present in the directory even before Firestore syncs
+    if (currentUser && !seenUids.has(currentUser.uid)) {
+      list.unshift({
+        uid: currentUser.uid,
+        email: currentUser.email,
+        displayName: currentUser.displayName || currentUser.email || 'Operator',
+        userHandle: userHandle || getEffectiveUserHandle(currentUser),
+        isOnline: true,
+        characters: currentUserCharacters,
+        lastSeenLocal: new Date().toISOString()
+      });
+    }
+
+    return list;
+  }, [userDirectory, currentUser, userHandle, currentUserCharacters]);
+
   // Flattened list of all discovered separate characters across registered players
   const charactersDirectory = useMemo(() => {
     const list = [];
     const seen = new Set();
-    (userDirectory || []).forEach(u => {
+    effectiveUserDirectory.forEach(u => {
       if (Array.isArray(u.characters)) {
         u.characters.forEach(c => {
           const id = c.id || c['character-doc-id'] || c.name;
@@ -212,11 +383,72 @@ export const ChatProvider = ({ children }) => {
       }
     });
     return list;
-  }, [userDirectory]);
+  }, [effectiveUserDirectory]);
 
-  const groupChannels = useMemo(() => {
-    return channels.filter(c => c.type === 'group' || !!c.groupId || c.id.startsWith('group_') || (Array.isArray(c.characterMembers) && c.characterMembers.length > 0));
-  }, [channels]);
+  // All network personas with owner handles and online status
+  const allNetworkPersonas = useMemo(() => {
+    const list = [];
+    const seen = new Set();
+    effectiveUserDirectory.forEach(u => {
+      const uHandle = u.userHandle || getEffectiveUserHandle(u);
+      if (Array.isArray(u.characters)) {
+        u.characters.forEach(c => {
+          const cId = c.id || c['character-doc-id'] || c.name;
+          if (cId && !seen.has(cId)) {
+            seen.add(cId);
+            list.push({
+              ...c,
+              targetUser: u,
+              ownerHandle: uHandle,
+              isOnline: Boolean(u.isOnline)
+            });
+          }
+        });
+      }
+    });
+    return list;
+  }, [effectiveUserDirectory]);
+
+  // Online / Offline sorted sets (always sorted cleanly by effective user handle)
+  const onlineOperators = useMemo(() => {
+    return effectiveUserDirectory.filter(u => u.isOnline).sort((a, b) => {
+      const nameA = getEffectiveUserHandle(a).toLowerCase();
+      const nameB = getEffectiveUserHandle(b).toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+  }, [effectiveUserDirectory]);
+
+  const offlineOperators = useMemo(() => {
+    return effectiveUserDirectory.filter(u => !u.isOnline).sort((a, b) => {
+      const nameA = getEffectiveUserHandle(a).toLowerCase();
+      const nameB = getEffectiveUserHandle(b).toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+  }, [effectiveUserDirectory]);
+
+  const onlinePersonas = useMemo(() => {
+    return allNetworkPersonas.filter(p => p.isOnline).sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  }, [allNetworkPersonas]);
+
+  const offlinePersonas = useMemo(() => {
+    return allNetworkPersonas.filter(p => !p.isOnline).sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  }, [allNetworkPersonas]);
+
+  // Team Channels (for teams the operator or any of their personas is enrolled in)
+  const teamChannels = useMemo(() => {
+    return channels.filter(c => {
+      const isGroupType = c.type === 'group' || !!c.groupId || c.id.startsWith('group_') || (Array.isArray(c.characterMembers) && c.characterMembers.length > 0);
+      if (!isGroupType) return false;
+      if (!currentUser) return c.isPublic;
+      const isUserMember = Array.isArray(c.members) && c.members.includes(currentUser.uid);
+      const isPersonaMember = Array.isArray(c.characterMembers) && c.characterMembers.some(cm => 
+        userPersonaIds.has(cm.id || cm['character-doc-id']) || cm.ownerUid === currentUser.uid
+      );
+      return isUserMember || isPersonaMember || c.createdById === currentUser.uid;
+    });
+  }, [channels, currentUser, userPersonaIds]);
+
+  const groupChannels = teamChannels;
 
   const personaLogChannels = useMemo(() => {
     return channels.filter(c => c.type === 'persona_log' || c.id.startsWith('persona_log_'));
@@ -255,38 +487,6 @@ export const ChatProvider = ({ children }) => {
     });
   }, []);
 
-  // Send a regular or In-Character text transmission
-  const sendMessage = useCallback(async (text, customPayload = {}) => {
-    if (!text && !customPayload.metadata && !customPayload.summary) return;
-    if (!activeChannelId) return;
-
-    const senderHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Anonymous Operator';
-    const isIC = speakingMode === 'IC' && (customPayload.persona || selectedPersona);
-    const activeP = customPayload.persona || selectedPersona;
-
-    const payload = {
-      text: text || '',
-      type: isIC ? 'ic_transmission' : 'text',
-      senderId: currentUser?.uid || 'anon',
-      senderHandle: isIC ? (activeP.name || activeP['char-name'] || activeP.identity?.name || senderHandle) : senderHandle,
-      isIC: Boolean(isIC),
-      personaDetails: isIC ? {
-        id: activeP['character-doc-id'] || activeP.id,
-        name: activeP['char-name'] || activeP.name || activeP.identity?.name || 'Operative',
-        species: activeP['char-species'] || activeP.species || activeP.identity?.species || 'Human',
-        role: activeP['char-concept'] || activeP.role || activeP['char-occu'] || activeP.identity?.role || 'Specialist',
-        health: activeP.health || 30,
-        currentHealth: activeP.current_health ?? (activeP.current_hp ?? 30),
-        vitality: activeP.vitality || 30,
-        currentVitality: activeP.current_vitality ?? 30
-      } : null,
-      ...customPayload
-    };
-
-    AudioService.playTerminalBeep(1450, 0.02);
-    await ChatService.sendMessage(activeChannelId, payload);
-  }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona]);
-
   // Send a dice roll transmission to the active or specified channel
   const sendDiceRoll = useCallback(async (diceRollData, targetChannelId = null) => {
     const channelId = targetChannelId || activeChannelId;
@@ -304,6 +504,7 @@ export const ChatProvider = ({ children }) => {
       senderId: currentUser?.uid || 'anon',
       senderHandle: displayName,
       isIC: isIC,
+      broadcastToVtt: Boolean(broadcastToVtt),
       personaDetails: isIC ? {
         id: selectedPersona['character-doc-id'] || selectedPersona.id,
         name: selectedPersona['char-name'] || selectedPersona.name || 'Operative',
@@ -316,13 +517,75 @@ export const ChatProvider = ({ children }) => {
         expression: diceRollData.expression || 'Custom Roll',
         rolls: diceRollData.rolls || [],
         isCritical: diceRollData.isCritical || false,
-        isFumble: diceRollData.isFumble || false
+        isFumble: diceRollData.isFumble || false,
+        broadcastToVtt: Boolean(broadcastToVtt)
       }
     };
 
     AudioService.playTerminalBeep(1550, 0.04);
     await ChatService.sendMessage(channelId, payload);
-  }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona]);
+  }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona, broadcastToVtt]);
+
+  // Send a regular or In-Character text transmission with RPG command support
+  const sendMessage = useCallback(async (text, customPayload = {}) => {
+    if (!text && !customPayload.metadata && !customPayload.summary) return;
+    if (!activeChannelId) return;
+
+    const trimmed = (text || '').trim();
+
+    // 1. RPG command: /roll or /r
+    if (trimmed.startsWith('/roll ') || trimmed.startsWith('/r ') || trimmed === '/roll' || trimmed === '/r') {
+      const parts = trimmed.split(' ');
+      const expr = parts[1] || '2d10';
+      const label = parts.slice(2).join(' ') || 'Tactical Check';
+      try {
+        const rollResult = rollDice(expr, { label });
+        await sendDiceRoll(rollResult);
+        return;
+      } catch (err) {
+        console.warn('Roll command error:', err);
+      }
+    }
+
+    const senderHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Anonymous Operator';
+    const isIC = speakingMode === 'IC' && (customPayload.persona || selectedPersona);
+    const activeP = customPayload.persona || selectedPersona;
+
+    // 2. RPG command: /me or /act or /ooc
+    let messageType = isIC ? 'ic_transmission' : 'text';
+    let cleanText = text;
+    if (trimmed.startsWith('/me ') || trimmed.startsWith('/act ')) {
+      messageType = 'narrative_action';
+      cleanText = trimmed.replace(/^\/(me|act)\s+/, '');
+    } else if (trimmed.startsWith('/ooc ')) {
+      messageType = 'ooc_remark';
+      cleanText = trimmed.replace(/^\/ooc\s+/, '');
+    }
+
+    const payload = {
+      text: cleanText || '',
+      type: customPayload.type || messageType,
+      senderId: currentUser?.uid || 'anon',
+      senderHandle: isIC ? (activeP.name || activeP['char-name'] || activeP.identity?.name || senderHandle) : senderHandle,
+      isIC: Boolean(isIC),
+      broadcastToVtt: Boolean(broadcastToVtt),
+      personaDetails: isIC ? {
+        id: activeP['character-doc-id'] || activeP.id,
+        name: activeP['char-name'] || activeP.name || activeP.identity?.name || 'Operative',
+        species: activeP['char-species'] || activeP.species || activeP.identity?.species || 'Human',
+        role: activeP['char-concept'] || activeP.role || activeP['char-occu'] || activeP.identity?.role || 'Specialist',
+        avatar: activeP.avatar || null,
+        health: activeP.health || 30,
+        currentHealth: activeP.current_health ?? (activeP.current_hp ?? 30),
+        vitality: activeP.vitality || 30,
+        currentVitality: activeP.current_vitality ?? 30
+      } : null,
+      ...customPayload
+    };
+
+    AudioService.playTerminalBeep(1450, 0.02);
+    await ChatService.sendMessage(activeChannelId, payload);
+  }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona, sendDiceRoll, broadcastToVtt]);
 
   // Start or open a 1-on-1 Direct Message with target user (and optional specific persona)
   const startDirectMessage = useCallback(async (targetUser, targetPersona = null) => {
@@ -332,7 +595,7 @@ export const ChatProvider = ({ children }) => {
     return dmChannel;
   }, [currentUser, selectChannel]);
 
-  // Create a new custom or squad group channel (supports characterMembers)
+  // Create a new custom or team group channel (supports characterMembers)
   const createNewChannel = useCallback(async ({ name, topic, isPublic, type, members, characterMembers }) => {
     if (!currentUser) throw new Error('You must be logged in to create a channel');
     const newChan = await ChatService.createCustomChannel({
@@ -395,11 +658,21 @@ export const ChatProvider = ({ children }) => {
     directChannels,
     playerDirectChannels,
     characterDirectChannels,
+    teamChannels,
+    groupChannels,
     directSortMode,
     setDirectSortMode,
+    activeNavTab,
+    setActiveNavTab,
+    broadcastToVtt,
+    setBroadcastToVtt,
     pendingCharacterNotes,
     charactersDirectory,
-    groupChannels,
+    allNetworkPersonas,
+    onlineOperators,
+    offlineOperators,
+    onlinePersonas,
+    offlinePersonas,
     personaLogChannels,
     customChannels,
     activeChannel,
@@ -412,7 +685,7 @@ export const ChatProvider = ({ children }) => {
     toggleCommsDock,
     unreadCounts,
     totalUnreadCount,
-    userDirectory,
+    userDirectory: effectiveUserDirectory,
     refreshUserDirectory,
     speakingMode,
     setSpeakingMode,

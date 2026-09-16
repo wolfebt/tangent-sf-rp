@@ -220,7 +220,7 @@ const VttCommandDrawer = ({
               : 'border-transparent text-slate-400 hover:text-slate-200'
           }`}
         >
-          <Users size={13} /> Squads
+          <Users size={13} /> Teams
         </button>
         <button
           type="button"
@@ -393,10 +393,10 @@ const VttCommandDrawer = ({
           </div>
         )}
 
-        {/* TAB 2: Squads & Team Permissions */}
+        {/* TAB 2: Teams & Team Permissions */}
         {activeTab === 'teams' && (
           <div className="space-y-3.5">
-            {/* Quick Link to Full Team & Squad Management via Comms */}
+            {/* Quick Link to Full Team Management via Comms */}
             <button
               type="button"
               onClick={() => {
@@ -407,14 +407,14 @@ const VttCommandDrawer = ({
             >
               <div className="flex items-center gap-2">
                 <Users size={14} className="text-emerald-400 group-hover:scale-110 transition-transform" />
-                <span>Open Full Squad &amp; Team Hub</span>
+                <span>Open Full Team Hub</span>
               </div>
               <span className="text-[10px] text-emerald-400/80 font-normal">Comms Hub →</span>
             </button>
 
-            {/* Squads List */}
+            {/* Teams List */}
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
-              <span className="text-[10px] uppercase font-bold text-slate-400">Tactical Squads:</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400">Tactical Teams:</span>
               <div className="grid grid-cols-2 gap-1.5">
                 {currentRoster.teams.map(t => (
                   <div

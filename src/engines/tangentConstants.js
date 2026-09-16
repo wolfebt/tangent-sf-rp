@@ -1692,14 +1692,50 @@ export const SPECIES_TYPES = {
   }
 };
 
+export const SIZE_TIER_ORDER = [
+  'Miniscule',
+  'Fine',
+  'Diminutive',
+  'Tiny',
+  'Small',
+  'Medium',
+  'Large',
+  'Huge',
+  'Gargantuan',
+  'Colossal',
+  'Enormous',
+  'Titanic',
+  'Super Gargantuan',
+  'Mega Colossal'
+];
+
+export const getSizeTierIndex = (itemOrName) => {
+  if (!itemOrName) return 999;
+  const raw = typeof itemOrName === 'string'
+    ? itemOrName
+    : (itemOrName.name || itemOrName.id || '');
+  const clean = raw.replace(/^species_size-/, '').replace(/-/g, ' ').toLowerCase().trim();
+  const idx = SIZE_TIER_ORDER.findIndex(tier => tier.toLowerCase() === clean);
+  return idx !== -1 ? idx : 999;
+};
+
 export const SPECIES_SIZES = {
+  Miniscule: { id: 'Miniscule', name: 'Miniscule', bp: 10, strMod: -32, agiMod: 16, combatMod: 32, defMod: 16, stealthMod: 20, stabilityMod: -32, dmgDieStep: -5, speedMod: -20, dimensions: '<1 in / <1 oz (Micro-Organism, Insect, Micro-Drone)' },
+  Fine: { id: 'Fine', name: 'Fine', bp: 8, strMod: -16, agiMod: 12, combatMod: 16, defMod: 12, stealthMod: 16, stabilityMod: -24, dmgDieStep: -4, speedMod: -15, dimensions: '<6 in / <1/8 lb (Small Rodent, Micro-Scout)' },
   Diminutive: { id: 'Diminutive', name: 'Diminutive', bp: 6, strMod: -8, agiMod: 8, combatMod: 8, defMod: 8, stealthMod: 12, stabilityMod: -16, dmgDieStep: -3, speedMod: -10, dimensions: '<1 ft / <1 lb (Rat, Sparrow, Mini-Drone)' },
   Tiny: { id: 'Tiny', name: 'Tiny', bp: 4, strMod: -4, agiMod: 4, combatMod: 4, defMod: 4, stealthMod: 8, stabilityMod: -8, dmgDieStep: -2, speedMod: -10, dimensions: '<2 ft / <8 lbs (House Cat, Hawk, Skateboard)' },
   Small: { id: 'Small', name: 'Small', bp: 2, strMod: -2, agiMod: 2, combatMod: 2, defMod: 2, stealthMod: 4, stabilityMod: -4, dmgDieStep: -1, speedMod: -5, dimensions: '<4 ft / <60 lbs (Chimpanzee, Lynx, Scooter)' },
   Medium: { id: 'Medium', name: 'Medium', bp: 0, strMod: 0, agiMod: 0, combatMod: 0, defMod: 0, stealthMod: 0, stabilityMod: 0, dmgDieStep: 0, speedMod: 0, dimensions: '4-8 ft / 60-500 lbs (Human, Rottweiler, Motorcycle)' },
   Large: { id: 'Large', name: 'Large', bp: 2, strMod: 2, agiMod: -2, combatMod: -2, defMod: -2, stealthMod: -4, stabilityMod: 4, dmgDiceMult: 2, speedMult: 2, dimensions: '>8 ft / >500 lbs (Horse, Lion, Small Car)' },
-  Huge: { id: 'Huge', name: 'Huge', bp: 4, strMod: 4, agiMod: -4, combatMod: -4, defMod: -4, stealthMod: -8, stabilityMod: 8, dmgDiceMult: 5, speedMult: 5, dimensions: '>16 ft / >4,000 lbs (Elephant, Rhinoceros, Delivery Truck)' }
+  Huge: { id: 'Huge', name: 'Huge', bp: 4, strMod: 4, agiMod: -4, combatMod: -4, defMod: -4, stealthMod: -8, stabilityMod: 8, dmgDiceMult: 5, speedMult: 5, dimensions: '>16 ft / >4,000 lbs (Elephant, Rhinoceros, Delivery Truck)' },
+  Gargantuan: { id: 'Gargantuan', name: 'Gargantuan', bp: 8, strMod: 8, agiMod: -8, combatMod: -8, defMod: -8, stealthMod: -16, stabilityMod: 16, dmgDiceMult: 10, speedMult: 10, dimensions: '<64 ft / <125 tons (Siege Walker, Landing Craft, Apex Behemoth)' },
+  Colossal: { id: 'Colossal', name: 'Colossal', bp: 16, strMod: 16, agiMod: -16, combatMod: -16, defMod: -16, stealthMod: -32, stabilityMod: 32, dmgDiceMult: 20, speedMult: 20, dimensions: '<128 ft / <1,000 tons (Titan Mech, Corvette Starship, World-Burrower)' },
+  Enormous: { id: 'Enormous', name: 'Enormous', bp: 32, strMod: 32, agiMod: -32, combatMod: -32, defMod: -32, stealthMod: 0, stabilityMod: 64, dmgDiceMult: 40, speedMult: 40, dimensions: '<512 ft / <16,000 tons (Frigate Vessel, Fortress Complex)' },
+  Titanic: { id: 'Titanic', name: 'Titanic', bp: 64, strMod: 64, agiMod: -64, combatMod: -64, defMod: -64, stealthMod: 0, stabilityMod: 128, dmgDiceMult: 80, speedMult: 80, dimensions: '<1,024 ft / <144,000 tons (Battleship, Defense Station)' },
+  'Super Gargantuan': { id: 'Super Gargantuan', name: 'Super Gargantuan', bp: 128, strMod: 128, agiMod: -128, combatMod: -128, defMod: -128, stealthMod: 0, stabilityMod: 256, dmgDiceMult: 160, speedMult: 160, dimensions: '<5,280 ft / <50M tons (Dreadnought, Colony Spire)' },
+  'Mega Colossal': { id: 'Mega Colossal', name: 'Mega Colossal', bp: 256, strMod: 256, agiMod: -256, combatMod: -256, defMod: -256, stealthMod: 0, stabilityMod: 512, dmgDiceMult: 320, speedMult: 320, dimensions: '1 Mile+ / 50M+ tons (Super-Dreadnought, Megastructure Arcology)' }
 };
+
 
 export const SPECIES_MOVEMENT_BASE_MODES = [
   { id: 'normal', name: 'Bipedal (Normal Speed)', bp: 0, speed: 30, base_speed: 30, target_mode: 'Ground', category: 'Mode', description: 'Base Ground locomotion speed of 30 ft/round.' },
@@ -1999,7 +2035,7 @@ export const COMPETENCY_ROLES = {
   MobilitySpecialist: { id: 'MobilitySpecialist', name: 'Mobility Specialist (Skirmisher)', group: 'Combat', primaryAttrs: ['Agility', 'Stamina'], keySkills: ['Acrobatics', 'Piloting', 'Athletics'], feature: 'Nimble Moves (Ignore difficult terrain)', description: 'Master of traversal exploiting gaps in enemy formations' },
   Flank: { id: 'Flank', name: 'The Flank (Asymmetric Striker)', group: 'Combat', primaryAttrs: ['Agility', 'Precision'], keySkills: ['Stealth', 'Melee Combat', 'Evasion'], feature: 'Hit & Run (Move without provoking reactions)', description: 'Collapses defensive lines from flank using hit-and-run tactics' },
   CombativeMetaUser: { id: 'CombativeMetaUser', name: 'Combative Meta-User (Reality Warper)', group: 'Metaphysics', primaryAttrs: ['Intellect', 'Wisdom'], keySkills: ['Attune', 'Discipline'], feature: 'Awakened (Access to Invocations)', description: 'Esoteric artillery providing area denial and bypassing physical armor' },
-  Buffer: { id: 'Buffer', name: 'The Buffer (Squad Enhancer)', group: 'Support', primaryAttrs: ['Charisma', 'Wisdom'], keySkills: ['Diplomacy', 'Attune'], feature: 'Aura of Command (+1 Hit/Save in 30ft)', description: 'Elevates cohesion and resilience of allies through projected auras' },
+  Buffer: { id: 'Buffer', name: 'The Buffer (Team Enhancer)', group: 'Support', primaryAttrs: ['Charisma', 'Wisdom'], keySkills: ['Diplomacy', 'Attune'], feature: 'Aura of Command (+1 Hit/Save in 30ft)', description: 'Elevates cohesion and resilience of allies through projected auras' },
   Leader: { id: 'Leader', name: 'The Leader (Tactical Commander)', group: 'Support', primaryAttrs: ['Intellect', 'Charisma'], keySkills: ['Tactics', 'Leadership', 'Insight'], feature: 'Master Plan (Bonus pool via planning)', description: 'Coordinates complex maneuvers to turn chaotic skirmishes into methodical victories' },
   Debuffer: { id: 'Debuffer', name: 'The Debuffer (Saboteur)', group: 'Controller', primaryAttrs: ['Wisdom', 'Intellect'], keySkills: ['Intimidate', 'Discipline'], feature: 'Suppressing Fire / Analyze Weakness', description: 'Systematically neutralizes enemy advantages through status conditions' },
   Technician: { id: 'Technician', name: 'The Technician (Electronic Warfare)', group: 'Controller', primaryAttrs: ['Intellect', 'Agility'], keySkills: ['Computers', 'Engineering', 'Mechanics'], feature: 'Jamming / Hack (Disable tech)', description: 'Controls digital/mechanical battlefield, hacking security and jamming comms' }

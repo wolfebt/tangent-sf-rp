@@ -44,30 +44,30 @@ export interface ContextActionBarProps {
 const DEFAULT_WEAPONS: WeaponProfile[] = [
   {
     id: 'wpn-1',
-    name: 'Mag-Carbine TL3',
+    name: 'Assault Rifle TL3',
     type: 'kinetic',
-    damageFormula: '2d10+4',
+    damageFormula: '2d8+2',
     rangeFt: 90,
     critThreshold: 18,
-    description: 'High-velocity rail cartridge. Penetrates kinetic DR.'
+    description: 'High-velocity cartridge. Standard ballistic trauma.'
   },
   {
     id: 'wpn-2',
-    name: 'Phase Laser Pistol TL4',
+    name: 'Laser Rifle TL4',
     type: 'energy',
-    damageFormula: '2d10+2',
-    rangeFt: 60,
+    damageFormula: '2d10+4',
+    rangeFt: 120,
     critThreshold: 19,
-    description: 'Coherent plasma beam. Disintegrates reactive plating.'
+    description: 'Coherent energy beam. Severe thermal burns.'
   },
   {
     id: 'wpn-3',
-    name: 'Vibro-Blade TL3',
+    name: 'Tactical Vibroblade TL3',
     type: 'melee',
-    damageFormula: '2d10+6',
+    damageFormula: '2d6+2',
     rangeFt: 5,
     critThreshold: 17,
-    description: 'Ultrasonic edge causing severe trauma hemorrhaging.'
+    description: 'Ultrasonic edge causing deep tissue lacerations.'
   }
 ];
 
@@ -95,12 +95,14 @@ export const ContextActionBar: React.FC<ContextActionBarProps> = ({
     AudioService.playTerminalBeep(1200, 0.05);
 
     const bonus = isOvercharged ? '+1d6[OVERCHARGE]' : '';
-    // Per Tangent 3.00 COMBAT.md: Called shots impose a -5 Strike penalty to-hit, never an AP cost.
-    const calledPenalty = calledShotTarget !== 'none' ? -5 : 0;
+    // Per Tangent 3.00 COMBAT.md: Called shots impose strike penalties (-4 for head/limbs, -2 for torso), never an AP cost.
+    const calledPenalty = calledShotTarget === 'head' || calledShotTarget === 'limbs' || calledShotTarget === 'sensors'
+      ? -4
+      : (calledShotTarget !== 'none' ? -2 : 0);
     const totalAttackMod = actionTier.focusBonus + currentMAP + calledPenalty;
     const sign = totalAttackMod >= 0 ? `+${totalAttackMod}` : `${totalAttackMod}`;
 
-    const targetDesc = calledShotTarget !== 'none' ? ` at [${calledShotTarget.toUpperCase()}] (-5 Strike)` : '';
+    const targetDesc = calledShotTarget !== 'none' ? ` at [${calledShotTarget.toUpperCase()}] (${calledPenalty} Strike)` : '';
     const attackMacro = `/roll 2d10${sign} # Attack ${currentAttackIndex + 1}/${maxAttacks} with ${activeWeapon.name}${targetDesc}`;
     const damageMacro = `/roll ${activeWeapon.damageFormula}${bonus} # Damage (${activeWeapon.type.toUpperCase()})`;
 

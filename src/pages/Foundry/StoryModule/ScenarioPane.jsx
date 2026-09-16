@@ -818,6 +818,10 @@ export default function ScenarioPane({
   const [localWorkspaceTab, setLocalWorkspaceTab] = useState('weaver'); // 'weaver' | 'tactical' | 'interactive'
   const [searchFilter, setSearchFilter] = useState('');
 
+  // Outliner left-column dual-mode tab: 'scenarios' | 'elements'
+  const [outlinerTab, setOutlinerTab] = useState('scenarios');
+  const [outlinerElementTypeFilter, setOutlinerElementTypeFilter] = useState('All');
+
   // Right Dock Tab state: 'inspector' | 'tactical' | 'elements' | 'aime'
   const [localDockTab, setLocalDockTab] = useState(activeCockpitDeck || 'inspector');
   const dockTab = activeCockpitDeck || localDockTab;
@@ -1033,6 +1037,17 @@ export default function ScenarioPane({
     });
   }, [elementsCatalog, elementSearch, selectedElementTypeFilter]);
 
+  // Filtered elements for Left Outliner Rail
+  const filteredOutlinerElements = useMemo(() => {
+    return (elementsCatalog || []).filter(elem => {
+      const matchesSearch = !searchFilter ||
+        (elem.title || '').toLowerCase().includes(searchFilter.toLowerCase()) ||
+        (elem.type || '').toLowerCase().includes(searchFilter.toLowerCase());
+      const matchesType = outlinerElementTypeFilter === 'All' || elem.type === outlinerElementTypeFilter;
+      return matchesSearch && matchesType;
+    });
+  }, [elementsCatalog, searchFilter, outlinerElementTypeFilter]);
+
   return (
     <div className="h-full w-full bg-slate-950 flex overflow-hidden relative font-mono" onBlur={triggerStorySave}>
       <style>{`
@@ -1094,81 +1109,257 @@ export default function ScenarioPane({
         defaultParentId={modalParentId}
       />
 
-      {/* ── ZONE 1: OUTLINER HIERARCHY TREE (Left Column) ── */}
+      {/* ── ZONE 1: DUAL-MODE OUTLINER RAIL (Left Column: Scenarios & World Elements) ── */}
       <div className={`h-full flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 z-10 shrink-0 ${
         isTreeExpanded ? 'w-64 xl:w-72' : 'w-0 hidden'
       }`}>
-        {/* Outliner Header */}
-        <div className="p-2.5 border-b border-slate-800 flex justify-between items-center bg-slate-950/80 shrink-0">
-          <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-1.5">
-            <Layers size={13} />
-            Story Elements
-          </span>
-          <button 
-            onClick={() => handleOpenAddModal(activeScenarioId)}
-            className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer"
-            title="Add Root or Sub-Element"
-          >
-            <span>+</span> Add
-          </button>
+        {/* Outliner Dual-Tab Header */}
+        <div className="p-2 border-b border-slate-800 flex justify-between items-center bg-slate-950/90 shrink-0 gap-1 font-mono">
+          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1000, 0.02);
+                setOutlinerTab('scenarios');
+              }}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+                outlinerTab === 'scenarios'
+                  ? 'bg-cyan-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Story Outliner: Acts, chapters, scenes, and narrative hierarchy"
+            >
+              <Layers size={11} />
+              <span>Scenarios</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1000, 0.02);
+                setOutlinerTab('elements');
+              }}
+              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+                outlinerTab === 'elements'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="World Elements: Personas, factions, items, locations, tech, and lore"
+            >
+              <Box size={11} />
+              <span>Elements</span>
+              <span className="text-[8px] px-1 py-0.1 rounded-full bg-slate-950/60 text-emerald-300 font-mono">
+                {elementsCatalog?.length || 0}
+              </span>
+            </button>
+          </div>
+
+          {outlinerTab === 'scenarios' ? (
+            <button 
+              type="button"
+              onClick={() => handleOpenAddModal(activeScenarioId)}
+              className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0"
+              title="Add Root or Sub-Scenario Node"
+            >
+              <Plus size={11} />
+              <span>Add</span>
+            </button>
+          ) : (
+            <button 
+              type="button"
+              onClick={() => {
+                setEditingModalElement({
+                  id: uuidv4(),
+                  type: outlinerElementTypeFilter !== 'All' ? outlinerElementTypeFilter : 'Persona',
+                  title: 'New World Element',
+                  fields: {},
+                  content: ''
+                });
+                setIsEditElementModalOpen(true);
+              }}
+              className="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0"
+              title="Create New World Element"
+            >
+              <Plus size={11} />
+              <span>New</span>
+            </button>
+          )}
         </div>
 
-        {/* Filter Input */}
-        <div className="px-2 py-1.5 border-b border-slate-800 bg-slate-950/40 shrink-0">
+        {/* Filter Input & Element Type Pills */}
+        <div className="px-2 py-1.5 border-b border-slate-800 bg-slate-950/40 shrink-0 space-y-1.5 font-mono">
           <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs">
             <Search size={12} className="text-slate-500 shrink-0" />
             <input
               type="text"
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
-              placeholder="Filter elements..."
+              placeholder={outlinerTab === 'scenarios' ? "Filter scenarios..." : "Filter elements..."}
               className="bg-transparent text-xs text-slate-200 placeholder-slate-600 outline-none w-full font-mono"
             />
             {searchFilter && (
-              <button onClick={() => setSearchFilter('')} className="text-slate-500 hover:text-slate-300 text-[10px]">
+              <button onClick={() => setSearchFilter('')} className="text-slate-500 hover:text-slate-300 text-[10px] cursor-pointer">
                 ✕
               </button>
             )}
           </div>
-        </div>
 
-        {/* Tree Nodes Feed */}
-        <div className="flex-1 overflow-auto py-2 px-1.5 scrollbar-thin">
-          {universeState.scenarios.length === 0 ? (
-            <div className="text-slate-500 text-xs text-center italic mt-10 p-4">
-              No elements yet.<br/>Click "+ Add" to begin your campaign outline.
-            </div>
-          ) : (
-            <>
-              {universeState.scenarios.map(node => (
-                <TreeNode 
-                  key={node.id} 
-                  node={node} 
-                  activeId={activeScenarioId} 
-                  onSelect={setActiveScenarioId} 
-                  onDelete={handleDeleteElement}
-                  onMove={moveStory}
-                  onReorderRelative={reorderRelativeScenario}
-                  onAddChild={handleOpenAddModal}
-                  filterQuery={searchFilter}
-                />
+          {outlinerTab === 'elements' && (
+            <div className="flex gap-1 overflow-x-auto scrollbar-none pb-0.5">
+              {['All', 'Persona', 'Faction', 'Location', 'Item', 'Lore', 'Clue', 'Tech', 'Species'].map(t => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setOutlinerElementTypeFilter(t)}
+                  className={`px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider transition-colors shrink-0 cursor-pointer ${
+                    outlinerElementTypeFilter === t
+                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60'
+                      : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
+                  }`}
+                >
+                  {t}
+                </button>
               ))}
-
-              {/* Drop to Root Area */}
-              <div 
-                onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  const draggedId = e.dataTransfer.getData('text/plain');
-                  if (draggedId) moveStory(draggedId, null);
-                }}
-                className="mt-6 p-2.5 border border-dashed border-slate-800/80 hover:border-cyan-500/60 rounded-xl text-center text-[10px] text-slate-500 uppercase tracking-wider hover:text-cyan-400 transition-colors"
-              >
-                📥 Drop here to move to Root
-              </div>
-            </>
+            </div>
           )}
         </div>
+
+        {/* Outliner Body */}
+        {outlinerTab === 'scenarios' ? (
+          /* Scenario Tree Feed */
+          <div className="flex-1 overflow-auto py-2 px-1.5 scrollbar-thin">
+            {universeState.scenarios.length === 0 ? (
+              <div className="text-slate-500 text-xs text-center italic mt-10 p-4 font-mono">
+                No scenarios yet.<br/>Click "+ Add" to begin your campaign outline.
+              </div>
+            ) : (
+              <>
+                {universeState.scenarios.map(node => (
+                  <TreeNode 
+                    key={node.id} 
+                    node={node} 
+                    activeId={activeScenarioId} 
+                    onSelect={setActiveScenarioId} 
+                    onDelete={handleDeleteElement}
+                    onMove={moveStory}
+                    onReorderRelative={reorderRelativeScenario}
+                    onAddChild={handleOpenAddModal}
+                    filterQuery={searchFilter}
+                  />
+                ))}
+
+                {/* Drop to Root Area */}
+                <div 
+                  onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const draggedId = e.dataTransfer.getData('text/plain');
+                    if (draggedId) moveStory(draggedId, null);
+                  }}
+                  className="mt-6 p-2.5 border border-dashed border-slate-800/80 hover:border-cyan-500/60 rounded-xl text-center text-[10px] text-slate-500 uppercase tracking-wider hover:text-cyan-400 transition-colors font-mono"
+                >
+                  📥 Drop here to move to Root
+                </div>
+              </>
+            )}
+          </div>
+        ) : (
+          /* World Elements Feed */
+          <div className="flex-1 overflow-y-auto p-2 space-y-1.5 scrollbar-thin flex flex-col font-mono">
+            {filteredOutlinerElements.length === 0 ? (
+              <div className="text-slate-500 text-xs text-center italic mt-10 p-4">
+                No world elements found.<br/>Click "+ New" to forge one.
+              </div>
+            ) : (
+              filteredOutlinerElements.map(elem => {
+                const isLinked = (activeNode?.linkedElements || []).includes(elem.id);
+
+                return (
+                  <div
+                    key={elem.id}
+                    className={`p-2 rounded-xl border transition-all space-y-1 group ${
+                      isLinked 
+                        ? 'bg-cyan-950/40 border-cyan-500/50' 
+                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1">
+                      <span className={`text-[8px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded border shrink-0 ${getTypePillStyle(elem.type)}`}>
+                        {elem.type || 'Custom'}
+                      </span>
+                      <span 
+                        className="text-xs font-bold text-slate-200 truncate flex-1 ml-1 cursor-pointer hover:text-cyan-300"
+                        title="Click to edit element details"
+                        onClick={() => {
+                          setEditingModalElement(elem);
+                          setIsEditElementModalOpen(true);
+                        }}
+                      >
+                        {elem.title || 'Untitled'}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditingModalElement(elem);
+                          setIsEditElementModalOpen(true);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 p-0.5 text-[9px] text-slate-400 hover:text-cyan-300 transition-opacity cursor-pointer shrink-0"
+                        title="Edit Element"
+                      >
+                        ✏️
+                      </button>
+                    </div>
+
+                    {elem.content && (
+                      <p className="text-[10px] text-slate-400 line-clamp-2 leading-snug">
+                        {elem.content.replace(/<[^>]+>/g, '')}
+                      </p>
+                    )}
+
+                    <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-850 text-[10px]">
+                      <button
+                        type="button"
+                        onClick={() => handleInsertMention(elem)}
+                        className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer text-[9px]"
+                        title="Insert @Mention chip into active scenario prose"
+                      >
+                        @Mention
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleToggleLinkElement(elem.id)}
+                        className={`font-bold transition-colors cursor-pointer text-[9px] ${
+                          isLinked ? 'text-amber-400 hover:text-amber-300' : 'text-slate-400 hover:text-white'
+                        }`}
+                        title={isLinked ? 'Unlink from active scenario node' : 'Link to active scenario node'}
+                      >
+                        {isLinked ? '✓ Linked' : '+ Link'}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+
+            {/* Bottom Open Full Forge Launcher */}
+            {onSwitchView && (
+              <div className="mt-auto pt-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    onSwitchView('elements');
+                  }}
+                  className="w-full py-1.5 px-2 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 hover:text-white text-[10px] font-bold rounded-xl uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                  title="Open full Element Forge database studio workspace"
+                >
+                  <Box size={12} />
+                  <span>Open Full Element Forge ↗</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* ── ZONE 2: PRIMARY CREATIVE STAGE (Center Column) ── */}

@@ -2,7 +2,8 @@
 id: movement-tunneling
 name: 'Burrowing: Tunneling Pace (0.75x Walk)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Burrowing
 multiplier: 0.75
 speed: 15
@@ -21,7 +22,8 @@ costs:
 ---
 # Burrowing: Tunneling Pace (0.75x Walk)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Burrowing  
 **Cost**: +0 BP  
 

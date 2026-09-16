@@ -1018,7 +1018,7 @@ export const TacticalPlayView = ({
               ) : (
                 /* BIOLOGICAL: HEALTH & VITALITY (NO STRUCTURE) */
                 <>
-                  {/* Health Bar (Rose/Red) */}
+                  {/* Health Bar (Rose for all Reds) */}
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs font-mono">
                       <span className="text-rose-400 font-bold flex items-center gap-1">
@@ -1031,16 +1031,16 @@ export const TacticalPlayView = ({
                     </div>
                     <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-rose-900/60 p-0.5">
                       <div 
-                        className="h-full bg-gradient-to-r from-rose-700 to-red-500 rounded-full transition-all duration-300"
+                        className="h-full bg-gradient-to-r from-rose-800 via-rose-600 to-rose-500 rounded-full transition-all duration-300"
                         style={{ width: `${Math.min(100, Math.max(0, ((curHealth || 0) / (maxHealth || 1)) * 100))}%` }}
                       />
                     </div>
                   </div>
 
-                  {/* Vitality Bar (Cyan/Emerald) */}
+                  {/* Vitality Bar (Teal for Dark Green) */}
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs font-mono">
-                      <span className="text-cyan-400 font-bold flex items-center gap-1">
+                      <span className="text-teal-400 font-bold flex items-center gap-1">
                         <Activity size={11} />
                         <span>VITALITY (Combat Stamina / Energy):</span>
                       </span>
@@ -1048,9 +1048,9 @@ export const TacticalPlayView = ({
                         {curVitality} / {maxVitality} VIT
                       </span>
                     </div>
-                    <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-cyan-900/60 p-0.5">
+                    <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-teal-900/70 p-0.5">
                       <div 
-                        className="h-full bg-gradient-to-r from-emerald-600 to-cyan-400 rounded-full transition-all duration-300"
+                        className="h-full bg-gradient-to-r from-[#0d5c63] via-teal-700 to-teal-500 rounded-full transition-all duration-300"
                         style={{ width: `${Math.min(100, Math.max(0, ((curVitality || 0) / (maxVitality || 1)) * 100))}%` }}
                       />
                     </div>
@@ -1086,14 +1086,14 @@ export const TacticalPlayView = ({
                       <button
                         type="button"
                         onClick={() => handleQuickHeal(5, 'vitality')}
-                        className="px-2 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-700/50 text-cyan-300 rounded font-mono font-bold text-[10px] cursor-pointer"
+                        className="px-2 py-0.5 bg-teal-950/80 hover:bg-teal-900 border border-teal-700/50 text-teal-300 rounded font-mono font-bold text-[10px] cursor-pointer"
                       >
                         +5 VIT
                       </button>
                       <button
                         type="button"
                         onClick={() => handleQuickHeal(10, 'vitality')}
-                        className="px-2 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-700/50 text-cyan-300 rounded font-mono font-bold text-[10px] cursor-pointer"
+                        className="px-2 py-0.5 bg-teal-950/80 hover:bg-teal-900 border border-teal-700/50 text-teal-300 rounded font-mono font-bold text-[10px] cursor-pointer"
                       >
                         +10 VIT
                       </button>
@@ -1325,12 +1325,12 @@ export const TacticalPlayView = ({
                   <span className="text-[9px] font-mono font-bold text-slate-400 uppercase block">Evasion Value</span>
                   <span className="text-sm font-mono font-bold text-cyan-300">{evasionValue} EV</span>
                 </div>
-                <div className="p-2 rounded-lg bg-slate-950 border border-slate-800 text-center">
-                  <span className="text-[9px] font-mono font-bold text-slate-400 uppercase block">Physical Armor</span>
-                  <span className="text-sm font-mono font-bold text-amber-300">{physicalArmor} DR</span>
+                <div className="p-2 rounded-lg bg-slate-950 border border-yellow-500/30 text-center">
+                  <span className="text-[9px] font-mono font-bold text-yellow-500/80 uppercase block">Physical Armor (DR)</span>
+                  <span className="text-sm font-mono font-bold text-yellow-400">{physicalArmor} DR</span>
                 </div>
-                <div className="p-2 rounded-lg bg-slate-950 border border-slate-800 text-center">
-                  <span className="text-[9px] font-mono font-bold text-slate-400 uppercase block">Energy Shield</span>
+                <div className="p-2 rounded-lg bg-slate-950 border border-purple-500/30 text-center">
+                  <span className="text-[9px] font-mono font-bold text-purple-400 uppercase block">Energy Shield</span>
                   <span className="text-sm font-mono font-bold text-purple-300">{energyShield} SHD</span>
                 </div>
                 <div className="p-2 rounded-lg bg-slate-950 border border-slate-800 text-center">

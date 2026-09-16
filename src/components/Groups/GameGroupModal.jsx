@@ -1115,7 +1115,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
             <div className="flex items-center justify-between w-full border-b border-slate-800 pb-2">
               <div className="flex items-center gap-2 text-cyan-300 font-bold text-xs uppercase tracking-wider">
                 <Smartphone size={16} />
-                <span>MOBILE SQUAD COMM-SCAN</span>
+                <span>MOBILE TEAM COMM-SCAN</span>
               </div>
               <button
                 type="button"

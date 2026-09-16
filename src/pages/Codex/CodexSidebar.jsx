@@ -18,7 +18,9 @@ import {
   Sparkles, 
   Layers, 
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 
@@ -27,6 +29,7 @@ const GROUP_DEFINITIONS = [
   {
     key: 'hardware',
     title: 'HARDWARE & STRUCTURES',
+    railLabel: 'HARDWARE',
     icon: Package,
     ids: HARDWARE_MATRIX_IDS,
     theme: {
@@ -46,6 +49,7 @@ const GROUP_DEFINITIONS = [
   {
     key: 'characters',
     title: 'CHARACTERS & COMPANIONS',
+    railLabel: 'PERSONAE',
     icon: Users,
     ids: CHARACTER_MATRIX_IDS,
     theme: {
@@ -65,6 +69,7 @@ const GROUP_DEFINITIONS = [
   {
     key: 'planetary',
     title: 'PLANETARY, SPECIES & FACTIONS',
+    railLabel: 'WORLDS',
     icon: Globe,
     ids: PLANETARY_SPECIES_MATRIX_IDS,
     theme: {
@@ -84,6 +89,7 @@ const GROUP_DEFINITIONS = [
   {
     key: 'metaphysics',
     title: 'METAPHYSICS',
+    railLabel: 'META',
     icon: Sparkles,
     ids: META_MATRIX_IDS,
     theme: {
@@ -103,6 +109,7 @@ const GROUP_DEFINITIONS = [
   {
     key: 'systems',
     title: 'SYSTEM SUITES',
+    railLabel: 'SYSTEM',
     icon: Layers,
     ids: SYSTEM_MATRIX_IDS,
     theme: {
@@ -124,6 +131,14 @@ const GROUP_DEFINITIONS = [
 export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { dbData } = useDBM() || {};
+
+  // Support toggle between compact Guidance Rail and Expanded Sidebar
+  const [isRailMode, setIsRailMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 1280;
+    }
+    return false;
+  });
 
   // Accordion open/close state for all 5 groups (all expanded by default)
   const [openSections, setOpenSections] = useState({
@@ -266,6 +281,144 @@ export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu }) =>
   const allGroupedIds = GROUP_DEFINITIONS.flatMap(g => g.ids);
   const unclassifiedMatrices = filteredMatrices.filter(m => !allGroupedIds.includes(m.id));
 
+  // ── 1. COMPACT GUIDANCE RAIL MODE ──
+  if (isRailMode) {
+    return (
+      <aside 
+        className="w-18 sm:w-20 bg-[#070a12]/95 backdrop-blur-xl border-r border-[#0D5C63]/50 py-2.5 px-1 flex flex-col items-center justify-between h-full shrink-0 select-none relative z-20 font-sans shadow-xl"
+        aria-label="Codex Guidance Rail"
+      >
+        {/* Top Header / Expand Toggle */}
+        <div className="flex flex-col items-center gap-1.5 w-full">
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              setIsRailMode(false);
+            }}
+            className="w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-amber-300 flex items-center justify-center transition-all cursor-pointer"
+            title="Expand Full Matrix Menu"
+          >
+            <PanelLeftOpen size={15} />
+          </button>
+
+          <div className="w-8 h-px bg-slate-800/80 my-0.5" />
+
+          {/* Group Rail Items with Visible Labels */}
+          <nav className="flex flex-col items-center gap-1 w-full overflow-y-auto no-scrollbar">
+            {GROUP_DEFINITIONS.map((group) => {
+              const Icon = group.icon;
+              const isGroupActive = group.ids.includes(activeMatrixId);
+              const matricesInGroup = CODEX_MATRICES.filter(m => group.ids.includes(m.id));
+
+              return (
+                <div key={group.key} className="relative group w-full">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.02);
+                      // Select active matrix if already in group, or default to first matrix
+                      if (!isGroupActive && matricesInGroup.length > 0) {
+                        onSelectMatrix(matricesInGroup[0].id);
+                      }
+                    }}
+                    className={`relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none ${
+                      isGroupActive
+                        ? 'bg-gradient-to-b from-amber-500/25 to-slate-900/60 text-amber-200 border border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.25)]'
+                        : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80 border border-transparent hover:border-slate-800'
+                    }`}
+                    title={group.title}
+                  >
+                    {/* Active Left Indicator Bar */}
+                    {isGroupActive && (
+                      <span 
+                        className="absolute -left-1 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(245,158,11,0.8)]"
+                        style={{ backgroundColor: group.theme.color }}
+                      />
+                    )}
+
+                    {/* Icon Container */}
+                    <div className="relative w-7 h-7 rounded-lg flex items-center justify-center shrink-0">
+                      <Icon
+                        size={17}
+                        className={isGroupActive ? 'text-amber-300' : 'text-slate-400 group-hover:text-amber-300 transition-colors'}
+                        style={isGroupActive ? { color: group.theme.color } : {}}
+                      />
+                      <span className="absolute -top-1 -right-1 px-1 min-w-[13px] h-[13px] rounded-full bg-slate-900 border border-slate-700 text-[8px] font-mono text-slate-300 flex items-center justify-center font-bold">
+                        {matricesInGroup.length}
+                      </span>
+                    </div>
+
+                    {/* Visible Monospace Label */}
+                    <span
+                      className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full leading-tight ${
+                        isGroupActive
+                          ? 'text-amber-300 font-extrabold [text-shadow:0_0_8px_rgba(245,158,11,0.5)]'
+                          : 'text-slate-400 group-hover:text-slate-200'
+                      }`}
+                      style={isGroupActive ? { color: group.theme.color } : {}}
+                    >
+                      {group.railLabel}
+                    </span>
+                  </button>
+
+                  {/* Submenu Flyout on Hover */}
+                  <div className="absolute left-full ml-2.5 top-0 min-w-[200px] p-1.5 rounded-xl bg-[#0c1017] border border-slate-700 text-slate-100 font-mono shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50 hidden md:block">
+                    <div 
+                      className="font-bold text-xs px-2 py-1 border-b border-slate-800 flex items-center justify-between"
+                      style={{ color: group.theme.color }}
+                    >
+                      <span>{group.title}</span>
+                      <span className="text-[9px] text-slate-400 font-normal">{matricesInGroup.length} MATRICES</span>
+                    </div>
+
+                    <div className="flex flex-col gap-0.5 mt-1 max-h-[300px] overflow-y-auto pr-1">
+                      {matricesInGroup.map((m) => {
+                        const isMatrixActive = m.id === activeMatrixId;
+                        const MIcon = m.icon;
+                        const count = (dbData?.[m.targetCollection] || []).length;
+                        return (
+                          <button
+                            key={m.id}
+                            type="button"
+                            onClick={() => {
+                              AudioService.playTerminalBeep(1100, 0.02);
+                              onSelectMatrix(m.id);
+                            }}
+                            className={`w-full text-left px-2 py-1 rounded-lg text-[10.5px] flex items-center justify-between cursor-pointer transition-colors ${
+                              isMatrixActive
+                                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                                : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 min-w-0">
+                              <MIcon size={12} style={{ color: m.color }} />
+                              <span className="truncate">{m.name}</span>
+                            </div>
+                            {count > 0 && (
+                              <span className="text-[9px] text-slate-500 font-bold ml-1">{count}</span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Footer System Status */}
+        <div className="pt-2 border-t border-slate-800/80 text-[9px] text-slate-500 font-mono flex flex-col items-center shrink-0 gap-0.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span>v2.0</span>
+        </div>
+      </aside>
+    );
+  }
+
+  // ── 2. EXPANDED SIDEBAR DRAWER MODE ──
   return (
     <aside className="w-64 sm:w-72 h-full bg-[#0a0d14]/90 backdrop-blur-xl border-r border-[#0D5C63]/50 flex flex-col shrink-0 p-3 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
       {/* Header Banner Subtitle */}
@@ -279,6 +432,17 @@ export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu }) =>
             <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold">
               {CODEX_MATRICES.length}
             </span>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setIsRailMode(true);
+              }}
+              className="p-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-amber-300 transition-colors"
+              title="Switch to Compact Guidance Rail"
+            >
+              <PanelLeftClose size={13} />
+            </button>
             {onCloseMenu && (
               <button
                 type="button"

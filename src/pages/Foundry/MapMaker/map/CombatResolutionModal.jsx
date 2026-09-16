@@ -22,35 +22,143 @@ import {
   Send,
   Cpu,
   ShieldAlert,
-  BatteryCharging
+  BatteryCharging,
+  Search,
+  Sword
 } from 'lucide-react';
 import { rollDice } from '../../../../services/diceService';
 import { AudioService } from '../../../../services/audioService';
 import { SessionJournal } from '../../../../services/sessionRecapService';
 import AdventureLogService, { ACTOR_TYPES } from '../../../../services/adventureLogService';
 import { classifyCombatant } from '../../../../services/initiativeService';
+import { DEFAULT_WEAPONRY } from '../../../../data/weaponryData';
+import { resolveAllTacticalAttacks } from '../../../../utils/combatUtils';
 
 /**
- * Standard Tangent Hit Locations with canonical d100 range and damage multipliers
+ * Canonical Tangent Hit Locations & Called Shots (1d10 Table, 1d6 Melee)
+ * Strictly adhering to docs/game rules/operator/3.00 COMBAT.md and rule-hit-locations-d10.md:
+ * - 1: Head (Reason Save vs Damage or Stunned; fail by 10+ = Unconscious) -> -4 Called Shot
+ * - 2, 3, 4: Torso (Fortitude Save vs Damage or Winded -2 actions; fail by 10+ = Gasping / Incapacitated) -> -2 Called Shot
+ * - 5: Right Arm (Reflex Save vs Damage or Disarmed; fail by 10+ = Arm Crippled) -> -4 Called Shot
+ * - 6: Left Arm (Reflex Save vs Damage or Disarmed; fail by 10+ = Arm Crippled) -> -4 Called Shot
+ * - 7, 8: Right Leg (Might Save vs Damage or Hobbled 1/2 speed; fail by 10+ = Leg Crippled) -> -2 Called Shot
+ * - 9, 10: Left Leg (Might Save vs Damage or Hobbled 1/2 speed; fail by 10+ = Leg Crippled) -> -2 Called Shot
+ * * In Melee and Unarmed combat, roll 1d6 unless a Leg Attack or specific maneuver is declared.
  */
 export const HIT_LOCATIONS = [
-  { id: 'head', label: 'Head', range: [1, 10], multiplier: 1.0, penalty: -2, savingThrow: 'Reason or KO/Stunned (fail by 10+ Unconscious)', desc: 'Cranium & Sensory (-2 Called Shot)' },
-  { id: 'left_arm', label: 'Left Arm', range: [11, 20], multiplier: 1.0, penalty: -2, savingThrow: 'Reflex or Disarmed (fail by 10+ Crippled)', desc: 'Secondary weapon / shield mount (-2 Called Shot)' },
-  { id: 'right_arm', label: 'Right Arm', range: [21, 30], multiplier: 1.0, penalty: -2, savingThrow: 'Reflex or Disarmed (fail by 10+ Crippled)', desc: 'Primary weapon arm (-2 Called Shot)' },
-  { id: 'torso', label: 'Torso', range: [31, 70], multiplier: 1.0, penalty: -1, savingThrow: 'Fortitude or Winded -2 actions (fail by 10+ Incapacitated)', desc: 'Center of mass (-1 Called Shot)' },
-  { id: 'left_leg', label: 'Left Leg', range: [71, 85], multiplier: 1.0, penalty: -2, savingThrow: 'Might or Hobbled 1/2 speed (fail by 10+ Crippled)', desc: 'Locomotion / stance anchor (-2 Called Shot)' },
-  { id: 'right_leg', label: 'Right Leg', range: [86, 100], multiplier: 1.0, penalty: -2, savingThrow: 'Might or Hobbled 1/2 speed (fail by 10+ Crippled)', desc: 'Locomotion / stance anchor (-2 Called Shot)' }
+  {
+    id: 'head',
+    label: 'Head',
+    range: [1, 1],
+    d10: [1],
+    d6: [1],
+    multiplier: 1.0,
+    penalty: -4,
+    saveType: 'Reason',
+    savingThrow: 'Reason Save vs Damage (fail by 10+ Unconscious)',
+    traumaEffect: 'KO / Stunned: Reason save or Stunned 1 round/pt under CR; fail by 10+ = Unconscious',
+    desc: 'Cranium, Sensory Optics & Brainstem (-4 Called Shot)'
+  },
+  {
+    id: 'torso',
+    label: 'Torso',
+    range: [2, 4],
+    d10: [2, 3, 4],
+    d6: [2, 3, 4],
+    multiplier: 1.0,
+    penalty: -2,
+    saveType: 'Fortitude',
+    savingThrow: 'Fortitude Save vs Damage (fail by 10+ Incapacitated)',
+    traumaEffect: 'Winded: Fortitude save or -2 actions for 1 round/pt under CR; fail by 10+ = Gasping / Incapacitated',
+    desc: 'Center of Mass & Vital Organs (-2 Called Shot)'
+  },
+  {
+    id: 'right_arm',
+    label: 'Right Arm',
+    range: [5, 5],
+    d10: [5],
+    d6: [5],
+    multiplier: 1.0,
+    penalty: -4,
+    saveType: 'Reflex',
+    savingThrow: 'Reflex Save vs Damage (fail by 10+ Crippled)',
+    traumaEffect: 'Disarmed: Reflex save or drop held item; fail by 10+ = Arm Crippled',
+    desc: 'Primary Weapon Arm (-4 Called Shot)'
+  },
+  {
+    id: 'left_arm',
+    label: 'Left Arm',
+    range: [6, 6],
+    d10: [6],
+    d6: [6],
+    multiplier: 1.0,
+    penalty: -4,
+    saveType: 'Reflex',
+    savingThrow: 'Reflex Save vs Damage (fail by 10+ Crippled)',
+    traumaEffect: 'Disarmed: Reflex save or drop held item; fail by 10+ = Arm Crippled',
+    desc: 'Secondary Weapon / Shield Arm (-4 Called Shot)'
+  },
+  {
+    id: 'right_leg',
+    label: 'Right Leg',
+    range: [7, 8],
+    d10: [7, 8],
+    d6: [],
+    multiplier: 1.0,
+    penalty: -2,
+    saveType: 'Might',
+    savingThrow: 'Might Save vs Damage (fail by 10+ Crippled)',
+    traumaEffect: 'Hobbled: Might save or half speed for 1 round/pt under CR; fail by 10+ = Leg Crippled',
+    desc: 'Locomotion / Stance Anchor (-2 Called Shot)'
+  },
+  {
+    id: 'left_leg',
+    label: 'Left Leg',
+    range: [9, 10],
+    d10: [9, 10],
+    d6: [],
+    multiplier: 1.0,
+    penalty: -2,
+    saveType: 'Might',
+    savingThrow: 'Might Save vs Damage (fail by 10+ Crippled)',
+    traumaEffect: 'Hobbled: Might save or half speed for 1 round/pt under CR; fail by 10+ = Leg Crippled',
+    desc: 'Locomotion / Stance Anchor (-2 Called Shot)'
+  }
 ];
 
-export const WEAPON_PRESETS = [
-  { id: 'slug_pistol', name: 'Heavy Slug Pistol', type: 'ranged', damageClass: 'lethal', skill: 'Marksmanship', dice: '2d6+2', ap: 0, range: '20m', desc: 'Kinetic penetrating ballistic trauma (Lethal Health / Structure)' },
-  { id: 'plasma_rifle', name: 'Plasma Carbine', type: 'ranged', damageClass: 'lethal', skill: 'Marksmanship', dice: '2d8+4', ap: 2, range: '50m', desc: 'Superheated thermal burns (Lethal Health / Structure)' },
-  { id: 'vibro_blade', name: 'Mono-Molecular Vibroblade', type: 'melee', damageClass: 'lethal', skill: 'Weaponry', dice: '1d10+3', ap: 3, range: 'Melee', desc: 'High-frequency flesh cuts & armor slicing (Lethal Health / Structure)' },
-  { id: 'heavy_railgun', name: 'Mag-Rail Cannon', type: 'heavy', damageClass: 'lethal', skill: 'Heavy Weapons', dice: '3d10+6', ap: 5, range: '120m', desc: 'Hyper-velocity solid sabot trauma (Lethal Health / Structure)' },
-  { id: 'stun_baton', name: 'Shock / Stun Baton', type: 'melee', damageClass: 'non_lethal', skill: 'Weaponry', dice: '1d8+2', ap: 0, range: 'Melee', desc: 'Neural shock & subdual fatigue (Non-Lethal Vitality; Synthetics Immune)' },
-  { id: 'unarmed_subdual', name: 'Unarmed Brawling Strike', type: 'melee', damageClass: 'non_lethal', skill: 'Unarmed Combat', dice: '1d6+2', ap: 0, range: 'Melee', desc: 'Subdual bruising & fatigue (Non-Lethal Vitality; Synthetics Immune)' },
-  { id: 'psionic_blast', name: 'Void / Kinetic Invocation', type: 'psi', damageClass: 'lethal', skill: 'Dimension / Attune', dice: '2d10+4', ap: 4, range: '30m', desc: 'Direct cellular & structural rupture (Lethal Health / Structure)' }
-];
+/**
+ * Dynamic Omnicortex Weaponry Database mapping
+ */
+export const WEAPON_PRESETS = (DEFAULT_WEAPONRY || []).map(w => {
+  const isMelee = (w.body || '').includes('Category: MELEE') || w.range === '-';
+  const isHeavy = (w.body || '').includes('HEAVY');
+  const isEnergy = (w.body || '').includes('ENERGY');
+  const isNonLethal = (w.description || '' + (w.body || '')).toLowerCase().includes('non-lethal') || (w.damage || '').toLowerCase().includes('stun');
+
+  const catMatch = (w.body || '').match(/Category:\s*([^\r\n]+)/i);
+  const category = catMatch ? catMatch[1].trim() : (isMelee ? 'MELEE' : 'RANGED');
+
+  const diceMatch = (w.damage || '').match(/\d+d\d+(?:\s*[+-]\s*\d+)?/i);
+  const dice = diceMatch ? diceMatch[0].replace(/\s+/g, '') : (w.damage || '1d8');
+
+  let ap = 0;
+  const apMatch = (w.description || '' + (w.body || '')).match(/\b(?:AP|Penetrating)\s*(\d+)/i);
+  if (apMatch) ap = parseInt(apMatch[1], 10);
+
+  return {
+    id: w.id,
+    name: w.name,
+    category,
+    type: isMelee ? 'melee' : (isHeavy ? 'heavy' : 'ranged'),
+    damageClass: isNonLethal ? 'non_lethal' : 'lethal',
+    skill: isMelee ? 'Weaponry' : (isHeavy ? 'Heavy Weapons' : (isEnergy ? 'Energy Weapons' : 'Marksmanship')),
+    dice,
+    damageType: w.damage_type || 'Kinetic',
+    ap,
+    range: w.range || (isMelee ? 'Melee' : '50ft'),
+    desc: (w.description ? w.description.replace(/^\*\*Special:\*\*\s*/i, '').trim() : '') || `${category} • ${w.damage_type || 'Kinetic'}`
+  };
+});
 
 export default function CombatResolutionModal({
   isOpen,
@@ -75,16 +183,18 @@ export default function CombatResolutionModal({
   );
 
   // 2. Weapon & Attack Config
-  const [selectedPresetId, setSelectedPresetId] = useState(WEAPON_PRESETS[0].id);
-  const [customWeaponName, setCustomWeaponName] = useState(WEAPON_PRESETS[0].name);
-  const [damageClass, setDamageClass] = useState(WEAPON_PRESETS[0].damageClass); // 'lethal' | 'non_lethal'
-  const [attackDiceExpression, setAttackDiceExpression] = useState(WEAPON_PRESETS[0].dice);
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [weaponSearch, setWeaponSearch] = useState('');
+  const [selectedPresetId, setSelectedPresetId] = useState(WEAPON_PRESETS[0]?.id || 'axe');
+  const [customWeaponName, setCustomWeaponName] = useState(WEAPON_PRESETS[0]?.name || 'Standard Weapon');
+  const [damageClass, setDamageClass] = useState(WEAPON_PRESETS[0]?.damageClass || 'lethal'); // 'lethal' | 'non_lethal'
+  const [attackDiceExpression, setAttackDiceExpression] = useState(WEAPON_PRESETS[0]?.dice || '1d8');
   const [attackSkillMod, setAttackSkillMod] = useState(3);
   const [attackAttributeMod, setAttackAttributeMod] = useState(2);
   const [situationalMod, setSituationalMod] = useState(0); // Cover / Range / Stance
   const [advantageMode, setAdvantageMode] = useState('normal'); // 'normal' | 'advantage' | 'disadvantage'
   const [isAiming, setIsAiming] = useState(false); // +2 Aim bonus
-  const [isPointBlank, setIsPointBlank] = useState(false); // +2 Point-blank bonus
+  const [isPointBlank, setIsPointBlank] = useState(false); // +5 Point-blank bonus & Damage Advantage
 
   // 3. Defense & Target Modifiers
   const [targetCover, setTargetCover] = useState(0); // 0 = None, 2 = Half, 4 = Full
@@ -93,7 +203,7 @@ export default function CombatResolutionModal({
   // 4. Hit Location & Penetration
   const [locationMode, setLocationMode] = useState('random'); // 'random' | 'targeted'
   const [selectedLocationId, setSelectedLocationId] = useState('torso');
-  const [armorPiercing, setArmorPiercing] = useState(WEAPON_PRESETS[0].ap || 0);
+  const [armorPiercing, setArmorPiercing] = useState(WEAPON_PRESETS[0]?.ap || 0);
 
   // 5. Resolution Roll Results
   const [attackRollResult, setAttackRollResult] = useState(null);
@@ -119,6 +229,63 @@ export default function CombatResolutionModal({
            ((characterData?.['character-doc-id'] || characterData?.id) === targetToken.linkedHeroId ? characterData : null);
   }, [targetToken, personaRoster, characterData]);
 
+  // Dynamically resolve equipped hero attacks if available
+  const equippedAttacks = useMemo(() => {
+    if (!attackerHero) return [];
+    try {
+      const resolved = resolveAllTacticalAttacks(attackerHero);
+      return (resolved || []).map(a => {
+        const isMelee = (a.category === 'melee' || a.range === '-' || (a.range && a.range.toLowerCase().includes('melee')));
+        const isNonLethal = (a.name || '').toLowerCase().includes('subdual') || (a.notes || '').toLowerCase().includes('non-lethal');
+        const diceMatch = (a.damage || '').match(/\d+d\d+(?:\s*[+-]\s*\d+)?/i);
+        const dice = diceMatch ? diceMatch[0].replace(/\s+/g, '') : '2d6';
+        let ap = 0;
+        const apMatch = (a.notes || '').match(/\b(?:AP|Penetrating)\s*(\d+)/i);
+        if (apMatch) ap = parseInt(apMatch[1], 10);
+        return {
+          id: `eq_${a.id}`,
+          name: a.name,
+          category: 'EQUIPPED',
+          type: isMelee ? 'melee' : 'ranged',
+          damageClass: isNonLethal ? 'non_lethal' : 'lethal',
+          skill: a.governingSkill || 'Combat',
+          dice,
+          damageType: a.type || 'Kinetic',
+          ap,
+          range: a.range || 'Standard',
+          desc: a.notes || 'Equipped Operative Weapon',
+          scoreMod: parseInt(a.score || 0, 10) || 0
+        };
+      });
+    } catch {
+      return [];
+    }
+  }, [attackerHero]);
+
+  // Combined weapon pool: equipped attacks first, then Omnicortex presets
+  const allAvailableWeapons = useMemo(() => {
+    return [...equippedAttacks, ...WEAPON_PRESETS];
+  }, [equippedAttacks]);
+
+  // Filtered weapon list for Omnicortex armaments selector
+  const filteredWeapons = useMemo(() => {
+    return allAvailableWeapons.filter(w => {
+      if (selectedCategory === 'EQUIPPED' && w.category !== 'EQUIPPED') return false;
+      if (selectedCategory !== 'ALL' && selectedCategory !== 'EQUIPPED') {
+        const cat = (w.category || '').toUpperCase();
+        if (selectedCategory === 'MELEE' && !cat.includes('MELEE')) return false;
+        if (selectedCategory === 'BALLISTIC' && !cat.includes('BALLISTIC')) return false;
+        if (selectedCategory === 'ENERGY' && !cat.includes('ENERGY')) return false;
+        if (selectedCategory === 'HEAVY' && !cat.includes('HEAVY')) return false;
+      }
+      if (weaponSearch.trim()) {
+        const term = weaponSearch.toLowerCase();
+        return (w.name || '').toLowerCase().includes(term) || (w.desc || '').toLowerCase().includes(term);
+      }
+      return true;
+    });
+  }, [allAvailableWeapons, selectedCategory, weaponSearch]);
+
   const isTargetSynthetic = Boolean(targetToken?.isSynthetic || targetToken?.structure || targetHero?.isSynthetic || targetHero?.structure);
 
   // Synchronize target token stats (Toughness, Defense DC, DR)
@@ -128,13 +295,16 @@ export default function CombatResolutionModal({
 
   // Sync weapon preset selection
   const handleSelectPreset = (presetId) => {
-    const preset = WEAPON_PRESETS.find(p => p.id === presetId);
+    const preset = allAvailableWeapons.find(p => p.id === presetId) || WEAPON_PRESETS.find(p => p.id === presetId);
     if (!preset) return;
     setSelectedPresetId(preset.id);
     setCustomWeaponName(preset.name);
     setDamageClass(preset.damageClass || 'lethal');
     setAttackDiceExpression(preset.dice);
     setArmorPiercing(preset.ap);
+    if (preset.scoreMod !== undefined) {
+      setAttackSkillMod(preset.scoreMod);
+    }
   };
 
   // Roll and Execute Combat Resolution
@@ -149,13 +319,25 @@ export default function CombatResolutionModal({
       targetNumber: effectiveDefenseDC
     });
 
-    // 2. Hit Location Determination
+    // 2. Hit Location Determination (1d10 canonical table, 1d6 for melee/unarmed per 3.00 COMBAT.md)
     let finalLocation;
-    let locRollNum = Math.floor(Math.random() * 100) + 1;
+    const currentWeapon = allAvailableWeapons.find(w => w.id === selectedPresetId);
+    const isMeleeAttack = currentWeapon?.type === 'melee' || currentWeapon?.range === 'Melee' || currentWeapon?.range === '-';
+    let locRollNum = 1;
+
     if (locationMode === 'targeted') {
-      finalLocation = HIT_LOCATIONS.find(l => l.id === selectedLocationId) || HIT_LOCATIONS[3];
+      finalLocation = HIT_LOCATIONS.find(l => l.id === selectedLocationId) || HIT_LOCATIONS[1];
+      locRollNum = finalLocation.d10[0] || 2;
     } else {
-      finalLocation = HIT_LOCATIONS.find(l => locRollNum >= l.range[0] && locRollNum <= l.range[1]) || HIT_LOCATIONS[3];
+      if (isMeleeAttack) {
+        // Canonical 1d6 for melee/unarmed: 1=Head, 2-4=Torso, 5=R-Arm, 6=L-Arm
+        locRollNum = Math.floor(Math.random() * 6) + 1;
+        finalLocation = HIT_LOCATIONS.find(l => l.d6 && l.d6.includes(locRollNum)) || HIT_LOCATIONS[1];
+      } else {
+        // Canonical 1d10 for ranged/heavy/energy: 1=Head, 2-4=Torso, 5=R-Arm, 6=L-Arm, 7-8=R-Leg, 9-10=L-Leg
+        locRollNum = Math.floor(Math.random() * 10) + 1;
+        finalLocation = HIT_LOCATIONS.find(l => l.d10 && l.d10.includes(locRollNum)) || HIT_LOCATIONS[1];
+      }
     }
 
     // 3. Margin of Success (MoS) & Hit Evaluation (Defender wins all ties per 3.00 COMBAT.md)
@@ -177,6 +359,7 @@ export default function CombatResolutionModal({
     let isSyntheticImmune = false;
     let triggersMassiveDamage = false;
     let triggersDeathClock = false;
+    let requiredTraumaSave = null;
 
     if (isHit) {
       // Point Blank rolls damage with Advantage for ballistic & energy weapons per 3.00 COMBAT.md
@@ -252,10 +435,43 @@ export default function CombatResolutionModal({
       if ((currentHealth - healthDamage) <= 0 && healthDamage > 0) {
         triggersDeathClock = true;
       }
+
+      // Canonical Location Trauma Saving Throw per 3.00 COMBAT.md and rule-hit-locations-d10.md
+      if (netDamage > 0) {
+        if (finalLocation.id === 'head') {
+          requiredTraumaSave = {
+            attribute: 'Reason',
+            dc: netDamage,
+            failureEffect: `Stunned for 1 round per point rolled under CR ${netDamage}`,
+            critFailureEffect: 'Unconscious (failed by 10+ points)'
+          };
+        } else if (finalLocation.id === 'torso') {
+          requiredTraumaSave = {
+            attribute: 'Fortitude',
+            dc: netDamage,
+            failureEffect: `Winded (-2 actions) for 1 round per point rolled under CR ${netDamage}`,
+            critFailureEffect: 'Gasping / Incapacitated (failed by 10+ points)'
+          };
+        } else if (finalLocation.id === 'right_arm' || finalLocation.id === 'left_arm') {
+          requiredTraumaSave = {
+            attribute: 'Reflex',
+            dc: netDamage,
+            failureEffect: 'Disarmed (drops held item)',
+            critFailureEffect: 'Arm Crippled / Non-Functional (failed by 10+ points)'
+          };
+        } else if (finalLocation.id === 'right_leg' || finalLocation.id === 'left_leg') {
+          requiredTraumaSave = {
+            attribute: 'Might',
+            dc: netDamage,
+            failureEffect: `Hobbled (half speed) for 1 round per point rolled under CR ${netDamage}`,
+            critFailureEffect: 'Leg Crippled / Non-Functional (failed by 10+ points)'
+          };
+        }
+      }
     }
 
     setAttackRollResult(attackRoll);
-    setLocationRollResult({ roll: locRollNum, location: finalLocation });
+    setLocationRollResult({ roll: locRollNum, isMelee: isMeleeAttack, location: finalLocation });
     setDamageRollResult(dmgRollObj);
     setComputedOutcome({
       isHit,
@@ -265,6 +481,8 @@ export default function CombatResolutionModal({
       margin,
       effectiveDefenseDC,
       finalLocation,
+      locRollNum,
+      isMeleeAttack,
       damageClass,
       rawDamage,
       soakedByArmor,
@@ -275,7 +493,8 @@ export default function CombatResolutionModal({
       structureDamage,
       isSyntheticImmune,
       triggersMassiveDamage,
-      triggersDeathClock
+      triggersDeathClock,
+      requiredTraumaSave
     });
     setHasResolved(true);
 
@@ -551,25 +770,74 @@ export default function CombatResolutionModal({
                 </span>
               </div>
 
-              {/* Weapon Presets */}
-              <div>
-                <label className="text-[11px] font-semibold text-slate-400 block mb-1">Preset Armaments</label>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {WEAPON_PRESETS.map(p => (
+              {/* Weapon Selection & Omnicortex Catalog */}
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
+                    <span>Armament Selection</span>
+                    <span className="text-[9px] text-slate-500 font-mono">({filteredWeapons.length} available)</span>
+                  </label>
+                  <div className="relative">
+                    <Search className="w-3 h-3 text-slate-500 absolute left-1.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={weaponSearch}
+                      onChange={(e) => setWeaponSearch(e.target.value)}
+                      placeholder="Search armaments..."
+                      className="pl-5 pr-2 py-0.5 text-[10px] bg-slate-950 border border-slate-800 rounded text-slate-200 focus:border-cyan-500 outline-none w-32"
+                    />
+                  </div>
+                </div>
+
+                {/* Category Filter Pills */}
+                <div className="flex flex-wrap gap-1">
+                  {['ALL', ...(equippedAttacks.length > 0 ? ['EQUIPPED'] : []), 'MELEE', 'BALLISTIC', 'ENERGY', 'HEAVY'].map(cat => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase transition-colors cursor-pointer border ${
+                        selectedCategory === cat
+                          ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
+                          : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                      }`}
+                    >
+                      {cat === 'EQUIPPED' ? `★ Equipped (${equippedAttacks.length})` : cat}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Weapons Grid */}
+                <div className="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto pr-1">
+                  {filteredWeapons.slice(0, 40).map(p => (
                     <button
                       key={p.id}
                       type="button"
                       onClick={() => handleSelectPreset(p.id)}
                       className={`px-2 py-1.5 rounded text-left text-[11px] transition-all border cursor-pointer flex flex-col ${
                         selectedPresetId === p.id
-                          ? 'bg-amber-950/60 border-amber-500/80 text-amber-200'
+                          ? 'bg-amber-950/60 border-amber-500/80 text-amber-200 shadow-[0_0_8px_rgba(245,158,11,0.25)]'
+                          : p.category === 'EQUIPPED'
+                          ? 'bg-emerald-950/20 border-emerald-800/60 text-emerald-200 hover:border-emerald-600'
                           : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                       }`}
                     >
-                      <span className="font-bold truncate">{p.name}</span>
-                      <span className="text-[9px] font-mono text-slate-400">{p.dice} · AP {p.ap} · {p.damageClass === 'lethal' ? '🔴 Lethal' : '🔵 Non-Lethal'}</span>
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="font-bold truncate">{p.name}</span>
+                        {p.category === 'EQUIPPED' && (
+                          <span className="text-[8px] px-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">EQ</span>
+                        )}
+                      </div>
+                      <span className="text-[9px] font-mono text-slate-400 truncate">
+                        {p.dice} · AP {p.ap} · {p.damageClass === 'lethal' ? '🔴 Lethal' : '🔵 Non-Lethal'}
+                      </span>
                     </button>
                   ))}
+                  {filteredWeapons.length === 0 && (
+                    <div className="col-span-2 p-3 text-center text-xs text-slate-500">
+                      No armaments matched filter "{weaponSearch || selectedCategory}"
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -660,7 +928,7 @@ export default function CombatResolutionModal({
                     isPointBlank ? 'bg-amber-950 border-amber-500 text-amber-300' : 'bg-slate-950 border-slate-800 text-slate-400'
                   }`}
                 >
-                  💥 Point Blank (+2)
+                  💥 Point Blank (+5 &amp; Dmg Adv)
                 </button>
               </div>
             </div>
@@ -719,7 +987,7 @@ export default function CombatResolutionModal({
                         : 'bg-slate-950 border-slate-800 text-slate-400'
                     }`}
                   >
-                    Random d100
+                    Random (1d10 / 1d6)
                   </button>
                   <button
                     type="button"
@@ -757,9 +1025,14 @@ export default function CombatResolutionModal({
                   ))}
                 </div>
               ) : (
-                <div className="p-2 rounded bg-slate-950/80 border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between font-mono">
-                  <span>Random Location: Determined via d100 roll upon strike</span>
-                  <span className="text-cyan-400">Head (10%), Torso (40%), Limbs (50%)</span>
+                <div className="p-2.5 rounded bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300 flex flex-col gap-1 font-mono">
+                  <div className="flex items-center justify-between">
+                    <span>Determination: Roll {selectedPresetId && (allAvailableWeapons.find(w => w.id === selectedPresetId)?.type === 'melee' || allAvailableWeapons.find(w => w.id === selectedPresetId)?.range === 'Melee' || allAvailableWeapons.find(w => w.id === selectedPresetId)?.range === '-') ? '1d6 (Melee/Unarmed)' : '1d10 (Standard)'}</span>
+                    <span className="text-cyan-400">Head (1), Torso (2-4), Arms (5-6), Legs (7-10)</span>
+                  </div>
+                  <span className="text-[10px] text-slate-500">
+                    * Defender must make a location trauma save (Reason/Fortitude/Reflex/Might) vs net damage dealt upon hit.
+                  </span>
                 </div>
               )}
             </div>
@@ -809,7 +1082,7 @@ export default function CombatResolutionModal({
                   </div>
 
                   <div className="text-xs font-mono text-slate-400 flex items-center gap-2">
-                    <span>Location: <strong className="text-indigo-300 uppercase">{computedOutcome.finalLocation.label}</strong></span>
+                    <span>Location: <strong className="text-indigo-300 uppercase">{computedOutcome.finalLocation.label}</strong> (Roll [{computedOutcome.locRollNum}])</span>
                     <span className="text-slate-600">|</span>
                     <span className={computedOutcome.damageClass === 'lethal' ? 'text-rose-400 font-bold' : 'text-cyan-400 font-bold'}>
                       {computedOutcome.damageClass === 'lethal' ? '🔴 Lethal' : '🔵 Non-Lethal'}
@@ -834,6 +1107,27 @@ export default function CombatResolutionModal({
                     <span className="text-rose-300 font-bold text-sm">{computedOutcome.rawDamage} Dmg</span>
                   </div>
                 </div>
+
+                {/* Canonical Location Trauma Saving Throw Banner */}
+                {computedOutcome.requiredTraumaSave && (
+                  <div className="p-2.5 rounded-lg bg-indigo-950/80 border border-indigo-500/80 text-indigo-200 text-xs flex flex-col gap-1 font-mono">
+                    <div className="flex items-center justify-between font-bold">
+                      <span className="flex items-center gap-1.5 text-indigo-300">
+                        <Target className="w-4 h-4 text-indigo-400" />
+                        3.10 Location Trauma Save: {computedOutcome.requiredTraumaSave.attribute} Save vs CR {computedOutcome.requiredTraumaSave.dc}
+                      </span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-indigo-900/60 border border-indigo-700">
+                        [{computedOutcome.finalLocation.label.toUpperCase()}]
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-indigo-200">
+                      • <strong>Failure:</strong> {computedOutcome.requiredTraumaSave.failureEffect}
+                    </div>
+                    <div className="text-[11px] text-rose-300">
+                      • <strong>Severe Failure (by 10+):</strong> {computedOutcome.requiredTraumaSave.critFailureEffect}
+                    </div>
+                  </div>
+                )}
 
                 {/* Synthetic Immunity Banner */}
                 {computedOutcome.isSyntheticImmune && (

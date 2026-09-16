@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { X, MessageSquare, Plus, Maximize2, Radio, Users, Lock, Shield, Hash, Settings } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
+import { CommsNavRail } from '../Chat/CommsNavRail';
 import { ChannelSidebar } from '../Chat/ChannelSidebar';
+import { NetworkRosterView } from '../Chat/NetworkRosterView';
+import { CommsVttPanel } from '../Chat/CommsVttPanel';
 import { MessageView } from '../Chat/MessageView';
 import { MessageInput } from '../Chat/MessageInput';
 import { CreateChannelModal } from '../Chat/CreateChannelModal';
@@ -11,22 +14,29 @@ import { AudioService } from '../../services/audioService';
 
 export const CommLinkDock = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-  const { activeChannel, messages, loadingMessages } = useChat();
+  const { 
+    activeChannel, 
+    messages, 
+    loadingMessages, 
+    activeNavTab, 
+    setActiveNavTab 
+  } = useChat();
+
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [mobilePane, setMobilePane] = useState('chat'); // 'channels' | 'chat'
 
   // ESC key listener to close modal
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && !isCreateModalOpen && !isSquadModalOpen) {
+      if (e.key === 'Escape' && !isCreateModalOpen && !isTeamModalOpen) {
         onClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, isCreateModalOpen, isSquadModalOpen, onClose]);
+  }, [isOpen, isCreateModalOpen, isTeamModalOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -40,10 +50,10 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
         {/* Main Modal Card Container */}
         <div 
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-5xl h-[90vh] sm:h-[84vh] max-h-[850px] bg-[#0b0f17] border border-cyan-500/50 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden relative"
+          className="w-full max-w-5xl h-[92vh] sm:h-[86vh] max-h-[880px] bg-[#0b0f17] border border-cyan-500/50 rounded-2xl shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden relative font-sans"
         >
           {/* Top Modal Header */}
-          <div className="px-3 sm:px-4 py-2.5 bg-slate-950/95 border-b border-slate-800 flex items-center justify-between gap-2 shrink-0">
+          <div className="px-3 sm:px-4 py-2 bg-slate-950/95 border-b border-slate-800 flex items-center justify-between gap-2 shrink-0">
             {/* Left: Brand / Frequency Status */}
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="p-1.5 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 shrink-0">
@@ -65,12 +75,12 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                   )}
                 </div>
                 <p className="text-[10px] text-slate-400 font-mono hidden sm:block truncate">
-                  {activeChannel?.topic || 'Encrypted tactical frequencies, squad comms, and HoloNet relays.'}
+                  {activeChannel?.topic || 'Encrypted tactical frequencies, team comms, and HoloNet relays.'}
                 </p>
               </div>
             </div>
 
-            {/* Right: Controls (Mobile toggle, Squads, Maximize, Close) */}
+            {/* Right: Controls (Mobile toggle, Teams, Maximize, Close) */}
             <div className="flex items-center gap-1.5 shrink-0">
               {/* Mobile Channels / Chat Toggle */}
               <button
@@ -85,18 +95,18 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                 <span>{mobilePane === 'channels' ? 'CHAT' : 'CHANNELS'}</span>
               </button>
 
-              {/* Direct Squads & Team Management Button */}
+              {/* Direct Team Management Button */}
               <button
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1100, 0.02);
-                  setIsSquadModalOpen(true);
+                  setIsTeamModalOpen(true);
                 }}
                 className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold transition-all cursor-pointer"
-                title="Team & Squad Management"
+                title="Team Management"
               >
-                <Users size={13} />
-                <span>SQUADS</span>
+                <Shield size={13} />
+                <span>TEAMS</span>
               </button>
 
               {/* Create Channel */}
@@ -142,20 +152,76 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* 2-Pane Comms Workspace */}
+          {/* Main Comms Workspace with Navigation Rail */}
           <div className="flex-1 flex min-h-0 overflow-hidden relative">
-            {/* Left Pane: Channels & Categories Directory */}
-            <div className={`w-full md:w-72 lg:w-80 shrink-0 h-full border-r border-slate-800 bg-slate-950/70 overflow-hidden ${
+            {/* Left Nav Rail */}
+            <CommsNavRail
+              onOpenCreateModal={() => setIsCreateModalOpen(true)}
+              onOpenSquadModal={() => setIsTeamModalOpen(true)}
+              onOpenTeamModal={() => setIsTeamModalOpen(true)}
+              isCompact
+            />
+
+            {/* Sub-Panel: Channels / Network Roster / VTT */}
+            <div className={`w-full md:w-72 lg:w-80 shrink-0 h-full border-r border-slate-800 bg-slate-950/80 overflow-hidden ${
               mobilePane === 'channels' ? 'block' : 'hidden md:block'
             }`}>
-              <ChannelSidebar
-                onOpenCreateModal={() => setIsCreateModalOpen(true)}
-                onOpenSquadModal={() => setIsSquadModalOpen(true)}
-              />
+              {activeNavTab === 'matrix' && (
+                <ChannelSidebar
+                  onOpenCreateModal={() => setIsCreateModalOpen(true)}
+                  onOpenSquadModal={() => setIsTeamModalOpen(true)}
+                  onOpenTeamModal={() => setIsTeamModalOpen(true)}
+                  isCompact
+                />
+              )}
+
+              {activeNavTab === 'roster' && (
+                <NetworkRosterView isCompact />
+              )}
+
+              {activeNavTab === 'teams' && (
+                <ChannelSidebar
+                  onOpenCreateModal={() => setIsCreateModalOpen(true)}
+                  onOpenSquadModal={() => setIsTeamModalOpen(true)}
+                  onOpenTeamModal={() => setIsTeamModalOpen(true)}
+                  isCompact
+                />
+              )}
+
+              {activeNavTab === 'vtt' && (
+                <CommsVttPanel />
+              )}
+
+              {activeNavTab === 'logs' && (
+                <ChannelSidebar
+                  onOpenCreateModal={() => setIsCreateModalOpen(true)}
+                  onOpenSquadModal={() => setIsTeamModalOpen(true)}
+                  onOpenTeamModal={() => setIsTeamModalOpen(true)}
+                  isCompact
+                />
+              )}
+
+              {activeNavTab === 'settings' && (
+                <div className="p-4 text-xs font-mono text-slate-300 space-y-3">
+                  <div className="font-bold text-cyan-400 border-b border-slate-800 pb-1 uppercase">
+                    Terminal Audio
+                  </div>
+                  <p className="text-[11px] text-slate-400">
+                    Subtle tactile audio alerts sound on new incoming whispers and dice rolls.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => AudioService.playTerminalBeep(1450, 0.03)}
+                    className="px-2.5 py-1 bg-cyan-950 border border-cyan-500/40 text-cyan-300 rounded font-bold"
+                  >
+                    Test Audio Feedback
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Right Pane: Active Message Thread & Input Form */}
-            <div className={`flex-1 flex flex-col h-full min-w-0 bg-[#0d1117]/90 ${
+            <div className={`flex-1 flex flex-col h-full min-w-0 bg-[#0a0e17] ${
               mobilePane === 'chat' ? 'flex' : 'hidden md:flex'
             }`}>
               <MessageView
@@ -163,7 +229,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                 loading={loadingMessages}
                 activeChannel={activeChannel}
               />
-              <MessageInput />
+              <MessageInput isCompact />
             </div>
           </div>
         </div>
@@ -175,12 +241,14 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
         onClose={() => setIsCreateModalOpen(false)}
       />
 
-      {/* Game Squads & Parties Builder Modal */}
-      <GameGroupModal
-        isOpen={isSquadModalOpen}
-        onClose={() => setIsSquadModalOpen(false)}
-        initialTab="roster"
-      />
+      {/* Game Teams & Parties Builder Modal */}
+      {isTeamModalOpen && (
+        <GameGroupModal
+          isOpen={isTeamModalOpen}
+          onClose={() => setIsTeamModalOpen(false)}
+          initialTab="roster"
+        />
+      )}
     </>
   );
 };

@@ -5,6 +5,8 @@ import { categoryConfig } from './categoryConfig';
 import { VirtualizedList } from './VirtualizedList';
 import { useDBM } from '../../context/DBMContext';
 import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+import { getSizeTierIndex } from '../../data/speciesSizeData';
+import { getMovementClassification, getMovementClassificationOrderIndex } from '../../data/speciesMovementData';
 
 // Dynamically import DBMItemModal to enable full manage modal build flow without circular bundling
 const DBMItemModal = React.lazy(() => import('./DBMItemModal').then(m => ({ default: m.DBMItemModal })));
@@ -126,17 +128,31 @@ const getAspectSubtypeOptions = (aspect, itemsMap = {}) => {
 export const UnifiedRelationalSelectorModal = ({
   isOpen,
   onClose,
-  sourceCollection,
+  sourceCollection: rawSourceCollection,
+  fieldKey,
+  fieldDef,
   isMulti = true,
-  selectedValues = [],
+  selectedValues: rawSelectedValues,
+  currentValue,
   onSelect,
   onChange,
-  fieldLabel = 'Items',
+  fieldLabel: rawFieldLabel,
   onItemCreated,
   dbData = {},
   saveEntry,
   devMode = false
 }) => {
+  let sourceCollection = rawSourceCollection || fieldDef?.source || fieldDef?.collection || fieldKey;
+  if (sourceCollection === 'size') sourceCollection = 'species_size';
+  if (sourceCollection === 'movement') sourceCollection = 'species_movement';
+  if (sourceCollection === 'traits') sourceCollection = 'species_traits';
+  if (sourceCollection === 'disadvantages') sourceCollection = 'species_disadvantages';
+
+  const selectedValues = rawSelectedValues !== undefined ? rawSelectedValues : (currentValue !== undefined ? currentValue : []);
+  const fieldLabel = rawFieldLabel !== undefined && rawFieldLabel !== 'Items'
+    ? rawFieldLabel
+    : (fieldDef?.label || (typeof fieldKey === 'string' ? fieldKey.toUpperCase() : 'Items'));
+
   const dbContext = useDBM() || {};
   const activeDbData = (dbData && Object.keys(dbData).length > 0) ? dbData : (dbContext.activeDbData || {});
   const activeSaveEntry = saveEntry || dbContext.activeSaveEntry;
@@ -269,9 +285,21 @@ export const UnifiedRelationalSelectorModal = ({
 
   const allAvailableItems = [...categoryOptions, ...nonDuplicateItems];
 
+  if (sourceCollection === 'species_size') {
+    allAvailableItems.sort((a, b) => getSizeTierIndex(a) - getSizeTierIndex(b));
+  } else if (sourceCollection === 'species_movement') {
+    allAvailableItems.sort((a, b) => {
+      const tierDiff = getMovementClassificationOrderIndex(a) - getMovementClassificationOrderIndex(b);
+      if (tierDiff !== 0) return tierDiff;
+      return (a.name || a.id || '').localeCompare(b.name || b.id || '');
+    });
+  }
+
   const filteredItems = allAvailableItems.filter(item => {
     if (categoryFilter !== 'all') {
-      if (categoryFilter === 'groups') {
+      if (sourceCollection === 'species_movement') {
+        if (getMovementClassification(item) !== categoryFilter) return false;
+      } else if (categoryFilter === 'groups') {
         if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
       } else if (item.group !== categoryFilter) {
         return false;
@@ -565,6 +593,67 @@ export const UnifiedRelationalSelectorModal = ({
                   }`}
                 >
                   All ({allAvailableItems.length})
+                </button>
+              </div>
+            )}
+
+            {/* Category Sub-Filter Header Bar for Species Movement */}
+            {sourceCollection === 'species_movement' && (
+              <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('all')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'all'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  All ({allAvailableItems.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('basic')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'basic'
+                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  🚶 Basic ({allAvailableItems.filter(i => getMovementClassification(i) === 'basic').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('advanced')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'advanced'
+                      ? 'bg-blue-950 text-blue-300 border border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  🦅 Advanced ({allAvailableItems.filter(i => getMovementClassification(i) === 'advanced').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('modifier')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'modifier'
+                      ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  ⚡ Modifiers ({allAvailableItems.filter(i => getMovementClassification(i) === 'modifier').length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('stage')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'stage'
+                      ? 'bg-purple-950 text-purple-300 border border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  ⏱️ Stages ({allAvailableItems.filter(i => getMovementClassification(i) === 'stage').length})
                 </button>
               </div>
             )}

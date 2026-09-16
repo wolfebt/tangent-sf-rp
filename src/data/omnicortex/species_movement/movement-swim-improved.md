@@ -2,7 +2,8 @@
 id: movement-swim-improved
 name: Enhanced Swim Speed (+10 ft Swim)
 category: species_movement
-classification: adjuster
+classification: modifier
+movement_tier: modifier
 target_mode: Swimming
 speed_modifier: 10
 is_additive: true
@@ -20,7 +21,8 @@ costs:
 ---
 # Enhanced Swim Speed (+10 ft Swim)
 
-**Category**: Species Movement (ADJUSTER)  
+**Category**: Species Movement (MODIFIER)  
+**Classification**: modifier  
 **Target Mode**: Swimming  
 **Cost**: +1 BP  
 **Speed Modifier**: +10 ft (Additive)  

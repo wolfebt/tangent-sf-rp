@@ -113,6 +113,10 @@ export const CODEX_MATRICES = [
     description: 'Design planetary facilities, orbital stations, mobile crawlers, tactical fortifications, and sprawling arcologies.',
     category: 'Property & Infrastructure',
     badge: 'Structural Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: false,
     customComponent: 'ArchitectureBlueprintConfigurator',
     defaultValues: {
       name: '',
@@ -155,7 +159,7 @@ export const CODEX_MATRICES = [
       { name: 'name', label: 'Structure / Blueprint Name', type: 'text', required: true, placeholder: 'E.g., Aegis Spire Orbital Station' },
       { name: 'faction_skin', label: 'Cultural Skin / Faction Paradigm', type: 'select', options: ['Syndicate', 'Impyrium', 'Dracon', 'Ascendancy', 'Coalition', 'Alterian', 'Auluran', 'Mekan', 'Entari'] },
       { name: 'frame_type', label: 'Frame & Configuration', type: 'select', options: ['Standard', 'Industrial', 'Elevated', 'Tower', 'Subterranean', 'Biomimetic', 'Dynamic', 'Palatial'] },
-      { name: 'footprint', label: 'Scale & Footprint', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'SuperGargantuan', 'MegaColossal'] },
+      { name: 'footprint', label: 'Scale & Footprint', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal'] },
       { name: 'height_class', label: 'Verticality & Stories', type: 'select', options: ['Single', 'Duplex', 'MultiStory', 'MidRise', 'HighRise', 'Skyscraper'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
@@ -286,6 +290,10 @@ export const CODEX_MATRICES = [
     description: 'Engineer tactical combat suits, powered exoskeletons, energy deflector shielding, and hazard environmental gear.',
     category: 'Combat & Defense',
     badge: 'Defense Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: false,
     customComponent: 'ArmorCoverageSelector',
     defaultValues: {
       name: '',
@@ -353,6 +361,10 @@ export const CODEX_MATRICES = [
     description: 'Fabricate cybernetic implants, neural coprocessors, bioware enhancements, subdermal armor, and nanite systems.',
     category: 'Transhuman Enhancements',
     badge: 'Cyberware Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: false,
     customComponent: 'AugmentationNodeConfigurator',
     defaultValues: {
       name: '',
@@ -416,6 +428,10 @@ export const CODEX_MATRICES = [
     description: 'Assemble field tools, medical tech, comms gear, scanners, electronic warfare decks, and exploration kits.',
     category: 'Gear & Utilities',
     badge: 'Equipment Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: false,
     customComponent: 'EquipmentCategoryConfigurator',
     defaultValues: {
       name: '',
@@ -480,6 +496,10 @@ export const CODEX_MATRICES = [
     description: 'Weave psionic powers, meta-abilities, psychic spells, dimensional anomalies, telekinesis, and consciousness rites.',
     category: 'Meta-Abilities & Psionics',
     badge: 'Psi Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: true,
     customComponent: 'InvocationParameterConfigurator',
     defaultValues: {
       name: '',
@@ -494,7 +514,8 @@ export const CODEX_MATRICES = [
       scalingType: 'energyDamage',
       tech_level: 0,
       meta_level: 2,
-      craft_dc: 15,
+      manifestation_dc: 15,
+      focus_cost: 2,
       description: '',
       mechanic: '',
       note: ''
@@ -504,17 +525,22 @@ export const CODEX_MATRICES = [
       { name: 'discipline', label: 'Psionic Discipline', type: 'select', options: ['telekinesis', 'telepathy', 'pyrokinesis', 'chronos', 'biometabolism', 'void_attunement', 'cryo', 'voltic', 'spatial_distortion', 'clairvoyance'] },
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'tech_level', label: 'Tech Level Requirement (TL 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'craft_dc', label: 'Manifestation DC / Check', type: 'number', min: 0, max: 80 },
+      { name: 'manifestation_dc', label: 'Manifestation DC / Check', type: 'number', min: 0, max: 80, helpText: 'Psionic difficulty target for manifestation check' },
+      { name: 'focus_cost', label: 'Focus Expenditure (FP)', type: 'number', min: 1, max: 20 },
       { name: 'description', label: 'Sensory & Manifestation Description', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Damage, Duration, Strain & Save Rules', type: 'textarea' },
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
     ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
+    computedOutputs: [],
     computeOnSave: (formData, engines) => {
       if (engines?.entities?.computeInvocationStats) {
         return engines.entities.computeInvocationStats(formData);
       }
-      return createStandardComputeOnSave('Node', 1)(formData, engines);
+      return {
+        manifestation_dc: Number(formData.manifestation_dc || formData.craft_dc || 15),
+        focus_cost: Number(formData.focus_cost || 2),
+        computed_at: new Date().toISOString()
+      };
     },
     archetypes: [
       { name: 'Kinetic Shockwave Blast', prompt: 'A radial telekinetic pulse that knocks back enemies and shatters light barriers.' },
@@ -534,6 +560,10 @@ export const CODEX_MATRICES = [
     description: 'Construct combat walkers, mobile battle armors, titan frames, dropships, hover-tanks, and assault chassis.',
     category: 'Vehicles & Heavy Frames',
     badge: 'Heavy Mech Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: false,
     customComponent: 'MechaChassisConfigurator',
     defaultValues: {
       name: '',
@@ -561,7 +591,7 @@ export const CODEX_MATRICES = [
     fields: [
       { name: 'name', label: 'Mecha / Chassis Designation', type: 'text', required: true, placeholder: 'E.g., Vanguard Mk-VI Stryker Frame' },
       { name: 'domain', label: 'Operational Domain', type: 'select', options: ['Personal Mobility', 'Civilian', 'Utility & Industrial', 'Military Ground', 'Aircraft & Atmospheric', 'Spacecraft & Interstellar', 'Watercraft & Submersible', 'Power Armor & Walkers'] },
-      { name: 'size', label: 'Chassis Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'SuperGargantuan', 'MegaColossal'] },
+      { name: 'size', label: 'Chassis Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal'] },
       { name: 'frame', label: 'Body Frame Configuration', type: 'select', options: ['Creature', 'Humanoid', 'Industrial', 'Personal', 'Platform', 'Racing', 'Walker', 'Winged'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
@@ -603,6 +633,10 @@ export const CODEX_MATRICES = [
     description: 'Devise psi-amplifiers, void-drive resonators, anomalous artifacts, ether batteries, and quantum catalyst devices.',
     category: 'Experimental Meta-Science',
     badge: 'Artifact Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: false,
     customComponent: 'MetaTechImbuementConfigurator',
     defaultValues: {
       name: '',
@@ -659,6 +693,10 @@ export const CODEX_MATRICES = [
     description: 'Assemble NPC archetypes, tactical adversary templates, security squads, mercenary bosses, and synth droids.',
     category: 'NPCs & Operative Templates',
     badge: 'Archetype Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     customComponent: 'ModularStatBlockConfigurator',
     defaultValues: {
       name: '',
@@ -675,7 +713,7 @@ export const CODEX_MATRICES = [
       tacticalBehaviors: ['Defensive Anchor'],
       tech_level: 3,
       meta_level: 1,
-      craft_dc: 20,
+      threat_rating: 15,
       description: '',
       mechanic: '',
       note: ''
@@ -688,17 +726,21 @@ export const CODEX_MATRICES = [
       { name: 'bossType', label: 'Chassis Type / Multiplier', type: 'select', options: ['Minion', 'Standard', 'Boss', 'Mastermind'] },
       { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'craft_dc', label: 'Encounter / Threat DC', type: 'number', min: 0, max: 80 },
+      { name: 'threat_rating', label: 'Encounter Threat Rating', type: 'number', min: 0, max: 80, helpText: 'Baseline Challenge Rating for combat encounters' },
       { name: 'description', label: 'Appearance, Behavioral AI & Motives', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Combat Behaviors, Special Traits & Loot', type: 'textarea' },
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
     ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
+    computedOutputs: [],
     computeOnSave: (formData, engines) => {
       if (engines?.entities?.computeModularCharacterStats) {
         return engines.entities.computeModularCharacterStats(formData);
       }
-      return createStandardComputeOnSave('Mount', 1)(formData, engines);
+      return {
+        threat_tier: Number(formData.threatTier ?? formData.threat_tier ?? 3),
+        boss_type: formData.bossType || 'Standard',
+        computed_at: new Date().toISOString()
+      };
     },
     archetypes: [
       { name: 'Cyber-Yakuza Enforcer', prompt: 'Heavy augmented street muscle with dermal plating, sub-dermal blades, and shotgun.' },
@@ -718,6 +760,10 @@ export const CODEX_MATRICES = [
     description: 'Design character features, special combat abilities, biological traits, karma perks, and exotic talents.',
     category: 'Character Traits & Talents',
     badge: 'Features Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     defaultValues: {
       name: '',
       type: 'ability',
@@ -726,7 +772,6 @@ export const CODEX_MATRICES = [
       tl: 0,
       meta_level: 0,
       ml: 0,
-      craft_dc: 15,
       prerequisite: [],
       modifiers: [],
       costs: {},
@@ -739,18 +784,20 @@ export const CODEX_MATRICES = [
     fields: [
       { name: 'name', label: 'Feature / Talent Name', type: 'text', required: true, placeholder: 'E.g., Void Acclimation' },
       { name: 'type', label: 'Feature Category / Classification', type: 'select', options: ['ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic', 'Special Ability'] },
-      { name: 'cp', label: 'Character Point (CP) Cost', type: 'number', min: -50, max: 100 },
+      { name: 'cp', label: 'Character Point (CP) Cost', type: 'number', min: -50, max: 100, helpText: 'Character point investment or flaw point rebate' },
       { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'craft_dc', label: 'Complexity / Acclimation DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'] },
       { name: 'multi', label: 'Multi-Rank / Repeatable', type: 'boolean' },
       { name: 'staged', label: 'Staged Scaling Feature', type: 'boolean' },
       { name: 'description', label: 'Description & Lore', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Rules & Mechanical Effects', type: 'textarea' },
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
     ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
-    computeOnSave: createStandardComputeOnSave('Socket', 1),
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      cp: Number(formData.cp ?? 2),
+      computed_at: new Date().toISOString()
+    }),
     archetypes: [
       { name: 'Combat Reflexes', prompt: 'Lightning-fast instincts allowing instant reaction to ambushes and bonus defensive positioning.' },
       { name: 'Void-Born Metabolism', prompt: 'Physiological adaptation granting resistance to decompression, radiation, and low-gravity disorientation.' },
@@ -769,6 +816,10 @@ export const CODEX_MATRICES = [
     description: 'Map star systems, planetary biomes, orbital stations, atmospheric conditions, hazardous zones, and alien ecologies.',
     category: 'Cosmology & Worldbuilding',
     badge: 'Planetary Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     customComponent: 'PlanetaryDesignConfigurator',
     defaultValues: {
       name: '',
@@ -787,7 +838,7 @@ export const CODEX_MATRICES = [
       ml: 1,
       dominant_faction: 'Independent',
       planet_type: 'Terrestrial Bio-World',
-      craft_dc: 20,
+      survey_dc: 20,
       domainRatings: {},
       settlements: 'Nova Prime (Arcology Capital), Outpost 99',
       hazards: 'Corrosive Dust Storms, Solar Flares',
@@ -799,19 +850,23 @@ export const CODEX_MATRICES = [
       { name: 'name', label: 'Planet / Celestial Body Name', type: 'text', required: true, placeholder: 'E.g., Valerius-9 Arcology Prime' },
       { name: 'planet_type', label: 'Celestial Classification', type: 'select', options: ['Terrestrial Bio-World', 'Ecumenopolis (City Planet)', 'Barren Wasteland', 'Volcanic Forge World', 'Ocean World / Aquatic Depths', 'Ice Giant Sub-Surface', 'Asteroid Mining Cluster', 'Orbital Habitat Mega-Ring'] },
       { name: 'dominant_faction', label: 'Controlling Faction / Authority', type: 'text', placeholder: 'E.g., Sol-Centauri Syndicate' },
-      { name: 'craft_dc', label: 'Survey / Hazard DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'] },
+      { name: 'survey_dc', label: 'Survey / Hazard DC', type: 'number', min: 0, max: 80, helpText: 'Environmental exploration and hazard difficulty rating' },
       { name: 'settlements', label: 'Major Settlements & Starports', type: 'text', placeholder: 'E.g., Neon Reach Spire, Port Meridian' },
       { name: 'hazards', label: 'Planetary Hazards & Flora/Fauna', type: 'text', placeholder: 'E.g., Bioluminescent predators, tectonic rifts' },
       { name: 'description', label: 'Planetary Panorama & Climate Lore', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Environmental Survival Rules & DC Modifiers', type: 'textarea' },
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
     ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
+    computedOutputs: [],
     computeOnSave: (formData, engines) => {
       if (engines?.planetary?.computePlanetaryStats) {
         return engines.planetary.computePlanetaryStats(formData);
       }
-      return createStandardComputeOnSave('Module', 10)(formData, engines);
+      return {
+        planet_type: formData.planet_type || 'Terrestrial Bio-World',
+        survey_dc: Number(formData.survey_dc || 20),
+        computed_at: new Date().toISOString()
+      };
     },
     archetypes: [
       { name: 'Cyberpunk Ecumenopolis', prompt: 'A planet-spanning metropolis shrouded in perpetual acid smog and neon holograms.' },
@@ -831,6 +886,10 @@ export const CODEX_MATRICES = [
     description: 'Engineer alien lifeforms, genetic mutants, synthetic chassis races, uplifted animals, and meta-human bloodlines.',
     category: 'Biological & Synthetic Lineages',
     badge: 'Species Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     customComponent: 'SpeciesTraitSelector',
     defaultValues: {
       name: '',
@@ -849,7 +908,6 @@ export const CODEX_MATRICES = [
       skill_bundles: 0,
       traits: [],
       disadvantages: [],
-      craft_dc: 15,
       description: '',
       mechanic: '',
       note: ''
@@ -858,8 +916,7 @@ export const CODEX_MATRICES = [
       { name: 'name', label: 'Species / Lineage Name', type: 'text', required: true, placeholder: 'E.g., Vesperian Void-Stalkers' },
       { name: 'budget_level', label: 'Budget Tier', type: 'select', options: ['Standard', 'Advanced', 'Monster'] },
       { name: 'species_type', label: 'Species Chassis Type', type: 'select', options: ['Aberration', 'Beast', 'Dragon', 'Elemental', 'Entity', 'Fey', 'Humanoid', 'Mythical', 'Ooze', 'Planar', 'Synthetic', 'Undead', 'Verdant'] },
-      { name: 'size', label: 'Size Category', type: 'select', options: ['Diminutive', 'Small', 'Medium', 'Large', 'Huge'] },
-      { name: 'craft_dc', label: 'Genetic Complexity DC', type: 'number', min: 0, max: 80 },
+      { name: 'size', label: 'Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal'] },
       { name: 'description', label: 'Physiology, Culture & Evolutionary Origin', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Inherent Racial Traits, Senses & Weaknesses', type: 'textarea' },
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
@@ -867,12 +924,16 @@ export const CODEX_MATRICES = [
     budgets: [
       { id: 'species_bp', label: 'Species Character Points', type: 'custom', max: 20, unit: 'CP', color: '#10b981' }
     ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
+    computedOutputs: [],
     computeOnSave: (formData, engines) => {
       if (engines?.entities?.computeSpeciesStats) {
         return engines.entities.computeSpeciesStats(formData);
       }
-      return createStandardComputeOnSave('Node', 20)(formData, engines);
+      return {
+        species_type: formData.species_type || 'Humanoid',
+        size: formData.size || 'Medium',
+        computed_at: new Date().toISOString()
+      };
     },
     archetypes: [
       { name: 'Cyber-Symbiotic Android', prompt: 'Sentient synthetic humanoid chassis engineered for extreme void operations with modular limbs.' },
@@ -892,6 +953,10 @@ export const CODEX_MATRICES = [
     description: 'Forge kinetic firearms, energy blasters, plasma cutters, monofilament melee blades, and heavy ordnance.',
     category: 'Tactical Armaments',
     badge: 'Armament Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: true,
     customComponent: 'WeaponModStacker',
     defaultValues: {
       name: '',
@@ -963,6 +1028,10 @@ export const CODEX_MATRICES = [
     description: 'Master economic reference suite, trade route simulator, currency converter, and standard curve calculator.',
     category: 'System Reference & Calculators',
     badge: 'Economic Engine',
+    isProperty: true,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     defaultValues: {
       name: 'System Economic Reference Profile',
       craft_dc: 20,
@@ -988,6 +1057,10 @@ export const CODEX_MATRICES = [
     description: 'Design comprehensive sociological, economic, and military factions to populate the universe.',
     category: 'World Building',
     badge: 'Sociology Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     defaultValues: {
       name: '',
       faction_type: 'Major Polity',
@@ -1170,20 +1243,25 @@ export const CODEX_MATRICES = [
     description: 'Tech Level encyclopedia, domain capability charts, schematic repositories, and adaptive material references.',
     category: 'System Reference & Calculators',
     badge: 'Tech Engine',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     defaultValues: {
       name: 'Technological Domain Reference Profile',
       tl: 3,
-      craft_dc: 20,
       description: 'Technological Domain Reference Profile and civilization capabilities.'
     },
     fields: [
       { name: 'name', label: 'Technology Profile Designation', type: 'text', required: true, placeholder: 'E.g., Singularity Era Materials Matrix' },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'craft_dc', label: 'Technological Complexity DC', type: 'number', min: 0, max: 80 },
       { name: 'description', label: 'Technical Specifications & Domain Capabilities', type: 'textarea' }
     ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
-    computeOnSave: createStandardComputeOnSave('Socket', 1)
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      tl: Number(formData.tl ?? 3),
+      computed_at: new Date().toISOString()
+    })
   },
   {
     id: 'scaling',
@@ -1198,21 +1276,26 @@ export const CODEX_MATRICES = [
     description: 'Universal 14-Tier Size Categories, Fluid Combat Modifier Matchup Simulator, Meta-Tech Amplification & Asset Valuation Diagnostics.',
     category: 'System Reference & Calculators',
     badge: 'Scale Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
     customComponent: 'ScalingCodex',
     defaultValues: {
       name: 'Scaling Reference Profile',
       size: 'Huge',
-      craft_dc: 20,
       description: 'Universal scaling mechanics and fluid combat simulator profile.'
     },
     fields: [
       { name: 'name', label: 'Reference / Profile Name', type: 'text', required: true, placeholder: 'E.g., Tactical Scaling Reference' },
-      { name: 'size', label: 'Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'SuperGargantuan', 'MegaColossal'] },
-      { name: 'craft_dc', label: 'Crafting / Complexity DC', type: 'number', min: 0, max: 80 },
+      { name: 'size', label: 'Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal'] },
       { name: 'description', label: 'Scale Mechanics Notes', type: 'textarea' }
     ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
-    computeOnSave: createStandardComputeOnSave('Mount', 1)
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      size: formData.size || 'Medium',
+      computed_at: new Date().toISOString()
+    })
   },
   {
     id: 'ingestion-engine',
@@ -1244,4 +1327,25 @@ export const WORLD_MATRIX_IDS = PLANETARY_SPECIES_MATRIX_IDS;
 export const getMatrixById = (id) => {
   return CODEX_MATRICES.find(m => m.id === id) || CODEX_MATRICES[0];
 };
+
+export const isPropertyMatrix = (matrixId) => {
+  const m = getMatrixById(matrixId);
+  return Boolean(m?.isProperty);
+};
+
+export const hasSocketsAndUDU = (matrixId) => {
+  const m = getMatrixById(matrixId);
+  return Boolean(m?.hasSocketsAndUDU);
+};
+
+export const hasDamageOrEffect = (matrixId) => {
+  const m = getMatrixById(matrixId);
+  return Boolean(m?.hasDamageOrEffect);
+};
+
+export const hasModifications = (matrixId) => {
+  const m = getMatrixById(matrixId);
+  return Boolean(m?.hasModifications);
+};
+
 

@@ -1,9 +1,25 @@
 import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPromptRegistry.js';
 import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
 import { queryOmnicortexRAG, formatRagContextForBastion } from './omnicortexVectorRag';
-import { synthesizeCharacterWithBastion } from './bastionCharacterEngine.js';
+import {
+  synthesizeCharacterWithBastion,
+  getArchetypeRecommendations,
+  getSpeciesRecommendations,
+  getFactionRecommendations,
+  getOriginRecommendations,
+  getOccupationRecommendations,
+  calculateRulesLedger
+} from './bastionCharacterEngine.js';
 
-export { synthesizeCharacterWithBastion };
+export {
+  synthesizeCharacterWithBastion,
+  getArchetypeRecommendations,
+  getSpeciesRecommendations,
+  getFactionRecommendations,
+  getOriginRecommendations,
+  getOccupationRecommendations,
+  calculateRulesLedger
+};
 /**
  * BASTION AI Service
  * Handles BASTION AI chatbot queries and selective field content generation

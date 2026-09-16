@@ -6,11 +6,11 @@ import SyncConflictModal from '../../components/StoryFoundry/SyncConflictModal';
 
 import Dashboard from './Dashboard/Dashboard';
 import StoryModule from './StoryModule/StoryModule';
-import ElementForge from './ElementForge/ElementForge';
 import MapMaker from './MapMaker/MapMaker';
 import AIME from './AIME/AIME';
 import PlayerSpectatorView from './MapMaker/PlayerSpectatorView';
 import VttOptionsPage from './MapMaker/VttOptionsPage';
+const ADEStage = lazy(() => import('../../components/VTT/TripartiteStageView'));
 
 const FoundryAppInner = () => {
   const { syncConflict, resolveConflictOverwrite, resolveConflictPull, resolveConflictCancel } = useCampaign();
@@ -24,7 +24,8 @@ const FoundryAppInner = () => {
           <Route path="story" element={<StoryModule />} />
           <Route path="interactive" element={<StoryModule defaultView="interactive" />} />
           <Route path="elements" element={<StoryModule defaultView="elements" />} />
-          <Route path="map-maker" element={<MapMaker />} />
+          <Route path="map-maker" element={<Suspense fallback={<div className="w-full h-full bg-black text-cyan-400 font-mono text-xs flex items-center justify-center">INITIALIZING ADE STAGE...</div>}><ADEStage defaultRole="architect" /></Suspense>} />
+          <Route path="map-maker-legacy" element={<MapMaker />} />
           <Route path="vtt-options" element={<VttOptionsPage />} />
           <Route path="aime" element={<StoryModule defaultView="aime" />} />
           <Route path="view/:mapId" element={<PlayerSpectatorView />} />

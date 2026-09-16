@@ -16,9 +16,9 @@ export const FolioHeroTokenDrawer = ({
   const { roster, personaRoster } = useFolio();
   const { groups, activeGroup, selectGroup } = useGroup();
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('heroes'); // 'heroes' | 'squads'
-  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
-  const [selectedSquadId, setSelectedSquadId] = useState(null);
+  const [activeTab, setActiveTab] = useState('heroes'); // 'heroes' | 'teams'
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [tacticalModalHero, setTacticalModalHero] = useState(null);
 
   if (!showDrawer) return null;
@@ -64,18 +64,18 @@ export const FolioHeroTokenDrawer = ({
     }
   };
 
-  // 1-Click Batch Spawn Entire Squad
-  const handleDeploySquad = (squad) => {
+  // 1-Click Batch Spawn Entire Team
+  const handleDeployTeam = (team) => {
     if (!onSummonToken) return;
     AudioService.playTerminalBeep(1250, 0.08);
 
-    const members = Object.values(squad.memberDetails || {});
+    const members = Object.values(team.memberDetails || {});
     if (members.length === 0) {
-      // Spawn at least squad leader
+      // Spawn at least team leader
       onSummonToken({
-        heroId: `sq_${squad.id}_lead`,
-        name: `${squad.name} Lead`,
-        haloColor: squad.themeColor || '#22d3ee',
+        heroId: `team_${team.id}_lead`,
+        name: `${team.name} Lead`,
+        haloColor: team.themeColor || '#22d3ee',
         maxHealth: 35,
         currentHealth: 35,
         maxVitality: 35,
@@ -109,8 +109,8 @@ export const FolioHeroTokenDrawer = ({
   const handleOpenGroupBuilder = (groupId) => {
     AudioService.playTerminalBeep(1200, 0.03);
     if (groupId) selectGroup(groupId);
-    setSelectedSquadId(groupId);
-    setIsSquadModalOpen(true);
+    setSelectedTeamId(groupId);
+    setIsTeamModalOpen(true);
   };
 
   return (
@@ -124,7 +124,7 @@ export const FolioHeroTokenDrawer = ({
           <div className="flex items-center gap-1.5">
             <span className="text-sm">📜</span>
             <h3 className="font-bold text-xs uppercase tracking-wider text-[#22d3ee] drop-shadow-[0_0_6px_rgba(34,211,238,0.4)]">
-              Tactical Units &amp; Squads
+              Tactical Units &amp; Teams
             </h3>
           </div>
           <button
@@ -136,7 +136,7 @@ export const FolioHeroTokenDrawer = ({
           </button>
         </div>
 
-        {/* Tab Switcher: Individual Heroes vs Squads */}
+        {/* Tab Switcher: Individual Heroes vs Teams */}
         <div className="grid grid-cols-2 gap-1 p-0.5 bg-[#0d1117] rounded border border-slate-800 text-[10px] font-mono font-bold">
           <button
             type="button"
@@ -156,15 +156,15 @@ export const FolioHeroTokenDrawer = ({
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(900, 0.03);
-              setActiveTab('squads');
+              setActiveTab('teams');
             }}
             className={`py-1 rounded flex items-center justify-center gap-1 transition-all cursor-pointer ${
-              activeTab === 'squads'
+              activeTab === 'teams'
                 ? 'bg-emerald-600 text-black shadow-sm'
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Users size={11} /> Squads ({groups.length})
+            <Users size={11} /> Teams ({groups.length})
           </button>
         </div>
 
@@ -302,8 +302,8 @@ export const FolioHeroTokenDrawer = ({
           </div>
         )}
 
-        {/* TAB 2: Squads & Fireteams */}
-        {activeTab === 'squads' && (
+        {/* TAB 2: Teams & Fireteams */}
+        {activeTab === 'teams' && (
           <div className="space-y-2">
             <div className="flex items-center justify-between text-[10px] text-slate-400">
               <span>Deploy entire fireteam onto battlemap:</span>
@@ -312,36 +312,36 @@ export const FolioHeroTokenDrawer = ({
                 onClick={() => handleOpenGroupBuilder(null)}
                 className="text-emerald-400 hover:text-emerald-300 font-mono font-bold flex items-center gap-0.5"
               >
-                <Plus size={10} /> New Squad
+                <Plus size={10} /> New Team
               </button>
             </div>
 
             <div className="space-y-2 max-h-64 overflow-y-auto pr-0.5">
               {groups.length === 0 ? (
                 <div className="text-[11px] text-slate-400 italic text-center py-4 bg-[#0d1117]/60 rounded border border-dashed border-slate-800">
-                  No fireteams or squads configured.<br />
+                  No fireteams or teams configured.<br />
                   <button
                     type="button"
                     onClick={() => handleOpenGroupBuilder(null)}
                     className="text-emerald-400 underline font-bold mt-1 inline-block hover:text-emerald-300 cursor-pointer"
                   >
-                    Build a Squad in Squad Hub →
+                    Build a Team in Team Hub →
                   </button>
                 </div>
               ) : (
-                groups.map((sq) => {
-                  const members = Object.values(sq.memberDetails || {});
+                groups.map((team) => {
+                  const members = Object.values(team.memberDetails || {});
 
                   return (
                     <div
-                      key={sq.id}
+                      key={team.id}
                       className="p-2 rounded-lg bg-[#0d1117]/90 border border-slate-800 hover:border-emerald-500/50 flex flex-col gap-1.5 transition-all shadow-sm"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5 min-w-0">
                           <Shield size={13} className="text-emerald-400 shrink-0" />
                           <span className="font-bold text-xs text-white truncate font-mono">
-                            {sq.name}
+                            {team.name}
                           </span>
                         </div>
                         <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold shrink-0">
@@ -349,7 +349,7 @@ export const FolioHeroTokenDrawer = ({
                         </span>
                       </div>
 
-                      {/* Squad Members preview */}
+                      {/* Team Members preview */}
                       <div className="flex items-center gap-1 overflow-x-auto py-0.5">
                         {members.map((m, i) => (
                           <div
@@ -361,20 +361,20 @@ export const FolioHeroTokenDrawer = ({
                         ))}
                       </div>
 
-                      {/* Squad Action Buttons */}
+                      {/* Team Action Buttons */}
                       <div className="flex items-center gap-1 pt-1 border-t border-slate-800/60">
                         <button
                           type="button"
-                          onClick={() => handleDeploySquad(sq)}
+                          onClick={() => handleDeployTeam(team)}
                           className="flex-1 py-1 px-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold text-[10px] uppercase rounded flex items-center justify-center gap-1 shadow-sm cursor-pointer transition-all"
                         >
-                          <Sparkles size={10} /> Deploy Squad
+                          <Sparkles size={10} /> Deploy Team
                         </button>
                         <button
                           type="button"
-                          onClick={() => handleOpenGroupBuilder(sq.id)}
+                          onClick={() => handleOpenGroupBuilder(team.id)}
                           className="py-1 px-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-mono text-[10px] rounded flex items-center gap-1 transition-colors cursor-pointer"
-                          title="Open Squad Builder"
+                          title="Open Team Builder"
                         >
                           <ExternalLink size={10} /> Edit
                         </button>
@@ -388,11 +388,11 @@ export const FolioHeroTokenDrawer = ({
         )}
       </DraggablePanel>
 
-      {/* Squad / Party Group Modal */}
-      {isSquadModalOpen && (
+      {/* Team / Party Group Modal */}
+      {isTeamModalOpen && (
         <GameGroupModal
-          isOpen={isSquadModalOpen}
-          onClose={() => setIsSquadModalOpen(false)}
+          isOpen={isTeamModalOpen}
+          onClose={() => setIsTeamModalOpen(false)}
           initialTab="roster"
         />
       )}

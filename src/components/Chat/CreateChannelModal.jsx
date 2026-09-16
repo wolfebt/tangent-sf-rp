@@ -186,7 +186,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
             }`}
           >
             <Users size={14} />
-            <span>SQUAD GROUP</span>
+            <span>TEAM GROUP</span>
           </button>
         </div>
 
@@ -198,12 +198,12 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          {/* TAB 1 & 3: Custom Channel or Squad Group Creation */}
+          {/* TAB 1 & 3: Custom Channel or Team Group Creation */}
           {(activeTab === 'channel' || activeTab === 'group') && (
             <form onSubmit={handleCreateChannel} className="space-y-4 text-xs font-mono">
               <div>
                 <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider">
-                  {activeTab === 'group' ? 'Squad Channel Name' : 'Channel Name'}
+                  {activeTab === 'group' ? 'Team Channel Name' : 'Channel Name'}
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5 text-slate-500 font-bold">#</span>
@@ -211,7 +211,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                     type="text"
                     value={channelName}
                     onChange={(e) => setChannelName(e.target.value)}
-                    placeholder="e.g. vanguard-squad-alpha"
+                    placeholder="e.g. vanguard-team-alpha"
                     className="w-full pl-7 pr-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500"
                     required
                   />
@@ -267,13 +267,13 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                       <span>ENCRYPTED / INVITE</span>
                     </div>
                     <p className="text-[10px] text-slate-400">
-                      Only invited squad members can tune in.
+                      Only invited team members can tune in.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Member Selection for Squad / Private Channels */}
+              {/* Member Selection for Team / Private Channels */}
               {activeTab === 'group' && (
                 <div className="space-y-3 pt-2 border-t border-slate-800">
                   <div className="flex items-center justify-between">
@@ -524,7 +524,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                       <div className="p-8 text-center text-slate-500 space-y-1">
                         <Users size={24} className="mx-auto text-slate-600" />
                         <p>No separate characters discovered yet.</p>
-                        <p className="text-[10px] text-slate-600">Operatives appear here when assigned in squads or created in Folio.</p>
+                        <p className="text-[10px] text-slate-600">Operatives appear here when assigned in teams or created in Folio.</p>
                       </div>
                     ) : (
                       filteredCharacters.map(char => (

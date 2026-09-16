@@ -10,13 +10,13 @@
   padding: 2px 6px;
   border-radius: 4px;
   font-weight: 600;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid var(--color-border-cyan);
   transition: all var(--transition-fast);
 }
 
 .reference-highlight-text:hover {
-  background: rgba(16, 185, 129, 0.2);
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+  background: rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 8px var(--color-accent-cyan-glow);
 }
 
 .reference-popover {
@@ -25,7 +25,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: 320px;
-  z-index: 50;
+  z-index: 999999;
   padding: 16px;
   display: flex;
   flex-direction: column;

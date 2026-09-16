@@ -38,6 +38,7 @@ import {
 import { db } from '../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { useDBM } from '../../context/DBMContext';
+import { getMatrixIdForAssetKey } from '../../pages/Codex/codexAssetBridge';
 import { DEFAULT_ARCHETYPES } from '../../data/archetypesData';
 import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../data/speciesData';
 import { DEFAULT_FEATURES } from '../../data/featuresData';
@@ -52,8 +53,8 @@ import { DEFAULT_WEAPONRY } from '../../data/weaponryData';
 import { DEFAULT_ARMORING } from '../../data/armoringData';
 import { DEFAULT_AUGMENTATIONS } from '../../data/augmentationsData';
 import { DEFAULT_INVOCATIONS } from '../../data/invocationsData';
-import { DEFAULT_SPECIES_SIZES } from '../../data/speciesSizeData';
-import { DEFAULT_SPECIES_MOVEMENT } from '../../data/speciesMovementData';
+import { DEFAULT_SPECIES_SIZES, getSizeTierIndex } from '../../data/speciesSizeData';
+import { DEFAULT_SPECIES_MOVEMENT, getMovementClassification, getMovementClassificationOrderIndex } from '../../data/speciesMovementData';
 import { DEFAULT_AUGMENTATION_TYPES, DEFAULT_BODY_LOCATIONS } from '../../data/supportingCatalogsData';
 
 // Canonical Core Disciplines for default/fallback catalog load
@@ -255,6 +256,19 @@ export const getItemCategory = (item, canonicalColKey) => {
 
   if (canonicalColKey === 'factions') {
     return String(item.faction_classification || item.faction_type || item.archetype || 'Faction');
+  }
+
+  if (canonicalColKey === 'species_movement') {
+    const cls = getMovementClassification(item);
+    if (cls === 'basic') return 'Basic Movement';
+    if (cls === 'advanced') return 'Advanced Movement';
+    if (cls === 'modifier') return 'Movement Modifier';
+    if (cls === 'stage') return 'Movement Stage';
+    return 'Movement';
+  }
+
+  if (canonicalColKey === 'species_size') {
+    return 'Species Size';
   }
 
   if (item.category && item.category !== canonicalColKey) return String(item.category);
@@ -759,6 +773,20 @@ export const UniversalCatalogModal = ({
         return nameA.localeCompare(nameB);
       }
 
+      if (canonicalColKey === 'species_size') {
+        const rankA = getSizeTierIndex(a);
+        const rankB = getSizeTierIndex(b);
+        if (rankA !== rankB) return rankA - rankB;
+        return nameA.localeCompare(nameB);
+      }
+
+      if (canonicalColKey === 'species_movement') {
+        const rankA = getMovementClassificationOrderIndex(a);
+        const rankB = getMovementClassificationOrderIndex(b);
+        if (rankA !== rankB) return rankA - rankB;
+        return nameA.localeCompare(nameB);
+      }
+
       return nameA.localeCompare(nameB);
     });
 
@@ -841,6 +869,7 @@ export const UniversalCatalogModal = ({
   // Theme styling helpers
   const isIdentityChoice = ['species', 'occupations', 'origins', 'factions'].includes(canonicalColKey);
   const isArchetype = canonicalColKey === 'archetypes';
+  const hasCodexMatrix = Boolean(getMatrixIdForAssetKey(canonicalColKey));
 
   const effectiveTheme = themeColor || (
     ['disciplines', 'awakened', 'factions'].includes(canonicalColKey) ? 'purple' :
@@ -1138,8 +1167,17 @@ export const UniversalCatalogModal = ({
                 className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.35)] cursor-pointer"
                 title={`Build and persist a new ${singularEntity} record`}
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>+ Build New {singularEntity}</span>
+                {hasCodexMatrix ? (
+                  <>
+                    <Cpu className="w-3.5 h-3.5 text-amber-200" />
+                    <span>+ Build in Codex Matrix</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>+ Build New {singularEntity}</span>
+                  </>
+                )}
               </button>
             )}
 
@@ -1300,8 +1338,17 @@ export const UniversalCatalogModal = ({
                   onClick={handleBuildNew}
                   className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.35)] cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Build New {singularEntity} Entry</span>
+                  {hasCodexMatrix ? (
+                    <>
+                      <Cpu className="w-4 h-4 text-amber-200" />
+                      <span>Build in Codex Matrix</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      <span>Build New {singularEntity} Entry</span>
+                    </>
+                  )}
                 </button>
               )}
             </div>

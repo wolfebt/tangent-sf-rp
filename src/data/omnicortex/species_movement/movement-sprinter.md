@@ -2,7 +2,8 @@
 id: movement-sprinter
 name: Sprinter (+10 ft Run Speed)
 category: species_movement
-classification: adjuster
+classification: modifier
+movement_tier: modifier
 target_mode: Ground
 speed_modifier: 10
 is_additive: true
@@ -22,7 +23,8 @@ costs:
 ---
 # Sprinter (+10 ft Run Speed)
 
-**Category**: Species Movement (ADJUSTER)  
+**Category**: Species Movement (MODIFIER)  
+**Classification**: modifier  
 **Target Mode**: Ground  
 **Cost**: +1 BP  
 **Speed Modifier**: +10 ft (Additive)  

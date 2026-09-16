@@ -175,7 +175,7 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
 
               {rosterList.length === 0 ? (
                 <div className="p-4 text-center text-slate-500 border border-dashed border-slate-800 rounded-lg">
-                  No squad operatives in roster.
+                  No team operatives in roster.
                 </div>
               ) : (
                 <div className="space-y-1.5">

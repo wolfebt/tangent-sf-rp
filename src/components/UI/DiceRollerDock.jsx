@@ -424,12 +424,12 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
               onChange={(e) => setSelectedChannelId(e.target.value)}
               className="flex-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1 text-xs text-slate-200 outline-none truncate cursor-pointer"
             >
-              {/* Prioritized Game Group / Squad Channels */}
+              {/* Prioritized Game Group / Team Channels */}
               {groupChannels && groupChannels.length > 0 && (
-                <optgroup label="🌟 Game Group / Squad Channels">
+                <optgroup label="🌟 Game Group / Team Channels">
                   {groupChannels.map((c) => (
                     <option key={c.id} value={c.id}>
-                      🛡️ {c.displayName || c.name} (Squad)
+                      🛡️ {c.displayName || c.name} (Team)
                     </option>
                   ))}
                 </optgroup>

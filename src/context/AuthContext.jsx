@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, loginWithGoogle, logout } from '../firebase';
 import { SystemBootSplash } from '../components/UI/SystemBootSplash';
 import { TerranNetAuthModal } from '../components/UI/TerranNetAuthModal';
@@ -71,11 +71,30 @@ export const AuthProvider = ({ children }) => {
               if (data.userHandle) {
                 localStorage.setItem('userHandle', data.userHandle);
                 setUserHandle(data.userHandle);
+              } else {
+                const effectiveHandle = localStorage.getItem('userHandle') || user.displayName || (user.email ? user.email.split('@')[0] : 'Operator');
+                setUserHandle(effectiveHandle);
+                localStorage.setItem('userHandle', effectiveHandle);
+                setDoc(userDocRef, { userHandle: effectiveHandle }, { merge: true }).catch(() => {});
               }
               if (data.userContactInfo !== undefined) localStorage.setItem('userContactInfo', data.userContactInfo);
               if (data.geminiApiKey !== undefined) localStorage.setItem('geminiApiKey', data.geminiApiKey);
               if (data.aiPlatform !== undefined) localStorage.setItem('aiPlatform', data.aiPlatform);
               if (data.otherAiApiKey !== undefined) localStorage.setItem('otherAiApiKey', data.otherAiApiKey);
+            } else {
+              const initialHandle = localStorage.getItem('userHandle') || user.displayName || (user.email ? user.email.split('@')[0] : 'Operator');
+              setUserHandle(initialHandle);
+              localStorage.setItem('userHandle', initialHandle);
+              setDoc(userDocRef, {
+                uid: user.uid,
+                displayName: user.displayName || user.email || 'Operator',
+                userHandle: initialHandle,
+                email: user.email || '',
+                photoURL: user.photoURL || null,
+                status: 'online',
+                lastSeen: serverTimestamp(),
+                lastSeenLocal: new Date().toISOString()
+              }, { merge: true }).catch(() => {});
             }
           }, (err) => {
             console.warn("Error fetching user profile settings from Firestore:", err);

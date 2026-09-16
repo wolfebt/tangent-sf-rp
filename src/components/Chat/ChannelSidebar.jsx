@@ -21,17 +21,19 @@ import {
   Eye
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
+import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 
-export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact = false }) => {
+export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamModal, isCompact = false }) => {
   const { 
     publicChannels = [], 
     directChannels = [], 
     playerDirectChannels = [],
     characterDirectChannels = [],
+    teamChannels = [],
     directSortMode = 'alphabetical',
     setDirectSortMode,
     pendingCharacterNotes = [],
@@ -43,6 +45,13 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
     unreadCounts = {},
     deleteChannel
   } = useChat();
+
+  const { 
+    isConnected: isVoiceConnected, 
+    currentRoomName, 
+    connectToVoiceRoom, 
+    disconnectVoiceRoom 
+  } = useVoiceChat();
   const { currentUser, isAdmin } = useAuth();
   const { personaRoster, roster } = useFolio();
 
@@ -52,6 +61,7 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
 
   // Section collapse states (default open)
   const [collapsedSections, setCollapsedSections] = useState({
+    teams: false,
     squads: false,
     logs: false,
     direct: false,
@@ -148,7 +158,7 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
               )}
               {isGroup && (
                 <span className="px-1 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold">
-                  {channel.characterMembers?.length ? `GROUP (${channel.characterMembers.length} CHARS)` : 'SQUAD'}
+                  {channel.characterMembers?.length ? `GROUP (${channel.characterMembers.length} CHARS)` : 'TEAM'}
                 </span>
               )}
               {isPersonaLog && (
@@ -179,6 +189,34 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
             <span className="px-1.5 py-0.2 bg-cyan-500 text-black text-[9px] font-mono font-bold rounded-full animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.6)]">
               {unread}
             </span>
+          )}
+
+          {/* Quick Voice Frequency Connect / Disconnect */}
+          {!isPersonaLog && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                const targetRoom = `tangent_freq_${channel.id}`;
+                if (isVoiceConnected && currentRoomName === targetRoom) {
+                  disconnectVoiceRoom();
+                } else {
+                  connectToVoiceRoom(targetRoom, channel.displayName || channel.name);
+                }
+              }}
+              className={`p-1 rounded transition-all cursor-pointer ${
+                isVoiceConnected && currentRoomName === `tangent_freq_${channel.id}`
+                  ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse'
+                  : 'opacity-0 group-hover:opacity-100 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-300'
+              }`}
+              title={
+                isVoiceConnected && currentRoomName === `tangent_freq_${channel.id}`
+                  ? 'Leave Voice Frequency'
+                  : `Join Voice: ${channel.displayName || channel.name}`
+              }
+            >
+              <Radio size={11} className={isVoiceConnected && currentRoomName === `tangent_freq_${channel.id}` ? 'animate-spin' : ''} />
+            </button>
           )}
 
           {/* Quick Settings & Rename Button */}
@@ -262,13 +300,12 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
         {/* Filter Chips */}
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-0.5 text-[9.5px] font-mono">
           {[
-            { id: 'players', label: 'PLAYERS' },
-            { id: 'characters', label: 'CHARACTERS' },
-            { id: 'squad', label: 'SQUADS' },
-            { id: 'logs', label: 'ACTION LOGS' },
-            { id: 'public', label: 'PUBLIC' },
-            { id: 'custom', label: 'CUSTOM' },
-            { id: 'all', label: 'ALL' }
+            { id: 'all', label: 'ALL' },
+            { id: 'teams', label: `TEAMS (${teamChannels.length})` },
+            { id: 'players', label: `OPERATORS (${playerDirectChannels.length})` },
+            { id: 'characters', label: `PERSONAS (${characterDirectChannels.length})` },
+            { id: 'public', label: `HOLONET (${publicChannels.length})` },
+            { id: 'logs', label: 'AUDIT' }
           ].map(chip => (
             <button
               key={chip.id}
@@ -423,29 +460,29 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
           </div>
         )}
 
-        {/* 2. Squads & Character Groups Channels */}
-        {(activeCategoryFilter === 'all' || activeCategoryFilter === 'squad') && (
+        {/* 2. Teams & Character Groups Channels */}
+        {(activeCategoryFilter === 'all' || activeCategoryFilter === 'teams') && (
           <div className="space-y-1">
             <div 
-              onClick={() => toggleSection('squads')}
+              onClick={() => toggleSection('teams')}
               className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
             >
               <span className="flex items-center gap-1.5">
-                {collapsedSections.squads ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                {collapsedSections.teams ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
                 <Shield size={11} />
-                <span>SQUADS &amp; CHARACTER GROUPS</span>
+                <span>TEAM FREQUENCIES</span>
               </span>
-              <span className="text-slate-500">{groupChannels.length}</span>
+              <span className="text-slate-500">{teamChannels.length}</span>
             </div>
 
-            {!collapsedSections.squads && (
+            {!collapsedSections.teams && (
               <div className="space-y-0.5 pl-1.5 border-l border-emerald-500/20 ml-2">
-                {groupChannels.length === 0 ? (
+                {teamChannels.length === 0 ? (
                   <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
-                    No character groups formed. Click NEW &gt; SQUAD GROUP to build a team frequency.
+                    No team frequencies enrolled. Click NEW &gt; TEAM GROUP to build a team frequency.
                   </div>
                 ) : (
-                  filterChannels(groupChannels).map(renderChannelItem)
+                  filterChannels(teamChannels).map(renderChannelItem)
                 )}
               </div>
             )}

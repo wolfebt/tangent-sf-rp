@@ -57,12 +57,12 @@ class SessionJournalManager {
     if (this.events.length === 0) {
       md += `*No tactical engagements logged during this debrief period. Operations proceeded nominally under standard stealth protocols.*\n\n`;
     } else {
-      md += `The squad deployed into the active operational theater, engaging hostile elements under shifting environmental and tactical pressures. `;
+      md += `The team deployed into the active operational theater, engaging hostile elements under shifting environmental and tactical pressures. `;
       if (crits.length > 0) {
         md += `Critical tactical breakthroughs were achieved during the encounter, marked by exceptional precision strikes and high-risk maneuvers. `;
       }
       if (complications.length > 0) {
-        md += `The squad adapted to multiple unexpected tactical curveballs, maintaining unit coherence through intense hostile pressure. `;
+        md += `The team adapted to multiple unexpected tactical curveballs, maintaining unit coherence through intense hostile pressure. `;
       }
       md += `\n\n`;
     }

@@ -49,14 +49,14 @@ export const CommsCenterDrawer = ({ onClose, onOpenDrawer }) => {
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-mono mt-0.5 truncate">
-              {activeChannel?.topic || 'Encrypted tactical frequencies, squad comms, and custom channels.'}
+              {activeChannel?.topic || 'Encrypted tactical frequencies, team comms, and custom channels.'}
             </p>
           </div>
         </div>
 
-        {/* Action Controls & Fast Switchers to Campaign Ops / Squads */}
+        {/* Action Controls & Fast Switchers to Campaign Ops / Teams */}
         <div className="flex items-center gap-1.5 shrink-0">
-          {/* Quick jump to Squad Cards */}
+          {/* Quick jump to Team Cards */}
           {onOpenDrawer && (
             <button
               type="button"
@@ -65,10 +65,10 @@ export const CommsCenterDrawer = ({ onClose, onOpenDrawer }) => {
                 onOpenDrawer('game-groups');
               }}
               className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-purple-300 text-[11px] font-mono font-bold transition-all"
-              title="Open Squad Cards"
+              title="Open Team Cards"
             >
               <Users size={12} className="text-purple-400" />
-              <span>SQUADS</span>
+              <span>TEAMS</span>
             </button>
           )}
 

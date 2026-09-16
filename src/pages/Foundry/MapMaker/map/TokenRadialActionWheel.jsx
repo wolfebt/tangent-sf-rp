@@ -83,7 +83,7 @@ export const TokenRadialActionWheel = ({
   return (
     <div
       ref={containerRef}
-      className="fixed z-50 pointer-events-auto select-none"
+      className="fixed z-[1000] pointer-events-auto select-none"
       style={{ left: `${position.x}px`, top: `${position.y}px` }}
       onClick={(e) => e.stopPropagation()}
     >

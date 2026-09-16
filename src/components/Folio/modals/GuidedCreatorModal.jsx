@@ -2,14 +2,21 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna, Bot, RefreshCw, Wand2, ArrowRight } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna, Bot, RefreshCw, Wand2, ArrowRight, Zap } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES, getGroupedArchetypes } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
 import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
-import { synthesizeCharacterWithBastion } from '../../../services/bastionCharacterEngine';
+import {
+  synthesizeCharacterWithBastion,
+  getSpeciesRecommendations,
+  getFactionRecommendations,
+  getOriginRecommendations,
+  getOccupationRecommendations,
+  calculateRulesLedger
+} from '../../../services/bastionCharacterEngine';
 import {
   AttributePoolPulldown,
   FeatureMultiselectPulldown,
@@ -159,6 +166,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const [bastionPrompt, setBastionPrompt] = useState('');
   const [isSynthesizing, setIsSynthesizing] = useState(false);
   const [bastionSynthesisReport, setBastionSynthesisReport] = useState(null);
+  const [bastionNotice, setBastionNotice] = useState(null);
   
   // Search & Filter state for step 7
   const [skillSearchQuery, setSkillSearchQuery] = useState('');
@@ -705,6 +713,208 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     }
   };
 
+  const loadBastionDraft = (data) => {
+    if (!data) return;
+    setDraft(prev => ({
+      ...prev,
+      'char-name': data['char-name'] || prev['char-name'] || 'Unnamed Operative',
+      'char-concept': data['char-concept'] || prev['char-concept'] || '',
+      'char-archetype': data['char-archetype'] || '',
+      'char-species': data['char-species'] || '',
+      'char-origin': data['char-origin'] || '',
+      'char-secondary-origin': data['char-secondary-origin'] || '',
+      'char-faction': data['char-faction'] || '',
+      'char-occu': data['char-occu'] || '',
+      'char-secondary-occu': data['char-secondary-occu'] || '',
+      'char-age': data['char-age'] || '28',
+      'char-gender': data['char-gender'] || 'Unspecified',
+      'char-height': data['char-height'] || "5'11\"",
+      'char-weight': data['char-weight'] || '180 lbs',
+      'char-style': data['char-style'] || '',
+      'char-motive': data['char-motive'] || '',
+      role: data.role || '',
+      summary: data.summary || '',
+      backstory: data.backstory || '',
+      strength: data.strength ?? data.rawAttributes?.['attr-strength'] ?? 0,
+      agility: data.agility ?? data.rawAttributes?.['attr-agility'] ?? 0,
+      stamina: data.stamina ?? data.rawAttributes?.['attr-stamina'] ?? 0,
+      intellect: data.intellect ?? data.rawAttributes?.['attr-intellect'] ?? 0,
+      wisdom: data.wisdom ?? data.rawAttributes?.['attr-wisdom'] ?? 0,
+      charisma: data.charisma ?? data.rawAttributes?.['attr-charisma'] ?? 0,
+      technologyLevel: data.technologyLevel ?? data['tech-level'] ?? 3,
+      speciesAllocations: data.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },
+      originAllocations: data.originAllocations || { skills: {}, traits: [], features: [] },
+      factionAllocations: data.factionAllocations || { skills: {}, traits: [], features: [] },
+      occuAllocations: data.occuAllocations || { skills: {}, traits: [], features: [] },
+      generalAllocations: data.generalAllocations || { skills: {}, traits: [], features: [] },
+      skills: data.skills || [],
+      traits: data.traits || [],
+      features: data.features || [],
+      weapons: data.weapons || [],
+      armor: data.armor || [],
+      gear: data.gear || [],
+      notes: data.notes || []
+    }));
+
+    if (data['char-species']) {
+      const sp = (dbData.species || []).find(s => (s.name || s.id || '').toLowerCase() === data['char-species'].toLowerCase());
+      if (sp) setSelectedSpeciesObj(sp);
+    }
+    if (data['char-archetype']) {
+      const arch = (dbData.archetypes || []).find(a => (a.name || a.id || '').toLowerCase() === data['char-archetype'].toLowerCase());
+      if (arch) {
+        setSelectedArchetypeObj(arch);
+        setChassisApplied(true);
+      }
+    }
+    setBastionNotice(`Loaded character draft "${data['char-name'] || 'Operative'}" from BASTION Staged Persona.`);
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      try {
+        const stored = localStorage.getItem('bastion_staged_draft');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          loadBastionDraft(parsed);
+          localStorage.removeItem('bastion_staged_draft');
+        }
+      } catch (err) {
+        console.warn('Failed to parse bastion_staged_draft:', err);
+      }
+    }
+  }, [isOpen, dbData.species, dbData.archetypes]);
+
+  useEffect(() => {
+    const handleGuidedOpen = (e) => {
+      if (e?.detail) {
+        loadBastionDraft(e.detail);
+      }
+    };
+    window.addEventListener('open-folio-guided-creator', handleGuidedOpen);
+    return () => window.removeEventListener('open-folio-guided-creator', handleGuidedOpen);
+  }, [dbData.species, dbData.archetypes]);
+
+  const handleApplyArchetypeAttributeSplit = () => {
+    const arch = selectedArchetypeObj || (dbData.archetypes || []).find(a => a.name === draft['char-archetype']);
+    const prim = mapAttrToDraftKey(arch?.primary_attribute) || 'agility';
+    const sec = mapAttrToDraftKey(arch?.secondary_attribute) || 'intellect';
+    const tertiary = (prim !== 'stamina' && sec !== 'stamina') ? 'stamina' : (prim !== 'strength' && sec !== 'strength' ? 'strength' : 'wisdom');
+
+    setDraft(prev => ({
+      ...prev,
+      strength: 0,
+      agility: 0,
+      stamina: 0,
+      intellect: 0,
+      wisdom: 0,
+      charisma: 0,
+      [prim]: 3,
+      [sec]: 2,
+      [tertiary]: 1
+    }));
+    setBastionNotice(`Allocated Archetype Standard Attributes: ${prim.toUpperCase()} (+3), ${sec.toUpperCase()} (+2), ${tertiary.toUpperCase()} (+1) [30 CP].`);
+  };
+
+  const handleApplyBalancedAttributeSplit = () => {
+    setDraft(prev => ({
+      ...prev,
+      strength: 1,
+      agility: 1,
+      stamina: 1,
+      intellect: 1,
+      wisdom: 1,
+      charisma: 1
+    }));
+    setBastionNotice('Allocated Balanced Attributes: +1 across all 6 core attributes [30 CP].');
+  };
+
+  const handleAutoDistributeFoundation = () => {
+    setDraft(prev => {
+      const next = { ...prev };
+
+      // 1. Origin Foundation: 20 SP across society skills + 2 traits
+      if (selectedOriginObj) {
+        const oSkills = extractNameList(selectedOriginObj.society_skills);
+        const oTraits = extractNameList(selectedOriginObj.traits || selectedOriginObj.trait);
+        const originAllocSkills = {};
+        if (oSkills.length > 0) {
+          let remainingSP = 20;
+          const slice = oSkills.slice(0, 5);
+          slice.forEach((sk, idx) => {
+            const r = (idx === 0) ? Math.min(6, remainingSP - (Math.min(5, slice.length - 1) * 3)) : Math.min(6, Math.floor(remainingSP / (slice.length - idx)));
+            const alloc = Math.min(r, remainingSP);
+            originAllocSkills[sk] = alloc;
+            remainingSP -= alloc;
+          });
+          if (remainingSP > 0 && slice[0]) {
+            originAllocSkills[slice[0]] = Math.min(6, (originAllocSkills[slice[0]] || 0) + remainingSP);
+          }
+        }
+        next.originAllocations = {
+          ...next.originAllocations,
+          skills: originAllocSkills,
+          traits: oTraits.slice(0, 2)
+        };
+      }
+
+      // 2. Faction Foundation: 20 SP across faction skills + 2 benefits/traits/features
+      if (selectedFactionObj) {
+        const fSkills = extractNameList(selectedFactionObj.skill_package || selectedFactionObj.skills);
+        const fTraits = extractNameList(selectedFactionObj.traits || selectedFactionObj.trait);
+        const fFeats = extractNameList(selectedFactionObj.features || selectedFactionObj.bonus_features || selectedFactionObj.benefits);
+        const factionAllocSkills = {};
+        if (fSkills.length > 0) {
+          let remainingSP = 20;
+          const slice = fSkills.slice(0, 5);
+          slice.forEach((sk, idx) => {
+            const r = (idx === 0) ? Math.min(6, remainingSP - (Math.min(5, slice.length - 1) * 3)) : Math.min(6, Math.floor(remainingSP / (slice.length - idx)));
+            const alloc = Math.min(r, remainingSP);
+            factionAllocSkills[sk] = alloc;
+            remainingSP -= alloc;
+          });
+          if (remainingSP > 0 && slice[0]) {
+            factionAllocSkills[slice[0]] = Math.min(6, (factionAllocSkills[slice[0]] || 0) + remainingSP);
+          }
+        }
+        next.factionAllocations = {
+          ...next.factionAllocations,
+          skills: factionAllocSkills,
+          traits: fTraits.slice(0, 2),
+          features: fFeats.slice(0, 1)
+        };
+      }
+
+      // 3. Occupation Foundation: 20 SP across professional skills + 2 traits
+      if (selectedOccupationObj) {
+        const occSkillsList = extractNameList(selectedOccupationObj.professional_skills || selectedOccupationObj.skills);
+        const occTraitsList = extractNameList(selectedOccupationObj.traits || selectedOccupationObj.trait);
+        const occAllocSkills = {};
+        if (occSkillsList.length > 0) {
+          let remainingSP = 20;
+          const slice = occSkillsList.slice(0, 5);
+          slice.forEach((sk, idx) => {
+            const r = (idx === 0) ? Math.min(6, remainingSP - (Math.min(5, slice.length - 1) * 3)) : Math.min(6, Math.floor(remainingSP / (slice.length - idx)));
+            const alloc = Math.min(r, remainingSP);
+            occAllocSkills[sk] = alloc;
+            remainingSP -= alloc;
+          });
+          if (remainingSP > 0 && slice[0]) {
+            occAllocSkills[slice[0]] = Math.min(6, (occAllocSkills[slice[0]] || 0) + remainingSP);
+          }
+        }
+        next.occuAllocations = {
+          ...next.occuAllocations,
+          skills: occAllocSkills,
+          traits: occTraitsList.slice(0, 2)
+        };
+      }
+
+      return next;
+    });
+    setBastionNotice('Auto-distributed canonical foundation packages (20 Origin SP, 20 Faction SP, 20 Occupation SP) and background traits.');
+  };
+
   // ------------------- STEP RENDERS -------------------
   
   const renderConcept = () => {
@@ -1181,6 +1391,13 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   );
 
   const renderSpecies = () => {
+    const speciesRecs = getSpeciesRecommendations(
+      selectedArchetypeObj || (draft['char-archetype'] ? { name: draft['char-archetype'] } : null),
+      draft['char-concept'] || bastionPrompt,
+      dbData.species || [],
+      3
+    );
+
     const filteredSpecies = (dbData.species || []).filter(sp => {
       const parentName = (sp.parent_species || '').toLowerCase();
       const name = (sp.name || '').toLowerCase();
@@ -1234,6 +1451,55 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             )}
           </div>
         </div>
+
+        {/* BASTION Co-Pilot Recommendations */}
+        {speciesRecs.length > 0 && (
+          <div className="p-3.5 bg-gradient-to-r from-cyan-950/50 via-slate-900 to-indigo-950/40 border border-cyan-500/40 rounded-xl space-y-2.5 shadow-md">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bot size={16} className="text-cyan-400" />
+                <span className="text-xs font-bold text-cyan-300 uppercase tracking-wide">
+                  BASTION Co-Pilot • Lineage Recommendations
+                </span>
+                <span className="text-[10px] text-slate-400 hidden sm:inline">
+                  (Synergized with {draft['char-archetype'] || 'Operative Concept'})
+                </span>
+              </div>
+              <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800 font-bold">
+                Canonical Synergy
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {speciesRecs.map(({ item, rationale, score }) => {
+                const isSelected = (draft['char-species'] || '').toLowerCase() === (item.name || item.id || '').toLowerCase();
+                return (
+                  <div
+                    key={item.id || item.name}
+                    onClick={() => {
+                      setSelectedSpeciesObj(item);
+                      updateDraft('char-species', item.name || item.id);
+                    }}
+                    className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
+                      isSelected
+                        ? 'bg-cyan-950/70 border-cyan-400 text-cyan-100 shadow-md ring-1 ring-cyan-400/40'
+                        : 'bg-slate-950/70 border-slate-800 hover:border-cyan-600/60 text-slate-300'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center text-xs font-bold">
+                      <span className="text-cyan-300">{item.name || item.id}</span>
+                      {isSelected ? (
+                        <span className="text-[9px] bg-cyan-500 text-slate-950 font-black px-1.5 py-0.5 rounded">SELECTED</span>
+                      ) : (
+                        <span className="text-[10px] text-slate-500 font-mono">Score {score}</span>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">{rationale}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Lineage Filter Pills */}
         <div className="flex flex-wrap gap-1.5 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
@@ -1356,15 +1622,94 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     );
   };
 
-  const renderOriginFaction = () => (
-    <div className="space-y-6 w-full h-full flex flex-col">
-      <div>
-        <h3 className="text-xl font-bold text-cyan-400">Origin & Faction</h3>
-        <p className="text-sm text-slate-400">
-          Choose your homeworld origin and faction allegiance. Your chosen origin grants 20 SP for society skills and 2 bonus features/traits reflecting your upbringing environment, while your faction grants a 20 SP skill package and 2 organizational benefits.
-        </p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
+  const renderOriginFaction = () => {
+    const originRecs = getOriginRecommendations(
+      selectedArchetypeObj || (draft['char-archetype'] ? { name: draft['char-archetype'] } : null),
+      draft['char-concept'] || bastionPrompt,
+      dbData.origins || [],
+      3
+    );
+
+    const factionRecs = getFactionRecommendations(
+      selectedArchetypeObj || (draft['char-archetype'] ? { name: draft['char-archetype'] } : null),
+      draft['char-concept'] || bastionPrompt,
+      dbData.factions || [],
+      3
+    );
+
+    return (
+      <div className="space-y-6 w-full h-full flex flex-col">
+        <div>
+          <h3 className="text-xl font-bold text-cyan-400">Origin & Faction</h3>
+          <p className="text-sm text-slate-400">
+            Choose your homeworld origin and faction allegiance. Your chosen origin grants 20 SP for society skills and 2 bonus features/traits reflecting your upbringing environment, while your faction grants a 20 SP skill package and 2 organizational benefits.
+          </p>
+        </div>
+
+        {/* BASTION Co-Pilot Recommendations */}
+        {(originRecs.length > 0 || factionRecs.length > 0) && (
+          <div className="p-3.5 bg-gradient-to-r from-amber-950/40 via-slate-900 to-purple-950/40 border border-amber-500/40 rounded-xl space-y-2.5 shadow-md">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Bot size={16} className="text-amber-400" />
+                <span className="text-xs font-bold text-amber-300 uppercase tracking-wide">
+                  BASTION Co-Pilot • Homeworld & Allegiance Recommendations
+                </span>
+              </div>
+              {originRecs[0] && factionRecs[0] && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (originRecs[0]?.item) updateDraft('char-origin', originRecs[0].item.name || originRecs[0].item.title || originRecs[0].item.id);
+                    if (factionRecs[0]?.item) updateDraft('char-faction', factionRecs[0].item.name || factionRecs[0].item.title || factionRecs[0].item.id);
+                    setBastionNotice(`Applied recommended pair: ${originRecs[0].name} + ${factionRecs[0].name}`);
+                  }}
+                  className="px-2.5 py-1 bg-gradient-to-r from-amber-600 to-purple-600 hover:from-amber-500 hover:to-purple-500 text-white font-bold rounded text-[11px] flex items-center gap-1.5 transition-all cursor-pointer shadow"
+                >
+                  <Zap size={12} />
+                  <span>Apply Top Pair ({originRecs[0]?.name} + {factionRecs[0]?.name})</span>
+                </button>
+              )}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              {originRecs[0] && (
+                <div className="bg-slate-950/70 p-2.5 rounded-lg border border-amber-500/30 flex justify-between items-start gap-2">
+                  <div>
+                    <div className="font-bold text-amber-300 flex items-center gap-1">
+                      <span>Top Origin: {originRecs[0].name}</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-0.5">{originRecs[0].rationale}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => updateDraft('char-origin', originRecs[0].item.name || originRecs[0].item.title || originRecs[0].item.id)}
+                    className="px-2 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded text-[10px] font-bold shrink-0 cursor-pointer"
+                  >
+                    Select
+                  </button>
+                </div>
+              )}
+              {factionRecs[0] && (
+                <div className="bg-slate-950/70 p-2.5 rounded-lg border border-purple-500/30 flex justify-between items-start gap-2">
+                  <div>
+                    <div className="font-bold text-purple-300 flex items-center gap-1">
+                      <span>Top Faction: {factionRecs[0].name}</span>
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-0.5">{factionRecs[0].rationale}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => updateDraft('char-faction', factionRecs[0].item.name || factionRecs[0].item.title || factionRecs[0].item.id)}
+                    className="px-2 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 rounded text-[10px] font-bold shrink-0 cursor-pointer"
+                  >
+                    Select
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
         {/* Origin Column */}
         <div className="space-y-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex flex-col">
           <div>
@@ -1489,17 +1834,72 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         </div>
       </div>
     </div>
-  );
+    );
+  };
 
-  const renderOccupation = () => (
-    <div className="space-y-4 w-full">
-      {renderSelectionList(
-        'Occupation', 
-        dbData.occupations, 
-        draft['char-occu'], 
-        (occ) => updateDraft('char-occu', occ.name || occ.title || occ.id),
-        <Shield size={16} />
-      )}
+  const renderOccupation = () => {
+    const occupationRecs = getOccupationRecommendations(
+      selectedArchetypeObj || (draft['char-archetype'] ? { name: draft['char-archetype'] } : null),
+      draft['char-concept'] || bastionPrompt,
+      dbData.occupations || [],
+      3
+    );
+
+    return (
+      <div className="space-y-4 w-full">
+        {/* BASTION Co-Pilot Recommendations */}
+        {occupationRecs.length > 0 && (
+          <div className="p-3.5 bg-gradient-to-r from-sky-950/50 via-slate-900 to-cyan-950/40 border border-sky-500/40 rounded-xl space-y-2.5 shadow-md">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bot size={16} className="text-sky-400" />
+                <span className="text-xs font-bold text-sky-300 uppercase tracking-wide">
+                  BASTION Co-Pilot • Career Recommendations
+                </span>
+                <span className="text-[10px] text-slate-400 hidden sm:inline">
+                  (Synergized with {draft['char-archetype'] || 'Operative Concept'})
+                </span>
+              </div>
+              <span className="text-[10px] font-mono text-sky-400 bg-sky-950 px-2 py-0.5 rounded border border-sky-800 font-bold">
+                Career Fit
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {occupationRecs.map(({ item, rationale, score }) => {
+                const isSelected = (draft['char-occu'] || '').toLowerCase() === (item.name || item.id || '').toLowerCase();
+                return (
+                  <div
+                    key={item.id || item.name}
+                    onClick={() => updateDraft('char-occu', item.name || item.title || item.id)}
+                    className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
+                      isSelected
+                        ? 'bg-sky-950/70 border-sky-400 text-sky-100 shadow-md ring-1 ring-sky-400/40'
+                        : 'bg-slate-950/70 border-slate-800 hover:border-sky-600/60 text-slate-300'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center text-xs font-bold">
+                      <span className="text-sky-300">{item.name || item.id}</span>
+                      {isSelected ? (
+                        <span className="text-[9px] bg-sky-500 text-slate-950 font-black px-1.5 py-0.5 rounded">SELECTED</span>
+                      ) : (
+                        <span className="text-[10px] text-slate-500 font-mono">Fit {score}</span>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">{rationale}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {renderSelectionList(
+          'Occupation', 
+          dbData.occupations, 
+          draft['char-occu'], 
+          (occ) => updateDraft('char-occu', occ.name || occ.title || occ.id),
+          <Shield size={16} />
+        )}
 
       {/* Optional Background Occupation (via Background Trait) */}
       <div className="bg-slate-900/60 border border-sky-900/50 p-3.5 rounded-xl space-y-2">
@@ -1542,13 +1942,49 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         </select>
       </div>
     </div>
-  );
+    );
+  };
 
   const renderAttributes = () => (
     <div className="space-y-6 w-full">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Core Stats (Attributes)</h3>
         <p className="text-sm text-slate-400">Allocate your base attributes. Maximum +4 before species modifiers. Each +1 point costs <strong className="text-amber-400">5 CP</strong>.</p>
+        
+        {/* BASTION Co-Pilot Quick Stats Allocation */}
+        <div className="mt-3 p-3 bg-slate-900/80 border border-cyan-500/30 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md">
+          <div className="flex items-center gap-2">
+            <Bot size={16} className="text-cyan-400 shrink-0" />
+            <div>
+              <span className="text-xs font-bold text-cyan-300 uppercase tracking-wide block">
+                BASTION Co-Pilot • Quick Stats Allocation
+              </span>
+              <span className="text-[10px] text-slate-400">
+                Canonical baseline allocation: max +4 raw before species modifiers (5 CP / pt).
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={handleApplyArchetypeAttributeSplit}
+              className="px-2.5 py-1.5 bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/50 text-cyan-200 rounded text-[11px] font-bold flex items-center gap-1.5 cursor-pointer transition-all"
+              title="Allocates Primary +3, Secondary +2, Stamina +1 (30 CP)"
+            >
+              <Zap size={12} />
+              <span>Archetype Split (+3 / +2 / +1)</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleApplyBalancedAttributeSplit}
+              className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-300 rounded text-[11px] font-bold flex items-center gap-1.5 cursor-pointer transition-all"
+              title="Allocates +1 across all 6 core attributes (30 CP)"
+            >
+              <span>Balanced (+1 All)</span>
+            </button>
+          </div>
+        </div>
+
         {selectedSpeciesObj && (
           <div className="mt-3 p-3 bg-cyan-950/30 border border-cyan-800 rounded-lg text-xs">
             <span className="font-bold text-cyan-300 block mb-1">Species Modifiers ({selectedSpeciesObj.name || selectedSpeciesObj.title || 'Selected Species'}):</span>
@@ -1798,6 +2234,29 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         </div>
 
         <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+          {/* BASTION Foundation Co-Pilot Action */}
+          <div className="p-3.5 bg-gradient-to-r from-cyan-950/60 via-slate-900 to-sky-950/60 border border-cyan-500/40 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
+            <div className="flex items-center gap-2.5">
+              <Bot size={18} className="text-cyan-400 shrink-0" />
+              <div>
+                <span className="text-xs font-bold text-cyan-300 uppercase tracking-wide block">
+                  BASTION Foundation Co-Pilot
+                </span>
+                <span className="text-[10px] text-slate-400">
+                  Auto-distribute canonical 20 Origin SP, 20 Faction SP, and 20 Occupation SP across primary packages (Max rank 6 at creation) plus background traits.
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleAutoDistributeFoundation}
+              className="px-3 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-2 transition-all shadow-md cursor-pointer shrink-0"
+            >
+              <Zap size={14} />
+              <span>Auto-Distribute Foundation (60 SP)</span>
+            </button>
+          </div>
+
           {/* 1. Species Background Allocations (if available) */}
           {hasSpeciesPools && (
             <div className="p-4 rounded-xl border border-cyan-500/40 bg-slate-900/60 space-y-3">
@@ -2326,6 +2785,21 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col bg-[#0d1117] overflow-hidden relative">
+            {bastionNotice && (
+              <div className="mx-6 mt-4 p-3 bg-cyan-950/80 border border-cyan-500/50 rounded-xl text-xs text-cyan-200 flex items-center justify-between shadow-lg shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <Bot size={16} className="text-cyan-400 shrink-0" />
+                  <span className="font-semibold">{bastionNotice}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setBastionNotice(null)}
+                  className="text-cyan-400 hover:text-white text-xs px-2 py-0.5 rounded hover:bg-cyan-900/50 transition-colors cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
             <div className="flex-1 overflow-y-auto p-6 md:p-8">
               {renderStepContent()}
             </div>

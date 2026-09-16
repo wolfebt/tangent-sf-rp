@@ -5,13 +5,15 @@
  * gracefully if the client hardware lacks support. Includes device-loss recovery hooks.
  */
 
-import { Application } from 'pixi.js';
+import { Application, GlobalResourceRegistry, getCanvasTexture, hasCachedCanvasTexture } from 'pixi.js';
 
 export class RendererContext {
   private app: Application;
   private isWebGPU: boolean = false;
   private canvasRef: HTMLCanvasElement | null = null;
   private isInitialized: boolean = false;
+  private isDestroyed: boolean = false;
+  private initPromise: Promise<void> | null = null;
 
   constructor() {
     // Instantiate the PixiJS v8 Application shell
@@ -19,38 +21,113 @@ export class RendererContext {
   }
 
   /**
+   * Cleans up any cached PixiJS Texture/CanvasSource or WebGPU context bindings on a canvas
+   * to avoid Dawn validation errors when re-mounting or re-configuring devices.
+   */
+  public static cleanupCanvas(canvas: HTMLCanvasElement | null): void {
+    if (!canvas) return;
+
+    try {
+      if (hasCachedCanvasTexture(canvas)) {
+        const texture = getCanvasTexture(canvas);
+        if (texture) {
+          if ((texture.source as any)?._gpuContext) {
+            (texture.source as any)._gpuContext = null;
+          }
+          texture.destroy(true);
+        }
+      }
+    } catch {
+      // Ignored
+    }
+
+    try {
+      GlobalResourceRegistry.release();
+    } catch {
+      // Ignored
+    }
+
+    try {
+      const gpuContext = (canvas as any).getContext?.('webgpu');
+      if (gpuContext && typeof gpuContext.unconfigure === 'function') {
+        gpuContext.unconfigure();
+      }
+    } catch {
+      // Ignored
+    }
+  }
+
+  /**
    * Mounts the Stage renderer to the provided canvas element.
    * @param canvas The target HTMLCanvasElement injected via React
    */
   public async initialize(canvas: HTMLCanvasElement): Promise<void> {
+    if (this.isDestroyed) return;
     this.canvasRef = canvas;
 
-    try {
-      // Boot the engine with PixiJS v8 preferring WebGPU
-      await this.app.init({
-        canvas: this.canvasRef,
-        resizeTo: typeof window !== 'undefined' ? window : undefined,
-        preference: 'webgpu',
-        antialias: false, // Disabled for crisp tactical grid sharpness and maximum compute performance
-        resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
-        autoDensity: true,
-      });
+    this.initPromise = (async () => {
+      // Clean up any stale PixiJS canvas cache or unconfigured WebGPU context before booting
+      RendererContext.cleanupCanvas(canvas);
 
-      this.isInitialized = true;
+      try {
+        // Boot the engine with PixiJS v8 preferring WebGPU
+        await this.app.init({
+          canvas: this.canvasRef || undefined,
+          resizeTo: typeof window !== 'undefined' ? window : undefined,
+          preference: 'webgpu',
+          antialias: false, // Disabled for crisp tactical grid sharpness and maximum compute performance
+          resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
+          autoDensity: true,
+        });
 
-      // Verify which renderer backend booted
-      if (this.app.renderer?.name?.toLowerCase().includes('webgpu')) {
-        console.log('[RendererContext] WebGPU Graphics Pipeline successfully initialized on the Stage.');
-        this.isWebGPU = true;
-        this.setupDeviceLossRecovery();
-      } else {
-        console.log(`[RendererContext] Stage running on fallback renderer: ${this.app.renderer?.name}`);
-        this.isWebGPU = false;
+        if (this.isDestroyed) {
+          this.cleanup();
+          return;
+        }
+
+        this.isInitialized = true;
+
+        // Verify which renderer backend booted
+        if (this.app.renderer?.name?.toLowerCase().includes('webgpu')) {
+          console.log('[RendererContext] WebGPU Graphics Pipeline successfully initialized on the Stage.');
+          this.isWebGPU = true;
+          this.setupDeviceLossRecovery();
+        } else {
+          console.log(`[RendererContext] Stage running on fallback renderer: ${this.app.renderer?.name}`);
+          this.isWebGPU = false;
+        }
+
+      } catch (error) {
+        console.error('[RendererContext] WebGPU initialization error, attempting WebGL fallback:', error);
+        if (this.isDestroyed) return;
+
+        try {
+          RendererContext.cleanupCanvas(canvas);
+          this.app = new Application();
+          await this.app.init({
+            canvas: this.canvasRef || undefined,
+            resizeTo: typeof window !== 'undefined' ? window : undefined,
+            preference: 'webgl',
+            antialias: false,
+            resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
+            autoDensity: true,
+          });
+
+          if (this.isDestroyed) {
+            this.cleanup();
+            return;
+          }
+
+          this.isInitialized = true;
+          this.isWebGPU = false;
+          console.log(`[RendererContext] Stage running on fallback renderer: ${this.app.renderer?.name}`);
+        } catch (fallbackError) {
+          console.error('[RendererContext] Catastrophic Stage initialization failure:', fallbackError);
+        }
       }
+    })();
 
-    } catch (error) {
-      console.error('[RendererContext] Catastrophic Stage initialization failure:', error);
-    }
+    await this.initPromise;
   }
 
   /**
@@ -72,9 +149,9 @@ export class RendererContext {
 
   private async rebuildContext() {
     console.log('[RendererContext] Rebuilding graphics context for the Stage...');
-    if (this.canvasRef) {
+    if (this.canvasRef && !this.isDestroyed) {
       try {
-        this.app.destroy(false, { children: true, texture: false });
+        this.cleanup();
         this.app = new Application();
         await this.initialize(this.canvasRef);
         
@@ -103,12 +180,34 @@ export class RendererContext {
     return this.isInitialized;
   }
 
-  public destroy() {
-    if (this.isInitialized) {
-      // Completely flush WebGPU buffers and textures from VRAM
-      this.app.destroy(true, { children: true, texture: true });
-      this.isInitialized = false;
-      console.log('[RendererContext] Stage context destroyed. VRAM flushed.');
+  private cleanup(): void {
+    if (this.app && (this.isInitialized || (this.app as any).renderer)) {
+      try {
+        if (typeof (this.app as any)._cancelResize !== 'function') {
+          (this.app as any)._cancelResize = () => {};
+        }
+        // Destroy the renderer without removing the React-managed canvas from the DOM
+        this.app.destroy(false, { children: true, texture: true });
+      } catch (err) {
+        console.warn('[RendererContext] Error during app destroy:', err);
+      }
     }
+    if (this.canvasRef) {
+      RendererContext.cleanupCanvas(this.canvasRef);
+    }
+    this.isInitialized = false;
+    console.log('[RendererContext] Stage context destroyed. VRAM flushed.');
+  }
+
+  public async destroy(): Promise<void> {
+    this.isDestroyed = true;
+    if (this.initPromise) {
+      try {
+        await this.initPromise;
+      } catch {
+        // Ignored
+      }
+    }
+    this.cleanup();
   }
 }

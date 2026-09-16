@@ -1,35 +1,9 @@
-in the codex 
-remove the guided archetypes & quick-start presets
-
-in the tool tier tier should be TL (for tech level)
-
-pillar selections
 
 
+manage factions modal need to represent 99. MODULAR FACTION MATRIX
 
+the society pull down should be multi selection
+in universal modifiers wealth should have modifiers of 0 (minimum) to +6 (maximum) (not NaN) which should be adjusted by he TL of the faction
+ensure the bonus feature are from the omnicortex and not custom made, also ensure we have all recommended skills and features listed
 
-
-
-
-
-COLORS - the following will be the new assigned colors for our schema - 
-true black (page background) and charcoal (modal backgrounds and slider bars)
-cyan (primary accent for titles, major labels, borders of modals and fields, user id tag)
-
-additional accents/reference colors -
-teal (for any dark green such as VITALITY bars, primary shadow color)
-
-emerald (for any bright green such as karma, bonuses)
-
-saphire (for most blues)
-
-rose (for most reds such as HEALTH bars, penalties, hindrances section)
-
-magenta (for dark reds such as augmentations)
-
-amber (for oranges such as meta platform access like comms and database access)
-
-gold (for yellows such as armor and damage reduction values)
-
-electric purple (for strong accents such as energy shields (DR and AP), ADE studio and metaphysics section)
-
+------------

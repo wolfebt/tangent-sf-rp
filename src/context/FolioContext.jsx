@@ -188,66 +188,22 @@ const DEFAULT_CHARACTER = {
   factionAllocations: { skills: {}, traits: [], features: [] }
 };
 
-const FOLIO_TOMBSTONES_KEY = 'folio_deleted_personas';
+import { 
+  FOLIO_TOMBSTONES_KEY, 
+  getFolioTombstones, 
+  addFolioTombstone, 
+  isFolioPersonaDeleted, 
+  isPersonaEmptyTemplate,
+  getEffectiveUserHandle 
+} from '../utils/personaValidationUtils';
 
-export const getFolioTombstones = () => {
-  try {
-    const raw = localStorage.getItem(FOLIO_TOMBSTONES_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
-};
-
-export const addFolioTombstone = (docId) => {
-  if (!docId) return;
-  try {
-    const current = getFolioTombstones();
-    const set = new Set(current);
-    set.add(docId.toString().trim());
-    const updated = Array.from(set);
-    localStorage.setItem(FOLIO_TOMBSTONES_KEY, JSON.stringify(updated));
-    StorageService.setItem(FOLIO_TOMBSTONES_KEY, updated);
-  } catch (e) {}
-};
-
-export const isFolioPersonaDeleted = (docId, tombstones = null) => {
-  if (!docId) return false;
-  const list = tombstones || getFolioTombstones();
-  if (!list || list.length === 0) return false;
-  return new Set(list).has(docId.toString().trim());
-};
-
-/**
- * Checks if a persona is an untouched, empty template ghost
- * (blank or default name, no attributes, skills, concept, species, or backstory customization).
- */
-export const isPersonaEmptyTemplate = (char) => {
-  if (!char || typeof char !== 'object') return true;
-
-  const name = (char['char-name'] || char.name || '').trim();
-  const isDefaultName = !name || name.toLowerCase() === 'unnamed operative';
-
-  const hasConcept = Boolean(char['char-concept'] && char['char-concept'].trim() && char['char-concept'].trim().toLowerCase() !== 'unnamed operative');
-  const hasArchetype = Boolean(char['char-archetype'] && char['char-archetype'].trim());
-  const hasSpecies = Boolean(char['char-species'] && char['char-species'].trim() && char['char-species'] !== 'Human');
-  const hasOccu = Boolean(char['char-occu'] && char['char-occu'].trim());
-  const hasFaction = Boolean(char['char-faction'] && char['char-faction'].trim());
-  const hasOrigin = Boolean(char['char-origin'] && char['char-origin'].trim());
-  const hasBackstory = Boolean(char.backstory && char.backstory.trim());
-  const hasMotive = Boolean(char['char-motive'] && char['char-motive'].trim());
-
-  const primaryAttrs = ['attr-strength', 'attr-agility', 'attr-stamina', 'attr-intellect', 'attr-wisdom', 'attr-charisma'];
-  const hasAttrAlloc = primaryAttrs.some(k => parseInt(char[k], 10) > 0);
-
-  const hasSkills = Object.keys(char).some(k => k.startsWith('skill-') && k.endsWith('-rank') && parseInt(char[k], 10) > 0);
-  const hasAttacks = Array.isArray(char.attacks) && char.attacks.length > 0;
-  const hasFeatures = Array.isArray(char.features) && char.features.length > 0;
-
-  if (isDefaultName && !hasConcept && !hasArchetype && !hasSpecies && !hasOccu && !hasFaction && !hasOrigin && !hasBackstory && !hasMotive && !hasAttrAlloc && !hasSkills && !hasAttacks && !hasFeatures) {
-    return true;
-  }
-  return false;
+export { 
+  FOLIO_TOMBSTONES_KEY, 
+  getFolioTombstones, 
+  addFolioTombstone, 
+  isFolioPersonaDeleted, 
+  isPersonaEmptyTemplate,
+  getEffectiveUserHandle 
 };
 
 // Clean up and migrate legacy compound or phantom category skill keys
@@ -2054,7 +2010,8 @@ export const FolioProvider = ({ children }) => {
     return {
       inActiveGame: true,
       gameName: characterData?.activeGameName || 'VTT Tactical Campaign',
-      squadName: characterData?.activeSquadName || 'Active Fireteam',
+      teamName: characterData?.activeTeamName || characterData?.activeSquadName || 'Active Fireteam',
+      squadName: characterData?.activeTeamName || characterData?.activeSquadName || 'Active Fireteam',
       gmHandle: characterData?.activeGameGM || 'Game Master',
       sessionStartedAt: characterData?.activeGameStartedAt || characterData?.updatedAt || new Date().toISOString()
     };
@@ -2065,11 +2022,13 @@ export const FolioProvider = ({ children }) => {
     const isEngaged = Boolean(inGame);
     setActiveGameOverride(isEngaged);
     setCharacterData(prev => {
+      const teamVal = isEngaged ? (details.teamName || details.squadName || prev.activeTeamName || prev.activeSquadName || 'Active Fireteam') : '';
       const updated = {
         ...prev,
         inActiveGame: isEngaged,
         activeGameName: isEngaged ? (details.gameName || details.name || prev.activeGameName || 'VTT Tactical Campaign') : '',
-        activeSquadName: isEngaged ? (details.squadName || prev.activeSquadName || 'Active Fireteam') : '',
+        activeTeamName: teamVal,
+        activeSquadName: teamVal,
         activeGameGM: isEngaged ? (details.gmHandle || details.gm || prev.activeGameGM || 'Game Master') : '',
         activeGameStartedAt: isEngaged ? (details.startedAt || prev.activeGameStartedAt || new Date().toISOString()) : '',
         updatedAt: new Date().toISOString()
@@ -2079,11 +2038,13 @@ export const FolioProvider = ({ children }) => {
 
     setPersonaRoster(prev => prev.map(c => {
       if (c['character-doc-id'] === characterData['character-doc-id']) {
+        const teamVal = isEngaged ? (details.teamName || details.squadName || c.activeTeamName || c.activeSquadName || 'Active Fireteam') : '';
         return {
           ...c,
           inActiveGame: isEngaged,
           activeGameName: isEngaged ? (details.gameName || details.name || c.activeGameName || 'VTT Tactical Campaign') : '',
-          activeSquadName: isEngaged ? (details.squadName || c.activeSquadName || 'Active Fireteam') : '',
+          activeTeamName: teamVal,
+          activeSquadName: teamVal,
           activeGameGM: isEngaged ? (details.gmHandle || details.gm || c.activeGameGM || 'Game Master') : '',
           updatedAt: new Date().toISOString()
         };

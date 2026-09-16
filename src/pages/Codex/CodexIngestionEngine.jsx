@@ -652,37 +652,44 @@ export const CodexIngestionEngine = ({
             </div>
           </div>
 
-          {/* Quick Dataset Switcher Dropdown */}
-          <div className="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 rounded-xl px-2 py-1">
-            <span className="text-[10px] font-mono text-slate-400 uppercase font-bold hidden sm:inline">Dataset:</span>
-            <select
-              value={selectedDatasetKey}
-              onChange={(e) => handleSelectDataset(e.target.value)}
-              className="bg-slate-950 border border-slate-700 text-cyan-300 rounded-lg px-2 py-1 text-xs font-mono font-bold uppercase outline-none cursor-pointer"
-            >
-              {OMNICORTEX_DATASETS.map((d) => (
-                <option key={d.key} value={d.key}>
-                  {d.code}: {d.label}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(900, 0.02);
-                setShowAllDatasetsRibbon(prev => !prev);
-              }}
-              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono uppercase font-bold transition-colors cursor-pointer"
-              title="Toggle full 14-dataset ribbon grid"
-            >
-              {showAllDatasetsRibbon ? 'Compact' : 'Grid'}
-            </button>
-          </div>
+          {/* Quick Dataset Switcher Dropdown (or Dedicated Badge if in focusedMode) */}
+          {!focusedMode ? (
+            <div className="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 rounded-xl px-2 py-1">
+              <span className="text-[10px] font-mono text-slate-400 uppercase font-bold hidden sm:inline">Dataset:</span>
+              <select
+                value={selectedDatasetKey}
+                onChange={(e) => handleSelectDataset(e.target.value)}
+                className="bg-slate-950 border border-slate-700 text-cyan-300 rounded-lg px-2 py-1 text-xs font-mono font-bold uppercase outline-none cursor-pointer"
+              >
+                {OMNICORTEX_DATASETS.map((d) => (
+                  <option key={d.key} value={d.key}>
+                    {d.code}: {d.label}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(900, 0.02);
+                  setShowAllDatasetsRibbon(prev => !prev);
+                }}
+                className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono uppercase font-bold transition-colors cursor-pointer"
+                title="Toggle full 14-dataset ribbon grid"
+              >
+                {showAllDatasetsRibbon ? 'Compact' : 'Grid'}
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 bg-cyan-950/40 border border-cyan-500/40 rounded-xl px-3 py-1">
+              <span className="text-[10px] font-mono text-cyan-400 uppercase font-bold">Dedicated Matrix:</span>
+              <span className="text-xs font-mono font-bold text-cyan-200">{currentDataset.label}</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Dataset Selection Ribbons (14 Omnicortex Datasets) */}
-      {showAllDatasetsRibbon && (
+      {/* Dataset Selection Ribbons (14 Omnicortex Datasets) - Only when not in focusedMode */}
+      {!focusedMode && showAllDatasetsRibbon && (
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 animate-fade-in">
           {OMNICORTEX_DATASETS.map((d) => {
             const isSelected = d.key === selectedDatasetKey;

@@ -2,7 +2,8 @@
 id: movement-burrow-improved
 name: Enhanced Burrow Speed (+10 ft Burrow)
 category: species_movement
-classification: adjuster
+classification: modifier
+movement_tier: modifier
 target_mode: Burrowing
 speed_modifier: 10
 is_additive: true
@@ -20,7 +21,8 @@ costs:
 ---
 # Enhanced Burrow Speed (+10 ft Burrow)
 
-**Category**: Species Movement (ADJUSTER)  
+**Category**: Species Movement (MODIFIER)  
+**Classification**: modifier  
 **Target Mode**: Burrowing  
 **Cost**: +1 BP  
 **Speed Modifier**: +10 ft (Additive)  

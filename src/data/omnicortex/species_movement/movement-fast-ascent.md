@@ -2,7 +2,8 @@
 id: movement-fast-ascent
 name: 'Climbing: Fast Ascent Pace (2x Walk)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Climbing
 multiplier: 2
 speed: 60
@@ -19,7 +20,8 @@ costs:
 ---
 # Climbing: Fast Ascent Pace (2x Walk)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Climbing  
 **Cost**: +0 BP  
 

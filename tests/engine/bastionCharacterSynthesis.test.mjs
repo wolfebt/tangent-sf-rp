@@ -8,10 +8,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   findClosestArchetype,
+  getArchetypeRecommendations,
   selectPillarSpecies,
+  getSpeciesRecommendations,
   selectPillarFaction,
+  getFactionRecommendations,
   selectPillarOrigin,
+  getOriginRecommendations,
   selectPillarOccupation,
+  getOccupationRecommendations,
+  calculateRulesLedger,
   derivePillarAttributes,
   derivePillarSkills,
   derivePillarTraitsAndFeatures,
@@ -207,4 +213,157 @@ test('BASTION Character Synthesis: Guided Creator Modal Compatibility', () => {
   assert(result.pillars.origin && result.pillars.origin.name);
   assert(result.pillars.occupation && result.pillars.occupation.name);
 });
+
+test('BASTION Staged Workflow: Multi-Candidate Archetype Recommendations with Rationale', () => {
+  const prompt = 'stealth sniper operative';
+  const recs = getArchetypeRecommendations(prompt, DEFAULT_ARCHETYPES, 4);
+
+  assert.equal(recs.length, 4, 'Should return 4 top archetype recommendations');
+  assert(recs[0].isTopPick, 'First recommendation should be top pick');
+  assert(recs[0].score >= recs[1].score, 'Recommendations must be sorted descending by score');
+  assert(recs[0].archetype && recs[0].archetype.name, 'Recommendation must include canonical archetype');
+  assert(typeof recs[0].rationale === 'string' && recs[0].rationale.length > 0, 'Must provide user rationale');
+
+  // Verify all candidates are distinct and canonical
+  const seen = new Set();
+  recs.forEach(r => {
+    assert(!seen.has(r.archetype.name), 'Archetypes should be unique');
+    seen.add(r.archetype.name);
+    assert(DEFAULT_ARCHETYPES.some(a => a.name === r.archetype.name), 'Must be canonical');
+  });
+});
+
+test('BASTION Staged Workflow: Species Recommendations Synergized with Archetype', () => {
+  const sniper = findClosestArchetype('stealth sniper');
+  const speciesRecs = getSpeciesRecommendations(sniper, 'feline sniper', DEFAULT_SPECIES, 3);
+
+  assert.equal(speciesRecs.length, 3);
+  assert(speciesRecs[0].isTopPick);
+  assert(speciesRecs[0].species.name.toLowerCase().includes('auluran') || speciesRecs[0].species.name.includes('Human'));
+  assert(typeof speciesRecs[0].rationale === 'string');
+  assert(typeof speciesRecs[0].attributeModifiersSummary === 'string');
+});
+
+test('BASTION Staged Workflow: Faction, Origin & Occupation Staged Candidates', () => {
+  const operativeArch = findClosestArchetype('Syndicate corporate infiltrator');
+
+  const facRecs = getFactionRecommendations(operativeArch, 'Syndicate corporate infiltrator', DEFAULT_FACTIONS, 3);
+  assert.equal(facRecs.length, 3);
+  assert(facRecs[0].faction.name.toLowerCase().includes('syndicat'));
+  assert(Array.isArray(facRecs[0].skillPackage));
+
+  const origRecs = getOriginRecommendations(operativeArch, 'high-tech city', DEFAULT_ORIGINS, 3);
+  assert.equal(origRecs.length, 3);
+  assert(origRecs[0].origin && origRecs[0].origin.name);
+
+  const occuRecs = getOccupationRecommendations(operativeArch, 'covert agent', DEFAULT_OCCUPATIONS, 3);
+  assert.equal(occuRecs.length, 3);
+  assert(occuRecs[0].occupation && occuRecs[0].occupation.name);
+});
+
+test('BASTION Rules Ledger: 150 BP Economy, Raw Ceiling (Max +4), and Foundation Skill Packages', () => {
+  const arch = DEFAULT_ARCHETYPES.find(a => a.name === 'The Vanguard') || DEFAULT_ARCHETYPES[0];
+  const sp = DEFAULT_SPECIES.find(s => s.name === 'Human (Base)') || DEFAULT_SPECIES[0];
+  const fac = DEFAULT_FACTIONS[0];
+  const orig = DEFAULT_ORIGINS[0];
+  const occu = DEFAULT_OCCUPATIONS[0];
+
+  const ledger = calculateRulesLedger({
+    archetype: arch,
+    species: sp,
+    faction: fac,
+    origin: orig,
+    occupation: occu,
+    techLevel: 3
+  });
+
+  assert.equal(ledger.startingBP, 150);
+  assert(ledger.bpSpent > 0, 'Should track spent BP');
+  assert(ledger.bpRemaining >= 0, 'Remaining BP must be non-negative for standard allocation');
+  assert.equal(ledger.isRulesCompliant, true, 'Default synthesis must be rules compliant');
+
+  // Verify raw attributes do not exceed 4
+  for (const [attrKey, val] of Object.entries(ledger.rawAttributes)) {
+    assert(val <= 4, `${attrKey} must not exceed 4 at creation`);
+  }
+
+  // Verify foundation skill pools (20 + 20 + 20 = 60 free ranks)
+  assert.equal(ledger.foundationPackages.totalSkillRanks, 60);
+  assert.equal(ledger.foundationPackages.factionPool.allocatedPoints, 20);
+  assert.equal(ledger.foundationPackages.originPool.allocatedPoints, 20);
+  assert.equal(ledger.foundationPackages.occupationPool.allocatedPoints, 20);
+
+  // Test budget violation detection
+  const overspentLedger = calculateRulesLedger({
+    archetype: arch,
+    species: sp,
+    faction: fac,
+    origin: orig,
+    occupation: occu,
+    techLevel: 3,
+    rawAttributes: {
+      'attr-strength': 4,
+      'attr-agility': 4,
+      'attr-stamina': 4,
+      'attr-intellect': 4,
+      'attr-wisdom': 4,
+      'attr-charisma': 4 // 24 points * 5 = 120 BP + ...
+    }
+  });
+  // If raw attribute exceeds +4, must report violation
+  const illegalAttrLedger = calculateRulesLedger({
+    archetype: arch,
+    species: sp,
+    faction: fac,
+    origin: orig,
+    occupation: occu,
+    techLevel: 3,
+    rawAttributes: {
+      'attr-strength': 5 // Exceeds creation ceiling of 4
+    }
+  });
+  assert.equal(illegalAttrLedger.isRulesCompliant, false);
+  assert(illegalAttrLedger.validationErrors.some(e => e.includes('exceeds creation ceiling of +4')));
+});
+
+test('BASTION Staged Workflow: User-in-the-loop Customized Assembly Passes Schema', () => {
+  // Simulating user picking specific canonical choices at each stage
+  const userArch = DEFAULT_ARCHETYPES.find(a => a.name === 'The Ghost') || DEFAULT_ARCHETYPES[0];
+  const userSpecies = DEFAULT_SPECIES.find(s => s.name?.includes('Spacer')) || DEFAULT_SPECIES[0];
+  const userFaction = DEFAULT_FACTIONS.find(f => f.name?.includes('Syndicat')) || DEFAULT_FACTIONS[0];
+  const userOrigin = DEFAULT_ORIGINS.find(o => o.name === 'Spacer') || DEFAULT_ORIGINS[0];
+  const userOccupation = DEFAULT_OCCUPATIONS.find(oc => oc.name === 'Agent') || DEFAULT_OCCUPATIONS[0];
+
+  const stagedResult = synthesizeCharacterWithBastion({
+    prompt: 'covert void assassin',
+    preferredArchetype: userArch.name,
+    preferredSpecies: userSpecies.name,
+    preferredFaction: userFaction.name,
+    preferredOrigin: userOrigin.name,
+    preferredOccupation: userOccupation.name,
+    techLevel: 4,
+    rawAttributes: {
+      'attr-strength': 0,
+      'attr-agility': 3,
+      'attr-stamina': 1,
+      'attr-intellect': 2,
+      'attr-wisdom': 1,
+      'attr-charisma': 0
+    }
+  });
+
+  assert.equal(stagedResult.success, true);
+  assert.equal(stagedResult.pillars.archetype.name, userArch.name);
+  assert.equal(stagedResult.pillars.species.name, userSpecies.name);
+  assert.equal(stagedResult.pillars.faction.name, userFaction.name);
+  assert.equal(stagedResult.pillars.origin.name, userOrigin.name);
+  assert.equal(stagedResult.pillars.occupation.name, userOccupation.name);
+  assert(stagedResult.rulesLedger && stagedResult.rulesLedger.isRulesCompliant);
+
+  // Folio schema validation
+  assert.doesNotThrow(() => {
+    characterSchema.parse(stagedResult.character);
+  });
+});
+
 

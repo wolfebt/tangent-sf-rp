@@ -109,9 +109,9 @@ export const GroupService = {
         const channelRef = doc(db, 'channels', channelId);
         const channelData = {
           id: channelId,
-          name: `squad-${cleanName.toLowerCase().replace(/[^a-z0-9_-]/g, '-')}`,
+          name: `team-${cleanName.toLowerCase().replace(/[^a-z0-9_-]/g, '-')}`,
           displayName: `🛡️ ${cleanName}`,
-          topic: `Tied-in Squad frequency for Game Group: ${cleanName}`,
+          topic: `Default Active Team frequency for: ${cleanName}`,
           type: 'group',
           groupId: groupId,
           groupName: cleanName,
@@ -121,7 +121,7 @@ export const GroupService = {
           updatedAt: serverTimestamp(),
           members: [currentUser.uid],
           lastMessage: {
-            text: `Squad Comms Link Established for ${cleanName}.`,
+            text: `Active Team Frequency initialized for ${cleanName}.`,
             senderHandle: 'SYSTEM RELAY',
             timestamp: new Date().toISOString()
           }
@@ -142,6 +142,73 @@ export const GroupService = {
     }
 
     return groupData;
+  },
+
+  // 1c. Ensure a team has a default active frequency in Firestore
+  async ensureTeamFrequency(group, currentUser) {
+    if (!group || !group.id) return null;
+
+    const cleanName = group.name || 'Operative Team';
+    const channelId = group.channelId || `group_chan_${group.id}`;
+
+    if (!db) {
+      group.channelId = channelId;
+      return channelId;
+    }
+
+    try {
+      const channelRef = doc(db, 'channels', channelId);
+      const snap = await getDoc(channelRef);
+      const memberUids = Array.from(new Set([
+        ...(Array.isArray(group.members) ? group.members : []),
+        group.creatorId,
+        currentUser?.uid
+      ].filter(Boolean)));
+
+      if (!snap.exists()) {
+        const channelData = {
+          id: channelId,
+          name: `team-${cleanName.toLowerCase().replace(/[^a-z0-9_-]/g, '-')}`,
+          displayName: `🛡️ ${cleanName}`,
+          topic: `Default Active Team frequency for: ${cleanName}`,
+          type: 'group',
+          groupId: group.id,
+          groupName: cleanName,
+          isPublic: false,
+          createdById: group.creatorId || currentUser?.uid || 'system',
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+          members: memberUids,
+          lastMessage: {
+            text: `Default Active Team Frequency initialized for ${cleanName}.`,
+            senderHandle: 'SYSTEM RELAY',
+            timestamp: new Date().toISOString()
+          }
+        };
+        await setDoc(channelRef, channelData);
+      } else {
+        const existingData = snap.data();
+        const existingMembers = Array.isArray(existingData.members) ? existingData.members : [];
+        const missing = memberUids.filter(u => !existingMembers.includes(u));
+        if (missing.length > 0) {
+          await updateDoc(channelRef, {
+            members: [...existingMembers, ...missing],
+            updatedAt: serverTimestamp()
+          });
+        }
+      }
+
+      if (!group.channelId) {
+        group.channelId = channelId;
+        const groupRef = doc(db, 'game_groups', group.id);
+        await updateDoc(groupRef, { channelId: channelId });
+      }
+
+      return channelId;
+    } catch (err) {
+      console.warn('[GroupService] Error ensuring team frequency:', err);
+      return channelId;
+    }
   },
 
   // 2. Subscribe to all game groups for the current user (as owner, GM, or player member)
@@ -177,6 +244,12 @@ export const GroupService = {
         map.set(g.id, g);
       });
       const combined = Array.from(map.values());
+      // Ensure all enrolled teams have a default active frequency provisioned
+      combined.forEach(g => {
+        if (!g.channelId) {
+          GroupService.ensureTeamFrequency(g, currentUser);
+        }
+      });
       StorageService.setItem('tangent_game_groups', combined);
       callback(combined);
     };

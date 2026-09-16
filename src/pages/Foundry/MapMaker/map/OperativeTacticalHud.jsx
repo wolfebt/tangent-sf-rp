@@ -97,7 +97,7 @@ const OperativeTacticalHud = ({
                 if (onDropPing) onDropPing(p.type);
               }}
               className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs transition-transform active:scale-90 cursor-pointer"
-              title={`Broadcast ${p.label} Ping to Squad`}
+              title={`Broadcast ${p.label} Ping to Team`}
             >
               {p.icon}
             </button>

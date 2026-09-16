@@ -2,7 +2,8 @@
 id: movement-slow-crawl
 name: 'Ground: Slow Crawl Pace (0.25x Base)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Ground
 multiplier: 0.25
 speed: 7.5
@@ -21,7 +22,8 @@ costs:
 ---
 # Ground: Slow Crawl Pace (0.25x Base)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Ground  
 **Cost**: +0 BP  
 

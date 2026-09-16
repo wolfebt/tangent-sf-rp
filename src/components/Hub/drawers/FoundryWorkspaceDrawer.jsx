@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Database, Map, Sparkles, Maximize2, X, List } from 'lucide-react';
 import StoryModule from '../../../pages/Foundry/StoryModule/StoryModule';
-import ElementForge from '../../../pages/Foundry/ElementForge/ElementForge';
 import MapMaker from '../../../pages/Foundry/MapMaker/MapMaker';
 import AIME from '../../../pages/Foundry/AIME/AIME';
 import { AudioService } from '../../../services/audioService';
@@ -18,12 +17,12 @@ const TOOL_CONFIG = {
     catalogDrawer: 'foundry-scenarios'
   },
   elements: {
-    title: 'ELEMENT FORGE DATABASE',
-    subtitle: 'Species, factions, items, tech, and narrative element builder.',
+    title: 'STORY FOUNDRY: WORLD ELEMENTS',
+    subtitle: 'Personas, factions, items, locations, tech, and narrative element database.',
     icon: Database,
     color: 'emerald',
-    path: '/foundry/elements',
-    badge: 'ELEMENT FORGE',
+    path: '/foundry/story',
+    badge: 'STORY FOUNDRY',
     catalogDrawer: 'foundry-elements'
   },
   maps: {
@@ -121,7 +120,7 @@ export const FoundryWorkspaceDrawer = ({ tool = 'scenarios', onClose, onOpenDraw
       {/* Embedded Tool Workspace */}
       <div className="flex-1 min-h-[520px] max-h-[calc(100vh-280px)] rounded-xl border border-slate-800/90 overflow-hidden bg-[#0d1117]/95 shadow-inner">
         {tool === 'scenarios' && <StoryModule />}
-        {tool === 'elements' && <ElementForge />}
+        {tool === 'elements' && <StoryModule defaultView="elements" />}
         {tool === 'maps' && <MapMaker />}
         {tool === 'aime' && <AIME />}
       </div>

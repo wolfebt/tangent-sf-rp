@@ -2,13 +2,14 @@
 id: movement-sprinting
 name: 'Ground: Sprinting Pace (6x Base)'
 category: species_movement
-classification: pace
+classification: stage
+movement_tier: stage
 target_mode: Ground
 multiplier: 6
 speed: 180
 bp: 0
 description: >-
-  Maximum land sprint (6x Base Walk) requiring demanding Athletics check (DC
+  Maximum land sprint (6x Base Walk) requiring demanding Athletics check (CR
   15+) each minute.
 costs:
   bp: 0
@@ -21,9 +22,10 @@ costs:
 ---
 # Ground: Sprinting Pace (6x Base)
 
-**Category**: Species Movement (PACE)  
+**Category**: Species Movement (STAGE)  
+**Classification**: stage  
 **Target Mode**: Ground  
 **Cost**: +0 BP  
 
 ## Description
-Maximum land sprint (6x Base Walk) requiring demanding Athletics check (DC 15+) each minute.
+Maximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute.

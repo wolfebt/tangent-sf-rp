@@ -38,7 +38,7 @@ import {
   type WallSegment,
   DashboardOverlay
 } from '../../engine/index.ts';
-import { useCampaign, formatExportFilename } from '../../context/CampaignContext';
+import { useCampaign } from '../../context/CampaignContext';
 import { TokenRadialMenu } from './TokenRadialMenu';
 import { 
   ArchitectDesignPalette, 
@@ -46,7 +46,7 @@ import {
   type ArchitectDesignTool,
   BIOME_OPTIONS 
 } from './ArchitectDesignPalette';
-import { StageTopToolbar } from './StageTopToolbar';
+import { useUILayoutStore } from './store/uiLayoutStore';
 import { HazardParticleSimulator, type HazardType, type HazardField } from '../../engine/physics/HazardParticleSimulator.ts';
 import { Graphics, Container, Text, TextStyle, Sprite } from 'pixi.js';
 import { 
@@ -127,7 +127,6 @@ export const StageView: React.FC<StageViewProps> = ({
     setActiveMapId, 
     addMap, 
     updateMap, 
-    deleteMap,
     addCustomTerrain,
     updateCustomTerrain,
     deleteCustomTerrain,
@@ -140,14 +139,42 @@ export const StageView: React.FC<StageViewProps> = ({
   const availableMaps = universeState?.maps || [];
   const currentMap = availableMaps.find((m: any) => m.id === currentMapId) || availableMaps[0] || null;
 
+  // Sourced from Unified Layout & Stage Viewport Store
+  const {
+    isGridVisible,
+    gridSnap,
+    toggleGridSnap,
+    gridType,
+    scaleTier,
+    isDynamicLightingEnabled,
+    toggleDynamicLighting,
+    isMultiplayerSimActive,
+    toggleMultiplayerSim,
+    isZenMode,
+    userRole,
+    activeArchitectTool,
+    selectedWallType: storeWallType,
+    doorLockDc: storeDoorLockDc,
+    selectedTerrain: storeTerrain,
+    terrainBrushWidth: storeTerrainBrushWidth,
+    selectedLightColor: storeLightColor,
+    selectedLightRadius: storeLightRadius,
+    selectedLightAnimation: storeLightAnimation,
+    pencilColor: storePencilColor,
+    pencilWidth: storePencilWidth,
+    rulerAvailableAp: storeRulerAp,
+    selectedTokenId: storeSelectedTokenId,
+    setSelectedTokenId: setStoreSelectedTokenId,
+    targetTokenId: storeTargetTokenId,
+    setTargetTokenId: setStoreTargetTokenId
+  } = useUILayoutStore();
+
   // In-Situ Architect Design Mode & Simulation Control States
   const [isDesignModeActive, setIsDesignModeActive] = useState<boolean>(false);
   const [isSimulationPaused, setIsSimulationPaused] = useState<boolean>(false);
   const [isTacticalConsoleCollapsed, setIsTacticalConsoleCollapsed] = useState<boolean>(false);
-  const [isZenMode, setIsZenMode] = useState<boolean>(false);
   const [activeDesignTool, setActiveDesignTool] = useState<ArchitectDesignTool>('select');
   const [selectedStamp, setSelectedStamp] = useState<PaletteItem | null>(null);
-  const [gridSnap, setGridSnap] = useState<boolean>(true);
   const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
   const [localObjects, setLocalObjects] = useState<SceneInteractiveObject[]>([]);
   const [localLights, setLocalLights] = useState<SceneLightSource[]>([]);
@@ -214,7 +241,7 @@ export const StageView: React.FC<StageViewProps> = ({
   const [activePings, setActivePings] = useState<any[]>([]);
 
   // Undo / Redo History Integration
-  const { undoStack, redoStack, recordHistory, handleUndo, handleRedo, lastActionDescription } = useMapHistory({
+  const { recordHistory } = useMapHistory({
     currentMap,
     lines: currentMap?.lines || [],
     tokens: currentMap?.tokens || [],
@@ -230,11 +257,72 @@ export const StageView: React.FC<StageViewProps> = ({
   });
 
   // Viewport & Coordinate States
-  const [scaleTier, setScaleTier] = useState<GridScaleTier>(GridScaleTier.Encounter);
-  const [gridType, setGridType] = useState<GridType>(GridType.Square);
-  const [selectedTokenId, setSelectedTokenId] = useState<string | null>('op-jax');
-  const [targetTokenId, setTargetTokenId] = useState<string | null>('mech-vanguard');
-  const [isGridVisible, setIsGridVisible] = useState(true);
+  const [selectedTokenId, setSelectedTokenId] = useState<string | null>(storeSelectedTokenId || 'op-jax');
+  const [targetTokenId, setTargetTokenId] = useState<string | null>(storeTargetTokenId || 'mech-vanguard');
+
+  // Synchronize selection state with uiLayoutStore
+  useEffect(() => {
+    if (storeSelectedTokenId !== undefined && storeSelectedTokenId !== selectedTokenId) {
+      setSelectedTokenId(storeSelectedTokenId);
+    }
+  }, [storeSelectedTokenId]);
+
+  useEffect(() => {
+    if (storeTargetTokenId !== undefined && storeTargetTokenId !== targetTokenId) {
+      setTargetTokenId(storeTargetTokenId);
+    }
+  }, [storeTargetTokenId]);
+
+  // Synchronize active architect tool from Right Rail with WebGPU canvas
+  useEffect(() => {
+    if (activeArchitectTool) {
+      setActiveDesignTool(activeArchitectTool as ArchitectDesignTool);
+      if (activeArchitectTool !== 'select' || userRole === 'architect') {
+        setIsDesignModeActive(true);
+      }
+    }
+  }, [activeArchitectTool, userRole]);
+
+  useEffect(() => {
+    if (storeWallType) setSelectedWallType(storeWallType);
+  }, [storeWallType]);
+
+  useEffect(() => {
+    if (storeDoorLockDc !== undefined) setDoorLockDc(storeDoorLockDc);
+  }, [storeDoorLockDc]);
+
+  useEffect(() => {
+    if (storeTerrain) setSelectedTerrainId(storeTerrain);
+  }, [storeTerrain]);
+
+  useEffect(() => {
+    if (storeTerrainBrushWidth !== undefined) setTerrainBrushWidth(storeTerrainBrushWidth);
+  }, [storeTerrainBrushWidth]);
+
+  useEffect(() => {
+    if (storeLightColor) setSelectedLightColor(storeLightColor);
+  }, [storeLightColor]);
+
+  useEffect(() => {
+    if (storeLightRadius !== undefined) setSelectedLightRadius(storeLightRadius);
+  }, [storeLightRadius]);
+
+  useEffect(() => {
+    if (storeLightAnimation) setSelectedLightAnimation(storeLightAnimation as LightAnimationType);
+  }, [storeLightAnimation]);
+
+  useEffect(() => {
+    if (storePencilColor) setPencilColor(storePencilColor);
+  }, [storePencilColor]);
+
+  useEffect(() => {
+    if (storePencilWidth !== undefined) setPencilWidth(storePencilWidth);
+  }, [storePencilWidth]);
+
+  useEffect(() => {
+    if (storeRulerAp !== undefined) setRulerAvailableAp(storeRulerAp);
+  }, [storeRulerAp]);
+
   const isVisionEnabled = true;
   const torchRadiusFt = 30;
   const [gridOverlayContainer, setGridOverlayContainer] = useState<Container | null>(null);
@@ -251,10 +339,8 @@ export const StageView: React.FC<StageViewProps> = ({
     token: null
   });
 
-  // Environmental FX & Dynamic Lighting States
-  const [isDynamicLightingEnabled, setIsDynamicLightingEnabled] = useState<boolean>(true);
+  // Environmental FX States
   const [hazardCount, setHazardCount] = useState<number>(0);
-  const [isMultiplayerSimActive, setIsMultiplayerSimActive] = useState<boolean>(false);
 
   // Pan & Zoom Navigation States
   const [zoom, setZoom] = useState<number>(1.0);
@@ -316,46 +402,7 @@ export const StageView: React.FC<StageViewProps> = ({
     AudioService.playTerminalBeep(1200, 0.03);
   };
 
-  // Handle new map creation
-  const handleAddNewMap = (title: string, mapType: string) => {
-    const newId = uuidv4();
-    const newMap = {
-      id: newId,
-      title: title || 'New Sector Map',
-      name: title || 'New Sector Map',
-      type: mapType || 'Tactical',
-      gridMode: gridType === GridType.Square ? 'square' : 'hex',
-      lines: [],
-      tokens: [],
-      terrains: [],
-      objects: [],
-      texts: [],
-      walls: [],
-      fog: [],
-      layers: DEFAULT_LAYERS
-    };
-    if (addMap) addMap(newMap);
-    handleSelectMap(newId);
-    AudioService.playCriticalChime(true);
-    setCombatLog(prev => [
-      `[MAP] Created and loaded new sector: "${newMap.title}" [${newMap.type}].`,
-      ...prev.slice(0, 8)
-    ]);
-  };
 
-  // Handle map deletion
-  const handleDeleteCurrentMap = () => {
-    if (!currentMap) return;
-    const targetTitle = currentMap.title || currentMap.name || 'Untitled Map';
-    if (window.confirm(`Are you sure you want to delete tactical sector map "${targetTitle}"?`)) {
-      if (deleteMap) deleteMap(currentMap.id);
-      const nextMap = availableMaps.find((m: any) => m.id !== currentMap.id);
-      if (nextMap) {
-        handleSelectMap(nextMap.id);
-      }
-      AudioService.playTerminalBeep(800, 0.05);
-    }
-  };
 
   // Ingest Campaign Map (Walls into BVH, Objects into InteractiveObjMgr, Tokens into VolatileSharder)
   useEffect(() => {
@@ -492,6 +539,29 @@ export const StageView: React.FC<StageViewProps> = ({
       window.removeEventListener('companion-deploy-toggle', handleCompanionDeploy);
     };
   }, [selectedTokenId]);
+
+  // ── Studio & Cartography Modal Event Listeners (Triggered from Architect Console Rail) ──
+  useEffect(() => {
+    const handleOpenLandmass = () => setIsLandmassModalOpen(true);
+    const handleOpenUvtt = () => setIsUvttModalOpen(true);
+    const handleOpenAssetManager = () => setIsAssetManagerOpen(true);
+    const handleOpenHeroDrawer = () => setIsHeroDrawerOpen(true);
+    const handleOpenOmnicortex = () => setIsOmnicortexDrawerOpen(true);
+
+    window.addEventListener('open-landmass-modal', handleOpenLandmass);
+    window.addEventListener('open-uvtt-modal', handleOpenUvtt);
+    window.addEventListener('open-asset-manager', handleOpenAssetManager);
+    window.addEventListener('open-hero-drawer', handleOpenHeroDrawer);
+    window.addEventListener('open-omnicortex-drawer', handleOpenOmnicortex);
+
+    return () => {
+      window.removeEventListener('open-landmass-modal', handleOpenLandmass);
+      window.removeEventListener('open-uvtt-modal', handleOpenUvtt);
+      window.removeEventListener('open-asset-manager', handleOpenAssetManager);
+      window.removeEventListener('open-hero-drawer', handleOpenHeroDrawer);
+      window.removeEventListener('open-omnicortex-drawer', handleOpenOmnicortex);
+    };
+  }, []);
 
   // ── Render Walls & Bulkheads onto the Stage ──
   useEffect(() => {
@@ -1245,16 +1315,35 @@ export const StageView: React.FC<StageViewProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let isDestroyed = false;
-    const renderer = new RendererContext();
-    rendererContextRef.current = renderer;
+    let isCancelled = false;
+    let localRenderer: RendererContext | null = null;
 
     const initRenderer = async () => {
-      await renderer.initialize(canvas);
-      if (isDestroyed) {
-        hazardSimulatorRef.current?.destroy();
-        renderer.destroy();
+      // If a previous renderer instance is still active/initializing, await its full teardown first
+      if (rendererContextRef.current) {
+        try {
+          await rendererContextRef.current.destroy();
+        } catch {
+          // Ignored
+        }
         rendererContextRef.current = null;
+      }
+
+      if (isCancelled) return;
+
+      const renderer = new RendererContext();
+      localRenderer = renderer;
+      rendererContextRef.current = renderer;
+
+      await renderer.initialize(canvas);
+
+      if (isCancelled) {
+        hazardSimulatorRef.current?.destroy();
+        hazardSimulatorRef.current = null;
+        await renderer.destroy();
+        if (rendererContextRef.current === renderer) {
+          rendererContextRef.current = null;
+        }
         return;
       }
 
@@ -1383,10 +1472,16 @@ export const StageView: React.FC<StageViewProps> = ({
     initRenderer();
 
     return () => {
-      isDestroyed = true;
+      isCancelled = true;
       hazardSimulatorRef.current?.destroy();
-      renderer.destroy();
-      rendererContextRef.current = null;
+      hazardSimulatorRef.current = null;
+      if (localRenderer) {
+        localRenderer.destroy().then(() => {
+          if (rendererContextRef.current === localRenderer) {
+            rendererContextRef.current = null;
+          }
+        });
+      }
     };
   }, []);
 
@@ -1448,6 +1543,8 @@ export const StageView: React.FC<StageViewProps> = ({
   }, [gridOverlayContainer, isGridVisible, gridType]);
 
   useEffect(() => {
+    coordEngineRef.current.setScaleTier(scaleTier);
+    coordEngineRef.current.setGridType(gridType);
     redrawGrid();
   }, [redrawGrid, scaleTier, gridType]);
 
@@ -1734,6 +1831,7 @@ export const StageView: React.FC<StageViewProps> = ({
         if (e.button === 2 || e.buttons === 2) {
           e.nativeEvent?.preventDefault?.();
           setSelectedTokenId(token.id);
+          setStoreSelectedTokenId(token.id);
           const canvasBounds = canvasRef.current?.getBoundingClientRect();
           const screenX = canvasBounds ? canvasBounds.left + token.x * zoom + pan.x : token.x;
           const screenY = canvasBounds ? canvasBounds.top + token.y * zoom + pan.y : token.y;
@@ -1745,9 +1843,11 @@ export const StageView: React.FC<StageViewProps> = ({
           AudioService.playTerminalBeep(1350, 0.04);
         } else if (e.shiftKey) {
           setTargetTokenId(token.id);
+          setStoreTargetTokenId(token.id);
           AudioService.playTerminalBeep(950, 0.03);
         } else {
           setSelectedTokenId(token.id);
+          setStoreSelectedTokenId(token.id);
           AudioService.playTerminalBeep(1200, 0.03);
         }
       });
@@ -2330,13 +2430,13 @@ export const StageView: React.FC<StageViewProps> = ({
 
   // Environmental Hazard & Lighting Handlers
   const handleToggleDynamicLighting = () => {
-    setIsDynamicLightingEnabled(prev => {
-      const next = !prev;
-      hazardSimulatorRef.current?.setDynamicLighting(next);
-      AudioService.playTerminalBeep(next ? 1200 : 800, 0.03);
-      return next;
-    });
+    toggleDynamicLighting();
+    AudioService.playTerminalBeep(!isDynamicLightingEnabled ? 1200 : 800, 0.03);
   };
+
+  useEffect(() => {
+    hazardSimulatorRef.current?.setDynamicLighting(isDynamicLightingEnabled);
+  }, [isDynamicLightingEnabled]);
 
   const handleSpawnHazard = (type: HazardType) => {
     const activeTok = selectedToken || tokens[0];
@@ -2372,15 +2472,13 @@ export const StageView: React.FC<StageViewProps> = ({
   };
 
   const handleToggleMultiplayerSim = () => {
-    setIsMultiplayerSimActive(prev => {
-      const next = !prev;
-      AudioService.playTerminalBeep(next ? 1300 : 750, 0.04);
-      setCombatLog(p => [
-        next ? `[NETWORK] LiveKit WebRTC peer telemetry active. Synchronizing 3 remote operative streams.` : `[NETWORK] Local mode engaged.`,
-        ...p.slice(0, 8)
-      ]);
-      return next;
-    });
+    toggleMultiplayerSim();
+    const next = !isMultiplayerSimActive;
+    AudioService.playTerminalBeep(next ? 1300 : 750, 0.04);
+    setCombatLog(p => [
+      next ? `[NETWORK] LiveKit WebRTC peer telemetry active. Synchronizing 3 remote operative streams.` : `[NETWORK] Local mode engaged.`,
+      ...p.slice(0, 8)
+    ]);
   };
 
   // Drop Tactical Radar Ping
@@ -2390,68 +2488,6 @@ export const StageView: React.FC<StageViewProps> = ({
     const newPing = createTacticalPing(px, py, pingType, null, 'Architect', null);
     setActivePings(prev => [...prev, newPing]);
     AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
-  };
-
-  // Save map JSON file
-  const handleSaveMapJson = () => {
-    if (!currentMap) return;
-    const payload = {
-      type: 'TangentMap',
-      version: '1.0',
-      map: {
-        ...currentMap,
-        walls: localWalls,
-        objects: localObjects
-      }
-    };
-    const jsonStr = JSON.stringify(payload, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = formatExportFilename(currentMap.title || currentMap.name || 'map', 'tactical_map', 'json');
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    AudioService.playCriticalChime(true);
-  };
-
-  // Load map JSON file
-  const handleLoadMapJson = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const data = JSON.parse(event.target?.result as string);
-        const mapToLoad = data.type === 'TangentMap' && data.map ? data.map : (data.id && (data.title || data.name) ? data : null);
-        if (mapToLoad) {
-          const mapId = uuidv4();
-          const newMap = { ...mapToLoad, id: mapId };
-          if (addMap) addMap(newMap);
-          handleSelectMap(mapId);
-          AudioService.playCriticalChime(true);
-        } else {
-          alert('Invalid Tangent Map JSON format.');
-        }
-      } catch (e) {
-        console.error(e);
-        alert('Failed to parse map file.');
-      }
-    };
-    reader.readAsText(file);
-  };
-
-  // Export Viewport Snapshot (PNG)
-  const handleExportPng = () => {
-    if (!canvasRef.current) return;
-    const dataUrl = canvasRef.current.toDataURL('image/png');
-    const a = document.createElement('a');
-    a.href = dataUrl;
-    a.download = `${(currentMap?.title || 'stage_viewport').toLowerCase().replace(/\s+/g, '_')}_snapshot.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    AudioService.playCriticalChime(true);
   };
 
   // Commit Procedural Landmass
@@ -2772,7 +2808,7 @@ export const StageView: React.FC<StageViewProps> = ({
         if (e.key.toLowerCase() === 'm') {
           handleToggleDesignMode();
         } else if (e.key.toLowerCase() === 'g') {
-          setGridSnap(prev => !prev);
+          toggleGridSnap();
           AudioService.playTerminalBeep(1000, 0.02);
         } else if (isDesignModeActive) {
           if (e.key.toLowerCase() === 'v') setActiveDesignTool('select');
@@ -2972,18 +3008,6 @@ export const StageView: React.FC<StageViewProps> = ({
     setCombatLog(prev => [`[INITIATIVE] Roster initiative rolled for ${tokens.length} combatants.`, ...prev.slice(0, 8)]);
   };
 
-  const handleScaleChange = (newTier: GridScaleTier) => {
-    setScaleTier(newTier);
-    coordEngineRef.current.setScaleTier(newTier);
-    redrawGrid();
-  };
-
-  const handleGridTypeToggle = (newType: GridType) => {
-    setGridType(newType);
-    coordEngineRef.current.setGridType(newType);
-    redrawGrid();
-  };
-
   const currentScaleConfig = GRID_SCALE_CONFIGS[scaleTier];
 
   return (
@@ -2991,44 +3015,6 @@ export const StageView: React.FC<StageViewProps> = ({
       className="relative w-full h-full bg-[#050811] overflow-hidden select-none flex flex-col"
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* ── TOP GLASS-COCKPIT TOOLBAR (Map Switching, JSON Save/Load, Undo/Redo, Mode Switch) ── */}
-      <StageTopToolbar
-        currentMap={currentMap}
-        availableMaps={availableMaps}
-        activeMapId={currentMapId}
-        onSelectMap={handleSelectMap}
-        onAddNewMap={handleAddNewMap}
-        onDeleteCurrentMap={handleDeleteCurrentMap}
-        isDesignModeActive={isDesignModeActive}
-        onToggleDesignMode={handleToggleDesignMode}
-        canUndo={undoStack.length > 0}
-        canRedo={redoStack.length > 0}
-        onUndo={handleUndo}
-        onRedo={handleRedo}
-        lastActionDescription={lastActionDescription}
-        onSaveMapJson={handleSaveMapJson}
-        onLoadMapJson={handleLoadMapJson}
-        onExportPng={handleExportPng}
-        onOpenUvttModal={() => setIsUvttModalOpen(true)}
-        onOpenLandmassModal={() => setIsLandmassModalOpen(true)}
-        onOpenAssetManager={() => setIsAssetManagerOpen(true)}
-        onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
-        onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
-        isGridVisible={isGridVisible}
-        onToggleGridVisible={() => setIsGridVisible(prev => !prev)}
-        gridSnap={gridSnap}
-        onToggleGridSnap={() => setGridSnap(prev => !prev)}
-        gridType={gridType}
-        onChangeGridType={handleGridTypeToggle}
-        scaleTier={scaleTier}
-        onChangeScaleTier={handleScaleChange}
-        isDynamicLightingEnabled={isDynamicLightingEnabled}
-        onToggleDynamicLighting={handleToggleDynamicLighting}
-        isMultiplayerSimActive={isMultiplayerSimActive}
-        onToggleMultiplayerSim={handleToggleMultiplayerSim}
-        isZenMode={isZenMode}
-        onToggleZenMode={() => setIsZenMode(prev => !prev)}
-      />
 
       {/* ── MAIN VIEWPORT AREA ── */}
       <div className="relative flex-1 w-full h-full overflow-hidden">
@@ -3405,7 +3391,7 @@ export const StageView: React.FC<StageViewProps> = ({
           selectedStamp={selectedStamp}
           onSelectStamp={setSelectedStamp}
           gridSnap={gridSnap}
-          onToggleGridSnap={() => setGridSnap(prev => !prev)}
+          onToggleGridSnap={() => toggleGridSnap()}
           activeMapTitle={currentMap?.title || currentMap?.name || 'Tactical Sector'}
           wallsCount={localWalls.length}
           objectsCount={localObjects.length}
