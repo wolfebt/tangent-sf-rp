@@ -12,12 +12,22 @@ import {
   Search, 
   Trash2,
   ChevronRight,
-  Dna
+  Dna,
+  Info
 } from 'lucide-react';
 import { ALL_CANONICAL_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES } from '../../../data/featuresData';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { SPECIES_MOVEMENT_MODES, SPECIES_MOVEMENT_GROUPS } from '../../../engines/tangentConstants';
+import { 
+  OmnicortexTooltip, 
+  TraitTooltipCard, 
+  SkillSummaryCard, 
+  FeatureSummaryCard, 
+  AttributeModifierSummaryCard, 
+  MovementModeSummaryCard, 
+  SocialStigmaSummaryCard 
+} from '../../Codex/SpeciesStudioTooltips';
 
 export const CANONICAL_ATTRIBUTES = [
   'Strength',
@@ -102,26 +112,34 @@ export const AttributeModifiersSelector = ({
           list.map((item, idx) => {
             const isPositive = item.bonus >= 0;
             return (
-              <span
+              <OmnicortexTooltip
                 key={`${item.attribute}-${idx}`}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 shadow-sm"
+                content={<AttributeModifierSummaryCard attribute={item.attribute} bonus={item.bonus} />}
+                color="#06b6d4"
               >
-                <Zap size={11} className="text-cyan-400" />
-                <span>{item.attribute}</span>
-                <span className={`px-1 rounded text-[10px] ${isPositive ? 'bg-cyan-500/20 text-cyan-200' : 'bg-red-500/20 text-red-300'}`}>
-                  {isPositive ? `+${item.bonus}` : item.bonus}
+                <span
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 shadow-sm cursor-help hover:border-cyan-400 transition-colors"
+                >
+                  <Zap size={11} className="text-cyan-400" />
+                  <span>{item.attribute}</span>
+                  <span className={`px-1 rounded text-[10px] ${isPositive ? 'bg-cyan-500/20 text-cyan-200' : 'bg-red-500/20 text-red-300'}`}>
+                    {isPositive ? `+${item.bonus}` : item.bonus}
+                  </span>
+                  {isEditMode && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemove(idx);
+                      }}
+                      className="hover:text-red-400 p-0.5 ml-0.5 text-cyan-400 transition-colors cursor-pointer"
+                      title="Remove modifier"
+                    >
+                      <X size={12} />
+                    </button>
+                  )}
                 </span>
-                {isEditMode && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemove(idx)}
-                    className="hover:text-red-400 p-0.5 ml-0.5 text-cyan-400 transition-colors cursor-pointer"
-                    title="Remove modifier"
-                  >
-                    <X size={12} />
-                  </button>
-                )}
-              </span>
+              </OmnicortexTooltip>
             );
           })
         )}
@@ -234,26 +252,34 @@ export const SkillBonusesSelector = ({
           <span className="text-xs text-slate-500 italic">No specific skill bonuses assigned</span>
         ) : (
           list.map((item, idx) => (
-            <span
+            <OmnicortexTooltip
               key={`${item.skill}-${idx}`}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-950/80 border border-amber-500/50 text-amber-300 shadow-sm"
+              content={<SkillSummaryCard skill={item.skill} bonus={item.bonus} customSkills={dbSkills} />}
+              color="#f59e0b"
             >
-              <Brain size={11} className="text-amber-400" />
-              <span>{item.skill}</span>
-              <span className="px-1 rounded text-[10px] bg-amber-500/20 text-amber-200">
-                +{item.bonus}
+              <span
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-950/80 border border-amber-500/50 text-amber-300 shadow-sm cursor-help hover:border-amber-400 transition-colors"
+              >
+                <Brain size={11} className="text-amber-400" />
+                <span>{item.skill}</span>
+                <span className="px-1 rounded text-[10px] bg-amber-500/20 text-amber-200">
+                  +{item.bonus}
+                </span>
+                {isEditMode && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemove(idx);
+                    }}
+                    className="hover:text-red-400 p-0.5 ml-0.5 text-amber-400 transition-colors cursor-pointer"
+                    title="Remove skill bonus"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
               </span>
-              {isEditMode && (
-                <button
-                  type="button"
-                  onClick={() => handleRemove(idx)}
-                  className="hover:text-red-400 p-0.5 ml-0.5 text-amber-400 transition-colors cursor-pointer"
-                  title="Remove skill bonus"
-                >
-                  <X size={12} />
-                </button>
-              )}
-            </span>
+            </OmnicortexTooltip>
           ))
         )}
       </div>
@@ -391,26 +417,34 @@ export const FeaturesSelector = ({
           <span className="text-xs text-slate-500 italic">No features assigned</span>
         ) : (
           list.map((item, idx) => (
-            <span
+            <OmnicortexTooltip
               key={`${item.raw}-${idx}`}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border shadow-sm ${badgeClasses}`}
+              content={<FeatureSummaryCard feature={item.raw || item} mode={isPurple ? 'recommended' : 'inherent'} customFeatures={dbFeatures} />}
+              color={isPurple ? '#a855f7' : '#10b981'}
             >
-              <Sparkles size={11} className={iconColor} />
-              <span>{item.name}</span>
-              <span className="px-1 rounded text-[10px] bg-slate-800/80 text-slate-300">
-                {item.bp} CP
+              <span
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border shadow-sm cursor-help hover:brightness-110 transition-all ${badgeClasses}`}
+              >
+                <Sparkles size={11} className={iconColor} />
+                <span>{item.name}</span>
+                <span className="px-1 rounded text-[10px] bg-slate-800/80 text-slate-300">
+                  {item.bp} CP
+                </span>
+                {isEditMode && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemove(item.raw);
+                    }}
+                    className="hover:text-red-400 p-0.5 ml-0.5 transition-colors cursor-pointer"
+                    title="Remove feature"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
               </span>
-              {isEditMode && (
-                <button
-                  type="button"
-                  onClick={() => handleRemove(item.raw)}
-                  className="hover:text-red-400 p-0.5 ml-0.5 transition-colors cursor-pointer"
-                  title="Remove feature"
-                >
-                  <X size={12} />
-                </button>
-              )}
-            </span>
+            </OmnicortexTooltip>
           ))
         )}
       </div>
@@ -496,26 +530,34 @@ export const SpeciesTraitsChips = ({
           <span className="text-xs text-slate-500 italic">No species traits selected</span>
         ) : (
           list.map(t => (
-            <span
+            <OmnicortexTooltip
               key={t.id}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-950/80 border border-purple-500/50 text-purple-300 shadow-sm"
+              content={<TraitTooltipCard trait={t} customTraits={dbTraits} />}
+              color="#c084fc"
             >
-              <Dna size={11} className="text-purple-400" />
-              <span>{t.name}</span>
-              <span className="px-1 rounded text-[10px] bg-purple-500/20 text-purple-200">
-                {t.bp} CP
+              <span
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-950/80 border border-purple-500/50 text-purple-300 shadow-sm cursor-help hover:border-purple-400 transition-colors"
+              >
+                <Dna size={11} className="text-purple-400" />
+                <span>{t.name}</span>
+                <span className="px-1 rounded text-[10px] bg-purple-500/20 text-purple-200">
+                  {t.bp} CP
+                </span>
+                {isEditMode && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRemoveTrait(t.id);
+                    }}
+                    className="hover:text-red-400 p-0.5 ml-0.5 text-purple-400 transition-colors cursor-pointer"
+                    title="Remove trait"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
               </span>
-              {isEditMode && (
-                <button
-                  type="button"
-                  onClick={() => onRemoveTrait(t.id)}
-                  className="hover:text-red-400 p-0.5 ml-0.5 text-purple-400 transition-colors cursor-pointer"
-                  title="Remove trait"
-                >
-                  <X size={12} />
-                </button>
-              )}
-            </span>
+            </OmnicortexTooltip>
           ))
         )}
       </div>
@@ -560,22 +602,38 @@ export const MovementModeSelector = ({
   if (!isEditMode) {
     const match = options.find(o => o.id === currentVal);
     return (
-      <div className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-slate-200">
-        {match ? match.label : currentVal}
+      <div className="flex items-center gap-2">
+        <div className="flex-1 p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-slate-200">
+          {match ? match.label : currentVal}
+        </div>
+        <OmnicortexTooltip content={<MovementModeSummaryCard mode={match ? match.label : currentVal} />} color="#f59e0b">
+          <button type="button" className="p-2.5 rounded-xl bg-slate-950 border border-slate-700 hover:border-amber-400 text-amber-400 transition-colors cursor-help">
+            <Info size={14} />
+          </button>
+        </OmnicortexTooltip>
       </div>
     );
   }
 
+  const selectedMatch = options.find(o => o.id === currentVal);
+
   return (
-    <select
-      value={currentVal}
-      onChange={(e) => onChange(e.target.value)}
-      className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-400 font-mono"
-    >
-      {options.map(opt => (
-        <option key={opt.id} value={opt.id}>{opt.label}</option>
-      ))}
-    </select>
+    <div className="flex items-center gap-2">
+      <select
+        value={currentVal}
+        onChange={(e) => onChange(e.target.value)}
+        className="flex-1 p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-400 font-mono"
+      >
+        {options.map(opt => (
+          <option key={opt.id} value={opt.id}>{opt.label}</option>
+        ))}
+      </select>
+      <OmnicortexTooltip content={<MovementModeSummaryCard mode={selectedMatch ? selectedMatch.label : currentVal} />} color="#f59e0b">
+        <button type="button" className="p-2.5 rounded-xl bg-slate-950 border border-slate-700 hover:border-amber-400 text-amber-400 transition-colors cursor-help shrink-0" title="Locomotion summary">
+          <Info size={14} />
+        </button>
+      </OmnicortexTooltip>
+    </div>
   );
 };
 
@@ -592,8 +650,15 @@ export const SocialStigmaSelector = ({
 
   if (!isEditMode) {
     return (
-      <div className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-slate-200">
-        {currentVal || 'None'}
+      <div className="flex items-center gap-2">
+        <div className="flex-1 p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-slate-200">
+          {currentVal || 'None'}
+        </div>
+        <OmnicortexTooltip content={<SocialStigmaSummaryCard stigma={currentVal} />} color="#ef4444">
+          <button type="button" className="p-2.5 rounded-xl bg-slate-950 border border-slate-700 hover:border-red-400 text-red-400 transition-colors cursor-help">
+            <Info size={14} />
+          </button>
+        </OmnicortexTooltip>
       </div>
     );
   }
@@ -618,6 +683,11 @@ export const SocialStigmaSelector = ({
             ))}
             <option value="CUSTOM">Custom Write-In...</option>
           </select>
+          <OmnicortexTooltip content={<SocialStigmaSummaryCard stigma={currentVal} />} color="#ef4444">
+            <button type="button" className="p-2.5 rounded-xl bg-slate-950 border border-slate-700 hover:border-red-400 text-red-400 transition-colors cursor-help shrink-0" title="Social stigma summary">
+              <Info size={14} />
+            </button>
+          </OmnicortexTooltip>
         </div>
       ) : (
         <div className="flex items-center gap-2">

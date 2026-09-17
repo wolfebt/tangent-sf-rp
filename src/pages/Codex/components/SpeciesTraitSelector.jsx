@@ -36,9 +36,18 @@ import {
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { calculateSpeciesBP, calculateSpeciesCombatModifiers } from '../../../engines/tangentEntityEngines';
 import { useDBM } from '../../../context/DBMContext';
+import {
+  OmnicortexTooltip,
+  TraitTooltipCard,
+  DisadvantageSummaryCard,
+  SpeciesTypeSummaryCard,
+  SpeciesSizeSummaryCard,
+  MovementModeSummaryCard
+} from '../../../components/Codex/SpeciesStudioTooltips';
 
 export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
   const { dbData } = useDBM() || {};
+  const dbTraits = useMemo(() => dbData?.trait || dbData?.traits || [], [dbData]);
 
   const [activeTab, setActiveTab] = useState('traits'); // 'traits', 'attributes', 'movement', 'disadvantages'
   const [traitTier, setTraitTier] = useState('all'); // 'all', 'basic', 'advanced', 'elite'
@@ -232,53 +241,62 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
     });
   }, [selectedTraits, allAvailableTraits]);
 
-  // Render Trait Card
+  // Render Trait Card with Detailed Tooltip Card
   const renderTraitCard = (trait) => {
     const isSelected = selectedTraits.some(t => (typeof t === 'string' ? t : t?.id) === trait.id);
     return (
-      <button
+      <OmnicortexTooltip
         key={trait.id}
-        type="button"
-        onClick={() => toggleTrait(trait.id)}
-        className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between gap-2 relative group cursor-pointer ${
-          isSelected 
-            ? 'bg-purple-950/70 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.25)] ring-1 ring-purple-400/50' 
-            : 'bg-slate-950/70 border-slate-800/80 hover:border-purple-500/50 hover:bg-slate-900/60'
-        }`}
+        content={<TraitTooltipCard trait={trait} customTraits={dbTraits} />}
+        color="#a855f7"
+        className="w-full h-full"
       >
-        <div className="flex items-start justify-between gap-2 w-full">
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-xs font-bold text-slate-100 group-hover:text-purple-200 transition-colors">
-                {trait.name}
-              </span>
-              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 uppercase">
-                {trait.classification}
-              </span>
+        <button
+          type="button"
+          onClick={() => toggleTrait(trait.id)}
+          className={`w-full p-3 rounded-xl border text-left transition-all flex flex-col justify-between gap-2 relative group cursor-pointer h-full ${
+            isSelected 
+              ? 'bg-purple-950/70 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.25)] ring-1 ring-purple-400/50' 
+              : 'bg-slate-950/70 border-slate-800/80 hover:border-purple-500/50 hover:bg-slate-900/60'
+          }`}
+        >
+          <div className="flex items-start justify-between gap-2 w-full">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-xs font-bold text-slate-100 group-hover:text-purple-200 transition-colors">
+                  {trait.name}
+                </span>
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 uppercase">
+                  {trait.classification}
+                </span>
+              </div>
             </div>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold shrink-0">
+              {trait.bp} CP
+            </span>
           </div>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold shrink-0">
-            {trait.bp} CP
-          </span>
-        </div>
 
-        <p className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed">
-          {trait.description}
-        </p>
+          <p className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed font-sans">
+            {trait.description}
+          </p>
 
-        <div className="flex items-center justify-between w-full pt-1.5 border-t border-slate-800/60 text-[9.5px]">
-          <span className="text-slate-500 uppercase font-mono tracking-wider">{trait.tier} Tier</span>
-          {isSelected ? (
-            <span className="text-emerald-400 flex items-center gap-1 font-bold">
-              <Check size={12} /> Active
+          <div className="flex items-center justify-between w-full pt-1.5 border-t border-slate-800/60 text-[9.5px]">
+            <span className="text-slate-500 uppercase font-mono tracking-wider flex items-center gap-1">
+              <span>{trait.tier} Tier</span>
+              <Info size={10} className="text-purple-400 opacity-60 group-hover:opacity-100" />
             </span>
-          ) : (
-            <span className="text-slate-500 group-hover:text-purple-300 flex items-center gap-0.5">
-              <Plus size={11} /> Select
-            </span>
-          )}
-        </div>
-      </button>
+            {isSelected ? (
+              <span className="text-emerald-400 flex items-center gap-1 font-bold">
+                <Check size={12} /> Active
+              </span>
+            ) : (
+              <span className="text-slate-500 group-hover:text-purple-300 flex items-center gap-0.5">
+                <Plus size={11} /> Select
+              </span>
+            )}
+          </div>
+        </button>
+      </OmnicortexTooltip>
     );
   };
 
@@ -339,8 +357,13 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
 
         {/* Species Type (Chassis) */}
         <div>
-          <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Species Type Chassis ({SPECIES_TYPES[selectedType]?.bp || 0} CP)
+          <label className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between mb-1">
+            <span>Species Type Chassis ({SPECIES_TYPES[selectedType]?.bp || 0} CP)</span>
+            <OmnicortexTooltip content={<SpeciesTypeSummaryCard typeId={selectedType} />} color="#a855f7">
+              <span className="text-purple-400 hover:text-purple-300 cursor-help flex items-center gap-0.5" title="View Species Type Profile">
+                <Info size={11} /> Profile
+              </span>
+            </OmnicortexTooltip>
           </label>
           <select
             value={selectedType}
@@ -360,8 +383,13 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
 
         {/* Size Category */}
         <div>
-          <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Size Category ({SPECIES_SIZES[selectedSize]?.bp || 0} CP)
+          <label className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between mb-1">
+            <span>Size Category ({SPECIES_SIZES[selectedSize]?.bp || 0} CP)</span>
+            <OmnicortexTooltip content={<SpeciesSizeSummaryCard sizeName={selectedSize} />} color="#38bdf8">
+              <span className="text-sky-400 hover:text-sky-300 cursor-help flex items-center gap-0.5" title="View Physical Scaling Breakdown">
+                <Info size={11} /> Breakdown
+              </span>
+            </OmnicortexTooltip>
           </label>
           <select
             value={selectedSize}
@@ -694,33 +722,39 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                     {group.modes.map(mode => {
                       const isSelected = selectedModes.includes(mode.id);
                       return (
-                        <button
+                        <OmnicortexTooltip
                           key={mode.id}
-                          type="button"
-                          onClick={() => toggleMovementMode(mode.id)}
-                          className={`p-2.5 rounded-lg border text-left transition-all flex items-center justify-between cursor-pointer ${
-                            isSelected 
-                              ? 'bg-purple-950/80 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]' 
-                              : 'bg-slate-900/60 border-slate-800 hover:border-purple-500/40'
-                          }`}
+                          content={<MovementModeSummaryCard mode={mode} />}
+                          color="#f59e0b"
+                          className="w-full"
                         >
-                          <div>
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-xs font-bold text-slate-100">{mode.name}</span>
-                              <span className="text-[9px] px-1 py-0.2 bg-purple-500/20 text-purple-300 rounded font-mono">
-                                {mode.base_speed || mode.speed || 30} ft
+                          <button
+                            type="button"
+                            onClick={() => toggleMovementMode(mode.id)}
+                            className={`w-full p-2.5 rounded-lg border text-left transition-all flex items-center justify-between cursor-pointer ${
+                              isSelected 
+                                ? 'bg-purple-950/80 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]' 
+                                : 'bg-slate-900/60 border-slate-800 hover:border-purple-500/40'
+                            }`}
+                          >
+                            <div>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-xs font-bold text-slate-100">{mode.name}</span>
+                                <span className="text-[9px] px-1 py-0.2 bg-purple-500/20 text-purple-300 rounded font-mono">
+                                  {mode.base_speed || mode.speed || 30} ft
+                                </span>
+                              </div>
+                              <span className="text-[10px] text-slate-400 block mt-0.5">{mode.description}</span>
+                            </div>
+                            <div className="text-right shrink-0 ml-2">
+                              <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
+                                mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400'
+                              }`}>
+                                {mode.bp > 0 ? `+${mode.bp} CP` : '0 CP'}
                               </span>
                             </div>
-                            <span className="text-[10px] text-slate-400 block mt-0.5">{mode.description}</span>
-                          </div>
-                          <div className="text-right shrink-0 ml-2">
-                            <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
-                              mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400'
-                            }`}>
-                              {mode.bp > 0 ? `+${mode.bp} CP` : '0 CP'}
-                            </span>
-                          </div>
-                        </button>
+                          </button>
+                        </OmnicortexTooltip>
                       );
                     })}
                   </div>
@@ -735,40 +769,46 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                       {group.adjusters.map(adj => {
                         const isSelected = selectedModes.includes(adj.id);
                         return (
-                          <button
+                          <OmnicortexTooltip
                             key={adj.id}
-                            type="button"
-                            onClick={() => toggleMovementMode(adj.id)}
-                            className={`p-2 rounded-lg border text-left transition-all flex items-center justify-between cursor-pointer ${
-                              isSelected 
-                                ? (adj.bp < 0 ? 'bg-emerald-950/60 border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.2)]' : 'bg-amber-950/50 border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]')
-                                : 'bg-slate-900/60 border-slate-800 hover:border-amber-500/40'
-                            }`}
+                            content={<MovementModeSummaryCard mode={adj.name} />}
+                            color="#f59e0b"
+                            className="w-full"
                           >
-                            <div>
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-xs font-bold text-slate-100">{adj.name}</span>
-                                {adj.speed_modifier !== undefined && adj.speed_modifier !== 0 && (
-                                  <span className={`text-[9px] px-1 py-0.2 rounded font-mono font-bold ${
-                                    adj.speed_modifier > 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300'
-                                  }`}>
-                                    {adj.speed_modifier > 0 ? `+${adj.speed_modifier} ft` : `${adj.speed_modifier} ft`}
-                                  </span>
-                                )}
-                                {adj.isExclusive && (
-                                  <span className="text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-300 rounded font-mono">*Exclusive</span>
-                                )}
+                            <button
+                              type="button"
+                              onClick={() => toggleMovementMode(adj.id)}
+                              className={`w-full p-2 rounded-lg border text-left transition-all flex items-center justify-between cursor-pointer ${
+                                isSelected 
+                                  ? (adj.bp < 0 ? 'bg-emerald-950/60 border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.2)]' : 'bg-amber-950/50 border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]')
+                                  : 'bg-slate-900/60 border-slate-800 hover:border-amber-500/40'
+                              }`}
+                            >
+                              <div>
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-xs font-bold text-slate-100">{adj.name}</span>
+                                  {adj.speed_modifier !== undefined && adj.speed_modifier !== 0 && (
+                                    <span className={`text-[9px] px-1 py-0.2 rounded font-mono font-bold ${
+                                      adj.speed_modifier > 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300'
+                                    }`}>
+                                      {adj.speed_modifier > 0 ? `+${adj.speed_modifier} ft` : `${adj.speed_modifier} ft`}
+                                    </span>
+                                  )}
+                                  {adj.isExclusive && (
+                                    <span className="text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-300 rounded font-mono">*Exclusive</span>
+                                  )}
+                                </div>
+                                <span className="text-[10px] text-slate-400 block mt-0.5">{adj.description}</span>
                               </div>
-                              <span className="text-[10px] text-slate-400 block mt-0.5">{adj.description}</span>
-                            </div>
-                            <div className="text-right shrink-0 ml-2">
-                              <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
-                                adj.bp > 0 ? 'bg-purple-500/20 text-purple-300' : (adj.bp < 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400')
-                              }`}>
-                                {adj.bp > 0 ? `+${adj.bp} CP` : (adj.bp < 0 ? `${adj.bp} CP` : '0 CP')}
-                              </span>
-                            </div>
-                          </button>
+                              <div className="text-right shrink-0 ml-2">
+                                <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
+                                  adj.bp > 0 ? 'bg-purple-500/20 text-purple-300' : (adj.bp < 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400')
+                                }`}>
+                                  {adj.bp > 0 ? `+${adj.bp} CP` : (adj.bp < 0 ? `${adj.bp} CP` : '0 CP')}
+                                </span>
+                              </div>
+                            </button>
+                          </OmnicortexTooltip>
                         );
                       })}
                     </div>
@@ -786,26 +826,35 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
           {SPECIES_DISADVANTAGES.map(dis => {
             const isSelected = selectedDisadvantages.some(d => (typeof d === 'string' ? d : d?.id) === dis.id);
             return (
-              <button
+              <OmnicortexTooltip
                 key={dis.id}
-                type="button"
-                onClick={() => toggleDisadvantage(dis.id)}
-                className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
-                  isSelected 
-                    ? 'bg-red-950/40 border-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]' 
-                    : 'bg-slate-950/60 border-slate-800 hover:border-red-500/40'
-                }`}
+                content={<DisadvantageSummaryCard disadvantage={dis} />}
+                color="#ef4444"
+                className="w-full"
               >
-                <div>
-                  <span className="text-xs font-bold text-slate-100 block">{dis.name}</span>
-                  <span className="text-[10px] text-slate-400">{dis.description}</span>
-                </div>
-                <div className="text-right shrink-0 ml-2">
-                  <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-                    -{dis.refundBP} CP
-                  </span>
-                </div>
-              </button>
+                <button
+                  type="button"
+                  onClick={() => toggleDisadvantage(dis.id)}
+                  className={`w-full p-2.5 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
+                    isSelected 
+                      ? 'bg-red-950/40 border-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]' 
+                      : 'bg-slate-950/60 border-slate-800 hover:border-red-500/40'
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-bold text-slate-100">{dis.name}</span>
+                      <Info size={10} className="text-red-400 opacity-60" />
+                    </div>
+                    <span className="text-[10px] text-slate-400 block mt-0.5">{dis.description}</span>
+                  </div>
+                  <div className="text-right shrink-0 ml-2">
+                    <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                      -{dis.refundBP} CP
+                    </span>
+                  </div>
+                </button>
+              </OmnicortexTooltip>
             );
           })}
         </div>
@@ -958,23 +1007,32 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                     </div>
                   ) : (
                     activeEquippedTraitsList.map(t => (
-                      <div
+                      <OmnicortexTooltip
                         key={t.id}
-                        className="p-2.5 rounded-xl bg-slate-950/80 border border-purple-500/30 flex items-center justify-between gap-2 group hover:border-purple-400 transition-colors"
+                        content={<TraitTooltipCard trait={t} customTraits={dbTraits} />}
+                        color="#c084fc"
+                        className="w-full"
                       >
-                        <div className="min-w-0 flex-1">
-                          <span className="text-xs font-bold text-slate-200 block truncate">{t.name}</span>
-                          <span className="text-[10px] text-slate-500 font-mono">{t.classification} • {t.bp} CP</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => toggleTrait(t.id)}
-                          className="p-1 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
-                          title="Remove trait"
+                        <div
+                          className="w-full p-2.5 rounded-xl bg-slate-950/80 border border-purple-500/30 flex items-center justify-between gap-2 group hover:border-purple-400 transition-colors cursor-help"
                         >
-                          <X size={14} />
-                        </button>
-                      </div>
+                          <div className="min-w-0 flex-1">
+                            <span className="text-xs font-bold text-slate-200 block truncate">{t.name}</span>
+                            <span className="text-[10px] text-slate-500 font-mono">{t.classification} • {t.bp} CP</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleTrait(t.id);
+                            }}
+                            className="p-1 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
+                            title="Remove trait"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      </OmnicortexTooltip>
                     ))
                   )}
                 </div>
