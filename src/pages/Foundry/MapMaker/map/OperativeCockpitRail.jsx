@@ -26,72 +26,199 @@ import {
   Footprints,
   FastForward,
   ShieldCheck,
-  Compass
+  Compass,
+  Maximize2,
+  Minimize2
 } from 'lucide-react';
 import AudioService from '../../../../services/audioService';
 import { rollDice } from '../../../../services/diceService';
 import { CANONICAL_PING_TYPES } from '../../../../services/mapPingService';
 import { DEFAULT_WEAPONRY } from '../../../../data/weaponryData';
 import { HIT_LOCATIONS } from './CombatResolutionModal';
+import { useFolio } from '../../../../context/FolioContext';
+import { TacticalPlayView } from '../../../../components/Folio/views/TacticalPlayView';
+import { useUILayoutStore } from '../../../../components/VTT/store/uiLayoutStore';
 
 /**
- * Multi-Attack Penalty (MAP) Ladder according to RULE-SKL-01:
- * 1st Attack: +0 (Base Score)
- * 2nd Attack: -5 Strike
- * 3rd Attack: -10 Strike
- * 4th Attack: -15 Strike
- * 5th Attack: -20 Strike
+ * Resolves the combat skill, rank, and unlocked attack ladder for a weapon/attack
+ * strictly according to Tangent canonical RULE-SKL-01 (NO ACTION POINTS):
+ * Rank 0: Full Round Action (1 strike)
+ * Rank 1-5: 1 Strike (+0 Strike, +2 Focus)
+ * Rank 6-10: 2 Strikes (+0, -5, +3 Focus)
+ * Rank 11-15: 3 Strikes (+0, -5, -10, +4 Focus)
+ * Rank 16-20: 4 Strikes (+0, -5, -10, -15, +5 Focus)
+ * Rank 21-25: 5 Strikes (+0, -5, -10, -15, -20, +6 Focus)
+ * Rank 26-30: 6 Strikes (+0, -5, -10, -15, -20, -25, +7 Focus)
  */
-const MAP_LADDER = [
-  { step: 1, penalty: 0, label: '1st Strike (+0)' },
-  { step: 2, penalty: -5, label: '2nd Strike (-5)' },
-  { step: 3, penalty: -10, label: '3rd Strike (-10)' },
-  { step: 4, penalty: -15, label: '4th Strike (-15)' },
-  { step: 5, penalty: -20, label: '5th Strike (-20)' }
-];
+function resolveCombatSkillForWeapon(weapon, persona = {}) {
+  const name = (weapon?.name || '').toLowerCase();
 
-const DEFAULT_TACTICAL_WEAPONS = [
-  {
-    id: 'wpn_pulse_rifle',
-    name: 'Pulse Rifle',
-    damage: '2d8+3',
-    damageType: 'kinetic',
-    range: '80 ft',
-    ap: 2,
-    mod: 3,
-    notes: 'Burst fire • Rapid cycle'
-  },
-  {
-    id: 'wpn_laser_blaster',
-    name: 'Laser Blaster',
-    damage: '2d10+4',
-    damageType: 'energy',
-    range: '120 ft',
-    ap: 4,
-    mod: 3,
-    notes: 'Coherent thermal beam'
-  },
-  {
-    id: 'wpn_monoblade',
-    name: 'Monomolecular Blade',
-    damage: '2d6+4',
-    damageType: 'kinetic',
-    range: 'Melee (5 ft)',
-    ap: 6,
-    mod: 4,
-    notes: 'Armor piercing edge • Fast parry'
-  },
-  {
-    id: 'wpn_plasma_pistol',
-    name: 'Plasma Pistol',
-    damage: '2d10+2',
-    damageType: 'plasma',
-    range: '40 ft',
-    ap: 5,
-    mod: 2,
-    notes: 'Superheated bolt • Force splash'
+  let skillKey = 'firearms-long-arms';
+  let skillLabel = 'Firearms (Long Arms)';
+
+  if (name.includes('pistol') || name.includes('sidearm') || name.includes('revolver')) {
+    skillKey = 'firearms-pistols';
+    skillLabel = 'Firearms (Pistols)';
+  } else if (name.includes('axe') || name.includes('sword') || name.includes('blade') || name.includes('great') || name.includes('katana') || name.includes('machete')) {
+    skillKey = 'heavy-blades';
+    skillLabel = 'Heavy Blades';
+  } else if (name.includes('dagger') || name.includes('knife') || name.includes('vibro-blade')) {
+    skillKey = 'light-blades';
+    skillLabel = 'Light Blades';
+  } else if (name.includes('cannon') || name.includes('heavy') || name.includes('rocket') || name.includes('launcher') || name.includes('plasma')) {
+    skillKey = 'heavy-weapons';
+    skillLabel = 'Heavy Weapons';
+  } else if (name.includes('bow') || name.includes('crossbow')) {
+    skillKey = 'archery';
+    skillLabel = 'Archery';
+  } else if (name.includes('unarmed') || name.includes('fist') || name.includes('punch') || name.includes('brawl')) {
+    skillKey = 'unarmed-combat';
+    skillLabel = 'Unarmed Combat';
+  } else if (name.includes('attune') || name.includes('lance') || name.includes('invocation') || name.includes('psi') || name.includes('bolt')) {
+    skillKey = 'attune';
+    skillLabel = 'Attune / Metaphysics';
   }
-];
+
+  const rankVal = persona[`skill-${skillKey}-rank`] ?? 
+                  persona[`skill-combat-${skillKey}-rank`] ?? 
+                  persona[`skill-${skillKey}`] ?? 
+                  persona[skillKey];
+
+  const rank = parseInt(rankVal ?? 2, 10);
+
+  let unlockedAttacks = 1;
+  let focusBonus = 2;
+  let rankTier = 'Novice';
+  let isFullRound = false;
+
+  if (rank === 0) {
+    unlockedAttacks = 1;
+    focusBonus = 0;
+    rankTier = 'Untrained (Full Round)';
+    isFullRound = true;
+  } else if (rank <= 5) {
+    unlockedAttacks = 1;
+    focusBonus = 2;
+    rankTier = 'Novice';
+  } else if (rank <= 10) {
+    unlockedAttacks = 2;
+    focusBonus = 3;
+    rankTier = 'Trained';
+  } else if (rank <= 15) {
+    unlockedAttacks = 3;
+    focusBonus = 4;
+    rankTier = 'Expert';
+  } else if (rank <= 20) {
+    unlockedAttacks = 4;
+    focusBonus = 5;
+    rankTier = 'Master';
+  } else if (rank <= 25) {
+    unlockedAttacks = 5;
+    focusBonus = 6;
+    rankTier = 'Grand Master';
+  } else {
+    unlockedAttacks = 6;
+    focusBonus = 7;
+    rankTier = 'Pinnacle';
+  }
+
+  const ladder = [];
+  for (let i = 0; i < unlockedAttacks; i++) {
+    const penalty = i === 0 ? 0 : -(i * 5);
+    ladder.push({
+      step: i + 1,
+      penalty,
+      label: i === 0 
+        ? (isFullRound ? 'Full Round Strike (+0)' : '#1 (0)') 
+        : `#${i + 1} (${penalty})`
+    });
+  }
+
+  return {
+    skillKey,
+    skillLabel,
+    rank,
+    rankTier,
+    focusBonus,
+    unlockedAttacks,
+    ladder,
+    isFullRound
+  };
+}
+
+/**
+ * Resolves active defense reaction slots per RULE-SKL-02:
+ * Reactions governed by Defense skill rank, with cumulative -5 penalty after 1st reaction.
+ */
+function resolveActiveDefenseReactions(persona = {}) {
+  const defenseRank = parseInt(
+    persona['skill-defense-rank'] ?? 
+    persona['skill-combat-defense-rank'] ?? 
+    persona['skill-dodge-rank'] ?? 
+    persona['skill-parry-rank'] ?? 
+    2, 
+    10
+  );
+
+  let allowedReactions = 1;
+  let tierLabel = 'Novice';
+  if (defenseRank <= 5) {
+    allowedReactions = 1;
+    tierLabel = defenseRank === 0 ? 'Untrained' : 'Novice';
+  } else if (defenseRank <= 10) {
+    allowedReactions = 2;
+    tierLabel = 'Trained';
+  } else if (defenseRank <= 15) {
+    allowedReactions = 3;
+    tierLabel = 'Expert';
+  } else if (defenseRank <= 20) {
+    allowedReactions = 4;
+    tierLabel = 'Master';
+  } else {
+    allowedReactions = 5;
+    tierLabel = 'Grand Master';
+  }
+
+  const reactionSlots = [];
+  for (let i = 0; i < allowedReactions; i++) {
+    reactionSlots.push({
+      slot: i + 1,
+      penalty: i === 0 ? 0 : -(i * 5),
+      label: i === 0 ? '1st Reaction (+0)' : `${i + 1}${i === 1 ? 'nd' : i === 2 ? 'rd' : 'th'} Reaction (-${i * 5})`
+    });
+  }
+
+  return {
+    defenseRank,
+    allowedReactions,
+    tierLabel,
+    reactionSlots
+  };
+}
+
+const CANONICAL_TACTICAL_WEAPONS = (DEFAULT_WEAPONRY && DEFAULT_WEAPONRY.length > 0)
+  ? DEFAULT_WEAPONRY.slice(0, 10).map((w, idx) => ({
+      id: w.id || `wpn_${idx}`,
+      name: w.name || 'Weapon',
+      damage: w.damage || '2d8+2',
+      damageType: (w.damageType || w.category || 'kinetic').toLowerCase(),
+      range: w.range || '50 ft',
+      ap: w.ap || 1,
+      mod: 3,
+      notes: w.special || w.notes || ''
+    }))
+  : [
+      {
+        id: 'wpn_pulse_rifle',
+        name: 'Pulse Rifle',
+        damage: '2d8+3',
+        damageType: 'kinetic',
+        range: '80 ft',
+        ap: 2,
+        mod: 4,
+        notes: 'Burst Fire (+2 DMG against unshielded targets)'
+      }
+    ];
 
 export const OperativeCockpitRail = ({
   tokens = [],
@@ -114,15 +241,13 @@ export const OperativeCockpitRail = ({
   onUpdateTokenVitality,
   onUpdateTokenStructure
 }) => {
-  // Action Points budget state
-  const [apBudget, setApBudget] = useState({ standard: 1, move: 1, reaction: 1 });
-  
   // Tactical Movement Stance
   const [movementStance, setMovementStance] = useState('pace'); // 'pace' | 'sprint' | 'guard' | 'evasive'
   
   // Combat State
   const [selectedWeaponId, setSelectedWeaponId] = useState('wpn_pulse_rifle');
-  const [activeMapStep, setActiveMapStep] = useState(1); // 1 to 5
+  const [activeMapStep, setActiveMapStep] = useState(1); // 1 to 6
+  const [spentReactions, setSpentReactions] = useState(0);
   const [selectedCalledShotId, setSelectedCalledShotId] = useState('center_mass');
   const [edgeAiming, setEdgeAiming] = useState(false);
   const [edgeFlanking, setEdgeFlanking] = useState(false);
@@ -130,7 +255,13 @@ export const OperativeCockpitRail = ({
   const [hasAdvantage, setHasAdvantage] = useState(false);
   const [hasDisadvantage, setHasDisadvantage] = useState(false);
   const [activeAccordion, setActiveAccordion] = useState('combat'); // 'profile' | 'movement' | 'combat' | 'abilities'
+  const [cockpitViewMode, setCockpitViewMode] = useState('folio'); // 'cockpit' | 'folio' (default to canonical folio tactical view)
   const [lastRollResult, setLastRollResult] = useState(null);
+
+  const { isLeftWideMode, toggleLeftWideMode } = useUILayoutStore();
+
+  const folio = useFolio() || {};
+  const { savedPersonas, characterData } = folio;
 
   // Active Token Resolution
   const activeToken = useMemo(() => {
@@ -151,6 +282,42 @@ export const OperativeCockpitRail = ({
       conditions: []
     };
   }, [tokens, activeTokenId]);
+
+  // Resolve authentic Folio persona matching this token
+  const activePersona = useMemo(() => {
+    if (activeToken.characterData) return activeToken.characterData;
+    if (savedPersonas && savedPersonas.length > 0) {
+      const match = savedPersonas.find(p => 
+        p.id === activeToken.id || 
+        p.id === activeToken.character_doc_id ||
+        p.id === activeToken.characterId ||
+        p['char-name'] === activeToken.label ||
+        p['char-name'] === activeToken.name
+      );
+      if (match) return match;
+    }
+    if (characterData && (characterData.id === activeToken.id || characterData['char-name'] === activeToken.label || !activeTokenId)) {
+      return characterData;
+    }
+    return {
+      id: activeToken.id,
+      'char-name': activeToken.label || activeToken.name || 'Operative',
+      'char-species': activeToken.species || 'Human',
+      'char-archetype': activeToken.archetype || 'Operative',
+      health: activeToken.health?.max || activeToken.maxHp || 30,
+      current_health: activeToken.health?.current ?? activeToken.hp ?? 30,
+      vitality: activeToken.vitality?.max || 25,
+      current_vitality: activeToken.vitality?.current ?? 25,
+      structure: activeToken.structure?.max || 50,
+      current_structure: activeToken.structure?.current ?? 50,
+      sp: activeToken.sp || activeToken.shield?.current || 10,
+      max_sp: activeToken.maxSp || activeToken.shield?.max || 10,
+      isSynthetic: activeToken.isSynthetic || activeToken.type === 'vehicle' || activeToken.type === 'synthetic',
+      attacks: activeToken.attacks || [],
+      weapons: activeToken.weapons || [],
+      portrait_url: activeToken.image_url || activeToken.imageUrl || activeToken.avatar
+    };
+  }, [activeToken, savedPersonas, characterData, activeTokenId]);
 
   // Is unit synthetic or vehicle?
   const isSynthetic = activeToken.isSynthetic || activeToken.type === 'synthetic' || activeToken.type === 'vehicle';
@@ -183,8 +350,20 @@ export const OperativeCockpitRail = ({
         notes: att.notes || att.special || ''
       }));
     }
-    return DEFAULT_TACTICAL_WEAPONS;
-  }, [activeToken.attacks]);
+    if (activePersona?.weapons && activePersona.weapons.length > 0) {
+      return activePersona.weapons.map((w, idx) => ({
+        id: w.id || `wpn_${idx}`,
+        name: w.name || 'Weapon',
+        damage: w.damage || '2d8+2',
+        damageType: (w.damageType || 'kinetic').toLowerCase(),
+        range: w.range || '50 ft',
+        ap: w.ap || 1,
+        mod: 3,
+        notes: w.special || w.notes || ''
+      }));
+    }
+    return CANONICAL_TACTICAL_WEAPONS;
+  }, [activeToken.attacks, activePersona?.weapons]);
 
   const activeWeapon = availableWeapons.find(w => w.id === selectedWeaponId) || availableWeapons[0];
 
@@ -212,21 +391,28 @@ export const OperativeCockpitRail = ({
     return { id: 'torso', label: 'Torso', penalty: -2, saveType: 'Fortitude', effect: 'Winded' };
   }, [selectedCalledShotId]);
 
-  // AP handlers
-  const handleSpendAp = (type) => {
-    if (apBudget[type] <= 0) return;
+  // Canonical Skill & Action Resolutions (RULE-SKL-01 & RULE-SKL-02)
+  const skillResolution = useMemo(() => {
+    return resolveCombatSkillForWeapon(activeWeapon, activePersona);
+  }, [activeWeapon, activePersona]);
+
+  const defenseResolution = useMemo(() => {
+    return resolveActiveDefenseReactions(activePersona);
+  }, [activePersona]);
+
+  const handleUseReaction = (slotNum) => {
     AudioService.playTerminalBeep(980, 0.05);
-    setApBudget(prev => ({ ...prev, [type]: prev[type] - 1 }));
+    setSpentReactions(prev => (prev >= slotNum ? slotNum - 1 : slotNum));
     if (onTriggerFloatingText) {
-      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 120, `-1 AP (${type.toUpperCase()})`, 'karma');
+      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 120, `REACTION ${slotNum} TOGGLED`, 'karma');
     }
   };
 
-  const handleRefreshAp = () => {
-    AudioService.playTerminalBeep(1200, 0.1);
-    setApBudget({ standard: 1, move: 1, reaction: 1 });
+  const handleResetReactions = () => {
+    AudioService.playTerminalBeep(1200, 0.08);
+    setSpentReactions(0);
     if (onTriggerFloatingText) {
-      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 120, `+3 AP REFRESHED`, 'heal');
+      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 120, `REACTIONS RESET`, 'heal');
     }
   };
 
@@ -264,9 +450,10 @@ export const OperativeCockpitRail = ({
 
   // BASTION Strike Arbitration Execution
   const handleExecuteBastionAttack = () => {
-    // 1. Calculate Multi-Attack Penalty (MAP)
-    const mapObj = MAP_LADDER.find(m => m.step === activeMapStep) || MAP_LADDER[0];
+    // 1. Calculate Multi-Attack Penalty (MAP) & Focus Bonus based on Skill Rank (RULE-SKL-01)
+    const mapObj = skillResolution.ladder.find(m => m.step === activeMapStep) || skillResolution.ladder[0] || { penalty: 0, step: 1 };
     const mapPenalty = mapObj.penalty;
+    const focusBonus = skillResolution.focusBonus || 0;
 
     // 2. Called Shot Penalty
     const calledPenalty = activeCalledShot.penalty;
@@ -278,7 +465,7 @@ export const OperativeCockpitRail = ({
     if (edgeHighGround) edgeMod += 2;
 
     const baseMod = activeWeapon.mod || 3;
-    const totalStrikeMod = baseMod + mapPenalty + calledPenalty + edgeMod;
+    const totalStrikeMod = baseMod + mapPenalty + calledPenalty + edgeMod + focusBonus;
 
     // 4. Roll 2d10 using canonical BASTION dice engine
     const rollExpr = hasAdvantage ? '2d10kh1' : hasDisadvantage ? '2d10kl1' : '2d10';
@@ -379,7 +566,7 @@ export const OperativeCockpitRail = ({
 
   return (
     <aside
-      className="h-full shrink-0 flex z-30 select-none font-sans"
+      className="w-full h-full flex z-30 select-none font-sans"
       aria-label="Operative Cockpit Tactical Rail"
     >
       {/* 48px Vertical Icon Strip */}
@@ -393,13 +580,14 @@ export const OperativeCockpitRail = ({
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
             setActiveAccordion('profile');
+            setCockpitViewMode('folio');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            activeAccordion === 'profile' && !isCollapsed
-              ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/70 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-              : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-900'
+            (activeAccordion === 'profile' || cockpitViewMode === 'folio') && !isCollapsed
+              ? 'bg-purple-950 text-purple-300 border border-purple-500/70 shadow-[0_0_10px_rgba(168,85,247,0.4)]'
+              : 'text-slate-400 hover:text-purple-300 hover:bg-slate-900'
           }`}
-          title="Unit Profile & Vitals"
+          title="Unit Folio Tactical View & Vitals"
         >
           <Activity size={18} />
           {curHealth <= maxHealth * 0.3 && (
@@ -413,9 +601,10 @@ export const OperativeCockpitRail = ({
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
             setActiveAccordion('combat');
+            setCockpitViewMode('cockpit');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            activeAccordion === 'combat' && !isCollapsed
+            activeAccordion === 'combat' && cockpitViewMode === 'cockpit' && !isCollapsed
               ? 'bg-amber-950 text-amber-300 border border-amber-500/70 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
               : 'text-slate-400 hover:text-amber-300 hover:bg-slate-900'
           }`}
@@ -430,9 +619,10 @@ export const OperativeCockpitRail = ({
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
             setActiveAccordion('movement');
+            setCockpitViewMode('cockpit');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            activeAccordion === 'movement' && !isCollapsed
+            activeAccordion === 'movement' && cockpitViewMode === 'cockpit' && !isCollapsed
               ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/70 shadow-[0_0_10px_rgba(16,185,129,0.4)]'
               : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-900'
           }`}
@@ -447,11 +637,12 @@ export const OperativeCockpitRail = ({
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
             setActiveAccordion('abilities');
+            setCockpitViewMode('cockpit');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            activeAccordion === 'abilities' && !isCollapsed
-              ? 'bg-purple-950 text-purple-300 border border-purple-500/70 shadow-[0_0_10px_rgba(168,85,247,0.4)]'
-              : 'text-slate-400 hover:text-purple-300 hover:bg-slate-900'
+            activeAccordion === 'abilities' && cockpitViewMode === 'cockpit' && !isCollapsed
+              ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/70 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+              : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-900'
           }`}
           title="Quick Abilities & Consumables"
         >
@@ -496,10 +687,14 @@ export const OperativeCockpitRail = ({
           <button
             type="button"
             onClick={onToggleCollapse}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
+              isCollapsed
+                ? 'bg-cyan-500 text-black border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.6)] animate-pulse'
+                : 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 hover:bg-cyan-500 hover:text-black'
+            }`}
             title={isCollapsed ? 'Expand Operative Cockpit' : 'Collapse Operative Cockpit'}
           >
-            {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+            {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
           </button>
         </div>
       </nav>
@@ -507,7 +702,7 @@ export const OperativeCockpitRail = ({
       {/* Expanded Operative Cockpit Drawer */}
       <div
         className={`h-full border-r border-slate-800/90 bg-[#0a0e14]/95 backdrop-blur-md transition-all duration-200 flex flex-col overflow-hidden shadow-2xl ${
-          isCollapsed ? 'w-0 border-r-0' : 'w-72 sm:w-80'
+          isCollapsed ? 'w-0 border-r-0 hidden' : 'flex-1 min-w-0 w-full'
         }`}
       >
         {/* Drawer Header: Active Entity Identification & Switcher */}
@@ -524,12 +719,55 @@ export const OperativeCockpitRail = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
+            {/* View Mode Switcher: Deck vs Folio */}
+            <div className="flex bg-slate-900 border border-slate-800 rounded-lg p-0.5 mr-1">
+              <button
+                type="button"
+                onClick={() => setCockpitViewMode('cockpit')}
+                className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase transition-all cursor-pointer ${
+                  cockpitViewMode === 'cockpit'
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+                title="Streamlined Tactical Action Deck"
+              >
+                Deck
+              </button>
+              <button
+                type="button"
+                onClick={() => setCockpitViewMode('folio')}
+                className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase transition-all cursor-pointer ${
+                  cockpitViewMode === 'folio'
+                    ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+                title="Canonical Folio Tactical Sheet"
+              >
+                Folio View
+              </button>
+            </div>
+
+            {/* Expand to 70% Wide Mode Toggle */}
+            <button
+              type="button"
+              onClick={toggleLeftWideMode}
+              className={`px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1 border ${
+                isLeftWideMode
+                  ? 'bg-cyan-950 text-cyan-300 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                  : 'text-slate-400 hover:text-cyan-300 border-slate-800 bg-slate-900 hover:border-slate-700'
+              }`}
+              title={isLeftWideMode ? "Collapse Wide Mode to Standard" : "Expand to Wide Mode (70% Canvas)"}
+            >
+              {isLeftWideMode ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
+              <span className="text-[9px] hidden sm:inline">{isLeftWideMode ? '70%' : 'WIDE'}</span>
+            </button>
+
             <button
               type="button"
               onClick={onTogglePin}
-              className={`p-1 rounded text-xs transition-colors cursor-pointer ${
-                isPinned ? 'text-cyan-400 bg-cyan-950/60' : 'text-slate-500 hover:text-slate-300'
+              className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer border ${
+                isPinned ? 'text-cyan-400 bg-cyan-950/60 border-cyan-800' : 'text-slate-500 hover:text-slate-300 border-transparent'
               }`}
               title={isPinned ? 'Unpin' : 'Pin Open'}
             >
@@ -538,8 +776,8 @@ export const OperativeCockpitRail = ({
             <button
               type="button"
               onClick={onToggleCollapse}
-              className="p-1 rounded text-slate-500 hover:text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
-              title="Collapse"
+              className="p-1 px-1.5 rounded-lg bg-slate-900 border border-slate-700/80 text-cyan-400 hover:text-white hover:bg-cyan-950 hover:border-cyan-400 transition-colors cursor-pointer"
+              title="Collapse Cockpit Drawer"
             >
               <ChevronLeft size={15} />
             </button>
@@ -570,8 +808,18 @@ export const OperativeCockpitRail = ({
           </div>
         )}
 
-        {/* Scrollable Content Container */}
-        <div className="flex-1 overflow-y-auto p-3 text-slate-200 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-cyan-950">
+        {/* Mode Content: Folio Tactical Sheet vs Streamlined Deck */}
+        {cockpitViewMode === 'folio' || activeAccordion === 'profile' ? (
+          <div className="flex-1 overflow-y-auto overflow-x-hidden bg-[#0a0e14] scrollbar-thin scrollbar-thumb-purple-950 p-1">
+            <TacticalPlayView
+              characterOverride={activePersona}
+              isModal={false}
+              onClose={() => setCockpitViewMode('cockpit')}
+            />
+          </div>
+        ) : (
+          /* Scrollable Content Container */
+          <div className="flex-1 overflow-y-auto p-3 text-slate-200 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-cyan-950">
           {/* Vitals Overview Card */}
           <div className="p-2.5 rounded-xl bg-slate-950/80 border border-cyan-950 flex flex-col gap-2">
             {/* Health / Structure Bar */}
@@ -595,12 +843,31 @@ export const OperativeCockpitRail = ({
               </div>
             </div>
 
+            {/* Vitality Points (VP) Bar (Biological Only - RULE-VIT-01) */}
+            {!isSynthetic && (
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between items-center text-[10px] font-mono">
+                  <span className="text-teal-400 font-bold uppercase flex items-center gap-1">
+                    <Activity size={11} className="text-teal-400" />
+                    <span>Vitality (VP):</span>
+                  </span>
+                  <span className="text-slate-300 font-bold">{curVitality}/{maxVitality}</span>
+                </div>
+                <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                  <div
+                    className="h-full bg-teal-400 transition-all duration-300 shadow-[0_0_6px_rgba(45,212,191,0.6)]"
+                    style={{ width: `${Math.max(0, Math.min(100, (curVitality / Math.max(1, maxVitality)) * 100))}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Shield Points (SP) Bar */}
             <div className="flex flex-col gap-1">
               <div className="flex justify-between items-center text-[10px] font-mono">
                 <span className="text-cyan-400 font-bold uppercase flex items-center gap-1">
                   <Shield size={11} className="text-cyan-400" />
-                  <span>Shields (SP):</span>
+                  <span>Energy Shields:</span>
                 </span>
                 <span className="text-slate-300 font-bold">{curShield}/{maxShield}</span>
               </div>
@@ -646,66 +913,102 @@ export const OperativeCockpitRail = ({
             )}
           </div>
 
-          {/* Action Economy (AP) & Movement Cluster */}
+          {/* Skill-Based Action Economy & Combat Options (RULE-SKL-01 & RULE-SKL-02) */}
           <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col gap-2">
+            {/* Weapon & Skill Action Economy Header */}
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex items-center gap-1">
-                <Activity size={12} />
-                <span>Action Economy (AP):</span>
+                <Crosshair size={12} />
+                <span>Skill Action Economy:</span>
               </span>
-              <button
-                type="button"
-                onClick={handleRefreshAp}
-                className="text-[9px] font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer bg-cyan-950/50 px-1.5 py-0.5 rounded border border-cyan-800/50"
-              >
-                <RefreshCw size={9} />
-                <span>Refresh</span>
-              </button>
+              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/60 font-bold">
+                {skillResolution.attackCount} {skillResolution.attackCount === 1 ? 'Attack' : 'Attacks'} Unlocked
+              </span>
             </div>
 
-            {/* AP Spend Buttons */}
-            <div className="grid grid-cols-3 gap-1.5 font-mono text-[10px]">
-              <button
-                type="button"
-                onClick={() => handleSpendAp('standard')}
-                className={`py-1 rounded font-bold transition-all cursor-pointer flex flex-col items-center ${
-                  apBudget.standard > 0
-                    ? 'bg-amber-500/20 border border-amber-500/60 text-amber-300 hover:bg-amber-500/30'
-                    : 'bg-slate-900 border border-slate-800 text-slate-600 line-through'
-                }`}
-                title="Spend Standard Action"
-              >
-                <span>STANDARD</span>
-                <span className="text-[8px] opacity-75">{apBudget.standard > 0 ? '1 Avail' : 'Spent'}</span>
-              </button>
+            {/* Weapon Skill & Focus Banner */}
+            <div className="p-1.5 rounded bg-slate-900/90 border border-cyan-950 flex flex-col gap-1">
+              <div className="flex justify-between items-center text-[10px] font-mono">
+                <span className="text-slate-300 font-bold">
+                  {skillResolution.skillName} (Rank {skillResolution.rank})
+                </span>
+                <span className="text-amber-400 font-bold">
+                  +{skillResolution.focusBonus} Focus Bonus
+                </span>
+              </div>
+              <span className="text-[9px] text-slate-400 italic">
+                {skillResolution.description}
+              </span>
+            </div>
 
-              <button
-                type="button"
-                onClick={() => handleSpendAp('move')}
-                className={`py-1 rounded font-bold transition-all cursor-pointer flex flex-col items-center ${
-                  apBudget.move > 0
-                    ? 'bg-cyan-500/20 border border-cyan-500/60 text-cyan-300 hover:bg-cyan-500/30'
-                    : 'bg-slate-900 border border-slate-800 text-slate-600 line-through'
-                }`}
-                title="Spend Move Action"
-              >
-                <span>MOVE</span>
-                <span className="text-[8px] opacity-75">{apBudget.move > 0 ? '1 Avail' : 'Spent'}</span>
-              </button>
+            {/* Unlocked Multi-Attack Sequence Buttons */}
+            <div className="flex flex-col gap-1">
+              <span className="text-[9px] uppercase font-bold text-slate-400">
+                Attack Sequence (RULE-SKL-01):
+              </span>
+              <div className="grid grid-cols-3 gap-1 font-mono text-[9px]">
+                {skillResolution.ladder.map((map) => (
+                  <button
+                    key={map.step}
+                    type="button"
+                    onClick={() => setActiveMapStep(map.step)}
+                    className={`py-1 px-1 rounded font-bold transition-all cursor-pointer text-center flex flex-col items-center ${
+                      activeMapStep === map.step
+                        ? 'bg-amber-500 text-black shadow-[0_0_8px_rgba(245,158,11,0.5)]'
+                        : 'bg-slate-900 border border-slate-800 text-slate-300 hover:border-amber-500/50 hover:text-white'
+                    }`}
+                  >
+                    <span>{map.label}</span>
+                    <span className="text-[8px] opacity-80">
+                      {map.penalty >= 0 ? `+${map.penalty}` : map.penalty} Strike
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
-              <button
-                type="button"
-                onClick={() => handleSpendAp('reaction')}
-                className={`py-1 rounded font-bold transition-all cursor-pointer flex flex-col items-center ${
-                  apBudget.reaction > 0
-                    ? 'bg-purple-500/20 border border-purple-500/60 text-purple-300 hover:bg-purple-500/30'
-                    : 'bg-slate-900 border border-slate-800 text-slate-600 line-through'
-                }`}
-                title="Spend Reaction Slot"
-              >
-                <span>REACTION</span>
-                <span className="text-[8px] opacity-75">{apBudget.reaction > 0 ? '1 Avail' : 'Spent'}</span>
-              </button>
+            {/* Active Defense Reactions Cluster (RULE-SKL-02) */}
+            <div className="flex flex-col gap-1.5 pt-1.5 border-t border-slate-800/80">
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] uppercase font-bold text-purple-400 flex items-center gap-1">
+                  <ShieldAlert size={11} />
+                  <span>Defenses ({defenseResolution.defenseSkill} R{defenseResolution.defenseRank}):</span>
+                </span>
+                {spentReactions > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleResetReactions}
+                    className="text-[8px] font-mono text-purple-400 hover:text-purple-300 flex items-center gap-0.5 cursor-pointer bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-800/50"
+                  >
+                    <RefreshCw size={8} />
+                    <span>Reset</span>
+                  </button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-1 font-mono text-[9px]">
+                {defenseResolution.reactionSlots.map((slot) => {
+                  const isSpent = spentReactions >= slot.slot;
+                  return (
+                    <button
+                      key={slot.slot}
+                      type="button"
+                      onClick={() => handleUseReaction(slot.slot)}
+                      className={`py-1 px-1.5 rounded border font-bold transition-all cursor-pointer flex justify-between items-center ${
+                        isSpent
+                          ? 'bg-slate-900 border-slate-800 text-slate-600 line-through'
+                          : 'bg-purple-950/50 border-purple-800/70 text-purple-200 hover:bg-purple-900/60'
+                      }`}
+                      title={`Toggle Reaction Slot #${slot.slot} (${slot.penalty} penalty)`}
+                    >
+                      <span>{slot.label}</span>
+                      <span className={`text-[8px] px-1 py-0.2 rounded ${isSpent ? 'bg-slate-800 text-slate-600' : 'bg-purple-900 text-purple-300'}`}>
+                        {isSpent ? 'SPENT' : slot.penalty}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Tactical Stance Selector */}
@@ -811,11 +1114,11 @@ export const OperativeCockpitRail = ({
               <div className="flex justify-between items-center text-[9px] uppercase font-bold text-slate-400">
                 <span>Multi-Attack Ladder (RULE-SKL-01):</span>
                 <span className="text-amber-400 font-mono">
-                  {MAP_LADDER.find(m => m.step === activeMapStep)?.label}
+                  {skillResolution.ladder.find(m => m.step === activeMapStep)?.label || `Attack #${activeMapStep}`}
                 </span>
               </div>
-              <div className="grid grid-cols-5 gap-1 font-mono text-[9px]">
-                {MAP_LADDER.map(map => (
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-1 font-mono text-[9px]">
+                {skillResolution.ladder.map(map => (
                   <button
                     key={map.step}
                     type="button"
@@ -826,7 +1129,7 @@ export const OperativeCockpitRail = ({
                         : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-white'
                     }`}
                   >
-                    #{map.step} ({map.penalty})
+                    #{map.step} ({map.penalty >= 0 ? `+${map.penalty}` : map.penalty})
                   </button>
                 ))}
               </div>
@@ -990,16 +1293,17 @@ export const OperativeCockpitRail = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleUseConsumable('Overclock Injector', 5)}
+                onClick={() => handleUseConsumable('Adrenaline Shot', 10)}
                 className="p-1.5 rounded bg-slate-900 hover:bg-slate-800 border border-purple-900/60 text-purple-300 font-bold text-left cursor-pointer transition-all"
               >
-                🔋 Overclock (+1 AP)
+                🔋 Adrenaline Shot (+2 Strike)
               </button>
             </div>
           </div>
         </div>
-      </div>
-    </aside>
+      )}
+    </div>
+  </aside>
   );
 };
 

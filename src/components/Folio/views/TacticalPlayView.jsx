@@ -943,40 +943,47 @@ export const TacticalPlayView = ({
         </div>
       )}
 
-      {/* 4. Section Navigation Side / Top Tabs Bar */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 border-b border-slate-800 scrollbar-none">
-        {sideTabs.map(tab => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => {
-                setActiveTab(tab.id);
-                AudioService.playTerminalBeep(900, 0.02);
-              }}
-              className={`px-3 py-1.5 rounded-lg font-mono text-xs font-bold uppercase transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ${
-                isActive
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/80 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
-                  : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800 hover:border-slate-700'
-              }`}
-            >
-              {tab.icon}
-              <span>{tab.label}</span>
-              {tab.badge !== undefined && tab.badge > 0 && (
-                <span className={`px-1.5 py-0.2 rounded-full text-[9px] ${
-                  isActive ? 'bg-cyan-800 text-cyan-100' : 'bg-slate-800 text-slate-400'
-                }`}>
-                  {tab.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
+      {/* 4. Main Body: Left Vertical Navigation Rail with Labels + Main Content Column */}
+      <div className="flex flex-col md:flex-row gap-3 w-full items-start">
+        {/* Left Vertical Nav Rail with Compact Labels */}
+        <nav
+          className="w-full md:w-36 lg:w-44 shrink-0 bg-[#090e16]/95 border border-slate-800 rounded-2xl p-1.5 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-y-auto scrollbar-none shadow-xl sticky top-0 z-10"
+          aria-label="Folio Navigation Rail"
+        >
+          {sideTabs.map(tab => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  AudioService.playTerminalBeep(900, 0.02);
+                }}
+                className={`px-2.5 py-2 rounded-xl font-mono text-[11px] font-bold uppercase transition-all flex items-center justify-between gap-2 shrink-0 md:shrink md:w-full cursor-pointer text-left border ${
+                  isActive
+                    ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/70 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
+                    : 'bg-slate-950/40 md:bg-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/80 border-slate-800 md:border-transparent'
+                }`}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className={`shrink-0 ${isActive ? 'text-cyan-400' : 'text-slate-500'}`}>{tab.icon}</span>
+                  <span className="truncate">{tab.label}</span>
+                </div>
+                {tab.badge !== undefined && tab.badge > 0 && (
+                  <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono shrink-0 ${
+                    isActive ? 'bg-cyan-800 text-cyan-100' : 'bg-slate-800 text-slate-500'
+                  }`}>
+                    {tab.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
-      {/* 5. Main Content Area according to activeTab */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* 5. Main Content Area according to activeTab */}
+        <div className="flex-1 min-w-0 w-full grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Left Column (5 Cols) - Vitals, Triage & Recovery */}
         {(activeTab === 'all' || activeTab === 'vitals') && (
           <div className={`${activeTab === 'all' ? 'lg:col-span-5' : 'lg:col-span-12'} space-y-4`}>
@@ -1989,6 +1996,7 @@ export const TacticalPlayView = ({
           )}
 
         </div>
+      </div>
       </div>
     </div>
   );

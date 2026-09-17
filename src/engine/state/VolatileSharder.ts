@@ -81,6 +81,7 @@ export interface EngineState {
   setSelection: (id: string, isSelected: boolean) => void;
   clearSelection: () => void;
   removeEntity: (id: string) => void;
+  clearAllEntities: () => void;
 }
 
 export const useEngineStore = create<EngineState>()(
@@ -374,6 +375,11 @@ export const useEngineStore = create<EngineState>()(
       removeEntity: (id) => set((draft) => {
         delete draft.staticData[id];
         delete draft.ephemeralData[id];
+      }),
+
+      clearAllEntities: () => set((draft) => {
+        draft.staticData = {};
+        draft.ephemeralData = {};
       })
     }))
   )

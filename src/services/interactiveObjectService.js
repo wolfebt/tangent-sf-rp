@@ -61,6 +61,34 @@ export const OBJECT_TYPES = {
     maxStructure: 25,
     empRadiusPx: 140,
     description: 'Overloading releases an electromagnetic pulse (EMP) that disables synthetic shields and stuns tech units.'
+  },
+  loot_cache: {
+    id: 'loot_cache',
+    name: 'Tactical Supply Cache',
+    icon: '📦',
+    category: 'utility',
+    maxStructure: 15,
+    strengthDc: 12,
+    hackDc: 11,
+    description: 'Sealed container or weapon cache. Can be pried open or unlocked by an operative persona to acquire gear and weapons.'
+  },
+  clue_pad: {
+    id: 'clue_pad',
+    name: 'Encrypted Datapad / Clue Node',
+    icon: '📜',
+    category: 'utility',
+    maxStructure: 10,
+    hackDc: 12,
+    description: 'Encrypted tactical datapad or mission log. Decrypting reveals ADE story clues, lore, and operational intel.'
+  },
+  trap_emitter: {
+    id: 'trap_emitter',
+    name: 'Reactive Trap Node',
+    icon: '⚠️',
+    category: 'hazard',
+    maxStructure: 15,
+    saveCr: 14,
+    description: 'Concealed reactive emitter that triggers when operative personas move into proximity.'
   }
 };
 

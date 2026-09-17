@@ -9,18 +9,22 @@
  * - Right Navigation Rail: Architect Console (Wall Builder, Biomes, Object Stamps, Dynamic Lights, Compositor Layers).
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   Crosshair, 
   FolderTree, 
-  Hammer
+  Hammer,
+  BookOpen
 } from 'lucide-react';
 import { TripartiteLayout } from './TripartiteLayout';
 import { StageViewportWrapper } from './stage/StageViewportWrapper';
 import { ModuleCatalogPanel } from './catalog/ModuleCatalogPanel';
+import { ADEScenarioStageDrawer } from './stage/ADEScenarioStageDrawer';
 import { OperativeCockpitRail } from '../../pages/Foundry/MapMaker/map/OperativeCockpitRail';
 import { ArchitectConsoleRail } from '../../pages/Foundry/MapMaker/map/ArchitectConsoleRail';
 import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
+import { adeElementToStageToken, adeElementToInteractiveObject } from '../../utils/storyAssetAdapter';
 
 const OperativeCockpit = OperativeCockpitRail as unknown as React.ComponentType<any>;
 const ArchitectConsole = ArchitectConsoleRail as unknown as React.ComponentType<any>;
@@ -38,13 +42,20 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   defaultRole,
   ...props
 }) => {
-  const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
-  const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+  const [searchParams] = useSearchParams();
+  const scenarioIdParam = searchParams.get('scenarioId') || undefined;
+  const mapIdParam = searchParams.get('mapId') || undefined;
+
+  const [isScenarioDrawerOpen, setIsScenarioDrawerOpen] = useState(false);
 
   // Layout & Tool Reactive State
   const {
     userRole,
     setUserRole,
+    isLeftCollapsed,
+    isRightCollapsed,
+    toggleLeftCollapse,
+    toggleRightCollapse,
     setRightCollapsed,
     activeLeftTab,
     setActiveLeftTab,
@@ -73,6 +84,58 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     pencilWidth,
     setPencilWidth
   } = useUILayoutStore();
+
+  const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
+  const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+
+  useEffect(() => {
+    if (scenarioIdParam && setActiveLeftTab) {
+      setActiveLeftTab('scenario');
+    }
+  }, [scenarioIdParam, setActiveLeftTab]);
+
+  useEffect(() => {
+    if (mapIdParam && mapIdParam !== activeMapId && setActiveMapId) {
+      setActiveMapId(mapIdParam);
+    }
+  }, [mapIdParam, activeMapId, setActiveMapId]);
+
+  const handleDeployElementFromDrawer = (element: any, customPos?: { x: number; y: number }) => {
+    if (!element) return;
+    const pos = customPos || { x: 350 + (Math.random() - 0.5) * 60, y: 350 + (Math.random() - 0.5) * 60 };
+    if (element.type === 'Persona') {
+      const token = adeElementToStageToken(element, pos);
+      if (token) {
+        useEngineStore.getState().loadStaticEntity(token as any);
+        useEngineStore.getState().updatePosition(token.id, pos.x, pos.y);
+        useEngineStore.getState().clearSelection();
+        useEngineStore.getState().setSelection(token.id, true);
+        if (currentMap && updateMap) {
+          updateMap(currentMap.id, {
+            tokens: [...(currentMap.tokens || []), { ...token, x: pos.x, y: pos.y }]
+          });
+        }
+      }
+    } else {
+      const obj = adeElementToInteractiveObject(element, pos);
+      if (obj && currentMap && updateMap) {
+        updateMap(currentMap.id, {
+          objects: [...(currentMap.objects || []), obj]
+        });
+      }
+    }
+    AudioService.playCriticalChime(true);
+  };
+
+  const handleDeployAllElementsFromDrawer = (elements: any[]) => {
+    elements.forEach((elem, idx) => {
+      const angle = (idx / Math.max(1, elements.length)) * Math.PI * 2;
+      const radius = 110;
+      const x = Math.round(380 + Math.cos(angle) * radius);
+      const y = Math.round(350 + Math.sin(angle) * radius);
+      handleDeployElementFromDrawer(elem, { x, y });
+    });
+  };
 
   // Initialize Role if defaultRole specified
   useEffect(() => {
@@ -150,13 +213,32 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
           <FolderTree size={12} className={activeLeftTab === 'catalog' ? 'text-amber-400' : 'text-slate-500'} />
           <span>CATALOG</span>
         </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setActiveLeftTab('scenario');
+            AudioService.playTerminalBeep(1250, 0.02);
+          }}
+          className={`flex-1 h-7 rounded text-[10px] font-mono font-bold tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer border ${
+            activeLeftTab === 'scenario'
+              ? 'bg-purple-950/60 text-purple-300 border-purple-500/50 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
+              : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-900/60'
+          }`}
+          title="ADE Story & Scenario Stage Drawer (Live Beats & Element Deployer)"
+        >
+          <BookOpen size={12} className={activeLeftTab === 'scenario' ? 'text-purple-400' : 'text-slate-500'} />
+          <span>SCENARIO</span>
+        </button>
       </div>
 
       {/* Main Panel Content */}
       <div className="flex-1 overflow-hidden relative">
-        {activeLeftTab === 'cockpit' ? (
-          <div className="w-full h-full overflow-y-auto overflow-x-hidden">
+        {activeLeftTab === 'cockpit' && (
+          <div className="w-full h-full overflow-hidden">
             <OperativeCockpit
+              isCollapsed={isLeftCollapsed}
+              onToggleCollapse={toggleLeftCollapse}
               tokens={tokens}
               activeTokenId={selectedTokenId || tokens[0]?.id}
               onSelectActiveToken={(id: string) => {
@@ -178,11 +260,24 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               }}
             />
           </div>
-        ) : (
+        )}
+
+        {activeLeftTab === 'catalog' && (
           <ModuleCatalogPanel
             onSelectMap={(id) => {
               if (setActiveMapId) setActiveMapId(id);
             }}
+          />
+        )}
+
+        {activeLeftTab === 'scenario' && (
+          <ADEScenarioStageDrawer
+            isOpen={true}
+            isInline={true}
+            onClose={() => setActiveLeftTab('catalog')}
+            activeScenarioId={scenarioIdParam}
+            onDeployElement={handleDeployElementFromDrawer}
+            onDeployAllElements={handleDeployAllElementsFromDrawer}
           />
         )}
       </div>
@@ -208,8 +303,10 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         </div>
 
         {/* Architect Tools & Layers */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="flex-1 min-h-0 overflow-hidden">
           <ArchitectConsole
+            isCollapsed={isRightCollapsed}
+            onToggleCollapse={toggleRightCollapse}
             activeTool={activeArchitectTool}
             setActiveTool={setActiveArchitectTool}
             selectedTerrain={selectedTerrain}
@@ -247,21 +344,32 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   };
 
   return (
-    <TripartiteLayout
-      leftPanel={renderLeftPanel()}
-      centerStage={
-        <StageViewportWrapper
-          {...props}
-          onOpenMapMaker={() => {
-            setUserRole('architect');
-            setRightCollapsed(false);
-            AudioService.playTerminalBeep(1200, 0.04);
-          }}
-        />
-      }
-      rightPanel={renderRightPanel()}
-      className="w-full h-full"
-    />
+    <div className="relative w-full h-full overflow-hidden">
+      <TripartiteLayout
+        leftPanel={renderLeftPanel()}
+        centerStage={
+          <StageViewportWrapper
+            {...props}
+            onOpenMapMaker={() => {
+              setUserRole('architect');
+              setRightCollapsed(false);
+              AudioService.playTerminalBeep(1200, 0.04);
+            }}
+          />
+        }
+        rightPanel={renderRightPanel()}
+        className="w-full h-full"
+      />
+
+      {/* In-Situ ADE Scenario Drawer */}
+      <ADEScenarioStageDrawer
+        isOpen={isScenarioDrawerOpen}
+        onClose={() => setIsScenarioDrawerOpen(false)}
+        activeScenarioId={scenarioIdParam}
+        onDeployElement={handleDeployElementFromDrawer}
+        onDeployAllElements={handleDeployAllElementsFromDrawer}
+      />
+    </div>
   );
 };
 

@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Hash, 
   MessageSquare, 
@@ -16,9 +17,10 @@ import {
   Edit3,
   ChevronDown,
   ChevronRight,
-  Activity,
+  Activity, 
   FileText,
-  Eye
+  Eye,
+  ExternalLink
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useVoiceChat } from '../../context/VoiceChatContext';
@@ -27,7 +29,7 @@ import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 
-export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamModal, isCompact = false }) => {
+export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamModal, isCompact = false, defaultCategoryFilter = null }) => {
   const { 
     publicChannels = [], 
     directChannels = [], 
@@ -55,9 +57,16 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeam
   const { currentUser, isAdmin } = useAuth();
   const { personaRoster, roster } = useFolio();
 
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategoryFilter, setActiveCategoryFilter] = useState('all');
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState(defaultCategoryFilter || 'all');
   const [settingsChannel, setSettingsChannel] = useState(null);
+
+  useEffect(() => {
+    if (defaultCategoryFilter) {
+      setActiveCategoryFilter(defaultCategoryFilter);
+    }
+  }, [defaultCategoryFilter]);
 
   // Section collapse states (default open)
   const [collapsedSections, setCollapsedSections] = useState({
@@ -474,6 +483,26 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeam
               </span>
               <span className="text-slate-500">{teamChannels.length}</span>
             </div>
+
+            {activeCategoryFilter === 'teams' && (
+              <div className="p-2 my-1 rounded-xl bg-gradient-to-r from-emerald-950/60 to-slate-950/80 border border-emerald-500/30 flex items-center justify-between gap-2">
+                <span className="text-[10px] font-mono text-emerald-300 truncate">
+                  Tactical squads &amp; fireteams
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1150, 0.02);
+                    navigate('/teams');
+                  }}
+                  className="px-2 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[9.5px] font-mono font-bold flex items-center gap-1 cursor-pointer shrink-0"
+                  title="Open dedicated Teams & Squads page"
+                >
+                  <span>TEAMS PAGE</span>
+                  <ExternalLink size={10} />
+                </button>
+              </div>
+            )}
 
             {!collapsedSections.teams && (
               <div className="space-y-0.5 pl-1.5 border-l border-emerald-500/20 ml-2">

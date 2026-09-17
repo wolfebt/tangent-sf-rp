@@ -608,6 +608,98 @@ export const ArchitectConsoleRail = ({
           </div>
         );
 
+      case 'select':
+        return (
+          <div className="flex flex-col gap-3 font-mono text-xs">
+            <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
+              <span className="text-[10px] uppercase text-cyan-400 font-bold tracking-wider flex items-center gap-1.5">
+                <MousePointer size={12} className="text-cyan-400" />
+                <span>Selection & Transform</span>
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 font-bold">
+                READY
+              </span>
+            </div>
+
+            <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-2.5 space-y-1.5 text-[11px] text-slate-300">
+              <div className="flex items-center gap-1.5 text-cyan-300 font-bold text-xs">
+                <span>🎯 Direct Canvas Inspector</span>
+              </div>
+              <p className="text-[10px] text-slate-400 leading-relaxed font-sans">
+                Click any token, wall, prop, or light on the canvas to inspect and modify. Click and drag across empty grid space to create a marquee selection box.
+              </p>
+            </div>
+
+            <div className="space-y-1.5">
+              <span className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">Canvas Shortcuts:</span>
+              <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+                <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-lg">
+                  <span className="text-cyan-400 font-bold block">Marquee Box</span>
+                  <span className="text-slate-400 font-sans">Drag on empty space</span>
+                </div>
+                <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-lg">
+                  <span className="text-amber-400 font-bold block">Duplicate</span>
+                  <span className="text-slate-400 font-sans">Ctrl + D</span>
+                </div>
+                <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-lg">
+                  <span className="text-red-400 font-bold block">Delete Asset</span>
+                  <span className="text-slate-400 font-sans">Delete / Backspace</span>
+                </div>
+                <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-lg">
+                  <span className="text-emerald-400 font-bold block">Nudge Grid</span>
+                  <span className="text-slate-400 font-sans">Arrow Keys (Shift: 50px)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-slate-800 space-y-1.5">
+              <span className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">Cartography Catalogs:</span>
+              <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+                {onOpenAssetManager && (
+                  <button
+                    type="button"
+                    onClick={onOpenAssetManager}
+                    className="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/60 text-slate-200 rounded-lg text-left transition-all cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>📦</span>
+                    <span className="font-bold truncate">Asset Vault</span>
+                  </button>
+                )}
+                {onOpenHeroDrawer && (
+                  <button
+                    type="button"
+                    onClick={onOpenHeroDrawer}
+                    className="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/60 text-slate-200 rounded-lg text-left transition-all cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>👤</span>
+                    <span className="font-bold truncate">Folio Heroes</span>
+                  </button>
+                )}
+                {onOpenOmnicortexDrawer && (
+                  <button
+                    type="button"
+                    onClick={onOpenOmnicortexDrawer}
+                    className="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 hover:border-purple-500/60 text-slate-200 rounded-lg text-left transition-all cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>🤖</span>
+                    <span className="font-bold truncate">Bestiary</span>
+                  </button>
+                )}
+                {onOpenLandmassGenerator && (
+                  <button
+                    type="button"
+                    onClick={onOpenLandmassGenerator}
+                    className="p-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/60 text-slate-200 rounded-lg text-left transition-all cursor-pointer flex items-center gap-1.5"
+                  >
+                    <span>🏔️</span>
+                    <span className="font-bold truncate">Landmass Gen</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+
       default:
         return (
           <div className="flex flex-col gap-2 text-[11px] text-slate-400 italic">
@@ -619,13 +711,13 @@ export const ArchitectConsoleRail = ({
 
   return (
     <aside
-      className="h-full shrink-0 flex z-30 select-none font-sans"
+      className="w-full h-full flex flex-row justify-end select-none font-sans"
       aria-label="Architect Console Right Rail"
     >
       {/* Docked Collapsible Drawer Column (Extends to the left of the rail icon bar) */}
       <div
         className={`h-full border-l border-slate-800/90 bg-[#0c1017]/95 backdrop-blur-md transition-all duration-200 flex flex-col overflow-hidden shadow-2xl ${
-          isCollapsed ? 'w-0 border-l-0' : 'w-72 sm:w-80'
+          isCollapsed ? 'w-0 border-l-0 hidden' : 'flex-1 min-w-0 h-full'
         }`}
       >
         {/* Drawer Header */}
@@ -653,8 +745,8 @@ export const ArchitectConsoleRail = ({
             <button
               type="button"
               onClick={onToggleCollapse}
-              className="p-1 rounded text-slate-500 hover:text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
-              title="Collapse Panel"
+              className="p-1 px-1.5 rounded-lg bg-slate-900 border border-slate-700/80 text-amber-400 hover:text-white hover:bg-amber-950 hover:border-amber-400 transition-colors cursor-pointer"
+              title="Collapse Architect Drawer"
             >
               <ChevronRight size={15} />
             </button>
@@ -827,10 +919,14 @@ export const ArchitectConsoleRail = ({
           <button
             type="button"
             onClick={onToggleCollapse}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
+              isCollapsed
+                ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.6)] animate-pulse'
+                : 'bg-amber-950/80 border-amber-500/60 text-amber-300 hover:bg-amber-500 hover:text-black'
+            }`}
             title={isCollapsed ? 'Expand Architect Console' : 'Collapse Architect Console'}
           >
-            {isCollapsed ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+            {isCollapsed ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
           </button>
         </div>
       </nav>

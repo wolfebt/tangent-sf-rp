@@ -104,9 +104,14 @@ export interface UILayoutState extends VttLayoutPreferences {
   pencilColor: string;
   pencilWidth: number;
   rulerAvailableAp: number;
-  activeLeftTab: 'cockpit' | 'catalog';
+  rulerSelectedPace: 'walk' | 'jog' | 'run' | 'sprint';
+  activeLeftTab: 'cockpit' | 'catalog' | 'scenario';
+  isLeftWideMode: boolean;
 
   // Actions
+  toggleLeftWideMode: () => void;
+  setLeftWideMode: (wide: boolean) => void;
+  setRulerSelectedPace: (pace: 'walk' | 'jog' | 'run' | 'sprint') => void;
   toggleLeftCollapse: () => void;
   setLeftCollapsed: (collapsed: boolean) => void;
   toggleRightCollapse: () => void;
@@ -150,7 +155,7 @@ export interface UILayoutState extends VttLayoutPreferences {
   setPencilColor: (color: string) => void;
   setPencilWidth: (width: number) => void;
   setRulerAvailableAp: (ap: number) => void;
-  setActiveLeftTab: (tab: 'cockpit' | 'catalog') => void;
+  setActiveLeftTab: (tab: 'cockpit' | 'catalog' | 'scenario') => void;
 
   resetLayout: () => void;
 }
@@ -168,7 +173,7 @@ export const useUILayoutStore = create<UILayoutState>()(
       // Tactical Stage Viewport Defaults
       isGridVisible: true,
       gridSnap: true,
-      gridType: GridType.Square,
+      gridType: GridType.HexFlatTop,
       scaleTier: GridScaleTier.Encounter,
       isDynamicLightingEnabled: true,
       isMultiplayerSimActive: false,
@@ -209,9 +214,20 @@ export const useUILayoutStore = create<UILayoutState>()(
       pencilColor: '#22d3ee',
       pencilWidth: 4,
       rulerAvailableAp: 4,
+      rulerSelectedPace: 'walk',
       activeLeftTab: 'cockpit',
+      isLeftWideMode: false,
 
       // Tactical Actions
+      toggleLeftWideMode: () => set((draft) => {
+        draft.isLeftWideMode = !draft.isLeftWideMode;
+      }),
+      setLeftWideMode: (wide: boolean) => set((draft) => {
+        draft.isLeftWideMode = wide;
+      }),
+      setRulerSelectedPace: (pace) => set((draft) => {
+        draft.rulerSelectedPace = pace;
+      }),
       setSelectedTokenId: (id) => set((draft) => {
         draft.selectedTokenId = id;
       }),
@@ -322,7 +338,7 @@ export const useUILayoutStore = create<UILayoutState>()(
       }),
 
       setLeftWidth: (width) => set((draft) => {
-        const clamped = Math.max(240, Math.min(500, Math.round(width)));
+        const clamped = Math.max(240, Math.min(1100, Math.round(width)));
         draft.leftWidth = clamped;
         savePrefs({ leftWidth: clamped });
       }),

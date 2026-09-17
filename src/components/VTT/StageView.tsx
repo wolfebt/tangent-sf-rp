@@ -87,16 +87,18 @@ import { v4 as uuidv4 } from 'uuid';
 export interface StageViewProps {
   campaignId?: string;
   sceneId?: string;
+  isEmbeddedInTripartite?: boolean;
 }
 
 export const StageView: React.FC<StageViewProps> = ({
-  campaignId = 'campaign_alpha'
+  campaignId = 'campaign_alpha',
+  isEmbeddedInTripartite = false
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rendererContextRef = useRef<RendererContext | null>(null);
   const layerCompositorRef = useRef<LayerCompositor | null>(null);
   const chunkManagerRef = useRef<FrustumChunkManager | null>(null);
-  const coordEngineRef = useRef<CoordinateEngine>(new CoordinateEngine(GridType.Square, 70, GridScaleTier.Encounter));
+  const coordEngineRef = useRef<CoordinateEngine>(new CoordinateEngine(GridType.HexFlatTop, 70, GridScaleTier.Encounter));
   const interactiveObjMgrRef = useRef<InteractiveObjectManager>(new InteractiveObjectManager());
   const bvhBuilderRef = useRef<BVHBuilder>(new BVHBuilder());
   const combatArbRef = useRef<CombatArbitrator>(new CombatArbitrator());
@@ -163,6 +165,8 @@ export const StageView: React.FC<StageViewProps> = ({
     pencilColor: storePencilColor,
     pencilWidth: storePencilWidth,
     rulerAvailableAp: storeRulerAp,
+    rulerSelectedPace: storeRulerPace,
+    setRulerSelectedPace: setStoreRulerPace,
     selectedTokenId: storeSelectedTokenId,
     setSelectedTokenId: setStoreSelectedTokenId,
     targetTokenId: storeTargetTokenId,
@@ -414,6 +418,12 @@ export const StageView: React.FC<StageViewProps> = ({
         ...prev.slice(0, 8)
       ]);
 
+      // Sync Grid Type from Map (defaulting to hex if undefined or 'hex')
+      const targetGridType = (currentMap.gridType === 'square' || currentMap.gridMode === 'square')
+        ? GridType.Square
+        : GridType.HexFlatTop;
+      useUILayoutStore.getState().setGridType(targetGridType);
+
       // 1. Ingest Walls & Bulkheads into BVH spatial tree & local state
       if (Array.isArray(currentMap.walls) && currentMap.walls.length > 0) {
         const bvhWalls: WallSegment[] = currentMap.walls.map((w: any) => ({
@@ -427,6 +437,7 @@ export const StageView: React.FC<StageViewProps> = ({
         bvhBuilderRef.current.build(bvhWalls);
         setLocalWalls(bvhWalls);
       } else {
+        bvhBuilderRef.current.build([]);
         setLocalWalls([]);
       }
 
@@ -443,6 +454,7 @@ export const StageView: React.FC<StageViewProps> = ({
         interactiveObjMgrRef.current.loadObjects(sceneObjects);
         setLocalObjects(sceneObjects);
       } else {
+        interactiveObjMgrRef.current.loadObjects([]);
         setLocalObjects([]);
       }
 
@@ -471,6 +483,10 @@ export const StageView: React.FC<StageViewProps> = ({
         if (currentMap.tokens[1]?.id) {
           setTargetTokenId(currentMap.tokens[1].id);
         }
+      } else {
+        store.clearAllEntities();
+        setSelectedTokenId(null);
+        setTargetTokenId(null);
       }
 
       // 4. Ingest Dynamic Lights into LightSourceManager & local state
@@ -484,12 +500,29 @@ export const StageView: React.FC<StageViewProps> = ({
       // 5. Ingest Blueprint Underlay Configuration
       if (currentMap.underlay) {
         setUnderlayConfig(currentMap.underlay);
+      } else {
+        setUnderlayConfig(null);
       }
 
       // 6. Ingest Global Atmospheric Weather
       if (currentMap.atmosphericWeather) {
         setAtmosphericWeather(currentMap.atmosphericWeather);
+      } else {
+        setAtmosphericWeather('clear');
       }
+    } else {
+      // Blank canvas state when no map is loaded
+      bvhBuilderRef.current.build([]);
+      setLocalWalls([]);
+      interactiveObjMgrRef.current.loadObjects([]);
+      setLocalObjects([]);
+      store.clearAllEntities();
+      setSelectedTokenId(null);
+      setTargetTokenId(null);
+      setLocalLights([]);
+      setUnderlayConfig(null);
+      setAtmosphericWeather('clear');
+      useUILayoutStore.getState().setGridType(GridType.HexFlatTop);
     }
   }, [currentMap]);
 
@@ -1640,7 +1673,7 @@ export const StageView: React.FC<StageViewProps> = ({
     } else {
       moveRulerContainer.addChild(g);
     }
-  }, [moveRulerContainer, selectedToken, isMoveModeActive, mouseWorldPos, effectiveSpeedFt, activeDesignTool, rulerAvailableAp]);
+  }, [moveRulerContainer, selectedToken, isMoveModeActive, mouseWorldPos, effectiveSpeedFt, activeDesignTool, storeRulerPace]);
 
   // Render Interactive Objects on the Stage
   useEffect(() => {
@@ -3040,8 +3073,8 @@ export const StageView: React.FC<StageViewProps> = ({
           }`}
         />
 
-        {/* ── TOP CENTER: Architect Design Mode Active Banner ── */}
-        {isDesignModeActive && !isZenMode && (
+        {/* ── TOP CENTER: Architect Design Mode Active Banner (Standalone Only) ── */}
+        {!isEmbeddedInTripartite && isDesignModeActive && !isZenMode && (
           <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[115] bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border-2 border-amber-500 rounded-2xl px-4 py-1.5 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex items-center gap-3">
             <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
             <div>
@@ -3054,7 +3087,7 @@ export const StageView: React.FC<StageViewProps> = ({
             </div>
             <button
               onClick={handleToggleDesignMode}
-              className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer ml-1"
+              className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:from-teal-500 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer ml-1"
             >
               <span>⚔️</span>
               <span>RESUME SIM</span>
@@ -3098,10 +3131,11 @@ export const StageView: React.FC<StageViewProps> = ({
           onToggleMultiplayerSim={handleToggleMultiplayerSim}
           isDesignModeActive={isDesignModeActive}
           isZenMode={isZenMode}
+          isEmbeddedInTripartite={isEmbeddedInTripartite}
         />
 
-        {/* ── RIGHT DOCKABLE TACTICAL COMMAND CONSOLE (Play Mode Only) ── */}
-        {!isDesignModeActive && !isZenMode && (
+        {/* ── RIGHT DOCKABLE TACTICAL COMMAND CONSOLE (Play Mode Only - Standalone Only) ── */}
+        {!isEmbeddedInTripartite && !isDesignModeActive && !isZenMode && (
           isTacticalConsoleCollapsed ? (
             <button
               onClick={() => {
@@ -3382,79 +3416,83 @@ export const StageView: React.FC<StageViewProps> = ({
           onSelectAction={handleRadialSelectAction}
         />
 
-        {/* ── IN-SITU ARCHITECT DESIGN STUDIO & ASSET PALETTE ── */}
-        <ArchitectDesignPalette
-          isOpen={isDesignModeActive && !isZenMode}
-          onClose={() => handleToggleDesignMode()}
-          activeTool={activeDesignTool}
-          setActiveTool={setActiveDesignTool}
-          selectedStamp={selectedStamp}
-          onSelectStamp={setSelectedStamp}
-          gridSnap={gridSnap}
-          onToggleGridSnap={() => toggleGridSnap()}
-          activeMapTitle={currentMap?.title || currentMap?.name || 'Tactical Sector'}
-          wallsCount={localWalls.length}
-          objectsCount={localObjects.length}
-          hazardsCount={hazardCount}
-          terrainsCount={(currentMap?.terrains || []).length}
-          linesCount={(currentMap?.lines || []).length}
-          textsCount={(currentMap?.texts || []).length}
-          lightsCount={localLights.length}
-          selectedWallType={selectedWallType}
-          setSelectedWallType={setSelectedWallType}
-          doorLockDc={doorLockDc}
-          setDoorLockDc={setDoorLockDc}
-          wallConstructionMode={wallConstructionMode}
-          setWallConstructionMode={setWallConstructionMode}
-          selectedAssetIds={selectedAssetIds}
-          onBatchDelete={handleBatchDelete}
-          onBatchDuplicate={handleBatchDuplicate}
-          onBatchNudge={handleBatchNudge}
-          onDeselectAll={handleDeselectAll}
-          randomizeRotation={randomizeRotation}
-          setRandomizeRotation={setRandomizeRotation}
-          randomizeScale={randomizeScale}
-          setRandomizeScale={setRandomizeScale}
-          atmosphericWeather={atmosphericWeather}
-          setAtmosphericWeather={(w) => {
-            setAtmosphericWeather(w);
-            if (currentMap && updateMap) {
-              updateMap(currentMap.id, { atmosphericWeather: w });
-            }
-          }}
-          selectedLightColor={selectedLightColor}
-          setSelectedLightColor={setSelectedLightColor}
-          selectedLightRadius={selectedLightRadius}
-          setSelectedLightRadius={setSelectedLightRadius}
-          selectedLightAnimation={selectedLightAnimation}
-          setSelectedLightAnimation={setSelectedLightAnimation}
-          selectedTerrainId={selectedTerrainId}
-          setSelectedTerrainId={setSelectedTerrainId}
-          terrainBrushWidth={terrainBrushWidth}
-          setTerrainBrushWidth={setTerrainBrushWidth}
-          terrainRenderMode={terrainRenderMode}
-          setTerrainRenderMode={setTerrainRenderMode}
-          pencilColor={pencilColor}
-          setPencilColor={setPencilColor}
-          pencilWidth={pencilWidth}
-          setPencilWidth={setPencilWidth}
-          textLabelInput={textLabelInput}
-          setTextLabelInput={setTextLabelInput}
-          textColor={textColor}
-          setTextColor={setTextColor}
-          textSize={textSize}
-          setTextSize={setTextSize}
-          rulerAvailableAp={rulerAvailableAp}
-          setRulerAvailableAp={setRulerAvailableAp}
-          onOpenLandmassModal={() => setIsLandmassModalOpen(true)}
-          onOpenUvttModal={() => setIsUvttModalOpen(true)}
-          onOpenAssetManager={() => setIsAssetManagerOpen(true)}
-          onOpenHeroDrawer={() => setIsHeroDrawerOpen(true)}
-          onOpenOmnicortexDrawer={() => setIsOmnicortexDrawerOpen(true)}
-          onOpenHazmatModal={() => setIsHazmatModalOpen(true)}
-          onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
-          onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
-        />
+        {/* ── IN-SITU ARCHITECT DESIGN STUDIO & ASSET PALETTE (Standalone Only) ── */}
+        {!isEmbeddedInTripartite && (
+          <ArchitectDesignPalette
+            isOpen={isDesignModeActive && !isZenMode}
+            onClose={() => handleToggleDesignMode()}
+            activeTool={activeDesignTool}
+            setActiveTool={setActiveDesignTool}
+            selectedStamp={selectedStamp}
+            onSelectStamp={setSelectedStamp}
+            gridSnap={gridSnap}
+            onToggleGridSnap={() => toggleGridSnap()}
+            activeMapTitle={currentMap?.title || currentMap?.name || 'Tactical Sector'}
+            wallsCount={localWalls.length}
+            objectsCount={localObjects.length}
+            hazardsCount={hazardCount}
+            terrainsCount={(currentMap?.terrains || []).length}
+            linesCount={(currentMap?.lines || []).length}
+            textsCount={(currentMap?.texts || []).length}
+            lightsCount={localLights.length}
+            selectedWallType={selectedWallType}
+            setSelectedWallType={setSelectedWallType}
+            doorLockDc={doorLockDc}
+            setDoorLockDc={setDoorLockDc}
+            wallConstructionMode={wallConstructionMode}
+            setWallConstructionMode={setWallConstructionMode}
+            selectedAssetIds={selectedAssetIds}
+            onBatchDelete={handleBatchDelete}
+            onBatchDuplicate={handleBatchDuplicate}
+            onBatchNudge={handleBatchNudge}
+            onDeselectAll={handleDeselectAll}
+            randomizeRotation={randomizeRotation}
+            setRandomizeRotation={setRandomizeRotation}
+            randomizeScale={randomizeScale}
+            setRandomizeScale={setRandomizeScale}
+            atmosphericWeather={atmosphericWeather}
+            setAtmosphericWeather={(w) => {
+              setAtmosphericWeather(w);
+              if (currentMap && updateMap) {
+                updateMap(currentMap.id, { atmosphericWeather: w });
+              }
+            }}
+            selectedLightColor={selectedLightColor}
+            setSelectedLightColor={setSelectedLightColor}
+            selectedLightRadius={selectedLightRadius}
+            setSelectedLightRadius={setSelectedLightRadius}
+            selectedLightAnimation={selectedLightAnimation}
+            setSelectedLightAnimation={setSelectedLightAnimation}
+            selectedTerrainId={selectedTerrainId}
+            setSelectedTerrainId={setSelectedTerrainId}
+            terrainBrushWidth={terrainBrushWidth}
+            setTerrainBrushWidth={setTerrainBrushWidth}
+            terrainRenderMode={terrainRenderMode}
+            setTerrainRenderMode={setTerrainRenderMode}
+            pencilColor={pencilColor}
+            setPencilColor={setPencilColor}
+            pencilWidth={pencilWidth}
+            setPencilWidth={setPencilWidth}
+            textLabelInput={textLabelInput}
+            setTextLabelInput={setTextLabelInput}
+            textColor={textColor}
+            setTextColor={setTextColor}
+            textSize={textSize}
+            setTextSize={setTextSize}
+            rulerAvailableAp={rulerAvailableAp}
+            setRulerAvailableAp={setRulerAvailableAp}
+            rulerSelectedPace={storeRulerPace}
+            setRulerSelectedPace={setStoreRulerPace}
+            onOpenLandmassModal={() => setIsLandmassModalOpen(true)}
+            onOpenUvttModal={() => setIsUvttModalOpen(true)}
+            onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+            onOpenHeroDrawer={() => setIsHeroDrawerOpen(true)}
+            onOpenOmnicortexDrawer={() => setIsOmnicortexDrawerOpen(true)}
+            onOpenHazmatModal={() => setIsHazmatModalOpen(true)}
+            onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
+            onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
+          />
+        )}
       </div>
 
       {/* ── MODALS INTEGRATION ── */}

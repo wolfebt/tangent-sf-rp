@@ -37,6 +37,7 @@ import {
   ChevronRight,
   Package
 } from 'lucide-react';
+import { useUILayoutStore } from '../../../../components/VTT/store/uiLayoutStore';
 
 const MapToolsPanel = ({
   showToolsPanel, setShowToolsPanel,
@@ -63,6 +64,8 @@ const MapToolsPanel = ({
   setDoorLockDc,
   rulerAvailableAp = 4,
   setRulerAvailableAp,
+  rulerSelectedPace,
+  setRulerSelectedPace,
   activeSensorMode = 'standard_optical',
   setActiveSensorMode,
   // Lighting options
@@ -80,6 +83,11 @@ const MapToolsPanel = ({
   onOpenUvttImport,
   onOpenLayersPanel
 }) => {
+  const storePace = useUILayoutStore((s) => s.rulerSelectedPace);
+  const storeSetPace = useUILayoutStore((s) => s.setRulerSelectedPace);
+  const activePace = rulerSelectedPace || storePace || 'walk';
+  const handlePaceSelect = setRulerSelectedPace || storeSetPace;
+
   const [selectedCatalogScale, setSelectedCatalogScale] = useState(currentMapScale);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -273,28 +281,47 @@ const MapToolsPanel = ({
             <span className="text-[10px] uppercase text-[#22d3ee] font-bold tracking-wider">
               📏 Tactical Waypoint Ruler:
             </span>
-            <div className="bg-[#0d1117] border border-[#0D5C63]/60 p-2.5 rounded-lg flex flex-col gap-1.5">
+            <div className="bg-[#0d1117] border border-[#0D5C63]/60 p-2.5 rounded-lg flex flex-col gap-2">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-cyan-400 font-bold uppercase text-[10px]">Max AP Pool:</span>
-                <span className="text-cyan-300 font-mono font-bold bg-cyan-950 px-1.5 py-0.5 rounded border border-[#0D5C63]/60">
-                  {rulerAvailableAp} AP
+                <span className="text-cyan-400 font-bold uppercase text-[10px]">Locomotion Pace (RULE-SKL-01):</span>
+                <span className="text-cyan-300 font-mono font-bold bg-cyan-950 px-1.5 py-0.5 rounded border border-[#0D5C63]/60 uppercase">
+                  {activePace}
                 </span>
               </div>
-              <input
-                type="range"
-                min="1"
-                max="12"
-                step="1"
-                value={rulerAvailableAp}
-                onChange={e => setRulerAvailableAp?.(Number(e.target.value))}
-                className="accent-[#22d3ee] w-full cursor-pointer h-1.5 bg-[#161b22] rounded-lg"
-              />
+              <div className="grid grid-cols-4 gap-1 font-mono text-[9px]">
+                {[
+                  { pace: 'walk', label: 'Walk', dist: '30ft' },
+                  { pace: 'jog', label: 'Jog', dist: '60ft' },
+                  { pace: 'run', label: 'Run', dist: '90ft' },
+                  { pace: 'sprint', label: 'Sprint', dist: '120ft' }
+                ].map((item) => (
+                  <button
+                    key={item.pace}
+                    type="button"
+                    onClick={() => handlePaceSelect?.(item.pace)}
+                    className={`py-1.5 rounded font-bold transition-all cursor-pointer flex flex-col items-center ${
+                      activePace === item.pace
+                        ? item.pace === 'walk'
+                          ? 'bg-emerald-500 text-black shadow-xs'
+                          : item.pace === 'jog'
+                            ? 'bg-cyan-500 text-black shadow-xs'
+                            : item.pace === 'run'
+                              ? 'bg-amber-500 text-black shadow-xs'
+                              : 'bg-rose-500 text-black shadow-xs'
+                        : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <span className="text-[8px] opacity-75">{item.dist}</span>
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="text-[10px] text-slate-400 space-y-1 bg-slate-950 p-2 rounded border border-slate-800">
-              <div>• <strong>Click + Drag</strong>: Measure direct distance & AP.</div>
-              <div>• <strong>Space + Click</strong>: Drop intermediate waypoints.</div>
-              <div>• <strong>Green</strong> = Standard Move ($\le$ AP).</div>
-              <div>• <strong>Amber</strong> = Sprint / Overdrive ($2\times$ AP).</div>
+              <div>• <strong>Click + Drag</strong>: Measure distance & check pace.</div>
+              <div>• <strong>Walk (30ft)</strong>: Standard movement vector.</div>
+              <div>• <strong>Jog (60ft) / Run (90ft)</strong>: Extended locomotion.</div>
+              <div>• <strong>Sprint (120ft)</strong>: Max stride (-2 Active Defense penalty).</div>
             </div>
           </div>
         );

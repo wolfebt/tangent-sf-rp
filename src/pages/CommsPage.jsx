@@ -103,6 +103,7 @@ export const CommsPage = () => {
         }`}>
           {activeNavTab === 'matrix' && (
             <ChannelSidebar
+              defaultCategoryFilter="all"
               onOpenCreateModal={() => setIsCreateModalOpen(true)}
               onOpenSquadModal={() => setIsTeamModalOpen(true)}
               onOpenTeamModal={() => setIsTeamModalOpen(true)}
@@ -115,6 +116,7 @@ export const CommsPage = () => {
 
           {activeNavTab === 'teams' && (
             <ChannelSidebar
+              defaultCategoryFilter="teams"
               onOpenCreateModal={() => setIsCreateModalOpen(true)}
               onOpenSquadModal={() => setIsTeamModalOpen(true)}
               onOpenTeamModal={() => setIsTeamModalOpen(true)}
@@ -127,6 +129,7 @@ export const CommsPage = () => {
 
           {activeNavTab === 'logs' && (
             <ChannelSidebar
+              defaultCategoryFilter="logs"
               onOpenCreateModal={() => setIsCreateModalOpen(true)}
               onOpenSquadModal={() => setIsTeamModalOpen(true)}
               onOpenTeamModal={() => setIsTeamModalOpen(true)}

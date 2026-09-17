@@ -50,6 +50,7 @@ import {
   LIGHT_PRESETS, 
   type LightAnimationType 
 } from '../../engine/vision/LightSourceManager';
+import { useUILayoutStore } from './store/uiLayoutStore';
 
 export type ArchitectDesignTool = 
   | 'select' 
@@ -370,8 +371,10 @@ export interface ArchitectDesignPaletteProps {
   textSize: number;
   setTextSize: (s: number) => void;
   // Ruler Sub-options
-  rulerAvailableAp: number;
-  setRulerAvailableAp: (ap: number) => void;
+  rulerAvailableAp?: number;
+  setRulerAvailableAp?: (ap: number) => void;
+  rulerSelectedPace?: 'walk' | 'jog' | 'run' | 'sprint';
+  setRulerSelectedPace?: (pace: 'walk' | 'jog' | 'run' | 'sprint') => void;
   // Modal Openers
   onOpenLandmassModal: () => void;
   onOpenUvttModal: () => void;
@@ -439,8 +442,8 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
   setTextColor,
   textSize,
   setTextSize,
-  rulerAvailableAp,
-  setRulerAvailableAp,
+  rulerSelectedPace,
+  setRulerSelectedPace,
   onOpenLandmassModal,
   onOpenUvttModal,
   onOpenAssetManager,
@@ -450,6 +453,11 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
   onOpenLayersPanel,
   onOpenUnderlayModal
 }) => {
+  const storeSelectedPace = useUILayoutStore((state) => state.rulerSelectedPace);
+  const storeSetSelectedPace = useUILayoutStore((state) => state.setRulerSelectedPace);
+  const activeRulerPace = rulerSelectedPace || storeSelectedPace || 'walk';
+  const handlePaceChange = setRulerSelectedPace || storeSetSelectedPace;
+
   const [stampCategory, setStampCategory] = useState<'walls' | 'objects' | 'hazards' | 'props' | 'spawner'>('walls');
   const [isMinimized, setIsMinimized] = useState(false);
   const [toolCategory, setToolCategory] = useState<'all' | 'construct' | 'dressing' | 'annotate'>('construct');
@@ -1082,22 +1090,42 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
             <span className="text-xs font-bold text-cyan-300 uppercase flex items-center gap-1.5">
               <Compass size={13} /> Tactical Waypoint Ruler
             </span>
-            <div className="space-y-1">
-              <div className="flex justify-between text-[10px] text-slate-300">
-                <span>Action Point (AP) Pool:</span>
-                <span className="text-cyan-400 font-bold">{rulerAvailableAp} AP</span>
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-[10px] text-slate-300 font-mono">
+                <span>Locomotion Pace (RULE-SKL-01):</span>
+                <span className="text-cyan-400 font-bold uppercase">{activeRulerPace}</span>
               </div>
-              <input
-                type="range"
-                min="1"
-                max="12"
-                value={rulerAvailableAp}
-                onChange={(e) => setRulerAvailableAp(Number(e.target.value))}
-                className="w-full accent-cyan-400 h-1 bg-slate-800 rounded cursor-pointer"
-              />
+              <div className="grid grid-cols-4 gap-1 font-mono text-[9px]">
+                {[
+                  { pace: 'walk', label: 'Walk', dist: '30ft' },
+                  { pace: 'jog', label: 'Jog', dist: '60ft' },
+                  { pace: 'run', label: 'Run', dist: '90ft' },
+                  { pace: 'sprint', label: 'Sprint', dist: '120ft' }
+                ].map((item) => (
+                  <button
+                    key={item.pace}
+                    type="button"
+                    onClick={() => handlePaceChange?.(item.pace as any)}
+                    className={`py-1.5 rounded font-bold transition-all cursor-pointer flex flex-col items-center ${
+                      activeRulerPace === item.pace
+                        ? item.pace === 'walk'
+                          ? 'bg-emerald-500 text-black shadow-xs'
+                          : item.pace === 'jog'
+                            ? 'bg-cyan-500 text-black shadow-xs'
+                            : item.pace === 'run'
+                              ? 'bg-amber-500 text-black shadow-xs'
+                              : 'bg-rose-500 text-black shadow-xs'
+                        : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <span className="text-[8px] opacity-75">{item.dist}</span>
+                  </button>
+                ))}
+              </div>
             </div>
             <p className="text-[10px] text-slate-400">
-              Measures dynamic movement distance against selected operative speed and terrain hazards.
+              Measures real-time distance and waypoint vectors across canonical walk, jog, run, and sprint paces.
             </p>
           </div>
         )}

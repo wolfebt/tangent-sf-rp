@@ -92,6 +92,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   const isFoundry = location.pathname.startsWith('/foundry') || location.pathname.startsWith('/story-foundry') || location.pathname.startsWith('/vtt-ops') || location.pathname.startsWith('/campaign-builder') || location.pathname.startsWith('/spectator') || location.pathname.startsWith('/stage') || location.pathname === '/vtt';
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
+  const isTeams = location.pathname.startsWith('/teams') || location.pathname.startsWith('/groups') || location.pathname.startsWith('/squads');
   const isStage = location.pathname.startsWith('/stage') || location.pathname === '/vtt';
   
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -129,6 +130,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
   const getRouteGuideTab = () => {
     const path = location.pathname;
+    if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'squads';
     if (path.startsWith('/comms') || path.startsWith('/chat')) return 'comms';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'folio';
     if (path.startsWith('/dbm')) return 'dbm';
@@ -201,6 +203,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const getActivePageTitle = () => {
     const path = location.pathname;
     if (path === '/' || path === '/dashboard') return null; // Dashboard - no user-facing label needed
+    if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'GAME TEAMS & SQUADS';
     if (path.startsWith('/comms')) return 'COMMLINK RELAY';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'PERSONA FOLIO';
     if (path.startsWith('/dbm')) return 'OMNICORTEX';
@@ -798,20 +801,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             <div className="flex items-center gap-1 sm:gap-1.5">
               <button
                 type="button"
-                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry'); }}
-                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
-                  location.pathname === '/foundry' ? 'bg-purple-600 text-white' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
-                }`}
-                title="ADE Studio Catalog & Dashboard"
-              >
-                <span>📊</span>
-                <span className="hidden sm:inline">Catalog</span>
-              </button>
-
-              <button
-                type="button"
                 onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/stage'); }}
-                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
+                className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin ${
                   isStage ? 'bg-amber-600 text-white' : 'bg-slate-900/80 text-amber-300 hover:text-amber-200 hover:bg-slate-800 border border-amber-500/40'
                 }`}
                 title="The Stage Tactical VTT"
@@ -822,9 +813,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
               <button
                 type="button"
-                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/story'); }}
-                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
-                  (location.pathname.includes('/story') || location.pathname.includes('/elements') || location.pathname.includes('/ade'))
+                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry'); }}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin ${
+                  !isStage && (location.pathname.startsWith('/foundry') || location.pathname.startsWith('/ade') || location.pathname.startsWith('/story-foundry'))
                     ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(168,85,247,0.4)]'
                     : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
                 }`}
@@ -832,30 +823,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               >
                 <span>📖</span>
                 <span className="hidden md:inline">Story Foundry</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/aime'); }}
-                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
-                  location.pathname.includes('/aime') ? 'bg-purple-600 text-white' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
-                }`}
-                title="AIME Creative Engine"
-              >
-                <span>✨</span>
-                <span className="hidden md:inline">AIME</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/map-maker'); }}
-                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
-                  location.pathname.includes('/map-maker') ? 'bg-purple-600 text-white' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
-                }`}
-                title="Tactical Map Maker"
-              >
-                <span>🗺️</span>
-                <span className="hidden md:inline">Maps</span>
               </button>
             </div>
           )}
@@ -1129,14 +1096,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 {/* 3. ADE Studio */}
                 <div className="space-y-1 pt-2 border-t border-slate-800/80">
                   <span className="text-[9px] uppercase tracking-widest text-purple-400 font-bold block px-1">ADE Studio</span>
-                  <div className="grid grid-cols-3 gap-1.5">
+                  <div className="grid grid-cols-2 gap-1.5">
                     <button
                       type="button"
-                      onClick={() => { navigate('/foundry/story'); setIsMobileNavOpen(false); }}
+                      onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
                       className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
                     >
                       <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <BookOpen size={13} className="text-purple-400" /> Scenarios
+                        <BookOpen size={13} className="text-purple-400" /> Story Module
                       </div>
                     </button>
                     <button
@@ -1146,15 +1113,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     >
                       <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
                         <Hammer size={13} className="text-purple-400" /> Elements
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { navigate('/foundry/aime'); setIsMobileNavOpen(false); }}
-                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <Sparkles size={13} className="text-purple-400" /> AIME
                       </div>
                     </button>
                   </div>

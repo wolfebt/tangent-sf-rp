@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { OBJECT_TYPES, applyDamageToObject, interactWithObject } from '../../../../services/interactiveObjectService';
 import { AudioService } from '../../../../services/audioService';
+import { useFolio } from '../../../../context/FolioContext';
 
 const InteractiveObjectModal = ({
   objectNode,
@@ -18,18 +19,60 @@ const InteractiveObjectModal = ({
 }) => {
   if (!isOpen || !objectNode) return null;
 
+  const folio = useFolio() || {};
+  const activeOperative = folio?.characterData || {};
+  const activeOperativeName = activeOperative?.name || 'Operative Persona';
+
+  const defaultHack = activeOperative?.attributes?.INT ? Math.max(1, Math.floor((activeOperative.attributes.INT - 10) / 2)) : 3;
+  const defaultStr = activeOperative?.attributes?.STR ? Math.max(1, Math.floor((activeOperative.attributes.STR - 10) / 2)) : 2;
+
   const objType = OBJECT_TYPES[objectNode.objectType || objectNode.type] || OBJECT_TYPES.explosive_canister;
   const currentStructure = objectNode.structure !== undefined ? objectNode.structure : (objType.maxStructure || 20);
   const maxStructure = objType.maxStructure || 20;
   const isDestroyed = currentStructure <= 0;
 
   const [damageInput, setDamageInput] = useState(10);
-  const [hackSkillMod, setHackSkillMod] = useState(3);
-  const [strMod, setStrMod] = useState(2);
+  const [hackSkillMod, setHackSkillMod] = useState(defaultHack);
+  const [strMod, setStrMod] = useState(defaultStr);
   const [actionLog, setActionLog] = useState([]);
 
   const addLog = (msg) => {
     setActionLog(prev => [msg, ...prev.slice(0, 8)]);
+  };
+
+  const handleLootItem = (item) => {
+    if (!item || typeof folio?.addItemToInventory !== 'function') return;
+    folio.addItemToInventory(item);
+    AudioService.playCriticalChime(true);
+    addLog(`📦 [LOOTED] ${item.name || 'Artifact'} transferred into ${activeOperativeName}'s Folio inventory!`);
+
+    const currentPayload = Array.isArray(objectNode.lootPayload) ? objectNode.lootPayload : [];
+    const remaining = currentPayload.filter((i) => (i.id ? i.id !== item.id : i.name !== item.name));
+    onUpdateObject?.(objectNode.id, {
+      ...objectNode,
+      lootPayload: remaining
+    });
+
+    window.dispatchEvent(new CustomEvent('omnicortex-loot-dispensed', {
+      detail: {
+        operativeName: activeOperativeName,
+        itemName: item.name,
+        time: new Date().toLocaleTimeString()
+      }
+    }));
+  };
+
+  const handleBroadcastIntel = () => {
+    const intel = objectNode.clueText || objectNode.description || 'Encrypted sector intel retrieved.';
+    AudioService.playTerminalBeep(1200, 0.05);
+    addLog(`📜 [INTEL TRANSMITTED] Story clue logged to ADE Manuscript.`);
+    window.dispatchEvent(new CustomEvent('story-foundry-node-triggered', {
+      detail: {
+        operativeName: activeOperativeName,
+        action: `Terminal Sliced / Intel Retrieved: "${intel.slice(0, 80)}..."`,
+        time: new Date().toLocaleTimeString()
+      }
+    }));
   };
 
   const handleApplyDamage = () => {
@@ -140,6 +183,69 @@ const InteractiveObjectModal = ({
 
         {/* Body */}
         <div className="p-4 flex flex-col gap-4 overflow-y-auto max-h-[70vh]">
+          {/* Active Operative Persona Indicator */}
+          <div className="p-2.5 bg-slate-900/90 border border-slate-800 rounded-xl flex items-center justify-between text-xs font-mono">
+            <span className="text-slate-400 flex items-center gap-1.5">
+              <span>👤</span> Active Operative:
+            </span>
+            <span className="font-bold text-cyan-300">
+              {activeOperativeName} {activeOperative?.species ? `(${activeOperative.species})` : ''}
+            </span>
+          </div>
+
+          {/* Decrypted ADE Story Clue / Intel */}
+          {objectNode.clueText && (
+            <div className="p-3 bg-cyan-950/40 border border-cyan-500/40 rounded-xl space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>📜</span> Decrypted ADE Story Clue / Intel:
+                </span>
+                <button
+                  type="button"
+                  onClick={handleBroadcastIntel}
+                  className="px-2 py-0.5 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-mono text-[9px] font-bold cursor-pointer transition-colors shadow-xs"
+                  title="Broadcast this intel to the ADE Story Weaver manuscript feed"
+                >
+                  Log to Story
+                </button>
+              </div>
+              <div className="text-xs text-slate-200 italic bg-slate-950/80 p-2.5 rounded-lg border border-cyan-950 leading-relaxed font-sans">
+                {objectNode.clueText}
+              </div>
+            </div>
+          )}
+
+          {/* Loot & Supply Cache Transfer */}
+          {Array.isArray(objectNode.lootPayload) && objectNode.lootPayload.length > 0 && (
+            <div className="p-3 bg-amber-950/30 border border-amber-500/40 rounded-xl space-y-2">
+              <span className="text-[11px] font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                <span>📦</span> Container Contents &amp; Loot ({objectNode.lootPayload.length}):
+              </span>
+              <div className="space-y-1.5">
+                {objectNode.lootPayload.map((item, idx) => (
+                  <div
+                    key={item.id || idx}
+                    className="p-2 bg-slate-950/80 border border-slate-800 rounded-lg flex items-center justify-between gap-2"
+                  >
+                    <div>
+                      <div className="text-xs font-bold text-slate-100">{item.name || 'Omnicortex Artifact'}</div>
+                      <div className="text-[10px] text-slate-400">
+                        {item.category || 'Gear'} • {item.damage ? `Dmg: ${item.damage}` : item.armor ? `DR: ${item.armor}` : 'Tech Artifact'}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleLootItem(item)}
+                      className="px-2.5 py-1 rounded bg-amber-600 hover:bg-amber-500 text-black font-bold text-[10px] uppercase cursor-pointer transition-colors shadow-sm"
+                    >
+                      Loot to Folio
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Description */}
           <div className="p-3 bg-slate-900/90 border border-slate-800 rounded-lg text-xs text-slate-300 leading-relaxed">
             {objType.description}

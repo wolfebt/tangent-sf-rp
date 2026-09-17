@@ -446,98 +446,63 @@ export default function ADETopToolbar({
         )}
       </div>
 
-      {/* ── ZONE 2: PRIMARY STUDIO WORKSPACE SWITCHER (Center) ── */}
-      <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-2xl p-0.5 shadow-inner gap-1 overflow-x-auto scrollbar-none">
-        {/* 1. Story Weaver Workspace */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            onSwitchView('scenarios');
-          }}
-          className={`px-3 py-1 rounded-xl text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-            activeView === 'scenarios'
-              ? 'bg-cyan-600 text-white shadow-[0_0_12px_rgba(6,182,212,0.5)]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-          title="Story Weaver: Outliner hierarchy, rich prose drafting, word telemetry, POV lock, and plot beats"
-        >
-          <BookOpen size={13} />
-          <span>Story Weaver</span>
-        </button>
-
-        {/* 2. Interactive Play Studio */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            onSwitchView('interactive');
-          }}
-          className={`px-3 py-1 rounded-xl text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-            activeView === 'interactive'
-              ? 'bg-purple-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.5)]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-          title="Interactive Play: Play through foundry scenarios with Folio personas, presets, and decision gates"
-        >
-          <span>⚡</span>
-          <span>Interactive Play</span>
-        </button>
-
-        {/* 3. OSR Tactical Spread */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            onSwitchView('control-panel');
-          }}
-          className={`px-3 py-1 rounded-xl text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-            activeView === 'control-panel'
-              ? 'bg-amber-600 text-white shadow-[0_0_12px_rgba(245,158,11,0.5)]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-          title="OSR 2-Page Tactical Control Panel Spread (Read-Aloud, DCs, Threats, Secrets)"
-        >
-          <Target size={13} className={activeView === 'control-panel' ? '' : 'text-amber-400'} />
-          <span className="hidden sm:inline">Tactical Spread</span>
-          <span className="sm:hidden">Tactical</span>
-        </button>
-
-        {/* 4. Element Forge Database */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            onSwitchView('elements');
-          }}
-          className={`px-3 py-1 rounded-xl text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-            activeView === 'elements'
-              ? 'bg-emerald-600 text-white shadow-[0_0_12px_rgba(16,185,129,0.5)]'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-          title="Element Forge: Worldbuilding Database (Personas, Factions, Items, Lore)"
-        >
-          <Box size={13} className={activeView === 'elements' ? '' : 'text-emerald-400'} />
-          <span>Element Forge</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-950/80 text-emerald-300 font-mono">
-            {elementsCatalog?.length || 0}
-          </span>
-        </button>
+      {/* ── ZONE 2: ACTIVE STUDIO CONTEXT BREADCRUMB (Replaces overcrowded slider) ── */}
+      <div className="flex items-center gap-2 px-3 py-1 bg-slate-900/80 border border-slate-800 rounded-xl font-mono text-xs shadow-inner">
+        <span className="text-[10px] uppercase tracking-widest text-purple-400/80 font-bold hidden sm:inline">ADE</span>
+        <span className="text-slate-700 hidden sm:inline">/</span>
+        <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-slate-200">
+          {activeView === 'scenarios' && (
+            <>
+              <BookOpen size={12} className="text-cyan-400" />
+              <span className="text-cyan-300">Story Weaver</span>
+            </>
+          )}
+          {activeView === 'interactive' && (
+            <>
+              <span className="text-purple-400">⚡</span>
+              <span className="text-purple-300">Interactive Play</span>
+            </>
+          )}
+          {activeView === 'control-panel' && (
+            <>
+              <Target size={12} className="text-amber-400" />
+              <span className="text-amber-300">Tactical Spread</span>
+            </>
+          )}
+          {activeView === 'elements' && (
+            <>
+              <Box size={12} className="text-emerald-400" />
+              <span className="text-emerald-300">Element Forge</span>
+            </>
+          )}
+        </div>
+        {activeNode && (
+          <>
+            <span className="text-slate-700 hidden md:inline">•</span>
+            <span className="text-slate-400 font-normal truncate max-w-[140px] lg:max-w-[220px] hidden md:inline text-[11px]">
+              {activeNode.title || 'Untitled Scenario'}
+            </span>
+          </>
+        )}
       </div>
 
       {/* ── ZONE 3: TACTICAL HUB & COCKPIT CONTROLS (Right) ── */}
       <div className="flex items-center gap-1.5 shrink-0">
-        {/* Deploy to VTT Button */}
-        <a
-          href={targetMapId ? `/foundry/map-maker?mapId=${targetMapId}` : '/foundry/map-maker'}
-          onClick={() => AudioService.playTerminalBeep(1400, 0.05)}
-          className="px-2.5 py-1 bg-gradient-to-r from-purple-900/80 via-cyan-950/80 to-slate-900 hover:from-purple-800 hover:to-cyan-800 border border-cyan-400/80 text-cyan-200 hover:text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 shadow-[0_0_10px_rgba(6,182,212,0.3)] cursor-pointer"
-          title="Launch linked tactical encounter map in Map Maker or The Stage VTT"
+        {/* Deploy to STAGE VTT */}
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1400, 0.05);
+            const mapId = targetMapId || universeState?.maps?.[0]?.id || '';
+            navigate(`/stage?mapId=${mapId}&scenarioId=${activeNode?.id || ''}`);
+          }}
+          className="px-2.5 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400 text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
+          title="Deploy active scenario and elements into The Stage VTT"
         >
-          <Play size={11} fill="currentColor" className="text-amber-400 shrink-0" />
-          <span className="hidden xl:inline">Deploy VTT</span>
-          <ExternalLink size={10} className="text-cyan-300 shrink-0" />
-        </a>
+          <span>⚔️</span>
+          <span className="hidden xl:inline">DEPLOY TO STAGE</span>
+          <span className="xl:hidden">STAGE</span>
+        </button>
 
         {/* Fast-Access Modals Cluster */}
         <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl p-0.5 gap-0.5 shadow-sm">

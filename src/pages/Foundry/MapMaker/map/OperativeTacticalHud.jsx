@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AudioService from '../../../../services/audioService';
 import { CANONICAL_PING_TYPES } from '../../../../services/mapPingService';
+import { useUILayoutStore } from '../../../../components/VTT/store/uiLayoutStore';
+import { Footprints, Swords, Crosshair, RefreshCw } from 'lucide-react';
 
 const OperativeTacticalHud = ({
   userControlledTokens = [],
@@ -12,8 +14,10 @@ const OperativeTacticalHud = ({
   onTriggerFloatingText,
   onBroadcastMessage
 }) => {
-  const [apBudget, setApBudget] = useState({ standard: 1, move: 1, reaction: 1 });
-  const [activeWeapon, setActiveWeapon] = useState('Pulse Rifle (2d8+3)');
+  const rulerSelectedPace = useUILayoutStore((state) => state.rulerSelectedPace);
+  const setRulerSelectedPace = useUILayoutStore((state) => state.setRulerSelectedPace);
+
+  const [activeAttackIndex, setActiveAttackIndex] = useState(0);
 
   const activeToken = userControlledTokens.find(t => t.id === activeTokenId) || userControlledTokens[0] || {
     label: 'Operative',
@@ -21,24 +25,25 @@ const OperativeTacticalHud = ({
     maxHp: 30,
     sp: 10,
     maxSp: 10,
-    speed: 6
+    speed: 30
   };
 
-  const handleSpendAp = (type) => {
-    if (apBudget[type] <= 0) return;
+  // Attacks / Combat Options
+  const attacks = activeToken.attacks && activeToken.attacks.length > 0
+    ? activeToken.attacks
+    : [
+        { id: 'att_1', name: 'Pulse Carbine', score: '+3', penalty: '+0 Strike', damage: '2d8+2 Kinetic' },
+        { id: 'att_2', name: 'Rapid Follow-Up', score: '+3', penalty: '-5 MAP', damage: '2d8+2 Kinetic' },
+        { id: 'att_3', name: 'Active Defense', score: '+4', penalty: 'Parry/Dodge', damage: 'Reaction' }
+      ];
+
+  const currentAttack = attacks[activeAttackIndex] || attacks[0];
+
+  const handleSelectPace = (pace, ft) => {
     AudioService.playTerminalBeep(980, 0.05);
-    setApBudget(prev => ({ ...prev, [type]: prev[type] - 1 }));
-
+    setRulerSelectedPace(pace);
     if (onTriggerFloatingText) {
-      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 100, `-1 AP (${type.toUpperCase()})`, 'karma');
-    }
-  };
-
-  const handleRefreshAp = () => {
-    AudioService.playTerminalBeep(1200, 0.1);
-    setApBudget({ standard: 1, move: 1, reaction: 1 });
-    if (onTriggerFloatingText) {
-      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 100, `+3 AP REFRESHED`, 'heal');
+      onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 100, `PACE: ${pace.toUpperCase()} (${ft} FT)`, 'karma');
     }
   };
 
@@ -105,77 +110,97 @@ const OperativeTacticalHud = ({
         </div>
       </div>
 
-      {/* Main HUD Row: Action Economy (Left), Target Lock (Center), Consumables (Right) */}
+      {/* Main HUD Row: Locomotion Pace (Left), Target & Attack (Center), Consumables (Right) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-center text-xs">
-        {/* Action Point (AP) Budget */}
+        {/* Locomotion Pace Selector (Replaces AP budget - RULE-SKL-01) */}
+        <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-col gap-1">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-bold text-cyan-400 flex items-center gap-1">
+              <Footprints size={12} />
+              <span>Pace (30ft Base):</span>
+            </span>
+            <span className="text-[9px] font-mono text-slate-400 font-bold uppercase">
+              {rulerSelectedPace}
+            </span>
+          </div>
+          <div className="grid grid-cols-4 gap-1 font-mono text-[9px]">
+            <button
+              type="button"
+              onClick={() => handleSelectPace('walk', 30)}
+              className={`py-1 rounded font-bold transition-all cursor-pointer text-center ${
+                rulerSelectedPace === 'walk'
+                  ? 'bg-emerald-500 text-black shadow-xs'
+                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+              }`}
+              title="Walk: 30 ft"
+            >
+              Walk
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSelectPace('jog', 60)}
+              className={`py-1 rounded font-bold transition-all cursor-pointer text-center ${
+                rulerSelectedPace === 'jog'
+                  ? 'bg-cyan-500 text-black shadow-xs'
+                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+              }`}
+              title="Jog: 60 ft"
+            >
+              Jog
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSelectPace('run', 90)}
+              className={`py-1 rounded font-bold transition-all cursor-pointer text-center ${
+                rulerSelectedPace === 'run'
+                  ? 'bg-amber-500 text-black shadow-xs'
+                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+              }`}
+              title="Run: 90 ft"
+            >
+              Run
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSelectPace('sprint', 120)}
+              className={`py-1 rounded font-bold transition-all cursor-pointer text-center ${
+                rulerSelectedPace === 'sprint'
+                  ? 'bg-rose-500 text-black shadow-xs'
+                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 border border-slate-800'
+              }`}
+              title="Sprint: 120 ft (-2 Defense)"
+            >
+              Sprint
+            </button>
+          </div>
+        </div>
+
+        {/* Tactical Target Lock & Skill Attack Trigger */}
         <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-2">
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-bold text-cyan-400">Action Economy (AP):</span>
-            <div className="flex items-center gap-1.5 mt-0.5 font-mono text-[10px]">
-              <button
-                type="button"
-                onClick={() => handleSpendAp('standard')}
-                className={`px-2 py-0.5 rounded font-bold transition-all cursor-pointer ${
-                  apBudget.standard > 0 ? 'bg-amber-500 text-black' : 'bg-slate-800 text-slate-600 line-through'
-                }`}
-                title="Spend Standard Action"
-              >
-                Act
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSpendAp('move')}
-                className={`px-2 py-0.5 rounded font-bold transition-all cursor-pointer ${
-                  apBudget.move > 0 ? 'bg-cyan-500 text-black' : 'bg-slate-800 text-slate-600 line-through'
-                }`}
-                title="Spend Move Action"
-              >
-                Move
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSpendAp('reaction')}
-                className={`px-2 py-0.5 rounded font-bold transition-all cursor-pointer ${
-                  apBudget.reaction > 0 ? 'bg-purple-500 text-black' : 'bg-slate-800 text-slate-600 line-through'
-                }`}
-                title="Spend Reaction Slot"
-              >
-                React
-              </button>
-            </div>
+          <div className="flex flex-col min-w-0">
+            <span className="text-[10px] uppercase font-bold text-rose-400 flex items-center gap-1">
+              <Crosshair size={11} />
+              <span>Target:</span>
+            </span>
+            <span className="font-bold text-xs truncate text-slate-200">
+              {targetToken ? (targetToken.label || targetToken.name || 'Target Unit') : 'No Target Selected'}
+            </span>
+            <span className="text-[9px] font-mono text-amber-300 truncate">
+              {currentAttack.name} ({currentAttack.penalty || '+0'})
+            </span>
           </div>
 
           <button
             type="button"
-            onClick={handleRefreshAp}
-            className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-mono cursor-pointer"
-            title="Refresh Turn AP"
+            onClick={() => {
+              AudioService.playCombatHit(false);
+              if (onTriggerAttack) onTriggerAttack(activeToken.id, targetToken?.id);
+            }}
+            className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-rose-600 hover:from-amber-500 hover:to-rose-500 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all shadow-[0_0_12px_rgba(244,63,94,0.4)] active:scale-95 cursor-pointer shrink-0 flex items-center gap-1"
           >
-            🔄 Reset
+            <Swords size={13} />
+            <span>Strike</span>
           </button>
-        </div>
-
-        {/* Tactical Target Lock */}
-        <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-2">
-          <div className="flex flex-col min-w-0">
-            <span className="text-[10px] uppercase font-bold text-rose-400">Target Lock:</span>
-            <span className="font-bold text-xs truncate text-slate-200">
-              {targetToken ? (targetToken.label || targetToken.name || 'Target Unit') : 'No Target Selected'}
-            </span>
-          </div>
-
-          {targetToken && (
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playCombatHit(false);
-                if (onTriggerAttack) onTriggerAttack(activeToken.id, targetToken.id);
-              }}
-              className="px-3 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs uppercase tracking-wider rounded transition-all shadow-[0_0_10px_rgba(244,63,94,0.4)] active:scale-95 cursor-pointer shrink-0"
-            >
-              ⚔️ Strike
-            </button>
-          )}
         </div>
 
         {/* Quick Operative Consumables */}

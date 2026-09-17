@@ -44,7 +44,9 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
     toggleRightCollapse,
     toggleZenMode,
     setLeftWidth,
-    setRightWidth
+    setRightWidth,
+    isLeftWideMode,
+    toggleLeftWideMode
   } = useUILayoutStore();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -64,7 +66,10 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
         return;
       }
 
-      if (e.key === '[' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      if (e.key === '{' || (e.key === '[' && e.shiftKey)) {
+        e.preventDefault();
+        toggleLeftWideMode();
+      } else if (e.key === '[' && !e.ctrlKey && !e.altKey && !e.metaKey) {
         e.preventDefault();
         toggleLeftCollapse();
       } else if (e.key === ']' && !e.ctrlKey && !e.altKey && !e.metaKey) {
@@ -78,7 +83,7 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [toggleLeftCollapse, toggleRightCollapse, toggleZenMode]);
+  }, [toggleLeftCollapse, toggleRightCollapse, toggleZenMode, toggleLeftWideMode]);
 
   // Drag Resizing Logic for Left Rail
   const handleLeftResizeStart = useCallback((e: React.MouseEvent) => {
@@ -136,21 +141,21 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
       {/* Main Tripartite Body */}
       <div className="relative w-full flex-1 flex overflow-hidden">
         {/* ========================================================================= */}
-        {/* LEFT COLUMN: MODULE CATALOG & TAXONOMIES                                  */}
+        {/* LEFT COLUMN: MODULE CATALOG & TAXONOMIES / TACTICAL COCKPIT              */}
         {/* ========================================================================= */}
         {leftPanel && (
           <aside
             style={{ 
-              width: isLeftCollapsed ? '0px' : `${leftWidth}px`,
-              minWidth: isLeftCollapsed ? '0px' : '240px',
-              maxWidth: isLeftCollapsed ? '0px' : '520px'
+              width: isLeftCollapsed ? '0px' : isLeftWideMode ? '70vw' : `${leftWidth}px`,
+              minWidth: isLeftCollapsed ? '0px' : isLeftWideMode ? '640px' : '240px',
+              maxWidth: isLeftCollapsed ? '0px' : isLeftWideMode ? '85vw' : '1100px'
             }}
             className={`relative shrink-0 h-full border-r border-slate-800/80 bg-[#0e131b]/95 backdrop-blur-md flex flex-col z-10 transition-[width] duration-200 ease-out overflow-hidden ${
               isLeftCollapsed ? 'border-r-0' : ''
-            }`}
+            } ${isLeftWideMode ? 'shadow-[10px_0_30px_rgba(0,0,0,0.8)]' : ''}`}
           >
             <div 
-              style={{ width: `${leftWidth}px` }} 
+              style={{ width: isLeftWideMode ? '100%' : `${leftWidth}px` }} 
               className={`h-full flex flex-col transition-opacity duration-150 ${
                 isLeftCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'
               }`}
@@ -161,34 +166,40 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
         )}
 
         {/* Left Resize Handle & Collapse Chevron Tab */}
-        {leftPanel && !isLeftCollapsed && (
+        {leftPanel && !isLeftCollapsed && !isLeftWideMode && (
           <div
             onMouseDown={handleLeftResizeStart}
-            className={`group absolute top-0 bottom-0 z-20 w-1.5 cursor-col-resize hover:bg-cyan-500/50 transition-colors flex items-center justify-center ${
-              isDraggingLeft ? 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]' : 'bg-transparent'
+            className={`group absolute top-0 bottom-0 z-20 w-2 cursor-col-resize hover:bg-cyan-500/50 transition-colors flex items-center justify-center ${
+              isDraggingLeft ? 'bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]' : 'bg-transparent'
             }`}
-            style={{ left: `${leftWidth - 3}px` }}
-            title="Drag to resize Left Catalog. Hotkey: ["
+            style={{ left: `${leftWidth - 4}px` }}
+            title="Drag to resize Left Cockpit. Hotkey: ["
           >
             {/* Hover Indicator Line */}
-            <div className="w-0.5 h-8 rounded-full bg-slate-600 group-hover:bg-cyan-400 group-hover:h-16 transition-all" />
+            <div className="w-1 h-12 rounded-full bg-slate-600 group-hover:bg-cyan-400 group-hover:h-24 transition-all shadow-sm" />
           </div>
         )}
 
-        {/* Floating Left Panel Toggle Handle (When Collapsed or Hovered) */}
+        {/* Prominent Floating Left Panel Toggle Handle (Tactile Glowing Tab Pill) */}
         {leftPanel && (
           <button
             type="button"
             onClick={toggleLeftCollapse}
-            style={{ left: isLeftCollapsed ? '4px' : `${leftWidth - 14}px` }}
-            className={`absolute top-3 z-30 w-7 h-7 rounded-full bg-[#131b26]/90 border border-slate-700/80 hover:border-cyan-400 hover:text-cyan-300 text-slate-400 flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer ${
+            style={{ 
+              left: isLeftCollapsed ? '0px' : isLeftWideMode ? 'calc(70vw - 14px)' : `${leftWidth - 14}px` 
+            }}
+            className={`absolute top-12 z-30 flex items-center justify-center transition-all duration-200 cursor-pointer ${
               isLeftCollapsed 
-                ? 'opacity-80 hover:opacity-100 hover:scale-110 shadow-[0_0_10px_rgba(34,211,238,0.3)]' 
-                : 'opacity-0 hover:opacity-100 focus:opacity-100'
+                ? 'w-8 h-16 rounded-r-2xl bg-cyan-950/95 border-y-2 border-r-2 border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.7)] hover:w-10 hover:bg-cyan-900 hover:text-white' 
+                : 'w-7 h-14 rounded-full bg-[#090e15]/95 border-2 border-cyan-500/80 text-cyan-300 shadow-[0_0_15px_rgba(0,0,0,0.9)] hover:scale-110 hover:border-cyan-300 hover:text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.5)]'
             }`}
-            title={isLeftCollapsed ? "Expand Left Module Catalog ([)" : "Collapse Left Module Catalog ([)"}
+            title={isLeftCollapsed ? "Expand Left Cockpit Rail (Hotkey: [)" : "Collapse Left Cockpit Rail (Hotkey: [)"}
           >
-            {isLeftCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+            {isLeftCollapsed ? (
+              <ChevronRight size={20} className="text-cyan-300 animate-pulse drop-shadow-[0_0_6px_rgba(34,211,238,0.9)]" />
+            ) : (
+              <ChevronLeft size={16} />
+            )}
           </button>
         )}
 
@@ -221,31 +232,35 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
         {rightPanel && !isRightCollapsed && (
           <div
             onMouseDown={handleRightResizeStart}
-            className={`group absolute top-0 bottom-0 z-20 w-1.5 cursor-col-resize hover:bg-amber-500/50 transition-colors flex items-center justify-center ${
-              isDraggingRight ? 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]' : 'bg-transparent'
+            className={`group absolute top-0 bottom-0 z-20 w-2 cursor-col-resize hover:bg-amber-500/50 transition-colors flex items-center justify-center ${
+              isDraggingRight ? 'bg-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.8)]' : 'bg-transparent'
             }`}
-            style={{ right: `${rightWidth - 3}px` }}
+            style={{ right: `${rightWidth - 4}px` }}
             title="Drag to resize Right Cockpit. Hotkey: ]"
           >
             {/* Hover Indicator Line */}
-            <div className="w-0.5 h-8 rounded-full bg-slate-600 group-hover:bg-amber-400 group-hover:h-16 transition-all" />
+            <div className="w-1 h-12 rounded-full bg-slate-600 group-hover:bg-amber-400 group-hover:h-24 transition-all shadow-sm" />
           </div>
         )}
 
-        {/* Floating Right Panel Toggle Handle (When Collapsed or Hovered) */}
+        {/* Prominent Floating Right Panel Toggle Handle (Tactile Glowing Tab Pill) */}
         {rightPanel && (
           <button
             type="button"
             onClick={toggleRightCollapse}
-            style={{ right: isRightCollapsed ? '4px' : `${rightWidth - 14}px` }}
-            className={`absolute top-3 z-30 w-7 h-7 rounded-full bg-[#131b26]/90 border border-slate-700/80 hover:border-amber-400 hover:text-amber-300 text-slate-400 flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer ${
+            style={{ right: isRightCollapsed ? '0px' : `${rightWidth - 14}px` }}
+            className={`absolute top-12 z-30 flex items-center justify-center transition-all duration-200 cursor-pointer ${
               isRightCollapsed 
-                ? 'opacity-80 hover:opacity-100 hover:scale-110 shadow-[0_0_10px_rgba(245,158,11,0.3)]' 
-                : 'opacity-0 hover:opacity-100 focus:opacity-100'
+                ? 'w-8 h-16 rounded-l-2xl bg-amber-950/95 border-y-2 border-l-2 border-amber-400 text-amber-300 shadow-[0_0_20px_rgba(245,158,11,0.7)] hover:w-10 hover:bg-amber-900 hover:text-white' 
+                : 'w-7 h-14 rounded-full bg-[#100e0a]/95 border-2 border-amber-500/80 text-amber-300 shadow-[0_0_15px_rgba(0,0,0,0.9)] hover:scale-110 hover:border-amber-300 hover:text-white hover:shadow-[0_0_15px_rgba(245,158,11,0.5)]'
             }`}
-            title={isRightCollapsed ? "Expand Right Cockpit (])" : "Collapse Right Cockpit (])"}
+            title={isRightCollapsed ? "Expand Right Architect Cockpit (Hotkey: ])" : "Collapse Right Architect Cockpit (Hotkey: ])"}
           >
-            {isRightCollapsed ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
+            {isRightCollapsed ? (
+              <ChevronLeft size={20} className="text-amber-300 animate-pulse drop-shadow-[0_0_6px_rgba(245,158,11,0.9)]" />
+            ) : (
+              <ChevronRight size={16} />
+            )}
           </button>
         )}
 

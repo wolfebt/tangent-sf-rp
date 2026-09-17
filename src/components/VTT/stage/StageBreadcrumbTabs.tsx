@@ -151,18 +151,32 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
       id: newId,
       name: `Sector ${availableMaps.length + 1}`,
       title: `Sector ${availableMaps.length + 1}`,
-      gridType: 'square',
+      gridType: 'hex',
+      gridMode: 'hex',
       gridSize: 70,
+      scale: 'Encounter',
+      scaleTier: 'Encounter',
       tokens: [],
       walls: [],
       objects: [],
       terrains: [],
-      lights: []
+      lines: [],
+      texts: [],
+      lights: [],
+      fog: []
     };
     addMap(newMap);
     onSelectMap(newId);
     if (setActiveMapId) setActiveMapId(newId);
+    setGridType(GridType.HexFlatTop);
   };
+
+  // Auto-initialize a blank tactical stage with hex grid if no scenes exist
+  useEffect(() => {
+    if (availableMaps.length === 0 && addMap) {
+      handleCreateNewScene();
+    }
+  }, [availableMaps.length]);
 
   return (
     <div className="w-full h-10 px-2.5 flex items-center justify-between gap-2 bg-[#080c13] border-b border-slate-800/90 select-none font-sans shrink-0">
@@ -210,6 +224,8 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                     onClick={() => {
                       onSelectMap(map.id);
                       if (setActiveMapId) setActiveMapId(map.id);
+                      const isSquare = map.gridType === 'square' || map.gridMode === 'square';
+                      setGridType(isSquare ? GridType.Square : GridType.HexFlatTop);
                     }}
                     onDoubleClick={(e) => handleStartRename(map, e)}
                     className={`group relative h-7 px-2 rounded border text-xs font-mono font-semibold transition-all duration-150 flex items-center gap-1.5 cursor-pointer shrink-0 max-w-[200px] ${
@@ -378,6 +394,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);
                       setGridType(GridType.Square);
+                      if (currentMapId && updateMap) {
+                        updateMap(currentMapId, { gridType: 'square', gridMode: 'square' });
+                      }
                     }}
                     className={`py-1 rounded border text-center transition-colors cursor-pointer text-[10px] ${
                       gridType === GridType.Square
@@ -392,6 +411,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);
                       setGridType(GridType.HexFlatTop);
+                      if (currentMapId && updateMap) {
+                        updateMap(currentMapId, { gridType: 'hex', gridMode: 'hex' });
+                      }
                     }}
                     className={`py-1 rounded border text-center transition-colors cursor-pointer text-[10px] ${
                       gridType === GridType.HexFlatTop

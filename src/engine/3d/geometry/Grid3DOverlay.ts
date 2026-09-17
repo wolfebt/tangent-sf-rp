@@ -30,7 +30,7 @@ export class Grid3DOverlay {
     this.group.name = 'Grid3DOverlay';
     this.cellSize = options.cellSize || 70;
     this.gridExtent = options.gridExtent || 4200;
-    this.gridType = options.gridType || GridType.Square;
+    this.gridType = options.gridType || GridType.HexFlatTop;
     this.gridColor = typeof options.gridColor === 'string' 
       ? parseInt(options.gridColor.replace('#', '0x'), 16) 
       : (options.gridColor || 0x1e293b);

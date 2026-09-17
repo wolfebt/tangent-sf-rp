@@ -109,7 +109,7 @@ export class CoordinateEngine {
   private scaleConfig: GridScaleConfig;
 
   constructor(
-    type: GridType = GridType.Square, 
+    type: GridType = GridType.HexFlatTop, 
     pixelsPerCell: number = 70, 
     tier: GridScaleTier = GridScaleTier.Encounter
   ) {

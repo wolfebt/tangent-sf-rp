@@ -235,7 +235,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           {is3DActive ? (
             <Stage3DViewport onSwitchTo2D={() => setIs3DActive(false)} />
           ) : (
-            <StageView {...stageProps} />
+            <StageView {...stageProps} isEmbeddedInTripartite={stageProps.isEmbeddedInTripartite ?? true} />
           )}
 
           {/* Drop Target HUD Banner */}

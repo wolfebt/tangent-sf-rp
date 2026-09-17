@@ -48,14 +48,26 @@ export const WaypointRulerOverlay = ({
     }
   }
 
-  // Calculate Action Point (AP) cost: standard move is 2 meters per 1 AP
-  const apCost = Math.max(1, Math.ceil(totalDistanceMeters / 2));
-  
-  let pathColor = '#22c55e'; // Green - within AP
-  if (apCost > availableAp && apCost <= availableAp * 2) {
-    pathColor = '#f59e0b'; // Amber - Sprint / Overdrive
-  } else if (apCost > availableAp * 2) {
-    pathColor = '#ef4444'; // Red - Exceeds max move
+  // Locomotion Pace Evaluation (RULE-SKL-01 - NO Action Points)
+  // Standard base speed = 30ft (~10m). Walk: 10m, Jog: 20m, Run: 30m, Sprint: 40m
+  let paceTier = 'WALK (30ft)';
+  let pathColor = '#22c55e'; // Green - Walk (30ft)
+
+  if (totalDistanceMeters <= 10) {
+    paceTier = 'WALK (30ft)';
+    pathColor = '#22c55e'; // Green
+  } else if (totalDistanceMeters <= 20) {
+    paceTier = 'JOG (60ft)';
+    pathColor = '#06b6d4'; // Cyan
+  } else if (totalDistanceMeters <= 30) {
+    paceTier = 'RUN (90ft)';
+    pathColor = '#f59e0b'; // Amber
+  } else if (totalDistanceMeters <= 40) {
+    paceTier = 'SPRINT (120ft)';
+    pathColor = '#f43f5e'; // Rose
+  } else {
+    paceTier = 'EXCEEDS SPRINT';
+    pathColor = '#ef4444'; // Red
   }
 
   const lastPt = points[points.length - 1];
@@ -92,7 +104,7 @@ export const WaypointRulerOverlay = ({
         <Rect
           x={0}
           y={0}
-          width={130 / zoomScale}
+          width={140 / zoomScale}
           height={42 / zoomScale}
           fill="rgba(15, 23, 42, 0.92)"
           stroke={pathColor}
@@ -104,7 +116,7 @@ export const WaypointRulerOverlay = ({
         <KonvaText
           x={6 / zoomScale}
           y={6 / zoomScale}
-          text={`📏 ${Math.round(totalDistanceMeters * 10) / 10}m (${Math.round(totalDistanceMeters / 2)} Hex)`}
+          text={`📏 ${Math.round(totalDistanceMeters * 3.28)} ft (${Math.round(totalDistanceMeters * 10) / 10}m)`}
           fontSize={11 / zoomScale}
           fontStyle="bold"
           fill="#f8fafc"
@@ -112,7 +124,7 @@ export const WaypointRulerOverlay = ({
         <KonvaText
           x={6 / zoomScale}
           y={22 / zoomScale}
-          text={`⚡ AP Cost: ${apCost} / ${availableAp} AP`}
+          text={`🏃 Pace: ${paceTier}`}
           fontSize={10 / zoomScale}
           fontStyle="bold"
           fill={pathColor}

@@ -9,7 +9,7 @@ const VttOptionsModal = ({
   onToggleGridSnap,
   gridSize = 40,
   onChangeGridSize,
-  gridMode = 'square',
+  gridMode = 'hex',
   onChangeGridMode,
   measurementUnit = 'meters',
   onChangeMeasurementUnit,

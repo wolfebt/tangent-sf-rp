@@ -26,6 +26,7 @@ const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
 const VttOptionsPage = lazy(() => import('./pages/Foundry/MapMaker/VttOptionsPage'));
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
 const CommsPage = lazy(() => import('./pages/CommsPage'));
+const TeamsPage = lazy(() => import('./pages/TeamsPage'));
 const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
 
 const PageLoader = () => (
@@ -108,6 +109,9 @@ export function App() {
                                 <Route path="/dashboard" element={<Dashboard />} />
                                 <Route path="/comms" element={<CommsPage />} />
                                 <Route path="/chat" element={<CommsPage />} />
+                                <Route path="/teams" element={<TeamsPage />} />
+                                <Route path="/groups" element={<TeamsPage />} />
+                                <Route path="/squads" element={<TeamsPage />} />
                                 <Route path="/codex" element={<CodexApp />} />
                                 <Route path="/codex/*" element={<CodexApp />} />
                                 <Route path="/compendium" element={<Compendium />} />

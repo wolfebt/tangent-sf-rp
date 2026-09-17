@@ -73,6 +73,7 @@ export const GlobalSideRail = () => {
   // Determine active item from current route
   const getActiveId = () => {
     const path = location.pathname;
+    if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'teams';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'folio';
     if (path.startsWith('/compendium')) return 'rules';
     if (path.startsWith('/dbm')) return 'cortex';
@@ -171,7 +172,7 @@ export const GlobalSideRail = () => {
       badgeColor: inviteCount > 0 ? 'bg-amber-500 text-black animate-pulse' : undefined,
       onClick: () => {
         AudioService.playTerminalBeep(1200, 0.02);
-        window.dispatchEvent(new CustomEvent('open-team-management'));
+        navigate('/teams');
       }
     },
     {

@@ -21,6 +21,7 @@ import EditElementModal from '../ElementForge/EditElementModal';
 import GuidanceGemsModal from './GuidanceGemsModal';
 import ScratchbookModal from './ScratchbookModal';
 import ADETopToolbar from './ADETopToolbar';
+import ADENavRail from './ADENavRail';
 import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -193,32 +194,58 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
       />
 
       {/* ── MAIN WORKSPACE VIEWPORT ── */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 flex flex-row overflow-hidden relative">
+        {/* Dedicated ADE Studio Navigation Rail */}
+        <ADENavRail
+          activeView={activeView}
+          onSwitchView={handleSwitchView}
+          elementsCount={elementsCatalog?.length || 0}
+          gemsCount={universeState?.creativeState?.gems?.length || 0}
+          pendingCronicleCount={cronicle?.history?.length || 0}
+          onOpenGems={() => setIsGemsOpen(true)}
+          onOpenCronicle={() => {
+            setCronicleInitialMode('living_memory');
+            setIsCronicleOpen(true);
+          }}
+          onOpenScratchbook={() => {
+            setCronicleInitialMode('scratchbook');
+            setIsCronicleOpen(true);
+          }}
+          onOpenPrintModal={() => setIsPrintModalOpen(true)}
+          onOpenGuide={() => setIsGuideOpen(true)}
+          isTreeExpanded={isTreeExpanded}
+          onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
+        />
+
         {/* VIEW 1: STORY WEAVER & SCENARIOS WORKSPACE */}
         {activeView === 'scenarios' && (
-          <ScenarioPane
-            onOpenCatalog={() => setIsCatalogOpen(true)}
-            onSwitchView={handleSwitchView}
-            onSwitchTab={(tab) => {
-              if (tab === 'map') navigate('/map-maker');
-            }}
-            scenarioWorkspaceTab={scenarioWorkspaceTab}
-            onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
-            isTreeExpanded={isTreeExpanded}
-            onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
-            isRightDockOpen={isRightDockOpen}
-            onToggleRightDock={() => setIsRightDockOpen(prev => !prev)}
-            activeCockpitDeck={activeCockpitDeck}
-            onSelectCockpitDeck={setActiveCockpitDeck}
-            onOpenGems={() => setIsGemsOpen(true)}
-            onOpenScratchbook={() => setIsScratchbookOpen(true)}
-            onOpenPrintModal={() => setIsPrintModalOpen(true)}
-          />
+          <div className="flex-1 min-w-0 h-full overflow-hidden">
+            <ScenarioPane
+              onOpenCatalog={() => setIsCatalogOpen(true)}
+              onSwitchView={handleSwitchView}
+              onSwitchTab={(tab) => {
+                if (tab === 'map' || tab === 'stage') {
+                  setScenarioWorkspaceTab('weaver');
+                }
+              }}
+              scenarioWorkspaceTab={scenarioWorkspaceTab}
+              onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+              isTreeExpanded={isTreeExpanded}
+              onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
+              isRightDockOpen={isRightDockOpen}
+              onToggleRightDock={() => setIsRightDockOpen(prev => !prev)}
+              activeCockpitDeck={activeCockpitDeck}
+              onSelectCockpitDeck={setActiveCockpitDeck}
+              onOpenGems={() => setIsGemsOpen(true)}
+              onOpenScratchbook={() => setIsScratchbookOpen(true)}
+              onOpenPrintModal={() => setIsPrintModalOpen(true)}
+            />
+          </div>
         )}
 
         {/* VIEW 2: DEDICATED INTERACTIVE STORY MODULE */}
         {activeView === 'interactive' && (
-          <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#080c14] font-mono">
+          <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-[#080c14] font-mono">
             <InteractiveStoryStudio
               activeNode={activeNode}
               onSelectScenario={(id) => {
@@ -230,7 +257,7 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
 
         {/* VIEW 3: DEDICATED TACTICAL SPREAD (OSR 2-PAGE SPREAD) */}
         {activeView === 'control-panel' && (
-          <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0f18] font-mono">
+          <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-[#0a0f18] font-mono">
             <div className="p-2 px-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between shrink-0">
               <span className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
                 <span>🎛️</span> OSR 2-Page Tactical Control Panel Spread • {activeNode?.title || 'Tactical Sector'}
@@ -254,9 +281,11 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
 
         {/* VIEW 4: ELEMENT FORGE WORLDBUILDING DATABASE */}
         {activeView === 'elements' && (
-          <ElementForge
-            onBackToStory={() => handleSwitchView('scenarios')}
-          />
+          <div className="flex-1 min-w-0 h-full overflow-hidden">
+            <ElementForge
+              onBackToStory={() => handleSwitchView('scenarios')}
+            />
+          </div>
         )}
       </div>
 

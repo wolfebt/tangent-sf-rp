@@ -218,7 +218,7 @@ const MapPane = ({ mapExportPngRef }) => {
   const [selectedObjectType, setSelectedObjectType] = useState(MASTER_OBJECTS['Planetary'][0]);
   const [selectedWallType, setSelectedWallType] = useState('solid');
   const [doorLockDc, setDoorLockDc] = useState(14);
-  const [rulerAvailableAp, setRulerAvailableAp] = useState(4);
+  const [rulerSelectedPace, setRulerSelectedPace] = useState('walk');
   const [activeSensorMode, setActiveSensorMode] = useState('standard_optical');
   const [pencilColor, setPencilColor] = useState(PENCIL_COLORS[0]);
   const [pencilWidth, setPencilWidth] = useState(PENCIL_WIDTHS[1]);
@@ -1041,7 +1041,7 @@ const MapPane = ({ mapExportPngRef }) => {
       }
 
       if (e.key === 'g' || e.key === 'G') {
-        const nextGrid = !currentMap?.gridMode || currentMap.gridMode === 'off' ? 'square' : (currentMap.gridMode === 'square' ? 'hex' : 'off');
+        const nextGrid = !currentMap?.gridMode || currentMap.gridMode === 'off' ? 'hex' : (currentMap.gridMode === 'hex' ? 'square' : 'off');
         if (activeMapId) updateMap(activeMapId, { gridMode: nextGrid });
       } else if (e.key === 'f' || e.key === 'F') {
         setActiveTool(prev => prev === 'fog' ? 'select' : 'fog');
@@ -2266,7 +2266,7 @@ const MapPane = ({ mapExportPngRef }) => {
                   gridSize={gridSize}
                   gridMode={gridMode}
                   measurementUnit={measurementUnit}
-                  availableAp={rulerAvailableAp}
+                  selectedPace={rulerSelectedPace}
                   zoomScale={scale}
                 />
 
@@ -2335,8 +2335,8 @@ const MapPane = ({ mapExportPngRef }) => {
             setSelectedWallType={setSelectedWallType}
             doorLockDc={doorLockDc}
             setDoorLockDc={setDoorLockDc}
-            rulerAvailableAp={rulerAvailableAp}
-            setRulerAvailableAp={setRulerAvailableAp}
+            rulerSelectedPace={rulerSelectedPace}
+            setRulerSelectedPace={setRulerSelectedPace}
             activeSensorMode={activeSensorMode}
             setActiveSensorMode={setActiveSensorMode}
             pencilColor={pencilColor}

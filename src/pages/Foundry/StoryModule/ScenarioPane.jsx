@@ -51,7 +51,9 @@ import {
   FileText,
   Upload,
   Link,
-  ChevronDown
+  ChevronDown,
+  Swords,
+  PanelRightClose
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 
@@ -803,6 +805,7 @@ export default function ScenarioPane({
     createNewStory,
     deleteStoryProject,
     elementsCatalog,
+    mapsCatalog,
     updateSavedElement,
     deleteSavedElement
   } = useStory();
@@ -843,6 +846,13 @@ export default function ScenarioPane({
   const mapFileInputRef = useRef(null);
   const debounceTimerRef = useRef(null);
 
+  // Unified Map Catalog access (global mapsCatalog + project maps)
+  const allAvailableMaps = useMemo(() => {
+    const catalog = mapsCatalog || [];
+    const projectMaps = (universeState?.maps || []).filter(m => !catalog.some(cm => cm.id === m.id));
+    return [...catalog, ...projectMaps];
+  }, [mapsCatalog, universeState?.maps]);
+
   // Locate active node
   let activeNode = null;
   const findNode = (nodes) => {
@@ -863,7 +873,7 @@ export default function ScenarioPane({
   }, [activeScenarioId, universeState?.scenarios, setActiveScenarioId]);
 
   const locationPath = activeNode ? getBreadcrumbPath(universeState.scenarios, activeNode.id) : null;
-  const linkedMap = activeNode?.mapId ? universeState?.maps?.find(m => m.id === activeNode.mapId) : null;
+  const linkedMap = activeNode?.mapId ? (allAvailableMaps.find(m => m.id === activeNode.mapId) || null) : null;
 
   useEffect(() => {
     if (activeNode && activeNode.content !== localContent) {
@@ -970,7 +980,8 @@ export default function ScenarioPane({
         const newMap = {
           id: uuidv4(),
           title: `${activeNode.title || 'Map'} (Image)`,
-          gridMode: 'square',
+          gridMode: 'hex',
+          gridType: 'hex',
           lines: [],
           tokens: [],
           terrains: [],
@@ -1003,7 +1014,8 @@ export default function ScenarioPane({
     const newMap = {
       id: uuidv4(),
       title: `${activeNode.title || 'Untitled'} Encounter Map`,
-      gridMode: 'square',
+      gridMode: 'hex',
+      gridType: 'hex',
       lines: [],
       tokens: [],
       terrains: [],
@@ -1469,6 +1481,19 @@ export default function ScenarioPane({
                 >
                   <Trash2 size={13} />
                 </button>
+
+                {/* Re-open Right Cockpit Dock Button (when dock is closed) */}
+                {!isRightDockOpen && onToggleRightDock && (
+                  <button
+                    type="button"
+                    onClick={onToggleRightDock}
+                    title="Expand Cockpit Dock (])"
+                    className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-cyan-300 rounded-lg text-xs transition-colors flex items-center gap-1 cursor-pointer ml-1"
+                  >
+                    <PanelRightClose size={13} className="rotate-180" />
+                    <span className="hidden md:inline text-[10px] font-bold">Cockpit</span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -1509,78 +1534,48 @@ export default function ScenarioPane({
 
       {/* ── ZONE 3: MASTER COCKPIT DOCK (Right Column) ── */}
       {isRightDockOpen && (
-        <aside className="w-80 xl:w-96 flex-shrink-0 bg-slate-900/98 border-l border-slate-800 flex flex-col h-full z-20 backdrop-blur-xl shadow-2xl transition-all">
-          {/* Cockpit Dock Tab Selector Header */}
-          <div className="p-2 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-1 shrink-0">
-            <div className="flex items-center gap-1 overflow-x-auto scrollbar-none font-mono text-xs">
-              <button
-                type="button"
-                onClick={() => setDockTab('inspector')}
-                className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                  dockTab === 'inspector'
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 border border-transparent'
-                }`}
-                title="Element Fields & Image Inspector"
-              >
-                <span>📋</span>
-                <span>Inspector</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setDockTab('tactical')}
-                className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                  dockTab === 'tactical'
-                    ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 border border-transparent'
-                }`}
-                title="Tactical Map & Encounter Integration"
-              >
-                <span>⚔️</span>
-                <span>Tactical</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setDockTab('elements')}
-                className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                  dockTab === 'elements'
-                    ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 border border-transparent'
-                }`}
-                title="In-Situ Worldbuilding Elements"
-              >
-                <span>🧩</span>
-                <span>World</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setDockTab('aime')}
-                className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                  dockTab === 'aime'
-                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/60 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 border border-transparent'
-                }`}
-                title="AI Story Assistant & Overseer"
-              >
-                <span>✨</span>
-                <span>AI Assistant</span>
-              </button>
+        <aside className="w-80 xl:w-96 flex-shrink-0 bg-slate-900/98 border-l border-slate-800 flex flex-row h-full z-20 backdrop-blur-xl shadow-2xl transition-all">
+          {/* Main Content Column of Right Dock */}
+          <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-slate-900/90">
+            {/* Dock Content Header */}
+            <div className="p-2 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-1 shrink-0 font-mono">
+              <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider">
+                {dockTab === 'inspector' && (
+                  <span className="text-cyan-300 flex items-center gap-1">
+                    <FileText size={13} className="text-cyan-400" />
+                    <span>Inspector &amp; Fields</span>
+                  </span>
+                )}
+                {dockTab === 'tactical' && (
+                  <span className="text-amber-300 flex items-center gap-1">
+                    <Swords size={13} className="text-amber-400" />
+                    <span>Tactical Encounter</span>
+                  </span>
+                )}
+                {dockTab === 'elements' && (
+                  <span className="text-purple-300 flex items-center gap-1">
+                    <Box size={13} className="text-purple-400" />
+                    <span>World Elements</span>
+                  </span>
+                )}
+                {dockTab === 'aime' && (
+                  <span className="text-amber-300 flex items-center gap-1">
+                    <Sparkles size={13} className="text-amber-400" />
+                    <span>AIME Co-Pilot</span>
+                  </span>
+                )}
+              </div>
+              {onToggleRightDock && (
+                <button
+                  type="button"
+                  onClick={onToggleRightDock}
+                  className="p-1 text-slate-500 hover:text-slate-300 hover:bg-slate-850 rounded transition-colors cursor-pointer"
+                  title="Close Cockpit Dock (])"
+                >
+                  <X size={13} />
+                </button>
+              )}
             </div>
-
-            {onToggleRightDock && (
-              <button
-                type="button"
-                onClick={onToggleRightDock}
-                className="p-1 text-slate-500 hover:text-slate-300 hover:bg-slate-800 rounded transition-colors cursor-pointer"
-                title="Close Cockpit Dock (])"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
 
           {/* DOCK TAB 1: INSPECTOR & FIELDS */}
           {dockTab === 'inspector' && (
@@ -1671,23 +1666,16 @@ export default function ScenarioPane({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="pt-1">
                       <button
                         onClick={() => {
                           setActiveMapId(linkedMap.id);
-                          if (onSwitchTab) onSwitchTab('map');
-                          else navigate(`/foundry/map-maker?mapId=${linkedMap.id}`);
+                          setScenarioWorkspaceTab('weaver');
                         }}
-                        className="p-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-200 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer"
+                        className="w-full p-2.5 bg-gradient-to-r from-cyan-950 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/60 text-cyan-200 text-xs font-bold rounded-xl uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                        title="Open tactical map and events in Story Weaver"
                       >
-                        <span>🚀</span> Map Maker
-                      </button>
-
-                      <button
-                        onClick={() => navigate('/stage')}
-                        className="p-2 bg-gradient-to-r from-purple-950 to-indigo-950 hover:from-purple-900 hover:to-indigo-900 border border-purple-500/60 text-purple-200 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer"
-                      >
-                        <span>⚡</span> Stage VTT
+                        <span>🌟</span> Open in Story Weaver
                       </button>
                     </div>
 
@@ -1704,21 +1692,21 @@ export default function ScenarioPane({
                       No tactical map linked to this scenario.
                     </div>
 
-                    {/* Select existing map */}
-                    {universeState?.maps && universeState.maps.length > 0 && (
+                    {/* Select existing map from unified catalog */}
+                    {allAvailableMaps && allAvailableMaps.length > 0 && (
                       <div>
                         <label className="text-[10px] font-bold uppercase text-slate-400 mb-1 block">
-                          Link Existing Map:
+                          Link Map from Catalog:
                         </label>
                         <select
                           value={activeNode?.mapId || ''}
                           onChange={(e) => updateStory(activeNode.id, { mapId: e.target.value || null })}
                           className="w-full bg-slate-900 border border-slate-700 text-slate-200 text-xs p-2 rounded-xl outline-none focus:border-cyan-400 cursor-pointer"
                         >
-                          <option value="">-- Select Project Map --</option>
-                          {universeState.maps.map(m => (
+                          <option value="">-- Select Map from Catalog ({allAvailableMaps.length}) --</option>
+                          {allAvailableMaps.map(m => (
                             <option key={m.id} value={m.id}>
-                              🗺️ {m.title}
+                              🗺️ {m.title || 'Untitled Map'}
                             </option>
                           ))}
                         </select>
@@ -1933,6 +1921,114 @@ export default function ScenarioPane({
               />
             </div>
           )}
+          </div>
+
+          {/* Dedicated Right-Side Cockpit Navigation Rail */}
+          <div className="w-14 shrink-0 bg-slate-950 border-l border-slate-800 flex flex-col items-center py-2 gap-2 select-none z-10">
+            {/* Top Close / Collapse Indicator */}
+            {onToggleRightDock && (
+              <button
+                type="button"
+                onClick={onToggleRightDock}
+                className="w-10 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-slate-800/80 transition-colors cursor-pointer mb-1"
+                title="Collapse Cockpit Dock (])"
+              >
+                <PanelRightClose size={14} />
+              </button>
+            )}
+
+            {/* TAB 1: Inspector */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setDockTab('inspector');
+              }}
+              className={`w-11 py-2 px-1 rounded-xl flex flex-col items-center justify-center gap-1 transition-all group relative cursor-pointer ${
+                dockTab === 'inspector'
+                  ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/80 shadow-[0_0_12px_rgba(6,182,212,0.25)]'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+              }`}
+              title="Element Fields & Image Inspector"
+            >
+              {dockTab === 'inspector' && (
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-cyan-400 rounded-l shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+              )}
+              <FileText size={16} className={dockTab === 'inspector' ? 'text-cyan-300' : 'text-slate-400 group-hover:text-cyan-300'} />
+              <span className="text-[9px] font-bold tracking-tight uppercase leading-none font-mono">
+                Inspect
+              </span>
+            </button>
+
+            {/* TAB 2: Tactical */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setDockTab('tactical');
+              }}
+              className={`w-11 py-2 px-1 rounded-xl flex flex-col items-center justify-center gap-1 transition-all group relative cursor-pointer ${
+                dockTab === 'tactical'
+                  ? 'bg-amber-950/80 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+              }`}
+              title="Tactical Map & Encounter Integration"
+            >
+              {dockTab === 'tactical' && (
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-amber-400 rounded-l shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+              )}
+              <Swords size={16} className={dockTab === 'tactical' ? 'text-amber-300' : 'text-slate-400 group-hover:text-amber-300'} />
+              <span className="text-[9px] font-bold tracking-tight uppercase leading-none font-mono">
+                Tactical
+              </span>
+            </button>
+
+            {/* TAB 3: World Elements */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setDockTab('elements');
+              }}
+              className={`w-11 py-2 px-1 rounded-xl flex flex-col items-center justify-center gap-1 transition-all group relative cursor-pointer ${
+                dockTab === 'elements'
+                  ? 'bg-purple-950/80 text-purple-300 border border-purple-500/80 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+              }`}
+              title="In-Situ Worldbuilding Elements"
+            >
+              {dockTab === 'elements' && (
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-purple-400 rounded-l shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+              )}
+              <Box size={16} className={dockTab === 'elements' ? 'text-purple-300' : 'text-slate-400 group-hover:text-purple-300'} />
+              <span className="text-[9px] font-bold tracking-tight uppercase leading-none font-mono">
+                World
+              </span>
+            </button>
+
+            {/* TAB 4: AIME Assistant */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setDockTab('aime');
+              }}
+              className={`w-11 py-2 px-1 rounded-xl flex flex-col items-center justify-center gap-1 transition-all group relative cursor-pointer ${
+                dockTab === 'aime'
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+              }`}
+              title="AI Story Assistant & Overseer"
+            >
+              {dockTab === 'aime' && (
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-amber-400 rounded-l shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+              )}
+              <Sparkles size={16} className={dockTab === 'aime' ? 'text-amber-300' : 'text-slate-400 group-hover:text-amber-300'} />
+              <span className="text-[9px] font-bold tracking-tight uppercase leading-none font-mono">
+                AIME
+              </span>
+            </button>
+          </div>
         </aside>
       )}
 

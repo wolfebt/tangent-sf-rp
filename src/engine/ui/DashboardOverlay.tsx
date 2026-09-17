@@ -36,6 +36,7 @@ export interface DashboardOverlayProps {
   onPingStage?: (x: number, y: number) => void;
   isDesignModeActive?: boolean;
   isZenMode?: boolean;
+  isEmbeddedInTripartite?: boolean;
 }
 
 export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
@@ -56,7 +57,8 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
   isMultiplayerSimActive = false,
   onToggleMultiplayerSim,
   isDesignModeActive = false,
-  isZenMode = false
+  isZenMode = false,
+  isEmbeddedInTripartite = false
 }) => {
   const [isVitalsMinimized, setIsVitalsMinimized] = useState(false);
   const [isPersonaLogOpen, setIsPersonaLogOpen] = useState(false);
@@ -90,8 +92,8 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
     <div 
       className="absolute inset-0 w-full h-full z-[100] overflow-hidden select-none pointer-events-none"
     >
-      {/* ── Operative Vitals Panel (Minimizable & Mode-Aware) ── */}
-      {activeToken && !isDesignModeActive && (
+      {/* ── Operative Vitals Panel (Minimizable & Mode-Aware - Standalone Only) ── */}
+      {activeToken && !isDesignModeActive && !isEmbeddedInTripartite && (
         isVitalsMinimized ? (
           <button
             onClick={() => setIsVitalsMinimized(false)}
