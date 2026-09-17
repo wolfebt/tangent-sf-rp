@@ -18,18 +18,18 @@ const missingVars = REQUIRED_FIREBASE_VARS.filter(key => !env[key]);
 if (missingVars.length > 0 && typeof window !== 'undefined') {
   console.warn(
     `[Firebase] Environment variables not explicitly provided in .env: ${missingVars.join(', ')}. ` +
-    'Falling back to canonical project credentials.'
+    'Initialization might fail.'
   );
 }
 
 const firebaseConfig = {
-  apiKey: env.VITE_FIREBASE_API_KEY || 'AIzaSyBA1CC4SXXtWM9UpU1XkAiBFr0RIgrPwGk',
-  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || 'tangent-rpg-dbm.firebaseapp.com',
-  projectId: env.VITE_FIREBASE_PROJECT_ID || 'tangent-rpg-dbm',
-  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || 'tangent-rpg-dbm.firebasestorage.app',
-  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || '559983787369',
-  appId: env.VITE_FIREBASE_APP_ID || '1:559983787369:web:4783a164588bc0bcd211f8',
-  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || 'G-JQY5WY1LJ5',
+  apiKey: env.VITE_FIREBASE_API_KEY || '',
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || '',
+  projectId: env.VITE_FIREBASE_PROJECT_ID || '',
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || '',
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
+  appId: env.VITE_FIREBASE_APP_ID || '',
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID || '',
 };
 
 const app = initializeApp(firebaseConfig);
