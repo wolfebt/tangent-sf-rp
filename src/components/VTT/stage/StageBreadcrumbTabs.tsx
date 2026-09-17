@@ -22,19 +22,34 @@ import {
   PanelLeftClose, 
   PanelLeftOpen, 
   PanelRightClose, 
-  PanelRightOpen,
-  Grid,
-  Sun,
-  Radio,
-  Sparkles,
-  ChevronDown,
-  Check
+  PanelRightOpen, 
+  Grid, 
+  Sun, 
+  Radio, 
+  Sparkles, 
+  ChevronDown, 
+  Check,
+  FolderOpen,
+  Save,
+  Download,
+  Upload,
+  FilePlus,
+  Trash2,
+  Camera,
+  ImageIcon
 } from 'lucide-react';
-import { useCampaign } from '../../../context/CampaignContext';
+import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { GridType, GridScaleTier } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
 import { v4 as uuidv4 } from 'uuid';
+import { NewMapModal } from './NewMapModal';
+import { 
+  getStarterMapsCollection, 
+  createBlankCanvas, 
+  createDerelictStarshipMap, 
+  createResearchOutpostMap 
+} from './defaultMaps';
 
 export interface StageBreadcrumbTabsProps {
   currentMapId: string;
@@ -80,19 +95,44 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
     isDynamicLightingEnabled,
     toggleDynamicLighting,
     isMultiplayerSimActive,
-    toggleMultiplayerSim
+    toggleMultiplayerSim,
+    isSplitOpen: storeIsSplitOpen,
+    toggleSplitOpen,
+    is3DActive: storeIs3DActive,
+    toggle3DActive
   } = useUILayoutStore();
+
+  const effectiveIsSplitOpen = onToggleSplit ? isSplitOpen : storeIsSplitOpen;
+  const handleToggleSplit = onToggleSplit || (() => {
+    toggleSplitOpen();
+    AudioService.playTerminalBeep(!storeIsSplitOpen ? 1100 : 700, 0.04);
+  });
+
+  const effectiveIs3DActive = onToggle3D ? is3DActive : storeIs3DActive;
+  const handleToggle3D = onToggle3D || (() => {
+    toggle3DActive();
+    AudioService.playTerminalBeep(!storeIs3DActive ? 880 : 440, 0.05);
+  });
 
   const [editingTabId, setEditingTabId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState('');
   const [isGridMenuOpen, setIsGridMenuOpen] = useState(false);
-  const gridMenuRef = useRef<HTMLDivElement | null>(null);
+  const [isProjectMenuOpen, setIsProjectMenuOpen] = useState(false);
+  const [isNewMapModalOpen, setIsNewMapModalOpen] = useState(false);
 
-  // Close grid menu on outside click
+  const gridMenuRef = useRef<HTMLDivElement | null>(null);
+  const projectMenuRef = useRef<HTMLDivElement | null>(null);
+  const jsonFileInputRef = useRef<HTMLInputElement | null>(null);
+  const imageFileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Close menus on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (gridMenuRef.current && !gridMenuRef.current.contains(e.target as Node)) {
         setIsGridMenuOpen(false);
+      }
+      if (projectMenuRef.current && !projectMenuRef.current.contains(e.target as Node)) {
+        setIsProjectMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -101,6 +141,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
 
   const availableMaps = universeState?.maps || [];
   const campaignName = universeState?.projectName || 'Tangent Universe';
+  const activeMap = availableMaps.find((m: any) => m.id === currentMapId) || availableMaps[0] || null;
 
   // Handle Double-Click Inline Rename
   const handleStartRename = (map: any, e: React.MouseEvent) => {
@@ -143,47 +184,142 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
     }
   };
 
-  // Handle Create New Map Tab
-  const handleCreateNewScene = () => {
-    if (!addMap) return;
-    const newId = uuidv4();
-    const newMap = {
-      id: newId,
-      name: `Sector ${availableMaps.length + 1}`,
-      title: `Sector ${availableMaps.length + 1}`,
-      gridType: 'hex',
-      gridMode: 'hex',
-      gridSize: 70,
-      scale: 'Encounter',
-      scaleTier: 'Encounter',
-      tokens: [],
-      walls: [],
-      objects: [],
-      terrains: [],
-      lines: [],
-      texts: [],
-      lights: [],
-      fog: []
+  // Handle Save Map JSON
+  const handleSaveMapJson = () => {
+    if (!activeMap) return;
+    const exportPayload = {
+      type: 'TangentMap',
+      version: '1.0',
+      map: activeMap
     };
-    addMap(newMap);
-    onSelectMap(newId);
-    if (setActiveMapId) setActiveMapId(newId);
-    setGridType(GridType.HexFlatTop);
+    const jsonStr = JSON.stringify(exportPayload, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = formatExportFilename(activeMap.title || activeMap.name || 'map', 'map', 'json');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    AudioService.playCriticalChime(true);
   };
 
-  // Auto-initialize a blank tactical stage with hex grid if no scenes exist
+  // Handle Load Map JSON
+  const handleLoadMapJson = (file: File) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = JSON.parse(event.target?.result as string);
+        const mapToLoad = data.type === 'TangentMap' && data.map ? data.map : (data.id && (data.title || data.name) ? data : null);
+        if (mapToLoad && addMap) {
+          const newId = uuidv4();
+          const newMap = { ...mapToLoad, id: newId };
+          addMap(newMap);
+          onSelectMap(newId);
+          if (setActiveMapId) setActiveMapId(newId);
+          AudioService.playCriticalChime(true);
+        } else {
+          alert('Invalid map JSON file format.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Failed to parse map JSON file.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  // Handle Image File Input (Upload Background Map)
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (loadEvt) => {
+      const dataUrl = loadEvt.target?.result as string;
+      if (!dataUrl) return;
+
+      const img = new Image();
+      img.onload = () => {
+        const w = Math.max(1400, Math.round(img.width));
+        const h = Math.max(1050, Math.round(img.height));
+        const mapName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+
+        const newMap = createBlankCanvas({
+          title: mapName,
+          gridType: 'hex',
+          gridSize: 70,
+          width: w,
+          height: h,
+          scaleTier: 'Encounter',
+          backgroundUrl: dataUrl
+        });
+
+        if (addMap) {
+          addMap(newMap);
+          onSelectMap(newMap.id);
+          if (setActiveMapId) setActiveMapId(newMap.id);
+          AudioService.playCriticalChime(true);
+        }
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  };
+
+  // Auto-initialize starter maps collection if no scenes exist in universe
   useEffect(() => {
     if (availableMaps.length === 0 && addMap) {
-      handleCreateNewScene();
+      const starters = getStarterMapsCollection();
+      starters.forEach((m) => addMap(m));
+      if (starters[0]) {
+        onSelectMap(starters[0].id);
+        if (setActiveMapId) setActiveMapId(starters[0].id);
+      }
     }
-  }, [availableMaps.length]);
+  }, [availableMaps.length, addMap, onSelectMap, setActiveMapId]);
+
+  // Listen for open-new-map-modal and preset loading events from Architect Console
+  useEffect(() => {
+    const handleOpenModal = () => setIsNewMapModalOpen(true);
+    const handleLoadStarship = () => {
+      if (addMap) {
+        const newMap = createDerelictStarshipMap();
+        addMap(newMap);
+        onSelectMap(newMap.id);
+        if (setActiveMapId) setActiveMapId(newMap.id);
+        AudioService.playCriticalChime(true);
+      }
+    };
+    const handleLoadOutpost = () => {
+      if (addMap) {
+        const newMap = createResearchOutpostMap();
+        addMap(newMap);
+        onSelectMap(newMap.id);
+        if (setActiveMapId) setActiveMapId(newMap.id);
+        AudioService.playCriticalChime(true);
+      }
+    };
+
+    window.addEventListener('open-new-map-modal', handleOpenModal);
+    window.addEventListener('load-preset-starship', handleLoadStarship);
+    window.addEventListener('load-preset-outpost', handleLoadOutpost);
+
+    return () => {
+      window.removeEventListener('open-new-map-modal', handleOpenModal);
+      window.removeEventListener('load-preset-starship', handleLoadStarship);
+      window.removeEventListener('load-preset-outpost', handleLoadOutpost);
+    };
+  }, [addMap, onSelectMap, setActiveMapId]);
 
   return (
-    <div className="w-full h-10 px-2.5 flex items-center justify-between gap-2 bg-[#080c13] border-b border-slate-800/90 select-none font-sans shrink-0">
+    <div className="w-full h-10 px-2 flex items-center justify-between gap-1.5 bg-[#080c13] border-b border-slate-800/90 select-none font-sans shrink-0">
       {/* Left & Center: Consolidated Breadcrumbs + Micro Scene Tabs */}
-      <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
-        {/* Macro Campaign Breadcrumbs */}
-        <div className="flex items-center gap-1.5 shrink-0 text-xs font-mono text-slate-400">
+      <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+        {/* Macro Campaign Breadcrumbs - only on large unobstructed screens */}
+        <div className="hidden 2xl:flex items-center gap-1.5 shrink-0 text-xs font-mono text-slate-400">
           <span className="text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             UNIVERSE
@@ -193,6 +329,174 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             {campaignName}
           </span>
         </div>
+
+        {/* PROJECT & MAP MANAGEMENT HUB DROPDOWN */}
+        <div className="relative shrink-0 z-20" ref={projectMenuRef}>
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1000, 0.02);
+              setIsProjectMenuOpen(prev => !prev);
+              setIsGridMenuOpen(false);
+            }}
+            className={`px-2 py-1 rounded border text-[11px] font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm ${
+              isProjectMenuOpen
+                ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
+                : 'bg-slate-900/90 border-slate-700/80 text-slate-200 hover:bg-slate-800 hover:text-cyan-300'
+            }`}
+            title="Stage Map & Project Operations (New, Load, Save, Presets)"
+          >
+            <FolderOpen size={12} className="text-cyan-400" />
+            <span>MAP HUB</span>
+            <ChevronDown size={11} className={`text-slate-400 transition-transform ${isProjectMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {isProjectMenuOpen && (
+            <div className="absolute left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-2 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+              {/* Group 1: New & Presets */}
+              <div className="py-1">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider">
+                  Create & Templates
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    setIsNewMapModalOpen(true);
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <FilePlus size={13} className="text-cyan-400" />
+                  <span className="font-bold">New Scene / Blank Canvas...</span>
+                </button>
+              </div>
+
+              {/* Group 2: File I/O & Export */}
+              <div className="py-1">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                  File I/O & Storage
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    handleSaveMapJson();
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Save size={13} className="text-cyan-400" />
+                  <span>Save Map File (.json)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    jsonFileInputRef.current?.click();
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Download size={13} className="text-cyan-400" />
+                  <span>Load Map File (.json)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    imageFileInputRef.current?.click();
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <ImageIcon size={13} className="text-sky-400" />
+                  <span>Import Battlemap Image...</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    window.dispatchEvent(new CustomEvent('export-stage-png'));
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Camera size={13} className="text-amber-400" />
+                  <span>Export Viewport Snapshot (PNG)</span>
+                </button>
+              </div>
+
+              {/* Group 3: Procedural & VTT Formats */}
+              <div className="py-1">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-emerald-400/80 tracking-wider">
+                  Generators & VTT
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    window.dispatchEvent(new CustomEvent('open-uvtt-modal'));
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Upload size={13} className="text-cyan-400" />
+                  <span>Import Universal VTT (.uvtt)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    window.dispatchEvent(new CustomEvent('open-landmass-modal'));
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-emerald-950/60 text-emerald-300 hover:text-emerald-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Sparkles size={13} className="text-emerald-400" />
+                  <span>Procedural Landmass Gen</span>
+                </button>
+              </div>
+
+              {/* Group 4: Scene Actions */}
+              {activeMap && (
+                <div className="py-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsProjectMenuOpen(false);
+                      handleCloseTab(activeMap.id, { stopPropagation: () => {} } as any);
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-slate-400 hover:text-red-400 flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Trash2 size={13} className="text-red-400" />
+                    <span>Delete Current Sector</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Hidden file inputs */}
+        <input
+          ref={jsonFileInputRef}
+          type="file"
+          accept=".json"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleLoadMapJson(file);
+            e.target.value = '';
+          }}
+          className="hidden"
+        />
+        <input
+          ref={imageFileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="hidden"
+        />
 
         {/* Separator Divider */}
         <div className="w-px h-4 bg-slate-800 shrink-0 mx-0.5" />
@@ -204,10 +508,11 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
               <span>NO ACTIVE SCENES.</span>
               <button
                 type="button"
-                onClick={handleCreateNewScene}
-                className="text-cyan-400 hover:underline font-bold cursor-pointer"
+                onClick={() => setIsNewMapModalOpen(true)}
+                className="text-cyan-400 hover:underline font-bold cursor-pointer flex items-center gap-1"
               >
-                + Create Scene
+                <Plus size={11} />
+                <span>Create Scene / Blank Canvas</span>
               </button>
             </div>
           ) : (
@@ -302,9 +607,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
               {/* Quick Add New Scene Tab Button */}
               <button
                 type="button"
-                onClick={handleCreateNewScene}
+                onClick={() => setIsNewMapModalOpen(true)}
                 className="h-6 px-1.5 rounded bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 transition-colors flex items-center justify-center shrink-0 ml-0.5 cursor-pointer"
-                title="Add New Tactical Scene Tab"
+                title="Add New Tactical Scene / Blank Canvas"
               >
                 <Plus size={12} />
               </button>
@@ -522,21 +827,19 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           </button>
         )}
 
-        {onToggle3D && (
-          <button
-            type="button"
-            onClick={onToggle3D}
-            className={`px-2 py-1 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
-              is3DActive
-                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
-                : 'bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
-            }`}
-            title="Toggle 2D Blueprint vs 3D Holographic Stage (Hotkey: V)"
-          >
-            <Box size={11} className={is3DActive ? 'text-cyan-400 animate-pulse' : 'text-slate-400'} />
-            <span>{is3DActive ? '3D HOLO' : '2D PLAN'}</span>
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={handleToggle3D}
+          className={`px-2 py-1 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
+            effectiveIs3DActive
+              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+              : 'bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+          }`}
+          title="Toggle 2D Blueprint vs 3D Holographic Stage (Hotkey: V)"
+        >
+          <Box size={11} className={effectiveIs3DActive ? 'text-cyan-400 animate-pulse' : 'text-slate-400'} />
+          <span>{effectiveIs3DActive ? '3D HOLO' : '2D PLAN'}</span>
+        </button>
 
         {/* Studio (Map Maker Launcher) */}
         <a
@@ -554,21 +857,19 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           <span className="hidden md:inline">Studio</span>
         </a>
 
-        {onToggleSplit && (
-          <button
-            type="button"
-            onClick={onToggleSplit}
-            className={`px-2 py-1 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
-              isSplitOpen
-                ? 'bg-amber-950/90 text-amber-300 border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
-                : 'bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
-            }`}
-            title="Toggle Split Workspace (Folio, Roster, Bestiary)"
-          >
-            <Columns size={11} />
-            <span className="hidden lg:inline">Split</span>
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={handleToggleSplit}
+          className={`px-2 py-1 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
+            effectiveIsSplitOpen
+              ? 'bg-amber-950/90 text-amber-300 border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
+              : 'bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+          }`}
+          title="Toggle Split Workspace (Folio, Roster, Bestiary)"
+        >
+          <Columns size={11} />
+          <span className="hidden lg:inline">Split</span>
+        </button>
 
         {/* Separator Divider */}
         <div className="w-px h-4 bg-slate-800 shrink-0 mx-0.5" />
@@ -612,6 +913,26 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           </button>
         </div>
       </div>
+
+      {/* New Scene / Blank Canvas / Import Modal */}
+      <NewMapModal
+        isOpen={isNewMapModalOpen}
+        onClose={() => setIsNewMapModalOpen(false)}
+        onCreateMap={(newMapObj) => {
+          if (addMap) {
+            addMap(newMapObj);
+            onSelectMap(newMapObj.id);
+            if (setActiveMapId) setActiveMapId(newMapObj.id);
+            if (newMapObj.gridType === 'square') {
+              setGridType(GridType.Square);
+            } else {
+              setGridType(GridType.HexFlatTop);
+            }
+          }
+        }}
+        onOpenUvttModal={() => window.dispatchEvent(new CustomEvent('open-uvtt-modal'))}
+        onLoadMapJson={handleLoadMapJson}
+      />
     </div>
   );
 };

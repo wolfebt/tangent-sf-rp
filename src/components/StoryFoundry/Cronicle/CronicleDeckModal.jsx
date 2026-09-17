@@ -152,8 +152,6 @@ export default function CronicleDeckModal({
     return formatCronicleContextForAIME(cronicle);
   }, [cronicle]);
 
-  if (!isOpen) return null;
-
   // ── SCRATCHBOOK ACTIONS ──
   const handleSaveScratchNotes = () => {
     AudioService.playTerminalBeep(1100, 0.06);
@@ -484,6 +482,8 @@ export default function CronicleDeckModal({
     if (!docSearchQuery.trim()) return compiledScratchbookMarkdown;
     return compiledScratchbookMarkdown;
   }, [compiledScratchbookMarkdown, docSearchQuery]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[220] flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md font-sans select-none animate-in fade-in duration-150">
@@ -1097,7 +1097,7 @@ export default function CronicleDeckModal({
                     </div>
                     <div className="w-40">
                       <select
-                        value={newLocationState}
+                        value={newLocationState || 'thriving'}
                         onChange={(e) => setNewLocationState(e.target.value)}
                         className="w-full bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none focus:border-emerald-400 cursor-pointer"
                       >
@@ -1343,7 +1343,7 @@ export default function CronicleDeckModal({
 
                     <div className="flex flex-wrap items-center gap-2 mt-2">
                       <select
-                        value={selectedElementToClone}
+                        value={selectedElementToClone || ''}
                         onChange={(e) => setSelectedElementToClone(e.target.value)}
                         className="flex-1 min-w-[240px] bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg outline-none"
                       >

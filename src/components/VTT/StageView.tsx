@@ -64,7 +64,8 @@ import {
   Clock, 
   Bot,
   Minus,
-  ChevronLeft
+  ChevronLeft,
+  X
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { createTacticalPing, filterExpiredPings } from '../../services/mapPingService';
@@ -137,9 +138,17 @@ export const StageView: React.FC<StageViewProps> = ({
     deleteCustomObject
   } = useCampaign();
   const [currentMapId, setCurrentMapId] = useState<string>(mapIdParam || activeMapId || '');
+  const [isCanvasReady, setIsCanvasReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (activeMapId && activeMapId !== currentMapId) {
+      setCurrentMapId(activeMapId);
+    }
+  }, [activeMapId, currentMapId]);
 
   const availableMaps = universeState?.maps || [];
-  const currentMap = availableMaps.find((m: any) => m.id === currentMapId) || availableMaps[0] || null;
+  const effectiveMapId = activeMapId || mapIdParam || currentMapId;
+  const currentMap = availableMaps.find((m: any) => m.id === effectiveMapId) || availableMaps[0] || null;
 
   // Sourced from Unified Layout & Stage Viewport Store
   const {
@@ -170,7 +179,9 @@ export const StageView: React.FC<StageViewProps> = ({
     selectedTokenId: storeSelectedTokenId,
     setSelectedTokenId: setStoreSelectedTokenId,
     targetTokenId: storeTargetTokenId,
-    setTargetTokenId: setStoreTargetTokenId
+    setTargetTokenId: setStoreTargetTokenId,
+    selectedObjectType: storeObjectType,
+    setSelectedObjectType: setStoreObjectType
   } = useUILayoutStore();
 
   // In-Situ Architect Design Mode & Simulation Control States
@@ -322,6 +333,33 @@ export const StageView: React.FC<StageViewProps> = ({
   useEffect(() => {
     if (storePencilWidth !== undefined) setPencilWidth(storePencilWidth);
   }, [storePencilWidth]);
+
+  useEffect(() => {
+    if (storeObjectType && typeof storeObjectType === 'object') {
+      const propObj = storeObjectType as any;
+      const stampItem: PaletteItem = {
+        id: propObj.id || `obj-${Date.now()}`,
+        category: propObj.category || 'Objects',
+        label: propObj.label || propObj.name || 'Prop',
+        desc: propObj.desc || 'Tactical Sector Asset',
+        type: propObj.category === 'Hazards' ? 'hazard' : 'object',
+        subType: propObj.category || 'terminal',
+        icon: Box,
+        color: propObj.color || '#22d3ee',
+        defaultProps: {
+          name: propObj.label || propObj.name || 'Prop',
+          color: propObj.color,
+          radius: propObj.radius,
+          width: propObj.width,
+          height: propObj.height,
+          shape: propObj.shape,
+          imageUrl: propObj.imageUrl
+        }
+      };
+      setSelectedStamp(stampItem);
+      setIsDesignModeActive(true);
+    }
+  }, [storeObjectType]);
 
   useEffect(() => {
     if (storeRulerAp !== undefined) setRulerAvailableAp(storeRulerAp);
@@ -634,7 +672,7 @@ export const StageView: React.FC<StageViewProps> = ({
     });
 
     wallLayer.addChild(g);
-  }, [localWalls]);
+  }, [isCanvasReady, localWalls]);
 
   // ── Render Terrains (Hex Tiles & Organic Polygons) onto BackgroundMap Layer ──
   useEffect(() => {
@@ -683,7 +721,7 @@ export const StageView: React.FC<StageViewProps> = ({
     });
 
     container.addChild(g);
-  }, [currentMap?.terrains]);
+  }, [isCanvasReady, currentMap?.terrains]);
 
   // ── Render Freehand Tactical Pencil Lines onto UnderlayDebris Layer ──
   useEffect(() => {
@@ -709,7 +747,7 @@ export const StageView: React.FC<StageViewProps> = ({
     });
 
     container.addChild(g);
-  }, [currentMap?.lines]);
+  }, [isCanvasReady, currentMap?.lines]);
 
   // ── Render Text Labels onto ForegroundUI Layer ──
   useEffect(() => {
@@ -748,7 +786,7 @@ export const StageView: React.FC<StageViewProps> = ({
       textNode.addChild(pixiText);
       container.addChild(textNode);
     });
-  }, [currentMap?.texts]);
+  }, [isCanvasReady, currentMap?.texts]);
 
   // ── Render Dynamic Drawing Preview (Live Wall Drag Line or Live Brush Stroke) ──
   useEffect(() => {
@@ -992,10 +1030,11 @@ export const StageView: React.FC<StageViewProps> = ({
       lightNode.addChild(g);
       container.addChild(lightNode);
     });
-  }, [localLights]);
+  }, [isCanvasReady, localLights]);
 
   // ── Render Atmospheric Weather Tint Overlay ──
   useEffect(() => {
+    if (!isCanvasReady) return;
     const container = atmosphereOverlayRef.current;
     if (!container) return;
     container.removeChildren();
@@ -1010,35 +1049,91 @@ export const StageView: React.FC<StageViewProps> = ({
     g.fill({ color: preset.tintHex, alpha: preset.tintAlpha });
 
     container.addChild(g);
-  }, [atmosphericWeather]);
+  }, [isCanvasReady, atmosphericWeather]);
 
-  // ── Render Background Blueprint Underlay ──
+  // ── Render Tactical Canvas Mat Plate & Background Blueprint Underlay ──
   useEffect(() => {
+    if (!isCanvasReady) return;
     const container = underlayContainerRef.current;
     if (!container) return;
     container.removeChildren();
 
-    if (!underlayConfig?.url || !underlayConfig.visible) return;
+    const mapWidth = currentMap?.width || 2800;
+    const mapHeight = currentMap?.height || 2100;
 
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = underlayConfig.url;
-    img.onload = () => {
-      if (!underlayContainerRef.current) return;
-      underlayContainerRef.current.removeChildren();
+    // 1. Tactical Canvas Mat Plate (Dark slate board with illuminated borders & crosshair)
+    const matGraphics = new Graphics();
+    matGraphics.roundRect(0, 0, mapWidth, mapHeight, 10);
+    matGraphics.fill({ color: 0x090d16, alpha: 0.98 });
+    matGraphics.stroke({ width: 3, color: 0x1e293b, alpha: 0.95 });
 
-      try {
-        const sprite = Sprite.from(img);
-        sprite.x = underlayConfig.offsetX || 0;
-        sprite.y = underlayConfig.offsetY || 0;
-        sprite.scale.set(underlayConfig.scale || 1.0);
-        sprite.alpha = underlayConfig.opacity ?? 0.45;
-        underlayContainerRef.current.addChild(sprite);
-      } catch (err) {
-        console.warn('Failed to render underlay sprite:', err);
-      }
-    };
-  }, [underlayConfig]);
+    // Inner glowing coordinate perimeter line
+    matGraphics.roundRect(4, 4, mapWidth - 8, mapHeight - 8, 8);
+    matGraphics.stroke({ width: 1, color: 0x00ffff, alpha: 0.15 });
+
+    // Center Origin Crosshair
+    const cx = Math.round(mapWidth / 2);
+    const cy = Math.round(mapHeight / 2);
+    matGraphics.moveTo(cx - 30, cy);
+    matGraphics.lineTo(cx + 30, cy);
+    matGraphics.moveTo(cx, cy - 30);
+    matGraphics.lineTo(cx, cy + 30);
+    matGraphics.stroke({ width: 1.5, color: 0x22d3ee, alpha: 0.3 });
+    matGraphics.circle(cx, cy, 20);
+    matGraphics.stroke({ width: 1, color: 0x22d3ee, alpha: 0.2 });
+
+    container.addChild(matGraphics);
+
+    // 2. Sector Title Watermark
+    try {
+      const title = (currentMap?.title || currentMap?.name || 'TACTICAL STAGE SECTOR').toUpperCase();
+      const watermark = new Text({
+        text: `${title} // ${mapWidth}x${mapHeight}px`,
+        style: new TextStyle({
+          fontFamily: 'monospace',
+          fontSize: 12,
+          fill: 0x334155,
+          fontWeight: 'bold',
+          letterSpacing: 2
+        })
+      });
+      watermark.x = 24;
+      watermark.y = 18;
+      container.addChild(watermark);
+    } catch {
+      // Ignored
+    }
+
+    // 3. Render Background Image (if currentMap has background_url or underlayConfig is set)
+    const bgUrl = underlayConfig?.url || currentMap?.background_url;
+    if (bgUrl && (underlayConfig?.visible !== false)) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = bgUrl;
+      img.onload = () => {
+        if (!underlayContainerRef.current) return;
+        try {
+          const sprite = Sprite.from(img);
+          sprite.x = underlayConfig?.offsetX || 0;
+          sprite.y = underlayConfig?.offsetY || 0;
+          sprite.scale.set(underlayConfig?.scale || 1.0);
+          sprite.alpha = underlayConfig?.opacity ?? 0.85;
+          underlayContainerRef.current.addChild(sprite);
+        } catch (err) {
+          console.warn('Failed to render underlay sprite:', err);
+        }
+      };
+    }
+  }, [
+    isCanvasReady,
+    currentMap?.id, 
+    currentMap?.background_url, 
+    currentMap?.width, 
+    currentMap?.height, 
+    currentMap?.title, 
+    currentMap?.name, 
+    underlayConfig
+  ]);
 
   // ── Batch Multi-Asset Selection Actions ──
   const handleBatchDelete = useCallback(() => {
@@ -1500,12 +1595,15 @@ export const StageView: React.FC<StageViewProps> = ({
 
         hazardSimulatorRef.current?.update(ticker.deltaTime, lightEmitters);
       });
+
+      setIsCanvasReady(true);
     };
 
     initRenderer();
 
     return () => {
       isCancelled = true;
+      setIsCanvasReady(false);
       hazardSimulatorRef.current?.destroy();
       hazardSimulatorRef.current = null;
       if (localRenderer) {
@@ -1520,6 +1618,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
   // Sync PixiJS Stage Pan & Zoom
   useEffect(() => {
+    if (!isCanvasReady) return;
     const renderer = rendererContextRef.current;
     if (!renderer) return;
     const app = renderer.getApp();
@@ -1527,7 +1626,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
     app.stage.scale.set(zoom);
     app.stage.position.set(pan.x, pan.y);
-  }, [zoom, pan]);
+  }, [isCanvasReady, zoom, pan]);
 
   // Draw Grid Overlay when Scale Tier / Grid Type / Visibility changes
   const redrawGrid = useCallback(() => {
@@ -1540,8 +1639,8 @@ export const StageView: React.FC<StageViewProps> = ({
     const cellSize = engine.getCellSizePx();
     const graphics = new Graphics();
 
-    const width = 3840;
-    const height = 2160;
+    const width = currentMap?.width || 2800;
+    const height = currentMap?.height || 2100;
 
     graphics.stroke({ width: 1, color: 0x00ffff, alpha: 0.15 });
 
@@ -1573,13 +1672,15 @@ export const StageView: React.FC<StageViewProps> = ({
     }
 
     gridOverlayContainer.addChild(graphics);
-  }, [gridOverlayContainer, isGridVisible, gridType]);
+  }, [gridOverlayContainer, isGridVisible, gridType, currentMap?.width, currentMap?.height]);
 
   useEffect(() => {
     coordEngineRef.current.setScaleTier(scaleTier);
     coordEngineRef.current.setGridType(gridType);
-    redrawGrid();
-  }, [redrawGrid, scaleTier, gridType]);
+    if (isCanvasReady) {
+      redrawGrid();
+    }
+  }, [isCanvasReady, redrawGrid, scaleTier, gridType]);
 
   // Redraw Movement Distance Range & Waypoint Ruler
   useEffect(() => {
@@ -1677,6 +1778,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
   // Render Interactive Objects on the Stage
   useEffect(() => {
+    if (!isCanvasReady) return;
     const compositor = layerCompositorRef.current;
     if (!compositor) return;
 
@@ -1719,10 +1821,11 @@ export const StageView: React.FC<StageViewProps> = ({
 
       objLayer.addChild(container);
     });
-  }, [tokens, localObjects]);
+  }, [isCanvasReady, tokens, localObjects]);
 
   // Render Tokens on the Stage with Action Pips & Mortality Indicators
   useEffect(() => {
+    if (!isCanvasReady) return;
     const compositor = layerCompositorRef.current;
     if (!compositor) return;
 
@@ -1887,7 +1990,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
       tokenLayer.addChild(container);
     });
-  }, [tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, zoom, pan]);
+  }, [isCanvasReady, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, zoom, pan]);
 
   // Convert Screen Mouse Coordinates to World Coordinates
   const screenToWorld = useCallback((clientX: number, clientY: number) => {
@@ -1898,6 +2001,13 @@ export const StageView: React.FC<StageViewProps> = ({
       y: (clientY - rect.top - pan.y) / zoom
     };
   }, [pan, zoom]);
+
+  // Canvas Mouse Wheel (Zoom in/out towards cursor)
+  const handleCanvasWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    const zoomFactor = e.deltaY < 0 ? 1.12 : 0.88;
+    setZoom(prev => Math.max(0.15, Math.min(4.0, Number((prev * zoomFactor).toFixed(3)))));
+  };
 
   // Canvas Mouse Move
   const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -2111,8 +2221,70 @@ export const StageView: React.FC<StageViewProps> = ({
           handleEraseAt(worldPos);
           return;
         } else if (activeDesignTool === 'object' || activeDesignTool === 'hazard' || activeDesignTool === 'token') {
-          if (selectedStamp) {
-            deployArchitectItem(selectedStamp, snapped.x, snapped.y);
+          let itemToDeploy = selectedStamp;
+          if (!itemToDeploy && storeObjectType) {
+            const propObj = (typeof storeObjectType === 'object' ? storeObjectType : {}) as any;
+            itemToDeploy = {
+              id: propObj.id || `obj-${Date.now()}`,
+              category: propObj.category || 'Objects',
+              label: propObj.label || propObj.name || 'Prop',
+              desc: propObj.desc || 'Tactical Sector Asset',
+              type: propObj.category === 'Hazards' ? 'hazard' : 'object',
+              subType: propObj.category || 'terminal',
+              icon: Box,
+              color: propObj.color || '#22d3ee',
+              defaultProps: {
+                name: propObj.label || propObj.name || 'Prop',
+                color: propObj.color,
+                radius: propObj.radius,
+                width: propObj.width,
+                height: propObj.height,
+                shape: propObj.shape,
+                imageUrl: propObj.imageUrl
+              }
+            };
+          }
+
+          if (itemToDeploy) {
+            deployArchitectItem(itemToDeploy, snapped.x, snapped.y);
+            return;
+          } else if (activeDesignTool === 'token') {
+            const newTokId = `token-${Date.now()}`;
+            const staticToken = {
+              id: newTokId,
+              name: textLabelInput || 'Tactical Unit',
+              base_hp: 30,
+              base_vitality: 30,
+              base_health: 30,
+              tech_level: 3,
+              armor_dr: 6,
+              stamina_dr: 2,
+              speed_ft: 30,
+              size_modifier: 0,
+              is_persona: false
+            };
+            useEngineStore.getState().loadStaticEntity(staticToken);
+            useEngineStore.getState().updatePosition(newTokId, snapped.x, snapped.y);
+            if (currentMap && updateMap) {
+              updateMap(currentMap.id, {
+                tokens: [...(currentMap.tokens || []), { ...staticToken, x: snapped.x, y: snapped.y }]
+              });
+            }
+            AudioService.playCriticalChime(true);
+            return;
+          } else {
+            const defaultProp: PaletteItem = {
+              id: `obj-crate-${Date.now()}`,
+              category: 'Objects',
+              label: 'Tactical Cargo Crate',
+              desc: 'Hardened titanium storage crate.',
+              type: 'object',
+              subType: 'crate',
+              icon: Box,
+              color: '#22d3ee',
+              defaultProps: { name: 'Cargo Crate' }
+            };
+            deployArchitectItem(defaultProp, snapped.x, snapped.y);
             return;
           }
         }
@@ -2270,12 +2442,7 @@ export const StageView: React.FC<StageViewProps> = ({
     if (isDraggingPan || isDrawingToolActive) return;
 
     if (isDesignModeActive) {
-      if (selectedStamp) {
-        const worldPos = screenToWorld(e.clientX, e.clientY);
-        const snapped = gridSnap ? coordEngineRef.current.snapPixelToGrid(worldPos) : worldPos;
-        deployArchitectItem(selectedStamp, snapped.x, snapped.y);
-        return;
-      }
+      // Prevent double-placement since handleCanvasPointerDown already deploys architect items & tokens
       return;
     }
 
@@ -3059,6 +3226,7 @@ export const StageView: React.FC<StageViewProps> = ({
           onMouseDown={handleCanvasMouseDown}
           onMouseUp={handleCanvasMouseUp}
           onDoubleClick={() => handleDropTacticalPing('target')}
+          onWheel={handleCanvasWheel}
           onDragOver={handleCanvasDragOver}
           onDrop={handleCanvasDrop}
           onContextMenu={(e) => e.preventDefault()}
@@ -3072,6 +3240,14 @@ export const StageView: React.FC<StageViewProps> = ({
                   : 'cursor-default'
           }`}
         />
+
+        {/* Empty Sector Mat Ready Hint Badge */}
+        {tokens.length === 0 && localWalls.length === 0 && !currentMap?.background_url && (
+          <div className="absolute top-3 left-3 z-20 pointer-events-none bg-slate-950/85 border border-cyan-500/40 rounded-xl px-3.5 py-2 text-xs font-mono text-cyan-300 backdrop-blur-md flex items-center gap-2.5 shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span>{(currentMap?.title || currentMap?.name || 'Tactical Sector').toUpperCase()} // CANVAS READY • Select props, walls, or tokens to deploy</span>
+          </div>
+        )}
 
         {/* ── TOP CENTER: Architect Design Mode Active Banner (Standalone Only) ── */}
         {!isEmbeddedInTripartite && isDesignModeActive && !isZenMode && (
@@ -3091,6 +3267,31 @@ export const StageView: React.FC<StageViewProps> = ({
             >
               <span>⚔️</span>
               <span>RESUME SIM</span>
+            </button>
+          </div>
+        )}
+
+        {/* ── Tripartite Armed Placement Floating HUD Pill ── */}
+        {isEmbeddedInTripartite && isDesignModeActive && activeDesignTool !== 'select' && (
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-[115] bg-slate-950/90 border border-cyan-500/60 rounded-full px-4 py-1.5 shadow-[0_0_20px_rgba(6,182,212,0.3)] backdrop-blur-md flex items-center gap-3 pointer-events-auto">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="font-mono text-xs font-semibold text-cyan-200">
+              ARMED: <strong className="text-white uppercase">{selectedStamp?.label || (storeObjectType as any)?.label || activeDesignTool}</strong>
+            </span>
+            <span className="text-[10px] font-mono text-slate-400 border-l border-slate-700 pl-2.5">
+              Click canvas to deploy {gridSnap ? '(Grid Snap ON)' : '(Free Placement)'}
+            </span>
+            <button
+              onClick={() => {
+                setIsDesignModeActive(false);
+                setActiveDesignTool('select');
+                setSelectedStamp(null);
+                setStoreObjectType('' as any);
+              }}
+              className="text-slate-400 hover:text-rose-400 transition-colors ml-1 p-0.5 rounded cursor-pointer"
+              title="Cancel Placement"
+            >
+              <X size={13} />
             </button>
           </div>
         )}

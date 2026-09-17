@@ -100,7 +100,7 @@ const MapToolbar = ({
   const currentMap = universeState.maps.find(m => m.id === activeMapId);
 
   return (
-    <div className="relative z-30 bg-slate-950/95 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-between gap-2 select-none shadow-xl backdrop-blur-xl flex-wrap font-mono">
+    <div className="relative z-[100] bg-slate-950/95 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-between gap-2 select-none shadow-xl backdrop-blur-xl flex-wrap font-mono">
       
       {/* ── ZONE A: MAP & PROJECT HUB (Left) ── */}
       <div className="flex items-center gap-2 flex-wrap">
@@ -118,15 +118,14 @@ const MapToolbar = ({
           <select
             value={activeMapId}
             onChange={(e) => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              setActiveMapId(e.target.value);
+              const targetId = e.target.value;
+              if (targetId) setActiveMapId(targetId);
             }}
-            className="bg-transparent text-xs font-mono text-slate-100 focus:outline-none cursor-pointer max-w-[130px] sm:max-w-[170px] truncate"
-            title="Switch Active Sector Map"
+            className="bg-transparent text-cyan-300 font-bold text-xs outline-none cursor-pointer max-w-[140px] truncate"
           >
-            {(universeState.maps || []).map((m) => (
-              <option key={m.id} value={m.id} className="bg-slate-900 text-slate-100">
-                {m.title || m.name || 'Untitled Sector'}
+            {universeState.maps.map(m => (
+              <option key={m.id} value={m.id} className="bg-slate-900 text-slate-200">
+                {m.title || 'Untitled Map'} [{m.type}]
               </option>
             ))}
           </select>
@@ -174,7 +173,7 @@ const MapToolbar = ({
           </button>
 
           {isFileMenuOpen && (
-            <div className="absolute left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-2 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="absolute left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-2 z-[120] backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
               {/* Group 1: File Storage & Export */}
               <div className="py-1">
                 <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider">
@@ -367,7 +366,7 @@ const MapToolbar = ({
             <ChevronDown size={11} className={`text-slate-400 transition-transform ${isGridMenuOpen ? 'rotate-180' : ''}`} />
           </button>
           {isGridMenuOpen && (
-            <div className="absolute right-0 mt-1.5 w-40 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs">
+            <div className="absolute right-0 mt-1.5 w-40 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
               {[
                 { id: 'hex', label: 'Hexagonal' },
                 { id: 'square', label: 'Square Grid' },
@@ -410,7 +409,7 @@ const MapToolbar = ({
             <ChevronDown size={11} className={`text-slate-400 transition-transform ${isViewMenuOpen ? 'rotate-180' : ''}`} />
           </button>
           {isViewMenuOpen && (
-            <div className="absolute right-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs">
+            <div className="absolute right-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
               <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 border-b border-slate-800 tracking-wider">
                 Toggle Workspace Overlays
               </div>

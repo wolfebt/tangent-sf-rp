@@ -45,12 +45,6 @@ export class LayerCompositor {
       container.label = `Layer_${layerId}`;
       container.zIndex = layerId;
 
-      // OPTIMIZATION: RenderGroups (Pixi v8 feature).
-      // Marks static layers as render groups to skip heavy CPU transform traversal
-      if (layerId === ZLayer.BackgroundMap || layerId === ZLayer.UnderlayDebris) {
-        container.isRenderGroup = true; 
-      }
-
       this.layers.set(layerId, container);
       this.app.stage.addChild(container);
     }

@@ -188,7 +188,7 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
             style={{ 
               left: isLeftCollapsed ? '0px' : isLeftWideMode ? 'calc(70vw - 14px)' : `${leftWidth - 14}px` 
             }}
-            className={`absolute top-12 z-30 flex items-center justify-center transition-all duration-200 cursor-pointer ${
+            className={`absolute top-1/2 -translate-y-1/2 z-30 flex items-center justify-center transition-all duration-200 cursor-pointer ${
               isLeftCollapsed 
                 ? 'w-8 h-16 rounded-r-2xl bg-cyan-950/95 border-y-2 border-r-2 border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(34,211,238,0.7)] hover:w-10 hover:bg-cyan-900 hover:text-white' 
                 : 'w-7 h-14 rounded-full bg-[#090e15]/95 border-2 border-cyan-500/80 text-cyan-300 shadow-[0_0_15px_rgba(0,0,0,0.9)] hover:scale-110 hover:border-cyan-300 hover:text-white hover:shadow-[0_0_15px_rgba(34,211,238,0.5)]'
@@ -249,7 +249,7 @@ export const TripartiteLayout: React.FC<TripartiteLayoutProps> = ({
             type="button"
             onClick={toggleRightCollapse}
             style={{ right: isRightCollapsed ? '0px' : `${rightWidth - 14}px` }}
-            className={`absolute top-12 z-30 flex items-center justify-center transition-all duration-200 cursor-pointer ${
+            className={`absolute top-1/2 -translate-y-1/2 z-30 flex items-center justify-center transition-all duration-200 cursor-pointer ${
               isRightCollapsed 
                 ? 'w-8 h-16 rounded-l-2xl bg-amber-950/95 border-y-2 border-l-2 border-amber-400 text-amber-300 shadow-[0_0_20px_rgba(245,158,11,0.7)] hover:w-10 hover:bg-amber-900 hover:text-white' 
                 : 'w-7 h-14 rounded-full bg-[#100e0a]/95 border-2 border-amber-500/80 text-amber-300 shadow-[0_0_15px_rgba(0,0,0,0.9)] hover:scale-110 hover:border-amber-300 hover:text-white hover:shadow-[0_0_15px_rgba(245,158,11,0.5)]'

@@ -6,15 +6,21 @@
  */
 
 import React, { useState, useRef } from 'react';
-import { StageBreadcrumbTabs } from './StageBreadcrumbTabs';
 import { TokenContextualPill } from './TokenContextualPill';
-import { StageSplitView, type SplitTabType } from './StageSplitView';
+import { StageSplitView } from './StageSplitView';
 import StageView from '../StageView';
 import type { StageViewProps } from '../StageView';
 import { Stage3DViewport } from './Stage3DViewport';
 import { useCampaign } from '../../../context/CampaignContext';
 import { useEngineStore } from '../../../engine/index';
+import { useUILayoutStore } from '../store/uiLayoutStore';
 import { AudioService } from '../../../services/audioService';
+import { 
+  createBlankCanvas, 
+  createDerelictStarshipMap, 
+  createResearchOutpostMap 
+} from './defaultMaps';
+import { Grid, Plus, Rocket, Shield } from 'lucide-react';
 
 export interface StageViewportWrapperProps extends StageViewProps {
   onOpenMapMaker?: () => void;
@@ -26,11 +32,20 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
   onOpenUnderlayModal,
   ...stageProps
 }) => {
-  const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
+  const { universeState, activeMapId, setActiveMapId, updateMap, addMap } = useCampaign();
+  const availableMaps = universeState?.maps || [];
+  const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0] || null;
+
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const [isSplitOpen, setIsSplitOpen] = useState(false);
-  const [activeSplitTab, setActiveSplitTab] = useState<SplitTabType>('folio');
-  const [is3DActive, setIs3DActive] = useState<boolean>(false);
+  const {
+    isSplitOpen,
+    setSplitOpen,
+    activeSplitTab,
+    setActiveSplitTab,
+    is3DActive,
+    toggle3DActive,
+    set3DActive
+  } = useUILayoutStore();
   const viewportRef = useRef<HTMLDivElement>(null);
 
   // Global hotkey V to toggle 2D / 3D Stage
@@ -42,16 +57,13 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
       }
       if (e.key.toLowerCase() === 'v' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
         e.preventDefault();
-        setIs3DActive(prev => {
-          const next = !prev;
-          AudioService.playTerminalBeep(next ? 880 : 440, 0.05);
-          return next;
-        });
+        toggle3DActive();
+        AudioService.playTerminalBeep(!is3DActive ? 880 : 440, 0.05);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [toggle3DActive, is3DActive]);
 
   // Handle Drag & Drop Token Spawning directly onto The Stage
   const handleDragOver = (e: React.DragEvent) => {
@@ -93,12 +105,20 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
             );
 
             if (isMap) {
-              const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId);
-              if (currentMap && updateMap) {
-                updateMap(currentMap.id, {
+              const activeMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+              if (activeMap && updateMap) {
+                updateMap(activeMap.id, {
                   background_url: dataUrl,
-                  name: currentMap.name || file.name.replace(/\.[^/.]+$/, '')
+                  name: activeMap.name || file.name.replace(/\.[^/.]+$/, '')
                 });
+                AudioService.playCriticalChime(true);
+              } else if (addMap) {
+                const newMap = createBlankCanvas({
+                  title: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+                  backgroundUrl: dataUrl
+                });
+                addMap(newMap);
+                if (setActiveMapId) setActiveMapId(newMap.id);
                 AudioService.playCriticalChime(true);
               }
             } else {
@@ -123,11 +143,16 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
               useEngineStore.getState().clearSelection();
               useEngineStore.getState().setSelection(newId, true);
 
-              const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId);
-              if (currentMap && updateMap) {
-                updateMap(currentMap.id, {
-                  tokens: [...(currentMap.tokens || []), { ...staticToken, x: dropX, y: dropY }]
+              const activeMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+              if (activeMap && updateMap) {
+                updateMap(activeMap.id, {
+                  tokens: [...(activeMap.tokens || []), { ...staticToken, x: dropX, y: dropY }]
                 });
+              } else if (addMap) {
+                const newMap = createBlankCanvas({ title: 'Tactical Sector' });
+                newMap.tokens = [{ ...staticToken, x: dropX, y: dropY }];
+                addMap(newMap);
+                if (setActiveMapId) setActiveMapId(newMap.id);
               }
               AudioService.playCriticalChime(true);
             }
@@ -174,11 +199,16 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
       useEngineStore.getState().setSelection(newId, true);
 
       // Persist into active Campaign map token collection
-      const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId);
-      if (currentMap && updateMap) {
-        updateMap(currentMap.id, {
-          tokens: [...(currentMap.tokens || []), { ...staticToken, x: dropX, y: dropY }]
+      const activeMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+      if (activeMap && updateMap) {
+        updateMap(activeMap.id, {
+          tokens: [...(activeMap.tokens || []), { ...staticToken, x: dropX, y: dropY }]
         });
+      } else if (addMap) {
+        const newMap = createBlankCanvas({ title: 'Tactical Sector' });
+        newMap.tokens = [{ ...staticToken, x: dropX, y: dropY }];
+        addMap(newMap);
+        if (setActiveMapId) setActiveMapId(newMap.id);
       }
 
       AudioService.playCriticalChime(true);
@@ -192,33 +222,10 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
       className="relative w-full h-full flex flex-col bg-[#050811] overflow-hidden select-none"
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* Two-Tiered Breadcrumb & Scene Tab Bar */}
-      <StageBreadcrumbTabs
-        currentMapId={activeMapId || ''}
-        onSelectMap={(id) => {
-          if (setActiveMapId) setActiveMapId(id);
-        }}
-        onOpenMapMaker={onOpenMapMaker}
-        onOpenUnderlayModal={onOpenUnderlayModal}
-        isSplitOpen={isSplitOpen}
-        onToggleSplit={() => {
-          setIsSplitOpen(prev => !prev);
-          AudioService.playTerminalBeep(!isSplitOpen ? 1100 : 700, 0.04);
-        }}
-        is3DActive={is3DActive}
-        onToggle3D={() => {
-          setIs3DActive(prev => {
-            const next = !prev;
-            AudioService.playTerminalBeep(next ? 880 : 440, 0.05);
-            return next;
-          });
-        }}
-      />
-
       {/* Center WebGPU / Pixi 2D or Three.js 3D Viewport Dropzone inside Split View */}
       <StageSplitView
         isOpen={isSplitOpen}
-        onClose={() => setIsSplitOpen(false)}
+        onClose={() => setSplitOpen(false)}
         activeTab={activeSplitTab}
         onSelectTab={setActiveSplitTab}
       >
@@ -233,7 +240,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           }`}
         >
           {is3DActive ? (
-            <Stage3DViewport onSwitchTo2D={() => setIs3DActive(false)} />
+            <Stage3DViewport onSwitchTo2D={() => set3DActive(false)} />
           ) : (
             <StageView {...stageProps} isEmbeddedInTripartite={stageProps.isEmbeddedInTripartite ?? true} />
           )}
@@ -250,6 +257,74 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
 
           {/* Floating Contextual Action Pill (Fitts's Law on-canvas token HUD) */}
           <TokenContextualPill />
+
+          {/* Empty Stage Quick-Start Fallback Overlay */}
+          {(!currentMap || availableMaps.length === 0) && (
+            <div className="absolute inset-0 z-40 flex flex-col items-center justify-center bg-[#070a12]/90 backdrop-blur-md p-6 select-none">
+              <div className="max-w-md w-full bg-[#0d131f] border border-cyan-500/40 rounded-2xl p-6 shadow-[0_0_50px_rgba(34,211,238,0.2)] text-center space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-950/80 border border-cyan-400/50 flex items-center justify-center mx-auto text-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.3)]">
+                  <Grid size={24} />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold font-mono text-cyan-200 uppercase tracking-wider">
+                    NO TACTICAL STAGE ACTIVE
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1 font-sans">
+                    Initialize a fresh blank canvas or deploy a pre-configured sci-fi encounter scene to begin:
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (addMap) {
+                        const newMap = createBlankCanvas({ title: 'Tactical Blank Canvas' });
+                        addMap(newMap);
+                        if (setActiveMapId) setActiveMapId(newMap.id);
+                        AudioService.playCriticalChime(true);
+                      }
+                    }}
+                    className="w-full py-2.5 px-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all cursor-pointer"
+                  >
+                    <Plus size={14} />
+                    <span>CREATE BLANK CANVAS (HEX)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (addMap) {
+                        const newMap = createDerelictStarshipMap();
+                        addMap(newMap);
+                        if (setActiveMapId) setActiveMapId(newMap.id);
+                        AudioService.playCriticalChime(true);
+                      }
+                    }}
+                    className="w-full py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/50 font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  >
+                    <Rocket size={14} />
+                    <span>DEPLOY STARSHIP CORRIDOR</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (addMap) {
+                        const newMap = createResearchOutpostMap();
+                        addMap(newMap);
+                        if (setActiveMapId) setActiveMapId(newMap.id);
+                        AudioService.playCriticalChime(true);
+                      }
+                    }}
+                    className="w-full py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/50 font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  >
+                    <Shield size={14} />
+                    <span>DEPLOY RESEARCH OUTPOST</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </StageSplitView>
     </div>

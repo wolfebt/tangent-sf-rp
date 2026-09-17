@@ -27,7 +27,7 @@ const VttOptionsPage = lazy(() => import('./pages/Foundry/MapMaker/VttOptionsPag
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
 const CommsPage = lazy(() => import('./pages/CommsPage'));
 const TeamsPage = lazy(() => import('./pages/TeamsPage'));
-const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
+const StageView = lazy(() => import('./pages/Foundry/MapMaker/MapMaker'));
 
 const PageLoader = () => (
   <div className="flex-1 flex flex-col items-center justify-center bg-black text-cyan-400 font-mono text-xs tracking-wider h-full w-full select-none">

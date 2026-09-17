@@ -28,7 +28,9 @@ import {
   ShieldCheck,
   Compass,
   Maximize2,
-  Minimize2
+  Minimize2,
+  FolderTree,
+  Sliders
 } from 'lucide-react';
 import AudioService from '../../../../services/audioService';
 import { rollDice } from '../../../../services/diceService';
@@ -38,6 +40,7 @@ import { HIT_LOCATIONS } from './CombatResolutionModal';
 import { useFolio } from '../../../../context/FolioContext';
 import { TacticalPlayView } from '../../../../components/Folio/views/TacticalPlayView';
 import { useUILayoutStore } from '../../../../components/VTT/store/uiLayoutStore';
+import ArchitectAssetCockpit from './ArchitectAssetCockpit';
 
 /**
  * Resolves the combat skill, rank, and unlocked attack ladder for a weapon/attack
@@ -239,8 +242,29 @@ export const OperativeCockpitRail = ({
   onChangeSensorMode,
   onUpdateTokenHealth,
   onUpdateTokenVitality,
-  onUpdateTokenStructure
+  onUpdateTokenStructure,
+  // Architect Stage Asset Cockpit & Library props:
+  objects = [],
+  currentMap = null,
+  onUpdateToken,
+  onUpdateObject,
+  onDeleteToken,
+  onDeleteObject,
+  onDuplicateToken,
+  onDuplicateObject,
+  onDeployAsset,
+  onOpenTacticalModal
 }) => {
+  // Role & Cockpit Master Mode ('architect_cockpit' vs 'operative_cockpit')
+  const isArchitectRole = vttRole === 'architect' || vttRole === 'gm' || vttRole === 'co_architect';
+  const [railMode, setRailMode] = useState(isArchitectRole ? 'architect_cockpit' : 'operative_cockpit');
+
+  React.useEffect(() => {
+    if (isArchitectRole) {
+      setRailMode('architect_cockpit');
+    }
+  }, [isArchitectRole]);
+
   // Tactical Movement Stance
   const [movementStance, setMovementStance] = useState('pace'); // 'pace' | 'sprint' | 'guard' | 'evasive'
   
@@ -259,6 +283,41 @@ export const OperativeCockpitRail = ({
   const [lastRollResult, setLastRollResult] = useState(null);
 
   const { isLeftWideMode, toggleLeftWideMode } = useUILayoutStore();
+
+  const [railWidth, setRailWidth] = useState(() => {
+    try {
+      const stored = localStorage.getItem('tangent_cockpit_rail_width');
+      return stored ? Number(stored) : 420;
+    } catch {
+      return 420;
+    }
+  });
+  const [isResizing, setIsResizing] = useState(false);
+
+  const handleStartResize = (e) => {
+    e.preventDefault();
+    setIsResizing(true);
+    const startX = e.clientX;
+    const startWidth = railWidth;
+
+    const onMouseMove = (moveEvt) => {
+      const delta = moveEvt.clientX - startX;
+      const nextWidth = Math.max(320, Math.min(startWidth + delta, 750));
+      setRailWidth(nextWidth);
+      try {
+        localStorage.setItem('tangent_cockpit_rail_width', String(nextWidth));
+      } catch {}
+    };
+
+    const onMouseUp = () => {
+      setIsResizing(false);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  };
 
   const folio = useFolio() || {};
   const { savedPersonas, characterData } = folio;
@@ -566,24 +625,46 @@ export const OperativeCockpitRail = ({
 
   return (
     <aside
-      className="w-full h-full flex z-30 select-none font-sans"
+      className={`h-full flex z-20 select-none font-sans relative shrink-0 ${
+        isResizing ? '' : 'transition-[width] duration-150'
+      }`}
+      style={{ width: isCollapsed ? '48px' : `${railWidth}px` }}
       aria-label="Operative Cockpit Tactical Rail"
     >
       {/* 48px Vertical Icon Strip */}
       <nav
-        className="w-12 shrink-0 h-full border-r border-cyan-950/80 bg-[#090d13] flex flex-col items-center py-2.5 gap-2 z-20 shadow-[2px_0_15px_rgba(0,0,0,0.5)]"
+        className="w-12 shrink-0 h-full border-r border-cyan-950/80 bg-[#090d13] flex flex-col items-center py-2 gap-2 z-20 shadow-[2px_0_15px_rgba(0,0,0,0.5)]"
         aria-label="Operative Rail Nav"
       >
+        {/* Architect Asset Cockpit & Library Icon */}
+        <button
+          type="button"
+          onClick={() => {
+            if (isCollapsed) onToggleCollapse?.();
+            setRailMode('architect_cockpit');
+            AudioService.playTerminalBeep(1100, 0.02);
+          }}
+          className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
+            railMode === 'architect_cockpit' && !isCollapsed
+              ? 'bg-amber-950 text-amber-300 border border-amber-500/70 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
+              : 'text-slate-400 hover:text-amber-300 hover:bg-slate-900'
+          }`}
+          title="Architect Stage Asset Cockpit (Library & Inspector)"
+        >
+          <FolderTree size={18} />
+        </button>
+
         {/* Unit Status Icon */}
         <button
           type="button"
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
+            setRailMode('operative_cockpit');
             setActiveAccordion('profile');
             setCockpitViewMode('folio');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            (activeAccordion === 'profile' || cockpitViewMode === 'folio') && !isCollapsed
+            railMode === 'operative_cockpit' && (activeAccordion === 'profile' || cockpitViewMode === 'folio') && !isCollapsed
               ? 'bg-purple-950 text-purple-300 border border-purple-500/70 shadow-[0_0_10px_rgba(168,85,247,0.4)]'
               : 'text-slate-400 hover:text-purple-300 hover:bg-slate-900'
           }`}
@@ -595,16 +676,30 @@ export const OperativeCockpitRail = ({
           )}
         </button>
 
+        {/* PROMINENT EXPAND BUTTON (when collapsed) */}
+        {isCollapsed && (
+          <button
+            type="button"
+            onClick={onToggleCollapse}
+            className="w-10 py-2 rounded-xl bg-gradient-to-b from-cyan-600 to-cyan-800 hover:from-cyan-500 hover:to-cyan-700 text-white font-mono font-bold flex flex-col items-center justify-center gap-0.5 shadow-[0_0_15px_rgba(6,182,212,0.6)] animate-pulse hover:animate-none transition-all cursor-pointer border border-cyan-300"
+            title="Expand Operative Cockpit Sheet"
+          >
+            <ChevronRight size={18} />
+            <span className="text-[8px] tracking-wider uppercase">OPEN</span>
+          </button>
+        )}
+
         {/* Combat Action Deck */}
         <button
           type="button"
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
+            setRailMode('operative_cockpit');
             setActiveAccordion('combat');
             setCockpitViewMode('cockpit');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            activeAccordion === 'combat' && cockpitViewMode === 'cockpit' && !isCollapsed
+            railMode === 'operative_cockpit' && activeAccordion === 'combat' && cockpitViewMode === 'cockpit' && !isCollapsed
               ? 'bg-amber-950 text-amber-300 border border-amber-500/70 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
               : 'text-slate-400 hover:text-amber-300 hover:bg-slate-900'
           }`}
@@ -618,11 +713,12 @@ export const OperativeCockpitRail = ({
           type="button"
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
+            setRailMode('operative_cockpit');
             setActiveAccordion('movement');
             setCockpitViewMode('cockpit');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            activeAccordion === 'movement' && cockpitViewMode === 'cockpit' && !isCollapsed
+            railMode === 'operative_cockpit' && activeAccordion === 'movement' && cockpitViewMode === 'cockpit' && !isCollapsed
               ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/70 shadow-[0_0_10px_rgba(16,185,129,0.4)]'
               : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-900'
           }`}
@@ -636,11 +732,12 @@ export const OperativeCockpitRail = ({
           type="button"
           onClick={() => {
             if (isCollapsed) onToggleCollapse?.();
+            setRailMode('operative_cockpit');
             setActiveAccordion('abilities');
             setCockpitViewMode('cockpit');
           }}
           className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all cursor-pointer relative group ${
-            activeAccordion === 'abilities' && cockpitViewMode === 'cockpit' && !isCollapsed
+            railMode === 'operative_cockpit' && activeAccordion === 'abilities' && cockpitViewMode === 'cockpit' && !isCollapsed
               ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/70 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
               : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-900'
           }`}
@@ -670,7 +767,7 @@ export const OperativeCockpitRail = ({
         </div>
 
         {/* Pin / Expand Toggle */}
-        <div className="flex flex-col items-center gap-1 shrink-0 pt-2 border-t border-slate-800">
+        <div className="flex flex-col items-center gap-1.5 shrink-0 pt-2 border-t border-slate-800 w-full px-1">
           <button
             type="button"
             onClick={onTogglePin}
@@ -687,102 +784,155 @@ export const OperativeCockpitRail = ({
           <button
             type="button"
             onClick={onToggleCollapse}
-            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
+            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer border ${
               isCollapsed
-                ? 'bg-cyan-500 text-black border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.6)] animate-pulse'
+                ? 'bg-cyan-500 text-black border-cyan-300 shadow-[0_0_16px_rgba(6,182,212,0.8)] animate-pulse'
                 : 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 hover:bg-cyan-500 hover:text-black'
             }`}
             title={isCollapsed ? 'Expand Operative Cockpit' : 'Collapse Operative Cockpit'}
           >
-            {isCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+            {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={18} />}
           </button>
         </div>
       </nav>
 
       {/* Expanded Operative Cockpit Drawer */}
       <div
-        className={`h-full border-r border-slate-800/90 bg-[#0a0e14]/95 backdrop-blur-md transition-all duration-200 flex flex-col overflow-hidden shadow-2xl ${
-          isCollapsed ? 'w-0 border-r-0 hidden' : 'flex-1 min-w-0 w-full'
+        className={`h-full border-r border-slate-800/90 bg-[#0a0e14]/95 backdrop-blur-md flex flex-col overflow-hidden shadow-2xl flex-1 min-w-0 ${
+          isCollapsed ? 'hidden' : ''
         }`}
       >
-        {/* Drawer Header: Active Entity Identification & Switcher */}
-        <div className="h-12 px-3 border-b border-cyan-950/80 bg-[#080c12] flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="text-base">{activeToken.type === 'vehicle' ? '🚀' : activeToken.type === 'companion' ? '🤖' : '🧙‍♂️'}</span>
-            <div className="flex flex-col min-w-0">
-              <span className="font-mono text-xs font-bold text-cyan-300 truncate">
-                {activeToken.label || activeToken.name || 'Operative'}
-              </span>
-              <span className="text-[9px] text-slate-400 font-mono tracking-wider uppercase">
-                {isSynthetic ? 'Synthetic Chassis' : 'Biological Asset'}
-              </span>
-            </div>
+        {/* Drawer Header: Mode Switcher (Architect Asset Cockpit vs Operative Combat) & Collapse Button */}
+        <div className="h-12 px-3 border-b border-cyan-950/80 bg-[#080c12] flex items-center justify-between shrink-0 gap-2">
+          <div className="flex items-center gap-1.5 min-w-0">
+            {isArchitectRole ? (
+              <div className="flex bg-slate-950 border border-slate-800 rounded-lg p-0.5 text-[10px] font-mono">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRailMode('architect_cockpit');
+                    AudioService.playTerminalBeep(1100, 0.02);
+                  }}
+                  className={`px-2 py-1 rounded font-bold uppercase transition-all cursor-pointer flex items-center gap-1 ${
+                    railMode === 'architect_cockpit'
+                      ? 'bg-amber-950/80 text-amber-300 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title="Architect Cockpit: Story & Map Asset Library, Token/Object Inspector & Live Editor"
+                >
+                  <FolderTree size={12} className={railMode === 'architect_cockpit' ? 'text-amber-400' : 'text-slate-500'} />
+                  <span>ASSETS & EDIT</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRailMode('operative_cockpit');
+                    AudioService.playTerminalBeep(950, 0.02);
+                  }}
+                  className={`px-2 py-1 rounded font-bold uppercase transition-all cursor-pointer flex items-center gap-1 ${
+                    railMode === 'operative_cockpit'
+                      ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title="Operative Combat Deck: BASTION 2d10 Strikes, Weapon Ladders, AP & Reactions"
+                >
+                  <Swords size={12} className={railMode === 'operative_cockpit' ? 'text-cyan-400' : 'text-slate-500'} />
+                  <span>OPERATIVE</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 min-w-0 shrink">
+                <span className="text-base">{activeToken.type === 'vehicle' ? '🚀' : activeToken.type === 'companion' ? '🤖' : '🧙‍♂️'}</span>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-mono text-xs font-bold text-cyan-300 truncate">
+                    {activeToken.label || activeToken.name || 'Operative'}
+                  </span>
+                  <span className="text-[9px] text-slate-400 font-mono tracking-wider uppercase">
+                    {isSynthetic ? 'Synthetic Chassis' : 'Biological Asset'}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
-          <div className="flex items-center gap-1.5">
-            {/* View Mode Switcher: Deck vs Folio */}
-            <div className="flex bg-slate-900 border border-slate-800 rounded-lg p-0.5 mr-1">
-              <button
-                type="button"
-                onClick={() => setCockpitViewMode('cockpit')}
-                className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase transition-all cursor-pointer ${
-                  cockpitViewMode === 'cockpit'
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-                title="Streamlined Tactical Action Deck"
-              >
-                Deck
-              </button>
-              <button
-                type="button"
-                onClick={() => setCockpitViewMode('folio')}
-                className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase transition-all cursor-pointer ${
-                  cockpitViewMode === 'folio'
-                    ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-                title="Canonical Folio Tactical Sheet"
-              >
-                Folio View
-              </button>
-            </div>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* If in operative combat mode, show Deck vs Folio view */}
+            {railMode === 'operative_cockpit' && (
+              <div className="flex bg-slate-900 border border-slate-800 rounded-lg p-0.5">
+                <button
+                  type="button"
+                  onClick={() => setCockpitViewMode('cockpit')}
+                  className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase transition-all cursor-pointer ${
+                    cockpitViewMode === 'cockpit'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title="Streamlined Tactical Action Deck"
+                >
+                  Deck
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCockpitViewMode('folio')}
+                  className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase transition-all cursor-pointer ${
+                    cockpitViewMode === 'folio'
+                      ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-xs'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title="Canonical Folio Tactical Sheet"
+                >
+                  Folio
+                </button>
+              </div>
+            )}
 
-            {/* Expand to 70% Wide Mode Toggle */}
-            <button
-              type="button"
-              onClick={toggleLeftWideMode}
-              className={`px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer flex items-center gap-1 border ${
-                isLeftWideMode
-                  ? 'bg-cyan-950 text-cyan-300 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                  : 'text-slate-400 hover:text-cyan-300 border-slate-800 bg-slate-900 hover:border-slate-700'
-              }`}
-              title={isLeftWideMode ? "Collapse Wide Mode to Standard" : "Expand to Wide Mode (70% Canvas)"}
-            >
-              {isLeftWideMode ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
-              <span className="text-[9px] hidden sm:inline">{isLeftWideMode ? '70%' : 'WIDE'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={onTogglePin}
-              className={`p-1.5 rounded-lg text-xs transition-colors cursor-pointer border ${
-                isPinned ? 'text-cyan-400 bg-cyan-950/60 border-cyan-800' : 'text-slate-500 hover:text-slate-300 border-transparent'
-              }`}
-              title={isPinned ? 'Unpin' : 'Pin Open'}
-            >
-              {isPinned ? <Pin size={13} /> : <PinOff size={13} />}
-            </button>
+            {/* PROMINENT COLLAPSE BUTTON */}
             <button
               type="button"
               onClick={onToggleCollapse}
-              className="p-1 px-1.5 rounded-lg bg-slate-900 border border-slate-700/80 text-cyan-400 hover:text-white hover:bg-cyan-950 hover:border-cyan-400 transition-colors cursor-pointer"
-              title="Collapse Cockpit Drawer"
+              className="px-2.5 py-1 rounded-lg bg-cyan-950 hover:bg-cyan-500 border border-cyan-500/70 hover:border-cyan-300 text-cyan-300 hover:text-black font-mono font-bold text-xs flex items-center gap-1 transition-all shadow-[0_0_10px_rgba(6,182,212,0.3)] cursor-pointer"
+              title="Collapse Rail (◀)"
             >
-              <ChevronLeft size={15} />
+              <ChevronLeft size={14} />
+              <span className="text-[10px] hidden sm:inline">COLLAPSE</span>
             </button>
           </div>
         </div>
+
+        {railMode === 'architect_cockpit' ? (
+          <ArchitectAssetCockpit
+            tokens={tokens}
+            objects={objects}
+            currentMap={currentMap}
+            activeAssetId={activeTokenId}
+            onSelectAsset={(id) => {
+              if (onSelectActiveToken) onSelectActiveToken(id);
+            }}
+            onUpdateToken={onUpdateToken || ((id, updates) => {
+              if (onUpdateTokenHealth && updates.current_hp !== undefined) {
+                onUpdateTokenHealth(id, updates.current_hp);
+              }
+              if (onUpdateTokenVitality && updates.current_vitality !== undefined) {
+                onUpdateTokenVitality(id, updates.current_vitality);
+              }
+              if (onUpdateTokenStructure && updates.current_structure !== undefined) {
+                onUpdateTokenStructure(id, updates.current_structure);
+              }
+            })}
+            onUpdateObject={onUpdateObject}
+            onDeleteToken={onDeleteToken}
+            onDeleteObject={onDeleteObject}
+            onDuplicateToken={onDuplicateToken}
+            onDuplicateObject={onDuplicateObject}
+            onDeployAsset={onDeployAsset}
+            onOpenTacticalModal={onOpenTacticalModal || ((asset) => {
+              window.dispatchEvent(new CustomEvent('open-tactical-play-modal', {
+                detail: { token: asset }
+              }));
+            })}
+          />
+        ) : (
+          <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
 
         {/* Multi-Unit Switcher Pills */}
         {tokens.length > 1 && (
@@ -1302,7 +1452,33 @@ export const OperativeCockpitRail = ({
           </div>
         </div>
       )}
-    </div>
+          </div>
+        )}
+      </div>
+
+    {/* Draggable Adjustment Slider Splitter (Right Edge of Left Rail) */}
+    {!isCollapsed && (
+      <div
+        onMouseDown={handleStartResize}
+        className="w-2 hover:w-2.5 -mr-1 h-full cursor-col-resize z-40 relative group flex items-center justify-center transition-all select-none hover:bg-cyan-500/20 active:bg-cyan-500/40 shrink-0"
+        title="Drag adjustment slider to resize Operative Cockpit"
+      >
+        <div className="w-0.5 h-16 rounded bg-slate-700 group-hover:bg-cyan-400 group-hover:h-24 transition-all" />
+        {/* Prominent floating collapse tab */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleCollapse?.();
+          }}
+          className="absolute top-1/2 -translate-y-1/2 -right-3.5 z-50 w-7 h-14 rounded-r-xl bg-slate-900/95 border-y border-r border-cyan-500/70 hover:border-cyan-400 text-cyan-400 hover:text-black hover:bg-cyan-400 flex flex-col items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer group/btn"
+          title="Collapse Operative Cockpit"
+        >
+          <ChevronLeft size={16} className="transition-transform group-hover/btn:-translate-x-0.5" />
+          <span className="text-[7px] font-mono font-black uppercase tracking-tighter [writing-mode:vertical-lr] rotate-180 text-cyan-300 group-hover/btn:text-black">HIDE</span>
+        </button>
+      </div>
+    )}
   </aside>
   );
 };

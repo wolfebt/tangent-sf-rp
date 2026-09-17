@@ -25,7 +25,7 @@ const FoundryAppInner = () => {
           <Route path="interactive" element={<StoryModule defaultView="interactive" />} />
           <Route path="elements" element={<StoryModule defaultView="elements" />} />
           <Route path="catalog" element={<Dashboard />} />
-          <Route path="map-maker" element={<Suspense fallback={<div className="w-full h-full bg-black text-cyan-400 font-mono text-xs flex items-center justify-center">INITIALIZING ADE STAGE...</div>}><ADEStage defaultRole="architect" /></Suspense>} />
+          <Route path="map-maker" element={<MapMaker />} />
           <Route path="map-maker-legacy" element={<MapMaker />} />
           <Route path="vtt-options" element={<VttOptionsPage />} />
           <Route path="aime" element={<StoryModule defaultView="aime" />} />

@@ -97,7 +97,7 @@ export interface UILayoutState extends VttLayoutPreferences {
   doorLockDc: number;
   selectedTerrain: string;
   terrainBrushWidth: number;
-  selectedObjectType: string;
+  selectedObjectType: any;
   selectedLightColor: string;
   selectedLightRadius: number;
   selectedLightAnimation: string;
@@ -108,7 +108,17 @@ export interface UILayoutState extends VttLayoutPreferences {
   activeLeftTab: 'cockpit' | 'catalog' | 'scenario';
   isLeftWideMode: boolean;
 
+  // Split View & 3D Mode
+  isSplitOpen: boolean;
+  activeSplitTab: 'folio' | 'roster' | 'story' | 'bestiary';
+  is3DActive: boolean;
+
   // Actions
+  toggleSplitOpen: () => void;
+  setSplitOpen: (open: boolean) => void;
+  setActiveSplitTab: (tab: 'folio' | 'roster' | 'story' | 'bestiary') => void;
+  toggle3DActive: () => void;
+  set3DActive: (active: boolean) => void;
   toggleLeftWideMode: () => void;
   setLeftWideMode: (wide: boolean) => void;
   setRulerSelectedPace: (pace: 'walk' | 'jog' | 'run' | 'sprint') => void;
@@ -148,7 +158,7 @@ export interface UILayoutState extends VttLayoutPreferences {
   setDoorLockDc: (dc: number) => void;
   setSelectedTerrain: (terrain: string) => void;
   setTerrainBrushWidth: (width: number) => void;
-  setSelectedObjectType: (type: string) => void;
+  setSelectedObjectType: (type: any) => void;
   setSelectedLightColor: (color: string) => void;
   setSelectedLightRadius: (radius: number) => void;
   setSelectedLightAnimation: (anim: string) => void;
@@ -217,6 +227,26 @@ export const useUILayoutStore = create<UILayoutState>()(
       rulerSelectedPace: 'walk',
       activeLeftTab: 'cockpit',
       isLeftWideMode: false,
+      isSplitOpen: false,
+      activeSplitTab: 'folio',
+      is3DActive: false,
+
+      // Split View & 3D Actions
+      toggleSplitOpen: () => set((draft) => {
+        draft.isSplitOpen = !draft.isSplitOpen;
+      }),
+      setSplitOpen: (open: boolean) => set((draft) => {
+        draft.isSplitOpen = open;
+      }),
+      setActiveSplitTab: (tab: 'folio' | 'roster' | 'story' | 'bestiary') => set((draft) => {
+        draft.activeSplitTab = tab;
+      }),
+      toggle3DActive: () => set((draft) => {
+        draft.is3DActive = !draft.is3DActive;
+      }),
+      set3DActive: (active: boolean) => set((draft) => {
+        draft.is3DActive = active;
+      }),
 
       // Tactical Actions
       toggleLeftWideMode: () => set((draft) => {

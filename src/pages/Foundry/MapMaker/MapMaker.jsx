@@ -50,6 +50,11 @@ import { tokenToFolioCharacter } from '../../../schemas/sharedSchemas';
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
 import { UnifiedRelationalSelectorModal } from '../../../components/DBM/UnifiedRelationalSelectorModal';
+import { 
+  getStarterMapsCollection, 
+  createDerelictStarshipMap, 
+  createResearchOutpostMap 
+} from '../../../components/VTT/stage/defaultMaps';
 
 import { getBiomeTextureUrl } from './map/landmassGenerator';
 import { getTextureUrlFromColor } from './map/MapTextures';
@@ -179,7 +184,7 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
   );
 };
 
-const MapPane = ({ mapExportPngRef }) => {
+const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   const containerRef = useRef(null);
   const stageRef = useRef(null);
   const [stageSize, setStageSize] = useState({ width: 800, height: 600 });
@@ -280,7 +285,7 @@ const MapPane = ({ mapExportPngRef }) => {
   const [tacticalModalToken, setTacticalModalToken] = useState(null);
 
   // VTT Tactical Role, Teams, System Options & Ping State
-  const [vttRole, setVttRole] = useState('architect'); // 'architect' | 'co_architect' | 'operative' | 'spectator'
+  const [vttRole, setVttRole] = useState(defaultRole); // 'architect' | 'co_architect' | 'operative' | 'spectator'
   const [isVttDrawerOpen, setIsVttDrawerOpen] = useState(false);
   const [teamRoster, setTeamRoster] = useState(() => createDefaultTeamRoster());
   const [activePings, setActivePings] = useState([]);
@@ -294,6 +299,13 @@ const MapPane = ({ mapExportPngRef }) => {
   const [isRightRailCollapsed, setIsRightRailCollapsed] = useState(false);
   const [isRightRailPinned, setIsRightRailPinned] = useState(false);
 
+  // Sync defaultRole prop
+  useEffect(() => {
+    if (defaultRole && defaultRole !== vttRole) {
+      setVttRole(defaultRole);
+    }
+  }, [defaultRole]);
+
   // Synchronize rails with VTT role
   useEffect(() => {
     if (vttRole === 'operative') {
@@ -303,6 +315,48 @@ const MapPane = ({ mapExportPngRef }) => {
       setIsRightRailCollapsed(false);
     }
   }, [vttRole]);
+
+  // Auto-bootstrap starter maps if universe has no maps
+  useEffect(() => {
+    if ((!universeState?.maps || universeState.maps.length === 0) && addMap) {
+      const starters = getStarterMapsCollection();
+      starters.forEach(m => addMap(m));
+      if (starters[0] && setActiveMapId) {
+        setActiveMapId(starters[0].id);
+      }
+    }
+  }, [universeState?.maps?.length, addMap, setActiveMapId]);
+
+  // Listen for scene & map control events from rail
+  useEffect(() => {
+    const handleOpenNewMap = () => setIsModalOpen(true);
+    const handleLoadStarship = () => {
+      if (addMap) {
+        const starship = createDerelictStarshipMap();
+        addMap(starship);
+        if (setActiveMapId) setActiveMapId(starship.id);
+        AudioService.playCriticalChime(true);
+      }
+    };
+    const handleLoadOutpost = () => {
+      if (addMap) {
+        const outpost = createResearchOutpostMap();
+        addMap(outpost);
+        if (setActiveMapId) setActiveMapId(outpost.id);
+        AudioService.playCriticalChime(true);
+      }
+    };
+
+    window.addEventListener('open-new-map-modal', handleOpenNewMap);
+    window.addEventListener('load-preset-starship', handleLoadStarship);
+    window.addEventListener('load-preset-outpost', handleLoadOutpost);
+
+    return () => {
+      window.removeEventListener('open-new-map-modal', handleOpenNewMap);
+      window.removeEventListener('load-preset-starship', handleLoadStarship);
+      window.removeEventListener('load-preset-outpost', handleLoadOutpost);
+    };
+  }, [addMap, setActiveMapId]);
 
   const handleSelectToken = (tokenId) => {
     setSelectedId(tokenId);
@@ -1300,23 +1354,100 @@ const MapPane = ({ mapExportPngRef }) => {
     if (gridMode === 'none') return null;
 
     if (gridMode === 'square') {
-      const gridSize = 50, width = 4000, height = 3000;
+      const gSize = Math.max(15, gridSize || 50);
+      const margin = gSize * 2;
+      const startX = (-position.x - margin) / scale;
+      const endX = (stageSize.width - position.x + margin) / scale;
+      const startY = (-position.y - margin) / scale;
+      const endY = (stageSize.height - position.y + margin) / scale;
+
+      const minCol = Math.floor(startX / gSize);
+      const maxCol = Math.ceil(endX / gSize);
+      const minRow = Math.floor(startY / gSize);
+      const maxRow = Math.ceil(endY / gSize);
+
+      const clampedMinCol = Math.max(minCol, -300);
+      const clampedMaxCol = Math.min(maxCol, 300);
+      const clampedMinRow = Math.max(minRow, -300);
+      const clampedMaxRow = Math.min(maxRow, 300);
+
       const gridLines = [];
-      for (let i = 0; i <= width; i += gridSize) gridLines.push(<Line key={`v-${i}`} points={[i, 0, i, height]} stroke="rgba(255, 255, 255, 0.15)" strokeWidth={1} />);
-      for (let j = 0; j <= height; j += gridSize) gridLines.push(<Line key={`h-${j}`} points={[0, j, width, j]} stroke="rgba(255, 255, 255, 0.15)" strokeWidth={1} />);
+      const minY = clampedMinRow * gSize;
+      const maxY = clampedMaxRow * gSize;
+      const minX = clampedMinCol * gSize;
+      const maxX = clampedMaxCol * gSize;
+
+      for (let c = clampedMinCol; c <= clampedMaxCol; c++) {
+        const x = c * gSize;
+        const isMajor = Math.abs(c) % 5 === 0;
+        gridLines.push(
+          <Line 
+            key={`v-${c}`} 
+            points={[x, minY, x, maxY]} 
+            stroke={isMajor ? "rgba(34, 211, 238, 0.35)" : "rgba(255, 255, 255, 0.18)"} 
+            strokeWidth={isMajor ? 1.5 : 1} 
+            strokeScaleEnabled={false}
+          />
+        );
+      }
+      for (let r = clampedMinRow; r <= clampedMaxRow; r++) {
+        const y = r * gSize;
+        const isMajor = Math.abs(r) % 5 === 0;
+        gridLines.push(
+          <Line 
+            key={`h-${r}`} 
+            points={[minX, y, maxX, y]} 
+            stroke={isMajor ? "rgba(34, 211, 238, 0.35)" : "rgba(255, 255, 255, 0.18)"} 
+            strokeWidth={isMajor ? 1.5 : 1} 
+            strokeScaleEnabled={false}
+          />
+        );
+      }
       return gridLines;
     }
 
     if (gridMode === 'hex') {
-      const hexRadius = 50, hexWidth = Math.sqrt(3) * hexRadius, hexHeight = 2 * hexRadius;
-      const cols = Math.ceil(4000 / hexWidth), rows = Math.ceil(3000 / (hexHeight * 0.75));
+      const hexRadius = Math.max(15, gridSize || 50);
+      const hexWidth = Math.sqrt(3) * hexRadius;
+      const rowHeight = hexRadius * 1.5;
+
+      const marginX = hexWidth * 2;
+      const marginY = hexRadius * 3;
+      const startX = (-position.x - marginX) / scale;
+      const endX = (stageSize.width - position.x + marginX) / scale;
+      const startY = (-position.y - marginY) / scale;
+      const endY = (stageSize.height - position.y + marginY) / scale;
+
+      const minCol = Math.floor(startX / hexWidth) - 1;
+      const maxCol = Math.ceil(endX / hexWidth) + 1;
+      const minRow = Math.floor(startY / rowHeight) - 1;
+      const maxRow = Math.ceil(endY / rowHeight) + 1;
+
+      // Bound visible range to avoid extreme loops if scaled out massively
+      const clampedMinCol = Math.max(minCol, -200);
+      const clampedMaxCol = Math.min(maxCol, 200);
+      const clampedMinRow = Math.max(minRow, -200);
+      const clampedMaxRow = Math.min(maxRow, 200);
+
       const hexes = [];
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          let x = c * hexWidth;
-          if (r % 2 !== 0) x += hexWidth / 2;
-          let y = r * hexHeight * 0.75;
-          hexes.push(<RegularPolygon key={`${r}-${c}`} x={x} y={y} sides={6} radius={hexRadius} stroke="rgba(255, 255, 255, 0.15)" strokeWidth={1} />);
+      for (let r = clampedMinRow; r <= clampedMaxRow; r++) {
+        const isOddRow = (((r % 2) + 2) % 2) === 1;
+        const rowOffsetX = isOddRow ? (hexWidth / 2) : 0;
+        const y = r * rowHeight;
+        for (let c = clampedMinCol; c <= clampedMaxCol; c++) {
+          const x = c * hexWidth + rowOffsetX;
+          hexes.push(
+            <RegularPolygon 
+              key={`hex-${r}-${c}`} 
+              x={x} 
+              y={y} 
+              sides={6} 
+              radius={hexRadius} 
+              stroke="rgba(34, 211, 238, 0.25)" 
+              strokeWidth={1} 
+              strokeScaleEnabled={false}
+            />
+          );
         }
       }
       return hexes;
@@ -1599,7 +1730,7 @@ const MapPane = ({ mapExportPngRef }) => {
         const currentConditions = item.conditions || [];
 
         return (
-          <div className="relative z-20 bg-[#161b22]/95 p-2 border-b border-[#0D5C63]/60 flex items-center justify-between text-xs gap-3 flex-wrap text-slate-200 backdrop-blur-md">
+          <div className="relative z-[80] bg-[#161b22]/95 p-2 border-b border-[#0D5C63]/60 flex items-center justify-between text-xs gap-3 flex-wrap text-slate-200 backdrop-blur-md">
             <div className="flex items-center gap-3 flex-wrap w-full">
               {/* Type Badge */}
               <div className="flex items-center gap-1 font-bold">
@@ -1802,7 +1933,7 @@ const MapPane = ({ mapExportPngRef }) => {
       {/* Studio Work Area: Dual Rails (Left Operative Cockpit + Center Canvas + Right Architect Console) */}
       <div className="flex-1 flex overflow-hidden relative">
 
-        {/* Primary Left Nav Rail: Operative Cockpit */}
+        {/* Primary Left Nav Rail: Operative & Architect Cockpit */}
         <OperativeCockpitRail
           tokens={tokens}
           activeTokenId={selectedId || tokens[0]?.id}
@@ -1826,6 +1957,66 @@ const MapPane = ({ mapExportPngRef }) => {
           onUpdateTokenHealth={handleUpdateTokenHealth}
           onUpdateTokenVitality={handleUpdateTokenVitality}
           onUpdateTokenStructure={handleUpdateTokenStructure}
+          objects={objects}
+          currentMap={currentMap}
+          onUpdateToken={handleUpdateToken}
+          onUpdateObject={(objId, updates) => {
+            recordHistory();
+            const nextObjs = objects.map(o => o.id === objId ? { ...o, ...updates } : o);
+            updateMap(activeMapId, { objects: nextObjs });
+          }}
+          onDeleteToken={(tokenId) => {
+            recordHistory();
+            const nextTokens = tokens.filter(t => t.id !== tokenId);
+            updateMap(activeMapId, { tokens: nextTokens });
+            if (selectedId === tokenId) setSelectedId(null);
+          }}
+          onDeleteObject={(objId) => {
+            recordHistory();
+            const nextObjs = objects.filter(o => o.id !== objId);
+            updateMap(activeMapId, { objects: nextObjs });
+            if (selectedId === objId) setSelectedId(null);
+          }}
+          onDuplicateToken={(tokenId) => {
+            const tok = tokens.find(t => t.id === tokenId);
+            if (!tok) return;
+            recordHistory();
+            const clone = {
+              ...tok,
+              id: `token-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+              name: `${tok.name || tok.label || 'Unit'} (Copy)`,
+              label: `${tok.label || tok.name || 'Unit'} (Copy)`,
+              x: (tok.x || 300) + 40,
+              y: (tok.y || 300) + 40
+            };
+            updateMap(activeMapId, { tokens: [...tokens, clone] });
+            setSelectedId(clone.id);
+          }}
+          onDuplicateObject={(objId) => {
+            const obj = objects.find(o => o.id === objId);
+            if (!obj) return;
+            recordHistory();
+            const clone = {
+              ...obj,
+              id: `obj-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+              name: `${obj.name || obj.label || 'Object'} (Copy)`,
+              label: `${obj.label || obj.name || 'Object'} (Copy)`,
+              x: (obj.x || 300) + 40,
+              y: (obj.y || 300) + 40
+            };
+            updateMap(activeMapId, { objects: [...objects, clone] });
+            setSelectedId(clone.id);
+          }}
+          onDeployAsset={(asset, pos) => {
+            if (asset._sourceType === 'story_element') {
+              handleSummonStoryElement(asset, pos);
+            } else if (asset._sourceType === 'omnicortex') {
+              handleSummonOmnicortexAsset(asset, asset.category || asset._categoryKey, pos);
+            } else if (asset._sourceType === 'persona') {
+              handleSummonHeroToken(asset, pos);
+            }
+          }}
+          onOpenTacticalModal={(token) => setTacticalModalToken(token)}
         />
 
         <FolioHeroTokenDrawer
@@ -1925,17 +2116,6 @@ const MapPane = ({ mapExportPngRef }) => {
           setActiveMapId={setActiveMapId}
         />
 
-        <MapKeyPanel
-          showKeyPanel={showKeyPanel}
-          setShowKeyPanel={setShowKeyPanel}
-          currentMap={currentMap}
-          setSelectedId={setSelectedId}
-          selectedId={selectedId}
-          setPosition={setPosition}
-          scale={scale}
-          stageSize={stageSize}
-        />
-
         <StatusGemsModal
           isOpen={isStatusModalOpen}
           onClose={() => setIsStatusModalOpen(false)}
@@ -1984,8 +2164,91 @@ const MapPane = ({ mapExportPngRef }) => {
         >
           <FloatingCombatText activeFloats={activeFloats} />
 
-          {/* Floating VTT Quick Launcher */}
+          {/* Map Key Panel (Docked safely inside Canvas area to avoid overlapping rails) */}
+          <MapKeyPanel
+            showKeyPanel={showKeyPanel}
+            setShowKeyPanel={setShowKeyPanel}
+            currentMap={currentMap}
+            setSelectedId={setSelectedId}
+            selectedId={selectedId}
+            setPosition={setPosition}
+            scale={scale}
+            stageSize={stageSize}
+          />
+
+          {/* Floating Canvas Quick Launchers & Tactical HUD (Adjustment Sliders) */}
           <div className="absolute top-3 right-3 z-30 flex items-center gap-2">
+            {/* Tactical Adjustment Sliders HUD */}
+            <div className="flex items-center gap-2 bg-slate-950/90 border border-cyan-500/50 rounded-xl px-2.5 py-1.5 shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-xl font-mono text-xs">
+              {/* Zoom Slider */}
+              <div className="flex items-center gap-1.5 border-r border-slate-800 pr-2">
+                <span className="text-[10px] text-cyan-400 font-bold uppercase">ZOOM</span>
+                <button
+                  type="button"
+                  onClick={() => zoomBy(0.85)}
+                  className="w-5 h-5 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-cyan-400 flex items-center justify-center font-bold cursor-pointer transition-colors"
+                  title="Zoom Out"
+                >
+                  -
+                </button>
+                <input
+                  type="range"
+                  min={0.15}
+                  max={3.0}
+                  step={0.05}
+                  value={scale}
+                  onChange={(e) => setScale(Number(e.target.value))}
+                  className="w-16 h-1 accent-cyan-400 bg-slate-800 rounded cursor-pointer"
+                  title={`Zoom: ${Math.round(scale * 100)}%`}
+                />
+                <button
+                  type="button"
+                  onClick={() => zoomBy(1.15)}
+                  className="w-5 h-5 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-cyan-400 flex items-center justify-center font-bold cursor-pointer transition-colors"
+                  title="Zoom In"
+                >
+                  +
+                </button>
+                <span className="text-[10px] font-bold text-cyan-300 w-9 text-right">{Math.round(scale * 100)}%</span>
+              </div>
+
+              {/* Grid Size Slider */}
+              <div className="flex items-center gap-1.5 border-r border-slate-800 pr-2">
+                <span className="text-[10px] text-amber-400 font-bold uppercase">GRID</span>
+                <input
+                  type="range"
+                  min={25}
+                  max={120}
+                  step={5}
+                  value={gridSize}
+                  onChange={(e) => setGridSize(Number(e.target.value))}
+                  className="w-14 h-1 accent-amber-400 bg-slate-800 rounded cursor-pointer"
+                  title={`Grid Size: ${gridSize}px`}
+                />
+                <span className="text-[10px] font-bold text-amber-300 w-7 text-right">{gridSize}px</span>
+              </div>
+
+              {/* Recenter Map Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setScale(1);
+                  const mapW = currentMap?.width || 2800;
+                  const mapH = currentMap?.height || 2100;
+                  const centerX = (stageSize.width - mapW) / 2;
+                  const centerY = (stageSize.height - mapH) / 2;
+                  setPosition({ x: centerX, y: centerY });
+                  AudioService.playTerminalBeep(1100, 0.05);
+                }}
+                className="px-2 py-0.5 rounded-lg bg-cyan-950/80 border border-cyan-500/60 hover:bg-cyan-500 hover:text-black text-cyan-300 text-[10px] font-bold uppercase flex items-center gap-1 transition-all cursor-pointer shadow-sm"
+                title="Center Map View"
+              >
+                <span>🎯</span>
+                <span className="hidden md:inline">Center</span>
+              </button>
+            </div>
+
+            {/* VTT Console Launcher */}
             <button
               type="button"
               onClick={() => {
@@ -2041,7 +2304,18 @@ const MapPane = ({ mapExportPngRef }) => {
             >
               {/* Layer 1: Background & Tactical Grid */}
               <Layer id="layer_bg_grid">
-                <Rect x={0} y={0} width={4000} height={3000} fill="#111827" name="bgRect" />
+                <Rect x={-100000} y={-100000} width={200000} height={200000} fill="#111827" name="bgRect" />
+                {/* Primary Tactical Sector Boundary Frame */}
+                <Rect
+                  x={0}
+                  y={0}
+                  width={currentMap?.width || 2800}
+                  height={currentMap?.height || 2100}
+                  stroke="rgba(34, 211, 238, 0.45)"
+                  strokeWidth={2}
+                  dash={[12, 6]}
+                  listening={false}
+                />
                 <Group listening={false}>
                   {renderGrid()}
                 </Group>

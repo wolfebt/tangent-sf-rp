@@ -440,7 +440,7 @@ FORMAT YOUR OUTPUT AS VALID JSON:
           {/* Preset Selector */}
           {protagonistMode === 'preset' && (
             <select
-              value={selectedPresetId}
+              value={selectedPresetId || ''}
               onChange={e => setSelectedPresetId(e.target.value)}
               className="bg-slate-900 border border-slate-700 text-cyan-200 px-2 py-1 rounded-lg text-xs outline-none focus:border-cyan-400 font-bold cursor-pointer max-w-[170px]"
             >
@@ -455,7 +455,7 @@ FORMAT YOUR OUTPUT AS VALID JSON:
           {/* Folio Hero Selector */}
           {protagonistMode === 'folio' && (
             <select
-              value={selectedFolioCharId}
+              value={selectedFolioCharId || ''}
               onChange={e => setSelectedFolioCharId(e.target.value)}
               className="bg-slate-900 border border-slate-700 text-purple-200 px-2 py-1 rounded-lg text-xs outline-none focus:border-purple-400 font-bold cursor-pointer max-w-[170px]"
             >

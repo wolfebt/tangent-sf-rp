@@ -18,6 +18,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import { TripartiteLayout } from './TripartiteLayout';
+import { StageBreadcrumbTabs } from './stage/StageBreadcrumbTabs';
 import { StageViewportWrapper } from './stage/StageViewportWrapper';
 import { ModuleCatalogPanel } from './catalog/ModuleCatalogPanel';
 import { ADEScenarioStageDrawer } from './stage/ADEScenarioStageDrawer';
@@ -25,6 +26,7 @@ import { OperativeCockpitRail } from '../../pages/Foundry/MapMaker/map/Operative
 import { ArchitectConsoleRail } from '../../pages/Foundry/MapMaker/map/ArchitectConsoleRail';
 import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
 import { adeElementToStageToken, adeElementToInteractiveObject } from '../../utils/storyAssetAdapter';
+import { getStarterMapsCollection } from './stage/defaultMaps';
 
 const OperativeCockpit = OperativeCockpitRail as unknown as React.ComponentType<any>;
 const ArchitectConsole = ArchitectConsoleRail as unknown as React.ComponentType<any>;
@@ -82,11 +84,27 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     pencilColor,
     setPencilColor,
     pencilWidth,
-    setPencilWidth
+    setPencilWidth,
+    selectedObjectType,
+    setSelectedObjectType
   } = useUILayoutStore();
 
-  const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
-  const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+  const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operative');
+
+  const { universeState, activeMapId, setActiveMapId, updateMap, addMap } = useCampaign();
+  const availableMaps = universeState?.maps || [];
+  const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0];
+
+  // Auto-bootstrap starter maps collection if universe is empty
+  useEffect(() => {
+    if (availableMaps.length === 0 && addMap) {
+      const starters = getStarterMapsCollection();
+      starters.forEach((m) => addMap(m));
+      if (starters[0]) {
+        if (setActiveMapId) setActiveMapId(starters[0].id);
+      }
+    }
+  }, [availableMaps.length, addMap, setActiveMapId]);
 
   useEffect(() => {
     if (scenarioIdParam && setActiveLeftTab) {
@@ -258,6 +276,73 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               onUpdateTokenStructure={(id: string, struct: number) => {
                 useEngineStore.getState().healHealth(id, struct);
               }}
+              objects={currentMap?.objects || []}
+              currentMap={currentMap}
+              onUpdateToken={(id: string, updates: any) => {
+                if (currentMap && updateMap) {
+                  const nextTokens = (currentMap.tokens || []).map((t: any) => t.id === id ? { ...t, ...updates } : t);
+                  updateMap(currentMap.id, { tokens: nextTokens });
+                }
+                if (updates.current_hp !== undefined) {
+                  useEngineStore.getState().healHealth(id, updates.current_hp);
+                }
+              }}
+              onUpdateObject={(id: string, updates: any) => {
+                if (currentMap && updateMap) {
+                  const nextObjs = (currentMap.objects || []).map((o: any) => o.id === id ? { ...o, ...updates } : o);
+                  updateMap(currentMap.id, { objects: nextObjs });
+                }
+              }}
+              onDeleteToken={(id: string) => {
+                if (currentMap && updateMap) {
+                  const nextTokens = (currentMap.tokens || []).filter((t: any) => t.id !== id);
+                  updateMap(currentMap.id, { tokens: nextTokens });
+                }
+                useEngineStore.getState().clearSelection();
+                if (selectedTokenId === id) setSelectedTokenId(null);
+              }}
+              onDeleteObject={(id: string) => {
+                if (currentMap && updateMap) {
+                  const nextObjs = (currentMap.objects || []).filter((o: any) => o.id !== id);
+                  updateMap(currentMap.id, { objects: nextObjs });
+                }
+              }}
+              onDuplicateToken={(id: string) => {
+                const tok = (currentMap?.tokens || []).find((t: any) => t.id === id);
+                if (!tok || !currentMap || !updateMap) return;
+                const clone = {
+                  ...tok,
+                  id: `token-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+                  name: `${tok.name || tok.label || 'Unit'} (Copy)`,
+                  label: `${tok.label || tok.name || 'Unit'} (Copy)`,
+                  x: (tok.x || 300) + 40,
+                  y: (tok.y || 300) + 40
+                };
+                updateMap(currentMap.id, { tokens: [...(currentMap.tokens || []), clone] });
+                useEngineStore.getState().loadStaticEntity(clone as any);
+                setSelectedTokenId(clone.id);
+              }}
+              onDuplicateObject={(id: string) => {
+                const obj = (currentMap?.objects || []).find((o: any) => o.id === id);
+                if (!obj || !currentMap || !updateMap) return;
+                const clone = {
+                  ...obj,
+                  id: `obj-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+                  name: `${obj.name || obj.label || 'Object'} (Copy)`,
+                  label: `${obj.label || obj.name || 'Object'} (Copy)`,
+                  x: (obj.x || 300) + 40,
+                  y: (obj.y || 300) + 40
+                };
+                updateMap(currentMap.id, { objects: [...(currentMap.objects || []), clone] });
+              }}
+              onDeployAsset={(asset: any, pos?: { x: number; y: number }) => {
+                handleDeployElementFromDrawer(asset, pos);
+              }}
+              onOpenTacticalModal={(token: any) => {
+                window.dispatchEvent(new CustomEvent('open-tactical-play-modal', {
+                  detail: { token }
+                }));
+              }}
             />
           </div>
         )}
@@ -327,6 +412,14 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             setSelectedLightRadius={setSelectedLightRadius}
             selectedLightAnimation={selectedLightAnimation}
             setSelectedLightAnimation={setSelectedLightAnimation}
+            selectedObjectType={selectedObjectType}
+            setSelectedObjectType={(obj: any) => {
+              setSelectedObjectType(obj);
+              setActiveArchitectTool('object');
+              AudioService.playTerminalBeep(1200, 0.02);
+            }}
+            tokenLabelInput={tokenLabelInput}
+            setTokenLabelInput={setTokenLabelInput}
             currentMapScale={currentMap?.scale || currentMap?.type || 'Encounter'}
             mapLayers={currentMap?.layers || DEFAULT_LAYERS}
             onToggleLayerVisibility={handleToggleLayerVisibility}
@@ -346,6 +439,22 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   return (
     <div className="relative w-full h-full overflow-hidden">
       <TripartiteLayout
+        topBar={
+          <StageBreadcrumbTabs
+            currentMapId={activeMapId || ''}
+            onSelectMap={(id) => {
+              if (setActiveMapId) setActiveMapId(id);
+            }}
+            onOpenMapMaker={() => {
+              setUserRole('architect');
+              setRightCollapsed(false);
+              AudioService.playTerminalBeep(1200, 0.04);
+            }}
+            onOpenUnderlayModal={() => {
+              window.dispatchEvent(new CustomEvent('open-underlay-modal'));
+            }}
+          />
+        }
         leftPanel={renderLeftPanel()}
         centerStage={
           <StageViewportWrapper

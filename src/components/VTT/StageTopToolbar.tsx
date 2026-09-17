@@ -174,7 +174,7 @@ export const StageTopToolbar: React.FC<StageTopToolbarProps> = ({
         <div className="flex items-center gap-1 bg-slate-900 border border-slate-700/80 rounded-xl px-2 py-1 shadow-sm">
           <Globe size={13} className="text-cyan-400 shrink-0" />
           <select
-            value={activeMapId}
+            value={activeMapId || ''}
             onChange={(e) => {
               AudioService.playTerminalBeep(1100, 0.02);
               onSelectMap(e.target.value);
