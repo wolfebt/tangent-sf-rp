@@ -31,24 +31,7 @@ quote: '"They aren''t monsters. They''re just... different."'
 description: 'An expert in alien cultures, biology, and languages.'
 costs:
   bp: 80
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # The Xenologist

@@ -6,12 +6,6 @@ bp: 0
 cp: 0
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: Standard visual and auditory range.
 immunities: None
 physiology: 'Humanoids breathe, eat, and sleep.'

@@ -44,12 +44,6 @@ meta_level: 2 (Elemental Fire)
 homeworld: Dracon Dynasty Capitals
 costs:
   bp: 10
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 10
 cp: 10

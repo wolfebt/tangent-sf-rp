@@ -33,24 +33,7 @@ quote: '"They are moving to flank. Suppress the left and advance on my signal."'
 description: A strategic mastermind who analyzes the battlefield and coordinates actions.
 costs:
   bp: 80
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # The Tactician

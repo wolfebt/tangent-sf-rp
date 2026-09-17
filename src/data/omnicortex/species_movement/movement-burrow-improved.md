@@ -12,12 +12,7 @@ bp: 1
 description: Increases base burrowing speed by +10 feet (Additive). Ranked.
 costs:
   bp: 1
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Enhanced Burrow Speed (+10 ft Burrow)
 

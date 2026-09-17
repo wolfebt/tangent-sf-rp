@@ -13,24 +13,7 @@ reach: "6 in"
 description: "Very small organism or drone, comparable to a small rodent or tiny mechanical scout."
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # Size Category: Fine

@@ -8,29 +8,11 @@ perspective: "operator"
 entry_type: "Operator Rule"
 tl: 3
 ml: 0
-cost: 0
 tags: ["compendium","operator-rule"]
 updatedAt: "2026-09-15T07:48:15.248Z"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # 1.01.06 Experience, Award Points (AP) & Advancement

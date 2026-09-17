@@ -47,12 +47,6 @@ meta_level: 3 (Telepathic Diplomacy)
 homeworld: Kitin Diplomatic Hubs
 costs:
   bp: 10
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Wisdom
     value: 1

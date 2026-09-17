@@ -19,24 +19,7 @@ bonus_features: ["Solar Aura","High Imperial Status"]
 description: "The absolute peak of human achievement. A highly unified hegemony characterized by the seamless synergy of TL4 spacefaring and ML4 psionics. Directed by the Regi (bio-engineered processing nodes), they offer strategic worlds a place in their \"Grand Design.\" Refusal results in mathematical, detached eradication. Their technology is \"Psycho-Reactive,\" forged by psions manipulating matter. Society is defined by unyielding stoicism and extreme determination"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

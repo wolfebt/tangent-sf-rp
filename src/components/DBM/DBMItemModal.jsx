@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { AssetStudio, StudioTransferBar } from '../Codex/AssetStudio';
 import { getMatrixIdForAssetKey } from '../../pages/Codex/codexAssetBridge';
 import { getMatrixById } from '../../pages/Codex/codexConfig';
+import { isPropertyCategory } from '../../utils/tangentSchemaAdapters';
 
 export const getDatasetKeyForCollection = (colKey) => {
   if (!colKey) return 'species';
@@ -91,7 +92,11 @@ export const DBMItemModal = ({
   const targetItem = (editFormData && Object.keys(editFormData).length > 0) ? editFormData : selectedItem;
 
   const matrixId = useMemo(() => getMatrixIdForAssetKey(currentKey), [currentKey]);
-  const matrix = useMemo(() => matrixId ? getMatrixById(matrixId) : getMatrixById('equipment'), [matrixId]);
+  const matrix = useMemo(() => {
+    if (matrixId) return getMatrixById(matrixId);
+    if (!isPropertyCategory(currentKey)) return getMatrixById('features');
+    return getMatrixById('equipment');
+  }, [matrixId, currentKey]);
 
   const handleSaveComplete = (savedPayload) => {
     if (setEditFormData) setEditFormData(savedPayload);

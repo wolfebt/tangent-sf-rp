@@ -51,13 +51,30 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
   species: 'species',
   'char-species': 'species',
   lineages: 'species',
+  species_type: 'species_type',
+  species_types: 'species_type',
+  types: 'species_type',
+  chassis: 'species_type',
+  species_size: 'species_size',
+  species_sizes: 'species_size',
+  sizes: 'species_size',
+  species_movement: 'species_movement',
+  species_movements: 'species_movement',
+  movements: 'species_movement',
+  paces: 'species_movement',
 
-  // Character Traits & Talents
+  // Biological Traits & Character Talents
+  traits: 'traits',
+  trait: 'traits',
+  species_traits: 'traits',
   features: 'features',
   feature: 'features',
-  traits: 'features',
-  disadvantages: 'features',
-  disadvantage: 'features',
+
+  // Hindrances & Disadvantages
+  disadvantages: 'disadvantages',
+  disadvantage: 'disadvantages',
+  species_disadvantages: 'disadvantages',
+  hindrances: 'disadvantages',
 
   // Meta-Abilities & Psionics
   invocations: 'invocation',
@@ -163,16 +180,16 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     matrix_id: matrix.id,
     matrix_type: matrix.id,
     category: matrix.name,
-    _computed: {
+    _computed: matrix.isProperty ? {
       ...(computedValues || {}),
       ...(formData._computed || {}),
       computed_at: new Date().toISOString()
-    },
+    } : { computed_at: new Date().toISOString() },
     updatedAt: new Date().toISOString()
   };
 
-  // Ensure credit cost sync for property matrices
-  if (computedValues?.credit_value && !payload.costs.credits) {
+  // Ensure credit cost sync strictly for property matrices
+  if (matrix.isProperty && computedValues?.credit_value && payload.costs && !payload.costs.credits) {
     payload.costs.credits = Number(computedValues.credit_value);
     payload.cost = Number(computedValues.credit_value);
   }

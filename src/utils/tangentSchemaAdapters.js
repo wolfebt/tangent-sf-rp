@@ -4,20 +4,49 @@
 // modern consolidated nested NoSQL maps and universal arrays.
 // ═══════════════════════════════════════════════════════════
 
+export const PROPERTY_CATEGORIES = new Set([
+  'augmentations',
+  'augmentation',
+  'armoring',
+  'armor',
+  'weaponry',
+  'weapons',
+  'gear',
+  'equipment',
+  'mecha',
+  'architecture'
+]);
+
+export const isPropertyCategory = (category) => {
+  if (!category) return false;
+  return PROPERTY_CATEGORIES.has(String(category).toLowerCase().trim());
+};
+
 /**
  * Normalizes any legacy or modern Omnicortex item into a guaranteed structured object.
+ * Hardware/UDU fields (credits, nodes, sockets, modifications, critical_details)
+ * are strictly restricted to property assets (augmentations, armor, weapons, gear, mecha, architecture).
  *
  * @param {object} item - Raw database document or form data
- * @returns {object} Normalized item with nested costs, modifiers, modifications, critical_details, and sockets
+ * @param {string} [categoryHint] - Optional category override
+ * @returns {object} Normalized item
  */
-export function normalizeOmnicortexItem(item) {
+export function normalizeOmnicortexItem(item, categoryHint = null) {
+  const isProp = isPropertyCategory(item?.category || item?.collection || categoryHint);
+
   if (!item || typeof item !== 'object') {
+    if (isProp) {
+      return {
+        costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
+        modifiers: [],
+        modifications: [],
+        critical_details: { score: '', effect: [], success_effect: [], failure_effect: [] },
+        sockets: { max: 0, used: 0, tier: 'Socket', allocated: [] }
+      };
+    }
     return {
-      costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
-      modifiers: [],
-      modifications: [],
-      critical_details: { score: '', effect: [], success_effect: [], failure_effect: [] },
-      sockets: { max: 0, used: 0, tier: 'Socket', allocated: [] }
+      costs: { bp: 0 },
+      modifiers: []
     };
   }
 
@@ -25,28 +54,40 @@ export function normalizeOmnicortexItem(item) {
 
   // 1. Costs & Economy Consolidation
   const costs = { ...(item.costs || {}) };
-  if (costs.bp === undefined) {
-    costs.bp = parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp ?? item.bp_chassis ?? item.cost_bp ?? item.cp_refund, 0);
+  const bpVal = parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp ?? item.bp_chassis ?? item.cost_bp ?? item.cp_refund ?? costs.bp, 0);
+
+  if (isProp) {
+    if (costs.bp === undefined) costs.bp = bpVal;
+    if (costs.credits === undefined) {
+      costs.credits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);
+    }
+    if (costs.nodes === undefined) {
+      costs.nodes = parseNumeric(item.node_cost ?? item.nodes, 0);
+    }
+    if (costs.sockets === undefined) {
+      costs.sockets = parseNumeric(item.socket_cost ?? item.sockets_cost ?? item.sockets_used, 0);
+    }
+    if (costs.strain === undefined) {
+      costs.strain = parseNumeric(item.cost_essence ?? item.essence_cost ?? item.strain_cost ?? item.strain, 0);
+    }
+    if (costs.focus === undefined) {
+      costs.focus = parseNumeric(item.focus_cost ?? item.focus, 0);
+    }
+    if (costs.ap === undefined) {
+      costs.ap = parseNumeric(item.ap_cost ?? item.ap, 0);
+    }
+    normalized.costs = costs;
+  } else {
+    // Non-property items: strictly BP/CP cost, zero hardware economy
+    normalized.costs = { bp: bpVal };
+    if (normalized.bp === undefined && normalized.cp === undefined) {
+      normalized.bp = bpVal;
+    }
+    delete normalized.cost;
+    delete normalized.price;
+    delete normalized.credits;
+    delete normalized.cost_credits;
   }
-  if (costs.credits === undefined) {
-    costs.credits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);
-  }
-  if (costs.nodes === undefined) {
-    costs.nodes = parseNumeric(item.node_cost ?? item.nodes, 0);
-  }
-  if (costs.sockets === undefined) {
-    costs.sockets = parseNumeric(item.socket_cost ?? item.sockets_cost ?? item.sockets_used, 0);
-  }
-  if (costs.strain === undefined) {
-    costs.strain = parseNumeric(item.cost_essence ?? item.essence_cost ?? item.strain_cost ?? item.strain, 0);
-  }
-  if (costs.focus === undefined) {
-    costs.focus = parseNumeric(item.focus_cost ?? item.focus, 0);
-  }
-  if (costs.ap === undefined) {
-    costs.ap = parseNumeric(item.ap_cost ?? item.ap, 0);
-  }
-  normalized.costs = costs;
 
   // 2. Modifiers Simplification
   const modifiers = Array.isArray(item.modifiers) ? [...item.modifiers] : [];
@@ -155,105 +196,117 @@ export function normalizeOmnicortexItem(item) {
 
   normalized.modifiers = modifiers;
 
-  // 3. Modifications Consolidation (Upgrades, Downgrades, Modules)
-  const modifications = Array.isArray(item.modifications) ? [...item.modifications] : [];
+  if (isProp) {
+    // 3. Modifications Consolidation (Upgrades, Downgrades, Modules)
+    const modifications = Array.isArray(item.modifications) ? [...item.modifications] : [];
 
-  if (Array.isArray(item.weapon_upgrades) && item.weapon_upgrades.length > 0) {
-    item.weapon_upgrades.forEach(u => {
-      const name = typeof u === 'object' ? (u.name || u.id || '') : String(u);
-      if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
-        modifications.push(typeof u === 'object' ? { type: 'upgrade', ...u } : { name, type: 'upgrade' });
-      }
-    });
-  }
+    if (Array.isArray(item.weapon_upgrades) && item.weapon_upgrades.length > 0) {
+      item.weapon_upgrades.forEach(u => {
+        const name = typeof u === 'object' ? (u.name || u.id || '') : String(u);
+        if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
+          modifications.push(typeof u === 'object' ? { type: 'upgrade', ...u } : { name, type: 'upgrade' });
+        }
+      });
+    }
 
-  if (Array.isArray(item.weapon_downgrades) && item.weapon_downgrades.length > 0) {
-    item.weapon_downgrades.forEach(d => {
-      const name = typeof d === 'object' ? (d.name || d.id || '') : String(d);
-      if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
-        modifications.push(typeof d === 'object' ? { type: 'downgrade', ...d } : { name, type: 'downgrade' });
-      }
-    });
-  }
+    if (Array.isArray(item.weapon_downgrades) && item.weapon_downgrades.length > 0) {
+      item.weapon_downgrades.forEach(d => {
+        const name = typeof d === 'object' ? (d.name || d.id || '') : String(d);
+        if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
+          modifications.push(typeof d === 'object' ? { type: 'downgrade', ...d } : { name, type: 'downgrade' });
+        }
+      });
+    }
 
-  if (Array.isArray(item.downgrades) && item.downgrades.length > 0) {
-    item.downgrades.forEach(d => {
-      const name = typeof d === 'object' ? (d.name || d.id || '') : String(d);
-      if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
-        modifications.push(typeof d === 'object' ? { type: 'downgrade', ...d } : { name, type: 'downgrade' });
-      }
-    });
-  }
+    if (Array.isArray(item.downgrades) && item.downgrades.length > 0) {
+      item.downgrades.forEach(d => {
+        const name = typeof d === 'object' ? (d.name || d.id || '') : String(d);
+        if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
+          modifications.push(typeof d === 'object' ? { type: 'downgrade', ...d } : { name, type: 'downgrade' });
+        }
+      });
+    }
 
-  if (Array.isArray(item.armor_downgrades) && item.armor_downgrades.length > 0) {
-    item.armor_downgrades.forEach(d => {
-      const name = typeof d === 'object' ? (d.name || d.id || '') : String(d);
-      if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
-        modifications.push(typeof d === 'object' ? { type: 'downgrade', ...d } : { name, type: 'downgrade' });
-      }
-    });
-  }
+    if (Array.isArray(item.armor_downgrades) && item.armor_downgrades.length > 0) {
+      item.armor_downgrades.forEach(d => {
+        const name = typeof d === 'object' ? (d.name || d.id || '') : String(d);
+        if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
+          modifications.push(typeof d === 'object' ? { type: 'downgrade', ...d } : { name, type: 'downgrade' });
+        }
+      });
+    }
 
-  if (Array.isArray(item.modules) && item.modules.length > 0) {
-    item.modules.forEach(mod => {
-      const name = typeof mod === 'object' ? (mod.name || mod.id || '') : String(mod);
-      if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
-        modifications.push(typeof mod === 'object' ? { type: 'module', ...mod } : { name, type: 'module' });
-      }
-    });
-  }
+    if (Array.isArray(item.modules) && item.modules.length > 0) {
+      item.modules.forEach(mod => {
+        const name = typeof mod === 'object' ? (mod.name || mod.id || '') : String(mod);
+        if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
+          modifications.push(typeof mod === 'object' ? { type: 'module', ...mod } : { name, type: 'module' });
+        }
+      });
+    }
 
-  if (Array.isArray(item.installed_modules) && item.installed_modules.length > 0) {
-    item.installed_modules.forEach(mod => {
-      const name = typeof mod === 'object' ? (mod.name || mod.id || '') : String(mod);
-      if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
-        modifications.push(typeof mod === 'object' ? { type: 'module', ...mod } : { name, type: 'module' });
-      }
-    });
-  }
+    if (Array.isArray(item.installed_modules) && item.installed_modules.length > 0) {
+      item.installed_modules.forEach(mod => {
+        const name = typeof mod === 'object' ? (mod.name || mod.id || '') : String(mod);
+        if (name && !modifications.some(m => m.name?.toLowerCase() === name.toLowerCase())) {
+          modifications.push(typeof mod === 'object' ? { type: 'module', ...mod } : { name, type: 'module' });
+        }
+      });
+    }
 
-  normalized.modifications = modifications;
+    normalized.modifications = modifications;
 
-  // 4. Critical Details Consolidation
-  const critical_details = { ...(item.critical_details || {}) };
-  if (critical_details.score === undefined) {
-    critical_details.score = item.critical_score || item.critical || '';
-  }
-  if (!critical_details.effect) {
-    critical_details.effect = Array.isArray(item.critical_effect)
-      ? item.critical_effect
-      : (item.critical_effect ? [String(item.critical_effect)] : []);
-  }
-  if (!critical_details.success_effect) {
-    critical_details.success_effect = Array.isArray(item.critical_success_effect)
-      ? item.critical_success_effect
-      : (item.critical_success_effect ? [String(item.critical_success_effect)] : []);
-  }
-  if (!critical_details.failure_effect) {
-    critical_details.failure_effect = Array.isArray(item.critical_failure_effect)
-      ? item.critical_failure_effect
-      : (item.critical_failure_effect ? [String(item.critical_failure_effect)] : []);
-  }
-  normalized.critical_details = critical_details;
+    // 4. Critical Details Consolidation
+    const critical_details = { ...(item.critical_details || {}) };
+    if (critical_details.score === undefined) {
+      critical_details.score = item.critical_score || item.critical || '';
+    }
+    if (!critical_details.effect) {
+      critical_details.effect = Array.isArray(item.critical_effect)
+        ? item.critical_effect
+        : (item.critical_effect ? [String(item.critical_effect)] : []);
+    }
+    if (!critical_details.success_effect) {
+      critical_details.success_effect = Array.isArray(item.critical_success_effect)
+        ? item.critical_success_effect
+        : (item.critical_success_effect ? [String(item.critical_success_effect)] : []);
+    }
+    if (!critical_details.failure_effect) {
+      critical_details.failure_effect = Array.isArray(item.critical_failure_effect)
+        ? item.critical_failure_effect
+        : (item.critical_failure_effect ? [String(item.critical_failure_effect)] : []);
+    }
+    normalized.critical_details = critical_details;
 
-  // 5. Sockets & Allocation Grouping
-  const sockets = { ...(item.sockets_config || item.sockets_group || item.sockets || {}) };
-  if (typeof item.sockets === 'number') {
-    sockets.max = item.sockets;
+    // 5. Sockets & Allocation Grouping
+    const sockets = { ...(item.sockets_config || item.sockets_group || item.sockets || {}) };
+    if (typeof item.sockets === 'number') {
+      sockets.max = item.sockets;
+    }
+    if (sockets.max === undefined) {
+      sockets.max = parseNumeric(item.total_sockets ?? item.sockets ?? item.component_slots, 0);
+    }
+    if (sockets.used === undefined) {
+      sockets.used = parseNumeric(item.sockets_used, 0);
+    }
+    if (!sockets.tier) {
+      sockets.tier = item.udu_tier || item.socket_tier || 'Socket';
+    }
+    if (!Array.isArray(sockets.allocated)) {
+      sockets.allocated = [];
+    }
+    normalized.sockets = sockets;
+  } else {
+    delete normalized.modifications;
+    delete normalized.critical_details;
+    delete normalized.sockets;
+    delete normalized.craft_dc;
+    delete normalized.design_dc;
+    delete normalized.material_cost;
+    delete normalized.complexity_tier;
+    delete normalized.crafting_days;
+    delete normalized.tsc_market_value;
   }
-  if (sockets.max === undefined) {
-    sockets.max = parseNumeric(item.total_sockets ?? item.sockets ?? item.component_slots, 0);
-  }
-  if (sockets.used === undefined) {
-    sockets.used = parseNumeric(item.sockets_used, 0);
-  }
-  if (!sockets.tier) {
-    sockets.tier = item.udu_tier || item.socket_tier || 'Socket';
-  }
-  if (!Array.isArray(sockets.allocated)) {
-    sockets.allocated = [];
-  }
-  normalized.sockets = sockets;
 
   // 6. Tech Level & Meta Level Normalization
   if (normalized.tech_level === undefined && (item.tl !== undefined || item.techLevel !== undefined)) {
@@ -276,6 +329,7 @@ export function normalizeOmnicortexItem(item) {
 export function exportOmnicortexItem(formData) {
   if (!formData || typeof formData !== 'object') return {};
 
+  const isProp = isPropertyCategory(formData.category || formData.collection);
   const normalized = normalizeOmnicortexItem(formData);
   const clean = { ...normalized };
 
@@ -317,9 +371,21 @@ export function exportOmnicortexItem(formData) {
     'total_sockets'
   ];
 
+  if (!isProp) {
+    legacyKeysToRemove.push(
+      'credits', 'nodes', 'sockets', 'modifications', 'critical_details',
+      'craft_dc', 'design_dc', 'material_cost', 'complexity_tier', 'crafting_days',
+      'tsc_market_value', 'component_slots', 'socket_tier', 'udu_tier'
+    );
+  }
+
   legacyKeysToRemove.forEach(k => {
     delete clean[k];
   });
+
+  if (!isProp && clean.costs) {
+    clean.costs = { bp: clean.costs.bp || 0 };
+  }
 
   return clean;
 }

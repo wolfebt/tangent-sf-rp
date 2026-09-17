@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { AssetStudio } from './AssetStudio';
 import { getMatrixIdForAssetKey } from '../../pages/Codex/codexAssetBridge';
 import { getMatrixById } from '../../pages/Codex/codexConfig';
+import { isPropertyCategory } from '../../utils/tangentSchemaAdapters';
 
 /**
  * CodexManageModal
@@ -25,7 +26,11 @@ export const CodexManageModal = ({
   } = modalConfig;
 
   const matrixId = useMemo(() => getMatrixIdForAssetKey(key), [key]);
-  const matrix = useMemo(() => matrixId ? getMatrixById(matrixId) : getMatrixById('equipment'), [matrixId]);
+  const matrix = useMemo(() => {
+    if (matrixId) return getMatrixById(matrixId);
+    if (!isPropertyCategory(key)) return getMatrixById('features');
+    return getMatrixById('equipment');
+  }, [matrixId, key]);
 
   const handleSaveComplete = (payload) => {
     if (onSaveAsset) {

@@ -19,24 +19,7 @@ bonus_features: ["Zero-G Veteran","Bio-Crafting Intuition"]
 description: "The Aulurans are defined by radical adaptation following the genocide of their homeworld by the Impyrium. They fought back with Life—specifically, Emulated Biology. They terraform worlds using hyper-accelerated Organic Mimetics. Their tech is pseudo-living, utilizing synthetic tissues and neural-growth circuits. They view the galaxy through the lens of an immune system: outsiders are either compatible cells or pathogens"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

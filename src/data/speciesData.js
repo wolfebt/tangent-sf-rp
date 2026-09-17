@@ -88,13 +88,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 26,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 26
     },
     "inherent_attribute_modifiers": [
       {
@@ -181,13 +175,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -264,13 +252,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 13,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 13
     },
     "inherent_attribute_modifiers": [
       {
@@ -353,13 +335,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 23,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 23
     },
     "inherent_attribute_modifiers": [
       {
@@ -433,13 +409,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 19,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 19
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -532,13 +502,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 18,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 18
     },
     "inherent_attribute_modifiers": [
       {
@@ -634,13 +598,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 27,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 27
     },
     "inherent_attribute_modifiers": [
       {
@@ -741,13 +699,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 31,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 31
     },
     "inherent_attribute_modifiers": [
       {
@@ -842,13 +794,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 12,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 12
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
@@ -942,13 +888,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 66,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 66
     },
     "inherent_attribute_modifiers": [
       {
@@ -1049,13 +989,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 17,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 17
     },
     "inherent_attribute_modifiers": [
       {
@@ -1136,13 +1070,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 14,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 14
     },
     "inherent_attribute_modifiers": [
       {
@@ -1226,13 +1154,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 14,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 14
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
@@ -1302,13 +1224,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 15,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 15
     },
     "inherent_attribute_modifiers": [
       {
@@ -1403,13 +1319,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 19,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 19
     },
     "inherent_attribute_modifiers": [
       {
@@ -1487,13 +1397,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 12,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 12
     },
     "inherent_attribute_modifiers": [
       {
@@ -1569,13 +1473,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -1642,13 +1540,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 14,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 14
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
@@ -1706,13 +1598,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 12,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 12
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -1776,13 +1662,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 14,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 14
     },
     "inherent_attribute_modifiers": [
       {
@@ -1894,13 +1774,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 29,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 29
     },
     "inherent_attribute_modifiers": [
       {
@@ -1977,13 +1851,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 14,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 14
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -2046,13 +1914,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 20,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 20
     },
     "inherent_attribute_modifiers": [
       {
@@ -2127,13 +1989,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 28,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 28
     },
     "inherent_attribute_modifiers": [
       {
@@ -2209,13 +2065,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 30,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 30
     },
     "inherent_attribute_modifiers": [
       {
@@ -2284,13 +2134,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 11,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 11
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
@@ -2356,13 +2200,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -2435,13 +2273,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 11,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 11
     },
     "inherent_attribute_modifiers": [
       {
@@ -2532,13 +2364,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 21,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 21
     },
     "inherent_attribute_modifiers": [
       {
@@ -2612,13 +2438,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -2686,13 +2506,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 17,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 17
     },
     "inherent_attribute_modifiers": [
       {
@@ -2766,13 +2580,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -2838,13 +2646,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
@@ -2918,13 +2720,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 18,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 18
     },
     "inherent_attribute_modifiers": [
       {
@@ -2991,13 +2787,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
@@ -3054,13 +2844,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 15,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 15
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -3125,13 +2909,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 17,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 17
     },
     "inherent_attribute_modifiers": [
       {
@@ -3219,13 +2997,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 16,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 16
     },
     "inherent_attribute_modifiers": [
       {
@@ -3294,13 +3066,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 15,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 15
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
@@ -3375,13 +3141,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 27,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 27
     },
     "inherent_attribute_modifiers": [
       {
@@ -3486,13 +3246,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 27,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 27
     },
     "inherent_attribute_modifiers": [
       {
@@ -3565,13 +3319,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 20,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 20
     },
     "inherent_attribute_modifiers": [
       {
@@ -3638,13 +3386,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -3712,13 +3454,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -3818,13 +3554,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 28,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 28
     },
     "inherent_attribute_modifiers": [
       {
@@ -3907,13 +3637,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 15,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 15
     },
     "inherent_attribute_modifiers": [
       {
@@ -3999,13 +3723,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -4090,13 +3808,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 15,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 15
     },
     "inherent_attribute_modifiers": [
       {
@@ -4201,13 +3913,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 21,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 21
     },
     "inherent_attribute_modifiers": [
       {
@@ -4291,13 +3997,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 16,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 16
     },
     "inherent_attribute_modifiers": [
       {
@@ -4373,13 +4073,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 24,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 24
     },
     "inherent_attribute_modifiers": [
       {
@@ -4491,13 +4185,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 33,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 33
     },
     "inherent_attribute_modifiers": [
       {
@@ -4572,13 +4260,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 17,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 17
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
@@ -4643,13 +4325,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 22,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 22
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -4745,13 +4421,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 16,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 16
     },
     "inherent_attribute_modifiers": [
       {
@@ -4821,13 +4491,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 14,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 14
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
@@ -4890,13 +4554,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 24,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 24
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -4981,13 +4639,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 16,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 16
     },
     "inherent_attribute_modifiers": [
       {
@@ -5091,13 +4743,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -5194,13 +4840,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 21,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 21
     },
     "inherent_attribute_modifiers": [
       {
@@ -5269,13 +4909,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
@@ -5341,13 +4975,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [
       {
@@ -5440,13 +5068,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 22,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 22
     },
     "inherent_attribute_modifiers": [
       {
@@ -5551,13 +5173,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 15,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 15
     },
     "inherent_attribute_modifiers": [
       {
@@ -5658,13 +5274,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 96,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 96
     },
     "inherent_attribute_modifiers": [
       {
@@ -5766,13 +5376,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 81,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 81
     },
     "inherent_attribute_modifiers": [
       {
@@ -5832,13 +5436,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 10,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 10
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -5905,13 +5503,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 30,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 30
     },
     "inherent_attribute_modifiers": [
       {
@@ -5981,13 +5573,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 42,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 42
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
@@ -6063,13 +5649,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 42,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 42
     },
     "inherent_attribute_modifiers": [
       {
@@ -6149,13 +5729,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 51,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 51
     },
     "inherent_attribute_modifiers": [
       {
@@ -6227,13 +5801,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 42,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 42
     },
     "inherent_attribute_modifiers": [
       {
@@ -6344,13 +5912,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 70,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 70
     },
     "inherent_attribute_modifiers": [
       {
@@ -6480,13 +6042,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 187,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 187
     },
     "inherent_attribute_modifiers": [
       {
@@ -6586,13 +6142,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 32,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 32
     },
     "inherent_attribute_modifiers": [
       {
@@ -6667,13 +6217,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 51,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 51
     },
     "inherent_attribute_modifiers": [
       {
@@ -6744,13 +6288,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 47,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 47
     },
     "inherent_attribute_modifiers": [
       {
@@ -6837,13 +6375,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 45,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 45
     },
     "inherent_attribute_modifiers": [
       {
@@ -6918,13 +6450,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 32,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 32
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -6973,13 +6499,7 @@ export const DEFAULT_SPECIES = [
     ],
     "modifiers": [],
     "costs": {
-      "bp": 29,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 29
     },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 2,
@@ -7073,13 +6593,7 @@ export const DEFAULT_SPECIES = [
       }
     ],
     "costs": {
-      "bp": 78,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 78
     },
     "inherent_attribute_modifiers": [
       {

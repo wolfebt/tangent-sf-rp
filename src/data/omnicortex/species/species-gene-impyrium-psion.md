@@ -48,12 +48,6 @@ meta_level: 4 (Imperial High Psionics)
 homeworld: Imperia Core
 costs:
   bp: 20
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Wisdom
     value: 1

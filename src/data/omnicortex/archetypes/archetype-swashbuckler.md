@@ -31,24 +31,7 @@ quote: '"En garde! Try not to bore me."'
 description: A skilled combatant who excels in boarding actions and close-quarters flair.
 costs:
   bp: 80
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # The Swashbuckler

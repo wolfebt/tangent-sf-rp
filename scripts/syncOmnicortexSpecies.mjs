@@ -88,7 +88,8 @@ function syncSpecies() {
     const parentSpecies = data.parent_species || 'Independent Xenotypes';
 
     const modifiers = Array.isArray(data.modifiers) ? data.modifiers : [];
-    const costs = data.costs || { bp: data.cp || data.cp_cost || 10, credits: 0 };
+    const bpVal = Number(data.costs?.bp ?? data.cp ?? data.cp_cost ?? 10);
+    const costs = { bp: bpVal };
 
     // Backward-compatibility derivation from modern modifiers:
     const inherent_attribute_modifiers = Array.isArray(data.inherent_attribute_modifiers) ? [...data.inherent_attribute_modifiers] : [];

@@ -47,12 +47,6 @@ meta_level: 0 (Null / Technological Optimization)
 homeworld: Cygnus Arcologies & Orbital Rings
 costs:
   bp: 17
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 2

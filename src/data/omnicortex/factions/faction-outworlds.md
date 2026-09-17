@@ -19,24 +19,7 @@ bonus_features: ["Scavenger Instinct","Rugged Survival"]
 description: "The Outworlds represent the untamed expanse outside the rigid control of major powers. Covering frontier colony worlds, independent moons, and drift-stations, they are defined by extreme diversity and political fragmentation. There is no central government; governance ranges from absolute anarchy to strict micro-tyrannies. They are the engine of raw resources and home of true grit"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

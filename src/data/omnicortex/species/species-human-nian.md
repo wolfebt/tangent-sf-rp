@@ -47,12 +47,6 @@ meta_level: 0 (Null)
 homeworld: Nia Frontier Badlands
 costs:
   bp: 16
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Strength
     value: 1

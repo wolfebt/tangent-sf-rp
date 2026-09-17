@@ -20,13 +20,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "No penalties or Damage from one set environment type. Multiple.",
@@ -52,13 +46,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
@@ -101,13 +89,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Base Category, Change Appearance only (+5 to Disguise).",
@@ -142,13 +124,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Breathe Air and Water equally well, +10 to Swim Speed.",
@@ -183,13 +159,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 dodge bonus to AC when in a specific terrain type.",
@@ -215,13 +185,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Members of this race select one extra feature of their choice.",
@@ -247,13 +211,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
@@ -279,13 +237,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
@@ -320,13 +272,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Once per Long Rest make a Reflex Check at Advantage.",
@@ -352,13 +298,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 bonus on Survival checks made underground.",
@@ -393,13 +333,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
@@ -425,13 +359,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
@@ -457,13 +385,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 to Specific Vocation.",
@@ -498,13 +420,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
@@ -530,13 +446,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
@@ -571,13 +481,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Access to purchase various Dragon Traits",
@@ -603,13 +507,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Once per day make a check at advantage for Bluff or Diplomacy.",
@@ -635,13 +533,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
@@ -667,13 +559,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain Skill Focus in a skill of their choice.",
@@ -699,13 +585,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
@@ -731,13 +611,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 bonus on all Appraise checks.",
@@ -772,13 +646,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
@@ -804,13 +672,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 bonus on Fortitude saves against disease and poison",
@@ -845,13 +707,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
@@ -886,13 +742,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
@@ -918,13 +768,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+1 racial bonus on all saving throws.",
@@ -950,13 +794,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 natural armor bonus.",
@@ -982,13 +820,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
@@ -1014,13 +846,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
@@ -1046,13 +872,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
@@ -1078,13 +898,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
@@ -1110,13 +924,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
@@ -1142,13 +950,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Reach of 10 feet.",
@@ -1174,13 +976,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Eat and drink half typical.",
@@ -1206,13 +1002,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
@@ -1247,13 +1037,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
@@ -1289,13 +1073,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
@@ -1322,13 +1100,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain +5 to Stealth when in Shadowy or Dim area.",
@@ -1363,13 +1135,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Attacks made against members in dim light have 30% miss chance.",
@@ -1395,13 +1161,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
@@ -1427,13 +1187,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
@@ -1459,13 +1213,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
@@ -1508,13 +1256,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain +2 racial bonus to divide amongst noted skills.",
@@ -1540,13 +1282,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on Stealth checks.",
@@ -1572,13 +1308,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
@@ -1604,13 +1334,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 racial Stability bonus while standing on the ground.",
@@ -1636,13 +1360,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain +2 bonus to Perception and Stealth checks versus one target.",
@@ -1685,13 +1403,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
@@ -1717,13 +1429,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
@@ -1749,13 +1455,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 to Trip and Balance Checks and usable as a Club.",
@@ -1798,13 +1498,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
@@ -1830,13 +1524,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on Diplomacy and Sense Motive checks.",
@@ -1862,13 +1550,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
@@ -1894,13 +1576,7 @@ export const SPECIES_TRAITS_BASIC = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Blindsense 30 feet against creatures touching the same body of water.",
@@ -1928,13 +1604,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "May change between specific features during a Light Rest. Ranked.",
@@ -1960,13 +1630,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "4 point bonus allotted in a pool. Ranked.",
@@ -1992,13 +1656,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Another pair of prehensile limbs; Arms, Tentacles or other.",
@@ -2024,13 +1682,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Does not suffer penalties nor show any signs of aging.",
@@ -2056,13 +1708,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on Perception checks and immune to flanking.",
@@ -2088,13 +1734,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
@@ -2120,13 +1760,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "An additional ‘Natural’ Form.",
@@ -2152,13 +1786,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+1 size category for Combat, Strength or other checks while in water.",
@@ -2184,13 +1812,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
@@ -2216,13 +1838,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Does not require food/drink, may eat/digest elixirs for effects.",
@@ -2248,13 +1864,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
@@ -2280,13 +1890,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Physiology shifts to be compatible with the new environment.",
@@ -2312,13 +1916,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
@@ -2344,13 +1942,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
@@ -2376,13 +1968,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to gain a protective layer.",
@@ -2408,13 +1994,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
@@ -2440,13 +2020,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to alter size category 1 step up or down.",
@@ -2472,13 +2046,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
@@ -2504,13 +2072,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
@@ -2536,13 +2098,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to gain ‘Natural Weaponry’ based on Size",
@@ -2568,13 +2124,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
@@ -2600,13 +2150,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
@@ -2632,13 +2176,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
@@ -2664,13 +2202,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
@@ -2696,13 +2228,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
@@ -2728,13 +2254,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 dodge bonus to Defense.",
@@ -2760,13 +2280,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
@@ -2792,13 +2306,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Alternate Form of a Large size Dragon",
@@ -2824,13 +2332,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
@@ -2856,13 +2358,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
@@ -2888,13 +2384,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
@@ -2920,13 +2410,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
@@ -2952,13 +2436,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
@@ -2984,13 +2462,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
@@ -3017,13 +2489,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Animals treat character as Trusting & Neutral, Friendly.",
@@ -3049,13 +2515,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Animals treat character as a Predator & Dangerous, Wary.",
@@ -3081,13 +2541,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on Linguistics checks.",
@@ -3113,13 +2567,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Allows members to mentally share information on different levels (Special).",
@@ -3145,13 +2593,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Effectively doubles age categories.",
@@ -3177,13 +2619,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on all saving throws.",
@@ -3209,13 +2645,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 bonus on Disable Device and Engineering.",
@@ -3258,13 +2688,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Telepathic Communication to one subject within 500 ft. Ranked.",
@@ -3290,13 +2714,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "A Claw, Fang, Horn or other attack form.",
@@ -3322,13 +2740,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
@@ -3354,13 +2766,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
@@ -3386,13 +2792,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
@@ -3435,13 +2835,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
@@ -3476,13 +2870,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
@@ -3508,13 +2896,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
@@ -3540,13 +2922,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
@@ -3572,13 +2948,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Does not require sleep, may rest to regain metaphysical energy.",
@@ -3605,13 +2975,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Two members can share same square. If attacking same foe, considered flanking.",
@@ -3637,13 +3001,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
@@ -3669,13 +3027,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
@@ -3701,13 +3053,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "See Infra-Red/heat patterns, track passage of a warm target without light.",
@@ -3733,13 +3079,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Ability to converse with plants.",
@@ -3765,13 +3105,7 @@ export const SPECIES_TRAITS_ADVANCED = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
@@ -3799,13 +3133,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
@@ -3831,13 +3159,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
@@ -3863,13 +3185,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
@@ -3895,13 +3211,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
@@ -3927,13 +3237,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
@@ -3959,13 +3263,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
@@ -3991,13 +3289,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
@@ -4023,13 +3315,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
@@ -4055,13 +3341,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
@@ -4087,13 +3367,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
@@ -4119,13 +3393,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
@@ -4151,13 +3419,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
@@ -4183,13 +3445,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
@@ -4224,13 +3480,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
@@ -4256,13 +3506,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
@@ -4288,13 +3532,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Undead, Elementals and others not classified as Living by normal standards.",
@@ -4320,13 +3558,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Will regrow lost Limbs and Organs with recovery of Health.",
@@ -4353,13 +3585,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
@@ -4394,13 +3620,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
@@ -4426,13 +3646,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
@@ -4458,13 +3672,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
@@ -4490,13 +3698,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
@@ -4522,13 +3724,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
@@ -4554,13 +3750,7 @@ export const SPECIES_TRAITS_ELITE = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
@@ -4588,13 +3778,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to analyze data and information to make informed decisions",
@@ -4620,13 +3804,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
@@ -4652,13 +3830,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
@@ -4684,13 +3856,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Experience with breaking and entering into secure locations",
@@ -4716,13 +3882,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Select additional training from another secondary Occupation fitting backstory.",
@@ -4748,13 +3908,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
@@ -4780,13 +3934,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
@@ -4812,13 +3960,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Comfortable in the spotlight",
@@ -4844,13 +3986,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
@@ -4876,13 +4012,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
@@ -4908,13 +4038,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to remain calm and focused even in high-pressure situations",
@@ -4940,13 +4064,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skilled at coming up with new ideas",
@@ -4972,13 +4090,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Possess strong critical thinking skills.",
@@ -5004,13 +4116,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
@@ -5036,13 +4142,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
@@ -5068,13 +4168,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Disguise, impersonation, and deception",
@@ -5100,13 +4194,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
@@ -5132,13 +4220,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
@@ -5164,13 +4246,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "High levels of energy and enthusiasm",
@@ -5196,13 +4272,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
@@ -5228,13 +4298,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "May have a strong sense of ethics and corporate responsibility.",
@@ -5260,13 +4324,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adheres to ethical standards in research and work.",
@@ -5292,13 +4350,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "In-depth knowledge and experience in a particular area",
@@ -5324,13 +4376,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has a loyal following of fans",
@@ -5356,13 +4402,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Seem fearless and willing to take risks in order to achieve their goals",
@@ -5388,13 +4428,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has close relationships with other performers",
@@ -5420,13 +4454,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
@@ -5452,13 +4480,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
@@ -5484,13 +4506,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Values independence and self-expression",
@@ -5516,13 +4532,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Values having a good time and making others happy",
@@ -5548,13 +4558,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Good at devising clever solutions",
@@ -5580,13 +4584,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Experience with hacking into computer systems and stealing information",
@@ -5612,13 +4610,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
@@ -5644,13 +4636,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Higher compensation and retainer fees for elite vocational service.",
@@ -5676,13 +4662,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
@@ -5708,13 +4688,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
@@ -5740,13 +4714,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gathering information, analyzing data, and conducting surveillance",
@@ -5772,13 +4740,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
@@ -5805,13 +4767,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
@@ -5837,13 +4793,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Fluency in multiple languages",
@@ -5869,13 +4819,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
@@ -5901,13 +4845,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
@@ -5933,13 +4871,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
@@ -5965,13 +4897,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural aptitude for working with machinery and tools",
@@ -5997,13 +4923,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
@@ -6029,13 +4949,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
@@ -6061,13 +4975,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Comprehensive understanding of physics",
@@ -6093,13 +5001,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Withstand psychological challenges",
@@ -6125,13 +5027,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Aware of own cognitive abilities and strategies.",
@@ -6157,13 +5053,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Often on the move, traveling from place to place and exploring new territories",
@@ -6199,13 +5089,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
@@ -6231,13 +5115,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
@@ -6263,13 +5141,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Alert and observant, constantly scanning the area for potential threats",
@@ -6295,13 +5167,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
@@ -6327,13 +5193,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to endure harsh conditions or high-stress situations",
@@ -6359,13 +5219,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
@@ -6391,13 +5245,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
@@ -6423,13 +5271,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Strong analytical and problem-solving skills",
@@ -6455,13 +5297,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
@@ -6487,13 +5323,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Recognized industry standing and professional reliability.",
@@ -6519,13 +5349,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
@@ -6551,13 +5375,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
@@ -6583,13 +5401,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
@@ -6615,13 +5427,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
@@ -6656,13 +5462,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
@@ -6688,13 +5488,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
@@ -6720,13 +5514,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Often self-sufficient and able to take care of themselves without relying on others",
@@ -6752,13 +5540,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
@@ -6784,13 +5566,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
@@ -6818,13 +5594,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
@@ -6850,13 +5620,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
@@ -6882,13 +5646,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
@@ -6914,13 +5672,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
@@ -6946,13 +5698,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
@@ -6978,13 +5724,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
@@ -7010,13 +5750,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to communicate effectively and collaborate with others",
@@ -7042,13 +5776,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
@@ -7074,13 +5802,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural aptitude for understanding and operating advanced technology",
@@ -7106,13 +5828,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to create, adapt, and improve technology in novel ways.",
@@ -7138,13 +5854,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Proficiency in advanced technology",
@@ -7170,13 +5880,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
@@ -7202,13 +5906,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
@@ -7243,13 +5941,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Standard occupational gear, specialized toolkits, and field equipment.",
@@ -7275,13 +5967,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
@@ -7307,13 +5993,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
@@ -7348,13 +6028,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
@@ -7389,13 +6063,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
@@ -7421,13 +6089,7 @@ export const OCCUPATIONAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
@@ -7455,13 +6117,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
@@ -7487,13 +6143,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
@@ -7519,13 +6169,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
@@ -7551,13 +6195,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
@@ -7583,13 +6221,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
@@ -7615,13 +6247,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
@@ -7647,13 +6273,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
@@ -7679,13 +6299,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Peer-review synergy and interdisciplinary communication across research teams.",
@@ -7711,13 +6325,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
@@ -7743,13 +6351,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
@@ -7775,13 +6377,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
@@ -7807,13 +6403,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
@@ -7840,13 +6430,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
@@ -7872,13 +6456,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
@@ -7904,13 +6482,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
@@ -7936,13 +6508,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
@@ -7968,13 +6534,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
@@ -8000,13 +6560,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
@@ -8032,13 +6586,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
@@ -8064,13 +6612,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
@@ -8096,13 +6638,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
@@ -8128,13 +6664,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
@@ -8160,13 +6690,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
@@ -8192,13 +6716,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Inspirational command presence that organizes groups and rallies morale.",
@@ -8224,13 +6742,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
@@ -8256,13 +6768,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
@@ -8288,13 +6794,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
@@ -8320,13 +6820,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
@@ -8352,13 +6846,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
@@ -8384,13 +6872,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
@@ -8416,13 +6898,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Issued military-grade armor, sidearms, and tactical field gear.",
@@ -8448,13 +6924,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
@@ -8480,13 +6950,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
@@ -8512,13 +6976,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
@@ -8544,13 +7002,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Radiates serene composure that disarms hostility and calms tense standoffs.",
@@ -8576,13 +7028,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Tireless determination that runs countless trials until a breakthrough is achieved.",
@@ -8608,13 +7054,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
@@ -8640,13 +7080,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
@@ -8672,13 +7106,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
@@ -8704,13 +7132,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
@@ -8736,13 +7158,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Exceptional critical thinking and analytical troubleshooting under duress.",
@@ -8768,13 +7184,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
@@ -8800,13 +7210,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Makes the most of scarce tools, improvising creative solutions under pressure.",
@@ -8832,13 +7236,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
@@ -8864,13 +7262,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
@@ -8896,13 +7288,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
@@ -8928,13 +7314,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Offers profound insight that elevates the actions of comrades.",
@@ -8960,13 +7340,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
@@ -8992,13 +7366,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
@@ -9024,13 +7392,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
@@ -9056,13 +7418,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
@@ -9088,13 +7444,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Battlefield tactical assessment and mission operation planning.",
@@ -9120,13 +7470,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
@@ -9152,13 +7496,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
@@ -9184,13 +7522,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep immersion in research databases, academic journals, and historical archives.",
@@ -9216,13 +7548,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
@@ -9248,13 +7574,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep understanding of ecological balance, crop rotation, and water conservation.",
@@ -9280,13 +7600,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
@@ -9312,13 +7626,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
@@ -9344,13 +7652,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
@@ -9376,13 +7678,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Physical endurance and psychological grit hardened by harsh living conditions.",
@@ -9408,13 +7704,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
@@ -9440,13 +7730,7 @@ export const ORIGIN_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
@@ -9475,13 +7759,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
@@ -9507,13 +7785,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "No penalties or Damage from one set environment type. Multiple.",
@@ -9539,13 +7811,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "May change between specific features during a Light Rest. Ranked.",
@@ -9571,13 +7837,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "4 point bonus allotted in a pool. Ranked.",
@@ -9603,13 +7863,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Another pair of prehensile limbs; Arms, Tentacles or other.",
@@ -9635,13 +7889,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
@@ -9667,13 +7915,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Does not suffer penalties nor show any signs of aging.",
@@ -9699,13 +7941,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
@@ -9748,13 +7984,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on Perception checks and immune to flanking.",
@@ -9780,13 +8010,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
@@ -9812,13 +8036,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Base Category, Change Appearance only (+5 to Disguise).",
@@ -9853,13 +8071,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
@@ -9885,13 +8097,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "An additional ‘Natural’ Form.",
@@ -9917,13 +8123,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Breathe Air and Water equally well, +10 to Swim Speed.",
@@ -9958,13 +8158,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to analyze data and information to make informed decisions",
@@ -9990,13 +8184,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
@@ -10022,13 +8210,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
@@ -10054,13 +8236,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
@@ -10086,13 +8262,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
@@ -10118,13 +8288,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
@@ -10150,13 +8314,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+1 size category for Combat, Strength or other checks while in water.",
@@ -10182,13 +8340,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
@@ -10214,13 +8366,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
@@ -10246,13 +8392,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Does not require food/drink, may eat/digest elixirs for effects.",
@@ -10278,13 +8418,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Experience with breaking and entering into secure locations",
@@ -10310,13 +8444,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Select additional training from another secondary Occupation fitting backstory.",
@@ -10342,13 +8470,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
@@ -10374,13 +8496,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
@@ -10406,13 +8522,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Physiology shifts to be compatible with the new environment.",
@@ -10438,13 +8548,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
@@ -10470,13 +8574,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to gain a protective layer.",
@@ -10502,13 +8600,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
@@ -10534,13 +8626,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
@@ -10566,13 +8652,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
@@ -10598,13 +8678,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to alter size category 1 step up or down.",
@@ -10630,13 +8704,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
@@ -10662,13 +8730,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
@@ -10694,13 +8756,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Shapechange to gain ‘Natural Weaponry’ based on Size",
@@ -10726,13 +8782,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 dodge bonus to AC when in a specific terrain type.",
@@ -10758,13 +8808,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Members of this race select one extra feature of their choice.",
@@ -10790,13 +8834,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
@@ -10822,13 +8860,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
@@ -10854,13 +8886,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
@@ -10886,13 +8912,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
@@ -10927,13 +8947,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Once per Long Rest make a Reflex Check at Advantage.",
@@ -10959,13 +8973,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
@@ -10991,13 +8999,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 bonus on Survival checks made underground.",
@@ -11032,13 +9034,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
@@ -11064,13 +9060,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
@@ -11096,13 +9086,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
@@ -11128,13 +9112,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Peer-review synergy and interdisciplinary communication across research teams.",
@@ -11160,13 +9138,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
@@ -11192,13 +9164,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
@@ -11224,13 +9190,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
@@ -11256,13 +9216,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
@@ -11288,13 +9242,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
@@ -11320,13 +9268,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Comfortable in the spotlight",
@@ -11352,13 +9294,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
@@ -11384,13 +9320,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
@@ -11416,13 +9346,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
@@ -11449,13 +9373,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
@@ -11481,13 +9399,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to remain calm and focused even in high-pressure situations",
@@ -11513,13 +9425,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 to Specific Vocation.",
@@ -11554,13 +9460,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skilled at coming up with new ideas",
@@ -11586,13 +9486,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
@@ -11618,13 +9512,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Possess strong critical thinking skills.",
@@ -11650,13 +9538,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
@@ -11682,13 +9564,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
@@ -11714,13 +9590,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
@@ -11746,13 +9616,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
@@ -11778,13 +9642,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Disguise, impersonation, and deception",
@@ -11810,13 +9668,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 dodge bonus to Defense.",
@@ -11842,13 +9694,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
@@ -11883,13 +9729,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
@@ -11915,13 +9755,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
@@ -11947,13 +9781,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
@@ -11979,13 +9807,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Access to purchase various Dragon Traits",
@@ -12011,13 +9833,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
@@ -12043,13 +9859,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
@@ -12075,13 +9885,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
@@ -12107,13 +9911,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Alternate Form of a Large size Dragon",
@@ -12139,13 +9937,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
@@ -12171,13 +9963,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
@@ -12203,13 +9989,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
@@ -12235,13 +10015,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
@@ -12267,13 +10041,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Once per day make a check at advantage for Bluff or Diplomacy.",
@@ -12299,13 +10067,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
@@ -12331,13 +10093,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
@@ -12363,13 +10119,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "High levels of energy and enthusiasm",
@@ -12395,13 +10145,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
@@ -12427,13 +10171,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
@@ -12459,13 +10197,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
@@ -12491,13 +10223,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
@@ -12523,13 +10249,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
@@ -12555,13 +10275,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
@@ -12587,13 +10301,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
@@ -12619,13 +10327,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
@@ -12651,13 +10353,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "May have a strong sense of ethics and corporate responsibility.",
@@ -12683,13 +10379,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adheres to ethical standards in research and work.",
@@ -12715,13 +10405,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
@@ -12747,13 +10431,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
@@ -12779,13 +10457,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
@@ -12811,13 +10483,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "In-depth knowledge and experience in a particular area",
@@ -12843,13 +10509,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has a loyal following of fans",
@@ -12875,13 +10535,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
@@ -12908,13 +10562,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Seem fearless and willing to take risks in order to achieve their goals",
@@ -12940,13 +10588,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has close relationships with other performers",
@@ -12972,13 +10614,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Animals treat character as Trusting & Neutral, Friendly.",
@@ -13004,13 +10640,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Animals treat character as a Predator & Dangerous, Wary.",
@@ -13036,13 +10666,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
@@ -13068,13 +10692,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
@@ -13100,13 +10718,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
@@ -13132,13 +10744,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain Skill Focus in a skill of their choice.",
@@ -13164,13 +10770,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Values independence and self-expression",
@@ -13196,13 +10796,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
@@ -13228,13 +10822,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Values having a good time and making others happy",
@@ -13260,13 +10848,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on Linguistics checks.",
@@ -13292,13 +10874,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 bonus on all Appraise checks.",
@@ -13333,13 +10909,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
@@ -13365,13 +10935,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Good at devising clever solutions",
@@ -13397,13 +10961,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Experience with hacking into computer systems and stealing information",
@@ -13429,13 +10987,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
@@ -13461,13 +11013,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 bonus on Fortitude saves against disease and poison",
@@ -13502,13 +11048,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
@@ -13534,13 +11074,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
@@ -13575,13 +11109,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Higher compensation and retainer fees for elite vocational service.",
@@ -13607,13 +11135,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
@@ -13639,13 +11161,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Allows members to mentally share information on different levels (Special).",
@@ -13671,13 +11187,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
@@ -13703,13 +11213,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
@@ -13735,13 +11239,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
@@ -13767,13 +11265,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
@@ -13808,13 +11300,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
@@ -13840,13 +11326,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
@@ -13872,13 +11352,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
@@ -13904,13 +11378,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gathering information, analyzing data, and conducting surveillance",
@@ -13936,13 +11404,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
@@ -13969,13 +11431,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
@@ -14001,13 +11457,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Fluency in multiple languages",
@@ -14033,13 +11483,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Inspirational command presence that organizes groups and rallies morale.",
@@ -14065,13 +11509,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
@@ -14097,13 +11535,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
@@ -14129,13 +11561,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
@@ -14161,13 +11587,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Effectively doubles age categories.",
@@ -14193,13 +11613,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
@@ -14225,13 +11639,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
@@ -14257,13 +11665,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
@@ -14289,13 +11691,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on all saving throws.",
@@ -14321,13 +11717,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+1 racial bonus on all saving throws.",
@@ -14353,13 +11743,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural aptitude for working with machinery and tools",
@@ -14385,13 +11769,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
@@ -14417,13 +11795,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
@@ -14449,13 +11821,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 bonus on Disable Device and Engineering.",
@@ -14498,13 +11864,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
@@ -14530,13 +11890,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Comprehensive understanding of physics",
@@ -14562,13 +11916,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
@@ -14594,13 +11942,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Withstand psychological challenges",
@@ -14626,13 +11968,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
@@ -14658,13 +11994,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
@@ -14690,13 +12020,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Aware of own cognitive abilities and strategies.",
@@ -14722,13 +12046,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Issued military-grade armor, sidearms, and tactical field gear.",
@@ -14754,13 +12072,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Telepathic Communication to one subject within 500 ft. Ranked.",
@@ -14786,13 +12098,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Often on the move, traveling from place to place and exploring new territories",
@@ -14828,13 +12134,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
@@ -14860,13 +12160,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 natural armor bonus.",
@@ -14892,13 +12186,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "A Claw, Fang, Horn or other attack form.",
@@ -14924,13 +12212,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
@@ -14956,13 +12238,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
@@ -14988,13 +12264,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
@@ -15020,13 +12290,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
@@ -15052,13 +12316,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
@@ -15084,13 +12342,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Undead, Elementals and others not classified as Living by normal standards.",
@@ -15116,13 +12368,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Alert and observant, constantly scanning the area for potential threats",
@@ -15148,13 +12394,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
@@ -15180,13 +12420,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
@@ -15212,13 +12446,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
@@ -15244,13 +12472,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
@@ -15276,13 +12498,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Radiates serene composure that disarms hostility and calms tense standoffs.",
@@ -15308,13 +12524,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Tireless determination that runs countless trials until a breakthrough is achieved.",
@@ -15340,13 +12550,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
@@ -15372,13 +12576,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to endure harsh conditions or high-stress situations",
@@ -15404,13 +12602,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
@@ -15436,13 +12628,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
@@ -15468,13 +12654,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
@@ -15500,13 +12680,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
@@ -15532,13 +12706,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
@@ -15564,13 +12732,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
@@ -15596,13 +12758,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
@@ -15628,13 +12784,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
@@ -15660,13 +12810,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
@@ -15692,13 +12836,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
@@ -15741,13 +12879,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Exceptional critical thinking and analytical troubleshooting under duress.",
@@ -15773,13 +12905,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Strong analytical and problem-solving skills",
@@ -15805,13 +12931,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
@@ -15837,13 +12957,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Recognized industry standing and professional reliability.",
@@ -15869,13 +12983,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
@@ -15910,13 +13018,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
@@ -15942,13 +13044,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
@@ -15974,13 +13070,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
@@ -16006,13 +13096,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Reach of 10 feet.",
@@ -16038,13 +13122,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Eat and drink half typical.",
@@ -16070,13 +13148,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Will regrow lost Limbs and Organs with recovery of Health.",
@@ -16103,13 +13175,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
@@ -16144,13 +13210,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
@@ -16176,13 +13236,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
@@ -16208,13 +13262,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
@@ -16240,13 +13288,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Makes the most of scarce tools, improvising creative solutions under pressure.",
@@ -16272,13 +13314,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
@@ -16313,13 +13349,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
@@ -16345,13 +13375,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
@@ -16377,13 +13401,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
@@ -16419,13 +13437,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
@@ -16451,13 +13463,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
@@ -16484,13 +13490,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
@@ -16516,13 +13516,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
@@ -16548,13 +13542,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
@@ -16589,13 +13577,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
@@ -16621,13 +13603,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Often self-sufficient and able to take care of themselves without relying on others",
@@ -16653,13 +13629,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
@@ -16685,13 +13655,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain +5 to Stealth when in Shadowy or Dim area.",
@@ -16726,13 +13690,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Attacks made against members in dim light have 30% miss chance.",
@@ -16758,13 +13716,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
@@ -16790,13 +13742,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Offers profound insight that elevates the actions of comrades.",
@@ -16822,13 +13768,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
@@ -16854,13 +13794,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
@@ -16903,13 +13837,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain +2 racial bonus to divide amongst noted skills.",
@@ -16935,13 +13863,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Does not require sleep, may rest to regain metaphysical energy.",
@@ -16968,13 +13890,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
@@ -17000,13 +13916,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
@@ -17032,13 +13942,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on Stealth checks.",
@@ -17064,13 +13968,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
@@ -17096,13 +13994,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
@@ -17128,13 +14020,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
@@ -17162,13 +14048,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
@@ -17194,13 +14074,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
@@ -17226,13 +14100,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
@@ -17258,13 +14126,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
@@ -17290,13 +14152,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+4 racial Stability bonus while standing on the ground.",
@@ -17322,13 +14178,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Gain +2 bonus to Perception and Stealth checks versus one target.",
@@ -17371,13 +14221,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
@@ -17403,13 +14247,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
@@ -17435,13 +14273,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Battlefield tactical assessment and mission operation planning.",
@@ -17467,13 +14299,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
@@ -17499,13 +14325,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
@@ -17531,13 +14351,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
@@ -17563,13 +14377,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
@@ -17595,13 +14403,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep immersion in research databases, academic journals, and historical archives.",
@@ -17627,13 +14429,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
@@ -17659,13 +14455,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
@@ -17691,13 +14481,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep understanding of ecological balance, crop rotation, and water conservation.",
@@ -17723,13 +14507,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Two members can share same square. If attacking same foe, considered flanking.",
@@ -17755,13 +14533,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
@@ -17787,13 +14559,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
@@ -17819,13 +14585,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
@@ -17851,13 +14611,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
@@ -17883,13 +14637,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
@@ -17915,13 +14663,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 to Trip and Balance Checks and usable as a Club.",
@@ -17964,13 +14706,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Ability to communicate effectively and collaborate with others",
@@ -17996,13 +14732,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
@@ -18028,13 +14758,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
@@ -18060,13 +14784,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
@@ -18092,13 +14810,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
@@ -18124,13 +14836,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
@@ -18156,13 +14862,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Natural aptitude for understanding and operating advanced technology",
@@ -18188,13 +14888,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to create, adapt, and improve technology in novel ways.",
@@ -18220,13 +14914,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Proficiency in advanced technology",
@@ -18252,13 +14940,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
@@ -18284,13 +14966,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
@@ -18325,13 +15001,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "See Infra-Red/heat patterns, track passage of a warm target without light.",
@@ -18357,13 +15027,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
@@ -18389,13 +15053,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Physical endurance and psychological grit hardened by harsh living conditions.",
@@ -18421,13 +15079,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Standard occupational gear, specialized toolkits, and field equipment.",
@@ -18453,13 +15105,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
@@ -18485,13 +15131,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Ability to converse with plants.",
@@ -18517,13 +15157,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
@@ -18558,13 +15192,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
@@ -18590,13 +15218,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "+2 racial bonus on Diplomacy and Sense Motive checks.",
@@ -18622,13 +15244,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
@@ -18654,13 +15270,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
@@ -18686,13 +15296,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
@@ -18727,13 +15331,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
@@ -18759,13 +15357,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 2,
     "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 2
     },
     "is_ranked": false,
     "desc": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
@@ -18791,13 +15383,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Blindsense 30 feet against creatures touching the same body of water.",
@@ -18823,13 +15409,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
@@ -18855,13 +15435,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 4,
     "costs": {
-      "bp": 4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 4
     },
     "is_ranked": false,
     "desc": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
@@ -18887,13 +15461,7 @@ export const ALL_CANONICAL_TRAITS = [
     "type": "Physical",
     "bp": 1,
     "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 1
     },
     "is_ranked": false,
     "desc": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",

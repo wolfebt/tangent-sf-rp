@@ -6,12 +6,6 @@ bp: 6
 cp: 6
 costs:
   bp: 6
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: Blindsight 30ft
 immunities: 'Physical conditions and critical hits [3]'
 physiology: Semi-solid amorphous form.

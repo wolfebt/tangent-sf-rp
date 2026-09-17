@@ -36,12 +36,7 @@ description: >-
   (CR 15+).
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # True Flight
 

@@ -31,24 +31,7 @@ quote: '"Information wants to be free. I''m just the liberator."'
 description: 'A master of cyberspace, skilled in infiltrating networks and stealing data.'
 costs:
   bp: 80
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # The Slicer

@@ -13,12 +13,7 @@ description: >-
   Stamina check (CR 15+) to avoid fatigue.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Flicker: Rush Pace (Up to 2x Base)
 

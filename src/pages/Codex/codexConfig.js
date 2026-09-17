@@ -16,7 +16,9 @@ import {
   Database,
   Maximize2,
   Award,
-  Flag
+  Flag,
+  AlertOctagon,
+  Compass
 } from 'lucide-react';
 
 /**
@@ -942,6 +944,226 @@ export const CODEX_MATRICES = [
     ]
   },
   {
+    id: 'species_type',
+    name: 'SPECIES TYPE',
+    label: 'Species Chassis Types',
+    icon: Dna,
+    color: '#10b981',
+    theme: 'emerald',
+    targetCollection: 'species_type',
+    ingestionKey: 'species_type',
+    description: 'Species Chassis Types defining baseline biological, mechanical, or metaphysical physiology.',
+    category: 'Biological & Synthetic Lineages',
+    badge: 'Chassis Type',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: null,
+    defaultValues: {
+      name: '',
+      bp: 0,
+      senses: '',
+      immunities: '',
+      physiology: '',
+      description: '',
+      mechanic: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Chassis Type Name', type: 'text', required: true, placeholder: 'E.g., Humanoid' },
+      { name: 'bp', label: 'Character Points (CP / BP)', type: 'number' },
+      { name: 'senses', label: 'Sensory Spectrum', type: 'text', placeholder: 'E.g., Standard visual and auditory range.' },
+      { name: 'immunities', label: 'Inherent Immunities', type: 'text', placeholder: 'E.g., None, Poison, Vacuum' },
+      { name: 'physiology', label: 'Physiological Needs', type: 'text', placeholder: 'E.g., Breathes, eats, and sleeps.' },
+      { name: 'description', label: 'Biological Profile & Lore', type: 'textarea' },
+      { name: 'mechanic', label: 'Chassis Rules & Mechanics', type: 'textarea' },
+      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      bp: Number(formData.bp || 0),
+      computed_at: new Date().toISOString()
+    })
+  },
+  {
+    id: 'species_size',
+    name: 'SPECIES SIZE',
+    label: 'Species Size & Scaling',
+    icon: Maximize2,
+    color: '#10b981',
+    theme: 'emerald',
+    targetCollection: 'species_size',
+    ingestionKey: 'species_size',
+    description: 'Canonical 14-Tier Species Sizes, spatial footprints, and combat/stealth scaling multipliers.',
+    category: 'Biological & Synthetic Lineages',
+    badge: 'Size Category',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: null,
+    defaultValues: {
+      name: '',
+      scaling: 1.0,
+      scaling_display: 'Base (1.0)',
+      strength_mod: 0,
+      combat_mod: 0,
+      stealth_mod: 0,
+      reach: '5 ft',
+      height_length_range: '< 8 ft',
+      weight_range: '< 500 lbs',
+      description: ''
+    },
+    fields: [
+      { name: 'name', label: 'Size Designation', type: 'text', required: true, placeholder: 'E.g., Medium' },
+      { name: 'scaling', label: 'Scaling Multiplier', type: 'number' },
+      { name: 'scaling_display', label: 'Scaling Notation', type: 'text', placeholder: 'E.g., Base (1.0)' },
+      { name: 'strength_mod', label: 'Strength Modifier', type: 'number' },
+      { name: 'combat_mod', label: 'Combat / Defense Modifier', type: 'number' },
+      { name: 'stealth_mod', label: 'Stealth Modifier', type: 'number' },
+      { name: 'reach', label: 'Standard Reach', type: 'text', placeholder: 'E.g., 5 ft' },
+      { name: 'height_length_range', label: 'Height / Length Range', type: 'text', placeholder: 'E.g., < 8 ft' },
+      { name: 'weight_range', label: 'Weight Range', type: 'text', placeholder: 'E.g., < 500 lbs' },
+      { name: 'description', label: 'Chassis Scale Profile', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      scaling: Number(formData.scaling || 1.0),
+      computed_at: new Date().toISOString()
+    })
+  },
+  {
+    id: 'species_movement',
+    name: 'SPECIES MOVEMENT',
+    label: 'Species Movement Modes & Paces',
+    icon: Compass,
+    color: '#10b981',
+    theme: 'emerald',
+    targetCollection: 'species_movement',
+    ingestionKey: 'species_movement',
+    description: 'Locomotion Modes, Speed Modifiers, and Tactical Paces (Walk, Jog, Sprint, Swim, Fly).',
+    category: 'Biological & Synthetic Lineages',
+    badge: 'Movement Mode',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: null,
+    defaultValues: {
+      name: '',
+      classification: 'basic',
+      target_mode: 'Ground',
+      bp: 0,
+      speed: 30,
+      speed_modifier: 0,
+      multiplier: 1,
+      description: ''
+    },
+    fields: [
+      { name: 'name', label: 'Movement Designation', type: 'text', required: true, placeholder: 'E.g., Bipedal Locomotion' },
+      { name: 'classification', label: 'Classification', type: 'select', options: ['basic', 'advanced', 'modifier', 'stage'] },
+      { name: 'target_mode', label: 'Locomotion Mode', type: 'select', options: ['Ground', 'Flying', 'Swimming', 'Climbing', 'Burrowing', 'Flicker', 'Mechanical'] },
+      { name: 'bp', label: 'BP Cost', type: 'number' },
+      { name: 'speed', label: 'Speed (ft / round)', type: 'number' },
+      { name: 'speed_modifier', label: 'Speed Modifier (ft, Additive)', type: 'number' },
+      { name: 'multiplier', label: 'Pace Multiplier', type: 'number' },
+      { name: 'description', label: 'Locomotion Mechanics & Rules', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      bp: Number(formData.bp || 0),
+      computed_at: new Date().toISOString()
+    })
+  },
+  {
+    id: 'traits',
+    name: 'TRAITS',
+    label: 'Traits & Biological Adaptations',
+    icon: Sparkles,
+    color: '#10b981',
+    theme: 'emerald',
+    targetCollection: 'traits',
+    ingestionKey: 'traits',
+    description: 'Species, Origin, and Occupational biological traits and adaptations.',
+    category: 'Biological & Synthetic Lineages',
+    badge: 'Trait',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: null,
+    defaultValues: {
+      name: '',
+      trait_type: 'Species Trait',
+      trait_tier: 'Basic',
+      classification: 'Physical',
+      bp: 1,
+      description: '',
+      mechanic: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Trait Name', type: 'text', required: true, placeholder: 'E.g., Adaptability' },
+      { name: 'trait_type', label: 'Trait Type', type: 'select', options: ['Species Trait', 'Origin Trait', 'Occupational Trait', 'Common Occupational Trait'] },
+      { name: 'trait_tier', label: 'Trait Tier', type: 'select', options: ['Basic', 'Advanced', 'Elite'] },
+      { name: 'classification', label: 'Classification', type: 'select', options: ['Physical', 'Mental', 'Sensory', 'Combat', 'Metaphysical'] },
+      { name: 'bp', label: 'BP Cost', type: 'number' },
+      { name: 'description', label: 'Trait Overview', type: 'textarea' },
+      { name: 'mechanic', label: 'Rules & Mechanical Effects', type: 'textarea' },
+      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      bp: Number(formData.bp || 1),
+      computed_at: new Date().toISOString()
+    })
+  },
+  {
+    id: 'disadvantages',
+    name: 'DISADVANTAGES',
+    label: 'Hindrances & Disadvantages',
+    icon: AlertOctagon,
+    color: '#ef4444',
+    theme: 'red',
+    targetCollection: 'disadvantages',
+    ingestionKey: 'disadvantages',
+    description: 'Physical, psychological, social, and species-specific hindrances granting character point rebates.',
+    category: 'Character Traits & Talents',
+    badge: 'Hindrance',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: null,
+    defaultValues: {
+      name: '',
+      disadvantage_type: 'Species Disadvantage',
+      classification: 'Physical',
+      bp_granted: '3 / 6 / 9',
+      refundBP: 2,
+      prerequisite: 'None',
+      description: '',
+      mechanic: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Disadvantage Name', type: 'text', required: true, placeholder: 'E.g., Addiction' },
+      { name: 'disadvantage_type', label: 'Disadvantage Type', type: 'select', options: ['Species Disadvantage', 'General Disadvantage', 'Psychological', 'Physical', 'Social'] },
+      { name: 'bp_granted', label: 'BP Granted / Rebate Tier', type: 'text', placeholder: 'E.g., 3 / 6 / 9' },
+      { name: 'refundBP', label: 'CP / BP Refund', type: 'number' },
+      { name: 'prerequisite', label: 'Prerequisites', type: 'text', placeholder: 'E.g., None' },
+      { name: 'description', label: 'Flaw Overview', type: 'textarea' },
+      { name: 'mechanic', label: 'Mechanics & Severity Tiers', type: 'textarea' },
+      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      refundBP: Number(formData.refundBP || 2),
+      computed_at: new Date().toISOString()
+    })
+  },
+  {
     id: 'weaponry',
     name: 'WEAPONRY',
     label: 'Weaponry Matrix',
@@ -1315,8 +1537,9 @@ export const CODEX_MATRICES = [
 ];
 
 export const HARDWARE_MATRIX_IDS = ['architecture', 'armor', 'augmentations', 'equipment', 'mecha', 'weaponry'];
-export const CHARACTER_MATRIX_IDS = ['modular-characters', 'features'];
-export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species', 'factions'];
+export const CHARACTER_MATRIX_IDS = ['modular-characters', 'features', 'disadvantages'];
+export const BIOLOGICAL_SPECIES_MATRIX_IDS = ['species', 'species_type', 'species_size', 'species_movement', 'traits'];
+export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species', 'factions', 'species_type', 'species_size', 'species_movement', 'traits'];
 export const META_MATRIX_IDS = ['invocation', 'meta-tech'];
 export const SYSTEM_MATRIX_IDS = ['scaling', 'economatrix', 'technology'];
 
@@ -1325,7 +1548,10 @@ export const ENTITY_MATRIX_IDS = CHARACTER_MATRIX_IDS;
 export const WORLD_MATRIX_IDS = PLANETARY_SPECIES_MATRIX_IDS;
 
 export const getMatrixById = (id) => {
-  return CODEX_MATRICES.find(m => m.id === id) || CODEX_MATRICES[0];
+  if (!id) return CODEX_MATRICES.find(m => m.id === 'species') || CODEX_MATRICES[0];
+  const found = CODEX_MATRICES.find(m => m.id === id);
+  if (found) return found;
+  return CODEX_MATRICES.find(m => m.id === 'features') || CODEX_MATRICES[0];
 };
 
 export const isPropertyMatrix = (matrixId) => {

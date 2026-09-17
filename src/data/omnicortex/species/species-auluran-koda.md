@@ -49,12 +49,6 @@ meta_level: 1 (Cellular Attunement)
 homeworld: Aulura Prime
 costs:
   bp: 12
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Agility
     value: 1

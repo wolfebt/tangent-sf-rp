@@ -19,24 +19,7 @@ bonus_features: ["Fearless (Madness)"]
 description: "Factions characterized by their connection to incomprehensible, eldritch entities. They seek to uncover the secrets of cosmic horror, harness the powers of the unknown, and spread their fanatical beliefs, often aiming to bring about the end of the universe"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

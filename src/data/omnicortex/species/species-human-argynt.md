@@ -46,12 +46,6 @@ meta_level: 2 (Electrochemical Psionics)
 homeworld: Argynt-9 (High Radiation World)
 costs:
   bp: 10
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 1

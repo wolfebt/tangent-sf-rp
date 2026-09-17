@@ -46,12 +46,6 @@ meta_level: 2 (Aero-Kinetic Wind Weaving)
 homeworld: Avis Spire Worlds
 costs:
   bp: 22
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 22
 cp: 22

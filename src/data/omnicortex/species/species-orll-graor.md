@@ -47,12 +47,6 @@ meta_level: 1 (Solar Resonance)
 homeworld: Gra’or Sun Canopies
 costs:
   bp: 28
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Strength
     value: 2

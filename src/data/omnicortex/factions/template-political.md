@@ -19,24 +19,7 @@ bonus_features: ["Silver Tongue"]
 description: "Ideological blocs and powerful lobbying groups fighting for control over existing governmental structures. They fight their wars in boardrooms, assembly halls, and the media, utilizing propaganda, subversion, and massive capital to shape the galaxy's laws to their advantage"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

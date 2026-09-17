@@ -29,12 +29,7 @@ description: >-
   bonus to concentration; Athletics (Swim) CR 5+.
 costs:
   bp: 2
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Swim (Innate)
 

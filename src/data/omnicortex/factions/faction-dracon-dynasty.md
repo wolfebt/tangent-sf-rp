@@ -19,24 +19,7 @@ bonus_features: ["Benefit (Status)","Combat Specialist"]
 description: "The Dracon Dynasty stands as a bastion of stability and tradition in a chaotic galaxy. Founded by Dragons and currently ruled by their Draconic descendants, the faction claims a lineage of rule spanning 17 centuries. Established on the Draconic principles of Protection, Patience, and Long-term Stability, the Dynasty operates on a scale of time that others find difficult to comprehend. While technically a republic where worlds have representation, the society is stratified by a rigid Feudal Caste System. The ruling class views the citizenry through the lens of Noblesse Oblige—they are benevolent but authoritarian. While possessing a formidable military, they are the galaxy's premier diplomats, preferring to expand through alliance, marriage, and economic integration rather than brute force"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

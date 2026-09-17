@@ -11,12 +11,7 @@ bp: 0
 description: Stationary or slow treading water to conserve stamina (+2 to concentration).
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Swimming: Treading Pace (0.25x Swim)
 

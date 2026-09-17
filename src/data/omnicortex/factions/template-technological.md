@@ -19,24 +19,7 @@ bonus_features: ["Gearhead"]
 description: "Hard-science enclaves pushing the boundaries of ethics and physics. They are amoral scientists and supreme engineers who believe that progress demands sacrifice. They possess the most advanced prototypes in the galaxy but lack the empathy to care about who gets hurt during the testing phase"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

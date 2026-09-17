@@ -19,24 +19,7 @@ bonus_features: ["Machine Logic","Reinforced Chassis"]
 description: "The Mekan are a civilization of advanced Synthetic Humanoids originating from Mekan Prime, a colossal megastructure encircling a star. They view existence through the lens of \"The Code\"—the Operating System of the Universe. To a Mekan, reality is a self-evolving design, a complex equation waiting to be solved. Their spiritual goal is for existence to experience itself and to contribute data back to the collective consciousness. They have transcended organic sustenance and traditional mortality, existing as \"Ghosts in the Machine.\" They are Neutral Optimizers and the Architects of Reality"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

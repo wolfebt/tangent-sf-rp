@@ -19,24 +19,7 @@ bonus_features: ["Shadowmeld","Incorruptible Will"]
 description: "The \"shadow self\" of Elven civilization, they seceded from the Enclave millennia ago. Inhabiting the Umbra Sector (rogue planets in dark nebulae), they have evolved a culture of Supremacy and Obfuscation. To a Kovian, darkness is armor. They believe the Elven genome is divine but diluted by Alterian tolerance. They do not trade; they take. Their technology is sleek, silent, and predatory"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

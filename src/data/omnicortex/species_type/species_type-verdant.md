@@ -6,12 +6,6 @@ bp: 9
 cp: 9
 costs:
   bp: 9
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Low-light vision. [1]'
 immunities: 'Mind-affecting effects, poison, sleep, paralysis [6]'
 physiology: 'Photosynthetic / mineral nutrition, no sleep.'

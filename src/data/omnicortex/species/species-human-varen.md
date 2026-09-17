@@ -47,12 +47,6 @@ meta_level: 4 (Spatial Metaphysics)
 homeworld: Varen Gate Arcologies
 costs:
   bp: 20
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 1

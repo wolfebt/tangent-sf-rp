@@ -55,12 +55,6 @@ meta_level: 2 (Vibrational Sense)
 homeworld: Kitin Tunnels
 costs:
   bp: 22
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Strength
     value: 1

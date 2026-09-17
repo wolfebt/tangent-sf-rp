@@ -6,12 +6,6 @@ bp: 24
 cp: 24
 costs:
   bp: 24
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Darkvision and Ether Sight out to 60 feet. [1+2]'
 immunities: 'Reality distortion, biological needs, mortal aging.'
 physiology: Transcendent precursor construct.

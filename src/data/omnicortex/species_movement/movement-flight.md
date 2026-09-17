@@ -11,12 +11,7 @@ bp: 0
 description: Standard flying cruise pace (1x Fly).
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Flying: Flight Pace (1x Fly)
 

@@ -6,12 +6,6 @@ bp: 5
 cp: 5
 costs:
   bp: 5
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Darkvision 60 feet and Low-light vision. [1+1]'
 immunities: Environmental extremes
 physiology: 'Mythicals do not eat, sleep, or breathe.'

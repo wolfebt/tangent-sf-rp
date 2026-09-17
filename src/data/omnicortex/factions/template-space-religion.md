@@ -19,24 +19,7 @@ bonus_features: ["Centering"]
 description: "Factions built around cosmic devotion, guarding ancient holy sites or seeking universal enlightenment through the stars. They blend high technology with deep mysticism, viewing the cosmos as a divine tapestry"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

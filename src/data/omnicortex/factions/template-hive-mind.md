@@ -19,24 +19,7 @@ bonus_features: ["Mind Link"]
 description: "A civilization composed of billions of biological or synthetic drones controlled by a single, vast synaptic network or Queen. The concept of the \"individual\" is entirely foreign. They act with absolute, terrifying synchronicity"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

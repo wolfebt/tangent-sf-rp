@@ -5,24 +5,7 @@ category: rules
 description: Canonical Full Rest and Light Rest mechanics, species physiological adaptations (Synthetics, Fae, Insects, Alterians, Mondi), activity tiers, and strenuous interruption degradation.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # Rest, Recovery & Biological Cycles System

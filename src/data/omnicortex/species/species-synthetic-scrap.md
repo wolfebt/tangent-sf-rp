@@ -49,12 +49,6 @@ meta_level: 0 (Null)
 homeworld: Junk Worlds & Scrapyard Moons
 costs:
   bp: 47
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Charisma
     value: -2

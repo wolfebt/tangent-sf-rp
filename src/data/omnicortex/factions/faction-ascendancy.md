@@ -19,24 +19,7 @@ bonus_features: ["Awakened Mind","Deep Attunement"]
 description: "The Ascendancy (\"The Exiles\") represents a schism in human history, formed by the Seventh Heir of the Impyrium who rejected the stagnation of the ancient empire. They seek a *tabula rasa* on the far side of \"The Reach.\" They look forward, drawing inspiration from the legendary \"Radiant Impyrium\" (the Golden Age) to recreate and surpass it through the advancement of TL4 Psi-Tech. They are High-Tech Utopians defined by Hope, Innovation, and Self-Reliance, viewing technology and the mind as one"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

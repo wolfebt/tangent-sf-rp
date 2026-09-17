@@ -100,6 +100,7 @@ import { CodexIngestionModal } from '../../pages/Codex/CodexIngestionModal';
 import {
   normalizeOmnicortexItem,
   exportOmnicortexItem,
+  isPropertyCategory,
   getItemCosts,
   getItemModifiers,
   getItemModifications,
@@ -329,6 +330,28 @@ const WIDGET_FIELD_NAMES = new Set([
   'costs'
 ]);
 
+const HARDWARE_ONLY_FIELDS = new Set([
+  'cost',
+  'credits',
+  'craft_dc',
+  'design_dc',
+  'material_cost',
+  'complexity_tier',
+  'crafting_days',
+  'tsc_market_value',
+  'market_value',
+  'component_slots',
+  'total_sockets',
+  'sockets_used',
+  'socket_tier',
+  'udu_tier',
+  'power_consumption',
+  'hardpoints',
+  'hull_type',
+  'weight',
+  'load'
+]);
+
 /**
  * AssetStudio
  * The singular, authoritative, unified Studio consolidating all manage modals,
@@ -361,16 +384,20 @@ export const AssetStudio = ({
 
   // Resolve target item and key
   const activeItem = initialData || selectedItem || {};
-  const resolvedKey = currentKey || activeItem.category || activeItem.collection || 'equipment';
+  const resolvedKey = currentKey || activeItem.category || activeItem.collection || 'species';
 
   // Resolve canonical matrix
   const resolvedMatrix = useMemo(() => {
     if (propMatrix) return propMatrix;
     const mId = getMatrixIdForAssetKey(resolvedKey);
-    return mId ? getMatrixById(mId) : getMatrixById('equipment');
+    if (mId) return getMatrixById(mId);
+    if (!isPropertyCategory(resolvedKey)) {
+      return getMatrixById('features');
+    }
+    return getMatrixById('equipment');
   }, [propMatrix, resolvedKey]);
 
-  const matrix = resolvedMatrix || getMatrixById('equipment');
+  const matrix = resolvedMatrix || (isPropertyCategory(resolvedKey) ? getMatrixById('equipment') : getMatrixById('features'));
   const guidance = useMemo(() => CODEX_DATASET_GUIDANCE[matrix.id] || null, [matrix.id]);
 
   const activeCategoryConfig = useMemo(() => {
@@ -415,6 +442,7 @@ export const AssetStudio = ({
     if (matrix?.fields) {
       matrix.fields.forEach(f => {
         if (!SPECS_FIELD_NAMES.has(f.name) && !NARRATIVE_FIELD_NAMES.has(f.name) && !WIDGET_FIELD_NAMES.has(f.name)) {
+          if (!matrix.isProperty && HARDWARE_ONLY_FIELDS.has(f.name)) return;
           fieldsMap.set(f.name, f);
         }
       });
@@ -424,6 +452,7 @@ export const AssetStudio = ({
     if (activeCategoryConfig?.fields) {
       Object.entries(activeCategoryConfig.fields).forEach(([fName, fDef]) => {
         if (!SPECS_FIELD_NAMES.has(fName) && !NARRATIVE_FIELD_NAMES.has(fName) && !WIDGET_FIELD_NAMES.has(fName)) {
+          if (!matrix.isProperty && HARDWARE_ONLY_FIELDS.has(fName)) return;
           if (!fieldsMap.has(fName)) {
             fieldsMap.set(fName, {
               name: fName,
@@ -1114,7 +1143,7 @@ export const AssetStudio = ({
                 <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
                     <Zap size={14} />
-                    <span>{matrix.name} Operational Parameters & Combat Mechanics</span>
+                    <span>{matrix.name} {isProperty ? 'Operational Parameters & Combat Mechanics' : 'Game Mechanics & Tactical Parameters'}</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {relativeMechanicsFields.map(field => {
@@ -1474,7 +1503,7 @@ export const AssetStudio = ({
               {/* Consolidated DBM Widgets - Filtered relative to dataset */}
               <div className="space-y-4">
                 {/* Sockets Allocation Widget (Property Types with Sockets & UDU only) */}
-                {showSocketsAndUDU && (
+                {isProperty && showSocketsAndUDU && (
                   <SocketsAllocationWidget
                     sockets={formData.sockets || getItemSockets(formData)}
                     onChange={newSockets => handleFieldChange('sockets', newSockets)}
@@ -1483,7 +1512,7 @@ export const AssetStudio = ({
                 )}
 
                 {/* Critical Details Widget (Damage or Effect Types only) */}
-                {showDamageOrEffect && (
+                {isProperty && showDamageOrEffect && (
                   <CriticalDetailsWidget
                     criticalDetails={formData.critical_details || getItemCriticalDetails(formData)}
                     onChange={newCrit => handleFieldChange('critical_details', newCrit)}
@@ -1492,7 +1521,7 @@ export const AssetStudio = ({
                 )}
 
                 {/* Modifications List Widget (Hardware / Equipment with Modifications only) */}
-                {showModifications && (
+                {isProperty && showModifications && (
                   <ModificationsWidget
                     modifications={formData.modifications || getItemModifications(formData)}
                     onChange={newMods => handleFieldChange('modifications', newMods)}

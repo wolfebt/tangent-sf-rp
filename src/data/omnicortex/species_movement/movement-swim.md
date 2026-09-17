@@ -11,12 +11,7 @@ bp: 0
 description: Standard aquatic swimming cruise pace.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Swimming: Swim Pace (1x Swim)
 

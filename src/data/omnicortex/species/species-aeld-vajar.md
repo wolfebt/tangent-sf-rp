@@ -50,12 +50,6 @@ meta_level: 4 (Primal Shamanism & Biomorphism)
 homeworld: Vajara Prime (The Untamed Jungle)
 costs:
   bp: 19
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 19
 cp: 19

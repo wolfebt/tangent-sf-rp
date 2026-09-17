@@ -14,15 +14,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "A chemical, biological, or psychological dependency on a substance or intense stimulus.",
@@ -72,15 +65,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "An individual rival or powerful organization actively hunting, harassing, or seeking to ruin the character.",
@@ -105,15 +91,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Physical",
     "type": "Physical",
     "refundBP": 4,
-    "costBP": -4,
     "costs": {
-      "bp": -4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -4
     },
     "prerequisite": "None",
     "desc": "Without Arms.",
@@ -138,15 +117,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "The character is outside the physical prime for their species, suffering bodily limitations.",
@@ -171,15 +143,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "A known compulsive jokester, prankster, or class clown who struggles to project authority.",
@@ -204,15 +169,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "An overwhelming compulsion toward Greed (Money), Lechery (Lust), Ambition (Power), or Conspicuousness (Fame).",
@@ -237,15 +195,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Responsible for the continuous protection, feeding, and medical safety of a non-combatant NPC ward.",
@@ -270,15 +221,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Missing limbs, paralysis, or severe mechanical impairment of bodily motor function.",
@@ -303,15 +247,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Unmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible.",
@@ -336,15 +273,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Physical",
     "type": "Physical",
     "refundBP": 4,
-    "costBP": -4,
     "costs": {
-      "bp": -4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -4
     },
     "prerequisite": "None",
     "desc": "Vulnerability (+2 dmg per die) to Acid, Cold, Electricity, or Fire.",
@@ -369,15 +299,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Severe emotional volatility, mood swings, rage triggers, or trauma-induced freezing under pressure.",
@@ -419,15 +342,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Unshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that the character cannot violate.",
@@ -452,15 +368,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Deep prejudice, visceral loathing, or blood-feud hatred directed against a specific species, faction, or creed.",
@@ -494,15 +403,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Bound by an inflexible code of chivalry, bushido, rules of engagement, or strict honesty.",
@@ -527,15 +429,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Takes every statement literally and lacks the ability to parse sarcasm, dry humor, or double entendres.",
@@ -577,15 +472,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "One primary sensory organ is partially damaged or weak (e.g., Near-Sighted, Hard of Hearing, Nerve Damage).",
@@ -610,15 +498,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Sensory",
     "type": "Sensory",
     "refundBP": 4,
-    "costBP": -4,
     "costs": {
-      "bp": -4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -4
     },
     "prerequisite": "Darkvision / Dark Sight",
     "desc": "Abrupt exposure to bright light blinds for 1 round; then dazzled. Req: Darkvision.",
@@ -644,15 +525,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Sensory",
     "type": "Sensory",
     "refundBP": 2,
-    "costBP": -2,
     "costs": {
-      "bp": -2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -2
     },
     "prerequisite": "Darkvision / Dark Sight",
     "desc": "Dazzled in bright sunlight. Req: Darkvision.",
@@ -678,15 +552,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Complete biological absence or destruction of one of the character's primary sensory channels.",
@@ -711,15 +578,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Neurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.",
@@ -769,15 +629,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Belonging to an oppressed, feared, or heavily stigmatized demographic, species, or creed in the sector.",
@@ -802,15 +655,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Lacking vocal cords or biological capacity for verbal speech.",
@@ -835,15 +681,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Meta",
     "type": "Meta",
     "refundBP": 4,
-    "costBP": -4,
     "costs": {
-      "bp": -4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -4
     },
     "prerequisite": "None",
     "desc": "Alive, but harmed by positive/healed by negative energy (like undead).",
@@ -868,15 +707,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Plagued by psychic echoes, traumatic memories, or horrifying supernatural dreams.",
@@ -910,15 +742,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Bound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.",
@@ -943,15 +768,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Movement",
     "type": "Movement",
     "refundBP": 4,
-    "costBP": -4,
     "costs": {
-      "bp": -4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -4
     },
     "prerequisite": "None",
     "desc": "Base Speed -20 feet. (BP Gain) *",
@@ -976,15 +794,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Starting with severe financial deficits, second-hand gear, or crushing loanshark debt.",
@@ -1042,15 +853,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Hiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.",
@@ -1075,15 +879,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Movement",
     "type": "Movement",
     "refundBP": 2,
-    "costBP": -2,
     "costs": {
-      "bp": -2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -2
     },
     "prerequisite": "None",
     "desc": "Base Speed -10 feet. (BP Gain) *",
@@ -1108,15 +905,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Severe social awkwardness, abrasive personality, inability to read rooms, or notorious reputation.",
@@ -1158,15 +948,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Meta",
     "type": "Meta",
     "refundBP": 6,
-    "costBP": -6,
     "costs": {
-      "bp": -6,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -6
     },
     "prerequisite": "Undead / Half-Undead / Non-Living",
     "desc": "Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead.",
@@ -1192,15 +975,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "Baffled by modern technology, computing devices, energy weapons, or automated starships.",
@@ -1234,15 +1010,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "General",
     "type": "General",
     "refundBP": 0,
-    "costBP": 0,
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "prerequisite": "None",
     "desc": "A profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.",
@@ -1300,15 +1069,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "classification": "Meta",
     "type": "Meta",
     "refundBP": 4,
-    "costBP": -4,
     "costs": {
-      "bp": -4,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": -4
     },
     "prerequisite": "Native to Darklands / Shadow Realms",
     "desc": "Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.",

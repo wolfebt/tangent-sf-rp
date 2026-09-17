@@ -25,12 +25,7 @@ description: >-
   an Endurance / Stamina check (CR 15+) to avoid fatigue.
 costs:
   bp: 3
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Flicker Movement
 

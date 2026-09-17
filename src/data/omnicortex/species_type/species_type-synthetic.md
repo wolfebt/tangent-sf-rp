@@ -6,12 +6,6 @@ bp: 15
 cp: 15
 costs:
   bp: 15
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
 immunities: >-
   Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,

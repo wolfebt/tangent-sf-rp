@@ -45,12 +45,6 @@ meta_level: 1 (Oceanic Echo)
 homeworld: Thalassa (Ocean World)
 costs:
   bp: 11
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 11
 cp: 11

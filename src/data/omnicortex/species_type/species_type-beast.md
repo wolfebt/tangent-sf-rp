@@ -6,12 +6,6 @@ bp: 1
 cp: 1
 costs:
   bp: 1
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Low-light vision. [1]'
 immunities: None
 physiology: 'Beasts eat, sleep, and breathe.'

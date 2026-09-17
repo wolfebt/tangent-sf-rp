@@ -46,12 +46,6 @@ meta_level: 4 (Collective Psionic Core)
 homeworld: Kitin Deep Nests
 costs:
   bp: 15
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Agility
     value: 2

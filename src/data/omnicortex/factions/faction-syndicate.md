@@ -19,24 +19,7 @@ bonus_features: ["Underworld Connections","Neural Interface","Wealthy"]
 description: "The Syndicate represents a High-Tech Cyberocracy—a society run like a massive, efficient, interconnected business entity. The defining characteristic is the Seamless Integration of technology via the \"Mesh,\" a ubiquitous AR and data network that overlays the physical world, eliminating bureaucratic friction. Culturally, they view Transhumanism as a professional standard. They are pragmatic, agile, and pivot strategies instantly based on real-time analytics. Beneath the pristine corporate spires lie the \"Restriction Zones\" (Friction Layers), where unlicensed tech and native Premian culture thrive in the shadows"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

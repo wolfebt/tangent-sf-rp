@@ -42,12 +42,6 @@ meta_level: 1 (Animalistic Resonance)
 homeworld: Bio-Foundry Laboratories
 costs:
   bp: 12
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 12
 cp: 12

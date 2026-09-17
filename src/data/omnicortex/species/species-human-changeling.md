@@ -43,12 +43,6 @@ meta_level: 2 (Empathic Resonance)
 homeworld: Various Cosmopolitan Stations
 costs:
   bp: 10
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Charisma
     value: 1

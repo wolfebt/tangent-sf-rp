@@ -46,12 +46,6 @@ meta_level: 3 (Metamorphic Nature)
 homeworld: Sylvanna Enclaves
 costs:
   bp: 12
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Strength
     value: -2

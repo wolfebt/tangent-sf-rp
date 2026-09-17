@@ -19,24 +19,7 @@ bonus_features: ["Industrial Connections","Deep Diver"]
 description: "Born from multiple hostile takeovers of a contested agro-world, Patron Marcus DeVree transformed the Entari system into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Synthetic Super-Intellect \"Bastion.\" The Combine operates as a Monarch-led Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's \"Neutral Ground,\" a stabilizing force where commerce and conversation supersede conflict, proving profitability does not require exploitation"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

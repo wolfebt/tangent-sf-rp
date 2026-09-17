@@ -19,24 +19,7 @@ bonus_features: ["Spacer"]
 description: "Deep void pioneers focused entirely on charting the unknown. They prioritize science, discovery, and first contact over military conquest, venturing into the darkest, unmapped corners of the galaxy in highly advanced, poorly armed survey vessels"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

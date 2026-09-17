@@ -13,12 +13,7 @@ description: >-
   checks.
 costs:
   bp: 1
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Leaper (Jump Mastery)
 

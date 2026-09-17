@@ -33,14 +33,7 @@ for (const file of mdFiles) {
     bp,
     cp: bp,
     costs: {
-      bp,
-      credits: 0,
-      nodes: 0,
-      sockets: 0,
-      strain: 0,
-      focus: 0,
-      ap: 0,
-      ...(data.costs || {})
+      bp
     },
     description: data.description || '',
     senses: data.senses || '',
@@ -51,9 +44,6 @@ for (const file of mdFiles) {
     planar: data.planar || '',
     physiology: data.physiology || '',
     modifiers: data.modifiers || [],
-    modifications: data.modifications || [],
-    critical_details: data.critical_details || { score: '', effect: [], success_effect: [], failure_effect: [] },
-    sockets: data.sockets || { max: 0, used: 0, tier: 'Socket', allocated: [] },
     mechanic: data.mechanic || '',
     note: data.note || '',
     body: content.trim()

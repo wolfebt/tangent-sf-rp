@@ -50,12 +50,6 @@ meta_level: 3 (Botanical Psionics)
 homeworld: Lin-Shur Canopies
 costs:
   bp: 17
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 1

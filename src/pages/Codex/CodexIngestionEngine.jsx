@@ -8,7 +8,7 @@ import {
   sanitizePayloadStrings 
 } from './codexPromptRegistry';
 import { adaptSparkItemToFirestore, sanitizeDocumentId } from '../../utils/codexIngestionAdapters';
-import { normalizeOmnicortexItem } from '../../utils/tangentSchemaAdapters';
+import { normalizeOmnicortexItem, isPropertyCategory } from '../../utils/tangentSchemaAdapters';
 import { 
   getGeminiApiKey, 
   synthesizeDatasetIngestionWithBastion,
@@ -442,9 +442,12 @@ export const CodexIngestionEngine = ({
   const handleOpenRevision = (item) => {
     AudioService.playTerminalBeep(1300, 0.03);
     setRevisingItem(item);
+    const isProp = isPropertyCategory(item.category || selectedDatasetKey);
     setRevisionForm({
       ...item,
-      costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0, ...(item.costs || {}) },
+      costs: isProp 
+        ? { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0, ...(item.costs || {}) }
+        : { bp: item.costs?.bp ?? item.bp ?? item.cp ?? 0 },
       modifiers: Array.isArray(item.modifiers) ? item.modifiers.map(m => ({ ...m })) : []
     });
   };
@@ -1459,71 +1462,83 @@ export const CodexIngestionEngine = ({
               {/* Row 3: Costs Grid */}
               <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
                 <label className="text-[10px] uppercase text-cyan-400 font-bold block mb-2">Resource Costs Map</label>
-                <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
-                  <div>
-                    <span className="text-[9px] text-slate-500 uppercase">BP</span>
+                {isPropertyCategory(revisionForm.category || selectedDatasetKey) ? (
+                  <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                    <div>
+                      <span className="text-[9px] text-slate-500 uppercase">BP</span>
+                      <input
+                        type="number"
+                        value={revisionForm.costs?.bp ?? 0}
+                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, bp: parseInt(e.target.value) || 0 } }))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-500 uppercase">Credits</span>
+                      <input
+                        type="number"
+                        value={revisionForm.costs?.credits ?? 0}
+                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, credits: parseInt(e.target.value) || 0 } }))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-500 uppercase">Nodes</span>
+                      <input
+                        type="number"
+                        value={revisionForm.costs?.nodes ?? 0}
+                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, nodes: parseInt(e.target.value) || 0 } }))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-500 uppercase">Sockets</span>
+                      <input
+                        type="number"
+                        value={revisionForm.costs?.sockets ?? 0}
+                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, sockets: parseInt(e.target.value) || 0 } }))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-500 uppercase">Strain</span>
+                      <input
+                        type="number"
+                        value={revisionForm.costs?.strain ?? 0}
+                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, strain: parseInt(e.target.value) || 0 } }))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-500 uppercase">Focus</span>
+                      <input
+                        type="number"
+                        value={revisionForm.costs?.focus ?? 0}
+                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, focus: parseInt(e.target.value) || 0 } }))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-slate-500 uppercase">AP</span>
+                      <input
+                        type="number"
+                        value={revisionForm.costs?.ap ?? 0}
+                        onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, ap: parseInt(e.target.value) || 0 } }))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="max-w-xs">
+                    <span className="text-[9px] text-slate-500 uppercase">Build Points (BP / CP)</span>
                     <input
                       type="number"
-                      value={revisionForm.costs?.bp ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, bp: parseInt(e.target.value) || 0 } }))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                      value={revisionForm.costs?.bp ?? revisionForm.bp ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { bp: parseInt(e.target.value) || 0 }, bp: parseInt(e.target.value) || 0 }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-left text-slate-100"
                     />
                   </div>
-                  <div>
-                    <span className="text-[9px] text-slate-500 uppercase">Credits</span>
-                    <input
-                      type="number"
-                      value={revisionForm.costs?.credits ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, credits: parseInt(e.target.value) || 0 } }))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[9px] text-slate-500 uppercase">Nodes</span>
-                    <input
-                      type="number"
-                      value={revisionForm.costs?.nodes ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, nodes: parseInt(e.target.value) || 0 } }))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[9px] text-slate-500 uppercase">Sockets</span>
-                    <input
-                      type="number"
-                      value={revisionForm.costs?.sockets ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, sockets: parseInt(e.target.value) || 0 } }))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[9px] text-slate-500 uppercase">Strain</span>
-                    <input
-                      type="number"
-                      value={revisionForm.costs?.strain ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, strain: parseInt(e.target.value) || 0 } }))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[9px] text-slate-500 uppercase">Focus</span>
-                    <input
-                      type="number"
-                      value={revisionForm.costs?.focus ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, focus: parseInt(e.target.value) || 0 } }))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[9px] text-slate-500 uppercase">AP</span>
-                    <input
-                      type="number"
-                      value={revisionForm.costs?.ap ?? 0}
-                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, ap: parseInt(e.target.value) || 0 } }))}
-                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
-                    />
-                  </div>
-                </div>
+                )}
               </div>
 
               {/* Row 4: Modifiers List Editor */}

@@ -50,12 +50,6 @@ meta_level: 5 (High Fey Metaphysics)
 homeworld: The Feywild Reliquary
 costs:
   bp: 27
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Charisma
     value: 1

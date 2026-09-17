@@ -19,24 +19,7 @@ bonus_features: ["Biotechnology"]
 description: "Factions built entirely around the mastery of the genome. These biologic ascendants view natural evolution as a sluggish, flawed process. They utilize advanced bio-technology and cloning to perfectly adapt themselves to their environments, often creating customized castes for specific labor, scientific, or combat roles"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

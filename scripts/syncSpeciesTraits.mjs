@@ -67,7 +67,7 @@ function syncTraits() {
       classification,
       type: classification,
       bp,
-      costs: data.costs || { bp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
+      costs: { bp },
       is_ranked: Boolean(data.is_ranked),
       desc: data.description || '',
       description: data.description || '',

@@ -11,12 +11,7 @@ bp: 1
 description: Not encumbered or slowed by carrying a Heavy Load.
 costs:
   bp: 1
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Hauler (Heavy Load Mobility)
 

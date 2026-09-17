@@ -11,12 +11,7 @@ bp: 0
 description: Hurried swim stroke (2x Swim) with -2 penalty to stealth.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Swimming: Glide Pace (2x Swim)
 

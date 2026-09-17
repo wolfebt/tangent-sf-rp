@@ -19,24 +19,7 @@ bonus_features: ["Primal Resilience","Beast Hunter"]
 description: "The Vajar represent the untamed, primal soul of the Elven species. They are shapeshifting Druids who reject static cities and industrial mass production. Operating at Tech Level 1, they forge metal using geothermal heat and elemental manipulation, backed by profound Metaphysics that renders conventional tech obsolete. They view their domain as an ecosystem to be preserved, and industrialization as an infection"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

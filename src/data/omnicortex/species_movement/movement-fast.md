@@ -14,12 +14,7 @@ description: >-
   exclusive with other ground speed adjusters.
 costs:
   bp: 2
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Fast (+10 ft Ground)
 

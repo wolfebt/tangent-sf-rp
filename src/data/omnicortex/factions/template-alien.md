@@ -19,24 +19,7 @@ bonus_features: ["Alien Physiology"]
 description: "These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

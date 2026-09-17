@@ -49,12 +49,6 @@ meta_level: 4 (Command Metaphysics)
 homeworld: Imperia Core
 costs:
   bp: 28
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 2

@@ -19,24 +19,7 @@ bonus_features: ["Magical Aptitude"]
 description: "Factions of ancient, occult beings hiding in plain sight (e.g., Space Vampires, covens, or immortal bloodlines). They manipulate society from the shadows, protecting \"The Veil\" to ensure they are not hunted by the masses. They rely on dark magic and reality manipulation rather than standard tech"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

@@ -39,12 +39,6 @@ meta_level: 1 (Residual Soul)
 homeworld: Resleeve Clinics & Transhuman Stations
 costs:
   bp: 32
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 32
 cp: 32

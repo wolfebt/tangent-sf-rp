@@ -33,24 +33,7 @@ quote: '"There is no place too dark for the light to reach."'
 description: A zealous preacher who travels the galaxy to spread their faith.
 costs:
   bp: 80
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # The Missionary

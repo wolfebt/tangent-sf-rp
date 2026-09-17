@@ -13,12 +13,7 @@ description: >-
   fortresses.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Burrowing: Excavation Pace (0.1875x Walk)
 

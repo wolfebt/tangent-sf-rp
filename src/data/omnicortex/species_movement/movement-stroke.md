@@ -11,12 +11,7 @@ bp: 0
 description: Maximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Swimming: Stroke Pace (4x Swim)
 

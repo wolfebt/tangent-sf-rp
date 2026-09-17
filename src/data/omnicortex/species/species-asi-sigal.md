@@ -50,12 +50,6 @@ meta_level: 5 (Pure Energy Metaphysics)
 homeworld: The Solar Auroras of Lumina
 costs:
   bp: 66
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 1

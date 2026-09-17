@@ -205,29 +205,4 @@ export const DEFAULT_SPECIES_SIZES = [
 
 export const getSizeById = (id) => DEFAULT_SPECIES_SIZES.find(s => s.id === id);
 
-export const SIZE_TIER_ORDER = [
-  'Miniscule',
-  'Fine',
-  'Diminutive',
-  'Tiny',
-  'Small',
-  'Medium',
-  'Large',
-  'Huge',
-  'Gargantuan',
-  'Colossal',
-  'Enormous',
-  'Titanic',
-  'Super Gargantuan',
-  'Mega Colossal'
-];
-
-export const getSizeTierIndex = (itemOrName) => {
-  if (!itemOrName) return 999;
-  const raw = typeof itemOrName === 'string'
-    ? itemOrName
-    : (itemOrName.name || itemOrName.id || '');
-  const clean = raw.replace(/^species_size-/, '').replace(/-/g, ' ').toLowerCase().trim();
-  const idx = SIZE_TIER_ORDER.findIndex(tier => tier.toLowerCase() === clean);
-  return idx !== -1 ? idx : 999;
-};
+export { getSizeTierIndex } from '../engines/tangentConstants';

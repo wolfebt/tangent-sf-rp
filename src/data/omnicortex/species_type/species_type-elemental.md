@@ -6,12 +6,6 @@ bp: 13
 cp: 13
 costs:
   bp: 13
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Darkvision out to 60 feet. [1]'
 immunities: 'Poison, sleep, paralysis, stunning, flanking [6]'
 physiology: Pure energy/matter matrix.

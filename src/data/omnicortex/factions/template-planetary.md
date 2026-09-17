@@ -19,24 +19,7 @@ bonus_features: ["Defensive Combat Training"]
 description: "Fiercely nationalistic factions that control a single world or localized system and violently oppose interstellar integration. They focus entirely on deep-rooted defense, utilizing extreme local knowledge and entrenched fortifications to repel off-world invaders"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

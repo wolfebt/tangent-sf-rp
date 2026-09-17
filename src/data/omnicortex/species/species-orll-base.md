@@ -50,12 +50,6 @@ meta_level: 0 (Null)
 homeworld: Orll Prime Badlands
 costs:
   bp: 33
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Strength
     value: 2

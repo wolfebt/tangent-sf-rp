@@ -5,24 +5,7 @@ category: rules
 description: 'Torso: Called Shot -1. Chest: -2. Abdomen: -2. Groin/Pelvis: -4.'
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 # Hit Location: Torso (-1 to -4)
 

@@ -13,24 +13,7 @@ tags: ["compendium","volume-1","species","kitin","arthropod"]
 updatedAt: "2026-09-15T07:48:15.249Z"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # 1.03.09 Kitin Morphologies & Playable Hive Subspecies

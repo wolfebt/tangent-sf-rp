@@ -6,12 +6,6 @@ bp: 5
 cp: 5
 costs:
   bp: 5
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Darkvision 60 feet [1], Low-light vision [1].'
 immunities: 'Magical sleep and paralysis [3]'
 physiology: 'Dragons breathe, eat, and sleep.'

@@ -42,12 +42,6 @@ meta_level: 2 (Harmonic Weave)
 homeworld: Border Worlds & Conclave Embassies
 costs:
   bp: 15
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 15
 cp: 15

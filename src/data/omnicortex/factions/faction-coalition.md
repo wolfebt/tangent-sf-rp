@@ -19,24 +19,7 @@ bonus_features: ["Independent Grit","Jack of All Trades"]
 description: "The \"Free Colonies\" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

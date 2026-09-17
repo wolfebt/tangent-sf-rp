@@ -52,12 +52,6 @@ meta_level: 4 (Shadow Metaphysics & Telepathy)
 homeworld: Kovia (The Umbral Fortress)
 costs:
   bp: 23
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 1

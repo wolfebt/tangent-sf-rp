@@ -51,12 +51,6 @@ meta_level: 1 (Animalistic Empathy)
 homeworld: Qerica Jungle Spires
 costs:
   bp: 16
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Agility
     value: 1

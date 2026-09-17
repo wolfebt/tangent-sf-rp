@@ -45,12 +45,6 @@ meta_level: 4 (Hive Psionics)
 homeworld: Davae Hive Laboratories
 costs:
   bp: 14
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 1

@@ -11,12 +11,7 @@ bp: 0
 description: Controlled unpowered aerodynamic glide granting +2 bonus to aerial actions.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Flying: Gliding Maneuver
 

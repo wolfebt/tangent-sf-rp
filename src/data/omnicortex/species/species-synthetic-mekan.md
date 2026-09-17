@@ -50,12 +50,6 @@ meta_level: 3 (Technomancy)
 homeworld: Mekan Forge Worlds
 costs:
   bp: 32
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 2

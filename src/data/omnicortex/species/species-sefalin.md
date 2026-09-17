@@ -49,12 +49,6 @@ meta_level: 3 (Aquatic Psionics)
 homeworld: Sefalia Ocean Trench Capitals
 costs:
   bp: 14
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 14
 cp: 14

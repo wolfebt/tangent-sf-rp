@@ -48,12 +48,6 @@ meta_level: 5 (High Spectral Metaphysics)
 homeworld: The Twilight Rifts
 costs:
   bp: 42
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 42
 cp: 42

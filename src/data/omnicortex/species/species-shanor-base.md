@@ -52,12 +52,6 @@ meta_level: 5 (Void Reality-Warping)
 homeworld: The Abyssal Rift of Null-Space
 costs:
   bp: 30
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Wisdom
     value: 1

@@ -19,24 +19,7 @@ bonus_features: ["Benefit (Wealth)"]
 description: "Mega-corporations focused entirely on high-end luxury travel, catering to the galaxy's ultra-rich. They operate massive, opulent cruise liners and exotic planetary resorts. They prioritize profit and experience above all, often ignoring the safety of the locals or the stability of the regions they visit"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

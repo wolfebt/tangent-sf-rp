@@ -19,24 +19,7 @@ bonus_features: ["Imperial Discipline","Authority"]
 description: "The oldest and arguably most powerful human civilization, now defined by Stagnant Grandeur. Following the loss of their psionic leaders (the Regi), the empire fractured into a simmering cold war between three surviving Houses. They are utterly obsessed with their own history, viewing themselves as the apex of civilization. They do not innovate; they act as \"Custodians,\" maintaining massive infrastructure as proof of their right to rule. Every action is dictated by the *Code of the Forefathers*"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Major Galactic Power"
 ---
 

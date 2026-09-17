@@ -19,24 +19,7 @@ bonus_features: ["Sneak Attack"]
 description: "Lawless flotillas and void corsairs raiding trade routes and controlling the black markets. They are a chaotic mix of deserters, outlaws, and thrill-seekers bound together by a loose code of honor and the promise of plunder"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

@@ -8,28 +8,11 @@ description: >-
   retain its previous traits.
 costs:
   bp: 20
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Darkvision 60 feet. [1]'
 physiology: >-
   Undead do not breathe, eat, or sleep, unless they want to gain some beneficial
   effect from one of these activities. [3]
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # Undead

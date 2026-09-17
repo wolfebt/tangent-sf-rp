@@ -10,26 +10,8 @@ is_multiple: true
 prerequisites: Charisma 1
 description: 'The character has unlocked access to a loyal companion, bio-construct, tactical drone, or metaphysical cohort.'
 costs:
-  cp: 3
   bp: 3
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # Companion

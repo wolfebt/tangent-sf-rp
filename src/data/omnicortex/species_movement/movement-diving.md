@@ -11,12 +11,7 @@ bp: 0
 description: High-speed tactical descent (8x Fly) for precision dive attacks.
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Flying: Diving Pace (8x Fly)
 

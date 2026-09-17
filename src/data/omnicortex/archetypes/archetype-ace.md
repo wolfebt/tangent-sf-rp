@@ -31,24 +31,7 @@ quote: '"Hold on back there. I''m gonna try something stupid."'
 description: Navigates starships through asteroids and blockades. Master of the stick.
 costs:
   bp: 80
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
 
 # The Ace

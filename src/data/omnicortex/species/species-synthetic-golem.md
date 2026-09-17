@@ -53,12 +53,6 @@ meta_level: 4 (Runic Core Animation)
 homeworld: Sanctum Vaults & Ancient Spire Ruins
 costs:
   bp: 70
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Strength
     value: 3

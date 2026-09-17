@@ -11,12 +11,7 @@ bp: 0
 description: Default baseline movement pace for all ground locomotion (1x Base Walk).
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Ground: Walk Pace (1x Base)
 

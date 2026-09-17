@@ -63,12 +63,6 @@ meta_level: 2 (Digital Psionics)
 homeworld: Data Spires & Mothership Cores
 costs:
   bp: 187
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 4

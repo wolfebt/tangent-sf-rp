@@ -550,15 +550,10 @@ const ALL_MOVEMENT_ENTRIES = [
   ...TACTICAL_PACES
 ].map(item => ({
   ...item,
-  costs: item.costs || {
-    bp: item.bp || 0,
-    credits: 0,
-    nodes: 0,
-    sockets: 0,
-    strain: 0,
-    focus: 0,
-    ap: 0
+  costs: {
+    bp: item.bp || 0
   },
+  modifiers: item.modifiers || [],
   body: `# ${item.name}\n\n**Category**: Species Movement (${item.classification.toUpperCase()})  \n**Classification**: ${item.classification}  \n**Target Mode**: ${item.target_mode}  \n**Cost**: ${item.bp >= 0 ? `+${item.bp}` : item.bp} BP  \n${item.speed_modifier !== undefined ? `**Speed Modifier**: ${item.speed_modifier > 0 ? `+${item.speed_modifier}` : item.speed_modifier} ft (Additive)  \n` : ''}${item.base_speed ? `**Base Speed**: ${item.base_speed} ft / round  \n` : ''}\n## Description\n${item.description}\n`
 }));
 

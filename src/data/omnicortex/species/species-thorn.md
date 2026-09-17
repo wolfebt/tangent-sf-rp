@@ -50,12 +50,6 @@ meta_level: 4 (Verdant Metaphysics)
 homeworld: The Great Arboreal Bloom of Thorn-7
 costs:
   bp: 24
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 24
 cp: 24

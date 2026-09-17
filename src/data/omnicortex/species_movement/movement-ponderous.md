@@ -16,12 +16,7 @@ description: >-
   refund. Mutually exclusive with other ground speed adjusters.
 costs:
   bp: -4
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
+modifiers: []
 ---
 # Ponderous (-20 ft Ground)
 

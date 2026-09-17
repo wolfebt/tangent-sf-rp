@@ -43,12 +43,6 @@ meta_level: 3 (Chaotic Void Warping)
 homeworld: Corrupted Fringe Outposts
 costs:
   bp: 10
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 10
 cp: 10

@@ -6,12 +6,6 @@ bp: 18
 cp: 18
 costs:
   bp: 18
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 senses: 'Darkvision 60 feet, Ether Sight 60 feet.'
 immunities: 'Non-magical physical weapons, disease, poison.'
 physiology: Incorporeal phase entity.

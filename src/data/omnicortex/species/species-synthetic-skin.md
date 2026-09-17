@@ -48,12 +48,6 @@ meta_level: 1 (Neural Empathy)
 homeworld: Covert Black Labs
 costs:
   bp: 29
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
 cp_cost: 29
 cp: 29

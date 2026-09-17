@@ -50,12 +50,6 @@ meta_level: 1 (Swarm Resonance)
 homeworld: Nano-Fabrication Cloud Platforms
 costs:
   bp: 78
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers:
   - target: Intellect
     value: 1

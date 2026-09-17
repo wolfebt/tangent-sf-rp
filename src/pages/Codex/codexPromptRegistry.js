@@ -104,13 +104,7 @@ export const OMNICORTEX_DATASETS = [
     "movement": ["species_movement-bipedal"],
     "trait": ["String (Array of unique physiological trait names or IDs)"],
     "costs": {
-      "bp": 25,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 25
     },
     "modifiers": [
       { "target": "Agility", "type": "attribute", "value": 1, "mode": "inherent" },
@@ -154,13 +148,7 @@ export const OMNICORTEX_DATASETS = [
       movement: ["species_movement-bipedal"],
       trait: ["Low Light Vision", "Prehensile Tail", "Natural Weapons"],
       costs: {
-        bp: 25,
-        credits: 0,
-        nodes: 0,
-        sockets: 0,
-        strain: 0,
-        focus: 0,
-        ap: 0
+        bp: 25
       },
       modifiers: [
         { target: "Agility", type: "attribute", value: 1, mode: "inherent" },

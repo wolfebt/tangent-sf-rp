@@ -19,24 +19,7 @@ bonus_features: ["Mind Link"]
 description: "Distinct from liberated androids (Artificial Life), this faction represents a massive, localized AI network—a Machine God. It consists of unfathomable processing power guiding, controlling, or preserving organic life according to a cold, algorithmic logic that organics cannot fully comprehend"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 

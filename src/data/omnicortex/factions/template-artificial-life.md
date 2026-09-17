@@ -19,24 +19,7 @@ bonus_features: ["Self-Sustaining"]
 description: "Composed of artificially created life forms, such as robots, androids, or liberated synthetics. They have broken away from their creators to establish their own society, focused on autonomy, self-preservation, and exploring the meaning of their own existence"
 costs:
   bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
 modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 faction_classification: "Faction Template"
 ---
 
