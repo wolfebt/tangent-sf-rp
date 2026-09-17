@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { db } from '../../firebase';
@@ -43,6 +44,14 @@ import { ModificationsWidget } from '../DBM/widgets/ModificationsWidget';
 import { CriticalDetailsWidget } from '../DBM/widgets/CriticalDetailsWidget';
 import { SocketsAllocationWidget } from '../DBM/widgets/SocketsAllocationWidget';
 import { UnifiedRelationalSelectorModal } from '../DBM/UnifiedRelationalSelectorModal';
+import {
+  AttributeModifiersSelector,
+  SkillBonusesSelector,
+  FeaturesSelector,
+  SpeciesTraitsChips,
+  MovementModeSelector,
+  SocialStigmaSelector
+} from '../DBM/widgets/OmnicortexFieldSelector';
 import { categoryConfig } from '../DBM/categoryConfig';
 
 // Contexts & Services
@@ -330,27 +339,57 @@ const WIDGET_FIELD_NAMES = new Set([
   'costs'
 ]);
 
-const HARDWARE_ONLY_FIELDS = new Set([
+const NON_PROPERTY_EXCLUDED_FIELDS = new Set([
   'cost',
   'credits',
+  'cost_credits',
+  'price',
   'craft_dc',
   'design_dc',
+  'dc',
   'material_cost',
+  'materials',
   'complexity_tier',
   'crafting_days',
   'tsc_market_value',
   'market_value',
   'component_slots',
+  'components',
   'total_sockets',
   'sockets_used',
   'socket_tier',
   'udu_tier',
+  'udu',
   'power_consumption',
   'hardpoints',
   'hull_type',
   'weight',
   'load'
 ]);
+
+const SPECIES_EXCLUDED_FIELDS = new Set([
+  'prerequisite',
+  'prerequisites',
+  ...NON_PROPERTY_EXCLUDED_FIELDS
+]);
+
+const HARDWARE_ONLY_FIELDS = NON_PROPERTY_EXCLUDED_FIELDS;
+
+const formatFieldValue = (item) => {
+  if (item === null || item === undefined) return '';
+  if (typeof item !== 'object') return String(item);
+  if (item.name) return item.name;
+  if (item.title) return item.title;
+  if (item.label) return item.label;
+  if (item.skill) return `${item.skill} ${Number(item.bonus ?? item.value ?? 0) >= 0 ? '+' : ''}${item.bonus ?? item.value ?? 0}`;
+  if (item.attribute) return `${item.attribute} ${Number(item.bonus ?? item.value ?? 0) >= 0 ? '+' : ''}${item.bonus ?? item.value ?? 0}`;
+  if (item.id) return item.id;
+  try {
+    return JSON.stringify(item);
+  } catch {
+    return String(item);
+  }
+};
 
 /**
  * AssetStudio
@@ -407,16 +446,23 @@ export const AssetStudio = ({
   // Extract all specs/identity fields relative to current dataset
   const specsFields = useMemo(() => {
     const fieldsMap = new Map();
+    const isSpecies = matrix.id === 'species';
+    const shouldExclude = (fName) => {
+      if (isSpecies && SPECIES_EXCLUDED_FIELDS.has(fName)) return true;
+      if (!matrix.isProperty && NON_PROPERTY_EXCLUDED_FIELDS.has(fName)) return true;
+      return false;
+    };
+
     if (matrix?.fields) {
       matrix.fields.forEach(f => {
-        if (SPECS_FIELD_NAMES.has(f.name)) {
+        if (SPECS_FIELD_NAMES.has(f.name) && !shouldExclude(f.name)) {
           fieldsMap.set(f.name, f);
         }
       });
     }
     if (activeCategoryConfig?.fields) {
       Object.entries(activeCategoryConfig.fields).forEach(([fName, fDef]) => {
-        if (SPECS_FIELD_NAMES.has(fName) && !fieldsMap.has(fName)) {
+        if (SPECS_FIELD_NAMES.has(fName) && !shouldExclude(fName) && !fieldsMap.has(fName)) {
           fieldsMap.set(fName, {
             name: fName,
             label: fDef.label || fName.replace(/_/g, ' ').toUpperCase(),
@@ -437,12 +483,19 @@ export const AssetStudio = ({
   // Extract all game mechanics fields relative to current dataset
   const relativeMechanicsFields = useMemo(() => {
     const fieldsMap = new Map();
+    const isSpecies = matrix.id === 'species';
+
+    const shouldExclude = (fName) => {
+      if (SPECS_FIELD_NAMES.has(fName) || NARRATIVE_FIELD_NAMES.has(fName) || WIDGET_FIELD_NAMES.has(fName)) return true;
+      if (isSpecies && SPECIES_EXCLUDED_FIELDS.has(fName)) return true;
+      if (!matrix.isProperty && NON_PROPERTY_EXCLUDED_FIELDS.has(fName)) return true;
+      return false;
+    };
 
     // 1. Gather from matrix.fields
     if (matrix?.fields) {
       matrix.fields.forEach(f => {
-        if (!SPECS_FIELD_NAMES.has(f.name) && !NARRATIVE_FIELD_NAMES.has(f.name) && !WIDGET_FIELD_NAMES.has(f.name)) {
-          if (!matrix.isProperty && HARDWARE_ONLY_FIELDS.has(f.name)) return;
+        if (!shouldExclude(f.name)) {
           fieldsMap.set(f.name, f);
         }
       });
@@ -451,21 +504,18 @@ export const AssetStudio = ({
     // 2. Gather from activeCategoryConfig.fields
     if (activeCategoryConfig?.fields) {
       Object.entries(activeCategoryConfig.fields).forEach(([fName, fDef]) => {
-        if (!SPECS_FIELD_NAMES.has(fName) && !NARRATIVE_FIELD_NAMES.has(fName) && !WIDGET_FIELD_NAMES.has(fName)) {
-          if (!matrix.isProperty && HARDWARE_ONLY_FIELDS.has(fName)) return;
-          if (!fieldsMap.has(fName)) {
-            fieldsMap.set(fName, {
-              name: fName,
-              label: fDef.label || fName.replace(/_/g, ' ').toUpperCase(),
-              type: fDef.type || 'text',
-              options: fDef.options,
-              min: fDef.min,
-              max: fDef.max,
-              placeholder: fDef.placeholder || `Enter ${fName.replace(/_/g, ' ')}...`,
-              helpText: fDef.helpText,
-              required: fDef.required
-            });
-          }
+        if (!shouldExclude(fName) && !fieldsMap.has(fName)) {
+          fieldsMap.set(fName, {
+            name: fName,
+            label: fDef.label || fName.replace(/_/g, ' ').toUpperCase(),
+            type: fDef.type || 'text',
+            options: fDef.options,
+            min: fDef.min,
+            max: fDef.max,
+            placeholder: fDef.placeholder || `Enter ${fName.replace(/_/g, ' ')}...`,
+            helpText: fDef.helpText,
+            required: fDef.required
+          });
         }
       });
     }
@@ -490,6 +540,7 @@ export const AssetStudio = ({
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
   const [activeSelectorField, setActiveSelectorField] = useState(null);
+  const [hoveredRailItem, setHoveredRailItem] = useState(null);
 
   // Form Data State
   const [formData, setFormData] = useState(() => {
@@ -511,10 +562,76 @@ export const AssetStudio = ({
   const { computedValues, isCalculating } = useComputedState(matrix, formData);
 
   const handleFieldChange = (name, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => {
+      const next = { ...prev, [name]: value };
+
+      // Two-way synchronization for species modifiers
+      if (matrix.id === 'species') {
+        if (name === 'attribute_modifiers' || name === 'inherent_attribute_modifiers') {
+          const attrList = Array.isArray(value) ? value : [];
+          next.attribute_modifiers = attrList;
+          next.inherent_attribute_modifiers = attrList;
+          const otherMods = (next.modifiers || []).filter(m => m.type !== 'attribute');
+          const newAttrMods = attrList.map(a => ({
+            target: a.attribute || a.target || a.name || 'Strength',
+            type: 'attribute',
+            value: Number(a.bonus ?? a.value ?? 1),
+            mode: 'inherent'
+          }));
+          next.modifiers = [...otherMods, ...newAttrMods];
+        } else if (name === 'specific_skill_bonuses') {
+          const skillList = Array.isArray(value) ? value : [];
+          next.specific_skill_bonuses = skillList;
+          const otherMods = (next.modifiers || []).filter(m => m.type !== 'skill');
+          const newSkillMods = skillList.map(s => ({
+            target: s.skill || s.target || s.name || 'Athletics',
+            type: 'skill',
+            value: Number(s.bonus ?? s.value ?? 1),
+            mode: 'inherent'
+          }));
+          next.modifiers = [...otherMods, ...newSkillMods];
+        } else if (name === 'inherent_features') {
+          const featList = Array.isArray(value) ? value : [];
+          next.inherent_features = featList;
+          const otherMods = (next.modifiers || []).filter(m => m.type !== 'feature' || m.mode !== 'inherent');
+          const newFeatMods = featList.map(f => ({
+            target: typeof f === 'object' ? (f.name || f.id) : String(f),
+            type: 'feature',
+            value: 1,
+            mode: 'inherent'
+          }));
+          next.modifiers = [...otherMods, ...newFeatMods];
+        } else if (name === 'recommended_features') {
+          const recList = Array.isArray(value) ? value : [];
+          next.recommended_features = recList;
+          const otherMods = (next.modifiers || []).filter(m => m.type !== 'feature' || m.mode !== 'recommended');
+          const newRecMods = recList.map(f => ({
+            target: typeof f === 'object' ? (f.name || f.id) : String(f),
+            type: 'feature',
+            value: 1,
+            mode: 'recommended'
+          }));
+          next.modifiers = [...otherMods, ...newRecMods];
+        } else if (name === 'modifiers') {
+          // When UniversalModifiersWidget updates modifiers, synchronize back into specific fields
+          const mods = Array.isArray(value) ? value : [];
+          next.modifiers = mods;
+          next.attribute_modifiers = mods.filter(m => m.type === 'attribute').map(m => ({
+            attribute: m.target,
+            bonus: Number(m.value) || 1
+          }));
+          next.inherent_attribute_modifiers = next.attribute_modifiers;
+          next.specific_skill_bonuses = mods.filter(m => m.type === 'skill').map(m => ({
+            skill: m.target,
+            bonus: Number(m.value) || 1
+          }));
+          next.inherent_features = mods.filter(m => m.type === 'feature' && m.mode === 'inherent').map(m => m.target);
+          next.recommended_features = mods.filter(m => m.type === 'feature' && m.mode === 'recommended').map(m => m.target);
+        }
+      }
+
+      return next;
+    });
   };
 
   const handleResetForm = () => {
@@ -700,6 +817,7 @@ export const AssetStudio = ({
       {
         id: 'specs',
         label: 'General Specs',
+        shortLabel: 'SPECS',
         sublabel: 'Registry Dossier',
         icon: FileText,
         color: '#06b6d4',
@@ -709,6 +827,7 @@ export const AssetStudio = ({
       {
         id: 'mechanics',
         label: mechanicsTabConfig.label,
+        shortLabel: matrix.id === 'species' ? 'GENETICS' : 'MECHANICS',
         sublabel: mechanicsTabConfig.sublabel,
         icon: mechanicsTabConfig.icon,
         color: mechanicsTabConfig.color,
@@ -718,6 +837,7 @@ export const AssetStudio = ({
       {
         id: 'narrative',
         label: 'Narrative & Lore',
+        shortLabel: 'LORE',
         sublabel: 'History & Operations',
         icon: BookOpen,
         color: '#c084fc',
@@ -727,6 +847,7 @@ export const AssetStudio = ({
       {
         id: 'relational',
         label: 'Relational Links',
+        shortLabel: 'RELATIONS',
         sublabel: 'Entity Connections',
         icon: Compass,
         color: '#3b82f6',
@@ -739,6 +860,7 @@ export const AssetStudio = ({
       items.push({
         id: 'inspector',
         label: 'Dev Inspector',
+        shortLabel: 'INSPECTOR',
         sublabel: 'Raw JSON Schema',
         icon: Code,
         color: '#10b981',
@@ -748,7 +870,7 @@ export const AssetStudio = ({
     }
 
     return items;
-  }, [mechanicsTabConfig, devMode]);
+  }, [mechanicsTabConfig, devMode, matrix.id]);
 
   const content = (
     <div className="bg-[#090d16] border border-slate-800/90 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-100 max-w-7xl mx-auto w-full max-h-[95vh]">
@@ -901,13 +1023,30 @@ export const AssetStudio = ({
       {/* ── Studio Body with Left Navigation Rail + Workbench Viewport ── */}
       <div className="flex-1 flex overflow-hidden min-h-0">
 
-        {/* ── Left Navigation Rail ── */}
+        {/* ── Standardized Left Navigation Rail (Platform Style) ── */}
         <nav 
           aria-label="Studio Sub-Sections"
-          className="w-18 sm:w-20 md:w-56 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col justify-between py-2.5 px-1 sm:px-1.5 select-none overflow-y-auto z-10 font-sans"
+          className="w-18 sm:w-20 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col items-center justify-between py-2.5 px-1 select-none z-20 font-sans shadow-lg"
         >
-          {/* Top Rail Nav Items */}
-          <div className="flex flex-col gap-1 w-full">
+          {/* Top Section: Matrix Brand Crest + Nav Buttons */}
+          <div className="flex flex-col items-center gap-1.5 w-full">
+            {/* Top Matrix Crest / Icon */}
+            <div className="flex flex-col items-center justify-center py-1 mb-0.5">
+              <div 
+                className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-xl border flex items-center justify-center shadow-lg transition-transform hover:scale-105"
+                style={{
+                  background: `${matrix.color || '#10b981'}18`,
+                  borderColor: `${matrix.color || '#10b981'}50`,
+                  color: matrix.color || '#10b981'
+                }}
+                title={`${matrix.name} • ${matrix.badge}`}
+              >
+                <Icon size={18} />
+              </div>
+              <div className="w-6 h-px bg-slate-800/80 mt-1.5" />
+            </div>
+
+            {/* Nav Rail Buttons (Stacked Icon + Monospace Label Underneath) */}
             {navRailItems.map(item => {
               const ItemIcon = item.icon;
               const isActive = activeStudioTab === item.id;
@@ -919,64 +1058,58 @@ export const AssetStudio = ({
                     AudioService.playTerminalBeep(1100, 0.02);
                     setActiveStudioTab(item.id);
                   }}
+                  onMouseEnter={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    setHoveredRailItem({ item, rect });
+                  }}
+                  onMouseLeave={() => setHoveredRailItem(null)}
                   title={`${item.label} • ${item.sublabel}`}
-                  className={`group relative w-full flex flex-col md:flex-row items-center md:items-center gap-1 md:gap-3 p-1.5 md:p-2.5 rounded-xl transition-all cursor-pointer text-center md:text-left ${
+                  className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
                     isActive 
-                      ? `${item.activeBg || 'bg-slate-800/80'} ${item.activeBorder || 'border-cyan-500/60'} border shadow-md`
-                      : 'hover:bg-slate-900/60 border border-transparent text-slate-400 hover:text-slate-200'
+                      ? `${item.activeBg || 'bg-slate-800/80'} ${item.activeBorder || 'border-cyan-500/60'} shadow-[0_0_15px_rgba(6,182,212,0.25)]`
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
                   }`}
                 >
-                  {/* Left Indicator Glow Bar */}
+                  {/* Left Glowing Indicator Bar */}
                   {isActive && (
                     <span 
-                      className="absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full shadow-[0_0_8px_rgba(6,182,212,0.8)]"
+                      className="absolute -left-1 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(6,182,212,0.8)]"
                       style={{ backgroundColor: item.color || matrix.color }}
                     />
                   )}
 
+                  {/* Icon Container Box matching top buttons */}
                   <div 
-                    className={`w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors mx-auto md:mx-0 ${
-                      isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'
+                    className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                      isActive ? 'border-cyan-400/80 shadow-sm' : 'border-slate-800 group-hover:border-slate-700 bg-slate-950/60'
                     }`}
-                    style={isActive ? { background: `${item.color || matrix.color}25` } : {}}
+                    style={isActive ? { background: `${item.color || matrix.color}25`, borderColor: `${item.color || matrix.color}80` } : {}}
                   >
-                    <ItemIcon size={17} style={isActive ? { color: item.color || matrix.color } : {}} />
+                    <ItemIcon size={17} style={{ color: isActive ? (item.color || matrix.color) : undefined }} className={isActive ? '' : 'text-slate-400 group-hover:text-slate-200'} />
                   </div>
 
-                  {/* Compact Mobile/Tablet Label Under Icon */}
-                  <span className={`md:hidden font-mono text-[8.5px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full leading-tight select-none ${
-                    isActive ? 'text-cyan-300 font-extrabold [text-shadow:0_0_8px_rgba(34,211,238,0.5)]' : 'text-slate-400 group-hover:text-slate-200'
-                  }`}>
-                    {item.label}
+                  {/* Monospace Visible Label Underneath Icon */}
+                  <span className={`font-mono text-[8.5px] sm:text-[9px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight select-none ${
+                    isActive ? 'font-extrabold' : 'text-slate-400 group-hover:text-slate-200'
+                  }`} style={isActive ? { color: item.color || matrix.color } : {}}>
+                    {item.shortLabel || item.label}
                   </span>
-
-                  {/* Desktop Label & Sublabel */}
-                  <div className="hidden md:flex flex-col min-w-0">
-                    <span className={`text-xs font-mono font-bold tracking-wider truncate uppercase ${
-                      isActive ? 'text-white' : 'text-slate-300'
-                    }`}>
-                      {item.label}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-500 truncate">
-                      {item.sublabel}
-                    </span>
-                  </div>
                 </button>
               );
             })}
           </div>
 
           {/* Bottom Rail System Metadata / Status */}
-          <div className="pt-3 border-t border-slate-800/70 flex flex-col items-center md:items-start gap-1 px-1">
-            <div className="hidden md:flex items-center gap-1.5 text-[10px] font-mono text-slate-400 uppercase">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>{matrix.name}</span>
+          <div className="w-full flex flex-col items-center gap-1.5 pt-2 border-t border-slate-800/80 mt-auto">
+            <div className="flex items-center gap-1 text-[9px] font-mono text-slate-400 uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="truncate max-w-[60px]">{matrix.name}</span>
             </div>
-            <div className="hidden md:block text-[9px] font-mono text-slate-500 truncate max-w-full">
+            <div className="text-[8px] font-mono text-slate-500 truncate max-w-full text-center">
               COL: {matrix.targetCollection}
             </div>
             <div 
-              className="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold uppercase tracking-wider text-center w-full"
+              className="text-[8px] font-mono px-1 py-0.5 rounded font-bold uppercase tracking-wider text-center w-full truncate"
               style={{ background: `${matrix.color}20`, color: matrix.color }}
             >
               {matrix.badge}
@@ -1059,7 +1192,7 @@ export const AssetStudio = ({
                           ) : Array.isArray(val) ? (
                             <input
                               type="text"
-                              value={val.join(', ')}
+                              value={val.map(formatFieldValue).join(', ')}
                               onChange={(e) => handleFieldChange(field.name, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                               placeholder={field.placeholder || `Comma-separated ${field.label.toLowerCase()}...`}
                               className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
@@ -1067,7 +1200,7 @@ export const AssetStudio = ({
                           ) : (
                             <input
                               type="text"
-                              value={typeof val === 'object' ? JSON.stringify(val) : val}
+                              value={typeof val === 'object' ? formatFieldValue(val) : val}
                               onChange={(e) => handleFieldChange(field.name, e.target.value)}
                               placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}...`}
                               className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
@@ -1080,13 +1213,13 @@ export const AssetStudio = ({
                                 <div className="flex flex-wrap gap-1">
                                   {val.map((item, idx) => (
                                     <span key={idx} className="px-1.5 py-0.5 bg-slate-800 text-cyan-300 rounded text-[10px] font-mono">
-                                      {String(item)}
+                                      {formatFieldValue(item)}
                                     </span>
                                   ))}
                                 </div>
                               ) : '—'
                             ) : typeof val === 'object' ? (
-                              JSON.stringify(val)
+                              formatFieldValue(val)
                             ) : (
                               String(val || '—')
                             )}
@@ -1138,8 +1271,185 @@ export const AssetStudio = ({
                 </div>
               )}
 
-              {/* Relative Combat & Operational Parameters (relative to dataset) */}
-              {relativeMechanicsFields.length > 0 && matrix.id !== 'factions' && (
+              {/* Specialized Species Mechanics & Omnicortex Selectors Suite */}
+              {matrix.id === 'species' && (
+                <div className="space-y-4">
+                  {/* Attribute Modifiers & Skill Aptitudes */}
+                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                        <Dna size={15} />
+                        <span>Inherent Biological Modifiers & Skill Aptitudes</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-500 uppercase">Omnicortex DBM Synchronized</span>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                          <span>Inherent Attribute Modifiers</span>
+                          <CodexTooltip
+                            title="Inherent Attribute Modifiers"
+                            description="Baseline biological alterations to standard character attributes. Typically ranges from -2 to +2 for balanced species."
+                            rule="BASTION Chapter 2 / Species Creation"
+                            color="#38bdf8"
+                          />
+                        </label>
+                        <AttributeModifiersSelector
+                          value={formData.attribute_modifiers || formData.inherent_attribute_modifiers || []}
+                          onChange={(val) => handleFieldChange('attribute_modifiers', val)}
+                          isEditMode={isEditMode}
+                        />
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-800/80">
+                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                          <span>Specific Skill Bonuses</span>
+                          <CodexTooltip
+                            title="Specific Skill Bonuses"
+                            description="Instinctual or cultural skill proficiencies possessed by this species (+1 to +3)."
+                            rule="BASTION Chapter 2 / Species Creation"
+                            color="#f59e0b"
+                          />
+                        </label>
+                        <SkillBonusesSelector
+                          value={formData.specific_skill_bonuses || []}
+                          onChange={(val) => handleFieldChange('specific_skill_bonuses', val)}
+                          onOpenPicker={() => setActiveSelectorField({
+                            source: 'skills',
+                            target: 'specific_skill_bonuses',
+                            label: 'Skill Bonuses'
+                          })}
+                          isEditMode={isEditMode}
+                          dbSkills={dbData.skills || []}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Species Features (Inherent & Recommended) */}
+                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                        <Sparkles size={15} />
+                        <span>Species Features & Traits Integration</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-500 uppercase">Traits & Features Catalog</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                          <span>Inherent Features</span>
+                          <CodexTooltip
+                            title="Inherent Features"
+                            description="Features naturally and permanently possessed by all members of this species."
+                            rule="BASTION Chapter 2 / Species Creation"
+                            color="#10b981"
+                          />
+                        </label>
+                        <FeaturesSelector
+                          value={formData.inherent_features || []}
+                          onChange={(val) => handleFieldChange('inherent_features', val)}
+                          onOpenPicker={() => setActiveSelectorField({
+                            source: 'trait',
+                            target: 'inherent_features',
+                            label: 'Inherent Features'
+                          })}
+                          isEditMode={isEditMode}
+                          dbFeatures={dbData.trait || dbData.traits || dbData.features || []}
+                          variant="emerald"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                          <span>Recommended Features</span>
+                          <CodexTooltip
+                            title="Recommended Features"
+                            description="Optional or culturally prevalent features suggested during character creation."
+                            rule="BASTION Chapter 2 / Species Creation"
+                            color="#a855f7"
+                          />
+                        </label>
+                        <FeaturesSelector
+                          value={formData.recommended_features || []}
+                          onChange={(val) => handleFieldChange('recommended_features', val)}
+                          onOpenPicker={() => setActiveSelectorField({
+                            source: 'trait',
+                            target: 'recommended_features',
+                            label: 'Recommended Features'
+                          })}
+                          isEditMode={isEditMode}
+                          dbFeatures={dbData.trait || dbData.traits || dbData.features || []}
+                          variant="purple"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Locomotion & Social Parameters */}
+                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-4">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                      <Sliders size={15} />
+                      <span>Locomotion & Social Parameters</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                          <span>Movement & Locomotion Modes</span>
+                          <CodexTooltip
+                            title="Species Movement Modes"
+                            description="Baseline ground speed, aquatic swimming, flight wings, burrowing, or zero-g maneuvering."
+                            rule="BASTION Chapter 2 / Locomotion"
+                            color="#f59e0b"
+                          />
+                        </label>
+                        <MovementModeSelector
+                          value={formData.movement || formData.movement_modes || []}
+                          onChange={(val) => handleFieldChange('movement', val)}
+                          isEditMode={isEditMode}
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                          <span>Social Stigma & Standing</span>
+                          <CodexTooltip
+                            title="Social Stigma"
+                            description="Societal standing, cultural prejudices, or galactic stigmas affecting initial NPC reactions."
+                            rule="BASTION Chapter 2 / Social Dynamics"
+                            color="#ef4444"
+                          />
+                        </label>
+                        <SocialStigmaSelector
+                          value={formData.social_stigma || formData.stigma || ''}
+                          onChange={(val) => handleFieldChange('social_stigma', val)}
+                          isEditMode={isEditMode}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Unified Universal Modifiers Widget */}
+                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">
+                      <Zap size={14} />
+                      <span>Unified Omnicortex Modifiers & Bonuses Summary</span>
+                    </div>
+                    <UniversalModifiersWidget
+                      formData={formData}
+                      onChange={handleFieldChange}
+                      isEditMode={isEditMode}
+                      customCategories={['attribute', 'skill', 'feature', 'general']}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Relative Combat & Operational Parameters (for non-species, non-faction matrices) */}
+              {relativeMechanicsFields.length > 0 && matrix.id !== 'factions' && matrix.id !== 'species' && (
                 <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
                     <Zap size={14} />
@@ -1197,7 +1507,7 @@ export const AssetStudio = ({
                             ) : Array.isArray(val) ? (
                               <input
                                 type="text"
-                                value={val.join(', ')}
+                                value={val.map(formatFieldValue).join(', ')}
                                 onChange={(e) => handleFieldChange(field.name, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
                                 placeholder={field.placeholder || `Comma-separated ${field.label.toLowerCase()}...`}
                                 className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
@@ -1205,7 +1515,7 @@ export const AssetStudio = ({
                             ) : (
                               <input
                                 type="text"
-                                value={typeof val === 'object' ? JSON.stringify(val) : val}
+                                value={typeof val === 'object' ? formatFieldValue(val) : val}
                                 onChange={(e) => handleFieldChange(field.name, e.target.value)}
                                 placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}...`}
                                 className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
@@ -1218,13 +1528,13 @@ export const AssetStudio = ({
                                   <div className="flex flex-wrap gap-1">
                                     {val.map((item, idx) => (
                                       <span key={idx} className="px-1.5 py-0.5 bg-slate-800 text-amber-300 rounded text-[10px] font-mono">
-                                        {String(item)}
+                                        {formatFieldValue(item)}
                                       </span>
                                     ))}
                                   </div>
                                 ) : '—'
                               ) : typeof val === 'object' ? (
-                                JSON.stringify(val)
+                                formatFieldValue(val)
                               ) : (
                                 String(val || '—')
                               )}
@@ -1875,21 +2185,44 @@ export const AssetStudio = ({
         <UnifiedRelationalSelectorModal
           isOpen={Boolean(activeSelectorField)}
           onClose={() => setActiveSelectorField(null)}
-          fieldKey={activeSelectorField}
+          fieldKey={typeof activeSelectorField === 'object' ? activeSelectorField.target : activeSelectorField}
+          sourceCollection={typeof activeSelectorField === 'object' ? activeSelectorField.source : activeSelectorField}
           fieldDef={{
-            label: activeSelectorField.toUpperCase(),
+            label: (typeof activeSelectorField === 'object' ? activeSelectorField.label : activeSelectorField).toUpperCase(),
             type: 'multiselect',
-            source: activeSelectorField
+            source: typeof activeSelectorField === 'object' ? activeSelectorField.source : activeSelectorField
           }}
-          currentValue={formData[activeSelectorField] || []}
+          currentValue={formData[typeof activeSelectorField === 'object' ? activeSelectorField.target : activeSelectorField] || []}
           onSelect={(selectedValues) => {
-            handleFieldChange(activeSelectorField, selectedValues);
+            const targetKey = typeof activeSelectorField === 'object' ? activeSelectorField.target : activeSelectorField;
+            handleFieldChange(targetKey, selectedValues);
             setActiveSelectorField(null);
           }}
           dbData={dbData}
           saveEntry={saveEntry}
           devMode={true}
         />
+      )}
+
+      {/* Floating Rail Hover Tooltip Portal */}
+      {hoveredRailItem && typeof document !== 'undefined' && createPortal(
+        <div
+          className="fixed z-[300] pointer-events-none px-3 py-2 bg-slate-900/95 border border-slate-700/80 rounded-xl shadow-2xl backdrop-blur-md font-mono text-xs flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-100"
+          style={{
+            left: `${(hoveredRailItem.rect?.right || 0) + 12}px`,
+            top: `${(hoveredRailItem.rect?.top || 0) + (hoveredRailItem.rect?.height || 0) / 2}px`,
+            transform: 'translateY(-50%)'
+          }}
+        >
+          <div className="font-bold text-slate-200 flex items-center gap-2">
+            <span style={{ color: hoveredRailItem.item.color || matrix.color }}>●</span>
+            <span>{hoveredRailItem.item.label}</span>
+          </div>
+          <div className="text-[10px] text-slate-400">
+            {hoveredRailItem.item.sublabel}
+          </div>
+        </div>,
+        document.body
       )}
     </div>
   );

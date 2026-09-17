@@ -48,7 +48,6 @@ export const categoryConfig = {
             homeworld: { type: 'text', label: 'Homeworld' },
             tech_level: { type: 'number', label: 'Tech Level (TL)' },
             meta_level: { type: 'number', label: 'Meta Level (ML)' },
-            prerequisite: { type: 'multiselect', source: 'prerequisite', label: 'Prerequisites', manageable: true },
             type: { type: 'multiselect', source: 'species_type', label: 'Type', manageable: true },
             size: { 
                 type: 'select', 
