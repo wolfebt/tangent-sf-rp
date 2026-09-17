@@ -8,10 +8,10 @@ target_mode: Swimming
 type: Swimming
 base_speed: 30
 speed: 30
-bp: 0
+bp: 2
 description: >-
   Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30
-  ft swim speed in liquid environments.
+  ft swim speed and +5 racial bonus on Athletics (Swim) checks.
 
 
   ### Tactical Movement Stages (Swimming)
@@ -28,7 +28,7 @@ description: >-
   - **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2
   bonus to concentration; Athletics (Swim) CR 5+.
 costs:
-  bp: 0
+  bp: 2
 modifiers: []
 ---
 # Aquatic Swimming
@@ -36,11 +36,11 @@ modifiers: []
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  
 **Target Mode**: Swimming  
-**Cost**: +0 BP  
+**Cost**: +2 BP  
 **Base Speed**: 30 ft / round  
 
 ## Description
-Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed in liquid environments.
+Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed and +5 racial bonus on Athletics (Swim) checks.
 
 ### Tactical Movement Stages (Swimming)
 - **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.

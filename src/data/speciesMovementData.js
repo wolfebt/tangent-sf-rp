@@ -59,33 +59,7 @@ export const BASIC_MOVEMENT_MODES = [
     "description": "Continuous caterpillar tracks or rolling hub treads for synthetic chassis. Immune to difficult rough terrain; base speed 30 ft/round.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
   },
   {
-    "id": "movement-normal-speed",
-    "name": "Normal Speed (Baseline 30 ft)",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Ground",
-    "type": "Ground",
-    "base_speed": 30,
-    "speed": 30,
-    "bp": 0,
-    "description": "Standard baseline speed of 30 feet. Determines derived speed of all other locomotion modes.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
-  },
-  {
-    "id": "species_movement-glide",
-    "name": "Gliding",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Flying",
-    "type": "Flying",
-    "base_speed": 30,
-    "speed": 30,
-    "bp": 0,
-    "description": "Patagial membranes or gliding sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-  },
-  {
-    "id": "movement-gliding-wings",
+    "id": "species_movement-gliding",
     "name": "Gliding Wings",
     "category": "species_movement",
     "classification": "basic",
@@ -95,51 +69,12 @@ export const BASIC_MOVEMENT_MODES = [
     "base_speed": 30,
     "speed": 30,
     "bp": 1,
-    "description": "Deployable aerodynamic wing membranes. While airborne, glides at 30 ft/round (60 ft/round when diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-  },
-  {
-    "id": "movement-swimming",
-    "name": "Basic Swimming",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Swimming",
-    "type": "Swimming",
-    "base_speed": 15,
-    "speed": 15,
-    "bp": 0,
-    "description": "Baseline swimming speed for non-aquatic species, moving at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
-  },
-  {
-    "id": "movement-climbing",
-    "name": "Basic Climbing",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Climbing",
-    "type": "Climbing",
-    "base_speed": 15,
-    "speed": 15,
-    "bp": 0,
-    "description": "Baseline climbing speed for standard humanoids, ascending at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
+    "description": "Deployable aerodynamic wing membranes or patagial sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled (60 ft diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
   }
 ];
 export const ADVANCED_MOVEMENT_MODES = [
   {
-    "id": "species_movement-flight",
-    "name": "True Flight",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Flying",
-    "type": "Flying",
-    "base_speed": 60,
-    "speed": 60,
-    "bp": 0,
-    "description": "Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-  },
-  {
-    "id": "movement-flight-basic",
+    "id": "species_movement-flight-basic",
     "name": "Basic Flight",
     "category": "species_movement",
     "classification": "advanced",
@@ -152,6 +87,19 @@ export const ADVANCED_MOVEMENT_MODES = [
     "description": "Rudimentary flight apparatus or heavy wings granting base Fly Speed 30 ft/round (Poor Maneuverability).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
   },
   {
+    "id": "species_movement-flight",
+    "name": "True Flight",
+    "category": "species_movement",
+    "classification": "advanced",
+    "movement_tier": "advanced",
+    "target_mode": "Flying",
+    "type": "Flying",
+    "base_speed": 60,
+    "speed": 60,
+    "bp": 4,
+    "description": "Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
+  },
+  {
     "id": "species_movement-swimming",
     "name": "Aquatic Swimming",
     "category": "species_movement",
@@ -161,21 +109,8 @@ export const ADVANCED_MOVEMENT_MODES = [
     "type": "Swimming",
     "base_speed": 30,
     "speed": 30,
-    "bp": 0,
-    "description": "Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed in liquid environments.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
-  },
-  {
-    "id": "movement-swim-trait",
-    "name": "Swim (Innate)",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Swimming",
-    "type": "Swimming",
-    "base_speed": 30,
-    "speed": 30,
     "bp": 2,
-    "description": "Innate biological swim adaptations granting Swim speed 30 ft and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
+    "description": "Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
   },
   {
     "id": "species_movement-climbing",
@@ -187,24 +122,11 @@ export const ADVANCED_MOVEMENT_MODES = [
     "type": "Climbing",
     "base_speed": 30,
     "speed": 30,
-    "bp": 0,
-    "description": "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
-  },
-  {
-    "id": "movement-climber",
-    "name": "Climber",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Climbing",
-    "type": "Climbing",
-    "base_speed": 30,
-    "speed": 30,
     "bp": 2,
-    "description": "Innate climbing adaptations granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
+    "description": "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
   },
   {
-    "id": "movement-burrow-trait",
+    "id": "species_movement-burrowing",
     "name": "Innate Burrowing",
     "category": "species_movement",
     "classification": "advanced",
@@ -217,21 +139,8 @@ export const ADVANCED_MOVEMENT_MODES = [
     "description": "Excavator claws or subterranean body shape granting Base Burrow Speed 20 ft through soil, sand, and unworked earth.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications."
   },
   {
-    "id": "movement-burrowing",
-    "name": "Burrowing Movement",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Burrowing",
-    "type": "Burrowing",
-    "base_speed": 20,
-    "speed": 20,
-    "bp": 2,
-    "description": "Specialized subterranean locomotion displacing soil and sand at 20 ft/round.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications."
-  },
-  {
     "id": "species_movement-flicker",
-    "name": "Flicker Movement",
+    "name": "Flicker Phase Displacement",
     "category": "species_movement",
     "classification": "advanced",
     "movement_tier": "advanced",
@@ -241,19 +150,6 @@ export const ADVANCED_MOVEMENT_MODES = [
     "speed": 30,
     "bp": 3,
     "description": "Short-range quantum phase displacement or micro-teleportation. Instantly traverse up to 30 ft line-of-sight without triggering opportunity attacks or traversing intervening physical hazards.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue."
-  },
-  {
-    "id": "movement-flicker",
-    "name": "Flicker (Innate Phase Step)",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Flicker",
-    "type": "Metaphysical",
-    "base_speed": 30,
-    "speed": 30,
-    "bp": 3,
-    "description": "Innate metaphysical or cybernetic flicker teleportation granting instant 30 ft phase displacement per round.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue."
   }
 ];
 export const MOVEMENT_MODIFIERS = [
@@ -466,19 +362,7 @@ export const MOVEMENT_MODIFIERS = [
 ];
 export const MOVEMENT_STAGES = [
   {
-    "id": "movement-ground",
-    "name": "Ground Movement (System Rule)",
-    "category": "species_movement",
-    "classification": "stage",
-    "movement_tier": "stage",
-    "target_mode": "Ground",
-    "multiplier": 1,
-    "speed": 30,
-    "bp": 0,
-    "description": "Ground movement rules overview based on base walking speed."
-  },
-  {
-    "id": "movement-walk",
+    "id": "pace-ground-walk",
     "name": "Ground: Walk Pace (1x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -490,7 +374,7 @@ export const MOVEMENT_STAGES = [
     "description": "Default baseline movement pace for all ground locomotion (1x Base Walk)."
   },
   {
-    "id": "movement-jog",
+    "id": "pace-ground-jog",
     "name": "Ground: Jog Pace (2x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -502,7 +386,7 @@ export const MOVEMENT_STAGES = [
     "description": "Hurried pace (2x Base Walk) with a -2 penalty to subtlety, stealth, or precision."
   },
   {
-    "id": "movement-running",
+    "id": "pace-ground-running",
     "name": "Ground: Running Pace (4x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -514,7 +398,7 @@ export const MOVEMENT_STAGES = [
     "description": "Fast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute."
   },
   {
-    "id": "movement-sprinting",
+    "id": "pace-ground-sprinting",
     "name": "Ground: Sprinting Pace (6x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -526,7 +410,7 @@ export const MOVEMENT_STAGES = [
     "description": "Maximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute."
   },
   {
-    "id": "movement-crawl",
+    "id": "pace-ground-crawl",
     "name": "Ground: Crawl Pace (0.5x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -538,7 +422,7 @@ export const MOVEMENT_STAGES = [
     "description": "Low-profile crawling pace (1/2 Base Walk). Grants +2 to stealth; inflicts Prone."
   },
   {
-    "id": "movement-slow-crawl",
+    "id": "pace-ground-slow-crawl",
     "name": "Ground: Slow Crawl Pace (0.25x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -550,19 +434,7 @@ export const MOVEMENT_STAGES = [
     "description": "Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts Prone."
   },
   {
-    "id": "movement-flying",
-    "name": "Flying Movement (System Rule)",
-    "category": "species_movement",
-    "classification": "stage",
-    "movement_tier": "stage",
-    "target_mode": "Flying",
-    "multiplier": 1,
-    "speed": 60,
-    "bp": 0,
-    "description": "Flying movement rules and tactical maneuver overview."
-  },
-  {
-    "id": "movement-flight",
+    "id": "pace-flying-flight",
     "name": "Flying: Flight Pace (1x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -574,7 +446,7 @@ export const MOVEMENT_STAGES = [
     "description": "Standard flying cruise pace (1x Fly)."
   },
   {
-    "id": "movement-sail",
+    "id": "pace-flying-sail",
     "name": "Flying: Sail Pace (2x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -586,7 +458,7 @@ export const MOVEMENT_STAGES = [
     "description": "Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions."
   },
   {
-    "id": "movement-surge",
+    "id": "pace-flying-surge",
     "name": "Flying: Surge / Soar Pace (4x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -598,7 +470,7 @@ export const MOVEMENT_STAGES = [
     "description": "Maximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute."
   },
   {
-    "id": "movement-diving",
+    "id": "pace-flying-diving",
     "name": "Flying: Diving Pace (8x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -610,7 +482,7 @@ export const MOVEMENT_STAGES = [
     "description": "High-speed tactical descent (8x Fly) for precision dive attacks."
   },
   {
-    "id": "movement-gliding",
+    "id": "pace-flying-gliding",
     "name": "Flying: Gliding Maneuver",
     "category": "species_movement",
     "classification": "stage",
@@ -622,7 +494,7 @@ export const MOVEMENT_STAGES = [
     "description": "Controlled unpowered aerodynamic glide granting +2 bonus to aerial actions."
   },
   {
-    "id": "movement-hover-descent",
+    "id": "pace-flying-hover",
     "name": "Flying: Hover & Controlled Descent (0.5x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -634,7 +506,7 @@ export const MOVEMENT_STAGES = [
     "description": "Stationary hover or slow vertical descent enabling stable targeting."
   },
   {
-    "id": "movement-swim",
+    "id": "pace-swimming-swim",
     "name": "Swimming: Swim Pace (1x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -646,7 +518,7 @@ export const MOVEMENT_STAGES = [
     "description": "Standard aquatic swimming cruise pace."
   },
   {
-    "id": "movement-glide-swim",
+    "id": "pace-swimming-glide",
     "name": "Swimming: Glide Pace (2x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -658,7 +530,7 @@ export const MOVEMENT_STAGES = [
     "description": "Hurried swim stroke (2x Swim) with -2 penalty to stealth."
   },
   {
-    "id": "movement-stroke",
+    "id": "pace-swimming-stroke",
     "name": "Swimming: Stroke Pace (4x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -670,7 +542,7 @@ export const MOVEMENT_STAGES = [
     "description": "Maximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+."
   },
   {
-    "id": "movement-treading",
+    "id": "pace-swimming-treading",
     "name": "Swimming: Treading Pace (0.25x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -682,7 +554,7 @@ export const MOVEMENT_STAGES = [
     "description": "Stationary or slow treading water to conserve stamina (+2 to concentration)."
   },
   {
-    "id": "movement-climb",
+    "id": "pace-climbing-climb",
     "name": "Climbing: Standard Climb Pace (0.5x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -694,7 +566,7 @@ export const MOVEMENT_STAGES = [
     "description": "Standard vertical ascent/descent pace (1/2 Base Walk)."
   },
   {
-    "id": "movement-scaling",
+    "id": "pace-climbing-scaling",
     "name": "Climbing: Scaling Pace (1x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -706,7 +578,7 @@ export const MOVEMENT_STAGES = [
     "description": "Rapid surface scaling at full walking speed with -5 penalty to check."
   },
   {
-    "id": "movement-fast-ascent",
+    "id": "pace-climbing-fast-ascent",
     "name": "Climbing: Fast Ascent Pace (2x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -718,7 +590,7 @@ export const MOVEMENT_STAGES = [
     "description": "High-speed vertical sprint (2x Walk) with -10 penalty to check."
   },
   {
-    "id": "movement-fast-descent",
+    "id": "pace-climbing-fast-descent",
     "name": "Climbing: Fast Descent Pace (4x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -730,7 +602,7 @@ export const MOVEMENT_STAGES = [
     "description": "Rapid controlled vertical slide or abseil descent (4x Walk)."
   },
   {
-    "id": "movement-burrow",
+    "id": "pace-burrowing-burrow",
     "name": "Burrowing: Standard Burrow Pace (0.375x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -742,7 +614,7 @@ export const MOVEMENT_STAGES = [
     "description": "Standard subterranean displacement pace through soil or sand."
   },
   {
-    "id": "movement-tunneling",
+    "id": "pace-burrowing-tunneling",
     "name": "Burrowing: Tunneling Pace (0.75x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -754,7 +626,7 @@ export const MOVEMENT_STAGES = [
     "description": "Rapid subterranean tunnel excavation (3/4 Base Walk) with -2 penalty to subtlety."
   },
   {
-    "id": "movement-excavation",
+    "id": "pace-burrowing-excavation",
     "name": "Burrowing: Excavation Pace (0.1875x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -766,7 +638,7 @@ export const MOVEMENT_STAGES = [
     "description": "Careful reinforced excavation for permanent subterranean bunkers or fortresses."
   },
   {
-    "id": "movement-flicker-pace",
+    "id": "pace-flicker-phase-step",
     "name": "Flicker: Phase Step Pace (1x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -778,7 +650,7 @@ export const MOVEMENT_STAGES = [
     "description": "Standard quantum phase displacement pace up to 30 ft per round without physical traversal."
   },
   {
-    "id": "movement-flicker-rush",
+    "id": "pace-flicker-rush",
     "name": "Flicker: Rush Pace (Up to 2x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -796,803 +668,6 @@ export const SPECIES_MOVEMENT_BASE_MODES = [...BASIC_MOVEMENT_MODES, ...ADVANCED
 export const SPECIES_MOVEMENT_ADJUSTERS = MOVEMENT_MODIFIERS;
 export const SPECIES_MOVEMENT_PACES = MOVEMENT_STAGES;
 export const SPECIES_MOVEMENT_GROUPS = {
-  "Basic": {
-    "label": "Basic Movement Abilities",
-    "items": [
-      {
-        "id": "species_movement-bipedal",
-        "name": "Bipedal Locomotion",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Ground",
-        "type": "Ground",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Standard upright two-legged locomotion. Baseline walking speed of 30 ft per combat round (6 seconds).\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
-      },
-      {
-        "id": "species_movement-quadruped",
-        "name": "Quadrupedal Locomotion",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Ground",
-        "type": "Ground",
-        "base_speed": 40,
-        "speed": 40,
-        "bp": 0,
-        "description": "Four-legged locomotion providing natural stability (+4 vs trip/knockdown) and enhanced baseline ground speed of 40 ft/round.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
-      },
-      {
-        "id": "species_movement-slithering",
-        "name": "Serpentine Slithering",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Ground",
-        "type": "Ground",
-        "base_speed": 25,
-        "speed": 25,
-        "bp": 0,
-        "description": "Limbless serpentine or slug locomotion. Baseline speed of 25 ft/round; resilient against trip checks and traverses narrow gaps easily.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
-      },
-      {
-        "id": "species_movement-treads",
-        "name": "Treads & Tracks",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Ground",
-        "type": "Mechanical",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Continuous caterpillar tracks or rolling hub treads for synthetic chassis. Immune to difficult rough terrain; base speed 30 ft/round.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
-      },
-      {
-        "id": "movement-normal-speed",
-        "name": "Normal Speed (Baseline 30 ft)",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Ground",
-        "type": "Ground",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Standard baseline speed of 30 feet. Determines derived speed of all other locomotion modes.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
-      },
-      {
-        "id": "species_movement-glide",
-        "name": "Gliding",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Flying",
-        "type": "Flying",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Patagial membranes or gliding sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-      },
-      {
-        "id": "movement-gliding-wings",
-        "name": "Gliding Wings",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Flying",
-        "type": "Flying",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 1,
-        "description": "Deployable aerodynamic wing membranes. While airborne, glides at 30 ft/round (60 ft/round when diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-      },
-      {
-        "id": "movement-swimming",
-        "name": "Basic Swimming",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Swimming",
-        "type": "Swimming",
-        "base_speed": 15,
-        "speed": 15,
-        "bp": 0,
-        "description": "Baseline swimming speed for non-aquatic species, moving at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
-      },
-      {
-        "id": "movement-climbing",
-        "name": "Basic Climbing",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Climbing",
-        "type": "Climbing",
-        "base_speed": 15,
-        "speed": 15,
-        "bp": 0,
-        "description": "Baseline climbing speed for standard humanoids, ascending at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
-      }
-    ]
-  },
-  "Advanced": {
-    "label": "Advanced Movement Abilities",
-    "items": [
-      {
-        "id": "species_movement-flight",
-        "name": "True Flight",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Flying",
-        "type": "Flying",
-        "base_speed": 60,
-        "speed": 60,
-        "bp": 0,
-        "description": "Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-      },
-      {
-        "id": "movement-flight-basic",
-        "name": "Basic Flight",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Flying",
-        "type": "Flying",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 2,
-        "description": "Rudimentary flight apparatus or heavy wings granting base Fly Speed 30 ft/round (Poor Maneuverability).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-      },
-      {
-        "id": "species_movement-swimming",
-        "name": "Aquatic Swimming",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Swimming",
-        "type": "Swimming",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed in liquid environments.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
-      },
-      {
-        "id": "movement-swim-trait",
-        "name": "Swim (Innate)",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Swimming",
-        "type": "Swimming",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 2,
-        "description": "Innate biological swim adaptations granting Swim speed 30 ft and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
-      },
-      {
-        "id": "species_movement-climbing",
-        "name": "Innate Climbing",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Climbing",
-        "type": "Climbing",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
-      },
-      {
-        "id": "movement-climber",
-        "name": "Climber",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Climbing",
-        "type": "Climbing",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 2,
-        "description": "Innate climbing adaptations granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
-      },
-      {
-        "id": "movement-burrow-trait",
-        "name": "Innate Burrowing",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Burrowing",
-        "type": "Burrowing",
-        "base_speed": 20,
-        "speed": 20,
-        "bp": 2,
-        "description": "Excavator claws or subterranean body shape granting Base Burrow Speed 20 ft through soil, sand, and unworked earth.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications."
-      },
-      {
-        "id": "movement-burrowing",
-        "name": "Burrowing Movement",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Burrowing",
-        "type": "Burrowing",
-        "base_speed": 20,
-        "speed": 20,
-        "bp": 2,
-        "description": "Specialized subterranean locomotion displacing soil and sand at 20 ft/round.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications."
-      },
-      {
-        "id": "species_movement-flicker",
-        "name": "Flicker Movement",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Flicker",
-        "type": "Metaphysical",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 3,
-        "description": "Short-range quantum phase displacement or micro-teleportation. Instantly traverse up to 30 ft line-of-sight without triggering opportunity attacks or traversing intervening physical hazards.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue."
-      },
-      {
-        "id": "movement-flicker",
-        "name": "Flicker (Innate Phase Step)",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Flicker",
-        "type": "Metaphysical",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 3,
-        "description": "Innate metaphysical or cybernetic flicker teleportation granting instant 30 ft phase displacement per round.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue."
-      }
-    ]
-  },
-  "Modifiers": {
-    "label": "Movement Modifier Options",
-    "items": [
-      {
-        "id": "movement-fast",
-        "name": "Fast (+10 ft Ground)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": 10,
-        "is_additive": true,
-        "is_exclusive": true,
-        "bp": 2,
-        "description": "Increases base Ground locomotion speed by +10 feet (Additive). Mutually exclusive with other ground speed adjusters."
-      },
-      {
-        "id": "movement-very-fast",
-        "name": "Very Fast (+20 ft Ground)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": 20,
-        "is_additive": true,
-        "is_exclusive": true,
-        "bp": 4,
-        "description": "Increases base Ground locomotion speed by +20 feet (Additive). Mutually exclusive with other ground speed adjusters."
-      },
-      {
-        "id": "movement-slow",
-        "name": "Slow (-10 ft Ground)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": -10,
-        "is_additive": true,
-        "is_exclusive": true,
-        "is_disadvantage": true,
-        "bp": -2,
-        "refundBP": 2,
-        "description": "Reduces base Ground locomotion speed by -10 feet (Additive). Grants +2 BP refund. Mutually exclusive with other ground speed adjusters."
-      },
-      {
-        "id": "movement-ponderous",
-        "name": "Ponderous (-20 ft Ground)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": -20,
-        "is_additive": true,
-        "is_exclusive": true,
-        "is_disadvantage": true,
-        "bp": -4,
-        "refundBP": 4,
-        "description": "Reduces base Ground locomotion speed by -20 feet (Additive). Grants +4 BP refund. Mutually exclusive with other ground speed adjusters."
-      },
-      {
-        "id": "movement-sprinter",
-        "name": "Sprinter (+10 ft Run Speed)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": 10,
-        "is_additive": true,
-        "is_ranked": true,
-        "bp": 1,
-        "description": "Gains a +10 foot bonus to speed when executing running or sprinting actions. Ranked."
-      },
-      {
-        "id": "movement-hauler",
-        "name": "Hauler (Heavy Load Mobility)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": 0,
-        "is_additive": false,
-        "bp": 1,
-        "description": "Not encumbered or slowed by carrying a Heavy Load."
-      },
-      {
-        "id": "movement-marcher",
-        "name": "Marcher (Long-Distance Efficiency)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": 0,
-        "is_additive": false,
-        "bp": 1,
-        "description": "Fatigued at 1/2 normal rate when moving at a regular travel pace over overland distances."
-      },
-      {
-        "id": "movement-leaper",
-        "name": "Leaper (Jump Mastery)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": 0,
-        "is_additive": false,
-        "bp": 1,
-        "description": "Always considered to have a running start when making Jump and Athletics checks."
-      },
-      {
-        "id": "movement-terrain-movement",
-        "name": "Terrain Movement (Difficult Terrain)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Ground",
-        "speed_modifier": 0,
-        "is_additive": false,
-        "bp": 1,
-        "description": "Move through naturally difficult terrain (rubble, ice, mud, underbrush) at full normal speed without penalty."
-      },
-      {
-        "id": "movement-flight-improved",
-        "name": "Improved Flight Speed (+10 ft Flight)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Flying",
-        "speed_modifier": 10,
-        "is_additive": true,
-        "is_ranked": true,
-        "bp": 1,
-        "description": "Increases base flight speed by +10 feet (Additive). Ranked."
-      },
-      {
-        "id": "movement-flight-maneuver",
-        "name": "Improved Maneuverability",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Flying",
-        "speed_modifier": 0,
-        "is_additive": false,
-        "is_ranked": true,
-        "bp": 1,
-        "description": "Flight maneuverability improves by 1 step (Clumsy > Poor > Average > Good > Perfect). Ranked."
-      },
-      {
-        "id": "movement-strong-flyer",
-        "name": "Strong Flyer",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Flying",
-        "speed_modifier": 0,
-        "is_additive": false,
-        "bp": 2,
-        "description": "Increases the Size category multiplier by +1 for Flying Speed and load capacity."
-      },
-      {
-        "id": "movement-swim-improved",
-        "name": "Enhanced Swim Speed (+10 ft Swim)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Swimming",
-        "speed_modifier": 10,
-        "is_additive": true,
-        "is_ranked": true,
-        "bp": 1,
-        "description": "Increases base swimming speed by +10 feet (Additive). Ranked."
-      },
-      {
-        "id": "movement-climb-improved",
-        "name": "Enhanced Climb Speed (+10 ft Climb)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Climbing",
-        "speed_modifier": 10,
-        "is_additive": true,
-        "is_ranked": true,
-        "bp": 1,
-        "description": "Increases base climbing speed by +10 feet (Additive). Ranked."
-      },
-      {
-        "id": "movement-mountaineer",
-        "name": "Mountaineer (Slope Stability)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Climbing",
-        "speed_modifier": 0,
-        "is_additive": false,
-        "bp": 1,
-        "description": "Immune to altitude sickness and suffers no defense penalties on narrow or slippery vertical surfaces."
-      },
-      {
-        "id": "movement-burrow-improved",
-        "name": "Enhanced Burrow Speed (+10 ft Burrow)",
-        "category": "species_movement",
-        "classification": "modifier",
-        "movement_tier": "modifier",
-        "target_mode": "Burrowing",
-        "speed_modifier": 10,
-        "is_additive": true,
-        "is_ranked": true,
-        "bp": 1,
-        "description": "Increases base burrowing speed by +10 feet (Additive). Ranked."
-      }
-    ]
-  },
-  "Stages": {
-    "label": "Movement Stages (Tactical Paces)",
-    "items": [
-      {
-        "id": "movement-ground",
-        "name": "Ground Movement (System Rule)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Ground",
-        "multiplier": 1,
-        "speed": 30,
-        "bp": 0,
-        "description": "Ground movement rules overview based on base walking speed."
-      },
-      {
-        "id": "movement-walk",
-        "name": "Ground: Walk Pace (1x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Ground",
-        "multiplier": 1,
-        "speed": 30,
-        "bp": 0,
-        "description": "Default baseline movement pace for all ground locomotion (1x Base Walk)."
-      },
-      {
-        "id": "movement-jog",
-        "name": "Ground: Jog Pace (2x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Ground",
-        "multiplier": 2,
-        "speed": 60,
-        "bp": 0,
-        "description": "Hurried pace (2x Base Walk) with a -2 penalty to subtlety, stealth, or precision."
-      },
-      {
-        "id": "movement-running",
-        "name": "Ground: Running Pace (4x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Ground",
-        "multiplier": 4,
-        "speed": 120,
-        "bp": 0,
-        "description": "Fast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute."
-      },
-      {
-        "id": "movement-sprinting",
-        "name": "Ground: Sprinting Pace (6x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Ground",
-        "multiplier": 6,
-        "speed": 180,
-        "bp": 0,
-        "description": "Maximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute."
-      },
-      {
-        "id": "movement-crawl",
-        "name": "Ground: Crawl Pace (0.5x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Ground",
-        "multiplier": 0.5,
-        "speed": 15,
-        "bp": 0,
-        "description": "Low-profile crawling pace (1/2 Base Walk). Grants +2 to stealth; inflicts Prone."
-      },
-      {
-        "id": "movement-slow-crawl",
-        "name": "Ground: Slow Crawl Pace (0.25x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Ground",
-        "multiplier": 0.25,
-        "speed": 7.5,
-        "bp": 0,
-        "description": "Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts Prone."
-      },
-      {
-        "id": "movement-flying",
-        "name": "Flying Movement (System Rule)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flying",
-        "multiplier": 1,
-        "speed": 60,
-        "bp": 0,
-        "description": "Flying movement rules and tactical maneuver overview."
-      },
-      {
-        "id": "movement-flight",
-        "name": "Flying: Flight Pace (1x Fly)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flying",
-        "multiplier": 1,
-        "speed": 60,
-        "bp": 0,
-        "description": "Standard flying cruise pace (1x Fly)."
-      },
-      {
-        "id": "movement-sail",
-        "name": "Flying: Sail Pace (2x Fly)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flying",
-        "multiplier": 2,
-        "speed": 120,
-        "bp": 0,
-        "description": "Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions."
-      },
-      {
-        "id": "movement-surge",
-        "name": "Flying: Surge / Soar Pace (4x Fly)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flying",
-        "multiplier": 4,
-        "speed": 240,
-        "bp": 0,
-        "description": "Maximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute."
-      },
-      {
-        "id": "movement-diving",
-        "name": "Flying: Diving Pace (8x Fly)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flying",
-        "multiplier": 8,
-        "speed": 480,
-        "bp": 0,
-        "description": "High-speed tactical descent (8x Fly) for precision dive attacks."
-      },
-      {
-        "id": "movement-gliding",
-        "name": "Flying: Gliding Maneuver",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flying",
-        "multiplier": 1,
-        "speed": 60,
-        "bp": 0,
-        "description": "Controlled unpowered aerodynamic glide granting +2 bonus to aerial actions."
-      },
-      {
-        "id": "movement-hover-descent",
-        "name": "Flying: Hover & Controlled Descent (0.5x Fly)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flying",
-        "multiplier": 0.5,
-        "speed": 30,
-        "bp": 0,
-        "description": "Stationary hover or slow vertical descent enabling stable targeting."
-      },
-      {
-        "id": "movement-swim",
-        "name": "Swimming: Swim Pace (1x Swim)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Swimming",
-        "multiplier": 1,
-        "speed": 30,
-        "bp": 0,
-        "description": "Standard aquatic swimming cruise pace."
-      },
-      {
-        "id": "movement-glide-swim",
-        "name": "Swimming: Glide Pace (2x Swim)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Swimming",
-        "multiplier": 2,
-        "speed": 60,
-        "bp": 0,
-        "description": "Hurried swim stroke (2x Swim) with -2 penalty to stealth."
-      },
-      {
-        "id": "movement-stroke",
-        "name": "Swimming: Stroke Pace (4x Swim)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Swimming",
-        "multiplier": 4,
-        "speed": 120,
-        "bp": 0,
-        "description": "Maximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+."
-      },
-      {
-        "id": "movement-treading",
-        "name": "Swimming: Treading Pace (0.25x Swim)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Swimming",
-        "multiplier": 0.25,
-        "speed": 7.5,
-        "bp": 0,
-        "description": "Stationary or slow treading water to conserve stamina (+2 to concentration)."
-      },
-      {
-        "id": "movement-climb",
-        "name": "Climbing: Standard Climb Pace (0.5x Walk)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Climbing",
-        "multiplier": 0.5,
-        "speed": 15,
-        "bp": 0,
-        "description": "Standard vertical ascent/descent pace (1/2 Base Walk)."
-      },
-      {
-        "id": "movement-scaling",
-        "name": "Climbing: Scaling Pace (1x Walk)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Climbing",
-        "multiplier": 1,
-        "speed": 30,
-        "bp": 0,
-        "description": "Rapid surface scaling at full walking speed with -5 penalty to check."
-      },
-      {
-        "id": "movement-fast-ascent",
-        "name": "Climbing: Fast Ascent Pace (2x Walk)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Climbing",
-        "multiplier": 2,
-        "speed": 60,
-        "bp": 0,
-        "description": "High-speed vertical sprint (2x Walk) with -10 penalty to check."
-      },
-      {
-        "id": "movement-fast-descent",
-        "name": "Climbing: Fast Descent Pace (4x Walk)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Climbing",
-        "multiplier": 4,
-        "speed": 120,
-        "bp": 0,
-        "description": "Rapid controlled vertical slide or abseil descent (4x Walk)."
-      },
-      {
-        "id": "movement-burrow",
-        "name": "Burrowing: Standard Burrow Pace (0.375x Walk)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Burrowing",
-        "multiplier": 0.375,
-        "speed": 7.5,
-        "bp": 0,
-        "description": "Standard subterranean displacement pace through soil or sand."
-      },
-      {
-        "id": "movement-tunneling",
-        "name": "Burrowing: Tunneling Pace (0.75x Walk)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Burrowing",
-        "multiplier": 0.75,
-        "speed": 15,
-        "bp": 0,
-        "description": "Rapid subterranean tunnel excavation (3/4 Base Walk) with -2 penalty to subtlety."
-      },
-      {
-        "id": "movement-excavation",
-        "name": "Burrowing: Excavation Pace (0.1875x Walk)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Burrowing",
-        "multiplier": 0.1875,
-        "speed": 3.75,
-        "bp": 0,
-        "description": "Careful reinforced excavation for permanent subterranean bunkers or fortresses."
-      },
-      {
-        "id": "movement-flicker-pace",
-        "name": "Flicker: Phase Step Pace (1x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flicker",
-        "multiplier": 1,
-        "speed": 30,
-        "bp": 0,
-        "description": "Standard quantum phase displacement pace up to 30 ft per round without physical traversal."
-      },
-      {
-        "id": "movement-flicker-rush",
-        "name": "Flicker: Rush Pace (Up to 2x Base)",
-        "category": "species_movement",
-        "classification": "stage",
-        "movement_tier": "stage",
-        "target_mode": "Flicker",
-        "multiplier": 2,
-        "speed": 60,
-        "bp": 0,
-        "description": "Extended emergency quantum phase surge up to 60 ft; requires Endurance / Stamina check (CR 15+) to avoid fatigue."
-      }
-    ]
-  },
   "Ground": {
     "label": "Ground Locomotion",
     "modes": [
@@ -1647,19 +722,6 @@ export const SPECIES_MOVEMENT_GROUPS = {
         "speed": 30,
         "bp": 0,
         "description": "Continuous caterpillar tracks or rolling hub treads for synthetic chassis. Immune to difficult rough terrain; base speed 30 ft/round.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
-      },
-      {
-        "id": "movement-normal-speed",
-        "name": "Normal Speed (Baseline 30 ft)",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Ground",
-        "type": "Ground",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Standard baseline speed of 30 feet. Determines derived speed of all other locomotion modes.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition."
       }
     ],
     "adjusters": [
@@ -1783,23 +845,10 @@ export const SPECIES_MOVEMENT_GROUPS = {
     ]
   },
   "Flying": {
-    "label": "Flying Locomotion",
+    "label": "Flying & Aerial Locomotion",
     "modes": [
       {
-        "id": "species_movement-glide",
-        "name": "Gliding",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Flying",
-        "type": "Flying",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 0,
-        "description": "Patagial membranes or gliding sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-      },
-      {
-        "id": "movement-gliding-wings",
+        "id": "species_movement-gliding",
         "name": "Gliding Wings",
         "category": "species_movement",
         "classification": "basic",
@@ -1809,7 +858,20 @@ export const SPECIES_MOVEMENT_GROUPS = {
         "base_speed": 30,
         "speed": 30,
         "bp": 1,
-        "description": "Deployable aerodynamic wing membranes. While airborne, glides at 30 ft/round (60 ft/round when diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
+        "description": "Deployable aerodynamic wing membranes or patagial sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled (60 ft diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
+      },
+      {
+        "id": "species_movement-flight-basic",
+        "name": "Basic Flight",
+        "category": "species_movement",
+        "classification": "advanced",
+        "movement_tier": "advanced",
+        "target_mode": "Flying",
+        "type": "Flying",
+        "base_speed": 30,
+        "speed": 30,
+        "bp": 2,
+        "description": "Rudimentary flight apparatus or heavy wings granting base Fly Speed 30 ft/round (Poor Maneuverability).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
       },
       {
         "id": "species_movement-flight",
@@ -1821,21 +883,8 @@ export const SPECIES_MOVEMENT_GROUPS = {
         "type": "Flying",
         "base_speed": 60,
         "speed": 60,
-        "bp": 0,
+        "bp": 4,
         "description": "Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
-      },
-      {
-        "id": "movement-flight-basic",
-        "name": "Basic Flight",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Flying",
-        "type": "Flying",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 2,
-        "description": "Rudimentary flight apparatus or heavy wings granting base Fly Speed 30 ft/round (Poor Maneuverability).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+)."
       }
     ],
     "adjusters": [
@@ -1880,21 +929,8 @@ export const SPECIES_MOVEMENT_GROUPS = {
     ]
   },
   "Swimming": {
-    "label": "Swimming Locomotion",
+    "label": "Aquatic & Swimming Locomotion",
     "modes": [
-      {
-        "id": "movement-swimming",
-        "name": "Basic Swimming",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Swimming",
-        "type": "Swimming",
-        "base_speed": 15,
-        "speed": 15,
-        "bp": 0,
-        "description": "Baseline swimming speed for non-aquatic species, moving at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
-      },
       {
         "id": "species_movement-swimming",
         "name": "Aquatic Swimming",
@@ -1905,21 +941,8 @@ export const SPECIES_MOVEMENT_GROUPS = {
         "type": "Swimming",
         "base_speed": 30,
         "speed": 30,
-        "bp": 0,
-        "description": "Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed in liquid environments.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
-      },
-      {
-        "id": "movement-swim-trait",
-        "name": "Swim (Innate)",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Swimming",
-        "type": "Swimming",
-        "base_speed": 30,
-        "speed": 30,
         "bp": 2,
-        "description": "Innate biological swim adaptations granting Swim speed 30 ft and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
+        "description": "Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+."
       }
     ],
     "adjusters": [
@@ -1942,19 +965,6 @@ export const SPECIES_MOVEMENT_GROUPS = {
     "label": "Climbing Locomotion",
     "modes": [
       {
-        "id": "movement-climbing",
-        "name": "Basic Climbing",
-        "category": "species_movement",
-        "classification": "basic",
-        "movement_tier": "basic",
-        "target_mode": "Climbing",
-        "type": "Climbing",
-        "base_speed": 15,
-        "speed": 15,
-        "bp": 0,
-        "description": "Baseline climbing speed for standard humanoids, ascending at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
-      },
-      {
         "id": "species_movement-climbing",
         "name": "Innate Climbing",
         "category": "species_movement",
@@ -1964,21 +974,8 @@ export const SPECIES_MOVEMENT_GROUPS = {
         "type": "Climbing",
         "base_speed": 30,
         "speed": 30,
-        "bp": 0,
-        "description": "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
-      },
-      {
-        "id": "movement-climber",
-        "name": "Climber",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Climbing",
-        "type": "Climbing",
-        "base_speed": 30,
-        "speed": 30,
         "bp": 2,
-        "description": "Innate climbing adaptations granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
+        "description": "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty."
       }
     ],
     "adjusters": [
@@ -2010,10 +1007,10 @@ export const SPECIES_MOVEMENT_GROUPS = {
     ]
   },
   "Burrowing": {
-    "label": "Burrowing Locomotion",
+    "label": "Burrowing & Subterranean",
     "modes": [
       {
-        "id": "movement-burrow-trait",
+        "id": "species_movement-burrowing",
         "name": "Innate Burrowing",
         "category": "species_movement",
         "classification": "advanced",
@@ -2024,19 +1021,6 @@ export const SPECIES_MOVEMENT_GROUPS = {
         "speed": 20,
         "bp": 2,
         "description": "Excavator claws or subterranean body shape granting Base Burrow Speed 20 ft through soil, sand, and unworked earth.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications."
-      },
-      {
-        "id": "movement-burrowing",
-        "name": "Burrowing Movement",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Burrowing",
-        "type": "Burrowing",
-        "base_speed": 20,
-        "speed": 20,
-        "bp": 2,
-        "description": "Specialized subterranean locomotion displacing soil and sand at 20 ft/round.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications."
       }
     ],
     "adjusters": [
@@ -2056,11 +1040,11 @@ export const SPECIES_MOVEMENT_GROUPS = {
     ]
   },
   "Flicker": {
-    "label": "Flicker Phase Displacement",
+    "label": "Flicker & Quantum Phase",
     "modes": [
       {
         "id": "species_movement-flicker",
-        "name": "Flicker Movement",
+        "name": "Flicker Phase Displacement",
         "category": "species_movement",
         "classification": "advanced",
         "movement_tier": "advanced",
@@ -2070,19 +1054,6 @@ export const SPECIES_MOVEMENT_GROUPS = {
         "speed": 30,
         "bp": 3,
         "description": "Short-range quantum phase displacement or micro-teleportation. Instantly traverse up to 30 ft line-of-sight without triggering opportunity attacks or traversing intervening physical hazards.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue."
-      },
-      {
-        "id": "movement-flicker",
-        "name": "Flicker (Innate Phase Step)",
-        "category": "species_movement",
-        "classification": "advanced",
-        "movement_tier": "advanced",
-        "target_mode": "Flicker",
-        "type": "Metaphysical",
-        "base_speed": 30,
-        "speed": 30,
-        "bp": 3,
-        "description": "Innate metaphysical or cybernetic flicker teleportation granting instant 30 ft phase displacement per round.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue."
       }
     ],
     "adjusters": []
@@ -2162,43 +1133,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Treads & Tracks\n\n**Category**: Species Movement (BASIC)  \n**Classification**: basic  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nContinuous caterpillar tracks or rolling hub treads for synthetic chassis. Immune to difficult rough terrain; base speed 30 ft/round.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition.\n"
   },
   {
-    "id": "movement-normal-speed",
-    "name": "Normal Speed (Baseline 30 ft)",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Ground",
-    "type": "Ground",
-    "base_speed": 30,
-    "speed": 30,
-    "bp": 0,
-    "description": "Standard baseline speed of 30 feet. Determines derived speed of all other locomotion modes.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition.",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Normal Speed (Baseline 30 ft)\n\n**Category**: Species Movement (BASIC)  \n**Classification**: basic  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nStandard baseline speed of 30 feet. Determines derived speed of all other locomotion modes.\n\n### Tactical Movement Stages (Ground)\n- **Walk**: 1x Base (30 ft/rd). Default baseline movement pace for all ground locomotion.\n- **Jog**: 2x Base (60 ft/rd). Hurried pace with a -2 penalty to subtlety, stealth, or precision.\n- **Running**: 4x Base (120 ft/rd). Fast running pace with a -4 penalty to subtle actions; requires Athletics check (CR 10+) each minute.\n- **Sprinting**: 6x Base (180 ft/rd). Maximum land sprint with a -8 penalty to subtle actions; requires Athletics check (CR 15+) each minute.\n- **Crawl**: 1/2x Base (15 ft/rd). Low-profile crawl; grants +2 bonus to stealth; inflicts Prone condition.\n- **Slow Crawl**: 1/4x Base (7.5 ft/rd). Deliberate stealth crawl; grants +4 bonus to stealth; inflicts Prone condition.\n"
-  },
-  {
-    "id": "species_movement-glide",
-    "name": "Gliding",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Flying",
-    "type": "Flying",
-    "base_speed": 30,
-    "speed": 30,
-    "bp": 0,
-    "description": "Patagial membranes or gliding sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Gliding\n\n**Category**: Species Movement (BASIC)  \n**Classification**: basic  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nPatagial membranes or gliding sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).\n"
-  },
-  {
-    "id": "movement-gliding-wings",
+    "id": "species_movement-gliding",
     "name": "Gliding Wings",
     "category": "species_movement",
     "classification": "basic",
@@ -2208,69 +1143,15 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "base_speed": 30,
     "speed": 30,
     "bp": 1,
-    "description": "Deployable aerodynamic wing membranes. While airborne, glides at 30 ft/round (60 ft/round when diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).",
+    "description": "Deployable aerodynamic wing membranes or patagial sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled (60 ft diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).",
     "costs": {
       "bp": 1
     },
     "modifiers": [],
-    "body": "# Gliding Wings\n\n**Category**: Species Movement (BASIC)  \n**Classification**: basic  \n**Target Mode**: Flying  \n**Cost**: +1 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nDeployable aerodynamic wing membranes. While airborne, glides at 30 ft/round (60 ft/round when diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).\n"
+    "body": "# Gliding Wings\n\n**Category**: Species Movement (BASIC)  \n**Classification**: basic  \n**Target Mode**: Flying  \n**Cost**: +1 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nDeployable aerodynamic wing membranes or patagial sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled (60 ft diving).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).\n"
   },
   {
-    "id": "movement-swimming",
-    "name": "Basic Swimming",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Swimming",
-    "type": "Swimming",
-    "base_speed": 15,
-    "speed": 15,
-    "bp": 0,
-    "description": "Baseline swimming speed for non-aquatic species, moving at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Basic Swimming\n\n**Category**: Species Movement (BASIC)  \n**Classification**: basic  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n**Base Speed**: 15 ft / round  \n\n## Description\nBaseline swimming speed for non-aquatic species, moving at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.\n"
-  },
-  {
-    "id": "movement-climbing",
-    "name": "Basic Climbing",
-    "category": "species_movement",
-    "classification": "basic",
-    "movement_tier": "basic",
-    "target_mode": "Climbing",
-    "type": "Climbing",
-    "base_speed": 15,
-    "speed": 15,
-    "bp": 0,
-    "description": "Baseline climbing speed for standard humanoids, ascending at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Basic Climbing\n\n**Category**: Species Movement (BASIC)  \n**Classification**: basic  \n**Target Mode**: Climbing  \n**Cost**: +0 BP  \n**Base Speed**: 15 ft / round  \n\n## Description\nBaseline climbing speed for standard humanoids, ascending at 15 ft/round (1/2 ground walking speed).\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.\n"
-  },
-  {
-    "id": "species_movement-flight",
-    "name": "True Flight",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Flying",
-    "type": "Flying",
-    "base_speed": 60,
-    "speed": 60,
-    "bp": 0,
-    "description": "Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# True Flight\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n**Base Speed**: 60 ft / round  \n\n## Description\nAerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).\n"
-  },
-  {
-    "id": "movement-flight-basic",
+    "id": "species_movement-flight-basic",
     "name": "Basic Flight",
     "category": "species_movement",
     "classification": "advanced",
@@ -2288,6 +1169,24 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Basic Flight\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Flying  \n**Cost**: +2 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nRudimentary flight apparatus or heavy wings granting base Fly Speed 30 ft/round (Poor Maneuverability).\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).\n"
   },
   {
+    "id": "species_movement-flight",
+    "name": "True Flight",
+    "category": "species_movement",
+    "classification": "advanced",
+    "movement_tier": "advanced",
+    "target_mode": "Flying",
+    "type": "Flying",
+    "base_speed": 60,
+    "speed": 60,
+    "bp": 4,
+    "description": "Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).",
+    "costs": {
+      "bp": 4
+    },
+    "modifiers": [],
+    "body": "# True Flight\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Flying  \n**Cost**: +4 BP  \n**Base Speed**: 60 ft / round  \n\n## Description\nAerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.\n\n### Tactical Movement Stages (Flying)\n- **Flight**: 1x Fly (60 ft/rd). Standard aerial cruise pace.\n- **Sail**: 2x Fly (120 ft/rd). Hurried cruise pace with a -2 penalty to subtle actions.\n- **Surge / Soar**: 4x Fly (240 ft/rd). Maximum aerial sprint with a -4 penalty; requires Acrobatics check (CR 10+) each minute.\n- **Diving**: 2x Current Speed (up to 480+ ft). High-speed tactical descent with a -4 penalty; requires Acrobatics check (CR 15+).\n- **Gliding**: 1x Fly (60 ft horiz, drops 1 ft per 5 ft traveled). Unpowered aerodynamic glide; grants +2 bonus to aerial actions; Acrobatics check (CR 10+).\n- **Hover / Controlled Descent**: 1/2 Fly or less (30 ft or static). Stationary hover or slow descent enabling stable observation; Acrobatics check (CR 15+).\n"
+  },
+  {
     "id": "species_movement-swimming",
     "name": "Aquatic Swimming",
     "category": "species_movement",
@@ -2297,31 +1196,13 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "type": "Swimming",
     "base_speed": 30,
     "speed": 30,
-    "bp": 0,
-    "description": "Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed in liquid environments.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Aquatic Swimming\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nHydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed in liquid environments.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.\n"
-  },
-  {
-    "id": "movement-swim-trait",
-    "name": "Swim (Innate)",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Swimming",
-    "type": "Swimming",
-    "base_speed": 30,
-    "speed": 30,
     "bp": 2,
-    "description": "Innate biological swim adaptations granting Swim speed 30 ft and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.",
+    "description": "Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.",
     "costs": {
       "bp": 2
     },
     "modifiers": [],
-    "body": "# Swim (Innate)\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Swimming  \n**Cost**: +2 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nInnate biological swim adaptations granting Swim speed 30 ft and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.\n"
+    "body": "# Aquatic Swimming\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Swimming  \n**Cost**: +2 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nHydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed and +5 racial bonus on Athletics (Swim) checks.\n\n### Tactical Movement Stages (Swimming)\n- **Swimming**: 1x Swim (15 ft/rd baseline, 30 ft aquatic). Standard cruise swim pace.\n- **Glide**: 2x Swim (30 ft/rd baseline, 60 ft aquatic). Hurried swim stroke with a -2 penalty to stealth; Athletics (Swim) CR 10+.\n- **Stroke**: 4x Swim (60 ft/rd baseline, 120 ft aquatic). Maximum power stroke sprint with a -4 penalty; Athletics (Swim) CR 15+.\n- **Treading**: 1/2 Swim or less (7.5 ft/rd). Conserves stamina; grants +2 bonus to concentration; Athletics (Swim) CR 5+.\n"
   },
   {
     "id": "species_movement-climbing",
@@ -2333,34 +1214,16 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "type": "Climbing",
     "base_speed": 30,
     "speed": 30,
-    "bp": 0,
-    "description": "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Innate Climbing\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Climbing  \n**Cost**: +0 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nSpecialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.\n"
-  },
-  {
-    "id": "movement-climber",
-    "name": "Climber",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Climbing",
-    "type": "Climbing",
-    "base_speed": 30,
-    "speed": 30,
     "bp": 2,
-    "description": "Innate climbing adaptations granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.",
+    "description": "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.",
     "costs": {
       "bp": 2
     },
     "modifiers": [],
-    "body": "# Climber\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Climbing  \n**Cost**: +2 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nInnate climbing adaptations granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.\n"
+    "body": "# Innate Climbing\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Climbing  \n**Cost**: +2 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nSpecialized anatomy (claws, micro-suckers, or prehensile limbs) granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.\n\n### Tactical Movement Stages (Climbing)\n- **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).\n- **Scaling**: 1x Walk (30 ft/rd). Rapid surface scaling with a -2 penalty to actions; Athletics (Climb) at -5 penalty.\n- **Fast Ascent**: 2x Walk (60 ft/rd). Vertical sprint with a -4 penalty; Athletics (Climb) at -10 penalty.\n- **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.\n"
   },
   {
-    "id": "movement-burrow-trait",
+    "id": "species_movement-burrowing",
     "name": "Innate Burrowing",
     "category": "species_movement",
     "classification": "advanced",
@@ -2378,26 +1241,8 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Innate Burrowing\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Burrowing  \n**Cost**: +2 BP  \n**Base Speed**: 20 ft / round  \n\n## Description\nExcavator claws or subterranean body shape granting Base Burrow Speed 20 ft through soil, sand, and unworked earth.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications.\n"
   },
   {
-    "id": "movement-burrowing",
-    "name": "Burrowing Movement",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Burrowing",
-    "type": "Burrowing",
-    "base_speed": 20,
-    "speed": 20,
-    "bp": 2,
-    "description": "Specialized subterranean locomotion displacing soil and sand at 20 ft/round.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications.",
-    "costs": {
-      "bp": 2
-    },
-    "modifiers": [],
-    "body": "# Burrowing Movement\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Burrowing  \n**Cost**: +2 BP  \n**Base Speed**: 20 ft / round  \n\n## Description\nSpecialized subterranean locomotion displacing soil and sand at 20 ft/round.\n\n### Tactical Movement Stages (Burrowing)\n- **Burrowing**: 1/4 Walk (7.5 ft/rd baseline, 20 ft innate). Standard subterranean displacement through soil, sand, or loose substrate.\n- **Tunneling**: 2x Burrow (15 ft/rd baseline, 40 ft innate). Rapid subterranean tunnel excavation with a -2 penalty to subtlety.\n- **Excavation**: 1/8 Walk (3.75 ft/rd baseline, 10 ft innate). Reinforced excavation for subterranean bunkers, chambers, or fortifications.\n"
-  },
-  {
     "id": "species_movement-flicker",
-    "name": "Flicker Movement",
+    "name": "Flicker Phase Displacement",
     "category": "species_movement",
     "classification": "advanced",
     "movement_tier": "advanced",
@@ -2411,25 +1256,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
       "bp": 3
     },
     "modifiers": [],
-    "body": "# Flicker Movement\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Flicker  \n**Cost**: +3 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nShort-range quantum phase displacement or micro-teleportation. Instantly traverse up to 30 ft line-of-sight without triggering opportunity attacks or traversing intervening physical hazards.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue.\n"
-  },
-  {
-    "id": "movement-flicker",
-    "name": "Flicker (Innate Phase Step)",
-    "category": "species_movement",
-    "classification": "advanced",
-    "movement_tier": "advanced",
-    "target_mode": "Flicker",
-    "type": "Metaphysical",
-    "base_speed": 30,
-    "speed": 30,
-    "bp": 3,
-    "description": "Innate metaphysical or cybernetic flicker teleportation granting instant 30 ft phase displacement per round.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue.",
-    "costs": {
-      "bp": 3
-    },
-    "modifiers": [],
-    "body": "# Flicker (Innate Phase Step)\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Flicker  \n**Cost**: +3 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nInnate metaphysical or cybernetic flicker teleportation granting instant 30 ft phase displacement per round.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue.\n"
+    "body": "# Flicker Phase Displacement\n\n**Category**: Species Movement (ADVANCED)  \n**Classification**: advanced  \n**Target Mode**: Flicker  \n**Cost**: +3 BP  \n**Base Speed**: 30 ft / round  \n\n## Description\nShort-range quantum phase displacement or micro-teleportation. Instantly traverse up to 30 ft line-of-sight without triggering opportunity attacks or traversing intervening physical hazards.\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue.\n"
   },
   {
     "id": "movement-fast",
@@ -2718,24 +1545,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Enhanced Burrow Speed (+10 ft Burrow)\n\n**Category**: Species Movement (MODIFIER)  \n**Classification**: modifier  \n**Target Mode**: Burrowing  \n**Cost**: +1 BP  \n**Speed Modifier**: +10 ft (Additive)  \n\n## Description\nIncreases base burrowing speed by +10 feet (Additive). Ranked.\n"
   },
   {
-    "id": "movement-ground",
-    "name": "Ground Movement (System Rule)",
-    "category": "species_movement",
-    "classification": "stage",
-    "movement_tier": "stage",
-    "target_mode": "Ground",
-    "multiplier": 1,
-    "speed": 30,
-    "bp": 0,
-    "description": "Ground movement rules overview based on base walking speed.",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Ground Movement (System Rule)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nGround movement rules overview based on base walking speed.\n"
-  },
-  {
-    "id": "movement-walk",
+    "id": "pace-ground-walk",
     "name": "Ground: Walk Pace (1x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -2752,7 +1562,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Ground: Walk Pace (1x Base)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nDefault baseline movement pace for all ground locomotion (1x Base Walk).\n"
   },
   {
-    "id": "movement-jog",
+    "id": "pace-ground-jog",
     "name": "Ground: Jog Pace (2x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -2769,7 +1579,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Ground: Jog Pace (2x Base)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nHurried pace (2x Base Walk) with a -2 penalty to subtlety, stealth, or precision.\n"
   },
   {
-    "id": "movement-running",
+    "id": "pace-ground-running",
     "name": "Ground: Running Pace (4x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -2786,7 +1596,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Ground: Running Pace (4x Base)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nFast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute.\n"
   },
   {
-    "id": "movement-sprinting",
+    "id": "pace-ground-sprinting",
     "name": "Ground: Sprinting Pace (6x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -2803,7 +1613,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Ground: Sprinting Pace (6x Base)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nMaximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute.\n"
   },
   {
-    "id": "movement-crawl",
+    "id": "pace-ground-crawl",
     "name": "Ground: Crawl Pace (0.5x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -2820,7 +1630,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Ground: Crawl Pace (0.5x Base)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nLow-profile crawling pace (1/2 Base Walk). Grants +2 to stealth; inflicts Prone.\n"
   },
   {
-    "id": "movement-slow-crawl",
+    "id": "pace-ground-slow-crawl",
     "name": "Ground: Slow Crawl Pace (0.25x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -2837,24 +1647,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Ground: Slow Crawl Pace (0.25x Base)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Ground  \n**Cost**: +0 BP  \n\n## Description\nDeliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts Prone.\n"
   },
   {
-    "id": "movement-flying",
-    "name": "Flying Movement (System Rule)",
-    "category": "species_movement",
-    "classification": "stage",
-    "movement_tier": "stage",
-    "target_mode": "Flying",
-    "multiplier": 1,
-    "speed": 60,
-    "bp": 0,
-    "description": "Flying movement rules and tactical maneuver overview.",
-    "costs": {
-      "bp": 0
-    },
-    "modifiers": [],
-    "body": "# Flying Movement (System Rule)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nFlying movement rules and tactical maneuver overview.\n"
-  },
-  {
-    "id": "movement-flight",
+    "id": "pace-flying-flight",
     "name": "Flying: Flight Pace (1x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -2871,7 +1664,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Flying: Flight Pace (1x Fly)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nStandard flying cruise pace (1x Fly).\n"
   },
   {
-    "id": "movement-sail",
+    "id": "pace-flying-sail",
     "name": "Flying: Sail Pace (2x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -2888,7 +1681,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Flying: Sail Pace (2x Fly)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nHurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions.\n"
   },
   {
-    "id": "movement-surge",
+    "id": "pace-flying-surge",
     "name": "Flying: Surge / Soar Pace (4x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -2905,7 +1698,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Flying: Surge / Soar Pace (4x Fly)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nMaximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute.\n"
   },
   {
-    "id": "movement-diving",
+    "id": "pace-flying-diving",
     "name": "Flying: Diving Pace (8x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -2922,7 +1715,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Flying: Diving Pace (8x Fly)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nHigh-speed tactical descent (8x Fly) for precision dive attacks.\n"
   },
   {
-    "id": "movement-gliding",
+    "id": "pace-flying-gliding",
     "name": "Flying: Gliding Maneuver",
     "category": "species_movement",
     "classification": "stage",
@@ -2939,7 +1732,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Flying: Gliding Maneuver\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nControlled unpowered aerodynamic glide granting +2 bonus to aerial actions.\n"
   },
   {
-    "id": "movement-hover-descent",
+    "id": "pace-flying-hover",
     "name": "Flying: Hover & Controlled Descent (0.5x Fly)",
     "category": "species_movement",
     "classification": "stage",
@@ -2956,7 +1749,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Flying: Hover & Controlled Descent (0.5x Fly)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flying  \n**Cost**: +0 BP  \n\n## Description\nStationary hover or slow vertical descent enabling stable targeting.\n"
   },
   {
-    "id": "movement-swim",
+    "id": "pace-swimming-swim",
     "name": "Swimming: Swim Pace (1x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -2973,7 +1766,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Swimming: Swim Pace (1x Swim)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n\n## Description\nStandard aquatic swimming cruise pace.\n"
   },
   {
-    "id": "movement-glide-swim",
+    "id": "pace-swimming-glide",
     "name": "Swimming: Glide Pace (2x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -2990,7 +1783,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Swimming: Glide Pace (2x Swim)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n\n## Description\nHurried swim stroke (2x Swim) with -2 penalty to stealth.\n"
   },
   {
-    "id": "movement-stroke",
+    "id": "pace-swimming-stroke",
     "name": "Swimming: Stroke Pace (4x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -3007,7 +1800,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Swimming: Stroke Pace (4x Swim)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n\n## Description\nMaximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+.\n"
   },
   {
-    "id": "movement-treading",
+    "id": "pace-swimming-treading",
     "name": "Swimming: Treading Pace (0.25x Swim)",
     "category": "species_movement",
     "classification": "stage",
@@ -3024,7 +1817,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Swimming: Treading Pace (0.25x Swim)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Swimming  \n**Cost**: +0 BP  \n\n## Description\nStationary or slow treading water to conserve stamina (+2 to concentration).\n"
   },
   {
-    "id": "movement-climb",
+    "id": "pace-climbing-climb",
     "name": "Climbing: Standard Climb Pace (0.5x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -3041,7 +1834,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Climbing: Standard Climb Pace (0.5x Walk)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Climbing  \n**Cost**: +0 BP  \n\n## Description\nStandard vertical ascent/descent pace (1/2 Base Walk).\n"
   },
   {
-    "id": "movement-scaling",
+    "id": "pace-climbing-scaling",
     "name": "Climbing: Scaling Pace (1x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -3058,7 +1851,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Climbing: Scaling Pace (1x Walk)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Climbing  \n**Cost**: +0 BP  \n\n## Description\nRapid surface scaling at full walking speed with -5 penalty to check.\n"
   },
   {
-    "id": "movement-fast-ascent",
+    "id": "pace-climbing-fast-ascent",
     "name": "Climbing: Fast Ascent Pace (2x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -3075,7 +1868,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Climbing: Fast Ascent Pace (2x Walk)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Climbing  \n**Cost**: +0 BP  \n\n## Description\nHigh-speed vertical sprint (2x Walk) with -10 penalty to check.\n"
   },
   {
-    "id": "movement-fast-descent",
+    "id": "pace-climbing-fast-descent",
     "name": "Climbing: Fast Descent Pace (4x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -3092,7 +1885,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Climbing: Fast Descent Pace (4x Walk)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Climbing  \n**Cost**: +0 BP  \n\n## Description\nRapid controlled vertical slide or abseil descent (4x Walk).\n"
   },
   {
-    "id": "movement-burrow",
+    "id": "pace-burrowing-burrow",
     "name": "Burrowing: Standard Burrow Pace (0.375x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -3109,7 +1902,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Burrowing: Standard Burrow Pace (0.375x Walk)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Burrowing  \n**Cost**: +0 BP  \n\n## Description\nStandard subterranean displacement pace through soil or sand.\n"
   },
   {
-    "id": "movement-tunneling",
+    "id": "pace-burrowing-tunneling",
     "name": "Burrowing: Tunneling Pace (0.75x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -3126,7 +1919,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Burrowing: Tunneling Pace (0.75x Walk)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Burrowing  \n**Cost**: +0 BP  \n\n## Description\nRapid subterranean tunnel excavation (3/4 Base Walk) with -2 penalty to subtlety.\n"
   },
   {
-    "id": "movement-excavation",
+    "id": "pace-burrowing-excavation",
     "name": "Burrowing: Excavation Pace (0.1875x Walk)",
     "category": "species_movement",
     "classification": "stage",
@@ -3143,7 +1936,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Burrowing: Excavation Pace (0.1875x Walk)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Burrowing  \n**Cost**: +0 BP  \n\n## Description\nCareful reinforced excavation for permanent subterranean bunkers or fortresses.\n"
   },
   {
-    "id": "movement-flicker-pace",
+    "id": "pace-flicker-phase-step",
     "name": "Flicker: Phase Step Pace (1x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -3160,7 +1953,7 @@ export const DEFAULT_SPECIES_MOVEMENT = [
     "body": "# Flicker: Phase Step Pace (1x Base)\n\n**Category**: Species Movement (STAGE)  \n**Classification**: stage  \n**Target Mode**: Flicker  \n**Cost**: +0 BP  \n\n## Description\nStandard quantum phase displacement pace up to 30 ft per round without physical traversal.\n"
   },
   {
-    "id": "movement-flicker-rush",
+    "id": "pace-flicker-rush",
     "name": "Flicker: Rush Pace (Up to 2x Base)",
     "category": "species_movement",
     "classification": "stage",
@@ -3192,16 +1985,14 @@ export const getMovementClassification = (itemOrId) => {
     if (item.classification === 'adjuster' || item.classification === 'modifier') return 'modifier';
     if (item.classification === 'pace' || item.classification === 'stage') return 'stage';
   }
-  if (['species_movement-bipedal', 'species_movement-quadruped', 'species_movement-slithering', 'species_movement-treads', 'movement-normal-speed', 'species_movement-glide', 'movement-gliding-wings', 'movement-swimming', 'movement-climbing'].includes(id)) {
-    return 'basic';
+  if (id.startsWith('species_movement-')) {
+    const adv = ['species_movement-flight', 'species_movement-flight-basic', 'species_movement-swimming', 'species_movement-climbing', 'species_movement-burrowing', 'species_movement-flicker'];
+    return adv.includes(id) ? 'advanced' : 'basic';
   }
-  if (['species_movement-flight', 'movement-flight-basic', 'species_movement-swimming', 'movement-swim-trait', 'species_movement-climbing', 'movement-climber', 'movement-burrow-trait', 'movement-burrowing', 'species_movement-flicker', 'movement-flicker'].includes(id)) {
-    return 'advanced';
-  }
-  if (id.startsWith('movement-') && (id.includes('fast') || id.includes('slow') || id.includes('ponderous') || id.includes('sprinter') || id.includes('hauler') || id.includes('marcher') || id.includes('leaper') || id.includes('terrain') || id.includes('improved') || id.includes('maneuver') || id.includes('strong') || id.includes('mountaineer'))) {
+  if (id.startsWith('movement-')) {
     return 'modifier';
   }
-  if (id.includes('pace') || id.includes('walk') || id.includes('jog') || id.includes('running') || id.includes('sprinting') || id.includes('crawl') || id.includes('sail') || id.includes('surge') || id.includes('diving') || id.includes('hover') || id.includes('stroke') || id.includes('treading') || id.includes('scaling') || id.includes('ascent') || id.includes('descent') || id.includes('tunneling') || id.includes('excavation') || id.includes('flicker-rush')) {
+  if (id.startsWith('pace-')) {
     return 'stage';
   }
   return 'basic';

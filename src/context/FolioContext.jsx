@@ -2688,12 +2688,16 @@ export const FolioProvider = ({ children }) => {
           return normalizeTraitName(fName).toLowerCase() !== cleanTitle.toLowerCase() && fName.toLowerCase() !== traitName.toLowerCase();
         });
       } else {
-        if (currentTraits.length >= maxTraits) {
+        if (currentTraits.length >= maxTraits && poolKey !== 'originAllocations') {
           alert(`Maximum of ${maxTraits} traits already selected in this pool.`);
           return prev;
         }
         const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
         updatedPoolTraits = [...currentTraits, cleanTitle];
+        const isOrigin = poolKey === 'originAllocations';
+        const isFreeOriginTrait = isOrigin && currentTraits.length < 2;
+        const isGrantedTrait = isOrigin ? isFreeOriginTrait : isGrantedPool;
+
         const rawTraitObj = {
           id: traitDetail.id || `trait_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
@@ -2709,15 +2713,36 @@ export const FolioProvider = ({ children }) => {
           special_rules: traitDetail.special_rules || traitDetail.rules || '',
           notes: traitDetail.notes || '',
           modifiers: Array.isArray(traitDetail.modifiers) ? traitDetail.modifiers : [],
-          bp: isGrantedPool ? 0 : (traitDetail.bp !== undefined ? traitDetail.bp : 1),
+          bp: isGrantedTrait ? 0 : (traitDetail.bp !== undefined ? traitDetail.bp : 1),
           standaloneBp: traitDetail.bp !== undefined ? traitDetail.bp : 1,
-          cp: isGrantedPool ? 0 : (traitDetail.cp !== undefined ? traitDetail.cp : 1),
+          cp: isGrantedTrait ? 0 : (traitDetail.cp !== undefined ? traitDetail.cp : 1),
           standaloneCp: traitDetail.cp !== undefined ? traitDetail.cp : (traitDetail.bp !== undefined ? traitDetail.bp : 1),
-          isGranted: isGrantedPool
+          isGranted: isGrantedTrait,
+          isPaidOriginTrait: isOrigin ? !isFreeOriginTrait : false
         };
         const newTraitObj = enrichItemWithModifiers(rawTraitObj, traitDetail);
         updatedGlobalTraits.push(newTraitObj);
         updatedGlobalFeatures.push(newTraitObj);
+      }
+
+      if (poolKey === 'originAllocations') {
+        const reconcileOriginTraits = (list) => list.map(item => {
+          const itemTitle = normalizeTraitName(typeof item === 'object' ? (item.name || item.title || item.id) : String(item)).toLowerCase();
+          const pIdx = updatedPoolTraits.findIndex(pt => normalizeTraitName(typeof pt === 'object' ? (pt.name || pt.id) : pt).toLowerCase() === itemTitle);
+          if (pIdx !== -1) {
+            const isFree = pIdx < 2;
+            return {
+              ...item,
+              isGranted: isFree,
+              isPaidOriginTrait: !isFree,
+              cp: isFree ? 0 : 1,
+              bp: isFree ? 0 : 1
+            };
+          }
+          return item;
+        });
+        updatedGlobalTraits = reconcileOriginTraits(updatedGlobalTraits);
+        updatedGlobalFeatures = reconcileOriginTraits(updatedGlobalFeatures);
       }
 
       const extraFields = {};
@@ -2751,17 +2776,37 @@ export const FolioProvider = ({ children }) => {
       const currentTraits = Array.isArray(pool.traits) ? pool.traits : [];
       const updatedPoolTraits = currentTraits.filter(t => normalizeTraitName(t).toLowerCase() !== cleanTitle.toLowerCase() && String(t).toLowerCase() !== traitName.toLowerCase());
       
-      const currentGlobalTraits = Array.isArray(prev.traits) ? prev.traits : [];
-      const updatedGlobalTraits = currentGlobalTraits.filter(t => {
+      let currentGlobalTraits = Array.isArray(prev.traits) ? prev.traits : [];
+      let updatedGlobalTraits = currentGlobalTraits.filter(t => {
         const tName = typeof t === 'object' ? (t.name || t.title || t.id) : String(t);
         return normalizeTraitName(tName).toLowerCase() !== cleanTitle.toLowerCase() && tName.toLowerCase() !== traitName.toLowerCase();
       });
 
-      const currentGlobalFeatures = Array.isArray(prev.features) ? prev.features : [];
-      const updatedGlobalFeatures = currentGlobalFeatures.filter(f => {
+      let currentGlobalFeatures = Array.isArray(prev.features) ? prev.features : [];
+      let updatedGlobalFeatures = currentGlobalFeatures.filter(f => {
         const fName = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
         return normalizeTraitName(fName).toLowerCase() !== cleanTitle.toLowerCase() && fName.toLowerCase() !== traitName.toLowerCase();
       });
+
+      if (poolKey === 'originAllocations') {
+        const reconcileOriginTraits = (list) => list.map(item => {
+          const itemTitle = normalizeTraitName(typeof item === 'object' ? (item.name || item.title || item.id) : String(item)).toLowerCase();
+          const pIdx = updatedPoolTraits.findIndex(pt => normalizeTraitName(typeof pt === 'object' ? (pt.name || pt.id) : pt).toLowerCase() === itemTitle);
+          if (pIdx !== -1) {
+            const isFree = pIdx < 2;
+            return {
+              ...item,
+              isGranted: isFree,
+              isPaidOriginTrait: !isFree,
+              cp: isFree ? 0 : 1,
+              bp: isFree ? 0 : 1
+            };
+          }
+          return item;
+        });
+        updatedGlobalTraits = reconcileOriginTraits(updatedGlobalTraits);
+        updatedGlobalFeatures = reconcileOriginTraits(updatedGlobalFeatures);
+      }
 
       const extraFields = {};
       if (poolKey === 'occuAllocations') {

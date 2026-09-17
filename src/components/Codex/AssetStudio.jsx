@@ -30,11 +30,14 @@ import {
   ExternalLink,
   Plus,
   Compass,
+  Award,
   FileText,
   Crosshair,
   Dna,
   Flag,
-  Flame
+  Flame,
+  Globe,
+  Briefcase
 } from 'lucide-react';
 
 // Specialized DBM Sub-Widgets
@@ -78,7 +81,10 @@ import {
   CompanionPackageSelector,
   InvocationParameterConfigurator,
   MetaTechImbuementConfigurator,
-  PlanetaryDesignConfigurator
+  PlanetaryDesignConfigurator,
+  OriginConfigurator,
+  OccupationConfigurator,
+  ArchetypeConfigurator
 } from '../../pages/Codex/components';
 
 import * as econEngine from '../../engines/tangentEconEngine';
@@ -129,7 +135,10 @@ const CUSTOM_COMPONENTS = {
   CompanionPackageSelector,
   InvocationParameterConfigurator,
   MetaTechImbuementConfigurator,
-  PlanetaryDesignConfigurator
+  PlanetaryDesignConfigurator,
+  OriginConfigurator,
+  OccupationConfigurator,
+  ArchetypeConfigurator
 };
 
 /**
@@ -275,6 +284,15 @@ const SPECS_FIELD_NAMES = new Set([
   'prominent_species',
   'capital_world',
   'homeworld',
+  'habitat',
+  'field',
+  'sphere',
+  'core_concept',
+  'quote',
+  'primary_attribute',
+  'secondary_attribute',
+  'bp_chassis',
+  'skill_points',
   'style',
   'faction_skin',
   'frame_type',
@@ -314,6 +332,7 @@ const NARRATIVE_FIELD_NAMES = new Set([
   'body',
   'lore',
   'history',
+  'full_text',
   'note',
   'mechanic',
   'core_beliefs',
@@ -370,6 +389,7 @@ const NON_PROPERTY_EXCLUDED_FIELDS = new Set([
 const SPECIES_EXCLUDED_FIELDS = new Set([
   'prerequisite',
   'prerequisites',
+  'type',
   ...NON_PROPERTY_EXCLUDED_FIELDS
 ]);
 
@@ -541,6 +561,13 @@ export const AssetStudio = ({
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
   const [activeSelectorField, setActiveSelectorField] = useState(null);
   const [hoveredRailItem, setHoveredRailItem] = useState(null);
+  const railHoverTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (railHoverTimerRef.current) clearTimeout(railHoverTimerRef.current);
+    };
+  }, []);
 
   // Form Data State
   const [formData, setFormData] = useState(() => {
@@ -565,9 +592,11 @@ export const AssetStudio = ({
     setFormData(prev => {
       const next = { ...prev, [name]: value };
 
-      // Two-way synchronization for species modifiers
+      // Two-way synchronization for species modifiers and chassis type
       if (matrix.id === 'species') {
-        if (name === 'attribute_modifiers' || name === 'inherent_attribute_modifiers') {
+        if (name === 'species_type') {
+          next.type = value;
+        } else if (name === 'attribute_modifiers' || name === 'inherent_attribute_modifiers') {
           const attrList = Array.isArray(value) ? value : [];
           next.attribute_modifiers = attrList;
           next.inherent_attribute_modifiers = attrList;
@@ -627,6 +656,18 @@ export const AssetStudio = ({
           }));
           next.inherent_features = mods.filter(m => m.type === 'feature' && m.mode === 'inherent').map(m => m.target);
           next.recommended_features = mods.filter(m => m.type === 'feature' && m.mode === 'recommended').map(m => m.target);
+        } else if (name === 'social_stigma' || name === 'stigma') {
+          next.social_stigma = value;
+          next.stigma = value;
+        } else if (name === 'movement') {
+          next.movement = value;
+          next.movement_modes = Array.isArray(value) ? value : [value];
+        } else if (name === 'movement_modes') {
+          const list = Array.isArray(value) ? value : (value ? [value] : []);
+          next.movement_modes = list;
+          next.movement = list[0] || 'species_movement-bipedal';
+        } else if (name === 'traits') {
+          next.traits = Array.isArray(value) ? value : [];
         }
       }
 
@@ -742,6 +783,36 @@ export const AssetStudio = ({
   // Contextual labels & icons for Tab 2 depending on dataset
   const mechanicsTabConfig = useMemo(() => {
     const mId = matrix.id;
+    if (mId === 'origins') {
+      return {
+        label: 'Society Skills & Traits',
+        sublabel: '20 SP & Trait Pool',
+        icon: Sparkles,
+        color: '#10b981',
+        activeBg: 'bg-emerald-950/80',
+        activeBorder: 'border-emerald-500/60'
+      };
+    }
+    if (mId === 'occupations') {
+      return {
+        label: 'Skills & Features',
+        sublabel: '20 SP & Trait Pool',
+        icon: Sparkles,
+        color: '#f59e0b',
+        activeBg: 'bg-amber-950/80',
+        activeBorder: 'border-amber-500/60'
+      };
+    }
+    if (mId === 'archetypes') {
+      return {
+        label: 'Chassis & Attributes',
+        sublabel: '80 BP Formula & Skills',
+        icon: Award,
+        color: '#8b5cf6',
+        activeBg: 'bg-purple-950/80',
+        activeBorder: 'border-purple-500/60'
+      };
+    }
     if (mId === 'factions') {
       return {
         label: 'Doctrine & Assets',
@@ -813,21 +884,72 @@ export const AssetStudio = ({
   }, [matrix.id, showSocketsAndUDU]);
 
   const navRailItems = useMemo(() => {
+    const isOrigin = matrix.id === 'origins';
+    const isOccu = matrix.id === 'occupations';
+    const isArch = matrix.id === 'archetypes';
+
+    const getSpecsLabel = () => {
+      if (isOrigin) return 'Origin Overview';
+      if (isOccu) return 'Career Overview';
+      if (isArch) return 'Archetype Overview';
+      return 'General Specs';
+    };
+
+    const getSpecsShort = () => {
+      if (isOrigin || isOccu || isArch) return 'OVERVIEW';
+      return 'SPECS';
+    };
+
+    const getSpecsSublabel = () => {
+      if (isOrigin) return 'Homeworld & 1.05 Rules';
+      if (isOccu) return 'Profession & 1.06 Rules';
+      if (isArch) return '80 BP Chassis & 1.02 Rules';
+      return 'Registry Dossier';
+    };
+
+    const getSpecsIcon = () => {
+      if (isOrigin) return Globe;
+      if (isOccu) return Briefcase;
+      if (isArch) return Compass;
+      return FileText;
+    };
+
+    const getSpecsColor = () => {
+      if (isOrigin) return '#10b981';
+      if (isOccu) return '#f59e0b';
+      if (isArch) return '#8b5cf6';
+      return '#06b6d4';
+    };
+
+    const getSpecsBg = () => {
+      if (isOrigin) return 'bg-emerald-950/80';
+      if (isOccu) return 'bg-amber-950/80';
+      if (isArch) return 'bg-purple-950/80';
+      return 'bg-cyan-950/80';
+    };
+
+    const getSpecsBorder = () => {
+      if (isOrigin) return 'border-emerald-500/60';
+      if (isOccu) return 'border-amber-500/60';
+      if (isArch) return 'border-purple-500/60';
+      return 'border-cyan-500/60';
+    };
+
     const items = [
       {
         id: 'specs',
-        label: 'General Specs',
-        shortLabel: 'SPECS',
-        sublabel: 'Registry Dossier',
-        icon: FileText,
-        color: '#06b6d4',
-        activeBg: 'bg-cyan-950/80',
-        activeBorder: 'border-cyan-500/60'
+        label: getSpecsLabel(),
+        shortLabel: getSpecsShort(),
+        sublabel: getSpecsSublabel(),
+        icon: getSpecsIcon(),
+        color: getSpecsColor(),
+        activeBg: getSpecsBg(),
+        activeBorder: getSpecsBorder()
       },
       {
         id: 'mechanics',
         label: mechanicsTabConfig.label,
-        shortLabel: matrix.id === 'species' ? 'GENETICS' : 'MECHANICS',
+        shortLabel: isOrigin ? 'SKILLS & TRAITS' : isOccu ? 'SKILLS & FEATS' : isArch ? 'CHASSIS' : (matrix.id === 'species' ? 'GENETICS' : 'MECHANICS'),
         sublabel: mechanicsTabConfig.sublabel,
         icon: mechanicsTabConfig.icon,
         color: mechanicsTabConfig.color,
@@ -836,13 +958,13 @@ export const AssetStudio = ({
       },
       {
         id: 'narrative',
-        label: 'Narrative & Lore',
+        label: (isOrigin || isOccu || isArch) ? 'Full Text & Lore' : 'Narrative & Lore',
         shortLabel: 'LORE',
-        sublabel: 'History & Operations',
+        sublabel: isOrigin ? '1.05 Rules & History' : isOccu ? '1.06 Rules & Career' : isArch ? '1.02 Rules & Persona' : 'History & Operations',
         icon: BookOpen,
-        color: '#c084fc',
-        activeBg: 'bg-purple-950/80',
-        activeBorder: 'border-purple-500/60'
+        color: (isOrigin ? '#10b981' : isOccu ? '#f59e0b' : isArch ? '#8b5cf6' : '#c084fc'),
+        activeBg: (isOrigin ? 'bg-emerald-950/80' : isOccu ? 'bg-amber-950/80' : isArch ? 'bg-purple-950/80' : 'bg-purple-950/80'),
+        activeBorder: (isOrigin ? 'border-emerald-500/60' : isOccu ? 'border-amber-500/60' : isArch ? 'border-purple-500/60' : 'border-purple-500/60')
       },
       {
         id: 'relational',
@@ -873,7 +995,11 @@ export const AssetStudio = ({
   }, [mechanicsTabConfig, devMode, matrix.id]);
 
   const content = (
-    <div className="bg-[#090d16] border border-slate-800/90 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-100 max-w-7xl mx-auto w-full max-h-[95vh]">
+    <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full ${
+      isModal 
+        ? 'fixed inset-0 z-[200] w-screen h-screen rounded-none border-0 max-w-none max-h-none' 
+        : 'border border-slate-800/90 rounded-2xl shadow-2xl max-w-7xl mx-auto h-full'
+    }`}>
       
       {/* ── Studio Top Header Bar ── */}
       <header className="bg-slate-950/90 px-4 sm:px-6 py-3 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
@@ -996,7 +1122,7 @@ export const AssetStudio = ({
 
       {/* ── Guidance Drawer (Collapsible) ── */}
       {isGuidanceOpen && guidance && (
-        <div className="bg-slate-950 border-b border-cyan-500/30 p-4 max-h-56 overflow-y-auto animate-fade-in shrink-0">
+        <div className="bg-slate-950 border-b border-cyan-500/30 p-4 animate-fade-in shrink-0">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <BookOpen size={15} className="text-cyan-400" />
@@ -1060,9 +1186,15 @@ export const AssetStudio = ({
                   }}
                   onMouseEnter={(e) => {
                     const rect = e.currentTarget.getBoundingClientRect();
-                    setHoveredRailItem({ item, rect });
+                    if (railHoverTimerRef.current) clearTimeout(railHoverTimerRef.current);
+                    railHoverTimerRef.current = setTimeout(() => {
+                      setHoveredRailItem({ item, rect });
+                    }, 1000);
                   }}
-                  onMouseLeave={() => setHoveredRailItem(null)}
+                  onMouseLeave={() => {
+                    if (railHoverTimerRef.current) clearTimeout(railHoverTimerRef.current);
+                    setHoveredRailItem(null);
+                  }}
                   title={`${item.label} • ${item.sublabel}`}
                   className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
                     isActive 
@@ -1251,13 +1383,26 @@ export const AssetStudio = ({
                   </div>
                 )}
               </div>
+
+              {/* Specialized Studio Configurators (Origins 1.05, Occupations 1.06, Archetypes 1.02) */}
+              {(matrix.id === 'origins' || matrix.id === 'occupations' || matrix.id === 'archetypes') && CustomConfigurator && (
+                <div className="pt-2 border-t border-slate-800">
+                  <CustomConfigurator
+                    formData={formData}
+                    onChange={handleFieldChange}
+                    isEditMode={isEditMode}
+                    onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                    dbData={dbData}
+                  />
+                </div>
+              )}
             </div>
           )}
 
           {/* ── TAB 2: GAME MECHANICS & SYSTEMS ── */}
           {activeStudioTab === 'mechanics' && (
             <div className="space-y-5 animate-fade-in">
-              {/* Specialized Matrix Configurator (e.g. Weapon Mods, Armor Coverage, Augmentation Nodes, Species Traits, Invocations) */}
+              {/* Specialized Matrix Configurator (e.g. Weapon Mods, Armor Coverage, Augmentation Nodes, Species Traits, Invocations, Occupations, Archetypes) */}
               {CustomConfigurator && (
                 <div className="p-4 bg-slate-950/70 border border-amber-500/30 rounded-2xl shadow-inner">
                   <div className="flex items-center gap-2 mb-3 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
@@ -1267,189 +1412,15 @@ export const AssetStudio = ({
                   <CustomConfigurator
                     formData={formData}
                     onChange={handleFieldChange}
+                    isEditMode={isEditMode}
+                    onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                    dbData={dbData}
                   />
                 </div>
               )}
 
-              {/* Specialized Species Mechanics & Omnicortex Selectors Suite */}
-              {matrix.id === 'species' && (
-                <div className="space-y-4">
-                  {/* Attribute Modifiers & Skill Aptitudes */}
-                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
-                        <Dna size={15} />
-                        <span>Inherent Biological Modifiers & Skill Aptitudes</span>
-                      </div>
-                      <span className="text-[10px] font-mono text-slate-500 uppercase">Omnicortex DBM Synchronized</span>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div>
-                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                          <span>Inherent Attribute Modifiers</span>
-                          <CodexTooltip
-                            title="Inherent Attribute Modifiers"
-                            description="Baseline biological alterations to standard character attributes. Typically ranges from -2 to +2 for balanced species."
-                            rule="BASTION Chapter 2 / Species Creation"
-                            color="#38bdf8"
-                          />
-                        </label>
-                        <AttributeModifiersSelector
-                          value={formData.attribute_modifiers || formData.inherent_attribute_modifiers || []}
-                          onChange={(val) => handleFieldChange('attribute_modifiers', val)}
-                          isEditMode={isEditMode}
-                        />
-                      </div>
-
-                      <div className="pt-2 border-t border-slate-800/80">
-                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                          <span>Specific Skill Bonuses</span>
-                          <CodexTooltip
-                            title="Specific Skill Bonuses"
-                            description="Instinctual or cultural skill proficiencies possessed by this species (+1 to +3)."
-                            rule="BASTION Chapter 2 / Species Creation"
-                            color="#f59e0b"
-                          />
-                        </label>
-                        <SkillBonusesSelector
-                          value={formData.specific_skill_bonuses || []}
-                          onChange={(val) => handleFieldChange('specific_skill_bonuses', val)}
-                          onOpenPicker={() => setActiveSelectorField({
-                            source: 'skills',
-                            target: 'specific_skill_bonuses',
-                            label: 'Skill Bonuses'
-                          })}
-                          isEditMode={isEditMode}
-                          dbSkills={dbData.skills || []}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Species Features (Inherent & Recommended) */}
-                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
-                        <Sparkles size={15} />
-                        <span>Species Features & Traits Integration</span>
-                      </div>
-                      <span className="text-[10px] font-mono text-slate-500 uppercase">Traits & Features Catalog</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                          <span>Inherent Features</span>
-                          <CodexTooltip
-                            title="Inherent Features"
-                            description="Features naturally and permanently possessed by all members of this species."
-                            rule="BASTION Chapter 2 / Species Creation"
-                            color="#10b981"
-                          />
-                        </label>
-                        <FeaturesSelector
-                          value={formData.inherent_features || []}
-                          onChange={(val) => handleFieldChange('inherent_features', val)}
-                          onOpenPicker={() => setActiveSelectorField({
-                            source: 'trait',
-                            target: 'inherent_features',
-                            label: 'Inherent Features'
-                          })}
-                          isEditMode={isEditMode}
-                          dbFeatures={dbData.trait || dbData.traits || dbData.features || []}
-                          variant="emerald"
-                        />
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                          <span>Recommended Features</span>
-                          <CodexTooltip
-                            title="Recommended Features"
-                            description="Optional or culturally prevalent features suggested during character creation."
-                            rule="BASTION Chapter 2 / Species Creation"
-                            color="#a855f7"
-                          />
-                        </label>
-                        <FeaturesSelector
-                          value={formData.recommended_features || []}
-                          onChange={(val) => handleFieldChange('recommended_features', val)}
-                          onOpenPicker={() => setActiveSelectorField({
-                            source: 'trait',
-                            target: 'recommended_features',
-                            label: 'Recommended Features'
-                          })}
-                          isEditMode={isEditMode}
-                          dbFeatures={dbData.trait || dbData.traits || dbData.features || []}
-                          variant="purple"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Locomotion & Social Parameters */}
-                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-4">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                      <Sliders size={15} />
-                      <span>Locomotion & Social Parameters</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                          <span>Movement & Locomotion Modes</span>
-                          <CodexTooltip
-                            title="Species Movement Modes"
-                            description="Baseline ground speed, aquatic swimming, flight wings, burrowing, or zero-g maneuvering."
-                            rule="BASTION Chapter 2 / Locomotion"
-                            color="#f59e0b"
-                          />
-                        </label>
-                        <MovementModeSelector
-                          value={formData.movement || formData.movement_modes || []}
-                          onChange={(val) => handleFieldChange('movement', val)}
-                          isEditMode={isEditMode}
-                        />
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                          <span>Social Stigma & Standing</span>
-                          <CodexTooltip
-                            title="Social Stigma"
-                            description="Societal standing, cultural prejudices, or galactic stigmas affecting initial NPC reactions."
-                            rule="BASTION Chapter 2 / Social Dynamics"
-                            color="#ef4444"
-                          />
-                        </label>
-                        <SocialStigmaSelector
-                          value={formData.social_stigma || formData.stigma || ''}
-                          onChange={(val) => handleFieldChange('social_stigma', val)}
-                          isEditMode={isEditMode}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Unified Universal Modifiers Widget */}
-                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">
-                      <Zap size={14} />
-                      <span>Unified Omnicortex Modifiers & Bonuses Summary</span>
-                    </div>
-                    <UniversalModifiersWidget
-                      formData={formData}
-                      onChange={handleFieldChange}
-                      isEditMode={isEditMode}
-                      customCategories={['attribute', 'skill', 'feature', 'general']}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Relative Combat & Operational Parameters (for non-species, non-faction matrices) */}
-              {relativeMechanicsFields.length > 0 && matrix.id !== 'factions' && matrix.id !== 'species' && (
+              {/* Relative Combat & Operational Parameters (for non-species, non-faction, non-origin, non-occupation, non-archetype matrices) */}
+              {relativeMechanicsFields.length > 0 && matrix.id !== 'factions' && matrix.id !== 'species' && matrix.id !== 'origins' && matrix.id !== 'occupations' && matrix.id !== 'archetypes' && (
                 <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
                     <Zap size={14} />
@@ -1839,13 +1810,15 @@ export const AssetStudio = ({
                   />
                 )}
 
-                {/* Universal Modifiers Widget (Supported on all matrices to grant attribute/skill/combat bonuses) */}
-                <UniversalModifiersWidget
-                  modifiers={formData.modifiers || getItemModifiers(formData)}
-                  onChange={newMods => handleFieldChange('modifiers', newMods)}
-                  relationalData={dbData}
-                  isEditMode={isEditMode}
-                />
+                {/* Universal Modifiers Widget (Supported on non-species matrices; species manages this in SpeciesTraitSelector) */}
+                {matrix.id !== 'species' && (
+                  <UniversalModifiersWidget
+                    modifiers={formData.modifiers || getItemModifiers(formData)}
+                    onChange={newMods => handleFieldChange('modifiers', newMods)}
+                    relationalData={dbData}
+                    isEditMode={isEditMode}
+                  />
+                )}
 
                 {/* Cost Economy Widget (Only for Property Matrices) */}
                 {isProperty && (
@@ -1901,6 +1874,34 @@ export const AssetStudio = ({
                   </div>
                 )}
               </div>
+
+              {/* Canonical Rules Full Text (Origins 1.05, Occupations 1.06, Archetypes 1.02) */}
+              {(formData.full_text || matrix.id === 'origins' || matrix.id === 'occupations' || matrix.id === 'archetypes') && (
+                <div className="space-y-1 pt-2 border-t border-slate-800">
+                  <label className="block text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <BookOpen size={14} />
+                    <span>Canonical Rules Text & Comprehensive Lore</span>
+                  </label>
+                  {isEditMode ? (
+                    <div className="space-y-1">
+                      <textarea
+                        rows={12}
+                        value={formData.full_text || ''}
+                        onChange={(e) => handleFieldChange('full_text', e.target.value)}
+                        placeholder="Full canonical Markdown text from rulebook (e.g. 1.05 ORIGINS.md, 1.06 OCCUPATIONS.md, 1.02 ARCHETYPES.md)..."
+                        className="w-full p-3 bg-slate-950/80 border border-emerald-500/40 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400 leading-relaxed font-sans"
+                      />
+                      <span className="text-[10px] font-mono text-slate-500">Supports Markdown formatting (#, ##, bullet points, bold)</span>
+                    </div>
+                  ) : (
+                    <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans prose prose-invert max-w-none">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {formData.full_text || 'No full rules text recorded.'}
+                      </ReactMarkdown>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* If Factions, display specialized sociological narrative sections */}
               {matrix.id === 'factions' && (
@@ -2229,7 +2230,7 @@ export const AssetStudio = ({
 
   if (isModal) {
     return (
-      <div className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-md flex items-start justify-center p-2 sm:p-4 md:p-6 pt-4 sm:pt-6 md:pt-8 pb-8 overflow-y-auto select-none font-sans">
+      <div className="fixed inset-0 z-[200] w-screen h-screen bg-[#070a13] flex flex-col overflow-hidden select-none font-sans p-0 m-0">
         {content}
       </div>
     );

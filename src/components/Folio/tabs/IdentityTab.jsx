@@ -2024,6 +2024,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, maxOrigTraits)}
                     onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
                     colorTheme="emerald"
+                    allowExtraWithCpCost={true}
+                    extraCpCost={1}
+                    subtitle="2 Free Traits • +1 CP each for additional"
                   />
                 </div>
 

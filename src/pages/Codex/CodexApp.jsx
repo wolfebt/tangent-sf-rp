@@ -379,7 +379,7 @@ export const CodexApp = () => {
         </header>
 
         {/* Content View: Builder vs. Dashboard vs. Matrix Database Grid */}
-        <div className="flex-1 overflow-y-auto min-h-0 pr-1 pb-6">
+        <div className={`flex-1 min-h-0 ${isBuilderOpen ? 'flex flex-col overflow-hidden pb-1' : 'overflow-y-auto pr-1 pb-6'}`}>
           {isBuilderOpen ? (
             <CodexMatrixBuilder
               matrix={currentMatrix}

@@ -8,7 +8,7 @@ target_mode: Flying
 type: Flying
 base_speed: 60
 speed: 60
-bp: 0
+bp: 4
 description: >-
   Aerial wings, antigrav impellers, or metaphysical levitation. Base flight
   speed of 60 ft/round with standard maneuverability.
@@ -35,7 +35,7 @@ description: >-
   Stationary hover or slow descent enabling stable observation; Acrobatics check
   (CR 15+).
 costs:
-  bp: 0
+  bp: 4
 modifiers: []
 ---
 # True Flight
@@ -43,7 +43,7 @@ modifiers: []
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  
 **Target Mode**: Flying  
-**Cost**: +0 BP  
+**Cost**: +4 BP  
 **Base Speed**: 60 ft / round  
 
 ## Description

@@ -1737,85 +1737,146 @@ export const SPECIES_SIZES = {
 };
 
 
-export const SPECIES_MOVEMENT_BASE_MODES = [
-  { id: 'normal', name: 'Bipedal (Normal Speed)', bp: 0, speed: 30, base_speed: 30, target_mode: 'Ground', category: 'Mode', description: 'Base Ground locomotion speed of 30 ft/round.' },
-  { id: 'species_movement-bipedal', name: 'Bipedal Locomotion', bp: 0, speed: 30, base_speed: 30, target_mode: 'Ground', category: 'Mode', description: 'Standard upright two-legged locomotion (30 ft/round).' },
-  { id: 'species_movement-quadruped', name: 'Quadrupedal Locomotion', bp: 0, speed: 40, base_speed: 40, target_mode: 'Ground', category: 'Mode', description: 'Four-legged locomotion (40 ft/round, +4 stability).' },
-  { id: 'species_movement-slithering', name: 'Serpentine Slithering', bp: 0, speed: 25, base_speed: 25, target_mode: 'Ground', category: 'Mode', description: 'Limbless serpentine locomotion (25 ft/round).' },
-  { id: 'species_movement-treads', name: 'Treads & Tracks', bp: 0, speed: 30, base_speed: 30, target_mode: 'Ground', category: 'Mode', description: 'Continuous tracked locomotion for synthetic chassis (30 ft/round).' },
-  { id: 'flight_basic', name: 'Basic Flight', bp: 2, speed: 30, base_speed: 30, target_mode: 'Flying', category: 'Mode', description: 'Base Fly Speed 30 ft/round (Poor Maneuverability).' },
-  { id: 'species_movement-flight', name: 'True Flight', bp: 0, speed: 60, base_speed: 60, target_mode: 'Flying', category: 'Mode', description: 'Aerial flight speed 60 ft/round with standard maneuverability.' },
-  { id: 'gliding', name: 'Gliding Wings', bp: 1, speed: 30, base_speed: 30, target_mode: 'Flying', category: 'Mode', description: 'Aerodynamic glide 30 ft/round horizontally (60 diving).' },
-  { id: 'species_movement-glide', name: 'Gliding', bp: 0, speed: 30, base_speed: 30, target_mode: 'Flying', category: 'Mode', description: 'Patagial gliding membranes (30 ft/round).' },
-  { id: 'swim', name: 'Swim (Innate)', bp: 2, speed: 30, base_speed: 30, target_mode: 'Swimming', category: 'Mode', description: 'Innate Swim speed 30 ft and +5 racial bonus on Swim checks.' },
-  { id: 'species_movement-swimming', name: 'Aquatic Swimming', bp: 0, speed: 30, base_speed: 30, target_mode: 'Swimming', category: 'Mode', description: 'Hydrodynamic aquatic swimming (30 ft/round).' },
-  { id: 'climber', name: 'Climber', bp: 2, speed: 30, base_speed: 30, target_mode: 'Climbing', category: 'Mode', description: 'Base Climb Speed 30 ft, and +5 racial bonus on climbing checks.' },
-  { id: 'species_movement-climbing', name: 'Innate Climbing', bp: 0, speed: 30, base_speed: 30, target_mode: 'Climbing', category: 'Mode', description: 'Specialized anatomy granting innate 30 ft climb speed.' },
-  { id: 'burrow', name: 'Burrow', bp: 2, speed: 20, base_speed: 20, target_mode: 'Burrowing', category: 'Mode', description: 'Base Burrow Speed 20 ft through soil, sand, and unworked earth.' }
-];
+import { 
+  DEFAULT_SPECIES_MOVEMENT, 
+  SPECIES_MOVEMENT_BASE_MODES, 
+  SPECIES_MOVEMENT_ADJUSTERS,
+  SPECIES_MOVEMENT_GROUPS,
+  SPECIES_MOVEMENT_MODES,
+  SPECIES_MOVEMENT_PACES
+} from '../data/speciesMovementData.js';
 
-export const SPECIES_MOVEMENT_ADJUSTERS = [
-  // Ground Speed Adjusters
-  { id: 'very_fast', name: 'Very Fast (+20 ft Ground)', bp: 4, speedMod: 20, speed_modifier: 20, is_additive: true, isExclusive: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed +20 feet (Additive). Mutually exclusive.' },
-  { id: 'fast', name: 'Fast (+10 ft Ground)', bp: 2, speedMod: 10, speed_modifier: 10, is_additive: true, isExclusive: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed +10 feet (Additive). Mutually exclusive.' },
-  { id: 'slow', name: 'Slow (-10 ft Ground)', bp: -2, refundBP: 2, speedMod: -10, speed_modifier: -10, is_additive: true, isExclusive: true, isDisadvantage: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed -10 feet (Additive, +2 BP Gain). Mutually exclusive.' },
-  { id: 'ponderous', name: 'Ponderous (-20 ft Ground)', bp: -4, refundBP: 4, speedMod: -20, speed_modifier: -20, is_additive: true, isExclusive: true, isDisadvantage: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed -20 feet (Additive, +4 BP Gain). Mutually exclusive.' },
-  { id: 'sprinter', name: 'Sprinter (+10 ft Run Speed)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Ground', category: 'Modification', description: 'Gain +10 foot bonus to speed when running or sprinting. Ranked.' },
-  { id: 'hauler', name: 'Hauler (Heavy Load)', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Not encumbered by carrying a Heavy Load.' },
-  { id: 'marcher', name: 'Marcher (Endurance Travel)', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Fatigued at 1/2 rate when moving overland at regular pace.' },
-  { id: 'terrain_movement', name: 'Terrain Movement', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Move through difficult terrain at full normal speed without penalty.' },
-  { id: 'leaper', name: 'Leaper', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Always considered to have a running start when making Jump checks.' },
-
-  // Flying Speed Adjusters
-  { id: 'flight_improved', name: 'Improved Flight Speed (+10 ft Flight)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Flying', category: 'Modification', description: 'Increases base flight speed by +10 feet (Additive). Ranked.' },
-  { id: 'flight_maneuver', name: 'Improved Maneuverability', bp: 1, isRanked: true, target_mode: 'Flying', category: 'Modification', description: 'Maneuverability improves by 1 step. Ranked.' },
-  { id: 'strong_flyer', name: 'Strong Flyer', bp: 2, target_mode: 'Flying', category: 'Modification', description: 'Increase the Size category multiplier by +1 for Flying Speed.' },
-
-  // Swimming Speed Adjusters
-  { id: 'swim_improved', name: 'Enhanced Swim Speed (+10 ft Swim)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Swimming', category: 'Modification', description: 'Increases base swimming speed by +10 feet (Additive). Ranked.' },
-
-  // Climbing Speed Adjusters
-  { id: 'climb_improved', name: 'Enhanced Climb Speed (+10 ft Climb)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Climbing', category: 'Modification', description: 'Increases base climbing speed by +10 feet (Additive). Ranked.' },
-  { id: 'mountaineer', name: 'Mountaineer', bp: 1, target_mode: 'Climbing', category: 'Modification', description: 'Immune to altitude sickness; no defense loss on narrow/slippery surfaces.' },
-
-  // Burrowing Speed Adjusters
-  { id: 'burrow_improved', name: 'Enhanced Burrow Speed (+10 ft Burrow)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Burrowing', category: 'Modification', description: 'Increases base burrowing speed by +10 feet (Additive). Ranked.' }
-];
+export { 
+  DEFAULT_SPECIES_MOVEMENT, 
+  SPECIES_MOVEMENT_BASE_MODES, 
+  SPECIES_MOVEMENT_ADJUSTERS,
+  SPECIES_MOVEMENT_GROUPS,
+  SPECIES_MOVEMENT_MODES,
+  SPECIES_MOVEMENT_PACES
+};
 
 export const SPECIES_MOVEMENT_MODIFICATIONS = SPECIES_MOVEMENT_ADJUSTERS;
 
-export const SPECIES_MOVEMENT_GROUPS = {
-  Ground: {
-    label: 'Ground Locomotion',
-    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Ground'),
-    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Ground')
-  },
-  Flying: {
-    label: 'Flying Locomotion',
-    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Flying'),
-    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Flying')
-  },
-  Swimming: {
-    label: 'Swimming Locomotion',
-    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Swimming'),
-    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Swimming')
-  },
-  Climbing: {
-    label: 'Climbing Locomotion',
-    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Climbing'),
-    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Climbing')
-  },
-  Burrowing: {
-    label: 'Burrowing Locomotion',
-    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Burrowing'),
-    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Burrowing')
-  }
+/**
+ * Universal Aliases mapping legacy and alternate IDs to canonical movement IDs.
+ * Ensures 100% backward compatibility with existing species records, saves, and test suites.
+ */
+export const MOVEMENT_ID_ALIASES = {
+  // Ground Base Modes
+  normal: 'species_movement-bipedal',
+  'normal speed': 'species_movement-bipedal',
+  'normal speed (baseline 30 ft)': 'species_movement-bipedal',
+  bipedal: 'species_movement-bipedal',
+  'bipedal locomotion': 'species_movement-bipedal',
+  'movement-normal-speed': 'species_movement-bipedal',
+  quadruped: 'species_movement-quadruped',
+  quadrupedal: 'species_movement-quadruped',
+  'quadrupedal locomotion': 'species_movement-quadruped',
+  slithering: 'species_movement-slithering',
+  'serpentine slithering': 'species_movement-slithering',
+  treads: 'species_movement-treads',
+  'treads & tracks': 'species_movement-treads',
+
+  // Flying Base Modes
+  gliding: 'species_movement-gliding',
+  'gliding wings': 'species_movement-gliding',
+  'movement-gliding-wings': 'species_movement-gliding',
+  'species_movement-glide': 'species_movement-gliding',
+  flight_basic: 'species_movement-flight-basic',
+  'basic flight': 'species_movement-flight-basic',
+  'movement-flight-basic': 'species_movement-flight-basic',
+  flight: 'species_movement-flight',
+  'true flight': 'species_movement-flight',
+  'species_movement-flight': 'species_movement-flight',
+
+  // Swimming Base Modes
+  swim: 'species_movement-swimming',
+  swimming: 'species_movement-swimming',
+  'basic swimming': 'species_movement-swimming',
+  'aquatic swimming': 'species_movement-swimming',
+  'movement-swim-trait': 'species_movement-swimming',
+  'movement-swimming': 'species_movement-swimming',
+  'swim (innate)': 'species_movement-swimming',
+
+  // Climbing Base Modes
+  climber: 'species_movement-climbing',
+  climbing: 'species_movement-climbing',
+  'basic climbing': 'species_movement-climbing',
+  'innate climbing': 'species_movement-climbing',
+  'movement-climber': 'species_movement-climbing',
+  'movement-climbing': 'species_movement-climbing',
+
+  // Burrowing Base Modes
+  burrow: 'species_movement-burrowing',
+  burrowing: 'species_movement-burrowing',
+  'innate burrowing': 'species_movement-burrowing',
+  'burrowing movement': 'species_movement-burrowing',
+  'movement-burrow-trait': 'species_movement-burrowing',
+  'movement-burrowing': 'species_movement-burrowing',
+  'movement-burrow': 'species_movement-burrowing',
+
+  // Flicker Base Modes
+  flicker: 'species_movement-flicker',
+  'flicker movement': 'species_movement-flicker',
+  'flicker phase displacement': 'species_movement-flicker',
+  'flicker (innate phase step)': 'species_movement-flicker',
+  'movement-flicker': 'species_movement-flicker',
+
+  // Speed Adjusters (Modifiers)
+  fast: 'movement-fast',
+  'fast (+10 ft ground)': 'movement-fast',
+  very_fast: 'movement-very-fast',
+  'very fast': 'movement-very-fast',
+  'very fast (+20 ft ground)': 'movement-very-fast',
+  slow: 'movement-slow',
+  'slow (-10 ft ground)': 'movement-slow',
+  ponderous: 'movement-ponderous',
+  'ponderous (-20 ft ground)': 'movement-ponderous',
+  sprinter: 'movement-sprinter',
+  'sprinter (+10 ft run speed)': 'movement-sprinter',
+  hauler: 'movement-hauler',
+  'hauler (heavy load mobility)': 'movement-hauler',
+  'hauler (heavy load)': 'movement-hauler',
+  marcher: 'movement-marcher',
+  'marcher (long-distance efficiency)': 'movement-marcher',
+  'marcher (endurance travel)': 'movement-marcher',
+  leaper: 'movement-leaper',
+  'leaper (jump mastery)': 'movement-leaper',
+  terrain_movement: 'movement-terrain-movement',
+  'terrain movement': 'movement-terrain-movement',
+  'terrain movement (difficult terrain)': 'movement-terrain-movement',
+  flight_improved: 'movement-flight-improved',
+  'improved flight speed': 'movement-flight-improved',
+  'improved flight speed (+10 ft flight)': 'movement-flight-improved',
+  flight_maneuver: 'movement-flight-maneuver',
+  'improved maneuverability': 'movement-flight-maneuver',
+  strong_flyer: 'movement-strong-flyer',
+  'strong flyer': 'movement-strong-flyer',
+  swim_improved: 'movement-swim-improved',
+  'enhanced swim speed': 'movement-swim-improved',
+  'enhanced swim speed (+10 ft swim)': 'movement-swim-improved',
+  climb_improved: 'movement-climb-improved',
+  'enhanced climb speed': 'movement-climb-improved',
+  'enhanced climb speed (+10 ft climb)': 'movement-climb-improved',
+  mountaineer: 'movement-mountaineer',
+  'mountaineer (slope stability)': 'movement-mountaineer',
+  burrow_improved: 'movement-burrow-improved',
+  'enhanced burrow speed': 'movement-burrow-improved',
+  'enhanced burrow speed (+10 ft burrow)': 'movement-burrow-improved'
 };
 
-export const SPECIES_MOVEMENT_MODES = [
-  ...SPECIES_MOVEMENT_BASE_MODES,
-  ...SPECIES_MOVEMENT_ADJUSTERS
-];
+export const resolveMovementId = (idOrName) => {
+  if (!idOrName) return 'species_movement-bipedal';
+  const raw = String(idOrName).trim();
+  if (MOVEMENT_ID_ALIASES[raw]) return MOVEMENT_ID_ALIASES[raw];
+  const lower = raw.toLowerCase();
+  if (MOVEMENT_ID_ALIASES[lower]) return MOVEMENT_ID_ALIASES[lower];
+  const baseLower = lower.replace(/\s*\(.*\)/, '').trim();
+  if (MOVEMENT_ID_ALIASES[baseLower]) return MOVEMENT_ID_ALIASES[baseLower];
+  const clean = lower.replace(/^species_movement-/, '').replace(/^movement-/, '').replace(/-/g, '_');
+  if (MOVEMENT_ID_ALIASES[clean]) return MOVEMENT_ID_ALIASES[clean];
+  return raw;
+};
 
 export const SPECIES_TRAITS_BASIC = [
   { id: 'adapted', name: 'Adapted', bp: 1, type: 'Physical', description: 'No penalties or Damage from one set environment type. Multiple.' },

@@ -2,33 +2,33 @@
 id: origin-urban
 name: Urban
 category: origins
+habitat: "Sprawl & Arcology"
 skill_points: 20
 society_skills:
-  - Streetwise
-  - Alertness
-  - Knowledge (Culture)
-  - Knowledge (Technology)
-  - Social (Any)
-  - Vocation (Any)
+  - "Streetwise"
+  - "Alertness"
+  - "Knowledge (Culture)"
+  - "Knowledge (Technology)"
+  - "Social (Any)"
+  - "Vocation (Any)"
 archetypes:
-  - Street Fixer
-  - Ganger Enforcer
-  - Cyber-Runner
-  - Rooftop Courier
-  - Corporate Drone
-  - City Gumshoe
+  - "Street Fixer"
+  - "Ganger Enforcer"
+  - "Cyber-Runner"
+  - "Rooftop Courier"
+  - "Corporate Drone"
+  - "City Gumshoe"
 traits:
-  - trait-adaptability
-  - trait-contacts
-  - trait-resourcefulness
-  - trait-social-skills
-  - trait-street-fighting
-  - trait-streetwise
-  - trait-tech-savvy
-  - trait-urban-survival
+  - "trait-adaptability"
+  - "trait-contacts"
+  - "trait-resourceful"
+  - "trait-social-skills"
+  - "trait-street-fighting"
+  - "trait-streetwise"
+  - "trait-tech-savvy"
+  - "trait-urban-survival"
 description: >-
-  Dense vertical megalopolises, multi-tiered arcologies, neon-lit commercial
-  sprawls, and bustling cybernetic metropolises.
+  People who live in cities, from large metropolises to vertical arcologies, experience high population density, rapid technological integration, ground and air vehicles, and vibrant street cultures.
 costs:
   bp: 0
 modifiers: []
@@ -37,13 +37,14 @@ modifiers: []
 # Urban Origin
 
 **Category**: Origins  
+**Habitat**: Sprawl & Arcology  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description
-Dense vertical megalopolises, multi-tiered arcologies, neon-lit commercial sprawls, and bustling cybernetic metropolises.
+People who live in cities, from large metropolises to vertical arcologies, experience high population density, rapid technological integration, ground and air vehicles, and vibrant street cultures.
 
-## Society Skills
+## Society Skills (20 SP Pool)
 - Streetwise
 - Alertness
 - Knowledge (Culture)
@@ -51,7 +52,7 @@ Dense vertical megalopolises, multi-tiered arcologies, neon-lit commercial spraw
 - Social (Any)
 - Vocation (Any)
 
-## Typical Archetypes
+## Typical Archetypes / Native Vocations
 - Street Fixer
 - Ganger Enforcer
 - Cyber-Runner
@@ -59,51 +60,56 @@ Dense vertical megalopolises, multi-tiered arcologies, neon-lit commercial spraw
 - Corporate Drone
 - City Gumshoe
 
-## Available Traits
-- `trait-adaptability`
-- `trait-contacts`
-- `trait-resourcefulness`
-- `trait-social-skills`
-- `trait-street-fighting`
-- `trait-streetwise`
-- `trait-tech-savvy`
-- `trait-urban-survival`
+## Origin Traits (2 Free Selections, Additional 1 CP Each)
+### Adaptability
+Adapting to shifting turf wars, sudden police sweeps, and rapid socio-economic volatility in the megacity.  
+*Bonus*: **+2 to a specific Skill Check, may change assigned Skill daily**
+
+### Contacts
+Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.  
+*Bonus*: **Gather Information checks at Advantage**
+
+### Resourceful
+Hustling to turn junk electronics into functional surveillance taps and finding angles where none seem to exist.  
+*Bonus*: **Once per Day make a Skill Check of choice at Advantage**
+
+### Social Skills
+Navigating layered corporate boardrooms, gang shakedowns, and multicultural street markets.  
+*Bonus*: **+1 all Social Manipulation Skills and Culture Knowledge**
+
+### Street Fighting
+Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.  
+*Bonus*: **+1 Unarmed Combat and Defense**
+
+### Streetwise
+In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.  
+*Bonus*: **+2 Streetwise (additional +1 in Home City)**
+
+### Tech-Savvy
+Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.  
+*Bonus*: **+2 to Knowledges of Computer and Technology**
+
+### Urban Survival Skills
+Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.  
+*Bonus*: **+2 Athletics and Stealth Skills (in Urban and developed areas)**
 
 
 ## Extended Lore & Background
-
+### Origin Overview
 People who live in cities, from large metropolises to smaller but highly developed areas, will experience the benefits and drawbacks of "civilized society," which includes a high population density. Large high-rises will be the norm, and communities will be close together. Ground and air vehicles, including GEVs and hovercraft, will be commonplace.
 
-ANY
+### Society Skills (20 SP Pool)
+Streetwise, Alertness, Knowledge (Culture), Knowledge (Technology), Social (Any), Vocation (Any)
 
-Freighter Captain   
-Explorer   
-Mercenary   
-Smuggler   
-Technician   
-Merchant
+### Typical Archetypes
+Street Fixer, Ganger Enforcer, Cyber-Runner, Rooftop Courier, Corporate Drone, City Gumshoe
 
-Urban environments are constantly changing and unpredictable. Urban characters are adaptable and quick to adjust to new situations and challenges.  
-*\+2 to a specific Skill Check, may change assigned Skill daily*
-
-Building a network of contacts is essential for urban characters. They have connections to informants, fixers, and other individuals who can provide valuable information or assistance.  
-*Gather Information checks at Advantage*
-
-Surviving in a bustling city requires resourcefulness. Urban characters are adept at finding creative solutions to problems and making the most of their surroundings.  
-*Once per Day make a Skill Check of choice at Advantage*
-
-Interacting with diverse populations and navigating complex social dynamics is crucial for urban characters. They may possess charisma, negotiation skills, or the ability to blend into different social circles.  
-*\+1 all Social Manipulation Skills and Culture Knowledge*
-
-Urban characters may have combat skills tailored to close-quarters combat and navigating tight spaces. They excel in hand-to-hand combat.  
-*\+1 Unarmed Combat and Defense*
-
-Urban characters are often well-versed in the ways of the city streets. They have knowledge of the local neighborhoods, underground networks, and criminal elements.  
-*\+2 Streetwise (additional \+1 in Home City)*
-
-In a futuristic urban environment, technology plays a significant role. Urban characters may have expertise in hacking, cybernetics, or using advanced gadgets and devices.  
-*\+2 to Knowledges of Computer and Technology*
-
-Urban characters may possess skills that help them survive in a harsh urban environment, such as parkour and being unnoticed.  
-*\+2 Athletics and Stealth Skills (in Urban and developed areas)*
-
+### Origin Traits (Select 2 Free; Additional 1 CP each)
+- **Adaptability**: Rapid reaction to volatile street politics. (+2 to a specific Skill Check, may change assigned Skill daily)
+- **Contacts**: Deep network of fixers and informants. (Gather Information checks at Advantage)
+- **Resourceful**: Surviving on wits and hustle. (Once per Day make a Skill Check of choice at Advantage)
+- **Social Skills**: Blending into high and low social strata. (+1 all Social Manipulation Skills and Culture Knowledge)
+- **Street Fighting**: Dirty infighting in tight corridors. (+1 Unarmed Combat and Defense)
+- **Streetwise**: Underworld savvy and territorial awareness. (+2 Streetwise, +1 in Home City)
+- **Tech-Savvy**: Practical expertise with cyber-grids and computers. (+2 to Knowledges of Computer and Technology)
+- **Urban Survival Skills**: Parkour, crowd evasion, and shadows. (+2 Athletics and Stealth Skills in Urban areas)

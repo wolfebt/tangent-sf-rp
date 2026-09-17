@@ -216,39 +216,75 @@ export const categoryConfig = {
     origins: {
         label: 'ORIGINS',
         viewType: 'table',
-        directory_columns: ['name', 'description'],
+        directory_columns: ['name', 'habitat', 'skill_points', 'society_skills', 'archetypes', 'description'],
         fields: {
-            name: { type:'text', required: true},
-            description: { type:'textarea', aiEnabled: true},
-            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            trait: { type: 'multiselect', source: 'trait', manageable: true },
-            modifiers: { type: 'modifiers_list', label: 'Universal Modifiers & Bonuses' },
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            name: { type: 'text', required: true, label: 'Origin Name' },
+            habitat: { 
+                type: 'select', 
+                label: 'Habitat Classification / Biome', 
+                options: [
+                    'Planetary Biome',
+                    'Aquatic & Oceanic',
+                    'Frontier Outpost',
+                    'Sanctuary & Arcane',
+                    'Death World & Extreme',
+                    'Industrial Heavy',
+                    'Resort & Paradise',
+                    'Military Stronghold',
+                    'Science & Laboratory',
+                    'Deep Void & Station',
+                    'Sprawl & Arcology',
+                    'Other'
+                ],
+                default: 'Planetary Biome'
+            },
+            skill_points: { type: 'number', label: 'Society Skill Points (SP)', default: 20 },
+            society_skills: { type: 'multiselect', label: 'Society Skills (20 SP Pool)' },
+            archetypes: { type: 'multiselect', label: 'Typical Archetypes / Roles' },
+            traits: { type: 'multiselect', source: 'traits', label: 'Origin Traits' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Technical Overview & Environment' },
+            full_text: { type: 'textarea', label: 'Full Rules Text & Lore (1.05 Origins.md)' },
+            note: { type: 'textarea', label: 'Architect Notes' }
         }
     },
     occupations: {
         label: 'OCCUPATIONS',
         viewType: 'table',
-        directory_columns: ['name', 'description'],
+        directory_columns: ['name', 'field', 'skill_points', 'professional_skills', 'recommended_features', 'description'],
         fields: {
-            name: { type:'text', required: true},
-            description: { type:'textarea', aiEnabled: true},
-            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            trait: { type: 'multiselect', source: 'trait', manageable: true },
-            modifiers: { type: 'modifiers_list', label: 'Universal Modifiers & Bonuses' },
-            mechanic: { type: 'textarea' },
-            tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
-            meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
-            note: { type: 'textarea' }
+            name: { type: 'text', required: true, label: 'Occupation Name' },
+            field: { 
+                type: 'select', 
+                label: 'Career Category / Field',
+                options: [
+                    'Arcane & Psionic',
+                    'Military & Security',
+                    'Corporate & Commerce',
+                    'Underworld & Covert',
+                    'Technical & Crafting',
+                    'Academic & Science',
+                    'Frontier & Exploration',
+                    'Civilian & Labor',
+                    'General / Other'
+                ],
+                default: 'General / Other'
+            },
+            skill_points: { type: 'number', label: 'Professional Skill Points (SP)', default: 20 },
+            professional_skills: { type: 'multiselect', label: 'Professional Skills (20 SP Pool)' },
+            recommended_features: { type: 'multiselect', label: 'Recommended Features (-1 BP Discount)' },
+            traits: { type: 'multiselect', source: 'traits', label: 'Occupational Traits' },
+            archetypes: { type: 'multiselect', label: 'Associated Archetypes' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Technical Overview & Career Dossier' },
+            full_text: { type: 'textarea', label: 'Full Rules Text & Lore (1.06 Occupations.md)' },
+            note: { type: 'textarea', label: 'Architect Notes' }
         }
     },
     archetypes: {
         label: 'ARCHETYPES',
         viewType: 'table',
-        directory_columns: ['name', 'sphere', 'core_concept', 'tactical_role', 'primary_attribute', 'secondary_attribute'],
+        directory_columns: ['name', 'sphere', 'core_concept', 'primary_attribute', 'secondary_attribute', 'tactical_role'],
         fields: {
-            name: { type: 'text', required: true },
+            name: { type: 'text', required: true, label: 'Archetype Name' },
             sphere: { 
                 type: 'select', 
                 label: 'Sphere / Focus', 
@@ -261,20 +297,26 @@ export const categoryConfig = {
                 required: true 
             },
             core_concept: { type: 'text', label: 'Core Concept' },
-            summary: { type: 'textarea', label: 'Summary' },
             quote: { type: 'text', label: 'Mantra / Quote' },
-            description: { type: 'textarea', aiEnabled: true, label: 'Full Description & Flavor' },
-            tactical_role: { type: 'textarea', label: 'Tactical Role' },
-            primary_attribute: { type: 'text', label: 'Primary Attribute (+3 / 15 CP)' },
-            secondary_attribute: { type: 'text', label: 'Secondary Attribute (+2 / 10 CP)' },
-            key_attributes: { type: 'text', label: 'Key Attributes Formula' },
-            essential_skills: { type: 'multiselect', source: 'skills', label: 'Essential Skills', manageable: true },
-            signature_features: { type: 'multiselect', source: 'features', label: 'Signature Features', manageable: true },
+            primary_attribute: { 
+                type: 'select', 
+                label: 'Primary Attribute (+3 / 15 BP)',
+                options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
+            },
+            secondary_attribute: { 
+                type: 'select', 
+                label: 'Secondary Attribute (+2 / 10 BP)',
+                options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
+            },
+            essential_skills: { type: 'multiselect', source: 'skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', manageable: true },
+            signature_features: { type: 'multiselect', source: 'features', label: 'Signature Features (13 BP Package)', manageable: true },
+            tactical_role: { type: 'textarea', label: 'Tactical Role & Field Operations' },
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
             recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
-            modifiers: { type: 'modifiers_list', label: 'Archetype Modifiers' },
-            mechanic: { type: 'textarea', label: 'Mechanics / Scaling Rules' },
+            bp_chassis: { type: 'number', label: 'Chassis Allocation Budget (BP)', default: 80 },
+            description: { type: 'textarea', aiEnabled: true, label: 'Full Description & Flavor' },
+            full_text: { type: 'textarea', label: 'Full Rules Text & Lore (1.02 Archetypes.md)' },
             note: { type: 'textarea', label: 'Architect Notes' }
         }
     },

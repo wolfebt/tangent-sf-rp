@@ -193,9 +193,9 @@ const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin, handle
         <td
           key={col}
           className="p-3 text-slate-400 truncate max-w-xs"
-          title={typeof item[col] === 'string' ? item[col] : undefined}
+          title={typeof (item[col] ?? (col === 'type' ? item.species_type : undefined)) === 'string' ? (item[col] ?? item.species_type) : undefined}
         >
-          {formatCellValue(item[col])}
+          {formatCellValue(item[col] ?? (col === 'type' ? item.species_type : undefined))}
         </td>
       ))}
     </tr>

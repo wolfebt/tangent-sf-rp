@@ -41,7 +41,7 @@ export const OmnicortexTooltip = ({
   children,
   position = 'top',
   color = '#a855f7',
-  delay = 80,
+  delay = 1000,
   className = '',
   interactive = true,
   disabled = false
@@ -152,6 +152,19 @@ export const OmnicortexTooltip = ({
     }, 140);
   };
 
+  const handleClick = () => {
+    if (showTimerRef.current) clearTimeout(showTimerRef.current);
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    setIsVisible(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (showTimerRef.current) clearTimeout(showTimerRef.current);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+    };
+  }, []);
+
   useEffect(() => {
     if (isVisible) {
       calculatePosition();
@@ -174,6 +187,7 @@ export const OmnicortexTooltip = ({
         className={`inline-flex items-center ${className}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
       >
         {children}
       </div>
@@ -590,6 +604,8 @@ export const AttributeModifierSummaryCard = ({
   );
 };
 
+import { DEFAULT_SPECIES_MOVEMENT, getMovementById } from '../../data/speciesMovementData';
+
 /**
  * 6. MOVEMENT MODE SUMMARY CARD
  */
@@ -607,26 +623,69 @@ const MOVEMENT_DESCRIPTIONS = {
 export const MovementModeSummaryCard = ({
   mode = 'Ground 30 ft'
 }) => {
-  const nameStr = typeof mode === 'object' ? (mode.name || mode.id || 'Ground 30 ft') : String(mode);
-  const desc = MOVEMENT_DESCRIPTIONS[nameStr] || 'Biological locomotion method utilized for tactical maneuverability.';
+  const modeObj = useMemo(() => {
+    if (typeof mode === 'object' && mode !== null) return mode;
+    const rawStr = String(mode).trim();
+    // Try lookup by id or name in DEFAULT_SPECIES_MOVEMENT
+    const cleanId = rawStr.toLowerCase().replace(/^species_movement-/, '').replace(/^movement-/, '');
+    const found = DEFAULT_SPECIES_MOVEMENT.find(m => 
+      m.id === rawStr || 
+      m.id === `species_movement-${cleanId}` || 
+      m.id === `movement-${cleanId}` ||
+      m.name.toLowerCase() === rawStr.toLowerCase() ||
+      m.name.toLowerCase().startsWith(rawStr.toLowerCase())
+    );
+    return found || {
+      name: rawStr,
+      target_mode: 'Locomotion',
+      speed: 30,
+      description: MOVEMENT_DESCRIPTIONS[rawStr] || 'Biological or synthetic locomotion utilized for tactical maneuverability.'
+    };
+  }, [mode]);
+
+  const targetMode = modeObj.target_mode || modeObj.type || 'Locomotion';
+  const speed = modeObj.base_speed || modeObj.speed || 30;
+  const bp = Number(modeObj.bp || 0);
 
   return (
-    <div className="space-y-2 font-mono text-xs">
+    <div className="space-y-2 font-mono text-xs max-w-sm">
       <div className="flex items-center justify-between pb-1.5 border-b border-amber-500/30">
-        <div className="flex items-center gap-1.5">
-          <Compass size={14} className="text-amber-400" />
-          <span className="font-bold text-white text-sm">{nameStr}</span>
+        <div className="flex items-center gap-1.5 min-w-0">
+          <Compass size={14} className="text-amber-400 shrink-0" />
+          <span className="font-bold text-white text-sm truncate">{modeObj.name}</span>
         </div>
-        <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-500/50">
-          Locomotion
-        </span>
+        <div className="flex items-center gap-1 shrink-0 ml-2">
+          {bp !== 0 && (
+            <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded border ${
+              bp > 0 ? 'bg-purple-950 text-purple-300 border-purple-500/50' : 'bg-emerald-950 text-emerald-300 border-emerald-500/50'
+            }`}>
+              {bp > 0 ? `+${bp}` : bp} CP
+            </span>
+          )}
+          <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-500/50">
+            {targetMode}
+          </span>
+        </div>
       </div>
-      <p className="text-[11px] text-slate-200 leading-relaxed font-sans">
-        {desc}
+
+      <div className="flex items-center gap-2 text-[11px] text-amber-300">
+        <span className="px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30 font-bold">
+          Speed: {speed} ft / round
+        </span>
+        {modeObj.classification && (
+          <span className="px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 capitalize text-[10px]">
+            {modeObj.classification}
+          </span>
+        )}
+      </div>
+
+      <p className="text-[11px] text-slate-200 leading-relaxed font-sans line-clamp-4">
+        {modeObj.description || 'Standard tactical movement mode across planetary or void environments.'}
       </p>
-      <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-800 flex items-center gap-1">
-        <span className="text-amber-400">Tactical Rule:</span>
-        <span>Applies directly to combat tactical movement per standard action.</span>
+
+      <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-800 flex items-center justify-between">
+        <span className="text-amber-400 font-bold">Tactical Movement:</span>
+        <span className="text-slate-300">1 Combat Round = 6 Seconds (Walk/Run multipliers apply)</span>
       </div>
     </div>
   );
@@ -635,58 +694,67 @@ export const MovementModeSummaryCard = ({
 /**
  * 7. SOCIAL STIGMA SUMMARY CARD
  */
-const STIGMA_DESCRIPTIONS = {
-  'None': {
-    severity: 'Unrestricted Status',
-    desc: 'The species enjoys standard societal standing with neutral initial reactions across civilized sectors.'
-  },
-  'Minority': {
-    severity: 'Mild Disadvantage (-1)',
-    desc: 'Unfamiliar culture or small population in core territories; may draw curiosity or subtle prejudice.'
-  },
-  'Feared / Outcast': {
-    severity: 'Moderate Disadvantage (-2)',
-    desc: 'Regarded as hostile, predatory, or taboo. NPCs react with overt suspicion and heightened security.'
-  },
-  'Subjugated / Second-Class': {
-    severity: 'Severe Disadvantage (-3)',
-    desc: 'Legally disenfranchised, subjected to heavy trade tariffs, restricted zones, and arbitrary inspection.'
-  },
-  'Monstrous / Pariah': {
-    severity: 'Extreme Disadvantage (-4)',
-    desc: 'Attack on sight in civilized habitats; extreme xenophobic hostility unless heavily disguised.'
-  },
-  'Exalted / Privileged': {
-    severity: 'Prestige Status (+2)',
-    desc: 'Aristocratic or revered bloodline enjoying diplomatic immunity and deference in friendly domains.'
-  }
-};
-
 export const SocialStigmaSummaryCard = ({
   stigma = 'None'
 }) => {
-  const guide = STIGMA_DESCRIPTIONS[stigma] || {
-    severity: 'Custom Standing',
-    desc: 'Societal and cultural standing impacting galactic interactions and initial NPC reactions.'
-  };
+  const stigmaStr = String(stigma || 'None').trim();
+  
+  // Parse penalty from (-X)
+  const penaltyMatches = [...stigmaStr.matchAll(/\(-\s*(\d+)\)/g)];
+  const totalPenalty = penaltyMatches.reduce((acc, m) => acc + parseInt(m[1], 10), 0);
+  
+  let severityLabel = 'Neutral Social Standing';
+  let penaltyText = '0 Reaction Penalty';
+  let badgeColor = 'bg-slate-800 text-slate-300 border-slate-700';
+
+  if (totalPenalty >= 6 || stigmaStr.toLowerCase().includes('extreme') || stigmaStr.toLowerCase().includes('monstrous (-6)')) {
+    severityLabel = 'Extreme Stigma / Pariah';
+    penaltyText = `-${totalPenalty || 6} Social Reaction Checks`;
+    badgeColor = 'bg-red-950 text-red-300 border-red-500/60 shadow-[0_0_10px_rgba(239,68,68,0.3)]';
+  } else if (totalPenalty >= 4 || stigmaStr.toLowerCase().includes('severe') || stigmaStr.toLowerCase().includes('feral') || stigmaStr.toLowerCase().includes('savage')) {
+    severityLabel = 'Severe Social Stigma';
+    penaltyText = `-${totalPenalty || 4} Social Reaction Checks`;
+    badgeColor = 'bg-red-950/80 text-red-300 border-red-500/50';
+  } else if (totalPenalty >= 2 || stigmaStr.toLowerCase().includes('xeno') || stigmaStr.toLowerCase().includes('synthetic') || stigmaStr.toLowerCase().includes('shifter')) {
+    severityLabel = 'Typical Cultural Stigma';
+    penaltyText = `-${totalPenalty || 2} Social Reaction Checks`;
+    badgeColor = 'bg-amber-950/80 text-amber-300 border-amber-500/50';
+  } else if (totalPenalty >= 1 || stigmaStr.toLowerCase().includes('minor')) {
+    severityLabel = 'Minor Stigma / Exotic Strain';
+    penaltyText = `-${totalPenalty || 1} Social Reaction Checks`;
+    badgeColor = 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50';
+  }
 
   return (
-    <div className="space-y-2 font-mono text-xs">
+    <div className="space-y-2 font-mono text-xs max-w-sm">
       <div className="flex items-center justify-between pb-1.5 border-b border-red-500/30">
-        <div className="flex items-center gap-1.5">
-          <UserCheck size={14} className="text-red-400" />
-          <span className="font-bold text-white text-sm">{stigma}</span>
+        <div className="flex items-center gap-1.5 min-w-0">
+          <UserCheck size={14} className="text-red-400 shrink-0" />
+          <span className="font-bold text-white text-sm truncate">{stigmaStr}</span>
         </div>
-        <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-red-950 text-red-300 border border-red-500/50">
-          {guide.severity}
+        <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded border shrink-0 ml-2 ${badgeColor}`}>
+          {severityLabel}
         </span>
       </div>
+
+      <div className="flex items-center gap-2 text-[11px]">
+        <span className="px-1.5 py-0.2 rounded bg-red-500/10 border border-red-500/30 text-red-300 font-bold">
+          {penaltyText}
+        </span>
+        {totalPenalty > 0 && (
+          <span className="px-1.5 py-0.2 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-bold">
+            +{totalPenalty} CP Refund
+          </span>
+        )}
+      </div>
+
       <p className="text-[11px] text-slate-200 leading-relaxed font-sans">
-        {guide.desc}
+        Social modifiers reflect how external civilizations and human-centric factions perceive and treat members of this species. Higher penalties result in increased trade tariffs, law enforcement surveillance, and hostile starting NPC dispositions.
       </p>
-      <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-800 flex items-center gap-1">
-        <span className="text-red-400">Roleplay Impact:</span>
-        <span>Modifies starting Disposition rolls and legal privileges in populated stations.</span>
+
+      <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-800 flex items-center justify-between">
+        <span className="text-red-400 font-bold">BASTION Rule:</span>
+        <span className="text-slate-300">Chapter 2 / Social Dynamics & Species Matrix</span>
       </div>
     </div>
   );

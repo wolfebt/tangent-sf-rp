@@ -395,3 +395,64 @@ test('Skill & Granted Feature Modifiers: Integration, breakdown, and equipment a
   assert.ok(logicBreakdown.modifiers.some(m => m.source === 'Insightful Reason' && m.value === 2));
 });
 
+test('Origin Trait Pricing Rule (1.05 Origins): Initial 2 Traits Free (0 CP) and Additional Traits 1 CP each', () => {
+  // Case 1: Exactly 2 Origin Traits selected -> 0 CP total
+  const charWith2OriginTraits = {
+    'starting-cp': 150,
+    'char-origin': 'Agricultural',
+    'originAllocations': {
+      skills: { 'Agriculture': 6, 'Survival': 4, 'Animal Handling': 4, 'Athletics': 3, 'First Aid': 3 },
+      traits: ['Hardy Constitution', 'Beast Whisperer']
+    },
+    'traits': [
+      { name: 'Hardy Constitution', category: 'Origin Trait', source: 'origin', isGranted: true, cp: 0 },
+      { name: 'Beast Whisperer', category: 'Origin Trait', source: 'origin', isGranted: true, cp: 0 }
+    ],
+    'features': []
+  };
+
+  const breakdown2 = computeEconomyBreakdown(charWith2OriginTraits);
+  assert.equal(breakdown2.traitsCP, 0, `Expected 0 CP for 2 granted origin traits, received ${breakdown2.traitsCP}`);
+  const originItems2 = breakdown2.itemizedList.filter(i => i.category.includes('Origin Trait'));
+  assert.equal(originItems2.length, 2, 'Should have 2 itemized origin traits');
+  assert.ok(originItems2.every(i => i.costVal === 0), 'Both origin traits should be 0 CP');
+
+  // Case 2: 4 Origin Traits selected -> First 2 are 0 CP, 3rd and 4th are 1 CP each (Total 2 CP)
+  const charWith4OriginTraits = {
+    'starting-cp': 150,
+    'char-origin': 'Colony',
+    'originAllocations': {
+      skills: { 'Engineering': 6, 'Piloting': 6, 'Survival': 4, 'Science': 4 },
+      traits: ['Frontier Grit', 'Makeshift Technician', 'Scavenger Intuition', 'Radiation Hardened']
+    },
+    'traits': [
+      { name: 'Frontier Grit', category: 'Origin Trait', source: 'origin', isGranted: true, cp: 0 },
+      { name: 'Makeshift Technician', category: 'Origin Trait', source: 'origin', isGranted: true, cp: 0 },
+      { name: 'Scavenger Intuition', category: 'Origin Trait', source: 'origin', isGranted: false, cp: 1, isPaidOriginTrait: true },
+      { name: 'Radiation Hardened', category: 'Origin Trait', source: 'origin', isGranted: false, cp: 1, isPaidOriginTrait: true }
+    ],
+    // Also include them in features as FolioContext does, verifying they do not get double-counted or granted for 0 CP
+    'features': [
+      { name: 'Frontier Grit', category: 'Origin Trait', source: 'origin', isGranted: true, cp: 0 },
+      { name: 'Makeshift Technician', category: 'Origin Trait', source: 'origin', isGranted: true, cp: 0 },
+      { name: 'Scavenger Intuition', category: 'Origin Trait', source: 'origin', isGranted: false, cp: 1, isPaidOriginTrait: true },
+      { name: 'Radiation Hardened', category: 'Origin Trait', source: 'origin', isGranted: false, cp: 1, isPaidOriginTrait: true }
+    ]
+  };
+
+  const breakdown4 = computeEconomyBreakdown(charWith4OriginTraits);
+  assert.equal(breakdown4.traitsCP, 2, `Expected 2 CP for 4 origin traits (2 free + 2 purchased at 1 CP each), received ${breakdown4.traitsCP}`);
+  
+  const freeItems = breakdown4.itemizedList.filter(i => i.category === 'Origin Trait');
+  const paidItems = breakdown4.itemizedList.filter(i => i.category === 'Origin Trait (Additional)');
+  
+  assert.equal(freeItems.length, 2, 'Should have exactly 2 free origin traits');
+  assert.equal(paidItems.length, 2, 'Should have exactly 2 paid origin traits');
+  assert.ok(freeItems.every(i => i.costVal === 0), 'First 2 origin traits must cost 0 CP');
+  assert.ok(paidItems.every(i => i.costVal === 1), 'Additional origin traits must cost 1 CP each');
+
+  // Verify features list did not double count origin traits
+  const featureOriginItems = breakdown4.itemizedList.filter(i => i.category.includes('Feature') && (i.item.includes('Frontier Grit') || i.item.includes('Scavenger Intuition')));
+  assert.equal(featureOriginItems.length, 0, 'Origin traits should not be double-counted under features');
+});
+

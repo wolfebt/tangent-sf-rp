@@ -96,12 +96,19 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
   // Characters & NPCs
   modular_characters: 'modular-characters',
   'modular-characters': 'modular-characters',
-  archetypes: 'modular-characters',
-  'char-archetype': 'modular-characters',
-  occupations: 'modular-characters',
-  'char-occu': 'modular-characters',
-  origins: 'modular-characters',
-  'char-origin': 'modular-characters',
+  archetypes: 'archetypes',
+  archetype: 'archetypes',
+  'char-archetype': 'archetypes',
+  occupations: 'occupations',
+  occupation: 'occupations',
+  'char-occu': 'occupations',
+  career: 'occupations',
+  careers: 'occupations',
+  origins: 'origins',
+  origin: 'origins',
+  'char-origin': 'origins',
+  homeworld: 'origins',
+  homeworlds: 'origins',
 
   // System Engines
   economatrix: 'economatrix',
@@ -164,6 +171,43 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.modifications = item.modifications.map(m => typeof m === 'object' ? (m.id || m.name) : m);
   }
 
+  // Harmonize Species Chassis Type
+  if (matrix.id === 'species') {
+    const rawChassis = item.species_type || (Array.isArray(item.type) ? item.type[0] : item.type) || base.species_type || 'Humanoid';
+    const cleanChassis = typeof rawChassis === 'string' && rawChassis.startsWith('species_type-')
+      ? rawChassis.replace('species_type-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      : rawChassis;
+    base.species_type = cleanChassis;
+    base.type = cleanChassis;
+  }
+
+  // Harmonize Occupations Fields
+  if (matrix.id === 'occupations') {
+    base.recommended_features = item.recommended_features || item.features || base.recommended_features || [];
+    base.features = base.recommended_features;
+    base.professional_skills = item.professional_skills || base.professional_skills || [];
+    base.traits = item.traits || base.traits || [];
+    base.archetypes = item.archetypes || base.archetypes || [];
+    base.field = item.field || base.field || 'General / Other';
+    base.skill_points = Number(item.skill_points || base.skill_points || 20);
+  }
+
+  // Harmonize Archetypes Fields
+  if (matrix.id === 'archetypes') {
+    base.sphere = item.sphere || base.sphere || 'Sentinels (The Stabilizers)';
+    base.primary_attribute = item.primary_attribute || base.primary_attribute || 'Intellect';
+    base.secondary_attribute = item.secondary_attribute || base.secondary_attribute || 'Charisma';
+    base.essential_skills = item.essential_skills || base.essential_skills || [];
+    base.signature_features = item.signature_features || base.signature_features || [];
+    base.recommended_occupations = item.recommended_occupations || base.recommended_occupations || [];
+    base.recommended_origins = item.recommended_origins || base.recommended_origins || [];
+    base.recommended_factions = item.recommended_factions || base.recommended_factions || [];
+    base.bp_chassis = Number(item.bp_chassis || base.bp_chassis || 80);
+    base.quote = item.quote || base.quote || '';
+    base.core_concept = item.core_concept || base.core_concept || '';
+    base.tactical_role = item.tactical_role || base.tactical_role || '';
+  }
+
   return base;
 };
 
@@ -187,6 +231,13 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     } : { computed_at: new Date().toISOString() },
     updatedAt: new Date().toISOString()
   };
+
+  // Ensure species chassis type is synchronized
+  if (matrix.id === 'species') {
+    const chassis = formData.species_type || formData.type || 'Humanoid';
+    payload.species_type = chassis;
+    payload.type = chassis;
+  }
 
   // Ensure credit cost sync strictly for property matrices
   if (matrix.isProperty && computedValues?.credit_value && payload.costs && !payload.costs.credits) {

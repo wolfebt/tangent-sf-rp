@@ -1,6 +1,6 @@
 ---
 id: species_movement-flicker
-name: Flicker Movement
+name: Flicker Phase Displacement
 category: species_movement
 classification: advanced
 movement_tier: advanced
@@ -27,7 +27,7 @@ costs:
   bp: 3
 modifiers: []
 ---
-# Flicker Movement
+# Flicker Phase Displacement
 
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  

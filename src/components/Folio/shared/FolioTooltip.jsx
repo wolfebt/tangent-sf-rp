@@ -44,6 +44,7 @@ export const FolioTooltip = ({
   className = '',
   skillBreakdown = null,
   associatedEquipment = null,
+  delay = 1000,
   children
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -157,7 +158,7 @@ export const FolioTooltip = ({
     hoverTimeoutRef.current = setTimeout(() => {
       calculatePosition();
       setIsOpen(true);
-    }, 120);
+    }, delay);
   };
 
   const hideTooltip = () => {

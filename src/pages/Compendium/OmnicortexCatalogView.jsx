@@ -799,26 +799,46 @@ export const OmnicortexCatalogView = ({
                     {/* Stats & Meta Footer Bar */}
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2 text-[10px] font-mono text-slate-400 flex-wrap">
                       <div className="flex items-center gap-2 flex-wrap">
-                        {tl !== undefined && tl !== null && (
-                          <span className="text-cyan-400 font-bold">TL {tl}</span>
-                        )}
-                        {ml !== undefined && ml !== null && (
-                          <span className="text-amber-400 font-bold">ML {ml}</span>
-                        )}
-                        {cp !== undefined && cp !== null && (
-                          <span className="text-emerald-400 font-bold">{cp} CP</span>
-                        )}
-                        {damage && (
-                          <span className="text-rose-400 font-bold">⚔️ {damage}</span>
-                        )}
-                        {dr && (
-                          <span className="text-blue-400 font-bold">🛡️ DR {dr}</span>
-                        )}
-                        {sp && (
-                          <span className="text-emerald-300 font-bold">SP {sp}</span>
-                        )}
-                        {costCredits && (
-                          <span className="text-amber-300 font-bold">{costCredits} Cr</span>
+                        {catKey === 'origins' ? (
+                          <>
+                            <span className="text-emerald-300 font-bold px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40">
+                              20 SP Society Pool
+                            </span>
+                            {item.habitat && (
+                              <span className="text-cyan-300 font-bold px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40">
+                                {item.habitat}
+                              </span>
+                            )}
+                            {Array.isArray(item.traits) && item.traits.length > 0 && (
+                              <span className="text-amber-300 font-bold px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500/40">
+                                {item.traits.length} Traits
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {tl !== undefined && tl !== null && (
+                              <span className="text-cyan-400 font-bold">TL {tl}</span>
+                            )}
+                            {ml !== undefined && ml !== null && (
+                              <span className="text-amber-400 font-bold">ML {ml}</span>
+                            )}
+                            {cp !== undefined && cp !== null && (
+                              <span className="text-emerald-400 font-bold">{cp} CP</span>
+                            )}
+                            {damage && (
+                              <span className="text-rose-400 font-bold">⚔️ {damage}</span>
+                            )}
+                            {dr && (
+                              <span className="text-blue-400 font-bold">🛡️ DR {dr}</span>
+                            )}
+                            {sp && (
+                              <span className="text-emerald-300 font-bold">SP {sp}</span>
+                            )}
+                            {costCredits && (
+                              <span className="text-amber-300 font-bold">{costCredits} Cr</span>
+                            )}
+                          </>
                         )}
                       </div>
 
@@ -836,16 +856,28 @@ export const OmnicortexCatalogView = ({
             <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/80 shadow-md">
               <table className="w-full text-left border-collapse text-xs font-mono">
                 <thead className="bg-slate-900 text-slate-300 uppercase tracking-wider text-[11px] border-b border-slate-800">
-                  <tr>
-                    <th className="p-3 font-bold">Name</th>
-                    <th className="p-3 font-bold">Category</th>
-                    <th className="p-3 font-bold">Type / Lineage</th>
-                    <th className="p-3 font-bold text-center">TL</th>
-                    <th className="p-3 font-bold text-center">ML</th>
-                    <th className="p-3 font-bold text-center">Cost / CP</th>
-                    <th className="p-3 font-bold">Description</th>
-                    <th className="p-3 font-bold text-right">Actions</th>
-                  </tr>
+                  {activeCategoryKey === 'origins' ? (
+                    <tr>
+                      <th className="p-3 font-bold">Origin Name</th>
+                      <th className="p-3 font-bold">Habitat / Environment</th>
+                      <th className="p-3 font-bold text-center">SP Pool</th>
+                      <th className="p-3 font-bold">Society Skills</th>
+                      <th className="p-3 font-bold">Origin Traits</th>
+                      <th className="p-3 font-bold">Description</th>
+                      <th className="p-3 font-bold text-right">Actions</th>
+                    </tr>
+                  ) : (
+                    <tr>
+                      <th className="p-3 font-bold">Name</th>
+                      <th className="p-3 font-bold">Category</th>
+                      <th className="p-3 font-bold">Type / Lineage</th>
+                      <th className="p-3 font-bold text-center">TL</th>
+                      <th className="p-3 font-bold text-center">ML</th>
+                      <th className="p-3 font-bold text-center">Cost / CP</th>
+                      <th className="p-3 font-bold">Description</th>
+                      <th className="p-3 font-bold text-right">Actions</th>
+                    </tr>
+                  )}
                 </thead>
                 <tbody className="divide-y divide-slate-800/60 text-slate-300">
                   {filteredItems.map(item => {
@@ -859,6 +891,7 @@ export const OmnicortexCatalogView = ({
                     const lin = item.parent_species || item.lineage || item.type || item.augmentation_type || item.category || '—';
                     const rowStage = item.stage || item.augmentation_stage;
                     const isCopied = copiedItemId === (item.id || item.name);
+                    const isOriginItem = catKey === 'origins';
 
                     return (
                       <tr
@@ -869,35 +902,58 @@ export const OmnicortexCatalogView = ({
                         <td className="p-3 font-bold text-white group-hover:text-emerald-300 whitespace-nowrap">
                           {name}
                         </td>
-                        <td className="p-3 whitespace-nowrap">
-                          <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9px] font-bold">
-                            {catLabel}
-                          </span>
-                        </td>
-                        <td className="p-3 text-slate-400 whitespace-nowrap">
-                          <div className="flex items-center gap-1.5 flex-wrap">
-                            {rowStage && (
-                              <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border ${
-                                rowStage.toLowerCase() === 'extreme' ? 'bg-purple-950/80 text-purple-300 border-purple-500/40' :
-                                rowStage.toLowerCase() === 'heavy' ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' :
-                                rowStage.toLowerCase() === 'standard' ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40' :
-                                'bg-slate-800/90 text-slate-300 border-slate-600/50'
-                              }`}>
-                                {rowStage}
+                        {isOriginItem ? (
+                          <>
+                            <td className="p-3 whitespace-nowrap">
+                              <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 text-[10px] font-bold">
+                                {item.habitat || 'Homeworld Biome'}
                               </span>
-                            )}
-                            <span>{Array.isArray(lin) ? lin.join(', ') : String(lin)}</span>
-                          </div>
-                        </td>
-                        <td className="p-3 text-center text-cyan-400 font-bold whitespace-nowrap">
-                          {tl !== undefined && tl !== null ? tl : '—'}
-                        </td>
-                        <td className="p-3 text-center text-amber-400 font-bold whitespace-nowrap">
-                          {ml !== undefined && ml !== null ? ml : '—'}
-                        </td>
-                        <td className="p-3 text-center text-emerald-400 font-bold whitespace-nowrap">
-                          {cp !== undefined && cp !== null ? `${cp} CP` : (costCredits ? `${costCredits} Cr` : '—')}
-                        </td>
+                            </td>
+                            <td className="p-3 text-center text-emerald-400 font-bold whitespace-nowrap">
+                              20 SP
+                            </td>
+                            <td className="p-3 text-slate-300 whitespace-nowrap text-[11px]">
+                              {Array.isArray(item.society_skills)
+                                ? item.society_skills.slice(0, 3).join(', ') + (item.society_skills.length > 3 ? ` +${item.society_skills.length - 3}` : '')
+                                : (item.society_skills || '—')}
+                            </td>
+                            <td className="p-3 text-amber-300 whitespace-nowrap text-[11px] font-bold">
+                              {Array.isArray(item.traits) ? `${item.traits.length} Traits (2 Free)` : '—'}
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td className="p-3 whitespace-nowrap">
+                              <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9px] font-bold">
+                                {catLabel}
+                              </span>
+                            </td>
+                            <td className="p-3 text-slate-400 whitespace-nowrap">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                {rowStage && (
+                                  <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border ${
+                                    rowStage.toLowerCase() === 'extreme' ? 'bg-purple-950/80 text-purple-300 border-purple-500/40' :
+                                    rowStage.toLowerCase() === 'heavy' ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' :
+                                    rowStage.toLowerCase() === 'standard' ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40' :
+                                    'bg-slate-800/90 text-slate-300 border-slate-600/50'
+                                  }`}>
+                                    {rowStage}
+                                  </span>
+                                )}
+                                <span>{Array.isArray(lin) ? lin.join(', ') : String(lin)}</span>
+                              </div>
+                            </td>
+                            <td className="p-3 text-center text-cyan-400 font-bold whitespace-nowrap">
+                              {tl !== undefined && tl !== null ? tl : '—'}
+                            </td>
+                            <td className="p-3 text-center text-amber-400 font-bold whitespace-nowrap">
+                              {ml !== undefined && ml !== null ? ml : '—'}
+                            </td>
+                            <td className="p-3 text-center text-emerald-400 font-bold whitespace-nowrap">
+                              {cp !== undefined && cp !== null ? `${cp} CP` : (costCredits ? `${costCredits} Cr` : '—')}
+                            </td>
+                          </>
+                        )}
                         <td className="p-3 text-slate-400 truncate max-w-xs font-sans">
                           {item.description || item.body || item.note || '—'}
                         </td>

@@ -13,3 +13,6 @@ export { PlanetaryDesignConfigurator } from './PlanetaryDesignConfigurator';
 export { SpeciesTraitSelector } from './SpeciesTraitSelector';
 export { UDUCapacityMeter } from './UDUCapacityMeter';
 export { WeaponModStacker } from './WeaponModStacker';
+export { OriginConfigurator } from './OriginConfigurator';
+export { OccupationConfigurator } from './OccupationConfigurator';
+export { ArchetypeConfigurator } from './ArchetypeConfigurator';

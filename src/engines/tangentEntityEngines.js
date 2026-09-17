@@ -12,6 +12,7 @@ import {
   SPECIES_MOVEMENT_ADJUSTERS,
   SPECIES_MOVEMENT_GROUPS,
   SPECIES_MOVEMENT_MODIFICATIONS,
+  resolveMovementId,
   SPECIES_TRAITS_BASIC,
   SPECIES_TRAITS_ADVANCED,
   SPECIES_TRAITS_ELITE,
@@ -116,16 +117,19 @@ export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = '
   for (const mItem of modesList) {
     if (!mItem) continue;
     const rawId = typeof mItem === 'object' ? (mItem.id || mItem.name) : String(mItem);
-    const cleanId = rawId.toLowerCase().replace(/^species_movement-/, '').replace(/^movement-/, '').replace(/-/g, '_');
+    const resolvedId = resolveMovementId(rawId);
+    const cleanId = resolvedId.toLowerCase().replace(/^species_movement-/, '').replace(/^movement-/, '').replace(/-/g, '_');
     const rawLower = rawId.toLowerCase().trim();
+    const resolvedLower = resolvedId.toLowerCase().trim();
 
     // 1. Check BASE_MODES
     const baseMatch = SPECIES_MOVEMENT_BASE_MODES.find(b => {
       const bId = b.id.toLowerCase();
       const bName = b.name.toLowerCase();
       const bBaseName = bName.replace(/\s*\(.*\)/, '').trim();
-      return b.id === rawId || b.id === `species_movement-${cleanId}` || b.id === `movement-${cleanId}` ||
-        bId === cleanId || bName === rawLower || bBaseName === rawLower ||
+      return b.id === rawId || b.id === resolvedId || bId === cleanId || bId === resolvedLower ||
+        bName === rawLower || bBaseName === rawLower ||
+        bName === resolvedLower || bBaseName === resolvedLower ||
         bName.startsWith(rawLower) || (rawLower.length > 3 && bBaseName.startsWith(rawLower));
     });
 
@@ -134,8 +138,9 @@ export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = '
       const aId = a.id.toLowerCase();
       const aName = a.name.toLowerCase();
       const aBaseName = aName.replace(/\s*\(.*\)/, '').trim();
-      return a.id === rawId || a.id === `species_movement-${cleanId}` || a.id === `movement-${cleanId}` ||
-        aId === cleanId || aName === rawLower || aBaseName === rawLower ||
+      return a.id === rawId || a.id === resolvedId || aId === cleanId || aId === resolvedLower ||
+        aName === rawLower || aBaseName === rawLower ||
+        aName === resolvedLower || aBaseName === resolvedLower ||
         aName.startsWith(rawLower) || (rawLower.length > 3 && aBaseName.startsWith(rawLower));
     });
 
@@ -151,7 +156,8 @@ export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = '
         const fId = f.id.toLowerCase();
         const fName = f.name.toLowerCase();
         const fBaseName = fName.replace(/\s*\(.*\)/, '').trim();
-        return f.id === rawId || fId === cleanId || fName === rawLower || fBaseName === rawLower || fName.startsWith(rawLower);
+        return f.id === rawId || f.id === resolvedId || fId === cleanId || fId === resolvedLower ||
+          fName === rawLower || fBaseName === rawLower || fName === resolvedLower || fBaseName === resolvedLower;
       });
       if (fallback) {
         if (fallback.category === 'Mode' || fallback.base_speed !== undefined) {
@@ -540,7 +546,28 @@ export function calculateSpeciesBP(params = {}) {
     }
   }
 
-  let calculatedNetBP = typeBP + sizeBP + movementBP + attributeBP + skillsBP + traitsBP - disadvantagesRefund;
+  // 7. Social Stigma CP Rebate (BASTION Rules: Minor -1, Typical -2, Severe -4, Extreme -6)
+  let stigmaRefund = 0;
+  const rawStigmaStr = String(params.social_stigma || params.stigma || '').trim();
+  if (rawStigmaStr && rawStigmaStr !== 'None' && !rawStigmaStr.toLowerCase().startsWith('none')) {
+    const penaltyMatches = [...rawStigmaStr.matchAll(/\(-\s*(\d+)\)/g)];
+    if (penaltyMatches.length > 0) {
+      stigmaRefund = penaltyMatches.reduce((acc, m) => acc + parseInt(m[1], 10), 0);
+    } else {
+      const lower = rawStigmaStr.toLowerCase();
+      if (lower.includes('extreme') || lower.includes('pariah') || lower.includes('monstrous (-6)')) {
+        stigmaRefund = 6;
+      } else if (lower.includes('severe') || lower.includes('monstrous') || lower.includes('feral') || lower.includes('savage')) {
+        stigmaRefund = 4;
+      } else if (lower.includes('typical') || lower.includes('xeno') || lower.includes('synthetic') || lower.includes('fey') || lower.includes('shifter') || lower.includes('dragonkin')) {
+        stigmaRefund = 2;
+      } else if (lower.includes('minor') || lower.includes('seclusionist')) {
+        stigmaRefund = 1;
+      }
+    }
+  }
+
+  let calculatedNetBP = typeBP + sizeBP + movementBP + attributeBP + skillsBP + traitsBP - disadvantagesRefund - stigmaRefund;
 
   // If explicit cost is given and calculated components were empty
   if (params.costs?.bp !== undefined && calculatedNetBP === 0 && Number(params.costs.bp) > 0) {
@@ -570,7 +597,8 @@ export function calculateSpeciesBP(params = {}) {
       attributeBP,
       skillsBP,
       traitsBP,
-      disadvantagesRefund
+      disadvantagesRefund,
+      stigmaRefund
     },
     itemized: {
       type: itemizedTypes.length === 1 ? itemizedTypes[0] : { id: itemizedTypes.map(t => t.id).join(', '), name: itemizedTypes.map(t => t.name).join(', '), bp: typeBP, types: itemizedTypes },
@@ -580,7 +608,8 @@ export function calculateSpeciesBP(params = {}) {
       attributes: itemizedAttributes,
       skills: { bundles: skillBundles, bp: skillsBP },
       traits: itemizedTraits,
-      disadvantages: itemizedDisadvantages
+      disadvantages: itemizedDisadvantages,
+      stigma: { text: rawStigmaStr, refundBP: stigmaRefund }
     }
   };
 }
@@ -2549,6 +2578,15 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     const cleanName = normTrait(name);
     const fCat = typeof feat === 'object' ? (feat.category || '') : '';
     const fSource = typeof feat === 'object' ? (feat.source || '') : '';
+    const fType = typeof feat === 'object' ? (feat.trait_type || '') : '';
+
+    // If an item in features is an Origin Trait, skip it in features processing
+    // so it is evaluated accurately with 2-free / +1 CP in section 7 (Traits).
+    const isOriginTrait = fCat === 'Origin Trait' || fType === 'Origin Trait' || (fSource === 'origin' && poolTraitNames.has(cleanName)) || Boolean(feat?.isPaidOriginTrait);
+    if (isOriginTrait) {
+      return;
+    }
+
     const isExplicitlyGranted = typeof feat === 'object' && (feat.isGranted === true || feat.cp === 0);
 
     const isFromSpecies = speciesPoolFeats.has(cleanName) || fSource === 'species' || fCat.includes('Species') || (speciesCostBreakdown?.itemized?.traits?.some(st => normTrait(st.name) === cleanName));
@@ -2617,6 +2655,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
 
   // 7. Traits (characterData.traits)
   let traitsCost = 0;
+  let originGrantedCount = 0;
   const speciesPoolTraits = new Set((characterData.speciesAllocations?.traits || []).map(t => normTrait(typeof t === 'object' ? (t.name || t.title || t.id) : t)));
   const occuPoolTraits = new Set([
     ...(characterData.occuAllocations?.traits || []),
@@ -2643,7 +2682,33 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     const isFromOrigin = originPoolTraits.has(cleanName) || tSource === 'origin' || tCat.includes('Origin');
     const isFromFaction = factionPoolTraits.has(cleanName) || tSource === 'faction' || tCat.includes('Faction');
 
-    const isGrantedTrait = isFromSpecies || isFromOccu || isFromOrigin || isFromFaction || isExplicitlyGranted;
+    if (isFromOrigin) {
+      const isPaid = (typeof trait === 'object' && trait.isPaidOriginTrait === true) || originGrantedCount >= 2;
+      if (!isPaid) {
+        originGrantedCount++;
+        itemizedList.push({
+          category: 'Origin Trait',
+          item: name,
+          val: 'Granted by Origin (0 CP Included / Free)',
+          costVal: 0,
+          cost: formatGrantedCost(0, 1, 'CP'),
+          standaloneCost: 1
+        });
+      } else {
+        const cost = (typeof trait === 'object' && trait.cp !== undefined) ? getItemCP(trait, 1) : 1;
+        traitsCost += cost;
+        itemizedList.push({
+          category: 'Origin Trait (Additional)',
+          item: name,
+          val: 'Origin Trait (1 CP Additional Purchase)',
+          costVal: cost,
+          cost: `${cost} CP`
+        });
+      }
+      return;
+    }
+
+    const isGrantedTrait = isFromSpecies || isFromOccu || isFromFaction || isExplicitlyGranted;
 
     if (isGrantedTrait) {
       const standalone = (typeof trait === 'object' && (trait.standaloneBp !== undefined || trait.standaloneCp !== undefined))
@@ -2658,9 +2723,6 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
       } else if (isFromOccu) {
         categoryLabel = 'Occupation Trait';
         sourceName = 'Occupation';
-      } else if (isFromOrigin) {
-        categoryLabel = 'Origin Trait';
-        sourceName = 'Origin';
       } else if (isFromFaction) {
         categoryLabel = 'Faction Trait';
         sourceName = 'Faction';
@@ -3042,6 +3104,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     specializationRanksCost,
     featuresCost,
     traitsCost,
+    traitsCP: traitsCost,
     disadvantageRefund,
     specialAbilitiesCost,
     awakenedCost,

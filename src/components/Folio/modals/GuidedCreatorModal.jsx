@@ -390,10 +390,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     });
 
     const addTraitsFromPool = (pool, categoryLabel, isGranted = true, source = 'general') => {
-      (pool?.traits || []).forEach(tName => {
+      (pool?.traits || []).forEach((tName, idx) => {
         const cleanName = typeof tName === 'object' ? (tName.name || tName.id) : String(tName);
         if (!combinedTraitsMap.has(cleanName)) {
           const detail = traitDetailMap.get(cleanName.toLowerCase()) || (typeof tName === 'object' ? tName : {});
+          const isOrigin = source === 'origin';
+          const traitIsFree = isOrigin ? idx < 2 : isGranted;
           combinedTraitsMap.set(cleanName, {
             id: detail.id || `trait_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
             name: cleanName,
@@ -403,11 +405,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             classification: detail.classification || 'Physical',
             source,
             description: detail.description || detail.desc || detail.mechanics || '',
-            bp: isGranted ? 0 : (detail.bp !== undefined ? detail.bp : 1),
+            bp: traitIsFree ? 0 : (detail.bp !== undefined ? detail.bp : 1),
             standaloneBp: detail.bp !== undefined ? detail.bp : 1,
-            cp: isGranted ? 0 : (detail.cp !== undefined ? detail.cp : 1),
+            cp: traitIsFree ? 0 : 1,
             standaloneCp: detail.cp !== undefined ? detail.cp : 1,
-            isGranted
+            isGranted: traitIsFree,
+            isPaidOriginTrait: isOrigin ? !traitIsFree : false
           });
         }
       });
@@ -2121,7 +2124,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         if (exists) {
           nextTraits = currentTraits.filter(t => t !== traitName);
         } else {
-          if (!isGeneral && currentTraits.length >= maxTraits) {
+          if (poolKey === 'originAllocations') {
+            if (currentTraits.length >= maxTraits && bpRemaining < 1) {
+              alert('Not enough remaining CP to purchase an additional origin trait (Cost: 1 CP each beyond the 2 free).');
+              return prev;
+            }
+          } else if (!isGeneral && currentTraits.length >= maxTraits) {
             alert(`Maximum of ${maxTraits} traits already selected in this pool.`);
             return prev;
           }
@@ -2364,6 +2372,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 onToggleTrait={(tName, tObj) => togglePoolTrait('originAllocations', tName, tObj, origMaxTraits)}
                 onRemoveTrait={(tName) => removePoolTrait('originAllocations', tName)}
                 colorTheme="emerald"
+                allowExtraWithCpCost={true}
+                extraCpCost={1}
+                subtitle="2 Free Traits • +1 CP each for additional"
               />
             )}
           </div>

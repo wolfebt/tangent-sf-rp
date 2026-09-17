@@ -8,10 +8,10 @@ target_mode: Climbing
 type: Climbing
 base_speed: 30
 speed: 30
-bp: 0
+bp: 2
 description: >-
-  Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an
-  innate 30 ft climb speed without checks on standard surfaces.
+  Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting Base
+  Climb Speed 30 ft and +5 racial bonus on climbing checks.
 
 
   ### Tactical Movement Stages (Climbing)
@@ -28,7 +28,7 @@ description: >-
   - **Fast Descent**: 4x Walk (120 ft/rd). Rapid controlled vertical slide or
   abseil descent with a -4 penalty; CR 20 Athletics (Climb) or -10 penalty.
 costs:
-  bp: 0
+  bp: 2
 modifiers: []
 ---
 # Innate Climbing
@@ -36,11 +36,11 @@ modifiers: []
 **Category**: Species Movement (ADVANCED)  
 **Classification**: advanced  
 **Target Mode**: Climbing  
-**Cost**: +0 BP  
+**Cost**: +2 BP  
 **Base Speed**: 30 ft / round  
 
 ## Description
-Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.
+Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.
 
 ### Tactical Movement Stages (Climbing)
 - **Climbing**: 1/2 Walk (15 ft/rd baseline, 30 ft innate). Standard vertical ascent/descent pace. Easy (CR 10+), Moderate (CR 15+), Difficult (CR 20+).

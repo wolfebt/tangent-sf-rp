@@ -1157,7 +1157,9 @@ export const TraitMultiselectPulldown = ({
   onToggleTrait,
   onRemoveTrait,
   colorTheme = 'emerald',
-  subtitle = ''
+  subtitle = '',
+  allowExtraWithCpCost = false,
+  extraCpCost = 1
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -1189,7 +1191,7 @@ export const TraitMultiselectPulldown = ({
   }, [selectedTraits]);
 
   const selectedCount = selectedTraits.length;
-  const isAtCapacity = selectedCount >= maxSelectable;
+  const isAtCapacity = allowExtraWithCpCost ? false : selectedCount >= maxSelectable;
 
   // Expand group expressions into full candidate traits list
   const { items: recommendedItems, packageNotes, groupFilters } = useMemo(() => {
@@ -1267,13 +1269,22 @@ export const TraitMultiselectPulldown = ({
         </span>
         <div className="flex items-center gap-2">
           <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
-            selectedCount === maxSelectable
-              ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300'
-              : selectedCount > maxSelectable
-                ? 'bg-red-950/80 border-red-500/50 text-red-300'
+            allowExtraWithCpCost
+              ? selectedCount >= maxSelectable
+                ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300'
                 : 'bg-slate-900 border-slate-700 text-amber-300'
+              : selectedCount === maxSelectable
+                ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300'
+                : selectedCount > maxSelectable
+                  ? 'bg-red-950/80 border-red-500/50 text-red-300'
+                  : 'bg-slate-900 border-slate-700 text-amber-300'
           }`}>
-            {selectedCount} / {maxSelectable} Selected
+            {allowExtraWithCpCost
+              ? selectedCount <= maxSelectable
+                ? `${selectedCount} / ${maxSelectable} Free Selected`
+                : `${maxSelectable} Free + ${selectedCount - maxSelectable} Purchased (${extraCpCost} CP each)`
+              : `${selectedCount} / ${maxSelectable} Selected`
+            }
           </span>
           <button
             type="button"
@@ -1292,33 +1303,40 @@ export const TraitMultiselectPulldown = ({
       <div className="flex flex-wrap gap-1.5 min-h-[26px]">
         {selectedTraits.length === 0 ? (
           <span className="text-[10px] text-slate-500 italic py-0.5">
-            No traits selected in this pool yet (Choose up to {maxSelectable}).
+            {allowExtraWithCpCost 
+              ? `No traits selected in this pool yet (Choose ${maxSelectable} free, +${extraCpCost} CP each for extra).`
+              : `No traits selected in this pool yet (Choose up to ${maxSelectable}).`}
           </span>
         ) : (
-          selectedTraits.map((trait) => {
+          selectedTraits.map((trait, idx) => {
             const tName = typeof trait === 'object' ? (trait.name || trait.title || trait.id) : String(trait);
             const cleanTitle = normalizeTraitName(tName);
             const desc = typeof trait === 'object' ? (trait.description || trait.desc || '') : '';
             const tier = typeof trait === 'object' ? trait.tier : undefined;
             const cat = typeof trait === 'object' ? trait.classification : undefined;
             const traitMods = typeof trait === 'object' && Array.isArray(trait?.modifiers) ? trait.modifiers : [];
+            const isExtraPaid = allowExtraWithCpCost && idx >= maxSelectable;
             return (
               <span
                 key={cleanTitle || tName}
-                className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold flex items-center gap-1.5 ${theme.tag}`}
+                className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold flex items-center gap-1.5 ${
+                  isExtraPaid ? 'bg-amber-950/50 border-amber-500/50 text-amber-200' : theme.tag
+                }`}
               >
-                <Sparkles size={10} className="shrink-0 text-emerald-400" />
+                <Sparkles size={10} className={`shrink-0 ${isExtraPaid ? 'text-amber-400' : 'text-emerald-400'}`} />
                 <FolioTooltip
                   title={cleanTitle}
-                  badge={tier || cat || 'Trait'}
-                  badgeColor={tier === 'Elite' ? 'purple' : tier === 'Advanced' ? 'sky' : 'emerald'}
+                  badge={isExtraPaid ? `+${extraCpCost} CP Paid Trait` : (tier || cat || 'Trait')}
+                  badgeColor={isExtraPaid ? 'amber' : (tier === 'Elite' ? 'purple' : tier === 'Advanced' ? 'sky' : 'emerald')}
                   description={desc || 'No description provided.'}
                   modifiers={traitMods}
                   rules={typeof trait === 'object' ? (trait.rules || trait.rule) : undefined}
                   notes={typeof trait === 'object' ? (trait.notes || trait.note) : undefined}
                   showInfoIcon={false}
                 >
-                  <span className="truncate max-w-[200px] cursor-help">{cleanTitle}</span>
+                  <span className="truncate max-w-[200px] cursor-help">
+                    {cleanTitle} {isExtraPaid ? `(+${extraCpCost} CP)` : ''}
+                  </span>
                 </FolioTooltip>
                 <button
                   type="button"
@@ -1389,45 +1407,45 @@ export const TraitMultiselectPulldown = ({
                   viewMode === 'all' ? 'bg-emerald-600 text-white font-bold' : 'text-slate-400 hover:text-white'
                 }`}
               >
-                All ({traitCatalog.length})
+                All Catalog ({traitCatalog.length})
               </button>
             </div>
           </div>
 
-          {/* Group Filter Chips (if multiple groups exist) */}
-          {groupFilters.length > 2 && viewMode === 'recommended' && (
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-mono no-scrollbar shrink-0">
-              <Filter size={11} className="text-slate-500 shrink-0" />
-              {groupFilters.map(grp => (
+          {/* Group Classification Filter Badges */}
+          {groupFilters.length > 1 && (
+            <div className="flex flex-wrap gap-1 shrink-0 pb-1 border-b border-slate-800">
+              {groupFilters.map(gf => (
                 <button
-                  key={grp}
+                  key={gf}
                   type="button"
-                  onClick={() => setActiveGroupFilter(grp)}
-                  className={`px-2 py-0.5 rounded-full border transition-all shrink-0 cursor-pointer ${
-                    activeGroupFilter === grp
-                      ? 'bg-emerald-500/30 border-emerald-400 text-emerald-200 font-bold shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-                      : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                  onClick={() => setActiveGroupFilter(gf)}
+                  className={`px-2 py-0.5 rounded text-[9px] font-mono border transition-all cursor-pointer ${
+                    activeGroupFilter === gf
+                      ? 'bg-emerald-700/80 border-emerald-400 text-white font-bold'
+                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
                   }`}
                 >
-                  {grp}
+                  {gf}
                 </button>
               ))}
             </div>
           )}
 
-          {/* Trait List */}
-          <div className="overflow-y-auto space-y-1.5 flex-1 pr-1">
+          {/* Trait Selection List */}
+          <div className="overflow-y-auto space-y-1 pr-1 max-h-52 divide-y divide-slate-800/40">
             {displayedItems.length === 0 ? (
-              <div className="p-4 text-center text-xs text-slate-500 font-mono">
-                No matching traits found.
+              <div className="p-4 text-center text-xs text-slate-500 italic">
+                No matching traits found for &quot;{searchQuery}&quot;.
               </div>
             ) : (
-              displayedItems.map((rawTrait) => {
-                const trait = enrichItemWithModifiers(rawTrait);
-                const isSelected = selectedNormSet.has(trait.name.toLowerCase()) || selectedNormSet.has((trait.rawName || '').toLowerCase());
-                const tierColor = trait.tier === 'Elite' ? 'bg-purple-950/80 text-purple-300 border-purple-500/50' :
-                                  trait.tier === 'Advanced' ? 'bg-sky-950/80 text-sky-300 border-sky-500/50' :
-                                  'bg-slate-950 text-slate-400 border-slate-800';
+              displayedItems.map(trait => {
+                const isSelected = selectedNormSet.has(trait.name.toLowerCase()) || selectedNormSet.has(trait.rawName.toLowerCase());
+                const tierColor = trait.tier === 'Elite'
+                  ? 'bg-purple-950 text-purple-300 border-purple-800'
+                  : trait.tier === 'Advanced'
+                    ? 'bg-sky-950 text-sky-300 border-sky-800'
+                    : 'bg-slate-900 text-slate-400 border-slate-800';
                 const traitMods = Array.isArray(trait?.modifiers) ? trait.modifiers : [];
 
                 return (
@@ -1437,17 +1455,17 @@ export const TraitMultiselectPulldown = ({
                       if (isSelected) {
                         onRemoveTrait && onRemoveTrait(trait.name);
                       } else {
-                        if (isAtCapacity) {
+                        if (isAtCapacity && !allowExtraWithCpCost) {
                           alert(`You have already selected the maximum of ${maxSelectable} traits in this pool. Remove one first to swap.`);
                           return;
                         }
-                        onToggleTrait && onToggleTrait(trait.name, trait);
+                        onToggleTrait && onToggleTrait(trait.name, trait, maxSelectable);
                       }
                     }}
                     className={`px-2.5 py-1.5 rounded-lg border text-xs cursor-pointer transition-all flex items-center justify-between gap-2 ${
                       isSelected
                         ? 'bg-emerald-950/60 border-emerald-400/80 text-emerald-100 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
-                        : isAtCapacity
+                        : isAtCapacity && !allowExtraWithCpCost
                           ? 'bg-slate-900/40 border-slate-800/80 text-slate-400 hover:border-slate-700'
                           : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-600 hover:bg-slate-800/70'
                     }`}
@@ -1475,6 +1493,12 @@ export const TraitMultiselectPulldown = ({
                       {trait.classification && (
                         <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400 shrink-0 hidden sm:inline-block">
                           {trait.classification}
+                        </span>
+                      )}
+
+                      {allowExtraWithCpCost && !isSelected && selectedCount >= maxSelectable && (
+                        <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-amber-950/80 border border-amber-500/60 text-amber-300 font-bold shrink-0">
+                          +{extraCpCost} CP
                         </span>
                       )}
                     </div>

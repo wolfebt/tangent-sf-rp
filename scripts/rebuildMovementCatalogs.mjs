@@ -13,7 +13,7 @@ const movementJsPath = path.join(projectRoot, 'src', 'data', 'speciesMovementDat
 const jsonBackupDir = path.join(projectRoot, 'docs', 'recommendations and revison plans', 'omnicortex json', 'current collection');
 
 console.log('================================================================');
-console.log('STARTING MOVEMENT REORGANIZATION & ADDITIVE SPEED ADJUSTER SETUP');
+console.log('STARTING DEDUPLICATED CANONICAL MOVEMENT CATALOG REBUILD');
 console.log('================================================================');
 
 // Embedded Movement Stages Descriptions
@@ -26,7 +26,7 @@ const STAGES_DOC = {
   Flicker: `\n\n### Tactical Movement Stages (Flicker)\n- **Flicker**: 1x Base (30 ft/rd). Instant line-of-sight quantum phase step without traversing physical intervening space or provoking opportunity attacks.\n- **Rush**: Up to 2x Base (60 ft/rd). Extended emergency phase surge; requires an Endurance / Stamina check (CR 15+) to avoid fatigue.`
 };
 
-// 1. Basic Movement Abilities (granting a movement mode: walking, gliding, basic swimming, basic climbing, etc.)
+// 1. Basic Movement Abilities (Granting primary locomotion: walking, quadrupedal, slithering, tracks, gliding)
 const BASIC_MOVEMENT_MODES = [
   {
     id: 'species_movement-bipedal',
@@ -81,33 +81,7 @@ const BASIC_MOVEMENT_MODES = [
     description: 'Continuous caterpillar tracks or rolling hub treads for synthetic chassis. Immune to difficult rough terrain; base speed 30 ft/round.' + STAGES_DOC.Ground
   },
   {
-    id: 'movement-normal-speed',
-    name: 'Normal Speed (Baseline 30 ft)',
-    category: 'species_movement',
-    classification: 'basic',
-    movement_tier: 'basic',
-    target_mode: 'Ground',
-    type: 'Ground',
-    base_speed: 30,
-    speed: 30,
-    bp: 0,
-    description: 'Standard baseline speed of 30 feet. Determines derived speed of all other locomotion modes.' + STAGES_DOC.Ground
-  },
-  {
-    id: 'species_movement-glide',
-    name: 'Gliding',
-    category: 'species_movement',
-    classification: 'basic',
-    movement_tier: 'basic',
-    target_mode: 'Flying',
-    type: 'Flying',
-    base_speed: 30,
-    speed: 30,
-    bp: 0,
-    description: 'Patagial membranes or gliding sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled.' + STAGES_DOC.Flying
-  },
-  {
-    id: 'movement-gliding-wings',
+    id: 'species_movement-gliding',
     name: 'Gliding Wings',
     category: 'species_movement',
     classification: 'basic',
@@ -117,53 +91,14 @@ const BASIC_MOVEMENT_MODES = [
     base_speed: 30,
     speed: 30,
     bp: 1,
-    description: 'Deployable aerodynamic wing membranes. While airborne, glides at 30 ft/round (60 ft/round when diving).' + STAGES_DOC.Flying
-  },
-  {
-    id: 'movement-swimming',
-    name: 'Basic Swimming',
-    category: 'species_movement',
-    classification: 'basic',
-    movement_tier: 'basic',
-    target_mode: 'Swimming',
-    type: 'Swimming',
-    base_speed: 15,
-    speed: 15,
-    bp: 0,
-    description: 'Baseline swimming speed for non-aquatic species, moving at 15 ft/round (1/2 ground walking speed).' + STAGES_DOC.Swimming
-  },
-  {
-    id: 'movement-climbing',
-    name: 'Basic Climbing',
-    category: 'species_movement',
-    classification: 'basic',
-    movement_tier: 'basic',
-    target_mode: 'Climbing',
-    type: 'Climbing',
-    base_speed: 15,
-    speed: 15,
-    bp: 0,
-    description: 'Baseline climbing speed for standard humanoids, ascending at 15 ft/round (1/2 ground walking speed).' + STAGES_DOC.Climbing
+    description: 'Deployable aerodynamic wing membranes or patagial sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled (60 ft diving).' + STAGES_DOC.Flying
   }
 ];
 
-// 2. Advanced Movement Abilities (full capability of flying, innate adaptation such as climbing, swimming, true flight, burrowing, flicker, etc.)
+// 2. Advanced Movement Abilities (Innate adapted locomotion modes)
 const ADVANCED_MOVEMENT_MODES = [
   {
-    id: 'species_movement-flight',
-    name: 'True Flight',
-    category: 'species_movement',
-    classification: 'advanced',
-    movement_tier: 'advanced',
-    target_mode: 'Flying',
-    type: 'Flying',
-    base_speed: 60,
-    speed: 60,
-    bp: 0,
-    description: 'Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.' + STAGES_DOC.Flying
-  },
-  {
-    id: 'movement-flight-basic',
+    id: 'species_movement-flight-basic',
     name: 'Basic Flight',
     category: 'species_movement',
     classification: 'advanced',
@@ -176,6 +111,19 @@ const ADVANCED_MOVEMENT_MODES = [
     description: 'Rudimentary flight apparatus or heavy wings granting base Fly Speed 30 ft/round (Poor Maneuverability).' + STAGES_DOC.Flying
   },
   {
+    id: 'species_movement-flight',
+    name: 'True Flight',
+    category: 'species_movement',
+    classification: 'advanced',
+    movement_tier: 'advanced',
+    target_mode: 'Flying',
+    type: 'Flying',
+    base_speed: 60,
+    speed: 60,
+    bp: 4,
+    description: 'Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.' + STAGES_DOC.Flying
+  },
+  {
     id: 'species_movement-swimming',
     name: 'Aquatic Swimming',
     category: 'species_movement',
@@ -185,21 +133,8 @@ const ADVANCED_MOVEMENT_MODES = [
     type: 'Swimming',
     base_speed: 30,
     speed: 30,
-    bp: 0,
-    description: 'Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed in liquid environments.' + STAGES_DOC.Swimming
-  },
-  {
-    id: 'movement-swim-trait',
-    name: 'Swim (Innate)',
-    category: 'species_movement',
-    classification: 'advanced',
-    movement_tier: 'advanced',
-    target_mode: 'Swimming',
-    type: 'Swimming',
-    base_speed: 30,
-    speed: 30,
     bp: 2,
-    description: 'Innate biological swim adaptations granting Swim speed 30 ft and +5 racial bonus on Athletics (Swim) checks.' + STAGES_DOC.Swimming
+    description: 'Hydrodynamic body form with fins or aquatic propulsion, granting an innate 30 ft swim speed and +5 racial bonus on Athletics (Swim) checks.' + STAGES_DOC.Swimming
   },
   {
     id: 'species_movement-climbing',
@@ -211,24 +146,11 @@ const ADVANCED_MOVEMENT_MODES = [
     type: 'Climbing',
     base_speed: 30,
     speed: 30,
-    bp: 0,
-    description: 'Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.' + STAGES_DOC.Climbing
-  },
-  {
-    id: 'movement-climber',
-    name: 'Climber',
-    category: 'species_movement',
-    classification: 'advanced',
-    movement_tier: 'advanced',
-    target_mode: 'Climbing',
-    type: 'Climbing',
-    base_speed: 30,
-    speed: 30,
     bp: 2,
-    description: 'Innate climbing adaptations granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.' + STAGES_DOC.Climbing
+    description: 'Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.' + STAGES_DOC.Climbing
   },
   {
-    id: 'movement-burrow-trait',
+    id: 'species_movement-burrowing',
     name: 'Innate Burrowing',
     category: 'species_movement',
     classification: 'advanced',
@@ -241,21 +163,8 @@ const ADVANCED_MOVEMENT_MODES = [
     description: 'Excavator claws or subterranean body shape granting Base Burrow Speed 20 ft through soil, sand, and unworked earth.' + STAGES_DOC.Burrowing
   },
   {
-    id: 'movement-burrowing',
-    name: 'Burrowing Movement',
-    category: 'species_movement',
-    classification: 'advanced',
-    movement_tier: 'advanced',
-    target_mode: 'Burrowing',
-    type: 'Burrowing',
-    base_speed: 20,
-    speed: 20,
-    bp: 2,
-    description: 'Specialized subterranean locomotion displacing soil and sand at 20 ft/round.' + STAGES_DOC.Burrowing
-  },
-  {
     id: 'species_movement-flicker',
-    name: 'Flicker Movement',
+    name: 'Flicker Phase Displacement',
     category: 'species_movement',
     classification: 'advanced',
     movement_tier: 'advanced',
@@ -265,23 +174,10 @@ const ADVANCED_MOVEMENT_MODES = [
     speed: 30,
     bp: 3,
     description: 'Short-range quantum phase displacement or micro-teleportation. Instantly traverse up to 30 ft line-of-sight without triggering opportunity attacks or traversing intervening physical hazards.' + STAGES_DOC.Flicker
-  },
-  {
-    id: 'movement-flicker',
-    name: 'Flicker (Innate Phase Step)',
-    category: 'species_movement',
-    classification: 'advanced',
-    movement_tier: 'advanced',
-    target_mode: 'Flicker',
-    type: 'Metaphysical',
-    base_speed: 30,
-    speed: 30,
-    bp: 3,
-    description: 'Innate metaphysical or cybernetic flicker teleportation granting instant 30 ft phase displacement per round.' + STAGES_DOC.Flicker
   }
 ];
 
-// 3. Movement Modifier Options (enhanced options, improved options, or other modifiers)
+// 3. Movement Modifier Options (Deduplicated speed adjusters)
 const SPEED_ADJUSTERS = [
   // Ground Modifiers
   {
@@ -500,49 +396,47 @@ const SPEED_ADJUSTERS = [
   }
 ];
 
-// 4. Movement Stages (Tactical Paces within enabled movement modes)
+// 4. Tactical Stages (Rules Reference Paces)
 const TACTICAL_PACES = [
   // Ground Stages
-  { id: 'movement-ground', name: 'Ground Movement (System Rule)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 1.0, speed: 30, bp: 0, description: 'Ground movement rules overview based on base walking speed.' },
-  { id: 'movement-walk', name: 'Ground: Walk Pace (1x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 1.0, speed: 30, bp: 0, description: 'Default baseline movement pace for all ground locomotion (1x Base Walk).' },
-  { id: 'movement-jog', name: 'Ground: Jog Pace (2x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 2.0, speed: 60, bp: 0, description: 'Hurried pace (2x Base Walk) with a -2 penalty to subtlety, stealth, or precision.' },
-  { id: 'movement-running', name: 'Ground: Running Pace (4x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 4.0, speed: 120, bp: 0, description: 'Fast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute.' },
-  { id: 'movement-sprinting', name: 'Ground: Sprinting Pace (6x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 6.0, speed: 180, bp: 0, description: 'Maximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute.' },
-  { id: 'movement-crawl', name: 'Ground: Crawl Pace (0.5x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 0.5, speed: 15, bp: 0, description: 'Low-profile crawling pace (1/2 Base Walk). Grants +2 to stealth; inflicts Prone.' },
-  { id: 'movement-slow-crawl', name: 'Ground: Slow Crawl Pace (0.25x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 0.25, speed: 7.5, bp: 0, description: 'Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts Prone.' },
+  { id: 'pace-ground-walk', name: 'Ground: Walk Pace (1x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 1.0, speed: 30, bp: 0, description: 'Default baseline movement pace for all ground locomotion (1x Base Walk).' },
+  { id: 'pace-ground-jog', name: 'Ground: Jog Pace (2x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 2.0, speed: 60, bp: 0, description: 'Hurried pace (2x Base Walk) with a -2 penalty to subtlety, stealth, or precision.' },
+  { id: 'pace-ground-running', name: 'Ground: Running Pace (4x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 4.0, speed: 120, bp: 0, description: 'Fast running pace (4x Base Walk) requiring Athletics check (CR 10+) each minute.' },
+  { id: 'pace-ground-sprinting', name: 'Ground: Sprinting Pace (6x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 6.0, speed: 180, bp: 0, description: 'Maximum land sprint (6x Base Walk) requiring demanding Athletics check (CR 15+) each minute.' },
+  { id: 'pace-ground-crawl', name: 'Ground: Crawl Pace (0.5x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 0.5, speed: 15, bp: 0, description: 'Low-profile crawling pace (1/2 Base Walk). Grants +2 to stealth; inflicts Prone.' },
+  { id: 'pace-ground-slow-crawl', name: 'Ground: Slow Crawl Pace (0.25x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Ground', multiplier: 0.25, speed: 7.5, bp: 0, description: 'Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts Prone.' },
 
   // Flying Stages
-  { id: 'movement-flying', name: 'Flying Movement (System Rule)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 1.0, speed: 60, bp: 0, description: 'Flying movement rules and tactical maneuver overview.' },
-  { id: 'movement-flight', name: 'Flying: Flight Pace (1x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 1.0, speed: 60, bp: 0, description: 'Standard flying cruise pace (1x Fly).' },
-  { id: 'movement-sail', name: 'Flying: Sail Pace (2x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 2.0, speed: 120, bp: 0, description: 'Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions.' },
-  { id: 'movement-surge', name: 'Flying: Surge / Soar Pace (4x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 4.0, speed: 240, bp: 0, description: 'Maximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute.' },
-  { id: 'movement-diving', name: 'Flying: Diving Pace (8x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 8.0, speed: 480, bp: 0, description: 'High-speed tactical descent (8x Fly) for precision dive attacks.' },
-  { id: 'movement-gliding', name: 'Flying: Gliding Maneuver', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 1.0, speed: 60, bp: 0, description: 'Controlled unpowered aerodynamic glide granting +2 bonus to aerial actions.' },
-  { id: 'movement-hover-descent', name: 'Flying: Hover & Controlled Descent (0.5x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 0.5, speed: 30, bp: 0, description: 'Stationary hover or slow vertical descent enabling stable targeting.' },
+  { id: 'pace-flying-flight', name: 'Flying: Flight Pace (1x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 1.0, speed: 60, bp: 0, description: 'Standard flying cruise pace (1x Fly).' },
+  { id: 'pace-flying-sail', name: 'Flying: Sail Pace (2x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 2.0, speed: 120, bp: 0, description: 'Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions.' },
+  { id: 'pace-flying-surge', name: 'Flying: Surge / Soar Pace (4x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 4.0, speed: 240, bp: 0, description: 'Maximum aerial sprint (4x Fly) requiring Acrobatics check (CR 10+) each minute.' },
+  { id: 'pace-flying-diving', name: 'Flying: Diving Pace (8x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 8.0, speed: 480, bp: 0, description: 'High-speed tactical descent (8x Fly) for precision dive attacks.' },
+  { id: 'pace-flying-gliding', name: 'Flying: Gliding Maneuver', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 1.0, speed: 60, bp: 0, description: 'Controlled unpowered aerodynamic glide granting +2 bonus to aerial actions.' },
+  { id: 'pace-flying-hover', name: 'Flying: Hover & Controlled Descent (0.5x Fly)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flying', multiplier: 0.5, speed: 30, bp: 0, description: 'Stationary hover or slow vertical descent enabling stable targeting.' },
 
   // Swimming Stages
-  { id: 'movement-swim', name: 'Swimming: Swim Pace (1x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 1.0, speed: 30, bp: 0, description: 'Standard aquatic swimming cruise pace.' },
-  { id: 'movement-glide-swim', name: 'Swimming: Glide Pace (2x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 2.0, speed: 60, bp: 0, description: 'Hurried swim stroke (2x Swim) with -2 penalty to stealth.' },
-  { id: 'movement-stroke', name: 'Swimming: Stroke Pace (4x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 4.0, speed: 120, bp: 0, description: 'Maximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+.' },
-  { id: 'movement-treading', name: 'Swimming: Treading Pace (0.25x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 0.25, speed: 7.5, bp: 0, description: 'Stationary or slow treading water to conserve stamina (+2 to concentration).' },
+  { id: 'pace-swimming-swim', name: 'Swimming: Swim Pace (1x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 1.0, speed: 30, bp: 0, description: 'Standard aquatic swimming cruise pace.' },
+  { id: 'pace-swimming-glide', name: 'Swimming: Glide Pace (2x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 2.0, speed: 60, bp: 0, description: 'Hurried swim stroke (2x Swim) with -2 penalty to stealth.' },
+  { id: 'pace-swimming-stroke', name: 'Swimming: Stroke Pace (4x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 4.0, speed: 120, bp: 0, description: 'Maximum aquatic power-stroke sprint (4x Swim) requiring Athletics CR 15+.' },
+  { id: 'pace-swimming-treading', name: 'Swimming: Treading Pace (0.25x Swim)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Swimming', multiplier: 0.25, speed: 7.5, bp: 0, description: 'Stationary or slow treading water to conserve stamina (+2 to concentration).' },
 
   // Climbing Stages
-  { id: 'movement-climb', name: 'Climbing: Standard Climb Pace (0.5x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 0.5, speed: 15, bp: 0, description: 'Standard vertical ascent/descent pace (1/2 Base Walk).' },
-  { id: 'movement-scaling', name: 'Climbing: Scaling Pace (1x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 1.0, speed: 30, bp: 0, description: 'Rapid surface scaling at full walking speed with -5 penalty to check.' },
-  { id: 'movement-fast-ascent', name: 'Climbing: Fast Ascent Pace (2x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 2.0, speed: 60, bp: 0, description: 'High-speed vertical sprint (2x Walk) with -10 penalty to check.' },
-  { id: 'movement-fast-descent', name: 'Climbing: Fast Descent Pace (4x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 4.0, speed: 120, bp: 0, description: 'Rapid controlled vertical slide or abseil descent (4x Walk).' },
+  { id: 'pace-climbing-climb', name: 'Climbing: Standard Climb Pace (0.5x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 0.5, speed: 15, bp: 0, description: 'Standard vertical ascent/descent pace (1/2 Base Walk).' },
+  { id: 'pace-climbing-scaling', name: 'Climbing: Scaling Pace (1x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 1.0, speed: 30, bp: 0, description: 'Rapid surface scaling at full walking speed with -5 penalty to check.' },
+  { id: 'pace-climbing-fast-ascent', name: 'Climbing: Fast Ascent Pace (2x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 2.0, speed: 60, bp: 0, description: 'High-speed vertical sprint (2x Walk) with -10 penalty to check.' },
+  { id: 'pace-climbing-fast-descent', name: 'Climbing: Fast Descent Pace (4x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Climbing', multiplier: 4.0, speed: 120, bp: 0, description: 'Rapid controlled vertical slide or abseil descent (4x Walk).' },
 
   // Burrowing Stages
-  { id: 'movement-burrow', name: 'Burrowing: Standard Burrow Pace (0.375x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Burrowing', multiplier: 0.375, speed: 7.5, bp: 0, description: 'Standard subterranean displacement pace through soil or sand.' },
-  { id: 'movement-tunneling', name: 'Burrowing: Tunneling Pace (0.75x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Burrowing', multiplier: 0.75, speed: 15, bp: 0, description: 'Rapid subterranean tunnel excavation (3/4 Base Walk) with -2 penalty to subtlety.' },
-  { id: 'movement-excavation', name: 'Burrowing: Excavation Pace (0.1875x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Burrowing', multiplier: 0.1875, speed: 3.75, bp: 0, description: 'Careful reinforced excavation for permanent subterranean bunkers or fortresses.' },
+  { id: 'pace-burrowing-burrow', name: 'Burrowing: Standard Burrow Pace (0.375x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Burrowing', multiplier: 0.375, speed: 7.5, bp: 0, description: 'Standard subterranean displacement pace through soil or sand.' },
+  { id: 'pace-burrowing-tunneling', name: 'Burrowing: Tunneling Pace (0.75x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Burrowing', multiplier: 0.75, speed: 15, bp: 0, description: 'Rapid subterranean tunnel excavation (3/4 Base Walk) with -2 penalty to subtlety.' },
+  { id: 'pace-burrowing-excavation', name: 'Burrowing: Excavation Pace (0.1875x Walk)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Burrowing', multiplier: 0.1875, speed: 3.75, bp: 0, description: 'Careful reinforced excavation for permanent subterranean bunkers or fortresses.' },
 
   // Flicker Stages
-  { id: 'movement-flicker-pace', name: 'Flicker: Phase Step Pace (1x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flicker', multiplier: 1.0, speed: 30, bp: 0, description: 'Standard quantum phase displacement pace up to 30 ft per round without physical traversal.' },
-  { id: 'movement-flicker-rush', name: 'Flicker: Rush Pace (Up to 2x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flicker', multiplier: 2.0, speed: 60, bp: 0, description: 'Extended emergency quantum phase surge up to 60 ft; requires Endurance / Stamina check (CR 15+) to avoid fatigue.' }
+  { id: 'pace-flicker-phase-step', name: 'Flicker: Phase Step Pace (1x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flicker', multiplier: 1.0, speed: 30, bp: 0, description: 'Standard quantum phase displacement pace up to 30 ft per round without physical traversal.' },
+  { id: 'pace-flicker-rush', name: 'Flicker: Rush Pace (Up to 2x Base)', category: 'species_movement', classification: 'stage', movement_tier: 'stage', target_mode: 'Flicker', multiplier: 2.0, speed: 60, bp: 0, description: 'Extended emergency quantum phase surge up to 60 ft; requires Endurance / Stamina check (CR 15+) to avoid fatigue.' }
 ];
 
-// Combine all entries in explicit canonical order: Basic -> Advanced -> Modifiers -> Stages
+// Combine all entries: Base Modes + Speed Adjusters + Reference Stages
 const ALL_MOVEMENT_ENTRIES = [
   ...BASIC_MOVEMENT_MODES,
   ...ADVANCED_MOVEMENT_MODES,
@@ -557,36 +451,20 @@ const ALL_MOVEMENT_ENTRIES = [
   body: `# ${item.name}\n\n**Category**: Species Movement (${item.classification.toUpperCase()})  \n**Classification**: ${item.classification}  \n**Target Mode**: ${item.target_mode}  \n**Cost**: ${item.bp >= 0 ? `+${item.bp}` : item.bp} BP  \n${item.speed_modifier !== undefined ? `**Speed Modifier**: ${item.speed_modifier > 0 ? `+${item.speed_modifier}` : item.speed_modifier} ft (Additive)  \n` : ''}${item.base_speed ? `**Base Speed**: ${item.base_speed} ft / round  \n` : ''}\n## Description\n${item.description}\n`
 }));
 
-// Grouped Dictionary for UI and Engine
+// Grouped Dictionary for UI and Engine: ZERO DUPLICATES
 const SPECIES_MOVEMENT_GROUPS = {
-  Basic: {
-    label: 'Basic Movement Abilities',
-    items: BASIC_MOVEMENT_MODES
-  },
-  Advanced: {
-    label: 'Advanced Movement Abilities',
-    items: ADVANCED_MOVEMENT_MODES
-  },
-  Modifiers: {
-    label: 'Movement Modifier Options',
-    items: SPEED_ADJUSTERS
-  },
-  Stages: {
-    label: 'Movement Stages (Tactical Paces)',
-    items: TACTICAL_PACES
-  },
   Ground: {
     label: 'Ground Locomotion',
     modes: [...BASIC_MOVEMENT_MODES, ...ADVANCED_MOVEMENT_MODES].filter(m => m.target_mode === 'Ground'),
     adjusters: SPEED_ADJUSTERS.filter(a => a.target_mode === 'Ground')
   },
   Flying: {
-    label: 'Flying Locomotion',
+    label: 'Flying & Aerial Locomotion',
     modes: [...BASIC_MOVEMENT_MODES, ...ADVANCED_MOVEMENT_MODES].filter(m => m.target_mode === 'Flying'),
     adjusters: SPEED_ADJUSTERS.filter(a => a.target_mode === 'Flying')
   },
   Swimming: {
-    label: 'Swimming Locomotion',
+    label: 'Aquatic & Swimming Locomotion',
     modes: [...BASIC_MOVEMENT_MODES, ...ADVANCED_MOVEMENT_MODES].filter(m => m.target_mode === 'Swimming'),
     adjusters: SPEED_ADJUSTERS.filter(a => a.target_mode === 'Swimming')
   },
@@ -596,12 +474,12 @@ const SPECIES_MOVEMENT_GROUPS = {
     adjusters: SPEED_ADJUSTERS.filter(a => a.target_mode === 'Climbing')
   },
   Burrowing: {
-    label: 'Burrowing Locomotion',
+    label: 'Burrowing & Subterranean',
     modes: [...BASIC_MOVEMENT_MODES, ...ADVANCED_MOVEMENT_MODES].filter(m => m.target_mode === 'Burrowing'),
     adjusters: SPEED_ADJUSTERS.filter(a => a.target_mode === 'Burrowing')
   },
   Flicker: {
-    label: 'Flicker Phase Displacement',
+    label: 'Flicker & Quantum Phase',
     modes: [...BASIC_MOVEMENT_MODES, ...ADVANCED_MOVEMENT_MODES].filter(m => m.target_mode === 'Flicker'),
     adjusters: SPEED_ADJUSTERS.filter(a => a.target_mode === 'Flicker')
   }
@@ -649,16 +527,14 @@ export const getMovementClassification = (itemOrId) => {
     if (item.classification === 'adjuster' || item.classification === 'modifier') return 'modifier';
     if (item.classification === 'pace' || item.classification === 'stage') return 'stage';
   }
-  if (['species_movement-bipedal', 'species_movement-quadruped', 'species_movement-slithering', 'species_movement-treads', 'movement-normal-speed', 'species_movement-glide', 'movement-gliding-wings', 'movement-swimming', 'movement-climbing'].includes(id)) {
-    return 'basic';
+  if (id.startsWith('species_movement-')) {
+    const adv = ['species_movement-flight', 'species_movement-flight-basic', 'species_movement-swimming', 'species_movement-climbing', 'species_movement-burrowing', 'species_movement-flicker'];
+    return adv.includes(id) ? 'advanced' : 'basic';
   }
-  if (['species_movement-flight', 'movement-flight-basic', 'species_movement-swimming', 'movement-swim-trait', 'species_movement-climbing', 'movement-climber', 'movement-burrow-trait', 'movement-burrowing', 'species_movement-flicker', 'movement-flicker'].includes(id)) {
-    return 'advanced';
-  }
-  if (id.startsWith('movement-') && (id.includes('fast') || id.includes('slow') || id.includes('ponderous') || id.includes('sprinter') || id.includes('hauler') || id.includes('marcher') || id.includes('leaper') || id.includes('terrain') || id.includes('improved') || id.includes('maneuver') || id.includes('strong') || id.includes('mountaineer'))) {
+  if (id.startsWith('movement-')) {
     return 'modifier';
   }
-  if (id.includes('pace') || id.includes('walk') || id.includes('jog') || id.includes('running') || id.includes('sprinting') || id.includes('crawl') || id.includes('sail') || id.includes('surge') || id.includes('diving') || id.includes('hover') || id.includes('stroke') || id.includes('treading') || id.includes('scaling') || id.includes('ascent') || id.includes('descent') || id.includes('tunneling') || id.includes('excavation') || id.includes('flicker-rush')) {
+  if (id.startsWith('pace-')) {
     return 'stage';
   }
   return 'basic';

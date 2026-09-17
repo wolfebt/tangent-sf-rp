@@ -20,7 +20,8 @@ export const CodexTooltip = ({
   benchmarks,
   position = 'top',
   color = '#06b6d4',
-  className = ''
+  className = '',
+  delay = 1000
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0, actualPosition: 'top' });
@@ -116,7 +117,7 @@ export const CodexTooltip = ({
     hoverTimeoutRef.current = setTimeout(() => {
       calculatePosition();
       setIsVisible(true);
-    }, 100);
+    }, delay);
   };
 
   const hideTooltip = () => {

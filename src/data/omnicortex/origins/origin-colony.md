@@ -2,32 +2,32 @@
 id: origin-colony
 name: Colony
 category: origins
+habitat: "Frontier Outpost"
 skill_points: 20
 society_skills:
-  - Piloting
-  - Alertness
-  - Knowledge (Any)
-  - Vocation (Any)
+  - "Piloting"
+  - "Alertness"
+  - "Knowledge (Any)"
+  - "Vocation (Any)"
 archetypes:
-  - Pioneer
-  - Homesteader
-  - Prospector
-  - Colony Engineer
-  - Field Doctor
-  - Frontier Soldier
+  - "Pioneer"
+  - "Homesteader"
+  - "Prospector"
+  - "Engineer"
+  - "Doctor"
+  - "Soldier"
 traits:
-  - trait-adaptability
-  - trait-adventurous-spirit
-  - trait-community-building
-  - trait-diplomacy
-  - trait-leadership
-  - trait-problem-solving
-  - trait-resource-management
-  - trait-scientific-knowledge
-  - trait-survival-skills
+  - "trait-adaptability"
+  - "trait-adventurous-spirit"
+  - "trait-community-building"
+  - "trait-diplomacy"
+  - "trait-leadership"
+  - "trait-problem-solving"
+  - "trait-resource-management"
+  - "trait-scientific-knowledge"
+  - "trait-survival-skills"
 description: >-
-  Frontier settlement worlds, modular prefab colonies, terraforming encampments,
-  and new planetary territories.
+  New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or easily movable modular structures prevail on new planetary territories.
 costs:
   bp: 0
 modifiers: []
@@ -36,75 +36,82 @@ modifiers: []
 # Colony Origin
 
 **Category**: Origins  
+**Habitat**: Frontier Outpost  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description
-Frontier settlement worlds, modular prefab colonies, terraforming encampments, and new planetary territories.
+New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or easily movable modular structures prevail on new planetary territories.
 
-## Society Skills
+## Society Skills (20 SP Pool)
 - Piloting
 - Alertness
 - Knowledge (Any)
 - Vocation (Any)
 
-## Typical Archetypes
+## Typical Archetypes / Native Vocations
 - Pioneer
 - Homesteader
 - Prospector
-- Colony Engineer
-- Field Doctor
-- Frontier Soldier
+- Engineer
+- Doctor
+- Soldier
 
-## Available Traits
-- `trait-adaptability`
-- `trait-adventurous-spirit`
-- `trait-community-building`
-- `trait-diplomacy`
-- `trait-leadership`
-- `trait-problem-solving`
-- `trait-resource-management`
-- `trait-scientific-knowledge`
-- `trait-survival-skills`
+## Origin Traits (2 Free Selections, Additional 1 CP Each)
+### Adaptability
+Ability to adapt to new alien planetary biomes and unexpected environmental hurdles.  
+*Bonus*: **+2 to a specific Skill Check, may change assigned Skill daily**
+
+### Adventurous Spirit
+Willingness to explore uncharted planetary regions and venture into the unknown frontier.  
+*Bonus*: **One Skill Check at Advantage per day**
+
+### Community Building
+Fostering cooperation and social cohesion essential for frontier settlement survival.  
+*Bonus*: **Once per Day may reroll a Social Skill Check**
+
+### Diplomacy
+Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.  
+*Bonus*: **+2 Diplomacy**
+
+### Leadership
+Guiding fellow colonists through crises and establishing order in remote settlements.  
+*Bonus*: **+2 Leadership**
+
+### Problem Solving
+Overcoming technical and environmental crises that arise during terraforming and settlement.  
+*Bonus*: **Once per Day may reroll a Mental Skill Check**
+
+### Resource Management
+Managing reserves of power, water, rations, and modular building components.  
+*Bonus*: **Wealth Checks for Basic Resources made at Advantage**
+
+### Scientific Knowledge
+Expertise in planetary geology, atmospheric biology, or agricultural terraforming.  
+*Bonus*: **+2 to Science Knowledge**
+
+### Survival Skills
+Frontier wilderness survival, hazardous weather navigation, and shelter fabrication.  
+*Bonus*: **+2 Survival Skill Checks**
 
 
 ## Extended Lore & Background
-
+### Origin Overview
 New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or other easily movable structures will be prevalent. It is simple to combine with another Origin (where the settlers come from or where they are building).
 
+### Society Skills (20 SP Pool)
 Piloting, Alertness, Knowledge (Any), Vocation (Any)
 
-Pioneer   
-Homesteader   
-Prospector   
-Engineer   
-Doctor   
-Soldier
+### Typical Archetypes
+Pioneer, Homesteader, Prospector, Engineer, Doctor, Soldier
 
-The ability to adapt to new environments and situations is important for a colony character, as they may encounter unfamiliar planets or face unexpected obstacles.  
-*\+2 to a specific Skill Check, may change assigned Skill daily*
-
-An adventurous spirit and a willingness to explore can be advantageous for a colony character who may need to venture out into the unknown.  
-*One Skill Check at Advantage per day*
-
-Skills in community building and social dynamics are essential for a successful colony, so a colony character should have skills in community building and social dynamics.  
-*Once per Day may reroll a Social Skill Check*
-
-The ability to negotiate and maintain diplomatic relations with other colonies or factions can be crucial for the colony's success.  
-*\+2 Diplomacy*
-
-Strong leadership skills to guide and make decisions for the colony.  
-*\+2 Leadership*
-
-Skilled at solving problems and overcoming challenges that arise in the colony, whether it's dealing with environmental hazards or resolving conflicts among colonists.  
-*Once per Day may reroll a Mental Skill Check*
-
-Adept at managing resources such as food, water, energy, and materials to ensure the colony's survival and growth.  
-*Wealth Checks for Basic Resources made at Advantage*
-
-Knowledge in fields such as biology, engineering, or agriculture can be valuable for a colony character to develop sustainable systems and technologies.  
-*\+2 to Science Knowledge*
-
-Possess survival skills to navigate and explore unknown territories, and to protect the colony from potential threats.  
-*\+2 Survival Skill Checks*
-
+### Origin Traits (Select 2 Free; Additional 1 CP each)
+- **Adaptability**: Rapid adjustment to frontier obstacles. (+2 to a specific Skill Check, may change assigned Skill daily)
+- **Adventurous Spirit**: Audacity in exploring uncharted frontiers. (One Skill Check at Advantage per day)
+- **Community Building**: Fostering cooperative colony dynamics. (Once per Day may reroll a Social Skill Check)
+- **Diplomacy**: Inter-colony and faction negotiation. (+2 Diplomacy)
+- **Leadership**: Decisive guidance for frontier groups. (+2 Leadership)
+- **Problem Solving**: Technical and crisis resolution. (Once per Day may reroll a Mental Skill Check)
+- **Resource Management**: Optimal allocation of colony supplies. (Wealth Checks for Basic Resources made at Advantage)
+- **Scientific Knowledge**: Applied terraforming, geology, or biology. (+2 to Science Knowledge)
+- **Survival Skills**: Navigating untamed planetary frontiers. (+2 Survival Skill Checks)

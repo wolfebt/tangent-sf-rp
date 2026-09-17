@@ -18,7 +18,8 @@ import {
   Award,
   Flag,
   AlertOctagon,
-  Compass
+  Compass,
+  Briefcase
 } from 'lucide-react';
 
 /**
@@ -684,6 +685,91 @@ export const CODEX_MATRICES = [
     ]
   },
   {
+    id: 'archetypes',
+    name: 'ARCHETYPES',
+    label: 'Archetypes & Personas Matrix',
+    icon: Compass,
+    color: '#8b5cf6', // Violet
+    theme: 'violet',
+    targetCollection: 'archetypes',
+    ingestionKey: 'other',
+    description: 'Thematic character chassis embodying core gameplay fantasies with pre-calculated 80 BP attribute, skill, and feature allocations.',
+    category: 'Character Archetypes & Personas',
+    badge: 'Archetype Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: 'ArchetypeConfigurator',
+    defaultValues: {
+      name: '',
+      sphere: 'Sentinels (The Stabilizers)',
+      core_concept: '',
+      quote: '',
+      primary_attribute: 'Intellect',
+      secondary_attribute: 'Charisma',
+      essential_skills: [],
+      signature_features: [],
+      tactical_role: '',
+      recommended_occupations: [],
+      recommended_origins: [],
+      recommended_factions: [],
+      bp_chassis: 80,
+      description: '',
+      full_text: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Archetype Designation / Name', type: 'text', required: true, placeholder: 'E.g., The Bureaucrat' },
+      { 
+        name: 'sphere', 
+        label: 'Sphere / Thematic Focus', 
+        type: 'select', 
+        options: [
+          'Sentinels (The Stabilizers)',
+          'Operatives (The Artisans)',
+          'Visionaries (The Idealists)',
+          'Savants (The Rationals)'
+        ],
+        required: true 
+      },
+      { name: 'core_concept', label: 'Core Concept', type: 'text', placeholder: 'E.g., Logistics / Support / Social Tank' },
+      { name: 'quote', label: 'Mantra / Quote', type: 'text', placeholder: 'E.g., "Amateurs talk strategy. Professionals talk logistics."' },
+      { 
+        name: 'primary_attribute', 
+        label: 'Primary Attribute (+3 / 15 BP)', 
+        type: 'select', 
+        options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
+      },
+      { 
+        name: 'secondary_attribute', 
+        label: 'Secondary Attribute (+2 / 10 BP)', 
+        type: 'select', 
+        options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
+      },
+      { name: 'essential_skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', type: 'array', placeholder: 'Key proficiencies prioritized by this archetype' },
+      { name: 'signature_features', label: 'Signature Features (13 BP Allocation)', type: 'array', placeholder: 'Two 2-BP signature features plus three relative features' },
+      { name: 'tactical_role', label: 'Tactical Role & Field Operations', type: 'textarea', placeholder: 'E.g., Secure resources, bypass legal hurdles, manage team logistics.' },
+      { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Recommended career backgrounds' },
+      { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Recommended environmental origins' },
+      { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Recommended faction allegiances' },
+      { name: 'bp_chassis', label: 'Chassis Allocation Budget (BP)', type: 'number', min: 0, max: 150, default: 80 },
+      { name: 'description', label: 'Archetype Profile & Narrative Lore', type: 'textarea', aiEnabled: true },
+      { name: 'full_text', label: 'Full Rules Text & Lore (1.02 Archetypes.md)', type: 'textarea', aiEnabled: true },
+      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      bp_chassis: Number(formData.bp_chassis || 80),
+      computed_at: new Date().toISOString()
+    }),
+    archetypes: [
+      { name: 'The Bureaucrat', prompt: 'Logistics and support sentinel who cuts through legal red tape and finances the team.' },
+      { name: 'The Warden', prompt: 'Nature defender wielding martial and primal magic to guard wild habitats.' },
+      { name: 'The Munitions Magnate', prompt: 'Resourceful arms broker supplying the party with high-grade weaponry.' }
+    ]
+  },
+  {
     id: 'modular-characters',
     name: 'MODULAR CHARACTERS',
     label: 'Modular Characters Matrix',
@@ -694,7 +780,7 @@ export const CODEX_MATRICES = [
     ingestionKey: 'other',
     description: 'Assemble NPC archetypes, tactical adversary templates, security squads, mercenary bosses, and synth droids.',
     category: 'NPCs & Operative Templates',
-    badge: 'Archetype Matrix',
+    badge: 'NPC Modular Matrix',
     isProperty: false,
     hasSocketsAndUDU: false,
     hasModifications: false,
@@ -748,6 +834,141 @@ export const CODEX_MATRICES = [
       { name: 'Cyber-Yakuza Enforcer', prompt: 'Heavy augmented street muscle with dermal plating, sub-dermal blades, and shotgun.' },
       { name: 'Corpo Black-Ops Assassin', prompt: 'Silent operative equipped with thermal cloak, silenced needle pistol, and monomolecular garrote.' },
       { name: 'Renegade Psi-Warmaster', prompt: 'Dangerous psychic commander who bends enemy minds while leading an automated drone squad.' }
+    ]
+  },
+  {
+    id: 'origins',
+    name: 'ORIGINS',
+    label: 'Origins & Habitats Matrix',
+    icon: Globe,
+    color: '#10b981', // Emerald
+    theme: 'emerald',
+    targetCollection: 'origins',
+    ingestionKey: 'other',
+    description: 'Environmental homeworlds, planetary biomes, orbital stations, 20 SP society skills pool, typical archetypes, and homeworld traits.',
+    category: 'Origins, Backgrounds & Habitats',
+    badge: 'Origin Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: 'OriginConfigurator',
+    defaultValues: {
+      name: '',
+      habitat: 'Planetary Biome',
+      skill_points: 20,
+      society_skills: [],
+      archetypes: [],
+      traits: [],
+      description: '',
+      full_text: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Origin Homeworld / Habitat Name', type: 'text', required: true, placeholder: 'E.g., Agricultural' },
+      { 
+        name: 'habitat', 
+        label: 'Habitat Classification / Biome', 
+        type: 'select', 
+        options: [
+          'Planetary Biome',
+          'Aquatic & Oceanic',
+          'Frontier Outpost',
+          'Sanctuary & Arcane',
+          'Death World & Extreme',
+          'Industrial Heavy',
+          'Resort & Paradise',
+          'Military Stronghold',
+          'Science & Laboratory',
+          'Deep Void & Station',
+          'Sprawl & Arcology',
+          'Other'
+        ] 
+      },
+      { name: 'skill_points', label: 'Society Skill Points Pool', type: 'number', min: 0, max: 40, default: 20, helpText: 'Points granted to allocate across society skills (standard: 20 SP)' },
+      { name: 'society_skills', label: 'Society Skills (20 SP Pool)', type: 'array', placeholder: 'Skills granted for the 20-point pool' },
+      { name: 'archetypes', label: 'Typical Archetypes / Vocations', type: 'array', placeholder: 'Typical background vocations (e.g. Farmer, Hunter, Pilot)' },
+      { name: 'traits', label: 'Origin Traits List', type: 'array', placeholder: 'Traits selectable for this origin (2 free, +1 CP each for extra)' },
+      { name: 'description', label: 'Environmental Overview & Technical Profile', type: 'textarea', aiEnabled: true },
+      { name: 'full_text', label: 'Full Rules Text & Lore (1.05 Origins.md)', type: 'textarea', aiEnabled: true },
+      { name: 'note', label: 'Architect & Worldbuilding Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      skill_points: Number(formData.skill_points || 20),
+      computed_at: new Date().toISOString()
+    }),
+    archetypes: [
+      { name: 'Agricultural Agri-World', prompt: 'Farming arcologies and preservation biospheres dedicated to food production and rural communities.' },
+      { name: 'Aquatic Oceanic World', prompt: 'Vast seas, floating flotilla cities, submerged domes, and marine research outposts.' },
+      { name: 'Deep Space Nomadic Clan', prompt: 'Generation ships, asteroid stations, and void-faring starship crews living off-world.' }
+    ]
+  },
+  {
+    id: 'occupations',
+    name: 'OCCUPATIONS',
+    label: 'Occupations & Careers Matrix',
+    icon: Briefcase,
+    color: '#f59e0b', // Amber
+    theme: 'amber',
+    targetCollection: 'occupations',
+    ingestionKey: 'other',
+    description: 'Formal vocational training, professional histories, 20 SP skill packages, recommended features, and occupational traits.',
+    category: 'Occupations, Careers & Professions',
+    badge: 'Occupation Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    customComponent: 'OccupationConfigurator',
+    defaultValues: {
+      name: '',
+      field: 'General / Other',
+      skill_points: 20,
+      professional_skills: [],
+      recommended_features: [],
+      traits: [],
+      archetypes: [],
+      description: '',
+      full_text: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Occupation / Profession Name', type: 'text', required: true, placeholder: 'E.g., Adept, Agent, Soldier' },
+      { 
+        name: 'field', 
+        label: 'Career Category / Field', 
+        type: 'select', 
+        options: [
+          'Arcane & Psionic',
+          'Military & Security',
+          'Corporate & Commerce',
+          'Underworld & Covert',
+          'Technical & Crafting',
+          'Academic & Science',
+          'Frontier & Exploration',
+          'Civilian & Labor',
+          'General / Other'
+        ] 
+      },
+      { name: 'skill_points', label: 'Professional Skill Points Pool', type: 'number', min: 0, max: 40, default: 20, helpText: 'Points granted to allocate across professional skills (standard: 20 SP, creation cap Rank 11)' },
+      { name: 'professional_skills', label: 'Professional Skills (20 SP Pool)', type: 'array', placeholder: 'Skills granted for the 20-point pool' },
+      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Features discounted by 1 BP if chosen for this occupation' },
+      { name: 'traits', label: 'Occupational Traits List', type: 'array', placeholder: 'Traits selectable for this occupation (2 free, +2 BP each for extra)' },
+      { name: 'archetypes', label: 'Associated Archetypes / Vocations', type: 'array', placeholder: 'Typical archetype pairings (e.g. Combatant, Psionic, Mystic)' },
+      { name: 'description', label: 'Professional Overview & Career Dossier', type: 'textarea', aiEnabled: true },
+      { name: 'full_text', label: 'Full Rules Text & Lore (1.06 Occupations.md)', type: 'textarea', aiEnabled: true },
+      { name: 'note', label: 'Architect & Worldbuilding Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      skill_points: Number(formData.skill_points || 20),
+      computed_at: new Date().toISOString()
+    }),
+    archetypes: [
+      { name: 'Adept', prompt: 'Mental and arcane specialist with enhanced abilities, heightened senses, and discipline mastery.' },
+      { name: 'Agent', prompt: 'Covert intelligence operative specializing in infiltration, alertness, and deception.' },
+      { name: 'Soldier', prompt: 'Trained combat specialist proficient with military armaments and tactical discipline.' }
     ]
   },
   {
@@ -1537,7 +1758,7 @@ export const CODEX_MATRICES = [
 ];
 
 export const HARDWARE_MATRIX_IDS = ['architecture', 'armor', 'augmentations', 'equipment', 'mecha', 'weaponry'];
-export const CHARACTER_MATRIX_IDS = ['modular-characters', 'features', 'disadvantages'];
+export const CHARACTER_MATRIX_IDS = ['archetypes', 'occupations', 'origins', 'modular-characters', 'features', 'disadvantages'];
 export const BIOLOGICAL_SPECIES_MATRIX_IDS = ['species', 'species_type', 'species_size', 'species_movement', 'traits'];
 export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species', 'factions', 'species_type', 'species_size', 'species_movement', 'traits'];
 export const META_MATRIX_IDS = ['invocation', 'meta-tech'];

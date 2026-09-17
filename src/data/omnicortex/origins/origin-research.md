@@ -2,29 +2,33 @@
 id: origin-research
 name: Research
 category: origins
+habitat: "Science & Laboratory"
 skill_points: 20
 society_skills:
-  - Mental (Any)
+  - "Mental (Any)"
+  - "Academics"
+  - "Knowledge (Science)"
+  - "Knowledge (Technology)"
+  - "Vocation (Any)"
 archetypes:
-  - Research Scientist
-  - Data Analyst
-  - Theoretical Physicist
-  - Archivist
-  - Laboratory Technician
-  - Containment Officer
+  - "Scientist"
+  - "Analyst"
+  - "Theorist"
+  - "Archivist"
+  - "Technician"
+  - "Security Officer"
 traits:
-  - trait-adaptability
-  - trait-analytical-thinking
-  - trait-attention-to-detail
-  - trait-collaboration
-  - trait-curiosity
-  - trait-intellectualism
-  - trait-persistence
-  - trait-problem-solving
-  - trait-studious
+  - "trait-adaptability"
+  - "trait-analytical-thinking"
+  - "trait-attention-to-detail"
+  - "trait-collaboration"
+  - "trait-curiosity"
+  - "trait-intellectualism"
+  - "trait-persistence"
+  - "trait-problem-solving"
+  - "trait-studious"
 description: >-
-  Planetary research facilities, deep-space astronomical observatories,
-  xenobiological stations, and academic campuses.
+  A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject, housing clean rooms, orbital observatories, and supercomputer arrays.
 costs:
   bp: 0
 modifiers: []
@@ -33,72 +37,83 @@ modifiers: []
 # Research Origin
 
 **Category**: Origins  
+**Habitat**: Science & Laboratory  
 **Starting Skill Points**: 20 SP (allocated to Society Skills)  
 **Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
 
 ## Description
-Planetary research facilities, deep-space astronomical observatories, xenobiological stations, and academic campuses.
+A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject, housing clean rooms, orbital observatories, and supercomputer arrays.
 
-## Society Skills
+## Society Skills (20 SP Pool)
 - Mental (Any)
+- Academics
+- Knowledge (Science)
+- Knowledge (Technology)
+- Vocation (Any)
 
-## Typical Archetypes
-- Research Scientist
-- Data Analyst
-- Theoretical Physicist
+## Typical Archetypes / Native Vocations
+- Scientist
+- Analyst
+- Theorist
 - Archivist
-- Laboratory Technician
-- Containment Officer
+- Technician
+- Security Officer
 
-## Available Traits
-- `trait-adaptability`
-- `trait-analytical-thinking`
-- `trait-attention-to-detail`
-- `trait-collaboration`
-- `trait-curiosity`
-- `trait-intellectualism`
-- `trait-persistence`
-- `trait-problem-solving`
-- `trait-studious`
+## Origin Traits (2 Free Selections, Additional 1 CP Each)
+### Adaptability
+Quickly modifying laboratory hypotheses and diagnostic parameters when anomalous data appears.  
+*Bonus*: **+2 to a specific Skill Check, may change assigned Skill daily**
+
+### Analytical thinking
+Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.  
+*Bonus*: **+2 Logic Checks**
+
+### Attention to detail
+Keen eye for micro-fluctuations in sensor readouts and microscopic material fractures.  
+*Bonus*: **+2 Alertness**
+
+### Collaboration
+Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.  
+*Bonus*: **additional +1 to Aid bonuses received and granted**
+
+### Curiosity
+Inquiring mind that revels in deciphering unknown alien relics and anomalous physics.  
+*Bonus*: **Regain a Karma Point on the first encounter when dealing with something new during the session**
+
+### Intellectualism
+High academic pedigree and deep foundational mastery across scientific domains.  
+*Bonus*: **+2 Academics and +2 to a Mental Skill Specialization**
+
+### Persistence
+Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.  
+*Bonus*: **+1 Karma Point**
+
+### Problem-solving
+Developing creative scientific workarounds to containment failures and computational limits.  
+*Bonus*: **Once per Day may reroll a Mental Skill Check**
+
+### Studious
+Gained encyclopedic familiarity with specialized academic archives and historical treatises.  
+*Bonus*: **+2 to a Knowledge of choice**
 
 
 ## Extended Lore & Background
-
+### Origin Overview
 A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject. Structures can range from prefabricated or mobile to large laboratory complexes, depending on need and resources.
 
+### Society Skills (20 SP Pool)
 Mental (any)
 
-Scientist  
-Analyst  
-Theorist  
-Archivist  
-Technician  
-Security Officer
+### Typical Archetypes
+Scientist, Analyst, Theorist, Archivist, Technician, Security Officer
 
-The ability to adapt to new environments and situations is important for a research character, as they may encounter unexpected obstacles.  
-*\+2 to a specific Skill Check, may change assigned Skill daily*
-
-Researchers would be skilled at analyzing data and drawing conclusions from it. They would be able to identify patterns and trends in complex information.  
-*\+2 Logic Checks*
-
-Researchers would have a keen eye for detail and be able to notice small nuances in data. They would be meticulous in their work and ensure that their research is accurate and precise.  
-*\+2 Alertness*
-
-Researchers would be able to work well with others, including other researchers and non-researchers alike. They would be able to communicate their findings effectively and work together to achieve common goals.  
-*additional \+1 to Aid bonuses received and granted*
-
-The character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.  
-*Regain a Karma Point on the first encounter when dealing with something new during the session \- creature, area, technology, etc.*
-
-Researchers would be knowledgeable and intelligent, with a deep understanding of their field of study. They would likely have a high level of education and expertise in their area of research.  
-*\+2 Academics and \+2 to a Mental Skill Specialization*
-
-Researchers would be persistent in their pursuit of knowledge and discovery. They would not give up easily and would be willing to put in the time and effort required to achieve their goals.  
-*\+1 Karma Point*
-
-Researchers would be adept at solving problems and overcoming obstacles. They would be able to think creatively and come up with innovative solutions to challenges.  
-*Once per Day may reroll a Mental Skill Check*
-
-Gained increased knowledge on a topic through diligent research.  
-*\+2 to a Knowledge of choice*
-
+### Origin Traits (Select 2 Free; Additional 1 CP each)
+- **Adaptability**: Modifying hypotheses to anomalous conditions. (+2 to a specific Skill Check, may change assigned Skill daily)
+- **Analytical thinking**: Rigorous empirical and logical analysis. (+2 Logic Checks)
+- **Attention to detail**: Catching micro-variations and anomalies. (+2 Alertness)
+- **Collaboration**: Academic synergy in research teams. (additional +1 to Aid bonuses received and granted)
+- **Curiosity**: Investigative passion for the unknown. (Regain a Karma Point on the first encounter when dealing with something new)
+- **Intellectualism**: Deep scientific and academic training. (+2 Academics and +2 to a Mental Skill Specialization)
+- **Persistence**: Relentless pursuit of scientific truth. (+1 Karma Point)
+- **Problem-solving**: Creative theoretical breakthroughs. (Once per Day may reroll a Mental Skill Check)
+- **Studious**: Encyclopedic archival mastery. (+2 to a Knowledge of choice)

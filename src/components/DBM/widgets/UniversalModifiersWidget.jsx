@@ -174,7 +174,7 @@ export const UniversalModifiersWidget = ({
       </div>
 
       {/* Existing Modifiers List */}
-      <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1">
+      <div className="space-y-1.5">
         {currentList.length === 0 ? (
           <p className="text-xs text-slate-600 italic py-2">No modifiers added yet.</p>
         ) : (

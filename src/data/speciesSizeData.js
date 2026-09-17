@@ -205,4 +205,4 @@ export const DEFAULT_SPECIES_SIZES = [
 
 export const getSizeById = (id) => DEFAULT_SPECIES_SIZES.find(s => s.id === id);
 
-export { getSizeTierIndex } from '../engines/tangentConstants';
+export { getSizeTierIndex } from '../engines/tangentConstants.js';

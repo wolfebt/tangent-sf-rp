@@ -4386,7 +4386,7 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal",
       "species_movement-climbing",
-      "species_movement-glide"
+      "species_movement-gliding"
     ],
     "modifiers": [
       {
