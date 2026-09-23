@@ -34,7 +34,8 @@ import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { DEFAULT_INVOCATIONS } from '../../../data/invocationsData';
-import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
+import { resolveMetaSkillForInvocation, isSpecialAbility, resolvePowerFoundation } from '../../../utils/metaphysicsUtils';
+import { SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES } from '../../../engines/tangentConstants';
 import FolioTooltip from '../shared/FolioTooltip';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
 
@@ -284,6 +285,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   const [editingTargetIndex, setEditingTargetIndex] = useState(null);
   const [customForm, setCustomForm] = useState({
     name: '',
+    isSpecialAbility: false,
+    foundationAttribute: 'attr-intellect',
     discipline: 'Entropy',
     subSkill: 'Chaos',
     baseDC: 15,
@@ -376,8 +379,43 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     return 5;
   };
 
-  // Helper to calculate total check score for an invocation
+  // Helper to calculate total check score for an invocation or special ability
   const calculateInvocationScore = (inv) => {
+    const isSpecial = isSpecialAbility(inv);
+    const baseDC = inv.baseDC || 15;
+    const baseEssenceCost = getEssenceCostForDC(baseDC);
+
+    if (isSpecial) {
+      // Special Ability: Stand-Alone trait with Attribute foundation + Special Ability ranks
+      const rawAttr = inv.foundationAttribute || inv.foundation_attribute || inv.baseAttr || governingAttr;
+      const attrKey = rawAttr.startsWith('attr-') ? rawAttr : `attr-${rawAttr.toLowerCase()}`;
+      const attrTotal = getAttrTotal(attrKey);
+      const attrDef = SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES.find(a => a.id === attrKey);
+      const attrName = attrDef ? attrDef.name : (attrKey.replace('attr-', '').charAt(0).toUpperCase() + attrKey.replace('attr-', '').slice(1));
+      const abilRank = Math.min(10, Math.max(1, parseInt(inv.rank || inv.level || 1, 10)));
+      const abilMod = parseInt(inv.mod || 0, 10);
+      const totalScore = attrTotal + abilRank + abilMod;
+      const take10Score = totalScore + 10;
+      const targetSaveDC = 10 + attrTotal + abilRank;
+
+      return {
+        isSpecialAbility: true,
+        foundationType: 'attribute',
+        governingAttrTotal: attrTotal,
+        foundationAttribute: attrKey,
+        foundationAttributeName: attrName,
+        skillName: `Stand-Alone (${attrName})`,
+        skillRank: 0,
+        invLevel: abilRank,
+        totalScore,
+        take10Score,
+        baseDC,
+        baseEssenceCost,
+        targetSaveDC
+      };
+    }
+
+    // Standard Invocation Specialization
     const disciplineObj = METAPHYSICAL_DISCIPLINES.find(d => 
       d.name.toLowerCase() === (inv.discipline || '').toLowerCase()
     );
@@ -391,11 +429,11 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     const invLevel = Math.min(10, Math.max(1, parseInt(inv.rank || inv.level || 1, 10)));
     const totalScore = governingAttrTotal + skillRank + skillMod + invLevel;
     const take10Score = totalScore + 10;
-    const baseDC = inv.baseDC || 15;
-    const baseEssenceCost = getEssenceCostForDC(baseDC);
     const targetSaveDC = 10 + totalAttune + invLevel;
 
     return {
+      isSpecialAbility: false,
+      foundationType: 'discipline_meta_skill',
       governingAttrTotal,
       skillName: subSkillObj?.name || inv.discipline || 'Discipline',
       skillRank: skillRank + skillMod,
@@ -593,8 +631,11 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
 
   // Open Edit Form for Invocation
   const handleOpenEditInvocation = (inv, idx) => {
+    const isSpecial = isSpecialAbility(inv);
     setCustomForm({
       name: inv.name || '',
+      isSpecialAbility: isSpecial,
+      foundationAttribute: inv.foundationAttribute || inv.foundation_attribute || inv.baseAttr || 'attr-intellect',
       discipline: inv.discipline || 'Entropy',
       subSkill: inv.subSkill || 'Chaos',
       baseDC: inv.baseDC || 15,
@@ -608,7 +649,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       scaling: inv.scaling || '',
       rank: inv.rank || 1,
       cp: inv.cp || 1,
-      isInherent: false
+      isInherent: isSpecial
     });
     setEditingTargetIndex(idx);
     setBuildModalMode('edit_invocation');
@@ -619,6 +660,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   const handleOpenEditSpecialAbility = (abil, idx) => {
     setCustomForm({
       name: abil.name || '',
+      isSpecialAbility: true,
+      foundationAttribute: abil.foundationAttribute || abil.foundation_attribute || abil.baseAttr || 'attr-intellect',
       discipline: abil.discipline || 'Energy',
       subSkill: abil.subSkill || 'Force',
       baseDC: abil.baseDC || 15,
@@ -630,7 +673,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       damage: abil.damage || '',
       description: abil.description || '',
       scaling: abil.scaling || '',
-      rank: 1,
+      rank: abil.rank || 1,
       cp: abil.cp || 5,
       isInherent: true
     });
@@ -644,38 +687,55 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (!customForm.name.trim()) return;
 
-    if (buildModalMode === 'create_invocation') {
-      const newInv = {
-        ...customForm,
-        id: `custom_inv_${Date.now()}`
-      };
-      updateField('invocations', [...knownInvocations, newInv]);
-    } else if (buildModalMode === 'edit_invocation' && editingTargetIndex !== null) {
-      const updated = [...knownInvocations];
-      updated[editingTargetIndex] = {
-        ...updated[editingTargetIndex],
-        ...customForm
-      };
-      updateField('invocations', updated);
-    } else if (buildModalMode === 'create_special_ability') {
+    const isSpecial = Boolean(customForm.isSpecialAbility);
+
+    if (isSpecial) {
       const newAbil = {
         ...customForm,
-        id: `custom_abil_${Date.now()}`,
+        id: customForm.id || `custom_abil_${Date.now()}`,
         type: 'Special Ability',
         category: 'Special Ability',
-        isInherent: true
+        powerType: 'special_ability',
+        isSpecialAbility: true,
+        isInherent: true,
+        foundationAttribute: customForm.foundationAttribute || 'attr-intellect'
       };
-      updateField('special_abilities', [...specialAbilities, newAbil]);
-    } else if (buildModalMode === 'edit_special_ability' && editingTargetIndex !== null) {
-      const updated = [...specialAbilities];
-      updated[editingTargetIndex] = {
-        ...updated[editingTargetIndex],
+
+      if (buildModalMode === 'edit_special_ability' && editingTargetIndex !== null) {
+        const updated = [...specialAbilities];
+        updated[editingTargetIndex] = newAbil;
+        updateField('special_abilities', updated);
+      } else if (buildModalMode === 'edit_invocation' && editingTargetIndex !== null) {
+        // Shifted from standard invocation to special ability!
+        const updatedInvs = knownInvocations.filter((_, i) => i !== editingTargetIndex);
+        updateField('invocations', updatedInvs);
+        updateField('special_abilities', [...specialAbilities, newAbil]);
+      } else {
+        updateField('special_abilities', [...specialAbilities, newAbil]);
+      }
+    } else {
+      const newInv = {
         ...customForm,
-        type: 'Special Ability',
-        category: 'Special Ability',
-        isInherent: true
+        id: customForm.id || `custom_inv_${Date.now()}`,
+        type: 'Invocation',
+        category: 'invocations',
+        powerType: 'invocation',
+        isSpecialAbility: false,
+        isInherent: false
       };
-      updateField('special_abilities', updated);
+
+      if (buildModalMode === 'edit_invocation' && editingTargetIndex !== null) {
+        const updated = [...knownInvocations];
+        updated[editingTargetIndex] = newInv;
+        updateField('invocations', updated);
+      } else if (buildModalMode === 'edit_special_ability' && editingTargetIndex !== null) {
+        // Shifted from special ability to invocation!
+        const updatedAbs = specialAbilities.filter((_, i) => i !== editingTargetIndex);
+        updateField('special_abilities', updatedAbs);
+        updateField('invocations', [...knownInvocations, newInv]);
+      } else {
+        updateField('invocations', [...knownInvocations, newInv]);
+      }
     }
 
     setIsBuildModalOpen(false);
@@ -1372,8 +1432,9 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
               /* Character Catalog Grid */
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 {filteredCharacterPowers.map((power) => {
-                  const isInv = power.powerType === 'invocation';
-                  const calc = isInv ? calculateInvocationScore(power) : null;
+                  const isSpecial = isSpecialAbility(power);
+                  const isInv = !isSpecial;
+                  const calc = calculateInvocationScore(power);
                   const prereqResult = checkPrerequisite(power, characterData, isInv ? 'invocations' : 'special_abilities');
                   const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
@@ -1396,15 +1457,21 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                               <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider border ${
                                 isInv 
                                   ? 'bg-purple-950 text-purple-300 border-purple-800' 
-                                  : 'bg-cyan-950 text-cyan-300 border-cyan-800'
+                                  : 'bg-cyan-950 text-cyan-300 border-cyan-800 shadow-[0_0_8px_rgba(6,182,212,0.25)]'
                               }`}>
-                                {isInv ? `📜 Invocation (Rank ${power.rank || 1})` : '⚡ Inherent Ability'}
+                                {isInv ? `📜 Invocation (Rank ${power.rank || 1})` : `⚡ Special Ability (Rank ${power.rank || 1})`}
                               </span>
 
-                              {power.discipline && (
-                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
-                                  {power.discipline} {power.subSkill ? `(${power.subSkill})` : ''}
+                              {isSpecial ? (
+                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-800/80">
+                                  Foundation: {calc.foundationAttributeName}
                                 </span>
+                              ) : (
+                                power.discipline && (
+                                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
+                                    {power.discipline} {power.subSkill ? `(${power.subSkill})` : ''}
+                                  </span>
+                                )
                               )}
 
                               {isPrereqUnmet && (
@@ -1433,41 +1500,39 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
 
                           {/* Quick Roll / Activation Action */}
                           <div className="flex items-center gap-1 shrink-0">
-                            {isInv ? (
+                            {/* Primary Check Roll Button */}
+                            <button
+                              type="button"
+                              onClick={() => handleRollInvocation(power)}
+                              className={`px-2.5 py-1 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95 ${
+                                isSpecial ? 'bg-cyan-600 hover:bg-cyan-500' : 'bg-purple-600 hover:bg-purple-500'
+                              }`}
+                              title={`Roll 2d10 + ${calc.totalScore} vs Base CR ${calc.baseDC}${isSpecial ? ` (${calc.foundationAttributeName} Foundation)` : ''}`}
+                            >
+                              <span>🎲</span>
+                              <span>+{calc.totalScore}</span>
+                            </button>
+
+                            {/* Secondary Damage Button if damage expression present */}
+                            {power.damage && (
                               <button
                                 type="button"
-                                onClick={() => handleRollInvocation(power)}
-                                className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
-                                title={`Roll 2d10 + ${calc.totalScore} vs Base CR ${calc.baseDC}`}
+                                onClick={() => {
+                                  openDiceRoller({
+                                    label: `${power.name} Damage / Activation`,
+                                    expression: power.damage,
+                                    baseModifier: 0,
+                                    rollMode: 'normal',
+                                    characterName: characterData['char-name'] || 'Operative',
+                                    autoRoll: true
+                                  });
+                                }}
+                                className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
+                                title="Roll ability damage expression"
                               >
-                                <span>🎲</span>
-                                <span>+{calc.totalScore}</span>
+                                <span>💥</span>
+                                <span>{power.damage}</span>
                               </button>
-                            ) : (
-                              power.damage ? (
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    openDiceRoller({
-                                      label: `${power.name} Activation`,
-                                      expression: power.damage,
-                                      baseModifier: 0,
-                                      rollMode: 'normal',
-                                      characterName: characterData['char-name'] || 'Operative',
-                                      autoRoll: true
-                                    });
-                                  }}
-                                  className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
-                                  title="Roll ability activation / damage"
-                                >
-                                  <span>🎲</span>
-                                  <span>{power.damage}</span>
-                                </button>
-                              ) : (
-                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
-                                  Active Inherent
-                                </span>
-                              )
                             )}
 
                             {/* Edit & Delete Controls */}
@@ -1510,8 +1575,23 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                           </p>
                         )}
 
-                        {/* Invocation Take 10 Potency & Essence Cost Strip */}
-                        {isInv && (
+                        {/* Potency & Foundation Strip */}
+                        {isSpecial ? (
+                          <div className="p-2 rounded bg-slate-900/90 border border-cyan-900/50 space-y-1 text-[10px] font-mono">
+                            <div className="flex items-center justify-between">
+                              <span className="text-slate-300">
+                                Foundation: <strong className="text-cyan-300">{calc.foundationAttributeName} (+{calc.governingAttrTotal})</strong> + Rank ({calc.invLevel})
+                              </span>
+                              <span className="font-bold text-amber-300" title="Operational Safety Default Potency (Take 10)">
+                                Take 10: {calc.take10Score}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between text-slate-400 pt-0.5 border-t border-slate-850">
+                              <span className="text-cyan-400">Stand-Alone Trait (No Awakened Discipline or Meta Focus Skill required)</span>
+                              <span>Target Save: <strong className="text-amber-300">DC {calc.targetSaveDC}</strong></span>
+                            </div>
+                          </div>
+                        ) : (
                           <div className="p-2 rounded bg-slate-900/90 border border-slate-800 space-y-1 text-[10px] font-mono">
                             <div className="flex items-center justify-between">
                               <span className="text-slate-400">
@@ -1848,6 +1928,51 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
               </div>
 
               <div className="grid grid-cols-2 gap-2.5">
+                {/* Trait Classification Toggle */}
+                <div className="col-span-2 p-2.5 bg-slate-950/80 border border-slate-800 rounded-xl space-y-1.5">
+                  <label className="block text-[10px] uppercase font-bold text-slate-300">
+                    ⚙️ Trait Classification &amp; Foundation Mode
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setCustomForm({ ...customForm, isSpecialAbility: false, isInherent: false })}
+                      className={`p-2 rounded-lg text-left border cursor-pointer transition-all ${
+                        !customForm.isSpecialAbility
+                          ? 'bg-purple-950/80 border-purple-400 text-purple-200 shadow-sm'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      <div className="font-bold text-[11px] flex items-center gap-1">
+                        <Sparkles size={12} className={!customForm.isSpecialAbility ? 'text-purple-400' : 'text-slate-500'} />
+                        <span>Discipline Invocation</span>
+                      </div>
+                      <div className="text-[9px] text-slate-400 mt-0.5">Specialization to Meta-Focus skill</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setCustomForm({ 
+                        ...customForm, 
+                        isSpecialAbility: true, 
+                        isInherent: true,
+                        foundationAttribute: customForm.foundationAttribute || 'attr-intellect' 
+                      })}
+                      className={`p-2 rounded-lg text-left border cursor-pointer transition-all ${
+                        customForm.isSpecialAbility
+                          ? 'bg-cyan-950/80 border-cyan-400 text-cyan-200 shadow-sm'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      <div className="font-bold text-[11px] flex items-center gap-1">
+                        <Zap size={12} className={customForm.isSpecialAbility ? 'text-cyan-400' : 'text-slate-500'} />
+                        <span>⚡ Stand-Alone Special Ability</span>
+                      </div>
+                      <div className="text-[9px] text-slate-400 mt-0.5">Attribute foundation (No Awakened discipline)</div>
+                    </button>
+                  </div>
+                </div>
+
                 <div className="col-span-2">
                   <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Power Name</label>
                   <input
@@ -1860,26 +1985,54 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Discipline</label>
-                  <select
-                    value={customForm.discipline}
-                    onChange={(e) => setCustomForm({ ...customForm, discipline: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
-                  >
-                    {METAPHYSICAL_DISCIPLINES.map(d => (
-                      <option key={d.id} value={d.name}>{d.name}</option>
-                    ))}
-                  </select>
-                </div>
+                {/* If Special Ability: Show Foundational Attribute */}
+                {customForm.isSpecialAbility ? (
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold text-cyan-300 mb-1">
+                      Foundational Attribute
+                    </label>
+                    <select
+                      value={customForm.foundationAttribute || 'attr-intellect'}
+                      onChange={(e) => setCustomForm({ ...customForm, foundationAttribute: e.target.value })}
+                      className="w-full bg-slate-900 border border-cyan-500/50 rounded px-2.5 py-1.5 text-cyan-200 outline-none"
+                    >
+                      {SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES.map(a => (
+                        <option key={a.id} value={a.id}>
+                          {a.name} ({a.code}) — {a.check} Check
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Discipline</label>
+                    <select
+                      value={customForm.discipline}
+                      onChange={(e) => setCustomForm({ ...customForm, discipline: e.target.value })}
+                      className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-slate-100 outline-none"
+                    >
+                      {METAPHYSICAL_DISCIPLINES.map(d => (
+                        <option key={d.id} value={d.name}>{d.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
 
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Sub-Skill / Focus</label>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
+                    {customForm.isSpecialAbility ? 'Discipline / Thematic Source' : 'Sub-Skill / Focus'}
+                  </label>
                   <input
                     type="text"
-                    value={customForm.subSkill}
-                    onChange={(e) => setCustomForm({ ...customForm, subSkill: e.target.value })}
-                    placeholder="e.g., Teleport or Force"
+                    value={customForm.isSpecialAbility ? customForm.discipline : customForm.subSkill}
+                    onChange={(e) => {
+                      if (customForm.isSpecialAbility) {
+                        setCustomForm({ ...customForm, discipline: e.target.value });
+                      } else {
+                        setCustomForm({ ...customForm, subSkill: e.target.value });
+                      }
+                    }}
+                    placeholder={customForm.isSpecialAbility ? 'e.g., Elemental or Cybernetic' : 'e.g., Teleport or Force'}
                     className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-slate-100 outline-none"
                   />
                 </div>

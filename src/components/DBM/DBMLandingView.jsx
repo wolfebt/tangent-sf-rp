@@ -9,6 +9,7 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem }) => {
     armoring: '🛡️',
     weaponry: '⚔️',
     gear: '🎒',
+    augmentations: '🦾',
     mecha: '🤖',
     other: '📦',
     species_type: '🧬',

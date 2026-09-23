@@ -1337,6 +1337,19 @@ export function computeInvocationStats(formData) {
     Stage5_Pinnacle: finalDC >= 30 ? 0 : (finalDC >= 25 ? 1 : 2)
   };
 
+  const isSpecialAbility = Boolean(
+    formData.isSpecialAbility ?? 
+    formData.is_special_ability ?? 
+    formData.powerType === 'special_ability' ?? 
+    formData.trait_type === 'special_ability' ?? 
+    formData.category === 'Special Ability' ?? 
+    false
+  );
+  const foundationAttribute = formData.foundationAttribute ?? formData.foundation_attribute ?? formData.baseAttr ?? 'attr-intellect';
+  const foundationType = isSpecialAbility ? 'attribute' : 'discipline_meta_skill';
+
+  const attrName = foundationAttribute.replace('attr-', '').charAt(0).toUpperCase() + foundationAttribute.replace('attr-', '').slice(1);
+
   return {
     base_dc: baseDC,
     final_cast_dc: finalDC,
@@ -1345,6 +1358,13 @@ export function computeInvocationStats(formData) {
     skill_stage_num: skillStage.stage,
     essence_cost_thresholds: essenceThresholds,
     complexity_tier: getComplexityTier(finalDC),
+    power_type: isSpecialAbility ? 'special_ability' : 'invocation',
+    is_special_ability: isSpecialAbility,
+    foundation_type: foundationType,
+    foundation_attribute: foundationAttribute,
+    foundation_summary: isSpecialAbility
+      ? `Stand-alone trait with Attribute foundation (${attrName}) — requires no Awakened Disciplines or Meta-Focus skills.`
+      : `Discipline Specialization — requires Awakened Discipline and Meta-Focus skill.`,
     computed_at: new Date().toISOString()
   };
 }

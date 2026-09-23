@@ -604,7 +604,7 @@ export const AttributeModifierSummaryCard = ({
   );
 };
 
-import { DEFAULT_SPECIES_MOVEMENT, getMovementById } from '../../data/speciesMovementData';
+import { DEFAULT_SPECIES_MOVEMENT, getMovementById, SPECIES_MOVEMENT_PACES } from '../../data/speciesMovementData';
 
 /**
  * 6. MOVEMENT MODE SUMMARY CARD
@@ -647,6 +647,34 @@ export const MovementModeSummaryCard = ({
   const speed = modeObj.base_speed || modeObj.speed || 30;
   const bp = Number(modeObj.bp || 0);
 
+  const basicDesc = useMemo(() => {
+    const raw = modeObj.description || '';
+    return raw.split(/###|\n\n/)[0].trim();
+  }, [modeObj.description]);
+
+  const paces = useMemo(() => {
+    const stages = (SPECIES_MOVEMENT_PACES || []).filter(s => 
+      (s.target_mode || '').toLowerCase() === targetMode.toLowerCase()
+    );
+    if (stages.length > 0) {
+      return stages.map(s => ({
+        name: s.name.replace(/^[^:]+:\s*/, '').replace(/\s*Pace.*$/, '').trim(),
+        multiplier: s.multiplier !== undefined ? `${s.multiplier}x` : '1x'
+      }));
+    }
+    if (targetMode === 'Ground') {
+      return [
+        { name: 'Walk', multiplier: '1x' },
+        { name: 'Jog', multiplier: '2x' },
+        { name: 'Run', multiplier: '4x' },
+        { name: 'Sprint', multiplier: '6x' },
+        { name: 'Crawl', multiplier: '0.5x' },
+        { name: 'Slow Crawl', multiplier: '0.25x' }
+      ];
+    }
+    return [{ name: 'Standard', multiplier: '1x' }];
+  }, [targetMode]);
+
   return (
     <div className="space-y-2 font-mono text-xs max-w-sm">
       <div className="flex items-center justify-between pb-1.5 border-b border-amber-500/30">
@@ -670,23 +698,30 @@ export const MovementModeSummaryCard = ({
 
       <div className="flex items-center gap-2 text-[11px] text-amber-300">
         <span className="px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30 font-bold">
-          Speed: {speed} ft / round
+          Base Speed: {speed} ft
         </span>
-        {modeObj.classification && (
-          <span className="px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 capitalize text-[10px]">
-            {modeObj.classification}
-          </span>
-        )}
+        <span className="px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 capitalize text-[10px]">
+          Type: {targetMode}
+        </span>
       </div>
 
-      <p className="text-[11px] text-slate-200 leading-relaxed font-sans line-clamp-4">
-        {modeObj.description || 'Standard tactical movement mode across planetary or void environments.'}
+      <p className="text-[11px] text-slate-200 leading-relaxed font-sans">
+        {basicDesc || 'Standard tactical movement mode across planetary or void environments.'}
       </p>
 
-      <div className="text-[9px] text-slate-400 pt-1 border-t border-slate-800 flex items-center justify-between">
-        <span className="text-amber-400 font-bold">Tactical Movement:</span>
-        <span className="text-slate-300">1 Combat Round = 6 Seconds (Walk/Run multipliers apply)</span>
-      </div>
+      {paces.length > 0 && (
+        <div className="pt-1.5 border-t border-slate-800/80 flex flex-wrap items-center gap-1">
+          <span className="text-[9px] font-mono text-slate-400 uppercase font-bold mr-0.5">
+            Paces:
+          </span>
+          {paces.map((p, idx) => (
+            <span key={idx} className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 text-[9px] font-mono">
+              <span className="text-slate-300">{p.name}</span>
+              <span className="text-amber-400 font-bold">({p.multiplier})</span>
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -768,9 +803,19 @@ export const DisadvantageSummaryCard = ({
 }) => {
   const dis = useMemo(() => {
     if (!rawDis) return null;
-    const idStr = typeof rawDis === 'object' ? (rawDis.id || rawDis.name || '') : String(rawDis);
-    const match = getDisadvantageById(idStr) || DEFAULT_SPECIES_DISADVANTAGES.find(d => d.name.toLowerCase() === idStr.toLowerCase());
-    if (match) return { ...match, ...(typeof rawDis === 'object' ? rawDis : {}) };
+    if (typeof rawDis === 'object') {
+      const match = getDisadvantageById(rawDis.id || '') || DEFAULT_SPECIES_DISADVANTAGES.find(d => d.name?.toLowerCase() === (rawDis.name || '').toLowerCase());
+      return {
+        name: rawDis.name || match?.name || rawDis.id || 'Custom Flaw',
+        refundBP: (rawDis.refundBP !== undefined || rawDis.costBP !== undefined) ? Math.abs(Number(rawDis.refundBP || rawDis.costBP)) : (match?.refundBP || 3),
+        classification: rawDis.classification || rawDis.type || match?.classification || 'Custom Flaw',
+        description: rawDis.description || match?.description || 'Custom physiological or behavioral flaw.',
+        mechanics: rawDis.mechanics || rawDis.mechanic || match?.mechanics || null
+      };
+    }
+    const idStr = String(rawDis);
+    const match = getDisadvantageById(idStr) || DEFAULT_SPECIES_DISADVANTAGES.find(d => d.name?.toLowerCase() === idStr.toLowerCase());
+    if (match) return match;
     return {
       name: idStr,
       refundBP: 3,

@@ -13,7 +13,6 @@ import {
   Users,
   BookOpen,
   Database,
-  Boxes,
   Layers,
   MapPin,
   Shield,
@@ -76,8 +75,7 @@ export const GlobalSideRail = () => {
     if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'teams';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'folio';
     if (path.startsWith('/compendium')) return 'rules';
-    if (path.startsWith('/dbm')) return 'cortex';
-    if (path.startsWith('/codex')) return 'codex';
+    if (path.startsWith('/dbm') || path.startsWith('/codex')) return 'cortex';
     if (path.startsWith('/foundry') || path.startsWith('/ade') || path.startsWith('/campaign-builder')) return 'ade';
     if (path.startsWith('/stage') || path === '/vtt' || path.startsWith('/vtt-ops')) return 'vtt';
     if (path.startsWith('/comms') || path.startsWith('/chat')) return 'comms';
@@ -124,18 +122,6 @@ export const GlobalSideRail = () => {
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
         navigate('/dbm');
-      }
-    },
-    {
-      id: 'codex',
-      label: 'CODEX',
-      sublabel: 'Asset Builders & Rules Matrices',
-      icon: Boxes,
-      colorTheme: 'amber',
-      badge: null,
-      onClick: () => {
-        AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/codex');
       }
     },
     {

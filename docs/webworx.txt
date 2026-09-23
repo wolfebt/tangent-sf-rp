@@ -1,9 +1,6 @@
 
 
-manage factions modal need to represent 99. MODULAR FACTION MATRIX
 
-the society pull down should be multi selection
-in universal modifiers wealth should have modifiers of 0 (minimum) to +6 (maximum) (not NaN) which should be adjusted by he TL of the faction
-ensure the bonus feature are from the omnicortex and not custom made, also ensure we have all recommended skills and features listed
 
-------------
+
+

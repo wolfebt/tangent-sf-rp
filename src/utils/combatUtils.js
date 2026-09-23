@@ -3,7 +3,7 @@
  * Provides conversion, normalization, and smart attack check calculations between
  * inventory items (weapons/armoring) and combat representations (attacks/armor).
  */
-import { resolveMetaSkillForInvocation } from './metaphysicsUtils';
+import { resolveMetaSkillForInvocation, isSpecialAbility, resolvePowerFoundation } from './metaphysicsUtils.js';
 
 
 /**
@@ -344,28 +344,44 @@ export const createAttackFromInvocation = (invocation, characterData = {}, getAt
   const name = inv.name || inv.title || 'Offensive Invocation';
   const id = inv.id ? `meta_${inv.id}` : `meta_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
 
-  // Resolve governing meta skill & discipline
-  const metaInfo = resolveMetaSkillForInvocation(inv);
-  const baseSkillId = metaInfo?.baseSkillId || 'meta-elemental';
-  const skillRank = parseInt(characterData[`skill-${baseSkillId}-rank`] || 0, 10);
+  const isSpecial = isSpecialAbility(inv);
+  let attackMod = 0;
+  let disc = inv.discipline || 'Energy';
+  let subSkillName = inv.subSkill || '';
+  let metaInfo = null;
 
-  // Governing attribute: Intellect/Logic or Wisdom/Will depending on discipline
-  let attrBonus = 0;
-  const isMentalOrIllusion = ['Mental', 'Illusion', 'Dimension'].includes(metaInfo?.discipline);
-  const attrKey = isMentalOrIllusion ? 'attr-logic' : 'attr-will';
-  const primKey = isMentalOrIllusion ? 'attr-intellect' : 'attr-wisdom';
-
-  if (typeof getAttrTotal === 'function') {
-    attrBonus = getAttrTotal(attrKey) || getAttrTotal(primKey) || 0;
+  if (isSpecial) {
+    // Special Ability: stand-alone trait with Attribute foundation + Special Ability ranks
+    const foundation = resolvePowerFoundation(inv, characterData, getAttrTotal);
+    attackMod = foundation.totalScore;
+    disc = inv.discipline || 'Inherent';
+    subSkillName = `Stand-Alone (${foundation.attributeName})`;
   } else {
-    attrBonus = parseInt(characterData[attrKey] || characterData[primKey] || 0, 10);
+    // Standard Invocation: specialization to Awakened Discipline & Meta Focus Skill
+    metaInfo = resolveMetaSkillForInvocation(inv);
+    const baseSkillId = metaInfo?.baseSkillId || 'meta-elemental';
+    const skillRank = parseInt(characterData[`skill-${baseSkillId}-rank`] || 0, 10);
+
+    // Governing attribute: Intellect/Logic or Wisdom/Will depending on discipline
+    let attrBonus = 0;
+    const isMentalOrIllusion = ['Mental', 'Illusion', 'Dimension'].includes(metaInfo?.discipline);
+    const attrKey = isMentalOrIllusion ? 'attr-logic' : 'attr-will';
+    const primKey = isMentalOrIllusion ? 'attr-intellect' : 'attr-wisdom';
+
+    if (typeof getAttrTotal === 'function') {
+      attrBonus = getAttrTotal(attrKey) || getAttrTotal(primKey) || 0;
+    } else {
+      attrBonus = parseInt(characterData[attrKey] || characterData[primKey] || 0, 10);
+    }
+
+    attackMod = skillRank + attrBonus;
+    disc = inv.discipline || metaInfo?.discipline || 'Energy';
+    subSkillName = inv.subSkill || metaInfo?.subSkill || '';
   }
 
-  const attackMod = skillRank + attrBonus;
   const baseDC = parseInt(inv.baseDC || 14, 10);
   const damage = inv.damage || '2d8 Energy';
   const range = inv.range || '60 ft';
-  const disc = inv.discipline || metaInfo?.discipline || 'Energy';
   const damageType = inv.damage_type || (damage.includes(' ') ? damage.split(' ').slice(1).join(' ') : disc) || disc;
 
   const notesParts = [];
@@ -383,13 +399,15 @@ export const createAttackFromInvocation = (invocation, characterData = {}, getAt
     name,
     score: attackMod >= 0 ? `+${attackMod}` : `${attackMod}`,
     attackMod,
+    mod: attackMod,
     baseDC,
     damage,
     type: damageType,
     range,
     discipline: disc,
     subSkill: inv.subSkill || metaInfo?.subSkill || '',
-    category: 'metaphysics',
+    category: isSpecial ? 'special_ability' : 'metaphysics',
+    powerType: isSpecial ? 'special_ability' : 'invocation',
     notes: notesParts.join(' • ')
   };
 };

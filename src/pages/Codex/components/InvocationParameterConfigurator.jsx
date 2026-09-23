@@ -22,11 +22,16 @@ import {
   INVOCATION_DURATION_MODIFIERS, 
   INVOCATION_OTHER_MODIFIERS, 
   SKILL_STAGES, 
-  INVOCATION_SCALING_FORMULAS 
+  INVOCATION_SCALING_FORMULAS,
+  SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES
 } from '../../../engines/tangentConstants';
 import { calculateInvocationDC, getSkillStageFromDC, calculateEssenceCost } from '../../../engines/tangentEntityEngines';
 
 export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => {
+  const isSpecialAbility = Boolean(formData.isSpecialAbility ?? formData.is_special_ability ?? formData.powerType === 'special_ability' ?? false);
+  const selectedFoundationAttr = formData.foundationAttribute || formData.foundation_attribute || formData.baseAttr || 'attr-intellect';
+  const foundAttrObj = SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES.find(a => a.id === selectedFoundationAttr) || SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES[0];
+
   const selectedDiscipline = formData.discipline || 'telekinesis';
   const selectedBaseDifficulty = formData.baseDifficulty || formData.base_dc_key || 'Standard';
   const baseDCVal = Number(formData.baseDifficultyVal ?? formData.base_dc ?? (INVOCATION_BASE_DIFFICULTIES[selectedBaseDifficulty]?.dc || 15));
@@ -78,55 +83,185 @@ export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => 
     onChange('craft_dc', finalDC);
   };
 
+  const handleToggleSpecialAbility = (val) => {
+    onChange('isSpecialAbility', val);
+    onChange('is_special_ability', val);
+    onChange('powerType', val ? 'special_ability' : 'invocation');
+    if (val && !formData.foundationAttribute) {
+      onChange('foundationAttribute', 'attr-intellect');
+      onChange('foundation_attribute', 'attr-intellect');
+      onChange('baseAttr', 'attr-intellect');
+    }
+  };
+
+  const handleFoundationAttrChange = (attrId) => {
+    onChange('foundationAttribute', attrId);
+    onChange('foundation_attribute', attrId);
+    onChange('baseAttr', attrId);
+  };
+
   return (
-    <div className="bg-slate-900/90 border border-purple-500/40 rounded-2xl p-4 sm:p-5 shadow-2xl space-y-5 text-slate-100 font-mono">
+    <div className={`bg-slate-900/90 border rounded-2xl p-4 sm:p-5 shadow-2xl space-y-5 text-slate-100 font-mono transition-colors ${
+      isSpecialAbility ? 'border-cyan-500/50' : 'border-purple-500/40'
+    }`}>
       {/* Top Header: Final Cast DC & Skill Stage Indicator */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-purple-500/30">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/50 flex items-center justify-center text-purple-400">
-            <Sparkles size={18} />
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-colors ${
+            isSpecialAbility 
+              ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-400' 
+              : 'bg-purple-500/20 border-purple-500/50 text-purple-400'
+          }`}>
+            {isSpecialAbility ? <Zap size={18} /> : <Sparkles size={18} />}
           </div>
           <div>
-            <h3 className="text-sm font-bold tracking-wider uppercase text-purple-200">
-              Invocation Pattern & Difficulty Engine
-            </h3>
-            <p className="text-[11px] text-slate-400">
-              Parent Discipline: <span className="text-purple-300 font-bold">{INVOCATION_DISCIPLINES.find(d => d.id === selectedDiscipline)?.name || selectedDiscipline}</span>
+            <div className="flex items-center gap-2">
+              <h3 className={`text-sm font-bold tracking-wider uppercase ${
+                isSpecialAbility ? 'text-cyan-200' : 'text-purple-200'
+              }`}>
+                {isSpecialAbility ? 'Special Ability Parameter Matrix' : 'Invocation Pattern & Difficulty Engine'}
+              </h3>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
+                isSpecialAbility 
+                  ? 'bg-cyan-950 text-cyan-300 border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.25)]' 
+                  : 'bg-purple-950 text-purple-300 border-purple-500/50'
+              }`}>
+                {isSpecialAbility ? 'Stand-Alone Trait' : 'Discipline Specialization'}
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              {isSpecialAbility ? (
+                <span>
+                  Foundation: <strong className="text-cyan-300">{foundAttrObj.name} ({foundAttrObj.check})</strong> + Ranks <span className="text-slate-500">(No Awakened Discipline or Meta Focus Skill required)</span>
+                </span>
+              ) : (
+                <span>
+                  Parent Discipline: <span className="text-purple-300 font-bold">{INVOCATION_DISCIPLINES.find(d => d.id === selectedDiscipline)?.name || selectedDiscipline}</span> <span className="text-slate-500">(Specialization to Meta-Focus skill)</span>
+                </span>
+              )}
             </p>
           </div>
         </div>
 
         {/* Live Final Cast DC Badge */}
-        <div className="flex items-center gap-3 bg-slate-950/80 px-3.5 py-2 rounded-xl border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+        <div className={`flex items-center gap-3 bg-slate-950/80 px-3.5 py-2 rounded-xl border shadow-lg ${
+          isSpecialAbility ? 'border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
+        }`}>
           <div className="text-right">
             <span className="text-[9px] text-slate-400 uppercase font-bold block">Final Cast DC</span>
             <span className="text-base font-bold text-amber-400 font-mono">
               DC {finalDC}
             </span>
           </div>
-          <div className="px-2 py-1 rounded bg-purple-500/20 border border-purple-400/40 text-[10px] font-bold text-purple-300 uppercase">
+          <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase border ${
+            isSpecialAbility 
+              ? 'bg-cyan-500/20 border-cyan-400/40 text-cyan-300' 
+              : 'bg-purple-500/20 border-purple-400/40 text-purple-300'
+          }`}>
             {currentStage.name.split(' — ')[1]}
           </div>
         </div>
       </div>
 
-      {/* Discipline & Base Difficulty Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {/* Discipline */}
-        <div>
-          <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Psionic / Metaphysic Discipline
+      {/* CLASSIFICATION INDICATOR TOGGLE: Specialization Invocation vs Stand-Alone Special Ability */}
+      <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <label className="text-[10px] uppercase font-bold text-slate-300 flex items-center gap-1.5">
+            <span>⚙️</span> Trait Foundation & Classification Indicator
           </label>
-          <select
-            value={selectedDiscipline}
-            onChange={(e) => onChange('discipline', e.target.value)}
-            className="w-full p-2 bg-slate-950 border border-purple-500/40 rounded-xl text-xs text-purple-200 focus:outline-none focus:border-purple-400"
-          >
-            {INVOCATION_DISCIPLINES.map(d => (
-              <option key={d.id} value={d.id}>{d.name} ({d.parent})</option>
-            ))}
-          </select>
+          <span className="text-[10px] text-slate-400 font-normal">
+            Shift foundation from Awakened discipline specialization to stand-alone attribute
+          </span>
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {/* Option 1: Standard Invocation */}
+          <button
+            type="button"
+            onClick={() => handleToggleSpecialAbility(false)}
+            className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+              !isSpecialAbility 
+                ? 'bg-purple-950/70 border-purple-400 shadow-md ring-1 ring-purple-400/40' 
+                : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 text-slate-400'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles size={14} className={!isSpecialAbility ? 'text-purple-300' : 'text-slate-500'} />
+              <span className={`text-xs font-bold ${!isSpecialAbility ? 'text-purple-100' : 'text-slate-300'}`}>
+                Discipline Invocation (Specialization)
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
+              Functions as a specialization to an Awakened Discipline's Meta-Focus skill. Requires the Awakened feature and paired discipline focus training.
+            </p>
+          </button>
+
+          {/* Option 2: Special Ability */}
+          <button
+            type="button"
+            onClick={() => handleToggleSpecialAbility(true)}
+            className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+              isSpecialAbility 
+                ? 'bg-cyan-950/70 border-cyan-400 shadow-md ring-1 ring-cyan-400/40' 
+                : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 text-slate-400'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <Zap size={14} className={isSpecialAbility ? 'text-cyan-300' : 'text-slate-500'} />
+              <span className={`text-xs font-bold ${isSpecialAbility ? 'text-cyan-100' : 'text-slate-300'}`}>
+                ⚡ Stand-Alone Special Ability
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
+              Designed as a stand-alone trait requiring no Awakened Disciplines or Meta-Focus skills. Foundation is simply an Attribute + ranks in the ability.
+            </p>
+          </button>
+        </div>
+      </div>
+
+      {/* Trait Foundation Parameters Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {/* Foundational Attribute (Visible & active if Special Ability, or Discipline Selector) */}
+        {isSpecialAbility ? (
+          <div>
+            <label className="text-[10px] uppercase font-bold text-cyan-300 block mb-1 flex items-center justify-between">
+              <span>Foundational Core Attribute</span>
+              <span className="text-[9px] text-cyan-400 font-mono">Governs Check &amp; Potency</span>
+            </label>
+            <select
+              value={selectedFoundationAttr}
+              onChange={(e) => handleFoundationAttrChange(e.target.value)}
+              className="w-full p-2 bg-slate-950 border border-cyan-500/50 rounded-xl text-xs text-cyan-200 focus:outline-none focus:border-cyan-400"
+            >
+              {SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES.map(attr => (
+                <option key={attr.id} value={attr.id}>
+                  {attr.name} ({attr.code}) — {attr.check} Check
+                </option>
+              ))}
+            </select>
+            <p className="text-[10px] text-slate-400 mt-1">
+              {foundAttrObj.description}
+            </p>
+          </div>
+        ) : (
+          <div>
+            <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
+              Psionic / Metaphysic Discipline
+            </label>
+            <select
+              value={selectedDiscipline}
+              onChange={(e) => onChange('discipline', e.target.value)}
+              className="w-full p-2 bg-slate-950 border border-purple-500/40 rounded-xl text-xs text-purple-200 focus:outline-none focus:border-purple-400"
+            >
+              {INVOCATION_DISCIPLINES.map(d => (
+                <option key={d.id} value={d.id}>{d.name} ({d.parent})</option>
+              ))}
+            </select>
+            <p className="text-[10px] text-slate-400 mt-1">
+              Requires character to awaken this discipline to manifest.
+            </p>
+          </div>
+        )}
 
         {/* Base Difficulty */}
         <div>
@@ -136,12 +271,17 @@ export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => 
           <select
             value={selectedBaseDifficulty}
             onChange={(e) => handleBaseDifficultyChange(e.target.value)}
-            className="w-full p-2 bg-slate-950 border border-purple-500/40 rounded-xl text-xs text-purple-200 focus:outline-none focus:border-purple-400"
+            className={`w-full p-2 bg-slate-950 border rounded-xl text-xs focus:outline-none ${
+              isSpecialAbility ? 'border-cyan-500/40 text-cyan-200 focus:border-cyan-400' : 'border-purple-500/40 text-purple-200 focus:border-purple-400'
+            }`}
           >
             {Object.keys(INVOCATION_BASE_DIFFICULTIES).map(key => (
               <option key={key} value={key}>{INVOCATION_BASE_DIFFICULTIES[key].name}</option>
             ))}
           </select>
+          <p className="text-[10px] text-slate-400 mt-1">
+            {INVOCATION_BASE_DIFFICULTIES[selectedBaseDifficulty]?.example}
+          </p>
         </div>
       </div>
 

@@ -178,3 +178,92 @@ export function resolveMetaSkillForInvocation(invocation) {
     subSkill: 'Attune'
   };
 }
+
+/**
+ * Determines whether an invocation or power is flagged/built as a Special Ability.
+ * @param {object|string} power
+ * @returns {boolean}
+ */
+export function isSpecialAbility(power) {
+  if (!power) return false;
+  if (typeof power === 'string') return false;
+  return Boolean(
+    power.isSpecialAbility ||
+    power.is_special_ability ||
+    power.powerType === 'special_ability' ||
+    power.category === 'Special Ability' ||
+    power.type === 'Special Ability' ||
+    power.traitType === 'special_ability' ||
+    power.isInherent === true
+  );
+}
+
+/**
+ * Resolves the operational foundation for an invocation or special ability.
+ * - Standard Invocation: Foundation is Awakened Discipline + Meta Focus Skill (specialization).
+ * - Special Ability: Foundation is Stand-Alone Attribute + Special Ability Ranks (no awakened discipline required).
+ *
+ * @param {object} power
+ * @param {object} characterData
+ * @param {function|null} getAttrTotal
+ * @returns {object} Foundation descriptor
+ */
+export function resolvePowerFoundation(power, characterData = {}, getAttrTotal = null) {
+  const isSpecial = isSpecialAbility(power);
+
+  if (isSpecial) {
+    const rawAttr = power.foundationAttribute || power.foundation_attribute || power.baseAttr || 'attr-intellect';
+    const attrKey = rawAttr.startsWith('attr-') ? rawAttr : `attr-${rawAttr.toLowerCase()}`;
+    const attrName = attrKey.replace('attr-', '').charAt(0).toUpperCase() + attrKey.replace('attr-', '').slice(1);
+    
+    let attrScore = 0;
+    if (typeof getAttrTotal === 'function') {
+      attrScore = getAttrTotal(attrKey);
+    } else if (characterData) {
+      attrScore = parseInt(characterData[attrKey] || 0, 10);
+    }
+
+    const rank = Math.min(10, Math.max(1, parseInt(power.rank || power.level || 1, 10)));
+    const mod = parseInt(power.mod || 0, 10);
+    const totalScore = attrScore + rank + mod;
+
+    return {
+      isSpecialAbility: true,
+      foundationType: 'attribute',
+      foundationAttribute: attrKey,
+      attributeName: attrName,
+      attributeScore: attrScore,
+      rank,
+      mod,
+      totalScore,
+      take10Score: totalScore + 10,
+      requiresAwakenedDiscipline: false,
+      requiresMetaFocusSkill: false,
+      label: `Stand-Alone Special Ability (${attrName} + Rank ${rank})`
+    };
+  }
+
+  // Standard Invocation Specialization
+  const metaInfo = resolveMetaSkillForInvocation(power);
+  const baseSkillId = power.baseSkillId || metaInfo.baseSkillId;
+  const skillRank = parseInt(characterData?.[`skill-${baseSkillId}-rank`] || 0, 10);
+  const skillMod = parseInt(characterData?.[`skill-${baseSkillId}-mod`] || 0, 10);
+  const rank = Math.min(10, Math.max(1, parseInt(power.rank || power.level || 1, 10)));
+  const mod = parseInt(power.mod || 0, 10);
+
+  return {
+    isSpecialAbility: false,
+    foundationType: 'discipline_meta_skill',
+    baseSkillId,
+    skillName: metaInfo.skillName,
+    discipline: metaInfo.discipline,
+    subSkill: metaInfo.subSkill,
+    skillRank: skillRank + skillMod,
+    rank,
+    mod,
+    requiresAwakenedDiscipline: true,
+    requiresMetaFocusSkill: true,
+    label: `Invocation Specialization (${metaInfo.discipline} / ${metaInfo.skillName})`
+  };
+}
+

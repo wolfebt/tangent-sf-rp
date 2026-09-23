@@ -378,9 +378,32 @@ export const FeaturesSelector = ({
     };
 
     DEFAULT_FEATURES.forEach(addFeat);
-    ALL_CANONICAL_TRAITS.forEach(addFeat);
     (dbFeatures || []).forEach(addFeat);
     return map;
+  }, [dbFeatures]);
+
+  // Categorized feature options for quick select
+  const categorizedFeatures = useMemo(() => {
+    const list = [...DEFAULT_FEATURES];
+    (dbFeatures || []).forEach(f => {
+      const fName = f.name || f.title || f.id;
+      if (!list.some(existing => (existing.name || existing.id) === fName)) {
+        list.push(f);
+      }
+    });
+
+    const groups = {};
+    list.forEach(f => {
+      const cat = f.category || f.type || 'General';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(f);
+    });
+
+    Object.keys(groups).forEach(cat => {
+      groups[cat].sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
+    });
+
+    return groups;
   }, [dbFeatures]);
 
   const list = useMemo(() => {
@@ -464,21 +487,50 @@ export const FeaturesSelector = ({
 
       {isEditMode && (
         <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+          {/* Categorized Quick Select Dropdown */}
+          <div className="flex items-center min-w-[200px] flex-1 max-w-sm">
+            <select
+              value=""
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val) {
+                  const current = Array.isArray(value) ? value : [];
+                  if (!current.includes(val)) {
+                    onChange([...current, val]);
+                  }
+                }
+              }}
+              className="w-full p-2 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs font-mono focus:border-purple-400 focus:outline-none"
+            >
+              <option value="">+ Quick Add Feature ({DEFAULT_FEATURES.length} available)...</option>
+              {Object.entries(categorizedFeatures).map(([cat, feats]) => (
+                <optgroup key={cat} label={`── ${cat.toUpperCase()} FEATURES (${feats.length}) ──`}>
+                  {feats.map(f => (
+                    <option key={f.id || f.name} value={f.id || f.name}>
+                      {f.name} ({f.cp || f.bp || 1} CP)
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
+
           {onOpenPicker && (
             <button
               type="button"
               onClick={() => onOpenPicker('features')}
               className={`px-3 py-1.5 rounded-lg font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow border ${btnClasses}`}
+              title="Open full Omnicortex Features browser"
             >
               <ExternalLink size={12} />
-              <span>Browse Omnicortex Features</span>
+              <span>Browse All Features</span>
             </button>
           )}
 
           <div className="flex items-center gap-1.5">
             <input
               type="text"
-              placeholder="Or quick add feature name..."
+              placeholder="Or type feature name..."
               value={selectedFeature}
               onChange={(e) => setSelectedFeature(e.target.value)}
               onKeyDown={(e) => {
@@ -487,13 +539,13 @@ export const FeaturesSelector = ({
                   handleAdd();
                 }
               }}
-              className="p-1.5 px-2.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs font-mono focus:outline-none focus:border-slate-500 min-w-[200px]"
+              className="p-1.5 px-2.5 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 text-xs font-mono focus:outline-none focus:border-slate-500 w-44"
             />
             {selectedFeature && (
               <button
                 type="button"
                 onClick={handleAdd}
-                className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-bold"
+                className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-bold cursor-pointer"
               >
                 <Plus size={12} />
               </button>

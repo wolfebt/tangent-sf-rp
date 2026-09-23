@@ -506,6 +506,8 @@ export const CODEX_MATRICES = [
     customComponent: 'InvocationParameterConfigurator',
     defaultValues: {
       name: '',
+      isSpecialAbility: false,
+      foundationAttribute: 'attr-intellect',
       discipline: 'telekinesis',
       baseDifficulty: 'Standard',
       baseDifficultyVal: 15,
@@ -525,6 +527,8 @@ export const CODEX_MATRICES = [
     },
     fields: [
       { name: 'name', label: 'Invocation / Power Name', type: 'text', required: true, placeholder: 'E.g., Quantum Warp Lance' },
+      { name: 'isSpecialAbility', label: 'Stand-Alone Special Ability', type: 'boolean', helpText: 'When enabled, shifts foundation from Awakened Disciplines to an Attribute foundation + ranks' },
+      { name: 'foundationAttribute', label: 'Foundational Attribute', type: 'select', options: ['attr-intellect', 'attr-wisdom', 'attr-charisma', 'attr-agility', 'attr-strength', 'attr-stamina'], helpText: 'Core attribute that serves as the foundation for the Special Ability' },
       { name: 'discipline', label: 'Psionic Discipline', type: 'select', options: ['telekinesis', 'telepathy', 'pyrokinesis', 'chronos', 'biometabolism', 'void_attunement', 'cryo', 'voltic', 'spatial_distortion', 'clairvoyance'] },
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'tech_level', label: 'Tech Level Requirement (TL 0-5)', type: 'number', min: 0, max: 5 },

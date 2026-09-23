@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { 
   Coins, 
   Hammer, 
@@ -12,10 +12,27 @@ import {
   Activity,
   Maximize2,
   AlertTriangle,
-  CheckCircle2
+  CheckCircle2,
+  DollarSign,
+  Crosshair,
+  Globe,
+  Sliders,
+  Users
 } from 'lucide-react';
 import { CraftingTimeTable } from './CraftingTimeTable';
-import { validateAssetScaling, validateAssetValuation, getScalingCategory } from '../../../engines/tangentScalingEngine';
+import { 
+  validateAssetScaling, 
+  validateAssetValuation, 
+  getScalingCategory,
+  calculateFluidCombatModifier,
+  scaleDamageDice,
+  scaleStructurePoints,
+  scaleCarryingCapacity,
+  scaleMetaTechInvocation
+} from '../../../engines/tangentScalingEngine';
+import { calculateTechPenalty, getTechLevelDef } from '../../../engines/tangentTechEngine';
+import { calculateLiquidityGap, calculateCreditValue } from '../../../engines/tangentEconEngine';
+import { SIZE_CATEGORIES_LIST } from '../../../engines/tangentConstants';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
 
 const ICON_MAP = {
@@ -27,7 +44,10 @@ const ICON_MAP = {
   Cpu,
   Zap,
   Activity,
-  Maximize2
+  Maximize2,
+  Globe,
+  Users,
+  Sparkles
 };
 
 const COMPUTED_METRIC_GUIDANCE = {
@@ -75,8 +95,20 @@ export const ComputedOutputPanel = ({
   matrix = {},
   isLoading = false
 }) => {
+  const isProperty = Boolean(matrix?.isProperty);
+
+  // Economy blocks, Craft DCs, and Codex Quick-Adjudicator are strictly restricted to property assets (augmentations, architecture, armor, gear, mecha, weapons)
+  if (!isProperty) {
+    return null;
+  }
+
+  const isWeapon = matrix?.id === 'weaponry';
+  const isInvocation = ['invocation', 'meta-tech'].includes(matrix?.id);
+  const isCharacter = ['archetypes', 'occupations', 'origins', 'modular-characters', 'species'].includes(matrix?.id);
+  const isWorld = ['planetary-design', 'factions'].includes(matrix?.id);
+
   const effectiveDC = Number(
-    formData.craft_dc ?? formData.design_dc ?? formData.dc ?? formData.tier_dc ?? computedValues.craft_dc ?? 0
+    formData.craft_dc ?? formData.design_dc ?? formData.dc ?? formData.tier_dc ?? computedValues.craft_dc ?? 15
   ) || 0;
   
   const enteredCost = formData.cost !== undefined && formData.cost !== null && formData.cost !== '' 
@@ -84,17 +116,37 @@ export const ComputedOutputPanel = ({
     : (computedValues.credit_value ?? computedValues.cost ?? 0);
 
   const creditValue = computedValues.credit_value ?? computedValues.cost ?? enteredCost ?? 0;
+  const assetTL = Number(formData.tl ?? formData.tech_level ?? 3) || 3;
+  const sizeVal = formData.size || formData.sizeCategory || formData.footprint || (matrix?.id === 'mecha' ? 'Large' : 'Medium');
+  const sizeCat = getScalingCategory(sizeVal);
 
   // Real-time scaling and valuation diagnostics
   const diagnostics = useMemo(() => {
-    const sizeVal = formData.size || formData.sizeCategory || formData.footprint || 'Medium';
     const scale = validateAssetScaling({
       ...formData,
       size: sizeVal
     });
     const valuation = validateAssetValuation(effectiveDC, enteredCost);
     return { scale, valuation, sizeVal };
-  }, [formData, effectiveDC, enteredCost]);
+  }, [formData, effectiveDC, enteredCost, sizeVal]);
+
+  // Mini Quick-Adjudicator Dock State
+  const [quickToolTab, setQuickToolTab] = useState('liquidity'); // 'liquidity' | 'penalty' | 'matchup'
+  const [quickBuyerWS, setQuickBuyerWS] = useState(15);
+  const [quickOperatorTL, setQuickOperatorTL] = useState(2);
+  const [quickTargetSize, setQuickTargetSize] = useState('Medium');
+
+  const quickLiquidity = useMemo(() => {
+    return calculateLiquidityGap(effectiveDC, quickBuyerWS);
+  }, [effectiveDC, quickBuyerWS]);
+
+  const quickPenalty = useMemo(() => {
+    return calculateTechPenalty(assetTL, quickOperatorTL, isWeapon);
+  }, [assetTL, quickOperatorTL, isWeapon]);
+
+  const quickMatchup = useMemo(() => {
+    return calculateFluidCombatModifier(sizeVal, quickTargetSize);
+  }, [sizeVal, quickTargetSize]);
 
   return (
     <aside className="w-full lg:w-84 xl:w-96 flex flex-col gap-4 font-mono text-slate-200 shrink-0">
@@ -125,7 +177,6 @@ export const ComputedOutputPanel = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5">
         {computedOutputs.map((output) => {
           if (output.format === 'time_table') {
-            // Rendered separately below
             return null;
           }
 
@@ -187,8 +238,38 @@ export const ComputedOutputPanel = ({
         })}
       </div>
 
+      {/* Non-Property Contextual Metrics (Characters, Species, Invocations, Worlds) */}
+      {!isProperty && (
+        <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5 shadow-md text-xs">
+          <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <Maximize2 size={13} />
+              <span>{matrix?.name} Tactical Profile</span>
+            </span>
+            <span className="text-[10px] text-slate-400 font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700">
+              {sizeCat.name} ({sizeCat.scaleDisplay})
+            </span>
+          </div>
+
+          <div className="grid grid-cols-3 gap-1.5 text-[10px] text-center">
+            <div className="bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span className="text-slate-500 block">STR Mod</span>
+              <span className="text-amber-400 font-bold">{sizeCat.strMod >= 0 ? `+${sizeCat.strMod}` : sizeCat.strMod}</span>
+            </div>
+            <div className="bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span className="text-slate-500 block">Combat Mod</span>
+              <span className="text-blue-400 font-bold">{sizeCat.combatMod >= 0 ? `+${sizeCat.combatMod}` : sizeCat.combatMod}</span>
+            </div>
+            <div className="bg-slate-900 p-1.5 rounded border border-slate-800">
+              <span className="text-slate-500 block">Reach</span>
+              <span className="text-slate-300 font-bold">{sizeCat.reach}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Real-time Scaling & Valuation Diagnostics Card (Property Items Only) */}
-      {Boolean(matrix?.isProperty) && (
+      {isProperty && (
         <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5 shadow-md">
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
             <div className="flex items-center gap-1.5">
@@ -260,13 +341,134 @@ export const ComputedOutputPanel = ({
         </div>
       )}
 
+      {/* ── Interactive Codex Quick-Adjudicator Dock ── */}
+      <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-3 shadow-md">
+        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-200">
+            <Sliders size={13} className="text-cyan-400" />
+            <span>Codex Quick-Adjudicator</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setQuickToolTab('liquidity')}
+              className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
+                quickToolTab === 'liquidity' ? 'bg-amber-600 text-white' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Liquidity
+            </button>
+            <button
+              type="button"
+              onClick={() => setQuickToolTab('penalty')}
+              className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
+                quickToolTab === 'penalty' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Tech Pen
+            </button>
+            <button
+              type="button"
+              onClick={() => setQuickToolTab('matchup')}
+              className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
+                quickToolTab === 'matchup' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Matchup
+            </button>
+          </div>
+        </div>
+
+        {/* Quick Tool 1: Liquidity Gap */}
+        {quickToolTab === 'liquidity' && (() => {
+          const isAffordable = Boolean(quickLiquidity?.canAfford ?? (quickLiquidity?.autoBuy || (quickLiquidity?.liquidCost ?? 0) === 0));
+          const margin = Number(quickLiquidity?.marginCredits ?? Math.max(0, (quickLiquidity?.playerWSValue ?? 0) - (quickLiquidity?.itemValue ?? 0))) || 0;
+          const shortfall = Number(quickLiquidity?.shortfallCredits ?? quickLiquidity?.liquidCost ?? 0) || 0;
+          const buyerCapital = Number(calculateCreditValue(quickBuyerWS)) || 0;
+
+          return (
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-slate-400">Buyer WS:</span>
+                <span className="text-amber-400 font-bold">WS {quickBuyerWS} ({buyerCapital.toLocaleString()} Cr)</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="40"
+                value={quickBuyerWS}
+                onChange={(e) => setQuickBuyerWS(Number(e.target.value))}
+                className="w-full accent-amber-500 cursor-pointer"
+              />
+              <div className={`p-2 rounded text-[11px] font-bold flex items-center justify-between ${
+                isAffordable
+                  ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
+                  : 'bg-red-950/60 border border-red-500/40 text-red-300'
+              }`}>
+                <span>{isAffordable ? 'Affordable' : 'Liquidity Shortfall'}</span>
+                <span>{isAffordable ? `+${margin.toLocaleString()} Cr` : `-${shortfall.toLocaleString()} Cr`}</span>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* Quick Tool 2: Operator Tech Penalty */}
+        {quickToolTab === 'penalty' && (
+          <div className="space-y-2 text-xs">
+            <div className="flex items-center justify-between text-[11px]">
+              <span className="text-slate-400">Operator Native TL:</span>
+              <span className="text-blue-400 font-bold">TL {quickOperatorTL} (Asset: TL {assetTL})</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="5"
+              value={quickOperatorTL}
+              onChange={(e) => setQuickOperatorTL(Number(e.target.value))}
+              className="w-full accent-blue-500 cursor-pointer"
+            />
+            <div className={`p-2 rounded text-[11px] font-bold flex items-center justify-between ${
+              quickPenalty === 0
+                ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
+                : 'bg-amber-950/60 border border-amber-500/40 text-amber-300'
+            }`}>
+              <span>{quickPenalty === 0 ? 'Full Compatibility' : 'Operating Check Penalty'}</span>
+              <span>{quickPenalty === 0 ? '+0' : `${quickPenalty}`}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Quick Tool 3: Fluid Combat Matchup */}
+        {quickToolTab === 'matchup' && (
+          <div className="space-y-2 text-xs">
+            <div className="flex items-center justify-between text-[11px]">
+              <span className="text-slate-400">Opponent Size:</span>
+              <select
+                value={quickTargetSize}
+                onChange={(e) => setQuickTargetSize(e.target.value)}
+                className="bg-slate-900 border border-slate-700 text-slate-200 rounded px-1.5 py-0.5 text-[10px]"
+              >
+                {SIZE_CATEGORIES_LIST.map(c => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="p-2 bg-slate-900 rounded border border-slate-800 text-[11px] flex items-center justify-between">
+              <span className="text-slate-300">Opposed Attack Roll:</span>
+              <span className="text-sm font-extrabold text-amber-400 font-mono">
+                {quickMatchup.modifier >= 0 ? `+${quickMatchup.modifier}` : quickMatchup.modifier}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Embedded Crafting Time Table Widget (Property Items Only) */}
-      {Boolean(matrix?.isProperty) && (
+      {isProperty && (
         <CraftingTimeTable creditValue={creditValue} defaultSkillCheck={20} />
       )}
     </aside>
   );
 };
 
-export default ComputedOutputPanel;
-
+export default React.memo(ComputedOutputPanel);

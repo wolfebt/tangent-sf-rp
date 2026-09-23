@@ -171,14 +171,22 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.modifications = item.modifications.map(m => typeof m === 'object' ? (m.id || m.name) : m);
   }
 
-  // Harmonize Species Chassis Type
+  // Harmonize Species Chassis Type & Size
   if (matrix.id === 'species') {
     const rawChassis = item.species_type || (Array.isArray(item.type) ? item.type[0] : item.type) || base.species_type || 'Humanoid';
     const cleanChassis = typeof rawChassis === 'string' && rawChassis.startsWith('species_type-')
       ? rawChassis.replace('species_type-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-      : rawChassis;
-    base.species_type = cleanChassis;
-    base.type = cleanChassis;
+      : (Array.isArray(rawChassis) ? rawChassis[0] : rawChassis);
+    base.species_type = cleanChassis || 'Humanoid';
+    base.type = cleanChassis || 'Humanoid';
+
+    const rawSize = item.size || item.species_size || base.size || 'Medium';
+    const firstSize = Array.isArray(rawSize) ? rawSize[0] : (typeof rawSize === 'object' && rawSize !== null ? (rawSize.name || rawSize.value || rawSize.id) : rawSize);
+    const cleanSize = typeof firstSize === 'string' && firstSize.startsWith('species_size-')
+      ? firstSize.replace('species_size-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      : firstSize;
+    base.size = cleanSize || 'Medium';
+    base.species_size = cleanSize || 'Medium';
   }
 
   // Harmonize Occupations Fields
@@ -232,11 +240,15 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     updatedAt: new Date().toISOString()
   };
 
-  // Ensure species chassis type is synchronized
+  // Ensure species chassis type and size are synchronized
   if (matrix.id === 'species') {
     const chassis = formData.species_type || formData.type || 'Humanoid';
     payload.species_type = chassis;
     payload.type = chassis;
+
+    const sizeVal = formData.size || formData.species_size || 'Medium';
+    payload.size = sizeVal;
+    payload.species_size = sizeVal;
   }
 
   // Ensure credit cost sync strictly for property matrices

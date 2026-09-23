@@ -37,7 +37,10 @@ import {
   Flag,
   Flame,
   Globe,
-  Briefcase
+  Briefcase,
+  Eye,
+  Edit3,
+  Maximize2
 } from 'lucide-react';
 
 // Specialized DBM Sub-Widgets
@@ -84,7 +87,11 @@ import {
   PlanetaryDesignConfigurator,
   OriginConfigurator,
   OccupationConfigurator,
-  ArchetypeConfigurator
+  ArchetypeConfigurator,
+  EconomatrixStudioWorkflow,
+  TechnologyStudioWorkflow,
+  ScalingStudioWorkflow,
+  PlanetaryCivilizationWorkflow
 } from '../../pages/Codex/components';
 
 import * as econEngine from '../../engines/tangentEconEngine';
@@ -364,14 +371,29 @@ const NON_PROPERTY_EXCLUDED_FIELDS = new Set([
   'cost_credits',
   'price',
   'craft_dc',
+  'craftDc',
   'design_dc',
+  'designDc',
+  'craftingDc',
   'dc',
+  'tier_dc',
   'material_cost',
+  'crafting_cost',
+  'maintenance_cost',
+  'upkeep',
+  'fabrication_time',
   'materials',
   'complexity_tier',
   'crafting_days',
   'tsc_market_value',
   'market_value',
+  'fence_rate',
+  'resale_value',
+  'scrap_value',
+  'liquidity_gap',
+  'auto_buy_threshold',
+  'wealth_score',
+  'stipend',
   'component_slots',
   'components',
   'total_sockets',
@@ -409,6 +431,116 @@ const formatFieldValue = (item) => {
   } catch {
     return String(item);
   }
+};
+
+const toScalarSelectValue = (value) => {
+  if (value === null || value === undefined) return '';
+  if (Array.isArray(value)) return value.length > 0 ? toScalarSelectValue(value[0]) : '';
+  if (typeof value === 'object') return '';
+  return String(value);
+};
+
+const toScalarNumberValue = (value) => {
+  if (value === null || value === undefined || value === '') return '';
+  if (typeof value === 'number') return Number.isNaN(value) ? '' : value;
+  const str = String(value).trim();
+  const match = str.match(/-?\d+(?:\.\d+)?/);
+  if (match) {
+    const num = parseFloat(match[0]);
+    return Number.isNaN(num) ? '' : num;
+  }
+  return '';
+};
+
+export const omnicortexMarkdownComponents = {
+  h1: ({ node, children, ...props }) => (
+    <h1 className="text-lg sm:text-xl font-bold font-mono text-cyan-300 border-b border-cyan-500/40 pb-2 mb-3 mt-5 first:mt-0 tracking-wide flex items-center gap-2" {...props}>
+      <span className="text-cyan-500 text-sm font-normal">#</span>
+      <span>{children}</span>
+    </h1>
+  ),
+  h2: ({ node, children, ...props }) => (
+    <h2 className="text-base sm:text-lg font-bold font-mono text-amber-300 border-b border-slate-800/80 pb-1.5 mb-2.5 mt-4 first:mt-0 tracking-wide flex items-center gap-2" {...props}>
+      <span className="text-amber-500 text-xs font-normal">##</span>
+      <span>{children}</span>
+    </h2>
+  ),
+  h3: ({ node, children, ...props }) => (
+    <h3 className="text-sm sm:text-base font-bold font-mono text-sky-200 mb-2 mt-3.5 first:mt-0 flex items-center gap-1.5" {...props}>
+      <span className="text-sky-400 text-xs font-normal">###</span>
+      <span>{children}</span>
+    </h3>
+  ),
+  h4: ({ node, children, ...props }) => (
+    <h4 className="text-xs sm:text-sm font-bold font-mono text-slate-300 uppercase tracking-wider mb-1.5 mt-3 first:mt-0" {...props}>
+      {children}
+    </h4>
+  ),
+  p: ({ node, children, ...props }) => (
+    <p className="text-xs text-slate-300 leading-relaxed font-sans mb-2.5 last:mb-0" {...props}>
+      {children}
+    </p>
+  ),
+  strong: ({ node, children, ...props }) => (
+    <strong className="font-bold text-amber-200" {...props}>
+      {children}
+    </strong>
+  ),
+  em: ({ node, children, ...props }) => (
+    <em className="italic text-slate-200" {...props}>
+      {children}
+    </em>
+  ),
+  ul: ({ node, children, ...props }) => (
+    <ul className="list-disc list-inside space-y-1 my-2 text-xs text-slate-300 font-sans pl-1" {...props}>
+      {children}
+    </ul>
+  ),
+  ol: ({ node, children, ...props }) => (
+    <ol className="list-decimal list-inside space-y-1 my-2 text-xs text-slate-300 font-sans pl-1" {...props}>
+      {children}
+    </ol>
+  ),
+  li: ({ node, children, ...props }) => (
+    <li className="text-xs text-slate-300 leading-relaxed" {...props}>
+      {children}
+    </li>
+  ),
+  blockquote: ({ node, children, ...props }) => (
+    <blockquote className="border-l-2 border-cyan-500/70 bg-cyan-950/20 px-3 py-1.5 my-2.5 text-cyan-200/90 italic text-xs rounded-r-lg" {...props}>
+      {children}
+    </blockquote>
+  ),
+  table: ({ node, children, ...props }) => (
+    <div className="overflow-x-auto my-3 border border-slate-800 rounded-xl">
+      <table className="w-full text-xs font-mono border-collapse" {...props}>
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ node, children, ...props }) => (
+    <thead className="bg-slate-900 border-b border-slate-800 text-cyan-300" {...props}>
+      {children}
+    </thead>
+  ),
+  th: ({ node, children, ...props }) => (
+    <th className="px-3 py-1.5 text-left font-bold border-r border-slate-800 last:border-r-0 uppercase tracking-wider text-[11px]" {...props}>
+      {children}
+    </th>
+  ),
+  td: ({ node, children, ...props }) => (
+    <td className="px-3 py-1.5 border-b border-slate-800/60 border-r border-slate-800/40 last:border-r-0 text-slate-300" {...props}>
+      {children}
+    </td>
+  ),
+  code: ({ node, inline, children, ...props }) => (
+    <code className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 text-[11px] font-mono" {...props}>
+      {children}
+    </code>
+  ),
+  hr: ({ node, ...props }) => (
+    <hr className="border-slate-800/80 my-3.5" {...props} />
+  )
 };
 
 /**
@@ -457,6 +589,7 @@ export const AssetStudio = ({
   }, [propMatrix, resolvedKey]);
 
   const matrix = resolvedMatrix || (isPropertyCategory(resolvedKey) ? getMatrixById('equipment') : getMatrixById('features'));
+  const isProperty = Boolean(matrix?.isProperty || isPropertyMatrix(matrix?.id) || isPropertyCategory(resolvedKey) || isPropertyCategory(matrix?.id));
   const guidance = useMemo(() => CODEX_DATASET_GUIDANCE[matrix.id] || null, [matrix.id]);
 
   const activeCategoryConfig = useMemo(() => {
@@ -469,7 +602,7 @@ export const AssetStudio = ({
     const isSpecies = matrix.id === 'species';
     const shouldExclude = (fName) => {
       if (isSpecies && SPECIES_EXCLUDED_FIELDS.has(fName)) return true;
-      if (!matrix.isProperty && NON_PROPERTY_EXCLUDED_FIELDS.has(fName)) return true;
+      if (!isProperty && NON_PROPERTY_EXCLUDED_FIELDS.has(fName)) return true;
       return false;
     };
 
@@ -498,7 +631,7 @@ export const AssetStudio = ({
       });
     }
     return Array.from(fieldsMap.values());
-  }, [matrix, activeCategoryConfig]);
+  }, [matrix, activeCategoryConfig, isProperty]);
 
   // Extract all game mechanics fields relative to current dataset
   const relativeMechanicsFields = useMemo(() => {
@@ -508,7 +641,7 @@ export const AssetStudio = ({
     const shouldExclude = (fName) => {
       if (SPECS_FIELD_NAMES.has(fName) || NARRATIVE_FIELD_NAMES.has(fName) || WIDGET_FIELD_NAMES.has(fName)) return true;
       if (isSpecies && SPECIES_EXCLUDED_FIELDS.has(fName)) return true;
-      if (!matrix.isProperty && NON_PROPERTY_EXCLUDED_FIELDS.has(fName)) return true;
+      if (!isProperty && NON_PROPERTY_EXCLUDED_FIELDS.has(fName)) return true;
       return false;
     };
 
@@ -541,7 +674,7 @@ export const AssetStudio = ({
     }
 
     return Array.from(fieldsMap.values());
-  }, [matrix, activeCategoryConfig]);
+  }, [matrix, activeCategoryConfig, isProperty]);
 
   // View & Edit mode state
   const [isEditMode, setLocalIsEditMode] = useState(propIsEditMode);
@@ -556,12 +689,28 @@ export const AssetStudio = ({
 
   // Studio Sub-Tab navigation state: 'specs' | 'mechanics' | 'narrative' | 'relational' | 'inspector'
   const [activeStudioTab, setActiveStudioTab] = useState('specs');
+  const [loreViewMode, setLoreViewMode] = useState('preview');
   const [isGuidanceOpen, setIsGuidanceOpen] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
   const [activeSelectorField, setActiveSelectorField] = useState(null);
   const [hoveredRailItem, setHoveredRailItem] = useState(null);
   const railHoverTimerRef = useRef(null);
+
+  useEffect(() => {
+    if (matrix?.id === 'species' && activeStudioTab === 'relational') {
+      setActiveStudioTab('specs');
+    }
+    if (!isProperty && activeStudioTab === 'economatrix') {
+      setActiveStudioTab('specs');
+    }
+    if (!isProperty && !['planetary-design', 'factions'].includes(matrix?.id) && activeStudioTab === 'technology') {
+      setActiveStudioTab('specs');
+    }
+    if (!isProperty && !['invocation', 'meta-tech'].includes(matrix?.id) && activeStudioTab === 'scaling') {
+      setActiveStudioTab('specs');
+    }
+  }, [isProperty, matrix?.id, activeStudioTab]);
 
   useEffect(() => {
     return () => {
@@ -774,7 +923,6 @@ export const AssetStudio = ({
   if (isModal && !isOpen) return null;
 
   const Icon = matrix.icon;
-  const isProperty = Boolean(matrix.isProperty);
   const showSocketsAndUDU = Boolean(matrix.hasSocketsAndUDU);
   const showDamageOrEffect = Boolean(matrix.hasDamageOrEffect);
   const showModifications = Boolean(matrix.hasModifications);
@@ -955,18 +1103,64 @@ export const AssetStudio = ({
         color: mechanicsTabConfig.color,
         activeBg: mechanicsTabConfig.activeBg,
         activeBorder: mechanicsTabConfig.activeBorder
-      },
-      {
-        id: 'narrative',
-        label: (isOrigin || isOccu || isArch) ? 'Full Text & Lore' : 'Narrative & Lore',
-        shortLabel: 'LORE',
-        sublabel: isOrigin ? '1.05 Rules & History' : isOccu ? '1.06 Rules & Career' : isArch ? '1.02 Rules & Persona' : 'History & Operations',
-        icon: BookOpen,
-        color: (isOrigin ? '#10b981' : isOccu ? '#f59e0b' : isArch ? '#8b5cf6' : '#c084fc'),
-        activeBg: (isOrigin ? 'bg-emerald-950/80' : isOccu ? 'bg-amber-950/80' : isArch ? 'bg-purple-950/80' : 'bg-purple-950/80'),
-        activeBorder: (isOrigin ? 'border-emerald-500/60' : isOccu ? 'border-amber-500/60' : isArch ? 'border-purple-500/60' : 'border-purple-500/60')
-      },
-      {
+      }
+    ];
+
+    // Economatrix Valuation (TSC, Tools, Crafting & Liquidity) is strictly restricted to Property Assets (augmentations, architecture, armor, gear, mecha, weapons)
+    if (isProperty) {
+      items.push({
+        id: 'economatrix',
+        label: 'Economatrix Valuation',
+        shortLabel: 'ECONOMATRIX',
+        sublabel: 'TSC, Tools & Liquidity',
+        icon: Coins,
+        color: '#f59e0b',
+        activeBg: 'bg-amber-950/80',
+        activeBorder: 'border-amber-500/60'
+      });
+    }
+
+    // Technology Codex workflow: Property Assets or Planetary/Faction Civilization Profiler
+    if (isProperty || ['planetary-design', 'factions'].includes(matrix.id)) {
+      items.push({
+        id: 'technology',
+        label: (matrix.id === 'planetary-design' || matrix.id === 'factions') ? 'Civilization Profiler' : 'Technology & Power',
+        shortLabel: 'TECHNOLOGY',
+        sublabel: (matrix.id === 'planetary-design' || matrix.id === 'factions') ? '16 Domains & Archetypes' : 'TL, Penalties & Schematics',
+        icon: Cpu,
+        color: '#38bdf8',
+        activeBg: 'bg-blue-950/80',
+        activeBorder: 'border-blue-500/60'
+      });
+    }
+
+    // Volumetric Scaling: Property Assets or Invocations
+    if (isProperty || ['invocation', 'meta-tech'].includes(matrix.id)) {
+      items.push({
+        id: 'scaling',
+        label: ['invocation', 'meta-tech'].includes(matrix.id) ? 'Chassis Amplification' : 'Volumetric Scaling',
+        shortLabel: ['invocation', 'meta-tech'].includes(matrix.id) ? 'RESONANCE' : 'SCALING',
+        sublabel: ['invocation', 'meta-tech'].includes(matrix.id) ? 'Chassis Scale & Area' : '14 Tiers, Dice & Matchups',
+        icon: Maximize2,
+        color: '#10b981',
+        activeBg: 'bg-emerald-950/80',
+        activeBorder: 'border-emerald-500/60'
+      });
+    }
+
+    items.push({
+      id: 'narrative',
+      label: (isOrigin || isOccu || isArch) ? 'Full Text & Lore' : 'Narrative & Lore',
+      shortLabel: 'LORE',
+      sublabel: isOrigin ? '1.05 Rules & History' : isOccu ? '1.06 Rules & Career' : isArch ? '1.02 Rules & Persona' : 'History & Operations',
+      icon: BookOpen,
+      color: (isOrigin ? '#10b981' : isOccu ? '#f59e0b' : isArch ? '#8b5cf6' : '#c084fc'),
+      activeBg: (isOrigin ? 'bg-emerald-950/80' : isOccu ? 'bg-amber-950/80' : isArch ? 'bg-purple-950/80' : 'bg-purple-950/80'),
+      activeBorder: (isOrigin ? 'border-emerald-500/60' : isOccu ? 'border-amber-500/60' : isArch ? 'border-purple-500/60' : 'border-purple-500/60')
+    });
+
+    if (matrix.id !== 'species') {
+      items.push({
         id: 'relational',
         label: 'Relational Links',
         shortLabel: 'RELATIONS',
@@ -975,8 +1169,8 @@ export const AssetStudio = ({
         color: '#3b82f6',
         activeBg: 'bg-blue-950/80',
         activeBorder: 'border-blue-500/60'
-      }
-    ];
+      });
+    }
 
     if (devMode) {
       items.push({
@@ -992,7 +1186,7 @@ export const AssetStudio = ({
     }
 
     return items;
-  }, [mechanicsTabConfig, devMode, matrix.id]);
+  }, [mechanicsTabConfig, devMode, matrix.id, isProperty]);
 
   const content = (
     <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full ${
@@ -1292,7 +1486,7 @@ export const AssetStudio = ({
                         {isEditMode ? (
                           field.type === 'select' ? (
                             <select
-                              value={val}
+                              value={toScalarSelectValue(val)}
                               onChange={(e) => handleFieldChange(field.name, e.target.value)}
                               className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-400 font-mono"
                             >
@@ -1307,8 +1501,8 @@ export const AssetStudio = ({
                               type="number"
                               min={field.min}
                               max={field.max}
-                              value={val}
-                              onChange={(e) => handleFieldChange(field.name, parseFloat(e.target.value) || 0)}
+                              value={toScalarNumberValue(val)}
+                              onChange={(e) => handleFieldChange(field.name, e.target.value === '' ? '' : (parseFloat(e.target.value) || 0))}
                               className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
                             />
                           ) : field.type === 'boolean' || field.type === 'checkbox' ? (
@@ -1376,8 +1570,8 @@ export const AssetStudio = ({
                     className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 resize-y leading-relaxed"
                   />
                 ) : (
-                  <div className="p-4 bg-slate-950/50 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans prose prose-invert max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  <div className="p-4 bg-slate-950/50 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
                       {formData.description || 'No description provided.'}
                     </ReactMarkdown>
                   </div>
@@ -1446,7 +1640,7 @@ export const AssetStudio = ({
                           {isEditMode ? (
                             field.type === 'select' ? (
                               <select
-                                value={val}
+                                value={toScalarSelectValue(val)}
                                 onChange={(e) => handleFieldChange(field.name, e.target.value)}
                                 className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-400 font-mono"
                               >
@@ -1461,8 +1655,8 @@ export const AssetStudio = ({
                                 type="number"
                                 min={field.min}
                                 max={field.max}
-                                value={val}
-                                onChange={(e) => handleFieldChange(field.name, parseFloat(e.target.value) || 0)}
+                                value={toScalarNumberValue(val)}
+                                onChange={(e) => handleFieldChange(field.name, e.target.value === '' ? '' : (parseFloat(e.target.value) || 0))}
                                 className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
                               />
                             ) : field.type === 'boolean' || field.type === 'checkbox' ? (
@@ -1832,7 +2026,55 @@ export const AssetStudio = ({
             </div>
           )}
 
-          {/* ── TAB 3: NARRATIVE & LORE ── */}
+          {/* ── TAB: ECONOMATRIX CODEX WORKFLOW ── */}
+          {Boolean(isProperty && activeStudioTab === 'economatrix') && (
+            <div className="space-y-4 animate-fade-in">
+              <EconomatrixStudioWorkflow
+                matrix={matrix}
+                formData={formData}
+                onChange={handleFieldChange}
+                isEditMode={isEditMode}
+                computedValues={computedValues}
+              />
+            </div>
+          )}
+
+          {/* ── TAB: TECHNOLOGY CODEX WORKFLOW ── */}
+          {activeStudioTab === 'technology' && (
+            <div className="space-y-4 animate-fade-in">
+              {['planetary-design', 'factions'].includes(matrix.id) ? (
+                <PlanetaryCivilizationWorkflow
+                  matrix={matrix}
+                  formData={formData}
+                  onChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                />
+              ) : (
+                <TechnologyStudioWorkflow
+                  matrix={matrix}
+                  formData={formData}
+                  onChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  computedValues={computedValues}
+                />
+              )}
+            </div>
+          )}
+
+          {/* ── TAB: SCALING CODEX WORKFLOW ── */}
+          {activeStudioTab === 'scaling' && (
+            <div className="space-y-4 animate-fade-in">
+              <ScalingStudioWorkflow
+                matrix={matrix}
+                formData={formData}
+                onChange={handleFieldChange}
+                isEditMode={isEditMode}
+                computedValues={computedValues}
+              />
+            </div>
+          )}
+
+          {/* ── TAB: NARRATIVE & LORE ── */}
           {activeStudioTab === 'narrative' && (
             <div className="space-y-4 animate-fade-in">
               <div className="space-y-1">
@@ -1854,22 +2096,102 @@ export const AssetStudio = ({
                 )}
               </div>
 
-              <div className="space-y-1">
-                <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
-                  Lore, Origin & Historical Dossier
-                </label>
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+                  <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <BookOpen size={14} className="text-purple-400" />
+                    <span>Lore, Origin & Historical Dossier</span>
+                  </label>
+
+                  {isEditMode && (
+                    <div className="flex items-center gap-1 bg-slate-900/90 border border-slate-800 p-0.5 rounded-lg text-xs font-mono">
+                      <button
+                        type="button"
+                        onClick={() => setLoreViewMode('preview')}
+                        className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-all flex items-center gap-1 cursor-pointer ${
+                          loreViewMode === 'preview'
+                            ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-sm'
+                            : 'text-slate-400 hover:text-slate-200'
+                        }`}
+                        title="Show formatted Markdown preview with styled headings"
+                      >
+                        <Eye size={12} />
+                        <span>Formatted</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setLoreViewMode('edit')}
+                        className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-all flex items-center gap-1 cursor-pointer ${
+                          loreViewMode === 'edit'
+                            ? 'bg-amber-950 text-amber-300 border border-amber-500/50 shadow-sm'
+                            : 'text-slate-400 hover:text-slate-200'
+                        }`}
+                        title="Edit raw Markdown text"
+                      >
+                        <Edit3 size={12} />
+                        <span>Editor</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setLoreViewMode('split')}
+                        className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-all flex items-center gap-1 cursor-pointer ${
+                          loreViewMode === 'split'
+                            ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-sm'
+                            : 'text-slate-400 hover:text-slate-200'
+                        }`}
+                        title="Side-by-side Editor and Live Preview"
+                      >
+                        <Sliders size={12} />
+                        <span>Split</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 {isEditMode ? (
-                  <textarea
-                    rows={5}
-                    value={formData.body || formData.lore || ''}
-                    onChange={(e) => handleFieldChange('body', e.target.value)}
-                    placeholder="Corporate provenance, manufacturing history, cultural significance..."
-                    className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 leading-relaxed"
-                  />
+                  loreViewMode === 'split' ? (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 min-h-[350px]">
+                      <div className="space-y-1 flex flex-col">
+                        <span className="text-[10px] font-mono text-amber-400 font-bold uppercase">Raw Markdown Editor</span>
+                        <textarea
+                          rows={14}
+                          value={formData.body || formData.lore || ''}
+                          onChange={(e) => handleFieldChange('body', e.target.value)}
+                          placeholder="Corporate provenance, manufacturing history, cultural significance..."
+                          className="w-full flex-1 p-3 bg-slate-950/90 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 leading-relaxed font-sans resize-y"
+                        />
+                      </div>
+                      <div className="space-y-1 flex flex-col">
+                        <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase">Live Formatted Preview</span>
+                        <div className="flex-1 p-4 bg-slate-950/70 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed overflow-y-auto max-h-[500px]">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
+                            {formData.body || formData.lore || '*No narrative lore recorded.*'}
+                          </ReactMarkdown>
+                        </div>
+                      </div>
+                    </div>
+                  ) : loreViewMode === 'edit' ? (
+                    <div className="space-y-1">
+                      <textarea
+                        rows={12}
+                        value={formData.body || formData.lore || ''}
+                        onChange={(e) => handleFieldChange('body', e.target.value)}
+                        placeholder="Corporate provenance, manufacturing history, cultural significance..."
+                        className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 leading-relaxed font-sans"
+                      />
+                      <span className="text-[10px] font-mono text-slate-500">Supports Markdown formatting (# Heading 1, ## Heading 2, ### Subhead, **bold**, bullet points)</span>
+                    </div>
+                  ) : (
+                    <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
+                        {formData.body || formData.lore || '*No narrative lore recorded. Click "Editor" above to add lore.*'}
+                      </ReactMarkdown>
+                    </div>
+                  )
                 ) : (
-                  <div className="p-4 bg-slate-950/50 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans prose prose-invert max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {formData.body || formData.lore || 'No narrative lore recorded.'}
+                  <div className="p-4 bg-slate-950/50 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
+                      {formData.body || formData.lore || '*No narrative lore recorded.*'}
                     </ReactMarkdown>
                   </div>
                 )}
@@ -1894,8 +2216,8 @@ export const AssetStudio = ({
                       <span className="text-[10px] font-mono text-slate-500">Supports Markdown formatting (#, ##, bullet points, bold)</span>
                     </div>
                   ) : (
-                    <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans prose prose-invert max-w-none">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
                         {formData.full_text || 'No full rules text recorded.'}
                       </ReactMarkdown>
                     </div>
@@ -2139,8 +2461,8 @@ export const AssetStudio = ({
           </div>
         </div>
 
-        {/* Right Column: Live Derived Metrics Panel (Exclusively for property items) */}
-        {isProperty && (
+        {/* Right Column: Live Derived Metrics & Quick Adjudicator Panel (Property Assets Only) */}
+        {Boolean(isProperty) && (
           <div className="w-full lg:w-84 xl:w-96 shrink-0">
             <ComputedOutputPanel
               computedOutputs={matrix.computedOutputs || []}

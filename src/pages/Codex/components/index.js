@@ -16,3 +16,7 @@ export { WeaponModStacker } from './WeaponModStacker';
 export { OriginConfigurator } from './OriginConfigurator';
 export { OccupationConfigurator } from './OccupationConfigurator';
 export { ArchetypeConfigurator } from './ArchetypeConfigurator';
+export { EconomatrixStudioWorkflow } from './codexStudioIntegration/EconomatrixStudioWorkflow';
+export { TechnologyStudioWorkflow } from './codexStudioIntegration/TechnologyStudioWorkflow';
+export { ScalingStudioWorkflow } from './codexStudioIntegration/ScalingStudioWorkflow';
+export { PlanetaryCivilizationWorkflow } from './codexStudioIntegration/PlanetaryCivilizationWorkflow';

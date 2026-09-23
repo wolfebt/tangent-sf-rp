@@ -82,19 +82,12 @@ export const categoryConfig = {
             cp: { type: 'number', label: 'Character Points (CP)', default: 0 },
             body: { type: 'textarea', label: 'Full Lore & Profile (Markdown)', aiEnabled: true },
             note: { type: 'textarea', label: 'Architect Notes' }
-        },
-        subcategories: {
-            species_type: { label: 'TYPES' },
-            species_size: { label: 'SIZES' },
-            species_movement: { label: 'MOVEMENTS' },
-            trait: { label: 'TRAITS' },
-            disadvantages: { label: 'DISADVANTAGES' }
         }
     },
     species_type: {
         label: 'TYPES',
         viewType: 'table',
-        parent: 'species',
+        hideFromMenu: true,
         directory_columns: ['name', 'bp', 'senses', 'immunities', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Type Name' },
@@ -113,7 +106,7 @@ export const categoryConfig = {
     species_size: {
         label: 'SIZES',
         viewType: 'table',
-        parent: 'species',
+        hideFromMenu: true,
         directory_columns: ['name', 'bp', 'scaling_display', 'strength_mod', 'combat_mod', 'stealth_mod', 'height_length_range', 'weight_range', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Size Category' },
@@ -134,7 +127,7 @@ export const categoryConfig = {
     species_movement: {
         label: 'MOVEMENTS',
         viewType: 'table',
-        parent: 'species',
+        hideFromMenu: true,
         directory_columns: ['name', 'bp', 'speed', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Movement Mode' },
@@ -149,7 +142,7 @@ export const categoryConfig = {
     trait: {
         label: 'SPECIES TRAITS',
         viewType: 'table',
-        parent: 'species',
+        hideFromMenu: true,
         directory_columns: ['name', 'bp', 'tier', 'type', 'isPurchasable', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Trait Name' },
@@ -482,6 +475,7 @@ export const categoryConfig = {
     },
     technology: {
         label: 'TECHNOLOGY',
+        hideFromMenu: true,
         viewType: 'table',
         directory_columns: ['name', 'tech_level', 'meta_level', 'craft_dc'],
         fields: {
@@ -496,6 +490,7 @@ export const categoryConfig = {
     },
     economatrix: {
         label: 'ECONOMATRIX',
+        hideFromMenu: true,
         viewType: 'table',
         directory_columns: ['name', 'economic_type', 'base_cost'],
         fields: {
@@ -564,6 +559,7 @@ export const categoryConfig = {
     },
     augmentations: {
         label: 'AUGMENTATIONS',
+        parent: 'personal_property',
         viewType: 'table',
         directory_columns: ['name', 'stage', 'type', 'tech_level', 'sp', 'dr', 'design_dc'],
         fields: {
@@ -594,7 +590,7 @@ export const categoryConfig = {
         label: 'PROPERTY',
         isParent: true,
         viewType: 'landing',
-        subItems: ['gear', 'weaponry', 'armoring', 'mecha', 'architecture', 'other'],
+        subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'other'],
     },
     gear: {
         label: 'Gear',
@@ -1401,6 +1397,8 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   // System & Core Rules
   { key: 'prerequisite', group: 'system', label: 'Prerequisites', icon: '📋', desc: 'Prerequisite condition gates (attributes, skills, DC thresholds) required for features and items.' },
   { key: 'modifier', group: 'system', label: 'Modifiers', icon: '⚙️', desc: 'Constant, situational, and bonus modifiers altering character statistics and capabilities.' },
+  { key: 'technology', group: 'system', label: 'Technology Profiles', icon: '⚡', desc: 'Tech Level (TL 0-5) baseline profiles, technological milestones, and era complexity DCs.' },
+  { key: 'economatrix', group: 'system', label: 'Economatrix Commodities', icon: '💎', desc: 'Commodities, trade routes, lifestyles, resource units, and economic valuation formulas.' },
 
   // Species, Anatomy & Traits
   { key: 'species_type', group: 'species_anatomy', label: 'Species Types', icon: '🧬', desc: 'Biological and synthetic classifications (Humanoid, Cybernetic, Xenobiological, etc.).' },
@@ -1447,8 +1445,11 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'society_medicine', group: 'societies_spheres', label: 'Society: Medicine', icon: '💉', desc: 'Healthcare infrastructure, cellular regeneration, trauma care, and panaceas.' },
   { key: 'society_society', group: 'societies_spheres', label: 'Society: Structure', icon: '⚖️', desc: 'Government models, legal systems, social stratification, and caste frameworks.' },
   { key: 'society_synthetics', group: 'societies_spheres', label: 'Society: Synthetics', icon: '🤖', desc: 'Artificial intelligence, android rights, synthetic biology, and cybernetics.' },
-  { key: 'society_weaponry', group: 'societies_spheres', label: 'Society: Weaponry', icon: '⚔️', desc: 'Military doctrines, planetary defense grids, ordinance, and arms advancement.' }
 ];
+
+export const isDevelopmentField = (key) => DEVELOPMENT_FIELDS_REGISTRY.some(f => f.key === key);
+export const getDevelopmentField = (key) => DEVELOPMENT_FIELDS_REGISTRY.find(f => f.key === key);
+export const getDevelopmentFieldGroup = (groupId) => DEVELOPMENT_FIELDS_GROUPS.find(g => g.id === groupId);
 
 /**
  * Master 7-Tier Universal Field Order Weights

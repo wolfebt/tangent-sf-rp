@@ -24,7 +24,8 @@ import {
   Brain,
   ShieldCheck,
   Scale,
-  Edit3
+  Edit3,
+  Trash2
 } from 'lucide-react';
 import { 
   SPECIES_BUDGET_LEVELS, 
@@ -42,8 +43,64 @@ import {
   resolveMovementId
 } from '../../../engines/tangentConstants';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
-import { DEFAULT_SPECIES_MOVEMENT, getMovementById } from '../../../data/speciesMovementData';
+import { DEFAULT_SPECIES_MOVEMENT, getMovementById, SPECIES_MOVEMENT_PACES } from '../../../data/speciesMovementData';
 import { getTraitChoiceConfig } from '../../../data/speciesTraitChoices';
+
+export const getBasicMovementDescription = (desc) => {
+  if (!desc) return '';
+  return desc.split(/###|\n\n/)[0].trim();
+};
+
+export const getMovementPaces = (mode) => {
+  const targetMode = mode.target_mode || mode.type || 'Ground';
+  const stages = (SPECIES_MOVEMENT_PACES || []).filter(s => 
+    (s.target_mode || '').toLowerCase() === targetMode.toLowerCase()
+  );
+  if (stages.length > 0) {
+    return stages.map(s => {
+      const cleanName = s.name.replace(/^[^:]+:\s*/, '').replace(/\s*Pace.*$/, '').trim();
+      const multStr = s.multiplier !== undefined ? `${s.multiplier}x` : '1x';
+      return { name: cleanName, multiplier: multStr };
+    });
+  }
+  if (targetMode === 'Ground') {
+    return [
+      { name: 'Walk', multiplier: '1x' },
+      { name: 'Jog', multiplier: '2x' },
+      { name: 'Run', multiplier: '4x' },
+      { name: 'Sprint', multiplier: '6x' },
+      { name: 'Crawl', multiplier: '0.5x' },
+      { name: 'Slow Crawl', multiplier: '0.25x' }
+    ];
+  }
+  if (targetMode === 'Flying') {
+    return [
+      { name: 'Cruise', multiplier: '1x' },
+      { name: 'Max Flight', multiplier: '2x' },
+      { name: 'Hover', multiplier: '0.5x' }
+    ];
+  }
+  if (targetMode === 'Swimming') {
+    return [
+      { name: 'Surface', multiplier: '1x' },
+      { name: 'Submerged Dash', multiplier: '2x' },
+      { name: 'Treading', multiplier: '0.5x' }
+    ];
+  }
+  if (targetMode === 'Burrowing') {
+    return [
+      { name: 'Tunneling', multiplier: '0.5x' },
+      { name: 'Excavation', multiplier: '0.19x' }
+    ];
+  }
+  if (targetMode === 'Flicker') {
+    return [
+      { name: 'Phase Step', multiplier: '1x' },
+      { name: 'Rush', multiplier: '2x' }
+    ];
+  }
+  return [{ name: 'Standard', multiplier: '1x' }];
+};
 import { TraitChoiceModal } from '../../../components/Codex/TraitChoiceModal';
 import { calculateSpeciesBP, calculateSpeciesCombatModifiers } from '../../../engines/tangentEntityEngines';
 import { useDBM } from '../../../context/DBMContext';
@@ -148,6 +205,32 @@ const GENETICS_NAV_ITEMS = [
   }
 ];
 
+export const normalizeSpeciesSize = (raw) => {
+  if (Array.isArray(raw)) raw = raw[0];
+  if (typeof raw === 'object' && raw !== null) raw = raw.name || raw.value || raw.id || '';
+  let s = String(raw || 'Medium').trim();
+  s = s.replace(/^species_size-/, '').replace(/-/g, ' ');
+  const match = Object.keys(SPECIES_SIZES).find(k => k.toLowerCase() === s.toLowerCase());
+  return match || 'Medium';
+};
+
+export const normalizeSpeciesType = (raw) => {
+  if (Array.isArray(raw)) raw = raw[0];
+  if (typeof raw === 'object' && raw !== null) raw = raw.name || raw.value || raw.id || '';
+  let t = String(raw || 'Humanoid').trim();
+  t = t.replace(/^species_type-/, '').replace(/-/g, ' ');
+  const match = Object.keys(SPECIES_TYPES).find(k => k.toLowerCase() === t.toLowerCase());
+  return match || 'Humanoid';
+};
+
+export const normalizeSpeciesBudget = (raw) => {
+  if (Array.isArray(raw)) raw = raw[0];
+  if (typeof raw === 'object' && raw !== null) raw = raw.name || raw.id || '';
+  let b = String(raw || 'Standard').trim();
+  const match = Object.keys(SPECIES_BUDGET_LEVELS).find(k => k.toLowerCase() === b.toLowerCase());
+  return match || 'Standard';
+};
+
 export const SpeciesTraitSelector = ({ 
   formData = {}, 
   onChange, 
@@ -168,14 +251,27 @@ export const SpeciesTraitSelector = ({
   const [movementSearchQuery, setMovementSearchQuery] = useState('');
   const [customStigmaInput, setCustomStigmaInput] = useState('');
   const [activeChoiceModal, setActiveChoiceModal] = useState(null);
+  const [isCustomFlawOpen, setIsCustomFlawOpen] = useState(false);
+  const [customFlawName, setCustomFlawName] = useState('');
+  const [customFlawRefund, setCustomFlawRefund] = useState(3);
+  const [customFlawType, setCustomFlawType] = useState('Physical');
+  const [customFlawDesc, setCustomFlawDesc] = useState('');
 
-  const selectedType = formData.species_type || formData.type || 'Humanoid';
-  const selectedSize = formData.size || 'Medium';
-  const selectedBudget = formData.budget_level || 'Standard';
+  const selectedType = normalizeSpeciesType(formData.species_type || formData.type);
+  const selectedSize = normalizeSpeciesSize(formData.size || formData.species_size);
+  const selectedBudget = normalizeSpeciesBudget(formData.budget_level);
   const selectedModes = Array.isArray(formData.movement_modes) ? formData.movement_modes : (formData.movement ? [formData.movement] : ['species_movement-bipedal']);
   const selectedTraits = Array.isArray(formData.traits) ? formData.traits : [];
   const selectedDisadvantages = Array.isArray(formData.disadvantages) ? formData.disadvantages : [];
-  const selectedStigma = formData.social_stigma || formData.stigma || 'None';
+  const selectedStigma = typeof formData.social_stigma === 'string'
+    ? formData.social_stigma
+    : typeof formData.stigma === 'string'
+    ? formData.stigma
+    : Array.isArray(formData.social_stigma)
+    ? formData.social_stigma.join(', ')
+    : Array.isArray(formData.stigma)
+    ? formData.stigma.join(', ')
+    : 'None';
   
   const attributes = useMemo(() => {
     const base = {
@@ -340,6 +436,30 @@ export const SpeciesTraitSelector = ({
       updated = [...selectedDisadvantages, disId];
     }
     onChange('disadvantages', updated);
+  };
+
+  const handleAddCustomFlaw = (e) => {
+    if (e) e.preventDefault();
+    if (!customFlawName.trim()) return;
+    AudioService.playTerminalBeep(1100, 0.04);
+    const refundVal = Math.max(1, Number(customFlawRefund) || 3);
+    const newFlaw = {
+      id: `custom-flaw-${Date.now()}-${customFlawName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+      name: customFlawName.trim(),
+      refundBP: refundVal,
+      costBP: -refundVal,
+      classification: customFlawType,
+      type: customFlawType,
+      description: customFlawDesc.trim() || 'Custom physiological, sensory, or cultural disadvantage.',
+      mechanics: customFlawDesc.trim(),
+      isCustom: true
+    };
+    onChange('disadvantages', [...selectedDisadvantages, newFlaw]);
+    setCustomFlawName('');
+    setCustomFlawDesc('');
+    setCustomFlawRefund(3);
+    setCustomFlawType('Physical');
+    setIsCustomFlawOpen(false);
   };
 
   const toggleMovementMode = (modeId) => {
@@ -891,7 +1011,10 @@ export const SpeciesTraitSelector = ({
               </label>
               <select
                 value={selectedSize}
-                onChange={(e) => onChange('size', e.target.value)}
+                onChange={(e) => {
+                  onChange('size', e.target.value);
+                  onChange('species_size', e.target.value);
+                }}
                 className="w-full p-2 bg-slate-950 border border-sky-500/40 rounded-xl text-xs text-sky-200 focus:outline-none focus:border-sky-400 font-mono"
               >
                 {Object.keys(SPECIES_SIZES).map(s => (
@@ -1227,12 +1350,12 @@ export const SpeciesTraitSelector = ({
                 value={formData.inherent_features || []}
                 onChange={(val) => onChange('inherent_features', val)}
                 onOpenPicker={onOpenPicker ? () => onOpenPicker({
-                  source: 'trait',
+                  source: 'features',
                   target: 'inherent_features',
                   label: 'Inherent Features'
                 }) : null}
                 isEditMode={isEditMode}
-                dbFeatures={dbData.trait || dbData.traits || dbData.features || []}
+                dbFeatures={dbData.features || []}
                 variant="emerald"
               />
             </div>
@@ -1250,12 +1373,12 @@ export const SpeciesTraitSelector = ({
                 value={formData.recommended_features || []}
                 onChange={(val) => onChange('recommended_features', val)}
                 onOpenPicker={onOpenPicker ? () => onOpenPicker({
-                  source: 'trait',
+                  source: 'features',
                   target: 'recommended_features',
                   label: 'Recommended Features'
                 }) : null}
                 isEditMode={isEditMode}
-                dbFeatures={dbData.trait || dbData.traits || dbData.features || []}
+                dbFeatures={dbData.features || []}
                 variant="purple"
               />
             </div>
@@ -1424,6 +1547,11 @@ export const SpeciesTraitSelector = ({
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {filteredModes.map(mode => {
                           const isSelected = selectedModes.some(sm => resolveMovementId(sm) === mode.id);
+                          const basicDesc = getBasicMovementDescription(mode.description);
+                          const paces = getMovementPaces(mode);
+                          const speed = mode.base_speed || mode.speed || 30;
+                          const modeType = mode.type || mode.target_mode || groupKey || 'Ground';
+
                           return (
                             <OmnicortexTooltip
                               key={mode.id}
@@ -1434,28 +1562,63 @@ export const SpeciesTraitSelector = ({
                               <button
                                 type="button"
                                 onClick={() => toggleMovementMode(mode.id)}
-                                className={`w-full p-2.5 rounded-lg border text-left transition-all flex items-center justify-between cursor-pointer ${
+                                className={`w-full p-2.5 rounded-xl border text-left transition-all flex flex-col justify-between gap-1.5 cursor-pointer ${
                                   isSelected 
                                     ? 'bg-amber-950/60 border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.25)] ring-1 ring-amber-400/40' 
                                     : 'bg-slate-900/60 border-slate-800 hover:border-amber-500/40 hover:bg-slate-900'
                                 }`}
                               >
-                                <div className="min-w-0 flex-1 pr-2">
-                                  <div className="flex items-center gap-1.5 flex-wrap">
-                                    <span className="text-xs font-bold text-slate-100">{mode.name}</span>
-                                    <span className="text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-300 rounded font-mono">
-                                      {mode.base_speed || mode.speed || 30} ft
-                                    </span>
+                                {/* Header: Name, Status & CP Cost */}
+                                <div className="flex items-center justify-between gap-2 w-full">
+                                  <div className="flex items-center gap-1.5 min-w-0">
+                                    <span className="text-xs font-bold text-slate-100 truncate">{mode.name}</span>
+                                    {isSelected && (
+                                      <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-500/20 text-emerald-300 font-bold shrink-0">
+                                        Equipped
+                                      </span>
+                                    )}
                                   </div>
-                                  <span className="text-[10px] text-slate-400 block mt-0.5 line-clamp-1">{mode.description}</span>
-                                </div>
-                                <div className="text-right shrink-0">
-                                  <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
+                                  <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded shrink-0 ${
                                     mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400'
                                   }`}>
                                     {mode.bp > 0 ? `+${mode.bp} CP` : '0 CP'}
                                   </span>
                                 </div>
+
+                                {/* Base Speed and Locomotion Type */}
+                                <div className="flex items-center gap-2 text-[10.5px] font-mono text-amber-300">
+                                  <span className="px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 font-bold">
+                                    Base Speed: {speed} ft
+                                  </span>
+                                  <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
+                                    Type: {modeType}
+                                  </span>
+                                </div>
+
+                                {/* Basic Description */}
+                                {basicDesc && (
+                                  <p className="text-[10.5px] text-slate-300 leading-snug font-sans">
+                                    {basicDesc}
+                                  </p>
+                                )}
+
+                                {/* Mode Paces and Multipliers */}
+                                {paces.length > 0 && (
+                                  <div className="pt-1 border-t border-slate-800/80 flex flex-wrap items-center gap-1">
+                                    <span className="text-[9px] font-mono text-slate-400 uppercase font-bold mr-0.5">
+                                      Paces:
+                                    </span>
+                                    {paces.map((pace, pIdx) => (
+                                      <span
+                                        key={pIdx}
+                                        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800 text-[9.5px] font-mono"
+                                      >
+                                        <span className="text-slate-300">{pace.name}</span>
+                                        <span className="text-amber-400 font-bold">({pace.multiplier})</span>
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
                               </button>
                             </OmnicortexTooltip>
                           );
@@ -1651,43 +1814,223 @@ export const SpeciesTraitSelector = ({
         </div>
       )}
 
-      {/* Tab 4: Disadvantages */}
+      {/* Tab 7: Disadvantages / Flaws */}
       {activeTab === 'disadvantages' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {SPECIES_DISADVANTAGES.map(dis => {
-            const isSelected = selectedDisadvantages.some(d => (typeof d === 'string' ? d : d?.id) === dis.id);
-            return (
-              <OmnicortexTooltip
-                key={dis.id}
-                content={<DisadvantageSummaryCard disadvantage={dis} />}
-                color="#ef4444"
-                className="w-full"
+        <div className="space-y-4">
+          {/* Top Status & Controls Bar */}
+          <div className="p-3 bg-red-950/30 border border-red-500/40 rounded-xl flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <ShieldAlert size={18} className="text-red-400" />
+              <div>
+                <span className="text-xs font-bold text-red-200 uppercase tracking-wider block">
+                  Species Disadvantages & Physiological Flaws
+                </span>
+                <span className="text-[10.5px] text-slate-400 font-mono">
+                  {selectedDisadvantages.length} active flaw{selectedDisadvantages.length === 1 ? '' : 's'} • Total Refund:{' '}
+                  <strong className="text-emerald-300">-{bpData.breakdown?.disadvantagesRefund || 0} CP</strong>
+                </span>
+              </div>
+            </div>
+
+            {isEditMode && (
+              <button
+                type="button"
+                onClick={() => setIsCustomFlawOpen(prev => !prev)}
+                className="px-3 py-1.5 bg-red-950/80 hover:bg-red-900 border border-red-500/50 text-red-200 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer"
               >
+                {isCustomFlawOpen ? <X size={13} /> : <Plus size={13} />}
+                <span>{isCustomFlawOpen ? 'Close Creator' : '+ Custom Flaw'}</span>
+              </button>
+            )}
+          </div>
+
+          {/* Inline Custom Flaw Creator Form */}
+          {isCustomFlawOpen && isEditMode && (
+            <form onSubmit={handleAddCustomFlaw} className="p-4 bg-slate-950/90 border border-red-500/40 rounded-xl space-y-3 font-mono text-xs shadow-lg animate-fade-in">
+              <div className="flex items-center justify-between border-b border-red-500/30 pb-2">
+                <span className="font-bold uppercase tracking-wider text-red-300 flex items-center gap-1.5">
+                  <AlertTriangle size={14} className="text-red-400" />
+                  <span>Create Custom Species Flaw</span>
+                </span>
+                <span className="text-[10px] text-slate-400">Adds custom refund directly to CP budget</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="space-y-1 sm:col-span-2">
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase">
+                    Flaw Designation / Title *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="E.g., Vulnerable to Cold, Fragile Skeleton, Mute Physiology..."
+                    value={customFlawName}
+                    onChange={(e) => setCustomFlawName(e.target.value)}
+                    className="w-full p-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-red-400"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase">
+                    CP Refund (Points)
+                  </label>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-emerald-400 font-bold">-</span>
+                    <input
+                      type="number"
+                      min={1}
+                      max={15}
+                      value={customFlawRefund}
+                      onChange={(e) => setCustomFlawRefund(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                      className="w-full p-2 bg-slate-900 border border-slate-700 rounded-lg text-emerald-300 font-bold focus:outline-none focus:border-red-400"
+                    />
+                    <span className="text-slate-400 text-[10px]">CP</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="space-y-1">
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase">
+                    Flaw Classification
+                  </label>
+                  <select
+                    value={customFlawType}
+                    onChange={(e) => setCustomFlawType(e.target.value)}
+                    className="w-full p-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-red-400"
+                  >
+                    <option value="Physical">Physical</option>
+                    <option value="Sensory">Sensory</option>
+                    <option value="Mental">Mental</option>
+                    <option value="Biological">Biological</option>
+                    <option value="Environmental">Environmental</option>
+                    <option value="Social">Social</option>
+                    <option value="Metaphysical">Metaphysical</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1 sm:col-span-2">
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase">
+                    Flaw Description & Tactical Penalties
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Describe physiological drawback, penalty conditions, or weakness..."
+                    value={customFlawDesc}
+                    onChange={(e) => setCustomFlawDesc(e.target.value)}
+                    className="w-full p-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-red-400"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-1">
                 <button
                   type="button"
-                  onClick={() => toggleDisadvantage(dis.id)}
-                  className={`w-full p-2.5 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
-                    isSelected 
-                      ? 'bg-red-950/40 border-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]' 
-                      : 'bg-slate-950/60 border-slate-800 hover:border-red-500/40'
-                  }`}
+                  onClick={() => setIsCustomFlawOpen(false)}
+                  className="px-3 py-1.5 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 text-xs cursor-pointer"
                 >
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-bold text-slate-100">{dis.name}</span>
-                      <Info size={10} className="text-red-400 opacity-60" />
-                    </div>
-                    <span className="text-[10px] text-slate-400 block mt-0.5">{dis.description}</span>
-                  </div>
-                  <div className="text-right shrink-0 ml-2">
-                    <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-                      -{dis.refundBP} CP
-                    </span>
-                  </div>
+                  Cancel
                 </button>
-              </OmnicortexTooltip>
-            );
-          })}
+                <button
+                  type="submit"
+                  disabled={!customFlawName.trim()}
+                  className="px-4 py-1.5 bg-red-950 hover:bg-red-900 border border-red-500/60 text-red-200 font-bold rounded-lg text-xs flex items-center gap-1.5 shadow-sm disabled:opacity-50 cursor-pointer"
+                >
+                  <Plus size={13} />
+                  <span>Add Custom Flaw (-{customFlawRefund} CP)</span>
+                </button>
+              </div>
+            </form>
+          )}
+
+          {/* Active Custom Flaws List */}
+          {selectedDisadvantages.some(d => typeof d === 'object' || d?.isCustom) && (
+            <div className="space-y-2">
+              <span className="text-xs font-bold text-red-300 uppercase tracking-wider block">
+                Custom Species Flaws ({selectedDisadvantages.filter(d => typeof d === 'object').length})
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {selectedDisadvantages.filter(d => typeof d === 'object').map(customFlaw => (
+                  <div
+                    key={customFlaw.id}
+                    className="p-3 bg-red-950/30 border border-red-500/50 rounded-xl flex items-start justify-between gap-2 shadow-sm font-mono text-xs"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-bold text-white text-xs">{customFlaw.name}</span>
+                        <span className="px-1.5 py-0.2 rounded text-[9px] bg-red-500/20 text-red-300 border border-red-500/40 uppercase font-bold">
+                          Custom {customFlaw.classification || 'Flaw'}
+                        </span>
+                      </div>
+                      {customFlaw.description && (
+                        <p className="text-[10.5px] text-slate-300 mt-1 leading-snug font-sans">
+                          {customFlaw.description}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 ml-2">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                        -{customFlaw.refundBP || 0} CP
+                      </span>
+                      {isEditMode && (
+                        <button
+                          type="button"
+                          onClick={() => toggleDisadvantage(customFlaw.id)}
+                          className="p-1 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
+                          title="Remove custom flaw"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Canonical BASTION Disadvantages Grid */}
+          <div className="space-y-2">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+              Canonical BASTION Species Disadvantages
+            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {SPECIES_DISADVANTAGES.map(dis => {
+                const isSelected = selectedDisadvantages.some(d => (typeof d === 'string' ? d : d?.id) === dis.id);
+                return (
+                  <OmnicortexTooltip
+                    key={dis.id}
+                    content={<DisadvantageSummaryCard disadvantage={dis} />}
+                    color="#ef4444"
+                    className="w-full"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleDisadvantage(dis.id)}
+                      className={`w-full p-2.5 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer ${
+                        isSelected 
+                          ? 'bg-red-950/40 border-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]' 
+                          : 'bg-slate-950/60 border-slate-800 hover:border-red-500/40'
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-bold text-slate-100">{dis.name}</span>
+                          <Info size={10} className="text-red-400 opacity-60" />
+                        </div>
+                        <span className="text-[10px] text-slate-400 block mt-0.5">{dis.description}</span>
+                      </div>
+                      <div className="text-right shrink-0 ml-2">
+                        <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+                          -{dis.refundBP} CP
+                        </span>
+                      </div>
+                    </button>
+                  </OmnicortexTooltip>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 

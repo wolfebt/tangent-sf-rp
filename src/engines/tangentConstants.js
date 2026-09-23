@@ -2178,8 +2178,17 @@ export const COMPANION_BOND_FEATURES = [
 ];
 
 // ═══════════════════════════════════════════════════════════
-// INVOCATION MATRIX CONSTANTS (PLAN 26)
+// INVOCATION MATRIX & SPECIAL ABILITY CONSTANTS (PLAN 26)
 // ═══════════════════════════════════════════════════════════
+
+export const SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES = [
+  { id: 'attr-intellect', name: 'Intellect', code: 'INT', check: 'Reason', description: 'Cognitive, psionic, and calculated supernatural architecture' },
+  { id: 'attr-wisdom', name: 'Wisdom', code: 'WIS', check: 'Willpower', description: 'Intuitive, spiritual, instinctual, and willpower-driven powers' },
+  { id: 'attr-charisma', name: 'Charisma', code: 'CHA', check: 'Presence', description: 'Inherent, force-of-personality, innate dragon-blood, or aura traits' },
+  { id: 'attr-agility', name: 'Agility', code: 'AGI', check: 'Reflex', description: 'Kinetic reflexes, precision breath weapons, phasing evasion' },
+  { id: 'attr-strength', name: 'Strength', code: 'STR', check: 'Might', description: 'Raw brute force manifestations, seismic shocks, heavy biomorphic traits' },
+  { id: 'attr-stamina', name: 'Stamina', code: 'STA', check: 'Fortitude', description: 'Metabolic regeneration, bodily adaptations, toxic expulsions' }
+];
 
 export const INVOCATION_DISCIPLINES = [
   { id: 'telekinesis', name: 'Telekinesis', parent: 'Force / Kinetic', type: 'Attack / Utility', description: 'Manipulate physical matter, project kinetic blasts, create force shields' },

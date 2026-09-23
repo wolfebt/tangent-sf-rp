@@ -24,6 +24,9 @@ import {
   calculateMetaTechCapacity,
   computeMetaTechStats
 } from '../tangentEntityEngines.js';
+import { isSpecialAbility, resolvePowerFoundation } from '../../utils/metaphysicsUtils.js';
+import { checkPrerequisite } from '../../utils/prerequisiteEvaluator.js';
+import { createAttackFromInvocation } from '../../utils/combatUtils.js';
 
 describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
 
@@ -734,6 +737,132 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.strictEqual(computed.final_cast_dc, 20);
       assert.strictEqual(computed.skill_stage_num, 3); // Expert
       assert.ok(computed.complexity_tier);
+    });
+
+    it('handles special ability classification and shifts foundation to attribute in computeInvocationStats', () => {
+      const specialAbilityStats = computeInvocationStats({
+        name: 'Draconic Thermal Breath',
+        isSpecialAbility: true,
+        foundationAttribute: 'attr-wisdom',
+        baseDifficulty: 'Standard',
+        base_dc: 15,
+        time: 'StandardAction',
+        range: 'Medium',
+        area: 'MediumCone',
+        duration: 'Instant'
+      });
+
+      assert.strictEqual(specialAbilityStats.is_special_ability, true);
+      assert.strictEqual(specialAbilityStats.foundation_type, 'attribute');
+      assert.strictEqual(specialAbilityStats.foundation_attribute, 'attr-wisdom');
+      assert.ok(specialAbilityStats.foundation_summary.includes('Wisdom'));
+      assert.strictEqual(specialAbilityStats.power_type, 'special_ability');
+
+      const standardInvStats = computeInvocationStats({
+        name: 'Pyroclastic Ray',
+        isSpecialAbility: false,
+        discipline: 'Energy',
+        subSkill: 'Pyro'
+      });
+      assert.strictEqual(standardInvStats.is_special_ability, false);
+      assert.strictEqual(standardInvStats.foundation_type, 'discipline_meta_skill');
+      assert.strictEqual(standardInvStats.power_type, 'invocation');
+    });
+
+    it('correctly resolves stand-alone foundation vs discipline meta focus skill in resolvePowerFoundation', () => {
+      const mockChar = {
+        'attr-wisdom': 14,
+        'skill-meta-entropy': 6,
+        'skill-meta-entropy-rank': 3
+      };
+      const getAttrTotal = (key) => (key === 'attr-wisdom' ? 14 : 10);
+
+      const specialAbility = {
+        name: 'Void Gaze',
+        isSpecialAbility: true,
+        foundationAttribute: 'attr-wisdom',
+        rank: 4,
+        mod: 2
+      };
+
+      const resolvedSA = resolvePowerFoundation(specialAbility, mockChar, getAttrTotal);
+      assert.strictEqual(resolvedSA.isSpecialAbility, true);
+      assert.strictEqual(resolvedSA.foundationType, 'attribute');
+      assert.strictEqual(resolvedSA.foundationAttribute, 'attr-wisdom');
+      assert.strictEqual(resolvedSA.attributeScore, 14);
+      assert.strictEqual(resolvedSA.rank, 4);
+      assert.strictEqual(resolvedSA.mod, 2);
+      assert.strictEqual(resolvedSA.totalScore, 20); // 14 + 4 + 2
+      assert.strictEqual(resolvedSA.requiresAwakenedDiscipline, false);
+      assert.strictEqual(resolvedSA.requiresMetaFocusSkill, false);
+
+      const standardInvocation = {
+        name: 'Entropy Hex',
+        baseSkillId: 'meta-entropy',
+        discipline: 'Entropy',
+        rank: 3,
+        mod: 1
+      };
+      const resolvedInv = resolvePowerFoundation(standardInvocation, mockChar, getAttrTotal);
+      assert.strictEqual(resolvedInv.isSpecialAbility, false);
+      assert.strictEqual(resolvedInv.foundationType, 'discipline_meta_skill');
+      assert.strictEqual(resolvedInv.requiresAwakenedDiscipline, true);
+      assert.strictEqual(resolvedInv.requiresMetaFocusSkill, true);
+    });
+
+    it('bypasses awakened discipline checks in checkPrerequisite for Special Abilities', () => {
+      // Unawakened character (no awakened disciplines)
+      const unawakenedChar = {
+        'awakened-disciplines': []
+      };
+
+      // Standard invocation requiring Awakened Energy
+      const standardInv = {
+        name: 'Plasma Arc',
+        discipline: 'Energy',
+        subSkill: 'Pyro'
+      };
+      const standardResult = checkPrerequisite(standardInv, unawakenedChar, 'invocations');
+      assert.strictEqual(standardResult.isPossessed, false);
+      assert.strictEqual(standardResult.hasPrerequisite, true);
+
+      // Special Ability stand-alone trait
+      const specialAbility = {
+        name: 'Thermal Breath',
+        isSpecialAbility: true,
+        discipline: 'Energy',
+        subSkill: 'Elemental'
+      };
+      const saResult = checkPrerequisite(specialAbility, unawakenedChar, 'invocations');
+      assert.strictEqual(saResult.isPossessed, true);
+      assert.strictEqual(saResult.hasPrerequisite, false);
+    });
+
+    it('creates attack from Special Ability using foundational attribute + ranks without meta skill ranks', () => {
+      const mockChar = {
+        'attr-wisdom': 16,
+        'skill-meta-entropy-rank': 0
+      };
+      const getAttrTotal = (key) => (key === 'attr-wisdom' ? 16 : 10);
+
+      const specialAbility = {
+        name: 'Psychic Blast',
+        isSpecialAbility: true,
+        foundationAttribute: 'attr-wisdom',
+        rank: 3,
+        damage: '2d8 Mental Damage',
+        range: '60 ft'
+      };
+
+      const attack = createAttackFromInvocation(specialAbility, mockChar, getAttrTotal);
+      assert.ok(attack);
+      assert.strictEqual(attack.name, 'Psychic Blast');
+      // Attack mod should be Wisdom (16) + Rank (3) = 19
+      assert.strictEqual(attack.mod, 19);
+      assert.strictEqual(attack.range, '60 ft');
+      assert.strictEqual(attack.category, 'special_ability');
+      assert.strictEqual(attack.powerType, 'special_ability');
+      assert.strictEqual(attack.type, 'Mental Damage');
     });
   });
 

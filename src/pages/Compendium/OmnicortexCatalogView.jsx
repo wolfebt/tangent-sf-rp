@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { categoryConfig } from '../../components/DBM/categoryConfig';
 import { AudioService } from '../../services/audioService';
+import { OmnicortexNavRail } from '../../components/DBM/OmnicortexNavRail';
 import {
   Database,
   Search,
@@ -30,7 +31,9 @@ import {
   Cpu,
   Globe,
   SlidersHorizontal,
-  X
+  X,
+  PanelLeftClose,
+  PanelLeft
 } from 'lucide-react';
 
 // Domain Category Groupings for the Omnicortex Catalog Browser
@@ -129,6 +132,7 @@ export const OMNICORTEX_DOMAINS = [
       { key: 'weaponry', label: 'Weaponry & Ordinance', icon: '⚔️' },
       { key: 'armoring', label: 'Armoring & Shields', icon: '🛡️' },
       { key: 'gear', label: 'Gear & Electronics', icon: '🎒' },
+      { key: 'augmentations', label: 'Augmentations & Cyberware', icon: '🦾' },
       { key: 'mecha', label: 'Mecha & Vehicles', icon: '🤖' },
       { key: 'architecture', label: 'Architecture & Facilities', icon: '🏛️' },
       { key: 'other', label: 'Other Property', icon: '📦' },
@@ -194,6 +198,25 @@ export const OmnicortexCatalogView = ({
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'table'
   const [collapsedDomains, setCollapsedDomains] = useState({});
   const [copiedItemId, setCopiedItemId] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Global hotkey '[' or ']' to toggle category hierarchy drawer
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === '[' || e.key === ']') {
+        e.preventDefault();
+        setIsDrawerOpen(prev => !prev);
+        AudioService.playTerminalBeep(1100, 0.02);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const activeDomain = useMemo(() => {
+    return OMNICORTEX_DOMAINS.find(d => d.categories.some(c => c.key === activeCategoryKey)) || OMNICORTEX_DOMAINS[0];
+  }, [activeCategoryKey]);
 
   // Facet filter states
   const [selectedTL, setSelectedTL] = useState('all'); // 'all' | 0..5
@@ -389,12 +412,34 @@ export const OmnicortexCatalogView = ({
     setSelectedLineage('all');
     setSelectedType('all');
     setSelectedStage('all');
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsDrawerOpen(false);
+    }
   };
 
   return (
     <div className="flex-1 flex bg-[#0d1117] border border-slate-800 rounded-xl overflow-hidden h-full relative shadow-xl select-none">
-      {/* LEFT PANEL: Omnicortex Domain & Category Tree */}
-      <aside className="w-72 lg:w-80 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0">
+      {/* 1. Persistent Omnicortex Navigation Rail */}
+      <OmnicortexNavRail
+        activeSectionKey={activeCategoryKey}
+        onSelectSection={(sectionKey) => {
+          handleSelectCategory(sectionKey);
+        }}
+        dbData={dbData}
+      />
+
+      {/* Mobile Drawer Backdrop */}
+      {isDrawerOpen && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-xs z-30 md:hidden transition-opacity"
+          onClick={() => setIsDrawerOpen(false)}
+        />
+      )}
+
+      {/* 2. Collapsible Secondary Category Tree Drawer */}
+      <aside className={`fixed md:relative z-40 md:z-10 h-full w-64 lg:w-72 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0 transition-all duration-300 ${
+        isDrawerOpen ? 'translate-x-0 opacity-100' : '-translate-x-full md:-ml-64 lg:-ml-72 md:opacity-0 pointer-events-none'
+      }`}>
         {/* Sidebar Header */}
         <div className="p-3 border-b border-slate-800 bg-slate-950/90 space-y-2">
           <div className="flex items-center justify-between">
@@ -407,13 +452,26 @@ export const OmnicortexCatalogView = ({
                   OMNICORTEX
                 </h3>
                 <span className="text-[10px] text-slate-500 font-mono">
-                  Game Asset Catalog
+                  Category Outliner
                 </span>
               </div>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 rounded-full font-bold">
-              {totalOmnicortexAssets.toLocaleString()} Assets
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] font-mono px-2 py-0.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 rounded-full font-bold">
+                {totalOmnicortexAssets.toLocaleString()}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(900, 0.02);
+                  setIsDrawerOpen(false);
+                }}
+                className="p-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                title="Collapse Category Drawer ([)"
+              >
+                <PanelLeftClose size={13} />
+              </button>
+            </div>
           </div>
 
           {/* Quick Category / Global Search Filter Toggle */}
@@ -426,7 +484,7 @@ export const OmnicortexCatalogView = ({
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              Category ({rawItems.length})
+              Domain ({rawItems.length})
             </button>
             <button
               onClick={() => setIsGlobalSearch(true)}
@@ -509,7 +567,7 @@ export const OmnicortexCatalogView = ({
         {/* Sidebar Footer */}
         <div className="p-2 border-t border-slate-800/80 bg-slate-950 text-[10px] font-mono text-slate-500 flex items-center justify-between">
           <span>{OMNICORTEX_DOMAINS.length} Domains</span>
-          <span className="text-emerald-400 font-bold">Read-Only Catalog</span>
+          <span className="text-emerald-400 font-bold font-mono">Hotkey: [</span>
         </div>
       </aside>
 
@@ -520,6 +578,23 @@ export const OmnicortexCatalogView = ({
           <div className="flex items-center justify-between gap-3 flex-wrap">
             {/* Active Category Title & Badges */}
             <div className="flex items-center gap-2 min-w-0">
+              {/* Category Tree Toggle Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  setIsDrawerOpen(prev => !prev);
+                }}
+                className={`p-1.5 rounded-lg border transition-colors cursor-pointer shrink-0 ${
+                  isDrawerOpen
+                    ? 'bg-slate-900 hover:bg-slate-850 border-slate-700 text-slate-400 hover:text-emerald-300'
+                    : 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                }`}
+                title={isDrawerOpen ? "Collapse Category Drawer ([)" : "Expand Category Drawer ([)"}
+              >
+                {isDrawerOpen ? <PanelLeftClose size={15} /> : <PanelLeft size={15} />}
+              </button>
+
               <span className="text-lg">
                 {isGlobalSearch ? '🌐' : (OMNICORTEX_DOMAINS.flatMap(d => d.categories).find(c => c.key === activeCategoryKey)?.icon || '📁')}
               </span>
@@ -712,6 +787,40 @@ export const OmnicortexCatalogView = ({
             </div>
           )}
         </div>
+
+        {/* Collapsed Domain Subcategory Quick-Pill Bar */}
+        {!isDrawerOpen && !isGlobalSearch && activeDomain && (
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1.5 px-3 sm:px-4 bg-slate-950/70 border-b border-slate-800/80 shrink-0">
+            <div className="flex items-center gap-1 text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold mr-1 shrink-0">
+              <span>{activeDomain.icon}</span>
+              <span className="text-emerald-400 hidden sm:inline">{activeDomain.label}:</span>
+            </div>
+            {activeDomain.categories.map(cat => {
+              const isSelected = activeCategoryKey === cat.key;
+              const count = dbData[cat.key]?.length || 0;
+              return (
+                <button
+                  key={cat.key}
+                  type="button"
+                  onClick={() => handleSelectCategory(cat.key)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap cursor-pointer ${
+                    isSelected
+                      ? 'bg-emerald-950 text-emerald-200 border border-emerald-500/70 shadow-[0_0_10px_rgba(52,211,153,0.3)]'
+                      : 'bg-slate-900/90 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800'
+                  }`}
+                >
+                  <span>{cat.icon}</span>
+                  <span>{cat.label}</span>
+                  {count > 0 && (
+                    <span className="text-[9px] px-1.5 py-0.2 bg-slate-950 rounded font-mono font-bold text-slate-400">
+                      {count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Content Area: Card Grid vs Table Directory View */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6">

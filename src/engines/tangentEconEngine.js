@@ -124,6 +124,8 @@ export function calculateLiquidityGap(itemDC, playerWS) {
   const wsStatus = getFinancialStatus(ws);
   const autoBuyLimit = wsStatus && wsStatus.autoBuyCr !== undefined ? wsStatus.autoBuyCr : calculateCreditValue(ws);
   const gap = Math.max(0, itemVal - autoBuyLimit);
+  const canAfford = gap === 0;
+  const surplus = Math.max(0, autoBuyLimit - itemVal);
   return {
     itemDC: dc,
     playerWS: ws,
@@ -131,8 +133,11 @@ export function calculateLiquidityGap(itemDC, playerWS) {
     playerWSValue: autoBuyLimit,
     liquidGapCost: gap,
     liquidCost: gap,
-    autoBuy: gap === 0,
-    isAutoBuy: gap === 0
+    autoBuy: canAfford,
+    isAutoBuy: canAfford,
+    canAfford,
+    marginCredits: surplus,
+    shortfallCredits: gap
   };
 }
 

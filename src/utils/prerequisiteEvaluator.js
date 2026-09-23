@@ -308,8 +308,38 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
   }
 
   // ══════════════════════════════════════════════════════════════════════════
-  // 1. INVOCATIONS PREREQUISITE EVALUATION
+  // 1. INVOCATIONS & SPECIAL ABILITIES PREREQUISITE EVALUATION
   // ══════════════════════════════════════════════════════════════════════════
+  const isItemSpecialAbility = Boolean(
+    rawItem.isSpecialAbility ||
+    rawItem.is_special_ability ||
+    rawItem.powerType === 'special_ability' ||
+    rawItem.category === 'Special Ability' ||
+    rawItem.type === 'Special Ability' ||
+    rawItem.traitType === 'special_ability' ||
+    typeKey.includes('special_abil')
+  );
+
+  if (isItemSpecialAbility) {
+    const rawPrereq = rawItem.prerequisites || rawItem.prereq;
+    if (!rawPrereq || rawPrereq === 'None' || rawPrereq === '-' || rawPrereq === '—') {
+      return {
+        hasPrerequisite: false,
+        isPossessed: true,
+        prerequisiteText: 'None (Stand-Alone Special Ability)',
+        unmetReasons: []
+      };
+    }
+
+    const evalResult = evaluatePrerequisiteString(rawPrereq, characterData);
+    return {
+      hasPrerequisite: true,
+      isPossessed: evalResult.isPossessed,
+      prerequisiteText: rawPrereq,
+      unmetReasons: evalResult.unmetReasons
+    };
+  }
+
   if (typeKey.includes('invoc') || rawItem.powerType === 'invocation' || rawItem.isInvocation) {
     const rawPrereq = rawItem.prerequisites || rawItem.prereq;
     const discStr = rawItem.discipline || rawItem.school || '';

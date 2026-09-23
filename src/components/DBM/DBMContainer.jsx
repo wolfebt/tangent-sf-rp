@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { categoryConfig } from './categoryConfig';
+import { 
+  categoryConfig, 
+  DEVELOPMENT_FIELDS_GROUPS, 
+  DEVELOPMENT_FIELDS_REGISTRY, 
+  isDevelopmentField, 
+  getDevelopmentField 
+} from './categoryConfig';
 import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 
 // Extracted Components
 import { DBMHeader } from './DBMHeader';
-import { DBMSidebar } from './DBMSidebar';
 import { DBMWikiView } from './DBMWikiView';
 import { DBMGuideView } from './DBMGuideView';
 import { DBMTableView } from './DBMTableView';
@@ -25,6 +30,7 @@ import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 import { PanelLeftOpen, ChevronRight, Menu } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import { OmnicortexNavRail } from './OmnicortexNavRail';
 
 const EMPTY_CONFIG = {};
 
@@ -59,6 +65,20 @@ export const DBMContainer = () => {
       navigateToCategory('user_guide');
     }
   }, [searchParams, navigateToCategory]);
+
+  // Global hotkey '[' or ']' to toggle compendium category drawer
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === '[' || e.key === ']') {
+        e.preventDefault();
+        if (setIsSidebarOpen) setIsSidebarOpen(prev => !prev);
+        AudioService.playTerminalBeep(1100, 0.02);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [setIsSidebarOpen]);
 
   const [sortField, setSortField] = useState('name');
   const [sortAsc, setSortAsc] = useState(true);
@@ -114,6 +134,12 @@ export const DBMContainer = () => {
   const clearToast = dbm.clearToast || syncHook.clearToast;
   const showToast = dbm.showToast || syncHook.showToast;
   const currentItems = dbData[currentKey] || [];
+
+  const totalAssetsCount = useMemo(() => {
+    return Object.keys(dbData).reduce((acc, k) => {
+      return k !== 'compendium' && Array.isArray(dbData[k]) ? acc + dbData[k].length : acc;
+    }, 0);
+  }, [dbData]);
 
   // Helper for natural sorting value parsing
   const getSortableValue = (item, field) => {
@@ -500,94 +526,120 @@ export const DBMContainer = () => {
         onOpenArchitectModal={() => setIsArchitectModalOpen && setIsArchitectModalOpen(true)}
       />
 
-      {/* Mobile Sidebar Overlay Toggle */}
-      <div 
-        className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} 
-        onClick={() => setIsSidebarOpen && setIsSidebarOpen(false)} 
-      />
-
-      {/* Main App Layout with Collapsible Drawer Menu */}
-      <div className="flex-1 flex overflow-hidden relative p-3 sm:p-4 pb-4 sm:pb-5 gap-3 sm:gap-4">
-        {/* Floating Expand Tab (When Menu Drawer is Collapsed) */}
-        {!isSidebarOpen && (
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.03);
-              if (setIsSidebarOpen) setIsSidebarOpen(true);
-            }}
-            className="fixed left-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/95 hover:bg-slate-900 border-2 border-emerald-500/70 hover:border-emerald-400 text-emerald-300 rounded-r-xl shadow-[0_0_25px_rgba(16,185,129,0.4)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md cursor-pointer"
-            title="Expand Omnicortex Compendium Menu (▶)"
-          >
-            <PanelLeftOpen size={16} className="text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span className="text-[9px] font-mono font-bold uppercase [writing-mode:vertical-lr] tracking-widest text-slate-300 group-hover:text-emerald-200">
-              COMPENDIUM MENU
-            </span>
-          </button>
-        )}
-
-        {/* Mobile Compendium Sidebar Backdrop */}
-        {isSidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-30 md:hidden transition-opacity"
-            onClick={() => setIsSidebarOpen && setIsSidebarOpen(false)}
-          />
-        )}
-
-        {/* Left Sidebar Collapsible Drawer (Open by default) */}
-        <div className={`fixed md:relative z-40 h-full transition-all duration-300 shrink-0 ${
-          isSidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full md:-ml-72 md:opacity-0 pointer-events-none'
-        }`}>
-          <DBMSidebar
-            mainCategories={mainCategories}
-            activeCategory={activeCategory}
-            currentKey={currentKey}
-            isAdmin={isAdmin}
-            onCloseMenu={() => setIsSidebarOpen && setIsSidebarOpen(false)}
-            navigateToCategory={(catKey, subKey) => {
-              navigateToCategory(catKey, subKey);
-              if (window.innerWidth < 768 && setIsSidebarOpen) setIsSidebarOpen(false);
-            }}
-          />
-        </div>
+      {/* Main App Layout with Standardized Omnicortex Navigation Rail */}
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Standardized Omnicortex Navigation Rail (Replaces legacy DBMSidebar drawer) */}
+        <OmnicortexNavRail
+          activeSectionKey={activeCategory || currentKey}
+          onSelectSection={(sectionKey) => {
+            navigateToCategory(sectionKey, null);
+          }}
+          dbData={dbData}
+          isAdmin={isAdmin}
+          onOpenDevFields={() => setIsArchitectModalOpen && setIsArchitectModalOpen(true)}
+          onOpenUserGuide={() => navigateToCategory('user_guide', null)}
+          isMobileOpen={isSidebarOpen}
+          onCloseMobile={() => setIsSidebarOpen && setIsSidebarOpen(false)}
+        />
 
         {/* Right Main Content Panel */}
-        <main className="flex-1 flex flex-col overflow-hidden relative min-w-0">
+        <main className="flex-1 flex flex-col overflow-hidden relative min-w-0 p-3 sm:p-4 pb-4 sm:pb-5">
 
-          {/* Subcategory Pills Bar (if available and not parent landing) */}
+          {/* Subcategory Pills Bar (Handles both Canonical Parent Categories AND Developer Field Groups) */}
           {(() => {
-            const catForPills = categoryConfig[activeCategory]?.subcategories ? categoryConfig[activeCategory] : (categoryConfig[currentKey]?.subcategories ? categoryConfig[currentKey] : null);
-            if (!catForPills?.subcategories || catForPills.hideSubcategoryNav) return null;
-            // Hide tabs for Property sub-items (Gear, Weaponry, Armoring, Mecha, Other)
-            if (catForPills.parent === 'personal_property') return null;
-            const parentKeyForNav = catForPills === categoryConfig[activeCategory] ? activeCategory : currentKey;
+            const activeKey = currentKey || activeCategory;
+
+            // Developer fields use dedicated docked vertical navigation rail — suppress horizontal pills
+            if (isDevelopmentField(activeKey)) {
+              return null;
+            }
+
+            // Species studio does not show subcategory pills (types, sizes, movements, traits, disadvantages are managed in entry and dev fields)
+            if (activeKey === 'species' || activeCategory === 'species') {
+              return null;
+            }
+
+            // Find parent key if currently on a child item
+            let parentKey = null;
+            let pConfig = null;
+
+            if (categoryConfig[activeCategory]?.isParent || categoryConfig[activeCategory]?.subItems || categoryConfig[activeCategory]?.subcategories) {
+              parentKey = activeCategory;
+              pConfig = categoryConfig[activeCategory];
+            } else if (categoryConfig[activeCategory]?.parent) {
+              parentKey = categoryConfig[activeCategory].parent;
+              pConfig = categoryConfig[parentKey];
+            } else if (categoryConfig[currentKey]?.parent) {
+              parentKey = categoryConfig[currentKey].parent;
+              pConfig = categoryConfig[parentKey];
+            }
+
+            if (!pConfig || parentKey === 'species') return null;
+
+            // Determine child keys list
+            let pillKeys = [];
+            if (pConfig.subItems && Array.isArray(pConfig.subItems)) {
+              pillKeys = pConfig.subItems;
+            } else if (pConfig.subcategories) {
+              pillKeys = Object.keys(pConfig.subcategories);
+            }
+
+            if (!pillKeys.length) return null;
+
+            const isOverviewActive = (activeCategory === parentKey && !activeSubcategory) || currentKey === parentKey;
 
             return (
-              <div className="flex items-center gap-1 sm:gap-2 mb-3 border-b border-slate-800 pb-2 shrink-0 overflow-x-auto no-scrollbar py-0.5">
-                <button
-                  onClick={() => navigateToCategory(parentKeyForNav, null)}
-                  className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded transition-all shrink-0 whitespace-nowrap ${
-                    !activeSubcategory || activeSubcategory === parentKeyForNav
-                      ? 'bg-amber-600 text-white shadow-md'
-                      : 'bg-slate-800 text-slate-400 hover:text-white'
-                  }`}
-                >
-                  Overview
-                </button>
-                {Object.keys(catForPills.subcategories).map(subKey => {
-                  const subConfig = catForPills.subcategories[subKey];
-                  const isSubActive = activeSubcategory === subKey;
+              <div className="flex items-center gap-1.5 sm:gap-2 mb-3 border-b border-slate-800/80 pb-2.5 shrink-0 overflow-x-auto no-scrollbar py-0.5">
+                {/* Parent Overview Tab (if parent has landing view or separate overview) */}
+                {pConfig.isParent && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.02);
+                      navigateToCategory(parentKey, null);
+                    }}
+                    className={`px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all shrink-0 whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                      isOverviewActive
+                        ? 'bg-amber-500/20 border border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                        : 'bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    <span>Overview</span>
+                  </button>
+                )}
+
+                {/* Subcategory / Sub-item Pills */}
+                {pillKeys.map(subKey => {
+                  const subCfg = categoryConfig[subKey] || pConfig.subcategories?.[subKey] || {};
+                  const isPillActive = activeCategory === subKey || activeSubcategory === subKey || currentKey === subKey;
+                  const count = Array.isArray(dbData[subKey]) ? dbData[subKey].length : null;
+
                   return (
                     <button
                       key={subKey}
-                      onClick={() => navigateToCategory(parentKeyForNav, subKey)}
-                      className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded transition-all shrink-0 whitespace-nowrap ${
-                        isSubActive
-                          ? 'bg-amber-600 text-white shadow-md'
-                          : 'bg-slate-800 text-slate-400 hover:text-white'
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1150, 0.02);
+                        if (pConfig.subcategories?.[subKey]) {
+                          navigateToCategory(parentKey, subKey);
+                        } else {
+                          navigateToCategory(subKey, null);
+                        }
+                      }}
+                      className={`px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all shrink-0 whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                        isPillActive
+                          ? 'bg-cyan-500/20 border border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.3)]'
+                          : 'bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                       }`}
                     >
-                      {subConfig.label}
+                      <span>{subCfg.label || subKey}</span>
+                      {count !== null && (
+                        <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold ${
+                          isPillActive ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/40' : 'bg-slate-800 text-slate-400'
+                        }`}>
+                          {count}
+                        </span>
+                      )}
                     </button>
                   );
                 })}
