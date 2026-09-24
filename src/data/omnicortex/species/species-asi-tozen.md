@@ -31,20 +31,10 @@ bonus_skill_choices:
   - Survival
   - Combat (Ranged)
   - Athletics
-inherent_features:
-  - trait-asi-base-traits
-  - trait-awakened-natural-wisdom
-  - trait-quadruped-speed-40ft
-  - trait-quick-reflexes
-  - trait-stable-stance
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Trample
-  - Starlight Sight
-  - Forest Stride
-  - Herbalist Mastery
-recommended_features:
-  - feature-forest-stride
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Xeno (-2), Seclusionist (-1)'
 tech_level: 2 (Arboreal Bowcraft & Astronomy)
 meta_level: 3 (Astral Nature Divination)
@@ -75,11 +65,15 @@ modifiers:
 cp_cost: 17
 cp: 17
 bp: 17
-description: >-
-  Tozen are proud centauroid fey combining humanoid torsos with equine bodies.
-  Revered for their wisdom, astronomical precision, and nomadic independence,
-  they range the open steppes.
+description: 'Tozen are proud centauroid fey combining humanoid torsos with equine bodies. Revered for their wisdom, astronomical precision, and nomadic independence, they range the open steppes.'
+traits:
+  - trait-asi-base-traits
+  - trait-awakened-natural-wisdom
+  - trait-quadruped-speed-40ft
+  - trait-quick-reflexes
+  - trait-stable-stance
 ---
+
 # Tozen (Centaur Fey)
 
 *

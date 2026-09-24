@@ -32,18 +32,10 @@ bonus_skill_choices:
   - Athletics
   - Combat
   - Intimidation
-inherent_features:
-  - trait-digitigrade
-  - trait-quick-5ft-movement
-  - trait-uncanny-senses-acute-scent-hearing-4
-  - trait-pack-tactics-2-to-hit-when-flanking
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Apex Tracker
-  - Bite Attack
-  - Howl of Morale
-recommended_features:
-  - feature-pack-tactics
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Standard Infantry Gear & Tracking Arrays)
 meta_level: 1 (Pack Empathy)
@@ -62,10 +54,14 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards,
-  law enforcers, and close-quarters assault specialists.
+description: 'Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards, law enforcers, and close-quarters assault specialists.'
+traits:
+  - trait-digitigrade
+  - trait-quick-5ft-movement
+  - trait-uncanny-senses-acute-scent-hearing-4
+  - trait-pack-tactics-2-to-hit-when-flanking
 ---
+
 # Kannid (Canine Humanoid)
 
 **BP Cost:**   

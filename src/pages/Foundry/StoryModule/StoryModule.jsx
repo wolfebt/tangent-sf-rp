@@ -19,10 +19,10 @@ import { UserSettingsModal } from '../../../components/UserSettingsModal';
 import AIMEChatBox from '../AIME/AIMEChatBox';
 import EditElementModal from '../ElementForge/EditElementModal';
 import GuidanceGemsModal from './GuidanceGemsModal';
-import ScratchbookModal from './ScratchbookModal';
 import ADETopToolbar from './ADETopToolbar';
 import ADENavRail from './ADENavRail';
 import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
+import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
 import { exportElementMarkdown, exportElementPDF } from './exportUtils';
@@ -69,11 +69,11 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [isGemsOpen, setIsGemsOpen] = useState(false);
-  const [isScratchbookOpen, setIsScratchbookOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isCronicleOpen, setIsCronicleOpen] = useState(false);
   const [cronicleInitialMode, setCronicleInitialMode] = useState('living_memory');
+  const [isCompilerOpen, setIsCompilerOpen] = useState(false);
 
   // Edit element modal
   const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
@@ -179,6 +179,8 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
           if (open) setCronicleInitialMode('scratchbook');
           setIsCronicleOpen(open);
         }}
+        isCompilerOpen={isCompilerOpen}
+        onToggleCompiler={setIsCompilerOpen}
         // Outliner Tree Toggle
         isTreeExpanded={isTreeExpanded}
         onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
@@ -362,13 +364,6 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         />
       )}
 
-      {/* Project Scratchbook Modal */}
-      {isScratchbookOpen && (
-        <ScratchbookModal
-          isOpen={isScratchbookOpen}
-          onClose={() => setIsScratchbookOpen(false)}
-        />
-      )}
 
       {/* ADE Master User Guide Modal */}
       {isGuideOpen && (
@@ -391,6 +386,13 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         isOpen={isCronicleOpen}
         onClose={() => setIsCronicleOpen(false)}
         initialMode={cronicleInitialMode}
+      />
+
+      {/* VTT Module Compiler & Runtime Prep Modal */}
+      <VttCompilerModal
+        isOpen={isCompilerOpen}
+        onClose={() => setIsCompilerOpen(false)}
+        activeScenario={activeNode}
       />
     </div>
   );

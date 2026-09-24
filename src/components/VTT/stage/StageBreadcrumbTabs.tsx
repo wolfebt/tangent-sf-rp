@@ -44,6 +44,7 @@ import { GridType, GridScaleTier } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
 import { v4 as uuidv4 } from 'uuid';
 import { NewMapModal } from './NewMapModal';
+import { VttEventBus } from '../../../utils/vttEventBus';
 import { 
   getStarterMapsCollection, 
   createBlankCanvas, 
@@ -303,14 +304,14 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
       }
     };
 
-    window.addEventListener('open-new-map-modal', handleOpenModal);
-    window.addEventListener('load-preset-starship', handleLoadStarship);
-    window.addEventListener('load-preset-outpost', handleLoadOutpost);
+    const offModal = VttEventBus.on('open-new-map-modal', handleOpenModal);
+    const offStarship = VttEventBus.on('load-preset-starship', handleLoadStarship);
+    const offOutpost = VttEventBus.on('load-preset-outpost', handleLoadOutpost);
 
     return () => {
-      window.removeEventListener('open-new-map-modal', handleOpenModal);
-      window.removeEventListener('load-preset-starship', handleLoadStarship);
-      window.removeEventListener('load-preset-outpost', handleLoadOutpost);
+      offModal();
+      offStarship();
+      offOutpost();
     };
   }, [addMap, onSelectMap, setActiveMapId]);
 
@@ -418,7 +419,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                   onClick={() => {
                     AudioService.playTerminalBeep(1200, 0.03);
                     setIsProjectMenuOpen(false);
-                    window.dispatchEvent(new CustomEvent('export-stage-png'));
+                    VttEventBus.emit('export-stage-png');
                   }}
                   className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
                 >
@@ -437,7 +438,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                   onClick={() => {
                     AudioService.playTerminalBeep(1200, 0.03);
                     setIsProjectMenuOpen(false);
-                    window.dispatchEvent(new CustomEvent('open-uvtt-modal'));
+                    VttEventBus.emit('open-uvtt-modal');
                   }}
                   className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
                 >
@@ -449,7 +450,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                   onClick={() => {
                     AudioService.playTerminalBeep(1200, 0.03);
                     setIsProjectMenuOpen(false);
-                    window.dispatchEvent(new CustomEvent('open-landmass-modal'));
+                    VttEventBus.emit('open-landmass-modal');
                   }}
                   className="w-full text-left px-3.5 py-1.5 hover:bg-emerald-950/60 text-emerald-300 hover:text-emerald-200 flex items-center gap-2 transition-colors cursor-pointer"
                 >
@@ -930,7 +931,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             }
           }
         }}
-        onOpenUvttModal={() => window.dispatchEvent(new CustomEvent('open-uvtt-modal'))}
+        onOpenUvttModal={() => VttEventBus.emit('open-uvtt-modal')}
         onLoadMapJson={handleLoadMapJson}
       />
     </div>

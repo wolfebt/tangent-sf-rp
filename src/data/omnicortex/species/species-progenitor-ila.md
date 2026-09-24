@@ -35,19 +35,10 @@ bonus_skill_choices:
   - Knowledge
   - Computation
   - Leadership
-inherent_features:
-  - >-
-    trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal
-  - trait-corporeal-as-desired
-  - trait-large-size
-  - trait-flicker-movement-teleport-60ft-as-move-action
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Reality Anchor
-  - Cosmic Insight
-  - Starfire Beam
-recommended_features:
-  - feature-reality-anchor
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Precursor Singularity Manipulation)
 meta_level: 6 (Deific / Reality Reshaping)
@@ -82,10 +73,14 @@ modifiers:
 cp_cost: 96
 cp: 96
 bp: 96
-description: >-
-  The Ila are god-like precursor architects of transcendent intelligence and
-  luminous presence, founders of ancient megastructures and stargates.
+description: 'The Ila are god-like precursor architects of transcendent intelligence and luminous presence, founders of ancient megastructures and stargates.'
+traits:
+  - trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal
+  - trait-corporeal-as-desired
+  - trait-large-size
+  - trait-flicker-movement-teleport-60ft-as-move-action
 ---
+
 # Ila (Precursor Entity)
 
 ## 

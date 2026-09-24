@@ -28,22 +28,10 @@ bonus_skill_choices:
   - Perception
   - Animal Handling
   - Attune (Nature)
-inherent_features:
-  - trait-awakened-nature
-  - trait-ageless
-  - trait-immune-to-sleep
-  - trait-alter-form-adv-animal
-  - trait-animalistic-mutation
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Primal Scent
-  - Predator Instinct
-  - Fast Healing
-  - Climbing Claws
-  - Fleet of Foot
-recommended_features:
-  - feature-primal-scent
-  - feature-fast-healing
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Feral (-4), Xeno (-2)'
 tech_level: 2 (Biomimetic Crafting)
 meta_level: 4 (Primal Shamanism & Biomorphism)
@@ -54,11 +42,15 @@ modifiers: []
 cp_cost: 19
 cp: 19
 bp: 19
-description: >-
-  Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest
-  symbiotic living. They wield shapeshifting and animalistic biomodifications
-  with fierce territorial pride.
+description: 'Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest symbiotic living. They wield shapeshifting and animalistic biomodifications with fierce territorial pride.'
+traits:
+  - trait-awakened-nature
+  - trait-ageless
+  - trait-immune-to-sleep
+  - trait-alter-form-adv-animal
+  - trait-animalistic-mutation
 ---
+
 # Vajar (Wilder Aeld)
 
 The Wild Aeld represent an ancient, untamed line of the Elven people, originating from the far side of the Reach. Separated for millennia from their more settled cousins, these Aeld have maintained a deep, almost instinctual connection to the raw forces of nature, which permeates every aspect of their society and physiology.  

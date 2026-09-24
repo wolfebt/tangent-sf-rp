@@ -32,20 +32,10 @@ bonus_skill_choices:
   - Stealth
   - Survival
   - Athletics
-inherent_features:
-  - trait-fast-10ft-movement
-  - trait-jumper-5ft-vertical
-  - trait-low-light-vision
-  - trait-prehensile-tail
-  - trait-acute-scent
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Pounce Strike
-  - Feral Agility
-  - Lightning Sprint
-recommended_features:
-  - feature-fast
-  - feature-jumper
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Scanners & Lightweight Stealth Armor)
 meta_level: 2 (Predator Sense)
@@ -64,10 +54,15 @@ modifiers:
 cp_cost: 27
 cp: 27
 bp: 27
-description: >-
-  Feline-influenced human transhumans bred for high-speed reconnaissance, urban
-  parkour, and stealth operations.
+description: 'Feline-influenced human transhumans bred for high-speed reconnaissance, urban parkour, and stealth operations.'
+traits:
+  - trait-fast-10ft-movement
+  - trait-jumper-5ft-vertical
+  - trait-low-light-vision
+  - trait-prehensile-tail
+  - trait-acute-scent
 ---
+
 # Rautha Human (Predator Variant)
 
 **BP Cost:**   

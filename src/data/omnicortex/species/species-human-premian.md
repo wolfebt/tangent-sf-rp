@@ -28,17 +28,10 @@ bonus_skill_choices:
   - Streetwise
   - Law
   - Insight
-inherent_features:
-  - trait-calculating-mind
-  - trait-silver-tongue
-  - trait-syndicate-network
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Master Negotiator
-  - Market Sense
-  - Hidden Assets
-recommended_features:
-  - feature-master-negotiator
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 3 (Financial Holo-Nets & Comms)
 meta_level: 1 (Subconscious Suggestion)
@@ -49,10 +42,13 @@ modifiers: []
 cp_cost: 15
 cp: 15
 bp: 15
-description: >-
-  Urban, corporate-bred humans renowned for financial acumen, mercantile trade
-  empires, and silver-tongued contract negotiations.
+description: 'Urban, corporate-bred humans renowned for financial acumen, mercantile trade empires, and silver-tongued contract negotiations.'
+traits:
+  - trait-calculating-mind
+  - trait-silver-tongue
+  - trait-syndicate-network
 ---
+
 # Premian Human (Merchant Folk)
 
 **BP Cost:**   

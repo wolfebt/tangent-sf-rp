@@ -29,17 +29,10 @@ bonus_skill_choices:
   - Biology
   - Medicine
   - Insight
-inherent_features:
-  - trait-awakened-mental-psychic
-  - trait-biotechnology-affinity
-  - trait-hive-connection-low-band-telepathy
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Neural Dampening
-  - Telepathic Whispers
-  - Bio-Crafting
-recommended_features:
-  - feature-telepathic-whispers
+bonus_feature_choices: []
+recommended_features: []
 stigma: Minor Xeno (-1)
 tech_level: 3 (Bio-Hybrid Devices)
 meta_level: 3 (Telepathic Linkage)
@@ -54,11 +47,13 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Danai are genetic chimeras born from human and Davae transhumans. They display
-  gentle bioluminescent patterns and natural mental connections to bio-synthetic
-  equipment.
+description: Danai are genetic chimeras born from human and Davae transhumans. They display gentle bioluminescent patterns and natural mental connections to bio-synthetic equipment.
+traits:
+  - trait-awakened-mental-psychic
+  - trait-biotechnology-affinity
+  - trait-hive-connection-low-band-telepathy
 ---
+
 # Danai (Human-Davae Hybrid)
 
 **BP Cost:**   

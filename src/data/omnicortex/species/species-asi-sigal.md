@@ -29,21 +29,10 @@ bonus_skill_choices:
   - Attune (Energy)
   - Knowledge (Physics)
   - Computation
-inherent_features:
-  - trait-asi-base-traits
-  - trait-diminutive-size
-  - trait-awakened-energy-illusion
-  - trait-telekinetic-flight
-  - trait-non-living-energy-entity
-  - trait-telekinesis-special-ability
-  - trait-perfect-memory
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Light Discharge
-  - Electromagnetic Pulse
-  - Phase Shift
-recommended_features:
-  - feature-phase-shift
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-6)
 tech_level: 4 (Photonic & Energy Resonators)
 meta_level: 5 (Pure Energy Metaphysics)
@@ -74,11 +63,17 @@ modifiers:
 cp_cost: 66
 cp: 66
 bp: 66
-description: >-
-  Sigal are diminutive, non-corporeal elemental wisps of concentrated
-  consciousness and photon energy. While physically frail, their intellect,
-  perfect memory, and telekinetic mastery are staggering.
+description: 'Sigal are diminutive, non-corporeal elemental wisps of concentrated consciousness and photon energy. While physically frail, their intellect, perfect memory, and telekinetic mastery are staggering.'
+traits:
+  - trait-asi-base-traits
+  - trait-diminutive-size
+  - trait-awakened-energy-illusion
+  - trait-telekinetic-flight
+  - trait-non-living-energy-entity
+  - trait-telekinesis-special-ability
+  - trait-perfect-memory
 ---
+
 # Sigal (Elemental Fey)
 
 ## Description

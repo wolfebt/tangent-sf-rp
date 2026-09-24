@@ -25,7 +25,22 @@ bonus_skill_choices:
   - Medicine
   - Athletics
   - Attune (Nature)
-inherent_features:
+inherent_features: []
+bonus_features: []
+bonus_feature_choices: []
+recommended_features: []
+stigma: Severe Xeno (-4)
+tech_level: 2 (Living Botanical Tools)
+meta_level: 4 (Verdant Metaphysics)
+homeworld: The Great Arboreal Bloom of Thorn-7
+costs:
+  bp: 24
+modifiers: []
+cp_cost: 24
+cp: 24
+bp: 24
+description: 'Sentient, ambulatory humanoid plant beings made of interwoven thorny briars, floral cores, and photosynthetic sap.'
+traits:
   - trait-adaptive-aspects
   - trait-ageless
   - trait-alter-form-root-vine-morph
@@ -37,27 +52,8 @@ inherent_features:
   - trait-non-typical-anatomy-no-vital-organs
   - trait-regeneration-3-hp-rnd
   - trait-verdant-flesh-plant-entity
-bonus_features: []
-bonus_feature_choices:
-  - Thorn Burst
-  - Entangling Roots
-  - Spore Cloud
-recommended_features:
-  - feature-entangling-roots
-stigma: Severe Xeno (-4)
-tech_level: 2 (Living Botanical Tools)
-meta_level: 4 (Verdant Metaphysics)
-homeworld: The Great Arboreal Bloom of Thorn-7
-costs:
-  bp: 24
-modifiers: []
-cp_cost: 24
-cp: 24
-bp: 24
-description: >-
-  Sentient, ambulatory humanoid plant beings made of interwoven thorny briars,
-  floral cores, and photosynthetic sap.
 ---
+
 # Thorn (Verdant Plant Entity)
 
 *

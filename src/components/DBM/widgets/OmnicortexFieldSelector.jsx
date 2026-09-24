@@ -357,9 +357,13 @@ export const FeaturesSelector = ({
   onOpenPicker = null,
   isEditMode = true,
   dbFeatures = [],
-  variant = 'emerald'
+  variant = 'emerald',
+  mode = 'standard', // 'granted', 'recommended', 'standard'
+  showCost = undefined
 }) => {
   const [selectedFeature, setSelectedFeature] = useState('');
+  const isSpeciesMode = mode === 'granted' || mode === 'recommended';
+  const shouldShowCost = showCost !== undefined ? showCost : !isSpeciesMode;
 
   // Index of all features
   const featureMap = useMemo(() => {
@@ -370,7 +374,7 @@ export const FeaturesSelector = ({
       const obj = {
         id: f.id || name,
         name,
-        bp: f.bp || f.cp || f.cost_bp || f.costs?.bp || 1,
+        bp: f.bp || f.cp || f.cost_bp || f.costs?.bp || 3,
         category: f.category || f.type || 'General'
       };
       if (id) map.set(id, obj);
@@ -408,17 +412,35 @@ export const FeaturesSelector = ({
 
   const list = useMemo(() => {
     if (!Array.isArray(value)) return [];
-    return value.map(item => {
-      const idStr = typeof item === 'object' && item !== null ? (item.id || item.name || '') : String(item).trim();
-      const match = featureMap.get(idStr.toLowerCase()) || featureMap.get(idStr.replace(/^feature-|^trait-/, '').toLowerCase());
-      return {
-        raw: idStr,
-        name: match?.name || idStr.replace(/^feature-|^trait-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-        bp: match?.bp || 1,
-        category: match?.category || 'Feature'
-      };
-    });
-  }, [value, featureMap]);
+    return value
+      .filter(item => {
+        const idStr = typeof item === 'object' && item !== null ? (item.id || item.name || '') : String(item).trim();
+        if (!idStr) return false;
+        // If in species mode, filter out species traits that may have been placed in features
+        if (isSpeciesMode) {
+          const clean = idStr.toLowerCase();
+          if (clean.startsWith('trait-') || clean.includes('traits-') || clean.startsWith('trait_')) return false;
+        }
+        // Strictly require feature to exist in Omnicortex Features catalog
+        const match = featureMap.get(idStr.toLowerCase()) || 
+                      featureMap.get(idStr.replace(/^feature-|^ability-|^feat-/, '').toLowerCase()) ||
+                      featureMap.get('ability-' + idStr.replace(/^feature-|^ability-|^feat-/, '').toLowerCase());
+        return !!match;
+      })
+      .map(item => {
+        const idStr = typeof item === 'object' && item !== null ? (item.id || item.name || '') : String(item).trim();
+        const match = featureMap.get(idStr.toLowerCase()) || 
+                      featureMap.get(idStr.replace(/^feature-|^ability-|^feat-/, '').toLowerCase()) ||
+                      featureMap.get('ability-' + idStr.replace(/^feature-|^ability-|^feat-/, '').toLowerCase());
+        return {
+          raw: idStr,
+          id: match?.id || idStr,
+          name: match?.name || idStr,
+          bp: match?.bp || 3,
+          category: match?.category || 'Feature'
+        };
+      });
+  }, [value, featureMap, isSpeciesMode]);
 
   const handleRemove = (rawVal) => {
     const next = (Array.isArray(value) ? value : []).filter(item => {
@@ -463,9 +485,23 @@ export const FeaturesSelector = ({
               >
                 <Sparkles size={11} className={iconColor} />
                 <span>{item.name}</span>
-                <span className="px-1 rounded text-[10px] bg-slate-800/80 text-slate-300">
-                  {item.bp} CP
-                </span>
+                {mode === 'granted' ? (
+                  <span className="px-1.5 py-0.2 rounded text-[9.5px] bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider border border-emerald-500/30">
+                    Granted
+                  </span>
+                ) : mode === 'recommended' ? (
+                  <span className="px-1.5 py-0.2 rounded text-[9.5px] bg-purple-500/20 text-purple-300 font-bold uppercase tracking-wider border border-purple-500/30">
+                    Recommended
+                  </span>
+                ) : shouldShowCost ? (
+                  <span className="px-1 rounded text-[10px] bg-slate-800/80 text-slate-300">
+                    {item.bp} CP
+                  </span>
+                ) : (
+                  <span className="px-1.5 py-0.2 rounded text-[9.5px] bg-slate-800 text-slate-300 font-bold uppercase">
+                    Feature
+                  </span>
+                )}
                 {isEditMode && (
                   <button
                     type="button"
@@ -507,7 +543,11 @@ export const FeaturesSelector = ({
                 <optgroup key={cat} label={`── ${cat.toUpperCase()} FEATURES (${feats.length}) ──`}>
                   {feats.map(f => (
                     <option key={f.id || f.name} value={f.id || f.name}>
-                      {f.name} ({f.cp || f.bp || 1} CP)
+                      {mode === 'granted'
+                        ? `${f.name} (Granted Feature)`
+                        : mode === 'recommended'
+                        ? `${f.name} (Recommended)`
+                        : `${f.name} (${f.cp || f.bp || 3} CP)`}
                     </option>
                   ))}
                 </optgroup>

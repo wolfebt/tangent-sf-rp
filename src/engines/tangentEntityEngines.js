@@ -277,9 +277,18 @@ export function calculateSpeciesBP(params = {}) {
   let skillBundles = params.skillBundles ?? params.skill_bundles ?? 0;
   let traits = [
     ...(Array.isArray(params.traits) ? params.traits : []),
-    ...(Array.isArray(params.inherent_features) ? params.inherent_features : []),
+    ...(Array.isArray(params.species_traits) ? params.species_traits : []),
     ...(Array.isArray(params.inherent_traits) ? params.inherent_traits : [])
   ];
+  // Legacy support: ONLY include items from inherent_features if they explicitly represent a species trait
+  if (Array.isArray(params.inherent_features)) {
+    params.inherent_features.forEach(item => {
+      const id = typeof item === 'object' ? (item.id || item.name || '') : String(item);
+      if (id.startsWith('trait-') || id.toLowerCase().includes('trait')) {
+        traits.push(item);
+      }
+    });
+  }
   let disadvantages = [
     ...(Array.isArray(params.disadvantages) ? params.disadvantages : []),
     ...(Array.isArray(params.inherent_disadvantages) ? params.inherent_disadvantages : [])

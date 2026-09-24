@@ -13,9 +13,7 @@ movement:
 speeds: Flight 60 ft
 reach: 2 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 4
@@ -45,18 +43,10 @@ bonus_skill_choices:
   - Engineering
   - Tactics
   - Attune
-inherent_features:
-  - trait-synthetic-base-traits
-  - trait-comms-array-mastery-instant-holo-link
-  - trait-companion-remotes-commands-2-drone-units
-  - trait-hyper-threading-logic-engine
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Cybernetic Possession
-  - Quantum Decryption
-  - System Lockout
-recommended_features:
-  - feature-quantum-decryption
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Synthetic (-4)
 tech_level: 5 (Singularity Computing)
 meta_level: 2 (Digital Psionics)
@@ -103,11 +93,14 @@ modifiers:
 cp_cost: 187
 cp: 187
 bp: 187
-description: >-
-  Intellect Constructs are disembodied artificial intelligences housed in
-  floating core chassis or drone bodies, commanding battlefield drones and
-  networks.
+description: 'Intellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks.'
+traits:
+  - trait-synthetic-base-traits
+  - trait-comms-array-mastery-instant-holo-link
+  - trait-companion-remotes-commands-2-drone-units
+  - trait-hyper-threading-logic-engine
 ---
+
 # Intellect Construct (Autonomous Mind Core)
 
 ## Description

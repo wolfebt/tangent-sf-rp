@@ -13,9 +13,7 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: -2
@@ -30,18 +28,10 @@ bonus_skill_choices:
   - Medicine
   - Athletics
   - Discipline
-inherent_features:
-  - trait-synthetic-base-traits
-  - trait-adaptive-aspects-rapid-evolutionary-resistance
-  - trait-self-healing-bio-circuits
-  - trait-hybrid-metabolism-fuel-or-food
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Chitin Plating
-  - Bio-Electric Arc
-  - Neural Overclock
-recommended_features:
-  - feature-chitin-plating
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 4 (Biomechanical Synthesis)
 meta_level: 2 (Cyber-Psionics)
@@ -56,10 +46,14 @@ modifiers:
 cp_cost: 51
 cp: 51
 bp: 51
-description: >-
-  Biomechanical synthetics fuse vat-grown organic muscle and vascular organs
-  with titanium endoskeletons and optronic neural processors.
+description: Biomechanical synthetics fuse vat-grown organic muscle and vascular organs with titanium endoskeletons and optronic neural processors.
+traits:
+  - trait-synthetic-base-traits
+  - trait-adaptive-aspects-rapid-evolutionary-resistance
+  - trait-self-healing-bio-circuits
+  - trait-hybrid-metabolism-fuel-or-food
 ---
+
 # Biomechanical (Cyber-Organic Hybrid)
 
 ## **BIOMECHANICAL**

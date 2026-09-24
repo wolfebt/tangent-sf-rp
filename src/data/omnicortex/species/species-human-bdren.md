@@ -29,17 +29,10 @@ bonus_skill_choices:
   - Stealth
   - Acrobatics
   - Alertness
-inherent_features:
-  - trait-low-light-vision
-  - trait-quick-5ft-movement
-  - trait-echo-sensitivity
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Shadow Affinity
-  - Reflex Evasion
-  - Night Hunter
-recommended_features:
-  - feature-quick
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 3 (Standard)
 meta_level: 1 (Sensory Focus)
@@ -54,11 +47,13 @@ modifiers:
 cp_cost: 11
 cp: 11
 bp: 11
-description: >-
-  B’Dren are slender humans native to tidally locked or twilight worlds. They
-  possess dilated tapetum lucidum eyes providing superior nocturnal vision and
-  rapid motor reflexes.
+description: B’Dren are slender humans native to tidally locked or twilight worlds. They possess dilated tapetum lucidum eyes providing superior nocturnal vision and rapid motor reflexes.
+traits:
+  - trait-low-light-vision
+  - trait-quick-5ft-movement
+  - trait-echo-sensitivity
 ---
+
 # B’Dren Human (Nocturnal Variant)
 
 ## Description

@@ -29,17 +29,10 @@ bonus_skill_choices:
   - Intimidation
   - Combat (Heavy Weapons)
   - Survival
-inherent_features:
-  - trait-large-size-8-10ft-reach-10ft
-  - trait-massive-bulk-dr-3
-  - trait-colossal-carrying-capacity
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Crushing Blow
-  - Titan Endurance
-  - Ground Slam
-recommended_features:
-  - feature-crushing-blow
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Xeno (-2), Giant (-2)'
 tech_level: 3 (Heavy Industrial Hydraulic Rigging)
 meta_level: 0 (Physical Dominance)
@@ -70,10 +63,13 @@ modifiers:
 cp_cost: 27
 cp: 27
 bp: 27
-description: >-
-  Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
-  musculature and skeletal density render them natural juggernauts.
+description: Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive musculature and skeletal density render them natural juggernauts.
+traits:
+  - trait-large-size-8-10ft-reach-10ft
+  - trait-massive-bulk-dr-3
+  - trait-colossal-carrying-capacity
 ---
+
 # Risakin (Heavy-World Giant)
 
 **BP Cost:**   

@@ -30,17 +30,10 @@ bonus_skill_choices:
   - Science
   - Piloting
   - Engineering
-inherent_features:
-  - trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link
-  - trait-bodyform-acclimation-0-cyber-strain
-  - trait-companion-integrated-sub-ai-assistant
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Hardwired Reflexes
-  - Neural Firewall
-  - Direct Interface Tap
-recommended_features:
-  - feature-neural-firewall
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Xeno (-2), Augmented (-4)'
 tech_level: 4 (Advanced Cybernetics & Neural Sockets)
 meta_level: 0 (Null / Technological Optimization)
@@ -55,11 +48,13 @@ modifiers:
 cp_cost: 17
 cp: 17
 bp: 17
-description: >-
-  Cyberforms are transhumans who have replaced upwards of 60% of their organic
-  bodies with cybernetic augmentations, internal processors, and sub-dermal
-  nano-repair hives.
+description: 'Cyberforms are transhumans who have replaced upwards of 60% of their organic bodies with cybernetic augmentations, internal processors, and sub-dermal nano-repair hives.'
+traits:
+  - trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link
+  - trait-bodyform-acclimation-0-cyber-strain
+  - trait-companion-integrated-sub-ai-assistant
 ---
+
 # Cyberform Human (Transhuman Cyborg)
 
 **BP Cost:**   

@@ -10,7 +10,7 @@ export { MechaChassisConfigurator } from './MechaChassisConfigurator';
 export { MetaTechImbuementConfigurator } from './MetaTechImbuementConfigurator';
 export { ModularStatBlockConfigurator } from './ModularStatBlockConfigurator';
 export { PlanetaryDesignConfigurator } from './PlanetaryDesignConfigurator';
-export { SpeciesTraitSelector } from './SpeciesTraitSelector';
+export { SpeciesTraitSelector, GeneticsNavRail, GENETICS_NAV_ITEMS } from './SpeciesTraitSelector';
 export { UDUCapacityMeter } from './UDUCapacityMeter';
 export { WeaponModStacker } from './WeaponModStacker';
 export { OriginConfigurator } from './OriginConfigurator';

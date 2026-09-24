@@ -13,9 +13,7 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 2
@@ -31,19 +29,10 @@ bonus_skill_choices:
   - Engineering
   - Hacking
   - Discipline
-inherent_features:
-  - trait-synthetic-base-traits
-  - trait-double-adaptive-aspects
-  - trait-telepathic-technopathic-network
-  - trait-tech-assimilation-integrates-alien-gear-instantly
-  - trait-technokinesis-special-ability
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Machine Overcharge
-  - Nanite Swarm Shield
-  - Hardware Cannibalize
-recommended_features:
-  - feature-technokinesis
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Synthetic (-4)
 tech_level: 4 (Adaptive Nanite Reconfiguration)
 meta_level: 3 (Technomancy)
@@ -58,10 +47,15 @@ modifiers:
 cp_cost: 32
 cp: 32
 bp: 32
-description: >-
-  Mekan are self-evolving nanite and modular machines capable of assimilating,
-  repurposing, and technokinetically manipulating electronic systems.
+description: 'Mekan are self-evolving nanite and modular machines capable of assimilating, repurposing, and technokinetically manipulating electronic systems.'
+traits:
+  - trait-synthetic-base-traits
+  - trait-double-adaptive-aspects
+  - trait-telepathic-technopathic-network
+  - trait-tech-assimilation-integrates-alien-gear-instantly
+  - trait-technokinesis-special-ability
 ---
+
 # Mekan (Technopathic Assimilator)
 
 *

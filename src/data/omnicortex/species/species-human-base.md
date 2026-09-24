@@ -25,20 +25,10 @@ bonus_skill_choices:
   - Streetwise
   - Technology
   - Athletics
-inherent_features:
-  - trait-adaptability
-  - trait-broad-horizons-1-feature-at-creation
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Endurance
-  - Resourceful
-  - Fast Learner
-  - Versatile
-  - Jack of All Trades
-recommended_features:
-  - feature-adaptability
-  - feature-endurance
-  - feature-resourceful
+bonus_feature_choices: []
+recommended_features: []
 stigma: None (Galactic Baseline)
 tech_level: 3 (Standard Interstellar Fusion & Ballistics)
 meta_level: 1 (Variable / Latent Potential)
@@ -49,11 +39,12 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by
-  restless ambition and resilience, their versatility allows them to thrive in
-  any environment and master any discipline.
+description: 'Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by restless ambition and resilience, their versatility allows them to thrive in any environment and master any discipline.'
+traits:
+  - trait-adaptability
+  - trait-broad-horizons-1-feature-at-creation
 ---
+
 # Human (Standard Baseline)
 
 **BP Cost:** 10  

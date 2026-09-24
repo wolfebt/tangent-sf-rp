@@ -4,6 +4,8 @@ import { useCampaign } from '../../../context/CampaignContext';
 import { ELEMENT_TYPES, getTypePillStyle, SCENARIO_GUIDE_MODULES } from './elementSchemas';
 import EditElementModal from './EditElementModal';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
+import AimeGuidanceButton from '../../../components/StoryFoundry/AimeGuidanceButton';
+import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { generateContent } from '../../../services/aimeService';
 import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2 } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
@@ -23,6 +25,7 @@ export const ElementForge = ({ onBackToStory }) => {
   const [isGeneratingGuide, setIsGeneratingGuide] = useState(false);
   const [selectedElement, setSelectedElement] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isAimeFlyoutOpen, setIsAimeFlyoutOpen] = useState(false);
 
   // Filter elements by active type and search term
   const filteredElements = (elementsCatalog || []).filter(el => {
@@ -207,6 +210,13 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
               <Palette size={14} />
               <span>Artist Hub</span>
             </button>
+
+            {/* AIME Guidance Trigger */}
+            <AimeGuidanceButton
+              onClick={() => setIsAimeFlyoutOpen(true)}
+              label={`AIME ${activeType} Guidance`}
+              variant="compact"
+            />
 
             {/* Standard Create Button */}
             <button
@@ -422,6 +432,20 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
           isOpen={isArtistHubOpen}
           onClose={() => setIsArtistHubOpen(false)}
           initialPrompt={searchTerm ? `${searchTerm}` : ''}
+        />
+      )}
+
+      {/* AIME Guidance Flyout */}
+      {isAimeFlyoutOpen && (
+        <AimeGuidanceFlyout
+          isOpen={isAimeFlyoutOpen}
+          onClose={() => setIsAimeFlyoutOpen(false)}
+          targetType={activeType === 'Persona' ? 'Persona' : 'Story'}
+          contextData={{
+            category: activeType,
+            catalogCount: filteredElements.length,
+            sampleTitles: filteredElements.slice(0, 5).map(e => e.title)
+          }}
         />
       )}
 

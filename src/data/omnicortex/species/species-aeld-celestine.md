@@ -32,26 +32,10 @@ bonus_skill_choices:
   - Attune
   - Science
   - Language
-inherent_features:
-  - trait-awakened-arcane
-  - trait-long-lived-600-years
-  - trait-sleepless-immune-to-sleep-effects
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Acute Senses
-  - Adapted (Arboreal)
-  - Ageless
-  - Agile Maneuvers
-  - Combat Expertise
-  - Darksight
-  - Eidetic Memory
-  - Low Light Vision
-  - Martial Arts
-  - Sense Magic (30ft)
-recommended_features:
-  - feature-acute-senses
-  - feature-eidetic-memory
-  - feature-sense-magic
+bonus_feature_choices: []
+recommended_features: []
 stigma: Minor Xeno (-1)
 tech_level: '3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinement)'
 meta_level: '4 (High Magic: The Flow)'
@@ -70,12 +54,13 @@ modifiers:
 cp_cost: 26
 cp: 26
 bp: 26
-description: >-
-  The Alterian Aeld (Celestines) are graceful, exceptionally long-lived
-  scholars, diplomats, and magi-tech pioneers. They harmonize technology with
-  arcane metaphysics, viewing magic as a rigorous science and operating with a
-  profound long-term perspective.
+description: 'The Alterian Aeld (Celestines) are graceful, exceptionally long-lived scholars, diplomats, and magi-tech pioneers. They harmonize technology with arcane metaphysics, viewing magic as a rigorous science and operating with a profound long-term perspective.'
+traits:
+  - trait-awakened-arcane
+  - trait-long-lived-600-years
+  - trait-sleepless-immune-to-sleep-effects
 ---
+
 # Celestine (Alterian Aeld)
 
 The strength of the Alterian Aeld is founded on a profound grasp of the world. Their core values include a persistent commitment to acquiring knowledge—be it historical, geographical, magical, or philosophical—and a dedication to cultivating productive alliances with other species, actively rejecting isolationism. Due to their deep knowledge of diverse cultures, Alterian Aeld frequently act as impartial mediators, envoys, or neutral parties in conflicts and disputes. Their passion for exploration goes beyond mere geography; they meticulously map the world's philosophical, magical, and historical landscapes. The knowledge they gather is carefully preserved and shared, benefiting both their own society and their allies.  

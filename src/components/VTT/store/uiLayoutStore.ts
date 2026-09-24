@@ -9,6 +9,7 @@ import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { GridType, GridScaleTier } from '../../../engine/index';
+import type { CompiledVttPackage } from '../../../types/vttPackage';
 
 export type CatalogCategory = 
   | 'story' 
@@ -166,6 +167,8 @@ export interface UILayoutState extends VttLayoutPreferences {
   setPencilWidth: (width: number) => void;
   setRulerAvailableAp: (ap: number) => void;
   setActiveLeftTab: (tab: 'cockpit' | 'catalog' | 'scenario') => void;
+  lastCompiledPackage: CompiledVttPackage | null;
+  setLastCompiledPackage: (pkg: CompiledVttPackage | null) => void;
 
   resetLayout: () => void;
 }
@@ -208,8 +211,9 @@ export const useUILayoutStore = create<UILayoutState>()(
         draft.scaleTier = tier;
       }),
       // Tactical Token Selection Defaults
-      selectedTokenId: 'op-jax',
-      targetTokenId: 'mech-vanguard',
+      selectedTokenId: null,
+      targetTokenId: null,
+      lastCompiledPackage: null,
 
       // Architect Cartography Defaults
       activeArchitectTool: 'select',
@@ -263,6 +267,9 @@ export const useUILayoutStore = create<UILayoutState>()(
       }),
       setTargetTokenId: (id) => set((draft) => {
         draft.targetTokenId = id;
+      }),
+      setLastCompiledPackage: (pkg) => set((draft) => {
+        draft.lastCompiledPackage = pkg;
       }),
 
       // Cartography Tool Actions

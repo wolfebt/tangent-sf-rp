@@ -30,19 +30,10 @@ bonus_skill_choices:
   - Attune
   - Survival
   - History
-inherent_features:
-  - trait-aeld-lineage-traits
-  - trait-dragonkin-heritage-scales-dr-2
-  - trait-natural-weapon-claws-bite
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Energy Breath
-  - Dragon Fear
-  - Thermal Resistance
-  - Mighty Surge
-  - Combat Specialization
+bonus_feature_choices: []
 recommended_features:
-  - feature-energy-breath
   - feature-mighty-surge
 stigma: 'Dragonkin (-4), Xeno (-2)'
 tech_level: 3 (Forge-Tech & Arcane Metallurgy)
@@ -58,11 +49,13 @@ modifiers:
 cp_cost: 13
 cp: 13
 bp: 13
-description: >-
-  Draconians bridge ancient elven grace with the primal draconic essence.
-  Scaled, proud, and martial, they serve as warrior-philosophers and guardians
-  of sacred flame.
+description: 'Draconians bridge ancient elven grace with the primal draconic essence. Scaled, proud, and martial, they serve as warrior-philosophers and guardians of sacred flame.'
+traits:
+  - trait-aeld-lineage-traits
+  - trait-dragonkin-heritage-scales-dr-2
+  - trait-natural-weapon-claws-bite
 ---
+
 # Draconian (Scaled Aeld)
 
 Draconian Aeld are a distinct group within the Elven populace, characterized by a significant Draconian lineage. This heritage places them in a unique biological and social category, comparable to the Draconic Humans, suggesting a shared, though likely separate, history of intermingling between the Elven and Draconic races.  

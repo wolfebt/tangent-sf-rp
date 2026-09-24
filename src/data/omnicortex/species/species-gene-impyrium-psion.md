@@ -30,18 +30,10 @@ bonus_skill_choices:
   - Discipline
   - Investigation
   - Intimidation
-inherent_features:
-  - trait-awakened-psionic
-  - trait-status-impyrium-authority
-  - trait-mind-wipe-resistance
-  - trait-psychic-aura
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Thought Probe
-  - Psionic Crush
-  - Telepathic Command
-recommended_features:
-  - feature-thought-probe
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 4 (Imperial Psionic Relics & Force Armor)
 meta_level: 4 (Imperial High Psionics)
@@ -56,10 +48,14 @@ modifiers:
 cp_cost: 20
 cp: 20
 bp: 20
-description: >-
-  Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic
-  judges, interrogators, and battle-psions.
+description: 'Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judges, interrogators, and battle-psions.'
+traits:
+  - trait-awakened-psionic
+  - trait-status-impyrium-authority
+  - trait-mind-wipe-resistance
+  - trait-psychic-aura
 ---
+
 # Impyrium Psion (Imperial Inquisitor)
 
 ## Description

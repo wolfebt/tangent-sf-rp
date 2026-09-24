@@ -25,17 +25,10 @@ bonus_skill_choices:
   - Athletics
   - Survival
   - Combat
-inherent_features:
-  - trait-2-splice-mutations-natural-weapons-chitin-fur-tail
-  - trait-mutation-power-special-perk
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Venom Fangs
-  - Echolocation
-  - Wall Crawling
-  - Night Vision
-recommended_features:
-  - feature-venom-fangs
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Genetic (-2), Beastial (-2)'
 tech_level: 4 (Splice Genomics)
 meta_level: 1 (Animalistic Resonance)
@@ -46,10 +39,12 @@ modifiers: []
 cp_cost: 12
 cp: 12
 bp: 12
-description: >-
-  Spliced humans bearing animalistic genetic sequences granting horns, claws,
-  reinforced skin, or thermal vision.
+description: 'Spliced humans bearing animalistic genetic sequences granting horns, claws, reinforced skin, or thermal vision.'
+traits:
+  - trait-2-splice-mutations-natural-weapons-chitin-fur-tail
+  - trait-mutation-power-special-perk
 ---
+
 # Chimera (Splice Transhuman)
 
 *

@@ -29,17 +29,10 @@ bonus_skill_choices:
   - Engineering
   - Medicine
   - Athletics
-inherent_features:
-  - trait-improved-great-fortitude-4-vs-poison-disease
-  - trait-dense-skeletal-structure
-  - trait-radiation-tolerance
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Silver Skin DR
-  - Toxic Neutralization
-  - Tireless
-recommended_features:
-  - feature-improved-great-fortitude
+bonus_feature_choices: []
+recommended_features: []
 stigma: Blue Skin (-1)
 tech_level: 3 (Industrial Heavy Tech)
 meta_level: 2 (Electrochemical Psionics)
@@ -54,11 +47,13 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Distinguished by their distinctive silvery-blue skin resulting from colloidal
-  mineral assimilation, Argynts are resilient human colonists adapted to harsh,
-  radiation-heavy worlds.
+description: 'Distinguished by their distinctive silvery-blue skin resulting from colloidal mineral assimilation, Argynts are resilient human colonists adapted to harsh, radiation-heavy worlds.'
+traits:
+  - trait-improved-great-fortitude-4-vs-poison-disease
+  - trait-dense-skeletal-structure
+  - trait-radiation-tolerance
 ---
+
 # Argynt Human (Heavy Gravity Variant)
 
 **BP Cost:**   

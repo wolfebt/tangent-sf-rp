@@ -58,6 +58,8 @@ export default function ADETopToolbar({
   onToggleSettings,
   isCronicleOpen,
   onToggleCronicle,
+  isCompilerOpen,
+  onToggleCompiler,
   // Outliner toggle
   isTreeExpanded = true,
   onToggleTreeExpanded,
@@ -488,6 +490,25 @@ export default function ADETopToolbar({
 
       {/* ── ZONE 3: TACTICAL HUB & COCKPIT CONTROLS (Right) ── */}
       <div className="flex items-center gap-1.5 shrink-0">
+        {/* Compile / Prep for VTT */}
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.05);
+            onToggleCompiler?.(true);
+          }}
+          className={`px-2.5 py-1 rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
+            isCompilerOpen
+              ? 'bg-cyan-950 text-cyan-200 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+              : 'bg-slate-900/90 hover:bg-slate-800 text-cyan-300 border-cyan-500/50 hover:border-cyan-400'
+          }`}
+          title="Compile Story, Maps, and Elements into a prepped VTT package"
+        >
+          <span>⚙️</span>
+          <span className="hidden xl:inline">PREP VTT MODULE</span>
+          <span className="xl:hidden">PREP VTT</span>
+        </button>
+
         {/* Deploy to STAGE VTT */}
         <button
           type="button"

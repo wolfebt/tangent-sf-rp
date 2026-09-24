@@ -26,19 +26,10 @@ bonus_skill_choices:
   - Survival
   - Navigation
   - Science (Oceanography)
-inherent_features:
-  - trait-adapted-aquatic
-  - trait-amphibious-gills-lungs
-  - trait-aquatic-strength-2-in-water
-  - trait-specialized-senses-underwater-vision-sonar
-  - trait-natural-swim-speed-30ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Pressure Tolerance
-  - Bioluminescence
-  - Cold Water Immunity
-recommended_features:
-  - feature-pressure-tolerance
+bonus_feature_choices: []
+recommended_features: []
 stigma: Aquatic Xeno (-3)
 tech_level: 3 (Sub-Surface Habitats & Hydro-Drives)
 meta_level: 1 (Oceanic Echo)
@@ -49,11 +40,15 @@ modifiers: []
 cp_cost: 11
 cp: 11
 bp: 11
-description: >-
-  Aquarians are oceanic-adapted humans with gill slits, webbed digits, and
-  pressurized vascular systems suited for pelagic trenches and coastal orbital
-  habitats.
+description: 'Aquarians are oceanic-adapted humans with gill slits, webbed digits, and pressurized vascular systems suited for pelagic trenches and coastal orbital habitats.'
+traits:
+  - trait-adapted-aquatic
+  - trait-amphibious-gills-lungs
+  - trait-aquatic-strength-2-in-water
+  - trait-specialized-senses-underwater-vision-sonar
+  - trait-natural-swim-speed-30ft
 ---
+
 # Aquarian Human (Water Variant)
 
 **BP Cost:**   

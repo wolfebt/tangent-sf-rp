@@ -30,15 +30,9 @@ bonus_skill_choices:
   - Athletics
   - Science (Geology)
   - Combat (Heavy)
-inherent_features:
-  - trait-mighty-surge-1-encounter-bonus-to-str-sta-checks
-  - trait-dense-musculature
-  - trait-poison-resistance
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Master Smith
-  - Subterranean Instinct
-  - Unyielding Stance
+bonus_feature_choices: []
 recommended_features:
   - feature-mighty-surge
 stigma: Minor Xeno (-1)
@@ -59,10 +53,13 @@ modifiers:
 cp_cost: 18
 cp: 18
 bp: 18
-description: >-
-  Stocky, broad-shouldered heavy-world humans renowned for foundry work,
-  starship armor plating, and asteroid mining.
+description: 'Stocky, broad-shouldered heavy-world humans renowned for foundry work, starship armor plating, and asteroid mining.'
+traits:
+  - trait-mighty-surge-1-encounter-bonus-to-str-sta-checks
+  - trait-dense-musculature
+  - trait-poison-resistance
 ---
+
 # Dwerg Human (Forge Folk)
 
 *

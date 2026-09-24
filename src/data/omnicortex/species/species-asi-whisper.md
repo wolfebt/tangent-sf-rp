@@ -28,19 +28,10 @@ bonus_skill_choices:
   - Attune
   - Insight
   - Investigation
-inherent_features:
-  - trait-asi-base-traits
-  - trait-alter-form-wisp-orb-form-special-ability
-  - trait-awakened-nature
-  - trait-silent-step
-  - trait-flight-in-wisp-form
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Invisibility
-  - Ethereal Jaunt
-  - Luminescent Flash
-recommended_features:
-  - feature-ethereal-jaunt
+bonus_feature_choices: []
+recommended_features: []
 stigma: Fey (-2)
 tech_level: 3 (Optical Mirage Tech)
 meta_level: 4 (Ethereal Illusion)
@@ -55,11 +46,15 @@ modifiers:
 cp_cost: 14
 cp: 14
 bp: 14
-description: >-
-  Whispers are enigmatic beings able to dissolve into glowing spheres of soft
-  light or manifest as ghostly humanoid silhouettes. They pass through locks and
-  sensory grids undetected.
+description: Whispers are enigmatic beings able to dissolve into glowing spheres of soft light or manifest as ghostly humanoid silhouettes. They pass through locks and sensory grids undetected.
+traits:
+  - trait-asi-base-traits
+  - trait-alter-form-wisp-orb-form-special-ability
+  - trait-awakened-nature
+  - trait-silent-step
+  - trait-flight-in-wisp-form
 ---
+
 # Whisper (Wisp Shifter)
 
 # 

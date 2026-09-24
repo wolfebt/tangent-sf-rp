@@ -28,18 +28,10 @@ bonus_skill_choices:
   - Athletics
   - Combat (Ranged)
   - Survival
-inherent_features:
-  - trait-uncanny-senses-telescopic-vision-4
-  - trait-flight-winged-speed-50ft
-  - trait-hollow-bone-agility
-  - trait-thermal-current-riding
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Dive Bomb Strike
-  - Aerial Barrel Roll
-  - Wind Gust Blast
-recommended_features:
-  - feature-dive-bomb-strike
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Aerodynamic Laminates & Long-Rifle Snipers)
 meta_level: 2 (Aero-Kinetic Wind Weaving)
@@ -50,10 +42,14 @@ modifiers: []
 cp_cost: 22
 cp: 22
 bp: 22
-description: >-
-  Magnificent winged humanoids possessing feathered plumage, eagle-like
-  telescopic eyesight, and aerial supremacy.
+description: 'Magnificent winged humanoids possessing feathered plumage, eagle-like telescopic eyesight, and aerial supremacy.'
+traits:
+  - trait-uncanny-senses-telescopic-vision-4
+  - trait-flight-winged-speed-50ft
+  - trait-hollow-bone-agility
+  - trait-thermal-current-riding
 ---
+
 # Praeti (Winged Avian Humanoid)
 
 # 

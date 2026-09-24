@@ -29,18 +29,10 @@ bonus_skill_choices:
   - Navigation
   - Science (Astrophysics)
   - Discipline
-inherent_features:
-  - trait-awakened-dimension-psychic
-  - trait-indomitable-will
-  - trait-teleportal-special-ability-short-jump
-  - trait-homing-special-ability-spatial-recall
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Dimensional Tear
-  - Warp Sight
-  - Spatial Anchor
-recommended_features:
-  - feature-spatial-anchor
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 4 (FTL & Slipstream Gate Tech)
 meta_level: 4 (Spatial Metaphysics)
@@ -55,10 +47,14 @@ modifiers:
 cp_cost: 20
 cp: 20
 bp: 20
-description: >-
-  Varen are spacefaring humans attuned to hyper-space corridors and ancient
-  gateway networks, possessing innate teleportation and spatial recall powers.
+description: 'Varen are spacefaring humans attuned to hyper-space corridors and ancient gateway networks, possessing innate teleportation and spatial recall powers.'
+traits:
+  - trait-awakened-dimension-psychic
+  - trait-indomitable-will
+  - trait-teleportal-special-ability-short-jump
+  - trait-homing-special-ability-spatial-recall
 ---
+
 # Varen (Warp Gatekeeper Human)
 
 **BP Cost:** 28  

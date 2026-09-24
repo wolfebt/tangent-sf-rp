@@ -25,17 +25,10 @@ bonus_skill_choices:
   - Attune
   - Perception
   - Culture
-inherent_features:
-  - trait-low-light-vision
-  - trait-extended-lifespan-200-years
-  - trait-arcane-affinity
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Silver Tongue
-  - Graceful Stride
-  - Focused Mind
-recommended_features:
-  - feature-graceful-stride
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 3 (Magi-Tech Synthesis)
 meta_level: 2 (Harmonic Weave)
@@ -46,10 +39,13 @@ modifiers: []
 cp_cost: 15
 cp: 15
 bp: 15
-description: >-
-  The Kheen represent stable human-aeld lineages who inherited elven aesthetic
-  grace and longevity while maintaining human versatility and adaptability.
+description: The Kheen represent stable human-aeld lineages who inherited elven aesthetic grace and longevity while maintaining human versatility and adaptability.
+traits:
+  - trait-low-light-vision
+  - trait-extended-lifespan-200-years
+  - trait-arcane-affinity
 ---
+
 # Kheen Human (Aeld Hybrid)
 
 **BP Cost:**   

@@ -46,6 +46,7 @@ import {
   Moon
 } from 'lucide-react';
 import AudioService from '../../../../services/audioService';
+import { VttEventBus } from '../../../../utils/vttEventBus';
 
 const ENV_PRESETS = [
   { id: 'zero_g', label: 'Zero-G Drift', icon: '🌌', desc: 'Floating inertia / Acrobatics CR 12' },
@@ -682,7 +683,7 @@ export const ArchitectConsoleRail = ({
 
               <button
                 type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('open-new-map-modal'))}
+                onClick={() => VttEventBus.emit('open-new-map-modal')}
                 className="w-full py-2 px-2.5 rounded-lg bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-mono font-bold text-xs flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
               >
                 <Plus size={14} />
@@ -692,7 +693,7 @@ export const ArchitectConsoleRail = ({
               <div className="grid grid-cols-2 gap-1.5 text-[10px] font-mono">
                 <button
                   type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent('load-preset-starship'))}
+                  onClick={() => VttEventBus.emit('load-preset-starship')}
                   className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/60 text-slate-200 rounded-lg text-left transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   <span>🚀</span>
@@ -700,7 +701,7 @@ export const ArchitectConsoleRail = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent('load-preset-outpost'))}
+                  onClick={() => VttEventBus.emit('load-preset-outpost')}
                   className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/60 text-slate-200 rounded-lg text-left transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   <span>🔬</span>

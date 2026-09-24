@@ -80,6 +80,7 @@ import {
   MechaChassisConfigurator,
   ArchitectureBlueprintConfigurator,
   SpeciesTraitSelector,
+  GeneticsNavRail,
   ModularStatBlockConfigurator,
   CompanionPackageSelector,
   InvocationParameterConfigurator,
@@ -590,6 +591,13 @@ export const AssetStudio = ({
 
   const matrix = resolvedMatrix || (isPropertyCategory(resolvedKey) ? getMatrixById('equipment') : getMatrixById('features'));
   const isProperty = Boolean(matrix?.isProperty || isPropertyMatrix(matrix?.id) || isPropertyCategory(resolvedKey) || isPropertyCategory(matrix?.id));
+  const isSpeciesStudio = Boolean(
+    matrix?.id?.toLowerCase() === 'species' || 
+    matrix?.targetCollection?.toLowerCase() === 'species' || 
+    matrix?.customComponent === 'SpeciesTraitSelector' ||
+    matrix?.name?.toLowerCase() === 'species' ||
+    resolvedKey?.toLowerCase() === 'species'
+  );
   const guidance = useMemo(() => CODEX_DATASET_GUIDANCE[matrix.id] || null, [matrix.id]);
 
   const activeCategoryConfig = useMemo(() => {
@@ -599,7 +607,7 @@ export const AssetStudio = ({
   // Extract all specs/identity fields relative to current dataset
   const specsFields = useMemo(() => {
     const fieldsMap = new Map();
-    const isSpecies = matrix.id === 'species';
+    const isSpecies = isSpeciesStudio;
     const shouldExclude = (fName) => {
       if (isSpecies && SPECIES_EXCLUDED_FIELDS.has(fName)) return true;
       if (!isProperty && NON_PROPERTY_EXCLUDED_FIELDS.has(fName)) return true;
@@ -631,12 +639,12 @@ export const AssetStudio = ({
       });
     }
     return Array.from(fieldsMap.values());
-  }, [matrix, activeCategoryConfig, isProperty]);
+  }, [matrix, activeCategoryConfig, isProperty, isSpeciesStudio]);
 
   // Extract all game mechanics fields relative to current dataset
   const relativeMechanicsFields = useMemo(() => {
     const fieldsMap = new Map();
-    const isSpecies = matrix.id === 'species';
+    const isSpecies = isSpeciesStudio;
 
     const shouldExclude = (fName) => {
       if (SPECS_FIELD_NAMES.has(fName) || NARRATIVE_FIELD_NAMES.has(fName) || WIDGET_FIELD_NAMES.has(fName)) return true;
@@ -674,7 +682,7 @@ export const AssetStudio = ({
     }
 
     return Array.from(fieldsMap.values());
-  }, [matrix, activeCategoryConfig, isProperty]);
+  }, [matrix, activeCategoryConfig, isProperty, isSpeciesStudio]);
 
   // View & Edit mode state
   const [isEditMode, setLocalIsEditMode] = useState(propIsEditMode);
@@ -689,6 +697,7 @@ export const AssetStudio = ({
 
   // Studio Sub-Tab navigation state: 'specs' | 'mechanics' | 'narrative' | 'relational' | 'inspector'
   const [activeStudioTab, setActiveStudioTab] = useState('specs');
+  const [activeGeneticsTab, setActiveGeneticsTab] = useState('chassis');
   const [loreViewMode, setLoreViewMode] = useState('preview');
   const [isGuidanceOpen, setIsGuidanceOpen] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -697,8 +706,15 @@ export const AssetStudio = ({
   const [hoveredRailItem, setHoveredRailItem] = useState(null);
   const railHoverTimerRef = useRef(null);
 
+  const handleGeneticsTabChange = (tabId) => {
+    setActiveGeneticsTab(tabId);
+    if (activeStudioTab !== 'mechanics') {
+      setActiveStudioTab('mechanics');
+    }
+  };
+
   useEffect(() => {
-    if (matrix?.id === 'species' && activeStudioTab === 'relational') {
+    if (isSpeciesStudio && activeStudioTab === 'relational') {
       setActiveStudioTab('specs');
     }
     if (!isProperty && activeStudioTab === 'economatrix') {
@@ -710,7 +726,7 @@ export const AssetStudio = ({
     if (!isProperty && !['invocation', 'meta-tech'].includes(matrix?.id) && activeStudioTab === 'scaling') {
       setActiveStudioTab('specs');
     }
-  }, [isProperty, matrix?.id, activeStudioTab]);
+  }, [isProperty, matrix?.id, isSpeciesStudio, activeStudioTab]);
 
   useEffect(() => {
     return () => {
@@ -742,7 +758,7 @@ export const AssetStudio = ({
       const next = { ...prev, [name]: value };
 
       // Two-way synchronization for species modifiers and chassis type
-      if (matrix.id === 'species') {
+      if (isSpeciesStudio) {
         if (name === 'species_type') {
           next.type = value;
         } else if (name === 'attribute_modifiers' || name === 'inherent_attribute_modifiers') {
@@ -1097,7 +1113,7 @@ export const AssetStudio = ({
       {
         id: 'mechanics',
         label: mechanicsTabConfig.label,
-        shortLabel: isOrigin ? 'SKILLS & TRAITS' : isOccu ? 'SKILLS & FEATS' : isArch ? 'CHASSIS' : (matrix.id === 'species' ? 'GENETICS' : 'MECHANICS'),
+        shortLabel: isOrigin ? 'SKILLS & TRAITS' : isOccu ? 'SKILLS & FEATS' : isArch ? 'CHASSIS' : (isSpeciesStudio ? 'GENETICS' : 'MECHANICS'),
         sublabel: mechanicsTabConfig.sublabel,
         icon: mechanicsTabConfig.icon,
         color: mechanicsTabConfig.color,
@@ -1443,6 +1459,16 @@ export const AssetStudio = ({
           </div>
         </nav>
 
+        {/* ── Nested Genetics Navigation Rail (Beside Studio Main Nav Rail) ── */}
+        {isSpeciesStudio && (activeStudioTab === 'mechanics' || activeStudioTab === 'genetics') && (
+          <GeneticsNavRail
+            formData={formData}
+            activeTab={activeGeneticsTab}
+            onTabChange={handleGeneticsTabChange}
+            isNested={true}
+          />
+        )}
+
         {/* ── Main Studio Workbench (Left Forms + Right Live Metrics) ── */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col lg:flex-row gap-6 min-h-0">
           
@@ -1594,27 +1620,32 @@ export const AssetStudio = ({
           )}
 
           {/* ── TAB 2: GAME MECHANICS & SYSTEMS ── */}
-          {activeStudioTab === 'mechanics' && (
+          {(activeStudioTab === 'mechanics' || (isSpeciesStudio && activeStudioTab === 'genetics')) && (
             <div className="space-y-5 animate-fade-in">
               {/* Specialized Matrix Configurator (e.g. Weapon Mods, Armor Coverage, Augmentation Nodes, Species Traits, Invocations, Occupations, Archetypes) */}
               {CustomConfigurator && (
-                <div className="p-4 bg-slate-950/70 border border-amber-500/30 rounded-2xl shadow-inner">
-                  <div className="flex items-center gap-2 mb-3 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                    <Sparkles size={14} />
-                    <span>Specialized {matrix.name} Studio Configurator</span>
-                  </div>
+                <div className={isSpeciesStudio ? "space-y-4" : "p-4 bg-slate-950/70 border border-amber-500/30 rounded-2xl shadow-inner"}>
+                  {!isSpeciesStudio && (
+                    <div className="flex items-center gap-2 mb-3 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                      <Sparkles size={14} />
+                      <span>Specialized {matrix.name} Studio Configurator</span>
+                    </div>
+                  )}
                   <CustomConfigurator
                     formData={formData}
                     onChange={handleFieldChange}
                     isEditMode={isEditMode}
                     onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
                     dbData={dbData}
+                    activeTab={isSpeciesStudio ? activeGeneticsTab : undefined}
+                    onTabChange={isSpeciesStudio ? handleGeneticsTabChange : undefined}
+                    hideNavRail={isSpeciesStudio}
                   />
                 </div>
               )}
 
               {/* Relative Combat & Operational Parameters (for non-species, non-faction, non-origin, non-occupation, non-archetype matrices) */}
-              {relativeMechanicsFields.length > 0 && matrix.id !== 'factions' && matrix.id !== 'species' && matrix.id !== 'origins' && matrix.id !== 'occupations' && matrix.id !== 'archetypes' && (
+              {relativeMechanicsFields.length > 0 && matrix.id !== 'factions' && !isSpeciesStudio && matrix.id !== 'origins' && matrix.id !== 'occupations' && matrix.id !== 'archetypes' && (
                 <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
                     <Zap size={14} />

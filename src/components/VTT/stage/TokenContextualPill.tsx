@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 import type { FusedToken } from '../../../engine/index';
+import { VttEventBus } from '../../../utils/vttEventBus';
 
 const QUICK_CONDITIONS = [
   { id: 'cover', label: 'Cover', icon: <ShieldAlert size={10} />, color: 'border-cyan-500/60 text-cyan-300' },
@@ -298,9 +299,7 @@ export const TokenContextualPill: React.FC = () => {
       <button
         type="button"
         onClick={() => {
-          window.dispatchEvent(new CustomEvent('open-tactical-play-modal', {
-            detail: { token: selectedToken }
-          }));
+          VttEventBus.emit('open-tactical-play-modal', { token: selectedToken });
         }}
         className="px-2 py-1 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 font-bold text-[10.5px] transition-all hover:shadow-[0_0_8px_rgba(34,211,238,0.4)] flex items-center gap-1 cursor-pointer"
         title="Open Full Tactical Play Cockpit (Sheet, Weapons, Defenses, Rolls)"

@@ -27,17 +27,10 @@ bonus_skill_choices:
   - Survival
   - Athletics
   - Stealth
-inherent_features:
-  - trait-animal-physiology-natural-weapons-scent-low-light
-  - trait-awakened-consciousness-human-level-sentience
-  - trait-vocal-synthesizer-telepathic-collar
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Keen Senses
-  - Pounce
-  - Thick Fur DR
-recommended_features:
-  - feature-keen-senses
+bonus_feature_choices: []
+recommended_features: []
 stigma: Beast (-4)
 tech_level: 2 (Adapted Gear)
 meta_level: 2 (Primal Sentience)
@@ -48,11 +41,13 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Uplifted canines, felines, ursines, and avians granted full sapience and
-  tactical communication through cybernetic collars or bio-genetic uplift
-  programs.
+description: 'Uplifted canines, felines, ursines, and avians granted full sapience and tactical communication through cybernetic collars or bio-genetic uplift programs.'
+traits:
+  - trait-animal-physiology-natural-weapons-scent-low-light
+  - trait-awakened-consciousness-human-level-sentience
+  - trait-vocal-synthesizer-telepathic-collar
 ---
+
 # Awakened Animal (Uplifted Beast)
 
 An Awakened Animal is a creature that has undergone a profound transformation, gaining not only sentience—the capacity to feel, perceive, and be conscious—but also sapience, meaning it is self-aware, capable of complex intelligent thought, abstract reasoning, and communication. This process elevates the creature far beyond its natural state, granting it an intellect comparable to or exceeding that of a human or other traditional sentient species.

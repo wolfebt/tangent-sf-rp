@@ -30,20 +30,10 @@ bonus_skill_choices:
   - Stealth
   - Streetwise
   - Persuasion
-inherent_features:
-  - trait-aeld-lineage-traits
-  - trait-alter-form-humanoid-special-ability
-  - trait-sense-alignment-intent
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Actor
-  - Chameleon
-  - Quick Disguise
-  - Silver Tongue
-  - Uncanny Instincts
-recommended_features:
-  - feature-chameleon
-  - feature-actor
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Shifter (-2), Xeno (-2)'
 tech_level: 3 (Adaptive Technology)
 meta_level: 3 (Metamorphic Psionics)
@@ -58,11 +48,13 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
-  matrices. They can alter their physical form to mimic other humanoids
-  perfectly, operating as intelligence operatives, infiltrators, and observers.
+description: 'Doppelgangers are an enigmatic elven offshoot possessing mutable cellular matrices. They can alter their physical form to mimic other humanoids perfectly, operating as intelligence operatives, infiltrators, and observers.'
+traits:
+  - trait-aeld-lineage-traits
+  - trait-alter-form-humanoid-special-ability
+  - trait-sense-alignment-intent
 ---
+
 # Doppelganger (Shifter Aeld)
 
 The Doppelgangers are a unique and ancient shape-changing species, originating from the Alterian homeworld. Their lineage traces back to a specific, powerful family within the venerable Clan Silvermoon. This family was not originally composed of shape-shifters, but was magically and intentionally evolved through powerful, ancient Alterian sorcery.  

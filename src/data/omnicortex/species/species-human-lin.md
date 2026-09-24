@@ -31,19 +31,10 @@ bonus_skill_choices:
   - Athletics
   - Medicine (Herbal)
   - Stealth
-inherent_features:
-  - trait-adapted-arboreal
-  - trait-awakened-nature-psychic
-  - trait-biotech-synergy
-  - trait-climber
-  - trait-prehensile-tail
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Canopy Acrobat
-  - Plant Whisperer
-  - Natural Camouflage
-recommended_features:
-  - feature-climber
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 2 (Living Vine Architecture)
 meta_level: 3 (Botanical Psionics)
@@ -58,10 +49,15 @@ modifiers:
 cp_cost: 17
 cp: 17
 bp: 17
-description: >-
-  Tail-bearing canopy humans who merged their physiology with arboreal symbiotic
-  plants to navigate colossal alien forests.
+description: Tail-bearing canopy humans who merged their physiology with arboreal symbiotic plants to navigate colossal alien forests.
+traits:
+  - trait-adapted-arboreal
+  - trait-awakened-nature-psychic
+  - trait-biotech-synergy
+  - trait-climber
+  - trait-prehensile-tail
 ---
+
 # Lin Human (Arboreal Canopy Folk)
 
 **BP Cost:**   

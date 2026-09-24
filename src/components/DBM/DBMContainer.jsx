@@ -12,7 +12,6 @@ import { collection, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 
 // Extracted Components
-import { DBMHeader } from './DBMHeader';
 import { DBMWikiView } from './DBMWikiView';
 import { DBMGuideView } from './DBMGuideView';
 import { DBMTableView } from './DBMTableView';
@@ -506,26 +505,6 @@ export const DBMContainer = () => {
 
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans overflow-hidden">
-      {/* Omnicortex DBM System Header Bar */}
-      <DBMHeader
-        historyIndex={historyIndex}
-        historyLength={history ? history.length : 0}
-        handleBack={handleBack}
-        handleForward={handleForward}
-        isBastionOpen={isBastionOpen}
-        setIsBastionOpen={setIsBastionOpen}
-        handleExportMasterJSON={handleExportMasterJSON}
-        handleImportMasterJSON={handleImportMasterJSON}
-        syncMasterSpeciesMatrix={syncMasterSpeciesMatrix}
-        syncCanonicalCompendium={syncCanonicalCompendium}
-        syncCanonicalFactions={syncCanonicalFactions}
-        navigateToCategory={navigateToCategory}
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-        setIsSettingsOpen={setIsSettingsOpen}
-        onOpenArchitectModal={() => setIsArchitectModalOpen && setIsArchitectModalOpen(true)}
-      />
-
       {/* Main App Layout with Standardized Omnicortex Navigation Rail */}
       <div className="flex-1 flex overflow-hidden relative">
         {/* Standardized Omnicortex Navigation Rail (Replaces legacy DBMSidebar drawer) */}

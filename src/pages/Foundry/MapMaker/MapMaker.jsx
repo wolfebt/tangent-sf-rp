@@ -58,6 +58,7 @@ import {
 
 import { getBiomeTextureUrl } from './map/landmassGenerator';
 import { getTextureUrlFromColor } from './map/MapTextures';
+import { VttEventBus } from '../../../utils/vttEventBus';
 
 const TerrainImageNode = ({ t, isEraser, isLocked, onErase }) => {
   const [imageObj, setImageObj] = useState(null);
@@ -347,14 +348,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
       }
     };
 
-    window.addEventListener('open-new-map-modal', handleOpenNewMap);
-    window.addEventListener('load-preset-starship', handleLoadStarship);
-    window.addEventListener('load-preset-outpost', handleLoadOutpost);
+    const offNewMap = VttEventBus.on('open-new-map-modal', handleOpenNewMap);
+    const offStarship = VttEventBus.on('load-preset-starship', handleLoadStarship);
+    const offOutpost = VttEventBus.on('load-preset-outpost', handleLoadOutpost);
 
     return () => {
-      window.removeEventListener('open-new-map-modal', handleOpenNewMap);
-      window.removeEventListener('load-preset-starship', handleLoadStarship);
-      window.removeEventListener('load-preset-outpost', handleLoadOutpost);
+      offNewMap();
+      offStarship();
+      offOutpost();
     };
   }, [addMap, setActiveMapId]);
 
@@ -839,30 +840,80 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     recordHistory();
 
     if (type === 'Persona') {
-      const curHealth = parseInt(element['health'] || element.health || 25, 10);
-      const curVitality = parseInt(element['vitality'] || element.vitality || 20, 10);
+      const pFields = element.fields || element;
+      const tier = parseInt(pFields.mcmTier || '1', 10) || 1;
+      const curHealth = parseInt(pFields['health'] || element.health || String(30 + tier * 8), 10);
+      const curVitality = parseInt(pFields['vitality'] || element.vitality || String(30 + tier * 5), 10);
+      const curDefense = parseInt(pFields['defense'] || element.defense || String(12 + Math.floor(tier / 2)), 10);
+
+      // Ingest authored autonomous script if present
+      let parsedScript = null;
+      const rawScript = pFields.vttScript || element.script;
+      if (rawScript) {
+        if (typeof rawScript === 'object') {
+          parsedScript = rawScript;
+        } else if (typeof rawScript === 'string') {
+          try {
+            parsedScript = JSON.parse(rawScript);
+          } catch (e) {
+            parsedScript = null;
+          }
+        }
+      }
+
+      if (!parsedScript) {
+        parsedScript = {
+          type: 'dialogue_bark',
+          behaviorProfile: pFields.mcmRole?.toLowerCase() || 'tactical',
+          moraleThreshold: 0.25,
+          alertBark: pFields.voice || pFields.mannerisms || 'Greetings, operative.'
+        };
+      }
+
+      // Initialize patrol waypoints if not yet populated
+      if (parsedScript.type === 'patrol' && (!Array.isArray(parsedScript.waypoints) || parsedScript.waypoints.length === 0)) {
+        parsedScript.waypoints = [
+          { x: posX, y: posY },
+          { x: posX + 160, y: posY },
+          { x: posX + 160, y: posY + 140 },
+          { x: posX, y: posY + 140 }
+        ];
+      }
+
+      const designation = pFields.mcmDesignation || element.designation || 'Adversary';
+      const tokenFill = designation === 'Ally' ? '#10b981' : (designation === 'Adversary' ? '#ef4444' : '#a855f7');
+
       const newNpcToken = {
         id: `token_persona_${element.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
         type: 'npc',
         storyElementId: element.id,
         storyElementType: 'Persona',
         linkedStoryElement: element,
-        label: element['char-name'] || element.name || element.title || 'NPC Persona',
-        avatarUrl: element.avatarUrl || null,
+        label: pFields['char-name'] || element.name || element.title || 'NPC Persona',
+        name: pFields['char-name'] || element.name || element.title || 'NPC Persona',
+        avatarUrl: element.avatarUrl || element.imageUrl || null,
         x: posX,
         y: posY,
         radius: 35,
-        fill: '#a855f7',
+        fill: tokenFill,
         layerId: 'layer_tokens',
         health: { current: curHealth, max: curHealth },
         vitality: { current: curVitality, max: curVitality },
-        defense: parseInt(element.defense || 12, 10),
+        defense: curDefense,
         actionPoints: 3,
         initiative: 11,
         conditions: [],
-        script: {
-          type: 'dialogue_bark',
-          alertBark: element.voice || element.mannerisms || 'Greetings, operative.'
+        designation,
+        role: pFields.mcmRole || 'Tactical',
+        behaviorProfile: parsedScript.behaviorProfile || pFields.mcmRole?.toLowerCase() || 'tactical',
+        moraleThreshold: parsedScript.moraleThreshold ?? 0.25,
+        weapon: pFields.weapon || 'Plasma Carbine',
+        armor: pFields.armor || 'Standard Armor',
+        script: parsedScript,
+        relations: {
+          stance: pFields.relationsStance || 'Hostile',
+          vipTarget: pFields.vipTarget || null,
+          rivalTarget: pFields.rivalTarget || null
         }
       };
       updateMap(activeMapId, { tokens: [...tokens, newNpcToken] });

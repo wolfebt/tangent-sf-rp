@@ -5,7 +5,7 @@
  * scene beats, and story element components.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   BookOpen, 
@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { useCampaign } from '../../../context/CampaignContext';
+import { VttEventBus } from '../../../utils/vttEventBus';
 
 export interface ADEScenarioStageDrawerProps {
   isOpen?: boolean;
@@ -41,12 +42,10 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
   const navigate = useNavigate();
   const { universeState, elementsCatalog } = useCampaign();
 
-  const [completedBeats, setCompletedBeats] = useState<Record<number, boolean>>({});
-
-  if (!isOpen) return null;
-
   const scenarios = universeState?.scenarios || [];
   const activeScenario = scenarios.find((s: any) => s.id === activeScenarioId) || scenarios[0] || null;
+  const scenarioId = activeScenario?.id;
+
   const linkedElementIds: string[] = activeScenario?.linkedElements || [];
   const linkedElements = (elementsCatalog || []).filter((e: any) => linkedElementIds.includes(e.id));
 
@@ -57,20 +56,65 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
     .map((b: string) => b.trim())
     .filter((b: string) => b.length > 0);
 
+  // Completed beats persistent state per scenario
+  const [completedBeats, setCompletedBeats] = useState<Set<number>>(() => {
+    if (!scenarioId) return new Set();
+    try {
+      const raw = localStorage.getItem(`tangent_vtt_beats_${scenarioId}`);
+      const arr: number[] = raw ? JSON.parse(raw) : [];
+      return new Set(arr);
+    } catch {
+      return new Set();
+    }
+  });
+
+  // Persist completed beats whenever set or active scenario changes
+  useEffect(() => {
+    if (!scenarioId) return;
+    try {
+      localStorage.setItem(
+        `tangent_vtt_beats_${scenarioId}`,
+        JSON.stringify(Array.from(completedBeats))
+      );
+    } catch (e) {
+      console.warn('[ADEScenarioStageDrawer] Failed to persist beats:', e);
+    }
+  }, [completedBeats, scenarioId]);
+
+  // Re-sync beats when scenarioId switches
+  useEffect(() => {
+    if (!scenarioId) return;
+    try {
+      const raw = localStorage.getItem(`tangent_vtt_beats_${scenarioId}`);
+      const arr: number[] = raw ? JSON.parse(raw) : [];
+      setCompletedBeats(new Set(arr));
+    } catch {
+      setCompletedBeats(new Set());
+    }
+  }, [scenarioId]);
+
   const toggleBeat = (idx: number) => {
     AudioService.playTerminalBeep(1200, 0.03);
-    setCompletedBeats(prev => ({ ...prev, [idx]: !prev[idx] }));
+    setCompletedBeats(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) {
+        next.delete(idx);
+      } else {
+        next.add(idx);
+      }
+      return next;
+    });
   };
+
+  if (!isOpen) return null;
 
   const handleBroadcastMilestone = () => {
     AudioService.playCriticalChime(true);
-    window.dispatchEvent(new CustomEvent('story-foundry-milestone-reached', {
-      detail: {
-        scenarioId: activeScenario?.id,
-        scenarioTitle: activeScenario?.title,
-        timestamp: new Date().toLocaleTimeString()
-      }
-    }));
+    VttEventBus.emit('story-foundry-milestone-reached', {
+      scenarioId: activeScenario?.id,
+      scenarioTitle: activeScenario?.title,
+      timestamp: new Date().toLocaleTimeString()
+    });
   };
 
   const containerClasses = isInline
@@ -167,12 +211,12 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
                   key={idx}
                   onClick={() => toggleBeat(idx)}
                   className={`p-2 rounded-lg border transition-all flex items-start gap-2 cursor-pointer ${
-                    completedBeats[idx]
+                    completedBeats.has(idx)
                       ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300 line-through opacity-70'
                       : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:border-slate-700'
                   }`}
                 >
-                  {completedBeats[idx] ? (
+                  {completedBeats.has(idx) ? (
                     <CheckCircle2 size={13} className="text-emerald-400 shrink-0 mt-0.5" />
                   ) : (
                     <Circle size={13} className="text-slate-500 shrink-0 mt-0.5" />
@@ -241,7 +285,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
         </div>
       </div>
 
-      {/* Footer / Trigger Milestone */}
+      {/* Footer / Trigger Milestone & Reset Beats */}
       <div className="p-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between gap-2">
         <button
           type="button"
@@ -251,6 +295,19 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
         >
           <Flag size={11} className="text-purple-400" />
           <span>Trigger Milestone</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setCompletedBeats(new Set());
+            if (scenarioId) localStorage.removeItem(`tangent_vtt_beats_${scenarioId}`);
+            AudioService.playTerminalBeep(900, 0.03);
+          }}
+          className="px-2.5 py-1.5 rounded-xl text-[10px] text-slate-500 hover:text-red-400 hover:bg-red-950/30 border border-slate-800 hover:border-red-900/50 font-mono transition-colors cursor-pointer"
+          title="Reset completed scene beats for this scenario"
+        >
+          Reset Beats
         </button>
       </div>
     </div>

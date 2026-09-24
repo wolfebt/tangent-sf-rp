@@ -26,17 +26,10 @@ bonus_skill_choices:
   - Combat
   - Survival
   - Intimidation
-inherent_features:
-  - trait-corrupted-void-traits
-  - trait-aberrant-mutations-tentacles-eyes-claws
-  - trait-void-resonance
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Chaos Burst
-  - Mind Horror
-  - Flesh Warp
-recommended_features:
-  - feature-chaos-burst
+bonus_feature_choices: []
+recommended_features: []
 stigma: Monstrous (-4)
 tech_level: 2 (Scavenged Warp Relics)
 meta_level: 3 (Chaotic Void Warping)
@@ -47,10 +40,13 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Eakren are mortals who were caught in catastrophic void collapses and mutated
-  into chimeric aberrational humanoids.
+description: Eakren are mortals who were caught in catastrophic void collapses and mutated into chimeric aberrational humanoids.
+traits:
+  - trait-corrupted-void-traits
+  - trait-aberrant-mutations-tentacles-eyes-claws
+  - trait-void-resonance
 ---
+
 # Eakren (Void-Warped Mutant)
 
 # 

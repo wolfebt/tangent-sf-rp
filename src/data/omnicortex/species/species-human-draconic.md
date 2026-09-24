@@ -27,17 +27,10 @@ bonus_skill_choices:
   - Athletics
   - Combat
   - Leadership
-inherent_features:
-  - trait-dragonkin-traits-partial-scales-dr-1-heat-resistance
-  - trait-status-dynasty-ties
-  - trait-fiery-resolve
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Thermal Breath
-  - Dragon Eye Sight
-  - Noble Bearing
-recommended_features:
-  - feature-thermal-breath
+bonus_feature_choices: []
+recommended_features: []
 stigma: Draconic (-2)
 tech_level: 3 (Dracon Dynasty Imperial Tech)
 meta_level: 2 (Elemental Fire)
@@ -48,11 +41,13 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty.
-  They possess patchworks of iridescent scales, heat tolerance, and commanding
-  social presence.
+description: 'Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty. They possess patchworks of iridescent scales, heat tolerance, and commanding social presence.'
+traits:
+  - trait-dragonkin-traits-partial-scales-dr-1-heat-resistance
+  - trait-status-dynasty-ties
+  - trait-fiery-resolve
 ---
+
 # Draconic Human (Dragonkin Bloodline)
 
 *

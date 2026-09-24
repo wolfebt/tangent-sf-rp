@@ -30,20 +30,10 @@ bonus_skill_choices:
   - Trickery
   - Performance
   - Stealth
-inherent_features:
-  - trait-asi-base-traits
-  - trait-diminutive-size-4-stealth-4-might
-  - trait-awakened-nature
-  - trait-flight-gossamer-wings-30ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Glamour Weaving
-  - Invisibility Aura
-  - Pixie Dust Spark
-  - Nature Communion
-recommended_features:
-  - feature-glamour-weaving
-  - feature-invisibility-aura
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Fae (-2), Xeno (-2)'
 tech_level: 1 (Enchanted Flora)
 meta_level: 5 (High Fey Metaphysics)
@@ -70,11 +60,14 @@ modifiers:
 cp_cost: 27
 cp: 27
 bp: 27
-description: >-
-  Base Fey are diminutive, winged beings of pure elemental and natural
-  resonance. Mischievous, radiant, and immortal, they navigate mortal
-  civilizations with wonder and cryptic intentions.
+description: 'Base Fey are diminutive, winged beings of pure elemental and natural resonance. Mischievous, radiant, and immortal, they navigate mortal civilizations with wonder and cryptic intentions.'
+traits:
+  - trait-asi-base-traits
+  - trait-diminutive-size-4-stealth-4-might
+  - trait-awakened-nature
+  - trait-flight-gossamer-wings-30ft
 ---
+
 # Fey (Base Asi)
 
 *

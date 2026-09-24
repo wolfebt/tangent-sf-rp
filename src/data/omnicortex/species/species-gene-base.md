@@ -25,16 +25,10 @@ bonus_skill_choices:
   - Athletics
   - Discipline
   - Medicine
-inherent_features:
-  - trait-genetic-optimization-disease-immunity-retinal-filter
-  - trait-custom-gene-blueprint-1-free-feature
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Metabolic Acceleration
-  - Neural Overclock
-  - Cellular Renewal
-recommended_features:
-  - feature-cellular-renewal
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 4 (Genetic Engineering & Gene-Splicing)
 meta_level: 1 (Cellular Potential)
@@ -45,10 +39,12 @@ modifiers: []
 cp_cost: 14
 cp: 14
 bp: 14
-description: >-
-  Gen-E transhumans are laboratory-engineered humans designed without congenital
-  defects, carrying optimized immune systems and modular genetic code.
+description: 'Gen-E transhumans are laboratory-engineered humans designed without congenital defects, carrying optimized immune systems and modular genetic code.'
+traits:
+  - trait-genetic-optimization-disease-immunity-retinal-filter
+  - trait-custom-gene-blueprint-1-free-feature
 ---
+
 # Gen-E (Standard Engineered Transhuman)
 
 *

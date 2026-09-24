@@ -28,19 +28,10 @@ bonus_skill_choices:
   - Animal Handling
   - Acrobatics
   - Perception
-inherent_features:
-  - trait-asi-base-traits
-  - trait-animal-affinity
-  - trait-climber
-  - trait-alter-form-animal
-  - trait-awakened-nature
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Beast Speech
-  - Wild Roar
-  - Keen Senses
-recommended_features:
-  - feature-beast-speech
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 1 (Bone & Root Tools)
 meta_level: 3 (Symbiotic Totemism)
@@ -63,11 +54,15 @@ modifiers:
 cp_cost: 14
 cp: 14
 bp: 14
-description: >-
-  Wildlings are feral offshoots of the Koban fey lineage who live in communion
-  with apex predators, shifting effortlessly into diverse mammalian forms to
-  hunt and forage.
+description: 'Wildlings are feral offshoots of the Koban fey lineage who live in communion with apex predators, shifting effortlessly into diverse mammalian forms to hunt and forage.'
+traits:
+  - trait-asi-base-traits
+  - trait-animal-affinity
+  - trait-climber
+  - trait-alter-form-animal
+  - trait-awakened-nature
 ---
+
 # Wildling (Koban Lineage)
 
 *

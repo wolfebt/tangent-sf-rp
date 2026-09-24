@@ -31,21 +31,11 @@ bonus_skill_choices:
   - Athletics
   - Survival
   - Sleight of Hand
-inherent_features:
-  - trait-asi-base-traits-ageless-obfuscate-sleepless
-  - trait-prehensile-tail
-  - trait-climber
-  - trait-quick-5ft-movement
-  - trait-adapted-arboreal
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Lightning Reflexes
-  - Tree Singer
-  - Danger Sense
-  - Nimble Leap
+bonus_feature_choices: []
 recommended_features:
   - feature-lightning-reflexes
-  - feature-nimble-leap
 stigma: 'Fey (-2), Xeno (-2)'
 tech_level: 2 (Bio-Loomed Weaves & Organic Tools)
 meta_level: 3 (Primal Fey Illusion)
@@ -72,11 +62,15 @@ modifiers:
 cp_cost: 18
 cp: 18
 bp: 18
-description: >-
-  Ferren are nimble, tail-bearing fey creatures adapted to high-canopy
-  ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes
-  and wild jungles with equal ease.
+description: 'Ferren are nimble, tail-bearing fey creatures adapted to high-canopy ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes and wild jungles with equal ease.'
+traits:
+  - trait-asi-base-traits-ageless-obfuscate-sleepless
+  - trait-prehensile-tail
+  - trait-climber
+  - trait-quick-5ft-movement
+  - trait-adapted-arboreal
 ---
+
 # Ferren (Arboreal Fey)
 
 *

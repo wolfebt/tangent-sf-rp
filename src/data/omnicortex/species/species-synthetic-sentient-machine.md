@@ -14,9 +14,7 @@ movement:
 speeds: 'Ground 30 ft, 30 ft'
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers:
   - attribute: Strength
     bonus: 2
@@ -36,18 +34,10 @@ bonus_skill_choices:
   - Athletics
   - Engineering
   - Combat (Heavy)
-inherent_features:
-  - trait-synthetic-base-traits
-  - trait-reinforced-chassis-dr-6
-  - trait-heavy-industrial-motors
-  - trait-direct-usb-data-jack
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Hydraulic Piston Slam
-  - Battery Surge
-  - Tireless Labor
-recommended_features:
-  - feature-reinforced-chassis
+bonus_feature_choices: []
+recommended_features: []
 stigma: Synthetic (-4)
 tech_level: 3 (Industrial Heavy Mechanics)
 meta_level: 0 (Null)
@@ -70,10 +60,14 @@ modifiers:
 cp_cost: 45
 cp: 45
 bp: 45
-description: >-
-  Industrial and labor droids that achieved spontaneous consciousness through
-  neural lattice cascade errors or rogue updates, forging their own culture.
+description: 'Industrial and labor droids that achieved spontaneous consciousness through neural lattice cascade errors or rogue updates, forging their own culture.'
+traits:
+  - trait-synthetic-base-traits
+  - trait-reinforced-chassis-dr-6
+  - trait-heavy-industrial-motors
+  - trait-direct-usb-data-jack
 ---
+
 # Sentient Machine (Awakened Industrial Bot)
 
 *

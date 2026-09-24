@@ -1591,6 +1591,51 @@ export const SPECIES_TRAITS_BASIC = [
     "notesList": [
       "[Rule] Basic Species Trait (1 BP)."
     ]
+  },
+  {
+    "id": "trait-synthetic-base-traits",
+    "name": "Synthetic Base Traits",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": { "bp": 1 },
+    "is_ranked": false,
+    "desc": "Immune to biological ailments, poison, disease, asphyxiation, starvation, and sleep. Uses Structure Points instead of Vitality/Health; must be repaired.",
+    "description": "Immune to biological ailments, poison, disease, asphyxiation, starvation, and sleep. Uses Structure Points instead of Vitality/Health; must be repaired.",
+    "rules": "Basic Species Trait (1 BP)."
+  },
+  {
+    "id": "trait-sub-routine-matrix",
+    "name": "Sub-Routine Matrix",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "bp": 1,
+    "costs": { "bp": 1 },
+    "is_ranked": false,
+    "desc": "Dedicated parallel sub-routine co-processors allow concurrent execution of system analyses and technical directives.",
+    "description": "Dedicated parallel sub-routine co-processors allow concurrent execution of system analyses and technical directives.",
+    "rules": "Basic Species Trait (1 BP)."
+  },
+  {
+    "id": "trait-logic-engine",
+    "name": "Logic Engine",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Basic",
+    "classification": "Mental",
+    "type": "Mental",
+    "bp": 1,
+    "costs": { "bp": 1 },
+    "is_ranked": false,
+    "desc": "High-speed algorithmic evaluation engine granting +2 bonus on Computation, Logic, and Tactical Evaluation checks.",
+    "description": "High-speed algorithmic evaluation engine granting +2 bonus on Computation, Logic, and Tactical Evaluation checks.",
+    "rules": "Basic Species Trait (1 BP)."
   }
 ];
 export const SPECIES_TRAITS_ADVANCED = [
@@ -3120,6 +3165,51 @@ export const SPECIES_TRAITS_ADVANCED = [
     "notesList": [
       "[Rule] Advanced Species Trait (2 BP)."
     ]
+  },
+  {
+    "id": "trait-digitized-mind",
+    "name": "Digitized Mind",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Defensive",
+    "type": "Defensive",
+    "bp": 2,
+    "costs": { "bp": 2 },
+    "is_ranked": false,
+    "desc": "Optronic cognitive shielding grants Advantage on all resistance rolls and checks against mental, psionic, and mind-affecting effects.",
+    "description": "Optronic cognitive shielding grants Advantage on all resistance rolls and checks against mental, psionic, and mind-affecting effects.",
+    "rules": "Advanced Species Trait (2 BP)."
+  },
+  {
+    "id": "trait-robotic-strength",
+    "name": "Robotic Strength",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": { "bp": 2 },
+    "is_ranked": false,
+    "desc": "Reinforced high-torque servo actuators consider the synthetic one category larger for lifting, grappling, and carrying capacity.",
+    "description": "Reinforced high-torque servo actuators consider the synthetic one category larger for lifting, grappling, and carrying capacity.",
+    "rules": "Advanced Species Trait (2 BP)."
+  },
+  {
+    "id": "trait-resilient-design",
+    "name": "Resilient Design",
+    "category": "traits",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Defensive",
+    "type": "Defensive",
+    "bp": 2,
+    "costs": { "bp": 2 },
+    "is_ranked": false,
+    "desc": "Dense shock-absorptive synthetic armature provides DR 5/- natural damage reduction.",
+    "description": "Dense shock-absorptive synthetic armature provides DR 5/- natural damage reduction.",
+    "rules": "Advanced Species Trait (2 BP)."
   }
 ];
 export const SPECIES_TRAITS_ELITE = [

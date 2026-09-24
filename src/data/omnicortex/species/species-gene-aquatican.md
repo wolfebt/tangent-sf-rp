@@ -26,18 +26,10 @@ bonus_skill_choices:
   - Stealth
   - Survival
   - Sabotage
-inherent_features:
-  - trait-adapted-deep-ocean
-  - trait-amphibious
-  - trait-natural-swim-speed-40ft
-  - trait-hydrodynamic-skin
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Pressure Sovereign
-  - Sub-aquatic Sonar
-  - Cold Blood Control
-recommended_features:
-  - feature-pressure-sovereign
+bonus_feature_choices: []
+recommended_features: []
 stigma: Aquatic Xeno (-3)
 tech_level: 4 (Deep Trench Tech)
 meta_level: 1 (Echo Resonance)
@@ -48,10 +40,14 @@ modifiers: []
 cp_cost: 14
 cp: 14
 bp: 14
-description: >-
-  Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea
-  mining security, and submerged salvage.
+description: 'Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea mining security, and submerged salvage.'
+traits:
+  - trait-adapted-deep-ocean
+  - trait-amphibious
+  - trait-natural-swim-speed-40ft
+  - trait-hydrodynamic-skin
 ---
+
 # Aquatican (Syndicate Pelagic Operative)
 
 **BP Cost:**   

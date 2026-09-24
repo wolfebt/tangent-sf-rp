@@ -28,21 +28,10 @@ bonus_skill_choices:
   - Discipline
   - Science
   - Attune
-inherent_features:
-  - trait-adaptive-aspects-acid-thermal-immunity
-  - trait-alter-form-amorphous-slime-pseudo-humanoid
-  - trait-awakened-cosmic
-  - trait-bodyform-adaptation-squeeze-through-any-opening
-  - trait-fast-healing
-  - trait-regeneration-3-hp-rnd
-  - trait-telepathic-100ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Engulf Attack
-  - Acid Touch
-  - Split Form
-recommended_features:
-  - feature-engulf-attack
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Bio-Polymer Containment Suits)
 meta_level: 4 (Cosmic Fluidity)
@@ -53,11 +42,17 @@ modifiers: []
 cp_cost: 17
 cp: 17
 bp: 17
-description: >-
-  Sentient, translucent amorphous slime entities able to flow through sealed
-  vents, reshape their mass into pseudo-limbs, and regenerate from fluid
-  droplets.
+description: 'Sentient, translucent amorphous slime entities able to flow through sealed vents, reshape their mass into pseudo-limbs, and regenerate from fluid droplets.'
+traits:
+  - trait-adaptive-aspects-acid-thermal-immunity
+  - trait-alter-form-amorphous-slime-pseudo-humanoid
+  - trait-awakened-cosmic
+  - trait-bodyform-adaptation-squeeze-through-any-opening
+  - trait-fast-healing
+  - trait-regeneration-3-hp-rnd
+  - trait-telepathic-100ft
 ---
+
 # Plasm (Amorphous Ooze Entity)
 
 ## Description

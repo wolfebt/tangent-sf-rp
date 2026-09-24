@@ -73,6 +73,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-awakened-arcane",
+      "trait-long-lived-600-years",
+      "trait-sleepless-immune-to-sleep-effects"
+    ],
+    "species_traits": [
+      "trait-awakened-arcane",
+      "trait-long-lived-600-years",
+      "trait-sleepless-immune-to-sleep-effects"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -119,29 +130,10 @@ export const DEFAULT_SPECIES = [
       "Science",
       "Language"
     ],
-    "inherent_features": [
-      "trait-awakened-arcane",
-      "trait-long-lived-600-years",
-      "trait-sleepless-immune-to-sleep-effects"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Acute Senses",
-      "Adapted (Arboreal)",
-      "Ageless",
-      "Agile Maneuvers",
-      "Combat Expertise",
-      "Darksight",
-      "Eidetic Memory",
-      "Low Light Vision",
-      "Martial Arts",
-      "Sense Magic (30ft)"
-    ],
-    "recommended_features": [
-      "feature-acute-senses",
-      "feature-eidetic-memory",
-      "feature-sense-magic"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinement)",
     "meta_level": "4 (High Magic: The Flow)",
@@ -166,6 +158,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-aeld-lineage-traits",
+      "trait-alter-form-humanoid-special-ability",
+      "trait-sense-alignment-intent"
+    ],
+    "species_traits": [
+      "trait-aeld-lineage-traits",
+      "trait-alter-form-humanoid-special-ability",
+      "trait-sense-alignment-intent"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -202,23 +205,10 @@ export const DEFAULT_SPECIES = [
       "Streetwise",
       "Persuasion"
     ],
-    "inherent_features": [
-      "trait-aeld-lineage-traits",
-      "trait-alter-form-humanoid-special-ability",
-      "trait-sense-alignment-intent"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Actor",
-      "Chameleon",
-      "Quick Disguise",
-      "Silver Tongue",
-      "Uncanny Instincts"
-    ],
-    "recommended_features": [
-      "feature-chameleon",
-      "feature-actor"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Shifter (-2), Xeno (-2)",
     "tech_level": "3 (Adaptive Technology)",
     "meta_level": "3 (Metamorphic Psionics)",
@@ -243,6 +233,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-aeld-lineage-traits",
+      "trait-dragonkin-heritage-scales-dr-2",
+      "trait-natural-weapon-claws-bite"
+    ],
+    "species_traits": [
+      "trait-aeld-lineage-traits",
+      "trait-dragonkin-heritage-scales-dr-2",
+      "trait-natural-weapon-claws-bite"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -279,21 +280,10 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "History"
     ],
-    "inherent_features": [
-      "trait-aeld-lineage-traits",
-      "trait-dragonkin-heritage-scales-dr-2",
-      "trait-natural-weapon-claws-bite"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Energy Breath",
-      "Dragon Fear",
-      "Thermal Resistance",
-      "Mighty Surge",
-      "Combat Specialization"
-    ],
+    "bonus_feature_choices": [],
     "recommended_features": [
-      "feature-energy-breath",
       "feature-mighty-surge"
     ],
     "stigma": "Dragonkin (-4), Xeno (-2)",
@@ -320,6 +310,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-aeld-lineage-traits",
+      "trait-dark-sight",
+      "trait-cold-discipline",
+      "trait-indomitable-will"
+    ],
+    "species_traits": [
+      "trait-aeld-lineage-traits",
+      "trait-dark-sight",
+      "trait-cold-discipline",
+      "trait-indomitable-will"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -366,23 +369,10 @@ export const DEFAULT_SPECIES = [
       "Knowledge (Void)",
       "Tactics"
     ],
-    "inherent_features": [
-      "trait-aeld-lineage-traits",
-      "trait-dark-sight",
-      "trait-cold-discipline",
-      "trait-indomitable-will"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Shadow Step",
-      "Silent Caster",
-      "Ruthless Focus",
-      "Iron Mind"
-    ],
-    "recommended_features": [
-      "feature-shadow-step",
-      "feature-iron-mind"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2), Supremacist (-2)",
     "tech_level": "4 (Void-Tech & Stealth Sub-systems)",
     "meta_level": "4 (Shadow Metaphysics & Telepathy)",
@@ -407,6 +397,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-awakened-nature",
+      "trait-ageless",
+      "trait-immune-to-sleep",
+      "trait-alter-form-adv-animal",
+      "trait-animalistic-mutation"
+    ],
+    "species_traits": [
+      "trait-awakened-nature",
+      "trait-ageless",
+      "trait-immune-to-sleep",
+      "trait-alter-form-adv-animal",
+      "trait-animalistic-mutation"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 19
@@ -431,25 +436,10 @@ export const DEFAULT_SPECIES = [
       "Animal Handling",
       "Attune (Nature)"
     ],
-    "inherent_features": [
-      "trait-awakened-nature",
-      "trait-ageless",
-      "trait-immune-to-sleep",
-      "trait-alter-form-adv-animal",
-      "trait-animalistic-mutation"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Primal Scent",
-      "Predator Instinct",
-      "Fast Healing",
-      "Climbing Claws",
-      "Fleet of Foot"
-    ],
-    "recommended_features": [
-      "feature-primal-scent",
-      "feature-fast-healing"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Feral (-4), Xeno (-2)",
     "tech_level": "2 (Biomimetic Crafting)",
     "meta_level": "4 (Primal Shamanism & Biomorphism)",
@@ -475,6 +465,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
+    "traits": [
+      "trait-asi-base-traits-ageless-obfuscate-sleepless",
+      "trait-prehensile-tail",
+      "trait-climber",
+      "trait-quick-5ft-movement",
+      "trait-adapted-arboreal"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits-ageless-obfuscate-sleepless",
+      "trait-prehensile-tail",
+      "trait-climber",
+      "trait-quick-5ft-movement",
+      "trait-adapted-arboreal"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -529,23 +534,11 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "Sleight of Hand"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits-ageless-obfuscate-sleepless",
-      "trait-prehensile-tail",
-      "trait-climber",
-      "trait-quick-5ft-movement",
-      "trait-adapted-arboreal"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Lightning Reflexes",
-      "Tree Singer",
-      "Danger Sense",
-      "Nimble Leap"
-    ],
+    "bonus_feature_choices": [],
     "recommended_features": [
-      "feature-lightning-reflexes",
-      "feature-nimble-leap"
+      "feature-lightning-reflexes"
     ],
     "stigma": "Fey (-2), Xeno (-2)",
     "tech_level": "2 (Bio-Loomed Weaves & Organic Tools)",
@@ -571,6 +564,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-diminutive-size-4-stealth-4-might",
+      "trait-awakened-nature",
+      "trait-flight-gossamer-wings-30ft"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits",
+      "trait-diminutive-size-4-stealth-4-might",
+      "trait-awakened-nature",
+      "trait-flight-gossamer-wings-30ft"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -625,23 +631,10 @@ export const DEFAULT_SPECIES = [
       "Performance",
       "Stealth"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits",
-      "trait-diminutive-size-4-stealth-4-might",
-      "trait-awakened-nature",
-      "trait-flight-gossamer-wings-30ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Glamour Weaving",
-      "Invisibility Aura",
-      "Pixie Dust Spark",
-      "Nature Communion"
-    ],
-    "recommended_features": [
-      "feature-glamour-weaving",
-      "feature-invisibility-aura"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Fae (-2), Xeno (-2)",
     "tech_level": "1 (Enchanted Flora)",
     "meta_level": "5 (High Fey Metaphysics)",
@@ -666,6 +659,23 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-tiny-size",
+      "trait-awakened-arcane",
+      "trait-telepathy-special-ability",
+      "trait-flight-winged-40ft",
+      "trait-dark-sight"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits",
+      "trait-tiny-size",
+      "trait-awakened-arcane",
+      "trait-telepathy-special-ability",
+      "trait-flight-winged-40ft",
+      "trait-dark-sight"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -730,25 +740,10 @@ export const DEFAULT_SPECIES = [
       "Navigation",
       "Attune"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits",
-      "trait-tiny-size",
-      "trait-awakened-arcane",
-      "trait-telepathy-special-ability",
-      "trait-flight-winged-40ft",
-      "trait-dark-sight"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Aerial Acrobatics",
-      "Sonic Trill",
-      "Mind Link",
-      "Far-Sight"
-    ],
-    "recommended_features": [
-      "feature-mind-link",
-      "feature-far-sight"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "3 (Crystal Transceivers)",
     "meta_level": "4 (Aero-Psionics & Telepathy)",
@@ -773,6 +768,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-small-medium-size-shift",
+      "trait-climber",
+      "trait-alter-form-humanoid",
+      "trait-awakened-nature"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits",
+      "trait-small-medium-size-shift",
+      "trait-climber",
+      "trait-alter-form-humanoid",
+      "trait-awakened-nature"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -815,22 +825,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Trickery"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits",
-      "trait-small-medium-size-shift",
-      "trait-climber",
-      "trait-alter-form-humanoid",
-      "trait-awakened-nature"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Scent Camouflage",
-      "Pounce",
-      "Shadow Lurker"
-    ],
-    "recommended_features": [
-      "feature-shadow-lurker"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "2 (Primal Tools)",
     "meta_level": "3 (Metamorphic Nature)",
@@ -855,6 +853,25 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-diminutive-size",
+      "trait-awakened-energy-illusion",
+      "trait-telekinetic-flight",
+      "trait-non-living-energy-entity",
+      "trait-telekinesis-special-ability",
+      "trait-perfect-memory"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits",
+      "trait-diminutive-size",
+      "trait-awakened-energy-illusion",
+      "trait-telekinetic-flight",
+      "trait-non-living-energy-entity",
+      "trait-telekinesis-special-ability",
+      "trait-perfect-memory"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -914,24 +931,10 @@ export const DEFAULT_SPECIES = [
       "Knowledge (Physics)",
       "Computation"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits",
-      "trait-diminutive-size",
-      "trait-awakened-energy-illusion",
-      "trait-telekinetic-flight",
-      "trait-non-living-energy-entity",
-      "trait-telekinesis-special-ability",
-      "trait-perfect-memory"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Light Discharge",
-      "Electromagnetic Pulse",
-      "Phase Shift"
-    ],
-    "recommended_features": [
-      "feature-phase-shift"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-6)",
     "tech_level": "4 (Photonic & Energy Resonators)",
     "meta_level": "5 (Pure Energy Metaphysics)",
@@ -956,6 +959,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-quadruped"
     ],
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-awakened-natural-wisdom",
+      "trait-quadruped-speed-40ft",
+      "trait-quick-reflexes",
+      "trait-stable-stance"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits",
+      "trait-awakened-natural-wisdom",
+      "trait-quadruped-speed-40ft",
+      "trait-quick-reflexes",
+      "trait-stable-stance"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -1019,23 +1037,10 @@ export const DEFAULT_SPECIES = [
       "Combat (Ranged)",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits",
-      "trait-awakened-natural-wisdom",
-      "trait-quadruped-speed-40ft",
-      "trait-quick-reflexes",
-      "trait-stable-stance"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Trample",
-      "Starlight Sight",
-      "Forest Stride",
-      "Herbalist Mastery"
-    ],
-    "recommended_features": [
-      "feature-forest-stride"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2), Seclusionist (-1)",
     "tech_level": "2 (Arboreal Bowcraft & Astronomy)",
     "meta_level": "3 (Astral Nature Divination)",
@@ -1061,6 +1066,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-alter-form-wisp-orb-form-special-ability",
+      "trait-awakened-nature",
+      "trait-silent-step",
+      "trait-flight-in-wisp-form"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits",
+      "trait-alter-form-wisp-orb-form-special-ability",
+      "trait-awakened-nature",
+      "trait-silent-step",
+      "trait-flight-in-wisp-form"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -1092,22 +1112,10 @@ export const DEFAULT_SPECIES = [
       "Insight",
       "Investigation"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits",
-      "trait-alter-form-wisp-orb-form-special-ability",
-      "trait-awakened-nature",
-      "trait-silent-step",
-      "trait-flight-in-wisp-form"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Invisibility",
-      "Ethereal Jaunt",
-      "Luminescent Flash"
-    ],
-    "recommended_features": [
-      "feature-ethereal-jaunt"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Fey (-2)",
     "tech_level": "3 (Optical Mirage Tech)",
     "meta_level": "4 (Ethereal Illusion)",
@@ -1133,6 +1141,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
+    "traits": [
+      "trait-asi-base-traits",
+      "trait-animal-affinity",
+      "trait-climber",
+      "trait-alter-form-animal",
+      "trait-awakened-nature"
+    ],
+    "species_traits": [
+      "trait-asi-base-traits",
+      "trait-animal-affinity",
+      "trait-climber",
+      "trait-alter-form-animal",
+      "trait-awakened-nature"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -1175,22 +1198,10 @@ export const DEFAULT_SPECIES = [
       "Acrobatics",
       "Perception"
     ],
-    "inherent_features": [
-      "trait-asi-base-traits",
-      "trait-animal-affinity",
-      "trait-climber",
-      "trait-alter-form-animal",
-      "trait-awakened-nature"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Beast Speech",
-      "Wild Roar",
-      "Keen Senses"
-    ],
-    "recommended_features": [
-      "feature-beast-speech"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "1 (Bone & Root Tools)",
     "meta_level": "3 (Symbiotic Totemism)",
@@ -1215,6 +1226,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons",
+      "trait-awakened-psychic",
+      "trait-climber",
+      "trait-martial-arts",
+      "trait-quick-5ft-movement"
+    ],
+    "species_traits": [
+      "trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons",
+      "trait-awakened-psychic",
+      "trait-climber",
+      "trait-martial-arts",
+      "trait-quick-5ft-movement"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -1251,23 +1277,10 @@ export const DEFAULT_SPECIES = [
       "Stealth",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons",
-      "trait-awakened-psychic",
-      "trait-climber",
-      "trait-martial-arts",
-      "trait-quick-5ft-movement"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Apex Predator",
-      "Bio-Venom Spit",
-      "Uncanny Balance",
-      "Chitinous Plating"
-    ],
-    "recommended_features": [
-      "feature-apex-predator"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Tech Weapons & Neural Symbionts)",
     "meta_level": "2 (Bio-Psionics)",
@@ -1292,6 +1305,23 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-quadruped"
     ],
+    "traits": [
+      "trait-auluran-base-traits",
+      "trait-large-size",
+      "trait-armless-4-penalty-to-manipulation",
+      "trait-quick-speed",
+      "trait-martial-arts",
+      "trait-quadruped-speed-40ft"
+    ],
+    "species_traits": [
+      "trait-auluran-base-traits",
+      "trait-large-size",
+      "trait-armless-4-penalty-to-manipulation",
+      "trait-quick-speed",
+      "trait-martial-arts",
+      "trait-quadruped-speed-40ft"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -1340,24 +1370,10 @@ export const DEFAULT_SPECIES = [
       "Intimidation",
       "Combat (Natural)"
     ],
-    "inherent_features": [
-      "trait-auluran-base-traits",
-      "trait-large-size",
-      "trait-armless-4-penalty-to-manipulation",
-      "trait-quick-speed",
-      "trait-martial-arts",
-      "trait-quadruped-speed-40ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Crushing Jaw",
-      "Thick Hide (DR 4/-)",
-      "Savage Charge"
-    ],
-    "recommended_features": [
-      "feature-crushing-jaw",
-      "feature-savage-charge"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "2 (Symbiotic Harnesses)",
     "meta_level": "1 (Pheromone Network)",
@@ -1382,6 +1398,23 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-auluran-base-traits",
+      "trait-digitigrade-legs",
+      "trait-climber",
+      "trait-quick",
+      "trait-martial-arts",
+      "trait-biotechnology-2-crafting"
+    ],
+    "species_traits": [
+      "trait-auluran-base-traits",
+      "trait-digitigrade-legs",
+      "trait-climber",
+      "trait-quick",
+      "trait-martial-arts",
+      "trait-biotechnology-2-crafting"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -1423,23 +1456,10 @@ export const DEFAULT_SPECIES = [
       "Engineering",
       "Science"
     ],
-    "inherent_features": [
-      "trait-auluran-base-traits",
-      "trait-digitigrade-legs",
-      "trait-climber",
-      "trait-quick",
-      "trait-martial-arts",
-      "trait-biotechnology-2-crafting"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Heavy Load Lifter",
-      "Symbiote Weaver",
-      "Cellular Resilience"
-    ],
-    "recommended_features": [
-      "feature-cellular-resilience"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Living Habitat Architecture)",
     "meta_level": "1 (Cellular Attunement)",
@@ -1464,6 +1484,25 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-auluran-base-traits",
+      "trait-digitigrade",
+      "trait-climber",
+      "trait-quick",
+      "trait-adapted-cold-environments",
+      "trait-alternate-form-humanoid-beast-form",
+      "trait-improved-great-fortitude"
+    ],
+    "species_traits": [
+      "trait-auluran-base-traits",
+      "trait-digitigrade",
+      "trait-climber",
+      "trait-quick",
+      "trait-adapted-cold-environments",
+      "trait-alternate-form-humanoid-beast-form",
+      "trait-improved-great-fortitude"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -1495,24 +1534,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Perception"
     ],
-    "inherent_features": [
-      "trait-auluran-base-traits",
-      "trait-digitigrade",
-      "trait-climber",
-      "trait-quick",
-      "trait-adapted-cold-environments",
-      "trait-alternate-form-humanoid-beast-form",
-      "trait-improved-great-fortitude"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Thermal Fur Insulation",
-      "Primal Regeneration",
-      "Frost Resistance"
-    ],
-    "recommended_features": [
-      "feature-primal-regeneration"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Cryo-Biotechnology)",
     "meta_level": "2 (Cellular Metamorphosis)",
@@ -1538,6 +1563,19 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "traits": [
+      "trait-adapted-deep-ocean",
+      "trait-amphibious",
+      "trait-natural-swim-speed-40ft",
+      "trait-hydrodynamic-skin"
+    ],
+    "species_traits": [
+      "trait-adapted-deep-ocean",
+      "trait-amphibious",
+      "trait-natural-swim-speed-40ft",
+      "trait-hydrodynamic-skin"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 14
@@ -1557,21 +1595,10 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "Sabotage"
     ],
-    "inherent_features": [
-      "trait-adapted-deep-ocean",
-      "trait-amphibious",
-      "trait-natural-swim-speed-40ft",
-      "trait-hydrodynamic-skin"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Pressure Sovereign",
-      "Sub-aquatic Sonar",
-      "Cold Blood Control"
-    ],
-    "recommended_features": [
-      "feature-pressure-sovereign"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Aquatic Xeno (-3)",
     "tech_level": "4 (Deep Trench Tech)",
     "meta_level": "1 (Echo Resonance)",
@@ -1596,6 +1623,15 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-2-splice-mutations-natural-weapons-chitin-fur-tail",
+      "trait-mutation-power-special-perk"
+    ],
+    "species_traits": [
+      "trait-2-splice-mutations-natural-weapons-chitin-fur-tail",
+      "trait-mutation-power-special-perk"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 12
@@ -1615,20 +1651,10 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "Combat"
     ],
-    "inherent_features": [
-      "trait-2-splice-mutations-natural-weapons-chitin-fur-tail",
-      "trait-mutation-power-special-perk"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Venom Fangs",
-      "Echolocation",
-      "Wall Crawling",
-      "Night Vision"
-    ],
-    "recommended_features": [
-      "feature-venom-fangs"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Genetic (-2), Beastial (-2)",
     "tech_level": "4 (Splice Genomics)",
     "meta_level": "1 (Animalistic Resonance)",
@@ -1653,6 +1679,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-awakened-psychic",
+      "trait-telepathy-100ft",
+      "trait-biotechnology-mastery",
+      "trait-hive-connection-shared-telepathic-mesh"
+    ],
+    "species_traits": [
+      "trait-awakened-psychic",
+      "trait-telepathy-100ft",
+      "trait-biotechnology-mastery",
+      "trait-hive-connection-shared-telepathic-mesh"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -1684,21 +1723,10 @@ export const DEFAULT_SPECIES = [
       "Discipline",
       "Science"
     ],
-    "inherent_features": [
-      "trait-awakened-psychic",
-      "trait-telepathy-100ft",
-      "trait-biotechnology-mastery",
-      "trait-hive-connection-shared-telepathic-mesh"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Mind Shield",
-      "Psychic Scan",
-      "Mesh Coordination"
-    ],
-    "recommended_features": [
-      "feature-mind-shield"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Neural Mesh & Bio-Computing)",
     "meta_level": "4 (Hive Psionics)",
@@ -1723,6 +1751,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-brutal-3-melee-damage",
+      "trait-exoskeleton-partial-sub-dermal-plates-dr-3",
+      "trait-combat-rage-1-encounter"
+    ],
+    "species_traits": [
+      "trait-brutal-3-melee-damage",
+      "trait-exoskeleton-partial-sub-dermal-plates-dr-3",
+      "trait-combat-rage-1-encounter"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -1811,20 +1850,10 @@ export const DEFAULT_SPECIES = [
       "Intimidation",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-brutal-3-melee-damage",
-      "trait-exoskeleton-partial-sub-dermal-plates-dr-3",
-      "trait-combat-rage-1-encounter"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Unstoppable Charge",
-      "Pain Immunity",
-      "Flesh Tearer"
-    ],
-    "recommended_features": [
-      "feature-combat-rage"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2), Savage (-4)",
     "tech_level": "3 (Imperial Heavy Ordinance)",
     "meta_level": "0 (Null)",
@@ -1849,6 +1878,15 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-genetic-optimization-disease-immunity-retinal-filter",
+      "trait-custom-gene-blueprint-1-free-feature"
+    ],
+    "species_traits": [
+      "trait-genetic-optimization-disease-immunity-retinal-filter",
+      "trait-custom-gene-blueprint-1-free-feature"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 14
@@ -1868,19 +1906,10 @@ export const DEFAULT_SPECIES = [
       "Discipline",
       "Medicine"
     ],
-    "inherent_features": [
-      "trait-genetic-optimization-disease-immunity-retinal-filter",
-      "trait-custom-gene-blueprint-1-free-feature"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Metabolic Acceleration",
-      "Neural Overclock",
-      "Cellular Renewal"
-    ],
-    "recommended_features": [
-      "feature-cellular-renewal"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "4 (Genetic Engineering & Gene-Splicing)",
     "meta_level": "1 (Cellular Potential)",
@@ -1905,6 +1934,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-awakened-psionic",
+      "trait-status-impyrium-authority",
+      "trait-mind-wipe-resistance",
+      "trait-psychic-aura"
+    ],
+    "species_traits": [
+      "trait-awakened-psionic",
+      "trait-status-impyrium-authority",
+      "trait-mind-wipe-resistance",
+      "trait-psychic-aura"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Wisdom",
@@ -1941,21 +1983,10 @@ export const DEFAULT_SPECIES = [
       "Investigation",
       "Intimidation"
     ],
-    "inherent_features": [
-      "trait-awakened-psionic",
-      "trait-status-impyrium-authority",
-      "trait-mind-wipe-resistance",
-      "trait-psychic-aura"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Thought Probe",
-      "Psionic Crush",
-      "Telepathic Command"
-    ],
-    "recommended_features": [
-      "feature-thought-probe"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "4 (Imperial Psionic Relics & Force Armor)",
     "meta_level": "4 (Imperial High Psionics)",
@@ -1980,6 +2011,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-adaptive-aspects",
+      "trait-awakened-psionic",
+      "trait-status-imperial-nobility",
+      "trait-aristocratic-immunity"
+    ],
+    "species_traits": [
+      "trait-adaptive-aspects",
+      "trait-awakened-psionic",
+      "trait-status-imperial-nobility",
+      "trait-aristocratic-immunity"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -2017,21 +2061,10 @@ export const DEFAULT_SPECIES = [
       "History",
       "Attune"
     ],
-    "inherent_features": [
-      "trait-adaptive-aspects",
-      "trait-awakened-psionic",
-      "trait-status-imperial-nobility",
-      "trait-aristocratic-immunity"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Royal Command",
-      "Will of the Throne",
-      "Silver Aegis"
-    ],
-    "recommended_features": [
-      "feature-royal-command"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "4 (Imperial Regalia & Grav-Chairs)",
     "meta_level": "4 (Command Metaphysics)",
@@ -2056,6 +2089,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-augmented-sub-dermal-targeter-adrenal-regulator",
+      "trait-conditioned-mind-4-vs-fear",
+      "trait-combat-specialization"
+    ],
+    "species_traits": [
+      "trait-augmented-sub-dermal-targeter-adrenal-regulator",
+      "trait-conditioned-mind-4-vs-fear",
+      "trait-combat-specialization"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -2093,20 +2137,10 @@ export const DEFAULT_SPECIES = [
       "Stealth",
       "Perception"
     ],
-    "inherent_features": [
-      "trait-augmented-sub-dermal-targeter-adrenal-regulator",
-      "trait-conditioned-mind-4-vs-fear",
-      "trait-combat-specialization"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Zero-Delay Reaction",
-      "Covert Infiltration",
-      "Precision Marksman"
-    ],
-    "recommended_features": [
-      "feature-precision-marksman"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Syndicate Black-Ops Tech)",
     "meta_level": "1 (Tactical Focus)",
@@ -2132,6 +2166,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "traits": [
+      "trait-adapted-aquatic",
+      "trait-amphibious-gills-lungs",
+      "trait-aquatic-strength-2-in-water",
+      "trait-specialized-senses-underwater-vision-sonar",
+      "trait-natural-swim-speed-30ft"
+    ],
+    "species_traits": [
+      "trait-adapted-aquatic",
+      "trait-amphibious-gills-lungs",
+      "trait-aquatic-strength-2-in-water",
+      "trait-specialized-senses-underwater-vision-sonar",
+      "trait-natural-swim-speed-30ft"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 11
@@ -2151,22 +2200,10 @@ export const DEFAULT_SPECIES = [
       "Navigation",
       "Science (Oceanography)"
     ],
-    "inherent_features": [
-      "trait-adapted-aquatic",
-      "trait-amphibious-gills-lungs",
-      "trait-aquatic-strength-2-in-water",
-      "trait-specialized-senses-underwater-vision-sonar",
-      "trait-natural-swim-speed-30ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Pressure Tolerance",
-      "Bioluminescence",
-      "Cold Water Immunity"
-    ],
-    "recommended_features": [
-      "feature-pressure-tolerance"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Aquatic Xeno (-3)",
     "tech_level": "3 (Sub-Surface Habitats & Hydro-Drives)",
     "meta_level": "1 (Oceanic Echo)",
@@ -2191,6 +2228,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-improved-great-fortitude-4-vs-poison-disease",
+      "trait-dense-skeletal-structure",
+      "trait-radiation-tolerance"
+    ],
+    "species_traits": [
+      "trait-improved-great-fortitude-4-vs-poison-disease",
+      "trait-dense-skeletal-structure",
+      "trait-radiation-tolerance"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -2226,20 +2274,10 @@ export const DEFAULT_SPECIES = [
       "Medicine",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-improved-great-fortitude-4-vs-poison-disease",
-      "trait-dense-skeletal-structure",
-      "trait-radiation-tolerance"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Silver Skin DR",
-      "Toxic Neutralization",
-      "Tireless"
-    ],
-    "recommended_features": [
-      "feature-improved-great-fortitude"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Blue Skin (-1)",
     "tech_level": "3 (Industrial Heavy Tech)",
     "meta_level": "2 (Electrochemical Psionics)",
@@ -2264,6 +2302,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-low-light-vision",
+      "trait-quick-5ft-movement",
+      "trait-echo-sensitivity"
+    ],
+    "species_traits": [
+      "trait-low-light-vision",
+      "trait-quick-5ft-movement",
+      "trait-echo-sensitivity"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -2299,20 +2348,10 @@ export const DEFAULT_SPECIES = [
       "Acrobatics",
       "Alertness"
     ],
-    "inherent_features": [
-      "trait-low-light-vision",
-      "trait-quick-5ft-movement",
-      "trait-echo-sensitivity"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Shadow Affinity",
-      "Reflex Evasion",
-      "Night Hunter"
-    ],
-    "recommended_features": [
-      "feature-quick"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "3 (Standard)",
     "meta_level": "1 (Sensory Focus)",
@@ -2337,6 +2376,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-small-size-2-defense-2-stealth",
+      "trait-climber",
+      "trait-high-metabolism"
+    ],
+    "species_traits": [
+      "trait-small-size-2-defense-2-stealth",
+      "trait-climber",
+      "trait-high-metabolism"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -2391,20 +2441,10 @@ export const DEFAULT_SPECIES = [
       "Piloting",
       "Sleight of Hand"
     ],
-    "inherent_features": [
-      "trait-small-size-2-defense-2-stealth",
-      "trait-climber",
-      "trait-high-metabolism"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Nimble Squeeze",
-      "Tunnel Runner",
-      "Underfoot Dodge"
-    ],
-    "recommended_features": [
-      "feature-climber"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "3 (Miniaturized Mechanics)",
     "meta_level": "1 (Agile Flow)",
@@ -2429,6 +2469,15 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-alter-form-minor-facial-skin-hair-shift",
+      "trait-intuitive-empathy"
+    ],
+    "species_traits": [
+      "trait-alter-form-minor-facial-skin-hair-shift",
+      "trait-intuitive-empathy"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -2460,19 +2509,10 @@ export const DEFAULT_SPECIES = [
       "Persuasion",
       "Stealth"
     ],
-    "inherent_features": [
-      "trait-alter-form-minor-facial-skin-hair-shift",
-      "trait-intuitive-empathy"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Voice Mimicry",
-      "Pheromone Mask",
-      "Social Chameleon"
-    ],
-    "recommended_features": [
-      "feature-voice-mimicry"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Shifter (-2)",
     "tech_level": "3 (Cosmetic Synthesis)",
     "meta_level": "2 (Empathic Resonance)",
@@ -2497,6 +2537,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link",
+      "trait-bodyform-acclimation-0-cyber-strain",
+      "trait-companion-integrated-sub-ai-assistant"
+    ],
+    "species_traits": [
+      "trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link",
+      "trait-bodyform-acclimation-0-cyber-strain",
+      "trait-companion-integrated-sub-ai-assistant"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -2533,20 +2584,10 @@ export const DEFAULT_SPECIES = [
       "Piloting",
       "Engineering"
     ],
-    "inherent_features": [
-      "trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link",
-      "trait-bodyform-acclimation-0-cyber-strain",
-      "trait-companion-integrated-sub-ai-assistant"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Hardwired Reflexes",
-      "Neural Firewall",
-      "Direct Interface Tap"
-    ],
-    "recommended_features": [
-      "feature-neural-firewall"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2), Augmented (-4)",
     "tech_level": "4 (Advanced Cybernetics & Neural Sockets)",
     "meta_level": "0 (Null / Technological Optimization)",
@@ -2571,6 +2612,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-awakened-mental-psychic",
+      "trait-biotechnology-affinity",
+      "trait-hive-connection-low-band-telepathy"
+    ],
+    "species_traits": [
+      "trait-awakened-mental-psychic",
+      "trait-biotechnology-affinity",
+      "trait-hive-connection-low-band-telepathy"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -2606,20 +2658,10 @@ export const DEFAULT_SPECIES = [
       "Medicine",
       "Insight"
     ],
-    "inherent_features": [
-      "trait-awakened-mental-psychic",
-      "trait-biotechnology-affinity",
-      "trait-hive-connection-low-band-telepathy"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Neural Dampening",
-      "Telepathic Whispers",
-      "Bio-Crafting"
-    ],
-    "recommended_features": [
-      "feature-telepathic-whispers"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "3 (Bio-Hybrid Devices)",
     "meta_level": "3 (Telepathic Linkage)",
@@ -2644,6 +2686,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-dragonkin-traits-partial-scales-dr-1-heat-resistance",
+      "trait-status-dynasty-ties",
+      "trait-fiery-resolve"
+    ],
+    "species_traits": [
+      "trait-dragonkin-traits-partial-scales-dr-1-heat-resistance",
+      "trait-status-dynasty-ties",
+      "trait-fiery-resolve"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 10
@@ -2667,20 +2720,10 @@ export const DEFAULT_SPECIES = [
       "Combat",
       "Leadership"
     ],
-    "inherent_features": [
-      "trait-dragonkin-traits-partial-scales-dr-1-heat-resistance",
-      "trait-status-dynasty-ties",
-      "trait-fiery-resolve"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Thermal Breath",
-      "Dragon Eye Sight",
-      "Noble Bearing"
-    ],
-    "recommended_features": [
-      "feature-thermal-breath"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Draconic (-2)",
     "tech_level": "3 (Dracon Dynasty Imperial Tech)",
     "meta_level": "2 (Elemental Fire)",
@@ -2705,6 +2748,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-mighty-surge-1-encounter-bonus-to-str-sta-checks",
+      "trait-dense-musculature",
+      "trait-poison-resistance"
+    ],
+    "species_traits": [
+      "trait-mighty-surge-1-encounter-bonus-to-str-sta-checks",
+      "trait-dense-musculature",
+      "trait-poison-resistance"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -2747,17 +2801,9 @@ export const DEFAULT_SPECIES = [
       "Science (Geology)",
       "Combat (Heavy)"
     ],
-    "inherent_features": [
-      "trait-mighty-surge-1-encounter-bonus-to-str-sta-checks",
-      "trait-dense-musculature",
-      "trait-poison-resistance"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Master Smith",
-      "Subterranean Instinct",
-      "Unyielding Stance"
-    ],
+    "bonus_feature_choices": [],
     "recommended_features": [
       "feature-mighty-surge"
     ],
@@ -2785,6 +2831,15 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-adaptability",
+      "trait-broad-horizons-1-feature-at-creation"
+    ],
+    "species_traits": [
+      "trait-adaptability",
+      "trait-broad-horizons-1-feature-at-creation"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 10
@@ -2801,23 +2856,10 @@ export const DEFAULT_SPECIES = [
       "Technology",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-adaptability",
-      "trait-broad-horizons-1-feature-at-creation"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Endurance",
-      "Resourceful",
-      "Fast Learner",
-      "Versatile",
-      "Jack of All Trades"
-    ],
-    "recommended_features": [
-      "feature-adaptability",
-      "feature-endurance",
-      "feature-resourceful"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None (Galactic Baseline)",
     "tech_level": "3 (Standard Interstellar Fusion & Ballistics)",
     "meta_level": "1 (Variable / Latent Potential)",
@@ -2842,6 +2884,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-low-light-vision",
+      "trait-extended-lifespan-200-years",
+      "trait-arcane-affinity"
+    ],
+    "species_traits": [
+      "trait-low-light-vision",
+      "trait-extended-lifespan-200-years",
+      "trait-arcane-affinity"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 15
@@ -2861,20 +2914,10 @@ export const DEFAULT_SPECIES = [
       "Perception",
       "Culture"
     ],
-    "inherent_features": [
-      "trait-low-light-vision",
-      "trait-extended-lifespan-200-years",
-      "trait-arcane-affinity"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Silver Tongue",
-      "Graceful Stride",
-      "Focused Mind"
-    ],
-    "recommended_features": [
-      "feature-graceful-stride"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "3 (Magi-Tech Synthesis)",
     "meta_level": "2 (Harmonic Weave)",
@@ -2900,6 +2943,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
+    "traits": [
+      "trait-adapted-arboreal",
+      "trait-awakened-nature-psychic",
+      "trait-biotech-synergy",
+      "trait-climber",
+      "trait-prehensile-tail"
+    ],
+    "species_traits": [
+      "trait-adapted-arboreal",
+      "trait-awakened-nature-psychic",
+      "trait-biotech-synergy",
+      "trait-climber",
+      "trait-prehensile-tail"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -2936,22 +2994,10 @@ export const DEFAULT_SPECIES = [
       "Medicine (Herbal)",
       "Stealth"
     ],
-    "inherent_features": [
-      "trait-adapted-arboreal",
-      "trait-awakened-nature-psychic",
-      "trait-biotech-synergy",
-      "trait-climber",
-      "trait-prehensile-tail"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Canopy Acrobat",
-      "Plant Whisperer",
-      "Natural Camouflage"
-    ],
-    "recommended_features": [
-      "feature-climber"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "2 (Living Vine Architecture)",
     "meta_level": "3 (Botanical Psionics)",
@@ -2976,6 +3022,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-brutal-2-melee-damage",
+      "trait-exoskeleton-partial-chitinous-plates-dr-2",
+      "trait-pain-tolerance"
+    ],
+    "species_traits": [
+      "trait-brutal-2-melee-damage",
+      "trait-exoskeleton-partial-chitinous-plates-dr-2",
+      "trait-pain-tolerance"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -3026,20 +3083,10 @@ export const DEFAULT_SPECIES = [
       "Intimidation",
       "Combat (Brawling)"
     ],
-    "inherent_features": [
-      "trait-brutal-2-melee-damage",
-      "trait-exoskeleton-partial-chitinous-plates-dr-2",
-      "trait-pain-tolerance"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Bone Spikes",
-      "Furious Counter",
-      "Unstoppable Momentum"
-    ],
-    "recommended_features": [
-      "feature-brutal"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "3 (Ballistics & Heavy Exosuits)",
     "meta_level": "0 (Null)",
@@ -3064,6 +3111,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-calculating-mind",
+      "trait-silver-tongue",
+      "trait-syndicate-network"
+    ],
+    "species_traits": [
+      "trait-calculating-mind",
+      "trait-silver-tongue",
+      "trait-syndicate-network"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 15
@@ -3088,20 +3146,10 @@ export const DEFAULT_SPECIES = [
       "Law",
       "Insight"
     ],
-    "inherent_features": [
-      "trait-calculating-mind",
-      "trait-silver-tongue",
-      "trait-syndicate-network"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Master Negotiator",
-      "Market Sense",
-      "Hidden Assets"
-    ],
-    "recommended_features": [
-      "feature-master-negotiator"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "3 (Financial Holo-Nets & Comms)",
     "meta_level": "1 (Subconscious Suggestion)",
@@ -3126,6 +3174,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-fast-10ft-movement",
+      "trait-jumper-5ft-vertical",
+      "trait-low-light-vision",
+      "trait-prehensile-tail",
+      "trait-acute-scent"
+    ],
+    "species_traits": [
+      "trait-fast-10ft-movement",
+      "trait-jumper-5ft-vertical",
+      "trait-low-light-vision",
+      "trait-prehensile-tail",
+      "trait-acute-scent"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -3172,23 +3235,10 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-fast-10ft-movement",
-      "trait-jumper-5ft-vertical",
-      "trait-low-light-vision",
-      "trait-prehensile-tail",
-      "trait-acute-scent"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Pounce Strike",
-      "Feral Agility",
-      "Lightning Sprint"
-    ],
-    "recommended_features": [
-      "feature-fast",
-      "feature-jumper"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Scanners & Lightweight Stealth Armor)",
     "meta_level": "2 (Predator Sense)",
@@ -3213,6 +3263,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-large-size-8-10ft-reach-10ft",
+      "trait-massive-bulk-dr-3",
+      "trait-colossal-carrying-capacity"
+    ],
+    "species_traits": [
+      "trait-large-size-8-10ft-reach-10ft",
+      "trait-massive-bulk-dr-3",
+      "trait-colossal-carrying-capacity"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -3272,20 +3333,10 @@ export const DEFAULT_SPECIES = [
       "Combat (Heavy Weapons)",
       "Survival"
     ],
-    "inherent_features": [
-      "trait-large-size-8-10ft-reach-10ft",
-      "trait-massive-bulk-dr-3",
-      "trait-colossal-carrying-capacity"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Crushing Blow",
-      "Titan Endurance",
-      "Ground Slam"
-    ],
-    "recommended_features": [
-      "feature-crushing-blow"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2), Giant (-2)",
     "tech_level": "3 (Heavy Industrial Hydraulic Rigging)",
     "meta_level": "0 (Physical Dominance)",
@@ -3310,6 +3361,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-awakened-dimension-psychic",
+      "trait-indomitable-will",
+      "trait-teleportal-special-ability-short-jump",
+      "trait-homing-special-ability-spatial-recall"
+    ],
+    "species_traits": [
+      "trait-awakened-dimension-psychic",
+      "trait-indomitable-will",
+      "trait-teleportal-special-ability-short-jump",
+      "trait-homing-special-ability-spatial-recall"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -3345,21 +3409,10 @@ export const DEFAULT_SPECIES = [
       "Science (Astrophysics)",
       "Discipline"
     ],
-    "inherent_features": [
-      "trait-awakened-dimension-psychic",
-      "trait-indomitable-will",
-      "trait-teleportal-special-ability-short-jump",
-      "trait-homing-special-ability-spatial-recall"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Dimensional Tear",
-      "Warp Sight",
-      "Spatial Anchor"
-    ],
-    "recommended_features": [
-      "feature-spatial-anchor"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None",
     "tech_level": "4 (FTL & Slipstream Gate Tech)",
     "meta_level": "4 (Spatial Metaphysics)",
@@ -3384,6 +3437,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-quadruped"
     ],
+    "traits": [
+      "trait-animal-physiology-natural-weapons-scent-low-light",
+      "trait-awakened-consciousness-human-level-sentience",
+      "trait-vocal-synthesizer-telepathic-collar"
+    ],
+    "species_traits": [
+      "trait-animal-physiology-natural-weapons-scent-low-light",
+      "trait-awakened-consciousness-human-level-sentience",
+      "trait-vocal-synthesizer-telepathic-collar"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 10
@@ -3407,20 +3471,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Stealth"
     ],
-    "inherent_features": [
-      "trait-animal-physiology-natural-weapons-scent-low-light",
-      "trait-awakened-consciousness-human-level-sentience",
-      "trait-vocal-synthesizer-telepathic-collar"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Keen Senses",
-      "Pounce",
-      "Thick Fur DR"
-    ],
-    "recommended_features": [
-      "feature-keen-senses"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Beast (-4)",
     "tech_level": "2 (Adapted Gear)",
     "meta_level": "2 (Primal Sentience)",
@@ -3445,6 +3499,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-ungulate-legs-sure-footed-on-cliffs",
+      "trait-uncanny-senses-360-degree-vision-hearing",
+      "trait-quick-5ft-movement",
+      "trait-horn-strike-melee-1d6"
+    ],
+    "species_traits": [
+      "trait-ungulate-legs-sure-footed-on-cliffs",
+      "trait-uncanny-senses-360-degree-vision-hearing",
+      "trait-quick-5ft-movement",
+      "trait-horn-strike-melee-1d6"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Stamina",
@@ -3476,21 +3543,10 @@ export const DEFAULT_SPECIES = [
       "Perception",
       "Acrobatics"
     ],
-    "inherent_features": [
-      "trait-ungulate-legs-sure-footed-on-cliffs",
-      "trait-uncanny-senses-360-degree-vision-hearing",
-      "trait-quick-5ft-movement",
-      "trait-horn-strike-melee-1d6"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Mountain Stride",
-      "Headbutt Stun",
-      "High-Altitude Lung"
-    ],
-    "recommended_features": [
-      "feature-mountain-stride"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (High-Altitude Climbing Rigs & Kinetic Carbines)",
     "meta_level": "1 (Mountain Resonance)",
@@ -3515,6 +3571,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun",
+      "trait-exoskeleton-dr-3",
+      "trait-regenerative-sap"
+    ],
+    "species_traits": [
+      "trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun",
+      "trait-exoskeleton-dr-3",
+      "trait-regenerative-sap"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -3583,20 +3650,10 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "Combat"
     ],
-    "inherent_features": [
-      "trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun",
-      "trait-exoskeleton-dr-3",
-      "trait-regenerative-sap"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Sunlight Surge",
-      "Bark Chitin",
-      "Root Stance"
-    ],
-    "recommended_features": [
-      "feature-sunlight-surge"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "2 (Solar Bio-Crafting)",
     "meta_level": "1 (Solar Resonance)",
@@ -3622,6 +3679,23 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "traits": [
+      "trait-climber",
+      "trait-digitigrade",
+      "trait-fast-heal",
+      "trait-long-prehensile-tail-trip-hold",
+      "trait-regeneration-3-hp-rnd-regrows-limbs",
+      "trait-swimmer"
+    ],
+    "species_traits": [
+      "trait-climber",
+      "trait-digitigrade",
+      "trait-fast-heal",
+      "trait-long-prehensile-tail-trip-hold",
+      "trait-regeneration-3-hp-rnd-regrows-limbs",
+      "trait-swimmer"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -3667,23 +3741,10 @@ export const DEFAULT_SPECIES = [
       "Combat",
       "Stealth"
     ],
-    "inherent_features": [
-      "trait-climber",
-      "trait-digitigrade",
-      "trait-fast-heal",
-      "trait-long-prehensile-tail-trip-hold",
-      "trait-regeneration-3-hp-rnd-regrows-limbs",
-      "trait-swimmer"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Thermal Cold Blooded",
-      "Chameleon Scales",
-      "Constrictor Tail"
-    ],
-    "recommended_features": [
-      "feature-regeneration"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Thermal Tech & Slugthrowers)",
     "meta_level": "1 (Regenerative Vitality)",
@@ -3708,6 +3769,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-digitigrade",
+      "trait-quick-5ft-movement",
+      "trait-uncanny-senses-acute-scent-hearing-4",
+      "trait-pack-tactics-2-to-hit-when-flanking"
+    ],
+    "species_traits": [
+      "trait-digitigrade",
+      "trait-quick-5ft-movement",
+      "trait-uncanny-senses-acute-scent-hearing-4",
+      "trait-pack-tactics-2-to-hit-when-flanking"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -3754,21 +3828,10 @@ export const DEFAULT_SPECIES = [
       "Combat",
       "Intimidation"
     ],
-    "inherent_features": [
-      "trait-digitigrade",
-      "trait-quick-5ft-movement",
-      "trait-uncanny-senses-acute-scent-hearing-4",
-      "trait-pack-tactics-2-to-hit-when-flanking"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Apex Tracker",
-      "Bite Attack",
-      "Howl of Morale"
-    ],
-    "recommended_features": [
-      "feature-pack-tactics"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Standard Infantry Gear & Tracking Arrays)",
     "meta_level": "1 (Pack Empathy)",
@@ -3793,6 +3856,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-digitigrade",
+      "trait-low-light-vision",
+      "trait-acute-scent",
+      "trait-silent-stride",
+      "trait-retractable-claws"
+    ],
+    "species_traits": [
+      "trait-digitigrade",
+      "trait-low-light-vision",
+      "trait-acute-scent",
+      "trait-silent-stride",
+      "trait-retractable-claws"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -3839,22 +3917,10 @@ export const DEFAULT_SPECIES = [
       "Perception",
       "Acrobatics"
     ],
-    "inherent_features": [
-      "trait-digitigrade",
-      "trait-low-light-vision",
-      "trait-acute-scent",
-      "trait-silent-stride",
-      "trait-retractable-claws"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Ambush Reflex",
-      "Nimble Leap",
-      "Inquisitive Mind"
-    ],
-    "recommended_features": [
-      "feature-ambush-reflex"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Sensory Scanners & Covert Tech)",
     "meta_level": "2 (Intuitive Psionics)",
@@ -3880,6 +3946,23 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
+    "traits": [
+      "trait-climber",
+      "trait-low-light-vision",
+      "trait-mighty-surge-bonus-str-athletics",
+      "trait-prehensile-tail-feet",
+      "trait-acute-scent",
+      "trait-climb-speed-30ft"
+    ],
+    "species_traits": [
+      "trait-climber",
+      "trait-low-light-vision",
+      "trait-mighty-surge-bonus-str-athletics",
+      "trait-prehensile-tail-feet",
+      "trait-acute-scent",
+      "trait-climb-speed-30ft"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -3939,20 +4022,9 @@ export const DEFAULT_SPECIES = [
       "Combat",
       "Engineering (Heavy)"
     ],
-    "inherent_features": [
-      "trait-climber",
-      "trait-low-light-vision",
-      "trait-mighty-surge-bonus-str-athletics",
-      "trait-prehensile-tail-feet",
-      "trait-acute-scent",
-      "trait-climb-speed-30ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Brachiation Mastery",
-      "Chest Beat Roar",
-      "Grip of Iron"
-    ],
+    "bonus_feature_choices": [],
     "recommended_features": [
       "feature-mighty-surge"
     ],
@@ -3982,6 +4054,23 @@ export const DEFAULT_SPECIES = [
       "species_movement-swimming",
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-adapted-aquatic",
+      "trait-amphibious",
+      "trait-alternate-form-manta-ray-flight-form",
+      "trait-echolocation-60ft-sonar",
+      "trait-uncanny-sense-underwater-vision",
+      "trait-swim-glide-speed-40ft"
+    ],
+    "species_traits": [
+      "trait-adapted-aquatic",
+      "trait-amphibious",
+      "trait-alternate-form-manta-ray-flight-form",
+      "trait-echolocation-60ft-sonar",
+      "trait-uncanny-sense-underwater-vision",
+      "trait-swim-glide-speed-40ft"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -4023,23 +4112,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Stealth"
     ],
-    "inherent_features": [
-      "trait-adapted-aquatic",
-      "trait-amphibious",
-      "trait-alternate-form-manta-ray-flight-form",
-      "trait-echolocation-60ft-sonar",
-      "trait-uncanny-sense-underwater-vision",
-      "trait-swim-glide-speed-40ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Electro-Magnetic Pulse Sting",
-      "Hydrofoil Dash",
-      "Deep Trench Sight"
-    ],
-    "recommended_features": [
-      "feature-echolocation"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Hydro-Resonance Equipment)",
     "meta_level": "2 (Sonic Metaphysics)",
@@ -4064,6 +4140,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-awakened-psychic",
+      "trait-telepathic-150ft",
+      "trait-adaptive-aspects",
+      "trait-flight-telekinetic-levitation-30ft",
+      "trait-bioluminescent-body-glow"
+    ],
+    "species_traits": [
+      "trait-awakened-psychic",
+      "trait-telepathic-150ft",
+      "trait-adaptive-aspects",
+      "trait-flight-telekinetic-levitation-30ft",
+      "trait-bioluminescent-body-glow"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -4100,22 +4191,10 @@ export const DEFAULT_SPECIES = [
       "Diplomacy",
       "Philosophy"
     ],
-    "inherent_features": [
-      "trait-awakened-psychic",
-      "trait-telepathic-150ft",
-      "trait-adaptive-aspects",
-      "trait-flight-telekinetic-levitation-30ft",
-      "trait-bioluminescent-body-glow"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Psychic Barrier",
-      "Calming Aura",
-      "Telekinetic Wave"
-    ],
-    "recommended_features": [
-      "feature-psychic-barrier"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2), Luminescent (-1)",
     "tech_level": "4 (Psi-Amplifier Holo-Suits)",
     "meta_level": "4 (High Psionics)",
@@ -4140,6 +4219,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-exoskeleton-light-chitin-dr-3",
+      "trait-rage-4-str-2-defense-in-combat-1-enc",
+      "trait-heavy-strike-2-damage"
+    ],
+    "species_traits": [
+      "trait-exoskeleton-light-chitin-dr-3",
+      "trait-rage-4-str-2-defense-in-combat-1-enc",
+      "trait-heavy-strike-2-damage"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -4219,20 +4309,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Survival"
     ],
-    "inherent_features": [
-      "trait-exoskeleton-light-chitin-dr-3",
-      "trait-rage-4-str-2-defense-in-combat-1-enc",
-      "trait-heavy-strike-2-damage"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Furious Slam",
-      "Crushing Grip",
-      "Pheromone Frenzy"
-    ],
-    "recommended_features": [
-      "feature-furious-slam"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Savage (-4), Xeno (-2)",
     "tech_level": "2 (Heavy Ballistic Scrap Guns & Cleavers)",
     "meta_level": "0 (Null)",
@@ -4258,6 +4338,25 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-slithering"
     ],
+    "traits": [
+      "trait-adaptive-aspects-acid-thermal-immunity",
+      "trait-alter-form-amorphous-slime-pseudo-humanoid",
+      "trait-awakened-cosmic",
+      "trait-bodyform-adaptation-squeeze-through-any-opening",
+      "trait-fast-healing",
+      "trait-regeneration-3-hp-rnd",
+      "trait-telepathic-100ft"
+    ],
+    "species_traits": [
+      "trait-adaptive-aspects-acid-thermal-immunity",
+      "trait-alter-form-amorphous-slime-pseudo-humanoid",
+      "trait-awakened-cosmic",
+      "trait-bodyform-adaptation-squeeze-through-any-opening",
+      "trait-fast-healing",
+      "trait-regeneration-3-hp-rnd",
+      "trait-telepathic-100ft"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 17
@@ -4281,24 +4380,10 @@ export const DEFAULT_SPECIES = [
       "Science",
       "Attune"
     ],
-    "inherent_features": [
-      "trait-adaptive-aspects-acid-thermal-immunity",
-      "trait-alter-form-amorphous-slime-pseudo-humanoid",
-      "trait-awakened-cosmic",
-      "trait-bodyform-adaptation-squeeze-through-any-opening",
-      "trait-fast-healing",
-      "trait-regeneration-3-hp-rnd",
-      "trait-telepathic-100ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Engulf Attack",
-      "Acid Touch",
-      "Split Form"
-    ],
-    "recommended_features": [
-      "feature-engulf-attack"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Bio-Polymer Containment Suits)",
     "meta_level": "4 (Cosmic Fluidity)",
@@ -4323,6 +4408,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-uncanny-senses-telescopic-vision-4",
+      "trait-flight-winged-speed-50ft",
+      "trait-hollow-bone-agility",
+      "trait-thermal-current-riding"
+    ],
+    "species_traits": [
+      "trait-uncanny-senses-telescopic-vision-4",
+      "trait-flight-winged-speed-50ft",
+      "trait-hollow-bone-agility",
+      "trait-thermal-current-riding"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 22
@@ -4347,21 +4445,10 @@ export const DEFAULT_SPECIES = [
       "Combat (Ranged)",
       "Survival"
     ],
-    "inherent_features": [
-      "trait-uncanny-senses-telescopic-vision-4",
-      "trait-flight-winged-speed-50ft",
-      "trait-hollow-bone-agility",
-      "trait-thermal-current-riding"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Dive Bomb Strike",
-      "Aerial Barrel Roll",
-      "Wind Gust Blast"
-    ],
-    "recommended_features": [
-      "feature-dive-bomb-strike"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Aerodynamic Laminates & Long-Rifle Snipers)",
     "meta_level": "2 (Aero-Kinetic Wind Weaving)",
@@ -4386,8 +4473,25 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal",
       "species_movement-climbing",
-      "species_movement-gliding"
+      "species_movement-glide"
     ],
+    "traits": [
+      "trait-small-size",
+      "trait-climbing",
+      "trait-patagia-glide-30ft",
+      "trait-multidextrous",
+      "trait-uncanny-senses-acute-scent",
+      "trait-climb-speed-30ft"
+    ],
+    "species_traits": [
+      "trait-small-size",
+      "trait-climbing",
+      "trait-patagia-glide-30ft",
+      "trait-multidextrous",
+      "trait-uncanny-senses-acute-scent",
+      "trait-climb-speed-30ft"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -4447,23 +4551,10 @@ export const DEFAULT_SPECIES = [
       "Perception",
       "Sleight of Hand"
     ],
-    "inherent_features": [
-      "trait-small-size",
-      "trait-climbing",
-      "trait-patagia-glide-30ft",
-      "trait-multidextrous",
-      "trait-uncanny-senses-acute-scent",
-      "trait-climb-speed-30ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Tree Glider",
-      "Quick Escape",
-      "Charm Whisper"
-    ],
-    "recommended_features": [
-      "feature-tree-glider"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "2 (Lightweight Harnesses)",
     "meta_level": "1 (Animalistic Empathy)",
@@ -4489,6 +4580,29 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "traits": [
+      "trait-adapted-deep-sea-pelagic",
+      "trait-awakened-psychic",
+      "trait-amphibious",
+      "trait-biotech-affinity",
+      "trait-chameleon-skin-4-stealth",
+      "trait-fast-healing",
+      "trait-tentacles-4-prehensile-grasping-limbs",
+      "trait-quick-movement",
+      "trait-regeneration-3-hp-rnd"
+    ],
+    "species_traits": [
+      "trait-adapted-deep-sea-pelagic",
+      "trait-awakened-psychic",
+      "trait-amphibious",
+      "trait-biotech-affinity",
+      "trait-chameleon-skin-4-stealth",
+      "trait-fast-healing",
+      "trait-tentacles-4-prehensile-grasping-limbs",
+      "trait-quick-movement",
+      "trait-regeneration-3-hp-rnd"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 14
@@ -4508,26 +4622,10 @@ export const DEFAULT_SPECIES = [
       "Medicine",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-adapted-deep-sea-pelagic",
-      "trait-awakened-psychic",
-      "trait-amphibious",
-      "trait-biotech-affinity",
-      "trait-chameleon-skin-4-stealth",
-      "trait-fast-healing",
-      "trait-tentacles-4-prehensile-grasping-limbs",
-      "trait-quick-movement",
-      "trait-regeneration-3-hp-rnd"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Ink Cloud Blast",
-      "Tentacle Grapple",
-      "Neural Drain"
-    ],
-    "recommended_features": [
-      "feature-chameleon-skin"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Bio-Organic Submersibles & Neural Syringes)",
     "meta_level": "3 (Aquatic Psionics)",
@@ -4552,6 +4650,33 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-adaptive-aspects",
+      "trait-ageless",
+      "trait-alter-form-root-vine-morph",
+      "trait-atmosphere-variant-breathes-co2-toxics",
+      "trait-awakened-nature",
+      "trait-chloroplast-energy-photosynthesis",
+      "trait-fast-healing",
+      "trait-immortal",
+      "trait-non-typical-anatomy-no-vital-organs",
+      "trait-regeneration-3-hp-rnd",
+      "trait-verdant-flesh-plant-entity"
+    ],
+    "species_traits": [
+      "trait-adaptive-aspects",
+      "trait-ageless",
+      "trait-alter-form-root-vine-morph",
+      "trait-atmosphere-variant-breathes-co2-toxics",
+      "trait-awakened-nature",
+      "trait-chloroplast-energy-photosynthesis",
+      "trait-fast-healing",
+      "trait-immortal",
+      "trait-non-typical-anatomy-no-vital-organs",
+      "trait-regeneration-3-hp-rnd",
+      "trait-verdant-flesh-plant-entity"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 24
@@ -4571,28 +4696,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Attune (Nature)"
     ],
-    "inherent_features": [
-      "trait-adaptive-aspects",
-      "trait-ageless",
-      "trait-alter-form-root-vine-morph",
-      "trait-atmosphere-variant-breathes-co2-toxics",
-      "trait-awakened-nature",
-      "trait-chloroplast-energy-photosynthesis",
-      "trait-fast-healing",
-      "trait-immortal",
-      "trait-non-typical-anatomy-no-vital-organs",
-      "trait-regeneration-3-hp-rnd",
-      "trait-verdant-flesh-plant-entity"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Thorn Burst",
-      "Entangling Roots",
-      "Spore Cloud"
-    ],
-    "recommended_features": [
-      "feature-entangling-roots"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "2 (Living Botanical Tools)",
     "meta_level": "4 (Verdant Metaphysics)",
@@ -4618,6 +4725,23 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "traits": [
+      "trait-amphibious",
+      "trait-chameleon-3-stealth-in-natural-environments",
+      "trait-exoskeleton-light-scales-dr-2",
+      "trait-fast-heal",
+      "trait-reach-5ft-melee-reach-with-tongue-limbs",
+      "trait-regeneration-2-hp-rnd"
+    ],
+    "species_traits": [
+      "trait-amphibious",
+      "trait-chameleon-3-stealth-in-natural-environments",
+      "trait-exoskeleton-light-scales-dr-2",
+      "trait-fast-heal",
+      "trait-reach-5ft-melee-reach-with-tongue-limbs",
+      "trait-regeneration-2-hp-rnd"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Stamina",
@@ -4669,23 +4793,10 @@ export const DEFAULT_SPECIES = [
       "Combat",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-amphibious",
-      "trait-chameleon-3-stealth-in-natural-environments",
-      "trait-exoskeleton-light-scales-dr-2",
-      "trait-fast-heal",
-      "trait-reach-5ft-melee-reach-with-tongue-limbs",
-      "trait-regeneration-2-hp-rnd"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Adhesive Tongue Strike",
-      "Toxic Skin Secretion",
-      "Bog Stride"
-    ],
-    "recommended_features": [
-      "feature-adhesive-tongue-strike"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Swamp Camouflage Suits & Harpoon Launchers)",
     "meta_level": "1 (Cellular Adaptation)",
@@ -4710,6 +4821,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-slithering"
     ],
+    "traits": [
+      "trait-large-size-12-18ft-serpentine-body-reach-10ft",
+      "trait-awakened-serpentine-metaphysics",
+      "trait-constriction-deals-double-damage-on-successful-grapple-hold",
+      "trait-venomous-fangs-paralytic-poison-dc-15"
+    ],
+    "species_traits": [
+      "trait-large-size-12-18ft-serpentine-body-reach-10ft",
+      "trait-awakened-serpentine-metaphysics",
+      "trait-constriction-deals-double-damage-on-successful-grapple-hold",
+      "trait-venomous-fangs-paralytic-poison-dc-15"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -4773,21 +4897,10 @@ export const DEFAULT_SPECIES = [
       "Combat",
       "Attune"
     ],
-    "inherent_features": [
-      "trait-large-size-12-18ft-serpentine-body-reach-10ft",
-      "trait-awakened-serpentine-metaphysics",
-      "trait-constriction-deals-double-damage-on-successful-grapple-hold",
-      "trait-venomous-fangs-paralytic-poison-dc-15"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Hypnotic Gaze",
-      "Shed Skin (Escape Restraints)",
-      "Thermal Pit Sense"
-    ],
-    "recommended_features": [
-      "feature-constriction"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Heavy Tail-Mount Harnesses & Plasma Blasters)",
     "meta_level": "3 (Serpentine Sorcery)",
@@ -4813,6 +4926,19 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
+    "traits": [
+      "trait-tiny-size-4-defense-4-stealth",
+      "trait-climbing-speed-30ft",
+      "trait-prehensile-tail",
+      "trait-quick-5ft-movement"
+    ],
+    "species_traits": [
+      "trait-tiny-size-4-defense-4-stealth",
+      "trait-climbing-speed-30ft",
+      "trait-prehensile-tail",
+      "trait-quick-5ft-movement"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -4867,21 +4993,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Technology"
     ],
-    "inherent_features": [
-      "trait-tiny-size-4-defense-4-stealth",
-      "trait-climbing-speed-30ft",
-      "trait-prehensile-tail",
-      "trait-quick-5ft-movement"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Shadow Scamper",
-      "Pico-Tool Manipulator",
-      "Nimble Escape"
-    ],
-    "recommended_features": [
-      "feature-quick"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Beast (-4), Xeno (-2)",
     "tech_level": "3 (Miniaturized Sensor Rigs)",
     "meta_level": "1 (Intuitive Agility)",
@@ -4907,6 +5022,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-quadruped"
     ],
+    "traits": [
+      "trait-kitin-base-traits-awakened-psychic-biotech-hive-connection-sleepless",
+      "trait-exoskeleton-dr-3",
+      "trait-multidextrous-4-arms",
+      "trait-leaper-20ft-jump",
+      "trait-quick-5ft-movement"
+    ],
+    "species_traits": [
+      "trait-kitin-base-traits-awakened-psychic-biotech-hive-connection-sleepless",
+      "trait-exoskeleton-dr-3",
+      "trait-multidextrous-4-arms",
+      "trait-leaper-20ft-jump",
+      "trait-quick-5ft-movement"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 10
@@ -4926,22 +5056,10 @@ export const DEFAULT_SPECIES = [
       "Stealth",
       "Perception"
     ],
-    "inherent_features": [
-      "trait-kitin-base-traits-awakened-psychic-biotech-hive-connection-sleepless",
-      "trait-exoskeleton-dr-3",
-      "trait-multidextrous-4-arms",
-      "trait-leaper-20ft-jump",
-      "trait-quick-5ft-movement"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Pheromone Scrambler",
-      "Acid Spit",
-      "Chitin Spike"
-    ],
-    "recommended_features": [
-      "feature-acid-spit"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Chitinous Bio-Carapaces & Hive Bio-Guns)",
     "meta_level": "3 (Hive Mind Psionics)",
@@ -4966,6 +5084,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-kitin-base-traits",
+      "trait-humanoid-stance",
+      "trait-pheromone-translator",
+      "trait-telepathic-voice"
+    ],
+    "species_traits": [
+      "trait-kitin-base-traits",
+      "trait-humanoid-stance",
+      "trait-pheromone-translator",
+      "trait-telepathic-voice"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Wisdom",
@@ -5001,21 +5132,10 @@ export const DEFAULT_SPECIES = [
       "Attune",
       "Language"
     ],
-    "inherent_features": [
-      "trait-kitin-base-traits",
-      "trait-humanoid-stance",
-      "trait-pheromone-translator",
-      "trait-telepathic-voice"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Hive Empathy",
-      "Mental Barrier",
-      "Sympathetic Resonance"
-    ],
-    "recommended_features": [
-      "feature-hive-empathy"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Tech Synapses)",
     "meta_level": "3 (Telepathic Diplomacy)",
@@ -5041,6 +5161,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
+    "traits": [
+      "trait-kitin-base-traits",
+      "trait-climber-ceiling-walk",
+      "trait-multidextrous-6-limbs",
+      "trait-quick-movement",
+      "trait-venomous-bite"
+    ],
+    "species_traits": [
+      "trait-kitin-base-traits",
+      "trait-climber-ceiling-walk",
+      "trait-multidextrous-6-limbs",
+      "trait-quick-movement",
+      "trait-venomous-bite"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -5106,22 +5241,10 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "Combat (Ambush)"
     ],
-    "inherent_features": [
-      "trait-kitin-base-traits",
-      "trait-climber-ceiling-walk",
-      "trait-multidextrous-6-limbs",
-      "trait-quick-movement",
-      "trait-venomous-bite"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Web Spinner",
-      "Shadow Chitin",
-      "Paralytic Toxin"
-    ],
-    "recommended_features": [
-      "feature-web-spinner"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Silk Weaves & Neurotoxin Darts)",
     "meta_level": "2 (Vibrational Sense)",
@@ -5146,6 +5269,23 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-kitin-base-traits",
+      "trait-blindsight-60ft",
+      "trait-exoskeleton-dr-4",
+      "trait-fast-healing-regeneration",
+      "trait-telepathic-hive-node",
+      "trait-swarm-entity-resistant-to-single-target-attacks"
+    ],
+    "species_traits": [
+      "trait-kitin-base-traits",
+      "trait-blindsight-60ft",
+      "trait-exoskeleton-dr-4",
+      "trait-fast-healing-regeneration",
+      "trait-telepathic-hive-node",
+      "trait-swarm-entity-resistant-to-single-target-attacks"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
@@ -5194,23 +5334,10 @@ export const DEFAULT_SPECIES = [
       "Intimidation",
       "Combat"
     ],
-    "inherent_features": [
-      "trait-kitin-base-traits",
-      "trait-blindsight-60ft",
-      "trait-exoskeleton-dr-4",
-      "trait-fast-healing-regeneration",
-      "trait-telepathic-hive-node",
-      "trait-swarm-entity-resistant-to-single-target-attacks"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Swarm Split",
-      "Devouring Cloud",
-      "Bio-Electric Shock"
-    ],
-    "recommended_features": [
-      "feature-swarm-split"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Monstrous (-4), Xeno (-2)",
     "tech_level": "3 (Swarm Bio-Mass)",
     "meta_level": "4 (Collective Psionic Core)",
@@ -5235,6 +5362,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal",
+      "trait-corporeal-as-desired",
+      "trait-large-size",
+      "trait-flicker-movement-teleport-60ft-as-move-action"
+    ],
+    "species_traits": [
+      "trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal",
+      "trait-corporeal-as-desired",
+      "trait-large-size",
+      "trait-flicker-movement-teleport-60ft-as-move-action"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -5310,21 +5450,10 @@ export const DEFAULT_SPECIES = [
       "Computation",
       "Leadership"
     ],
-    "inherent_features": [
-      "trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal",
-      "trait-corporeal-as-desired",
-      "trait-large-size",
-      "trait-flicker-movement-teleport-60ft-as-move-action"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Reality Anchor",
-      "Cosmic Insight",
-      "Starfire Beam"
-    ],
-    "recommended_features": [
-      "feature-reality-anchor"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Deific (-6), Xeno (-2)",
     "tech_level": "5 (Precursor Singularity Manipulation)",
     "meta_level": "6 (Deific / Reality Reshaping)",
@@ -5349,6 +5478,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-progenitor-heritage-base",
+      "trait-large-size",
+      "trait-absolute-mental-fortitude",
+      "trait-matter-reshaping-special-ability"
+    ],
+    "species_traits": [
+      "trait-progenitor-heritage-base",
+      "trait-large-size",
+      "trait-absolute-mental-fortitude",
+      "trait-matter-reshaping-special-ability"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -5395,21 +5537,10 @@ export const DEFAULT_SPECIES = [
     "bonus_skill_choices": [
       "All Categories"
     ],
-    "inherent_features": [
-      "trait-progenitor-heritage-base",
-      "trait-large-size",
-      "trait-absolute-mental-fortitude",
-      "trait-matter-reshaping-special-ability"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Temporal Fold",
-      "Dimensional Sever",
-      "Universal Translation"
-    ],
-    "recommended_features": [
-      "feature-temporal-fold"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Deific (-6), Xeno (-2)",
     "tech_level": "5 (Exotic Precursor Tech)",
     "meta_level": "6 (Deific Metaphysics)",
@@ -5434,6 +5565,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-corrupted-void-traits",
+      "trait-aberrant-mutations-tentacles-eyes-claws",
+      "trait-void-resonance"
+    ],
+    "species_traits": [
+      "trait-corrupted-void-traits",
+      "trait-aberrant-mutations-tentacles-eyes-claws",
+      "trait-void-resonance"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 10
@@ -5456,20 +5598,10 @@ export const DEFAULT_SPECIES = [
       "Survival",
       "Intimidation"
     ],
-    "inherent_features": [
-      "trait-corrupted-void-traits",
-      "trait-aberrant-mutations-tentacles-eyes-claws",
-      "trait-void-resonance"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Chaos Burst",
-      "Mind Horror",
-      "Flesh Warp"
-    ],
-    "recommended_features": [
-      "feature-chaos-burst"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Monstrous (-4)",
     "tech_level": "2 (Scavenged Warp Relics)",
     "meta_level": "3 (Chaotic Void Warping)",
@@ -5494,6 +5626,33 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-ageless",
+      "trait-alter-form-void-wisp-shadow-special-ability",
+      "trait-awakened-void",
+      "trait-fast-healing",
+      "trait-immortal",
+      "trait-non-typical-anatomy",
+      "trait-regeneration-2-hp-rnd",
+      "trait-semi-corporeal",
+      "trait-telepathic-100ft",
+      "trait-flight",
+      "trait-vampiric-4-essence-drain-need"
+    ],
+    "species_traits": [
+      "trait-ageless",
+      "trait-alter-form-void-wisp-shadow-special-ability",
+      "trait-awakened-void",
+      "trait-fast-healing",
+      "trait-immortal",
+      "trait-non-typical-anatomy",
+      "trait-regeneration-2-hp-rnd",
+      "trait-semi-corporeal",
+      "trait-telepathic-100ft",
+      "trait-flight",
+      "trait-vampiric-4-essence-drain-need"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Wisdom",
@@ -5525,28 +5684,10 @@ export const DEFAULT_SPECIES = [
       "Intimidation",
       "Discipline"
     ],
-    "inherent_features": [
-      "trait-ageless",
-      "trait-alter-form-void-wisp-shadow-special-ability",
-      "trait-awakened-void",
-      "trait-fast-healing",
-      "trait-immortal",
-      "trait-non-typical-anatomy",
-      "trait-regeneration-2-hp-rnd",
-      "trait-semi-corporeal",
-      "trait-telepathic-100ft",
-      "trait-flight",
-      "trait-vampiric-4-essence-drain-need"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Void Stride",
-      "Shadow Tendrils",
-      "Mind Drain"
-    ],
-    "recommended_features": [
-      "feature-void-stride"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Monstrous (-6), Xeno (-2)",
     "tech_level": "4 (Void Siphons & Dark Matter Taps)",
     "meta_level": "5 (Void Reality-Warping)",
@@ -5571,6 +5712,31 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-ageless",
+      "trait-alter-form-advanced",
+      "trait-awakened-void",
+      "trait-fast-healing",
+      "trait-immortal",
+      "trait-non-typical-anatomy",
+      "trait-regeneration",
+      "trait-semi-corporeal-pass-through-walls",
+      "trait-telepathic",
+      "trait-flight"
+    ],
+    "species_traits": [
+      "trait-ageless",
+      "trait-alter-form-advanced",
+      "trait-awakened-void",
+      "trait-fast-healing",
+      "trait-immortal",
+      "trait-non-typical-anatomy",
+      "trait-regeneration",
+      "trait-semi-corporeal-pass-through-walls",
+      "trait-telepathic",
+      "trait-flight"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 42
@@ -5589,27 +5755,10 @@ export const DEFAULT_SPECIES = [
       "Attune",
       "Insight"
     ],
-    "inherent_features": [
-      "trait-ageless",
-      "trait-alter-form-advanced",
-      "trait-awakened-void",
-      "trait-fast-healing",
-      "trait-immortal",
-      "trait-non-typical-anatomy",
-      "trait-regeneration",
-      "trait-semi-corporeal-pass-through-walls",
-      "trait-telepathic",
-      "trait-flight"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Ethereal Fade",
-      "Ghost Whisper",
-      "Chilling Aura"
-    ],
-    "recommended_features": [
-      "feature-ethereal-fade"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Ethereal Lattice Tech)",
     "meta_level": "5 (High Spectral Metaphysics)",
@@ -5634,6 +5783,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-digitized-mind",
+      "trait-robotic-strength",
+      "trait-resilient-design"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-digitized-mind",
+      "trait-robotic-strength",
+      "trait-resilient-design"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -5680,22 +5842,10 @@ export const DEFAULT_SPECIES = [
       "Technology",
       "Discipline"
     ],
-    "inherent_features": [
-      "trait-synthetic-traits-immune-to-biological-needs-poison-asphyxiation-structure-points-resilient-design-dr-5-low-light-vision",
-      "trait-digitized-mind-advantage-vs-mental-effects",
-      "trait-robotic-strength-lifting-1-category-larger"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Sub-Routine Matrix",
-      "Integrated Scanner",
-      "Overclock Burst",
-      "Logic Engine"
-    ],
-    "recommended_features": [
-      "feature-sub-routine-matrix",
-      "feature-logic-engine"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "None to Minor Synthetic (-1)",
     "tech_level": "4 (Optronic Cores & Piezoelectric Myomer)",
     "meta_level": "0 (Null)",
@@ -5720,6 +5870,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-adaptive-aspects-rapid-evolutionary-resistance",
+      "trait-self-healing-bio-circuits",
+      "trait-hybrid-metabolism-fuel-or-food"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-adaptive-aspects-rapid-evolutionary-resistance",
+      "trait-self-healing-bio-circuits",
+      "trait-hybrid-metabolism-fuel-or-food"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -5752,21 +5915,10 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Discipline"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-adaptive-aspects-rapid-evolutionary-resistance",
-      "trait-self-healing-bio-circuits",
-      "trait-hybrid-metabolism-fuel-or-food"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Chitin Plating",
-      "Bio-Electric Arc",
-      "Neural Overclock"
-    ],
-    "recommended_features": [
-      "feature-chitin-plating"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Biomechanical Synthesis)",
     "meta_level": "2 (Cyber-Psionics)",
@@ -5792,6 +5944,21 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-crystalline-photonic-physiology",
+      "trait-consensus-mesh-telepathy",
+      "trait-photonic-bleed-energy-sustenance",
+      "trait-tech-level-5-meta-level-5-relic-matrix"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-crystalline-photonic-physiology",
+      "trait-consensus-mesh-telepathy",
+      "trait-photonic-bleed-energy-sustenance",
+      "trait-tech-level-5-meta-level-5-relic-matrix"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -5827,22 +5994,10 @@ export const DEFAULT_SPECIES = [
       "Attune",
       "Computation"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-crystalline-photonic-physiology",
-      "trait-consensus-mesh-telepathy",
-      "trait-photonic-bleed-energy-sustenance",
-      "trait-tech-level-5-meta-level-5-relic-matrix"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Photonic Laser Discharge",
-      "Spacetime Fold",
-      "Quantum Memory"
-    ],
-    "recommended_features": [
-      "feature-spacetime-fold"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Synthetic (-2), Severe Xeno (-6)",
     "tech_level": "5 (Zero-Point Energy & Chrono-Lattices)",
     "meta_level": "5 (Crystalline Metaphysics)",
@@ -5867,6 +6022,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-large-size",
+      "trait-stone-metal-alloy-body-dr-8",
+      "trait-magic-core-power",
+      "trait-spell-resistance-4-vs-magic"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-large-size",
+      "trait-stone-metal-alloy-body-dr-8",
+      "trait-magic-core-power",
+      "trait-spell-resistance-4-vs-magic"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -5945,22 +6115,10 @@ export const DEFAULT_SPECIES = [
       "Intimidation",
       "Athletics"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-large-size",
-      "trait-stone-metal-alloy-body-dr-8",
-      "trait-magic-core-power",
-      "trait-spell-resistance-4-vs-magic"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Runic Ward",
-      "Earth Shaker",
-      "Unstoppable Bulk"
-    ],
-    "recommended_features": [
-      "feature-runic-ward"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "2 (Arcane Masonry & Runic Seals)",
     "meta_level": "4 (Runic Core Animation)",
@@ -5985,6 +6143,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-comms-array-mastery-instant-holo-link",
+      "trait-companion-remotes-commands-2-drone-units",
+      "trait-hyper-threading-logic-engine"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-comms-array-mastery-instant-holo-link",
+      "trait-companion-remotes-commands-2-drone-units",
+      "trait-hyper-threading-logic-engine"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -6094,21 +6265,10 @@ export const DEFAULT_SPECIES = [
       "Tactics",
       "Attune"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-comms-array-mastery-instant-holo-link",
-      "trait-companion-remotes-commands-2-drone-units",
-      "trait-hyper-threading-logic-engine"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Cybernetic Possession",
-      "Quantum Decryption",
-      "System Lockout"
-    ],
-    "recommended_features": [
-      "feature-quantum-decryption"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "5 (Singularity Computing)",
     "meta_level": "2 (Digital Psionics)",
@@ -6133,6 +6293,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-double-adaptive-aspects",
+      "trait-telepathic-technopathic-network",
+      "trait-tech-assimilation-integrates-alien-gear-instantly",
+      "trait-technokinesis-special-ability"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-double-adaptive-aspects",
+      "trait-telepathic-technopathic-network",
+      "trait-tech-assimilation-integrates-alien-gear-instantly",
+      "trait-technokinesis-special-ability"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -6168,22 +6343,10 @@ export const DEFAULT_SPECIES = [
       "Hacking",
       "Discipline"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-double-adaptive-aspects",
-      "trait-telepathic-technopathic-network",
-      "trait-tech-assimilation-integrates-alien-gear-instantly",
-      "trait-technokinesis-special-ability"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Machine Overcharge",
-      "Nanite Swarm Shield",
-      "Hardware Cannibalize"
-    ],
-    "recommended_features": [
-      "feature-technokinesis"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "4 (Adaptive Nanite Reconfiguration)",
     "meta_level": "3 (Technomancy)",
@@ -6208,6 +6371,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-adaptive-task-aspects",
+      "trait-tech-assimilation-rapid-tool-swap",
+      "trait-flawless-etiquette-calculation"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-adaptive-task-aspects",
+      "trait-tech-assimilation-rapid-tool-swap",
+      "trait-flawless-etiquette-calculation"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -6240,21 +6416,10 @@ export const DEFAULT_SPECIES = [
       "Medicine",
       "Law"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-adaptive-task-aspects",
-      "trait-tech-assimilation-rapid-tool-swap",
-      "trait-flawless-etiquette-calculation"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Emergency Combat Override",
-      "Multilingual Core",
-      "Audit Directive"
-    ],
-    "recommended_features": [
-      "feature-multilingual-core"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Synthetic (-4), Anti-Organic (-2)",
     "tech_level": "4 (High-Density Directive Processing)",
     "meta_level": "0 (Null)",
@@ -6279,6 +6444,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-heavy-augmentation-slots-3-free-cyber-slots",
+      "trait-field-self-repair-protocol",
+      "trait-scrap-plating-dr-6"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-heavy-augmentation-slots-3-free-cyber-slots",
+      "trait-field-self-repair-protocol",
+      "trait-scrap-plating-dr-6"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
@@ -6314,21 +6492,10 @@ export const DEFAULT_SPECIES = [
       "Combat (Improvised)",
       "Streetwise"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-heavy-augmentation-slots-3-free-cyber-slots",
-      "trait-field-self-repair-protocol",
-      "trait-scrap-plating-dr-6"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Weapon Hardpoint Mount",
-      "Overcharged Capacitor",
-      "EMP Hardening"
-    ],
-    "recommended_features": [
-      "feature-weapon-hardpoint-mount"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Synthetic (-2)",
     "tech_level": "3 (Salvage & Reclaimed Hardware)",
     "meta_level": "0 (Null)",
@@ -6354,6 +6521,19 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-treads"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-reinforced-chassis-dr-6",
+      "trait-heavy-industrial-motors",
+      "trait-direct-usb-data-jack"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-reinforced-chassis-dr-6",
+      "trait-heavy-industrial-motors",
+      "trait-direct-usb-data-jack"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
@@ -6409,21 +6589,10 @@ export const DEFAULT_SPECIES = [
       "Engineering",
       "Combat (Heavy)"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-reinforced-chassis-dr-6",
-      "trait-heavy-industrial-motors",
-      "trait-direct-usb-data-jack"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Hydraulic Piston Slam",
-      "Battery Surge",
-      "Tireless Labor"
-    ],
-    "recommended_features": [
-      "feature-reinforced-chassis"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Synthetic (-4)",
     "tech_level": "3 (Industrial Heavy Mechanics)",
     "meta_level": "0 (Null)",
@@ -6448,6 +6617,17 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-neural-stack-integration-organic-consciousness-housing",
+      "trait-ghost-in-the-machine-resilience"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-neural-stack-integration-organic-consciousness-housing",
+      "trait-ghost-in-the-machine-resilience"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 32
@@ -6459,20 +6639,10 @@ export const DEFAULT_SPECIES = [
     "bonus_skill_choices": [
       "All Categories (Retains Previous Organic Training)"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-neural-stack-integration-organic-consciousness-housing",
-      "trait-ghost-in-the-machine-resilience"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Cortical Backup",
-      "Sensor Upgrade",
-      "Neural Stability"
-    ],
-    "recommended_features": [
-      "feature-cortical-backup"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Synthetic (-2)",
     "tech_level": "4 (Cortical Stacks & Sleeves)",
     "meta_level": "1 (Residual Soul)",
@@ -6497,6 +6667,19 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans",
+      "trait-alter-self-advanced-cellular-surface",
+      "trait-thermal-simulation"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans",
+      "trait-alter-self-advanced-cellular-surface",
+      "trait-thermal-simulation"
+    ],
+    "disadvantages": [],
     "modifiers": [],
     "costs": {
       "bp": 29
@@ -6521,21 +6704,10 @@ export const DEFAULT_SPECIES = [
       "Stealth",
       "Technology"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans",
-      "trait-alter-self-advanced-cellular-surface",
-      "trait-thermal-simulation"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Voice Mimicry",
-      "Memory Tap",
-      "Silent Hydraulics"
-    ],
-    "recommended_features": [
-      "feature-voice-mimicry"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Secret (-6) / Severe if Exposed",
     "tech_level": "4 (Bio-Synthetic Weave & Organic Cloaking)",
     "meta_level": "1 (Neural Empathy)",
@@ -6560,6 +6732,21 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "traits": [
+      "trait-synthetic-base-traits",
+      "trait-hive-mind-protocol",
+      "trait-fine-size-6-stealth-passes-through-keyholes",
+      "trait-dispersal-defense-immune-to-single-target-physical-attacks",
+      "trait-nano-flight-30ft"
+    ],
+    "species_traits": [
+      "trait-synthetic-base-traits",
+      "trait-hive-mind-protocol",
+      "trait-fine-size-6-stealth-passes-through-keyholes",
+      "trait-dispersal-defense-immune-to-single-target-physical-attacks",
+      "trait-nano-flight-30ft"
+    ],
+    "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
@@ -6619,22 +6806,10 @@ export const DEFAULT_SPECIES = [
       "Stealth",
       "Science"
     ],
-    "inherent_features": [
-      "trait-synthetic-base-traits",
-      "trait-hive-mind-protocol",
-      "trait-fine-size-6-stealth-passes-through-keyholes",
-      "trait-dispersal-defense-immune-to-single-target-physical-attacks",
-      "trait-nano-flight-30ft"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [
-      "Circuit Infiltration",
-      "Cloud Suffocation",
-      "Shape Mimicry"
-    ],
-    "recommended_features": [
-      "feature-dispersal-defense"
-    ],
+    "bonus_feature_choices": [],
+    "recommended_features": [],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "4 (Micro-Drone & Nanite Lattices)",
     "meta_level": "1 (Swarm Resonance)",

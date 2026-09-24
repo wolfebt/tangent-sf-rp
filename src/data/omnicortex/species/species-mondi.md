@@ -30,19 +30,10 @@ bonus_skill_choices:
   - Science
   - Diplomacy
   - Philosophy
-inherent_features:
-  - trait-awakened-psychic
-  - trait-telepathic-150ft
-  - trait-adaptive-aspects
-  - trait-flight-telekinetic-levitation-30ft
-  - trait-bioluminescent-body-glow
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Psychic Barrier
-  - Calming Aura
-  - Telekinetic Wave
-recommended_features:
-  - feature-psychic-barrier
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Xeno (-2), Luminescent (-1)'
 tech_level: 4 (Psi-Amplifier Holo-Suits)
 meta_level: 4 (High Psionics)
@@ -57,10 +48,15 @@ modifiers:
 cp_cost: 24
 cp: 24
 bp: 24
-description: >-
-  Slender, glowing humanoids whose feet never touch the ground, communicating
-  exclusively via harmonic telepathy and telekinetic flight.
+description: 'Slender, glowing humanoids whose feet never touch the ground, communicating exclusively via harmonic telepathy and telekinetic flight.'
+traits:
+  - trait-awakened-psychic
+  - trait-telepathic-150ft
+  - trait-adaptive-aspects
+  - trait-flight-telekinetic-levitation-30ft
+  - trait-bioluminescent-body-glow
 ---
+
 # Mondi (Psionic Luminous Entity)
 
 *

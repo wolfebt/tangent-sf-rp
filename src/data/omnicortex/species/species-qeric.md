@@ -31,20 +31,10 @@ bonus_skill_choices:
   - Stealth
   - Perception
   - Sleight of Hand
-inherent_features:
-  - trait-small-size
-  - trait-climbing
-  - trait-patagia-glide-30ft
-  - trait-multidextrous
-  - trait-uncanny-senses-acute-scent
-  - trait-climb-speed-30ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Tree Glider
-  - Quick Escape
-  - Charm Whisper
-recommended_features:
-  - feature-tree-glider
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-4)
 tech_level: 2 (Lightweight Harnesses)
 meta_level: 1 (Animalistic Empathy)
@@ -75,10 +65,16 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: >-
-  Small, charismatic mammalian quadrupeds with patagial gliding membranes who
-  navigate high-canopy habitats and urban catwalks.
+description: 'Small, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks.'
+traits:
+  - trait-small-size
+  - trait-climbing
+  - trait-patagia-glide-30ft
+  - trait-multidextrous
+  - trait-uncanny-senses-acute-scent
+  - trait-climb-speed-30ft
 ---
+
 # Qeric (Gliding Beastfolk)
 
 ## Description

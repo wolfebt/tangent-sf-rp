@@ -13,9 +13,7 @@ movement:
 speeds: Flight 60 ft
 reach: 1 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 1
@@ -31,19 +29,10 @@ bonus_skill_choices:
   - Hacking
   - Stealth
   - Science
-inherent_features:
-  - trait-synthetic-base-traits
-  - trait-hive-mind-protocol
-  - trait-fine-size-6-stealth-passes-through-keyholes
-  - trait-dispersal-defense-immune-to-single-target-physical-attacks
-  - trait-nano-flight-30ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Circuit Infiltration
-  - Cloud Suffocation
-  - Shape Mimicry
-recommended_features:
-  - feature-dispersal-defense
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Synthetic (-4)
 tech_level: 4 (Micro-Drone & Nanite Lattices)
 meta_level: 1 (Swarm Resonance)
@@ -74,11 +63,15 @@ modifiers:
 cp_cost: 78
 cp: 78
 bp: 78
-description: >-
-  A cloud of billions of microscopic robotic drones functioning as a singular
-  distributed intelligence, able to seep through vents and infiltrate secure
-  systems.
+description: 'A cloud of billions of microscopic robotic drones functioning as a singular distributed intelligence, able to seep through vents and infiltrate secure systems.'
+traits:
+  - trait-synthetic-base-traits
+  - trait-hive-mind-protocol
+  - trait-fine-size-6-stealth-passes-through-keyholes
+  - trait-dispersal-defense-immune-to-single-target-physical-attacks
+  - trait-nano-flight-30ft
 ---
+
 # Swarm (Nanite / Micro-Drone Collective)
 
 ## **SWARM**

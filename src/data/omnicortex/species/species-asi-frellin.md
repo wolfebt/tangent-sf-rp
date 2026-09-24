@@ -32,22 +32,10 @@ bonus_skill_choices:
   - Science
   - Navigation
   - Attune
-inherent_features:
-  - trait-asi-base-traits
-  - trait-tiny-size
-  - trait-awakened-arcane
-  - trait-telepathy-special-ability
-  - trait-flight-winged-40ft
-  - trait-dark-sight
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Aerial Acrobatics
-  - Sonic Trill
-  - Mind Link
-  - Far-Sight
-recommended_features:
-  - feature-mind-link
-  - feature-far-sight
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 3 (Crystal Transceivers)
 meta_level: 4 (Aero-Psionics & Telepathy)
@@ -78,11 +66,16 @@ modifiers:
 cp_cost: 31
 cp: 31
 bp: 31
-description: >-
-  Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
-  messengers, and navigators, they read wind currents and psychic frequencies
-  with equal precision.
+description: 'Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts, messengers, and navigators, they read wind currents and psychic frequencies with equal precision.'
+traits:
+  - trait-asi-base-traits
+  - trait-tiny-size
+  - trait-awakened-arcane
+  - trait-telepathy-special-ability
+  - trait-flight-winged-40ft
+  - trait-dark-sight
 ---
+
 # Frellin (Avian Fey)
 
 *

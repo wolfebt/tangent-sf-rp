@@ -33,17 +33,10 @@ bonus_skill_choices:
   - Intimidation
   - Athletics
   - Survival
-inherent_features:
-  - trait-exoskeleton-light-chitin-dr-3
-  - trait-rage-4-str-2-defense-in-combat-1-enc
-  - trait-heavy-strike-2-damage
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Furious Slam
-  - Crushing Grip
-  - Pheromone Frenzy
-recommended_features:
-  - feature-furious-slam
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Savage (-4), Xeno (-2)'
 tech_level: 2 (Heavy Ballistic Scrap Guns & Cleavers)
 meta_level: 0 (Null)
@@ -82,10 +75,13 @@ modifiers:
 cp_cost: 33
 cp: 33
 bp: 33
-description: >-
-  Fierce, armored insectoid-humanoid berserkers revered for their devastating
-  physical power and terrifying combat rages.
+description: 'Fierce, armored insectoid-humanoid berserkers revered for their devastating physical power and terrifying combat rages.'
+traits:
+  - trait-exoskeleton-light-chitin-dr-3
+  - trait-rage-4-str-2-defense-in-combat-1-enc
+  - trait-heavy-strike-2-damage
 ---
+
 # Orll (Brute Insectoid Humanoid)
 
 # 

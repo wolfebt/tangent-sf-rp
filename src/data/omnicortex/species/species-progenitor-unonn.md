@@ -24,18 +24,10 @@ specific_skill_bonuses:
 bonus_skills: 40
 bonus_skill_choices:
   - All Categories
-inherent_features:
-  - trait-progenitor-heritage-base
-  - trait-large-size
-  - trait-absolute-mental-fortitude
-  - trait-matter-reshaping-special-ability
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Temporal Fold
-  - Dimensional Sever
-  - Universal Translation
-recommended_features:
-  - feature-temporal-fold
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Exotic Precursor Tech)
 meta_level: 6 (Deific Metaphysics)
@@ -62,10 +54,14 @@ modifiers:
 cp_cost: 81
 cp: 81
 bp: 81
-description: >-
-  U’Nonn are ancient primordial progenitors who command matter and energy
-  directly through pure thought and deific metaphysical matrices.
+description: U’Nonn are ancient primordial progenitors who command matter and energy directly through pure thought and deific metaphysical matrices.
+traits:
+  - trait-progenitor-heritage-base
+  - trait-large-size
+  - trait-absolute-mental-fortitude
+  - trait-matter-reshaping-special-ability
 ---
+
 # U’Nonn (Ancient Reality Shaper)
 
 ## 

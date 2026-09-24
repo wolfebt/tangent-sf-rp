@@ -30,18 +30,9 @@ bonus_skill_choices:
   - Intimidation
   - Combat
   - Engineering (Heavy)
-inherent_features:
-  - trait-climber
-  - trait-low-light-vision
-  - trait-mighty-surge-bonus-str-athletics
-  - trait-prehensile-tail-feet
-  - trait-acute-scent
-  - trait-climb-speed-30ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Brachiation Mastery
-  - Chest Beat Roar
-  - Grip of Iron
+bonus_feature_choices: []
 recommended_features:
   - feature-mighty-surge
 stigma: Minor Xeno (-1)
@@ -74,10 +65,16 @@ modifiers:
 cp_cost: 21
 cp: 21
 bp: 21
-description: >-
-  Powerful simian beings combining immense upper-body strength with prehensile
-  four-limb dexterity and climbing speed.
+description: Powerful simian beings combining immense upper-body strength with prehensile four-limb dexterity and climbing speed.
+traits:
+  - trait-climber
+  - trait-low-light-vision
+  - trait-mighty-surge-bonus-str-athletics
+  - trait-prehensile-tail-feet
+  - trait-acute-scent
+  - trait-climb-speed-30ft
 ---
+
 # Kongi (Simian Juggernaut)
 
 # 

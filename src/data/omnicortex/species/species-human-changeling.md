@@ -27,16 +27,10 @@ bonus_skill_choices:
   - Insight
   - Persuasion
   - Stealth
-inherent_features:
-  - trait-alter-form-minor-facial-skin-hair-shift
-  - trait-intuitive-empathy
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Voice Mimicry
-  - Pheromone Mask
-  - Social Chameleon
-recommended_features:
-  - feature-voice-mimicry
+bonus_feature_choices: []
+recommended_features: []
 stigma: Shifter (-2)
 tech_level: 3 (Cosmetic Synthesis)
 meta_level: 2 (Empathic Resonance)
@@ -51,11 +45,12 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
-  subtly alter their facial structure, voice, and eye pigments to adopt distinct
-  personas.
+description: 'Changelings are human-aeld hybrids carrying dormant shifter alleles. They can subtly alter their facial structure, voice, and eye pigments to adopt distinct personas.'
+traits:
+  - trait-alter-form-minor-facial-skin-hair-shift
+  - trait-intuitive-empathy
 ---
+
 # Changeling (Human-Aeld Hybrid)
 
 **BP Cost:**   

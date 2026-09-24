@@ -36,19 +36,10 @@ bonus_skill_choices:
   - Athletics
   - Survival
   - Combat (Ambush)
-inherent_features:
-  - trait-kitin-base-traits
-  - trait-climber-ceiling-walk
-  - trait-multidextrous-6-limbs
-  - trait-quick-movement
-  - trait-venomous-bite
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Web Spinner
-  - Shadow Chitin
-  - Paralytic Toxin
-recommended_features:
-  - feature-web-spinner
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Silk Weaves & Neurotoxin Darts)
 meta_level: 2 (Vibrational Sense)
@@ -75,10 +66,15 @@ modifiers:
 cp_cost: 22
 cp: 22
 bp: 22
-description: >-
-  Rakne are multi-limbed, arachnid-like Kitin predators capable of scaling
-  walls, spinning high-tensile silk webs, and delivering paralytic venom.
+description: 'Rakne are multi-limbed, arachnid-like Kitin predators capable of scaling walls, spinning high-tensile silk webs, and delivering paralytic venom.'
+traits:
+  - trait-kitin-base-traits
+  - trait-climber-ceiling-walk
+  - trait-multidextrous-6-limbs
+  - trait-quick-movement
+  - trait-venomous-bite
 ---
+
 # Rakne (Kitin Arachnoid Aberration)
 
 **BP Cost:**   

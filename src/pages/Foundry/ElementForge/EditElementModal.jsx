@@ -7,6 +7,10 @@ import { attachCreatorTag } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { useStory } from '../../../context/CampaignContext';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
+import { ModularCharacterAssembler } from './components/ModularCharacterAssembler';
+import { NpcScriptBuilder } from './components/NpcScriptBuilder';
+import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
+import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
 
 const AutoExpandingElementTextarea = ({ value, onChange, placeholder, className }) => {
   const textareaRef = useRef(null);
@@ -55,6 +59,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlInputValue, setUrlInputValue] = useState('');
   const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
+  const [isAimeGuidanceOpen, setIsAimeGuidanceOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -190,12 +195,20 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
               </p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-white text-2xl font-bold px-2 py-1 rounded hover:bg-slate-800 transition-colors"
-          >
-            &times;
-          </button>
+          <div className="flex items-center gap-3">
+            <AimeGuidanceButton 
+              onClick={() => setIsAimeGuidanceOpen(true)} 
+              label="AIME Guidance" 
+              size="sm" 
+            />
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-slate-400 hover:text-white text-2xl font-bold px-2 py-1 rounded hover:bg-slate-800 transition-colors cursor-pointer"
+            >
+              &times;
+            </button>
+          </div>
         </div>
 
         {/* Content Body */}
@@ -377,33 +390,56 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
               </div>
             )}
 
-            {/* Tab: Schema Fields */}
+            {/* Tab: Schema Fields & Interactive Modules */}
             {schemaTabs.includes(currentTab) && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {schema.filter(f => (f.tab || 'General') === currentTab).map(f => (
-                  <div key={f.key} className="space-y-1.5">
-                    <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
-                      {f.label}
-                    </label>
-                    {f.type === 'textarea' ? (
-                      <textarea
-                        rows={3}
-                        value={fields[f.key] || ''}
-                        onChange={(e) => handleFieldChange(f.key, e.target.value)}
-                        placeholder={f.placeholder || `Enter ${f.label}...`}
-                        className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed"
-                      />
-                    ) : (
-                      <input
-                        type="text"
-                        value={fields[f.key] || ''}
-                        onChange={(e) => handleFieldChange(f.key, e.target.value)}
-                        placeholder={f.placeholder || `Enter ${f.label}...`}
-                        className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none"
-                      />
-                    )}
-                  </div>
-                ))}
+              <div className="space-y-4">
+                {/* Modular Character Matrix (MCM) Interactive Assembler */}
+                {type === 'Persona' && currentTab === 'Modular Assembly (MCM)' && (
+                  <ModularCharacterAssembler
+                    fields={fields}
+                    onFieldChange={handleFieldChange}
+                    elementTitle={title}
+                    onOpenAimeGuidance={() => setIsAimeGuidanceOpen(true)}
+                  />
+                )}
+
+                {/* Autonomous VTT Script & Relations Builder */}
+                {type === 'Persona' && currentTab === 'Relations & Scripting' && (
+                  <NpcScriptBuilder
+                    fields={fields}
+                    onFieldChange={handleFieldChange}
+                    elementTitle={title}
+                    onOpenAimeGuidance={() => setIsAimeGuidanceOpen(true)}
+                  />
+                )}
+
+                {/* Standard Schema Field Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {schema.filter(f => (f.tab || 'General') === currentTab).map(f => (
+                    <div key={f.key} className="space-y-1.5">
+                      <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
+                        {f.label}
+                      </label>
+                      {f.type === 'textarea' ? (
+                        <textarea
+                          rows={3}
+                          value={fields[f.key] || ''}
+                          onChange={(e) => handleFieldChange(f.key, e.target.value)}
+                          placeholder={f.placeholder || `Enter ${f.label}...`}
+                          className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed"
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={fields[f.key] || ''}
+                          onChange={(e) => handleFieldChange(f.key, e.target.value)}
+                          placeholder={f.placeholder || `Enter ${f.label}...`}
+                          className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -511,6 +547,27 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
           onApplyAsset={(asset) => {
             if (asset.prompt && !fields.summary) {
               handleFieldChange('summary', asset.prompt.substring(0, 160));
+            }
+          }}
+        />
+      )}
+
+      {isAimeGuidanceOpen && (
+        <AimeGuidanceFlyout
+          isOpen={isAimeGuidanceOpen}
+          onClose={() => setIsAimeGuidanceOpen(false)}
+          targetType={currentTab.includes('Script') ? 'VttScript' : (currentTab.includes('Relations') ? 'Relations' : (type === 'Persona' ? 'Persona' : 'Story'))}
+          contextData={{
+            title,
+            type,
+            fields,
+            content
+          }}
+          onApplyGuidance={(suggestion) => {
+            if (!content) {
+              setContent(suggestion);
+            } else if (!fields.summary) {
+              handleFieldChange('summary', suggestion.slice(0, 200));
             }
           }}
         />

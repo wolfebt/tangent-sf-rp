@@ -32,19 +32,10 @@ bonus_skill_choices:
   - Technology
   - Perception
   - Acrobatics
-inherent_features:
-  - trait-digitigrade
-  - trait-low-light-vision
-  - trait-acute-scent
-  - trait-silent-stride
-  - trait-retractable-claws
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Ambush Reflex
-  - Nimble Leap
-  - Inquisitive Mind
-recommended_features:
-  - feature-ambush-reflex
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Sensory Scanners & Covert Tech)
 meta_level: 2 (Intuitive Psionics)
@@ -63,10 +54,15 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: >-
-  Sleek feline humanoids known for sharp intellects, stealth, curiosity, and
-  forensic deductive abilities.
+description: 'Sleek feline humanoids known for sharp intellects, stealth, curiosity, and forensic deductive abilities.'
+traits:
+  - trait-digitigrade
+  - trait-low-light-vision
+  - trait-acute-scent
+  - trait-silent-stride
+  - trait-retractable-claws
 ---
+
 # Kizin (Feline Scout)
 
 **BP Cost:**   

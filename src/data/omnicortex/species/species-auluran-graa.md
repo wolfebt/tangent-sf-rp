@@ -26,21 +26,10 @@ bonus_skill_choices:
   - Athletics
   - Intimidation
   - Combat (Natural)
-inherent_features:
-  - trait-auluran-base-traits
-  - trait-large-size
-  - trait-armless-4-penalty-to-manipulation
-  - trait-quick-speed
-  - trait-martial-arts
-  - trait-quadruped-speed-40ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Crushing Jaw
-  - Thick Hide (DR 4/-)
-  - Savage Charge
-recommended_features:
-  - feature-crushing-jaw
-  - feature-savage-charge
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 2 (Symbiotic Harnesses)
 meta_level: 1 (Pheromone Network)
@@ -67,11 +56,16 @@ modifiers:
 cp_cost: 19
 cp: 19
 bp: 19
-description: >-
-  The Graa are massive quadrupedal Auluran juggernauts. Lacking fine
-  manipulative hands, they make up for it with crushing jaw power, thick hide,
-  and devastating combat charges.
+description: 'The Graa are massive quadrupedal Auluran juggernauts. Lacking fine manipulative hands, they make up for it with crushing jaw power, thick hide, and devastating combat charges.'
+traits:
+  - trait-auluran-base-traits
+  - trait-large-size
+  - trait-armless-4-penalty-to-manipulation
+  - trait-quick-speed
+  - trait-martial-arts
+  - trait-quadruped-speed-40ft
 ---
+
 # Graa (Auluran Heavy Beast Caste)
 
 ## **GRAA**

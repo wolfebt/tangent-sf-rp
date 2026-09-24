@@ -26,20 +26,10 @@ bonus_skill_choices:
   - Perception
   - Intimidation
   - Combat
-inherent_features:
-  - trait-kitin-base-traits
-  - trait-blindsight-60ft
-  - trait-exoskeleton-dr-4
-  - trait-fast-healing-regeneration
-  - trait-telepathic-hive-node
-  - trait-swarm-entity-resistant-to-single-target-attacks
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Swarm Split
-  - Devouring Cloud
-  - Bio-Electric Shock
-recommended_features:
-  - feature-swarm-split
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Monstrous (-4), Xeno (-2)'
 tech_level: 3 (Swarm Bio-Mass)
 meta_level: 4 (Collective Psionic Core)
@@ -66,10 +56,16 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: >-
-  Riezen are colossal aggregate swarm entities composed of millions of
-  synchronized micro-arthropods behaving as a unified conscious giant.
+description: Riezen are colossal aggregate swarm entities composed of millions of synchronized micro-arthropods behaving as a unified conscious giant.
+traits:
+  - trait-kitin-base-traits
+  - trait-blindsight-60ft
+  - trait-exoskeleton-dr-4
+  - trait-fast-healing-regeneration
+  - trait-telepathic-hive-node
+  - trait-swarm-entity-resistant-to-single-target-attacks
 ---
+
 # Riezen (Kitin Swarm Colossus)
 
 **BP Cost:**   

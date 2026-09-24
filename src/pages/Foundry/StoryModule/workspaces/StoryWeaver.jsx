@@ -20,6 +20,8 @@ import { generateContent, streamContent } from '../../../../services/aimeService
 import { extractNarrativeDeltas } from '../../../../services/cronicleService';
 import { GUIDANCE_GEMS } from '../guidanceGemsConfig';
 import StoryElementExtractorModal from '../StoryElementExtractorModal';
+import AimeGuidanceButton from '../../../../components/StoryFoundry/AimeGuidanceButton';
+import AimeGuidanceFlyout from '../../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { 
   Feather, 
   UserCheck, 
@@ -72,6 +74,7 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
   // Story Element Extractor Modal State
   const [isExtractorModalOpen, setIsExtractorModalOpen] = useState(false);
   const [extractInitialText, setExtractInitialText] = useState('');
+  const [isAimeGuidanceOpen, setIsAimeGuidanceOpen] = useState(false);
 
   // Weaver Sub-Modes: 'manuscript' | 'outline' | 'tactical' | 'genesis'
   const [weaverTab, setWeaverTab] = useState('manuscript');
@@ -546,6 +549,13 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
               <Box size={12} className="text-purple-400" />
               <span>Create Component</span>
             </button>
+
+            {/* AIME Guidance Co-Pilot Button */}
+            <AimeGuidanceButton
+              onClick={() => setIsAimeGuidanceOpen(true)}
+              label="AIME Guidance"
+              size="sm"
+            />
 
             {/* AI Authoring Dropdown */}
             <div className="relative group">
@@ -1053,6 +1063,20 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
           showToast(`✓ Component "${newElem.title}" registered to Omnicortex & Story!`);
         }}
       />
+
+      {/* AIME Guidance Flyout for Story & Scenario Components */}
+      {isAimeGuidanceOpen && (
+        <AimeGuidanceFlyout
+          isOpen={isAimeGuidanceOpen}
+          onClose={() => setIsAimeGuidanceOpen(false)}
+          targetType="Story"
+          contextData={activeNode}
+          onApplyGuidance={(suggestion) => {
+            handleContentChange((content ? content + '<br/><br/>' : '') + `<p>${suggestion.replace(/\n\n/g, '</p><p>')}</p>`);
+            showToast('✓ AIME guidance appended to Manuscript');
+          }}
+        />
+      )}
     </div>
   );
 }

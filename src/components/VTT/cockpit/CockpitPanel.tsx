@@ -14,6 +14,7 @@ import {
   Cpu, 
   FileText, 
   Swords,
+  Shield,
   ExternalLink,
   Sparkles
 } from 'lucide-react';
@@ -268,6 +269,19 @@ export const CockpitPanel: React.FC = () => {
 
         <button
           type="button"
+          onClick={() => setActiveCockpitTab('bastion')}
+          className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
+            activeCockpitTab === 'bastion'
+              ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Shield size={11} />
+          <span>Bastion</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveCockpitTab('inspector')}
           className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
             activeCockpitTab === 'inspector'
@@ -321,6 +335,28 @@ export const CockpitPanel: React.FC = () => {
         {/* TAB 2: MECHA & MODULAR SOCKET MATRIX */}
         {activeCockpitTab === 'mecha' && (
           <MechaCompanionDeck />
+        )}
+
+        {/* TAB: BASTION HQ — COMMAND & LOGISTICS */}
+        {activeCockpitTab === 'bastion' && (
+          <div className="p-6 rounded-lg bg-slate-950/60 border border-slate-800 text-center space-y-2">
+            <div className="flex justify-center mb-2">
+              <div className="p-3 rounded-full bg-amber-950/40 border border-amber-500/30">
+                <Shield size={24} className="text-amber-400" />
+              </div>
+            </div>
+            <p className="text-slate-200 text-xs font-mono font-bold uppercase tracking-wider">
+              Bastion HQ — Command & Logistics
+            </p>
+            <p className="text-slate-400 text-[11px] font-sans">
+              Stronghold upgrades, perimeter defenses, orbital supply strikes, and faction garrisons.
+            </p>
+            <div className="pt-2">
+              <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-mono text-amber-400/80 bg-amber-950/40 border border-amber-800/40">
+                MODULE IN DEVELOPMENT
+              </span>
+            </div>
+          </div>
         )}
 
         {/* TAB 3: GM DYNAMIC INSPECTOR & MULTI-ENTITY BATCH CONTROLS */}

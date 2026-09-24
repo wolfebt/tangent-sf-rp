@@ -44,7 +44,11 @@ export const BEHAVIOR_PROFILES = {
     description: 'Stays tethered to a VIP or squad commander, intercepts incoming chargers, and deploys shields/buffs.',
     moraleThreshold: 0.20,
     evaluateTarget: (adversary, heroes, allies) => {
-      const vip = allies?.find(a => a.isVip || a.role === 'boss') || adversary;
+      const targetVipName = adversary.relations?.vipTarget?.toLowerCase();
+      const vip = allies?.find(a => 
+        (targetVipName && (a.label || a.name || '').toLowerCase().includes(targetVipName)) ||
+        a.isVip || a.role === 'boss'
+      ) || adversary;
       return heroes.slice().sort((a, b) => {
         const distA = Math.hypot((a.x || 0) - (vip.x || 0), (a.y || 0) - (vip.y || 0));
         const distB = Math.hypot((b.x || 0) - (vip.x || 0), (b.y || 0) - (vip.y || 0));
@@ -143,8 +147,24 @@ export function decideAutonomousAction(adversaryToken, heroTokens = [], mapConte
     };
   }
 
-  // Select target based on profile
-  const target = profile.evaluateTarget(adversaryToken, heroTokens, mapContext.allies || []);
+  // Select target based on profile or marked rival
+  let target = null;
+  if (adversaryToken.relations?.rivalTarget) {
+    const rivalSearch = adversaryToken.relations.rivalTarget.toLowerCase();
+    const markedEnemy = heroTokens.find(h => 
+      (h.label || h.name || '').toLowerCase().includes(rivalSearch) ||
+      h.id === adversaryToken.relations.rivalTarget ||
+      h.storyElementId === adversaryToken.relations.rivalTarget
+    );
+    if (markedEnemy) {
+      target = markedEnemy;
+    }
+  }
+
+  if (!target) {
+    target = profile.evaluateTarget(adversaryToken, heroTokens, mapContext.allies || []);
+  }
+
   if (!target) {
     return {
       status: 'no_target',

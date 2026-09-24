@@ -29,18 +29,10 @@ bonus_skill_choices:
   - Insight
   - Attune
   - Language
-inherent_features:
-  - trait-kitin-base-traits
-  - trait-humanoid-stance
-  - trait-pheromone-translator
-  - trait-telepathic-voice
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Hive Empathy
-  - Mental Barrier
-  - Sympathetic Resonance
-recommended_features:
-  - feature-hive-empathy
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Tech Synapses)
 meta_level: 3 (Telepathic Diplomacy)
@@ -55,10 +47,14 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Manelli are humanoid-shaped Kitin who act as ambassadors, envoys, and
-  translators between the hive mind and carbon civilizations.
+description: 'Manelli are humanoid-shaped Kitin who act as ambassadors, envoys, and translators between the hive mind and carbon civilizations.'
+traits:
+  - trait-kitin-base-traits
+  - trait-humanoid-stance
+  - trait-pheromone-translator
+  - trait-telepathic-voice
 ---
+
 # Manelli (Kitin Humanoid Caste)
 
 **BP Cost:**   

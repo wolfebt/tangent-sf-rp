@@ -35,6 +35,7 @@ import { useCampaign } from '../../context/CampaignContext';
 import { useEngineStore, selectAllFusedTokens } from '../../engine/index';
 import { useUILayoutStore, type UserVttRole } from './store/uiLayoutStore';
 import { AudioService } from '../../services/audioService';
+import { VttEventBus } from '../../utils/vttEventBus';
 
 export interface TripartiteStageViewProps extends StageViewProps {
   defaultRole?: UserVttRole;
@@ -48,7 +49,6 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const scenarioIdParam = searchParams.get('scenarioId') || undefined;
   const mapIdParam = searchParams.get('mapId') || undefined;
 
-  const [isScenarioDrawerOpen, setIsScenarioDrawerOpen] = useState(false);
 
   // Layout & Tool Reactive State
   const {
@@ -339,9 +339,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
                 handleDeployElementFromDrawer(asset, pos);
               }}
               onOpenTacticalModal={(token: any) => {
-                window.dispatchEvent(new CustomEvent('open-tactical-play-modal', {
-                  detail: { token }
-                }));
+                VttEventBus.emit('open-tactical-play-modal', { token });
               }}
             />
           </div>
@@ -425,11 +423,11 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             onToggleLayerVisibility={handleToggleLayerVisibility}
             onToggleLayerLock={handleToggleLayerLock}
             customAssets={universeState?.customAssets || { terrains: [], objects: [] }}
-            onOpenLandmassGenerator={() => window.dispatchEvent(new CustomEvent('open-landmass-modal'))}
-            onOpenUvttImport={() => window.dispatchEvent(new CustomEvent('open-uvtt-modal'))}
-            onOpenAssetManager={() => window.dispatchEvent(new CustomEvent('open-asset-manager'))}
-            onOpenHeroDrawer={() => window.dispatchEvent(new CustomEvent('open-hero-drawer'))}
-            onOpenOmnicortexDrawer={() => window.dispatchEvent(new CustomEvent('open-omnicortex-drawer'))}
+            onOpenLandmassGenerator={() => VttEventBus.emit('open-landmass-modal')}
+            onOpenUvttImport={() => VttEventBus.emit('open-uvtt-modal')}
+            onOpenAssetManager={() => VttEventBus.emit('open-asset-manager')}
+            onOpenHeroDrawer={() => VttEventBus.emit('open-hero-drawer')}
+            onOpenOmnicortexDrawer={() => VttEventBus.emit('open-omnicortex-drawer')}
           />
         </div>
       </div>
@@ -451,7 +449,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               AudioService.playTerminalBeep(1200, 0.04);
             }}
             onOpenUnderlayModal={() => {
-              window.dispatchEvent(new CustomEvent('open-underlay-modal'));
+              VttEventBus.emit('open-underlay-modal');
             }}
           />
         }
@@ -470,14 +468,6 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         className="w-full h-full"
       />
 
-      {/* In-Situ ADE Scenario Drawer */}
-      <ADEScenarioStageDrawer
-        isOpen={isScenarioDrawerOpen}
-        onClose={() => setIsScenarioDrawerOpen(false)}
-        activeScenarioId={scenarioIdParam}
-        onDeployElement={handleDeployElementFromDrawer}
-        onDeployAllElements={handleDeployAllElementsFromDrawer}
-      />
     </div>
   );
 };

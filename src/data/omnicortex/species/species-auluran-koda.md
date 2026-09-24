@@ -29,20 +29,10 @@ bonus_skill_choices:
   - Athletics
   - Engineering
   - Science
-inherent_features:
-  - trait-auluran-base-traits
-  - trait-digitigrade-legs
-  - trait-climber
-  - trait-quick
-  - trait-martial-arts
-  - trait-biotechnology-2-crafting
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Heavy Load Lifter
-  - Symbiote Weaver
-  - Cellular Resilience
-recommended_features:
-  - feature-cellular-resilience
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Living Habitat Architecture)
 meta_level: 1 (Cellular Attunement)
@@ -61,11 +51,16 @@ modifiers:
 cp_cost: 12
 cp: 12
 bp: 12
-description: >-
-  The Koda are the artisan and bio-architect caste of the Aulurans, possessing
-  enhanced muscular density, digitigrade agility, and an innate knack for
-  breeding chitinous structures.
+description: 'The Koda are the artisan and bio-architect caste of the Aulurans, possessing enhanced muscular density, digitigrade agility, and an innate knack for breeding chitinous structures.'
+traits:
+  - trait-auluran-base-traits
+  - trait-digitigrade-legs
+  - trait-climber
+  - trait-quick
+  - trait-martial-arts
+  - trait-biotechnology-2-crafting
 ---
+
 # Koda (Auluran Builder Caste)
 
 ## **KODA**

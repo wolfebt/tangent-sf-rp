@@ -30,17 +30,10 @@ bonus_skill_choices:
   - Engineering
   - Piloting
   - Sleight of Hand
-inherent_features:
-  - trait-small-size-2-defense-2-stealth
-  - trait-climber
-  - trait-high-metabolism
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Nimble Squeeze
-  - Tunnel Runner
-  - Underfoot Dodge
-recommended_features:
-  - feature-climber
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 3 (Miniaturized Mechanics)
 meta_level: 1 (Agile Flow)
@@ -67,10 +60,13 @@ modifiers:
 cp_cost: 21
 cp: 21
 bp: 21
-description: >-
-  Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved
-  aboard generational colony ships and tight subterranean refinery tubes.
+description: 'Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved aboard generational colony ships and tight subterranean refinery tubes.'
+traits:
+  - trait-small-size-2-defense-2-stealth
+  - trait-climber
+  - trait-high-metabolism
 ---
+
 # Brae Human (Small Stature Variant)
 
 *

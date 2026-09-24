@@ -32,20 +32,10 @@ bonus_skill_choices:
   - Science
   - Knowledge (Void)
   - Tactics
-inherent_features:
-  - trait-aeld-lineage-traits
-  - trait-dark-sight
-  - trait-cold-discipline
-  - trait-indomitable-will
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Shadow Step
-  - Silent Caster
-  - Ruthless Focus
-  - Iron Mind
-recommended_features:
-  - feature-shadow-step
-  - feature-iron-mind
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Xeno (-2), Supremacist (-2)'
 tech_level: 4 (Void-Tech & Stealth Sub-systems)
 meta_level: 4 (Shadow Metaphysics & Telepathy)
@@ -64,11 +54,14 @@ modifiers:
 cp_cost: 23
 cp: 23
 bp: 23
-description: >-
-  The Nocturne (Kovians) are a fiercely disciplined, subterranean and
-  void-dwelling elven faction. Prioritizing cold logic, genetic preservation,
-  and shadow-craft, they harbor deep skepticism toward outsiders.
+description: 'The Nocturne (Kovians) are a fiercely disciplined, subterranean and void-dwelling elven faction. Prioritizing cold logic, genetic preservation, and shadow-craft, they harbor deep skepticism toward outsiders.'
+traits:
+  - trait-aeld-lineage-traits
+  - trait-dark-sight
+  - trait-cold-discipline
+  - trait-indomitable-will
 ---
+
 # Nocturne (Kovian Aeld)
 
 Nocturne are a reclusive and highly selective faction, bound by their rigid adherence to the Kovian Tribunal's ancient doctrines. This Tribunal, the central authority for the Nocturne, holds a profoundly judgmental and often disdainful view of the "Lesser Species"—a term they apply to almost all non-Elven life forms. Their core philosophy is rooted in a belief in the inherent and irrefutable superiority of their race.  

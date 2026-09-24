@@ -556,6 +556,16 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           {/* Dynamic Controls: OMNICORTEX */}
           {isDBM && (
             <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* Mobile Navigation Rail Toggle Button */}
+              <button
+                type="button"
+                onClick={() => setIsSidebarOpen && setIsSidebarOpen(prev => !prev)}
+                className="md:hidden px-2 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold"
+                title="Toggle Omnicortex Navigation Rail"
+              >
+                ☰
+              </button>
+
               {/* DBM Undo / Redo controls */}
               {handleBack && handleForward && (
                 <div className="flex items-center gap-1 bg-[#161b22] p-0.5 rounded-md border border-[#0D5C63]/40 shrink-0 cyan-shadow-thin">
@@ -585,6 +595,21 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 {activeCategory ? activeCategory.toUpperCase() : 'DATABASE'}
               </div>
 
+              {/* Master Developer Access Quick Indicator & Toggle */}
+              <button
+                type="button"
+                onClick={() => toggleAdminOverride && toggleAdminOverride()}
+                className={`px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider border transition-all flex items-center gap-1.5 cursor-pointer cyan-shadow-thin ${
+                  adminOverride
+                    ? 'bg-amber-950/70 border-amber-500/80 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
+                }`}
+                title={adminOverride ? "Master Developer Access Active (Full CRUD: Add, Edit, Clone, Delete). Click to toggle." : "Player View (Read-Only). Click to enable Master Developer Access."}
+              >
+                <span>{adminOverride ? '👑' : '👁️'}</span>
+                <span className="hidden lg:inline">{adminOverride ? 'MASTER ACCESS: ON' : 'PLAYER VIEW'}</span>
+              </button>
+
               {/* System Actions Dropdown Menu */}
               <div className="relative shrink-0" ref={dbmMenuRef}>
                 <button
@@ -603,6 +628,24 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     <div className="px-2 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 mb-0.5">
                       Omnicortex Options
                     </div>
+
+                    {/* Switch to Rules Codex */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1100, 0.03);
+                        setIsDbmMenuOpen(false);
+                        navigate('/codex');
+                      }}
+                      className="w-full text-left px-3 py-2 bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-200 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
+                      title="Switch from Omnicortex DB to Rules Codex Matrices"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>📖</span>
+                        <span>Rules Codex</span>
+                      </div>
+                      <span className="text-[10px] text-purple-400 font-mono">Codex</span>
+                    </button>
 
                     {/* Bastion AI Assistant Toggle */}
                     <button
@@ -668,6 +711,46 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     >
                       <span>🧹</span>
                       <span>Clear Cache</span>
+                    </button>
+
+                    <div className="border-t border-slate-800 my-1"></div>
+
+                    {/* Sync Species Matrix to Cloud */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        syncMasterSpeciesMatrix && syncMasterSpeciesMatrix();
+                        setIsDbmMenuOpen(false);
+                      }}
+                      disabled={!isAdmin}
+                      className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
+                        isAdmin
+                          ? 'bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/40 text-blue-300'
+                          : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
+                      }`}
+                      title={isAdmin ? "Sync Canonical Species Matrix (Types, Sizes, Speeds, Traits, Disadvantages, Species) to Cloud" : "Requires Admin privileges"}
+                    >
+                      <span>🧬</span>
+                      <span>Sync Species Matrix</span>
+                    </button>
+
+                    {/* Sync Compendium to Cloud */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        syncCanonicalCompendium && syncCanonicalCompendium();
+                        setIsDbmMenuOpen(false);
+                      }}
+                      disabled={!isAdmin}
+                      className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
+                        isAdmin
+                          ? 'bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-300'
+                          : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
+                      }`}
+                      title={isAdmin ? "Sync Canonical Compendium Articles to Cloud" : "Requires Admin privileges"}
+                    >
+                      <span>📚</span>
+                      <span>Sync Compendium</span>
                     </button>
 
                     <div className="border-t border-slate-800 my-1"></div>

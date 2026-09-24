@@ -13,9 +13,7 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers: []
 bonus_attribute_points: 2
 specific_skill_bonuses:
@@ -30,18 +28,10 @@ bonus_skill_choices:
   - Persuasion
   - Stealth
   - Technology
-inherent_features:
-  - trait-synthetic-base-traits
-  - trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans
-  - trait-alter-self-advanced-cellular-surface
-  - trait-thermal-simulation
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Voice Mimicry
-  - Memory Tap
-  - Silent Hydraulics
-recommended_features:
-  - feature-voice-mimicry
+bonus_feature_choices: []
+recommended_features: []
 stigma: Secret (-6) / Severe if Exposed
 tech_level: 4 (Bio-Synthetic Weave & Organic Cloaking)
 meta_level: 1 (Neural Empathy)
@@ -52,11 +42,14 @@ modifiers: []
 cp_cost: 29
 cp: 29
 bp: 29
-description: >-
-  Skins are advanced bio-synthetic androids covered in warm, synthetic flesh,
-  simulated vascular systems, and emotional emulators designed to pass as
-  natural organics.
+description: 'Skins are advanced bio-synthetic androids covered in warm, synthetic flesh, simulated vascular systems, and emotional emulators designed to pass as natural organics.'
+traits:
+  - trait-synthetic-base-traits
+  - trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans
+  - trait-alter-self-advanced-cellular-surface
+  - trait-thermal-simulation
 ---
+
 # Skin (Synthetic Replicant / Infiltrator)
 
 *

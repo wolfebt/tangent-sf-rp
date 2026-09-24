@@ -30,6 +30,10 @@ import OsrControlPanelDeck from './workspaces/OsrControlPanelDeck';
 import StoryWeaver from './workspaces/StoryWeaver';
 import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
 import AIMEChatBox from '../AIME/AIMEChatBox';
+import { ModularCharacterAssembler } from '../ElementForge/components/ModularCharacterAssembler';
+import { NpcScriptBuilder } from '../ElementForge/components/NpcScriptBuilder';
+import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
+import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { 
   Search, 
   Plus, 
@@ -612,32 +616,55 @@ const ElementFieldsEditor = ({ activeNode, updateStory }) => {
     });
   };
 
+  const [isAimeOpen, setIsAimeOpen] = useState(false);
   const schemaTabs = Array.from(new Set(schema.map(f => f.tab || 'General')));
   const allTabs = [...schemaTabs, 'Custom Fields'];
   const currentTab = allTabs[activeTabIdx] || allTabs[0];
 
   return (
     <div className="p-3 font-mono space-y-3">
-      {/* Category Pills */}
-      <div className="flex flex-wrap gap-1 pb-2 border-b border-slate-800">
-        {allTabs.map((tab, idx) => (
-          <button 
-            key={idx}
-            onClick={() => setActiveTabIdx(idx)}
-            className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all border ${
-              activeTabIdx === idx 
-                ? 'bg-cyan-950/90 text-cyan-300 border-cyan-500/80 shadow-sm' 
-                : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-slate-200'
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
+      {/* Category Pills & AIME */}
+      <div className="flex items-center justify-between gap-1 pb-2 border-b border-slate-800 flex-wrap">
+        <div className="flex flex-wrap gap-1">
+          {allTabs.map((tab, idx) => (
+            <button 
+              key={idx}
+              onClick={() => setActiveTabIdx(idx)}
+              className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all border ${
+                activeTabIdx === idx 
+                  ? 'bg-cyan-950/90 text-cyan-300 border-cyan-500/80 shadow-sm' 
+                  : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-slate-200'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+        <AimeGuidanceButton size="xs" onClick={() => setIsAimeOpen(true)} label="AIME" />
       </div>
 
-      {/* Schema Fields */}
+      {/* Schema Fields & Interactive Modules */}
       {schemaTabs.includes(currentTab) && (
         <div className="space-y-3">
+          {/* Modular Character Matrix (MCM) Interactive Assembler */}
+          {activeNode.type === 'Persona' && currentTab === 'Modular Assembly (MCM)' && (
+            <ModularCharacterAssembler
+              fields={fields}
+              onFieldChange={handleChange}
+              elementTitle={activeNode.title}
+              onOpenAimeGuidance={() => setIsAimeOpen(true)}
+            />
+          )}
+
+          {/* Autonomous VTT Script & Relations Builder */}
+          {activeNode.type === 'Persona' && currentTab === 'Relations & Scripting' && (
+            <NpcScriptBuilder
+              fields={fields}
+              onFieldChange={handleChange}
+              elementTitle={activeNode.title}
+              onOpenAimeGuidance={() => setIsAimeOpen(true)}
+            />
+          )}
           {schema.filter(f => (f.tab || 'General') === currentTab).map(f => {
             const val = fields[f.key] || '';
             const isRelational = f.type === 'relational' || f.dbSource;
@@ -757,6 +784,22 @@ const ElementFieldsEditor = ({ activeNode, updateStory }) => {
             const chosen = Array.isArray(selectedArr) ? selectedArr[0] : selectedArr;
             handleChange(selectorState.key, chosen || '');
             setSelectorState(null);
+          }}
+        />
+      )}
+
+      {isAimeOpen && (
+        <AimeGuidanceFlyout
+          isOpen={isAimeOpen}
+          onClose={() => setIsAimeOpen(false)}
+          targetType={currentTab.includes('Script') ? 'VttScript' : (currentTab.includes('Relations') ? 'Relations' : (activeNode.type === 'Persona' ? 'Persona' : 'Story'))}
+          contextData={activeNode}
+          onApplyGuidance={(sug) => {
+            if (!activeNode.content) {
+              updateStory(activeNode.id, { content: sug });
+            } else if (!fields.summary) {
+              handleChange('summary', sug.slice(0, 180));
+            }
           }}
         />
       )}

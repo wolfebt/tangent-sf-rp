@@ -31,18 +31,10 @@ bonus_skill_choices:
   - Intimidation
   - Combat
   - Attune
-inherent_features:
-  - trait-large-size-12-18ft-serpentine-body-reach-10ft
-  - trait-awakened-serpentine-metaphysics
-  - trait-constriction-deals-double-damage-on-successful-grapple-hold
-  - trait-venomous-fangs-paralytic-poison-dc-15
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Hypnotic Gaze
-  - Shed Skin (Escape Restraints)
-  - Thermal Pit Sense
-recommended_features:
-  - feature-constriction
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
 meta_level: 3 (Serpentine Sorcery)
@@ -73,10 +65,14 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
-  crushing constriction power, heat-sensing pits, and venomous strikes.
+description: 'Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes.'
+traits:
+  - trait-large-size-12-18ft-serpentine-body-reach-10ft
+  - trait-awakened-serpentine-metaphysics
+  - trait-constriction-deals-double-damage-on-successful-grapple-hold
+  - trait-venomous-fangs-paralytic-poison-dc-15
 ---
+
 # Vassoth (Serpentine Colossus)
 
 ## Description

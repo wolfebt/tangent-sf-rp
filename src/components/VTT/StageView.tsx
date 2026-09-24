@@ -27,13 +27,6 @@ import {
   type SceneInteractiveObject,
   type FusedToken,
   type StaticEntity,
-  CombatArbitrator,
-  SkillRank,
-  SizeCategory,
-  RangeCategory,
-  DamagePipeline,
-  DiceASTParser,
-  EssenceTracker,
   BVHBuilder,
   type WallSegment,
   DashboardOverlay
@@ -43,10 +36,17 @@ import { TokenRadialMenu } from './TokenRadialMenu';
 import { 
   ArchitectDesignPalette, 
   type PaletteItem, 
-  type ArchitectDesignTool,
   BIOME_OPTIONS 
 } from './ArchitectDesignPalette';
 import { useUILayoutStore } from './store/uiLayoutStore';
+import { deployCompiledPackage } from '../../utils/deployVttPackage';
+import { stepNpcPatrols, evaluateSentryVision, evaluateTrapTriggers } from '../../services/reactiveVttService';
+import { VttEventBus } from '../../utils/vttEventBus';
+import { useMapIngestion } from './hooks/useMapIngestion';
+import { useCanvasEventListeners } from './hooks/useCanvasEventListeners';
+import { useDesignModeController } from './hooks/useDesignModeController';
+import { useCombatController } from './hooks/useCombatController';
+import { useStageRenderers } from './hooks/useStageRenderers';
 import { HazardParticleSimulator, type HazardType, type HazardField } from '../../engine/physics/HazardParticleSimulator.ts';
 import { Graphics, Container, Text, TextStyle, Sprite } from 'pixi.js';
 import { 
@@ -102,10 +102,6 @@ export const StageView: React.FC<StageViewProps> = ({
   const coordEngineRef = useRef<CoordinateEngine>(new CoordinateEngine(GridType.HexFlatTop, 70, GridScaleTier.Encounter));
   const interactiveObjMgrRef = useRef<InteractiveObjectManager>(new InteractiveObjectManager());
   const bvhBuilderRef = useRef<BVHBuilder>(new BVHBuilder());
-  const combatArbRef = useRef<CombatArbitrator>(new CombatArbitrator());
-  const damagePipeRef = useRef<DamagePipeline>(new DamagePipeline());
-  const diceParserRef = useRef<DiceASTParser>(new DiceASTParser());
-  const essenceTrackerRef = useRef<EssenceTracker>(new EssenceTracker());
   const hazardSimulatorRef = useRef<HazardParticleSimulator | null>(null);
   const remoteCursorsContainerRef = useRef<Container | null>(null);
 
@@ -120,6 +116,7 @@ export const StageView: React.FC<StageViewProps> = ({
   const atmosphereOverlayRef = useRef<Container | null>(null);
   const underlayContainerRef = useRef<Container | null>(null);
   const lightSourceMgrRef = useRef<LightSourceManager>(new LightSourceManager());
+  const npcTickRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Campaign Context and Search Params Integration
   const [searchParams, setSearchParams] = useSearchParams();
@@ -162,18 +159,6 @@ export const StageView: React.FC<StageViewProps> = ({
     isMultiplayerSimActive,
     toggleMultiplayerSim,
     isZenMode,
-    userRole,
-    activeArchitectTool,
-    selectedWallType: storeWallType,
-    doorLockDc: storeDoorLockDc,
-    selectedTerrain: storeTerrain,
-    terrainBrushWidth: storeTerrainBrushWidth,
-    selectedLightColor: storeLightColor,
-    selectedLightRadius: storeLightRadius,
-    selectedLightAnimation: storeLightAnimation,
-    pencilColor: storePencilColor,
-    pencilWidth: storePencilWidth,
-    rulerAvailableAp: storeRulerAp,
     rulerSelectedPace: storeRulerPace,
     setRulerSelectedPace: setStoreRulerPace,
     selectedTokenId: storeSelectedTokenId,
@@ -181,57 +166,79 @@ export const StageView: React.FC<StageViewProps> = ({
     targetTokenId: storeTargetTokenId,
     setTargetTokenId: setStoreTargetTokenId,
     selectedObjectType: storeObjectType,
-    setSelectedObjectType: setStoreObjectType
+    setSelectedObjectType: setStoreObjectType,
+    lastCompiledPackage: storeLastCompiledPackage,
+    setLastCompiledPackage: setStoreLastCompiledPackage
   } = useUILayoutStore();
 
-  // In-Situ Architect Design Mode & Simulation Control States
-  const [isDesignModeActive, setIsDesignModeActive] = useState<boolean>(false);
+  // In-Situ Architect Design Mode & Simulation Control Hook
+  const {
+    isDesignModeActive,
+    setIsDesignModeActive,
+    activeDesignTool,
+    setActiveDesignTool,
+    selectedStamp,
+    setSelectedStamp,
+    selectedAssetIds,
+    setSelectedAssetIds,
+    isMarqueeActive,
+    setIsMarqueeActive,
+    marqueeStart,
+    setMarqueeStart,
+    marqueeCurrent,
+    setMarqueeCurrent,
+    wallConstructionMode,
+    setWallConstructionMode,
+    wallChainPoints,
+    setWallChainPoints,
+    selectedWallType,
+    setSelectedWallType,
+    doorLockDc,
+    setDoorLockDc,
+    selectedTerrainId,
+    setSelectedTerrainId,
+    terrainBrushWidth,
+    setTerrainBrushWidth,
+    terrainRenderMode,
+    setTerrainRenderMode,
+    pencilColor,
+    setPencilColor,
+    pencilWidth,
+    setPencilWidth,
+    textLabelInput,
+    setTextLabelInput,
+    textColor,
+    setTextColor,
+    textSize,
+    setTextSize,
+    rulerAvailableAp,
+    setRulerAvailableAp,
+    selectedLightColor,
+    setSelectedLightColor,
+    selectedLightRadius,
+    setSelectedLightRadius,
+    selectedLightAnimation,
+    setSelectedLightAnimation,
+    randomizeRotation,
+    setRandomizeRotation,
+    randomizeScale,
+    setRandomizeScale,
+    isDrawingToolActive,
+    setIsDrawingToolActive,
+    wallDrawStart,
+    setWallDrawStart,
+    wallDrawCurrent,
+    setWallDrawCurrent,
+    currentStrokePoints,
+    setCurrentStrokePoints
+  } = useDesignModeController();
+
   const [isSimulationPaused, setIsSimulationPaused] = useState<boolean>(false);
   const [isTacticalConsoleCollapsed, setIsTacticalConsoleCollapsed] = useState<boolean>(false);
-  const [activeDesignTool, setActiveDesignTool] = useState<ArchitectDesignTool>('select');
-  const [selectedStamp, setSelectedStamp] = useState<PaletteItem | null>(null);
   const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
   const [localObjects, setLocalObjects] = useState<SceneInteractiveObject[]>([]);
   const [localLights, setLocalLights] = useState<SceneLightSource[]>([]);
-
-  // Multi-Asset Selection & Transform Gizmo States
-  const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>([]);
-  const [isMarqueeActive, setIsMarqueeActive] = useState<boolean>(false);
-  const [marqueeStart, setMarqueeStart] = useState<{ x: number; y: number } | null>(null);
-  const [marqueeCurrent, setMarqueeCurrent] = useState<{ x: number; y: number } | null>(null);
-
-  // Geometric Wall Construction Modes ('single' | 'chain' | 'room')
-  const [wallConstructionMode, setWallConstructionMode] = useState<'single' | 'chain' | 'room'>('single');
-  const [wallChainPoints, setWallChainPoints] = useState<{ x: number; y: number }[]>([]);
-
-  // Design Tool Sub-options
-  const [selectedWallType, setSelectedWallType] = useState<string>('solid');
-  const [doorLockDc, setDoorLockDc] = useState<number>(14);
-  const [selectedTerrainId, setSelectedTerrainId] = useState<string>('grassland');
-  const [terrainBrushWidth, setTerrainBrushWidth] = useState<number>(30);
-  const [terrainRenderMode, setTerrainRenderMode] = useState<'organic' | 'hex'>('organic');
-  const [pencilColor, setPencilColor] = useState<string>('#22d3ee');
-  const [pencilWidth, setPencilWidth] = useState<number>(4);
-  const [textLabelInput, setTextLabelInput] = useState<string>('Sector Alpha');
-  const [textColor, setTextColor] = useState<string>('#22d3ee');
-  const [textSize, setTextSize] = useState<number>(20);
-  const [rulerAvailableAp, setRulerAvailableAp] = useState<number>(4);
-
-  // Lighting & Atmospheric States
-  const [selectedLightColor, setSelectedLightColor] = useState<string>('#f59e0b');
-  const [selectedLightRadius, setSelectedLightRadius] = useState<number>(180);
-  const [selectedLightAnimation, setSelectedLightAnimation] = useState<LightAnimationType>('flicker');
   const [atmosphericWeather, setAtmosphericWeather] = useState<AtmosphericWeatherType>('clear');
-
-  // Randomization Jitter States
-  const [randomizeRotation, setRandomizeRotation] = useState<boolean>(false);
-  const [randomizeScale, setRandomizeScale] = useState<boolean>(false);
-
-  // Interactive Canvas Drawing States
-  const [isDrawingToolActive, setIsDrawingToolActive] = useState<boolean>(false);
-  const [wallDrawStart, setWallDrawStart] = useState<{ x: number; y: number } | null>(null);
-  const [wallDrawCurrent, setWallDrawCurrent] = useState<{ x: number; y: number } | null>(null);
-  const [currentStrokePoints, setCurrentStrokePoints] = useState<number[]>([]);
 
   // Map Maker Modal Launcher States
   const [isLandmassModalOpen, setIsLandmassModalOpen] = useState<boolean>(false);
@@ -272,8 +279,8 @@ export const StageView: React.FC<StageViewProps> = ({
   });
 
   // Viewport & Coordinate States
-  const [selectedTokenId, setSelectedTokenId] = useState<string | null>(storeSelectedTokenId || 'op-jax');
-  const [targetTokenId, setTargetTokenId] = useState<string | null>(storeTargetTokenId || 'mech-vanguard');
+  const [selectedTokenId, setSelectedTokenId] = useState<string | null>(storeSelectedTokenId || null);
+  const [targetTokenId, setTargetTokenId] = useState<string | null>(storeTargetTokenId || null);
 
   // Synchronize selection state with uiLayoutStore
   useEffect(() => {
@@ -288,82 +295,70 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   }, [storeTargetTokenId]);
 
-  // Synchronize active architect tool from Right Rail with WebGPU canvas
+  // Auto-deploy compiled VTT package arriving from ADE compiler
   useEffect(() => {
-    if (activeArchitectTool) {
-      setActiveDesignTool(activeArchitectTool as ArchitectDesignTool);
-      if (activeArchitectTool !== 'select' || userRole === 'architect') {
-        setIsDesignModeActive(true);
+    const targetMapId = activeMapId || currentMapId || currentMap?.id;
+    if (!storeLastCompiledPackage || !targetMapId || !updateMap) return;
+    deployCompiledPackage(storeLastCompiledPackage, updateMap, targetMapId);
+    setStoreLastCompiledPackage(null);
+  }, [storeLastCompiledPackage, activeMapId, currentMapId, currentMap?.id, updateMap, setStoreLastCompiledPackage]);
+
+  // ── NPC Simulation Tick (Patrol Steps & Sentry Vision Scanning) ──
+  useEffect(() => {
+    if (!isMultiplayerSimActive || isSimulationPaused) {
+      if (npcTickRef.current) {
+        clearInterval(npcTickRef.current);
+        npcTickRef.current = null;
       }
+      return;
     }
-  }, [activeArchitectTool, userRole]);
 
-  useEffect(() => {
-    if (storeWallType) setSelectedWallType(storeWallType);
-  }, [storeWallType]);
+    npcTickRef.current = setInterval(() => {
+      const engineStore = useEngineStore.getState();
+      const fusedTokens = selectAllFusedTokens(engineStore);
+      const mapTokens = currentMap?.tokens || [];
 
-  useEffect(() => {
-    if (storeDoorLockDc !== undefined) setDoorLockDc(storeDoorLockDc);
-  }, [storeDoorLockDc]);
+      // Combine engine position with script definitions
+      const allTokens = fusedTokens.map(tok => {
+        const mapTok = mapTokens.find((mt: any) => mt.id === tok.id);
+        return {
+          ...tok,
+          script: (tok as any).script || mapTok?.script,
+        };
+      });
 
-  useEffect(() => {
-    if (storeTerrain) setSelectedTerrainId(storeTerrain);
-  }, [storeTerrain]);
-
-  useEffect(() => {
-    if (storeTerrainBrushWidth !== undefined) setTerrainBrushWidth(storeTerrainBrushWidth);
-  }, [storeTerrainBrushWidth]);
-
-  useEffect(() => {
-    if (storeLightColor) setSelectedLightColor(storeLightColor);
-  }, [storeLightColor]);
-
-  useEffect(() => {
-    if (storeLightRadius !== undefined) setSelectedLightRadius(storeLightRadius);
-  }, [storeLightRadius]);
-
-  useEffect(() => {
-    if (storeLightAnimation) setSelectedLightAnimation(storeLightAnimation as LightAnimationType);
-  }, [storeLightAnimation]);
-
-  useEffect(() => {
-    if (storePencilColor) setPencilColor(storePencilColor);
-  }, [storePencilColor]);
-
-  useEffect(() => {
-    if (storePencilWidth !== undefined) setPencilWidth(storePencilWidth);
-  }, [storePencilWidth]);
-
-  useEffect(() => {
-    if (storeObjectType && typeof storeObjectType === 'object') {
-      const propObj = storeObjectType as any;
-      const stampItem: PaletteItem = {
-        id: propObj.id || `obj-${Date.now()}`,
-        category: propObj.category || 'Objects',
-        label: propObj.label || propObj.name || 'Prop',
-        desc: propObj.desc || 'Tactical Sector Asset',
-        type: propObj.category === 'Hazards' ? 'hazard' : 'object',
-        subType: propObj.category || 'terminal',
-        icon: Box,
-        color: propObj.color || '#22d3ee',
-        defaultProps: {
-          name: propObj.label || propObj.name || 'Prop',
-          color: propObj.color,
-          radius: propObj.radius,
-          width: propObj.width,
-          height: propObj.height,
-          shape: propObj.shape,
-          imageUrl: propObj.imageUrl
+      // Step all NPC patrol tokens
+      const updatedTokens = stepNpcPatrols(allTokens, 20);
+      updatedTokens.forEach(tok => {
+        const orig = allTokens.find(t => t.id === tok.id);
+        if (orig && (orig.x !== tok.x || orig.y !== tok.y)) {
+          engineStore.updatePosition(tok.id, tok.x, tok.y);
         }
-      };
-      setSelectedStamp(stampItem);
-      setIsDesignModeActive(true);
-    }
-  }, [storeObjectType]);
+      });
 
-  useEffect(() => {
-    if (storeRulerAp !== undefined) setRulerAvailableAp(storeRulerAp);
-  }, [storeRulerAp]);
+      // Evaluate sentry vision for each sentry token
+      const heroTokens = allTokens.filter(t => t.is_persona || (t as any).designation === 'Ally');
+      updatedTokens.forEach(tok => {
+        const script = tok.script;
+        if (script?.type === 'sentry') {
+          const detection = evaluateSentryVision(
+            { ...tok, script },
+            heroTokens
+          );
+          if (detection) {
+            VttEventBus.emit('sentry-alert', detection);
+          }
+        }
+      });
+    }, 1500);
+
+    return () => {
+      if (npcTickRef.current) {
+        clearInterval(npcTickRef.current);
+        npcTickRef.current = null;
+      }
+    };
+  }, [isMultiplayerSimActive, isSimulationPaused, currentMap?.tokens]);
 
   const isVisionEnabled = true;
   const torchRadiusFt = 30;
@@ -393,27 +388,44 @@ export const StageView: React.FC<StageViewProps> = ({
   // Tactical Movement & Action States
   const [isMoveModeActive, setIsMoveModeActive] = useState(false);
   const [mouseWorldPos, setMouseWorldPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [activeStance, setActiveStance] = useState<'normal' | 'guard' | 'overcharge' | 'aim'>('normal');
-
-  // Active Tool Panel Tab & Combat States
+  // Active Tool Panel Tab
   const [activeTab, setActiveTab] = useState<'combat' | 'spawner' | 'turns' | 'objects' | 'dice'>('combat');
-  const [targetedLimb, setTargetedLimb] = useState<'torso' | 'head' | 'arms' | 'legs' | 'optics'>('torso');
-  const [combatLog, setCombatLog] = useState<string[]>([
-    '[SYSTEM] Stage WebGPU Engine initialized at 5ft Encounter scale.',
-    '[SYSTEM] Operatives and Mecha units synchronized with Folio & Omnicortex.'
-  ]);
-  const [attackWeapon, setAttackWeapon] = useState<'kinetic' | 'plasma' | 'laser' | 'emp'>('plasma');
-  const [attackMapStep, setAttackMapStep] = useState<number>(0);
-  const [customDiceExpr, setCustomDiceExpr] = useState<string>('2d10 + @armor_dr');
-
-  // Turn Tracker States
-  const [roundNumber, setRoundNumber] = useState<number>(1);
-  const [currentTurnIndex, setCurrentTurnIndex] = useState<number>(0);
-  const [initiativeScores, setInitiativeScores] = useState<Record<string, number>>({});
 
   const tokens = useEngineStore(selectAllFusedTokens);
   const selectedToken = tokens.find(t => t.id === selectedTokenId) || null;
   const targetToken = tokens.find(t => t.id === targetTokenId) || null;
+
+  // Combat Resolution, Damage Pipeline & Turn Tracker Hook
+  const {
+    combatLog,
+    setCombatLog,
+    targetedLimb,
+    setTargetedLimb,
+    attackWeapon,
+    setAttackWeapon,
+    attackMapStep,
+    setAttackMapStep,
+    activeStance,
+    setActiveStance,
+    customDiceExpr,
+    setCustomDiceExpr,
+    roundNumber,
+    currentTurnIndex,
+    initiativeScores,
+    combatArbRef,
+    handleExecuteCombatStrike,
+    handleRollCustomDice,
+    handleNextTurn,
+    handleRollAllInitiative
+  } = useCombatController({
+    selectedToken,
+    targetToken,
+    tokens,
+    bvhBuilderRef,
+    isSimulationPaused,
+    selectedTokenId,
+    setSelectedTokenId
+  });
 
   // Calculate dynamic effective speed taking into account trauma/conditions
   const getEffectiveSpeed = useCallback((token: FusedToken | StaticEntity | null): number => {
@@ -447,445 +459,59 @@ export const StageView: React.FC<StageViewProps> = ({
 
 
   // Ingest Campaign Map (Walls into BVH, Objects into InteractiveObjMgr, Tokens into VolatileSharder)
-  useEffect(() => {
-    const store = useEngineStore.getState();
+  useMapIngestion({
+    currentMap,
+    bvhBuilderRef,
+    interactiveObjMgrRef,
+    lightSourceMgrRef,
+    setCombatLog,
+    setLocalWalls,
+    setLocalObjects,
+    setLocalLights,
+    setSelectedTokenId,
+    setTargetTokenId,
+    setUnderlayConfig,
+    setAtmosphericWeather
+  });
 
-    if (currentMap) {
-      setCombatLog(prev => [
-        `[MAP SYNC] Synchronized with Campaign Map: "${currentMap.title || currentMap.name || 'Tactical Sector'}" [${currentMap.type || 'Sector'}].`,
-        ...prev.slice(0, 8)
-      ]);
+  // ── Global Canvas Event Listeners (Sentry, Companions, Studio Modals) ──
+  useCanvasEventListeners({
+    setIsLandmassModalOpen,
+    setIsUvttModalOpen,
+    setIsAssetManagerOpen,
+    setIsHeroDrawerOpen,
+    setIsOmnicortexDrawerOpen,
+    setIsLayersPanelOpen,
+    selectedTokenId,
+    setSelectedTokenId,
+    setCombatLog
+  });
 
-      // Sync Grid Type from Map (defaulting to hex if undefined or 'hex')
-      const targetGridType = (currentMap.gridType === 'square' || currentMap.gridMode === 'square')
-        ? GridType.Square
-        : GridType.HexFlatTop;
-      useUILayoutStore.getState().setGridType(targetGridType);
-
-      // 1. Ingest Walls & Bulkheads into BVH spatial tree & local state
-      if (Array.isArray(currentMap.walls) && currentMap.walls.length > 0) {
-        const bvhWalls: WallSegment[] = currentMap.walls.map((w: any) => ({
-          id: w.id || `wall-${Math.random()}`,
-          p1: w.p1 || { x: w.x1 || 0, y: w.y1 || 0 },
-          p2: w.p2 || { x: w.x2 || 100, y: w.y2 || 100 },
-          isDynamic: Boolean(w.isDoor || w.wallType?.includes('door') || w.wallType?.includes('bulkhead')),
-          isOpen: w.doorState === 'open',
-          isTransparent: Boolean(w.isTransparent || w.wallType?.includes('window') || w.wallType?.includes('glass'))
-        }));
-        bvhBuilderRef.current.build(bvhWalls);
-        setLocalWalls(bvhWalls);
-      } else {
-        bvhBuilderRef.current.build([]);
-        setLocalWalls([]);
-      }
-
-      // 2. Ingest Interactive Map Objects into local state
-      if (Array.isArray(currentMap.objects) && currentMap.objects.length > 0) {
-        const sceneObjects: SceneInteractiveObject[] = currentMap.objects.map((obj: any) => ({
-          id: obj.id,
-          name: obj.name || obj.label || obj.type || 'Object',
-          type: (obj.type || 'terminal') as any,
-          x: obj.x || 100,
-          y: obj.y || 100,
-          storyElementId: obj.storyElementId || obj.id
-        }));
-        interactiveObjMgrRef.current.loadObjects(sceneObjects);
-        setLocalObjects(sceneObjects);
-      } else {
-        interactiveObjMgrRef.current.loadObjects([]);
-        setLocalObjects([]);
-      }
-
-      // 3. Ingest Map Tokens
-      if (Array.isArray(currentMap.tokens) && currentMap.tokens.length > 0) {
-        const staticBatch: StaticEntity[] = currentMap.tokens.map((t: any) => ({
-          id: t.id,
-          name: t.name || t.label || 'Operative',
-          base_hp: t.base_hp || t.hp?.max || 35,
-          tech_level: t.tech_level || 3,
-          armor_dr: t.armor_dr || t.dr || 10,
-          size_modifier: t.size_modifier || 0,
-          speed_ft: t.speed_ft || 30,
-          species: t.species || 'Human',
-          archetype: t.archetype || 'Operative',
-          is_persona: t.is_persona !== false
-        }));
-        store.loadStaticEntitiesBatch(staticBatch);
-        currentMap.tokens.forEach((t: any) => {
-          store.updatePosition(t.id, t.x || 140, t.y || 140);
-        });
-
-        if (currentMap.tokens[0]?.id) {
-          setSelectedTokenId(currentMap.tokens[0].id);
-        }
-        if (currentMap.tokens[1]?.id) {
-          setTargetTokenId(currentMap.tokens[1].id);
-        }
-      } else {
-        store.clearAllEntities();
-        setSelectedTokenId(null);
-        setTargetTokenId(null);
-      }
-
-      // 4. Ingest Dynamic Lights into LightSourceManager & local state
-      if (Array.isArray(currentMap.lights) && currentMap.lights.length > 0) {
-        currentMap.lights.forEach((l: any) => lightSourceMgrRef.current.addLight(l));
-        setLocalLights(currentMap.lights);
-      } else {
-        setLocalLights([]);
-      }
-
-      // 5. Ingest Blueprint Underlay Configuration
-      if (currentMap.underlay) {
-        setUnderlayConfig(currentMap.underlay);
-      } else {
-        setUnderlayConfig(null);
-      }
-
-      // 6. Ingest Global Atmospheric Weather
-      if (currentMap.atmosphericWeather) {
-        setAtmosphericWeather(currentMap.atmosphericWeather);
-      } else {
-        setAtmosphericWeather('clear');
-      }
-    } else {
-      // Blank canvas state when no map is loaded
-      bvhBuilderRef.current.build([]);
-      setLocalWalls([]);
-      interactiveObjMgrRef.current.loadObjects([]);
-      setLocalObjects([]);
-      store.clearAllEntities();
-      setSelectedTokenId(null);
-      setTargetTokenId(null);
-      setLocalLights([]);
-      setUnderlayConfig(null);
-      setAtmosphericWeather('clear');
-      useUILayoutStore.getState().setGridType(GridType.HexFlatTop);
-    }
-  }, [currentMap]);
-
-  // ── Real-Time Companion & Cohort VTT Deployment Integration ──
-  useEffect(() => {
-    const handleCompanionDeploy = (e: any) => {
-      const detail = e?.detail;
-      if (!detail) return;
-      const { companionId, companion, parentOperativeName, is_deployed } = detail;
-      const store = useEngineStore.getState();
-
-      if (is_deployed) {
-        // Deploy companion token near parent or stage origin
-        const tokenId = `comp_tok_${companionId}`;
-        const isSynth = companion.chassisType === 'synthetic' || companion.type === 'drone';
-        const compEntity: StaticEntity = {
-          id: tokenId,
-          name: `${companion.name} (${parentOperativeName || 'Cohort'})`,
-          base_hp: isSynth ? (companion.vitals?.max_structure || 50) : (companion.vitals?.max_hp || 25),
-          base_health: isSynth ? 0 : (companion.vitals?.max_hp || 25),
-          base_vitality: isSynth ? 0 : (companion.vitals?.max_vitality || 25),
-          base_structure: isSynth ? (companion.vitals?.max_structure || 50) : 0,
-          is_synthetic: isSynth,
-          tech_level: 3,
-          armor_dr: companion.armor?.dr || 2,
-          size_modifier: -1,
-          speed_ft: (companion.speed || 10) * 3,
-          species: isSynth ? 'Synthetic Drone' : 'Companion',
-          archetype: companion.role || 'Companion',
-          is_persona: false
-        };
-        store.loadStaticEntitiesBatch([compEntity]);
-        store.updatePosition(tokenId, 200 + Math.random() * 40, 200 + Math.random() * 40);
-        setSelectedTokenId(tokenId);
-      } else {
-        // Recall companion token from stage
-        const tokenId = `comp_tok_${companionId}`;
-        store.removeEntity(tokenId);
-        if (selectedTokenId === tokenId) {
-          setSelectedTokenId(null);
-        }
-      }
-    };
-
-    window.addEventListener('companion-deploy-toggle', handleCompanionDeploy);
-    return () => {
-      window.removeEventListener('companion-deploy-toggle', handleCompanionDeploy);
-    };
-  }, [selectedTokenId]);
-
-  // ── Studio & Cartography Modal Event Listeners (Triggered from Architect Console Rail) ──
-  useEffect(() => {
-    const handleOpenLandmass = () => setIsLandmassModalOpen(true);
-    const handleOpenUvtt = () => setIsUvttModalOpen(true);
-    const handleOpenAssetManager = () => setIsAssetManagerOpen(true);
-    const handleOpenHeroDrawer = () => setIsHeroDrawerOpen(true);
-    const handleOpenOmnicortex = () => setIsOmnicortexDrawerOpen(true);
-
-    window.addEventListener('open-landmass-modal', handleOpenLandmass);
-    window.addEventListener('open-uvtt-modal', handleOpenUvtt);
-    window.addEventListener('open-asset-manager', handleOpenAssetManager);
-    window.addEventListener('open-hero-drawer', handleOpenHeroDrawer);
-    window.addEventListener('open-omnicortex-drawer', handleOpenOmnicortex);
-
-    return () => {
-      window.removeEventListener('open-landmass-modal', handleOpenLandmass);
-      window.removeEventListener('open-uvtt-modal', handleOpenUvtt);
-      window.removeEventListener('open-asset-manager', handleOpenAssetManager);
-      window.removeEventListener('open-hero-drawer', handleOpenHeroDrawer);
-      window.removeEventListener('open-omnicortex-drawer', handleOpenOmnicortex);
-    };
-  }, []);
-
-  // ── Render Walls & Bulkheads onto the Stage ──
-  useEffect(() => {
-    const compositor = layerCompositorRef.current;
-    if (!compositor) return;
-
-    const wallLayer = compositor.getLayer(ZLayer.UnderlayDebris);
-    if (!wallLayer) return;
-
-    wallLayer.removeChildren();
-
-    const g = new Graphics();
-    localWalls.forEach(wall => {
-      const isDoor = wall.isDynamic;
-      const isOpen = wall.isOpen;
-      const isWindow = (wall as any).isTransparent;
-
-      const strokeColor = isDoor 
-        ? (isOpen ? 0x10b981 : 0xf59e0b) 
-        : isWindow 
-          ? 0x38bdf8 
-          : 0x06b6d4;
-
-      g.moveTo(wall.p1.x, wall.p1.y);
-      g.lineTo(wall.p2.x, wall.p2.y);
-      g.stroke({ 
-        width: isDoor ? 5 : isWindow ? 3 : 4, 
-        color: strokeColor, 
-        alpha: isOpen ? 0.4 : 0.95 
-      });
-
-      // End caps
-      g.circle(wall.p1.x, wall.p1.y, 3.5);
-      g.fill({ color: strokeColor });
-      g.circle(wall.p2.x, wall.p2.y, 3.5);
-      g.fill({ color: strokeColor });
-    });
-
-    wallLayer.addChild(g);
-  }, [isCanvasReady, localWalls]);
-
-  // ── Render Terrains (Hex Tiles & Organic Polygons) onto BackgroundMap Layer ──
-  useEffect(() => {
-    const container = terrainsContainerRef.current;
-    if (!container) return;
-    container.removeChildren();
-
-    const terrains = currentMap?.terrains || [];
-    if (terrains.length === 0) return;
-
-    const g = new Graphics();
-    terrains.forEach((t: any) => {
-      let colorHex = 0x14532d;
-      if (t.color) {
-        if (typeof t.color === 'string') {
-          colorHex = parseInt(t.color.replace('#', '0x'), 16) || 0x14532d;
-        } else if (typeof t.color === 'number') {
-          colorHex = t.color;
-        }
-      }
-
-      if (t.renderType === 'hexTile' && t.x !== undefined && t.y !== undefined) {
-        const radius = t.radius || 40;
-        const sides = 6;
-        const pts: number[] = [];
-        for (let i = 0; i < sides; i++) {
-          const angle = (i * Math.PI) / 3;
-          pts.push(t.x + radius * Math.cos(angle), t.y + radius * Math.sin(angle));
-        }
-        g.poly(pts);
-        g.fill({ color: colorHex, alpha: 0.85 });
-        g.stroke({ width: 1, color: 0x000000, alpha: 0.3 });
-      } else if (t.points && t.points.length >= 4) {
-        if (t.closed || t.renderType === 'polygon') {
-          g.poly(t.points);
-          g.fill({ color: colorHex, alpha: 0.85 });
-          g.stroke({ width: t.strokeWidth || 2, color: colorHex, alpha: 0.95 });
-        } else {
-          g.moveTo(t.points[0], t.points[1]);
-          for (let i = 2; i < t.points.length; i += 2) {
-            g.lineTo(t.points[i], t.points[i+1]);
-          }
-          g.stroke({ width: t.strokeWidth || 30, color: colorHex, cap: 'round', join: 'round', alpha: 0.85 });
-        }
-      }
-    });
-
-    container.addChild(g);
-  }, [isCanvasReady, currentMap?.terrains]);
-
-  // ── Render Freehand Tactical Pencil Lines onto UnderlayDebris Layer ──
-  useEffect(() => {
-    const container = linesContainerRef.current;
-    if (!container) return;
-    container.removeChildren();
-
-    const lines = currentMap?.lines || [];
-    if (lines.length === 0) return;
-
-    const g = new Graphics();
-    lines.forEach((l: any) => {
-      if (l.points && l.points.length >= 4) {
-        const colorHex = l.color 
-          ? (typeof l.color === 'string' ? parseInt(l.color.replace('#', '0x'), 16) || 0x22d3ee : l.color)
-          : 0x22d3ee;
-        g.moveTo(l.points[0], l.points[1]);
-        for (let i = 2; i < l.points.length; i += 2) {
-          g.lineTo(l.points[i], l.points[i+1]);
-        }
-        g.stroke({ width: l.strokeWidth || 4, color: colorHex, cap: 'round', join: 'round', alpha: 0.9 });
-      }
-    });
-
-    container.addChild(g);
-  }, [isCanvasReady, currentMap?.lines]);
-
-  // ── Render Text Labels onto ForegroundUI Layer ──
-  useEffect(() => {
-    const container = textsContainerRef.current;
-    if (!container) return;
-    container.removeChildren();
-
-    const texts = currentMap?.texts || [];
-    if (texts.length === 0) return;
-
-    texts.forEach((t: any) => {
-      const textNode = new Container();
-      textNode.x = t.x || 100;
-      textNode.y = t.y || 100;
-
-      const style = new TextStyle({
-        fontFamily: 'monospace',
-        fontSize: t.fontSize || 16,
-        fill: t.fill || '#22d3ee',
-        fontWeight: 'bold'
-      });
-
-      const pixiText = new Text({ text: t.text || 'Label', style });
-      pixiText.anchor.set(0.5, 0.5);
-
-      const bg = new Graphics();
-      const padX = 8;
-      const padY = 4;
-      const w = pixiText.width + padX * 2;
-      const h = pixiText.height + padY * 2;
-      bg.roundRect(-w / 2, -h / 2, w, h, 6);
-      bg.fill({ color: 0x050811, alpha: 0.75 });
-      bg.stroke({ width: 1, color: 0x06b6d4, alpha: 0.5 });
-
-      textNode.addChild(bg);
-      textNode.addChild(pixiText);
-      container.addChild(textNode);
-    });
-  }, [isCanvasReady, currentMap?.texts]);
-
-  // ── Render Dynamic Drawing Preview (Live Wall Drag Line or Live Brush Stroke) ──
-  useEffect(() => {
-    const container = wallPreviewContainerRef.current;
-    if (!container) return;
-    container.removeChildren();
-
-    if (!isDrawingToolActive || !isDesignModeActive) return;
-
-    const g = new Graphics();
-    if (activeDesignTool === 'wall' && wallDrawStart && wallDrawCurrent) {
-      const isDoor = selectedWallType === 'door';
-      const isWindow = selectedWallType === 'window';
-      const color = isDoor ? 0xf59e0b : isWindow ? 0x38bdf8 : 0x06b6d4;
-
-      if (wallConstructionMode === 'room') {
-        const minX = Math.min(wallDrawStart.x, wallDrawCurrent.x);
-        const maxX = Math.max(wallDrawStart.x, wallDrawCurrent.x);
-        const minY = Math.min(wallDrawStart.y, wallDrawCurrent.y);
-        const maxY = Math.max(wallDrawStart.y, wallDrawCurrent.y);
-        const w = maxX - minX;
-        const h = maxY - minY;
-
-        g.rect(minX, minY, w, h);
-        g.fill({ color, alpha: 0.08 });
-        g.stroke({ width: 3.5, color, alpha: 0.95 });
-
-        // Draw 4 corner points
-        [[minX, minY], [maxX, minY], [maxX, maxY], [minX, maxY]].forEach(([cx, cy]) => {
-          g.circle(cx, cy, 4.5);
-          g.fill({ color: 0xffffff });
-          g.stroke({ width: 1.5, color });
-        });
-      } else {
-        // Single or Chain wall segment
-        g.moveTo(wallDrawStart.x, wallDrawStart.y);
-        g.lineTo(wallDrawCurrent.x, wallDrawCurrent.y);
-        g.stroke({ width: 4, color, alpha: 0.9 });
-
-        g.circle(wallDrawStart.x, wallDrawStart.y, 5);
-        g.fill({ color: 0xffffff });
-        g.circle(wallDrawCurrent.x, wallDrawCurrent.y, 5);
-        g.fill({ color });
-
-        // Draw previously chained vertices
-        if (wallChainPoints.length > 1) {
-          g.moveTo(wallChainPoints[0].x, wallChainPoints[0].y);
-          for (let i = 1; i < wallChainPoints.length; i++) {
-            g.lineTo(wallChainPoints[i].x, wallChainPoints[i].y);
-          }
-          g.stroke({ width: 3.5, color, alpha: 0.6 });
-        }
-      }
-    } else if ((activeDesignTool === 'terrain' || activeDesignTool === 'pencil') && currentStrokePoints.length >= 4) {
-      const color = activeDesignTool === 'pencil' 
-        ? (typeof pencilColor === 'string' ? parseInt(pencilColor.replace('#', '0x'), 16) || 0x22d3ee : pencilColor)
-        : 0x10b981;
-      const strokeW = activeDesignTool === 'pencil' ? pencilWidth : terrainBrushWidth;
-
-      g.moveTo(currentStrokePoints[0], currentStrokePoints[1]);
-      for (let i = 2; i < currentStrokePoints.length; i += 2) {
-        g.lineTo(currentStrokePoints[i], currentStrokePoints[i+1]);
-      }
-      g.stroke({ width: strokeW, color, cap: 'round', join: 'round', alpha: 0.8 });
-    }
-
-    container.addChild(g);
-  }, [isDrawingToolActive, isDesignModeActive, activeDesignTool, wallDrawStart, wallDrawCurrent, currentStrokePoints, selectedWallType, pencilColor, pencilWidth, terrainBrushWidth]);
-
-  // ── Render Animated Tactical Radar Pings ──
-  useEffect(() => {
-    const container = pingsContainerRef.current;
-    if (!container) return;
-    container.removeChildren();
-
-    if (activePings.length === 0) return;
-
-    const g = new Graphics();
-    const now = Date.now();
-    activePings.forEach((p: any) => {
-      const elapsed = (now - p.timestamp) / 1000;
-      if (elapsed < 4.0) {
-        const progress = elapsed / 4.0;
-        const radius = 15 + progress * 80;
-        const alpha = (1 - progress) * 0.9;
-        const color = p.color 
-          ? (typeof p.color === 'string' ? parseInt(p.color.replace('#', '0x'), 16) || 0x06b6d4 : p.color)
-          : 0x06b6d4;
-
-        g.circle(p.x, p.y, radius);
-        g.stroke({ width: 2, color, alpha });
-
-        g.circle(p.x, p.y, 5);
-        g.fill({ color, alpha });
-      }
-    });
-
-    container.addChild(g);
-  }, [activePings]);
+  // ── Render Stage Layers (Walls, Terrains, Lines, Texts, Previews, Radar Pings) ──
+  useStageRenderers({
+    layerCompositorRef,
+    terrainsContainerRef,
+    linesContainerRef,
+    textsContainerRef,
+    wallPreviewContainerRef,
+    pingsContainerRef,
+    isCanvasReady,
+    localWalls,
+    currentMap,
+    isDrawingToolActive,
+    isDesignModeActive,
+    activeDesignTool,
+    wallDrawStart,
+    wallDrawCurrent,
+    selectedWallType,
+    wallConstructionMode,
+    wallChainPoints,
+    currentStrokePoints,
+    pencilColor,
+    pencilWidth,
+    terrainBrushWidth,
+    activePings
+  });
 
   // ── Render Transform Gizmo & Marquee Selection on ForegroundUI ──
   useEffect(() => {
@@ -2452,7 +2078,8 @@ export const StageView: React.FC<StageViewProps> = ({
     const engine = coordEngineRef.current;
     const snapped = engine.snapPixelToGrid(worldPos);
 
-    useEngineStore.getState().updatePosition(selectedTokenId, snapped.x, snapped.y);
+    const engineStore = useEngineStore.getState();
+    engineStore.updatePosition(selectedTokenId, snapped.x, snapped.y);
     AudioService.playTerminalBeep(1100, 0.02);
 
     if (isMoveModeActive) {
@@ -2461,6 +2088,29 @@ export const StageView: React.FC<StageViewProps> = ({
         `[MOVE] ${selectedToken?.name || 'Operative'} relocated to coordinates (${snapped.x}, ${snapped.y}).`,
         ...prev.slice(0, 8)
       ]);
+    }
+
+    // ── Evaluate Reactive Trap Triggers on Token Move ──
+    const movedToken = {
+      ...selectedToken,
+      id: selectedTokenId,
+      x: snapped.x,
+      y: snapped.y
+    };
+    const objectsOnMap = localObjects.length > 0 ? localObjects : (currentMap?.objects || []);
+    const fusedTokens = selectAllFusedTokens(engineStore);
+    const trapEvents = evaluateTrapTriggers(movedToken, objectsOnMap, fusedTokens);
+
+    if (trapEvents && trapEvents.length > 0) {
+      trapEvents.forEach((evt: any) => {
+        setCombatLog(prev => [
+          evt.logMessage,
+          ...prev.slice(0, 8)
+        ]);
+        if (evt.damage > 0) {
+          engineStore.applyDamage(selectedTokenId, evt.damage, !evt.isSaveSuccess);
+        }
+      });
     }
   };
 
@@ -3025,188 +2675,6 @@ export const StageView: React.FC<StageViewProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedAssetIds, gridSnap, isDesignModeActive, wallConstructionMode, wallChainPoints, handleBatchDelete, handleBatchDuplicate, handleBatchNudge, handleDeselectAll]);
-
-  // Called Shot Limb Penalties & Trauma Thresholds
-  const handleExecuteCombatStrike = () => {
-    if (isSimulationPaused) {
-      alert('Tactical Simulation is paused while in Architect Design Mode. Click Resume Sim in the banner to continue live combat.');
-      return;
-    }
-
-    if (!selectedToken || !targetToken) {
-      alert('Select an Attacker and a Target on The Stage.');
-      return;
-    }
-
-    AudioService.playTerminalBeep(1400, 0.05);
-
-    const dx = targetToken.x - selectedToken.x;
-    const dy = targetToken.y - selectedToken.y;
-    const distPx = Math.sqrt(dx * dx + dy * dy);
-    const distFt = Math.round((distPx / 70) * 5);
-    const isPointBlank = distFt <= 5;
-    const rangeCat = isPointBlank 
-      ? RangeCategory.PointBlank 
-      : distFt <= 30 
-        ? RangeCategory.Short 
-        : distFt <= 60 
-          ? RangeCategory.Medium 
-          : RangeCategory.Long;
-
-    const targetRad = 22 + (targetToken.size_modifier || 0) * 8;
-    const coverCheck = bvhBuilderRef.current.calculateLineOfSightCover(
-      { x: selectedToken.x, y: selectedToken.y },
-      { x: targetToken.x, y: targetToken.y },
-      targetRad
-    );
-
-    if (coverCheck.coverType === 'total') {
-      setCombatLog(prev => [
-        `[COMBAT BLOCKED] Line of Sight obstructed by ${coverCheck.occludingWalls.length} wall(s)! Attack cannot proceed.`,
-        ...prev.slice(0, 8)
-      ]);
-      AudioService.playTerminalBeep(450, 0.04);
-      return;
-    }
-
-    const limbMod = targetedLimb === 'head' ? -2 : targetedLimb === 'arms' ? -2 : targetedLimb === 'optics' ? -3 : targetedLimb === 'legs' ? -2 : -1;
-    const stanceBonus = activeStance === 'aim' ? 2 : 0;
-
-    const toHit = combatArbRef.current.buildToHitPackage(
-      14 + limbMod + stanceBonus,
-      SkillRank.Expert,
-      attackMapStep,
-      SizeCategory.Medium,
-      targetToken.size_modifier > 0 ? SizeCategory.Large : SizeCategory.Medium,
-      1.0,
-      rangeCat,
-      { isAiming: activeStance === 'aim', aimRounds: 1 }
-    );
-
-    toHit.finalTarget += coverCheck.coverMod;
-
-    const d1 = Math.floor(Math.random() * 10) + 1;
-    const d2 = Math.floor(Math.random() * 10) + 1;
-    const isDoubleTens = d1 === 10 && d2 === 10;
-    const isDoubleOnes = d1 === 1 && d2 === 1;
-    const critAttackBonus = isDoubleTens ? 30 : (isDoubleOnes ? -10 : 0);
-    const totalAttack = d1 + d2 + toHit.finalTarget + critAttackBonus;
-
-    const targetDefenseDC = combatArbRef.current.calculateUnopposedDC(
-      targetToken.size_modifier > 0 ? SizeCategory.Large : SizeCategory.Medium,
-      rangeCat
-    );
-
-    const isHit = totalAttack > targetDefenseDC && !isDoubleOnes;
-
-    if (!isHit) {
-      setCombatLog(prev => [
-        `[COMBAT MISS] ${selectedToken.name} targeted ${targetedLimb.toUpperCase()} of ${targetToken.name} with ${attackWeapon.toUpperCase()}. 2d10 Roll: ${d1}+${d2}=${d1+d2} (Total Attack: ${totalAttack} vs CR ${targetDefenseDC} - Defender Wins Ties). [Cover: ${coverCheck.coverType.toUpperCase()}]`,
-        ...prev.slice(0, 8)
-      ]);
-      return;
-    }
-
-    let baseDamage = attackWeapon === 'plasma' ? 32 : attackWeapon === 'emp' ? 24 : 18;
-    if (isDoubleTens) baseDamage *= 2;
-
-    if (isPointBlank && (attackWeapon === 'kinetic' || attackWeapon === 'plasma' || attackWeapon === 'laser')) {
-      const v1 = Math.floor(Math.random() * 8) + 1;
-      const v2 = Math.floor(Math.random() * 8) + 1;
-      baseDamage += Math.max(v1, v2);
-    } else {
-      baseDamage += Math.floor(Math.random() * 8) + 1;
-    }
-
-    const stanceDmg = activeStance === 'overcharge' ? 6 : 0;
-    const ap = attackWeapon === 'plasma' ? 6 : attackWeapon === 'laser' ? 4 : 2;
-    const isCalled = targetedLimb !== 'torso';
-    const targetLoc = targetedLimb === 'head' ? 'head' : targetedLimb === 'arms' ? 'arm_right' : targetedLimb === 'legs' ? 'leg_right' : 'torso';
-
-    const strikeResult = damagePipeRef.current.resolveStrike(
-      {
-        rawDamage: baseDamage + stanceDmg,
-        armorPenetration: ap,
-        damageType: attackWeapon,
-        isCalledShot: isCalled,
-        targetLocation: targetLoc as any
-      },
-      targetToken,
-      [targetToken.armor_dr || 10],
-      (targetToken as any).con_mod || 2,
-      (targetToken as any).constitution || 12
-    );
-
-    useEngineStore.getState().applyDamage(targetToken.id, strikeResult.healthDamage);
-
-    strikeResult.appliedStatuses.forEach(status => {
-      useEngineStore.getState().toggleCondition(targetToken.id, status);
-    });
-
-    let logMsg = `[COMBAT HIT] ${selectedToken.name} struck ${targetedLimb.toUpperCase()} of ${targetToken.name} for ${strikeResult.netDamage} NET DMG (${strikeResult.effectiveDR} DR + ${strikeResult.conModSoak} CON Soak) [Cover: ${coverCheck.coverType.toUpperCase()}].`;
-    if (strikeResult.entersMortalityState) {
-      logMsg += strikeResult.isDead
-        ? ` 💀 TARGET EXPIRED!`
-        : ` ⚠️ MORTALITY STATE: Bleeding Out (${strikeResult.stabilityPointsRemaining} Stability Points)!`;
-    } else if (strikeResult.appliedStatuses.length > 0) {
-      logMsg += ` TRAUMA: ${strikeResult.appliedStatuses.join(', ')}`;
-    }
-
-    setCombatLog(prev => [
-      logMsg,
-      ...prev.slice(0, 8)
-    ]);
-  };
-
-  const handleRollCustomDice = () => {
-    try {
-      const res = diceParserRef.current.evaluateExpression(customDiceExpr, selectedTokenId || undefined);
-      AudioService.playTerminalBeep(1250, 0.04);
-      setCombatLog(prev => [
-        `[DICE ROLL] ${customDiceExpr} => TOTAL: ${res.total} (${res.breakdown})`,
-        ...prev.slice(0, 8)
-      ]);
-    } catch (err: any) {
-      alert(`Dice Syntax Error: ${err.message}`);
-    }
-  };
-
-  // Turn Progression
-  const handleNextTurn = () => {
-    if (tokens.length === 0) return;
-    AudioService.playTerminalBeep(1050, 0.03);
-
-    const nextIndex = (currentTurnIndex + 1) % tokens.length;
-    setCurrentTurnIndex(nextIndex);
-    setSelectedTokenId(tokens[nextIndex].id);
-
-    if (nextIndex === 0) {
-      const nextRound = roundNumber + 1;
-      setRoundNumber(nextRound);
-      essenceTrackerRef.current.processRoundDegradation([]);
-      const entropyRoll = Math.floor(Math.random() * 10) + 1;
-      setCombatLog(prev => [
-        `[ROUND ${nextRound}] Initiated. Essence Degradation Protocol rolled -${entropyRoll} DC to active sustained effects.`,
-        ...prev.slice(0, 8)
-      ]);
-    } else {
-      setCombatLog(prev => [
-        `[TURN] Active combatant is now ${tokens[nextIndex].name}.`,
-        ...prev.slice(0, 8)
-      ]);
-    }
-  };
-
-  const handleRollAllInitiative = () => {
-    AudioService.playTerminalBeep(1200, 0.04);
-    const scores: Record<string, number> = {};
-    tokens.forEach(t => {
-      scores[t.id] = Math.floor(Math.random() * 20) + 1 + (t.tech_level || 3);
-    });
-    setInitiativeScores(scores);
-    setCurrentTurnIndex(0);
-    setCombatLog(prev => [`[INITIATIVE] Roster initiative rolled for ${tokens.length} combatants.`, ...prev.slice(0, 8)]);
-  };
 
   const currentScaleConfig = GRID_SCALE_CONFIGS[scaleTier];
 

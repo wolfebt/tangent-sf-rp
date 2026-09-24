@@ -26,19 +26,10 @@ bonus_skill_choices:
   - Athletics
   - Stealth
   - Perception
-inherent_features:
-  - trait-kitin-base-traits-awakened-psychic-biotech-hive-connection-sleepless
-  - trait-exoskeleton-dr-3
-  - trait-multidextrous-4-arms
-  - trait-leaper-20ft-jump
-  - trait-quick-5ft-movement
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Pheromone Scrambler
-  - Acid Spit
-  - Chitin Spike
-recommended_features:
-  - feature-acid-spit
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Chitinous Bio-Carapaces & Hive Bio-Guns)
 meta_level: 3 (Hive Mind Psionics)
@@ -49,10 +40,15 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Maantene are four-armed insectoid leapers of the Kitin hive. Agile and armored
-  in heavy chitin, they serve as scouts and vanguard flankers.
+description: 'Maantene are four-armed insectoid leapers of the Kitin hive. Agile and armored in heavy chitin, they serve as scouts and vanguard flankers.'
+traits:
+  - trait-kitin-base-traits-awakened-psychic-biotech-hive-connection-sleepless
+  - trait-exoskeleton-dr-3
+  - trait-multidextrous-4-arms
+  - trait-leaper-20ft-jump
+  - trait-quick-5ft-movement
 ---
+
 # Maantene (Kitin Insectoid Aberration)
 
 **BP Cost:**   

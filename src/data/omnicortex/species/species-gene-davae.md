@@ -27,18 +27,10 @@ bonus_skill_choices:
   - Insight
   - Discipline
   - Science
-inherent_features:
-  - trait-awakened-psychic
-  - trait-telepathy-100ft
-  - trait-biotechnology-mastery
-  - trait-hive-connection-shared-telepathic-mesh
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Mind Shield
-  - Psychic Scan
-  - Mesh Coordination
-recommended_features:
-  - feature-mind-shield
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 4 (Neural Mesh & Bio-Computing)
 meta_level: 4 (Hive Psionics)
@@ -53,10 +45,14 @@ modifiers:
 cp_cost: 14
 cp: 14
 bp: 14
-description: >-
-  Davae are telepathically networked transhumans engineered with oversized
-  craniums and bioluminescent neurological nodes.
+description: Davae are telepathically networked transhumans engineered with oversized craniums and bioluminescent neurological nodes.
+traits:
+  - trait-awakened-psychic
+  - trait-telepathy-100ft
+  - trait-biotechnology-mastery
+  - trait-hive-connection-shared-telepathic-mesh
 ---
+
 # Davae (Hive Psion Transhuman)
 
 *

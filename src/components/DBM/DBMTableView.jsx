@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { VirtualizedList } from './VirtualizedList';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
@@ -231,7 +230,6 @@ export const DBMTableView = ({
   handleDeleteEntry,
   handleDuplicateEntry
 }) => {
-  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const columnsDropdownRef = useRef(null);
   const filtersDropdownRef = useRef(null);
@@ -239,8 +237,6 @@ export const DBMTableView = ({
   const { syncCanonicalSpecies, syncCanonicalFactions, clearTombstonesForCategory } = useDBM() || {};
   const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
   const [isSyncingFactions, setIsSyncingFactions] = useState(false);
-
-  const codexMatrixId = CATEGORY_TO_CODEX_MATRIX[currentKey] || CATEGORY_TO_CODEX_MATRIX[currentConfig?.parent] || null;
 
   // Dropdown states
   const [isColumnsMenuOpen, setIsColumnsMenuOpen] = useState(false);
@@ -913,30 +909,6 @@ export const DBMTableView = ({
             )}
           </div>
 
-          {/* Unified Inline Sorting Controls on Same Row */}
-          <div className="flex items-center gap-1.5 bg-slate-950/80 border border-slate-800 px-2 py-1 rounded">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider hidden sm:inline">Sort:</span>
-            <select
-              value={sortField}
-              onChange={e => setSortField(e.target.value)}
-              className="bg-slate-900 border border-slate-700 text-cyan-300 px-2 py-0.5 rounded text-xs outline-none focus:border-cyan-500 max-w-[110px] sm:max-w-[130px] truncate"
-              title="Sort entries by field"
-            >
-              {allAvailableFields.map(f => (
-                <option key={f.key} value={f.key}>
-                  {f.label}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={() => setSortAsc(!sortAsc)}
-              className="px-1.5 py-0.5 bg-slate-900 border border-slate-700 hover:border-cyan-500 text-cyan-300 hover:text-white font-bold rounded text-[11px] font-mono shrink-0 transition-colors"
-              title="Toggle Sort Direction"
-            >
-              {sortAsc ? '▲ ASC' : '▼ DESC'}
-            </button>
-          </div>
-
           {/* Columns & Field Visibility Menu */}
           <div className="relative" ref={columnsDropdownRef}>
             <button
@@ -1169,18 +1141,6 @@ export const DBMTableView = ({
             className="hidden"
             onChange={onImport}
           />
-
-          {/* Guided Codex Builder Link for this category */}
-          {codexMatrixId && (
-            <button
-              onClick={() => navigate(`/codex?matrix=${codexMatrixId}`)}
-              className="px-3.5 py-1.5 bg-gradient-to-r from-purple-950 to-amber-950 hover:from-purple-900 hover:to-amber-900 text-amber-200 border border-amber-500/50 hover:border-amber-400 rounded text-xs font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(245,158,11,0.2)] transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
-              title={`Launch the Codex Guided Builder Matrix for ${currentConfig.label || currentKey}`}
-            >
-              <span>⚡</span>
-              <span>GUIDED CODEX BUILD</span>
-            </button>
-          )}
 
           {/* Create Entry Button */}
           {isAdmin ? (

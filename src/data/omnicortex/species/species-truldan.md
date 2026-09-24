@@ -32,20 +32,10 @@ bonus_skill_choices:
   - Survival
   - Combat
   - Athletics
-inherent_features:
-  - trait-amphibious
-  - trait-chameleon-3-stealth-in-natural-environments
-  - trait-exoskeleton-light-scales-dr-2
-  - trait-fast-heal
-  - trait-reach-5ft-melee-reach-with-tongue-limbs
-  - trait-regeneration-2-hp-rnd
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Adhesive Tongue Strike
-  - Toxic Skin Secretion
-  - Bog Stride
-recommended_features:
-  - feature-adhesive-tongue-strike
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Swamp Camouflage Suits & Harpoon Launchers)
 meta_level: 1 (Cellular Adaptation)
@@ -68,10 +58,16 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: >-
-  Robust amphibian humanoids possessing color-shifting skin, long prehensile
-  tongue strikes, and rapid aquatic regeneration.
+description: 'Robust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration.'
+traits:
+  - trait-amphibious
+  - trait-chameleon-3-stealth-in-natural-environments
+  - trait-exoskeleton-light-scales-dr-2
+  - trait-fast-heal
+  - trait-reach-5ft-melee-reach-with-tongue-limbs
+  - trait-regeneration-2-hp-rnd
 ---
+
 # Truldan (Amphibious Chameleonfolk)
 
 ## Description

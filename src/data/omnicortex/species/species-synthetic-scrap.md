@@ -13,9 +13,7 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: -2
@@ -31,18 +29,10 @@ bonus_skill_choices:
   - Repair
   - Combat (Improvised)
   - Streetwise
-inherent_features:
-  - trait-synthetic-base-traits
-  - trait-heavy-augmentation-slots-3-free-cyber-slots
-  - trait-field-self-repair-protocol
-  - trait-scrap-plating-dr-6
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Weapon Hardpoint Mount
-  - Overcharged Capacitor
-  - EMP Hardening
-recommended_features:
-  - feature-weapon-hardpoint-mount
+bonus_feature_choices: []
+recommended_features: []
 stigma: Synthetic (-2)
 tech_level: 3 (Salvage & Reclaimed Hardware)
 meta_level: 0 (Null)
@@ -57,10 +47,14 @@ modifiers:
 cp_cost: 47
 cp: 47
 bp: 47
-description: >-
-  Scraps are self-assembled, autonomous synthetic beings constructed from
-  recycled chassis, discarded starship components, and industrial hulls.
+description: 'Scraps are self-assembled, autonomous synthetic beings constructed from recycled chassis, discarded starship components, and industrial hulls.'
+traits:
+  - trait-synthetic-base-traits
+  - trait-heavy-augmentation-slots-3-free-cyber-slots
+  - trait-field-self-repair-protocol
+  - trait-scrap-plating-dr-6
 ---
+
 # Scrap (Kit-Bashed Autonomous Frame)
 
 *

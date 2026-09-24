@@ -30,17 +30,10 @@ bonus_skill_choices:
   - Athletics
   - Intimidation
   - Combat (Brawling)
-inherent_features:
-  - trait-brutal-2-melee-damage
-  - trait-exoskeleton-partial-chitinous-plates-dr-2
-  - trait-pain-tolerance
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Bone Spikes
-  - Furious Counter
-  - Unstoppable Momentum
-recommended_features:
-  - feature-brutal
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 3 (Ballistics & Heavy Exosuits)
 meta_level: 0 (Null)
@@ -63,10 +56,13 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: >-
-  Hardened frontier humans whose bones and skin grew calcified armor plating in
-  response to hyper-abrasive mineral environments.
+description: Hardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments.
+traits:
+  - trait-brutal-2-melee-damage
+  - trait-exoskeleton-partial-chitinous-plates-dr-2
+  - trait-pain-tolerance
 ---
+
 # Nian Human (Armored Variant)
 
 ## Description

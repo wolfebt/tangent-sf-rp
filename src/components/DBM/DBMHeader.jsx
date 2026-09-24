@@ -103,17 +103,6 @@ export const DBMHeader = ({
           <span className="hidden sm:inline">{isAdmin ? 'MASTER ACCESS: ON' : 'PLAYER VIEW'}</span>
         </button>
 
-        {/* 1-Click Codex Matrix Launcher */}
-        <button
-          type="button"
-          onClick={() => navigate('/codex')}
-          className="px-2.5 py-1.5 bg-gradient-to-r from-purple-950/90 to-slate-900 hover:from-purple-900 hover:to-slate-800 border border-purple-500/50 text-purple-200 rounded text-xs font-bold font-mono uppercase transition-all flex items-center gap-1.5 shadow-[0_0_10px_rgba(168,85,247,0.2)] cursor-pointer"
-          title="Open Rules Codex Guided Asset Builders (/codex)"
-        >
-          <span>📖</span>
-          <span className="hidden md:inline">Rules Codex</span>
-        </button>
-
         {/* System Actions Dropdown Menu */}
         <div className="relative" ref={menuRef}>
           <button

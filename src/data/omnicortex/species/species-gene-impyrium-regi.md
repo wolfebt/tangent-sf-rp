@@ -31,18 +31,10 @@ bonus_skill_choices:
   - Law
   - History
   - Attune
-inherent_features:
-  - trait-adaptive-aspects
-  - trait-awakened-psionic
-  - trait-status-imperial-nobility
-  - trait-aristocratic-immunity
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Royal Command
-  - Will of the Throne
-  - Silver Aegis
-recommended_features:
-  - feature-royal-command
+bonus_feature_choices: []
+recommended_features: []
 stigma: None
 tech_level: 4 (Imperial Regalia & Grav-Chairs)
 meta_level: 4 (Command Metaphysics)
@@ -57,11 +49,14 @@ modifiers:
 cp_cost: 28
 cp: 28
 bp: 28
-description: >-
-  The apex of imperial bio-engineering: peerless aristocrats endowed with
-  heightened intellect, natural psionic dominance, and undisputed political
-  authority.
+description: 'The apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority.'
+traits:
+  - trait-adaptive-aspects
+  - trait-awakened-psionic
+  - trait-status-imperial-nobility
+  - trait-aristocratic-immunity
 ---
+
 # Impyrium Regi (Imperial High Blood)
 
 ## Description

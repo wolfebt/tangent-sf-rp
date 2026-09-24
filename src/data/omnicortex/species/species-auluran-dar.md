@@ -30,21 +30,10 @@ bonus_skill_choices:
   - Acrobatics
   - Stealth
   - Athletics
-inherent_features:
-  - >-
-    trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons
-  - trait-awakened-psychic
-  - trait-climber
-  - trait-martial-arts
-  - trait-quick-5ft-movement
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Apex Predator
-  - Bio-Venom Spit
-  - Uncanny Balance
-  - Chitinous Plating
-recommended_features:
-  - feature-apex-predator
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Tech Weapons & Neural Symbionts)
 meta_level: 2 (Bio-Psionics)
@@ -59,11 +48,15 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: >-
-  The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal,
-  and biologically sophisticated, they wield living symbiote weapons and
-  prehensile limbs with lethal grace.
+description: 'The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal, and biologically sophisticated, they wield living symbiote weapons and prehensile limbs with lethal grace.'
+traits:
+  - trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons
+  - trait-awakened-psychic
+  - trait-climber
+  - trait-martial-arts
+  - trait-quick-5ft-movement
 ---
+
 # Dar (Auluran Hunter Caste)
 
 ## **DAR**

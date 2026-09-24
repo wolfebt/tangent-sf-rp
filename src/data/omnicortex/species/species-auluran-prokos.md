@@ -27,21 +27,10 @@ bonus_skill_choices:
   - Medicine
   - Athletics
   - Perception
-inherent_features:
-  - trait-auluran-base-traits
-  - trait-digitigrade
-  - trait-climber
-  - trait-quick
-  - trait-adapted-cold-environments
-  - trait-alternate-form-humanoid-beast-form
-  - trait-improved-great-fortitude
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Thermal Fur Insulation
-  - Primal Regeneration
-  - Frost Resistance
-recommended_features:
-  - feature-primal-regeneration
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Cryo-Biotechnology)
 meta_level: 2 (Cellular Metamorphosis)
@@ -56,11 +45,17 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Prokos are cold-adapted Auluran biforms from glacial fringe worlds. They can
-  shift between a slender humanoid form for technology operation and a bulky
-  furred predator form for tundra survival.
+description: Prokos are cold-adapted Auluran biforms from glacial fringe worlds. They can shift between a slender humanoid form for technology operation and a bulky furred predator form for tundra survival.
+traits:
+  - trait-auluran-base-traits
+  - trait-digitigrade
+  - trait-climber
+  - trait-quick
+  - trait-adapted-cold-environments
+  - trait-alternate-form-humanoid-beast-form
+  - trait-improved-great-fortitude
 ---
+
 # Prokos (Auluran Biform Shifter)
 
 ## Description

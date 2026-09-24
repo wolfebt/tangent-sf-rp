@@ -31,17 +31,10 @@ bonus_skill_choices:
   - Discipline
   - Stealth
   - Perception
-inherent_features:
-  - trait-augmented-sub-dermal-targeter-adrenal-regulator
-  - trait-conditioned-mind-4-vs-fear
-  - trait-combat-specialization
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Zero-Delay Reaction
-  - Covert Infiltration
-  - Precision Marksman
-recommended_features:
-  - feature-precision-marksman
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 4 (Syndicate Black-Ops Tech)
 meta_level: 1 (Tactical Focus)
@@ -56,11 +49,13 @@ modifiers:
 cp_cost: 30
 cp: 30
 bp: 30
-description: >-
-  The Janissaries are precision-crafted corporate enforcers possessing
-  surgically implanted targeters, adrenal pumps, and uncompromising tactical
-  conditioning.
+description: 'The Janissaries are precision-crafted corporate enforcers possessing surgically implanted targeters, adrenal pumps, and uncompromising tactical conditioning.'
+traits:
+  - trait-augmented-sub-dermal-targeter-adrenal-regulator
+  - trait-conditioned-mind-4-vs-fear
+  - trait-combat-specialization
 ---
+
 # Janissary (Syndicate Elite Enforcer)
 
 *

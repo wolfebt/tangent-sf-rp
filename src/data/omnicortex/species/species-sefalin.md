@@ -26,23 +26,10 @@ bonus_skill_choices:
   - Science
   - Medicine
   - Athletics
-inherent_features:
-  - trait-adapted-deep-sea-pelagic
-  - trait-awakened-psychic
-  - trait-amphibious
-  - trait-biotech-affinity
-  - trait-chameleon-skin-4-stealth
-  - trait-fast-healing
-  - trait-tentacles-4-prehensile-grasping-limbs
-  - trait-quick-movement
-  - trait-regeneration-3-hp-rnd
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Ink Cloud Blast
-  - Tentacle Grapple
-  - Neural Drain
-recommended_features:
-  - feature-chameleon-skin
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 4 (Bio-Organic Submersibles & Neural Syringes)
 meta_level: 3 (Aquatic Psionics)
@@ -53,10 +40,19 @@ modifiers: []
 cp_cost: 14
 cp: 14
 bp: 14
-description: >-
-  Tentacled cephalopod humanoids from abyssal trenches possessing dynamic
-  chromatophore skin, rapid limb regeneration, and formidable intellects.
+description: 'Tentacled cephalopod humanoids from abyssal trenches possessing dynamic chromatophore skin, rapid limb regeneration, and formidable intellects.'
+traits:
+  - trait-adapted-deep-sea-pelagic
+  - trait-awakened-psychic
+  - trait-amphibious
+  - trait-biotech-affinity
+  - trait-chameleon-skin-4-stealth
+  - trait-fast-healing
+  - trait-tentacles-4-prehensile-grasping-limbs
+  - trait-quick-movement
+  - trait-regeneration-3-hp-rnd
 ---
+
 # Sefalin (Cephalopod Aberration)
 
 ## Description

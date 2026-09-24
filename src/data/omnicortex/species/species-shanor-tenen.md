@@ -24,24 +24,10 @@ bonus_skill_choices:
   - Stealth
   - Attune
   - Insight
-inherent_features:
-  - trait-ageless
-  - trait-alter-form-advanced
-  - trait-awakened-void
-  - trait-fast-healing
-  - trait-immortal
-  - trait-non-typical-anatomy
-  - trait-regeneration
-  - trait-semi-corporeal-pass-through-walls
-  - trait-telepathic
-  - trait-flight
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Ethereal Fade
-  - Ghost Whisper
-  - Chilling Aura
-recommended_features:
-  - feature-ethereal-fade
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 4 (Ethereal Lattice Tech)
 meta_level: 5 (High Spectral Metaphysics)
@@ -52,10 +38,20 @@ modifiers: []
 cp_cost: 42
 cp: 42
 bp: 42
-description: >-
-  Tenen are benign spectral Sha’nor who lack the predatory vampiric urge,
-  drifting between realities as quiet chroniclers and spatial navigators.
+description: 'Tenen are benign spectral Sha’nor who lack the predatory vampiric urge, drifting between realities as quiet chroniclers and spatial navigators.'
+traits:
+  - trait-ageless
+  - trait-alter-form-advanced
+  - trait-awakened-void
+  - trait-fast-healing
+  - trait-immortal
+  - trait-non-typical-anatomy
+  - trait-regeneration
+  - trait-semi-corporeal-pass-through-walls
+  - trait-telepathic
+  - trait-flight
 ---
+
 # Tenen (Spectral Void Entity)
 
 # 

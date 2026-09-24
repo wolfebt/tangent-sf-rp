@@ -31,20 +31,10 @@ bonus_skill_choices:
   - Navigation
   - Athletics
   - Stealth
-inherent_features:
-  - trait-adapted-aquatic
-  - trait-amphibious
-  - trait-alternate-form-manta-ray-flight-form
-  - trait-echolocation-60ft-sonar
-  - trait-uncanny-sense-underwater-vision
-  - trait-swim-glide-speed-40ft
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Electro-Magnetic Pulse Sting
-  - Hydrofoil Dash
-  - Deep Trench Sight
-recommended_features:
-  - feature-echolocation
+bonus_feature_choices: []
+recommended_features: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Hydro-Resonance Equipment)
 meta_level: 2 (Sonic Metaphysics)
@@ -63,10 +53,16 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: >-
-  Aquatic-aerial biforms with winged patagia, sonar echolocation, and the
-  ability to glide through atmospheric currents or dive into oceanic depths.
+description: 'Aquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths.'
+traits:
+  - trait-adapted-aquatic
+  - trait-amphibious
+  - trait-alternate-form-manta-ray-flight-form
+  - trait-echolocation-60ft-sonar
+  - trait-uncanny-sense-underwater-vision
+  - trait-swim-glide-speed-40ft
 ---
+
 # Mobula (Manta Biform)
 
 ## Description

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
+import { DEFAULT_FEATURES } from '../src/data/featuresData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,6 +10,18 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const speciesDir = path.join(rootDir, 'src', 'data', 'omnicortex', 'species');
 const targetFile = path.join(rootDir, 'src', 'data', 'speciesData.js');
+
+const validFeatureIds = new Set(DEFAULT_FEATURES.map(f => f.id.toLowerCase()));
+const validFeatureNames = new Set(DEFAULT_FEATURES.map(f => f.name.toLowerCase()));
+
+const isValidFeature = (f) => {
+  if (!f) return false;
+  const s = (typeof f === 'object' ? (f.id || f.name || '') : String(f)).trim().toLowerCase();
+  return validFeatureIds.has(s) || 
+         validFeatureNames.has(s) || 
+         validFeatureIds.has(s.replace(/^feature-/, '')) || 
+         validFeatureIds.has('ability-' + s.replace(/^feature-/, ''));
+};
 
 export const SPECIES_LINEAGES = [
   {
@@ -116,6 +129,29 @@ function syncSpecies() {
       }
     });
 
+    // Extract traits
+    const rawTraits = Array.isArray(data.traits) ? [...data.traits] : (Array.isArray(data.species_traits) ? [...data.species_traits] : []);
+    const isTrait = (item) => {
+      if (!item) return false;
+      const str = typeof item === 'object' ? (item.id || item.name || '') : String(item);
+      const clean = str.toLowerCase().trim();
+      return clean.startsWith('trait-') || clean.includes('traits-') || clean.startsWith('trait_') || clean.includes('trait');
+    };
+
+    const traits = [...rawTraits];
+    const cleaned_inherent_features = [];
+    inherent_features.forEach(f => {
+      if (isTrait(f)) {
+        const fId = typeof f === 'object' ? (f.id || f.name) : f;
+        if (!traits.some(t => (typeof t === 'object' ? (t.id || t.name) : t) === fId)) {
+          traits.push(f);
+        }
+      } else if (isValidFeature(f)) {
+        cleaned_inherent_features.push(f);
+      }
+    });
+    const cleaned_recommended_features = recommended_features.filter(f => !isTrait(f) && isValidFeature(f));
+
     const speciesObj = {
       id,
       name,
@@ -125,6 +161,9 @@ function syncSpecies() {
       type: Array.isArray(data.type) ? data.type : (data.type ? [data.type] : ['species_type-humanoid']),
       size: Array.isArray(data.size) ? data.size : (data.size ? [data.size] : ['species_size-medium']),
       movement: Array.isArray(data.movement) ? data.movement : (data.movement ? [data.movement] : ['species_movement-bipedal']),
+      traits: traits,
+      species_traits: traits,
+      disadvantages: Array.isArray(data.disadvantages) ? data.disadvantages : [],
       modifiers: modifiers,
       costs: costs,
       inherent_attribute_modifiers: inherent_attribute_modifiers,
@@ -132,10 +171,10 @@ function syncSpecies() {
       specific_skill_bonuses: specific_skill_bonuses,
       bonus_skills: typeof data.bonus_skills === 'number' ? data.bonus_skills : 0,
       bonus_skill_choices: Array.isArray(data.bonus_skill_choices) ? data.bonus_skill_choices : [],
-      inherent_features: inherent_features,
+      inherent_features: cleaned_inherent_features,
       bonus_features: typeof data.bonus_features === 'number' ? data.bonus_features : 0,
       bonus_feature_choices: Array.isArray(data.bonus_feature_choices) ? data.bonus_feature_choices : [],
-      recommended_features: recommended_features,
+      recommended_features: cleaned_recommended_features,
       stigma: data.stigma || 'None',
       tech_level: data.tech_level ? String(data.tech_level) : '3',
       meta_level: data.meta_level ? String(data.meta_level) : '1',

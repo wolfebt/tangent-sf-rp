@@ -43,6 +43,7 @@ import {
   resolveMovementId
 } from '../../../engines/tangentConstants';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { DEFAULT_FEATURES } from '../../../data/featuresData';
 import { DEFAULT_SPECIES_MOVEMENT, getMovementById, SPECIES_MOVEMENT_PACES } from '../../../data/speciesMovementData';
 import { getTraitChoiceConfig } from '../../../data/speciesTraitChoices';
 
@@ -138,7 +139,7 @@ const CANONICAL_SPECIES_STIGMAS = [
   { id: 'seclusionist', label: 'Seclusionist (-1)', name: 'Seclusionist (-1)', penalty: 1, refund: 1, desc: 'Cloistered hermit culture or xenophobic isolationist background.' }
 ];
 
-const GENETICS_NAV_ITEMS = [
+export const GENETICS_NAV_ITEMS = [
   {
     id: 'chassis',
     name: 'Chassis & Scale',
@@ -149,11 +150,11 @@ const GENETICS_NAV_ITEMS = [
   },
   {
     id: 'traits',
-    name: 'Racial Traits',
+    name: 'Species Traits (1, 2 & 4 CP)',
     shortLabel: 'TRAITS',
     icon: Sparkles,
     color: '#c084fc',
-    desc: 'Species Racial Traits Catalog, Tiers & Genetic Mutations'
+    desc: 'Biological Traits: Basic (1 CP), Advanced (2 CP), Elite (4 CP)'
   },
   {
     id: 'attributes',
@@ -165,11 +166,11 @@ const GENETICS_NAV_ITEMS = [
   },
   {
     id: 'features',
-    name: 'Features & Perks',
+    name: 'Granted & Rec. Features',
     shortLabel: 'FEATS',
     icon: BookOpen,
     color: '#a855f7',
-    desc: 'Inherent Biological Features & Recommended Cultural Traits'
+    desc: 'Character Features: Inherent Granted Perks & Recommended Suggestions (0 CP Species Cost)'
   },
   {
     id: 'movement',
@@ -231,18 +232,313 @@ export const normalizeSpeciesBudget = (raw) => {
   return match || 'Standard';
 };
 
+export const isSpeciesTraitIdentifier = (item) => {
+  if (!item) return false;
+  const str = typeof item === 'object' ? (item.id || item.name || '') : String(item);
+  const clean = str.toLowerCase().trim();
+  return clean.startsWith('trait-') || clean.includes('traits-') || clean.startsWith('trait_') || clean.includes('trait');
+};
+
+const CANONICAL_FEATURE_IDS = new Set(DEFAULT_FEATURES.map(f => f.id.toLowerCase()));
+const CANONICAL_FEATURE_NAMES = new Set(DEFAULT_FEATURES.map(f => f.name.toLowerCase()));
+
+export const isCanonicalFeatureIdentifier = (item) => {
+  if (!item) return false;
+  const str = typeof item === 'object' ? (item.id || item.name || '') : String(item);
+  const clean = str.toLowerCase().trim();
+  if (isSpeciesTraitIdentifier(item)) return false;
+  return CANONICAL_FEATURE_IDS.has(clean) || 
+         CANONICAL_FEATURE_NAMES.has(clean) ||
+         CANONICAL_FEATURE_IDS.has(clean.replace(/^feature-/, '')) ||
+         CANONICAL_FEATURE_IDS.has(`ability-${clean.replace(/^feature-/, '')}`);
+};
+
+export const calculateSpeciesState = (formData = {}) => {
+  const selectedType = normalizeSpeciesType(formData.species_type || formData.type);
+  const selectedSize = normalizeSpeciesSize(formData.size || formData.species_size);
+  const selectedBudget = normalizeSpeciesBudget(formData.budget_level);
+  const selectedModes = Array.isArray(formData.movement_modes) ? formData.movement_modes : (formData.movement ? [formData.movement] : ['species_movement-bipedal']);
+
+  const rawTraits = Array.isArray(formData.traits) ? formData.traits : [];
+  const rawInherentFeatures = Array.isArray(formData.inherent_features) ? formData.inherent_features : [];
+  const rawRecommendedFeatures = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+
+  // Separate traits from features: legacy traits in inherent_features belong in traits
+  const traitsFromInherent = rawInherentFeatures.filter(isSpeciesTraitIdentifier);
+  // Only genuine Omnicortex features (from 219 features catalog) are permitted
+  const cleanedInherentFeatures = rawInherentFeatures.filter(isCanonicalFeatureIdentifier);
+  const cleanedRecommendedFeatures = rawRecommendedFeatures.filter(isCanonicalFeatureIdentifier);
+
+  // Merge traits
+  const selectedTraits = [...rawTraits];
+  traitsFromInherent.forEach(t => {
+    const tId = typeof t === 'object' ? (t.id || t.name) : t;
+    if (!selectedTraits.some(existing => (typeof existing === 'object' ? (existing.id || existing.name) : existing) === tId)) {
+      selectedTraits.push(t);
+    }
+  });
+
+  const selectedDisadvantages = Array.isArray(formData.disadvantages) ? formData.disadvantages : [];
+  const selectedStigma = typeof formData.social_stigma === 'string'
+    ? formData.social_stigma
+    : typeof formData.stigma === 'string'
+    ? formData.stigma
+    : Array.isArray(formData.social_stigma)
+    ? formData.social_stigma.join(', ')
+    : Array.isArray(formData.stigma)
+    ? formData.stigma.join(', ')
+    : 'None';
+
+  const base = {
+    str: Number(formData.bonus_str || formData.attributes?.str || 0),
+    agi: Number(formData.bonus_agi || formData.attributes?.agi || 0),
+    sta: Number(formData.bonus_sta || formData.attributes?.sta || 0),
+    int: Number(formData.bonus_int || formData.attributes?.int || 0),
+    wis: Number(formData.bonus_wis || formData.attributes?.wis || 0),
+    cha: Number(formData.bonus_cha || formData.attributes?.cha || 0)
+  };
+  if (Array.isArray(formData.attribute_modifiers)) {
+    formData.attribute_modifiers.forEach(mod => {
+      const attr = String(mod.attribute || mod.target || '').toLowerCase();
+      const bonus = Number(mod.bonus ?? mod.value ?? 0);
+      if (attr.startsWith('str') && !base.str) base.str = bonus;
+      else if ((attr.startsWith('agi') || attr.startsWith('dex')) && !base.agi) base.agi = bonus;
+      else if ((attr.startsWith('sta') || attr.startsWith('con')) && !base.sta) base.sta = bonus;
+      else if (attr.startsWith('int') && !base.int) base.int = bonus;
+      else if (attr.startsWith('wis') && !base.wis) base.wis = bonus;
+      else if (attr.startsWith('cha') && !base.cha) base.cha = bonus;
+    });
+  }
+
+  const skillBundles = formData.skill_bundles || 0;
+
+  const bpData = calculateSpeciesBP({
+    type: selectedType,
+    size: selectedSize,
+    movementModes: selectedModes,
+    attributes: base,
+    skillBundles,
+    traits: selectedTraits,
+    disadvantages: selectedDisadvantages,
+    budgetLevel: selectedBudget,
+    social_stigma: selectedStigma,
+    stigma: selectedStigma
+  });
+
+  return {
+    selectedType,
+    selectedSize,
+    selectedBudget,
+    selectedModes,
+    selectedTraits,
+    cleanedInherentFeatures,
+    cleanedRecommendedFeatures,
+    traitsFromInherent,
+    selectedDisadvantages,
+    selectedStigma,
+    attributes: base,
+    skillBundles,
+    bpData
+  };
+};
+
+export const GeneticsNavRail = ({
+  formData = {},
+  activeTab = 'chassis',
+  onTabChange,
+  isNested = false,
+  onHoverItem = null
+}) => {
+  const {
+    selectedTraits,
+    cleanedInherentFeatures,
+    cleanedRecommendedFeatures,
+    selectedDisadvantages,
+    selectedStigma,
+    attributes,
+    skillBundles,
+    selectedModes,
+    bpData
+  } = useMemo(() => calculateSpeciesState(formData), [formData]);
+
+  const navContainerClass = isNested
+    ? "w-18 sm:w-20 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col items-center justify-between py-2.5 px-1 select-none z-10 font-sans shadow-lg animate-fade-in"
+    : "w-full md:w-20 lg:w-22 shrink-0 bg-[#070a12]/95 backdrop-blur-md border border-slate-800/90 rounded-2xl flex flex-row md:flex-col items-center justify-between md:justify-start p-2 gap-1.5 shadow-xl select-none";
+
+  return (
+    <nav aria-label="Species Genetics Sub-Navigation" className={navContainerClass}>
+      {/* Top Crest on Desktop / Nested */}
+      <div className={`${isNested ? 'flex' : 'hidden md:flex'} flex-col items-center justify-center py-1 mb-0.5`}>
+        <div 
+          className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-purple-500/50 bg-purple-500/15 text-purple-400 flex items-center justify-center shadow-lg transition-transform hover:scale-105"
+          title="Species Genetics & Traits"
+        >
+          <Dna size={17} />
+        </div>
+        <div className="w-5 sm:w-6 h-px bg-slate-800/80 mt-1.5" />
+      </div>
+
+      {/* Rail Items */}
+      <div className={`flex ${isNested ? 'flex-col' : 'flex-row md:flex-col'} items-center gap-1.5 w-full`}>
+        {GENETICS_NAV_ITEMS.map(item => {
+          const ItemIcon = item.icon;
+          const isActive = activeTab === item.id;
+          const itemCount = item.id === 'chassis'
+            ? 1
+            : item.id === 'traits' 
+            ? selectedTraits.length 
+            : item.id === 'attributes'
+            ? (Object.values(attributes).filter(v => v !== 0).length + (skillBundles > 0 ? 1 : 0) + (formData.specific_skill_bonuses?.length || 0) || null)
+            : item.id === 'features'
+            ? ((cleanedInherentFeatures?.length || 0) + (cleanedRecommendedFeatures?.length || 0) || null)
+            : item.id === 'movement' 
+            ? selectedModes.length 
+            : item.id === 'stigma'
+            ? (selectedStigma && selectedStigma !== 'None' ? 1 : null)
+            : item.id === 'disadvantages' 
+            ? selectedDisadvantages.length 
+            : item.id === 'modifiers'
+            ? (formData.modifiers?.length || null)
+            : null;
+
+          const buttonNode = (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService?.playTerminalBeep?.(1100, 0.02);
+                onTabChange?.(item.id);
+              }}
+              onMouseEnter={(e) => {
+                if (onHoverItem) {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  onHoverItem({
+                    item: {
+                      ...item,
+                      label: item.name,
+                      sublabel: item.desc,
+                      itemCount
+                    },
+                    rect
+                  });
+                }
+              }}
+              onMouseLeave={() => {
+                if (onHoverItem) onHoverItem(null);
+              }}
+              className={`group relative w-full py-1.5 sm:py-2 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
+                isActive
+                  ? 'bg-purple-950/80 border-purple-400/80 shadow-[0_0_15px_rgba(168,85,247,0.3)]'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+              }`}
+            >
+              {/* Left Glowing Indicator Bar on Desktop */}
+              {isActive && (
+                <span
+                  className={`${isNested ? 'block' : 'hidden md:block'} absolute -left-1 sm:-left-2 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(168,85,247,0.8)]`}
+                  style={{ backgroundColor: item.color }}
+                />
+              )}
+              {/* Bottom Glowing Bar on Mobile */}
+              {!isNested && isActive && (
+                <span
+                  className="md:hidden absolute left-2 right-2 -bottom-1 h-0.5 rounded-full shadow-[0_0_6px_rgba(168,85,247,0.8)]"
+                  style={{ backgroundColor: item.color }}
+                />
+              )}
+
+              {/* Icon Box */}
+              <div
+                className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                  isActive
+                    ? 'border-purple-400/80 shadow-sm'
+                    : 'border-slate-800 group-hover:border-slate-700 bg-slate-950/60'
+                }`}
+                style={isActive ? { background: `${item.color}25`, borderColor: `${item.color}80` } : {}}
+              >
+                <ItemIcon size={16} style={{ color: isActive ? item.color : undefined }} className={isActive ? '' : 'text-slate-400 group-hover:text-slate-200'} />
+                {itemCount !== null && itemCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[15px] h-[15px] rounded-full bg-purple-500 text-slate-950 font-bold font-mono text-[9px] flex items-center justify-center shadow">
+                    {itemCount}
+                  </span>
+                )}
+              </div>
+
+              {/* Monospace Label Underneath */}
+              <span
+                className={`font-mono text-[8.5px] sm:text-[9px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight select-none ${
+                  isActive ? 'font-extrabold' : 'text-slate-400 group-hover:text-slate-200'
+                }`}
+                style={isActive ? { color: item.color } : {}}
+              >
+                {item.shortLabel}
+              </span>
+            </button>
+          );
+
+          return (
+            <OmnicortexTooltip
+              key={item.id}
+              position={isNested ? "right" : "top"}
+              content={
+                <div className="p-2 space-y-1 max-w-xs font-mono">
+                  <div className="flex items-center gap-1.5 font-bold text-xs" style={{ color: item.color }}>
+                    <ItemIcon size={14} />
+                    <span>{item.name}</span>
+                  </div>
+                  <p className="text-[11px] text-slate-300">{item.desc}</p>
+                  {itemCount !== null && (
+                    <div className="text-[10px] text-purple-300 pt-1 border-t border-slate-800">
+                      Active Selections: {itemCount}
+                    </div>
+                  )}
+                </div>
+              }
+              color={item.color}
+              className="w-full"
+            >
+              {buttonNode}
+            </OmnicortexTooltip>
+          );
+        })}
+      </div>
+
+      {/* Bottom Status Slot */}
+      <div className={`${isNested ? 'flex' : 'hidden md:flex'} w-full flex-col items-center gap-1 pt-2 border-t border-slate-800/80 mt-auto`}>
+        <div className="text-[8px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+          <span>GEN CP</span>
+        </div>
+        <div
+          className={`text-[8.5px] font-mono px-1 py-0.5 rounded font-bold uppercase tracking-wider text-center w-full truncate border ${
+            bpData.isOverBudget 
+              ? 'bg-red-950/80 text-red-400 border-red-500/40 shadow-[0_0_8px_rgba(239,68,68,0.3)] animate-pulse' 
+              : 'bg-purple-950/60 text-purple-300 border-purple-500/30'
+          }`}
+        >
+          {bpData.totalBPUsed} CP
+        </div>
+      </div>
+    </nav>
+  );
+};
+
 export const SpeciesTraitSelector = ({ 
   formData = {}, 
   onChange, 
   isEditMode = true, 
   onOpenPicker = null, 
-  dbData: propDbData = null 
+  dbData: propDbData = null,
+  activeTab: propActiveTab,
+  onTabChange: propOnTabChange,
+  hideNavRail = true
 }) => {
   const dbmContext = useDBM() || {};
   const dbData = propDbData || dbmContext.dbData || {};
   const dbTraits = useMemo(() => dbData?.trait || dbData?.traits || [], [dbData]);
 
-  const [activeTab, setActiveTab] = useState('chassis'); // 'chassis', 'traits', 'attributes', 'features', 'movement', 'stigma', 'disadvantages', 'modifiers'
+  const [internalActiveTab, setInternalActiveTab] = useState('chassis'); // 'chassis', 'traits', 'attributes', 'features', 'movement', 'stigma', 'disadvantages', 'modifiers'
+  const activeTab = propActiveTab !== undefined ? propActiveTab : internalActiveTab;
+  const setActiveTab = propOnTabChange || setInternalActiveTab;
   const [traitTier, setTraitTier] = useState('all'); // 'all', 'basic', 'advanced', 'elite'
   const [classificationFilter, setClassificationFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -261,7 +557,41 @@ export const SpeciesTraitSelector = ({
   const selectedSize = normalizeSpeciesSize(formData.size || formData.species_size);
   const selectedBudget = normalizeSpeciesBudget(formData.budget_level);
   const selectedModes = Array.isArray(formData.movement_modes) ? formData.movement_modes : (formData.movement ? [formData.movement] : ['species_movement-bipedal']);
-  const selectedTraits = Array.isArray(formData.traits) ? formData.traits : [];
+  const rawTraits = Array.isArray(formData.traits) ? formData.traits : [];
+  const rawInherentFeatures = Array.isArray(formData.inherent_features) ? formData.inherent_features : [];
+  const rawRecommendedFeatures = Array.isArray(formData.recommended_features) ? formData.recommended_features : [];
+
+  // Separate traits from features: legacy traits in inherent_features belong in traits
+  const traitsFromInherent = useMemo(() => rawInherentFeatures.filter(isSpeciesTraitIdentifier), [rawInherentFeatures]);
+  // Only genuine Omnicortex features (from 219 features catalog) are permitted
+  const cleanedInherentFeatures = useMemo(() => rawInherentFeatures.filter(isCanonicalFeatureIdentifier), [rawInherentFeatures]);
+  const cleanedRecommendedFeatures = useMemo(() => rawRecommendedFeatures.filter(isCanonicalFeatureIdentifier), [rawRecommendedFeatures]);
+
+  // Merge traits
+  const selectedTraits = useMemo(() => {
+    const list = [...rawTraits];
+    traitsFromInherent.forEach(t => {
+      const tId = typeof t === 'object' ? (t.id || t.name) : t;
+      if (!list.some(existing => (typeof existing === 'object' ? (existing.id || existing.name) : existing) === tId)) {
+        list.push(t);
+      }
+    });
+    return list;
+  }, [rawTraits, traitsFromInherent]);
+
+  // Auto-sync legacy data: migrate traits out of inherent_features and purge non-canonical features
+  useEffect(() => {
+    if (traitsFromInherent.length > 0 && (!formData.traits || formData.traits.length === 0)) {
+      onChange('traits', selectedTraits);
+    }
+    if (rawInherentFeatures.length !== cleanedInherentFeatures.length) {
+      onChange('inherent_features', cleanedInherentFeatures);
+    }
+    if (rawRecommendedFeatures.length !== cleanedRecommendedFeatures.length) {
+      onChange('recommended_features', cleanedRecommendedFeatures);
+    }
+  }, [traitsFromInherent.length, formData.traits, selectedTraits, rawInherentFeatures.length, cleanedInherentFeatures, rawRecommendedFeatures.length, cleanedRecommendedFeatures, onChange]);
+
   const selectedDisadvantages = Array.isArray(formData.disadvantages) ? formData.disadvantages : [];
   const selectedStigma = typeof formData.social_stigma === 'string'
     ? formData.social_stigma
@@ -299,7 +629,7 @@ export const SpeciesTraitSelector = ({
 
   const skillBundles = formData.skill_bundles || 0;
 
-  // Real-time calculation including Social Stigma CP rebate & inherent features
+  // Real-time calculation including Social Stigma CP rebate (features do NOT cost species CP)
   const bpData = useMemo(() => {
     return calculateSpeciesBP({
       type: selectedType,
@@ -308,13 +638,12 @@ export const SpeciesTraitSelector = ({
       attributes,
       skillBundles,
       traits: selectedTraits,
-      inherent_features: formData.inherent_features || [],
       disadvantages: selectedDisadvantages,
       budgetLevel: selectedBudget,
       social_stigma: selectedStigma,
       stigma: selectedStigma
     });
-  }, [selectedType, selectedSize, selectedModes, attributes, skillBundles, selectedTraits, formData.inherent_features, selectedDisadvantages, selectedBudget, selectedStigma]);
+  }, [selectedType, selectedSize, selectedModes, attributes, skillBundles, selectedTraits, selectedDisadvantages, selectedBudget, selectedStigma]);
 
   const combatMods = useMemo(() => {
     return calculateSpeciesCombatModifiers(selectedSize);
@@ -350,10 +679,128 @@ export const SpeciesTraitSelector = ({
     onChange('inherent_attribute_modifiers', attrMods);
   };
 
+  // Comprehensive Omnicortex Traits Catalog
+  const allAvailableTraits = useMemo(() => {
+    const map = new Map();
+    const addTrait = (t) => {
+      const id = t.id || t.name;
+      if (!id) return;
+      if (!map.has(id)) {
+        map.set(id, {
+          id,
+          name: t.name || id.replace(/^trait[-_]/, '').replace(/[_-]/g, ' '),
+          bp: t.bp || t.costs?.bp || (t.tier === 'elite' ? 4 : t.tier === 'advanced' ? 2 : 1),
+          tier: (t.trait_tier || t.tier || (t.bp === 4 ? 'elite' : t.bp === 2 ? 'advanced' : 'basic')).toLowerCase(),
+          classification: t.classification || t.type || 'Physical',
+          description: t.description || t.desc || t.mechanics || t.mechanic || 'Canonical biological trait effect.',
+          modifiers: t.modifiers || []
+        });
+      }
+    };
+
+    // 1. Built-in constants
+    SPECIES_TRAITS_BASIC.forEach(t => addTrait({ ...t, tier: 'basic', bp: 1 }));
+    SPECIES_TRAITS_ADVANCED.forEach(t => addTrait({ ...t, tier: 'advanced', bp: 2 }));
+    SPECIES_TRAITS_ELITE.forEach(t => addTrait({ ...t, tier: 'elite', bp: 4 }));
+
+    // 2. Canonical traits dataset
+    ALL_CANONICAL_TRAITS.forEach(addTrait);
+
+    // 3. Omnicortex DBM traits
+    const dbTraits = dbData?.traits || dbData?.species_traits || [];
+    dbTraits.forEach(addTrait);
+
+    return Array.from(map.values());
+  }, [dbData]);
+
+  // Resolved list of equipped traits objects with robust legacy matching
+  const activeEquippedTraitsList = useMemo(() => {
+    return selectedTraits.map((idOrObj, idx) => {
+      const isObj = typeof idOrObj === 'object' && idOrObj !== null;
+      const rawId = isObj ? (idOrObj.id || idOrObj.name) : String(idOrObj);
+      const rawNorm = String(rawId || '').toLowerCase().replace(/^trait[-_]/, '').replace(/[_-]/g, ' ').trim();
+
+      // Priority matching:
+      // 1. Exact ID or Name match
+      let match = allAvailableTraits.find(t => t.id === rawId || t.name?.toLowerCase() === rawId.toLowerCase());
+      
+      // 2. Normalized ID or Name match
+      if (!match) {
+        match = allAvailableTraits.find(t => {
+          const tNorm = String(t.id || '').toLowerCase().replace(/^trait[-_]/, '').replace(/[_-]/g, ' ').trim();
+          const tNameNorm = String(t.name || '').toLowerCase().replace(/[_-]/g, ' ').trim();
+          return tNorm === rawNorm || tNameNorm === rawNorm;
+        });
+      }
+
+      // 3. Prefix or inclusion match for verbose legacy IDs (e.g. trait-digitized-mind-advantage-vs-mental-effects)
+      if (!match && rawNorm) {
+        const candidates = allAvailableTraits.filter(t => {
+          const tNorm = String(t.id || '').toLowerCase().replace(/^trait[-_]/, '').replace(/[_-]/g, ' ').trim();
+          const tNameNorm = String(t.name || '').toLowerCase().replace(/[_-]/g, ' ').trim();
+          return (tNorm && rawNorm.startsWith(tNorm)) ||
+                 (tNameNorm && rawNorm.startsWith(tNameNorm)) ||
+                 (tNorm.length >= 4 && rawNorm.includes(tNorm)) ||
+                 (tNameNorm.length >= 4 && rawNorm.includes(tNameNorm));
+        });
+        if (candidates.length > 0) {
+          candidates.sort((a, b) => {
+            const aLen = Math.max(
+              String(a.id || '').replace(/^trait[-_]/, '').length,
+              String(a.name || '').length
+            );
+            const bLen = Math.max(
+              String(b.id || '').replace(/^trait[-_]/, '').length,
+              String(b.name || '').length
+            );
+            return bLen - aLen;
+          });
+          match = candidates[0];
+        }
+      }
+
+      const choiceLabel = isObj ? (idOrObj.choiceLabel || (Array.isArray(idOrObj.choice) ? idOrObj.choice.join(', ') : idOrObj.choice)) : null;
+      
+      // Clean fallback name if rawId was a slug
+      const fallbackCleanName = rawId
+        .replace(/^trait[-_]/, '')
+        .split('-')[0]
+        .replace(/[_-]/g, ' ')
+        .replace(/\b\w/g, l => l.toUpperCase());
+
+      const traitTier = match?.tier || (isObj && idOrObj.tier ? idOrObj.tier : 'basic');
+      const traitBp = isObj && idOrObj.bp !== undefined 
+        ? idOrObj.bp 
+        : (match?.bp || (traitTier === 'elite' ? 4 : traitTier === 'advanced' ? 2 : 1));
+
+      return {
+        ...(match || {}),
+        id: rawId,
+        catalogId: match?.id || rawId,
+        rawEntry: idOrObj,
+        uniqueKey: isObj && idOrObj.choice ? `${rawId}-${choiceLabel}-${idx}` : `${rawId}-${idx}`,
+        name: isObj && idOrObj.name && !idOrObj.name.startsWith('trait-') 
+          ? idOrObj.name 
+          : (match?.name || fallbackCleanName),
+        choice: isObj ? idOrObj.choice : null,
+        choiceLabel,
+        choiceConfig: match ? getTraitChoiceConfig(match) : null,
+        bp: traitBp,
+        tier: traitTier,
+        classification: match?.classification || (isObj && idOrObj.classification ? idOrObj.classification : 'Physical'),
+        description: match?.description || (isObj && idOrObj.description ? idOrObj.description : 'Equipped species trait.')
+      };
+    });
+  }, [selectedTraits, allAvailableTraits]);
+
   const toggleTrait = (traitId, existingItem = null) => {
     const traitObj = allAvailableTraits.find(t => t.id === traitId || t.name.toLowerCase() === String(traitId).toLowerCase()) || { id: traitId, name: traitId, bp: 1 };
     const choiceConfig = getTraitChoiceConfig(traitObj);
-    const existingMatches = selectedTraits.filter(t => (typeof t === 'string' ? t : t?.id) === traitId);
+    const existingMatches = activeEquippedTraitsList.filter(t => 
+      t.id === traitId || 
+      t.catalogId === traitId || 
+      (t.name && traitObj.name && t.name.toLowerCase() === traitObj.name.toLowerCase())
+    );
 
     // If trait requires an interactive choice
     if (choiceConfig) {
@@ -365,7 +812,8 @@ export const SpeciesTraitSelector = ({
 
       // If already equipped and not allowing multiple, remove it
       if (existingMatches.length > 0 && !choiceConfig.allowMultiple) {
-        const updated = selectedTraits.filter(t => (typeof t === 'string' ? t : t?.id) !== traitId);
+        const matchRawEntries = new Set(existingMatches.map(m => m.rawEntry));
+        const updated = selectedTraits.filter(t => !matchRawEntries.has(t));
         onChange('traits', updated);
         return;
       }
@@ -375,7 +823,7 @@ export const SpeciesTraitSelector = ({
         trait: traitObj,
         config: choiceConfig,
         existingChoice: existingMatches.length > 0 && !choiceConfig.allowMultiple ? existingMatches[0]?.choice : null,
-        editingItem: existingMatches.length > 0 && !choiceConfig.allowMultiple ? existingMatches[0] : null
+        editingItem: existingMatches.length > 0 && !choiceConfig.allowMultiple ? existingMatches[0]?.rawEntry : null
       });
       return;
     }
@@ -383,7 +831,8 @@ export const SpeciesTraitSelector = ({
     // Standard trait without choices
     let updated;
     if (existingMatches.length > 0) {
-      updated = selectedTraits.filter(t => (typeof t === 'string' ? t : t?.id) !== traitId);
+      const matchRawEntries = new Set(existingMatches.map(m => m.rawEntry));
+      updated = selectedTraits.filter(t => !matchRawEntries.has(t));
     } else {
       updated = [...selectedTraits, traitId];
     }
@@ -526,40 +975,6 @@ export const SpeciesTraitSelector = ({
     return 0;
   }, [selectedStigma, stigmaMatches]);
 
-  // Comprehensive Omnicortex Traits Catalog
-  const allAvailableTraits = useMemo(() => {
-    const map = new Map();
-    const addTrait = (t) => {
-      const id = t.id || t.name;
-      if (!id) return;
-      if (!map.has(id)) {
-        map.set(id, {
-          id,
-          name: t.name || id.replace(/^trait-/, '').replace(/-/g, ' '),
-          bp: t.bp || t.costs?.bp || (t.tier === 'elite' ? 4 : t.tier === 'advanced' ? 2 : 1),
-          tier: (t.trait_tier || t.tier || (t.bp === 4 ? 'elite' : t.bp === 2 ? 'advanced' : 'basic')).toLowerCase(),
-          classification: t.classification || t.type || 'Physical',
-          description: t.description || t.desc || t.mechanics || t.mechanic || 'Canonical biological trait effect.',
-          modifiers: t.modifiers || []
-        });
-      }
-    };
-
-    // 1. Built-in constants
-    SPECIES_TRAITS_BASIC.forEach(t => addTrait({ ...t, tier: 'basic', bp: 1 }));
-    SPECIES_TRAITS_ADVANCED.forEach(t => addTrait({ ...t, tier: 'advanced', bp: 2 }));
-    SPECIES_TRAITS_ELITE.forEach(t => addTrait({ ...t, tier: 'elite', bp: 4 }));
-
-    // 2. Canonical traits dataset
-    ALL_CANONICAL_TRAITS.forEach(addTrait);
-
-    // 3. Omnicortex DBM traits
-    const dbTraits = dbData?.traits || dbData?.species_traits || [];
-    dbTraits.forEach(addTrait);
-
-    return Array.from(map.values());
-  }, [dbData]);
-
   // Unique classifications
   const availableClassifications = useMemo(() => {
     const set = new Set();
@@ -602,32 +1017,13 @@ export const SpeciesTraitSelector = ({
 
   const bpPercent = Math.min(100, Math.round((bpData.totalBPUsed / bpData.budgetMax) * 100));
 
-  // Resolved list of equipped traits objects
-  const activeEquippedTraitsList = useMemo(() => {
-    return selectedTraits.map((idOrObj, idx) => {
-      const isObj = typeof idOrObj === 'object' && idOrObj !== null;
-      const id = isObj ? (idOrObj.id || idOrObj.name) : String(idOrObj);
-      const match = allAvailableTraits.find(t => t.id === id || t.name.toLowerCase() === id.toLowerCase());
-      const choiceLabel = isObj ? (idOrObj.choiceLabel || (Array.isArray(idOrObj.choice) ? idOrObj.choice.join(', ') : idOrObj.choice)) : null;
-      return {
-        ...(match || {}),
-        id,
-        rawEntry: idOrObj,
-        uniqueKey: isObj && idOrObj.choice ? `${id}-${choiceLabel}-${idx}` : `${id}-${idx}`,
-        name: isObj && idOrObj.name ? idOrObj.name : (match?.name || id.replace(/^trait-/, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())),
-        choice: isObj ? idOrObj.choice : null,
-        choiceLabel,
-        bp: isObj && idOrObj.bp !== undefined ? idOrObj.bp : (match?.bp || 1),
-        tier: match?.tier || (isObj && idOrObj.tier ? idOrObj.tier : 'basic'),
-        classification: match?.classification || (isObj && idOrObj.classification ? idOrObj.classification : 'Trait'),
-        description: match?.description || 'Equipped species trait.'
-      };
-    });
-  }, [selectedTraits, allAvailableTraits]);
-
   // Render Trait Card with Detailed Tooltip Card & Choice indicators
   const renderTraitCard = (trait) => {
-    const equippedInstances = activeEquippedTraitsList.filter(t => t.id === trait.id);
+    const equippedInstances = activeEquippedTraitsList.filter(t => 
+      t.id === trait.id || 
+      t.catalogId === trait.id || 
+      (t.name && trait.name && t.name.toLowerCase() === trait.name.toLowerCase())
+    );
     const isSelected = equippedInstances.length > 0;
     const choiceConfig = getTraitChoiceConfig(trait);
 
@@ -803,139 +1199,19 @@ export const SpeciesTraitSelector = ({
       </div>
 
       {/* ── Genetics Sub-Nav Rail + Active Viewport Layout ── */}
-      <div className="flex flex-col md:flex-row gap-4 items-stretch min-h-[480px]">
-        {/* Left Sub-Navigation Rail */}
-        <nav
-          aria-label="Species Genetics Sub-Navigation"
-          className="w-full md:w-20 lg:w-22 shrink-0 bg-[#070a12]/95 backdrop-blur-md border border-slate-800/90 rounded-2xl flex flex-row md:flex-col items-center justify-between md:justify-start p-2 gap-1.5 shadow-xl select-none"
-        >
-          {/* Top Crest on Desktop */}
-          <div className="hidden md:flex flex-col items-center justify-center py-1 mb-0.5">
-            <div className="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/40 text-purple-400 flex items-center justify-center shadow-md">
-              <Dna size={16} />
-            </div>
-            <div className="w-5 h-px bg-slate-800/80 mt-1.5" />
-          </div>
-
-          {/* Rail Items */}
-          <div className="flex flex-row md:flex-col items-center gap-1.5 w-full">
-            {GENETICS_NAV_ITEMS.map(item => {
-              const ItemIcon = item.icon;
-              const isActive = activeTab === item.id;
-              const itemCount = item.id === 'chassis'
-                ? 1
-                : item.id === 'traits' 
-                ? selectedTraits.length 
-                : item.id === 'attributes'
-                ? (Object.values(attributes).filter(v => v !== 0).length + (skillBundles > 0 ? 1 : 0) + (formData.specific_skill_bonuses?.length || 0) || null)
-                : item.id === 'features'
-                ? ((formData.inherent_features?.length || 0) + (formData.recommended_features?.length || 0) || null)
-                : item.id === 'movement' 
-                ? selectedModes.length 
-                : item.id === 'stigma'
-                ? (selectedStigma && selectedStigma !== 'None' ? 1 : null)
-                : item.id === 'disadvantages' 
-                ? selectedDisadvantages.length 
-                : item.id === 'modifiers'
-                ? (formData.modifiers?.length || null)
-                : null;
-
-              return (
-                <OmnicortexTooltip
-                  key={item.id}
-                  content={
-                    <div className="p-2 space-y-1 max-w-xs font-mono">
-                      <div className="flex items-center gap-1.5 font-bold text-xs" style={{ color: item.color }}>
-                        <ItemIcon size={14} />
-                        <span>{item.name}</span>
-                      </div>
-                      <p className="text-[11px] text-slate-300">{item.desc}</p>
-                      {itemCount !== null && (
-                        <div className="text-[10px] text-purple-300 pt-1 border-t border-slate-800">
-                          Active Selections: {itemCount}
-                        </div>
-                      )}
-                    </div>
-                  }
-                  color={item.color}
-                  className="w-full"
-                >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      AudioService?.playTerminalBeep?.(1100, 0.02);
-                      setActiveTab(item.id);
-                    }}
-                    className={`group relative w-full py-2 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
-                      isActive
-                        ? 'bg-purple-950/70 border-purple-400/80 shadow-[0_0_15px_rgba(168,85,247,0.3)]'
-                        : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
-                    }`}
-                  >
-                    {/* Left Glowing Indicator Bar on Desktop */}
-                    {isActive && (
-                      <span
-                        className="hidden md:block absolute -left-2 top-2 bottom-2 w-1 rounded-r-full shadow-[0_0_8px_rgba(168,85,247,0.8)]"
-                        style={{ backgroundColor: item.color }}
-                      />
-                    )}
-                    {/* Bottom Glowing Bar on Mobile */}
-                    {isActive && (
-                      <span
-                        className="md:hidden absolute left-2 right-2 -bottom-1 h-0.5 rounded-full shadow-[0_0_6px_rgba(168,85,247,0.8)]"
-                        style={{ backgroundColor: item.color }}
-                      />
-                    )}
-
-                    {/* Icon Box */}
-                    <div
-                      className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                        isActive
-                          ? 'border-purple-400/80 shadow-sm'
-                          : 'border-slate-800 group-hover:border-slate-700 bg-slate-950/60'
-                      }`}
-                      style={isActive ? { background: `${item.color}25`, borderColor: `${item.color}80` } : {}}
-                    >
-                      <ItemIcon size={16} style={{ color: isActive ? item.color : undefined }} className={isActive ? '' : 'text-slate-400 group-hover:text-slate-200'} />
-                      {itemCount !== null && itemCount > 0 && (
-                        <span className="absolute -top-1.5 -right-1.5 px-1 min-w-[15px] h-[15px] rounded-full bg-purple-500 text-slate-950 font-bold font-mono text-[9px] flex items-center justify-center shadow">
-                          {itemCount}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Monospace Label Underneath */}
-                    <span
-                      className={`font-mono text-[8.5px] sm:text-[9px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight select-none ${
-                        isActive ? 'font-extrabold' : 'text-slate-400 group-hover:text-slate-200'
-                      }`}
-                      style={isActive ? { color: item.color } : {}}
-                    >
-                      {item.shortLabel}
-                    </span>
-                  </button>
-                </OmnicortexTooltip>
-              );
-            })}
-          </div>
-
-          {/* Bottom Status Slot on Desktop */}
-          <div className="hidden md:flex w-full flex-col items-center gap-1 pt-2 border-t border-slate-800/80 mt-auto">
-            <div className="text-[8px] font-mono text-slate-500 uppercase tracking-wider">
-              GEN CP
-            </div>
-            <div
-              className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold uppercase tracking-wider text-center w-full truncate ${
-                bpData.isOverBudget ? 'bg-red-950/80 text-red-400 border border-red-500/40' : 'bg-purple-950/60 text-purple-300 border border-purple-500/30'
-              }`}
-            >
-              {bpData.totalBPUsed} CP
-            </div>
-          </div>
-        </nav>
+      <div className={`items-stretch min-h-[480px] ${hideNavRail ? 'block' : 'flex flex-col md:flex-row gap-4'}`}>
+        {/* Left Sub-Navigation Rail (Only if not docked beside main rail) */}
+        {!hideNavRail && (
+          <GeneticsNavRail
+            formData={formData}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            isNested={false}
+          />
+        )}
 
         {/* Right Active Viewport Panel */}
-        <div className="flex-1 min-w-0 bg-slate-950/40 border border-slate-800/80 rounded-2xl p-3 sm:p-4 min-h-[420px]">
+        <div className={`w-full flex-1 min-w-0 ${hideNavRail ? 'space-y-4' : 'bg-slate-950/40 border border-slate-800/80 rounded-2xl p-3 sm:p-4'} min-h-[420px]`}>
 
       {/* Tab 1: Chassis & Physical Scale */}
       {activeTab === 'chassis' && (
@@ -1083,6 +1359,22 @@ export const SpeciesTraitSelector = ({
       {/* Tab 2: Racial Traits Catalog (Inline View) */}
       {activeTab === 'traits' && (
         <div className="space-y-3">
+          {/* Species Traits Banner */}
+          <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-purple-300">
+              <Dna size={16} />
+              <span className="font-bold uppercase tracking-wider">Species Traits Catalog (1, 2 & 4 CP Tiers)</span>
+            </div>
+            <div className="text-[11px] text-slate-300 flex flex-wrap items-center gap-2">
+              <span className="px-1.5 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-bold">Basic: 1 CP</span>
+              <span className="px-1.5 py-0.5 rounded bg-sky-950/70 border border-sky-500/40 text-sky-300 font-bold">Advanced: 2 CP</span>
+              <span className="px-1.5 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-300 font-bold">Elite: 4 CP</span>
+              <span className="text-slate-400 font-mono text-[10px]">
+                • Deducted from Species Budget ({bpData.budgetMin}–{bpData.budgetMax} CP)
+              </span>
+            </div>
+          </div>
+
           {/* Controls Bar: Tier Pills, Classification, Search & Full-Window Button */}
           <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-950/80 p-2.5 rounded-xl border border-slate-800">
             <div className="flex flex-wrap items-center gap-1.5">
@@ -1328,35 +1620,43 @@ export const SpeciesTraitSelector = ({
       {/* Tab 4: Features & Perks */}
       {activeTab === 'features' && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-xs">
-            <div className="flex items-center gap-2 text-purple-300">
-              <BookOpen size={16} />
-              <span className="font-bold uppercase tracking-wider">Inherent & Recommended Species Features</span>
+          <div className="p-3.5 rounded-xl bg-purple-950/30 border border-purple-500/30 space-y-1">
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2 text-purple-300">
+                <BookOpen size={16} />
+                <span className="font-bold uppercase tracking-wider">Granted & Recommended Species Features</span>
+              </div>
+              <span className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+                0 CP Species Cost
+              </span>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">Omnicortex Features Catalog</span>
+            <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
+              Features in a Species build are character perks from the Omnicortex Features Catalog and do not cost Species Character Points (0 CP). Species CP is strictly allotted to Species Traits (1, 2, and 4 CP), Attributes, Skills, and Movement.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Inherent Features */}
+            {/* Granted / Inherent Features */}
             <div className="p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2">
               <div>
                 <span className="text-xs font-bold text-emerald-300 block uppercase tracking-wider flex items-center gap-1.5">
                   <Sparkles size={14} className="text-emerald-400" />
-                  <span>Inherent Features</span>
+                  <span>Granted Features (Free / Inherent)</span>
                 </span>
-                <span className="text-[10.5px] text-slate-400">Naturally and permanently possessed by all members of this species</span>
+                <span className="text-[10.5px] text-slate-400">Naturally and permanently granted to operatives of this species for 0 CP</span>
               </div>
               <FeaturesSelector
-                value={formData.inherent_features || []}
-                onChange={(val) => onChange('inherent_features', val)}
+                value={cleanedInherentFeatures}
+                onChange={(val) => onChange('inherent_features', (val || []).filter(f => !isSpeciesTraitIdentifier(f)))}
                 onOpenPicker={onOpenPicker ? () => onOpenPicker({
                   source: 'features',
                   target: 'inherent_features',
-                  label: 'Inherent Features'
+                  label: 'Granted Features'
                 }) : null}
                 isEditMode={isEditMode}
                 dbFeatures={dbData.features || []}
                 variant="emerald"
+                mode="granted"
               />
             </div>
 
@@ -1365,13 +1665,13 @@ export const SpeciesTraitSelector = ({
               <div>
                 <span className="text-xs font-bold text-purple-300 block uppercase tracking-wider flex items-center gap-1.5">
                   <Sparkles size={14} className="text-purple-400" />
-                  <span>Recommended Features</span>
+                  <span>Recommended Features (Suggestions)</span>
                 </span>
-                <span className="text-[10.5px] text-slate-400">Optional or culturally prevalent features suggested during character creation</span>
+                <span className="text-[10.5px] text-slate-400">Suggested character features during operative creation (0 CP species cost)</span>
               </div>
               <FeaturesSelector
-                value={formData.recommended_features || []}
-                onChange={(val) => onChange('recommended_features', val)}
+                value={cleanedRecommendedFeatures}
+                onChange={(val) => onChange('recommended_features', (val || []).filter(f => !isSpeciesTraitIdentifier(f)))}
                 onOpenPicker={onOpenPicker ? () => onOpenPicker({
                   source: 'features',
                   target: 'recommended_features',
@@ -1380,6 +1680,7 @@ export const SpeciesTraitSelector = ({
                 isEditMode={isEditMode}
                 dbFeatures={dbData.features || []}
                 variant="purple"
+                mode="recommended"
               />
             </div>
           </div>

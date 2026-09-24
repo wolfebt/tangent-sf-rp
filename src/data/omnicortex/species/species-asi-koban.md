@@ -27,19 +27,10 @@ bonus_skill_choices:
   - Survival
   - Athletics
   - Trickery
-inherent_features:
-  - trait-asi-base-traits
-  - trait-small-medium-size-shift
-  - trait-climber
-  - trait-alter-form-humanoid
-  - trait-awakened-nature
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Scent Camouflage
-  - Pounce
-  - Shadow Lurker
-recommended_features:
-  - feature-shadow-lurker
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 2 (Primal Tools)
 meta_level: 3 (Metamorphic Nature)
@@ -62,11 +53,15 @@ modifiers:
 cp_cost: 12
 cp: 12
 bp: 12
-description: >-
-  Koban are small, versatile shifter fey who can blend into humanoid crowds or
-  vanish into wilderness thickets by adopting localized animal and humanoid
-  silhouettes.
+description: 'Koban are small, versatile shifter fey who can blend into humanoid crowds or vanish into wilderness thickets by adopting localized animal and humanoid silhouettes.'
+traits:
+  - trait-asi-base-traits
+  - trait-small-medium-size-shift
+  - trait-climber
+  - trait-alter-form-humanoid
+  - trait-awakened-nature
 ---
+
 # Koban (Shifter Fey)
 
 *

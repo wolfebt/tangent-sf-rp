@@ -1920,7 +1920,10 @@ export const SPECIES_TRAITS_BASIC = [
   { id: 'static_bonus_feat', name: 'Static Bonus Feat', bp: 1, type: 'Trained', description: 'Choose one feat with no prerequisites. All members gain this feat as a bonus feat.' },
   { id: 'tail', name: 'Tail', bp: 1, type: 'Physical', description: '+2 to Trip and Balance Checks and usable as a Club.' },
   { id: 'urbanite', name: 'Urbanite', bp: 1, type: 'Social', description: '+2 racial bonus on Diplomacy and Sense Motive checks.' },
-  { id: 'water_sense', name: 'Water-Sense', bp: 1, type: 'Sensory', description: 'Blindsense 30 feet against creatures touching the same body of water.' }
+  { id: 'water_sense', name: 'Water-Sense', bp: 1, type: 'Sensory', description: 'Blindsense 30 feet against creatures touching the same body of water.' },
+  { id: 'synthetic_base_traits', name: 'Synthetic Base Traits', bp: 1, type: 'Physical', description: 'Immune to biological needs, poison, disease, asphyxiation, starvation, and sleep. Uses Structure Points instead of Vitality/Health; must be repaired.' },
+  { id: 'sub_routine_matrix', name: 'Sub-Routine Matrix', bp: 1, type: 'Mental', description: 'Dedicated parallel sub-routine co-processors allow concurrent execution of system analyses and technical directives.' },
+  { id: 'logic_engine', name: 'Logic Engine', bp: 1, type: 'Mental', description: 'High-speed algorithmic evaluation engine granting +2 bonus on Computation, Logic, and Tactical Evaluation checks.' }
 ];
 
 export const SPECIES_TRAITS_ADVANCED = [
@@ -1981,7 +1984,10 @@ export const SPECIES_TRAITS_ADVANCED = [
   { id: 'synthetic_weapon_options', name: 'Synthetic Weapon Options', bp: 2, type: 'Physical', description: 'Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.' },
   { id: 'thermal_sight', name: 'Thermal Sight', bp: 2, type: 'Sensory', description: 'See Infra-Red/heat patterns, track passage of a warm target without light.' },
   { id: 'treespeech', name: 'Treespeech', bp: 2, type: 'Meta', description: 'Ability to converse with plants.' },
-  { id: 'venom', name: 'Venom', bp: 2, type: 'Physical', description: 'Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)' }
+  { id: 'venom', name: 'Venom', bp: 2, type: 'Physical', description: 'Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)' },
+  { id: 'digitized_mind', name: 'Digitized Mind', bp: 2, type: 'Defensive', description: 'Optronic cognitive shielding grants Advantage on all resistance rolls and checks against mental, psionic, and mind-affecting effects.' },
+  { id: 'robotic_strength', name: 'Robotic Strength', bp: 2, type: 'Physical', description: 'Reinforced high-torque servo actuators consider the synthetic one category larger for lifting, grappling, and carrying capacity.' },
+  { id: 'resilient_design', name: 'Resilient Design', bp: 2, type: 'Defensive', description: 'Dense shock-absorptive synthetic armature provides DR 5/- natural damage reduction.' }
 ];
 
 export const SPECIES_TRAITS_ELITE = [

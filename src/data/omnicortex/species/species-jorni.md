@@ -32,20 +32,10 @@ bonus_skill_choices:
   - Survival
   - Combat
   - Stealth
-inherent_features:
-  - trait-climber
-  - trait-digitigrade
-  - trait-fast-heal
-  - trait-long-prehensile-tail-trip-hold
-  - trait-regeneration-3-hp-rnd-regrows-limbs
-  - trait-swimmer
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Thermal Cold Blooded
-  - Chameleon Scales
-  - Constrictor Tail
-recommended_features:
-  - feature-regeneration
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Thermal Tech & Slugthrowers)
 meta_level: 1 (Regenerative Vitality)
@@ -64,10 +54,16 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: >-
-  Reptilian swamp hunters possessing extraordinary regenerative biology, capable
-  of re-growing severed limbs and enduring lethal trauma.
+description: 'Reptilian swamp hunters possessing extraordinary regenerative biology, capable of re-growing severed limbs and enduring lethal trauma.'
+traits:
+  - trait-climber
+  - trait-digitigrade
+  - trait-fast-heal
+  - trait-long-prehensile-tail-trip-hold
+  - trait-regeneration-3-hp-rnd-regrows-limbs
+  - trait-swimmer
 ---
+
 # Jorni (Reptilian Regenerator)
 
 *

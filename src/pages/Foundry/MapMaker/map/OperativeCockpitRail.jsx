@@ -38,6 +38,7 @@ import { CANONICAL_PING_TYPES } from '../../../../services/mapPingService';
 import { DEFAULT_WEAPONRY } from '../../../../data/weaponryData';
 import { HIT_LOCATIONS } from './CombatResolutionModal';
 import { useFolio } from '../../../../context/FolioContext';
+import { VttEventBus } from '../../../../utils/vttEventBus';
 import { TacticalPlayView } from '../../../../components/Folio/views/TacticalPlayView';
 import { useUILayoutStore } from '../../../../components/VTT/store/uiLayoutStore';
 import ArchitectAssetCockpit from './ArchitectAssetCockpit';
@@ -926,9 +927,7 @@ export const OperativeCockpitRail = ({
             onDuplicateObject={onDuplicateObject}
             onDeployAsset={onDeployAsset}
             onOpenTacticalModal={onOpenTacticalModal || ((asset) => {
-              window.dispatchEvent(new CustomEvent('open-tactical-play-modal', {
-                detail: { token: asset }
-              }));
+              VttEventBus.emit('open-tactical-play-modal', { token: asset });
             })}
           />
         ) : (

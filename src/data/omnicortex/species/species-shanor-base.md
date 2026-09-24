@@ -27,25 +27,10 @@ bonus_skill_choices:
   - Stealth
   - Intimidation
   - Discipline
-inherent_features:
-  - trait-ageless
-  - trait-alter-form-void-wisp-shadow-special-ability
-  - trait-awakened-void
-  - trait-fast-healing
-  - trait-immortal
-  - trait-non-typical-anatomy
-  - trait-regeneration-2-hp-rnd
-  - trait-semi-corporeal
-  - trait-telepathic-100ft
-  - trait-flight
-  - trait-vampiric-4-essence-drain-need
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Void Stride
-  - Shadow Tendrils
-  - Mind Drain
-recommended_features:
-  - feature-void-stride
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Monstrous (-6), Xeno (-2)'
 tech_level: 4 (Void Siphons & Dark Matter Taps)
 meta_level: 5 (Void Reality-Warping)
@@ -60,11 +45,21 @@ modifiers:
 cp_cost: 30
 cp: 30
 bp: 30
-description: >-
-  Sha'nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
-  Immortal and telepathic, they sustain themselves on ambient essence and deep
-  void energy.
+description: 'Sha''nor are semi-corporeal shadow and void beings dwelling in cosmic rifts. Immortal and telepathic, they sustain themselves on ambient essence and deep void energy.'
+traits:
+  - trait-ageless
+  - trait-alter-form-void-wisp-shadow-special-ability
+  - trait-awakened-void
+  - trait-fast-healing
+  - trait-immortal
+  - trait-non-typical-anatomy
+  - trait-regeneration-2-hp-rnd
+  - trait-semi-corporeal
+  - trait-telepathic-100ft
+  - trait-flight
+  - trait-vampiric-4-essence-drain-need
 ---
+
 # Sha'nor (Void Aberration)
 
 # 

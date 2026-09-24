@@ -30,17 +30,10 @@ bonus_skill_choices:
   - Athletics
   - Survival
   - Combat
-inherent_features:
-  - trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun
-  - trait-exoskeleton-dr-3
-  - trait-regenerative-sap
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Sunlight Surge
-  - Bark Chitin
-  - Root Stance
-recommended_features:
-  - feature-sunlight-surge
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 2 (Solar Bio-Crafting)
 meta_level: 1 (Solar Resonance)
@@ -75,10 +68,13 @@ modifiers:
 cp_cost: 28
 cp: 28
 bp: 28
-description: >-
-  A green-skinned, photosynthetic sub-species of Orll who generate nourishment
-  and cellular healing directly from sunlight.
+description: 'A green-skinned, photosynthetic sub-species of Orll who generate nourishment and cellular healing directly from sunlight.'
+traits:
+  - trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun
+  - trait-exoskeleton-dr-3
+  - trait-regenerative-sap
 ---
+
 # Gra'or (Photosynthetic Orll Subspecies)
 
 # 

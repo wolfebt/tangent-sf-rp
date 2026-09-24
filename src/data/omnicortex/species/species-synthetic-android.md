@@ -13,9 +13,7 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: >-
-  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
-  sleep [9]
+immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 1
@@ -34,20 +32,15 @@ bonus_skill_choices:
   - Science
   - Technology
   - Discipline
-inherent_features:
-  - >-
-    trait-synthetic-traits-immune-to-biological-needs-poison-asphyxiation-structure-points-resilient-design-dr-5-low-light-vision
-  - trait-digitized-mind-advantage-vs-mental-effects
-  - trait-robotic-strength-lifting-1-category-larger
+traits:
+  - trait-synthetic-base-traits
+  - trait-digitized-mind
+  - trait-robotic-strength
+  - trait-resilient-design
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Sub-Routine Matrix
-  - Integrated Scanner
-  - Overclock Burst
-  - Logic Engine
-recommended_features:
-  - feature-sub-routine-matrix
-  - feature-logic-engine
+bonus_feature_choices: []
+recommended_features: []
 stigma: None to Minor Synthetic (-1)
 tech_level: 4 (Optronic Cores & Piezoelectric Myomer)
 meta_level: 0 (Null)
@@ -66,11 +59,9 @@ modifiers:
 cp_cost: 42
 cp: 42
 bp: 42
-description: >-
-  Androids are synthetic humanoids constructed with optronic neural networks,
-  myomer musculature, and modular sub-systems. Immune to fatigue and disease,
-  they represent tireless efficiency.
+description: 'Androids are synthetic humanoids constructed with optronic neural networks, myomer musculature, and modular sub-systems. Immune to fatigue and disease, they represent tireless efficiency.'
 ---
+
 # Android (Synthetic Humanoid)
 
 *

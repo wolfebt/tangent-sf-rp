@@ -27,18 +27,10 @@ bonus_skill_choices:
   - Survival
   - Perception
   - Acrobatics
-inherent_features:
-  - trait-ungulate-legs-sure-footed-on-cliffs
-  - trait-uncanny-senses-360-degree-vision-hearing
-  - trait-quick-5ft-movement
-  - trait-horn-strike-melee-1d6
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Mountain Stride
-  - Headbutt Stun
-  - High-Altitude Lung
-recommended_features:
-  - feature-mountain-stride
+bonus_feature_choices: []
+recommended_features: []
 stigma: Xeno (-2)
 tech_level: 3 (High-Altitude Climbing Rigs & Kinetic Carbines)
 meta_level: 1 (Mountain Resonance)
@@ -53,10 +45,14 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: >-
-  Horned, ungulate humanoids renowned as mountaineers, high-gravity scouts, and
-  perimeter wardens.
+description: 'Horned, ungulate humanoids renowned as mountaineers, high-gravity scouts, and perimeter wardens.'
+traits:
+  - trait-ungulate-legs-sure-footed-on-cliffs
+  - trait-uncanny-senses-360-degree-vision-hearing
+  - trait-quick-5ft-movement
+  - trait-horn-strike-melee-1d6
 ---
+
 # Caprian (Caprine Humanoid)
 
 Caprians are a formidable race of horned humanoids, their physique a testament to their evolutionary history. They possess strong, muscular bodies, built for power and endurance. Uniquely, their lower half consists of ungulate legs, culminating in hard, cloven hooves, which provide them with exceptional stability and burst speed, making them as agile in a sprint as they are sure-footed on treacherous ground. This distinctive anatomy is a direct inheritance from their ancestry: they evolved from a predatory line of bovidae, adapting over generations to a humanoid form within a demanding, composite environment of dense woods and steep, rocky terrains.

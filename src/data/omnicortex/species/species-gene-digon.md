@@ -34,17 +34,10 @@ bonus_skill_choices:
   - Combat
   - Intimidation
   - Athletics
-inherent_features:
-  - trait-brutal-3-melee-damage
-  - trait-exoskeleton-partial-sub-dermal-plates-dr-3
-  - trait-combat-rage-1-encounter
+inherent_features: []
 bonus_features: []
-bonus_feature_choices:
-  - Unstoppable Charge
-  - Pain Immunity
-  - Flesh Tearer
-recommended_features:
-  - feature-combat-rage
+bonus_feature_choices: []
+recommended_features: []
 stigma: 'Xeno (-2), Savage (-4)'
 tech_level: 3 (Imperial Heavy Ordinance)
 meta_level: 0 (Null)
@@ -87,10 +80,13 @@ modifiers:
 cp_cost: 29
 cp: 29
 bp: 29
-description: >-
-  Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary
-  boarding actions and trench warfare.
+description: 'Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare.'
+traits:
+  - trait-brutal-3-melee-damage
+  - trait-exoskeleton-partial-sub-dermal-plates-dr-3
+  - trait-combat-rage-1-encounter
 ---
+
 # Digon (Imperial Heavy Shock Trooper)
 
 ## Description
