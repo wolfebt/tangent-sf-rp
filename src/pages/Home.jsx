@@ -12,6 +12,7 @@ import { GameSquadsWidget } from '../components/Hub/GameSquadsWidget';
 import { CommCenterWidget } from '../components/Hub/CommCenterWidget';
 import { UserSettingsModal } from '../components/UserSettingsModal';
 import { WelcomeBriefing } from '../components/Hub/WelcomeBriefing';
+import { HomeMessageBanner } from '../components/Hub/HomeMessageBanner';
 import { 
   Menu, 
   X, 
@@ -281,7 +282,7 @@ const Home = () => {
       )}
 
       {/* ── Main Workspace Body with Center Workspace ── */}
-      <div className="flex-1 min-h-0 flex flex-row overflow-hidden no-scrollbar">
+      <div className="flex-1 min-h-0 flex flex-row overflow-hidden no-scrollbar relative z-10">
         {/* Center Workspace Area */}
         <div className="flex-1 min-h-0 w-full p-2.5 sm:p-4 lg:p-5 flex flex-col gap-2 sm:gap-3 overflow-hidden">
           {/* Mobile: top action bar */}
@@ -447,6 +448,12 @@ const Home = () => {
         </div>
       </div>
 
+      {/* ── Ambient Background Layer Broadcast Banner ── */}
+      {/* Placed at the bottom of the page, just off the background layer (z-[1]) to sit under any other content, pages or modals */}
+      <div className="absolute bottom-8 sm:bottom-9 left-0 right-0 z-[1] pointer-events-auto">
+        <HomeMessageBanner />
+      </div>
+
       {/* Global Settings Modal */}
       <UserSettingsModal
         isOpen={isSettingsOpen}
@@ -454,7 +461,7 @@ const Home = () => {
       />
 
       {/* Footer */}
-      <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4">
+      <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4 relative z-10">
         <span>CYBERNETIC INTERFACE INITIALIZED</span>
       </footer>
     </div>

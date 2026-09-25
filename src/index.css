@@ -230,6 +230,27 @@ h1, h2, h3, h4, h5, h6 {
   animation: soft-pulse-edge 3s infinite ease-in-out;
 }
 
+/* Sci-Fi Marquee Continuous Ticker Animation */
+@keyframes scifi-marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-scifi {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: scifi-marquee-scroll var(--marquee-duration, 25s) linear infinite;
+}
+
+.animate-marquee-scifi:hover {
+  animation-play-state: paused;
+}
+
 /* Shifting White & Black Shadow Animations */
 @keyframes shiftWBShadowText {
   0%, 100% {

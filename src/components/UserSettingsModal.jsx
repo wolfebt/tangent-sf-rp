@@ -18,13 +18,26 @@ import {
   Radio, 
   Layers, 
   Compass, 
-  Database
+  Database,
+  Sliders,
+  AlertTriangle,
+  Eye,
+  Zap,
+  Save
 } from 'lucide-react';
 import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
 import { AudioService } from '../services/audioService';
 import { useConfirm } from '../context/ConfirmContext';
 import { useToast } from '../context/ToastContext';
+import { 
+  BANNER_COLOR_THEMES, 
+  BANNER_SPEEDS, 
+  BANNER_PRESETS, 
+  saveHomeBanner, 
+  getCachedHomeBanner, 
+  subscribeToHomeBanner 
+} from '../services/bannerService';
 
 const AI_PLATFORM_LABELS = {
   gemini: 'Google Gemini (Native)',
@@ -63,7 +76,12 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   // Status & Feedback
   const [saveMessage, setSaveMessage] = useState('');
 
+  // Tactical Home Marquee Broadcast (Admin / Developer Controls)
+  const [bannerForm, setBannerForm] = useState(getCachedHomeBanner);
+  const [isBannerSaving, setIsBannerSaving] = useState(false);
+
   useEffect(() => {
+    let unsubBanner = null;
     if (isOpen) {
       setHandle(localStorage.getItem('userHandle') || '');
       setContactInfo(localStorage.getItem('userContactInfo') || '');
@@ -74,6 +92,16 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       setIsAudioMuted(AudioService.muted);
       setAudioVolume(Math.round((AudioService.volume || 0.35) * 100));
       setSaveMessage('');
+
+      // Initialize Banner Form
+      setBannerForm(getCachedHomeBanner());
+      try {
+        unsubBanner = subscribeToHomeBanner((conf) => {
+          setBannerForm(conf);
+        });
+      } catch (err) {
+        console.warn("Banner subscription in settings modal warning:", err);
+      }
 
       if (currentUser) {
         getDoc(doc(db, 'users', currentUser.uid)).then((docSnap) => {
@@ -107,6 +135,9 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
         }).catch(err => console.warn("Failed to fetch user cloud settings:", err));
       }
     }
+    return () => {
+      if (unsubBanner) unsubBanner();
+    };
   }, [isOpen, currentUser]);
 
   if (!isOpen) return null;
@@ -187,6 +218,14 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       }
     }
 
+    if (isAdmin && bannerForm) {
+      try {
+        await saveHomeBanner(bannerForm, currentUser);
+      } catch (err) {
+        console.warn("Failed saving banner in global settings save:", err);
+      }
+    }
+
     setSaveMessage('System settings saved successfully!');
 
     if (refreshUserHandle) {
@@ -203,12 +242,41 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
     }, 800);
   };
 
+  const handleApplyBannerPreset = (preset) => {
+    AudioService.playTerminalBeep(1100, 0.02);
+    setBannerForm(prev => ({
+      ...prev,
+      badge: preset.badge,
+      message: preset.message,
+      colorTheme: preset.colorTheme,
+      mode: preset.mode,
+      speed: preset.speed,
+      icon: preset.icon
+    }));
+  };
+
+  const handleSaveBannerOnly = async () => {
+    AudioService.playTerminalBeep(1200, 0.04);
+    setIsBannerSaving(true);
+    try {
+      await saveHomeBanner(bannerForm, currentUser);
+      showSuccessToast('Broadcast marquee banner updated successfully!');
+      setSaveMessage('Broadcast marquee updated successfully!');
+      setTimeout(() => setSaveMessage(''), 2500);
+    } catch (err) {
+      console.warn("Failed saving banner from settings:", err);
+    } finally {
+      setIsBannerSaving(false);
+    }
+  };
+
   const TABS = [
     { id: 'identity', label: 'Identity & Profile', icon: User },
     { id: 'audio', label: 'Audio & Immersion', icon: Volume2 },
     { id: 'ai', label: 'AI Neural Core', icon: Cpu, badge: aiPlatform },
     { id: 'manual', label: 'System Manual', icon: BookOpen },
-    { id: 'system', label: 'System & Cache', icon: Settings }
+    { id: 'system', label: 'System & Cache', icon: Settings },
+    ...(isAdmin ? [{ id: 'broadcast', label: 'Admin Marquee', icon: Radio, badge: 'GM/DEV' }] : [])
   ];
 
   return (
@@ -588,6 +656,31 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+                    {isAdmin && (
+                      <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                        <div>
+                          <div className="font-mono text-xs font-bold text-cyan-300 uppercase flex items-center gap-1.5">
+                            <Radio size={13} className="text-cyan-400" />
+                            <span>Home Tactical Marquee Broadcast</span>
+                          </div>
+                          <div className="text-[10px] text-slate-400">
+                            Configure broadcast ticker visibility, speed, sci-fi colors, and transmissions.
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            setActiveTab('broadcast');
+                          }}
+                          className="px-3 py-1.5 bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded-xl font-mono text-xs font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.2)] shrink-0"
+                        >
+                          <Sliders size={13} />
+                          <span>Configure Marquee</span>
+                        </button>
+                      </div>
+                    )}
+
                     <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
                       <div>
                         <div className="font-mono text-xs font-bold text-cyan-300 uppercase">
@@ -635,6 +728,277 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                     <div>TANGENT SF RP ENGINE BY WOLFE.BT@TANGENTLLC</div>
                     <div>CORE V2.0 • REACT 19.2</div>
                     <div>STATUS: ALL APPS OPERATIONAL</div>
+                  </div>
+                </div>
+              )}
+
+              {/* 6. ADMIN & DEVELOPER BROADCAST MARQUEE TAB */}
+              {activeTab === 'broadcast' && isAdmin && (
+                <div className="space-y-4 animate-fadeIn">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider mb-1 flex items-center gap-2">
+                        <Radio size={14} className="text-cyan-400" />
+                        <span>Tactical Broadcast Marquee</span>
+                      </h4>
+                      <p className="text-[11px] text-slate-400">
+                        Adjust the real-time sci-fi message banner on the Home page for all operatives.
+                      </p>
+                    </div>
+                    <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-cyan-500/20 border border-cyan-500/50 text-cyan-300">
+                      ADMIN / DEV ACCESS
+                    </span>
+                  </div>
+
+                  {/* Live Interactive Preview Box */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase tracking-widest font-mono">
+                      <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
+                        <Eye size={12} />
+                        LIVE PREVIEW (REAL-TIME RENDER)
+                      </span>
+                      <span>{bannerForm.mode === 'scrolling' ? `MARQUEE (${bannerForm.speed?.toUpperCase()})` : 'STATIC DISPLAY'}</span>
+                    </div>
+
+                    {(() => {
+                      const curTheme = BANNER_COLOR_THEMES[bannerForm.colorTheme] || BANNER_COLOR_THEMES.cyan;
+                      const IconComp = {
+                        Radio, AlertTriangle, Sparkles, Shield, Settings, Database
+                      }[bannerForm.icon] || Radio;
+
+                      return (
+                        <div className={`relative overflow-hidden rounded-xl border ${curTheme.border} ${curTheme.bg} ${curTheme.boxGlow} bg-[#060a14]/85 backdrop-blur-xl p-2.5 sm:p-3 flex items-center transition-all duration-300`}>
+                          <div className="flex items-center gap-2 shrink-0 z-10 mr-3">
+                            <div className={`w-2 h-2 rounded-full ${curTheme.beacon} animate-pulse`} />
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider flex items-center gap-1.5 uppercase ${curTheme.badgeBg}`}>
+                              <IconComp size={12} />
+                              <span>{bannerForm.badge || 'TRANSMISSION'}</span>
+                            </span>
+                          </div>
+
+                          <div className="flex-1 overflow-hidden relative">
+                            {bannerForm.mode === 'scrolling' ? (
+                              <div 
+                                className="animate-marquee-scifi text-[11.5px] font-mono tracking-wide"
+                                style={{ '--marquee-duration': BANNER_SPEEDS[bannerForm.speed]?.duration || '25s' }}
+                              >
+                                <span className={`mr-8 font-semibold ${curTheme.text} ${curTheme.textGlow}`}>
+                                  {bannerForm.message || 'NO MESSAGE ENTERED'}
+                                </span>
+                                <span className={`mr-8 font-semibold ${curTheme.text} ${curTheme.textGlow}`}>
+                                  {bannerForm.message || 'NO MESSAGE ENTERED'}
+                                </span>
+                              </div>
+                            ) : (
+                              <div className={`text-[11.5px] font-mono truncate font-semibold ${curTheme.text} ${curTheme.textGlow}`}>
+                                {bannerForm.message || 'NO MESSAGE ENTERED'}
+                              </div>
+                            )}
+                          </div>
+
+                          {bannerForm.linkLabel && (
+                            <div className="shrink-0 ml-3 z-10">
+                              <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 ${curTheme.text}`}>
+                                {bannerForm.linkLabel}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                  {/* 1-Click Presets */}
+                  <div className="space-y-1.5 pt-1">
+                    <span className="text-[10px] text-slate-400 uppercase tracking-widest font-mono block">
+                      Quick Presets / Templates
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {BANNER_PRESETS.map((preset, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => handleApplyBannerPreset(preset)}
+                          className="px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 text-[10.5px] font-mono text-slate-300 hover:text-cyan-300 transition-all flex items-center gap-1 cursor-pointer"
+                        >
+                          <Zap size={11} className="text-cyan-400" />
+                          <span>{preset.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Status Toggle */}
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950 border border-slate-800">
+                    <div>
+                      <span className="font-mono font-bold text-slate-200 block text-xs">Banner Visibility</span>
+                      <span className="text-[10.5px] text-slate-400">Toggle whether this marquee message is broadcast on the Home screen.</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(900, 0.02);
+                        setBannerForm(prev => ({ ...prev, enabled: !prev.enabled }));
+                      }}
+                      className={`px-3 py-1.5 rounded-lg font-mono font-bold text-xs border transition-all cursor-pointer ${
+                        bannerForm.enabled 
+                          ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.3)]' 
+                          : 'bg-slate-900 border-slate-700 text-slate-500'
+                      }`}
+                    >
+                      {bannerForm.enabled ? 'ACTIVE & VISIBLE' : 'DISABLED (OFFLINE)'}
+                    </button>
+                  </div>
+
+                  {/* Mode & Speed */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                        Display Mode
+                      </label>
+                      <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-slate-950 border border-slate-800">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1000, 0.02);
+                            setBannerForm(prev => ({ ...prev, mode: 'scrolling' }));
+                          }}
+                          className={`py-1.5 rounded-lg text-center font-mono font-bold transition-all text-xs cursor-pointer ${
+                            bannerForm.mode === 'scrolling'
+                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          Scrolling Marquee
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1000, 0.02);
+                            setBannerForm(prev => ({ ...prev, mode: 'static' }));
+                          }}
+                          className={`py-1.5 rounded-lg text-center font-mono font-bold transition-all text-xs cursor-pointer ${
+                            bannerForm.mode === 'static'
+                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          Static Display
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                        Marquee Velocity
+                      </label>
+                      <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-slate-950 border border-slate-800">
+                        {Object.values(BANNER_SPEEDS).map((spd) => (
+                          <button
+                            key={spd.id}
+                            type="button"
+                            disabled={bannerForm.mode !== 'scrolling'}
+                            onClick={() => {
+                              AudioService.playTerminalBeep(1000, 0.02);
+                              setBannerForm(prev => ({ ...prev, speed: spd.id }));
+                            }}
+                            className={`py-1.5 rounded-lg text-center font-mono font-bold text-xs transition-all cursor-pointer ${
+                              bannerForm.speed === spd.id && bannerForm.mode === 'scrolling'
+                                ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                                : bannerForm.mode !== 'scrolling'
+                                  ? 'opacity-30 cursor-not-allowed text-slate-600'
+                                  : 'text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            {spd.label.split(' ')[0]}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Color Palette */}
+                  <div className="space-y-2">
+                    <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                      Sci-Fi Color Palette
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {Object.values(BANNER_COLOR_THEMES).map((theme) => {
+                        const isSelected = bannerForm.colorTheme === theme.id;
+                        return (
+                          <button
+                            key={theme.id}
+                            type="button"
+                            onClick={() => {
+                              AudioService.playTerminalBeep(1100, 0.02);
+                              setBannerForm(prev => ({ ...prev, colorTheme: theme.id }));
+                            }}
+                            className={`p-2.5 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
+                              isSelected
+                                ? `${theme.border} ${theme.bg} ${theme.boxGlow} ring-1 ring-white/20`
+                                : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 opacity-70 hover:opacity-100'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span 
+                                className="w-3 h-3 rounded-full border border-white/30 shrink-0" 
+                                style={{ backgroundColor: theme.hex }}
+                              />
+                              <span className={`text-[11px] font-mono font-bold ${theme.text}`}>
+                                {theme.label.split(' ')[0]}
+                              </span>
+                            </div>
+                            {isSelected && <Check size={13} className={theme.text} />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Badge Text & Message */}
+                  <div className="space-y-3">
+                    <div className="space-y-1.5">
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                        Badge Header Label
+                      </label>
+                      <input
+                        type="text"
+                        value={bannerForm.badge}
+                        onChange={(e) => setBannerForm(prev => ({ ...prev, badge: e.target.value.toUpperCase() }))}
+                        placeholder="TACTICAL BROADCAST"
+                        maxLength={30}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono uppercase"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                          Broadcast Transmission Message
+                        </label>
+                        <span className="text-[10px] font-mono text-slate-500">{bannerForm.message?.length || 0} characters</span>
+                      </div>
+                      <textarea
+                        rows={2}
+                        value={bannerForm.message}
+                        onChange={(e) => setBannerForm(prev => ({ ...prev, message: e.target.value }))}
+                        placeholder="Enter message text... (Use // to separate bullet segments)"
+                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono resize-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Apply Marquee Button */}
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      type="button"
+                      disabled={isBannerSaving}
+                      onClick={handleSaveBannerOnly}
+                      className="px-5 py-2 rounded-xl bg-cyan-500/25 hover:bg-cyan-500/35 border border-cyan-500/60 hover:border-cyan-400 text-cyan-300 hover:text-white font-mono font-bold text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(34,211,238,0.25)] transition-all cursor-pointer"
+                    >
+                      <Save size={14} />
+                      <span>{isBannerSaving ? 'SAVING MARQUEE...' : 'APPLY & PUBLISH MARQUEE'}</span>
+                    </button>
                   </div>
                 </div>
               )}
