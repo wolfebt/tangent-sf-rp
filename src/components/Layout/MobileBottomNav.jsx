@@ -7,6 +7,7 @@ import {
   Database, 
   Layers, 
   MapPin, 
+  Shield, 
   Radio 
 } from 'lucide-react';
 import { useFolio } from '../../context/FolioContext';
@@ -21,7 +22,8 @@ const NAV_ITEMS = [
   { id: 'cortex', icon: Database, label: 'CORTEX', path: '/dbm',        color: 'amber'   },
   { id: 'ade',    icon: Layers,   label: 'ADE',    path: '/foundry',    color: 'purple'  },
   { id: 'vtt',    icon: MapPin,   label: 'VTT',    path: '/stage',      color: 'cyan'    },
-  { id: 'comms',  icon: Radio,    label: 'COMMS',  path: '/comms',      color: 'emerald' },
+  { id: 'teams',  icon: Shield,   label: 'TEAMS',  path: '/teams',      color: 'emerald' },
+  { id: 'comms',  icon: Radio,    label: 'COMMS',  path: '/comms',      color: 'amber'   },
 ];
 
 const COLOR_ACTIVE = {
@@ -52,7 +54,7 @@ export const MobileBottomNav = () => {
   // Telemetry contexts for real-time badges
   const { personaRoster = [], roster = [] } = useFolio() || {};
   const { totalUnreadCount = 0 } = useChat() || {};
-  const { pendingInvites = [] } = useGroup() || {};
+  const { groups = [], pendingInvites = [] } = useGroup() || {};
 
   const getActiveId = () => {
     const p = location.pathname;
@@ -62,7 +64,8 @@ export const MobileBottomNav = () => {
     if (p.startsWith('/dbm') || p.startsWith('/codex')) return 'cortex';
     if (p.startsWith('/foundry') || p.startsWith('/ade') || p.startsWith('/campaign-builder')) return 'ade';
     if (p.startsWith('/stage') || p === '/vtt' || p.startsWith('/vtt-ops')) return 'vtt';
-    if (p.startsWith('/comms') || p.startsWith('/chat') || p.startsWith('/teams') || p.startsWith('/groups')) return 'comms';
+    if (p.startsWith('/teams') || p.startsWith('/groups') || p.startsWith('/squads')) return 'teams';
+    if (p.startsWith('/comms') || p.startsWith('/chat')) return 'comms';
     return null;
   };
 
@@ -72,6 +75,10 @@ export const MobileBottomNav = () => {
     if (id === 'folio') {
       const count = (personaRoster && personaRoster.length > 0) ? personaRoster.length : (roster?.length || 0);
       return count > 0 ? count : null;
+    }
+    if (id === 'teams') {
+      const count = (groups && groups.length > 0) ? groups.length : 0;
+      return count > 0 ? count : (pendingInvites?.length > 0 ? `${pendingInvites.length}!` : null);
     }
     if (id === 'comms') {
       return totalUnreadCount > 0 ? totalUnreadCount : null;

@@ -155,35 +155,105 @@ const Home = () => {
               </button>
             </div>
 
-            {/* Mobile nav shortcuts - Direct navigation on mobile for full-screen clean layout */}
-            <div className="space-y-1.5 text-[10.5px] font-mono">
+            {/* Mobile nav shortcuts - Direct navigation on mobile aligned with main nav rail */}
+            <div className="space-y-1.5 text-[11px] font-mono">
               {[
-                { label: 'PERSONA FOLIO', id: 'persona-folio', color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400', action: () => navigate('/folio') },
-                { label: 'COMPENDIUM', id: 'compendium', color: 'text-blue-300 border-blue-500/40 hover:border-blue-400', action: () => navigate('/compendium') },
-                { label: 'OMNICORTEX', id: 'omnicortex', color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400', action: () => navigate('/dbm') },
-                { label: 'CODEX BUILDERS', id: 'codex', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400', action: () => navigate('/codex') },
-                { label: 'VTT & MAPS', id: 'foundry-maps', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400', action: () => navigate('/stage') },
-                { label: 'SCENARIOS', id: 'foundry-scenarios', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400', action: () => navigate('/foundry') },
-                { label: 'GAME TEAMS', id: 'game-groups', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400', action: () => navigate('/teams') },
-                { label: 'CHANNELS', id: 'comms', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400', action: () => navigate('/comms') },
-              ].map(item => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    setIsMobileDrawerOpen(false);
-                    if (item.action) {
-                      item.action();
-                    } else {
-                      handleSelectDrawer(item.id);
-                    }
-                  }}
-                  className={`w-full px-3 py-2 rounded-lg bg-slate-900/60 border font-bold uppercase tracking-wider transition-all text-left ${item.color} ${activeDrawer === item.id ? 'bg-slate-800/80' : ''}`}
-                >
-                  {item.label}
-                </button>
-              ))}
+                { 
+                  id: 'folio', 
+                  label: 'FOLIO', 
+                  sublabel: 'Persona Roster & Dossiers',
+                  icon: Users,
+                  color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400 bg-cyan-950/20', 
+                  badge: heroCount > 0 ? `${heroCount}` : null,
+                  action: () => navigate('/folio') 
+                },
+                { 
+                  id: 'rules', 
+                  label: 'RULES', 
+                  sublabel: 'Compendium & BASTION Rules Wiki',
+                  icon: BookOpen,
+                  color: 'text-sky-300 border-sky-500/40 hover:border-sky-400 bg-sky-950/20', 
+                  badge: null,
+                  action: () => navigate('/compendium') 
+                },
+                { 
+                  id: 'cortex', 
+                  label: 'CORTEX', 
+                  sublabel: 'Omnicortex Master Database',
+                  icon: Database,
+                  color: 'text-amber-300 border-amber-500/40 hover:border-amber-400 bg-amber-950/20', 
+                  badge: dbmTotalItems > 0 ? `${dbmTotalItems}` : null,
+                  action: () => navigate('/dbm') 
+                },
+                { 
+                  id: 'ade', 
+                  label: 'ADE', 
+                  sublabel: 'Adventure Dev & Scenarios',
+                  icon: Layers,
+                  color: 'text-purple-300 border-purple-500/40 hover:border-purple-400 bg-purple-950/20', 
+                  badge: scenarioCount > 0 ? `${scenarioCount}` : null,
+                  action: () => navigate('/foundry') 
+                },
+                { 
+                  id: 'vtt', 
+                  label: 'VTT', 
+                  sublabel: 'Tactical Maps & The Stage',
+                  icon: MapPin,
+                  color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400 bg-cyan-950/20', 
+                  badge: mapCount > 0 ? `${mapCount}` : null,
+                  action: () => navigate('/stage') 
+                },
+                { 
+                  id: 'teams', 
+                  label: 'TEAMS', 
+                  sublabel: 'Game Squads & Tactical Groups',
+                  icon: Shield,
+                  color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400 bg-emerald-950/20', 
+                  badge: teamCount > 0 ? `${teamCount}` : (inviteCount > 0 ? `${inviteCount}!` : null),
+                  action: () => navigate('/teams') 
+                },
+                { 
+                  id: 'comms', 
+                  label: 'COMMS', 
+                  sublabel: 'CommLink Relay & Voice Channels',
+                  icon: Radio,
+                  color: 'text-amber-300 border-amber-500/40 hover:border-amber-400 bg-amber-950/20', 
+                  badge: totalUnreadCount > 0 ? `${totalUnreadCount}` : null,
+                  badgeColor: 'bg-amber-500 text-black animate-pulse',
+                  action: () => navigate('/comms') 
+                },
+              ].map(item => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.02);
+                      setIsMobileDrawerOpen(false);
+                      if (item.action) {
+                        item.action();
+                      } else {
+                        handleSelectDrawer(item.id);
+                      }
+                    }}
+                    className={`w-full px-3 py-2 rounded-lg border font-bold uppercase tracking-wider transition-all text-left flex items-center justify-between cursor-pointer ${item.color} ${activeDrawer === item.id ? 'bg-slate-800/80 ring-1 ring-cyan-400/50' : ''}`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <Icon size={14} className="shrink-0 opacity-90" />
+                      <span className="font-mono">{item.label}</span>
+                      <span className="hidden xs:inline text-[9.5px] font-mono text-slate-400 font-normal lowercase tracking-normal truncate opacity-70">
+                        {item.sublabel}
+                      </span>
+                    </div>
+                    {item.badge && (
+                      <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono font-bold shrink-0 ml-1.5 ${item.badgeColor || 'bg-slate-800 text-slate-300 border border-slate-700'}`}>
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Mobile Comm Center quick widget */}

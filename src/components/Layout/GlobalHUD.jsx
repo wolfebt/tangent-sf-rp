@@ -16,6 +16,7 @@ import {
   Database,
   Tv2,
   Hammer,
+  Shield,
   X,
   Command
 } from 'lucide-react';
@@ -398,9 +399,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
               {/* Navigation Sections */}
               <div className="space-y-3 font-mono text-xs">
-                {/* 1. Core Modules */}
+                {/* Core Navigation Rail Modules */}
                 <div className="space-y-1">
-                  <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold block px-1">Core Modules</span>
+                  <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold block px-1">Modules</span>
+                  
+                  {/* FOLIO */}
                   <button
                     type="button"
                     onClick={() => { navigate('/folio'); setIsMobileNavOpen(false); }}
@@ -412,11 +415,12 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       <Users size={16} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-xs">Persona Folio</div>
-                      <div className="text-[10px] text-slate-400">Operative Sheet & Roster</div>
+                      <div className="font-bold text-xs">FOLIO</div>
+                      <div className="text-[10px] text-slate-400">Persona Roster & Dossiers</div>
                     </div>
                   </button>
 
+                  {/* RULES */}
                   <button
                     type="button"
                     onClick={() => { navigate('/compendium'); setIsMobileNavOpen(false); }}
@@ -428,105 +432,101 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       <BookOpen size={16} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-xs">Compendium Wiki</div>
-                      <div className="text-[10px] text-slate-400">Lore, Rules & Game Mechanics</div>
+                      <div className="font-bold text-xs">RULES</div>
+                      <div className="text-[10px] text-slate-400">Compendium & BASTION Rules Wiki</div>
                     </div>
                   </button>
 
+                  {/* CORTEX */}
                   <button
                     type="button"
                     onClick={() => { navigate('/dbm'); setIsMobileNavOpen(false); }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isDBM ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                      isDBM ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
-                    <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300">
+                    <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
                       <Database size={16} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-xs">Omnicortex Database</div>
-                      <div className="text-[10px] text-slate-400">RPG System Entities & Reference</div>
+                      <div className="font-bold text-xs">CORTEX</div>
+                      <div className="text-[10px] text-slate-400">Omnicortex Master Database</div>
                     </div>
                   </button>
 
+                  {/* ADE */}
                   <button
                     type="button"
-                    onClick={() => { navigate('/codex'); setIsMobileNavOpen(false); }}
+                    onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isCodex ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                      isFoundry && !isStage ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
                     <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-300">
-                      <BookOpen size={16} />
+                      <Layers size={16} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-xs">Rules Codex</div>
-                      <div className="text-[10px] text-slate-400">System Matrices & Rules</div>
+                      <div className="font-bold text-xs">ADE</div>
+                      <div className="text-[10px] text-slate-400">Adventure Dev & Scenarios</div>
                     </div>
                   </button>
-                </div>
 
-                {/* 2. THE STAGE VTT */}
-                <div className="space-y-1 pt-2 border-t border-slate-800/80">
-                  <span className="text-[9px] uppercase tracking-widest text-amber-400 font-bold block px-1">Tactical Combat</span>
+                  {/* VTT */}
                   <button
                     type="button"
                     onClick={() => { navigate('/stage'); setIsMobileNavOpen(false); }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isStage ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                      isStage ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300">
+                      <MapPin size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">VTT</div>
+                      <div className="text-[10px] text-slate-400">Tactical Maps & The Stage</div>
+                    </div>
+                  </button>
+
+                  {/* TEAMS */}
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/teams'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isTeams ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300">
+                      <Shield size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">TEAMS</div>
+                      <div className="text-[10px] text-slate-400">Game Squads & Tactical Groups</div>
+                    </div>
+                  </button>
+
+                  {/* COMMS */}
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/comms'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isComms ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
                     <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
-                      <Tv2 size={16} />
+                      <Radio size={16} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-xs flex items-center gap-1.5">
-                        <span>THE STAGE VTT</span>
-                        <span className="px-1 py-0.2 bg-amber-500/30 text-amber-300 rounded text-[8px]">WEBGPU</span>
-                      </div>
-                      <div className="text-[10px] text-slate-400">5ft Encounter Grid, LoS & Combat</div>
+                      <div className="font-bold text-xs">COMMS</div>
+                      <div className="text-[10px] text-slate-400">CommLink Relay & Voice Channels</div>
                     </div>
                   </button>
                 </div>
 
-                {/* 3. ADE Studio */}
+                {/* Quick Tools */}
                 <div className="space-y-1 pt-2 border-t border-slate-800/80">
-                  <span className="text-[9px] uppercase tracking-widest text-purple-400 font-bold block px-1">ADE Studio</span>
+                  <span className="text-[9px] uppercase tracking-widest text-amber-400 font-bold block px-1">Quick Tools</span>
                   <div className="grid grid-cols-2 gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
-                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <BookOpen size={13} className="text-purple-400" /> Story Module
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { navigate('/foundry/elements'); setIsMobileNavOpen(false); }}
-                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <Hammer size={13} className="text-purple-400" /> Elements
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                {/* 3. Communications & Quick Tools */}
-                <div className="space-y-1 pt-2 border-t border-slate-800/80">
-                  <span className="text-[9px] uppercase tracking-widest text-amber-400 font-bold block px-1">Comms & Quick Docks</span>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => { navigate('/comms'); setIsMobileNavOpen(false); }}
-                      className="p-2 bg-slate-900/60 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/40 rounded-lg text-left transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <MessageSquare size={13} className="text-amber-400" /> Channels
-                      </div>
-                    </button>
                     <button
                       type="button"
                       onClick={() => {

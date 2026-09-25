@@ -2560,16 +2560,34 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const renderReview = () => {
     // Combine all skills for summary display
     const summarySkills = {};
-    const countSkills = (pool) => {
+    const skillSources = {};
+    const countSkills = (pool, sourceLabel) => {
       Object.entries(pool?.skills || {}).forEach(([n, r]) => {
-        summarySkills[n] = (summarySkills[n] || 0) + (parseInt(r, 10) || 0);
+        const val = parseInt(r, 10) || 0;
+        if (val > 0) {
+          summarySkills[n] = (summarySkills[n] || 0) + val;
+          if (!skillSources[n]) skillSources[n] = [];
+          if (sourceLabel && !skillSources[n].includes(sourceLabel)) {
+            skillSources[n].push(sourceLabel);
+          }
+        }
       });
     };
-    countSkills(draft.speciesAllocations);
-    countSkills(draft.originAllocations);
-    countSkills(draft.factionAllocations);
-    countSkills(draft.occuAllocations);
-    countSkills(draft.generalAllocations);
+    countSkills(draft.speciesAllocations, 'Species');
+    countSkills(draft.originAllocations, 'Origin');
+    countSkills(draft.factionAllocations, 'Faction');
+    countSkills(draft.occuAllocations, 'Occupation');
+    countSkills(draft.generalAllocations, 'Point Buy');
+
+    const allTrainedSkillsList = Object.entries(summarySkills)
+      .filter(([_, rank]) => rank > 0)
+      .map(([name, rank], idx) => ({
+        id: `summary_skill_${idx}_${name}`,
+        name,
+        rank,
+        source: (skillSources[name] || []).join(', ')
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
 
     // Combine all traits
     const summaryTraits = new Set();
