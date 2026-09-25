@@ -111,14 +111,14 @@ export const FolioHUDBar = ({
       <button
         type="button"
         onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-        className={`lg:hidden flex items-center gap-1.5 px-2 py-1 bg-slate-950 border rounded-lg font-mono text-[10px] cursor-pointer shrink-0 cyan-shadow-thin ${
+        className={`lg:hidden flex items-center gap-1 px-1.5 sm:px-2 py-1 bg-slate-950 border rounded-lg font-mono text-[9.5px] cursor-pointer shrink-0 cyan-shadow-thin ${
           isOver
             ? 'border-red-500 text-red-300 ring-1 ring-red-500/80 animate-pulse'
             : 'border-cyan-500/40 text-cyan-300'
         }`}
         title="Click to inspect CP Economy"
       >
-        <span className="text-slate-400 text-[9px]">CP:</span>
+        <span className="text-slate-400 text-[8.5px]">CP:</span>
         <span className={`font-bold ${isOver ? 'text-red-400' : 'text-amber-400'}`}>{spentCP}/{startingCP}</span>
       </button>
 
@@ -129,25 +129,25 @@ export const FolioHUDBar = ({
           AudioService.playTerminalBeep(1150, 0.03);
           window.dispatchEvent(new CustomEvent('open-folio-catalog'));
         }}
-        className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0 max-w-[140px] sm:max-w-[200px]"
+        className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0 max-w-[100px] xs:max-w-[130px] sm:max-w-[200px]"
         title={characterData?.['char-name'] ? `Operative: ${characterData['char-name']} (Click to switch operative or open catalog)` : "Open Operative Catalog & Persona Roster"}
       >
         <Users size={13} className="text-cyan-400 shrink-0" />
         <span className="truncate">{characterData?.['char-name'] || 'Operative Catalog'}</span>
       </button>
 
-      {/* Bastion AI Trigger */}
+      {/* Bastion AI Trigger (Desktop/Tablet) */}
       <button
         type="button"
         onClick={() => {
           if (setIsBastionOpen) setIsBastionOpen(prev => !prev);
           window.dispatchEvent(new CustomEvent('toggle-folio-bastion'));
         }}
-        className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
+        className="hidden sm:flex px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
         title="Toggle BASTION AI (Rules assistant & character generator)"
       >
         <Bot size={13} className="text-cyan-400" />
-        <span className="hidden sm:inline">BASTION</span>
+        <span>BASTION</span>
       </button>
 
       {/* Folio File Menu Dropdown */}
@@ -155,11 +155,11 @@ export const FolioHUDBar = ({
         <button
           type="button"
           onClick={() => setIsFolioMenuOpen(prev => !prev)}
-          className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin cursor-pointer"
+          className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin cursor-pointer"
           title="Folio System Tools & File Actions Menu"
         >
-          <span className="hidden xs:inline">File Menu</span>
-          <span className="xs:hidden">Files</span>
+          <span className="hidden xs:inline">Files</span>
+          <span className="xs:hidden">☰</span>
           <ChevronDown size={11} className="text-cyan-400" />
         </button>
 
@@ -168,6 +168,22 @@ export const FolioHUDBar = ({
             className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-cyan-500/50 rounded-lg shadow-2xl p-1.5 z-50 text-xs flex flex-col gap-1 backdrop-blur-md"
             onClick={() => setIsFolioMenuOpen(false)}
           >
+            {/* Mobile Bastion Trigger */}
+            <button
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.03);
+                if (setIsBastionOpen) setIsBastionOpen(prev => !prev);
+                window.dispatchEvent(new CustomEvent('toggle-folio-bastion'));
+              }}
+              className="sm:hidden w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center justify-between cursor-pointer border-b border-slate-800/80 pb-2 mb-1"
+              title="Toggle BASTION AI Assistant"
+            >
+              <span className="flex items-center gap-1.5">
+                <Bot size={13} className="text-cyan-400" />
+                <span>Bastion AI</span>
+              </span>
+              <span className="text-[9px] text-cyan-400 font-mono">ASSISTANT</span>
+            </button>
             {/* Save Dossier */}
             <button
               onClick={() => {

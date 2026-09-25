@@ -101,7 +101,8 @@ export const CONCEPT_ARCHETYPE_MAP = {
  */
 export const getArchetypeRecommendations = (prompt = '', archetypesList = DEFAULT_ARCHETYPES, count = 4) => {
   if (!Array.isArray(archetypesList) || archetypesList.length === 0) {
-    return [{ archetype: DEFAULT_ARCHETYPES[0], score: 100, rationale: 'Default Sentinel Archetype', isTopPick: true }];
+    const def = DEFAULT_ARCHETYPES[0] || {};
+    return [{ archetype: def, item: def, name: def.name || 'The Sentinel', id: def.id, score: 100, rationale: 'Default Sentinel Archetype', isTopPick: true }];
   }
 
   const cleanPrompt = String(prompt || '').trim();
@@ -194,6 +195,9 @@ export const getArchetypeRecommendations = (prompt = '', archetypesList = DEFAUL
 
     return {
       archetype: arch,
+      item: arch,
+      name: arch.name || arch.title || arch.id,
+      id: arch.id,
       score,
       rationale: reasons.join('; ') || `${arch.sphere} Sphere (${arch.tactical_role || 'Specialist'})`
     };
@@ -225,7 +229,8 @@ export const findClosestArchetype = (prompt, archetypesList = DEFAULT_ARCHETYPES
  */
 export const getSpeciesRecommendations = (archetype, prompt = '', speciesList = DEFAULT_SPECIES, count = 4) => {
   if (!Array.isArray(speciesList) || speciesList.length === 0) {
-    return [{ species: DEFAULT_SPECIES[0], score: 100, rationale: 'Canonical Species', isTopPick: true }];
+    const def = DEFAULT_SPECIES[0] || {};
+    return [{ species: def, item: def, name: def.name || 'Human (Base)', id: def.id || 'species-human-base', score: 100, rationale: 'Canonical Species', isTopPick: true }];
   }
 
   const pLower = (prompt || '').toLowerCase();
@@ -320,6 +325,9 @@ export const getSpeciesRecommendations = (archetype, prompt = '', speciesList = 
 
     return {
       species: sp,
+      item: sp,
+      name: sp.name || sp.title || sp.id,
+      id: sp.id,
       score,
       attributeModifiersSummary: mods.join(', ') || 'Baseline (+0)',
       inherentTraits: Array.isArray(sp.inherent_features) ? sp.inherent_features.map(f => typeof f === 'object' ? f.name : f) : [],
@@ -353,7 +361,8 @@ export const selectPillarSpecies = (archetype, prompt = '', speciesList = DEFAUL
  */
 export const getFactionRecommendations = (archetype, prompt = '', factionsList = DEFAULT_FACTIONS, count = 4) => {
   if (!Array.isArray(factionsList) || factionsList.length === 0) {
-    return [{ faction: DEFAULT_FACTIONS[0], score: 100, rationale: 'Canonical Faction', isTopPick: true }];
+    const def = DEFAULT_FACTIONS[0] || {};
+    return [{ faction: def, item: def, name: def.name || def.title || def.id || 'Faction', id: def.id, score: 100, rationale: 'Canonical Faction', isTopPick: true }];
   }
 
   const pLower = (prompt || '').toLowerCase();
@@ -397,6 +406,9 @@ export const getFactionRecommendations = (archetype, prompt = '', factionsList =
 
     return {
       faction: fac,
+      item: fac,
+      name: fac.name || fac.title || fac.id,
+      id: fac.id,
       score,
       skillPackage,
       rationale: reasons.join('; ')
@@ -429,7 +441,8 @@ export const selectPillarFaction = (archetype, prompt = '', factionsList = DEFAU
  */
 export const getOriginRecommendations = (archetype, prompt = '', originsList = DEFAULT_ORIGINS, count = 4) => {
   if (!Array.isArray(originsList) || originsList.length === 0) {
-    return [{ origin: DEFAULT_ORIGINS[0], score: 100, rationale: 'Canonical Origin', isTopPick: true }];
+    const def = DEFAULT_ORIGINS[0] || {};
+    return [{ origin: def, item: def, name: def.name || def.title || def.id || 'Origin', id: def.id, score: 100, rationale: 'Canonical Origin', isTopPick: true }];
   }
 
   const pLower = (prompt || '').toLowerCase();
@@ -469,6 +482,9 @@ export const getOriginRecommendations = (archetype, prompt = '', originsList = D
 
     return {
       origin: orig,
+      item: orig,
+      name: orig.name || orig.title || orig.id,
+      id: orig.id,
       score,
       skills: orig.society_skills || orig.skills || ['Alertness', 'Athletics'],
       traits: orig.traits || [],
@@ -502,7 +518,8 @@ export const selectPillarOrigin = (archetype, prompt = '', originsList = DEFAULT
  */
 export const getOccupationRecommendations = (archetype, prompt = '', occupationsList = DEFAULT_OCCUPATIONS, count = 4) => {
   if (!Array.isArray(occupationsList) || occupationsList.length === 0) {
-    return [{ occupation: DEFAULT_OCCUPATIONS[0], score: 100, rationale: 'Canonical Occupation', isTopPick: true }];
+    const def = DEFAULT_OCCUPATIONS[0] || {};
+    return [{ occupation: def, item: def, name: def.name || def.title || def.id || 'Occupation', id: def.id, score: 100, rationale: 'Canonical Occupation', isTopPick: true }];
   }
 
   const pLower = (prompt || '').toLowerCase();
@@ -542,6 +559,9 @@ export const getOccupationRecommendations = (archetype, prompt = '', occupations
 
     return {
       occupation: occu,
+      item: occu,
+      name: occu.name || occu.title || occu.id,
+      id: occu.id,
       score,
       skills: occu.professional_skills || occu.skills || ['Tactics', 'Heavy Weapons'],
       traits: occu.traits || [],

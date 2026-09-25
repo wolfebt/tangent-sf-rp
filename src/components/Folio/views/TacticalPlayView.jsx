@@ -790,49 +790,51 @@ export const TacticalPlayView = ({
           </div>
         </div>
 
-        {/* Builder Switcher / Close / Lock Buttons */}
+        {/* Builder Switcher / Close / Lock Buttons (Hidden on mobile as they are in the persistent Folio toolbar) */}
         <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
-          {isPreview && (
-            <button
-              type="button"
-              onClick={() => {
-                if (onLockSheet) onLockSheet();
-                else if (lockPersona) lockPersona();
-              }}
-              className="px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-800 text-cyan-300 border border-cyan-500/60 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-md hover:shadow-cyan-500/30 active:scale-95"
-              title="Lock & Set this Persona for VTT Play"
-            >
-              <Lock size={12} className="text-cyan-400" />
-              <span>Lock for VTT</span>
-            </button>
-          )}
+          <div className="hidden md:flex items-center gap-2">
+            {isPreview && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (onLockSheet) onLockSheet();
+                  else if (lockPersona) lockPersona();
+                }}
+                className="px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-800 text-cyan-300 border border-cyan-500/60 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-md hover:shadow-cyan-500/30 active:scale-95"
+                title="Lock & Set this Persona for VTT Play"
+              >
+                <Lock size={12} className="text-cyan-400" />
+                <span>Lock for VTT</span>
+              </button>
+            )}
 
-          {onSwitchToBuilder && (
-            <button
-              type="button"
-              onClick={onSwitchToBuilder}
-              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-500 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm"
-              title="Switch to Builder Mode"
-            >
-              <span>🛠️ Builder</span>
-            </button>
-          )}
+            {onSwitchToBuilder && (
+              <button
+                type="button"
+                onClick={onSwitchToBuilder}
+                className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-slate-500 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm"
+                title="Switch to Builder Mode"
+              >
+                <span>🛠️ Builder</span>
+              </button>
+            )}
 
-          {!isPreview && isLocked && unlockPersona && (
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.03);
-                if (unlockPersona) unlockPersona();
-                if (onSwitchToBuilder) onSwitchToBuilder();
-              }}
-              className="px-3 py-1.5 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/60 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm"
-              title="Unlock persona back to development phase"
-            >
-              <Unlock size={12} className="text-amber-400" />
-              <span>Unlock</span>
-            </button>
-          )}
+            {!isPreview && isLocked && unlockPersona && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.03);
+                  if (unlockPersona) unlockPersona();
+                  if (onSwitchToBuilder) onSwitchToBuilder();
+                }}
+                className="px-3 py-1.5 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/60 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm"
+                title="Unlock persona back to development phase"
+              >
+                <Unlock size={12} className="text-amber-400" />
+                <span>Unlock</span>
+              </button>
+            )}
+          </div>
 
           {isModal && onClose && (
             <button
@@ -947,9 +949,9 @@ export const TacticalPlayView = ({
 
       {/* 4. Main Body: Left Vertical Navigation Rail with Labels + Main Content Column */}
       <div className="flex flex-col md:flex-row gap-3 w-full items-start">
-        {/* Left Vertical Nav Rail with Compact Labels */}
+        {/* Left Vertical Nav Rail with Compact Labels (Horizontal Scrollable Strip on Mobile, Docked Rail on Desktop) */}
         <nav
-          className="w-full md:w-36 lg:w-44 shrink-0 bg-[#090e16]/95 border border-slate-800 rounded-2xl p-1.5 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-y-auto scrollbar-none shadow-xl sticky top-0 z-10"
+          className="w-full md:w-36 lg:w-44 shrink-0 bg-[#090e16]/95 border border-slate-800 rounded-xl md:rounded-2xl p-1.5 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-y-auto scrollbar-none shadow-lg md:sticky md:top-0 md:z-10"
           aria-label="Folio Navigation Rail"
         >
           {sideTabs.map(tab => {
@@ -962,18 +964,18 @@ export const TacticalPlayView = ({
                   setActiveTab(tab.id);
                   AudioService.playTerminalBeep(900, 0.02);
                 }}
-                className={`px-2.5 py-2 rounded-xl font-mono text-[11px] font-bold uppercase transition-all flex items-center justify-between gap-2 shrink-0 md:shrink md:w-full cursor-pointer text-left border ${
+                className={`px-3 py-1.5 md:py-2 rounded-lg md:rounded-xl font-mono text-[11px] font-bold uppercase transition-all flex items-center justify-between gap-1.5 shrink-0 md:shrink md:w-full cursor-pointer text-left border whitespace-nowrap ${
                   isActive
                     ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/70 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
                     : 'bg-slate-950/40 md:bg-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/80 border-slate-800 md:border-transparent'
                 }`}
               >
-                <div className="flex items-center gap-2 min-w-0">
+                <div className="flex items-center gap-1.5 min-w-0">
                   <span className={`shrink-0 ${isActive ? 'text-cyan-400' : 'text-slate-500'}`}>{tab.icon}</span>
                   <span className="truncate">{tab.label}</span>
                 </div>
                 {tab.badge !== undefined && tab.badge > 0 && (
-                  <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono shrink-0 ${
+                  <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono shrink-0 ml-1 ${
                     isActive ? 'bg-cyan-800 text-cyan-100' : 'bg-slate-800 text-slate-500'
                   }`}>
                     {tab.badge}
@@ -1029,12 +1031,12 @@ export const TacticalPlayView = ({
                 <>
                   {/* Health Bar (Rose for all Reds) */}
                   <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-mono">
-                      <span className="text-rose-400 font-bold flex items-center gap-1">
-                        <Heart size={11} />
-                        <span>HEALTH (Meat / Physical Trauma):</span>
+                    <div className="flex justify-between items-center text-xs font-mono">
+                      <span className="text-rose-400 font-bold flex items-center gap-1 min-w-0 truncate mr-2">
+                        <Heart size={11} className="shrink-0" />
+                        <span className="truncate">HEALTH <span className="text-[10px] text-rose-400/80 font-normal hidden sm:inline">(Meat / Physical Trauma)</span>:</span>
                       </span>
-                      <span className="font-bold text-slate-200">
+                      <span className="font-bold text-slate-200 shrink-0">
                         {curHealth} / {maxHealth} HP
                       </span>
                     </div>
@@ -1048,12 +1050,12 @@ export const TacticalPlayView = ({
 
                   {/* Vitality Bar (Teal for Dark Green) */}
                   <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-mono">
-                      <span className="text-teal-400 font-bold flex items-center gap-1">
-                        <Activity size={11} />
-                        <span>VITALITY (Combat Stamina / Energy):</span>
+                    <div className="flex justify-between items-center text-xs font-mono">
+                      <span className="text-teal-400 font-bold flex items-center gap-1 min-w-0 truncate mr-2">
+                        <Activity size={11} className="shrink-0" />
+                        <span className="truncate">VITALITY <span className="text-[10px] text-teal-400/80 font-normal hidden sm:inline">(Combat Stamina / Energy)</span>:</span>
                       </span>
-                      <span className="font-bold text-slate-200">
+                      <span className="font-bold text-slate-200 shrink-0">
                         {curVitality} / {maxVitality} VIT
                       </span>
                     </div>

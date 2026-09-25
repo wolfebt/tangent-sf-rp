@@ -274,27 +274,27 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                       else navigate('/folio');
                     }
                   }}
-                  className={`px-3 py-2 rounded-xl border flex items-center justify-between gap-3 transition-all cursor-pointer group ${
+                  className={`px-3 py-2.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all cursor-pointer group ${
                     isActive
                       ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.25)]'
                       : 'bg-slate-950/60 border-slate-800/90 hover:border-cyan-500/60 hover:bg-slate-900/60'
                   }`}
                 >
                   {/* Left: Gem Avatar & Details */}
-                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1 w-full">
                     {/* Gem Avatar Pill */}
                     <div className="w-8 h-8 rounded-lg bg-cyan-950/90 border border-cyan-500/50 flex items-center justify-center font-mono font-bold text-xs text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0">
                       {initial}
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         <span className="font-bold text-xs sm:text-sm text-white font-mono uppercase group-hover:text-cyan-200 transition-colors truncate">
                           {name}
                         </span>
                         {isLocked && (
                           <span
-                            className="px-1.5 py-0.2 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[8.5px] font-mono font-bold flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                            className="px-1.5 py-0.2 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[8.5px] font-mono font-bold flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)] shrink-0"
                             title="Dossier Locked & Set for VTT"
                           >
                             <Lock size={9} className="text-cyan-400" />
@@ -302,17 +302,17 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                           </span>
                         )}
                         {isActive && (
-                          <span className="px-1.5 py-0.2 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[8.5px] font-bold font-mono uppercase">
+                          <span className="px-1.5 py-0.2 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[8.5px] font-bold font-mono uppercase shrink-0">
                             ACTIVE
                           </span>
                         )}
-                        <span className="px-1.5 py-0.2 bg-cyan-950 text-cyan-300 border border-cyan-500/40 rounded text-[8.5px] font-mono font-bold">
+                        <span className="px-1.5 py-0.2 bg-cyan-950 text-cyan-300 border border-cyan-500/40 rounded text-[8.5px] font-mono font-bold shrink-0">
                           {creatorInfo.creatorTag}
                         </span>
                       </div>
 
                       {/* Compact Gem Metadata Chips */}
-                      <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 mt-0.5 truncate flex-wrap">
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 mt-1 flex-wrap">
                         <span className="text-slate-300">{species}</span>
                         <span>•</span>
                         <span className="text-slate-400">{occu}</span>
@@ -328,54 +328,56 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                     </div>
                   </div>
 
-                  {/* Right: Quick Action Controls */}
-                  <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
+                  {/* Actions: on mobile full-width bar, on desktop aligned to right */}
+                  <div className="flex items-center justify-between sm:justify-end gap-1.5 w-full sm:w-auto pt-1 sm:pt-0 border-t border-slate-800/60 sm:border-t-0 shrink-0" onClick={(e) => e.stopPropagation()}>
                     {rosterTab === 'my-roster' ? (
                       <>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (togglePersonaVisibility) togglePersonaVisibility(docId, !char.isPublic);
-                          }}
-                          className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase border transition-colors ${
-                            char.isPublic
-                              ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60'
-                              : 'bg-slate-900 text-slate-500 border-slate-800 hover:text-slate-300'
-                          }`}
-                          title="Toggle Public Sharing"
-                        >
-                          {char.isPublic ? 'Public' : 'Private'}
-                        </button>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (togglePersonaVisibility) togglePersonaVisibility(docId, !char.isPublic);
+                            }}
+                            className={`px-1.5 py-1 rounded text-[9px] font-mono font-bold uppercase border transition-colors cursor-pointer ${
+                              char.isPublic
+                                ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60'
+                                : 'bg-slate-900 text-slate-500 border-slate-800 hover:text-slate-300'
+                            }`}
+                            title="Toggle Public Sharing"
+                          >
+                            {char.isPublic ? 'Public' : 'Private'}
+                          </button>
 
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            AudioService.playTerminalBeep(1100, 0.02);
-                            duplicateRosterCharacter(docId);
-                          }}
-                          className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono uppercase font-bold"
-                          title="Clone persona"
-                        >
-                          Clone
-                        </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              AudioService.playTerminalBeep(1100, 0.02);
+                              duplicateRosterCharacter(docId);
+                            }}
+                            className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono uppercase font-bold cursor-pointer"
+                            title="Clone persona"
+                          >
+                            Clone
+                          </button>
 
-                        <button
-                          onClick={async (e) => {
-                            e.stopPropagation();
-                            const targetName = name || 'Unnamed Operative';
-                            if (await confirmTypedDeletion(targetName, 'operative persona')) {
-                              deleteRosterCharacter(docId);
-                            }
-                          }}
-                          className="p-1.5 bg-red-950/30 hover:bg-red-900 text-red-400 rounded border border-red-800/40"
-                          title="Delete persona"
-                        >
-                          <Trash2 size={12} />
-                        </button>
+                          <button
+                            onClick={async (e) => {
+                              e.stopPropagation();
+                              const targetName = name || 'Unnamed Operative';
+                              if (await confirmTypedDeletion(targetName, 'operative persona')) {
+                                deleteRosterCharacter(docId);
+                              }
+                            }}
+                            className="p-1.5 bg-red-950/30 hover:bg-red-900 text-red-400 rounded border border-red-800/40 cursor-pointer"
+                            title="Delete persona"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
 
                         <button
                           onClick={() => handleOpenOperative(docId)}
-                          className="px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-colors flex items-center gap-1"
+                          className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-colors flex items-center gap-1 cursor-pointer"
                         >
                           <span>Open Sheet</span>
                           <ChevronRight size={12} />
@@ -385,7 +387,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                       <>
                         <button
                           onClick={() => handleCopyShareLink(shareUrl, docId)}
-                          className="px-2 py-1 bg-slate-800 text-slate-300 rounded text-[10px] font-mono uppercase font-bold flex items-center gap-1"
+                          className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono uppercase font-bold flex items-center gap-1 cursor-pointer"
                         >
                           {copiedLink === docId ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
                           <span>{copiedLink === docId ? 'Copied' : 'Share'}</span>
@@ -399,7 +401,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                             else if (onOpenDrawer) onOpenDrawer('persona-sheet');
                             else navigate('/folio');
                           }}
-                          className="px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow flex items-center gap-1"
+                          className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow flex items-center gap-1 cursor-pointer"
                         >
                           <span>Import</span>
                           <ArrowUpRight size={12} />

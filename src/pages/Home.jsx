@@ -155,25 +155,26 @@ const Home = () => {
               </button>
             </div>
 
-            {/* Mobile nav shortcuts */}
+            {/* Mobile nav shortcuts - Direct navigation on mobile for full-screen clean layout */}
             <div className="space-y-1.5 text-[10.5px] font-mono">
               {[
-                { label: 'PERSONA FOLIO', id: 'persona-folio', color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400' },
+                { label: 'PERSONA FOLIO', id: 'persona-folio', color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400', action: () => navigate('/folio') },
                 { label: 'COMPENDIUM', id: 'compendium', color: 'text-blue-300 border-blue-500/40 hover:border-blue-400', action: () => navigate('/compendium') },
-                { label: 'OMNICORTEX', id: 'omnicortex', color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400' },
-                { label: 'CODEX BUILDERS', id: 'codex', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400' },
-                { label: 'VTT & MAPS', id: 'foundry-maps', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },
-                { label: 'SCENARIOS', id: 'foundry-scenarios', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },
-                { label: 'GAME TEAMS', id: 'game-groups', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400' },
-                { label: 'CHANNELS', id: 'comms', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400' },
+                { label: 'OMNICORTEX', id: 'omnicortex', color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400', action: () => navigate('/dbm') },
+                { label: 'CODEX BUILDERS', id: 'codex', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400', action: () => navigate('/codex') },
+                { label: 'VTT & MAPS', id: 'foundry-maps', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400', action: () => navigate('/stage') },
+                { label: 'SCENARIOS', id: 'foundry-scenarios', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400', action: () => navigate('/foundry') },
+                { label: 'GAME TEAMS', id: 'game-groups', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400', action: () => navigate('/teams') },
+                { label: 'CHANNELS', id: 'comms', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400', action: () => navigate('/comms') },
               ].map(item => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    setIsMobileDrawerOpen(false);
                     if (item.action) {
                       item.action();
-                      setIsMobileDrawerOpen(false);
                     } else {
                       handleSelectDrawer(item.id);
                     }

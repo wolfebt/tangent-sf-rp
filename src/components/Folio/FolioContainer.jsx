@@ -476,18 +476,61 @@ const FolioContainer = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117] min-w-0">
-        {/* Mobile Navigation Opener */}
-        {isCharacterSelected && (
-          <div className="md:hidden flex items-center justify-between px-3 py-2 bg-[#121824] border-b border-slate-800">
-            <button
-              type="button"
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="px-2.5 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold flex items-center gap-1.5"
-            >
-              <span>&#9776;</span>
-              <span className="uppercase font-mono">Sections</span>
-            </button>
-            <div className="flex items-center gap-2 min-w-0">
+        {/* Unified Mobile Action Bar (Consolidates Sections Drawer, Mode Switcher, Dice & Lock) */}
+        {isCharacterSelected && activeTab !== 'catalog' ? (
+          <div className="md:hidden flex items-center justify-between px-2.5 py-1.5 bg-[#101622] border-b border-slate-800 shrink-0 gap-1.5 z-20 shadow-md">
+            {/* Left: Sections Menu & Catalog Breadcrumb */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-cyan-900/60 hover:border-cyan-500/60 rounded text-cyan-400 text-xs font-bold font-mono flex items-center gap-1 cursor-pointer transition-colors"
+                title="Toggle Sections Menu"
+              >
+                <span>☰</span>
+                <span className="text-[10px] uppercase">Menu</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  triggerSave();
+                  setActiveTab('catalog');
+                }}
+                className="p-1 px-1.5 rounded text-xs font-mono font-bold uppercase text-slate-400 hover:text-cyan-300 bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-colors"
+                title="Return to Catalog"
+              >
+                &larr;
+              </button>
+            </div>
+
+            {/* Center: Builder vs Tactical Play Mode Switcher */}
+            <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 shrink-0 shadow-inner">
+              <button
+                type="button"
+                onClick={() => setViewMode('builder')}
+                className={`px-2 py-1 rounded text-[10.5px] font-mono font-bold uppercase transition-all cursor-pointer ${
+                  viewMode === 'builder'
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                🛠️ Build
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('play')}
+                className={`px-2 py-1 rounded text-[10.5px] font-mono font-bold uppercase transition-all cursor-pointer ${
+                  (viewMode === 'play' || viewMode === 'preview')
+                    ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {isLocked ? '⚔️ Play' : '👁️ Test'}
+              </button>
+            </div>
+
+            {/* Right: Dice Dock & Lock / Unlock */}
+            <div className="flex items-center gap-1 shrink-0">
               <button
                 type="button"
                 onClick={() => {
@@ -497,22 +540,66 @@ const FolioContainer = () => {
                     openDiceRoller({ label: `${characterData['char-name'] || 'Operative'} Check`, characterName: characterData['char-name'] || 'Operative', autoRoll: false });
                   }
                 }}
-                className={`px-2 py-0.5 border rounded text-[11px] font-mono font-bold flex items-center gap-1 shadow-sm shrink-0 cursor-pointer ${
+                className={`p-1 px-1.5 border rounded text-[10.5px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
                   isDiceOpen
-                    ? 'bg-amber-950 border-amber-500/80 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                    ? 'bg-amber-950 border-amber-500/80 text-amber-300'
                     : 'bg-cyan-950/80 hover:bg-cyan-900 border-cyan-500/50 text-cyan-300'
                 }`}
-                title={isDiceOpen ? "Close Dice Tray" : "Open Dice Tray"}
+                title="Toggle Dice Tray"
               >
                 <Dices size={12} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
-                <span>Dice</span>
               </button>
-              <span className="text-xs font-mono font-bold text-amber-400 uppercase truncate">
-                {characterData['char-name'] || 'UNNAMED OPERATIVE'}
-              </span>
+
+              {!isLocked ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    if (lockPersona) {
+                      const ok = lockPersona();
+                      if (ok) setViewMode('play');
+                    }
+                  }}
+                  className="px-2 py-1 rounded bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10.5px] font-mono font-bold uppercase flex items-center gap-1 cursor-pointer transition-colors"
+                  title="Lock dossier for VTT Play"
+                >
+                  <Lock size={11} className="text-cyan-400" />
+                  <span>Lock</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    if (unlockPersona) {
+                      unlockPersona();
+                      setViewMode('builder');
+                    }
+                  }}
+                  className="px-2 py-1 rounded bg-amber-950/90 hover:bg-amber-900 border border-amber-500/60 text-amber-300 text-[10.5px] font-mono font-bold uppercase flex items-center gap-1 cursor-pointer transition-colors"
+                  title="Unlock sheet to make edits in Builder Mode"
+                >
+                  <Unlock size={11} className="text-amber-400" />
+                  <span>Unlock</span>
+                </button>
+              )}
             </div>
           </div>
-        )}
+        ) : isCharacterSelected && activeTab === 'catalog' ? (
+          <div className="md:hidden flex items-center justify-between px-3 py-1.5 bg-[#121824] border-b border-slate-800">
+            <button
+              type="button"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="px-2.5 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>☰</span>
+              <span className="uppercase font-mono text-[10px]">Sections</span>
+            </button>
+            <span className="text-xs font-mono font-bold text-cyan-300 uppercase">
+              Operative Catalog
+            </span>
+          </div>
+        ) : null}
 
         {/* Public Read-Only Banner */}
         {isReadOnly && (
@@ -533,8 +620,6 @@ const FolioContainer = () => {
             </div>
           </div>
         )}
-
-
 
         {/* Over-Budget Alert Banner */}
         {isCharacterSelected && (() => {
@@ -574,9 +659,9 @@ const FolioContainer = () => {
           );
         })()}
 
-        {/* Tactical Play vs Builder Mode Switcher Banner (when viewing an active operative dossier) */}
+        {/* Tactical Play vs Builder Mode Switcher Banner (Desktop only - Mobile uses unified bar above) */}
         {activeTab !== 'catalog' && (
-          <div className="bg-[#101622] border-b border-slate-800 px-3 sm:px-5 py-2 flex items-center justify-between gap-2 shrink-0">
+          <div className="hidden md:flex bg-[#101622] border-b border-slate-800 px-3 sm:px-5 py-2 items-center justify-between gap-2 shrink-0">
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -667,7 +752,7 @@ const FolioContainer = () => {
         )}
 
         {/* Tab Content Display with ample padding to prevent viewport cutoff */}
-        <div className="flex-1 overflow-y-auto relative p-3 sm:p-5 pb-24" onBlur={triggerSave}>
+        <div className="flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20" onBlur={triggerSave}>
           {activeTab === 'catalog' ? (
             <RosterCatalogView
               personaRoster={personaRoster}

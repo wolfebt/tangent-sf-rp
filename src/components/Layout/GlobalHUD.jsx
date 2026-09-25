@@ -203,9 +203,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             title="Return to Operations Hub"
             onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
           >
-            <span className="text-[1.15rem] sm:text-[1.55rem] font-bold leading-none">TANGENT</span>
-            <span className="text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Science-Fantasy</span>
-            <span className="text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Role Playing Engine</span>
+            <span className="text-[1.1rem] sm:text-[1.55rem] font-bold leading-none">TANGENT</span>
+            <span className="hidden sm:inline text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Science-Fantasy</span>
+            <span className="hidden sm:inline text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Role Playing Engine</span>
           </NavLink>
 
         </div>

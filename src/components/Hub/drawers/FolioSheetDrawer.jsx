@@ -7,6 +7,13 @@ import { AudioService } from '../../../services/audioService';
 export const FolioSheetDrawer = ({ onClose, onOpenRoster }) => {
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    // On mobile devices, seamlessly route directly to full /folio page instead of cramping into home drawer
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      navigate('/folio');
+    }
+  }, [navigate]);
+
   const handleOpenFullBrowser = () => {
     AudioService.playTerminalBeep(1200, 0.03);
     navigate('/folio');

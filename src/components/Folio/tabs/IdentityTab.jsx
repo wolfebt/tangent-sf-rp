@@ -2710,9 +2710,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-5 pb-24">
-      {/* High-Tech Sub-Tab Navigation Bar */}
-      <div className="flex flex-wrap items-center gap-2 p-1.5 bg-slate-900/90 backdrop-blur-md rounded-xl border border-slate-800 sticky top-0 z-20 shadow-md">
+    <div className="tab-panel active p-2.5 sm:p-4 space-y-4 sm:space-y-5 pb-28 sm:pb-24">
+      {/* High-Tech Sub-Tab Navigation Bar (Horizontal Scrolling Bar on Mobile, Spacious Bar on Desktop) */}
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md rounded-xl border border-slate-800 overflow-x-auto scrollbar-none sticky top-0 z-20 shadow-md">
         {SUB_TABS.map(tab => {
           const isActive = activeSubTab === tab.id;
           return (
@@ -2720,16 +2720,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               key={tab.id}
               type="button"
               onClick={() => setActiveSubTab(tab.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap cursor-pointer ${
                 isActive
                   ? `${tab.activeClass} border`
                   : 'bg-slate-950/70 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
             >
-              <span>{tab.icon}</span>
+              <span className="shrink-0">{tab.icon}</span>
               <span>{tab.label}</span>
               {tab.badge && (
-                <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono tracking-tight ${tab.badgeClass}`}>
+                <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono tracking-tight shrink-0 ${tab.badgeClass}`}>
                   {tab.badge}
                 </span>
               )}

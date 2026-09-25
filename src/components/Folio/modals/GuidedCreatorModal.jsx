@@ -1473,14 +1473,17 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {speciesRecs.map(({ item, rationale, score }) => {
-                const isSelected = (draft['char-species'] || '').toLowerCase() === (item.name || item.id || '').toLowerCase();
+              {speciesRecs.map((rec) => {
+                const item = rec?.item || rec?.species || rec;
+                if (!item) return null;
+                const itemName = item.name || item.id || rec.name || '';
+                const isSelected = (draft['char-species'] || '').toLowerCase() === itemName.toLowerCase();
                 return (
                   <div
-                    key={item.id || item.name}
+                    key={item.id || itemName}
                     onClick={() => {
                       setSelectedSpeciesObj(item);
-                      updateDraft('char-species', item.name || item.id);
+                      updateDraft('char-species', itemName);
                     }}
                     className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                       isSelected
@@ -1489,14 +1492,14 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     }`}
                   >
                     <div className="flex justify-between items-center text-xs font-bold">
-                      <span className="text-cyan-300">{item.name || item.id}</span>
+                      <span className="text-cyan-300">{itemName}</span>
                       {isSelected ? (
                         <span className="text-[9px] bg-cyan-500 text-slate-950 font-black px-1.5 py-0.5 rounded">SELECTED</span>
                       ) : (
-                        <span className="text-[10px] text-slate-500 font-mono">Score {score}</span>
+                        <span className="text-[10px] text-slate-500 font-mono">Score {rec.score}</span>
                       )}
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">{rationale}</p>
+                    <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">{rec.rationale}</p>
                   </div>
                 );
               })}
@@ -1659,56 +1662,74 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   BASTION Co-Pilot • Homeworld & Allegiance Recommendations
                 </span>
               </div>
-              {originRecs[0] && factionRecs[0] && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (originRecs[0]?.item) updateDraft('char-origin', originRecs[0].item.name || originRecs[0].item.title || originRecs[0].item.id);
-                    if (factionRecs[0]?.item) updateDraft('char-faction', factionRecs[0].item.name || factionRecs[0].item.title || factionRecs[0].item.id);
-                    setBastionNotice(`Applied recommended pair: ${originRecs[0].name} + ${factionRecs[0].name}`);
-                  }}
-                  className="px-2.5 py-1 bg-gradient-to-r from-amber-600 to-purple-600 hover:from-amber-500 hover:to-purple-500 text-white font-bold rounded text-[11px] flex items-center gap-1.5 transition-all cursor-pointer shadow"
-                >
-                  <Zap size={12} />
-                  <span>Apply Top Pair ({originRecs[0]?.name} + {factionRecs[0]?.name})</span>
-                </button>
-              )}
+              {originRecs[0] && factionRecs[0] && (() => {
+                const topOrigin = originRecs[0].item || originRecs[0].origin || originRecs[0];
+                const topFaction = factionRecs[0].item || factionRecs[0].faction || factionRecs[0];
+                const topOriginName = topOrigin?.name || topOrigin?.title || topOrigin?.id || originRecs[0].name || '';
+                const topFactionName = topFaction?.name || topFaction?.title || topFaction?.id || factionRecs[0].name || '';
+                return (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (topOriginName) updateDraft('char-origin', topOriginName);
+                      if (topFactionName) updateDraft('char-faction', topFactionName);
+                      setBastionNotice(`Applied recommended pair: ${topOriginName} + ${topFactionName}`);
+                    }}
+                    className="px-2.5 py-1 bg-gradient-to-r from-amber-600 to-purple-600 hover:from-amber-500 hover:to-purple-500 text-white font-bold rounded text-[11px] flex items-center gap-1.5 transition-all cursor-pointer shadow"
+                  >
+                    <Zap size={12} />
+                    <span>Apply Top Pair ({topOriginName} + {topFactionName})</span>
+                  </button>
+                );
+              })()}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              {originRecs[0] && (
-                <div className="bg-slate-950/70 p-2.5 rounded-lg border border-amber-500/30 flex justify-between items-start gap-2">
-                  <div>
-                    <div className="font-bold text-amber-300 flex items-center gap-1">
-                      <span>Top Origin: {originRecs[0].name}</span>
+              {originRecs[0] && (() => {
+                const topOrigin = originRecs[0].item || originRecs[0].origin || originRecs[0];
+                const topOriginName = topOrigin?.name || topOrigin?.title || topOrigin?.id || originRecs[0].name || '';
+                return (
+                  <div className="bg-slate-950/70 p-2.5 rounded-lg border border-amber-500/30 flex justify-between items-start gap-2">
+                    <div>
+                      <div className="font-bold text-amber-300 flex items-center gap-1">
+                        <span>Top Origin: {topOriginName}</span>
+                      </div>
+                      <p className="text-[10px] text-slate-400 mt-0.5">{originRecs[0].rationale}</p>
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-0.5">{originRecs[0].rationale}</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (topOriginName) updateDraft('char-origin', topOriginName);
+                      }}
+                      className="px-2 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded text-[10px] font-bold shrink-0 cursor-pointer"
+                    >
+                      Select
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => updateDraft('char-origin', originRecs[0].item.name || originRecs[0].item.title || originRecs[0].item.id)}
-                    className="px-2 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded text-[10px] font-bold shrink-0 cursor-pointer"
-                  >
-                    Select
-                  </button>
-                </div>
-              )}
-              {factionRecs[0] && (
-                <div className="bg-slate-950/70 p-2.5 rounded-lg border border-purple-500/30 flex justify-between items-start gap-2">
-                  <div>
-                    <div className="font-bold text-purple-300 flex items-center gap-1">
-                      <span>Top Faction: {factionRecs[0].name}</span>
+                );
+              })()}
+              {factionRecs[0] && (() => {
+                const topFaction = factionRecs[0].item || factionRecs[0].faction || factionRecs[0];
+                const topFactionName = topFaction?.name || topFaction?.title || topFaction?.id || factionRecs[0].name || '';
+                return (
+                  <div className="bg-slate-950/70 p-2.5 rounded-lg border border-purple-500/30 flex justify-between items-start gap-2">
+                    <div>
+                      <div className="font-bold text-purple-300 flex items-center gap-1">
+                        <span>Top Faction: {topFactionName}</span>
+                      </div>
+                      <p className="text-[10px] text-slate-400 mt-0.5">{factionRecs[0].rationale}</p>
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-0.5">{factionRecs[0].rationale}</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (topFactionName) updateDraft('char-faction', topFactionName);
+                      }}
+                      className="px-2 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 rounded text-[10px] font-bold shrink-0 cursor-pointer"
+                    >
+                      Select
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => updateDraft('char-faction', factionRecs[0].item.name || factionRecs[0].item.title || factionRecs[0].item.id)}
-                    className="px-2 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 rounded text-[10px] font-bold shrink-0 cursor-pointer"
-                  >
-                    Select
-                  </button>
-                </div>
-              )}
+                );
+              })()}
             </div>
           </div>
         )}
@@ -1868,12 +1889,15 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {occupationRecs.map(({ item, rationale, score }) => {
-                const isSelected = (draft['char-occu'] || '').toLowerCase() === (item.name || item.id || '').toLowerCase();
+              {occupationRecs.map((rec) => {
+                const item = rec?.item || rec?.occupation || rec;
+                if (!item) return null;
+                const itemName = item.name || item.title || item.id || rec.name || '';
+                const isSelected = (draft['char-occu'] || '').toLowerCase() === itemName.toLowerCase();
                 return (
                   <div
-                    key={item.id || item.name}
-                    onClick={() => updateDraft('char-occu', item.name || item.title || item.id)}
+                    key={item.id || itemName}
+                    onClick={() => updateDraft('char-occu', itemName)}
                     className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                       isSelected
                         ? 'bg-sky-950/70 border-sky-400 text-sky-100 shadow-md ring-1 ring-sky-400/40'
@@ -1881,14 +1905,14 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     }`}
                   >
                     <div className="flex justify-between items-center text-xs font-bold">
-                      <span className="text-sky-300">{item.name || item.id}</span>
+                      <span className="text-sky-300">{itemName}</span>
                       {isSelected ? (
                         <span className="text-[9px] bg-sky-500 text-slate-950 font-black px-1.5 py-0.5 rounded">SELECTED</span>
                       ) : (
-                        <span className="text-[10px] text-slate-500 font-mono">Fit {score}</span>
+                        <span className="text-[10px] text-slate-500 font-mono">Fit {rec.score}</span>
                       )}
                     </div>
-                    <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">{rationale}</p>
+                    <p className="text-[10px] text-slate-400 mt-1 line-clamp-2">{rec.rationale}</p>
                   </div>
                 );
               })}
