@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Sparkles, X, Check, Plus, Trash2, Search, Sliders } from 'lucide-react';
 import { GUIDANCE_GEMS, getMergedGems } from './guidanceGemsConfig';
 import { useStory } from '../../../context/CampaignContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
 
 export default function GuidanceGemsModal({ isOpen, onClose }) {
@@ -74,8 +75,16 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
     }
   };
 
-  const handleClearAllGems = () => {
-    if (window.confirm('Deselect all active guidance gems?')) {
+  const confirm = useConfirm();
+
+  const handleClearAllGems = async () => {
+    const ok = await confirm({
+      title: 'Deselect Guidance Gems',
+      message: 'Are you sure you want to deselect all active guidance gems?',
+      danger: true,
+      confirmLabel: 'Deselect All'
+    });
+    if (ok) {
       AudioService.playTerminalBeep(500, 0.08);
       updateGems([]);
     }

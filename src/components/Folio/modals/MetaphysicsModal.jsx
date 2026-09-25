@@ -447,10 +447,10 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   };
 
   // Toggle Awakened status for a discipline
-  const handleToggleAwakened = (disc) => {
+  const handleToggleAwakened = async (disc) => {
     const isAwakened = isDisciplineAwakened(disc.name);
     if (isAwakened) {
-      if (!confirmTypedDeletion(`Awakened: ${disc.name}`, 'awakened discipline feature')) return;
+      if (!(await confirmTypedDeletion(`Awakened: ${disc.name}`, 'awakened discipline feature'))) return;
       const updated = awakenedList.filter(d => {
         const n = typeof d === 'object' ? (d.name || '') : String(d);
         return !n.toLowerCase().includes(disc.name.toLowerCase());
@@ -552,10 +552,10 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   };
 
   // Remove known Invocation
-  const handleRemoveKnownInvocation = (idx) => {
+  const handleRemoveKnownInvocation = async (idx) => {
     const target = knownInvocations[idx];
     const name = target?.name || 'Invocation';
-    if (!confirmTypedDeletion(name, 'invocation power')) return;
+    if (!(await confirmTypedDeletion(name, 'invocation power'))) return;
     const updated = knownInvocations.filter((_, i) => i !== idx);
     updateField('invocations', updated);
   };
@@ -621,10 +621,10 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   };
 
   // Remove Special Ability
-  const handleRemoveSpecialAbility = (idx) => {
+  const handleRemoveSpecialAbility = async (idx) => {
     const target = specialAbilities[idx];
     const name = target?.name || 'Special Ability';
-    if (!confirmTypedDeletion(name, 'special ability')) return;
+    if (!(await confirmTypedDeletion(name, 'special ability'))) return;
     const updated = specialAbilities.filter((_, i) => i !== idx);
     updateField('special_abilities', updated);
   };

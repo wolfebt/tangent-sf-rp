@@ -9,6 +9,7 @@ import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanc
 import { generateContent } from '../../../services/aimeService';
 import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2 } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { showToast } from '../../../context/ToastContext';
 import DOMPurify from 'dompurify';
 
 export const ElementForge = ({ onBackToStory }) => {
@@ -59,7 +60,7 @@ export const ElementForge = ({ onBackToStory }) => {
 
   const handleGenerateScenarioGuide = async () => {
     if (!guideTitle.trim()) {
-      alert("Please enter a title for the Scenario Guide module.");
+      showToast({ type: 'warning', text: 'Please enter a title for the Scenario Guide module.' });
       return;
     }
 
@@ -108,7 +109,7 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
       setActiveType(newElem.type);
       setIsEditModalOpen(true);
     } catch (err) {
-      alert(`Scenario synthesis failed: ${err.message}`);
+      showToast({ type: 'error', text: `Scenario synthesis failed: ${err.message}` });
     } finally {
       setIsGeneratingGuide(false);
     }
@@ -285,10 +286,10 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                     <div className="flex items-center gap-2">
                       <button
                         type="button"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.stopPropagation();
                           const targetName = el.title || 'Untitled Element';
-                          if (confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
+                          if (await confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
                             deleteSavedElement(el.id);
                           }
                         }}

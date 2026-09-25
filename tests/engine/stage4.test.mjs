@@ -11,6 +11,8 @@ import { BVHBuilder } from '../../src/engine/vision/BVHBuilder.ts';
 import { NVectorCalculator } from '../../src/engine/cartography/NVectorCalculator.ts';
 import { AstrogationGenerator } from '../../src/engine/cartography/AstrogationGenerator.ts';
 import { BSPDeckplanGenerator } from '../../src/engine/cartography/BSPDeckplanGenerator.ts';
+import { queryRulebook, searchRulesFtsAsync } from '../../src/services/rulebookRagService.js';
+import { AimeAgent } from '../../src/engine/ai/AimeAgent.ts';
 
 test('Stage 4.1: InteractiveObjectManager & Story Foundry / Omnicortex Integration', () => {
   const bvh = new BVHBuilder();
@@ -130,3 +132,69 @@ test('Stage 4.6: BSPDeckplanGenerator Space Partitioning & CSG Rect Output', () 
     assert.ok(r.w > 0 && r.h > 0, 'Every rect must have positive width and height');
   }
 });
+
+test('Stage 4.7: CyberDeck Intrusion Breach VTT Event Bridge', () => {
+  const manager = new InteractiveObjectManager();
+  manager.loadObjects([
+    {
+      id: 'node-sec-core',
+      name: 'Security Core Bulkhead',
+      type: 'bulkhead',
+      x: 200,
+      y: 200,
+      storyElementId: 'quest-vault-seal'
+    }
+  ]);
+
+  const target = manager.getObject('node-sec-core');
+  assert.equal(target?.isOpen, false, 'Bulkhead initially sealed');
+
+  // Simulate breach event interaction
+  const res = manager.interact('node-sec-core', 'hacker-agent');
+  assert.equal(res.success, true);
+  assert.equal(res.eventType, 'BULKHEAD_TOGGLED');
+  assert.equal(res.data.isOpen, true, 'Bulkhead unsealed following successful CyberDeck breach');
+});
+
+test('Stage 4.8: Rulebook RAG OPFS FTS5 Query Fallback and Search Matching', async () => {
+  // 1. Direct synchronous RAG search
+  const combatResults = queryRulebook('2d10 dual resolution');
+  assert.ok(combatResults.length > 0, 'Should find 2d10 rules');
+  assert.equal(combatResults[0].id, 'combat_resolution');
+
+  // 2. Asynchronous FTS search fallback
+  const asyncResults = await searchRulesFtsAsync('synthetic structure damage', null, 5);
+  assert.ok(asyncResults.length > 0, 'Should find damage pool rules');
+  assert.equal(asyncResults[0].id, 'damage_pools');
+  assert.ok(asyncResults[0].content.includes('Structure Pool'));
+});
+
+test('Stage 4.9: AimeNarrativeAgent Streaming Prose and AbortSignal Cancellation', async () => {
+  const context = {
+    projectName: 'Tangent Deep Core',
+    activeSceneTitle: 'Security Breach',
+    sceneBeats: 'Breach -> Slice'
+  };
+
+  // 1. Normal streaming without abort
+  const stream = AimeAgent.streamProse('Describe the security bulkhead opening', context);
+  const chunks = [];
+  for await (const chunk of stream) {
+    chunks.push(chunk);
+    if (chunks.length >= 2) break; // Collect a few chunks
+  }
+  assert.ok(chunks.length > 0, 'Should yield streaming chunks');
+
+  // 2. Aborted streaming
+  const controller = new AbortController();
+  controller.abort(); // Pre-aborted
+  const abortedStream = AimeAgent.streamProse('Cancelled request', context, controller.signal);
+  const abortedChunks = [];
+  for await (const chunk of abortedStream) {
+    abortedChunks.push(chunk);
+  }
+  assert.equal(abortedChunks.length, 0, 'Pre-aborted stream should yield 0 chunks');
+});
+
+
+

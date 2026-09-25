@@ -5,6 +5,7 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { attachCreatorTag } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { showToast } from '../../../context/ToastContext';
 import { useStory } from '../../../context/CampaignContext';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import { ModularCharacterAssembler } from './components/ModularCharacterAssembler';
@@ -129,7 +130,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
     const file = e.target.files[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      alert("Please select a valid image file.");
+      showToast({ type: 'warning', text: 'Please select a valid image file.' });
       return;
     }
     const reader = new FileReader();
@@ -152,7 +153,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim()) {
-      alert("Element title is required.");
+      showToast({ type: 'warning', text: 'Element title is required.' });
       return;
     }
     const validCustomFields = customFields
@@ -502,10 +503,10 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
               {element && (element.id || element.title) && (
                 <button
                   type="button"
-                  onClick={() => {
+                  onClick={async () => {
                     const targetName = title || element.title || 'Untitled Element';
                     const itemDescriptor = type ? type.toLowerCase() : 'element';
-                    if (confirmTypedDeletion(targetName, itemDescriptor)) {
+                    if (await confirmTypedDeletion(targetName, itemDescriptor)) {
                       if (onDelete) {
                         onDelete(element.id);
                       } else if (deleteSavedElement) {

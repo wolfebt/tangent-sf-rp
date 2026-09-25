@@ -5,6 +5,7 @@ import { useCampaign, formatExportFilename } from '../../../context/CampaignCont
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { showToast } from '../../../context/ToastContext';
 import VttCommandDrawer from './map/VttCommandDrawer';
 import OperativeCockpitRail from './map/OperativeCockpitRail';
 import { createTacticalPing, filterExpiredPings } from '../../../services/mapPingService';
@@ -431,11 +432,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
             addMap(newMap);
             setActiveMapId(mapId);
           } else {
-            alert("Invalid map JSON file format.");
+            showToast({ type: 'error', text: 'Invalid map JSON file format.' });
           }
         } catch (err) {
           console.error(err);
-          alert("Failed to parse map JSON file.");
+          showToast({ type: 'error', text: 'Failed to parse map JSON file.' });
         }
       };
       reader.readAsText(file);
@@ -443,11 +444,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     e.target.value = '';
   };
 
-  const handleDeleteActiveMap = () => {
+  const handleDeleteActiveMap = async () => {
     if (!currentMap) return;
     const targetTitle = currentMap.title || 'Untitled Map';
     if (universeState.maps.length <= 1) {
-      if (confirmTypedDeletion(targetTitle, 'tactical sector map and reset to blank')) {
+      if (await confirmTypedDeletion(targetTitle, 'tactical sector map and reset to blank')) {
         const newBlankId = uuidv4();
         addMap({
           id: newBlankId,
@@ -467,7 +468,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
       }
       return;
     }
-    if (confirmTypedDeletion(targetTitle, 'tactical sector map')) {
+    if (await confirmTypedDeletion(targetTitle, 'tactical sector map')) {
       const nextMap = universeState.maps.find(m => m.id !== currentMap.id);
       deleteMap(currentMap.id);
       if (nextMap) {
@@ -1255,11 +1256,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     setNewLayerNameInput('');
   };
 
-  const deleteCustomLayer = (layerId) => {
-    if (mapLayers.length <= 1) return alert("Must have at least one layer!");
+  const deleteCustomLayer = async (layerId) => {
+    if (mapLayers.length <= 1) {
+      showToast({ type: 'warning', text: 'Must have at least one layer!' });
+      return;
+    }
     const targetLayer = mapLayers.find(l => l.id === layerId);
     const layerName = targetLayer?.name || 'this layer';
-    if (!confirmTypedDeletion(layerName, 'map layer')) return;
+    if (!await confirmTypedDeletion(layerName, 'map layer')) return;
     recordHistory();
     updateMap(activeMapId, { layers: mapLayers.filter(l => l.id !== layerId) });
   };
@@ -1325,7 +1329,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         document.body.removeChild(link);
       } catch (err) {
         console.error("PNG export error:", err);
-        alert("Failed to export PNG map image.");
+        showToast({ type: 'error', text: 'Failed to export PNG map image.' });
       }
     }, 50);
   };
@@ -1700,8 +1704,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
           };
           addMap(newMapObj);
         }}
-        onDeleteMapTab={(mapId, title) => {
-          if (confirmTypedDeletion(title || 'Untitled Map', 'map element')) {
+        onDeleteMapTab={async (mapId, title) => {
+          if (await confirmTypedDeletion(title || 'Untitled Map', 'map element')) {
             deleteMap(mapId);
           }
         }}

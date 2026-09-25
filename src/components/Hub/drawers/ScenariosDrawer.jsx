@@ -244,10 +244,10 @@ export const ScenariosDrawer = ({ onClose, onOpenDrawer }) => {
                   {/* Right: Quick Actions */}
                   <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
                     <button
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.stopPropagation();
                         const targetName = story.projectName || 'Untitled Story Project';
-                        if (confirmTypedDeletion(targetName, 'story project')) {
+                        if (await confirmTypedDeletion(targetName, 'story project')) {
                           deleteStoryProject(story.id);
                         }
                       }}

@@ -231,9 +231,9 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     updateField('attacks', updated);
   };
 
-  const removeAttack = (index) => {
+  const removeAttack = async (index) => {
     const atkName = attacks[index]?.name || 'Attack';
-    if (!confirmTypedDeletion(atkName, 'attack')) return;
+    if (!(await confirmTypedDeletion(atkName, 'attack'))) return;
     updateField('attacks', attacks.filter((_, i) => i !== index));
   };
 
@@ -248,9 +248,9 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     updateField('armor', updated);
   };
 
-  const removeArmor = (index) => {
+  const removeArmor = async (index) => {
     const armorName = armors[index]?.name || 'Armor';
-    if (!confirmTypedDeletion(armorName, 'defense entry')) return;
+    if (!(await confirmTypedDeletion(armorName, 'defense entry'))) return;
     updateField('armor', armors.filter((_, i) => i !== index));
   };
 

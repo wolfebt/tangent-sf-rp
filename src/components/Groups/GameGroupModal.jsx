@@ -36,11 +36,15 @@ import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
+import { useToast } from '../../context/ToastContext';
+import { useConfirm } from '../../context/ConfirmContext';
 import { AudioService } from '../../services/audioService';
 import ChatParser from '../UI/ChatParser';
 
 export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const confirm = useConfirm();
   const { 
     activeGroup, 
     sendInvite, 
@@ -256,18 +260,32 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       campaignTitle: selectedStory?.projectName || selectedStory?.title || activeGroup.campaignTitle || '',
       allowPlayerOverride: editAllowPlayerOverride
     });
-    alert('Team configuration updated successfully.');
+    toast({ type: 'success', text: 'Team configuration updated successfully.' });
   };
 
   const handleLeave = async () => {
-    if (window.confirm(`Are you sure you want to leave team "${activeGroup.name}"?`)) {
+    const ok = await confirm({
+      title: 'Leave Team',
+      message: `Are you sure you want to leave team "${activeGroup.name}"?`,
+      danger: true,
+      confirmLabel: 'Leave Team'
+    });
+    if (ok) {
       await leaveGroup(activeGroup.id);
       onClose();
     }
   };
 
   const handleDelete = async () => {
-    if (window.confirm(`DISBAND TEAM: Are you sure you want to permanently disband "${activeGroup.name}" and delete its tied-in channel?`)) {
+    const ok = await confirm({
+      title: 'Disband Team',
+      message: `Are you sure you want to permanently disband "${activeGroup.name}" and delete its tied-in channel?`,
+      danger: true,
+      requireTyped: true,
+      typedTarget: activeGroup.name,
+      confirmLabel: 'Disband Team'
+    });
+    if (ok) {
       await deleteGroup(activeGroup.id);
       onClose();
     }

@@ -301,10 +301,10 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
                     </button>
 
                     <button
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.stopPropagation();
                         const targetName = m.name || m.title || 'Untitled Map';
-                        if (confirmTypedDeletion(targetName, 'tactical map')) {
+                        if (await confirmTypedDeletion(targetName, 'tactical map')) {
                           deleteSavedMap(m.id);
                         }
                       }}

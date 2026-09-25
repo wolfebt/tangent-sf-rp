@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CANONICAL_REACTIONS, getReactionDefinition, canTokenReact, spendTokenReaction } from '../../../../services/reactionService';
 import AudioService from '../../../../services/audioService';
+import { useToast } from '../../../../context/ToastContext';
 
 const ReactionPromptModal = ({
   isOpen,
@@ -14,6 +15,7 @@ const ReactionPromptModal = ({
   onInitiateCombatStrike,
   onBroadcastMessage
 }) => {
+  const { toast } = useToast();
   const [selectedReactionId, setSelectedReactionId] = useState(initialReactionId || 'opportunity_strike');
   const [isExecuting, setIsExecuting] = useState(false);
   const [resolutionLog, setResolutionLog] = useState(null);
@@ -25,7 +27,7 @@ const ReactionPromptModal = ({
 
   const handleExecuteReaction = () => {
     if (!hasReactionAvailable) {
-      alert(`${reactorToken.label || 'Unit'} has already spent their reaction for this round.`);
+      toast({ type: 'warning', text: `${reactorToken.label || 'Unit'} has already spent their reaction for this round.` });
       return;
     }
 

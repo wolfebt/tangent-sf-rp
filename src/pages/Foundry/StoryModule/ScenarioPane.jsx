@@ -25,6 +25,7 @@ import { ElementSelectorModal as UnifiedRelationalSelectorModal } from '../Eleme
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { useToast, showToast } from '../../../context/ToastContext';
 import EditElementModal from '../ElementForge/EditElementModal';
 import OsrControlPanelDeck from './workspaces/OsrControlPanelDeck';
 import StoryWeaver from './workspaces/StoryWeaver';
@@ -453,7 +454,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      alert("Please select a valid image file.");
+      showToast({ type: 'warning', text: 'Please select a valid image file.' });
       return;
     }
 
@@ -854,6 +855,7 @@ export default function ScenarioPane({
   } = useStory();
 
   const { currentUser, userHandle } = useAuth();
+  const { toast } = useToast();
 
   // Internal states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -962,8 +964,9 @@ export default function ScenarioPane({
     setActiveScenarioId(newNode.id);
   };
 
-  const handleDeleteElement = (id, title) => {
-    if (confirmTypedDeletion(title || 'story element', 'story element')) {
+  const handleDeleteElement = async (id, title) => {
+    const ok = await confirmTypedDeletion(title || 'story element', 'story element');
+    if (ok) {
       deleteStory(id);
     }
   };
@@ -1012,7 +1015,7 @@ export default function ScenarioPane({
           }
         } catch (err) {
           console.error(err);
-          alert("Failed to parse map JSON file.");
+          toast({ type: 'error', text: 'Failed to parse map JSON file.' });
         }
       };
       reader.readAsText(file);

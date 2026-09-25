@@ -132,9 +132,28 @@ export const DEFAULT_SPECIES = [
     ],
     "inherent_features": [],
     "bonus_features": 0,
-    "bonus_feature_choices": [],
-    "recommended_features": [],
-    "stigma": "Minor Xeno (-1)",
+    "recommended_features": [
+      "Acute Senses",
+      "Adapted",
+      "Ageless",
+      "Agile Maneuvers",
+      "Amphibious",
+      "Awakened (Arcane)",
+      "Combat Expertise",
+      "Combat Specialization",
+      "Darksight",
+      "Eidetic Memory",
+      "Flight (Winged)",
+      "Longevity",
+      "Low Light Vision",
+      "Martial Arts",
+      "Mystical Ability",
+      "Reduced Sustenance",
+      "Sense Magic",
+      "Skill Expertise",
+      "Skill Specialization",
+      "Charm Immunity"
+    ],
     "tech_level": "3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinement)",
     "meta_level": "4 (High Magic: The Flow)",
     "homeworld": "Altheria (The Gilded World)",
@@ -4473,7 +4492,7 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal",
       "species_movement-climbing",
-      "species_movement-glide"
+      "species_movement-gliding"
     ],
     "traits": [
       "trait-small-size",

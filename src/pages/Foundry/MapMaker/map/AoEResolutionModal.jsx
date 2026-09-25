@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { CANONICAL_AOE_PRESETS, getAoEPreset, getTokensInCircle, getTokensInCone, getTokensInLine, resolveAoEImpact } from '../../../../services/aoeHazardService';
 import { applyConditionToToken } from '../../../../services/conditionService';
+import { showToast } from '../../../../context/ToastContext';
 import AudioService from '../../../../services/audioService';
 
 const AoEResolutionModal = ({
@@ -68,7 +69,7 @@ const AoEResolutionModal = ({
 
   const handleDetonate = () => {
     if (resolvedOutcomes.length === 0) {
-      alert('No combatant tokens detected within the selected blast area.');
+      showToast({ type: 'warning', text: 'No combatant tokens detected within the selected blast area.' });
       return;
     }
 

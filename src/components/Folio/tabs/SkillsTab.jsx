@@ -686,15 +686,15 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   }, [characterData?.invocations, updateField, handleUpdateSpecialization]);
 
   // Unified delete handler for standard Specializations & Invocations
-  const handleDeleteSpecOrInv = useCallback((spec) => {
+  const handleDeleteSpecOrInv = useCallback(async (spec) => {
     if (spec.isInvocation) {
-      if (confirmTypedDeletion(spec.name, 'invocation')) {
+      if (await confirmTypedDeletion(spec.name, 'invocation')) {
         const currentInvs = Array.isArray(characterData?.invocations) ? [...characterData.invocations] : [];
         const updated = currentInvs.filter(i => (typeof i === 'object' ? (i.id !== spec.id && i.name !== spec.name) : i !== spec.name));
         updateField('invocations', updated);
       }
     } else {
-      if (confirmTypedDeletion(spec.name, 'specialization')) {
+      if (await confirmTypedDeletion(spec.name, 'specialization')) {
         handleDeleteSpecialization(spec.id);
       }
     }
@@ -925,8 +925,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               {isCustom && !isDisciplineLocked && !isSheetLocked && (
                 <button
                   type="button"
-                  onClick={() => {
-                    if (confirmTypedDeletion(skill.name, 'custom skill')) {
+                  onClick={async () => {
+                    if (await confirmTypedDeletion(skill.name, 'custom skill')) {
                       handleDeleteSkill(skill.id);
                     }
                   }}
@@ -1115,8 +1115,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               {isCustom && !isDisciplineLocked && !isSheetLocked && (
                 <button
                   type="button"
-                  onClick={() => {
-                    if (confirmTypedDeletion(skill.name, 'custom skill')) {
+                  onClick={async () => {
+                    if (await confirmTypedDeletion(skill.name, 'custom skill')) {
                       handleDeleteSkill(skill.id);
                     }
                   }}

@@ -1,7 +1,7 @@
 {
-  "name": "vite-project",
+  "name": "tangent-sfr",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -20,6 +20,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.0.3",
+    "firebase-admin": "^14.2.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",
@@ -35,7 +36,6 @@
     "@types/three": "^0.185.4",
     "dompurify": "^3.4.13",
     "firebase": "^12.16.0",
-    "firebase-admin": "^14.2.0",
     "glob": "^13.0.6",
     "gray-matter": "^4.0.3",
     "immer": "^11.1.15",

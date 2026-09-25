@@ -10,7 +10,10 @@ import sqlite3InitModule from '@sqlite.org/sqlite-wasm';
 export type DbRequest = 
   | { type: 'INIT'; dbName: string }
   | { type: 'QUERY'; sql: string; params?: any[]; queryId: string }
-  | { type: 'BULK_INSERT'; table: string; data: any[]; queryId: string };
+  | { type: 'BULK_INSERT'; table: string; data: any[]; queryId: string }
+  | { type: 'INIT_FTS'; queryId: string }
+  | { type: 'FTS_INDEX_RULES'; rules: Array<{ id: string; title: string; category: string; content: string }>; queryId: string }
+  | { type: 'FTS_SEARCH'; query: string; limit?: number; queryId: string };
 
 export type DbResponse = 
   | { type: 'READY'; status: 'success' | 'error'; message?: string }
@@ -71,6 +74,65 @@ class DatabaseEngine {
     return results;
   }
 
+  initializeFts() {
+    if (!this.db) throw new Error('Database not initialized');
+    this.db.exec(`
+      CREATE VIRTUAL TABLE IF NOT EXISTS rules_fts USING fts5(
+        id UNINDEXED,
+        title,
+        category,
+        content,
+        tokenize = 'porter'
+      );
+    `);
+  }
+
+  indexRulesFts(rules: Array<{ id: string; title: string; category: string; content: string }>) {
+    if (!this.db || !rules || rules.length === 0) return;
+    this.initializeFts();
+    this.db.exec('BEGIN TRANSACTION;');
+    try {
+      const stmt = this.db.prepare(`
+        INSERT INTO rules_fts (id, title, category, content) 
+        VALUES (?, ?, ?, ?)
+      `);
+      for (const rule of rules) {
+        stmt.bind([rule.id, rule.title, rule.category, rule.content]);
+        stmt.step();
+        stmt.reset();
+      }
+      stmt.finalize();
+      this.db.exec('COMMIT;');
+    } catch (err) {
+      this.db.exec('ROLLBACK;');
+      throw err;
+    }
+  }
+
+  searchFts(searchQuery: string, limit: number = 10): any[] {
+    if (!this.db) throw new Error('Database not initialized');
+    this.initializeFts();
+
+    const sanitized = searchQuery
+      .replace(/[^\w\s]/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map(term => `"${term}"*`)
+      .join(' OR ');
+
+    if (!sanitized) return [];
+
+    const sql = `
+      SELECT id, title, category, snippet(rules_fts, 3, '<b>', '</b>', '...', 15) as excerpt, rank
+      FROM rules_fts
+      WHERE rules_fts MATCH ?
+      ORDER BY rank
+      LIMIT ?;
+    `;
+    return this.executeQuery(sql, [sanitized, limit]);
+  }
+
   // Optimized for massive JSON ingestion (e.g., Omnicortex / Story Foundry dumps)
   executeBulkInsert(table: string, data: any[]) {
     if (!this.db || data.length === 0) return;
@@ -108,6 +170,33 @@ self.onmessage = async (event: MessageEvent<DbRequest>) => {
         self.postMessage({ type: 'READY', status: 'success' } as DbResponse);
       } catch (e: any) {
         self.postMessage({ type: 'READY', status: 'error', message: e.message } as DbResponse);
+      }
+      break;
+
+    case 'INIT_FTS':
+      try {
+        engine.initializeFts();
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [{ status: 'fts_initialized' }] } as DbResponse);
+      } catch (e: any) {
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [], error: e.message } as DbResponse);
+      }
+      break;
+
+    case 'FTS_INDEX_RULES':
+      try {
+        engine.indexRulesFts(req.rules);
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [{ count: req.rules.length, status: 'indexed' }] } as DbResponse);
+      } catch (e: any) {
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [], error: e.message } as DbResponse);
+      }
+      break;
+
+    case 'FTS_SEARCH':
+      try {
+        const rows = engine.searchFts(req.query, req.limit || 10);
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows } as DbResponse);
+      } catch (e: any) {
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [], error: e.message } as DbResponse);
       }
       break;
 

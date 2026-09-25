@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { CampaignProvider } from './context/CampaignContext';
 import { DBMProvider } from './context/DBMContext';
 import { FolioProvider } from './context/FolioContext';
@@ -10,6 +10,7 @@ import { VoiceCommsBar } from './components/Chat/VoiceCommsBar';
 import { DiceProvider } from './context/DiceContext';
 import { GlobalHUD } from './components/Layout/GlobalHUD';
 import { GlobalSideRail } from './components/Layout/GlobalSideRail';
+import { MobileBottomNav } from './components/Layout/MobileBottomNav';
 import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
 import { CommandPalette } from './components/UI/CommandPalette';
@@ -101,24 +102,24 @@ export function App() {
                         <GlobalSideRail />
 
                         {/* Main Routed Area */}
-                        <main className="flex-1 min-w-0 h-full overflow-hidden relative">
+                        <main className="flex-1 min-w-0 h-full overflow-hidden relative pb-14 sm:pb-0">
                           <ErrorBoundary>
                             <Suspense fallback={<PageLoader />}>
                               <Routes>
                                 <Route path="/" element={<Dashboard />} />
-                                <Route path="/dashboard" element={<Dashboard />} />
+                                <Route path="/dashboard" element={<Navigate to="/" replace />} />
                                 <Route path="/comms" element={<CommsPage />} />
-                                <Route path="/chat" element={<CommsPage />} />
+                                <Route path="/chat" element={<Navigate to="/comms" replace />} />
                                 <Route path="/teams" element={<TeamsPage />} />
-                                <Route path="/groups" element={<TeamsPage />} />
-                                <Route path="/squads" element={<TeamsPage />} />
+                                <Route path="/groups" element={<Navigate to="/teams" replace />} />
+                                <Route path="/squads" element={<Navigate to="/teams" replace />} />
                                 <Route path="/codex" element={<CodexApp />} />
                                 <Route path="/codex/*" element={<CodexApp />} />
                                 <Route path="/compendium" element={<Compendium />} />
                                 <Route path="/compendium/*" element={<Compendium />} />
                                 <Route path="/dbm" element={<DBM />} />
                                 <Route path="/folio" element={<Folio />} />
-                                <Route path="/roster" element={<Folio />} />
+                                <Route path="/roster" element={<Navigate to="/folio" replace />} />
                                 <Route path="/vtt-ops" element={<VttOptionsPage />} />
                                 <Route path="/stage" element={<StageView defaultRole="architect" />} />
                                 <Route path="/vtt" element={<StageView defaultRole="operative" />} />
@@ -127,12 +128,12 @@ export function App() {
                                 <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />
                                 <Route path="/spectator/:mapId" element={<PlayerSpectatorView />} />
                                 <Route path="/foundry/*" element={<FoundryApp />} />
-                                <Route path="/ade/*" element={<FoundryApp />} />
-                                <Route path="/ade" element={<FoundryApp />} />
-                                <Route path="/ade-studio/*" element={<FoundryApp />} />
-                                <Route path="/ade-studio" element={<FoundryApp />} />
-                                <Route path="/story-foundry" element={<FoundryApp />} />
-                                <Route path="/campaign-builder" element={<FoundryApp />} />
+                                <Route path="/ade/*" element={<Navigate to="/foundry" replace />} />
+                                <Route path="/ade" element={<Navigate to="/foundry" replace />} />
+                                <Route path="/ade-studio/*" element={<Navigate to="/foundry" replace />} />
+                                <Route path="/ade-studio" element={<Navigate to="/foundry" replace />} />
+                                <Route path="/story-foundry" element={<Navigate to="/foundry" replace />} />
+                                <Route path="/campaign-builder" element={<Navigate to="/foundry" replace />} />
                               </Routes>
                             </Suspense>
                           </ErrorBoundary>
@@ -140,7 +141,10 @@ export function App() {
                       </div>
 
                       {/* Global Live Team Voice Comms Bar (renders automatically when connected) */}
-                      <VoiceCommsBar />
+                      <VoiceCommsBar className="mb-14 sm:mb-0" />
+
+                      {/* Mobile Bottom Navigation (< sm screens only) */}
+                      <MobileBottomNav />
 
                       {/* Persistent Overlay Docks & Command Palette */}
                       <DiceRollerDock />

@@ -148,10 +148,10 @@ export const PropertyTab = ({
   const renderSection = (config) => {
     const list = getArray(config.key, config.altKey);
 
-    const handleRemoveItem = (index) => {
+    const handleRemoveItem = async (index) => {
       const item = list[index];
       const name = typeof item === 'object' ? (item.name || item.title || 'Item') : String(item);
-      if (!confirmTypedDeletion(name, `${config.title.toLowerCase()} property item`)) return;
+      if (!(await confirmTypedDeletion(name, `${config.title.toLowerCase()} property item`))) return;
       const updated = list.filter((_, i) => i !== index);
       updateField(config.key, updated);
     };

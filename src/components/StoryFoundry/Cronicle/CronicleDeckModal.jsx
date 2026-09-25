@@ -33,6 +33,7 @@ import { AudioService } from '../../../services/audioService';
 import { exportCronicleToMarkdown, formatCronicleContextForAIME } from '../../../services/cronicleService';
 import { generateStoryScratchbook, findElementsUsed } from '../../../pages/Foundry/StoryModule/scratchbookService';
 import { getTypePillStyle } from '../../../pages/Foundry/ElementForge/elementSchemas';
+import { useToast } from '../../../context/ToastContext';
 
 export default function CronicleDeckModal({ 
   isOpen, 
@@ -41,6 +42,7 @@ export default function CronicleDeckModal({
   initialTab = null,
   beats = [] 
 }) {
+  const { toast } = useToast();
   const {
     universeState,
     elementsCatalog = [],
@@ -435,12 +437,12 @@ export default function CronicleDeckModal({
         if (imported && (imported.personas || imported.locations || imported.timeline)) {
           updateCronicle(imported);
           AudioService.playTerminalBeep(1400, 0.1);
-          alert("CRONICLE state successfully imported!");
+          toast({ type: 'success', text: "CRONICLE state successfully imported!" });
         } else {
-          alert("Invalid CRONICLE JSON format.");
+          toast({ type: 'error', text: "Invalid CRONICLE JSON format." });
         }
       } catch (err) {
-        alert("Failed to parse JSON file.");
+        toast({ type: 'error', text: "Failed to parse JSON file." });
       }
     };
     reader.readAsText(file);

@@ -9,6 +9,8 @@ import { OmnicortexCatalogView } from './OmnicortexCatalogView';
 import { DBMItemModal, DBMItemTransferBar } from '../../components/DBM/DBMItemModal';
 import { BastionChatModal } from '../../components/DBM/BastionChatModal';
 import { Toast } from '../../components/UI/Toast';
+import { useToast } from '../../context/ToastContext';
+import { useConfirm } from '../../context/ConfirmContext';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { sendBastionChatMessage, getGeminiApiKey } from '../../services/bastionService';
 import { AudioService } from '../../services/audioService';
@@ -27,6 +29,8 @@ import {
 export const CompendiumApp = () => {
   const { currentUser, isAdmin } = useAuth();
   const dbm = useDBM() || {};
+  const { toast } = useToast();
+  const confirm = useConfirm();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Active Compendium Module Mode: 'rules' | 'omnicortex' | 'split'
@@ -107,16 +111,22 @@ export const CompendiumApp = () => {
   // Handle create new compendium article (for rules)
   const handleCreateNew = async () => {
     if (!isAdmin) {
-      alert('Administrator or GM privileges are required to create new compendium articles.');
+      toast({ type: 'warning', text: 'Administrator or GM privileges are required to create new compendium articles.' });
       return;
     }
 
-    const newName = window.prompt('Enter title for the new Compendium article:', '');
-    if (!newName || !newName.trim()) return;
+    const res = await confirm({
+      title: 'New Compendium Article',
+      message: 'Enter title for the new canonical compendium article:',
+      inputLabel: 'Article Title',
+      confirmLabel: 'Create Article'
+    });
+    const newName = typeof res === 'object' ? res.inputValue : res;
+    if (!newName || !String(newName).trim()) return;
 
     AudioService.playTerminalBeep(1200, 0.03);
     const initialData = {
-      name: newName.trim(),
+      name: String(newName).trim(),
       entry_type: 'General Lore',
       description: '',
       mechanic: '',
@@ -137,25 +147,26 @@ export const CompendiumApp = () => {
       setEditFormData(payload);
       setIsEditMode(true);
       setIsEntryModalOpen(true);
+      toast({ type: 'success', text: `Created "${payload.name}" in Compendium.` });
     } else {
-      alert('Failed to create new article. Check console or network.');
+      toast({ type: 'error', text: 'Failed to create new article. Check console or network.' });
     }
   };
 
   // Handle save entry
   const handleSaveEntry = async (closeOnSuccess = false, customPayload = null) => {
     if (!currentUser) {
-      alert('You must be signed in to save entries.');
+      toast({ type: 'warning', text: 'You must be signed in to save entries.' });
       return;
     }
     if (!isAdmin) {
-      alert('Administrator privileges are required to save canonical database entries.');
+      toast({ type: 'warning', text: 'Administrator privileges are required to save canonical database entries.' });
       return;
     }
 
     const currentData = customPayload || editFormData;
     if (!currentData.name || !currentData.name.trim()) {
-      alert('Article / Item name is required!');
+      toast({ type: 'error', text: 'Article / Item name is required!' });
       return;
     }
 
@@ -165,8 +176,13 @@ export const CompendiumApp = () => {
 
     const saver = dbm.saveEntry || saveEntry;
     const success = await saver(payload, targetKey);
-    if (success && closeOnSuccess) {
-      setIsEntryModalOpen(false);
+    if (success) {
+      toast({ type: 'success', text: `Saved "${payload.name}" successfully.` });
+      if (closeOnSuccess) {
+        setIsEntryModalOpen(false);
+      }
+    } else {
+      toast({ type: 'error', text: 'Failed to save entry.' });
     }
   };
 
@@ -175,13 +191,13 @@ export const CompendiumApp = () => {
     const target = itemToDelete || selectedItem;
     if (!target) return;
     if (!isAdmin) {
-      alert('Administrator privileges are required to delete entries.');
+      toast({ type: 'warning', text: 'Administrator privileges are required to delete entries.' });
       return;
     }
 
     const entryName = target.name || target.title || 'this entry';
     const targetKey = activeItemCategoryKey || currentRulesKey;
-    if (!confirmTypedDeletion(entryName, `${targetKey} entry`)) return;
+    if (!(await confirmTypedDeletion(entryName, `${targetKey} entry`))) return;
 
     setIsEntryModalOpen(false);
     setSelectedItem(null);
@@ -189,7 +205,9 @@ export const CompendiumApp = () => {
     const deleter = dbm.deleteEntry || deleteEntry;
     const success = await deleter(target.id, targetKey);
     if (!success) {
-      alert('Delete failed. Check browser console for details.');
+      toast({ type: 'error', text: 'Delete failed. Check browser console for details.' });
+    } else {
+      toast({ type: 'success', text: `Deleted "${entryName}".` });
     }
   };
 

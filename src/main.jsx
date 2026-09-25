@@ -4,7 +4,9 @@ import App from './App.jsx'
 import './index.css'
 import './css/dbm-style.css'
 import { AuthProvider } from './context/AuthContext.jsx'
-import { CampaignProvider } from './context/CampaignContext.jsx'
+import { ToastProvider } from './context/ToastContext.jsx'
+import { ConfirmProvider } from './context/ConfirmContext.jsx'
+import { AudioProvider } from './context/AudioContext.jsx'
 import { registerSW } from 'virtual:pwa-register'
 
 if (import.meta.env.PROD) {
@@ -19,10 +21,14 @@ if (import.meta.env.PROD) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <CampaignProvider>
-        <App />
-      </CampaignProvider>
-    </AuthProvider>
+    <ToastProvider>
+      <ConfirmProvider>
+        <AudioProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </AudioProvider>
+      </ConfirmProvider>
+    </ToastProvider>
   </React.StrictMode>,
 )

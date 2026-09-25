@@ -542,9 +542,9 @@ export const FeaturesTab = ({
   }, [allEnrichedCatalogFeatures, catalogCategoryTab, catalogCategories, featuresSearchQuery, catalogSortOption, characterData]);
 
   // Remove Feature Item
-  const handleRemoveFeature = (item) => {
+  const handleRemoveFeature = async (item) => {
     const itemName = typeof item === 'object' ? (item.name || item.title || 'Feature') : String(item);
-    if (!confirmTypedDeletion(itemName, 'feature')) return;
+    if (!(await confirmTypedDeletion(itemName, 'feature'))) return;
 
     const listKey = item.sourceList || 'features';
     const currentList = getItemList(listKey);
@@ -803,9 +803,9 @@ export const FeaturesTab = ({
   }, [characterTraits]);
 
   // Remove Trait Item
-  const handleRemoveTrait = (trait) => {
+  const handleRemoveTrait = async (trait) => {
     const traitName = typeof trait === 'object' ? (trait.name || trait.title || 'Trait') : String(trait);
-    if (!confirmTypedDeletion(traitName, 'trait')) return;
+    if (!(await confirmTypedDeletion(traitName, 'trait'))) return;
 
     const norm = normalizeLookupName(traitName);
 
@@ -862,12 +862,12 @@ export const FeaturesTab = ({
     });
   };
 
-  const handleToggleAwakenedDiscipline = (disc) => {
+  const handleToggleAwakenedDiscipline = async (disc) => {
     const isCurrentlyAwakened = isDisciplineAwakened(disc.name);
     const targetKey = disc.name.toLowerCase();
 
     if (isCurrentlyAwakened) {
-      if (!confirmTypedDeletion(`Awakened: ${disc.name}`, 'awakened discipline feature')) return;
+      if (!(await confirmTypedDeletion(`Awakened: ${disc.name}`, 'awakened discipline feature'))) return;
       
       const rawAwakened = getItemList('awakened');
       const updatedAwakened = rawAwakened.filter(d => {
@@ -1087,9 +1087,9 @@ export const FeaturesTab = ({
     }, 0);
   }, [hindrancesList]);
 
-  const handleRemoveHindrance = (item) => {
+  const handleRemoveHindrance = async (item) => {
     const itemName = typeof item === 'object' ? (item.name || item.title || 'Hindrance') : String(item);
-    if (!confirmTypedDeletion(itemName, 'hindrance')) return;
+    if (!(await confirmTypedDeletion(itemName, 'hindrance'))) return;
 
     const targetKey = Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0 ? 'hindrances' : 'disadvantages';
     const currentList = getItemList(targetKey);

@@ -155,9 +155,9 @@ const FolioContainer = () => {
     }
   }, [saveCurrentToRoster, characterData]);
 
-  const handleDeleteCurrentCharacter = useCallback(() => {
+  const handleDeleteCurrentCharacter = useCallback(async () => {
     const charName = characterData['char-name'] || 'Unnamed Operative';
-    if (!confirmTypedDeletion(charName, 'operative persona sheet')) return;
+    if (!(await confirmTypedDeletion(charName, 'operative persona sheet'))) return;
     const activeDocId = characterData['character-doc-id'];
     deleteRosterCharacter(activeDocId);
     setIsDeleteConfirmOpen(false);

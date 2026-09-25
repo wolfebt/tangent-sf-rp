@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Dices } from 'lucide-react';
 import DraggablePanel from './DraggablePanel';
 import { useFolio } from '../../../../context/FolioContext';
+import { showToast } from '../../../../context/ToastContext';
 import { AudioService } from '../../../../services/audioService';
 import KarmaCodexModal from '../../../../components/Folio/modals/KarmaCodexModal';
 import ExperienceCodexModal from '../../../../components/Folio/modals/ExperienceCodexModal';
@@ -656,7 +657,7 @@ const MapCombatTracker = ({
     const curK = token.karma !== undefined ? token.karma : 3;
     const minDebt = -(Math.max(1, parseInt(token.charisma || 10, 10) + 1));
     if (curK <= minDebt) {
-      alert(`Cannot spend Karma: ${token.label} has reached maximum Karmic Debt (${minDebt}).`);
+      showToast({ type: 'warning', text: `Cannot spend Karma: ${token.label} has reached maximum Karmic Debt (${minDebt}).` });
       return;
     }
 
@@ -701,7 +702,7 @@ const MapCombatTracker = ({
   const handleAwardPartyKarma = async (amount = 1, reason = 'Party Triumph') => {
     const heroTokens = sortedTokens.filter(t => Boolean(t.linkedHeroId) && !t.isDead);
     if (heroTokens.length === 0) {
-      alert('No active linked hero tokens on the map to award.');
+      showToast({ type: 'warning', text: 'No active linked hero tokens on the map to award.' });
       return;
     }
     AudioService.playTerminalBeep(960, 0.2);
@@ -726,7 +727,7 @@ const MapCombatTracker = ({
   const handleAwardPartyAP = async (amount = 1, reason = 'Encounter Victory') => {
     const heroTokens = sortedTokens.filter(t => Boolean(t.linkedHeroId) && !t.isDead);
     if (heroTokens.length === 0) {
-      alert('No active linked hero tokens on the map to award.');
+      showToast({ type: 'warning', text: 'No active linked hero tokens on the map to award.' });
       return;
     }
     AudioService.playTerminalBeep(1200, 0.25);
@@ -794,7 +795,7 @@ const MapCombatTracker = ({
 
     const heroCandidates = sortedTokens.filter(t => Boolean(t.linkedHeroId) && !t.isDead);
     if (heroCandidates.length === 0) {
-      alert('No active player hero tokens detected on the battlemap to target.');
+      showToast({ type: 'warning', text: 'No active player hero tokens detected on the battlemap to target.' });
       return;
     }
 

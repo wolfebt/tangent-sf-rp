@@ -6,6 +6,7 @@ import { useDBM } from '../../context/DBMContext';
 import { useStory } from '../../context/CampaignContext';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
+import { useAudio } from '../../context/AudioContext';
 import { AudioService } from '../../services/audioService';
 import { UserSettingsModal } from '../UserSettingsModal';
 import {
@@ -51,15 +52,9 @@ export const GlobalSideRail = () => {
   const teamCount = groups?.length || 0;
   const inviteCount = pendingInvites?.length || 0;
 
-  // Audio mute state
-  const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
+  // Audio mute state from shared AudioContext
+  const { isMuted: isAudioMuted, toggleMute: toggleAudio } = useAudio();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-  const toggleAudio = () => {
-    const next = AudioService.toggleMute();
-    setIsAudioMuted(next);
-    if (!next) AudioService.playTerminalBeep(1100, 0.04);
-  };
 
   // Do not render side rail on pure spectator / projector displays
   if (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useStory } from '../context/CampaignContext';
@@ -6,10 +6,12 @@ import { useFolio } from '../context/FolioContext';
 import { useDBM } from '../context/DBMContext';
 import { useGroup } from '../context/GroupContext';
 import { useChat } from '../context/ChatContext';
+import { useAudio } from '../context/AudioContext';
 import { LandingDrawerArea } from '../components/Hub/LandingDrawerArea';
 import { GameSquadsWidget } from '../components/Hub/GameSquadsWidget';
 import { CommCenterWidget } from '../components/Hub/CommCenterWidget';
 import { UserSettingsModal } from '../components/UserSettingsModal';
+import { WelcomeBriefing } from '../components/Hub/WelcomeBriefing';
 import { 
   Menu, 
   X, 
@@ -25,7 +27,8 @@ import {
   Settings, 
   Volume2, 
   VolumeX,
-  Compass
+  Compass,
+  HelpCircle
 } from 'lucide-react';
 import { AudioService } from '../services/audioService';
 
@@ -45,7 +48,23 @@ const Home = () => {
     return false;
   });
 
-  const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
+  const { isMuted: isAudioMuted, toggleMute: toggleAudio } = useAudio();
+  const [activeDrawer, setActiveDrawer] = useState(null);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [showWelcomeBriefing, setShowWelcomeBriefing] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !localStorage.getItem('tangent_welcome_briefing_dismissed');
+    }
+    return true;
+  });
+  const joinCodeHandled = useRef(false);
+
+  useEffect(() => {
+    const handleOpenBriefing = () => setShowWelcomeBriefing(true);
+    window.addEventListener('open-welcome-briefing', handleOpenBriefing);
+    return () => window.removeEventListener('open-welcome-briefing', handleOpenBriefing);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -55,17 +74,14 @@ const Home = () => {
 
   // Check URL query parameters for direct team invite join (?join=GRP-XXXXXX)
   useEffect(() => {
+    if (joinCodeHandled.current) return;
     const params = new URLSearchParams(window.location.search);
     const joinCode = params.get('join');
     if (joinCode) {
+      joinCodeHandled.current = true;
       setActiveDrawer('game-groups');
     }
   }, []);
-
-  // Active center drawer state
-  const [activeDrawer, setActiveDrawer] = useState(null);
-  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Live metrics
   const heroCount = (personaRoster || roster || []).length;
@@ -84,12 +100,6 @@ const Home = () => {
   const handleSelectDrawer = (drawerId) => {
     setActiveDrawer(prev => prev === drawerId ? null : drawerId);
     if (isMobile) setIsMobileDrawerOpen(false);
-  };
-
-  const toggleAudio = () => {
-    const next = AudioService.toggleMute();
-    setIsAudioMuted(next);
-    if (!next) AudioService.playTerminalBeep(1100, 0.04);
   };
 
   return (
@@ -253,6 +263,10 @@ const Home = () => {
                   onCloseDrawer={() => setActiveDrawer(null)}
                   onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
                 />
+              ) : showWelcomeBriefing ? (
+                <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 overflow-y-auto w-full max-h-full">
+                  <WelcomeBriefing onDismiss={() => setShowWelcomeBriefing(false)} />
+                </div>
               ) : (
                 /* Idle state — guidance prompt */
                 <div className="flex-1 flex flex-col items-center justify-start pt-12 sm:pt-16 lg:pt-20 p-8 text-center font-mono space-y-4 animate-fadeIn">
@@ -268,8 +282,19 @@ const Home = () => {
                     <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto shifting-wb-text-shadow leading-relaxed">
                       Select any module from the guidance rail on the left to launch an active workspace.
                     </p>
-                    {!currentUser && (
-                      <div className="pt-2">
+                    <div className="pt-2 flex items-center justify-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowWelcomeBriefing(true);
+                        }}
+                        className="px-3.5 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 font-mono text-xs uppercase tracking-wider transition-all inline-flex items-center gap-2 cursor-pointer"
+                      >
+                        <HelpCircle size={13} className="text-cyan-400" />
+                        <span>OPEN TACTICAL BRIEFING</span>
+                      </button>
+                      {!currentUser && (
                         <button
                           type="button"
                           onClick={(e) => {
@@ -281,8 +306,8 @@ const Home = () => {
                           <Globe size={13} className="text-cyan-400" />
                           <span>CONNECT TO TERRAN DATA NET</span>
                         </button>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
@@ -300,6 +325,10 @@ const Home = () => {
                   onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
                 />
               </div>
+            ) : showWelcomeBriefing ? (
+              <div className="flex-1 flex flex-col items-center justify-start p-3 sm:p-4 overflow-y-auto w-full max-h-full">
+                <WelcomeBriefing isMobile onDismiss={() => setShowWelcomeBriefing(false)} />
+              </div>
             ) : (
               <div className="flex-1 flex flex-col items-center justify-start pt-10 sm:pt-14 p-6 text-center font-mono space-y-4 animate-fadeIn">
                 <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shifting-wb-box-shadow">
@@ -314,8 +343,19 @@ const Home = () => {
                   <p className="text-[11px] sm:text-xs text-slate-300 shifting-wb-text-shadow leading-relaxed">
                     Tap MODULES above to load a workspace.
                   </p>
-                  {!currentUser && (
-                    <div className="pt-2">
+                  <div className="pt-2 flex flex-col items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowWelcomeBriefing(true);
+                      }}
+                      className="px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 font-mono text-[11px] uppercase tracking-wider transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <HelpCircle size={12} className="text-cyan-400" />
+                      <span>OPEN TACTICAL BRIEFING</span>
+                    </button>
+                    {!currentUser && (
                       <button
                         type="button"
                         onClick={(e) => {
@@ -327,8 +367,8 @@ const Home = () => {
                         <Globe size={12} className="text-cyan-400" />
                         <span>CONNECT TO TERRAN DATA NET</span>
                       </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             )

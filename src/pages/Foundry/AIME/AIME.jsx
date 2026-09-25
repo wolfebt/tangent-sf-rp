@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
+import { useToast } from '../../../context/ToastContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { generateContent, streamContent } from '../../../services/aimeService';
 import { StorageService } from '../../../services/storageService';
@@ -18,6 +19,7 @@ export { GUIDANCE_GEMS };
 
 export default function AIME() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { currentUser, userHandle } = useAuth();
   const { 
     universeState, 
@@ -108,7 +110,6 @@ export default function AIME() {
   const [selectedGemCategory, setSelectedGemCategory] = useState(Object.keys(GUIDANCE_GEMS)[0]);
   const [newGemInput, setNewGemInput] = useState('');
   const [activeViewMode, setActiveViewMode] = useState('both');
-  const [toastMsg, setToastMsg] = useState(null);
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingBeat, setIsSuggestingBeat] = useState(false);
@@ -157,9 +158,8 @@ export default function AIME() {
   const fileInputRef = useRef(null);
   const activeCanvasKeyRef = useRef(null);
 
-  const showToast = (msg) => {
-    setToastMsg(msg);
-    setTimeout(() => setToastMsg(null), 3000);
+  const showToast = (msg, type = 'info') => {
+    toast({ type, text: msg });
   };
 
   const handleCopyMarkdown = (content) => {
@@ -203,14 +203,17 @@ export default function AIME() {
         showToast('Prose Draft canvas saved locally!');
       }
     } catch (e) {
-      alert(`Save failed: ${e.message}`);
+      toast({ type: 'error', text: `Save failed: ${e.message}` });
     }
   };
 
   const handleLoadLocal = async (canvasKey) => {
     try {
       const data = await StorageService.getItem(`aime_canvas_${canvasKey === 'beats' ? 'scene_beats' : canvasKey === 'draft' ? 'prose_draft' : canvasKey}`);
-      if (!data) return alert(`No local save found for ${canvasKey} canvas.`);
+      if (!data) {
+        toast({ type: 'warning', text: `No local save found for ${canvasKey} canvas.` });
+        return;
+      }
       const parsed = typeof data === 'string' ? JSON.parse(data) : data;
       if (canvasKey === 'brainstorm') {
         if (parsed.prompt !== undefined) setBrainstormPrompt(parsed.prompt);
@@ -227,7 +230,7 @@ export default function AIME() {
         showToast('Prose Draft canvas loaded from local storage!');
       }
     } catch (e) {
-      alert(`Load failed: ${e.message}`);
+      toast({ type: 'error', text: `Load failed: ${e.message}` });
     }
   };
 
@@ -350,7 +353,7 @@ export default function AIME() {
           showToast('Imported Prose Draft content!');
         }
       } catch (err) {
-        alert(`Import failed: ${err.message}`);
+        toast({ type: 'error', text: `Import failed: ${err.message}` });
       }
     };
     reader.readAsText(file);
@@ -411,7 +414,10 @@ export default function AIME() {
 
   // Weaver Actions
   const handleGenerateConcepts = async () => {
-    if (!brainstormPrompt.trim()) return alert("Please enter a core story prompt or seed idea.");
+    if (!brainstormPrompt.trim()) {
+      toast({ type: 'warning', text: 'Please enter a core story prompt or seed idea.' });
+      return;
+    }
     setIsGenerating(true);
 
     const prompt = `Synthesize 3 distinct high-level story concept cards based on this seed:
@@ -432,7 +438,7 @@ Format output strictly as JSON array of objects:
       updateStoryCards(cards);
       setStage(2);
     } catch (err) {
-      alert(`Concept generation failed: ${err.message}`);
+      toast({ type: 'error', text: `Concept generation failed: ${err.message}` });
     } finally {
       setIsGenerating(false);
     }
@@ -453,7 +459,7 @@ Formatting: Provide a markdown list of 5 key narrative acts/chapters with dramat
       updateOutline(outlineText);
       setStage(2);
     } catch (err) {
-      alert(`Outline generation failed: ${err.message}`);
+      toast({ type: 'error', text: `Outline generation failed: ${err.message}` });
     } finally {
       setIsGenerating(false);
     }
@@ -474,7 +480,7 @@ Format: Return a bullet point to append to the outline.`;
       const updated = (creativeState.storyOutline || '') + `\n- ${beat.trim()}`;
       updateOutline(updated);
     } catch (err) {
-      alert(`Suggest beat failed: ${err.message}`);
+      toast({ type: 'error', text: `Suggest beat failed: ${err.message}` });
     } finally {
       setIsSuggestingBeat(false);
     }
@@ -495,7 +501,7 @@ Formatting: Provide a markdown list of detailed scene beats, focusing on charact
       const beatsText = await generateContent({ prompt, context: getWeaverContext('SceneBeats') });
       updateSceneBeats(beatsText);
     } catch (err) {
-      alert(`Scene beats generation failed: ${err.message}`);
+      toast({ type: 'error', text: `Scene beats generation failed: ${err.message}` });
     } finally {
       setIsGenerating(false);
     }
@@ -529,7 +535,7 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
       });
       handleTriggerDeltaExtraction(draftText);
     } catch (err) {
-      alert(`Draft generation failed: ${err.message}`);
+      toast({ type: 'error', text: `Draft generation failed: ${err.message}` });
     } finally {
       setIsGenerating(false);
     }
@@ -560,7 +566,7 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
       });
       handleTriggerDeltaExtraction(draftText);
     } catch (err) {
-      alert(`Generation failed: ${err.message}`);
+      toast({ type: 'error', text: `Generation failed: ${err.message}` });
     } finally {
       setIsGenerating(false);
     }
@@ -588,7 +594,7 @@ Style Instructions: Match the tone, immersive, vivid sensory details, sharp char
       });
       handleTriggerDeltaExtraction(draftText);
     } catch (err) {
-      alert(`Generation failed: ${err.message}`);
+      toast({ type: 'error', text: `Generation failed: ${err.message}` });
     } finally {
       setIsGenerating(false);
     }
@@ -647,7 +653,7 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
       setSelectedText('');
       setCustomAiPrompt('');
     } catch (err) {
-      alert(`AI Assist failed: ${err.message}`);
+      toast({ type: 'error', text: `AI Assist failed: ${err.message}` });
     } finally {
       setIsGenerating(false);
     }
@@ -1120,14 +1126,6 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
         accept=".json,.md,.txt" 
         className="hidden" 
       />
-
-      {/* Canvas Action Toast Banner */}
-      {toastMsg && (
-        <div className="fixed bottom-5 right-5 z-50 bg-cyan-900/90 border border-cyan-400/80 text-cyan-200 px-4 py-2 rounded-lg shadow-2xl text-xs font-bold flex items-center gap-2 backdrop-blur-md animate-bounce">
-          <span className="text-amber-400">✨</span>
-          <span>{toastMsg}</span>
-        </div>
-      )}
 
       {/* Dynamic Chat Box */}
       {isChatOpen && (

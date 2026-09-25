@@ -12,6 +12,8 @@ import {
   applyBatchDeltas,
   cloneToWorkingCopy
 } from '../services/cronicleService.js';
+import { showToast } from './ToastContext';
+import { showConfirm } from './ConfirmContext';
 
 const StoryContext = createContext();
 
@@ -167,10 +169,16 @@ export const StoryProvider = ({ children }) => {
   const [publicStoryCatalog, setPublicStoryCatalog] = useState([]);
 
   // Helper to confirm action when active workspace has unsaved / dirty changes
-  const confirmIfDirty = useCallback((actionCallback, customMsg) => {
+  const confirmIfDirty = useCallback(async (actionCallback, customMsg) => {
     if (isDirty) {
-      const msg = customMsg || `Warning: You have unsaved or modified fields in your current story project ("${universeState.projectName || 'Untitled'}"). Creating or opening a new story will clear out the current active workspace.\n\nDo you want to proceed?`;
-      if (!window.confirm(msg)) {
+      const msg = customMsg || `Warning: You have unsaved or modified fields in your current story project ("${universeState.projectName || 'Untitled'}"). Creating or opening a new story will clear out the current active workspace. Do you want to proceed?`;
+      const ok = await showConfirm({
+        title: 'Unsaved Changes',
+        message: msg,
+        confirmLabel: 'Proceed',
+        danger: true
+      });
+      if (!ok) {
         return false;
       }
     }
@@ -465,10 +473,10 @@ export const StoryProvider = ({ children }) => {
               setActiveScenarioId(storyData.scenarios[0].id);
             }
           } else {
-            alert('This story project is private.');
+            showToast({ type: 'warning', text: 'This story project is private.' });
           }
         } else {
-          alert('Requested story project was not found.');
+          showToast({ type: 'warning', text: 'Requested story project was not found.' });
         }
       }).catch((err) => {
         console.warn('Failed to load public story project:', err);
@@ -544,7 +552,7 @@ export const StoryProvider = ({ children }) => {
       window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
     }
 
-    alert(`Successfully cloned "${source.projectName}" to your ADE Studio catalog!`);
+    showToast({ type: 'success', text: `Successfully cloned "${source.projectName}" to your ADE Studio catalog.` });
   }, [universeState, currentUser]);
 
   // Actual Cloud Persistence Worker
@@ -703,7 +711,7 @@ export const StoryProvider = ({ children }) => {
   // Manual Push to Cloud DB — declared before triggerStorySave to avoid stale closure
   const pushUniverseToCloud = useCallback(async (options = {}) => {
     if (!currentUser) {
-      if (options.showSuccessAlert !== false) alert("Please login to push data to Cloud DB.");
+      if (options.showSuccessAlert !== false) showToast({ type: 'warning', text: "Please login to push data to Cloud DB." });
       return false;
     }
     try {
@@ -765,7 +773,7 @@ export const StoryProvider = ({ children }) => {
       setLastSavedTimestamp(now);
       setLastCloudSavedAt(new Date(now).toLocaleTimeString());
       if (options.showSuccessAlert !== false) {
-        alert("Story project successfully pushed to Cloud DB!");
+        showToast({ type: 'success', text: "Story project successfully pushed to Cloud DB." });
       }
       return true;
     } catch (err) {
@@ -773,7 +781,7 @@ export const StoryProvider = ({ children }) => {
       setSaveStatus('error');
       setCloudSyncStatus('error');
       setSaveError(err.message || 'Failed to push to Cloud DB');
-      alert(`Cloud DB Push failed: ${err.message}`);
+      showToast({ type: 'error', text: `Cloud DB Push failed: ${err.message}` });
       return false;
     }
   }, [currentUser, saveAllElementsIndependently, saveAllMapsIndependently]);
@@ -789,7 +797,7 @@ export const StoryProvider = ({ children }) => {
   // Manual Pull from Cloud DB
   const pullUniverseFromCloud = async () => {
     if (!currentUser) {
-      alert("Please login to pull data from Cloud DB.");
+      showToast({ type: 'warning', text: "Please login to pull data from Cloud DB." });
       return false;
     }
     try {
@@ -806,17 +814,17 @@ export const StoryProvider = ({ children }) => {
         setIsDirty(false);
         setCloudSyncStatus('synced');
         setLastCloudSavedAt(new Date().toLocaleTimeString());
-        alert("Story project successfully pulled from Cloud DB!");
+        showToast({ type: 'success', text: "Story project successfully pulled from Cloud DB." });
         return true;
       } else {
-        alert("No Cloud DB document found for this story project.");
+        showToast({ type: 'warning', text: "No Cloud DB document found for this story project." });
         setCloudSyncStatus('synced');
         return false;
       }
     } catch (err) {
       console.error("Failed to pull from Cloud DB:", err);
       setCloudSyncStatus('error');
-      alert(`Cloud DB Pull failed: ${err.message}`);
+      showToast({ type: 'error', text: `Cloud DB Pull failed: ${err.message}` });
       return false;
     }
   };
@@ -838,7 +846,7 @@ export const StoryProvider = ({ children }) => {
   // Save individual Story Element to Cloud DB collection ('story_elements')
   const saveElementToCloud = async (elementNode) => {
     if (!currentUser) {
-      alert("Please login to save elements to Cloud DB.");
+      showToast({ type: 'warning', text: "Please login to save elements to Cloud DB." });
       return false;
     }
     if (!elementNode || !elementNode.id) return false;
@@ -853,12 +861,12 @@ export const StoryProvider = ({ children }) => {
       };
       await setDoc(doc(db, 'story_elements', elementNode.id), payload);
       setCloudSyncStatus('synced');
-      alert(`Story Element "${elementNode.title || 'Untitled'}" saved to Cloud DB collection!`);
+      showToast({ type: 'success', text: `Story Element "${elementNode.title || 'Untitled'}" saved to Cloud DB collection.` });
       return true;
     } catch (err) {
       console.error("Save element to Cloud DB failed:", err);
       setCloudSyncStatus('error');
-      alert(`Failed to save element to Cloud DB: ${err.message}`);
+      showToast({ type: 'error', text: `Failed to save element to Cloud DB: ${err.message}` });
       return false;
     }
   };
@@ -866,7 +874,7 @@ export const StoryProvider = ({ children }) => {
   // Fetch all Cloud DB Story Elements from collection ('story_elements')
   const loadElementsFromCloud = async () => {
     if (!currentUser) {
-      alert("Please login to access Cloud DB elements library.");
+      showToast({ type: 'warning', text: "Please login to access Cloud DB elements library." });
       return [];
     }
     try {
@@ -879,7 +887,7 @@ export const StoryProvider = ({ children }) => {
     } catch (err) {
       console.error("Failed to load elements from Cloud DB:", err);
       setCloudSyncStatus('error');
-      alert(`Failed to fetch Cloud DB elements: ${err.message}`);
+      showToast({ type: 'error', text: `Failed to fetch Cloud DB elements: ${err.message}` });
       return [];
     }
   };
@@ -941,11 +949,11 @@ export const StoryProvider = ({ children }) => {
           if (loadedStories.length > 0) setActiveScenarioId(loadedStories[0].id);
           setIsDirty(false);
         } else {
-          alert("Invalid project file format.");
+          showToast({ type: 'error', text: "Invalid project file format." });
         }
       } catch (error) {
         console.error("Failed to load project:", error);
-        alert("Invalid project file.");
+        showToast({ type: 'error', text: "Invalid project file." });
       }
     };
     reader.readAsText(file);
@@ -990,11 +998,11 @@ export const StoryProvider = ({ children }) => {
           }));
           setActiveScenarioId(loadedStories[0].id);
         } else {
-          alert("No stories found in file.");
+          showToast({ type: 'warning', text: "No stories found in file." });
         }
       } catch (error) {
         console.error("Failed to load story file:", error);
-        alert("Invalid story file.");
+        showToast({ type: 'error', text: "Invalid story file." });
       }
     };
     reader.readAsText(file);
@@ -1003,7 +1011,7 @@ export const StoryProvider = ({ children }) => {
   // Dedicated Map Save / Load
   const handleSaveActiveMap = () => {
     const currentMap = universeState.maps.find(m => m.id === activeMapId);
-    if (!currentMap) return alert("No active map to save!");
+    if (!currentMap) return showToast({ type: 'warning', text: "No active map to save!" });
     
     const mapData = {
       type: "TangentMap",
@@ -1047,11 +1055,11 @@ export const StoryProvider = ({ children }) => {
           });
           setActiveMapId(mapToLoad.id);
         } else {
-          alert("Invalid map file format.");
+          showToast({ type: 'error', text: "Invalid map file format." });
         }
       } catch (error) {
         console.error("Failed to load map file:", error);
-        alert("Invalid map file.");
+        showToast({ type: 'error', text: "Invalid map file." });
       }
     };
     reader.readAsText(file);

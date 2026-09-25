@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { AudioService } from '../../../services/audioService';
+import { useToast } from '../../../context/ToastContext';
 import { Users, Globe, Search, LayoutGrid, List, Plus, Sparkles, Copy, Trash2, Edit3, Share2, Eye, EyeOff, Shield, Activity, Award, User, Lock, ExternalLink } from 'lucide-react';
 
 export const RosterCatalogView = ({
@@ -19,6 +20,7 @@ export const RosterCatalogView = ({
   onSelectPublicPersona,
   onClonePublicPersona
 }) => {
+  const { toast } = useToast();
   const [catalogTab, setCatalogTab] = useState('my-roster'); // 'my-roster' | 'public-gallery'
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('card'); // 'card' | 'table'
@@ -41,12 +43,12 @@ export const RosterCatalogView = ({
     const url = `${window.location.origin}/folio?user=${ownerUid || ''}&id=${docId}`;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(() => {
-        alert(`Public Share Link copied to clipboard:\n\n${url}`);
+        toast({ type: 'success', title: 'LINK COPIED', text: 'Public Share Link copied to clipboard.' });
       }).catch(() => {
-        prompt("Copy this public share link:", url);
+        toast({ type: 'info', title: 'SHARE LINK', text: url, autoDismissMs: 12000 });
       });
     } else {
-      prompt("Copy this public share link:", url);
+      toast({ type: 'info', title: 'SHARE LINK', text: url, autoDismissMs: 12000 });
     }
   };
 
@@ -372,8 +374,8 @@ export const RosterCatalogView = ({
 
                           <button
                             type="button"
-                            onClick={() => {
-                              if (confirmTypedDeletion(charName, 'operative dossier')) {
+                            onClick={async () => {
+                              if (await confirmTypedDeletion(charName, 'operative dossier')) {
                                 onDeleteCharacter(docId);
                               }
                             }}
@@ -492,8 +494,8 @@ export const RosterCatalogView = ({
                                 </button>
                                 <button
                                   type="button"
-                                  onClick={() => {
-                                    if (confirmTypedDeletion(charName, 'operative dossier')) {
+                                  onClick={async () => {
+                                    if (await confirmTypedDeletion(charName, 'operative dossier')) {
                                       onDeleteCharacter(docId);
                                     }
                                   }}

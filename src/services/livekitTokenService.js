@@ -1,16 +1,20 @@
-﻿/**
+/**
  * @file livekitTokenService.js
  * @description Generates signed LiveKit JWT access tokens for rooms & squads using standard Web Crypto.
  * Supports direct client generation for zero-server instant connection or custom backend endpoints.
  */
 
-// Safe access to import.meta.env in Vite
-const env = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env : {};
+// Safe access to environment variables across Vite client and Node/test environments
+const env = (typeof import.meta !== 'undefined' && import.meta.env)
+  ? import.meta.env
+  : (typeof process !== 'undefined' && process.env)
+    ? process.env
+    : {};
 
 export const LIVEKIT_CONFIG = {
-  url: env.VITE_LIVEKIT_URL || 'wss://tangent-sf-rpe-4uq4kj6u.livekit.cloud',
-  apiKey: env.VITE_LIVEKIT_API_KEY || 'APImjRHBuPj3s3u',
-  apiSecret: env.VITE_LIVEKIT_API_SECRET || 'gPVxFvJNiSzRWeJlz9imIe8pxzWglIYeBsvLmzsfeS5B',
+  url: env.VITE_LIVEKIT_URL || '',
+  apiKey: env.VITE_LIVEKIT_API_KEY || '',
+  apiSecret: env.VITE_LIVEKIT_API_SECRET || '',
   tokenEndpoint: env.VITE_LIVEKIT_TOKEN_ENDPOINT || ''
 };
 
@@ -128,7 +132,7 @@ export function getLiveKitServerUrl() {
 }
 
 export function isLiveKitConfigured() {
-  return Boolean(LIVEKIT_CONFIG.url && LIVEKIT_CONFIG.apiKey && LIVEKIT_CONFIG.apiSecret);
+  return Boolean(LIVEKIT_CONFIG.url && (LIVEKIT_CONFIG.tokenEndpoint || (LIVEKIT_CONFIG.apiKey && LIVEKIT_CONFIG.apiSecret)));
 }
 
 export default {

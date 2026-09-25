@@ -5,6 +5,7 @@ import { getTerrainsForScale, getObjectsForScale, getCategoriesForScale } from '
 import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures';
 import AssetDrawingStudio from './AssetDrawingStudio';
 import { confirmTypedDeletion } from '../../../../utils/confirmationUtils';
+import { showToast } from '../../../../context/ToastContext';
 
 const OBJECT_SHAPES = [
   { id: 'circle', label: 'Circle' },
@@ -237,14 +238,14 @@ export default function MapAssetManagerModal({
       reader.readAsDataURL(file);
     });
 
-    alert(`Successfully queued ${files.length} file(s) for catalog import.`);
+    showToast({ type: 'success', text: `Successfully queued ${files.length} file(s) for catalog import.` });
     e.target.value = '';
   };
 
   const handleSaveTerrainSubmit = (e) => {
     if (e) e.preventDefault();
     if (!terrainForm.label.trim()) {
-      alert('Please enter a terrain name.');
+      showToast({ type: 'warning', text: 'Please enter a terrain name.' });
       return;
     }
 
@@ -260,7 +261,7 @@ export default function MapAssetManagerModal({
   const handleSaveObjectSubmit = (e) => {
     if (e) e.preventDefault();
     if (!objectForm.label.trim()) {
-      alert('Please enter an object name.');
+      showToast({ type: 'warning', text: 'Please enter an object name.' });
       return;
     }
 
@@ -273,11 +274,12 @@ export default function MapAssetManagerModal({
     setEditorSubTab('attributes');
   };
 
-  const handleDeleteSelected = () => {
+  const handleDeleteSelected = async () => {
     if (!editingAsset || !editingAsset.isCustom) return;
     const targetLabel = editingAsset.label || editingAsset.name || 'Custom Asset';
 
-    if (confirmTypedDeletion(targetLabel, 'custom map asset')) {
+    const confirmed = await confirmTypedDeletion(targetLabel, 'custom map asset');
+    if (confirmed) {
       if (activeTab === 'terrains') {
         onDeleteCustomTerrain?.(editingAsset.id);
       } else {

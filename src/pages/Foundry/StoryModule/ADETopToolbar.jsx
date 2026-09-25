@@ -136,11 +136,11 @@ export default function ADETopToolbar({
     }
   };
 
-  const handleDeleteActiveStory = () => {
+  const handleDeleteActiveStory = async () => {
     setIsFileMenuOpen(false);
     AudioService.playTerminalBeep(800, 0.04);
     const currentTitle = universeState?.projectName || 'Untitled Story';
-    if (confirmTypedDeletion(currentTitle, 'story module project')) {
+    if (await confirmTypedDeletion(currentTitle, 'story module project')) {
       if (universeState?.id) {
         deleteStoryProject(universeState.id);
       }
@@ -155,11 +155,11 @@ export default function ADETopToolbar({
     }
   };
 
-  const handleClearStoryElements = () => {
+  const handleClearStoryElements = async () => {
     setIsFileMenuOpen(false);
     AudioService.playTerminalBeep(800, 0.04);
     const currentTitle = universeState?.projectName || 'Untitled Story';
-    if (confirmTypedDeletion(currentTitle, 'story element content')) {
+    if (await confirmTypedDeletion(currentTitle, 'story element content')) {
       if (handleClearUniverse) {
         handleClearUniverse();
       }

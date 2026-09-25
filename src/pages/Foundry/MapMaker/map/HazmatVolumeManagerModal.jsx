@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HAZMAT_TYPES, evaluateHazmatTick } from '../../../../services/hazmatVolumeService';
+import { showToast } from '../../../../context/ToastContext';
 import { AudioService } from '../../../../services/audioService';
 
 const HazmatVolumeManagerModal = ({
@@ -18,14 +19,14 @@ const HazmatVolumeManagerModal = ({
   scale = 1,
   position = { x: 0, y: 0 }
 }) => {
-  if (!isOpen) return null;
-
   const [selectedType, setSelectedType] = useState('radiation_leak');
   const [zoneLabel, setZoneLabel] = useState('Radiation Hotspot');
   const [zoneRadius, setZoneRadius] = useState(120);
   const [saveCr, setSaveDc] = useState(14);
   const [tickDamage, setTickDamage] = useState(6);
   const [appliedCondition, setAppliedCondition] = useState('Irradiated');
+
+  if (!isOpen) return null;
 
   const handleTypeSelect = (typeKey) => {
     const haz = HAZMAT_TYPES[typeKey];
@@ -89,7 +90,7 @@ const HazmatVolumeManagerModal = ({
     });
 
     if (affectedCount === 0) {
-      alert('No tokens currently positioned inside active hazard zones.');
+      showToast({ type: 'info', text: 'No tokens currently positioned inside active hazard zones.' });
     }
   };
 

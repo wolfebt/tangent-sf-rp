@@ -18,11 +18,6 @@ import {
   sanitizeSubAttributes
 } from '../utils/attributeUtils';
 import { 
-  applyDamageToEntity,
-  stabilizeEntity,
-  advanceDeathClock,
-  revivifyEntity,
-  calculateDeathClock,
   calculateExperiencePool,
   applyExperienceAward,
   validateExperienceSpend,
@@ -40,7 +35,8 @@ import {
   computeEconomyBreakdown
 } from '../engines/tangentEntityEngines';
 import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../engines/tangentConstants';
-import { executeRestCycle, resetDailyRests, getSpeciesRestProfile } from '../engines/tangentRestEngine';
+import { getSpeciesRestProfile } from '../engines/tangentRestEngine';
+import { useFolioDeathDying, useFolioRestRecovery, useFolioKarma } from './folio';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData';
 import { createAttackFromWeapon, createArmorFromItem } from '../utils/combatUtils';
 import { 
@@ -50,6 +46,8 @@ import {
   isSkillTargetMatch,
   extractEquipmentSkillModifiers
 } from '../engines/tangentModifierEngine';
+import { showToast } from './ToastContext';
+import { showConfirm } from './ConfirmContext';
 
 const ATTR_NAME_TO_ID = {
   strength: 'attr-strength',
@@ -444,10 +442,10 @@ export const FolioProvider = ({ children }) => {
             setCharacterData(parsed);
             setIsReadOnly(!isOwner);
           } else {
-            alert('This persona is private and cannot be viewed.');
+            showToast({ type: 'warning', text: 'This persona is private and cannot be viewed.' });
           }
         } else {
-          alert('Requested persona document was not found.');
+          showToast({ type: 'warning', text: 'Requested persona document was not found.' });
         }
       }).catch((err) => {
         console.warn('Failed to fetch public persona:', err);
@@ -1685,9 +1683,12 @@ export const FolioProvider = ({ children }) => {
     const user = auth.currentUser;
     let name = (characterData['char-name'] || '').trim();
     if (!name || name.toLowerCase() === 'unnamed operative') {
-      const entered = window.prompt("Enter a name for this operative before saving:", "New Operative");
-      if (entered === null) return null; // Cancelled
-      name = entered.trim() || 'New Operative';
+      name = 'Operative ' + (characterData['char-species'] || 'Agent');
+      showToast({
+        type: 'info',
+        title: 'OPERATIVE AUTO-NAMED',
+        text: `Operative was saved to roster as "${name}". You can rename them anytime in the Identity tab.`
+      });
     }
 
     const docId = characterData['character-doc-id'] || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
@@ -1836,7 +1837,7 @@ export const FolioProvider = ({ children }) => {
 
     // Save cloned character to local roster & cloud
     saveCurrentToRoster();
-    alert(`Successfully cloned "${name}" to your local operative roster!`);
+    showToast({ type: 'success', text: `Successfully cloned "${name}" to your local operative roster.` });
   }, [characterData, saveCurrentToRoster]);
 
   const loadPublicPersonas = useCallback(async () => {
@@ -2096,7 +2097,7 @@ export const FolioProvider = ({ children }) => {
     if (isInActiveGame || (forcePlayerOverride && typeof forcePlayerOverride !== 'string')) {
       // Guard: Check if GM has disallowed player override during live session
       if (!allowPlayerOverride) {
-        alert('Player Override Disallowed: The Lead GM or Team Manager has locked player overrides for this session. Direct sheet modifications are disabled.');
+        showToast({ type: 'warning', title: 'OVERRIDE DISALLOWED', text: 'The Lead GM or Team Manager has locked player overrides for this session. Direct sheet modifications are disabled.' });
         return false;
       }
 
@@ -2204,7 +2205,7 @@ export const FolioProvider = ({ children }) => {
     }
 
     AudioService.playCriticalChime(true);
-    alert(`Successfully branched variant: "${variantClone['char-name']}" into your operative roster!`);
+    showToast({ type: 'success', text: `Successfully branched variant: "${variantClone['char-name']}" into your operative roster.` });
   }, [characterData, personaRoster]);
 
   // Record a tracked modification during player override
@@ -2456,7 +2457,7 @@ export const FolioProvider = ({ children }) => {
       const actionMsg = isInActiveGame
         ? 'To modify during an active session, click "Player Override" in the File Menu to enable tracked edits.'
         : 'To modify, click "Unlock Sheet" in the File Menu to return to Development Mode.';
-      alert(`🔒 PERSONA LOCKED: Character sheet is locked for VTT readiness.\n\n${actionMsg}`);
+      showToast({ type: 'warning', title: 'PERSONA LOCKED', text: `Character sheet is locked for VTT readiness. ${actionMsg}` });
       return;
     }
 
@@ -2689,7 +2690,7 @@ export const FolioProvider = ({ children }) => {
         });
       } else {
         if (currentTraits.length >= maxTraits && poolKey !== 'originAllocations') {
-          alert(`Maximum of ${maxTraits} traits already selected in this pool.`);
+          showToast({ type: 'warning', text: `Maximum of ${maxTraits} traits already selected in this pool.` });
           return prev;
         }
         const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
@@ -2850,7 +2851,7 @@ export const FolioProvider = ({ children }) => {
         });
       } else {
         if (currentFeats.length >= maxFeatures) {
-          alert(`Maximum of ${maxFeatures} features already selected in this pool.`);
+          showToast({ type: 'warning', text: `Maximum of ${maxFeatures} features already selected in this pool.` });
           return prev;
         }
         const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
@@ -2922,7 +2923,7 @@ export const FolioProvider = ({ children }) => {
       const totalSpent = Object.values(currentAttrs).reduce((acc, v) => acc + (parseInt(v, 10) || 0), 0);
 
       if (delta > 0 && totalSpent >= maxPoints) {
-        alert(`All ${maxPoints} bonus attribute points in this pool have already been assigned.`);
+        showToast({ type: 'warning', text: `All ${maxPoints} bonus attribute points in this pool have already been assigned.` });
         return prev;
       }
       if (delta < 0 && currentValInPool <= 0) {
@@ -3271,12 +3272,7 @@ export const FolioProvider = ({ children }) => {
 
   // Reset / New Character
   const handleNewCharacter = useCallback((initialName = '') => {
-    let name = (typeof initialName === 'string' ? initialName : '').trim();
-    if (!name) {
-      const entered = window.prompt("Enter operative name:", "New Operative");
-      if (entered === null) return; // User cancelled
-      name = entered.trim() || 'New Operative';
-    }
+    let name = (typeof initialName === 'string' ? initialName : '').trim() || 'New Operative';
 
     const user = auth.currentUser;
     const docId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
@@ -3346,10 +3342,10 @@ export const FolioProvider = ({ children }) => {
         setCharacterData(validatedData);
       } catch (err) {
         if (err?.name === 'ZodError') {
-          const errorMsgs = err.issues.map(issue => `${issue.path.join('.') || 'root'}: ${issue.message}`).join('\n');
-          alert(`Invalid persona folio JSON file:\n\n${errorMsgs}`);
+          const firstErr = err.issues?.[0]?.message || 'Schema mismatch';
+          showToast({ type: 'error', title: 'INVALID FOLIO', text: `Folio validation failed: ${firstErr}` });
         } else {
-          alert('Invalid persona folio JSON file. Please ensure it is valid JSON.');
+          showToast({ type: 'error', text: 'Invalid persona folio JSON file.' });
         }
       }
     };
@@ -3427,10 +3423,10 @@ export const FolioProvider = ({ children }) => {
     } catch (err) {
       console.error("Invalid guided character data:", err);
       if (err?.name === 'ZodError') {
-        const errorMsgs = err.issues.map(issue => `${issue.path.join('.') || 'root'}: ${issue.message}`).join('\n');
-        alert(`Failed to apply generated character. Validation errors:\n\n${errorMsgs}`);
+        const firstErr = err.issues?.[0]?.message || 'Schema mismatch';
+        showToast({ type: 'error', title: 'GENERATION ERROR', text: `Failed to apply character: ${firstErr}` });
       } else {
-        alert("Failed to apply generated character. Check console for details.");
+        showToast({ type: 'error', text: "Failed to apply generated character." });
       }
       return false;
     }
@@ -3446,13 +3442,13 @@ export const FolioProvider = ({ children }) => {
       if (snapshot.exists()) {
         const data = characterSchema.parse(snapshot.data());
         setCharacterData(data);
-        alert(`Loaded persona "${data['char-name'] || docId}" from cloud.`);
+        showToast({ type: 'success', text: `Loaded persona "${data['char-name'] || docId}" from cloud.` });
       } else {
-        alert('Persona document not found in cloud storage.');
+        showToast({ type: 'warning', text: 'Persona document not found in cloud storage.' });
       }
     } catch (err) {
       console.error('Error loading persona from cloud:', err);
-      alert(`Cloud Load failed: ${err.message}`);
+      showToast({ type: 'error', text: `Cloud Load failed: ${err.message}` });
     }
   };
 
@@ -3466,17 +3462,22 @@ export const FolioProvider = ({ children }) => {
   }, [characterData, derivedStats, computedModifiers.identityPools, dbData]);
 
   // Lock persona into set state (Ready for VTT)
-  const lockPersona = useCallback((skipValidation = false) => {
+  const lockPersona = useCallback(async (skipValidation = false) => {
     const charName = (characterData['char-name'] || '').trim();
     if (!skipValidation) {
       if (!charName) {
-        alert('Cannot lock persona: An Operative Name is required before setting character for VTT deployment.');
+        showToast({ type: 'warning', title: 'NAME REQUIRED', text: 'An Operative Name is required before setting character for VTT deployment.' });
         return false;
       }
       const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
       const spentCP = economyBreakdown?.spentCP || 0;
       if (spentCP > startingCP) {
-        const proceed = window.confirm(`⚠️ CP DEFICIT WARNING: Character has spent ${spentCP} CP out of ${startingCP} CP (Deficit of -${spentCP - startingCP} CP).\n\nDo you want to lock this Persona anyway for VTT play?`);
+        const proceed = await showConfirm({
+          title: 'CP DEFICIT WARNING',
+          message: `Character has spent ${spentCP} CP out of ${startingCP} CP (Deficit of -${spentCP - startingCP} CP). Do you want to lock this Persona anyway for VTT play?`,
+          confirmLabel: 'Lock Anyway',
+          danger: true
+        });
         if (!proceed) return false;
       }
     }
@@ -3690,229 +3691,27 @@ export const FolioProvider = ({ children }) => {
     }
   }, [characterData]);
 
-  const applyCharacterDamage = useCallback(async (heroId, {
-    incomingDamage = 0,
-    isNonLethal = false,
-    isCritical = false,
-    isConcussive = false,
-    attemptedReduction = true,
-    armorDR = 0
-  } = {}) => {
-    const targetId = heroId || characterData['character-doc-id'] || characterData.id;
-    const target = (personaRoster || []).find(c => targetId && (c['character-doc-id'] === targetId || c.id === targetId)) || characterData;
-    if (!target) return null;
-
-    const staTotal = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
-    const toughness = staTotal; // Stamina determines base Toughness
-
-    const isSynthetic = derivedStats.isSynthetic || 
-      String(target['char-species'] || '').toLowerCase().includes('synthetic') ||
-      String(target['char-species'] || '').toLowerCase().includes('mekan');
-
-    const currentHealth = target.current_health !== undefined ? parseInt(target.current_health, 10) : parseInt(target.health || 30, 10);
-    const currentVitality = target.current_vitality !== undefined ? parseInt(target.current_vitality, 10) : parseInt(target.vitality || 30, 10);
-    const currentStructure = target.current_structure !== undefined ? parseInt(target.current_structure, 10) : (currentHealth + currentVitality);
-    const isAtDeathsDoor = Boolean(target.is_at_deaths_door || (currentHealth <= 0 && currentVitality <= 0));
-    const deathClockCurrent = target.death_clock !== undefined ? target.death_clock : undefined;
-
-    const result = applyDamageToEntity({
-      currentVitality,
-      currentHealth,
-      currentStructure,
-      isSynthetic,
-      incomingDamage,
-      isNonLethal,
-      isCritical,
-      isConcussive,
-      attemptedReduction,
-      toughness,
-      armorDR,
-      staminaScore: staTotal,
-      isAtDeathsDoor,
-      deathClockCurrent
-    });
-
-    const updates = {
-      is_at_deaths_door: result.atDeathsDoor,
-      death_clock: result.deathClock,
-      is_comatose: result.comatose,
-      is_dead: result.dead,
-      is_stabilized: result.atDeathsDoor ? false : (target.is_stabilized || false)
-    };
-
-    if (isSynthetic) {
-      updates.current_structure = result.newStructure;
-      await updateCharacterStructure(heroId, result.newStructure);
-    } else {
-      if (result.newVitality !== currentVitality) {
-        updates.current_vitality = result.newVitality;
-        await updateCharacterVitality(heroId, result.newVitality);
-      }
-      if (result.newHealth !== currentHealth) {
-        updates.current_health = result.newHealth;
-        await updateCharacterHealth(heroId, result.newHealth);
-      }
-    }
-
-    setPersonaRoster(prev => {
-      const updated = prev.map(c => {
-        if (c['character-doc-id'] === heroId || c.id === heroId) {
-          return { ...c, ...updates, updatedAt: new Date().toISOString() };
-        }
-        return c;
-      });
-      StorageService.setItem('personaRoster', updated);
-      return updated;
-    });
-
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
-      setCharacterData(prev => ({ ...prev, ...updates }));
-    }
-
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
-        const snapshot = await getDoc(docRef);
-        if (snapshot.exists()) {
-          const existingData = snapshot.data();
-          await setDoc(docRef, { ...existingData, ...updates, updatedAt: new Date().toISOString() });
-        }
-      } catch (err) {
-        console.warn('Failed to sync Death & Dying state to Firestore:', err.message);
-      }
-    }
-
-    return result;
-  }, [personaRoster, characterData, derivedStats.isSynthetic, updateCharacterStructure, updateCharacterVitality, updateCharacterHealth]);
-
   // Backward-compatible alias
   const updateCharacterHp = updateCharacterHealth;
 
   // ═══════════════════════════════════════════════════════════
-  // DEATH & DYING ACTIONS (CANONICAL ENGINE INTEGRATION)
+  // DEATH & DYING ACTIONS (MODULAR ENGINE INTEGRATION)
   // ═══════════════════════════════════════════════════════════
-
-  const stabilizeCharacter = useCallback(async (heroId, { medicineCheckRoll = 0, isMedicineSuccess = false, hasHealingEffect = false } = {}) => {
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === heroId || c.id === heroId) ||
-      (characterData['character-doc-id'] === heroId || characterData.id === heroId ? characterData : null);
-    if (!target) return null;
-
-    const result = stabilizeEntity({ medicineCheckRoll, isMedicineSuccess, hasHealingEffect });
-    if (result.stabilized) {
-      const updates = {
-        is_stabilized: true,
-        is_at_deaths_door: false,
-        is_comatose: false,
-        death_clock: null
-      };
-
-      setPersonaRoster(prev => {
-        const updated = prev.map(c => (c['character-doc-id'] === heroId || c.id === heroId) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
-        StorageService.setItem('personaRoster', updated);
-        return updated;
-      });
-
-      if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
-        setCharacterData(prev => ({ ...prev, ...updates }));
-      }
-
-      const user = auth.currentUser;
-      if (user) {
-        try {
-          const docRef = doc(db, `users/${user.uid}/personas`, heroId);
-          const snapshot = await getDoc(docRef);
-          if (snapshot.exists()) {
-            await setDoc(docRef, { ...snapshot.data(), ...updates, updatedAt: new Date().toISOString() });
-          }
-        } catch (err) {
-          console.warn('Failed to sync stabilization to Firestore:', err.message);
-        }
-      }
-    }
-    return result;
-  }, [personaRoster, characterData]);
-
-  const advanceCharacterDeathTurn = useCallback(async (heroId) => {
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === heroId || c.id === heroId) ||
-      (characterData['character-doc-id'] === heroId || characterData.id === heroId ? characterData : null);
-    if (!target) return null;
-
-    const currentClock = target.death_clock !== undefined ? target.death_clock : calculateDeathClock(target['attr-stamina']);
-    const result = advanceDeathClock({ currentClock, isStabilized: target.is_stabilized });
-
-    const updates = {
-      death_clock: result.currentClock,
-      is_dead: result.dead,
-      is_at_deaths_door: !result.dead && !result.isStabilized
-    };
-
-    setPersonaRoster(prev => {
-      const updated = prev.map(c => (c['character-doc-id'] === heroId || c.id === heroId) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
-      StorageService.setItem('personaRoster', updated);
-      return updated;
-    });
-
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
-      setCharacterData(prev => ({ ...prev, ...updates }));
-    }
-
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
-        const snapshot = await getDoc(docRef);
-        if (snapshot.exists()) {
-          await setDoc(docRef, { ...snapshot.data(), ...updates, updatedAt: new Date().toISOString() });
-        }
-      } catch (err) {
-        console.warn('Failed to sync death turn to Firestore:', err.message);
-      }
-    }
-    return result;
-  }, [personaRoster, characterData]);
-
-  const revivifyCharacter = useCallback(async (heroId, { revivedHealth = 1 } = {}) => {
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === heroId || c.id === heroId) ||
-      (characterData['character-doc-id'] === heroId || characterData.id === heroId ? characterData : null);
-    if (!target) return null;
-
-    const result = revivifyEntity({ characterData: target, revivedHealth });
-    const updates = {
-      current_health: Math.max(1, Number(revivedHealth) || 1),
-      is_dead: false,
-      is_at_deaths_door: false,
-      death_clock: null,
-      is_stabilized: true,
-      is_comatose: false,
-      karma: 0,
-      experience_debt: result.penalties.totalExperienceDebt
-    };
-
-    setPersonaRoster(prev => {
-      const updated = prev.map(c => (c['character-doc-id'] === heroId || c.id === heroId) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
-      StorageService.setItem('personaRoster', updated);
-      return updated;
-    });
-
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
-      setCharacterData(prev => ({ ...prev, ...updates }));
-    }
-
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
-        const snapshot = await getDoc(docRef);
-        if (snapshot.exists()) {
-          await setDoc(docRef, { ...snapshot.data(), ...updates, updatedAt: new Date().toISOString() });
-        }
-      } catch (err) {
-        console.warn('Failed to sync revivification to Firestore:', err.message);
-      }
-    }
-    return result;
-  }, [personaRoster, characterData]);
+  const {
+    applyCharacterDamage,
+    stabilizeCharacter,
+    advanceCharacterDeathTurn,
+    revivifyCharacter
+  } = useFolioDeathDying({
+    personaRoster,
+    setPersonaRoster,
+    characterData,
+    setCharacterData,
+    derivedStats,
+    updateCharacterStructure,
+    updateCharacterVitality,
+    updateCharacterHealth
+  });
 
   const awardExperience = useCallback(async (heroId, awardDetails = {}, maybeReason) => {
     const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
@@ -3998,118 +3797,17 @@ export const FolioProvider = ({ children }) => {
   }, [personaRoster, characterData]);
 
   // ═══════════════════════════════════════════════════════════
-  // REST & RECOVERY ACTIONS (CANONICAL ENGINE INTEGRATION)
+  // REST & RECOVERY ACTIONS (MODULAR ENGINE INTEGRATION)
   // ═══════════════════════════════════════════════════════════
-
-  const takeCharacterRest = useCallback(async (heroId, { restType = 'light', activityTier = 'nap', interruptions = 0, isSecondWind = false } = {}) => {
-    const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === targetId || c.id === targetId) || 
-      (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active' ? characterData : null);
-    
-    if (!target) return { success: false, error: 'Character not found' };
-
-    const currentRestsToday = target.light_rests_today !== undefined ? parseInt(target.light_rests_today, 10) : (characterData.light_rests_today || 0);
-
-    const result = executeRestCycle({
-      character: target,
-      restType,
-      activityTier,
-      interruptions,
-      currentLightRestsToday: currentRestsToday,
-      isSecondWind
-    });
-
-    if (!result.success) {
-      return result;
-    }
-
-    const updates = {
-      current_vitality: result.newVitality,
-      light_rests_today: result.newLightRestsToday,
-      last_rest_type: result.restType,
-      last_rest_timestamp: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-
-    // Update roster state
-    setPersonaRoster(prev => {
-      const updated = prev.map(c => {
-        if (c['character-doc-id'] === targetId || c.id === targetId) {
-          return { ...c, ...updates };
-        }
-        return c;
-      });
-      StorageService.setItem('personaRoster', updated);
-      return updated;
-    });
-
-    // Update active characterData if target is currently loaded
-    if (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active') {
-      setCharacterData(prev => ({
-        ...prev,
-        ...updates
-      }));
-    }
-
-    // Persist to Firestore if logged in
-    const user = auth.currentUser;
-    if (user && targetId && targetId !== 'active') {
-      try {
-        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
-        const snapshot = await getDoc(docRef);
-        if (snapshot.exists()) {
-          const existingData = snapshot.data();
-          await setDoc(docRef, { ...existingData, ...updates });
-        }
-      } catch (err) {
-        console.warn('Failed to sync character rest to Firestore:', err.message);
-      }
-    }
-
-    return result;
-  }, [personaRoster, characterData]);
-
-  const resetDailyCharacterRests = useCallback(async (heroId) => {
-    const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
-    const updates = {
-      light_rests_today: 0,
-      updatedAt: new Date().toISOString()
-    };
-
-    setPersonaRoster(prev => {
-      const updated = prev.map(c => {
-        if (c['character-doc-id'] === targetId || c.id === targetId) {
-          return { ...c, ...updates };
-        }
-        return c;
-      });
-      StorageService.setItem('personaRoster', updated);
-      return updated;
-    });
-
-    if (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active') {
-      setCharacterData(prev => ({
-        ...prev,
-        ...updates
-      }));
-    }
-
-    const user = auth.currentUser;
-    if (user && targetId && targetId !== 'active') {
-      try {
-        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
-        const snapshot = await getDoc(docRef);
-        if (snapshot.exists()) {
-          const existingData = snapshot.data();
-          await setDoc(docRef, { ...existingData, ...updates });
-        }
-      } catch (err) {
-        console.warn('Failed to sync reset daily rests to Firestore:', err.message);
-      }
-    }
-
-    return resetDailyRests();
-  }, [characterData]);
+  const {
+    takeCharacterRest,
+    resetDailyCharacterRests
+  } = useFolioRestRecovery({
+    personaRoster,
+    setPersonaRoster,
+    characterData,
+    setCharacterData
+  });
 
   // Top level computed spent CP
   const computeSpentCP = useCallback(() => {
@@ -4162,158 +3860,27 @@ export const FolioProvider = ({ children }) => {
   }, [characterData, dbData.species]);
 
   // ═══════════════════════════════════════════════════════════
-  // KARMA & FATE ECONOMY ACTIONS (CHARACTER & PARTY LINKED)
+  // KARMA & FATE ECONOMY ACTIONS (MODULAR ENGINE INTEGRATION)
   // ═══════════════════════════════════════════════════════════
-
-  const updateCharacterKarma = useCallback(async (heroId, newKarma) => {
-    const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
-    const matchesTarget = (c) => {
-      if (!c || !targetId) return false;
-      const cId = c['character-doc-id'] || c.id;
-      if (cId === targetId || c.id === targetId) return true;
-      if (typeof targetId === 'string' && cId && targetId.startsWith(cId + '-')) return true;
-      return false;
-    };
-
-    const target = (personaRoster || []).find(matchesTarget) ||
-      (matchesTarget(characterData) || targetId === 'active' ? characterData : null);
-    if (!target) return null;
-
-    const matchedDocId = target['character-doc-id'] || target.id || targetId;
-
-    const charisma = parseInt(target['attr-charisma'] || target.attr_charisma || 10, 10);
-    const maxKarmaDebt = (matchesTarget(characterData) || targetId === 'active')
-      ? derivedStats.maxKarmaDebt
-      : Math.max(1, charisma + 1);
-    const maxKarma = (matchesTarget(characterData) || targetId === 'active')
-      ? derivedStats.maxKarma
-      : Math.max(0, parseInt(target.maxKarma || 3, 10));
-
-    const clampedKarma = Math.max(-maxKarmaDebt, Math.min(maxKarma, parseInt(newKarma, 10) || 0));
-
-    setPersonaRoster(prev => {
-      const updated = prev.map(c => {
-        if (matchesTarget(c)) {
-          return {
-            ...c,
-            karma: clampedKarma,
-            updatedAt: new Date().toISOString()
-          };
-        }
-        return c;
-      });
-      StorageService.setItem('personaRoster', updated);
-      return updated;
-    });
-
-    if (matchesTarget(characterData) || targetId === 'active') {
-      setCharacterData(prev => ({
-        ...prev,
-        karma: clampedKarma
-      }));
-    }
-
-    const user = auth.currentUser;
-    if (user && matchedDocId && matchedDocId !== 'active') {
-      try {
-        const docRef = doc(db, `users/${user.uid}/personas`, matchedDocId);
-        const snapshot = await getDoc(docRef);
-        if (snapshot.exists()) {
-          await setDoc(docRef, { ...snapshot.data(), karma: clampedKarma, updatedAt: new Date().toISOString() });
-        }
-      } catch (err) {
-        console.warn('Failed to sync character Karma to Firestore:', err.message);
-      }
-    }
-
-    return clampedKarma;
-  }, [personaRoster, characterData, derivedStats.maxKarma, derivedStats.maxKarmaDebt]);
-
-  const awardCharacterKarma = useCallback(async (heroId, amount = 1, reason = 'Heroic Action') => {
-    const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === targetId || c.id === targetId) ||
-      (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active' ? characterData : null);
-    if (!target) return null;
-
-    const currentKarma = parseInt(target.karma !== undefined ? target.karma : (derivedStats?.maxKarma ?? 3), 10) || 0;
-    const nextKarma = currentKarma + amount;
-    const finalKarma = await updateCharacterKarma(targetId, nextKarma);
-    return { heroId: targetId, oldKarma: currentKarma, newKarma: finalKarma, amount, reason };
-  }, [personaRoster, characterData, derivedStats?.maxKarma, updateCharacterKarma]);
-
-  const resetCharacterKarma = useCallback(async (heroId) => {
-    const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === targetId || c.id === targetId) ||
-      (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active' ? characterData : null);
-    if (!target) return null;
-
-    const maxK = (targetId === (characterData['character-doc-id'] || characterData.id || 'active'))
-      ? derivedStats.maxKarma
-      : Math.max(0, parseInt(target.maxKarma || 3, 10));
-
-    return await updateCharacterKarma(targetId, maxK);
-  }, [personaRoster, characterData, derivedStats.maxKarma, updateCharacterKarma]);
-
-  const awardPartyKarma = useCallback(async (heroIds = [], amount = 1, reason = 'Party Heroic Award') => {
-    const results = [];
-    for (const id of heroIds) {
-      if (id) {
-        const res = await awardCharacterKarma(id, amount, reason);
-        if (res) results.push(res);
-      }
-    }
-    return results;
-  }, [awardCharacterKarma]);
-
-  const awardPartyExperience = useCallback(async (heroIds = [], awardDetails = {}) => {
-    const results = [];
-    for (const id of heroIds) {
-      if (id) {
-        const res = await awardExperience(id, awardDetails);
-        if (res) results.push(res);
-      }
-    }
-    return results;
-  }, [awardExperience]);
-
-  const spendKarma = useCallback((amount = 1) => {
-    setCharacterData(prev => {
-      const cur = parseInt(prev.karma ?? derivedStats.maxKarma, 10) || 0;
-      const minAllowed = -derivedStats.maxKarmaDebt;
-      const next = Math.max(minAllowed, cur - amount);
-      return { ...prev, karma: next };
-    });
-  }, [derivedStats.maxKarma, derivedStats.maxKarmaDebt]);
-
-  const gainKarma = useCallback((amount = 1) => {
-    setCharacterData(prev => {
-      const cur = parseInt(prev.karma ?? 0, 10) || 0;
-      const maxAllowed = derivedStats.maxKarma;
-      const next = Math.min(maxAllowed, cur + amount);
-      return { ...prev, karma: next };
-    });
-  }, [derivedStats.maxKarma]);
-
-  const resetKarmaToMax = useCallback(() => {
-    setCharacterData(prev => ({
-      ...prev,
-      karma: derivedStats.maxKarma
-    }));
-  }, [derivedStats.maxKarma]);
-
-  const spendPlotPoint = useCallback((amount = 1) => {
-    setCharacterData(prev => {
-      const cur = Math.max(0, parseInt(prev['plot-points'] || 0, 10));
-      return { ...prev, 'plot-points': Math.max(0, cur - amount) };
-    });
-  }, []);
-
-  const gainPlotPoint = useCallback((amount = 1) => {
-    setCharacterData(prev => {
-      const cur = Math.max(0, parseInt(prev['plot-points'] || 0, 10));
-      return { ...prev, 'plot-points': cur + amount };
-    });
-  }, []);
+  const {
+    updateCharacterKarma,
+    awardCharacterKarma,
+    resetCharacterKarma,
+    awardPartyKarma,
+    awardPartyExperience,
+    spendKarma,
+    gainKarma,
+    resetKarmaToMax,
+    spendPlotPoint,
+    gainPlotPoint
+  } = useFolioKarma({
+    personaRoster,
+    setPersonaRoster,
+    characterData,
+    setCharacterData,
+    derivedStats,
+    awardExperience
+  });
 
   // Active character summary alias for cross-module integration
   const activeCharacter = useMemo(() => ({

@@ -5,8 +5,10 @@ import EditElementModal from '../../pages/Foundry/ElementForge/EditElementModal'
 import { ELEMENT_TYPES } from '../../pages/Foundry/ElementForge/elementSchemas';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
+import { useToast } from '../../context/ToastContext';
 
 const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
+  const { toast } = useToast();
   const {
     storyCatalog,
     elementsCatalog,
@@ -70,12 +72,12 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     const url = `${window.location.origin}/story-foundry?storyId=${storyId}`;
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(() => {
-        alert(`Public Story Link copied to clipboard:\n\n${url}`);
+        toast({ type: 'success', title: 'LINK COPIED', text: 'Public Story Link copied to clipboard.' });
       }).catch(() => {
-        prompt("Copy this public story link:", url);
+        toast({ type: 'info', title: 'STORY LINK', text: url, autoDismissMs: 12000 });
       });
     } else {
-      prompt("Copy this public story link:", url);
+      toast({ type: 'info', title: 'STORY LINK', text: url, autoDismissMs: 12000 });
     }
   };
 
@@ -229,7 +231,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   const handleCreateSubmit = (e) => {
     e.preventDefault();
     if (!newStoryTitle.trim()) {
-      alert("Please enter a valid Story Project name.");
+      toast({ type: 'warning', text: 'Please enter a valid Story Project name.' });
       return;
     }
     createNewStory(newStoryTitle.trim(), newStoryDesc.trim());
@@ -248,7 +250,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
       children: elem.children || []
     };
     addStory(importedNode);
-    alert(`Imported element "${importedNode.title}" into active story workspace!`);
+    toast({ type: 'success', text: `Imported element "${importedNode.title}" into active story workspace.` });
   };
 
   const handleImportMapToWorkingStory = (mapElem) => {
@@ -259,7 +261,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
       title: mapElem.title || `Untitled Map`
     };
     addMap(importedNode);
-    alert(`Imported map "${importedNode.title}" into active story workspace!`);
+    toast({ type: 'success', text: `Imported map "${importedNode.title}" into active story workspace.` });
   };
 
   const handleFileUpload = (e) => {
@@ -274,13 +276,13 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
             data.data?.projectName || data.projectName || file.name.replace('.json', ''),
             "Imported story file"
           );
-          alert(`Successfully imported and opened "${newStory.projectName}"!`);
+          toast({ type: 'success', text: `Successfully imported and opened "${newStory.projectName}".` });
           onClose();
         } else {
-          alert("Unrecognized story file format.");
+          toast({ type: 'error', text: 'Unrecognized story file format.' });
         }
       } catch (err) {
-        alert("Failed to parse JSON story file.");
+        toast({ type: 'error', text: 'Failed to parse JSON story file.' });
       }
     };
     reader.readAsText(file);
@@ -505,7 +507,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                             children: []
                           };
                           addStory(newBlank);
-                          alert(`Imported blank "${newBlank.title}" into active story workspace!`);
+                          toast({ type: 'success', text: `Imported blank "${newBlank.title}" into active story workspace.` });
                         }
                       }}
                       className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-[11px] font-bold uppercase tracking-wider rounded transition-all flex items-center gap-1 shadow-sm cursor-pointer"

@@ -162,10 +162,10 @@ export const ElementsDrawer = ({ onClose, onOpenDrawer }) => {
                 {/* Right: Actions */}
                 <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
                   <button
-                    onClick={(e) => {
+                    onClick={async (e) => {
                       e.stopPropagation();
                       const targetName = elem.title || 'Untitled Element';
-                      if (confirmTypedDeletion(targetName, (elem.type || 'story element').toLowerCase())) {
+                      if (await confirmTypedDeletion(targetName, (elem.type || 'story element').toLowerCase())) {
                         deleteSavedElement(elem.id);
                       }
                     }}

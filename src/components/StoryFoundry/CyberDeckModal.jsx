@@ -7,6 +7,7 @@ import {
   executeDeckProgram
 } from '../../services/cyberDeckService';
 import AudioService from '../../services/audioService';
+import { VttEventBus } from '../../utils/vttEventBus';
 
 const CyberDeckModal = ({
   isOpen,
@@ -48,6 +49,10 @@ const CyberDeckModal = ({
       if (onTriggerFloatingText) {
         onTriggerFloatingText(window.innerWidth / 2, window.innerHeight / 3, '🔓 ROOT PRIVILEGES GRANTED!', 'heal');
       }
+      VttEventBus.emit('stage-cyberdeck-breach', {
+        targetNode: session.targetNode,
+        timestamp: Date.now()
+      });
     } else if (updated.isTraced) {
       AudioService.playCombatHit(true);
       if (onTriggerFloatingText) {

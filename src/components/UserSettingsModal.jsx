@@ -23,6 +23,8 @@ import {
 import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
 import { AudioService } from '../services/audioService';
+import { useConfirm } from '../context/ConfirmContext';
+import { useToast } from '../context/ToastContext';
 
 const AI_PLATFORM_LABELS = {
   gemini: 'Google Gemini (Native)',
@@ -33,6 +35,8 @@ const AI_PLATFORM_LABELS = {
 
 export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   const { currentUser, refreshUserHandle, userRole, isAdmin, triggerBootSplash } = useAuth();
+  const confirm = useConfirm();
+  const { showSuccessToast } = useToast();
   
   // Navigation tab: 'identity' | 'audio' | 'ai' | 'manual' | 'system'
   const [activeTab, setActiveTab] = useState('identity');
@@ -133,11 +137,18 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
     setIsGuideOpen(true);
   };
 
-  const handleClearCache = () => {
-    if (window.confirm("Clear local application cache, search filters and temporary storage? Your user profile and account remain safe.")) {
+  const handleClearCache = async () => {
+    const ok = await confirm({
+      title: "Clear Local Cache",
+      message: "Clear local application cache, search filters and temporary storage? Your user profile and account remain safe.",
+      confirmLabel: "Clear Cache",
+      danger: true
+    });
+    if (ok) {
       localStorage.removeItem('tangent_dbm_cache');
       localStorage.removeItem('tangent_quick_notes');
       AudioService.playTerminalBeep(850, 0.05);
+      showSuccessToast("Local cache cleared successfully.");
       setSaveMessage("Local cache cleared successfully.");
       setTimeout(() => setSaveMessage(""), 2000);
     }

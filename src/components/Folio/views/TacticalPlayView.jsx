@@ -3,6 +3,7 @@ import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
+import { useToast } from '../../../context/ToastContext';
 import { ALL_CANONICAL_SKILLS } from '../../../data/skillsData';
 import { resolveSubAttrScore } from '../../../utils/attributeUtils';
 import { scaleCarryingCapacity } from '../../../engines/tangentScalingEngine';
@@ -57,6 +58,7 @@ export const TacticalPlayView = ({
   onClose = null,
   onLockSheet = null 
 }) => {
+  const { toast } = useToast();
   const folio = useFolio();
   const characterData = characterOverride || folio.characterData || {};
   const derivedStats = folio.derivedStats || {};
@@ -636,7 +638,7 @@ export const TacticalPlayView = ({
   const handleExecuteRest = async (type = 'light') => {
     const charId = characterData['character-doc-id'] || characterData.id;
     if (type === 'light' && lightRestsToday >= maxLightRests) {
-      alert("Exceeded maximum Light Rests (4/day). Operative requires a Full Rest to recharge.");
+      toast({ type: 'warning', text: "Exceeded maximum Light Rests (4/day). Operative requires a Full Rest to recharge." });
       return;
     }
 

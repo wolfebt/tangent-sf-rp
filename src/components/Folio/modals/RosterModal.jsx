@@ -98,9 +98,9 @@ export const RosterModal = ({
     setEditingNoteDocId(null);
   };
 
-  const promptDeleteConfirmation = (docId, name) => {
+  const promptDeleteConfirmation = async (docId, name) => {
     const targetName = name || 'Unnamed Operative';
-    if (confirmTypedDeletion(targetName, 'operative persona')) {
+    if (await confirmTypedDeletion(targetName, 'operative persona')) {
       onDeleteCharacter(docId);
     }
   };

@@ -14,29 +14,26 @@ import {
   HelpCircle,
   Users,
   Database,
-  Layers,
-  ChevronDown,
   Tv2,
-  Sparkles,
   Hammer,
-  MapPin,
-  Flame,
-  Hash,
-  Menu,
   X,
-  Command,
-  Save,
-  Lock,
-  Unlock,
-  Copy,
-  Eye,
-  Boxes,
-  Cpu
+  Command
 } from 'lucide-react';
+import { 
+  FolioHUDBar, 
+  DBMHUDBar, 
+  CompendiumHUDBar, 
+  ADEHUDBar, 
+  CodexHUDBar, 
+  CommsHUDBar 
+} from './hud';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { useDBM } from '../../context/DBMContext';
 import { useFolio } from '../../context/FolioContext';
+import { useAudio } from '../../context/AudioContext';
+import { useToast } from '../../context/ToastContext';
+import { useConfirm } from '../../context/ConfirmContext';
 import { AudioService } from '../../services/audioService';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
@@ -45,6 +42,8 @@ import { GameGroupModal } from '../Groups/GameGroupModal';
 export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
+  const confirm = useConfirm();
   const { currentUser, userHandle, loginWithGoogle, openAuthModal, triggerBootSplash, confirmLogout, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
   const { totalUnreadCount, toggleCommsDock, pendingCharacterNotes } = useChat();
   const dbm = useDBM() || {};
@@ -99,11 +98,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [guideInitialTab, setGuideInitialTab] = useState('hub');
-  const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
-  const [isDbmMenuOpen, setIsDbmMenuOpen] = useState(false);
-  const [isFolioMenuOpen, setIsFolioMenuOpen] = useState(false);
-  const [isFoundryMenuOpen, setIsFoundryMenuOpen] = useState(false);
-  const [isCommsMenuOpen, setIsCommsMenuOpen] = useState(false);
+  const { isMuted: isAudioMuted, toggleMute: toggleAudio } = useAudio();
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
 
   // Global custom event listeners for Team Management
@@ -121,12 +116,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   useEffect(() => {
     setIsMobileNavOpen(false);
   }, [location.pathname]);
-
-  const dbmMenuRef = useRef(null);
-  const dbmFileInputRef = useRef(null);
-  const folioMenuRef = useRef(null);
-  const foundryMenuRef = useRef(null);
-  const commsMenuRef = useRef(null);
 
   const getRouteGuideTab = () => {
     const path = location.pathname;
@@ -156,28 +145,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     return () => window.removeEventListener('open-user-guide', handleCustomOpenGuide);
   }, [location.pathname]);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dbmMenuRef.current && !dbmMenuRef.current.contains(event.target)) {
-        setIsDbmMenuOpen(false);
-      }
-      if (folioMenuRef.current && !folioMenuRef.current.contains(event.target)) {
-        setIsFolioMenuOpen(false);
-      }
-      if (foundryMenuRef.current && !foundryMenuRef.current.contains(event.target)) {
-        setIsFoundryMenuOpen(false);
-      }
-      if (commsMenuRef.current && !commsMenuRef.current.contains(event.target)) {
-        setIsCommsMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const triggerMasterImport = () => {
     if (!isAdmin) {
-      alert('Administrator or GM access required to import Master Database backups.');
+      toast({ 
+        type: 'warning', 
+        title: 'ACCESS RESTRICTED', 
+        text: 'Administrator or GM access required to import Master Database backups.' 
+      });
       return;
     }
     if (dbmFileInputRef.current) {
@@ -185,18 +159,16 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     }
   };
 
-  const handleClearDbmCache = () => {
-    if (window.confirm('Are you sure you want to clear your local Omnicortex temporary cache and search filters?')) {
+  const handleClearDbmCache = async () => {
+    const ok = await confirm({
+      title: 'Clear Omnicortex Cache',
+      message: 'Are you sure you want to clear your local Omnicortex temporary cache and search filters? The page will reload.',
+      danger: true,
+      confirmLabel: 'Clear Cache'
+    });
+    if (ok) {
       localStorage.removeItem('tangent_dbm_cache');
       window.location.reload();
-    }
-  };
-
-  const toggleAudio = () => {
-    const newMuteState = AudioService.toggleMute();
-    setIsAudioMuted(newMuteState);
-    if (!newMuteState) {
-      AudioService.playTerminalBeep(1000, 0.05);
     }
   };
 
@@ -242,745 +214,86 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 min-w-0 px-2 overflow-visible relative">
           {/* Dynamic Controls: PERSONA FOLIO */}
           {isFolio && (
-            isCharacterSelected ? (
-              <div className="flex items-center gap-1.5 sm:gap-2">
-              {/* Real-time CP Budget Bar (Desktop) & Compact Badge (Mobile) */}
-              {(() => {
-                const startingCP = parseInt(characterData?.['starting-cp'] || 150, 10);
-                const spentCP = computeSpentCP ? computeSpentCP() : 0;
-                const remainingCP = startingCP - spentCP;
-                const percent = Math.min(100, Math.max(0, (spentCP / startingCP) * 100));
-                const isOver = spentCP > startingCP;
-
-                return (
-                  <>
-                    {/* Desktop Bar */}
-                    <div
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-                      className={`hidden lg:flex cursor-pointer bg-slate-950 border rounded-lg px-2.5 py-1 flex-col min-w-[130px] sm:min-w-[150px] hover:border-cyan-400 transition-all cyan-shadow-thin ${
-                        isOver
-                          ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_12px_rgba(239,68,68,0.5)] animate-pulse'
-                          : 'border-cyan-500/50'
-                      }`}
-                      title="Click to view detailed CP Economy & Point Pools breakdown"
-                    >
-                      <div className="flex justify-between items-center text-[9px] font-bold uppercase font-mono">
-                        <span className="text-slate-400">CP BUDGET:</span>
-                        <span className={isOver ? 'text-red-400 font-bold' : 'text-amber-400'}>
-                          {spentCP} / {startingCP} CP
-                        </span>
-                      </div>
-                      <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                        <div
-                          className={`h-full transition-all duration-300 ${isOver ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-500 to-amber-400'}`}
-                          style={{ width: `${percent}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Compact CP Badge */}
-                    <button
-                      type="button"
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-                      className={`lg:hidden flex items-center gap-1.5 px-2 py-1 bg-slate-950 border rounded-lg font-mono text-[10px] cursor-pointer shrink-0 cyan-shadow-thin ${
-                        isOver
-                          ? 'border-red-500 text-red-300 ring-1 ring-red-500/80 animate-pulse'
-                          : 'border-cyan-500/40 text-cyan-300'
-                      }`}
-                      title="Click to inspect CP Economy"
-                    >
-                      <span className="text-slate-400 text-[9px]">CP:</span>
-                      <span className={`font-bold ${isOver ? 'text-red-400' : 'text-amber-400'}`}>{spentCP}/{startingCP}</span>
-                    </button>
-                  </>
-                );
-              })()}
-
-              {/* Operative Catalog Navigation Trigger */}
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.03);
-                  window.dispatchEvent(new CustomEvent('open-folio-catalog'));
-                }}
-                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0 max-w-[140px] sm:max-w-[200px]"
-                title={characterData?.['char-name'] ? `Operative: ${characterData['char-name']} (Click to switch operative or open catalog)` : "Open Operative Catalog & Persona Roster"}
-              >
-                <Users size={13} className="text-cyan-400 shrink-0" />
-                <span className="truncate">{characterData?.['char-name'] || 'Operative Catalog'}</span>
-              </button>
-
-              {/* Bastion AI Trigger */}
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('toggle-folio-bastion'))}
-                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
-                title="Toggle BASTION AI (Rules assistant & character generator)"
-              >
-                <span>🤖</span>
-                <span className="hidden sm:inline">BASTION</span>
-              </button>
-
-              {/* Folio File Menu Dropdown */}
-              <div className="relative shrink-0" ref={folioMenuRef}>
-                <button
-                  type="button"
-                  onClick={() => setIsFolioMenuOpen(prev => !prev)}
-                  className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin"
-                  title="Folio System Tools & File Actions Menu"
-                >
-                  <span className="hidden xs:inline">File Menu</span>
-                  <span className="xs:hidden">Files</span>
-                  <span className="text-[10px] text-cyan-400">▼</span>
-                </button>
-
-                {isFolioMenuOpen && (
-                  <div
-                    className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-cyan-500/50 rounded-lg shadow-2xl p-1.5 z-50 text-xs flex flex-col gap-1 backdrop-blur-md"
-                    onClick={() => setIsFolioMenuOpen(false)}
-                  >
-                    {/* Primary Folio Actions: Save, Lock/Unlock for VTT, Clone Variant */}
-                    <button
-                      onClick={() => {
-                        AudioService.playTerminalBeep(1200, 0.03);
-                        window.dispatchEvent(new CustomEvent('trigger-folio-save'));
-                      }}
-                      className="w-full text-left px-3 py-1.5 hover:bg-emerald-950/80 text-emerald-300 uppercase font-bold rounded flex items-center justify-between"
-                      title="Save current persona sheet to Operative Roster and Cloud Storage"
-                    >
-                      <span className="flex items-center gap-1.5">
-                        <Save size={13} className="text-emerald-400" />
-                        <span>Save Dossier</span>
-                      </span>
-                      <span className="text-[10px] text-emerald-400 font-mono">
-                        {cloudSaveStatus === 'saving' ? 'Saving...' : cloudSaveStatus === 'saved' ? 'Saved' : 'Ready'}
-                      </span>
-                    </button>
-
-                    {!isLocked ? (
-                      <>
-                        <button
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1100, 0.03);
-                            window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'play' }));
-                            if (!location.pathname.startsWith('/folio')) {
-                              navigate('/folio');
-                            }
-                          }}
-                          className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-300 uppercase font-bold rounded flex items-center justify-between"
-                          title="Preview Tactical Play Cockpit without locking the sheet"
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <Eye size={13} className="text-cyan-400" />
-                            <span>Preview Tactical Play</span>
-                          </span>
-                          <span className="text-[9px] text-cyan-400 font-mono">👁️ PREVIEW</span>
-                        </button>
-
-                        <button
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1100, 0.03);
-                            if (lockPersona) {
-                              const ok = lockPersona();
-                              if (ok) window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'play' }));
-                            }
-                          }}
-                          className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center justify-between"
-                          title="Lock and set persona into Tactical Play Mode ready for VTT deployment"
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <Lock size={13} className="text-cyan-400" />
-                            <span>Lock for VTT (Play Mode)</span>
-                          </span>
-                          <span className="text-[9px] text-cyan-400 font-mono">⚔️ PLAY</span>
-                        </button>
-                      </>
-                    ) : !isPlayerOverride ? (
-                      !isInActiveGame ? (
-                        <button
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1100, 0.03);
-                            if (unlockPersona) {
-                              unlockPersona();
-                              window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'builder' }));
-                            }
-                          }}
-                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center justify-between"
-                          title="Unlock folio to return to Builder Mode"
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <Unlock size={13} className="text-amber-400" />
-                            <span>Unlock Sheet (Builder Mode)</span>
-                          </span>
-                          <span className="text-[9px] text-amber-400 font-mono">🛠️ EDIT</span>
-                        </button>
-                      ) : allowPlayerOverride ? (
-                        <button
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1100, 0.03);
-                            const reason = prompt("Enter player reason/note for this sheet modification override during active VTT session (optional, logged for GM review):");
-                            if (reason !== null && unlockPersona) {
-                              unlockPersona(reason);
-                              window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'builder' }));
-                            }
-                          }}
-                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center justify-between"
-                          title="Unlock folio via player override to make changes during active VTT session"
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <Unlock size={13} className="text-amber-400" />
-                            <span>Player Override (Unlock)</span>
-                          </span>
-                          <span className="text-[9px] text-amber-400 font-mono">⚡ OVERRIDE</span>
-                        </button>
-                      ) : (
-                        <div
-                          className="w-full text-left px-3 py-1.5 text-slate-500 uppercase font-bold rounded flex items-center gap-1.5 opacity-60 cursor-not-allowed"
-                          title="Player Override is disabled by the GM for this session. Direct sheet modifications are locked."
-                        >
-                          <Lock size={13} className="text-slate-500" />
-                          <span>Locked (Override Disallowed)</span>
-                        </div>
-                      )
-                    ) : (
-                      <button
-                        onClick={() => {
-                          AudioService.playTerminalBeep(1100, 0.03);
-                          if (lockPersona) {
-                            const ok = lockPersona();
-                            if (ok) window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'play' }));
-                          }
-                        }}
-                        className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-200 uppercase font-bold rounded flex items-center justify-between"
-                        title="Lock sheet again and return to Tactical Play Mode"
-                      >
-                        <span className="flex items-center gap-1.5">
-                          <Lock size={13} className="text-cyan-400" />
-                          <span>Relock for VTT (Play Mode)</span>
-                        </span>
-                        <span className="text-[9px] text-cyan-400 font-mono">⚔️ PLAY</span>
-                      </button>
-                    )}
-
-                    <button
-                      onClick={() => {
-                        AudioService.playTerminalBeep(1100, 0.03);
-                        if (clonePersonaVariant) clonePersonaVariant();
-                      }}
-                      className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 uppercase font-bold rounded flex items-center gap-1.5"
-                      title="Branch an unlocked development variant of this persona without modifying the set version"
-                    >
-                      <Copy size={13} className="text-cyan-400" />
-                      <span>Clone Variant</span>
-                    </button>
-
-                    <div className="border-t border-slate-800 my-0.5" />
-                    <button
-                      onClick={() => handleOpenGuide('folio')}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
-                    >
-                      User Guide &amp; Manual
-                    </button>
-                    <div className="border-t border-slate-800 my-0.5" />
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-new-character'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
-                    >
-                      New Operative (Manual)
-                    </button>
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-guided-creator'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded"
-                    >
-                      New Operative (Guided)
-                    </button>
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-delete-character'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-red-950/80 text-red-400 uppercase font-bold rounded"
-                    >
-                      Delete Operative
-                    </button>
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-clear-character'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-400 uppercase font-bold rounded"
-                    >
-                      Clear Sheet Data
-                    </button>
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-preview'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
-                    >
-                      Preview Dossier
-                    </button>
-                    <div className="border-t border-slate-800 my-0.5" />
-                    <button
-                      onClick={handleSaveLocal}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-amber-300 uppercase font-bold rounded"
-                    >
-                      Save to File (.json)
-                    </button>
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('trigger-folio-load-local'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-amber-300 uppercase font-bold rounded"
-                    >
-                      Load File / Story Element
-                    </button>
-                    <button
-                      onClick={handleExportAsStoryElement}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center justify-between"
-                    >
-                      <span>Export Story Element</span>
-                      <span className="text-[10px] text-cyan-400 font-mono">ADE Studio</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400/80 px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-500/30">
-                OPERATIVE CATALOG
-              </span>
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('toggle-folio-bastion'))}
-                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
-                title="Toggle BASTION AI (Rules assistant & character generator)"
-              >
-                <span>🤖</span>
-                <span className="hidden sm:inline">BASTION</span>
-              </button>
-            </div>
-          ))}
+            <FolioHUDBar
+              characterData={characterData}
+              computeSpentCP={computeSpentCP}
+              isCharacterSelected={isCharacterSelected}
+              isBastionOpen={isBastionOpen}
+              setIsBastionOpen={setIsBastionOpen}
+              cloudSaveStatus={cloudSaveStatus}
+              isLocked={isLocked}
+              isPlayerOverride={isPlayerOverride}
+              isInActiveGame={isInActiveGame}
+              allowPlayerOverride={allowPlayerOverride}
+              lockPersona={lockPersona}
+              unlockPersona={unlockPersona}
+              clonePersonaVariant={clonePersonaVariant}
+              handleSaveLocal={handleSaveLocal}
+              handleExportAsStoryElement={handleExportAsStoryElement}
+              handleOpenGuide={handleOpenGuide}
+              confirm={confirm}
+            />
+          )}
 
           {/* Dynamic Controls: OMNICORTEX */}
           {isDBM && (
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              {/* Mobile Navigation Rail Toggle Button */}
-              <button
-                type="button"
-                onClick={() => setIsSidebarOpen && setIsSidebarOpen(prev => !prev)}
-                className="md:hidden px-2 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold"
-                title="Toggle Omnicortex Navigation Rail"
-              >
-                ☰
-              </button>
-
-              {/* DBM Undo / Redo controls */}
-              {handleBack && handleForward && (
-                <div className="flex items-center gap-1 bg-[#161b22] p-0.5 rounded-md border border-[#0D5C63]/40 shrink-0 cyan-shadow-thin">
-                  <button
-                    type="button"
-                    onClick={handleBack}
-                    disabled={!historyIndex || historyIndex === 0}
-                    className="p-1 px-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[11px] font-bold text-slate-300 transition-colors"
-                    title="Back"
-                  >
-                    ◄
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleForward}
-                    disabled={!history || historyIndex >= history.length - 1}
-                    className="p-1 px-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[11px] font-bold text-slate-300 transition-colors"
-                    title="Forward"
-                  >
-                    ►
-                  </button>
-                </div>
-              )}
-
-              {/* Active Category Indicator (Amber Database Access) */}
-              <div className="px-2 py-0.5 bg-amber-950/60 border border-amber-500/50 rounded-md text-[11px] font-mono text-amber-300 font-bold uppercase hidden sm:block cyan-shadow-thin">
-                {activeCategory ? activeCategory.toUpperCase() : 'DATABASE'}
-              </div>
-
-              {/* Master Developer Access Quick Indicator & Toggle */}
-              <button
-                type="button"
-                onClick={() => toggleAdminOverride && toggleAdminOverride()}
-                className={`px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider border transition-all flex items-center gap-1.5 cursor-pointer cyan-shadow-thin ${
-                  adminOverride
-                    ? 'bg-amber-950/70 border-amber-500/80 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
-                }`}
-                title={adminOverride ? "Master Developer Access Active (Full CRUD: Add, Edit, Clone, Delete). Click to toggle." : "Player View (Read-Only). Click to enable Master Developer Access."}
-              >
-                <span>{adminOverride ? '👑' : '👁️'}</span>
-                <span className="hidden lg:inline">{adminOverride ? 'MASTER ACCESS: ON' : 'PLAYER VIEW'}</span>
-              </button>
-
-              {/* System Actions Dropdown Menu */}
-              <div className="relative shrink-0" ref={dbmMenuRef}>
-                <button
-                  type="button"
-                  onClick={() => setIsDbmMenuOpen(prev => !prev)}
-                  className="px-2 sm:px-2.5 py-1 bg-[#12161f] hover:bg-slate-800 border border-amber-500/50 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin"
-                  title="System Tools & Actions Menu"
-                >
-                  <span>⚙️</span>
-                  <span className="hidden md:inline">Tools</span>
-                  <span className="text-[10px] text-amber-400">▼</span>
-                </button>
-
-                {isDbmMenuOpen && (
-                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-[#12161f] border border-cyan-500/40 rounded-lg shadow-2xl p-2 z-50 flex flex-col gap-1.5 backdrop-blur-md">
-                    <div className="px-2 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 mb-0.5">
-                      Omnicortex Options
-                    </div>
-
-                    {/* Switch to Rules Codex */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        AudioService.playTerminalBeep(1100, 0.03);
-                        setIsDbmMenuOpen(false);
-                        navigate('/codex');
-                      }}
-                      className="w-full text-left px-3 py-2 bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-200 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
-                      title="Switch from Omnicortex DB to Rules Codex Matrices"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span>📖</span>
-                        <span>Rules Codex</span>
-                      </div>
-                      <span className="text-[10px] text-purple-400 font-mono">Codex</span>
-                    </button>
-
-                    {/* Bastion AI Assistant Toggle */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsBastionOpen && setIsBastionOpen(prev => !prev);
-                        setIsDbmMenuOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
-                      title="Toggle BASTION AI (Rules assistant & entry generator)"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span>🤖</span>
-                        <span>Bastion AI</span>
-                      </div>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isBastionOpen ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-700 text-slate-400'}`}>
-                        {isBastionOpen ? 'OPEN' : 'CLOSED'}
-                      </span>
-                    </button>
-
-                    {/* User Guide */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleOpenGuide('dbm');
-                        setIsDbmMenuOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 bg-amber-950/30 hover:bg-amber-900/50 border border-amber-500/30 text-amber-300 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2"
-                      title="User Guide & System Documentation"
-                    >
-                      <span>📖</span>
-                      <span>User Guide</span>
-                    </button>
-
-                    {/* Key Developer Master Access Toggle */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        toggleAdminOverride && toggleAdminOverride();
-                        setIsDbmMenuOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between cursor-pointer"
-                      title="Toggle Key Developer Master Access (Full CRUD)"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span>👑</span>
-                        <span>Master Developer Access</span>
-                      </div>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${adminOverride ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-slate-700 text-slate-400'}`}>
-                        {adminOverride ? 'ACTIVE' : 'OFF'}
-                      </span>
-                    </button>
-
-                    {/* Clear Local Cache */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleClearDbmCache();
-                        setIsDbmMenuOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-slate-300 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2"
-                      title="Clear local search filter and Omnicortex cache"
-                    >
-                      <span>🧹</span>
-                      <span>Clear Cache</span>
-                    </button>
-
-                    <div className="border-t border-slate-800 my-1"></div>
-
-                    {/* Sync Species Matrix to Cloud */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        syncMasterSpeciesMatrix && syncMasterSpeciesMatrix();
-                        setIsDbmMenuOpen(false);
-                      }}
-                      disabled={!isAdmin}
-                      className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
-                        isAdmin
-                          ? 'bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/40 text-blue-300'
-                          : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
-                      }`}
-                      title={isAdmin ? "Sync Canonical Species Matrix (Types, Sizes, Speeds, Traits, Disadvantages, Species) to Cloud" : "Requires Admin privileges"}
-                    >
-                      <span>🧬</span>
-                      <span>Sync Species Matrix</span>
-                    </button>
-
-                    {/* Sync Compendium to Cloud */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        syncCanonicalCompendium && syncCanonicalCompendium();
-                        setIsDbmMenuOpen(false);
-                      }}
-                      disabled={!isAdmin}
-                      className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
-                        isAdmin
-                          ? 'bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-300'
-                          : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
-                      }`}
-                      title={isAdmin ? "Sync Canonical Compendium Articles to Cloud" : "Requires Admin privileges"}
-                    >
-                      <span>📚</span>
-                      <span>Sync Compendium</span>
-                    </button>
-
-                    <div className="border-t border-slate-800 my-1"></div>
-
-                    {/* Master Export */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleExportMasterJSON && handleExportMasterJSON();
-                        setIsDbmMenuOpen(false);
-                      }}
-                      className="w-full text-left px-3 py-2 bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2"
-                      title="Download full Omnicortex Master Database Backup JSON"
-                    >
-                      <span>💾</span>
-                      <span>Master Export</span>
-                    </button>
-
-                    {/* Master Import */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        triggerMasterImport();
-                        setIsDbmMenuOpen(false);
-                      }}
-                      disabled={!isAdmin}
-                      className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
-                        isAdmin
-                          ? 'bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300'
-                          : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
-                      }`}
-                      title={isAdmin ? "Import Master Database Backup" : "Requires GM/Admin access to import data"}
-                    >
-                      <span>📂</span>
-                      <span>Master Import</span>
-                    </button>
-                  </div>
-                )}
-
-                <input
-                  type="file"
-                  ref={dbmFileInputRef}
-                  onChange={handleImportMasterJSON}
-                  accept=".json"
-                  className="hidden"
-                />
-              </div>
-            </div>
+            <DBMHUDBar
+              setIsSidebarOpen={setIsSidebarOpen}
+              handleBack={handleBack}
+              handleForward={handleForward}
+              historyIndex={historyIndex}
+              history={history}
+              activeCategory={activeCategory}
+              adminOverride={adminOverride}
+              toggleAdminOverride={toggleAdminOverride}
+              isBastionOpen={isBastionOpen}
+              setIsBastionOpen={setIsBastionOpen}
+              handleOpenGuide={handleOpenGuide}
+              handleClearDbmCache={handleClearDbmCache}
+              syncMasterSpeciesMatrix={syncMasterSpeciesMatrix}
+              syncCanonicalCompendium={syncCanonicalCompendium}
+              handleExportMasterJSON={handleExportMasterJSON}
+              handleImportMasterJSON={handleImportMasterJSON}
+              triggerMasterImport={triggerMasterImport}
+              isAdmin={isAdmin}
+            />
           )}
 
           {/* Dynamic Controls: COMPENDIUM */}
           {isCompendium && (
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-sky-500/40 text-[10px] font-mono cyan-shadow-thin">
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    navigate('/compendium?tab=rules');
-                  }}
-                  className={`px-2 py-0.5 rounded font-bold uppercase transition-colors ${
-                    !location.search.includes('tab=omnicortex') && !location.search.includes('tab=split')
-                      ? 'bg-sky-950 text-sky-300 border border-sky-500/60'
-                      : 'text-slate-400 hover:text-sky-300'
-                  }`}
-                  title="Switch to Game Rules"
-                >
-                  Rules
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    navigate('/compendium?tab=omnicortex');
-                  }}
-                  className={`px-2 py-0.5 rounded font-bold uppercase transition-colors flex items-center gap-1 ${
-                    location.search.includes('tab=omnicortex')
-                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60'
-                      : 'text-slate-400 hover:text-emerald-300'
-                  }`}
-                  title="Switch to Omnicortex Asset Catalog"
-                >
-                  <span>🌐</span>
-                  <span>Omnicortex</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    navigate('/compendium?tab=split');
-                  }}
-                  className={`hidden sm:inline-block px-2 py-0.5 rounded font-bold uppercase transition-colors ${
-                    location.search.includes('tab=split')
-                      ? 'bg-purple-950 text-purple-300 border border-purple-500/60'
-                      : 'text-slate-400 hover:text-purple-300'
-                  }`}
-                  title="Switch to Side-by-Side Split Reference"
-                >
-                  Split
-                </button>
-              </div>
-
-              {/* User Guide */}
-              <button
-                type="button"
-                onClick={() => handleOpenGuide('dbm')}
-                className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-sky-500/40 text-sky-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
-                title="Compendium User Guide"
-              >
-                <span>📖</span>
-                <span className="hidden sm:inline">Guide</span>
-              </button>
-
-              {/* Sync Compendium to Cloud (Admin) */}
-              {isAdmin && syncCanonicalCompendium && (
-                <button
-                  type="button"
-                  onClick={syncCanonicalCompendium}
-                  className="px-2 sm:px-2.5 py-1 bg-sky-950/80 hover:bg-sky-900 border border-sky-400 text-sky-200 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
-                  title="Sync Canonical Compendium to Cloud"
-                >
-                  <span>☁️</span>
-                  <span className="hidden sm:inline">Sync Cloud</span>
-                </button>
-              )}
-            </div>
+            <CompendiumHUDBar
+              location={location}
+              navigate={navigate}
+              isAdmin={isAdmin}
+              syncCanonicalCompendium={syncCanonicalCompendium}
+              handleOpenGuide={handleOpenGuide}
+            />
           )}
 
           {/* Dynamic Controls: ADE STUDIO */}
           {isFoundry && (
-            <div className="flex items-center gap-1 sm:gap-1.5">
-              <button
-                type="button"
-                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/stage'); }}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin ${
-                  isStage ? 'bg-amber-600 text-white' : 'bg-slate-900/80 text-amber-300 hover:text-amber-200 hover:bg-slate-800 border border-amber-500/40'
-                }`}
-                title="The Stage Tactical VTT"
-              >
-                <span>⚔️</span>
-                <span className="hidden sm:inline">Stage VTT</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry'); }}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1.5 cyan-shadow-thin ${
-                  !isStage && (location.pathname.startsWith('/foundry') || location.pathname.startsWith('/ade') || location.pathname.startsWith('/story-foundry'))
-                    ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(168,85,247,0.4)]'
-                    : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
-                }`}
-                title="Story Foundry ADE (Story Weaver, Elements Forge, OSR Spread & Interactive Play)"
-              >
-                <span>📖</span>
-                <span className="hidden md:inline">Story Foundry</span>
-              </button>
-            </div>
+            <ADEHUDBar
+              location={location}
+              navigate={navigate}
+              isStage={isStage}
+            />
           )}
 
           {/* Dynamic Controls: CODEX */}
           {isCodex && (
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="px-2 py-0.5 bg-purple-950/60 border border-purple-500/40 rounded-md text-[11px] font-mono text-purple-300 font-bold uppercase hidden sm:block cyan-shadow-thin">
-                RULES CODEX
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.03);
-                  navigate('/dbm');
-                }}
-                className="px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-cyan-950/80 hover:bg-cyan-900 text-cyan-200 border border-cyan-500/60 transition-all flex items-center gap-1.5 cursor-pointer shrink-0 cyan-shadow-thin"
-                title="Switch from Rules Codex to Omnicortex Database"
-              >
-                <span>🌐</span>
-                <span className="hidden sm:inline">Omnicortex DB</span>
-              </button>
-            </div>
+            <CodexHUDBar
+              navigate={navigate}
+            />
           )}
 
           {/* Dynamic Controls: COMMS */}
           {isComms && (
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1200, 0.03);
-                  setIsTeamModalOpen(true);
-                }}
-                className="px-2 sm:px-2.5 py-1 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
-                title="Team Management"
-              >
-                <Users size={13} />
-                <span className="hidden sm:inline">Teams</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1200, 0.03);
-                  if (onToggleCommsDock) {
-                    onToggleCommsDock();
-                  } else {
-                    toggleCommsDock();
-                  }
-                }}
-                className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
-                title="Toggle Floating CommLink Tray (Alt+C)"
-              >
-                <Radio size={13} />
-                <span className="hidden sm:inline">Tray (Alt+C)</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1200, 0.03);
-                  if (onToggleDiceDock) {
-                    onToggleDiceDock();
-                  } else {
-                    window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
-                  }
-                }}
-                className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
-                title="Toggle Quick Dice Roller Tray (Alt+D)"
-              >
-                <Dices size={13} />
-                <span className="hidden sm:inline">Dice (Alt+D)</span>
-              </button>
-            </div>
+            <CommsHUDBar
+              setIsTeamModalOpen={setIsTeamModalOpen}
+              onToggleCommsDock={onToggleCommsDock}
+              toggleCommsDock={toggleCommsDock}
+              onToggleDiceDock={onToggleDiceDock}
+            />
           )}
 
           {/* Dynamic Controls: DASHBOARD / DEFAULT */}

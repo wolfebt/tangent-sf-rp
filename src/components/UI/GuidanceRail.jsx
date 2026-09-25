@@ -11,6 +11,7 @@ import { AudioService } from '../../services/audioService';
 
 const THEMES = {
   cyan: {
+    dotColor: '#22d3ee',
     iconBox: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 group-hover:bg-cyan-500/20 group-hover:border-cyan-400 group-hover:text-cyan-300',
     activeBox: 'bg-cyan-500/25 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.4)]',
     activeBtn: 'bg-cyan-950/70 border-cyan-400/80 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.25)]',
@@ -20,6 +21,7 @@ const THEMES = {
     badge: 'bg-cyan-500 text-black'
   },
   blue: {
+    dotColor: '#3b82f6',
     iconBox: 'bg-blue-500/10 border-blue-500/30 text-blue-400 group-hover:bg-blue-500/20 group-hover:border-blue-400 group-hover:text-blue-300',
     activeBox: 'bg-blue-500/25 border-blue-400 text-blue-200 shadow-[0_0_12px_rgba(59,130,246,0.4)]',
     activeBtn: 'bg-blue-950/70 border-blue-400/80 text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.25)]',
@@ -29,6 +31,7 @@ const THEMES = {
     badge: 'bg-blue-500 text-white'
   },
   amber: {
+    dotColor: '#f59e0b',
     iconBox: 'bg-amber-500/10 border-amber-500/30 text-amber-400 group-hover:bg-amber-500/20 group-hover:border-amber-400 group-hover:text-amber-300',
     activeBox: 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]',
     activeBtn: 'bg-amber-950/70 border-amber-400/80 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.25)]',
@@ -38,6 +41,7 @@ const THEMES = {
     badge: 'bg-amber-500 text-black'
   },
   purple: {
+    dotColor: '#a855f7',
     iconBox: 'bg-purple-500/10 border-purple-500/30 text-purple-400 group-hover:bg-purple-500/20 group-hover:border-purple-400 group-hover:text-purple-300',
     activeBox: 'bg-purple-500/25 border-purple-400 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.4)]',
     activeBtn: 'bg-purple-950/70 border-purple-400/80 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.25)]',
@@ -47,6 +51,7 @@ const THEMES = {
     badge: 'bg-purple-500 text-white'
   },
   emerald: {
+    dotColor: '#10b981',
     iconBox: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 group-hover:bg-emerald-500/20 group-hover:border-emerald-400 group-hover:text-emerald-300',
     activeBox: 'bg-emerald-500/25 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.4)]',
     activeBtn: 'bg-emerald-950/70 border-emerald-400/80 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.25)]',
@@ -196,7 +201,7 @@ export const GuidanceRail = ({
           }}
         >
           <div className="font-bold flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: hoveredItem.theme.bar.split(' ')[0].replace('bg-', '') }} />
+            <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ backgroundColor: hoveredItem.theme.dotColor || '#22d3ee' }} />
             <span>{hoveredItem.item.label}</span>
           </div>
           {hoveredItem.item.sublabel && (

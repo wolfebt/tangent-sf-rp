@@ -62,9 +62,9 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     updateField('attacks', updated);
   };
 
-  const removeAttack = (index) => {
+  const removeAttack = async (index) => {
     const atkName = attacks[index]?.name || 'Attack';
-    if (!confirmTypedDeletion(atkName, 'attack')) return;
+    if (!(await confirmTypedDeletion(atkName, 'attack'))) return;
     updateField('attacks', attacks.filter((_, i) => i !== index));
   };
 
@@ -81,9 +81,9 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     updateField('armor', updated);
   };
 
-  const removeArmor = (index) => {
+  const removeArmor = async (index) => {
     const armorName = armors[index]?.name || 'Armor';
-    if (!confirmTypedDeletion(armorName, 'armor entry')) return;
+    if (!(await confirmTypedDeletion(armorName, 'armor entry'))) return;
     updateField('armor', armors.filter((_, i) => i !== index));
   };
 
@@ -91,10 +91,10 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const renderPropertyList = (title, key, dbPath) => {
     const list = getArray(key);
 
-    const removeItem = (index) => {
+    const removeItem = async (index) => {
       const item = list[index];
       const itemName = typeof item === 'object' ? (item.name || item.title || 'Item') : String(item);
-      if (!confirmTypedDeletion(itemName, 'inventory item')) return;
+      if (!(await confirmTypedDeletion(itemName, 'inventory item'))) return;
       updateField(key, list.filter((_, i) => i !== index));
     };
 

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import DraggablePanel from '../MapMaker/map/DraggablePanel';
 import { streamChatContent, parseRollCommand, formatCronicleContextForAIME } from '../../../services/aimeService';
 import { useStory } from '../../../context/CampaignContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 
 const QUICK_ACTIONS = [
   { label: '💡 Brainstorm Hook', prompt: 'Brainstorm 3 compelling narrative hooks or dramatic conflicts for this story context.' },
@@ -189,8 +190,16 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
     }
   };
 
-  const handleClearHistory = () => {
-    if (window.confirm("Clear AIME conversation history?")) {
+  const confirm = useConfirm();
+
+  const handleClearHistory = async () => {
+    const ok = await confirm({
+      title: 'Clear Conversation',
+      message: 'Are you sure you want to clear your AIME conversation history?',
+      danger: true,
+      confirmLabel: 'Clear History'
+    });
+    if (ok) {
       setMessages([
         {
           role: 'model',

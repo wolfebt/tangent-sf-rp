@@ -73,15 +73,7 @@ import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
 import { useMapHistory } from '../../pages/Foundry/MapMaker/hooks/useMapHistory';
 
 // Map Maker Modals & Drawers
-import LandmassGeneratorModal from '../../pages/Foundry/MapMaker/map/LandmassGeneratorModal.jsx';
-import { UvttImportModal } from '../../pages/Foundry/MapMaker/map/UvttImportModal.jsx';
-import MapAssetManagerModal from '../../pages/Foundry/MapMaker/map/MapAssetManagerModal.jsx';
-import MapUnderlayCalibrationModal from '../../pages/Foundry/MapMaker/map/MapUnderlayCalibrationModal.jsx';
-import { FolioHeroTokenDrawer } from '../../pages/Foundry/MapMaker/map/FolioHeroTokenDrawer.jsx';
-import { OmnicortexAssetDrawer } from '../../pages/Foundry/MapMaker/map/OmnicortexAssetDrawer.jsx';
-import InteractiveObjectModal from '../../pages/Foundry/MapMaker/map/InteractiveObjectModal.jsx';
-import HazmatVolumeManagerModal from '../../pages/Foundry/MapMaker/map/HazmatVolumeManagerModal.jsx';
-import MapLayersPanel from '../../pages/Foundry/MapMaker/map/MapLayersPanel.jsx';
+import { StageModalsContainer } from './stage/StageModalsContainer';
 import { createRoomWalls, snapPointToAngle, findNearestWallVertex } from '../../schemas/vttWallSchema.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -2278,6 +2270,25 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   };
 
+  // Listen for CyberDeck intrusion breach events and resolve on-map bulkheads/nodes
+  useEffect(() => {
+    const unsub = VttEventBus.on('stage-cyberdeck-breach', (payload) => {
+      AudioService.playCriticalChime(true);
+      const objects = interactiveObjMgrRef.current.getAllObjects();
+      const targetObj = objects.find(o => o.type === 'bulkhead' || o.type === 'terminal');
+      if (targetObj) {
+        const res = interactiveObjMgrRef.current.interact(targetObj.id, selectedTokenId || 'operative');
+        if (res.success) {
+          setCombatLog(prev => [
+            `⚡ [CYBERDECK BREACH]: System override granted for node "${payload?.targetNode?.label || targetObj.id}"!`,
+            ...prev.slice(0, 8)
+          ]);
+        }
+      }
+    });
+    return unsub;
+  }, [selectedTokenId]);
+
   // Environmental Hazard & Lighting Handlers
   const handleToggleDynamicLighting = () => {
     toggleDynamicLighting();
@@ -3164,132 +3175,58 @@ export const StageView: React.FC<StageViewProps> = ({
         )}
       </div>
 
-      {/* ── MODALS INTEGRATION ── */}
+      {/* ── MODALS & DRAWERS INTEGRATION ── */}
+      <StageModalsContainer
+        isLandmassModalOpen={isLandmassModalOpen}
+        setIsLandmassModalOpen={setIsLandmassModalOpen}
+        handleCommitLandmass={handleCommitLandmass}
+        terrainRenderMode={terrainRenderMode}
 
-      {/* 1. Procedural Landmass Generator Modal */}
-      <LandmassGeneratorModal
-        isOpen={isLandmassModalOpen}
-        onClose={() => setIsLandmassModalOpen(false)}
-        onCommitLandmass={handleCommitLandmass}
-        defaultRenderMode={terrainRenderMode}
-      />
+        isUvttModalOpen={isUvttModalOpen}
+        setIsUvttModalOpen={setIsUvttModalOpen}
+        handleImportCompleteUvtt={handleImportCompleteUvtt}
 
-      {/* 2. Universal VTT (.uvtt) Importer Modal */}
-      <UvttImportModal
-        isOpen={isUvttModalOpen}
-        onClose={() => setIsUvttModalOpen(false)}
-        onImportComplete={handleImportCompleteUvtt}
-      />
+        isAssetManagerOpen={isAssetManagerOpen}
+        setIsAssetManagerOpen={setIsAssetManagerOpen}
+        universeState={universeState}
+        addCustomTerrain={addCustomTerrain}
+        updateCustomTerrain={updateCustomTerrain}
+        deleteCustomTerrain={deleteCustomTerrain}
+        addCustomObject={addCustomObject}
+        updateCustomObject={updateCustomObject}
+        deleteCustomObject={deleteCustomObject}
+        currentMap={currentMap}
 
-      {/* 3. Map Asset & Texture Manager Modal */}
-      <MapAssetManagerModal
-        isOpen={isAssetManagerOpen}
-        onClose={() => setIsAssetManagerOpen(false)}
-        customAssets={universeState?.customAssets || { terrains: [], objects: [] }}
-        onAddCustomTerrain={addCustomTerrain}
-        onUpdateCustomTerrain={updateCustomTerrain}
-        onDeleteCustomTerrain={deleteCustomTerrain}
-        onAddCustomObject={addCustomObject}
-        onUpdateCustomObject={updateCustomObject}
-        onDeleteCustomObject={deleteCustomObject}
-        currentScale={currentMap?.type || 'Tactical'}
-      />
+        isHeroDrawerOpen={isHeroDrawerOpen}
+        setIsHeroDrawerOpen={setIsHeroDrawerOpen}
+        handleSummonHeroToken={handleSummonHeroToken}
 
-      {/* 4. Folio Hero Token Drawer */}
-      <FolioHeroTokenDrawer
-        showDrawer={isHeroDrawerOpen}
-        setShowDrawer={setIsHeroDrawerOpen}
-        onSummonToken={handleSummonHeroToken}
-      />
+        isOmnicortexDrawerOpen={isOmnicortexDrawerOpen}
+        setIsOmnicortexDrawerOpen={setIsOmnicortexDrawerOpen}
+        handleSummonOmnicortexAsset={handleSummonOmnicortexAsset}
 
-      {/* 5. Omnicortex Asset Drawer */}
-      <OmnicortexAssetDrawer
-        showDrawer={isOmnicortexDrawerOpen}
-        setShowDrawer={setIsOmnicortexDrawerOpen}
-        onSummonAsset={handleSummonOmnicortexAsset}
-      />
+        inspectingInteractiveObj={inspectingInteractiveObj}
+        setInspectingInteractiveObj={setInspectingInteractiveObj}
+        recordHistory={recordHistory}
+        localObjects={localObjects}
+        setLocalObjects={setLocalObjects}
+        interactiveObjMgrRef={interactiveObjMgrRef}
+        updateMap={updateMap}
 
-      {/* 6. Interactive Object Configurator Modal */}
-      <InteractiveObjectModal
-        objectNode={inspectingInteractiveObj}
-        isOpen={Boolean(inspectingInteractiveObj)}
-        onClose={() => setInspectingInteractiveObj(null)}
-        onUpdateObject={(id: string, updated: any) => {
-          recordHistory();
-          const updatedObjects = localObjects.map(o => o.id === id ? { ...o, ...updated } : o);
-          setLocalObjects(updatedObjects);
-          interactiveObjMgrRef.current.loadObjects(updatedObjects);
-          if (currentMap && updateMap) {
-            updateMap(currentMap.id, { objects: updatedObjects });
-          }
-          setInspectingInteractiveObj(null);
-        }}
-        onDeleteObject={(id: string) => {
-          recordHistory();
-          const updatedObjects = localObjects.filter(o => o.id !== id);
-          setLocalObjects(updatedObjects);
-          interactiveObjMgrRef.current.loadObjects(updatedObjects);
-          if (currentMap && updateMap) {
-            updateMap(currentMap.id, { objects: updatedObjects });
-          }
-          setInspectingInteractiveObj(null);
-        }}
-        onUpdateTokenHealth={() => {}}
-        onUpdateTokenVitality={() => {}}
-        onUpdateTokenStructure={() => {}}
-        onTriggerFloatingText={() => {}}
-      />
+        isHazmatModalOpen={isHazmatModalOpen}
+        setIsHazmatModalOpen={setIsHazmatModalOpen}
+        hazardSimulatorRef={hazardSimulatorRef}
+        setHazardCount={setHazardCount}
 
-      {/* 7. Hazmat Volume Manager Modal */}
-      <HazmatVolumeManagerModal
-        isOpen={isHazmatModalOpen}
-        onClose={() => setIsHazmatModalOpen(false)}
-        hazardZones={(hazardSimulatorRef.current?.getActiveHazards() as any) || []}
-        onAddHazardZone={(hz: any) => {
-          hazardSimulatorRef.current?.addHazardField(hz);
-          setHazardCount(hazardSimulatorRef.current?.getActiveHazards().length || 0);
-        }}
-        onUpdateHazardZone={() => {}}
-        onDeleteHazardZone={() => {}}
-        onUpdateTokenHealth={() => {}}
-        onUpdateTokenVitality={() => {}}
-        onUpdateTokenStructure={() => {}}
-        onUpdateTokenConditions={() => {}}
-        onTriggerFloatingText={() => {}}
-      />
-
-      {/* 8. Map Layers Manager Panel */}
-      <MapLayersPanel
-        showLayersPanel={isLayersPanelOpen}
-        setShowLayersPanel={setIsLayersPanelOpen}
-        mapLayers={currentMap?.layers || DEFAULT_LAYERS}
+        isLayersPanelOpen={isLayersPanelOpen}
+        setIsLayersPanelOpen={setIsLayersPanelOpen}
         toggleLayerVisibility={toggleLayerVisibility}
         toggleLayerLock={toggleLayerLock}
-        deleteCustomLayer={() => {}}
-        newLayerNameInput=""
-        setNewLayerNameInput={() => {}}
-        addCustomLayer={() => {}}
-      />
 
-      {/* 9. Background Blueprint Underlay Calibration Modal */}
-      <MapUnderlayCalibrationModal
-        isOpen={isUnderlayModalOpen}
-        onClose={() => setIsUnderlayModalOpen(false)}
-        currentUnderlay={underlayConfig}
-        onApplyUnderlay={(cfg: any) => {
-          recordHistory('Apply Blueprint Underlay');
-          setUnderlayConfig(cfg);
-          if (currentMap && updateMap) {
-            updateMap(currentMap.id, { underlay: cfg });
-          }
-        }}
-        onClearUnderlay={() => {
-          recordHistory('Clear Blueprint Underlay');
-          setUnderlayConfig(null);
-          if (currentMap && updateMap) {
-            updateMap(currentMap.id, { underlay: null });
-          }
-        }}
+        isUnderlayModalOpen={isUnderlayModalOpen}
+        setIsUnderlayModalOpen={setIsUnderlayModalOpen}
+        underlayConfig={underlayConfig}
+        setUnderlayConfig={setUnderlayConfig}
       />
     </div>
   );

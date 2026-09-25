@@ -5,7 +5,7 @@
  * 150 BP character generation validation middleware, Tech Level parameters, and combat math.
  */
 
-import { VertexAIGateway } from './VertexAIGateway';
+import { VertexAIGateway } from './VertexAIGateway.ts';
 
 export interface TangentAttributeStats {
   strength: number;

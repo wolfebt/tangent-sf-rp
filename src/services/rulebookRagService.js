@@ -168,3 +168,78 @@ export function queryRulebook(queryString) {
     .filter(e => e.score > 0)
     .sort((a, b) => b.score - a.score);
 }
+
+/**
+ * Indexes the canonical rulebook corpus into an active OPFS SQLite worker via FTS5
+ */
+export async function indexRulesInOpfsWorker(worker) {
+  if (!worker || typeof worker.postMessage !== 'function') return false;
+
+  return new Promise((resolve) => {
+    const queryId = `fts_idx_${Date.now()}`;
+    const handler = (e) => {
+      if (e.data?.queryId === queryId) {
+        worker.removeEventListener('message', handler);
+        resolve(e.data?.rows?.[0] || true);
+      }
+    };
+    worker.addEventListener('message', handler);
+    worker.postMessage({
+      type: 'FTS_INDEX_RULES',
+      queryId,
+      rules: RULEBOOK_CORPUS.map(r => ({
+        id: r.id,
+        title: r.topic,
+        category: r.category,
+        content: `${r.summary}\n${r.content}`
+      }))
+    });
+  });
+}
+
+/**
+ * Asynchronously searches rules using OPFS SQLite FTS5 if a worker is provided,
+ * with seamless fallback to in-memory term scoring.
+ */
+export async function searchRulesFtsAsync(queryString, worker = null, limit = 10) {
+  if (!queryString || !queryString.trim()) {
+    return RULEBOOK_CORPUS.slice(0, limit);
+  }
+
+  if (worker && typeof worker.postMessage === 'function') {
+    try {
+      const results = await new Promise((resolve, reject) => {
+        const queryId = `fts_q_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        const timer = setTimeout(() => {
+          worker.removeEventListener('message', handler);
+          reject(new Error('FTS query timeout'));
+        }, 1500);
+
+        const handler = (e) => {
+          if (e.data?.queryId === queryId) {
+            clearTimeout(timer);
+            worker.removeEventListener('message', handler);
+            resolve(e.data?.rows || []);
+          }
+        };
+        worker.addEventListener('message', handler);
+        worker.postMessage({
+          type: 'FTS_SEARCH',
+          queryId,
+          query: queryString,
+          limit
+        });
+      });
+
+      if (Array.isArray(results) && results.length > 0) {
+        return results;
+      }
+    } catch {
+      // Fallback on timeout or worker error
+    }
+  }
+
+  // Fallback to in-memory queryRulebook
+  return queryRulebook(queryString).slice(0, limit);
+}
+

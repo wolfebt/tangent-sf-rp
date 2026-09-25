@@ -1,6 +1,8 @@
 import { formatExportFilename } from '../../../context/CampaignContext';
 import { ELEMENT_SCHEMAS } from '../ElementForge/elementSchemas';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
+import { showToast } from '../../../context/ToastContext';
+import { showConfirm } from '../../../context/ConfirmContext';
 
 // Helper to get breadcrumb location path for an element
 export const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -127,7 +129,14 @@ export const exportElementPDF = (targetNode, universeState) => {
   const locationPath = getBreadcrumbPath(universeState.scenarios, targetNode.id);
 
   const printWindow = window.open('', '_blank');
-  if (!printWindow) return alert("Please allow popups to export printable PDF.");
+  if (!printWindow) {
+    showToast({
+      type: 'warning',
+      title: 'POPUP BLOCKED',
+      text: 'Please allow popups to export printable PDF.'
+    });
+    return;
+  }
 
   const buildNodeHTML = (node, depth = 2) => {
     const headingTag = `h${Math.min(depth, 6)}`;
@@ -228,10 +237,16 @@ export const exportElementPDF = (targetNode, universeState) => {
 };
 
 // Delete Element
-export const deleteElementConfirm = (targetNode, deleteStory) => {
+export const deleteElementConfirm = async (targetNode, deleteStory) => {
   if (!targetNode) return;
   const name = targetNode.title ? `"${targetNode.title}"` : 'this element';
-  if (window.confirm(`Are you sure you want to delete ${name}? This action cannot be undone.`)) {
+  const ok = await showConfirm({
+    title: 'Delete Story Element',
+    message: `Are you sure you want to delete ${name}? This action cannot be undone.`,
+    danger: true,
+    confirmLabel: 'Delete'
+  });
+  if (ok) {
     deleteStory(targetNode.id);
   }
 };

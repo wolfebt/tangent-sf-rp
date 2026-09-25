@@ -1,11 +1,11 @@
-﻿/**
+/**
  * @file AimeAgent.ts
  * @description Stage 7 AIME Mythopoeic Narrative Agent.
  * Powers progressive beat drafting, two-tier grounding context assembly,
  * sliding-window chat memory, and streaming sensory prose transmutation.
  */
 
-import { VertexAIGateway } from './VertexAIGateway';
+import { VertexAIGateway } from './VertexAIGateway.ts';
 
 export interface GroundingContext {
   projectName?: string;
@@ -79,14 +79,17 @@ ${context.omnicortexLore ? `Lore Excerpt: ${context.omnicortexLore}` : ''}
   }
 
   /**
-   * Generates a streaming progressive scene beat via async generator.
+   * Generates a streaming progressive scene beat via async generator with abortable cancellation.
    */
   public async *streamProse(
     prompt: string,
-    context: GroundingContext
+    context: GroundingContext,
+    signal?: AbortSignal
   ): AsyncGenerator<string, void, unknown> {
     const assembledPrompt = this.assemblePrompt(prompt, context);
     this.addMessage('user', prompt);
+
+    if (signal?.aborted) return;
 
     // Call Vertex AI Gateway
     const response = await VertexAIGateway.generateContent(assembledPrompt, {
@@ -94,19 +97,24 @@ ${context.omnicortexLore ? `Lore Excerpt: ${context.omnicortexLore}` : ''}
       temperature: 0.8
     });
 
+    if (signal?.aborted) return;
+
     const fullText = response.text || 'Atmospheric telemetry confirms nominal conditions.';
     const words = fullText.split(' ');
 
     // Yield in simulated streaming chunks for responsive typing experience
     let buffer = '';
     for (let i = 0; i < words.length; i += 3) {
+      if (signal?.aborted) break;
       const chunk = words.slice(i, i + 3).join(' ') + ' ';
       buffer += chunk;
       yield chunk;
       await new Promise(r => setTimeout(r, 25));
     }
 
-    this.addMessage('model', buffer.trim());
+    if (buffer.trim()) {
+      this.addMessage('model', buffer.trim());
+    }
   }
 }
 

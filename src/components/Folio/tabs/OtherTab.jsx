@@ -68,10 +68,10 @@ const OtherTab = () => {
     updateField('notes', updated);
   };
 
-  const removeNote = (index) => {
+  const removeNote = async (index) => {
     const targetNote = notes[index];
     const noteLabel = targetNote?.text ? targetNote.text.substring(0, 20) : `Note #${index + 1}`;
-    if (!confirmTypedDeletion(noteLabel, 'note entry')) return;
+    if (!(await confirmTypedDeletion(noteLabel, 'note entry'))) return;
     const updated = notes.filter((_, i) => i !== index);
     updateField('notes', updated.length > 0 ? updated : [{ text: '' }]);
   };

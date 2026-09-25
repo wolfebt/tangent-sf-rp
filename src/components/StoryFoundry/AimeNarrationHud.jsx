@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { synthesizeCombatNarration } from '../../services/aimeDirectorService';
 import { AudioService } from '../../services/audioService';
 
@@ -15,26 +15,71 @@ const AimeNarrationHud = ({
   );
   const [isGenerating, setIsGenerating] = useState(false);
   const [history, setHistory] = useState([]);
+  const abortControllerRef = useRef(null);
+
+  const stopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setIsGenerating(false);
+  };
 
   useEffect(() => {
     if (!latestEvent) return;
 
-    const generateNarration = async () => {
+    // Cancel any ongoing streaming synthesis
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    const generateStreamingNarration = async () => {
       setIsGenerating(true);
       try {
-        const text = await synthesizeCombatNarration(latestEvent, combatContext);
-        setNarrationText(text);
-        setHistory(prev => [{ text, timestamp: new Date().toLocaleTimeString(), eventType: latestEvent.type }, ...prev.slice(0, 9)]);
-        AudioService.playTerminalBeep(880, 0.1);
+        const fullText = await synthesizeCombatNarration(latestEvent, combatContext);
+        if (controller.signal.aborted) return;
+
+        // Progressive chunked streaming into narration display
+        const words = fullText.split(' ');
+        let currentText = '';
+        setNarrationText('');
+
+        for (let i = 0; i < words.length; i += 2) {
+          if (controller.signal.aborted) break;
+          const chunk = words.slice(i, i + 2).join(' ') + ' ';
+          currentText += chunk;
+          setNarrationText(currentText);
+          await new Promise(r => setTimeout(r, 30));
+        }
+
+        if (!controller.signal.aborted) {
+          setNarrationText(fullText);
+          setHistory(prev => [
+            { text: fullText, timestamp: new Date().toLocaleTimeString(), eventType: latestEvent.type },
+            ...prev.slice(0, 9)
+          ]);
+          AudioService.playTerminalBeep(880, 0.1);
+        }
       } catch (err) {
-        console.warn('AIME Narration error:', err);
+        if (!controller.signal.aborted) {
+          console.warn('AIME Narration error:', err);
+        }
       } finally {
-        setIsGenerating(false);
+        if (abortControllerRef.current === controller) {
+          setIsGenerating(false);
+          abortControllerRef.current = null;
+        }
       }
     };
 
-    generateNarration();
-  }, [latestEvent]);
+    generateStreamingNarration();
+
+    return () => {
+      controller.abort();
+    };
+  }, [latestEvent, combatContext]);
 
   if (!isOpen) return null;
 
@@ -52,11 +97,21 @@ const AimeNarrationHud = ({
             AIME Combat Narrator
           </h4>
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           {isGenerating && (
-            <span className="text-[9px] font-mono text-purple-400 animate-pulse">
-              Synthesizing...
-            </span>
+            <div className="flex items-center gap-1">
+              <span className="text-[9px] font-mono text-purple-400 animate-pulse">
+                Streaming...
+              </span>
+              <button
+                type="button"
+                onClick={stopGeneration}
+                className="text-[9px] px-1.5 py-0.5 bg-red-900/60 hover:bg-red-800 text-red-200 border border-red-500/40 rounded uppercase cursor-pointer"
+                title="Stop streaming"
+              >
+                Stop
+              </button>
+            </div>
           )}
           {onClose && (
             <button
@@ -74,6 +129,7 @@ const AimeNarrationHud = ({
       <div className="p-2.5 bg-purple-950/40 border border-purple-800/40 rounded-lg min-h-[55px] flex items-center">
         <p className="text-xs text-purple-200 italic leading-relaxed font-serif">
           "{narrationText}"
+          {isGenerating && <span className="inline-block w-1.5 h-3 ml-0.5 bg-purple-400 animate-ping align-middle" />}
         </p>
       </div>
 

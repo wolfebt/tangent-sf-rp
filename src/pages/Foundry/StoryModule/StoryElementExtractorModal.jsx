@@ -27,6 +27,7 @@ import { AudioService } from '../../../services/audioService';
 import { generateContent } from '../../../services/aimeService';
 import { useStory } from '../../../context/CampaignContext';
 import { useDBM } from '../../../context/DBMContext';
+import { useToast } from '../../../context/ToastContext';
 import { syncElementToOmnicortexDBM } from '../../../utils/storyAssetAdapter';
 
 export default function StoryElementExtractorModal({
@@ -38,6 +39,7 @@ export default function StoryElementExtractorModal({
 }) {
   const { updateSavedElement, updateStory } = useStory();
   const dbm = useDBM();
+  const { toast } = useToast();
 
   const [type, setType] = useState('Persona'); // 'Persona' | 'Item' | 'Smart Prop' | 'Hazard' | 'Clue' | 'Faction'
   const [title, setTitle] = useState('');
@@ -162,7 +164,7 @@ If Type is "Clue": { "title": string, "clueIntel": string, "summary": string }`;
 
   const handleSaveComponent = () => {
     if (!title.trim()) {
-      alert('Please enter a component title.');
+      toast({ type: 'warning', text: 'Please enter an element title.' });
       return;
     }
 

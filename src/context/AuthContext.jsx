@@ -4,6 +4,7 @@ import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, loginWithGoogle, logout } from '../firebase';
 import { SystemBootSplash } from '../components/UI/SystemBootSplash';
 import { TerranNetAuthModal } from '../components/UI/TerranNetAuthModal';
+import { useConfirm } from './ConfirmContext';
 
 const AuthContext = createContext();
 
@@ -142,8 +143,15 @@ export const AuthProvider = ({ children }) => {
 
   const displayIdentity = userHandle || (currentUser ? (currentUser.displayName || currentUser.email) : '');
 
+  const confirm = useConfirm();
+
   const confirmLogout = async (navigate) => {
-    const confirmed = window.confirm('Are you sure you want to log out?');
+    const confirmed = await confirm({
+      title: 'Log Out',
+      message: 'Are you sure you want to disconnect from Terran Data Net and log out?',
+      confirmLabel: 'Log Out',
+      danger: false,
+    });
     if (confirmed) {
       await logout();
       if (navigate) {

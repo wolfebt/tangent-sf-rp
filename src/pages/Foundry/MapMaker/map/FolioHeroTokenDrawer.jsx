@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useFolio } from '../../../../context/FolioContext';
 import { useGroup } from '../../../../context/GroupContext';
+import { showToast } from '../../../../context/ToastContext';
 import { AudioService } from '../../../../services/audioService';
 import DraggablePanel from './DraggablePanel';
 import { Users, User, Shield, Sparkles, Plus, ExternalLink } from 'lucide-react';
@@ -38,7 +39,7 @@ export const FolioHeroTokenDrawer = ({
     const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
     if (!isReady) {
       e.preventDefault();
-      alert(`⚠️ Operative "${hero['char-name'] || 'Hero'}" is in Development Phase.\n\nYou must Lock & Set the Persona in Persona Folio (/folio) before it can be deployed to the VTT.`);
+      showToast({ type: 'warning', text: `Operative "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
       return;
     }
     const stats = extractHeroStats(hero);
@@ -54,7 +55,7 @@ export const FolioHeroTokenDrawer = ({
   const handleSpawnClick = (hero) => {
     const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
     if (!isReady) {
-      alert(`⚠️ Operative "${hero['char-name'] || 'Hero'}" is in Development Phase.\n\nYou must Lock & Set the Persona in Persona Folio (/folio) before it can be deployed to the VTT.`);
+      showToast({ type: 'warning', text: `Operative "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
       return;
     }
     if (onSummonToken) {

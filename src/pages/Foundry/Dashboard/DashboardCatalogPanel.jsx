@@ -748,10 +748,10 @@ export const DashboardCatalogPanel = () => {
                           </button>
 
                           <button
-                            onClick={(e) => {
+                            onClick={async (e) => {
                               e.stopPropagation();
                               const charName = persona['char-name'] || 'Unnamed Operative';
-                              if (confirmTypedDeletion(charName, 'operative persona')) {
+                              if (await confirmTypedDeletion(charName, 'operative persona')) {
                                 AudioService.playTerminalBeep(900, 0.03);
                                 if (folio.deleteRosterCharacter) {
                                   folio.deleteRosterCharacter(docId);

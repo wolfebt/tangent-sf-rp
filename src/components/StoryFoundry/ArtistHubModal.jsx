@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Palette, Image as ImageIcon, Sparkles, Copy, Check, X, Wand2, Ratio } from 'lucide-react';
 import { generateContent } from '../../services/aimeService';
+import { useToast } from '../../context/ToastContext';
 
 export const STYLE_PRESETS = [
   { id: 'cinematic_dark', name: 'Cinematic Dark & Moody Sci-Fi', desc: 'Deep volumetric shadows, anamorphic lens flares, gritty industrial aesthetic' },
@@ -21,6 +22,7 @@ export const ASPECT_RATIOS = [
 ];
 
 export const ArtistHubModal = ({ isOpen, onClose, onApplyAsset, initialPrompt = '' }) => {
+  const { toast } = useToast();
   const [prompt, setPrompt] = useState(initialPrompt || '');
   const [preset, setPreset] = useState(STYLE_PRESETS[0].name);
   const [aspectRatio, setAspectRatio] = useState('1:1');
@@ -73,7 +75,7 @@ Format your response in two distinct sections:
         setVisualBreakdown(null);
       }
     } catch (err) {
-      alert(`Prompt synthesis failed: ${err.message}`);
+      toast({ type: 'error', text: `Prompt synthesis failed: ${err.message}` });
     } finally {
       setIsLoading(false);
     }

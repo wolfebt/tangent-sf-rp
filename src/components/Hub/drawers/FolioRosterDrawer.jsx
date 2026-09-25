@@ -360,10 +360,10 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                         </button>
 
                         <button
-                          onClick={(e) => {
+                          onClick={async (e) => {
                             e.stopPropagation();
                             const targetName = name || 'Unnamed Operative';
-                            if (confirmTypedDeletion(targetName, 'operative persona')) {
+                            if (await confirmTypedDeletion(targetName, 'operative persona')) {
                               deleteRosterCharacter(docId);
                             }
                           }}

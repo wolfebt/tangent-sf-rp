@@ -26,6 +26,7 @@ export interface VttEventMap {
   };
   'sentry-alert': { detectedHero: any; alertBark: string; facingAngleDeg: number; distance?: number };
   'story-foundry-milestone-reached': { scenarioId?: string; scenarioTitle?: string; timestamp?: string; milestoneId?: string };
+  'stage-cyberdeck-breach': { targetNode?: any; timestamp?: number; unlockedBulkheadId?: string };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =
