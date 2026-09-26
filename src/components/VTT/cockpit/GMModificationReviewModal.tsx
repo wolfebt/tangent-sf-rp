@@ -97,25 +97,25 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 font-sans select-none">
-      <div className="bg-[#0e1420] border border-amber-500/60 rounded-xl shadow-[0_0_40px_rgba(245,158,11,0.25)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto font-sans select-none">
+      <div className="bg-[#0e1420] border border-amber-500/60 rounded-xl shadow-[0_0_40px_rgba(245,158,11,0.25)] w-full max-w-2xl overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[85vh] animate-in fade-in zoom-in duration-200">
         
         {/* Header */}
-        <div className="px-5 py-3.5 border-b border-slate-800 bg-[#141b2b] flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400">
+        <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-800 bg-[#141b2b] flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0">
               <ShieldAlert size={18} />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h3 className="font-bold text-sm text-amber-200 uppercase tracking-wider font-mono">
-                  GM Review: Player Sheet Modifications
+                <h3 className="font-bold text-xs sm:text-sm text-amber-200 uppercase tracking-wider font-mono truncate">
+                  GM Review: Sheet Overrides
                 </h3>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 text-amber-300 border border-amber-500/50">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 text-amber-300 border border-amber-500/50 shrink-0">
                   {pendingItems.length} Pending
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-sans">
+              <p className="text-[10px] sm:text-[11px] text-slate-400 font-sans truncate">
                 Review, accept, refuse, or advise adjustments on active game overrides.
               </p>
             </div>
@@ -124,22 +124,22 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
           <button
             type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800 transition-colors cursor-pointer"
+            className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Protection Notice Banner */}
-        <div className="px-4 py-2.5 bg-cyan-950/40 border-b border-cyan-500/30 flex items-center gap-2 text-xs text-cyan-200 font-mono">
+        <div className="px-4 py-2.5 bg-cyan-950/40 border-b border-cyan-500/30 flex items-center gap-2 text-xs text-cyan-200 font-mono shrink-0">
           <Sparkles size={14} className="text-cyan-400 shrink-0" />
-          <span>
+          <span className="text-[11px]">
             <strong>PLAYER OWNERSHIP GUARANTEE:</strong> You cannot directly edit or delete the player's folio. You can Accept, Refuse, or Reply with suggested adjustments.
           </span>
         </div>
 
         {/* Pending Items List */}
-        <div className="p-4 overflow-y-auto space-y-3.5 flex-1 font-mono text-xs">
+        <div className="p-3 sm:p-4 overflow-y-auto space-y-3.5 flex-1 min-h-0 font-mono text-xs">
           {pendingItems.length === 0 ? (
             <div className="text-center py-12 bg-slate-950/40 rounded-lg border border-dashed border-slate-800">
               <Check size={32} className="mx-auto text-emerald-400/70 mb-2" />
@@ -267,7 +267,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
         </div>
 
         {/* Footer */}
-        <div className="p-3 bg-[#0d121c] border-t border-slate-850 flex items-center justify-between text-xs text-slate-400 font-mono">
+        <div className="p-3 bg-[#0d121c] border-t border-slate-850 flex items-center justify-between text-xs text-slate-400 font-mono shrink-0">
           <span className="text-[11px] text-slate-500">
             Tangent SF RP &bull; Tactical Modification Review Engine
           </span>

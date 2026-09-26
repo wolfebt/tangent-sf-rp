@@ -430,7 +430,7 @@ export const UnifiedRelationalSelectorModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[250] flex flex-col bg-[#070a13] select-none font-sans w-screen h-screen overflow-hidden p-0 m-0">
+    <div className="fixed inset-0 z-[300] flex flex-col bg-[#070a13] select-none font-sans w-screen h-screen overflow-hidden p-0 m-0">
       <div className="bg-slate-900 w-full h-full flex flex-col overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-5 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">

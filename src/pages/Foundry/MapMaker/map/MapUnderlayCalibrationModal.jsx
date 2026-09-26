@@ -60,33 +60,33 @@ export const MapUnderlayCalibrationModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 font-mono select-none animate-in fade-in duration-150">
-      <div className="bg-slate-900 border border-cyan-500/50 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto font-mono select-none animate-in fade-in duration-150">
+      <div className="bg-slate-900 border border-cyan-500/50 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col min-h-0">
         {/* Header */}
-        <div className="px-5 py-3 bg-slate-950 border-b border-cyan-500/30 flex items-center justify-between">
+        <div className="px-4 sm:px-5 py-3 bg-slate-950 border-b border-cyan-500/30 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-400">
               <Image size={18} />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+              <h3 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
                 Blueprint Underlay Calibration
               </h3>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[9px] sm:text-[10px] text-slate-400">
                 Trace concept blueprints and architectural schematics
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-5 space-y-4 text-xs text-slate-200">
+        <div className="p-4 sm:p-5 space-y-4 text-xs text-slate-200 flex-1 min-h-0 overflow-y-auto custom-scrollbar">
           {/* File Upload / URL Input */}
           <div className="space-y-1.5">
             <label className="text-[11px] font-bold text-cyan-300 uppercase block">
@@ -198,7 +198,7 @@ export const MapUnderlayCalibrationModal = ({
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
+        <div className="px-5 py-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between shrink-0">
           <div className="flex gap-2">
             <button
               onClick={handleReset}

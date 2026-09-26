@@ -42,8 +42,28 @@ export const normalizeTraitName = (trait) => {
  * "Disciplines (Attune or any known Metafocus Skill)", "Stealth and one Social or Vocation Skill")
  * into the full list of selectable individual skills.
  */
+export const normalizeSkillRecord = (s) => {
+  if (!s || typeof s !== 'object') return s;
+  const sId = (s.id || '').toLowerCase();
+  const rawGroup = s.group || s.type || (sId ? sId.split('-')[0] : '') || '';
+  const mainGroup = rawGroup.toLowerCase().trim();
+  const rawSub = s.subcategory || s.subtype || s.categoryLabel || '';
+  const sub = rawSub.toLowerCase().trim();
+  const groupTitle = mainGroup ? mainGroup.charAt(0).toUpperCase() + mainGroup.slice(1) : 'General';
+  const subTitle = sub ? sub.charAt(0).toUpperCase() + sub.slice(1) : '';
+
+  return {
+    ...s,
+    group: mainGroup,
+    subcategory: s.subcategory || s.subtype || 'General',
+    categoryLabel: s.categoryLabel || `${groupTitle}${subTitle ? ' - ' + subTitle : ''}`,
+    type: s.type || `${groupTitle}${subTitle ? ' · ' + subTitle : ''}`
+  };
+};
+
 export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL_CANONICAL_SKILLS) => {
-  const catalog = allSkills?.length > 0 ? allSkills : ALL_CANONICAL_SKILLS;
+  const rawCatalog = allSkills?.length > 0 ? allSkills : ALL_CANONICAL_SKILLS;
+  const catalog = rawCatalog.map(normalizeSkillRecord);
   
   const nameToSkillMap = new Map();
   const groupToSkillsMap = new Map();
@@ -55,6 +75,9 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
   };
 
   catalog.forEach(s => {
+    // Skip meta-discipline entries that aren't individual rollable skills
+    if (s.subtype === 'discipline' || s.id === 'meta-mental') return;
+
     const sName = (s.name || s.title || '').trim();
     if (sName) {
       nameToSkillMap.set(sName.toLowerCase(), s);
@@ -64,8 +87,8 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
       nameToSkillMap.set(sId, s);
     }
 
-    const mainGroup = (s.group || '').toLowerCase();
-    const sub = (s.subcategory || s.categoryLabel || '').toLowerCase();
+    const mainGroup = (s.group || s.type || (sId ? sId.split('-')[0] : '') || '').toLowerCase().trim();
+    const sub = (s.subcategory || s.subtype || s.categoryLabel || '').toLowerCase().trim();
     const sIdLower = sId;
 
     if (mainGroup) registerGroupSkill(mainGroup, s);
@@ -75,17 +98,26 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
     if (sub.includes('knowledge') || sIdLower.includes('knowledge') || (s.type && s.type.toLowerCase().includes('knowledge'))) {
       registerGroupSkill('knowledge', s);
     }
+    if (sub.includes('general') && mainGroup === 'mental') {
+      registerGroupSkill('mental_general', s);
+    }
     if (sub.includes('expression') || sIdLower.includes('expression')) registerGroupSkill('expression', s);
     if (sub.includes('manipulation') || sIdLower.includes('manipulation')) registerGroupSkill('manipulation', s);
     if (mainGroup === 'social' || sub.includes('social')) registerGroupSkill('social', s);
     if (mainGroup === 'combat' || sub.includes('combat') || sub.includes('archaic') || sub.includes('modern') || sub.includes('advanced')) {
       registerGroupSkill('combat', s);
     }
+    if (sub.includes('archaic')) registerGroupSkill('combat_archaic', s);
+    if (sub.includes('modern')) registerGroupSkill('combat_modern', s);
+    if (sub.includes('advanced')) registerGroupSkill('combat_advanced', s);
     if (mainGroup === 'physical' || sub.includes('physical')) registerGroupSkill('physical', s);
     if (mainGroup === 'meta' || sub.includes('metafocus') || sub.includes('discipline')) registerGroupSkill('meta', s);
 
     if (['science', 'technology', 'physics', 'computers', 'academics', 'medicine'].includes(sName.toLowerCase())) {
       registerGroupSkill('science_tech', s);
+    }
+    if (['artist', 'artificer', 'armorer', 'tailor', 'weaponsmith', 'architect', 'culinarian'].includes(sName.toLowerCase())) {
+      registerGroupSkill('artisan', s);
     }
   });
 
@@ -93,6 +125,12 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
   const expandedItemsMap = new Map();
   const packageNotes = [];
   const groupFiltersFound = new Set(['All']);
+
+  const CATEGORY_TERMS = new Set([
+    'mental', 'physical', 'social', 'combat', 'meta', 'metafocus', 'discipline', 'disciplines',
+    'knowledge', 'knowledges', 'vocation', 'vocations', 'expression', 'manipulation', 'artisan',
+    'any', 'all', 'skills', 'skill'
+  ]);
 
   rawList.forEach(raw => {
     if (!raw) return;
@@ -102,35 +140,191 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
 
     const lower = cleanStr.toLowerCase();
 
-    // 1. Direct Skill Match
-    let directSkill = nameToSkillMap.get(lower);
-    if (!directSkill) {
-      const match = cleanStr.match(/^([^(]+)\(([^)]+)\)$/);
-      if (match) {
-        const inner = match[2].trim().toLowerCase();
-        if (nameToSkillMap.has(inner)) {
-          directSkill = nameToSkillMap.get(inner);
+    // Check if this string is a category expression rather than a specific skill
+    const isCategoryPattern = (
+      lower === 'any' ||
+      lower === 'all' ||
+      lower.includes('(any)') ||
+      lower.includes('(all)') ||
+      lower.includes(' skills') ||
+      lower.startsWith('any ') ||
+      lower.startsWith('all ') ||
+      (CATEGORY_TERMS.has(lower) && !nameToSkillMap.has(lower)) ||
+      lower === 'mental' ||
+      lower === 'physical' ||
+      lower === 'social' ||
+      lower === 'combat' ||
+      lower === 'meta' ||
+      lower === 'knowledge' ||
+      lower === 'vocation'
+    );
+
+    // 1. Direct Skill Match (Only if not explicitly a category group pattern)
+    if (!isCategoryPattern) {
+      let directSkill = nameToSkillMap.get(lower);
+      if (!directSkill) {
+        const match = cleanStr.match(/^([^(]+)\(([^)]+)\)$/);
+        if (match) {
+          const inner = match[2].trim().toLowerCase();
+          if (nameToSkillMap.has(inner)) {
+            directSkill = nameToSkillMap.get(inner);
+          }
         }
       }
-    }
 
-    if (directSkill) {
-      const sName = directSkill.name || directSkill.title;
-      const grp = directSkill.subcategory || directSkill.group || 'Specific';
-      if (!expandedItemsMap.has(sName.toLowerCase())) {
-        expandedItemsMap.set(sName.toLowerCase(), {
-          ...directSkill,
-          name: sName,
-          groupLabel: grp,
-          sourceTag: 'Specific'
-        });
-        groupFiltersFound.add('Specific');
+      if (directSkill) {
+        const sName = directSkill.name || directSkill.title;
+        const grp = directSkill.subcategory || directSkill.group || 'Specific';
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
+            ...directSkill,
+            name: sName,
+            groupLabel: grp,
+            sourceTag: 'Specific'
+          });
+          groupFiltersFound.add('Specific');
+        }
+        return;
       }
-      return;
     }
 
     // 2. Check for Group & Wildcard Expressions
     let matchedGroup = false;
+
+    // Wildcard ANY / ALL
+    if (lower === 'any' || lower === 'all' || lower === 'any skills' || lower === 'all skills') {
+      matchedGroup = true;
+      packageNotes.push(cleanStr);
+      groupFiltersFound.add('Physical');
+      groupFiltersFound.add('Mental');
+      groupFiltersFound.add('Social');
+      groupFiltersFound.add('Combat');
+      groupFiltersFound.add('Metafocus');
+      catalog.forEach(s => {
+        if (s.subtype === 'discipline' || s.id === 'meta-mental') return;
+        const sName = s.name || s.title;
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
+            ...s,
+            name: sName,
+            groupLabel: s.subcategory || s.group || 'All Skills',
+            sourceTag: 'Any'
+          });
+        }
+      });
+      return;
+    }
+
+    // Mental Category / Pillar
+    // Covers "Mental", "Mental (Any)", "Any Mental Skills", etc.
+    const isMentalDiscipline = (lower.includes('discipline') || lower.includes('metafocus')) && lower.includes('mental');
+    if (lower.includes('mental') && !isMentalDiscipline && !lower.includes('non-mental')) {
+      matchedGroup = true;
+      packageNotes.push(cleanStr);
+      groupFiltersFound.add('Mental');
+      groupFiltersFound.add('Knowledges');
+      groupFiltersFound.add('Vocations');
+      groupFiltersFound.add('General');
+
+      const mentalSkills = groupToSkillsMap.get('mental') || [];
+      mentalSkills.forEach(s => {
+        const sName = s.name || s.title;
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
+            ...s,
+            name: sName,
+            groupLabel: s.subcategory ? `Mental - ${s.subcategory}` : 'Mental',
+            sourceTag: 'Mental'
+          });
+        }
+      });
+    }
+
+    // Physical Category / Pillar
+    if (lower.includes('physical') && !lower.includes('non-physical')) {
+      matchedGroup = true;
+      packageNotes.push(cleanStr);
+      groupFiltersFound.add('Physical');
+      const physSkills = groupToSkillsMap.get('physical') || [];
+      physSkills.forEach(s => {
+        const sName = s.name || s.title;
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
+            ...s,
+            name: sName,
+            groupLabel: 'Physical',
+            sourceTag: 'Physical'
+          });
+        }
+      });
+    }
+
+    // Social Category / Pillar
+    if (lower.includes('social')) {
+      matchedGroup = true;
+      if (!lower.includes('vocation')) packageNotes.push(cleanStr);
+      groupFiltersFound.add('Social');
+      groupFiltersFound.add('Expression');
+      groupFiltersFound.add('Manipulation');
+      const socSkills = groupToSkillsMap.get('social') || [];
+      socSkills.forEach(s => {
+        const sName = s.name || s.title;
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
+            ...s,
+            name: sName,
+            groupLabel: s.subcategory ? `Social - ${s.subcategory}` : 'Social',
+            sourceTag: 'Social'
+          });
+        }
+      });
+    }
+
+    // Combat Category / Pillar
+    if (lower.includes('combat') && !lower.includes('non-combat')) {
+      matchedGroup = true;
+      packageNotes.push(cleanStr);
+      groupFiltersFound.add('Combat');
+
+      if (lower.includes('archaic')) {
+        groupFiltersFound.add('Archaic Combat');
+        (groupToSkillsMap.get('combat_archaic') || []).forEach(s => {
+          const sName = s.name || s.title;
+          if (!expandedItemsMap.has(sName.toLowerCase())) {
+            expandedItemsMap.set(sName.toLowerCase(), { ...s, name: sName, groupLabel: 'Combat - Archaic', sourceTag: 'Combat' });
+          }
+        });
+      } else if (lower.includes('modern')) {
+        groupFiltersFound.add('Modern Combat');
+        (groupToSkillsMap.get('combat_modern') || []).forEach(s => {
+          const sName = s.name || s.title;
+          if (!expandedItemsMap.has(sName.toLowerCase())) {
+            expandedItemsMap.set(sName.toLowerCase(), { ...s, name: sName, groupLabel: 'Combat - Modern', sourceTag: 'Combat' });
+          }
+        });
+      } else if (lower.includes('advanced')) {
+        groupFiltersFound.add('Advanced Combat');
+        (groupToSkillsMap.get('combat_advanced') || []).forEach(s => {
+          const sName = s.name || s.title;
+          if (!expandedItemsMap.has(sName.toLowerCase())) {
+            expandedItemsMap.set(sName.toLowerCase(), { ...s, name: sName, groupLabel: 'Combat - Advanced', sourceTag: 'Combat' });
+          }
+        });
+      } else {
+        const comSkills = groupToSkillsMap.get('combat') || [];
+        comSkills.forEach(s => {
+          const sName = s.name || s.title;
+          if (!expandedItemsMap.has(sName.toLowerCase())) {
+            expandedItemsMap.set(sName.toLowerCase(), {
+              ...s,
+              name: sName,
+              groupLabel: s.subcategory ? `Combat - ${s.subcategory}` : 'Combat',
+              sourceTag: 'Combat'
+            });
+          }
+        });
+      }
+    }
 
     // Vocations
     if (lower.includes('vocation')) {
@@ -151,65 +345,27 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
       });
     }
 
-    // Social
-    if (lower.includes('social')) {
-      matchedGroup = true;
-      if (!lower.includes('vocation')) packageNotes.push(cleanStr);
-      groupFiltersFound.add('Social');
-      const socSkills = groupToSkillsMap.get('social') || [];
-      socSkills.forEach(s => {
-        const sName = s.name || s.title;
-        if (!expandedItemsMap.has(sName.toLowerCase())) {
-          expandedItemsMap.set(sName.toLowerCase(), {
-            ...s,
-            name: sName,
-            groupLabel: s.subcategory ? `Social - ${s.subcategory}` : 'Social',
-            sourceTag: 'Social'
-          });
-        }
-      });
-    }
-
-    // Combat
-    if (lower.includes('combat') && !lower.includes('non-combat')) {
+    // Artisan Vocations
+    if (lower.includes('artisan')) {
       matchedGroup = true;
       packageNotes.push(cleanStr);
-      groupFiltersFound.add('Combat');
-      const comSkills = groupToSkillsMap.get('combat') || [];
-      comSkills.forEach(s => {
+      groupFiltersFound.add('Artisan');
+      const artSkills = groupToSkillsMap.get('artisan') || [];
+      artSkills.forEach(s => {
         const sName = s.name || s.title;
         if (!expandedItemsMap.has(sName.toLowerCase())) {
           expandedItemsMap.set(sName.toLowerCase(), {
             ...s,
             name: sName,
-            groupLabel: s.subcategory ? `Combat - ${s.subcategory}` : 'Combat',
-            sourceTag: 'Combat'
-          });
-        }
-      });
-    }
-
-    // Physical
-    if (lower.includes('physical') && !lower.includes('non-physical')) {
-      matchedGroup = true;
-      packageNotes.push(cleanStr);
-      groupFiltersFound.add('Physical');
-      const physSkills = groupToSkillsMap.get('physical') || [];
-      physSkills.forEach(s => {
-        const sName = s.name || s.title;
-        if (!expandedItemsMap.has(sName.toLowerCase())) {
-          expandedItemsMap.set(sName.toLowerCase(), {
-            ...s,
-            name: sName,
-            groupLabel: 'Physical',
-            sourceTag: 'Physical'
+            groupLabel: 'Artisan Vocation',
+            sourceTag: 'Artisan'
           });
         }
       });
     }
 
     // Knowledges
-    if (lower.includes('knowledge') && !lower.includes('(')) {
+    if (lower.includes('knowledge') && (!lower.includes('(') || lower.includes('(any)'))) {
       matchedGroup = true;
       packageNotes.push(cleanStr);
       groupFiltersFound.add('Knowledges');
@@ -222,6 +378,44 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
             name: sName,
             groupLabel: 'Knowledge',
             sourceTag: 'Knowledges'
+          });
+        }
+      });
+    }
+
+    // Expression
+    if (lower.includes('expression')) {
+      matchedGroup = true;
+      packageNotes.push(cleanStr);
+      groupFiltersFound.add('Expression');
+      const exprSkills = groupToSkillsMap.get('expression') || [];
+      exprSkills.forEach(s => {
+        const sName = s.name || s.title;
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
+            ...s,
+            name: sName,
+            groupLabel: 'Social - Expression',
+            sourceTag: 'Expression'
+          });
+        }
+      });
+    }
+
+    // Manipulation
+    if (lower.includes('manipulation')) {
+      matchedGroup = true;
+      packageNotes.push(cleanStr);
+      groupFiltersFound.add('Manipulation');
+      const manipSkills = groupToSkillsMap.get('manipulation') || [];
+      manipSkills.forEach(s => {
+        const sName = s.name || s.title;
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
+            ...s,
+            name: sName,
+            groupLabel: 'Social - Manipulation',
+            sourceTag: 'Manipulation'
           });
         }
       });
@@ -247,12 +441,25 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
     }
 
     // Metafocus / Disciplines
-    if (lower.includes('discipline') || lower.includes('metafocus') || lower.includes('attune')) {
+    if (lower.includes('discipline') || lower.includes('metafocus') || lower.includes('attune') || (lower.includes('meta') && !lower.includes('metal'))) {
       matchedGroup = true;
       packageNotes.push(cleanStr);
       groupFiltersFound.add('Metafocus');
+
+      // Check if specific discipline is requested
+      let disciplineFilter = null;
+      if (lower.includes('dimension')) disciplineFilter = 'Dimension';
+      else if (lower.includes('energy')) disciplineFilter = 'Energy';
+      else if (lower.includes('entropy')) disciplineFilter = 'Entropy';
+      else if (lower.includes('illusion')) disciplineFilter = 'Illusion';
+      else if (lower.includes('matter')) disciplineFilter = 'Matter';
+      else if (lower.includes('mental')) disciplineFilter = 'Mental';
+
       const metaSkills = groupToSkillsMap.get('meta') || [];
       metaSkills.forEach(s => {
+        if (disciplineFilter && s.discipline && s.discipline.toLowerCase() !== disciplineFilter.toLowerCase()) {
+          return;
+        }
         const sName = s.name || s.title;
         if (!expandedItemsMap.has(sName.toLowerCase())) {
           expandedItemsMap.set(sName.toLowerCase(), {
@@ -283,27 +490,64 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
       });
     }
 
-    // Scan for any specific named skill within compound sentences
-    catalog.forEach(s => {
-      const sName = (s.name || s.title || '').toLowerCase();
-      if (sName.length >= 4 && (new RegExp(`\\b${sName}\\b`, 'i')).test(cleanStr)) {
-        if (!expandedItemsMap.has(sName)) {
-          expandedItemsMap.set(sName, {
+    // If specific knowledge with parenthesized value e.g. "Knowledge (Nature)" or "Knowledge (Science - Biology)"
+    const parenMatch = cleanStr.match(/^([^(]+)\(([^)]+)\)$/);
+    if (parenMatch) {
+      const inner = parenMatch[2].trim().toLowerCase();
+      // Check if inner matches any skill
+      if (nameToSkillMap.has(inner)) {
+        const s = nameToSkillMap.get(inner);
+        const sName = s.name || s.title;
+        if (!expandedItemsMap.has(sName.toLowerCase())) {
+          expandedItemsMap.set(sName.toLowerCase(), {
             ...s,
-            name: s.name || s.title,
+            name: sName,
             groupLabel: s.subcategory || s.group || 'Specific Skill',
             sourceTag: 'Specific'
           });
           groupFiltersFound.add('Specific');
         }
+      } else {
+        // Try fuzzy or multi-part like "Science - Biology" or "Melee/Pistol"
+        const parts = inner.split(/[-/,\\]+/).map(p => p.trim());
+        parts.forEach(p => {
+          if (nameToSkillMap.has(p)) {
+            const s = nameToSkillMap.get(p);
+            const sName = s.name || s.title;
+            if (!expandedItemsMap.has(sName.toLowerCase())) {
+              expandedItemsMap.set(sName.toLowerCase(), {
+                ...s,
+                name: sName,
+                groupLabel: s.subcategory || s.group || 'Specific Skill',
+                sourceTag: 'Specific'
+              });
+              groupFiltersFound.add('Specific');
+            }
+          }
+        });
       }
-    });
+    }
 
-    const CATEGORY_NAMES = new Set([
-      'knowledge', 'knowledges', 'vocation', 'vocations', 'discipline', 'disciplines', 'metafocus',
-      'skill', 'skills', 'general', 'physical', 'mental', 'social', 'combat', 'meta'
-    ]);
-    if (!matchedGroup && expandedItemsMap.size === 0 && !CATEGORY_NAMES.has(lower)) {
+    // Scan for any specific named skill within compound sentences (if not already matched)
+    if (!matchedGroup) {
+      catalog.forEach(s => {
+        if (s.subtype === 'discipline' || s.id === 'meta-mental') return;
+        const sName = (s.name || s.title || '').toLowerCase();
+        if (sName.length >= 4 && (new RegExp(`\\b${sName}\\b`, 'i')).test(cleanStr)) {
+          if (!expandedItemsMap.has(sName)) {
+            expandedItemsMap.set(sName, {
+              ...s,
+              name: s.name || s.title,
+              groupLabel: s.subcategory || s.group || 'Specific Skill',
+              sourceTag: 'Specific'
+            });
+            groupFiltersFound.add('Specific');
+          }
+        }
+      });
+    }
+
+    if (!matchedGroup && expandedItemsMap.size === 0 && !CATEGORY_TERMS.has(lower)) {
       expandedItemsMap.set(cleanStr.toLowerCase(), {
         id: `skill_${cleanStr.toLowerCase().replace(/\s+/g, '_')}`,
         name: cleanStr,
@@ -1538,14 +1782,23 @@ export const SkillPoolRankPulldown = ({
   colorTheme = 'emerald',
   subtitle = ''
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // Start open if there are remaining SP to allocate
+  const [isOpen, setIsOpen] = useState(() => {
+    const initialSpent = Object.values(allocatedSkills || {}).reduce((acc, rank) => acc + (parseInt(rank, 10) || 0), 0);
+    return initialSpent < maxSP;
+  });
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState('recommended'); // 'recommended' | 'all'
+  const [viewMode, setViewMode] = useState(() => {
+    return (recommendedSkills && recommendedSkills.length > 0) ? 'recommended' : 'all';
+  });
   const [activeGroupFilter, setActiveGroupFilter] = useState('All');
   const theme = THEME_STYLES[colorTheme] || THEME_STYLES.emerald;
   const dropdownRef = useRef(null);
 
-  const skillCatalog = allSkills?.length > 0 ? allSkills : ALL_CANONICAL_SKILLS;
+  const skillCatalog = useMemo(() => {
+    const raw = allSkills?.length > 0 ? allSkills : ALL_CANONICAL_SKILLS;
+    return raw.map(normalizeSkillRecord);
+  }, [allSkills]);
 
   // Calculate total spent SP
   const spentSP = useMemo(() => {
@@ -1562,7 +1815,7 @@ export const SkillPoolRankPulldown = ({
   // Displayed items in pulldown tray
   const displayedItems = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    const sourceList = viewMode === 'recommended' ? recommendedItems : skillCatalog;
+    const sourceList = (viewMode === 'recommended' && recommendedItems.length > 0) ? recommendedItems : skillCatalog;
 
     return sourceList.filter(item => {
       const name = (item.name || item.title || '').toLowerCase();
@@ -1573,12 +1826,23 @@ export const SkillPoolRankPulldown = ({
       // Group filter check
       if (activeGroupFilter !== 'All') {
         const target = activeGroupFilter.toLowerCase();
-        const matchesGroup = group.includes(target) || sub.includes(target) || sourceTag.includes(target);
+        const targetSingular = target.endsWith('s') ? target.slice(0, -1) : target;
+        const matchesGroup = (
+          group.includes(target) || group.includes(targetSingular) ||
+          sub.includes(target) || sub.includes(targetSingular) ||
+          sourceTag.includes(target) || sourceTag.includes(targetSingular)
+        );
         if (!matchesGroup) return false;
       }
 
       if (!query) return true;
-      return name.includes(query) || group.includes(query) || sub.includes(query);
+      return (
+        name.includes(query) ||
+        group.includes(query) ||
+        sub.includes(query) ||
+        sourceTag.includes(query) ||
+        (item.description && item.description.toLowerCase().includes(query))
+      );
     });
   }, [viewMode, recommendedItems, skillCatalog, searchQuery, activeGroupFilter]);
 
@@ -1597,10 +1861,6 @@ export const SkillPoolRankPulldown = ({
 
   // If maxSP is 0 or nil and nothing is allocated, do not render
   if ((!maxSP || maxSP <= 0) && (!allocatedSkills || Object.keys(allocatedSkills).length === 0)) {
-    return null;
-  }
-  const hasSkillOptions = (recommendedSkills && (!Array.isArray(recommendedSkills) || recommendedSkills.length > 0));
-  if (!hasSkillOptions && (!allocatedSkills || Object.keys(allocatedSkills).length === 0) && maxSP < 50) {
     return null;
   }
 

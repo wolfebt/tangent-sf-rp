@@ -134,31 +134,31 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 select-none animate-in fade-in duration-150">
-      <div className="relative w-full max-w-2xl bg-[#090d16] border border-cyan-500/50 rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto select-none animate-in fade-in duration-150">
+      <div className="relative w-full max-w-2xl bg-[#090d16] border border-cyan-500/50 rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-800 bg-[#0c121d]">
-          <div className="flex items-center gap-2 font-mono">
-            <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-            <h2 className="text-sm font-bold text-cyan-300 tracking-wider uppercase">
-              TACTICAL STAGE // MAP & SCENE CREATOR
+        <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-800 bg-[#0c121d] shrink-0">
+          <div className="flex items-center gap-2 font-mono min-w-0">
+            <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)] shrink-0" />
+            <h2 className="text-xs sm:text-sm font-bold text-cyan-300 tracking-wider uppercase truncate">
+              TACTICAL STAGE // MAP &amp; SCENE CREATOR
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors shrink-0"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-slate-800 bg-[#070b12] px-5 gap-4">
+        <div className="flex border-b border-slate-800 bg-[#070b12] px-4 sm:px-5 gap-3 sm:gap-4 shrink-0 overflow-x-auto scrollbar-thin">
           <button
             type="button"
             onClick={() => setActiveTab('blank')}
-            className={`py-2.5 text-xs font-mono font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+            className={`py-2.5 text-xs font-mono font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               activeTab === 'blank'
                 ? 'border-cyan-400 text-cyan-300 shadow-[0_4px_12px_rgba(34,211,238,0.2)]'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -171,7 +171,7 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('presets')}
-            className={`py-2.5 text-xs font-mono font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+            className={`py-2.5 text-xs font-mono font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               activeTab === 'presets'
                 ? 'border-amber-400 text-amber-300 shadow-[0_4px_12px_rgba(245,158,11,0.2)]'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -184,7 +184,7 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('import')}
-            className={`py-2.5 text-xs font-mono font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+            className={`py-2.5 text-xs font-mono font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer shrink-0 whitespace-nowrap ${
               activeTab === 'import'
                 ? 'border-purple-400 text-purple-300 shadow-[0_4px_12px_rgba(168,85,247,0.2)]'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -196,7 +196,7 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
         </div>
 
         {/* Tab Body */}
-        <div className="p-5 overflow-y-auto flex-1 font-sans text-xs">
+        <div className="p-4 sm:p-5 overflow-y-auto flex-1 min-h-0 font-sans text-xs">
           {activeTab === 'blank' && (
             <form onSubmit={handleCreateBlank} className="space-y-4">
               <div>

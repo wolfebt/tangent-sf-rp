@@ -65,7 +65,7 @@ const ModularStarshipForgeModal = ({
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fadeIn">
       <div className="bg-[#0c121d] border border-cyan-500/70 rounded-xl p-5 w-full max-w-4xl shadow-[0_0_50px_rgba(6,182,212,0.3)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40">
+        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-lg bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-2xl shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               🚀
@@ -93,6 +93,9 @@ const ModularStarshipForgeModal = ({
           </button>
         </div>
 
+        {/* Scrollable Body */}
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-1">
+
         {/* Chassis Selector Ribbon */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {CANONICAL_CHASSIS.map(ch => (
@@ -118,7 +121,7 @@ const ModularStarshipForgeModal = ({
         </div>
 
         {/* Main Grid: Hardpoint & Subsystem Modules (Left) + Vessel Telemetry (Right) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Left Column: Modular Weapon Hardpoints & Subsystems */}
           <div className="md:col-span-2 flex flex-col gap-3 overflow-y-auto max-h-[360px] pr-1">
             {/* Reactor Power Bar */}
@@ -279,9 +282,10 @@ const ModularStarshipForgeModal = ({
             </div>
           </div>
         </div>
+        </div>
 
         {/* Footer */}
-        <div className="flex justify-end pt-2 border-t border-slate-800">
+        <div className="flex justify-end pt-2 border-t border-slate-800 shrink-0">
           <button
             type="button"
             onClick={onClose}

@@ -62,7 +62,7 @@ export const CodexAiSynthesizerModal = ({
       <div className="w-full max-w-2xl bg-[#0b1019] border border-cyan-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(6,182,212,0.2)] flex flex-col gap-4 text-slate-100 max-h-[85vh] sm:max-h-[88vh] overflow-hidden animate-fade-in">
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
             <div 
               className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg"
@@ -92,6 +92,9 @@ export const CodexAiSynthesizerModal = ({
             <X size={18} />
           </button>
         </div>
+
+        {/* Scrollable Body */}
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-1">
 
         {/* Error Alert */}
         {generationError && (
@@ -200,9 +203,10 @@ export const CodexAiSynthesizerModal = ({
             className="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono resize-none shadow-inner"
           />
         </div>
+        </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 pt-2 border-t border-slate-800">
+        <div className="flex gap-3 pt-2 border-t border-slate-800 shrink-0">
           <button
             type="button"
             onClick={onClose}

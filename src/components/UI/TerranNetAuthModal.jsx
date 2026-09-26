@@ -39,11 +39,11 @@ export const TerranNetAuthModal = ({ isOpen, onClose }) => {
       onClick={handleGuestDismiss}
     >
       <div
-        className="bg-[#0d1117]/95 border-2 border-cyan-500/50 rounded-2xl w-full max-w-lg shadow-[0_0_60px_rgba(34,211,238,0.25)] overflow-hidden flex flex-col font-sans select-none animate-fadeIn"
+        className="bg-[#0d1117]/95 border-2 border-cyan-500/50 rounded-2xl w-full max-w-lg max-h-[92vh] shadow-[0_0_60px_rgba(34,211,238,0.25)] overflow-hidden flex flex-col font-sans select-none animate-fadeIn"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="p-4 sm:px-6 bg-slate-950/90 border-b border-cyan-900/60 flex justify-between items-center">
+        <div className="p-4 sm:px-6 bg-slate-950/90 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.3)]">
               <Globe size={18} className="animate-pulse" />
@@ -71,7 +71,7 @@ export const TerranNetAuthModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Modal Body */}
-        <div className="p-4 sm:p-6 space-y-5 bg-[#090d16]/70">
+        <div className="p-4 sm:p-6 space-y-5 bg-[#090d16]/70 flex-1 min-h-0 overflow-y-auto custom-scrollbar">
           {/* Terran Data Net Access Description Banner */}
           <div className="p-3.5 sm:p-4 rounded-xl bg-cyan-950/25 border border-cyan-500/35 relative overflow-hidden">
             <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
@@ -171,7 +171,7 @@ export const TerranNetAuthModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Modal Footer & Telemetry */}
-        <div className="p-3 sm:px-6 bg-slate-950 border-t border-slate-800/80 flex items-center justify-between text-[9px] font-mono text-slate-500">
+        <div className="p-3 sm:px-6 bg-slate-950 border-t border-slate-800/80 flex items-center justify-between text-[9px] font-mono text-slate-500 shrink-0">
           <div className="flex items-center gap-1.5 text-cyan-400/80">
             <Lock size={10} />
             <span>4096-BIT QUANTUM LATTICE</span>

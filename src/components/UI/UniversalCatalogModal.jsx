@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { 
   Search, 
   X, 
@@ -16,6 +16,7 @@ import {
   Zap, 
   Award,
   ChevronRight,
+  ChevronDown,
   Briefcase,
   Globe,
   Building2,
@@ -309,7 +310,31 @@ export const UniversalCatalogModal = ({
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryFilter, setActiveCategoryFilter] = useState(filterCategory || 'ALL');
+  const [selectedSpeciesCategories, setSelectedSpeciesCategories] = useState([]);
+  const [isLineageDropdownOpen, setIsLineageDropdownOpen] = useState(false);
+  const lineageDropdownRef = useRef(null);
   const [sortOption, setSortOption] = useState('recommended'); // 'recommended' | 'az' | 'za' | 'cost_desc' | 'cost_asc' | 'tl_desc'
+
+  // Close lineage dropdown on click outside or escape key
+  useEffect(() => {
+    if (!isLineageDropdownOpen) return;
+    const handleClickOutside = (e) => {
+      if (lineageDropdownRef.current && !lineageDropdownRef.current.contains(e.target)) {
+        setIsLineageDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsLineageDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isLineageDropdownOpen]);
 
   // Multi-selection state
   const [currentSelected, setCurrentSelected] = useState(() => {
@@ -547,15 +572,27 @@ export const UniversalCatalogModal = ({
     return [...list, 'ALL'];
   }, [allRawItems, canonicalColKey]);
 
-  // Synchronize activeCategoryFilter when categoryPills are loaded or modal opens
+  // Ordered list of individual species lineages (excluding 'ALL')
+  const speciesCategoryList = useMemo(() => {
+    return categoryPills.filter(c => c !== 'ALL');
+  }, [categoryPills]);
+
+  // Synchronize activeCategoryFilter and selectedSpeciesCategories when categoryPills are loaded or modal opens
   useEffect(() => {
     if (!isOpen) return;
+    setIsLineageDropdownOpen(false);
     if (filterCategory) {
       setActiveCategoryFilter(filterCategory);
+      if (canonicalColKey === 'species') {
+        setSelectedSpeciesCategories([filterCategory]);
+      }
     } else if (!activeCategoryFilter || !categoryPills.includes(activeCategoryFilter)) {
       setActiveCategoryFilter('ALL');
+      if (canonicalColKey === 'species') {
+        setSelectedSpeciesCategories([]);
+      }
     }
-  }, [isOpen, filterCategory, categoryPills]);
+  }, [isOpen, filterCategory, categoryPills, canonicalColKey]);
 
   // Compute item counts per category pill/gem
   const categoryCounts = useMemo(() => {
@@ -619,24 +656,50 @@ export const UniversalCatalogModal = ({
         }
       }
 
-      // Active interactive category pill (selected gem)
-      if (activeCategoryFilter && activeCategoryFilter !== 'ALL') {
-        const filterStr = String(activeCategoryFilter).toLowerCase();
-        const itemCatStr = itemCat.toLowerCase();
-        const parentStr = String(item.parent_species || item.sphere || item.lineage || '').toLowerCase();
+      // Species Lineage Filtering (Multiselect)
+      if (canonicalColKey === 'species') {
+        if (selectedSpeciesCategories.length > 0) {
+          const matches = selectedSpeciesCategories.some(selectedCat => {
+            const filterStr = String(selectedCat).toLowerCase();
+            const cleanFilter = filterStr.replace(/[^a-z0-9]/g, '');
+            const itemCatLower = itemCat.toLowerCase();
+            const cleanItemCat = itemCatLower.replace(/[^a-z0-9]/g, '');
+            const parentLower = String(item.parent_species || item.lineage || '').toLowerCase();
+            const cleanParent = parentLower.replace(/[^a-z0-9]/g, '');
 
-        const cleanFilter = filterStr.replace(/[^a-z0-9]/g, '');
-        const cleanItemCat = itemCatStr.replace(/[^a-z0-9]/g, '');
-        const cleanParent = parentStr.replace(/[^a-z0-9]/g, '');
+            return (
+              itemCatLower === filterStr ||
+              itemCatLower.includes(filterStr) ||
+              filterStr.includes(itemCatLower) ||
+              parentLower.includes(filterStr) ||
+              (cleanFilter && (cleanItemCat === cleanFilter || cleanParent.includes(cleanFilter)))
+            );
+          });
 
-        const matchesPill = itemCatStr === filterStr ||
-          itemCatStr.includes(filterStr) ||
-          filterStr.includes(itemCatStr) ||
-          parentStr.includes(filterStr) ||
-          (cleanFilter && (cleanItemCat === cleanFilter || cleanParent.includes(cleanFilter)));
+          if (!matches) {
+            return false;
+          }
+        }
+      } else {
+        // Active interactive category pill (selected gem) for other catalogs
+        if (activeCategoryFilter && activeCategoryFilter !== 'ALL') {
+          const filterStr = String(activeCategoryFilter).toLowerCase();
+          const itemCatStr = itemCat.toLowerCase();
+          const parentStr = String(item.parent_species || item.sphere || item.lineage || '').toLowerCase();
 
-        if (!matchesPill) {
-          return false;
+          const cleanFilter = filterStr.replace(/[^a-z0-9]/g, '');
+          const cleanItemCat = itemCatStr.replace(/[^a-z0-9]/g, '');
+          const cleanParent = parentStr.replace(/[^a-z0-9]/g, '');
+
+          const matchesPill = itemCatStr === filterStr ||
+            itemCatStr.includes(filterStr) ||
+            filterStr.includes(itemCatStr) ||
+            parentStr.includes(filterStr) ||
+            (cleanFilter && (cleanItemCat === cleanFilter || cleanParent.includes(cleanFilter)));
+
+          if (!matchesPill) {
+            return false;
+          }
         }
       }
 
@@ -791,7 +854,7 @@ export const UniversalCatalogModal = ({
     });
 
     return list;
-  }, [allRawItems, searchQuery, activeCategoryFilter, sortOption, filterCategory, filterCategoryExclude, canonicalColKey, characterData]);
+  }, [allRawItems, searchQuery, activeCategoryFilter, selectedSpeciesCategories, sortOption, filterCategory, filterCategoryExclude, canonicalColKey, characterData]);
 
   // Determine if an item is selected
   const isItemSelected = useCallback((item) => {
@@ -849,12 +912,23 @@ export const UniversalCatalogModal = ({
   const handleBuildNew = useCallback(() => {
     onClose();
     if (onOpenManageModal) {
-      onOpenManageModal(canonicalColKey, {
+      const defaultCategory = (canonicalColKey === 'species' && selectedSpeciesCategories.length === 1)
+        ? selectedSpeciesCategories[0]
+        : (activeCategoryFilter && activeCategoryFilter !== 'ALL')
+        ? String(activeCategoryFilter).toLowerCase()
+        : canonicalColKey;
+
+      const prefill = {
         name: searchQuery.trim() || '',
-        category: (activeCategoryFilter && activeCategoryFilter !== 'ALL') ? String(activeCategoryFilter).toLowerCase() : canonicalColKey
-      }, 'create');
+        category: defaultCategory
+      };
+      if (canonicalColKey === 'species' && selectedSpeciesCategories.length === 1) {
+        prefill.parent_species = selectedSpeciesCategories[0];
+      }
+
+      onOpenManageModal(canonicalColKey, prefill, 'create');
     }
-  }, [onClose, onOpenManageModal, canonicalColKey, searchQuery, activeCategoryFilter]);
+  }, [onClose, onOpenManageModal, canonicalColKey, searchQuery, activeCategoryFilter, selectedSpeciesCategories]);
 
   // Handle opening dedicated entry edit manage modal
   const handleEditItem = useCallback((item) => {
@@ -1118,7 +1192,7 @@ export const UniversalCatalogModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
+    <div className="fixed inset-0 z-[300] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
       <div className={`bg-[#0d131f] border ${themeBorder} rounded-2xl w-full max-w-5xl ${themeGlow} text-slate-100 flex flex-col max-h-[85vh] sm:max-h-[88vh] overflow-hidden shadow-2xl transition-all`}>
         
         {/* MODAL HEADER */}
@@ -1217,6 +1291,135 @@ export const UniversalCatalogModal = ({
               )}
             </div>
 
+            {/* Lineage Multiselect Pulldown (Beside Sort Pulldown for Species Catalog) */}
+            {canonicalColKey === 'species' && (
+              <div className="relative shrink-0" ref={lineageDropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsLineageDropdownOpen(prev => !prev)}
+                  className={`flex items-center gap-1.5 bg-slate-950 border rounded-lg px-2.5 py-1.5 text-xs font-medium cursor-pointer transition-colors ${
+                    selectedSpeciesCategories.length > 0
+                      ? 'border-cyan-500/70 text-cyan-300 bg-cyan-950/20 shadow-[0_0_10px_rgba(34,211,238,0.15)]'
+                      : 'border-slate-700/90 text-slate-200 hover:border-slate-600'
+                  }`}
+                  title="Filter species by lineage"
+                >
+                  <Dna className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <span className="truncate max-w-[120px] sm:max-w-[150px]">
+                    {selectedSpeciesCategories.length === 0
+                      ? 'All Lineages'
+                      : selectedSpeciesCategories.length === 1
+                      ? selectedSpeciesCategories[0]
+                      : `Lineages (${selectedSpeciesCategories.length})`}
+                  </span>
+                  {selectedSpeciesCategories.length > 0 && (
+                    <span className="bg-cyan-500/20 text-cyan-300 font-mono text-[9px] font-bold px-1.5 py-0.5 rounded">
+                      {selectedSpeciesCategories.length}
+                    </span>
+                  )}
+                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isLineageDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isLineageDropdownOpen && (
+                  <div className="absolute left-0 mt-1.5 w-64 sm:w-72 bg-slate-950 border border-slate-700/90 rounded-xl shadow-2xl z-50 overflow-hidden backdrop-blur-md">
+                    {/* Header with Quick Actions */}
+                    <div className="px-3 py-2 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+                        Filter Lineages
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {selectedSpeciesCategories.length > 0 ? (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedSpeciesCategories([]);
+                            }}
+                            className="text-[10px] font-mono text-cyan-400 hover:text-cyan-300 cursor-pointer"
+                          >
+                            Reset (All)
+                          </button>
+                        ) : (
+                          <span className="text-[10px] font-mono text-slate-500">All Selected</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Scrollable Checkbox List */}
+                    <div className="max-h-64 overflow-y-auto py-1 scrollbar-thin scrollbar-thumb-slate-700 divide-y divide-slate-900/50">
+                      {/* All Lineages Option */}
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedSpeciesCategories([]);
+                        }}
+                        className={`flex items-center justify-between px-3 py-1.5 text-xs cursor-pointer transition-colors ${
+                          selectedSpeciesCategories.length === 0
+                            ? 'bg-cyan-950/40 text-cyan-300 font-bold'
+                            : 'text-slate-300 hover:bg-slate-900/60'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center transition-colors ${
+                            selectedSpeciesCategories.length === 0
+                              ? 'bg-cyan-500 border-cyan-400 text-slate-950'
+                              : 'border-slate-700 bg-slate-900'
+                          }`}>
+                            {selectedSpeciesCategories.length === 0 && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                          </div>
+                          <span>All Lineages</span>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded">
+                          {categoryCounts['ALL'] || allRawItems.length}
+                        </span>
+                      </div>
+
+                      {/* Individual Lineages */}
+                      {speciesCategoryList.map((cat) => {
+                        const isSelected = selectedSpeciesCategories.includes(cat);
+                        const count = categoryCounts[cat] || 0;
+
+                        return (
+                          <div
+                            key={cat}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedSpeciesCategories(prev => {
+                                if (prev.includes(cat)) {
+                                  return prev.filter(c => c !== cat);
+                                } else {
+                                  return [...prev, cat];
+                                }
+                              });
+                            }}
+                            className={`flex items-center justify-between px-3 py-1.5 text-xs cursor-pointer transition-colors ${
+                              isSelected
+                                ? 'bg-cyan-950/40 text-cyan-300 font-semibold'
+                                : 'text-slate-300 hover:bg-slate-900/60'
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 truncate pr-2">
+                              <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center transition-colors shrink-0 ${
+                                isSelected
+                                  ? 'bg-cyan-500 border-cyan-400 text-slate-950'
+                                  : 'border-slate-700 bg-slate-900'
+                              }`}>
+                                {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                              </div>
+                              <span className="truncate">{cat}</span>
+                            </div>
+                            <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded shrink-0">
+                              {count}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Sort Selector */}
             <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-700/90 rounded-lg px-2.5 py-1.5 shrink-0">
               <ArrowUpDown className="w-3.5 h-3.5 text-cyan-400" />
@@ -1273,8 +1476,8 @@ export const UniversalCatalogModal = ({
             </div>
           </div>
 
-          {/* Category Filter Pills */}
-          {categoryPills.length > 2 && (
+          {/* Category Filter Pills (hidden for species in favor of multiselect pulldown beside sort) */}
+          {canonicalColKey !== 'species' && categoryPills.length > 2 && (
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-slate-700">
               {categoryPills.map(cat => {
                 const isActive = activeCategoryFilter === cat;
@@ -1328,9 +1531,25 @@ export const UniversalCatalogModal = ({
                 <p className="text-xs text-slate-400">
                   {searchQuery
                     ? `No entries match "${searchQuery}". Expand the catalog by creating a new entry.`
+                    : (canonicalColKey === 'species' && selectedSpeciesCategories.length > 0)
+                    ? `No options available in selected lineages (${selectedSpeciesCategories.join(', ')}).`
                     : `No options available in category "${activeCategoryFilter}".`}
                 </p>
               </div>
+
+              {(searchQuery || (canonicalColKey === 'species' ? selectedSpeciesCategories.length > 0 : activeCategoryFilter !== 'ALL')) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setActiveCategoryFilter('ALL');
+                    setSelectedSpeciesCategories([]);
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
+                >
+                  Reset All Filters
+                </button>
+              )}
 
               {allowBuild && onOpenManageModal && (
                 <button

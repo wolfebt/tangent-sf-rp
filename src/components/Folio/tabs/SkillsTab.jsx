@@ -12,6 +12,7 @@ import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { resolveMetaSkillForInvocation, isSpecialAbility } from '../../../utils/metaphysicsUtils';
 import FolioTooltip from '../shared/FolioTooltip';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
+import { expandSkillGroupPatterns } from '../shared/IdentityPoolPulldown';
 import SituationalModifiersPanel from './SituationalModifiersPanel';
 
 const ATTRIBUTE_OPTIONS = [
@@ -138,7 +139,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   const [showTrainedOnly, setShowTrainedOnly] = useState(false);
   const [showIdentitySummary, setShowIdentitySummary] = useState(true);
 
-  // Helper to extract clean normalized skill tokens
+  // Helper to extract clean normalized skill tokens with full group pattern expansion
   const addSkillToPillarSet = (set, raw) => {
     if (!raw) return;
     const str = typeof raw === 'object' ? (raw.name || raw.skill || raw.id || '') : String(raw);
@@ -151,6 +152,21 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     }
     const baseWord = str.split('(')[0].trim().toLowerCase().replace(/[^a-z0-9]/g, '');
     if (baseWord && baseWord.length >= 3) set.add(baseWord);
+
+    // Expand group patterns (e.g. "Mental (Any)", "Physical (Any)", "Combat (Any)", "Vocations", "ANY")
+    try {
+      const expanded = expandSkillGroupPatterns([raw]);
+      if (expanded.items && expanded.items.length > 0) {
+        expanded.items.forEach(s => {
+          const sName = (s.name || s.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const sCleanId = (s.id || '').replace(/^[a-z]+-/, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (sName) set.add(sName);
+          if (sCleanId) set.add(sCleanId);
+        });
+      }
+    } catch {
+      // safe fallback
+    }
   };
 
   // 1. Archetype Recommended / Essential Skills

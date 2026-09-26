@@ -179,30 +179,30 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
 
   return (
     <div
-      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fade-in"
+      className="fixed inset-0 z-[200] flex items-center sm:items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-3 sm:pt-10 md:pt-12 pb-3 sm:pb-8 overflow-y-auto select-none font-sans animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="relative bg-[#0d1117] border border-purple-500/50 rounded-2xl shadow-2xl shadow-black/80 w-full max-w-5xl max-h-[85vh] sm:max-h-[88vh] flex flex-col font-sans overflow-hidden"
+        className="relative bg-[#0d1117] border border-purple-500/50 rounded-2xl shadow-2xl shadow-black/80 w-full max-w-5xl h-[94vh] sm:h-auto max-h-[96vh] sm:max-h-[88vh] flex flex-col font-sans overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-4 bg-slate-950/90 border-b border-purple-900/60 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-purple-950 border border-purple-500/50 flex items-center justify-center text-purple-400">
+        <div className="p-3 sm:p-4 bg-slate-950/90 border-b border-purple-900/60 flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-purple-950 border border-purple-500/50 flex items-center justify-center text-purple-400 shrink-0">
               <Layers size={18} />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="text-[10px] font-mono font-bold text-purple-400 uppercase tracking-widest">
                 ADE STUDIO
               </div>
-              <div className="text-sm font-bold text-white uppercase font-mono">
+              <div className="text-xs sm:text-sm font-bold text-white uppercase font-mono truncate">
                 Adventure Development &amp; VTT User Guide
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               type="button"
               onClick={() => {
@@ -210,26 +210,47 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
                 window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'story' } }));
                 onClose();
               }}
-              className="px-3 py-1.5 bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-purple-300 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5"
+              className="px-2.5 sm:px-3 py-1.5 bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-purple-300 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 shrink-0"
               title="Open in Comprehensive Master Guide"
             >
-              <span>Full System Guide</span>
+              <span className="hidden sm:inline">Full System Guide</span>
+              <span className="sm:hidden">Full</span>
               <ExternalLink size={12} />
             </button>
 
             <button
               onClick={onClose}
-              className="p-1.5 px-3 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg text-xs font-mono font-bold uppercase transition-colors border border-slate-700"
+              className="p-1.5 px-2.5 sm:px-3 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg text-xs font-mono font-bold uppercase transition-colors border border-slate-700 shrink-0"
             >
-              ✕ Close
+              ✕ <span className="hidden sm:inline">Close</span>
             </button>
           </div>
         </div>
 
+        {/* Mobile Horizontal Tabs Strip */}
+        <div className="md:hidden flex items-center gap-1.5 overflow-x-auto p-2 bg-[#090d16] border-b border-slate-800 shrink-0 custom-scrollbar scrollbar-thin">
+          {SECTIONS.map(s => (
+            <button
+              key={s.id}
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setActiveSection(s.id);
+              }}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase whitespace-nowrap shrink-0 transition-all ${
+                activeSection === s.id
+                  ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-sm'
+                  : 'text-slate-400 bg-slate-900/60 hover:text-white border border-slate-800'
+              }`}
+            >
+              <span>{s.label}</span>
+            </button>
+          ))}
+        </div>
+
         {/* 2-Pane Body */}
         <div className="flex-1 flex min-h-0 overflow-hidden">
-          {/* Left Sidebar */}
-          <div className="w-56 sm:w-64 bg-[#090d16] border-r border-slate-800 flex flex-col shrink-0">
+          {/* Left Sidebar - Hidden on mobile */}
+          <div className="hidden md:flex md:w-60 lg:w-64 bg-[#090d16] border-r border-slate-800 flex-col shrink-0">
             <nav className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
               {SECTIONS.map(s => (
                 <button
@@ -251,13 +272,13 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
           </div>
 
           {/* Right Content */}
-          <div className="flex-1 flex flex-col overflow-hidden bg-[#0a0e17]">
-            <div className="p-4 border-b border-slate-800/80 bg-slate-950/40">
-              <h2 className="text-base font-bold text-white uppercase font-mono tracking-wider">
+          <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#0a0e17]">
+            <div className="p-3 sm:p-4 border-b border-slate-800/80 bg-slate-950/40 shrink-0">
+              <h2 className="text-sm sm:text-base font-bold text-white uppercase font-mono tracking-wider truncate">
                 {SECTIONS.find(s => s.id === activeSection)?.label}
               </h2>
             </div>
-            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 custom-scrollbar min-w-0 break-words">
               {CONTENT[activeSection]}
             </div>
           </div>

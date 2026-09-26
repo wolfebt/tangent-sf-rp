@@ -85,7 +85,7 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
 
   return (
     <div 
-      className="fixed inset-0 z-[250] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 select-none animate-fadeIn"
+      className="fixed inset-0 z-[250] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto select-none animate-fadeIn"
       onClick={onClose}
     >
       <div 
@@ -122,7 +122,7 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 space-y-5 overflow-y-auto no-scrollbar flex-1 font-mono text-xs text-slate-300">
+        <div className="p-5 space-y-5 overflow-y-auto no-scrollbar flex-1 min-h-0 font-mono text-xs text-slate-300">
           {/* Live Preview Box */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase tracking-widest">

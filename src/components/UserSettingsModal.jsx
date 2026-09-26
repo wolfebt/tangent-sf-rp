@@ -287,7 +287,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="p-4 sm:px-6 bg-slate-950/90 border-b border-cyan-900/60 flex justify-between items-center">
+          <div className="p-4 sm:px-6 bg-slate-950/90 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.2)]">
                 <Settings size={16} />
@@ -313,7 +313,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           </div>
 
           {/* Modal Main Body (Tab Nav Rail + Tab Content) */}
-          <div className="flex flex-col sm:flex-row min-h-[380px] max-h-[70vh] overflow-hidden">
+          <div className="flex-1 min-h-0 flex flex-col sm:flex-row overflow-hidden">
             
             {/* Left Tab Navigation Rail */}
             <div className="w-full sm:w-52 bg-slate-950/70 border-b sm:border-b-0 sm:border-r border-slate-800 p-2 sm:p-3 flex sm:flex-col gap-1.5 shrink-0 overflow-x-auto sm:overflow-x-visible">
@@ -349,7 +349,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
             </div>
 
             {/* Right Tab Content Viewport */}
-            <div className="flex-1 p-4 sm:p-6 overflow-y-auto space-y-4 text-xs bg-[#0b0f17]/40">
+            <div className="flex-1 min-h-0 p-4 sm:p-6 overflow-y-auto space-y-4 text-xs bg-[#0b0f17]/40">
 
               {/* 1. IDENTITY & PROFILE TAB */}
               {activeTab === 'identity' && (
@@ -1018,7 +1018,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           )}
 
           {/* Footer Actions */}
-          <div className="p-4 sm:px-6 bg-slate-950/90 border-t border-cyan-900/60 flex justify-end gap-2.5">
+          <div className="p-4 sm:px-6 bg-slate-950/90 border-t border-cyan-900/60 flex justify-end gap-2.5 shrink-0">
             <button
               type="button"
               onClick={() => {

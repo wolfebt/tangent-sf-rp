@@ -91,11 +91,11 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="bg-[#0e131f] border border-cyan-500/40 w-full max-w-4xl h-[85vh] rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100 font-sans">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150">
+      <div className="bg-[#0e131f] border border-cyan-500/40 w-full max-w-4xl h-[92vh] sm:h-[85vh] max-h-[94vh] rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100 font-sans">
         
         {/* Modal Header */}
-        <div className="p-4 px-6 bg-[#0a0d15] border-b border-slate-800 flex items-center justify-between shrink-0">
+        <div className="p-3.5 sm:p-4 px-4 sm:px-6 bg-[#0a0d15] border-b border-slate-800 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-amber-400">
               <Sparkles size={18} />
@@ -206,7 +206,7 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
         )}
 
         {/* Main Gems Grid */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6 scrollbar-thin">
           {allCategories
             .filter(cat => selectedCategory === 'ALL' || selectedCategory === cat)
             .map(category => {

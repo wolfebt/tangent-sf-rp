@@ -100,11 +100,11 @@ export const ConfirmProvider = ({ children }) => {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-150 select-none font-sans"
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-4 overflow-y-auto animate-in fade-in duration-150 select-none font-sans"
           onClick={handleCancel}
         >
           <div
-            className={`w-full max-w-md bg-[#0c1018] border rounded-2xl p-6 shadow-2xl relative transition-all duration-200 ${
+            className={`w-full max-w-md max-h-[92vh] overflow-y-auto bg-[#0c1018] border rounded-2xl p-5 sm:p-6 shadow-2xl relative transition-all duration-200 ${
               config.danger 
                 ? 'border-rose-500/50 shadow-[0_0_50px_rgba(244,63,94,0.2)]' 
                 : 'border-cyan-500/40 shadow-[0_0_50px_rgba(34,211,238,0.15)]'

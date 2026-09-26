@@ -197,43 +197,43 @@ export const FolderOrganizerModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-hidden select-none font-sans">
-      <div className="bg-[#0f141c] border border-cyan-500/40 rounded-2xl w-full max-w-5xl h-[88vh] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0f141c] border border-cyan-500/40 rounded-2xl w-full max-w-5xl h-[92vh] sm:h-[88vh] max-h-[94vh] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
         
         {/* Header */}
-        <div className="px-5 py-3.5 bg-[#0a0d14] border-b border-slate-800 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-300">
+        <div className="px-4 sm:px-5 py-3 sm:py-3.5 bg-[#0a0d14] border-b border-slate-800 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shrink-0">
               <FolderOpen size={18} />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h2 className="text-sm sm:text-base font-bold text-slate-100 tracking-wide uppercase font-mono">
-                  Content Organizer & Custom Folders
+                <h2 className="text-xs sm:text-base font-bold text-slate-100 tracking-wide uppercase font-mono truncate">
+                  Content Organizer &amp; Folders
                 </h2>
-                <span className="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-[10px] font-mono text-cyan-400 font-bold">
+                <span className="px-1.5 sm:px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-[9px] sm:text-[10px] font-mono text-cyan-400 font-bold shrink-0">
                   {folders.length} FOLDERS
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
-                Organize Personas & Stories into custom lists with custom manual ordering
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate hidden sm:block">
+                Organize Personas &amp; Stories into custom lists with custom manual ordering
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* 2-Column Layout */}
-        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
           
           {/* Left Column: Folders List & Creation */}
-          <aside className="w-full md:w-72 bg-[#0c1017] border-b md:border-b-0 md:border-r border-slate-800/80 flex flex-col shrink-0">
+          <aside className="w-full md:w-72 max-h-48 md:max-h-none bg-[#0c1017] border-b md:border-b-0 md:border-r border-slate-800/80 flex flex-col shrink-0">
             <div className="p-3 border-b border-slate-800/60 flex items-center justify-between gap-2 shrink-0">
               <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-mono">
                 Folders & Lists
@@ -413,7 +413,7 @@ export const FolderOrganizerModal = ({
           </aside>
 
           {/* Right Column: Items in Folder with Custom Sorting & Folder Assignment */}
-          <main className="flex-1 flex flex-col overflow-hidden bg-[#0d1117]">
+          <main className="flex-1 min-h-0 flex flex-col overflow-hidden bg-[#0d1117]">
             
             {/* Top Toolbar inside folder view */}
             <div className="p-3 bg-[#0a0d14] border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">

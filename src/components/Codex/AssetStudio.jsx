@@ -1207,7 +1207,7 @@ export const AssetStudio = ({
   const content = (
     <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full ${
       isModal 
-        ? 'fixed inset-0 z-[200] w-screen h-screen rounded-none border-0 max-w-none max-h-none' 
+        ? 'fixed inset-0 z-[350] w-screen h-screen rounded-none border-0 max-w-none max-h-none' 
         : 'border border-slate-800/90 rounded-2xl shadow-2xl max-w-7xl mx-auto h-full'
     }`}>
       
@@ -2561,7 +2561,7 @@ export const AssetStudio = ({
       {/* Floating Rail Hover Tooltip Portal */}
       {hoveredRailItem && typeof document !== 'undefined' && createPortal(
         <div
-          className="fixed z-[300] pointer-events-none px-3 py-2 bg-slate-900/95 border border-slate-700/80 rounded-xl shadow-2xl backdrop-blur-md font-mono text-xs flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-100"
+          className="fixed z-[360] pointer-events-none px-3 py-2 bg-slate-900/95 border border-slate-700/80 rounded-xl shadow-2xl backdrop-blur-md font-mono text-xs flex flex-col gap-0.5 animate-in fade-in zoom-in-95 duration-100"
           style={{
             left: `${(hoveredRailItem.rect?.right || 0) + 12}px`,
             top: `${(hoveredRailItem.rect?.top || 0) + (hoveredRailItem.rect?.height || 0) / 2}px`,
@@ -2583,7 +2583,7 @@ export const AssetStudio = ({
 
   if (isModal) {
     return (
-      <div className="fixed inset-0 z-[200] w-screen h-screen bg-[#070a13] flex flex-col overflow-hidden select-none font-sans p-0 m-0">
+      <div className="fixed inset-0 z-[350] w-screen h-screen bg-[#070a13] flex flex-col overflow-hidden select-none font-sans p-0 m-0">
         {content}
       </div>
     );

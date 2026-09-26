@@ -69,34 +69,34 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
 
   return (
     <div 
-      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans animate-fade-in"
+      className="fixed inset-0 z-[200] flex items-center sm:items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-3 sm:pt-10 md:pt-12 pb-3 sm:pb-8 overflow-y-auto select-none font-sans animate-fade-in"
       onClick={onClose}
     >
       <div 
-        className="relative bg-[#0b0f17] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_20px_rgba(34,211,238,0.2)] w-full max-w-7xl max-h-[88vh] sm:max-h-[90vh] flex flex-col font-sans overflow-hidden text-slate-200"
+        className="relative bg-[#0b0f17] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_20px_rgba(34,211,238,0.2)] w-full max-w-7xl h-[94vh] sm:h-auto max-h-[96vh] sm:max-h-[90vh] flex flex-col font-sans overflow-hidden text-slate-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Bar */}
-        <header className="px-5 py-3.5 bg-slate-950/90 border-b border-cyan-900/60 flex items-center justify-between gap-4 shrink-0">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.3)]">
-              <BookOpen size={20} />
+        <header className="px-3.5 sm:px-5 py-2.5 sm:py-3.5 bg-slate-950/90 border-b border-cyan-900/60 flex items-center justify-between gap-3 sm:gap-4 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.3)] shrink-0">
+              <BookOpen size={18} className="sm:w-5 sm:h-5" />
             </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30">
-                  TANGENT SFF RP v2.5+
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider sm:tracking-widest px-1.5 sm:px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30 shrink-0">
+                  v2.5+
                 </span>
                 <span className="text-slate-600 hidden sm:inline">•</span>
-                <span className="text-xs text-slate-400 font-mono hidden sm:inline">OFFICIAL OPERATOR MANUAL</span>
+                <span className="text-[10px] sm:text-xs text-slate-400 font-mono hidden sm:inline">OFFICIAL OPERATOR MANUAL</span>
               </div>
-              <h2 className="text-base sm:text-lg font-extrabold tracking-wider text-white uppercase font-mono truncate">
-                Comprehensive System User Guide
+              <h2 className="text-xs sm:text-base md:text-lg font-extrabold tracking-wider text-white uppercase font-mono truncate">
+                Comprehensive User Guide
               </h2>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Quick Search */}
             <div className="relative hidden md:block">
               <input
@@ -123,7 +123,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
                 AudioService.playTerminalBeep(900, 0.02);
                 onClose();
               }}
-              className="p-1.5 px-3 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1.5"
+              className="p-1 sm:p-1.5 px-2.5 sm:px-3 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white rounded-xl text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1.5 shrink-0"
               title="Close Guide (Esc)"
             >
               <span>✕</span>
@@ -132,10 +132,36 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
           </div>
         </header>
 
-        {/* Main Body: Left App Selector Tabs + Right Content Reader */}
+        {/* Mobile Horizontal Module Tabs Strip */}
+        <div className="md:hidden flex items-center gap-1.5 overflow-x-auto p-2 bg-[#080c13] border-b border-slate-800/90 shrink-0 custom-scrollbar scrollbar-thin">
+          {GUIDE_TABS.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  setActiveTab(tab.id);
+                }}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-mono font-bold uppercase whitespace-nowrap shrink-0 transition-all ${
+                  isActive
+                    ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
+                    : 'text-slate-400 bg-slate-900/60 hover:text-white border border-slate-800'
+                }`}
+              >
+                <Icon size={13} className={isActive ? 'text-cyan-400' : 'text-slate-400'} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Main Body: Left App Selector Tabs (Desktop) + Right Content Reader */}
         <div className="flex-1 flex min-h-0 overflow-hidden">
-          {/* Left Navigation Sidebar */}
-          <aside className="w-56 sm:w-64 md:w-72 bg-[#080c13] border-r border-slate-800/90 flex flex-col shrink-0">
+          {/* Left Navigation Sidebar - Hidden on mobile, visible on md+ */}
+          <aside className="hidden md:flex md:w-64 lg:w-72 bg-[#080c13] border-r border-slate-800/90 flex-col shrink-0">
             <div className="p-3 border-b border-slate-800/80 text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 flex items-center justify-between">
               <span>Application Modules</span>
               <span className="text-cyan-400 font-mono">10 APPS</span>
@@ -196,25 +222,25 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
           {/* Right Content Area */}
           <main className="flex-1 flex flex-col h-full min-w-0 bg-[#090d16]/90 overflow-hidden">
             {/* Tab Header Banner */}
-            <div className="px-6 py-4 bg-slate-900/50 border-b border-slate-800/80 flex items-center justify-between gap-4 shrink-0">
-              <div className="flex items-center gap-3">
+            <div className="px-3.5 py-2.5 sm:px-6 sm:py-4 bg-slate-900/50 border-b border-slate-800/80 flex items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-lg"
+                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 shadow-lg"
                   style={{ background: `${activeTabMeta.color}20`, border: `1px solid ${activeTabMeta.color}60`, color: activeTabMeta.color }}
                 >
-                  <TabIcon size={22} />
+                  <TabIcon size={18} className="sm:w-5 sm:h-5" />
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
                     <span 
-                      className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded"
+                      className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded truncate"
                       style={{ background: `${activeTabMeta.color}15`, color: activeTabMeta.color }}
                     >
                       {activeTabMeta.badge}
                     </span>
-                    <span className="text-xs text-slate-400 font-mono">Documentation & Function Breakdown</span>
+                    <span className="text-[10px] sm:text-xs text-slate-400 font-mono hidden sm:inline">Documentation &amp; Function Breakdown</span>
                   </div>
-                  <h1 className="text-xl font-extrabold font-mono uppercase tracking-wider text-white mt-0.5">
+                  <h1 className="text-sm sm:text-lg md:text-xl font-extrabold font-mono uppercase tracking-wider text-white mt-0.5 truncate">
                     {activeTabMeta.label}
                   </h1>
                 </div>
@@ -223,7 +249,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
               <button
                 type="button"
                 onClick={() => handleCopy(window.location.origin + '#' + activeTab, 'share-link')}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-xs font-mono font-bold transition-colors"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/60 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-xs font-mono font-bold transition-colors shrink-0"
                 title="Copy Reference Link"
               >
                 {copiedSnippet === 'share-link' ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
@@ -232,7 +258,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
             </div>
 
             {/* Scrollable Documentation Content */}
-            <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-8 custom-scrollbar text-slate-300 text-sm leading-relaxed">
+            <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 md:p-8 space-y-6 sm:space-y-8 custom-scrollbar text-slate-300 text-xs sm:text-sm leading-relaxed min-w-0 break-words">
               {activeTab === 'hub' && <HubGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
               {activeTab === 'folio' && <FolioGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}
               {activeTab === 'dbm' && <DbmGuideSection onCopy={handleCopy} copiedSnippet={copiedSnippet} />}

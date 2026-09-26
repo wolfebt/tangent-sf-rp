@@ -151,7 +151,7 @@ const SocialDispositionModal = ({
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fadeIn">
       <div className="bg-[#131722] border border-cyan-500/70 rounded-xl p-5 w-full max-w-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40">
+        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-lg bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-2xl shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               🎭
@@ -173,6 +173,9 @@ const SocialDispositionModal = ({
             ×
           </button>
         </div>
+
+        {/* Scrollable Body */}
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-1">
 
         {/* Actor Selectors Bar */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -356,6 +359,18 @@ const SocialDispositionModal = ({
             <p className="text-[11px] text-slate-300">{lastCheckResult.shift.shiftReason}</p>
           </div>
         )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end pt-2 border-t border-slate-800 shrink-0">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded transition-colors cursor-pointer"
+          >
+            Close Matrix
+          </button>
+        </div>
       </div>
     </div>
   );

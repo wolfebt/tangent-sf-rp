@@ -104,7 +104,7 @@ const SkillChallengeModal = ({
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fadeIn">
       <div className="bg-[#121622] border border-emerald-500/70 rounded-xl p-5 w-full max-w-2xl shadow-[0_0_50px_rgba(16,185,129,0.3)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center pb-3 border-b border-emerald-500/40">
+        <div className="flex justify-between items-center pb-3 border-b border-emerald-500/40 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-lg bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-center text-2xl shadow-[0_0_15px_rgba(16,185,129,0.3)]">
               {activeChallenge.icon}
@@ -131,6 +131,9 @@ const SkillChallengeModal = ({
             ×
           </button>
         </div>
+
+        {/* Scrollable Body */}
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-1">
 
         {/* Preset Selector & Reset */}
         <div className="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs">
@@ -305,9 +308,10 @@ const SkillChallengeModal = ({
             ))
           )}
         </div>
+        </div>
 
         {/* Footer */}
-        <div className="flex justify-end pt-2 border-t border-slate-800">
+        <div className="flex justify-end pt-2 border-t border-slate-800 shrink-0">
           <button
             type="button"
             onClick={onClose}

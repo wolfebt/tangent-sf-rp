@@ -86,7 +86,7 @@ const CyberDeckModal = ({
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fadeIn">
       <div className="bg-[#0e131d] border border-cyan-500/70 rounded-xl p-5 w-full max-w-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40">
+        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-lg bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-2xl shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               💻
@@ -115,7 +115,7 @@ const CyberDeckModal = ({
         </div>
 
         {/* Tab Selector */}
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
+        <div className="flex items-center gap-2 border-b border-slate-800 pb-2 shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab('intrusion')}
@@ -142,7 +142,7 @@ const CyberDeckModal = ({
 
         {/* Tab 1: Live Intrusion Grid */}
         {activeTab === 'intrusion' && (
-          <div className="flex flex-col gap-3">
+          <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-1">
             {/* Target Node Selector Bar */}
             <div className="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs">
               <div className="flex items-center gap-2 flex-1">
@@ -261,7 +261,7 @@ const CyberDeckModal = ({
 
         {/* Tab 2: Encrypted Data-Slates */}
         {activeTab === 'slates' && (
-          <div className="flex flex-col gap-3 overflow-y-auto max-h-[420px] pr-1">
+          <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pr-1">
             {CANONICAL_DATA_SLATES.map(slate => {
               const isDecrypted = Boolean(decryptedSlates[slate.id]);
 
@@ -306,7 +306,7 @@ const CyberDeckModal = ({
         )}
 
         {/* Footer */}
-        <div className="flex justify-end pt-2 border-t border-slate-800">
+        <div className="flex justify-end pt-2 border-t border-slate-800 shrink-0">
           <button
             type="button"
             onClick={onClose}

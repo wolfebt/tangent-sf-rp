@@ -91,50 +91,50 @@ export default function ScratchbookModal({ isOpen, onClose, beats = [] }) {
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150 select-none">
-      <div className="bg-[#0b0f19] border border-cyan-500/40 w-full max-w-5xl h-[88vh] rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100 font-sans">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150 select-none">
+      <div className="bg-[#0b0f19] border border-cyan-500/40 w-full max-w-5xl h-[92vh] sm:h-[88vh] max-h-[94vh] rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100 font-sans">
         
         {/* Header Bar */}
-        <div className="p-4 px-6 bg-[#080c14] border-b border-slate-800 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-amber-950/80 border border-amber-500/40 flex items-center justify-center text-amber-400">
+        <div className="p-3.5 sm:p-4 px-4 sm:px-6 bg-[#080c14] border-b border-slate-800 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-amber-950/80 border border-amber-500/40 flex items-center justify-center text-amber-400 shrink-0">
               <BookOpen size={18} />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h2 className="text-base font-bold text-amber-300 uppercase tracking-wider font-mono">
+                <h2 className="text-xs sm:text-base font-bold text-amber-300 uppercase tracking-wider font-mono truncate">
                   {universeState?.projectName || 'Project'} Scratchbook
                 </h2>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-mono font-bold">
-                  {elementsUsed.length} Elements Used
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-mono font-bold shrink-0">
+                  {elementsUsed.length} Elements
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate hidden sm:block">
                 Single source of truth documenting ongoing story lore, scenarios, and components for AI reference.
               </p>
             </div>
           </div>
 
           {/* Actions & Close */}
-          <div className="flex items-center gap-2 font-mono text-xs">
+          <div className="flex items-center gap-2 font-mono text-xs shrink-0">
             <button
               type="button"
               onClick={handleCopy}
-              className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer transition-colors"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 hover:text-white flex items-center gap-1.5 cursor-pointer transition-colors"
               title="Copy full Scratchbook Markdown to clipboard"
             >
               {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-              <span>{copied ? 'Copied!' : 'Copy MD'}</span>
+              <span className="hidden sm:inline">{copied ? 'Copied!' : 'Copy MD'}</span>
             </button>
 
             <button
               type="button"
               onClick={handleDownload}
-              className="px-3 py-1.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 hover:text-white flex items-center gap-1.5 cursor-pointer transition-colors shadow-sm"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 hover:text-white flex items-center gap-1.5 cursor-pointer transition-colors shadow-sm"
               title="Download Scratchbook as Markdown file"
             >
               <Download size={13} />
-              <span>Download .md</span>
+              <span className="hidden sm:inline">Download .md</span>
             </button>
 
             <button
@@ -148,7 +148,7 @@ export default function ScratchbookModal({ isOpen, onClose, beats = [] }) {
         </div>
 
         {/* Workspace Navigation Tabs */}
-        <div className="px-6 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between gap-3 shrink-0">
+        <div className="px-3 sm:px-6 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between gap-3 shrink-0 overflow-x-auto scrollbar-thin">
           <div className="flex items-center gap-1">
             <button
               type="button"
@@ -196,7 +196,7 @@ export default function ScratchbookModal({ isOpen, onClose, beats = [] }) {
         </div>
 
         {/* Tab Viewport */}
-        <div className="flex-1 overflow-hidden p-6 relative">
+        <div className="flex-1 min-h-0 overflow-hidden p-3.5 sm:p-6 relative">
           
           {/* VIEW 1: FULL SCRATCHBOOK MARKDOWN */}
           {activeTab === 'doc' && (

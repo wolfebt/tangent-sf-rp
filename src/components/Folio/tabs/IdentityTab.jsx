@@ -460,11 +460,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const speciesAllocationMetrics = useMemo(() => {
     if (!selectedSpecies) return null;
     const bonusAttrPoints = parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 0, 10);
-    const bonusTraitChoices = extractNameList(selectedSpecies.bonus_trait_choices || selectedSpecies.recommended_traits || selectedSpecies.traits);
+    const bonusTraitChoices = extractNameList(selectedSpecies.bonus_trait_choices || selectedSpecies.recommended_traits);
     const bonusFeatureChoices = extractNameList(selectedSpecies.bonus_feature_choices || selectedSpecies.recommended_features);
     const bonusSkillChoices = extractNameList(selectedSpecies.bonus_skill_choices);
-    const maxTraits = parseInt(selectedSpecies.bonus_traits || (bonusTraitChoices.length > 0 ? 1 : 0), 10);
-    const maxFeats = parseInt(selectedSpecies.bonus_features || (bonusFeatureChoices.length > 0 ? 1 : 0), 10);
+    const maxTraits = parseInt(selectedSpecies.bonus_traits || (Array.isArray(selectedSpecies.bonus_trait_choices) && selectedSpecies.bonus_trait_choices.length > 0 ? 1 : 0), 10);
+    const maxFeats = parseInt(selectedSpecies.bonus_features || (Array.isArray(selectedSpecies.bonus_feature_choices) && selectedSpecies.bonus_feature_choices.length > 0 ? 1 : 0), 10);
     const speciesSkillSP = parseInt(selectedSpecies.bonus_skills || selectedSpecies.bonus_skill_points || 0, 10);
 
     const allocatedAttrsCount = Object.values(characterData.speciesAllocations?.attributes || {}).reduce((acc, v) => acc + (Number(v) || 0), 0);
@@ -478,6 +478,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const pendingSP = speciesSkillSP > 0 && allocatedSPCount < speciesSkillSP;
 
     const isComplete = !pendingAttrs && !pendingTraits && !pendingFeats && !pendingSP;
+    const hasAllocations = bonusAttrPoints > 0 || maxTraits > 0 || maxFeats > 0 || speciesSkillSP > 0;
 
     return {
       bonusAttrPoints,
@@ -488,6 +489,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       allocatedFeaturesCount,
       speciesSkillSP,
       allocatedSPCount,
+      hasAllocations,
       isComplete,
       hasPending: !isComplete
     };
@@ -759,17 +761,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
         {/* Empty State when Expanded without Archetype Selected */}
         {isExpanded && !selectedArchetype && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
-            <span>No Archetype selected yet. Choose an archetype from the quick selector or browse the catalog.</span>
-            {!isSheetLocked && onOpenSelectorModal && (
-              <button
-                type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
-                className="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/60 text-amber-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
-              >
-                Browse Catalog
-              </button>
-            )}
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
+            <span>No Archetype selected yet. Choose an archetype from the quick selector or catalog.</span>
           </div>
         )}
 
@@ -971,10 +964,10 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const inherentTraitsList = getInherentSpeciesTraits(selectedSpecies);
     const inherentFeatures = extractNameList(selectedSpecies?.inherent_features);
     const bonusFeatureChoices = extractNameList(selectedSpecies?.bonus_feature_choices || selectedSpecies?.recommended_features);
-    const bonusTraitChoices = extractNameList(selectedSpecies?.bonus_trait_choices || selectedSpecies?.recommended_traits || selectedSpecies?.traits);
+    const bonusTraitChoices = extractNameList(selectedSpecies?.bonus_trait_choices || selectedSpecies?.recommended_traits);
     const bonusSkillChoices = extractNameList(selectedSpecies?.bonus_skill_choices);
-    const maxTraits = parseInt(selectedSpecies?.bonus_traits || (bonusTraitChoices.length > 0 ? 1 : 0), 10);
-    const maxFeats = parseInt(selectedSpecies?.bonus_features || (bonusFeatureChoices.length > 0 ? 1 : 0), 10);
+    const maxTraits = parseInt(selectedSpecies?.bonus_traits || (Array.isArray(selectedSpecies?.bonus_trait_choices) && selectedSpecies?.bonus_trait_choices.length > 0 ? 1 : 0), 10);
+    const maxFeats = parseInt(selectedSpecies?.bonus_features || (Array.isArray(selectedSpecies?.bonus_feature_choices) && selectedSpecies?.bonus_feature_choices.length > 0 ? 1 : 0), 10);
     const attrMods = Array.isArray(selectedSpecies?.inherent_attribute_modifiers) ? selectedSpecies.inherent_attribute_modifiers : [];
     const skillBonuses = Array.isArray(selectedSpecies?.specific_skill_bonuses) ? selectedSpecies.specific_skill_bonuses : [];
     const speciesCost = economyBreakdown?.speciesCostBreakdown || (selectedSpecies ? calculateFullSpeciesCost?.(selectedSpecies, dbOptions) : null);
@@ -1140,17 +1133,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
         {/* Empty State when Expanded without Species Selected */}
         {isExpanded && !selectedSpecies && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
-            <span>No Species selected yet. Choose a species from the quick selector or browse the catalog.</span>
-            {!isSheetLocked && onOpenSelectorModal && (
-              <button
-                type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
-                className="px-2.5 py-1 rounded bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/60 text-cyan-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
-              >
-                Browse Catalog
-              </button>
-            )}
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
+            <span>No Species selected yet. Choose a species from the quick selector or catalog.</span>
           </div>
         )}
 
@@ -1158,7 +1142,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         {selectedSpecies && isExpanded && (
           <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
             {/* Real-time Allocation Overview Bar */}
-            {speciesAllocationMetrics && (
+            {speciesAllocationMetrics?.hasAllocations && (
               <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-cyan-500/30 font-mono text-xs">
                 <div className="flex items-center gap-1.5 text-cyan-300 font-bold uppercase">
                   <span>🧬</span>
@@ -1207,6 +1191,76 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     </span>
                   )}
                 </div>
+              </div>
+            )}
+
+            {/* Interactive Species Allocation Suite Workbench */}
+            {speciesAllocationMetrics?.hasAllocations && (
+              <div className="space-y-4">
+                {/* Interactive Species Skill Choices Rank Pulldown */}
+                {speciesSkillSP > 0 && (
+                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                    <SkillPoolRankPulldown
+                      title="Species Skill Point Pool"
+                      categoryLabel="Species Skill"
+                      maxSP={speciesSkillSP}
+                      allocatedSkills={characterData.speciesAllocations?.skills || {}}
+                      recommendedSkills={bonusSkillChoices}
+                      allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
+                      onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, newRank, delta, speciesSkillSP)}
+                      onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, 0, 0, speciesSkillSP)}
+                      colorTheme="cyan"
+                    />
+                  </div>
+                )}
+
+                {/* Interactive Species Bonus Attribute Pool */}
+                {(selectedSpecies.bonus_attribute_points > 0 || selectedSpecies.bonus_attribute_choices > 0 || (Array.isArray(selectedSpecies.bonus_attribute_options) && selectedSpecies.bonus_attribute_options.length > 0)) && (
+                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                    <AttributePoolPulldown
+                      title="Species Bonus Attribute Pool"
+                      maxPoints={parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10)}
+                      allocatedAttrs={characterData.speciesAllocations?.attributes || {}}
+                      onAllocate={(attrId, delta) => allocatePoolAttribute && allocatePoolAttribute('speciesAllocations', attrId, delta, parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10))}
+                      allowedOptions={selectedSpecies.bonus_attribute_options}
+                      colorTheme="cyan"
+                    />
+                  </div>
+                )}
+
+                {/* Interactive Species Trait Choices Multiselect Pulldown */}
+                {maxTraits > 0 && (
+                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                    <TraitMultiselectPulldown
+                      title="Species Trait Choices Pool"
+                      categoryLabel="Species Trait"
+                      maxSelectable={maxTraits}
+                      selectedTraits={characterData.speciesAllocations?.traits || []}
+                      recommendedTraits={bonusTraitChoices}
+                      allTraits={allCanonicalAndDbTraits}
+                      onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, maxTraits)}
+                      onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
+                      colorTheme="cyan"
+                    />
+                  </div>
+                )}
+
+                {/* Interactive Species Feature Choices Multiselect Pulldown */}
+                {maxFeats > 0 && (
+                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                    <FeatureMultiselectPulldown
+                      title="Species Feature Choices Pool"
+                      categoryLabel="Species Feature"
+                      maxSelectable={maxFeats}
+                      selectedFeatures={characterData.speciesAllocations?.features || []}
+                      recommendedFeatures={bonusFeatureChoices}
+                      allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
+                      onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('speciesAllocations', fName, fObj, maxFeats)}
+                      onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('speciesAllocations', fName)}
+                      colorTheme="cyan"
+                    />
+                  </div>
+                )}
               </div>
             )}
 
@@ -1384,77 +1438,6 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     {selectedSpecies.description}
                   </p>
                 )}
-              </div>
-
-              {/* Right Panel: Allocation Suite Workbench */}
-              <div className="space-y-4 pt-2 border-t border-cyan-900/40">
-                {/* Interactive Species Bonus Attribute Pool */}
-                {(selectedSpecies.bonus_attribute_points > 0 || selectedSpecies.bonus_attribute_choices > 0 || (Array.isArray(selectedSpecies.bonus_attribute_options) && selectedSpecies.bonus_attribute_options.length > 0)) && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                    <AttributePoolPulldown
-                      title="Species Bonus Attribute Pool"
-                      maxPoints={parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10)}
-                      allocatedAttrs={characterData.speciesAllocations?.attributes || {}}
-                      onAllocate={(attrId, delta) => allocatePoolAttribute && allocatePoolAttribute('speciesAllocations', attrId, delta, parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10))}
-                      allowedOptions={selectedSpecies.bonus_attribute_options}
-                      colorTheme="cyan"
-                    />
-                  </div>
-                )}
-
-                {/* Interactive Species Trait Choices Multiselect Pulldown */}
-                {(bonusTraitChoices.length > 0 || maxTraits > 0) && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                    <TraitMultiselectPulldown
-                      title="Species Trait Choices Pool"
-                      categoryLabel="Species Trait"
-                      maxSelectable={maxTraits}
-                      selectedTraits={characterData.speciesAllocations?.traits || []}
-                      recommendedTraits={bonusTraitChoices}
-                      allTraits={allCanonicalAndDbTraits}
-                      onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, maxTraits)}
-                      onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
-                      colorTheme="cyan"
-                    />
-                  </div>
-                )}
-
-                {/* Interactive Species Feature Choices Multiselect Pulldown */}
-                {(bonusFeatureChoices.length > 0 && maxFeats > 0) && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                    <FeatureMultiselectPulldown
-                      title="Species Feature Choices Pool"
-                      categoryLabel="Species Feature"
-                      maxSelectable={maxFeats}
-                      selectedFeatures={characterData.speciesAllocations?.features || []}
-                      recommendedFeatures={bonusFeatureChoices}
-                      allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
-                      onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('speciesAllocations', fName, fObj, maxFeats)}
-                      onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('speciesAllocations', fName)}
-                      colorTheme="cyan"
-                    />
-                  </div>
-                )}
-
-                {/* Interactive Species Skill Choices Rank Pulldown */}
-                {(() => {
-                  if (bonusSkillChoices.length === 0 || speciesSkillSP <= 0) return null;
-                  return (
-                    <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                      <SkillPoolRankPulldown
-                        title="Species Skill Point Pool"
-                        categoryLabel="Species Skill"
-                        maxSP={speciesSkillSP}
-                        allocatedSkills={characterData.speciesAllocations?.skills || {}}
-                        recommendedSkills={bonusSkillChoices}
-                        allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
-                        onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, newRank, delta, speciesSkillSP)}
-                        onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, 0, 0, speciesSkillSP)}
-                        colorTheme="cyan"
-                      />
-                    </div>
-                  );
-                })()}
               </div>
             </div>
           </div>
@@ -1648,17 +1631,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
         {/* Empty State when Expanded without Occupation Selected */}
         {isExpanded && !selectedOccupation && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
-            <span>No Occupation selected yet. Choose an occupation from the quick selector or browse the catalog.</span>
-            {!isSheetLocked && onOpenSelectorModal && (
-              <button
-                type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
-                className="px-2.5 py-1 rounded bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/60 text-sky-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
-              >
-                Browse Catalog
-              </button>
-            )}
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
+            <span>No Occupation selected yet. Choose an occupation from the quick selector or catalog.</span>
           </div>
         )}
 
@@ -1983,17 +1957,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
         {/* Empty State when Expanded without Origin Selected */}
         {isExpanded && !selectedOrigin && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
-            <span>No Origin selected yet. Choose an origin from the quick selector or browse the catalog.</span>
-            {!isSheetLocked && onOpenSelectorModal && (
-              <button
-                type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
-                className="px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/60 text-emerald-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
-              >
-                Browse Catalog
-              </button>
-            )}
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
+            <span>No Origin selected yet. Choose an origin from the quick selector or catalog.</span>
           </div>
         )}
 
@@ -2293,17 +2258,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
         {/* Empty State when Expanded without Faction Selected */}
         {isExpanded && !selectedFaction && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
-            <span>No Faction selected yet. Choose a faction from the quick selector or browse the catalog.</span>
-            {!isSheetLocked && onOpenSelectorModal && (
-              <button
-                type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
-                className="px-2.5 py-1 rounded bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/60 text-purple-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
-              >
-                Browse Catalog
-              </button>
-            )}
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
+            <span>No Faction selected yet. Choose a faction from the quick selector or catalog.</span>
           </div>
         )}
 

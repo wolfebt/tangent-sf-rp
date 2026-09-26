@@ -53,7 +53,7 @@ const GalaxyStarmapModal = ({
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fadeIn">
       <div className="bg-[#0b101b] border border-cyan-500/70 rounded-xl p-5 w-full max-w-4xl shadow-[0_0_50px_rgba(6,182,212,0.3)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Header */}
-        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40">
+        <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-lg bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-2xl shadow-[0_0_15px_rgba(6,182,212,0.3)]">
               🌌
@@ -81,6 +81,9 @@ const GalaxyStarmapModal = ({
           </button>
         </div>
 
+        {/* Scrollable Body */}
+        <div className="flex-1 min-h-0 overflow-y-auto space-y-4 pr-1">
+
         {/* Sector Switcher Bar */}
         <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-xs">
           <span className="text-[10px] uppercase font-bold text-slate-400">Sector Region:</span>
@@ -103,7 +106,7 @@ const GalaxyStarmapModal = ({
         </div>
 
         {/* Main Content Layout: Starmap Canvas (Left) + System Dossier (Right) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Starmap Interactive 2D Parsec Grid Canvas */}
           <div className="md:col-span-2 bg-[#050811] rounded-xl border border-cyan-900/80 p-3 relative h-[360px] overflow-hidden flex flex-col justify-between shadow-inner">
             {/* Background Grid Lines & Nebulae */}
@@ -274,9 +277,10 @@ const GalaxyStarmapModal = ({
             )}
           </div>
         </div>
+        </div>
 
         {/* Footer */}
-        <div className="flex justify-end pt-2 border-t border-slate-800">
+        <div className="flex justify-end pt-2 border-t border-slate-800 shrink-0">
           <button
             type="button"
             onClick={onClose}
