@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { useFolio } from './FolioContext';
 import { ChatService, DEFAULT_PUBLIC_CHANNELS } from '../services/chatService';
@@ -39,7 +40,60 @@ export const ChatProvider = ({ children }) => {
   const [activeNavTab, setActiveNavTab] = useState('matrix'); // 'matrix' | 'roster' | 'teams' | 'vtt' | 'logs' | 'settings'
   const [broadcastToVtt, setBroadcastToVtt] = useState(false);
 
-  // Decoupled persona selection: support ad-hoc operative picking without globally forcing active character
+  // New operator logins & unseen message notifications
+  const location = useLocation();
+  const [hasNewOperatorLogins, setHasNewOperatorLogins] = useState(false);
+  const [newOperatorLogins, setNewOperatorLogins] = useState([]);
+  const knownOnlineUidsRef = useRef(new Set());
+  const initialPresenceReceivedRef = useRef(false);
+
+  const [lastReadTimestamps, setLastReadTimestamps] = useState(() => {
+    try {
+      const raw = localStorage.getItem('tangent_channel_last_read');
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const markChannelAsRead = useCallback((channelId) => {
+    if (!channelId) return;
+    const now = Date.now();
+    setLastReadTimestamps(prev => {
+      const next = { ...prev, [channelId]: now };
+      try {
+        localStorage.setItem('tangent_channel_last_read', JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+    setUnreadCounts(prev => {
+      if (!prev[channelId]) return prev;
+      const next = { ...prev };
+      delete next[channelId];
+      return next;
+    });
+  }, []);
+
+  const clearNewOperatorLogins = useCallback(() => {
+    setHasNewOperatorLogins(false);
+    setNewOperatorLogins([]);
+  }, []);
+
+  // When on comms and activeChannelId changes or on route enter, mark active channel as read
+  useEffect(() => {
+    if (location.pathname.startsWith('/comms') && activeChannelId) {
+      markChannelAsRead(activeChannelId);
+    }
+  }, [location.pathname, activeChannelId, markChannelAsRead]);
+
+  // When viewing Roster tab in comms, automatically clear operator login notification
+  useEffect(() => {
+    if (activeNavTab === 'roster' && hasNewOperatorLogins) {
+      clearNewOperatorLogins();
+    }
+  }, [activeNavTab, hasNewOperatorLogins, clearNewOperatorLogins]);
+
+  // Decoupled persona selection: support ad-hoc persona picking without globally forcing active character
   useEffect(() => {
     if (folioActivePersona) {
       setSelectedPersona(folioActivePersona);
@@ -145,17 +199,75 @@ export const ChatProvider = ({ children }) => {
         }
       });
       setChannels(combined);
+
+      // Reconcile unseen messages across channels using lastMessage timestamps
+      setUnreadCounts(prev => {
+        const next = { ...prev };
+        const isOnComms = typeof window !== 'undefined' && 
+          window.location.pathname.startsWith('/comms') && 
+          document.visibilityState === 'visible';
+
+        combined.forEach(ch => {
+          if (ch.id === activeChannelId && isOnComms) {
+            delete next[ch.id];
+            return;
+          }
+
+          if (ch.lastMessage && ch.lastMessage.timestamp) {
+            const msgTime = new Date(ch.lastMessage.timestamp).getTime();
+            const lastRead = lastReadTimestamps[ch.id] || 0;
+            const isOwn = currentUser && ch.lastMessage.senderId === currentUser.uid;
+
+            if (!isOwn && msgTime > lastRead) {
+              next[ch.id] = (next[ch.id] || 0) > 0 ? next[ch.id] : 1;
+            }
+          }
+        });
+
+        return next;
+      });
     });
 
     return () => {
       if (unsubscribe) unsubscribe();
     };
-  }, [currentUser]);
+  }, [currentUser, activeChannelId, lastReadTimestamps]);
 
-  // Real-time listener for entire network directory and presence
+  // Real-time listener for entire network directory and presence (detects new operator logins)
   useEffect(() => {
     const unsubscribe = ChatService.subscribeToUsersPresence(currentUser?.uid, (users) => {
       setUserDirectory(users);
+
+      const onlineUsers = (users || []).filter(u => ChatService.isUserOnline(u));
+      const currentOnlineUids = new Set(onlineUsers.map(u => u.uid));
+
+      if (!initialPresenceReceivedRef.current) {
+        initialPresenceReceivedRef.current = true;
+        knownOnlineUsersRef.current = currentOnlineUids;
+      } else {
+        // Detect newly online users other than local operator
+        const newlyOnline = onlineUsers.filter(u => 
+          u.uid !== currentUser?.uid && !knownOnlineUsersRef.current.has(u.uid)
+        );
+
+        if (newlyOnline.length > 0) {
+          setNewOperatorLogins(prev => {
+            const existingUids = new Set(prev.map(p => p.uid));
+            const additions = newlyOnline.filter(u => !existingUids.has(u.uid)).map(u => ({
+              uid: u.uid,
+              userHandle: getEffectiveUserHandle(u),
+              displayName: u.displayName || u.userHandle || 'Operator',
+              characters: u.characters || [],
+              loginTime: new Date().toISOString()
+            }));
+            return [...prev, ...additions];
+          });
+          setHasNewOperatorLogins(true);
+          AudioService.playTerminalBeep(1600, 0.04);
+        }
+
+        knownOnlineUsersRef.current = currentOnlineUids;
+      }
     });
 
     return () => {
@@ -180,27 +292,35 @@ export const ChatProvider = ({ children }) => {
       setMessages(newMessages);
       setLoadingMessages(false);
 
-      // Play subtle chirp if a new message arrives and it's not our own
       if (newMessages.length > 0) {
         const lastMsg = newMessages[newMessages.length - 1];
-        if (currentUser && lastMsg.senderId && lastMsg.senderId !== currentUser.uid) {
+        const isNotOwn = currentUser && lastMsg.senderId && lastMsg.senderId !== currentUser.uid;
+
+        // Play subtle chirp if a new message arrives and it's not our own
+        if (isNotOwn) {
           AudioService.playTerminalBeep(1350, 0.03);
         }
-      }
-    });
 
-    // Reset unread count for the active channel
-    setUnreadCounts(prev => {
-      if (!prev[activeChannelId]) return prev;
-      const next = { ...prev };
-      delete next[activeChannelId];
-      return next;
+        // If user is not currently viewing Comms or window is in background, track message as unseen
+        const isViewing = typeof window !== 'undefined' && 
+          window.location.pathname.startsWith('/comms') && 
+          document.visibilityState === 'visible';
+
+        if (!isViewing && isNotOwn) {
+          setUnreadCounts(prev => ({
+            ...prev,
+            [activeChannelId]: (prev[activeChannelId] || 0) + 1
+          }));
+        } else if (isViewing) {
+          markChannelAsRead(activeChannelId);
+        }
+      }
     });
 
     return () => {
       if (unsubscribe) unsubscribe();
     };
-  }, [activeChannelId, currentUser]);
+  }, [activeChannelId, currentUser, markChannelAsRead]);
 
   const activeChannel = useMemo(() => {
     return channels.find(c => c.id === activeChannelId) || DEFAULT_PUBLIC_CHANNELS[0];
@@ -214,7 +334,7 @@ export const ChatProvider = ({ children }) => {
     return channels.filter(c => c.type === 'direct' || c.id.startsWith('dm_'));
   }, [channels]);
 
-  // Separate Direct Comms: Player Operator Channels (OOC) vs. Character Operative Channels (IC)
+  // Separate Direct Comms: Player Operator Channels (OOC) vs. Persona Channels (IC)
   const playerDirectChannels = useMemo(() => {
     const list = channels.filter(c => 
       (c.type === 'direct' || c.id.startsWith('dm_')) && 
@@ -269,7 +389,7 @@ export const ChatProvider = ({ children }) => {
       const isPlayer = chan.recipientType === 'player' || (chan.id.startsWith('dm_') && !isChar);
 
       if (isChar) {
-        const charName = chan.targetPersona?.name || chan.displayName?.replace(/^🎭\s*/, '') || 'Operative';
+        const charName = chan.targetPersona?.name || chan.displayName?.replace(/^🎭\s*/, '') || 'Persona';
         notes.push({
           channelId: chanId,
           type: 'character',
@@ -473,6 +593,8 @@ export const ChatProvider = ({ children }) => {
     return Object.values(unreadCounts).reduce((sum, c) => sum + (c || 0), 0);
   }, [unreadCounts]);
 
+  const hasUnseenMessages = totalUnreadCount > 0;
+
   const toggleCommsDock = useCallback(() => {
     setIsCommsDockOpen(prev => !prev);
   }, []);
@@ -480,12 +602,8 @@ export const ChatProvider = ({ children }) => {
   const selectChannel = useCallback((channelId) => {
     AudioService.playTerminalBeep(1100, 0.02);
     setActiveChannelId(channelId);
-    setUnreadCounts(prev => {
-      const next = { ...prev };
-      delete next[channelId];
-      return next;
-    });
-  }, []);
+    markChannelAsRead(channelId);
+  }, [markChannelAsRead]);
 
   // Send a dice roll transmission to the active or specified channel
   const sendDiceRoll = useCallback(async (diceRollData, targetChannelId = null) => {
@@ -507,7 +625,7 @@ export const ChatProvider = ({ children }) => {
       broadcastToVtt: Boolean(broadcastToVtt),
       personaDetails: isIC ? {
         id: selectedPersona['character-doc-id'] || selectedPersona.id,
-        name: selectedPersona['char-name'] || selectedPersona.name || 'Operative',
+        name: selectedPersona['char-name'] || selectedPersona.name || 'Persona',
         species: selectedPersona['char-species'] || selectedPersona.species || 'Human',
         role: selectedPersona['char-concept'] || selectedPersona.role || selectedPersona['char-occu'] || 'Specialist'
       } : null,
@@ -526,12 +644,19 @@ export const ChatProvider = ({ children }) => {
     await ChatService.sendMessage(channelId, payload);
   }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona, broadcastToVtt]);
 
-  // Send a regular or In-Character text transmission with RPG command support
   const sendMessage = useCallback(async (text, customPayload = {}) => {
-    if (!text && !customPayload.metadata && !customPayload.summary) return;
-    if (!activeChannelId) return;
+    let rawText = text;
+    let extra = customPayload;
+    if (typeof text === 'object' && text !== null) {
+      rawText = text.text || text.content || '';
+      extra = { ...text, ...customPayload };
+    }
 
-    const trimmed = (text || '').trim();
+    if (!rawText && !extra.metadata && !extra.summary) return;
+    const targetChannelId = extra.channelId || activeChannelId;
+    if (!targetChannelId) return;
+
+    const trimmed = (typeof rawText === 'string' ? rawText : '').trim();
 
     // 1. RPG command: /roll or /r
     if (trimmed.startsWith('/roll ') || trimmed.startsWith('/r ') || trimmed === '/roll' || trimmed === '/r') {
@@ -571,7 +696,7 @@ export const ChatProvider = ({ children }) => {
       broadcastToVtt: Boolean(broadcastToVtt),
       personaDetails: isIC ? {
         id: activeP['character-doc-id'] || activeP.id,
-        name: activeP['char-name'] || activeP.name || activeP.identity?.name || 'Operative',
+        name: activeP['char-name'] || activeP.name || activeP.identity?.name || 'Persona',
         species: activeP['char-species'] || activeP.species || activeP.identity?.species || 'Human',
         role: activeP['char-concept'] || activeP.role || activeP['char-occu'] || activeP.identity?.role || 'Specialist',
         avatar: activeP.avatar || null,
@@ -584,7 +709,7 @@ export const ChatProvider = ({ children }) => {
     };
 
     AudioService.playTerminalBeep(1450, 0.02);
-    await ChatService.sendMessage(activeChannelId, payload);
+    await ChatService.sendMessage(targetChannelId, payload);
   }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona, sendDiceRoll, broadcastToVtt]);
 
   // Start or open a 1-on-1 Direct Message with target user (and optional specific persona)
@@ -685,6 +810,14 @@ export const ChatProvider = ({ children }) => {
     toggleCommsDock,
     unreadCounts,
     totalUnreadCount,
+    hasUnseenMessages,
+    hasNewOperatorLogins,
+    newOperatorLogins,
+    clearNewOperatorLogins,
+    hasNewOperativeLogins: hasNewOperatorLogins,
+    newOperativeLogins: newOperatorLogins,
+    clearNewOperativeLogins: clearNewOperatorLogins,
+    markChannelAsRead,
     userDirectory: effectiveUserDirectory,
     refreshUserDirectory,
     speakingMode,

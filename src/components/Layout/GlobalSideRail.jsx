@@ -38,7 +38,13 @@ export const GlobalSideRail = () => {
   const dbData = dbContext.dbData || {};
   const { universeState, mapsCatalog } = useStory() || {};
   const { groups = [], pendingInvites = [] } = useGroup() || {};
-  const { totalUnreadCount = 0 } = useChat() || {};
+  const { 
+    totalUnreadCount = 0, 
+    hasUnseenMessages = false,
+    hasNewOperatorLogins = false, 
+    newOperatorLogins = [], 
+    clearNewOperatorLogins 
+  } = useChat() || {};
 
   // Badge calculations
   const heroCount = Array.isArray(personaRoster) && personaRoster.length > 0 
@@ -159,13 +165,30 @@ export const GlobalSideRail = () => {
     {
       id: 'comms',
       label: 'COMMS',
-      sublabel: 'CommLink Relay & Voice Channels',
+      sublabel: hasNewOperatorLogins
+        ? `Operator Online: ${newOperatorLogins.map(o => o.userHandle || o.displayName).slice(0, 2).join(', ')}`
+        : totalUnreadCount > 0
+        ? `${totalUnreadCount} Unseen Messages`
+        : 'CommLink Relay & Voice Channels',
       icon: Radio,
       colorTheme: 'amber',
-      badge: totalUnreadCount > 0 ? `${totalUnreadCount}` : null,
-      badgeColor: 'bg-amber-500 text-black animate-pulse',
+      badge: totalUnreadCount > 0 
+        ? `${totalUnreadCount}` 
+        : (hasNewOperatorLogins ? (newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW') : null),
+      badgeColor: hasNewOperatorLogins && totalUnreadCount === 0
+        ? 'bg-emerald-400 text-black animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+        : 'bg-amber-500 text-black animate-pulse',
+      pulse: totalUnreadCount > 0 || hasNewOperatorLogins,
+      pulseClass: (totalUnreadCount > 0 && hasNewOperatorLogins)
+        ? 'animate-nav-pulse-hybrid'
+        : hasNewOperatorLogins
+        ? 'animate-nav-pulse-emerald'
+        : 'animate-nav-pulse-amber',
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
+        if (hasNewOperatorLogins && totalUnreadCount === 0) {
+          clearNewOperatorLogins?.();
+        }
         navigate('/comms');
       }
     }

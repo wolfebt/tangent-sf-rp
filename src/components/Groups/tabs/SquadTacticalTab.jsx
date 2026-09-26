@@ -45,7 +45,7 @@ export const SquadTacticalTab = ({
             </span>
           </div>
           <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
-            <span className="text-slate-500 text-[10px] block">SYNCHRONIZED OPERATIVES</span>
+            <span className="text-slate-500 text-[10px] block">SYNCHRONIZED OPERATORS</span>
             <span className="text-emerald-300 font-bold">
               {activeGroup?.members?.length || 0} Ready for Combat
             </span>

@@ -1,9 +1,16 @@
 import React from 'react';
 import ReferenceTooltip from '../../components/UI/ReferenceTooltip';
 
-const ChatParser = ({ text }) => {
+const ChatParser = ({ text, content }) => {
+  // Support both text and content prop, gracefully handle undefined/null/non-string
+  const rawText = typeof text === 'string' ? text : (typeof content === 'string' ? content : (text || content ? String(text || content) : ''));
+  
+  if (!rawText) {
+    return null;
+  }
+
   // Simple parser that looks for [Text] and replaces it with ReferenceTooltip
-  const parts = text.split(/(\[[^\]]+\])/g);
+  const parts = rawText.split(/(\[[^\]]+\])/g);
   
   return (
     <div className="parsed-text" style={{ lineHeight: '1.6' }}>

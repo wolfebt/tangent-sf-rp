@@ -25,17 +25,29 @@ import {
   Info,
   ExternalLink,
   Mic,
-  MicOff
+  MicOff,
+  UserPlus,
+  Copy,
+  Check,
+  CornerDownRight
 } from 'lucide-react';
 import ChatParser from '../UI/ChatParser';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useGroup } from '../../context/GroupContext';
+import { useToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService';
 import { GameGroupModal } from '../Groups/GameGroupModal';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
+import { QuickTeamInviteModal } from './QuickTeamInviteModal';
 
+/**
+ * @component MessageView
+ * @description Clear, high-contrast, compact tactical sci-fi ledger for chat messages.
+ * Features smart message grouping, crisp typography, clean left accent borders,
+ * inline team invite actions, and floating action toolbars.
+ */
 export const MessageView = ({ messages = [], loading = false, activeChannel }) => {
   const { currentUser } = useAuth();
   const { startDirectMessage, pendingCharacterNotes = [], selectChannel } = useChat();
@@ -45,11 +57,14 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     connectToVoiceRoom, 
     disconnectVoiceRoom 
   } = useVoiceChat();
-  const { groups, selectGroup } = useGroup();
+  const { groups = [], selectGroup } = useGroup();
+  const { toast } = useToast() || { toast: () => {} };
   
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isDossierOpen, setIsDossierOpen] = useState(false);
+  const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
+  const [copiedMessageId, setCopiedMessageId] = useState(null);
   
   const containerRef = useRef(null);
 
@@ -61,6 +76,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 
   const isTeamChannel = activeChannel?.type === 'group' || !!activeChannel?.groupId;
   const isPersonaLogChannel = activeChannel?.type === 'persona_log' || activeChannel?.id?.startsWith('persona_log_');
+  const isDirectChannel = activeChannel?.type === 'direct' || activeChannel?.id?.startsWith('dm_');
   
   const linkedTeam = isTeamChannel 
     ? (groups.find(g => g.id === activeChannel?.groupId || g.channelId === activeChannel?.id) || null)
@@ -73,6 +89,19 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     }
   };
 
+  const handleCopyMessage = (msgId, text) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    AudioService.playTerminalBeep(1200, 0.02);
+    setCopiedMessageId(msgId);
+    toast({
+      type: 'info',
+      title: 'TRANSMISSION COPIED',
+      text: 'Message content copied to clipboard.'
+    });
+    setTimeout(() => setCopiedMessageId(null), 2000);
+  };
+
   const formatTimestamp = (msg) => {
     if (msg.createdAt?.toDate) {
       return msg.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -83,10 +112,17 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     return '';
   };
 
-  // Safe formatting of roll items (prevent [object Object] and render exploded dice)
+  const getMessageTimeMs = (msg) => {
+    if (msg.createdAt?.toDate) return msg.createdAt.toDate().getTime();
+    if (msg.createdLocalAt) return new Date(msg.createdLocalAt).getTime();
+    if (msg.timestamp) return new Date(msg.timestamp).getTime();
+    return 0;
+  };
+
+  // Safe formatting of roll items
   const formatDiceRolls = (rolls) => {
     if (!Array.isArray(rolls)) return '';
-    return rolls.map((r, i) => {
+    return rolls.map((r) => {
       if (typeof r === 'object' && r !== null) {
         if (r.exploded) {
           return `${r.value}! (+${r.explodeValue || 0})`;
@@ -106,7 +142,6 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       const isAttack = actionType === 'ATTACK_ROLL';
       const isGear = actionType === 'GEAR_CHANGE';
       const isRest = actionType === 'REST_CYCLE';
-      const isStatus = actionType === 'STATUS_CHANGE';
 
       const typeBadgeClass = isVitals 
         ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50'
@@ -121,23 +156,23 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
         : 'bg-slate-900 text-cyan-300 border-cyan-500/40';
 
       return (
-        <div className="mt-1.5 p-2.5 rounded-xl bg-slate-950/90 border border-slate-800 text-xs font-mono shadow-md space-y-1.5">
-          <div className="flex items-center justify-between gap-2 border-b border-slate-900 pb-1.5">
+        <div className="mt-1 p-2.5 rounded-lg bg-slate-950/90 border border-slate-800 text-xs font-mono shadow-md space-y-1.5">
+          <div className="flex items-center justify-between gap-2 border-b border-slate-900 pb-1">
             <div className="flex items-center gap-1.5">
-              <span className={`px-2 py-0.5 rounded-md border text-[9px] font-bold uppercase tracking-wider ${typeBadgeClass}`}>
+              <span className={`px-2 py-0.5 rounded border text-[9px] font-bold uppercase tracking-wider ${typeBadgeClass}`}>
                 {actionType.replace('_', ' ')}
               </span>
-              <span className="text-[10px] text-slate-400 font-bold">{msg.personaName || 'Operative'}</span>
+              <span className="text-[10.5px] text-slate-400 font-bold">{msg.personaName || 'Persona'}</span>
             </div>
-            <span className="text-[9px] text-slate-500">{formatTimestamp(msg)}</span>
+            <span className="text-[9.5px] text-slate-500">{formatTimestamp(msg)}</span>
           </div>
 
-          <p className="text-slate-200 font-semibold text-[11px] leading-relaxed">
+          <p className="text-slate-200 font-semibold text-xs leading-relaxed">
             {msg.summary || msg.text}
           </p>
 
           {msg.details && (
-            <div className="p-1.5 rounded bg-slate-900/80 text-[10px] text-slate-400 font-mono">
+            <div className="p-1.5 rounded bg-slate-900/80 text-[10.5px] text-slate-400 font-mono">
               {typeof msg.details === 'object' ? JSON.stringify(msg.details) : msg.details}
             </div>
           )}
@@ -145,7 +180,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       );
     }
 
-    // 2. Dice Roll Message Card
+    // 2. Tactical Dice Roll Message Card
     if (msg.type === 'dice_roll' && msg.metadata) {
       const { 
         expression, 
@@ -166,44 +201,44 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
       const formattedRolls = formatDiceRolls(rolls);
 
       return (
-        <div className={`mt-1.5 p-3 rounded-xl border text-xs font-mono transition-all ${
+        <div className={`mt-1 p-3 rounded-lg border text-xs font-mono transition-all ${
           isCritical 
-            ? 'bg-gradient-to-r from-amber-950/70 to-slate-950/80 border-amber-500/70 shadow-[0_0_20px_rgba(245,158,11,0.25)]' 
+            ? 'bg-gradient-to-r from-amber-950/80 via-slate-950/90 to-slate-950 border-amber-500/70 shadow-[0_0_20px_rgba(245,158,11,0.2)]' 
             : isFumble 
-            ? 'bg-gradient-to-r from-red-950/70 to-slate-950/80 border-red-500/70 shadow-[0_0_20px_rgba(239,68,68,0.25)]' 
-            : 'bg-slate-950/80 border-slate-800 hover:border-cyan-500/40'
+            ? 'bg-gradient-to-r from-rose-950/80 via-slate-950/90 to-slate-950 border-rose-500/70 shadow-[0_0_20px_rgba(244,63,94,0.2)]' 
+            : 'bg-slate-950/90 border-slate-800'
         }`}>
-          {/* Header with Label and Advantage Badges */}
+          {/* Header with Label and Badges */}
           <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
-            <div className="flex items-center gap-1.5 font-bold text-slate-200">
-              <Dices size={14} className={isCritical ? 'text-amber-400 animate-bounce' : 'text-cyan-400'} />
-              <span className="text-cyan-300">{label || expression || 'Dice Check'}</span>
-              {expression && label && <span className="text-slate-500 text-[10px]">({expression})</span>}
+            <div className="flex items-center gap-1.5 font-bold">
+              <Dices size={15} className={isCritical ? 'text-amber-400' : 'text-cyan-400'} />
+              <span className="text-cyan-300 text-xs">{label || expression || 'Dice Check'}</span>
+              {expression && label && <span className="text-slate-500 text-[10.5px]">({expression})</span>}
             </div>
 
             <div className="flex items-center gap-1.5 flex-wrap">
               {(msg.broadcastToVtt || msg.metadata?.broadcastToVtt) && (
-                <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8.5px] font-bold">
-                  VTT SYNCED
+                <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-bold">
+                  STAGE VTT
                 </span>
               )}
               {isAdvantage && (
                 <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-bold">
-                  ADVANTAGE: I GOT THIS
+                  ADVANTAGE
                 </span>
               )}
               {isDisadvantage && (
-                <span className="px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/40 text-[9px] font-bold">
-                  DISADVANTAGE: NEGATIVE KARMA
+                <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[9px] font-bold">
+                  DISADVANTAGE
                 </span>
               )}
               {isCritical && (
-                <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded-md text-[10px] font-bold animate-pulse">
+                <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9.5px] font-bold">
                   CRITICAL 30
                 </span>
               )}
               {isFumble && (
-                <span className="px-2 py-0.5 bg-red-500/20 text-red-300 border border-red-500/50 rounded-md text-[10px] font-bold animate-pulse">
+                <span className="px-2 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/50 rounded text-[9.5px] font-bold">
                   FUMBLE -10
                 </span>
               )}
@@ -212,20 +247,20 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 
           {/* Result and Roll breakdown */}
           <div className="flex items-baseline justify-between gap-3 border-t border-slate-800/80 pt-2">
-            <div className="flex items-baseline gap-2">
+            <div className="flex items-baseline gap-2.5">
               <span className="text-2xl font-black text-white font-mono tracking-tight">
                 {finalTotal}
               </span>
               {targetNumber !== undefined && targetNumber !== null && (
-                <span className={`text-[11px] font-bold ${isSuccess ? 'text-emerald-400' : 'text-red-400'}`}>
+                <span className={`text-xs font-bold ${isSuccess ? 'text-emerald-400' : 'text-rose-400'}`}>
                   vs DC {targetNumber} ({isSuccess ? `SUCCESS +${margin}` : `FAILED ${margin}`})
                 </span>
               )}
             </div>
 
             {formattedRolls && (
-              <div className="text-[10.5px] text-slate-400 font-mono">
-                Dice: [{formattedRolls}]
+              <div className="text-[11px] text-slate-400 font-mono">
+                [{formattedRolls}]
               </div>
             )}
           </div>
@@ -236,7 +271,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     // 3. Narrative RPG Action / Emote (/me, /act)
     if (msg.type === 'narrative_action') {
       return (
-        <div className="mt-1 p-2.5 rounded-xl bg-purple-950/30 border border-purple-500/30 text-purple-200 text-xs sm:text-sm font-serif italic shadow-inner">
+        <div className="mt-1 p-2 rounded-lg bg-purple-950/25 border-l-2 border-purple-500/60 text-purple-200 text-xs sm:text-sm font-serif italic">
           <span className="font-sans font-bold text-purple-300 not-italic mr-1.5 font-mono text-xs">
             * {msg.senderHandle}
           </span>
@@ -248,7 +283,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     // 4. OOC Remark (/ooc)
     if (msg.type === 'ooc_remark') {
       return (
-        <div className="mt-0.5 text-xs text-slate-400 font-mono italic">
+        <div className="mt-0.5 text-xs sm:text-sm text-slate-400 font-mono italic">
           <span className="text-slate-500 font-bold not-italic mr-1">(( OOC:</span>
           <ChatParser text={msg.text || ''} />
           <span className="text-slate-500 font-bold not-italic ml-1">))</span>
@@ -259,17 +294,17 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     // 5. System Notification Message
     if (msg.type === 'system') {
       return (
-        <div className="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 text-[11px] font-mono text-cyan-300 flex items-center gap-2">
+        <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-xs font-mono text-cyan-300 flex items-center gap-2">
           <Radio size={13} className="shrink-0 text-cyan-400 animate-pulse" />
           <span className="flex-1">{msg.text}</span>
         </div>
       );
     }
 
-    // 6. Standard Text or In-Character Dialogue
+    // 6. Standard Text or In-Character Dialogue (High-contrast, crisp 13.5px text)
     return (
       <div className={`mt-0.5 text-xs sm:text-sm leading-relaxed ${
-        msg.isIC ? 'text-slate-100 font-sans font-medium' : 'text-slate-300 font-sans'
+        msg.isIC ? 'text-slate-100 font-sans font-medium' : 'text-slate-200 font-sans'
       }`}>
         <ChatParser text={msg.text || ''} />
       </div>
@@ -277,49 +312,87 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
   };
 
   return (
-    <div className="flex-1 flex overflow-hidden relative bg-[#0a0e17]">
+    <div className="flex-1 flex overflow-hidden relative bg-[#090d16]">
       {/* Center Messages Column */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Channel Header Banner */}
+        {/* ── Channel Header Banner ── */}
         {activeChannel && (
-          <div className="px-4 py-2.5 bg-slate-950/90 border-b border-slate-800/80 flex items-center justify-between gap-2 text-xs font-mono shrink-0 shadow-sm">
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold text-cyan-300 flex items-center gap-1.5 truncate">
-                  <span>{activeChannel.displayName || `#${activeChannel.name}`}</span>
-                  {activeChannel.isPublic === false && (
-                    <Lock size={12} className="text-amber-400 shrink-0" title="Private Frequency" />
-                  )}
-                </h3>
-
-                {isTeamChannel && (
-                  <span className="px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] rounded font-bold uppercase shrink-0">
-                    TEAM
-                  </span>
-                )}
-
-                {isPersonaLogChannel && (
-                  <span className="px-1.5 py-0.2 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] rounded font-bold uppercase shrink-0">
-                    TELEMETRY LOG
-                  </span>
+          <div className="px-3.5 sm:px-4 py-2 bg-slate-950/95 border-b border-slate-800 flex items-center justify-between gap-2 shrink-0 shadow-sm z-10">
+            <div className="min-w-0 flex items-center gap-2.5">
+              {/* Channel Glyph Icon */}
+              <div className={`p-1.5 rounded-lg border shrink-0 ${
+                isTeamChannel 
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' 
+                  : isDirectChannel 
+                  ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
+                  : isPersonaLogChannel
+                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                  : 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+              }`}>
+                {isTeamChannel ? (
+                  <Shield size={15} />
+                ) : isDirectChannel ? (
+                  <User size={15} />
+                ) : isPersonaLogChannel ? (
+                  <Activity size={15} />
+                ) : (
+                  <Radio size={15} />
                 )}
               </div>
 
-              <p className="text-[10px] text-slate-400 mt-0.5 truncate">
-                {activeChannel.topic || 'Encrypted quantum transmission channel.'}
-              </p>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xs sm:text-sm font-bold font-mono text-slate-100 flex items-center gap-1.5 truncate">
+                    <span>{activeChannel.displayName || `#${activeChannel.name}`}</span>
+                    {activeChannel.isPublic === false && (
+                      <Lock size={12} className="text-amber-400 shrink-0" title="Private Encrypted Frequency" />
+                    )}
+                  </h3>
+
+                  {isTeamChannel && (
+                    <span className="px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] rounded font-mono font-bold uppercase shrink-0">
+                      SQUAD
+                    </span>
+                  )}
+
+                  {isPersonaLogChannel && (
+                    <span className="px-1.5 py-0.2 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] rounded font-mono font-bold uppercase shrink-0">
+                      TELEMETRY
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-[10px] sm:text-[10.5px] font-mono text-slate-400 truncate">
+                  {activeChannel.topic || (isDirectChannel ? 'Direct encrypted point-to-point frequency' : 'Quantum transmission frequency')}
+                </p>
+              </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="flex items-center gap-2 shrink-0">
+            {/* Header Actions (Prominent Team Invite, Voice, Settings, Info) */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 font-mono text-xs">
+              {/* Prominent Invite Operator Button (Always visible on Team Channels & DMs) */}
+              {(isTeamChannel || isDirectChannel || groups.length > 0) && (
+                <button
+                  type="button"
+                  onClick={() => setIsQuickInviteOpen(true)}
+                  className="px-2.5 py-1 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/50 text-[10.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                  title="Invite Operators to Team / Copy Shareable Join Link"
+                >
+                  <UserPlus size={12} className="text-emerald-400" />
+                  <span className="hidden sm:inline">INVITE TO SQUAD</span>
+                  <span className="sm:hidden">INVITE</span>
+                </button>
+              )}
+
               {linkedTeam && (
                 <button
                   type="button"
                   onClick={handleOpenTeamModal}
-                  className="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold transition-all flex items-center gap-1 cursor-pointer"
+                  className="hidden md:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 hover:border-emerald-500/40 text-slate-300 hover:text-emerald-300 text-[10.5px] font-bold transition-colors cursor-pointer"
+                  title="Open Squad Management Hub"
                 >
                   <Users size={12} />
-                  <span className="hidden sm:inline">TEAM HUB</span>
+                  <span>HUB</span>
                 </button>
               )}
 
@@ -335,10 +408,10 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       connectToVoiceRoom(targetRoom, activeChannel.displayName || activeChannel.name);
                     }
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
+                  className={`px-2.5 py-1 rounded-lg text-[10.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
                     isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
                       ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.4)] animate-pulse'
-                      : 'bg-slate-900/90 hover:bg-cyan-950 text-cyan-300 hover:text-cyan-200 border-cyan-500/40'
+                      : 'bg-slate-900 hover:bg-cyan-950 text-cyan-300 hover:text-cyan-200 border-slate-700 hover:border-cyan-500/40'
                   }`}
                   title={
                     isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
@@ -347,7 +420,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   }
                 >
                   <Radio size={12} className={isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}` ? 'animate-spin text-emerald-400' : 'text-cyan-400'} />
-                  <span>
+                  <span className="hidden sm:inline">
                     {isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
                       ? 'VOICE ACTIVE'
                       : 'VOICE COMMS'}
@@ -359,25 +432,24 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                 <button
                   type="button"
                   onClick={() => setIsSettingsModalOpen(true)}
-                  className="p-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 transition-colors flex items-center gap-1 text-[10px] font-mono font-bold cursor-pointer"
+                  className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
                   title="Frequency Settings"
                 >
-                  <Settings size={12} />
+                  <Settings size={13} />
                 </button>
               )}
 
               <button
                 type="button"
                 onClick={() => setIsDossierOpen(prev => !prev)}
-                className={`p-1.5 rounded-lg border text-[10px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer ${
+                className={`p-1.5 rounded-lg border text-[10.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer ${
                   isDossierOpen
                     ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-sm'
-                    : 'bg-slate-900/80 text-slate-400 border-slate-700 hover:text-cyan-300'
+                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-cyan-300'
                 }`}
-                title="Toggle Channel Dossier & Operatives"
+                title="Toggle Frequency Dossier & Connected Operators"
               >
-                <Info size={12} />
-                <span className="hidden sm:inline">INFO</span>
+                <Info size={13} />
               </button>
             </div>
           </div>
@@ -388,7 +460,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
           <div className="px-4 py-1.5 bg-amber-950/40 border-b border-amber-500/30 text-[10.5px] font-mono text-amber-300/90 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Activity size={12} className="text-amber-400 animate-pulse" />
-              <span>AUTOMATED ENGINE BLACKBOX — Read-only session telemetry for this operative.</span>
+              <span>AUTOMATED ENGINE BLACKBOX — Read-only session telemetry for this persona.</span>
             </div>
             <span className="font-bold text-[9px] bg-amber-500/20 px-1.5 py-0.2 rounded border border-amber-500/40">
               IMMUTABLE AUDIT
@@ -396,9 +468,9 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
           </div>
         )}
 
-        {/* ── Pending Transmissions Notification Note for other characters/channels ── */}
+        {/* ── Pending Transmissions Notification Note for other channels ── */}
         {pendingCharacterNotes.some(n => n.channelId !== activeChannel?.id) && (
-          <div className="px-4 py-1.5 bg-gradient-to-r from-amber-950/80 via-purple-950/70 to-slate-950 border-b border-amber-500/40 text-[10.5px] font-mono text-amber-200 flex items-center justify-between gap-2 shadow-sm">
+          <div className="px-4 py-1.5 bg-slate-950 border-b border-amber-500/30 text-[10.5px] font-mono text-amber-200 flex items-center justify-between gap-2 shadow-sm">
             <div className="flex items-center gap-1.5 truncate">
               <Radio size={12} className="text-amber-400 animate-pulse shrink-0" />
               <span className="font-bold text-amber-300">PENDING TRANSMISSIONS:</span>
@@ -422,133 +494,176 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
           </div>
         )}
 
-        {/* Message Stream */}
+        {/* ── Main Message Stream (Style B: Tactical Sci-Fi Ledger) ── */}
         <div 
           ref={containerRef} 
-          className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 select-text no-scrollbar bg-gradient-to-b from-transparent to-slate-950/40"
+          className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2 select-text no-scrollbar bg-gradient-to-b from-[#080c14] to-[#0a0f1a]"
         >
           {loading && (
-            <div className="py-8 flex items-center justify-center text-cyan-400 font-mono text-xs gap-2">
+            <div className="py-12 flex items-center justify-center text-cyan-400 font-mono text-xs gap-2">
               <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
               <span>SYNCHRONIZING RELAY SIGNALS...</span>
             </div>
           )}
 
           {!loading && messages.length === 0 && (
-            <div className="py-20 text-center space-y-2">
+            <div className="py-24 text-center space-y-2 select-none">
               <Radio size={28} className="mx-auto text-slate-600 animate-pulse" />
-              <p className="text-xs font-mono text-slate-400">Frequency clear. No transmissions logged yet.</p>
-              <p className="text-[11px] font-mono text-slate-600">Transmit a signal or run a skill check to begin.</p>
+              <p className="text-xs font-mono font-bold text-slate-400">Frequency Clear. No transmissions logged.</p>
+              <p className="text-[11px] font-mono text-slate-600">Transmit a signal or execute a tactical check to begin.</p>
             </div>
           )}
 
+          {/* Render Messages with Consecutive Grouping */}
           {messages.map((msg, idx) => {
             const isSelf = currentUser && msg.senderId === currentUser.uid;
-            const isIC = msg.isIC;
+            const isIC = Boolean(msg.isIC);
+            const isDice = msg.type === 'dice_roll';
+            const isNarrative = msg.type === 'narrative_action';
+            const isSystem = msg.type === 'system';
             const persona = msg.personaDetails;
+
+            // Check if this message should be grouped with the previous message
+            const prevMsg = idx > 0 ? messages[idx - 1] : null;
+            const isSameSender = prevMsg && (
+              prevMsg.senderId === msg.senderId &&
+              prevMsg.isIC === msg.isIC &&
+              (prevMsg.personaDetails?.id || prevMsg.personaDetails?.name) === (persona?.id || persona?.name)
+            );
+            const timeDiffMs = prevMsg ? Math.abs(getMessageTimeMs(msg) - getMessageTimeMs(prevMsg)) : Infinity;
+            const isGrouped = isSameSender && timeDiffMs < 5 * 60 * 1000 && !isDice && !isSystem && prevMsg.type !== 'system';
+
+            // Style B: Sharp left accent border styling
+            const borderAccentClass = isDice
+              ? 'border-l-4 border-l-amber-500/80 bg-slate-900/50'
+              : isIC
+              ? 'border-l-4 border-l-purple-500/80 bg-purple-950/15'
+              : isTeamChannel
+              ? 'border-l-4 border-l-emerald-500/70 bg-slate-900/40'
+              : isSelf
+              ? 'border-l-4 border-l-cyan-500/80 bg-cyan-950/10'
+              : 'border-l-4 border-l-slate-700 bg-slate-900/30';
 
             return (
               <div
                 key={msg.id || idx}
-                className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
-                  isSelf 
-                    ? 'bg-slate-900/70 border border-cyan-500/30 hover:border-cyan-500/50' 
-                    : 'bg-slate-900/40 border border-slate-800 hover:border-slate-700'
-                } ${isIC ? 'border-l-4 border-l-purple-500/90' : ''}`}
+                className={`group relative rounded-r-lg border-y border-r border-slate-800/60 p-2 sm:p-2.5 transition-all hover:border-slate-700 hover:bg-slate-900/60 ${borderAccentClass} ${
+                  isGrouped ? 'mt-0.5 pt-1 border-t-transparent' : 'mt-2'
+                }`}
               >
-                {/* Persona Avatar / Sender Glyph */}
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 font-mono font-bold text-xs border ${
-                  isIC 
-                    ? 'bg-purple-950/80 border-purple-500/60 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)]' 
-                    : isSelf 
-                    ? 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.2)]' 
-                    : 'bg-slate-800 border-slate-700 text-slate-400'
-                }`}>
-                  {isIC ? (
-                    (persona?.name || 'O').charAt(0).toUpperCase()
-                  ) : msg.type === 'system' ? (
-                    <Bot size={15} />
-                  ) : (
-                    <User size={15} />
+                {/* Floating Hover Action Bar (Clean, uncluttered, revealed on hover/focus) */}
+                <div className="absolute right-2 -top-3 hidden group-hover:flex items-center gap-1 bg-slate-900/95 border border-slate-700/80 rounded-lg p-0.5 shadow-lg z-20 backdrop-blur-sm select-none">
+                  {/* Copy Text */}
+                  <button
+                    type="button"
+                    onClick={() => handleCopyMessage(msg.id, msg.text || msg.summary)}
+                    className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
+                    title="Copy transmission text"
+                  >
+                    {copiedMessageId === msg.id ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
+                  </button>
+
+                  {/* Message Sender directly (Player DM) */}
+                  {!isSelf && msg.senderUid && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        startDirectMessage({
+                          uid: msg.senderUid,
+                          userHandle: msg.senderHandle || 'Operator'
+                        }, null);
+                      }}
+                      className="px-1.5 py-0.5 rounded hover:bg-cyan-950 text-slate-400 hover:text-cyan-300 text-[9px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      title={`Open Direct Comms with @${msg.senderHandle}`}
+                    >
+                      <User size={10} />
+                      <span>DM</span>
+                    </button>
+                  )}
+
+                  {/* Message Persona directly (Character Whisper) */}
+                  {!isSelf && isIC && persona?.name && msg.senderUid && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        startDirectMessage({
+                          uid: msg.senderUid,
+                          userHandle: msg.senderHandle || 'Operator'
+                        }, persona);
+                      }}
+                      className="px-1.5 py-0.5 rounded hover:bg-purple-950 text-purple-300 hover:text-purple-100 text-[9px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      title={`Whisper to persona ${persona.name}`}
+                    >
+                      <span>🎭 WHISPER</span>
+                    </button>
+                  )}
+
+                  {/* Invite to Team */}
+                  {!isSelf && msg.senderUid && groups.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setIsQuickInviteOpen(true)}
+                      className="px-1.5 py-0.5 rounded hover:bg-emerald-950 text-emerald-400 hover:text-emerald-200 text-[9px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Invite to Tactical Squad"
+                    >
+                      <UserPlus size={10} />
+                      <span>INVITE</span>
+                    </button>
                   )}
                 </div>
 
-                {/* Message Body */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-2 mb-0.5">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {/* Name Header */}
-                      <span className={`text-xs font-mono font-bold ${
-                        isIC ? 'text-purple-300' : isSelf ? 'text-cyan-300' : 'text-slate-200'
+                {/* Message Header (Shown only if NOT grouped consecutively) */}
+                {!isGrouped && (
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className="flex items-center gap-2 flex-wrap min-w-0">
+                      {/* Avatar Glyph */}
+                      <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 font-mono font-bold text-[10px] border ${
+                        isIC 
+                          ? 'bg-purple-950 border-purple-500/60 text-purple-300' 
+                          : isSelf 
+                          ? 'bg-cyan-950 border-cyan-500/60 text-cyan-300' 
+                          : 'bg-slate-800 border-slate-700 text-slate-400'
+                      }`}>
+                        {isIC ? (
+                          (persona?.name || 'O').charAt(0).toUpperCase()
+                        ) : msg.type === 'system' ? (
+                          <Bot size={11} />
+                        ) : (
+                          <User size={11} />
+                        )}
+                      </div>
+
+                      {/* Sender Name */}
+                      <span className={`text-xs font-mono font-bold truncate ${
+                        isIC ? 'text-purple-300' : isSelf ? 'text-cyan-300' : 'text-slate-100'
                       }`}>
                         {isIC ? (persona?.name || msg.senderHandle) : (msg.senderHandle || 'Operator')}
                       </span>
 
                       {/* In-Character Persona Specs */}
                       {isIC && (
-                        <div className="flex items-center gap-1.5">
-                          <span className="px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[8.5px] font-mono font-bold uppercase">
-                            {persona?.species || 'Operative'} • {persona?.role || 'Infiltrator'}
-                          </span>
-                          <span className="text-[9.5px] font-mono text-slate-500">
-                            (@{msg.senderHandle})
-                          </span>
-                        </div>
+                        <span className="px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[9px] font-mono font-bold uppercase truncate max-w-[200px]">
+                          {persona?.role || persona?.species || 'Persona'} • @{msg.senderHandle}
+                        </span>
                       )}
 
-                      {/* Addressed to Specific Persona Whisper */}
+                      {/* Addressed whisper label */}
                       {msg.targetPersona?.name && (
-                        <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[8.5px] font-mono font-bold">
-                          ↳ to {msg.targetPersona.name}
+                        <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[9px] font-mono font-bold flex items-center gap-1">
+                          <CornerDownRight size={9} />
+                          <span>to {msg.targetPersona.name}</span>
                         </span>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      {/* Direct Message Action Buttons (For other senders) */}
-                      {!isSelf && msg.senderUid && (
-                        <div className="flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity">
-                          {/* Message Player */}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              startDirectMessage({
-                                uid: msg.senderUid,
-                                userHandle: msg.senderHandle || 'Operator'
-                              }, null);
-                            }}
-                            className="px-1.5 py-0.5 rounded bg-slate-800/90 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-500/50 text-[8.5px] font-mono font-bold text-slate-300 hover:text-cyan-300 flex items-center gap-1 cursor-pointer transition-all"
-                            title={`Open Direct Comms with Player (@${msg.senderHandle || 'Operator'})`}
-                          >
-                            <User size={10} className="text-cyan-400" />
-                            <span>PLAYER</span>
-                          </button>
-
-                          {/* Message Operative (If IC) */}
-                          {isIC && persona?.name && (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                startDirectMessage({
-                                  uid: msg.senderUid,
-                                  userHandle: msg.senderHandle || 'Operator'
-                                }, persona);
-                              }}
-                              className="px-1.5 py-0.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 hover:border-purple-400 text-[8.5px] font-mono font-bold text-purple-300 hover:text-purple-100 flex items-center gap-1 cursor-pointer transition-all"
-                              title={`Open Direct Comms with Operative ${persona.name}`}
-                            >
-                              <span>🎭 {persona.name.split(' ')[0]}</span>
-                            </button>
-                          )}
-                        </div>
-                      )}
-
-                      <span className="text-[9.5px] font-mono text-slate-500 shrink-0">
-                        {formatTimestamp(msg)}
-                      </span>
-                    </div>
+                    <span className="text-[10px] font-mono text-slate-500 shrink-0">
+                      {formatTimestamp(msg)}
+                    </span>
                   </div>
+                )}
 
+                {/* Body Content */}
+                <div className={`${isGrouped ? 'pl-7' : 'pl-7'} min-w-0`}>
                   {renderMessageContent(msg)}
                 </div>
               </div>
@@ -557,27 +672,39 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
         </div>
       </div>
 
-      {/* Right Drawer: Channel Dossier & Operatives */}
+      {/* ── Right Drawer: Channel Dossier & Connected Operators ── */}
       {isDossierOpen && activeChannel && (
-        <aside className="w-72 border-l border-slate-800/80 bg-slate-950/95 p-3 flex flex-col gap-3 font-mono text-xs animate-in slide-in-from-right duration-200 overflow-y-auto no-scrollbar select-none shrink-0">
+        <aside className="w-72 border-l border-slate-800 bg-[#080c14] p-3 flex flex-col gap-3 font-mono text-xs animate-in slide-in-from-right duration-200 overflow-y-auto no-scrollbar select-none shrink-0 z-20">
           <div className="flex items-center justify-between pb-2 border-b border-slate-800">
             <span className="font-bold text-slate-200 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
               <Info size={13} className="text-cyan-400" />
-              FREQUENCY DOSSIER
+              <span>FREQUENCY DOSSIER</span>
             </span>
             <button
               onClick={() => setIsDossierOpen(false)}
-              className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white"
+              className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white cursor-pointer"
             >
               <ChevronRight size={14} />
             </button>
           </div>
 
+          {/* Quick Invite Button inside Dossier */}
+          {(isTeamChannel || isDirectChannel || groups.length > 0) && (
+            <button
+              type="button"
+              onClick={() => setIsQuickInviteOpen(true)}
+              className="w-full py-2 px-3 rounded-xl bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
+            >
+              <UserPlus size={13} />
+              <span>INVITE OPERATOR TO SQUAD</span>
+            </button>
+          )}
+
           {/* Channel Specs */}
-          <div className="space-y-1.5 text-[10.5px]">
-            <div className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1">
-              <span className="text-slate-400 text-[9px] block">TOPIC / DIRECTIVE</span>
-              <p className="text-slate-200 font-sans text-xs">{activeChannel.topic || 'No topic assigned.'}</p>
+          <div className="space-y-1.5 text-[11px]">
+            <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1">
+              <span className="text-slate-400 text-[9.5px] block font-bold uppercase">DIRECTIVE / TOPIC</span>
+              <p className="text-slate-200 font-sans text-xs leading-relaxed">{activeChannel.topic || 'No topic assigned.'}</p>
             </div>
 
             <div className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 flex justify-between">
@@ -587,15 +714,15 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 
             <div className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 flex justify-between">
               <span className="text-slate-400">RELAY FREQ ID</span>
-              <span className="text-cyan-400 font-bold">{activeChannel.id.substring(0, 12)}</span>
+              <span className="text-cyan-400 font-bold">{activeChannel.id.substring(0, 14)}</span>
             </div>
           </div>
 
           {/* Connected Members */}
           {activeChannel.members && activeChannel.members.length > 0 && (
-            <div className="space-y-1.5 mt-2">
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
-                CONNECTED OPERATIVES ({activeChannel.members.length})
+            <div className="space-y-1.5 mt-1">
+              <span className="text-[10.5px] text-slate-400 font-bold uppercase tracking-wider block">
+                CONNECTED OPERATORS ({activeChannel.members.length})
               </span>
 
               <div className="space-y-1">
@@ -607,16 +734,16 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   return (
                     <div 
                       key={memberUid}
-                      className="p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 flex items-center justify-between text-[11px]"
+                      className="p-2 rounded-lg bg-slate-900/60 border border-slate-800/80 flex items-center justify-between text-xs"
                     >
-                      <div>
+                      <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                          <span className="text-slate-200 font-bold">{details.handle || 'Operator'}</span>
-                          {isUser && <span className="text-[8.5px] text-cyan-400">(YOU)</span>}
+                          <span className="text-slate-200 font-bold truncate">@{details.handle || 'Operator'}</span>
+                          {isUser && <span className="text-[9px] text-cyan-400">(YOU)</span>}
                         </div>
                         {personaName && (
-                          <span className="text-[9.5px] text-purple-300 block ml-3">
+                          <span className="text-[10px] text-purple-300 block ml-3 truncate">
                             🎭 {personaName}
                           </span>
                         )}
@@ -629,24 +756,12 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                             onClick={() => {
                               startDirectMessage({ uid: memberUid, userHandle: details.handle }, null);
                             }}
-                            className="p-1 px-1.5 rounded bg-slate-800 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 transition-all text-[9px] flex items-center gap-1 cursor-pointer"
+                            className="p-1 px-1.5 rounded bg-slate-800 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 transition-all text-[9.5px] flex items-center gap-1 cursor-pointer"
                             title={`Message Player @${details.handle || 'Operator'}`}
                           >
                             <User size={10} className="text-cyan-400" />
-                            <span>PLAYER</span>
+                            <span>DM</span>
                           </button>
-                          {details.persona && (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                startDirectMessage({ uid: memberUid, userHandle: details.handle }, details.persona);
-                              }}
-                              className="p-1 px-1.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-300 hover:text-white transition-all text-[9px] flex items-center gap-1 cursor-pointer"
-                              title={`Message Operative ${personaName}`}
-                            >
-                              <span>🎭 OPERATIVE</span>
-                            </button>
-                          )}
                         </div>
                       )}
                     </div>
@@ -656,6 +771,15 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
             </div>
           )}
         </aside>
+      )}
+
+      {/* Quick Team Invite Modal */}
+      {isQuickInviteOpen && (
+        <QuickTeamInviteModal
+          isOpen={isQuickInviteOpen}
+          onClose={() => setIsQuickInviteOpen(false)}
+          defaultGroupId={activeChannel?.groupId || linkedTeam?.id}
+        />
       )}
 
       {/* Channel Settings Modal */}

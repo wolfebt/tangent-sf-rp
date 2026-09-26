@@ -44,7 +44,7 @@ export const CommsVttPanel = () => {
     gridSize: 40
   };
 
-  const allOperatives = personaRoster.length > 0 ? personaRoster : roster;
+  const allPersonas = personaRoster.length > 0 ? personaRoster : roster;
   const spectatorUrl = `${window.location.origin}/spectator/${currentMap.id || 'tactical-zone'}`;
 
   const handleCopySpectatorLink = () => {
@@ -203,24 +203,24 @@ export const CommsVttPanel = () => {
           </button>
         </div>
 
-        {/* 3. Operative Combatants on Stage */}
+        {/* 3. Persona Combatants on Stage */}
         <div className="space-y-2">
           <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
             <span className="flex items-center gap-1.5">
               <Shield size={12} className="text-emerald-400" />
-              <span>STAGE COMBATANTS &amp; OPERATIVES</span>
+              <span>STAGE COMBATANTS &amp; PERSONAS</span>
             </span>
-            <span>{allOperatives.length} TOKENS</span>
+            <span>{allPersonas.length} TOKENS</span>
           </div>
 
           <div className="space-y-1.5">
-            {allOperatives.length === 0 ? (
+            {allPersonas.length === 0 ? (
               <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] text-slate-500 italic text-center">
-                No operative tokens registered in folio roster.
+                No persona tokens registered in folio roster.
               </div>
             ) : (
-              allOperatives.map((op, idx) => {
-                const name = op['char-name'] || op.name || `Operative ${idx + 1}`;
+              allPersonas.map((op, idx) => {
+                const name = op['char-name'] || op.name || `Persona ${idx + 1}`;
                 const hp = op.current_health ?? (op.current_hp ?? op.health ?? 30);
                 const maxHp = op.health ?? (op.base_hp ?? 30);
                 const role = op['char-concept'] || op.role || op['char-occu'] || 'Specialist';

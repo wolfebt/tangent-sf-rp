@@ -27,11 +27,8 @@ export const CommsHUDBar = ({
         type="button"
         onClick={() => {
           AudioService.playTerminalBeep(1200, 0.03);
-          if (onToggleCommsDock) {
-            onToggleCommsDock();
-          } else if (toggleCommsDock) {
-            toggleCommsDock();
-          }
+          const handleToggle = onToggleCommsDock ?? toggleCommsDock;
+          handleToggle?.();
         }}
         className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
         title="Toggle Floating CommLink Tray (Alt+C)"

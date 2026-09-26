@@ -36,6 +36,7 @@ import { useFolio } from '../context/FolioContext';
 import { useStory } from '../context/CampaignContext';
 import { useToast } from '../context/ToastContext';
 import { useConfirm } from '../context/ConfirmContext';
+import { AudioService } from '../services/audioService';
 import { TeamsNavRail } from '../components/Groups/TeamsNavRail';
 import { CreateGroupModal } from '../components/Groups/CreateGroupModal';
 import { ComprehensiveUserGuideModal } from '../components/UI/ComprehensiveUserGuideModal';
@@ -46,6 +47,7 @@ import { SquadInvitesTab } from '../components/Groups/tabs/SquadInvitesTab';
 import { SquadCommsTab } from '../components/Groups/tabs/SquadCommsTab';
 import { SquadTacticalTab } from '../components/Groups/tabs/SquadTacticalTab';
 import { SquadSettingsTab } from '../components/Groups/tabs/SquadSettingsTab';
+import { TeamInviteConfirmationModal } from '../components/Groups/TeamInviteConfirmationModal';
 
 /**
  * @file TeamsPage.jsx
@@ -79,10 +81,6 @@ export const TeamsPage = () => {
   const [userSearchQuery, setUserSearchQuery] = useState('');
   const [inviteStatusMap, setInviteStatusMap] = useState({});
 
-  // Squad Comms Feed State
-  const [chatInput, setChatInput] = useState('');
-  const [speakingMode, setSpeakingMode] = useState('OOC');
-
   // Contexts
   const { 
     groups = [], 
@@ -92,6 +90,9 @@ export const TeamsPage = () => {
     sendInvite,
     pendingInvites = [],
     outgoingInvites = [],
+    reviewingInvite,
+    openInviteConfirmation,
+    closeInviteConfirmation,
     acceptInvite,
     declineInvite,
     revokeInvite,
@@ -114,24 +115,6 @@ export const TeamsPage = () => {
   const { currentUser, userHandle } = useAuth() || {};
   const { personaRoster = [], roster = [], activePersona } = useFolio() || {};
   const { storyCatalog = [] } = useStory() || {};
-
-  // Settings Edit State
-  const [editName, setEditName] = useState('');
-  const [editDesc, setEditDesc] = useState('');
-  const [editStatus, setEditStatus] = useState('Recruiting');
-  const [editStoryId, setEditStoryId] = useState('');
-  const [editAllowPlayerOverride, setEditAllowPlayerOverride] = useState(true);
-
-  // Sync settings inputs when active group changes
-  useEffect(() => {
-    if (activeGroup) {
-      setEditName(activeGroup.name || '');
-      setEditDesc(activeGroup.description || '');
-      setEditStatus(activeGroup.status || 'Recruiting');
-      setEditStoryId(activeGroup.campaignId || '');
-      setEditAllowPlayerOverride(activeGroup.allowPlayerOverride !== false);
-    }
-  }, [activeGroup]);
 
   // Sync tab with URL search parameter
   useEffect(() => {
@@ -219,48 +202,6 @@ export const TeamsPage = () => {
     }
   };
 
-  const handleSendChatMessage = async (e) => {
-    e.preventDefault();
-    if (!chatInput.trim() || !activeGroup?.channelId) return;
-
-    const currentChannel = activeGroup.channelId;
-    const text = chatInput.trim();
-    setChatInput('');
-
-    try {
-      await sendMessage({
-        channelId: currentChannel,
-        content: text,
-        senderType: speakingMode === 'IC' ? 'character' : (speakingMode === 'GM' ? 'gm' : 'player'),
-        personaName: speakingMode === 'IC' ? (activePersona?.name || 'Operative') : undefined
-      });
-      AudioService.playTerminalBeep(1100, 0.02);
-    } catch (err) {
-      console.error('Failed to send team message:', err);
-    }
-  };
-
-  const handleSaveSettings = async (e) => {
-    e.preventDefault();
-    if (!activeGroup) return;
-
-    try {
-      await updateGroup(activeGroup.id, {
-        name: editName.trim(),
-        description: editDesc.trim(),
-        status: editStatus,
-        campaignId: editStoryId || null,
-        campaignTitle: storyCatalog.find(s => s.id === editStoryId)?.title || activeGroup.campaignTitle || '',
-        allowPlayerOverride: editAllowPlayerOverride
-      });
-      AudioService.playTerminalBeep(1400, 0.04);
-      toast({ type: 'success', text: 'Squad settings updated successfully.' });
-    } catch (err) {
-      console.error('Update group settings error:', err);
-      toast({ type: 'error', text: 'Failed to update squad settings.' });
-    }
-  };
-
   const isUserGM = activeGroup?.creatorId === currentUser?.uid || 
     activeGroup?.members?.find(m => m.userId === currentUser?.uid)?.role === 'GM' ||
     activeGroup?.members?.find(m => m.userId === currentUser?.uid)?.role === 'Leader';
@@ -316,7 +257,7 @@ export const TeamsPage = () => {
                 >
                   {groups.map(g => (
                     <option key={g.id} value={g.id} className="bg-slate-900 text-slate-100">
-                      {g.name} ({g.members?.length || 0} Operatives)
+                      {g.name} ({g.members?.length || 0} Operators)
                     </option>
                   ))}
                 </select>
@@ -461,6 +402,7 @@ export const TeamsPage = () => {
               handleSendInvite={handleSendInvite}
               pendingInvites={pendingInvites}
               outgoingInvites={outgoingInvites}
+              openInviteConfirmation={openInviteConfirmation}
               acceptInvite={acceptInvite}
               declineInvite={declineInvite}
               revokeInvite={revokeInvite}
@@ -472,13 +414,6 @@ export const TeamsPage = () => {
             <SquadCommsTab
               activeGroup={activeGroup}
               navigate={navigate}
-              messages={messages}
-              currentUser={currentUser}
-              handleSendChatMessage={handleSendChatMessage}
-              speakingMode={speakingMode}
-              setSpeakingMode={setSpeakingMode}
-              chatInput={chatInput}
-              setChatInput={setChatInput}
             />
           )}
 
@@ -495,21 +430,11 @@ export const TeamsPage = () => {
             <SquadSettingsTab
               activeGroup={activeGroup}
               isUserGM={isUserGM}
-              handleSaveSettings={handleSaveSettings}
-              editName={editName}
-              setEditName={setEditName}
-              editDesc={editDesc}
-              setEditDesc={setEditDesc}
-              editStatus={editStatus}
-              setEditStatus={setEditStatus}
-              editStoryId={editStoryId}
-              setEditStoryId={setEditStoryId}
-              storyCatalog={storyCatalog}
-              editAllowPlayerOverride={editAllowPlayerOverride}
-              setEditAllowPlayerOverride={setEditAllowPlayerOverride}
-              confirm={confirm}
+              updateGroup={updateGroup}
               deleteGroup={deleteGroup}
               leaveGroup={leaveGroup}
+              storyCatalog={storyCatalog}
+              confirm={confirm}
               toast={toast}
             />
           )}
@@ -530,6 +455,15 @@ export const TeamsPage = () => {
           isOpen={isGuideModalOpen}
           onClose={() => setIsGuideModalOpen(false)}
           initialTab="squads"
+        />
+      )}
+
+      {/* Review & Accept Pending Team Invite Modal with Persona Selection */}
+      {reviewingInvite && (
+        <TeamInviteConfirmationModal
+          isOpen={!!reviewingInvite}
+          onClose={closeInviteConfirmation}
+          invite={reviewingInvite}
         />
       )}
     </div>

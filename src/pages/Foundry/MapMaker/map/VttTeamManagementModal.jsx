@@ -25,7 +25,7 @@ const VttTeamManagementModal = ({
     teams: CANONICAL_TEAMS,
     userAssignments: {
       player_1: {
-        role: VTT_ROLES.OPERATIVE,
+        role: VTT_ROLES.OPERATOR,
         teamId: 'team_alpha',
         assignedTokenIds: tokens.slice(0, 2).map(t => t.id)
       },
@@ -38,7 +38,7 @@ const VttTeamManagementModal = ({
   };
 
   const activeUserAssignment = currentRoster.userAssignments[selectedUserId] || {
-    role: VTT_ROLES.OPERATIVE,
+    role: VTT_ROLES.OPERATOR,
     teamId: 'team_alpha',
     assignedTokenIds: []
   };
@@ -157,7 +157,7 @@ const VttTeamManagementModal = ({
                         : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                     }`}
                   >
-                    {uid === 'player_1' ? '👤 Operative 1' : uid === 'player_2' ? '🤝 Co-Architect' : '👤 Operative 3'}
+                    {uid === 'player_1' ? '👤 Operator 1' : uid === 'player_2' ? '🤝 Co-Architect' : '👤 Operator 3'}
                   </button>
                 ))}
               </div>
@@ -168,14 +168,14 @@ const VttTeamManagementModal = ({
                 <div className="grid grid-cols-3 gap-1.5 font-mono text-[10px]">
                   <button
                     type="button"
-                    onClick={() => handleSetRole(VTT_ROLES.OPERATIVE)}
+                    onClick={() => handleSetRole(VTT_ROLES.OPERATOR)}
                     className={`py-1 rounded border text-center font-bold cursor-pointer transition-all ${
-                      activeUserAssignment.role === VTT_ROLES.OPERATIVE
+                      activeUserAssignment.role === VTT_ROLES.OPERATOR || activeUserAssignment.role === 'operative'
                         ? 'bg-cyan-950 text-cyan-300 border-cyan-500'
                         : 'bg-slate-900 text-slate-400 border-slate-800'
                     }`}
                   >
-                    🎯 Operative
+                    🎯 Operator
                   </button>
                   <button
                     type="button"
@@ -197,17 +197,17 @@ const VttTeamManagementModal = ({
                         : 'bg-slate-900 text-slate-400 border-slate-800'
                     }`}
                   >
-                    👑 Lead GM
+                    👑 Lead Architect
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* GM Policy: Player Persona Override Toggle */}
+            {/* Architect Policy: Operator Persona Override Toggle */}
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col gap-2 text-xs">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] uppercase font-bold text-amber-400 flex items-center gap-1.5">
-                  <span>🔒</span> Player Persona Override Policy
+                  <span>🔒</span> Operator Persona Override Policy
                 </span>
                 <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
                   currentRoster.allowPlayerOverride !== false 
@@ -218,7 +218,7 @@ const VttTeamManagementModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Controls whether players can click <strong>Player Override</strong> to modify locked character folios during active play. When allowed, all player edits are logged for GM review. When disallowed, folios remain strictly locked.
+                Controls whether operators can click <strong>Player Override</strong> to modify locked character folios during active play. When allowed, all operator edits are logged for Architect review. When disallowed, folios remain strictly locked.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <button
@@ -232,7 +232,7 @@ const VttTeamManagementModal = ({
                     };
                     if (onUpdateTeamRoster) onUpdateTeamRoster(updated);
                     if (onBroadcastMessage) {
-                      onBroadcastMessage(`[GM POLICY]: Player persona override is now ${nextVal ? 'ALLOWED (tracked)' : 'DISALLOWED (locked)'}.`);
+                      onBroadcastMessage(`[ARCHITECT POLICY]: Operator persona override is now ${nextVal ? 'ALLOWED (tracked)' : 'DISALLOWED (locked)'}.`);
                     }
                   }}
                   className={`flex-1 py-1.5 px-3 rounded-lg font-mono text-[11px] font-bold border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${

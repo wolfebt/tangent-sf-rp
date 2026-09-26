@@ -247,7 +247,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
               <Users size={28} className="mx-auto text-slate-600" />
               <p className="text-xs text-slate-400">NO ACTIVE TEAMS</p>
               <p className="text-[11px] text-slate-500 max-w-sm mx-auto">
-                Create a tactical team to organize your tabletop group, assign operatives, share invite codes, and tune into tied-in holonet channels.
+                Create a tactical team to organize your tabletop group, assign personas, share invite codes, and tune into tied-in holonet channels.
               </p>
               <button
                 type="button"
@@ -283,7 +283,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
                         </span>
                         {isLeader && (
                           <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-mono font-bold flex items-center gap-0.5">
-                            <Crown size={9} /> GM
+                            <Crown size={9} /> Architect
                           </span>
                         )}
                         <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono border ${
@@ -296,9 +296,9 @@ export const GameGroupsDrawer = ({ onClose }) => {
                       </div>
 
                       <div className="text-[11px] font-mono text-slate-400 truncate mt-0.5">
-                        <span>GM: @{group.creatorHandle || 'Architect'}</span>
+                        <span>Architect: @{group.creatorHandle || 'Architect'}</span>
                         <span className="mx-1.5">•</span>
-                        <span>{membersCount}/{maxCount} Operatives</span>
+                        <span>{membersCount}/{maxCount} Operators</span>
                         {group.campaignTitle && (
                           <>
                             <span className="mx-1.5">•</span>
@@ -328,7 +328,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
                         handleOpenGroupDetails(group, 'invites');
                       }}
                       className="px-2.5 py-1.5 rounded-lg bg-slate-800/90 hover:bg-emerald-600/30 text-emerald-300 border border-slate-700 hover:border-emerald-500/40 text-[11px] font-mono font-bold transition-all flex items-center gap-1"
-                      title="Invite Operatives"
+                      title="Invite Operators"
                     >
                       <UserPlus size={12} />
                       <span>Invite</span>

@@ -80,18 +80,22 @@ export const CommCenterWidget = ({
   return (
     <>
       <div 
-        onClick={() => handleActivateCenter('comms')}
-        className="bg-slate-900/15 hover:bg-slate-900/85 backdrop-blur-md p-2.5 sm:p-3 rounded-xl border-2 border-cyan-500/70 hover:border-cyan-400 flex flex-col justify-between transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.1)] hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] group cursor-pointer select-none"
+        className="bg-slate-900/15 hover:bg-slate-900/85 backdrop-blur-md p-2.5 sm:p-3 rounded-xl border-2 border-cyan-500/70 hover:border-cyan-400 flex flex-col justify-between transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.1)] hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] group select-none"
       >
         <div>
           {/* Header */}
           <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
-            <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => handleActivateCenter('comms')}
+              className="flex items-center gap-1.5 hover:opacity-85 transition-opacity cursor-pointer text-left"
+              title="Open Comms Center Matrix"
+            >
               <Radio className="text-cyan-400 animate-pulse" size={14} />
               <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-300 font-bold">
                 COMM CENTER
               </span>
-            </div>
+            </button>
 
             <div className="flex items-center gap-1">
               {/* Activate Center Block as Squads */}

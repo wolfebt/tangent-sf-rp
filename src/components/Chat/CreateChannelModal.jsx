@@ -278,14 +278,14 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                 <div className="space-y-3 pt-2 border-t border-slate-800">
                   <div className="flex items-center justify-between">
                     <label className="block text-slate-200 font-bold uppercase tracking-wider text-xs">
-                      🎭 Operative Characters in Group ({selectedCharacters.length} Selected)
+                      🎭 Personas in Group ({selectedCharacters.length} Selected)
                     </label>
                     <span className="text-[10px] text-emerald-400 font-bold">
                       Cross-Character Comms
                     </span>
                   </div>
                   <p className="text-[10.5px] text-slate-400">
-                    Select characters across your roster and other operatives to join this group frequency:
+                    Select personas across your roster and other operators to join this group frequency:
                   </p>
 
                   {/* Character Search */}
@@ -306,7 +306,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                       // Gather user's own characters from Folio
                       const myChars = (personaRoster.length ? personaRoster : roster).map(c => ({
                         id: c['character-doc-id'] || c.id || c.name,
-                        name: c['char-name'] || c.name || 'My Operative',
+                        name: c['char-name'] || c.name || 'My Persona',
                         species: c['char-species'] || c.species || 'Human',
                         role: c['char-concept'] || c.role || c['char-occu'] || 'Specialist',
                         ownerUid: currentUser?.uid,
@@ -322,7 +322,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                           u.characters.forEach(c => {
                             otherChars.push({
                               id: c.id || c['character-doc-id'] || c.name,
-                              name: c.name || 'Operative',
+                              name: c.name || 'Persona',
                               species: c.species || 'Human',
                               role: c.role || 'Specialist',
                               ownerUid: u.uid,
@@ -345,7 +345,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                       if (filtered.length === 0) {
                         return (
                           <div className="p-3 text-center text-[11px] text-slate-500 italic">
-                            No matching operatives found.
+                            No matching personas found.
                           </div>
                         );
                       }
@@ -524,7 +524,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                       <div className="p-8 text-center text-slate-500 space-y-1">
                         <Users size={24} className="mx-auto text-slate-600" />
                         <p>No separate characters discovered yet.</p>
-                        <p className="text-[10px] text-slate-600">Operatives appear here when assigned in teams or created in Folio.</p>
+                        <p className="text-[10px] text-slate-600">Personas appear here when assigned in teams or created in Folio.</p>
                       </div>
                     ) : (
                       filteredCharacters.map(char => (

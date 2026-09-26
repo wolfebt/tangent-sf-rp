@@ -8,7 +8,8 @@ export const VTT_ROLES = {
   CO_ARCHITECT: 'co_architect',       // Assistant GM (moves OpFor, runs hazards, initiative)
   TEAM_LEAD: 'team_lead',             // Player Team Leader (tactical pings, focus targets)
   SQUAD_LEAD: 'team_lead',           // Backward compatibility alias
-  OPERATIVE: 'operative',             // Standard Player with assigned unit(s)
+  OPERATOR: 'operator',               // Standard Operator (Player) with assigned unit(s)
+  OPERATIVE: 'operator',             // Backward compatibility alias
   SPECTATOR: 'spectator'              // Read-only spectator
 };
 
@@ -19,7 +20,7 @@ export const CANONICAL_TEAMS = [
     color: '#06b6d4', // Cyan
     badge: '🔷',
     type: 'player_team',
-    description: 'Primary operative strike team.'
+    description: 'Primary operator strike team.'
   },
   {
     id: 'team_bravo',
@@ -50,7 +51,7 @@ export const CANONICAL_TEAMS = [
 export const createDefaultTeamRoster = () => {
   return {
     teams: [...CANONICAL_TEAMS],
-    allowPlayerOverride: true, // GM policy: whether players can engage player override on locked folios during active game
+    allowPlayerOverride: true, // Architect policy: whether operators can engage player override on locked folios during active game
     // Map userId -> { role: string, teamId: string, assignedTokenIds: string[] }
     userAssignments: {
       gm_host: {
@@ -63,7 +64,7 @@ export const createDefaultTeamRoster = () => {
 };
 
 /**
- * Sets whether player override is allowed for operatives in the VTT / Team session.
+ * Sets whether player override is allowed for operators in the VTT / Team session.
  */
 export const setAllowPlayerOverride = (roster, allowed) => {
   return {
@@ -83,7 +84,7 @@ export const isUserArchitect = (userAssignment) => {
 /**
  * Determines if a user can control / move a specific token.
  * Lead Architects and Co-Architects can move any token.
- * Operatives can only move tokens assigned to their user ID or tokens with matching linkedHeroId.
+ * Operators can only move tokens assigned to their user ID or tokens with matching linkedHeroId.
  */
 export const canUserControlToken = (userAssignment, token, currentUserId) => {
   if (!token) return false;
@@ -116,7 +117,7 @@ export const canUserControlToken = (userAssignment, token, currentUserId) => {
  */
 export const bindCharactersToUser = (roster, userId, tokenIds) => {
   const current = roster.userAssignments[userId] || {
-    role: VTT_ROLES.OPERATIVE,
+    role: VTT_ROLES.OPERATOR,
     teamId: 'team_alpha',
     assignedTokenIds: []
   };
@@ -140,7 +141,7 @@ export const bindCharactersToUser = (roster, userId, tokenIds) => {
  */
 export const setUserRole = (roster, userId, newRole) => {
   const current = roster.userAssignments[userId] || {
-    role: VTT_ROLES.OPERATIVE,
+    role: VTT_ROLES.OPERATOR,
     teamId: 'team_alpha',
     assignedTokenIds: []
   };

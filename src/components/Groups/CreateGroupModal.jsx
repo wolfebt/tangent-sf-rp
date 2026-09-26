@@ -156,17 +156,17 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
 
             <div>
               <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider">
-                Max Operatives Slot Limit
+                Max Operators Slot Limit
               </label>
               <select
                 value={maxMembers}
                 onChange={(e) => setMaxMembers(e.target.value)}
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-500"
               >
-                <option value="4">4 Operatives (Standard Fireteam)</option>
-                <option value="6">6 Operatives (Tactical Team)</option>
-                <option value="8">8 Operatives (Platoon Strike)</option>
-                <option value="12">12 Operatives (Battalion Raid)</option>
+                <option value="4">4 Operators (Standard Fireteam)</option>
+                <option value="6">6 Operators (Tactical Team)</option>
+                <option value="8">8 Operators (Platoon Strike)</option>
+                <option value="12">12 Operators (Battalion Raid)</option>
               </select>
             </div>
           </div>
@@ -175,7 +175,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
           {allPersonas.length > 0 && (
             <div>
               <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider flex items-center justify-between">
-                <span>Your Lead Operative Persona</span>
+                <span>Your Lead Persona</span>
                 <span className="text-[10px] text-cyan-400 font-normal">From Persona Folio</span>
               </label>
               <select
@@ -185,7 +185,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
               >
                 {allPersonas.map(p => {
                   const id = p['character-doc-id'] || p.id;
-                  const charName = p['char-name'] || p.name || 'Unnamed Operative';
+                  const charName = p['char-name'] || p.name || 'Unnamed Persona';
                   const species = p['char-species'] || p.species || 'Human';
                   const role = p['char-concept'] || p['char-occu'] || p.occupation || 'Specialist';
                   return (

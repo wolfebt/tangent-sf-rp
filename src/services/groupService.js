@@ -48,7 +48,7 @@ export const GroupService = {
     const groupId = `group_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const inviteCode = generateInviteCode();
     const cleanName = name.trim();
-    const userHandle = currentUser.displayName || currentUser.email || 'Operative';
+    const userHandle = currentUser.displayName || currentUser.email || 'Operator';
 
     // Channel ID for tied-in group comms
     const channelId = `group_chan_${groupId}`;
@@ -61,7 +61,7 @@ export const GroupService = {
       joinedAt: new Date().toISOString(),
       persona: persona ? {
         id: persona['character-doc-id'] || persona.id,
-        name: persona['char-name'] || persona.name || 'Unnamed Operative',
+        name: persona['char-name'] || persona.name || 'Unnamed Persona',
         species: persona['char-species'] || persona.species || 'Human',
         role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
         health: persona.health || 30,
@@ -148,7 +148,7 @@ export const GroupService = {
   async ensureTeamFrequency(group, currentUser) {
     if (!group || !group.id) return null;
 
-    const cleanName = group.name || 'Operative Team';
+    const cleanName = group.name || 'Operator Squad';
     const channelId = group.channelId || `group_chan_${group.id}`;
 
     if (!db) {
@@ -295,7 +295,7 @@ export const GroupService = {
     if (!currentUser) throw new Error('Must be logged in to send invite');
 
     const inviteId = `invite_${groupId}_${targetUserId}_${Date.now()}`;
-    const inviterHandle = currentUser.displayName || currentUser.email || 'Operative';
+    const inviterHandle = currentUser.displayName || currentUser.email || 'Operator';
 
     // Retrieve group snapshot to embed rich metadata in the invite
     let groupMeta = {
@@ -452,7 +452,7 @@ export const GroupService = {
       });
 
       if (accept && groupId) {
-        const userHandle = currentUser.displayName || currentUser.email || 'Operative';
+        const userHandle = currentUser.displayName || currentUser.email || 'Operator';
         const memberData = {
           userId: currentUser.uid,
           handle: userHandle,
@@ -460,7 +460,7 @@ export const GroupService = {
           joinedAt: new Date().toISOString(),
           persona: persona ? {
             id: persona['character-doc-id'] || persona.id,
-            name: persona['char-name'] || persona.name || 'Operative',
+            name: persona['char-name'] || persona.name || 'Persona',
             species: persona['char-species'] || persona.species || 'Human',
             role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
             health: persona.health || 30,
@@ -546,10 +546,10 @@ export const GroupService = {
     }
 
     if (groupData.members && groupData.maxMembers && groupData.members.length >= groupData.maxMembers) {
-      throw new Error(`Squad is at maximum capacity (${groupData.maxMembers} operatives).`);
+      throw new Error(`Squad is at maximum capacity (${groupData.maxMembers} operators).`);
     }
 
-    const userHandle = currentUser.displayName || currentUser.email || 'Operative';
+    const userHandle = currentUser.displayName || currentUser.email || 'Operator';
     const memberData = {
       userId: currentUser.uid,
       handle: userHandle,
@@ -557,7 +557,7 @@ export const GroupService = {
       joinedAt: new Date().toISOString(),
       persona: persona ? {
         id: persona['character-doc-id'] || persona.id,
-        name: persona['char-name'] || persona.name || 'Operative',
+        name: persona['char-name'] || persona.name || 'Persona',
         species: persona['char-species'] || persona.species || 'Human',
         role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
         health: persona.health || 30,
@@ -609,13 +609,13 @@ export const GroupService = {
     return updatedGroup;
   },
 
-  // 7. Update assigned Operative Persona for a member in a group
+  // 7. Update assigned Persona for a member in a group
   async updateMemberPersona({ groupId, userId, persona }) {
     if (!groupId || !userId) return;
 
     const personaPayload = persona ? {
       id: persona['character-doc-id'] || persona.id,
-      name: persona['char-name'] || persona.name || 'Operative',
+      name: persona['char-name'] || persona.name || 'Persona',
       species: persona['char-species'] || persona.species || 'Human',
       role: persona['char-concept'] || persona['char-occu'] || persona.occupation || 'Specialist',
       health: persona.health || 30,

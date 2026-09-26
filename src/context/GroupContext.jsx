@@ -134,7 +134,7 @@ export const GroupProvider = ({ children }) => {
     return newGroup;
   }, [currentUser, activePersona, personaRoster, roster]);
 
-  // Send Direct Invite to an Operative
+  // Send Direct Invite to an Operator
   const sendInvite = useCallback(async ({ groupId, targetUserId, targetUserHandle }) => {
     const targetGroup = groups.find(g => g.id === groupId) || activeGroup;
     if (!targetGroup) throw new Error('Game group not found');

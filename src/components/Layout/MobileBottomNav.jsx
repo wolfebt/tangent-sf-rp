@@ -53,7 +53,13 @@ export const MobileBottomNav = () => {
 
   // Telemetry contexts for real-time badges
   const { personaRoster = [], roster = [] } = useFolio() || {};
-  const { totalUnreadCount = 0 } = useChat() || {};
+  const { 
+    totalUnreadCount = 0, 
+    hasUnseenMessages = false,
+    hasNewOperatorLogins = false, 
+    newOperatorLogins = [], 
+    clearNewOperatorLogins 
+  } = useChat() || {};
   const { groups = [], pendingInvites = [] } = useGroup() || {};
 
   const getActiveId = () => {
@@ -81,7 +87,9 @@ export const MobileBottomNav = () => {
       return count > 0 ? count : (pendingInvites?.length > 0 ? `${pendingInvites.length}!` : null);
     }
     if (id === 'comms') {
-      return totalUnreadCount > 0 ? totalUnreadCount : null;
+      if (totalUnreadCount > 0) return totalUnreadCount;
+      if (hasNewOperatorLogins) return newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW';
+      return null;
     }
     if (id === 'hub') {
       return pendingInvites.length > 0 ? pendingInvites.length : null;
@@ -99,6 +107,13 @@ export const MobileBottomNav = () => {
         const badge = getBadge(item.id);
         const Icon = item.icon;
         const activeStyle = COLOR_ACTIVE[item.color] || COLOR_ACTIVE.cyan;
+        const isComms = item.id === 'comms';
+        const isCommsPulsing = isComms && (totalUnreadCount > 0 || hasNewOperatorLogins);
+        const commsPulseClass = (totalUnreadCount > 0 && hasNewOperatorLogins)
+          ? 'animate-nav-pulse-hybrid'
+          : hasNewOperatorLogins
+          ? 'animate-nav-pulse-emerald'
+          : 'animate-nav-pulse-amber';
 
         return (
           <button
@@ -106,6 +121,9 @@ export const MobileBottomNav = () => {
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1150, 0.02);
+              if (isComms && hasNewOperatorLogins && totalUnreadCount === 0) {
+                clearNewOperatorLogins?.();
+              }
               navigate(item.path);
             }}
             className={`relative flex flex-col items-center justify-center gap-0.5 px-1 py-1 rounded-lg border transition-all flex-1 mx-0.5 cursor-pointer active:scale-95 ${
@@ -120,17 +138,25 @@ export const MobileBottomNav = () => {
             )}
 
             {/* Icon + Badge */}
-            <div className="relative flex items-center justify-center">
-              <Icon size={16} className={`transition-transform ${isActive ? 'scale-110' : ''}`} />
+            <div className={`relative flex items-center justify-center p-0.5 rounded-md transition-all ${
+              isCommsPulsing ? commsPulseClass : ''
+            }`}>
+              <Icon size={16} className={`transition-transform ${isActive ? 'scale-110' : ''} ${isCommsPulsing ? 'text-current' : ''}`} />
               {badge !== null && (
-                <span className="absolute -top-1.5 -right-2.5 min-w-[14px] h-[14px] px-1 rounded-full bg-cyan-400 text-slate-950 text-[8px] font-bold font-mono flex items-center justify-center shadow-[0_0_6px_rgba(34,211,238,0.6)]">
+                <span className={`absolute -top-1.5 -right-2.5 min-w-[14px] h-[14px] px-1 rounded-full text-[8px] font-bold font-mono flex items-center justify-center shadow-[0_0_6px_rgba(34,211,238,0.6)] ${
+                  isComms && hasNewOperatorLogins && totalUnreadCount === 0
+                    ? 'bg-emerald-400 text-black'
+                    : 'bg-cyan-400 text-slate-950'
+                }`}>
                   {badge > 9 ? '9+' : badge}
                 </span>
               )}
             </div>
 
             {/* Label */}
-            <span className="text-[8px] font-mono font-bold uppercase tracking-wider leading-none mt-0.5">
+            <span className={`text-[8px] font-mono font-bold uppercase tracking-wider leading-none mt-0.5 ${
+              isCommsPulsing ? 'text-cyan-300 font-extrabold' : ''
+            }`}>
               {item.label}
             </span>
           </button>

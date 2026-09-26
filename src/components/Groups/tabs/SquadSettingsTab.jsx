@@ -1,26 +1,40 @@
-import React from 'react';
-import { Settings } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Settings, Shield, Trash2, LogOut, Check } from 'lucide-react';
+import { AudioService } from '../../../services/audioService';
 
+/**
+ * @component SquadSettingsTab
+ * @description Squad governance and settings tab. Manages squad name, description,
+ * recruiting status, linked campaign file, and player override permissions.
+ */
 export const SquadSettingsTab = ({
   activeGroup,
   isUserGM,
-  handleSaveSettings,
-  editName,
-  setEditName,
-  editDesc,
-  setEditDesc,
-  editStatus,
-  setEditStatus,
-  editStoryId,
-  setEditStoryId,
-  storyCatalog = [],
-  editAllowPlayerOverride,
-  setEditAllowPlayerOverride,
-  confirm,
+  updateGroup,
   deleteGroup,
   leaveGroup,
+  storyCatalog = [],
+  confirm,
   toast
 }) => {
+  const [editName, setEditName] = useState(activeGroup?.name || '');
+  const [editDesc, setEditDesc] = useState(activeGroup?.description || '');
+  const [editStatus, setEditStatus] = useState(activeGroup?.status || 'Recruiting');
+  const [editStoryId, setEditStoryId] = useState(activeGroup?.campaignId || '');
+  const [editAllowPlayerOverride, setEditAllowPlayerOverride] = useState(activeGroup?.allowPlayerOverride !== false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Sync inputs when active group changes
+  useEffect(() => {
+    if (activeGroup) {
+      setEditName(activeGroup.name || '');
+      setEditDesc(activeGroup.description || '');
+      setEditStatus(activeGroup.status || 'Recruiting');
+      setEditStoryId(activeGroup.campaignId || '');
+      setEditAllowPlayerOverride(activeGroup.allowPlayerOverride !== false);
+    }
+  }, [activeGroup]);
+
   if (!activeGroup) {
     return (
       <div className="flex-1 overflow-y-auto p-4 sm:p-6">
@@ -30,6 +44,30 @@ export const SquadSettingsTab = ({
       </div>
     );
   }
+
+  const handleSaveSettings = async (e) => {
+    e.preventDefault();
+    if (!activeGroup || !updateGroup) return;
+
+    setIsSaving(true);
+    try {
+      await updateGroup(activeGroup.id, {
+        name: editName.trim(),
+        description: editDesc.trim(),
+        status: editStatus,
+        campaignId: editStoryId || null,
+        campaignTitle: storyCatalog.find(s => s.id === editStoryId)?.title || activeGroup.campaignTitle || '',
+        allowPlayerOverride: editAllowPlayerOverride
+      });
+      AudioService.playTerminalBeep(1400, 0.04);
+      toast?.({ type: 'success', text: 'Squad settings updated successfully.' });
+    } catch (err) {
+      console.error('Update group settings error:', err);
+      toast?.({ type: 'error', text: 'Failed to update squad settings.' });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
@@ -74,24 +112,24 @@ export const SquadSettingsTab = ({
                 value={editStatus}
                 onChange={(e) => setEditStatus(e.target.value)}
                 disabled={!isUserGM}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-200 focus:outline-none focus:border-emerald-500 disabled:opacity-60"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-100 focus:outline-none focus:border-emerald-500 disabled:opacity-60 cursor-pointer"
               >
-                <option value="Recruiting">Recruiting (Publicly Listed)</option>
-                <option value="Active">Active (Invite Only)</option>
-                <option value="On Mission">On Mission (Locked)</option>
-                <option value="Hiatus">Hiatus (Inactive)</option>
+                <option value="Recruiting">Recruiting (Open to Inquiries)</option>
+                <option value="Active">Active (Full Tactical Roster)</option>
+                <option value="Private">Private (Invitation Only)</option>
+                <option value="Hiatus">Hiatus (Station Standby)</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1">Linked ADE Campaign</label>
+              <label className="block text-xs font-mono text-slate-300 mb-1">Linked Story Campaign</label>
               <select
                 value={editStoryId}
                 onChange={(e) => setEditStoryId(e.target.value)}
                 disabled={!isUserGM}
-                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-200 focus:outline-none focus:border-emerald-500 disabled:opacity-60"
+                className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-100 focus:outline-none focus:border-emerald-500 disabled:opacity-60 cursor-pointer"
               >
-                <option value="">No Campaign Linked</option>
+                <option value="">-- No Linked Campaign --</option>
                 {storyCatalog.map(story => (
                   <option key={story.id} value={story.id}>
                     {story.title}
@@ -101,41 +139,44 @@ export const SquadSettingsTab = ({
             </div>
           </div>
 
-          {/* Permissions Toggle */}
-          <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-            <div className="space-y-0.5">
-              <span className="text-xs font-mono text-slate-200 block">Allow Player Overrides</span>
-              <span className="text-[10px] text-slate-500 block">Permit players to freely edit attached persona stats during gameplay</span>
-            </div>
-            <input
-              type="checkbox"
-              checked={editAllowPlayerOverride}
-              onChange={(e) => setEditAllowPlayerOverride(e.target.checked)}
-              disabled={!isUserGM}
-              className="w-4 h-4 rounded text-emerald-500 bg-slate-950 border-slate-700"
-            />
+          <div className="pt-2">
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={editAllowPlayerOverride}
+                onChange={(e) => setEditAllowPlayerOverride(e.target.checked)}
+                disabled={!isUserGM}
+                className="w-4 h-4 rounded bg-slate-950 border-slate-800 text-emerald-500 focus:ring-0 cursor-pointer disabled:opacity-60"
+              />
+              <span className="text-xs font-mono text-slate-300">
+                Allow squad members to switch their active persona at will
+              </span>
+            </label>
           </div>
 
           {isUserGM && (
-            <div className="pt-3">
+            <div className="pt-2 flex justify-end">
               <button
                 type="submit"
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold transition-all cursor-pointer shadow-md"
+                disabled={isSaving}
+                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-sm cursor-pointer disabled:opacity-50"
               >
-                SAVE SQUAD SETTINGS
+                {isSaving ? 'SAVING...' : 'SAVE SQUAD SETTINGS'}
               </button>
             </div>
           )}
         </div>
 
-        {/* Danger Zone: Leave / Disband */}
+        {/* Danger Zone: Leave or Disband Squad */}
         <div className="p-4 rounded-2xl bg-rose-950/20 border border-rose-500/30 flex items-center justify-between">
-          <div>
-            <span className="font-mono text-xs font-bold text-rose-300 block">
-              {isUserGM ? 'DISBAND SQUAD' : 'LEAVE SQUAD'}
+          <div className="space-y-0.5">
+            <span className="text-xs font-mono font-bold text-rose-300 uppercase tracking-wider block">
+              {isUserGM ? 'DISBAND SQUAD COMMAND' : 'DEPART SQUAD'}
             </span>
-            <span className="text-[10.5px] text-slate-400 block">
-              {isUserGM ? 'Permanently disband this tactical squad and close tied-in comms.' : 'Revoke your persona attachment and exit this squad.'}
+            <span className="text-[11px] text-slate-400 font-sans block">
+              {isUserGM 
+                ? 'Permanently delete this squad and release all tactical comm relays.' 
+                : 'Remove yourself from this squad roster and surrender assigned frequency access.'}
             </span>
           </div>
 
@@ -150,8 +191,8 @@ export const SquadSettingsTab = ({
                   confirmLabel: 'Disband'
                 });
                 if (ok) {
-                  deleteGroup(activeGroup.id);
-                  toast({ type: 'warning', text: `Squad "${activeGroup.name}" disbanded.` });
+                  deleteGroup?.(activeGroup.id);
+                  toast?.({ type: 'warning', text: `Squad "${activeGroup.name}" disbanded.` });
                 }
               } else {
                 const ok = await confirm({
@@ -161,8 +202,8 @@ export const SquadSettingsTab = ({
                   confirmLabel: 'Leave'
                 });
                 if (ok) {
-                  leaveGroup(activeGroup.id);
-                  toast({ type: 'info', text: `You left squad "${activeGroup.name}".` });
+                  leaveGroup?.(activeGroup.id);
+                  toast?.({ type: 'info', text: `You left squad "${activeGroup.name}".` });
                 }
               }
             }}
@@ -175,3 +216,5 @@ export const SquadSettingsTab = ({
     </div>
   );
 };
+
+export default SquadSettingsTab;

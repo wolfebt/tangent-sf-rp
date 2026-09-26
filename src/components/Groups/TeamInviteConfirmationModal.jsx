@@ -106,7 +106,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                 </span>
               </div>
               <p className="text-[11px] font-mono text-slate-400 mt-0.5">
-                Review fireteam dossier &amp; select your deploying operative
+                Review fireteam dossier &amp; select your deploying persona
               </p>
             </div>
           </div>
@@ -130,13 +130,13 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                 <span>{groupName}</span>
               </span>
               <span className="text-[10px] text-cyan-400 bg-cyan-950/80 border border-cyan-500/40 px-2 py-0.5 rounded font-bold">
-                {currentCount} / {maxMembers} OPERATIVES
+                {currentCount} / {maxMembers} OPERATORS
               </span>
             </div>
 
             <div className="text-[11px] text-slate-300 flex items-center gap-2">
               <Crown size={12} className="text-amber-400" />
-              <span>Lead GM: <strong className="text-cyan-300">@{gmHandle}</strong></span>
+              <span>Lead Architect: <strong className="text-cyan-300">@{gmHandle}</strong></span>
               {campaignTitle && (
                 <>
                   <span className="text-slate-600">•</span>
@@ -187,12 +187,12 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
               </div>
             </div>
           ) : (
-            /* Operative Folio Persona Selection */
+            /* Folio Persona Selection */
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <label className="block text-slate-300 font-bold uppercase tracking-wider text-[11px] flex items-center gap-1.5">
                   <Sparkles size={13} className="text-cyan-400" />
-                  <span>Assign Operative Persona to Fireteam</span>
+                  <span>Assign Persona to Fireteam</span>
                 </label>
                 <span className="text-[10px] text-slate-500">
                   {allPersonas.length} Available in Folio
@@ -208,7 +208,7 @@ export const TeamInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                 <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
                   {allPersonas.map((p) => {
                     const id = p['character-doc-id'] || p.id;
-                    const name = p['char-name'] || p.name || 'Operative';
+                    const name = p['char-name'] || p.name || 'Persona';
                     const species = p['char-species'] || p.species || 'Human';
                     const role = p['char-concept'] || p['char-occu'] || p.occupation || 'Specialist';
                     const hp = p.health || 30;

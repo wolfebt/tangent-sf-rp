@@ -25,12 +25,13 @@ test('Tangent SFF RP — VTT Team, Co-Architect & Permissions Service', async (t
   await t.test('isUserArchitect recognizes Lead Architect and Co-Architect roles', () => {
     assert.equal(isUserArchitect({ role: VTT_ROLES.ARCHITECT_LEAD }), true);
     assert.equal(isUserArchitect({ role: VTT_ROLES.CO_ARCHITECT }), true);
+    assert.equal(isUserArchitect({ role: VTT_ROLES.OPERATOR }), false);
     assert.equal(isUserArchitect({ role: VTT_ROLES.OPERATIVE }), false);
     assert.equal(isUserArchitect({ role: VTT_ROLES.SPECTATOR }), false);
     assert.equal(isUserArchitect(null), false);
   });
 
-  await t.test('canUserControlToken grants control to Architects and bound Operatives', () => {
+  await t.test('canUserControlToken grants control to Architects and bound Operators', () => {
     const heroToken = { id: 'tok_hero_1', label: 'Vanguard' };
     const droneToken = { id: 'tok_drone_1', label: 'Cyber Drone' };
     const enemyToken = { id: 'tok_enemy_9', label: 'Syndicate Gunner' };
@@ -43,11 +44,11 @@ test('Tangent SFF RP — VTT Team, Co-Architect & Permissions Service', async (t
     const coGmUser = { role: VTT_ROLES.CO_ARCHITECT, assignedTokenIds: [] };
     assert.equal(canUserControlToken(coGmUser, droneToken, 'user_co_gm'), true);
 
-    // 3. Operative can only move bound tokens
-    const operativeUser = { role: VTT_ROLES.OPERATIVE, assignedTokenIds: ['tok_hero_1', 'tok_drone_1'] };
-    assert.equal(canUserControlToken(operativeUser, heroToken, 'user_player'), true);
-    assert.equal(canUserControlToken(operativeUser, droneToken, 'user_player'), true);
-    assert.equal(canUserControlToken(operativeUser, enemyToken, 'user_player'), false); // Cannot move enemy
+    // 3. Operator can only move bound tokens
+    const operatorUser = { role: VTT_ROLES.OPERATOR, assignedTokenIds: ['tok_hero_1', 'tok_drone_1'] };
+    assert.equal(canUserControlToken(operatorUser, heroToken, 'user_player'), true);
+    assert.equal(canUserControlToken(operatorUser, droneToken, 'user_player'), true);
+    assert.equal(canUserControlToken(operatorUser, enemyToken, 'user_player'), false); // Cannot move enemy
   });
 
   await t.test('bindCharactersToUser binds multiple characters to a single player', () => {
@@ -55,7 +56,7 @@ test('Tangent SFF RP — VTT Team, Co-Architect & Permissions Service', async (t
     const updated = bindCharactersToUser(roster, 'player_1', ['tok_hero_1', 'tok_drone_1']);
     
     assert.deepEqual(updated.userAssignments.player_1.assignedTokenIds, ['tok_hero_1', 'tok_drone_1']);
-    assert.equal(updated.userAssignments.player_1.role, VTT_ROLES.OPERATIVE);
+    assert.equal(updated.userAssignments.player_1.role, VTT_ROLES.OPERATOR);
 
     // Bind another unit (e.g. vehicle)
     const expanded = bindCharactersToUser(updated, 'player_1', ['tok_vehicle_speed']);

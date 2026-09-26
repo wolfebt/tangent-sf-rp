@@ -95,21 +95,21 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
   const handleAddMember = async (uid) => {
     try {
       await addChannelMember(targetChannel.id, uid);
-      setSuccessMsg('Operative invited to frequency.');
+      setSuccessMsg('Operator invited to frequency.');
       setTimeout(() => setSuccessMsg(''), 2500);
     } catch (err) {
-      setErrorMsg('Failed to add operative.');
+      setErrorMsg('Failed to add operator.');
     }
   };
 
   const handleRemoveMember = async (uid) => {
-    if (window.confirm('Remove operative from frequency?')) {
+    if (window.confirm('Remove operator from frequency?')) {
       try {
         await removeChannelMember(targetChannel.id, uid);
-        setSuccessMsg('Operative removed from frequency.');
+        setSuccessMsg('Operator removed from frequency.');
         setTimeout(() => setSuccessMsg(''), 2500);
       } catch (err) {
-        setErrorMsg('Failed to remove operative.');
+        setErrorMsg('Failed to remove operator.');
       }
     }
   };

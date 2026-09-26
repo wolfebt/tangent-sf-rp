@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   Mic, 
   MicOff, 
@@ -16,9 +16,11 @@ import {
   Shield
 } from 'lucide-react';
 import { useVoiceChat } from '../../context/VoiceChatContext';
+import { useAuth } from '../../context/AuthContext';
 import { AudioService } from '../../services/audioService';
 
 export const VoiceCommsBar = ({ className = '' }) => {
+  const { currentUser, userHandle } = useAuth() || {};
   const {
     isConnected,
     isConnecting,
@@ -63,7 +65,7 @@ export const VoiceCommsBar = ({ className = '' }) => {
           <div className="flex items-center justify-between text-[11px] font-mono text-cyan-400 font-bold uppercase tracking-wider">
             <span className="flex items-center gap-1.5">
               <Users size={13} />
-              <span>Operatives On Frequency ({participants.length + 1})</span>
+              <span>Operators On Frequency ({participants.length + 1})</span>
             </span>
             <span className="text-slate-400 lowercase">{currentRoomName}</span>
           </div>
@@ -86,7 +88,9 @@ export const VoiceCommsBar = ({ className = '' }) => {
                 )}
               </div>
               <div className="flex flex-col min-w-0 flex-1">
-                <span className="font-bold text-slate-100 truncate text-[11.5px]">Local Operative</span>
+                <span className="font-bold text-slate-100 truncate text-[11.5px]">
+                  {userHandle ? `@${userHandle}` : currentUser?.displayName || 'Local Operator'}
+                </span>
                 <span className="text-[9.5px] font-mono text-slate-400">
                   {isMuted ? 'Muted' : isSpeaking ? 'Transmitting...' : 'Ready'}
                 </span>
@@ -302,7 +306,7 @@ export const VoiceCommsBar = ({ className = '' }) => {
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
             className="p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-cyan-300 hover:border-cyan-500/50 transition-all cursor-pointer"
-            title={isExpanded ? 'Collapse Operatives Roster' : 'View Operatives in Voice'}
+            title={isExpanded ? 'Collapse Operators Roster' : 'View Operators in Voice'}
           >
             {isExpanded ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
           </button>

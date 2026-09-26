@@ -38,7 +38,7 @@ export const DEFAULT_PUBLIC_CHANNELS = [
     id: 'public_lfg',
     name: 'lfg-recruitment',
     displayName: '#lfg-recruitment',
-    topic: 'Looking for Group, operative recruitment, and squad assembly dispatch.',
+    topic: 'Looking for Group, operator recruitment, and squad assembly dispatch.',
     type: 'public',
     isPublic: true,
     createdById: 'system',
@@ -283,7 +283,7 @@ export const ChatService = {
       }
     }
 
-    const personaName = targetPersona?.name || targetPersona?.['char-name'] || 'Operative';
+    const personaName = targetPersona?.name || targetPersona?.['char-name'] || 'Persona';
     const personaSpecies = targetPersona?.species || targetPersona?.['char-species'] || 'Human';
     const personaRole = targetPersona?.role || targetPersona?.['char-concept'] || targetPersona?.['char-occu'] || 'Specialist';
 
@@ -332,7 +332,7 @@ export const ChatService = {
       },
       lastMessage: {
         text: isCharacterDM 
-          ? `Direct CommLink established with operative ${personaName}.`
+          ? `Direct CommLink established with persona ${personaName}.`
           : `Direct CommLink established with operator @${targetHandle}.`,
         senderHandle: 'SYSTEM',
         timestamp: new Date().toISOString()
@@ -362,7 +362,7 @@ export const ChatService = {
       id: channelId,
       name: cleanName,
       displayName: displayName,
-      topic: topic || (type === 'group' ? 'Tactical Operative Group Frequency' : 'Custom operations channel'),
+      topic: topic || (type === 'group' ? 'Tactical Operator Group Frequency' : 'Custom operations channel'),
       type: type, // 'custom' | 'group'
       isPublic: isPublic,
       createdById: currentUser.uid,
@@ -421,7 +421,7 @@ export const ChatService = {
       if (extra.activePersona) {
         payload.currentPersona = {
           id: extra.activePersona['character-doc-id'] || extra.activePersona.id,
-          name: extra.activePersona['char-name'] || extra.activePersona.name || 'Operative',
+          name: extra.activePersona['char-name'] || extra.activePersona.name || 'Persona',
           species: extra.activePersona['char-species'] || extra.activePersona.species || 'Human',
           role: extra.activePersona['char-concept'] || extra.activePersona.role || extra.activePersona['char-occu'] || 'Specialist',
           avatar: extra.activePersona.avatar || null
@@ -465,7 +465,7 @@ export const ChatService = {
             if (p.name && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
               userChars.push({
                 id: pId,
-                name: p.name || p['char-name'] || 'Operative',
+                name: p.name || p['char-name'] || 'Persona',
                 species: p.species || p['char-species'] || 'Human',
                 role: p.role || p['char-concept'] || p['char-occu'] || 'Specialist',
                 avatar: p.avatar || null,
@@ -583,7 +583,7 @@ export const ChatService = {
             if (p.name && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
               userChars.push({
                 id: pId,
-                name: p.name || p['char-name'] || 'Operative',
+                name: p.name || p['char-name'] || 'Persona',
                 species: p.species || p['char-species'] || 'Human',
                 role: p.role || p['char-concept'] || p['char-occu'] || 'Specialist',
                 avatar: p.avatar || null,

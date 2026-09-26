@@ -138,7 +138,7 @@ export const SquadDirectoryTab = ({
                 </div>
 
                 <p className="text-xs text-slate-400 font-sans line-clamp-2">
-                  {group.description || 'Terran-net operative fireteam.'}
+                  {group.description || 'Terran-net tactical fireteam.'}
                 </p>
               </div>
 

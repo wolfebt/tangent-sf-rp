@@ -110,7 +110,7 @@ export const CommsCenterDrawer = ({ onClose, onOpenDrawer }) => {
               setIsSettingsModalOpen(true);
             }}
             className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-cyan-300 transition-colors"
-            title="Frequency Settings, Rename & Operatives"
+            title="Frequency Settings, Rename & Operators"
           >
             <Settings size={14} />
           </button>

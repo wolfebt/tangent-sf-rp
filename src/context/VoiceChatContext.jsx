@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { Room, RoomEvent, Track } from 'livekit-client';
 import { generateLiveKitToken, getLiveKitServerUrl, isLiveKitConfigured } from '../services/livekitTokenService';
 import { AudioService } from '../services/audioService';
@@ -125,7 +125,7 @@ export const VoiceChatProvider = ({ children }) => {
     setConnectionError(null);
 
     const identity = currentUser?.uid || `anon_${Math.random().toString(36).substring(2, 8)}`;
-    const effectiveHandle = userHandle || getEffectiveUserHandle(currentUser) || 'Operative';
+    const effectiveHandle = userHandle || getEffectiveUserHandle(currentUser) || 'Operator';
     const personaName = activePersona?.['char-name'] || activePersona?.name || effectiveHandle;
     const metadata = {
       handle: effectiveHandle,

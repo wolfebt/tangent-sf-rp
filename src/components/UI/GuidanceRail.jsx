@@ -141,7 +141,11 @@ export const GuidanceRail = ({
                 {/* Color-Coded Icon Container Box (Matching Top Button Badges) */}
                 <div 
                   className={`relative w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                    isActive ? theme.activeBox : theme.iconBox
+                    item.pulse
+                      ? `${item.pulseClass || 'animate-nav-pulse-amber'} ${isActive ? theme.activeBtn : ''}`
+                      : isActive 
+                      ? theme.activeBox 
+                      : theme.iconBox
                   }`}
                 >
                   {React.isValidElement(Icon) ? (
@@ -149,7 +153,7 @@ export const GuidanceRail = ({
                   ) : Icon ? (
                     React.createElement(Icon, {
                       size: 17,
-                      className: 'transition-colors'
+                      className: `transition-colors ${item.pulse ? 'text-current' : ''}`
                     })
                   ) : null}
 
@@ -170,6 +174,8 @@ export const GuidanceRail = ({
                   className={`font-mono text-[9px] sm:text-[9.5px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight select-none transition-colors ${
                     isActive
                       ? theme.activeLabel
+                      : item.pulse
+                      ? 'text-cyan-300 font-bold [text-shadow:0_0_8px_rgba(34,211,238,0.7)]'
                       : theme.idleLabel
                   }`}
                 >

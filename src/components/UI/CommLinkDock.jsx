@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageSquare, Plus, Maximize2, Radio, Users, Lock, Shield, Hash, Settings } from 'lucide-react';
+import { X, MessageSquare, Plus, Maximize2, Radio, Users, Lock, Shield, Hash, Settings, UserPlus } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { CommsNavRail } from '../Chat/CommsNavRail';
 import { ChannelSidebar } from '../Chat/ChannelSidebar';
 import { NetworkRosterView } from '../Chat/NetworkRosterView';
+import { SquadSummarySidebar } from '../Chat/SquadSummarySidebar';
+import { PersonaAuditLogSidebar } from '../Chat/PersonaAuditLogSidebar';
 import { CommsVttPanel } from '../Chat/CommsVttPanel';
 import { MessageView } from '../Chat/MessageView';
 import { MessageInput } from '../Chat/MessageInput';
 import { CreateChannelModal } from '../Chat/CreateChannelModal';
 import { GameGroupModal } from '../Groups/GameGroupModal';
+import { QuickTeamInviteModal } from '../Chat/QuickTeamInviteModal';
 import { useNavigate } from 'react-router-dom';
 import { AudioService } from '../../services/audioService';
 
@@ -24,6 +27,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
   const [mobilePane, setMobilePane] = useState('chat'); // 'channels' | 'chat'
 
   // ESC key listener to close modal
@@ -95,6 +99,20 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                 <span>{mobilePane === 'channels' ? 'CHAT' : 'CHANNELS'}</span>
               </button>
 
+              {/* Quick Team Invite Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  setIsQuickInviteOpen(true);
+                }}
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-200 border border-emerald-500/50 text-xs font-mono font-bold transition-all cursor-pointer shadow-sm"
+                title="Dispatch Team Invite / Copy Join Credentials"
+              >
+                <UserPlus size={13} />
+                <span>INVITE</span>
+              </button>
+
               {/* Direct Team Management Button */}
               <button
                 type="button"
@@ -102,7 +120,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                   AudioService.playTerminalBeep(1100, 0.02);
                   setIsTeamModalOpen(true);
                 }}
-                className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold transition-all cursor-pointer"
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 hover:border-emerald-500/40 text-xs font-mono font-bold transition-all cursor-pointer"
                 title="Team Management"
               >
                 <Shield size={13} />
@@ -180,11 +198,10 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
               )}
 
               {activeNavTab === 'teams' && (
-                <ChannelSidebar
+                <SquadSummarySidebar
                   onOpenCreateModal={() => setIsCreateModalOpen(true)}
                   onOpenSquadModal={() => setIsTeamModalOpen(true)}
-                  onOpenTeamModal={() => setIsTeamModalOpen(true)}
-                  isCompact
+                  isCompact={true}
                 />
               )}
 
@@ -193,12 +210,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
               )}
 
               {activeNavTab === 'logs' && (
-                <ChannelSidebar
-                  onOpenCreateModal={() => setIsCreateModalOpen(true)}
-                  onOpenSquadModal={() => setIsTeamModalOpen(true)}
-                  onOpenTeamModal={() => setIsTeamModalOpen(true)}
-                  isCompact
-                />
+                <PersonaAuditLogSidebar isCompact={true} />
               )}
 
               {activeNavTab === 'settings' && (
@@ -247,6 +259,15 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
           isOpen={isTeamModalOpen}
           onClose={() => setIsTeamModalOpen(false)}
           initialTab="roster"
+        />
+      )}
+
+      {/* Quick Team Invite Modal */}
+      {isQuickInviteOpen && (
+        <QuickTeamInviteModal
+          isOpen={isQuickInviteOpen}
+          onClose={() => setIsQuickInviteOpen(false)}
+          defaultGroupId={activeChannel?.groupId}
         />
       )}
     </>

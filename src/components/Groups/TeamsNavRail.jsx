@@ -35,7 +35,7 @@ export const TeamsNavRail = ({
     pendingInvites = [], 
     outgoingInvites = [] 
   } = useGroup() || {};
-  const { teamChannels = [] } = useChat() || {};
+  const { teamChannels = [], unreadCounts = {} } = useChat() || {};
 
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
@@ -56,12 +56,13 @@ export const TeamsNavRail = ({
   const memberCount = activeGroup?.members?.length || 0;
   const inviteCount = pendingInvites.length;
   const groupCount = groups.length;
+  const squadUnread = activeGroup?.channelId ? (unreadCounts[activeGroup.channelId] || 0) : 0;
 
   const navItems = [
     {
       id: 'roster',
       label: 'ROSTER',
-      sublabel: 'Active Squad Operatives',
+      sublabel: 'Active Squad Operators',
       icon: Users,
       badge: memberCount > 0 ? `${memberCount}` : null,
       badgeColor: 'bg-emerald-500 text-black font-bold'
@@ -87,8 +88,10 @@ export const TeamsNavRail = ({
       label: 'COMMS',
       sublabel: 'Encrypted Squad Frequency',
       icon: Radio,
-      badge: activeGroup?.channelId ? 'LIVE' : null,
-      badgeColor: 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 text-[8px]'
+      badge: squadUnread > 0 ? `${squadUnread}` : (activeGroup?.channelId ? 'LIVE' : null),
+      badgeColor: squadUnread > 0 
+        ? 'bg-amber-400 text-black font-extrabold animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.8)]' 
+        : 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 text-[8px]'
     },
     {
       id: 'tactical',

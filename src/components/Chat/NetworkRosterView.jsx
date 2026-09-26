@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Users, 
   Search, 
@@ -9,17 +9,20 @@ import {
   ChevronDown, 
   ChevronRight, 
   Radio, 
-  Sparkles,
+  Sparkles, 
   ExternalLink,
   Clock,
   UserCheck,
   Activity,
-  Heart
+  Heart,
+  UserPlus
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
+import { useGroup } from '../../context/GroupContext';
 import { AudioService } from '../../services/audioService';
 import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
+import { QuickTeamInviteModal } from './QuickTeamInviteModal';
 
 export const NetworkRosterView = ({ isCompact = false }) => {
   const { 
@@ -29,9 +32,24 @@ export const NetworkRosterView = ({ isCompact = false }) => {
     allNetworkPersonas = [],
     onlinePersonas = [],
     offlinePersonas = [],
-    startDirectMessage 
+    startDirectMessage,
+    hasNewOperatorLogins = false,
+    newOperatorLogins = [],
+    clearNewOperatorLogins
   } = useChat();
   const { currentUser } = useAuth();
+  const { groups = [] } = useGroup() || {};
+
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [selectedInviteUser, setSelectedInviteUser] = useState(null);
+
+  useEffect(() => {
+    // Auto-clear new operator login banner after viewing roster
+    const timer = setTimeout(() => {
+      clearNewOperatorLogins?.();
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [clearNewOperatorLogins]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState('all'); // 'all' | 'operators' | 'personas'
@@ -171,17 +189,33 @@ export const NetworkRosterView = ({ isCompact = false }) => {
             </div>
           </div>
 
-          {/* Action: Direct Message Operator (Player DM) */}
+          {/* Action: Direct Message Operator & Invite to Squad */}
           {!isSelf && (
-            <button
-              type="button"
-              onClick={() => handleMessageOperator(user)}
-              className="px-2 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-200 text-[10px] font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm shrink-0 cursor-pointer"
-              title={`Open Player Operator DM with @${handle} (${isOnline ? 'Online' : 'Offline'})`}
-            >
-              <MessageSquare size={11} />
-              <span>DM PLAYER</span>
-            </button>
+            <div className="flex items-center gap-1 shrink-0">
+              {groups.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedInviteUser(user);
+                    setIsInviteModalOpen(true);
+                  }}
+                  className="px-2 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 hover:border-emerald-400 text-emerald-200 text-[10px] font-mono font-bold flex items-center gap-1 transition-all shadow-sm cursor-pointer"
+                  title={`Invite @${handle} to Tactical Squad`}
+                >
+                  <UserPlus size={11} />
+                  <span>INVITE</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => handleMessageOperator(user)}
+                className="px-2 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-200 text-[10px] font-mono font-bold flex items-center gap-1 transition-all shadow-sm shrink-0 cursor-pointer"
+                title={`Open Player Operator DM with @${handle} (${isOnline ? 'Online' : 'Offline'})`}
+              >
+                <MessageSquare size={11} />
+                <span>DM</span>
+              </button>
+            </div>
           )}
         </div>
 
@@ -189,7 +223,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
         {isExpanded && charList.length > 0 && (
           <div className="mt-2.5 pt-2 border-t border-slate-800/80 space-y-1.5 pl-3">
             <span className="text-[9px] font-mono text-purple-400 font-bold uppercase tracking-wider block">
-              OPERATIVE PERSONAS ({charList.length})
+              PERSONAS ({charList.length})
             </span>
 
             <div className="space-y-1">
@@ -222,7 +256,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                         title={`Send In-Character Direct Message to ${c.name} (${isOnline ? 'Online' : 'Offline'})`}
                       >
                         <Shield size={10} />
-                        <span>DM OPERATIVE</span>
+                        <span>DM PERSONA</span>
                       </button>
                     )}
                   </div>
@@ -281,15 +315,31 @@ export const NetworkRosterView = ({ isCompact = false }) => {
         </div>
 
         {!isSelf && persona.targetUser && (
-          <button
-            type="button"
-            onClick={() => handleMessagePersona(persona.targetUser, persona)}
-            className="px-2.5 py-1 rounded-lg bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-200 text-[10px] font-bold flex items-center gap-1 shrink-0 transition-all cursor-pointer"
-            title={`Message ${persona.name} (${isOnline ? 'Online' : 'Offline'})`}
-          >
-            <Shield size={11} />
-            <span>WHISPER</span>
-          </button>
+          <div className="flex items-center gap-1 shrink-0">
+            {groups.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedInviteUser(persona.targetUser);
+                  setIsInviteModalOpen(true);
+                }}
+                className="px-2 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 hover:border-emerald-400 text-emerald-200 text-[10px] font-mono font-bold flex items-center gap-1 transition-all shadow-sm cursor-pointer"
+                title="Invite to Tactical Squad"
+              >
+                <UserPlus size={11} />
+                <span>INVITE</span>
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => handleMessagePersona(persona.targetUser, persona)}
+              className="px-2.5 py-1 rounded-lg bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-200 text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer"
+              title={`Message ${persona.name} (${isOnline ? 'Online' : 'Offline'})`}
+            >
+              <Shield size={11} />
+              <span>WHISPER</span>
+            </button>
+          </div>
         )}
       </div>
     );
@@ -314,6 +364,25 @@ export const NetworkRosterView = ({ isCompact = false }) => {
             </div>
           </div>
         </div>
+
+        {/* New Operator Login Alert Banner */}
+        {hasNewOperatorLogins && newOperatorLogins.length > 0 && (
+          <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[10.5px] font-mono animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.25)]">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
+              <span className="font-bold truncate">
+                OPERATOR CHECK-IN: {newOperatorLogins.map(o => `@${o.userHandle}`).join(', ')}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => clearNewOperatorLogins?.()}
+              className="text-emerald-300 hover:text-white px-2 py-0.5 rounded bg-emerald-800/60 hover:bg-emerald-700/80 text-[9px] font-bold border border-emerald-500/40 cursor-pointer shrink-0 ml-2"
+            >
+              ACKNOWLEDGE
+            </button>
+          </div>
+        )}
 
         {/* Search input */}
         <div className="relative">
@@ -430,6 +499,18 @@ export const NetworkRosterView = ({ isCompact = false }) => {
         </span>
         <span className="text-cyan-400 font-bold">DIRECT LINK READY</span>
       </div>
+
+      {/* Quick Team Invite Modal */}
+      {isInviteModalOpen && (
+        <QuickTeamInviteModal
+          isOpen={isInviteModalOpen}
+          onClose={() => {
+            setIsInviteModalOpen(false);
+            setSelectedInviteUser(null);
+          }}
+          preselectedUser={selectedInviteUser}
+        />
+      )}
     </div>
   );
 };

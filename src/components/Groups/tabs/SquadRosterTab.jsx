@@ -71,7 +71,7 @@ export const SquadRosterTab = ({
               {activeGroup.name}
             </h2>
             <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold">
-              {activeGroup.members?.length || 0} OPERATIVES
+              {activeGroup.members?.length || 0} OPERATORS
             </span>
             {activeGroup.campaignTitle && (
               <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-mono font-bold flex items-center gap-1">
@@ -81,7 +81,7 @@ export const SquadRosterTab = ({
             )}
           </div>
           <p className="text-xs text-slate-300 max-w-2xl font-sans">
-            {activeGroup.description || 'Dedicated tactical operative squad coordinating on Terran-net communications.'}
+            {activeGroup.description || 'Dedicated tactical squad coordinating on Terran-net communications.'}
           </p>
         </div>
 
@@ -134,12 +134,12 @@ export const SquadRosterTab = ({
         </div>
       )}
 
-      {/* Operatives Roster Grid */}
+      {/* Operators Roster Grid */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="font-mono text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
             <Users size={14} className="text-emerald-400" />
-            <span>SQUAD OPERATIVES & PERSONAS</span>
+            <span>SQUAD OPERATORS & PERSONAS</span>
           </h3>
           <span className="text-[11px] font-mono text-slate-500">
             {activeGroup.members?.length || 0} / {activeGroup.maxMembers || 6} SLOTS
@@ -151,6 +151,7 @@ export const SquadRosterTab = ({
             const isSelf = member.userId === currentUser?.uid;
             const persona = member.persona;
             const isLeader = member.role === 'GM' || member.role === 'Leader';
+            const displayRole = (member.role === 'Operative' ? 'Operator' : member.role) || 'Operator';
 
             return (
               <div
@@ -174,7 +175,7 @@ export const SquadRosterTab = ({
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-mono font-bold text-white truncate">
-                          {member.handle || 'Operative'}
+                          {member.handle || 'Operator'}
                         </span>
                         {isSelf && (
                           <span className="text-[9px] px-1 bg-emerald-500/20 text-emerald-300 rounded font-mono">
@@ -183,7 +184,7 @@ export const SquadRosterTab = ({
                         )}
                       </div>
                       <span className="text-[10px] text-slate-400 font-mono block truncate">
-                        {member.role || 'Operative'}
+                        {displayRole}
                       </span>
                     </div>
                   </div>
@@ -194,7 +195,7 @@ export const SquadRosterTab = ({
                       type="button"
                       onClick={async () => {
                         const ok = await confirm({
-                          title: 'Remove Operative',
+                          title: 'Remove Operator',
                           message: `Are you sure you want to remove ${member.handle} from ${activeGroup.name}?`,
                           danger: true,
                           confirmLabel: 'Remove'
@@ -205,7 +206,7 @@ export const SquadRosterTab = ({
                         }
                       }}
                       className="text-slate-500 hover:text-rose-400 p-1 transition-colors cursor-pointer"
-                      title="Remove operative from squad"
+                      title="Remove operator from squad"
                     >
                       <Trash2 size={13} />
                     </button>
@@ -266,14 +267,14 @@ export const SquadRosterTab = ({
                   <div className="pt-1 flex items-center justify-between text-[10px] font-mono border-t border-slate-800/80">
                     <span className="text-slate-500">TACTICAL ROLE:</span>
                     <select
-                      value={member.role || 'Operative'}
+                      value={member.role === 'Operative' ? 'Operator' : (member.role || 'Operator')}
                       onChange={(e) => updateMemberRole(activeGroup.id, member.userId, e.target.value)}
                       className="bg-slate-950 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-[10px] focus:outline-none focus:border-emerald-400"
                     >
                       <option value="GM">Lead Architect (GM)</option>
                       <option value="Co-GM">Co-Architect</option>
                       <option value="Leader">Squad Leader</option>
-                      <option value="Operative">Operative</option>
+                      <option value="Operator">Operator</option>
                       <option value="Spectator">Observer</option>
                     </select>
                   </div>

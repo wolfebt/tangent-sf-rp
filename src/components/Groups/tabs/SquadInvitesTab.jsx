@@ -15,6 +15,7 @@ export const SquadInvitesTab = ({
   handleSendInvite,
   pendingInvites = [],
   outgoingInvites = [],
+  openInviteConfirmation,
   acceptInvite,
   declineInvite,
   revokeInvite
@@ -30,7 +31,7 @@ export const SquadInvitesTab = ({
               <span>SHAREABLE INVITE CREDENTIALS</span>
             </h3>
             <p className="text-xs text-slate-400 font-sans">
-              Distribute instant join access to fellow operatives via alphanumeric codes or direct links.
+              Distribute instant join access to fellow operators via alphanumeric codes or direct links.
             </p>
           </div>
 
@@ -77,12 +78,12 @@ export const SquadInvitesTab = ({
           )}
         </div>
 
-        {/* 2. Direct Operative Directory Dispatch */}
+        {/* 2. Direct Operator Directory Dispatch */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
           <div className="space-y-1">
             <h3 className="font-mono text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <Search size={16} className="text-cyan-400" />
-              <span>DISPATCH OPERATIVE INVITATIONS</span>
+              <span>DISPATCH OPERATOR INVITATIONS</span>
             </h3>
             <p className="text-xs text-slate-400 font-sans">
               Search online player directory and dispatch direct squad membership transmissions.
@@ -112,7 +113,7 @@ export const SquadInvitesTab = ({
                 >
                   <div className="min-w-0">
                     <span className="font-bold text-slate-200 truncate block">
-                      {user.displayName || user.email || 'Operative'}
+                      {user.displayName || user.email || 'Operator'}
                     </span>
                     <span className="text-[10px] text-slate-500 truncate block">
                       @{user.handle || 'operator'}
@@ -128,6 +129,7 @@ export const SquadInvitesTab = ({
                         ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
                         : 'bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300'
                     }`}
+                    title={status === 'sent' ? 'Invitation transmitted' : 'Send squad invitation to this operator'}
                   >
                     {status === 'sent' ? 'INVITED' : status === 'sending' ? 'TRANSMITTING...' : 'DISPATCH'}
                   </button>
@@ -160,15 +162,21 @@ export const SquadInvitesTab = ({
                   <div className="flex items-center gap-1.5">
                     <button
                       type="button"
-                      onClick={() => acceptInvite(inv.id)}
-                      className="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer"
+                      onClick={() => {
+                        if (openInviteConfirmation) {
+                          openInviteConfirmation(inv);
+                        } else {
+                          acceptInvite(inv.id, inv.groupId);
+                        }
+                      }}
+                      className="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer transition-colors shadow-sm"
                     >
                       ACCEPT
                     </button>
                     <button
                       type="button"
                       onClick={() => declineInvite(inv.id)}
-                      className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer"
+                      className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer transition-colors"
                     >
                       DECLINE
                     </button>
