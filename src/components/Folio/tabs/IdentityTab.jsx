@@ -20,9 +20,18 @@ import {
   TraitMultiselectPulldown,
   SkillPoolRankPulldown
 } from '../shared/IdentityPoolPulldown';
+import FolioTooltip from '../shared/FolioTooltip';
+import {
+  formatSpeciesType,
+  formatSpeciesSize,
+  formatSpeciesMovement,
+  formatSpeciesTrait,
+  getInherentSpeciesTraits
+} from '../../../utils/speciesDisplayUtils';
 import {
   ChevronDown,
   ChevronUp,
+  ArrowRight,
   Eye,
   X,
   BookOpen,
@@ -36,8 +45,6 @@ import {
   Building2,
   Layers,
   AlertTriangle,
-  ArrowRight,
-  ArrowLeft,
   ArrowUpRight,
   CheckCircle2
 } from 'lucide-react';
@@ -174,9 +181,6 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const dbm = useDBM();
   const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
-  // Sub-Tab Navigation State: 'bio', 'archetype', 'species', 'occupation', 'origin', 'faction', 'all'
-  const [activeSubTab, setActiveSubTab] = useState('bio');
-
   const [dbOptions, setDbOptions] = useState({});
   const [manualMode, setManualMode] = useState({});
   const [expandedCards, setExpandedCards] = useState({
@@ -187,8 +191,34 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     faction: true
   });
   const [inspectItem, setInspectItem] = useState(null);
+  const [activePillarModal, setActivePillarModal] = useState(null); // 'archetype' | 'species' | 'occupation' | 'origin' | 'faction'
+
+  const openPillarModal = (pillarKey) => {
+    setActivePillarModal(pillarKey);
+    setExpandedCards(prev => ({ ...prev, [pillarKey]: true }));
+  };
 
   const toggleCard = (key) => setExpandedCards(prev => ({ ...prev, [key]: !prev[key] }));
+
+  const expandAllCards = () => {
+    setExpandedCards({
+      archetype: true,
+      species: true,
+      occupation: true,
+      origin: true,
+      faction: true
+    });
+  };
+
+  const collapseAllCards = () => {
+    setExpandedCards({
+      archetype: false,
+      species: false,
+      occupation: false,
+      origin: false,
+      faction: false
+    });
+  };
 
   const handleInspectItem = (item, categoryKey, title) => {
     if (!item) return;
@@ -573,84 +603,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     updateField('char-faction', value);
   };
 
-  // Sub-tabs configuration
-  const SUB_TABS = [
-    {
-      id: 'bio',
-      label: 'Bio & Dossier',
-      icon: <User className="w-3.5 h-3.5" />,
-      activeClass: 'bg-slate-800 text-slate-100 border-slate-600 shadow-sm',
-      badge: characterData['char-name'] ? characterData['char-name'] : null,
-      badgeClass: 'bg-slate-900 border border-slate-700 text-cyan-300'
-    },
-    {
-      id: 'archetype',
-      label: 'Archetype',
-      icon: <Shield className="w-3.5 h-3.5" />,
-      activeClass: 'bg-amber-950/80 text-amber-200 border-amber-500/70 shadow-[0_0_12px_rgba(245,158,11,0.2)]',
-      badge: characterData['char-archetype'] || 'Optional',
-      badgeClass: characterData['char-archetype'] ? 'bg-amber-950 border border-amber-500/60 text-amber-300' : 'bg-slate-900 text-slate-500'
-    },
-    {
-      id: 'species',
-      label: 'Species',
-      icon: <Dna className="w-3.5 h-3.5" />,
-      activeClass: 'bg-cyan-950/80 text-cyan-200 border-cyan-500/70 shadow-[0_0_12px_rgba(34,211,238,0.2)]',
-      badge: characterData['char-species'] ? (speciesAllocationMetrics?.isComplete ? '✓ Ready' : 'Pending Allocation') : 'Required',
-      badgeClass: characterData['char-species'] 
-        ? (speciesAllocationMetrics?.isComplete ? 'bg-emerald-950 border border-emerald-500/60 text-emerald-300' : 'bg-cyan-950 border border-cyan-500/60 text-cyan-300')
-        : 'bg-cyan-950/60 border border-cyan-500/40 text-cyan-400 font-bold'
-    },
-    {
-      id: 'occupation',
-      label: 'Occupation',
-      icon: <Briefcase className="w-3.5 h-3.5" />,
-      activeClass: 'bg-sky-950/80 text-sky-200 border-sky-500/70 shadow-[0_0_12px_rgba(14,165,233,0.2)]',
-      badge: characterData['char-occu'] ? (occuAllocationMetrics?.isComplete ? '✓ Ready' : 'Pending Allocation') : 'Required',
-      badgeClass: characterData['char-occu']
-        ? (occuAllocationMetrics?.isComplete ? 'bg-emerald-950 border border-emerald-500/60 text-emerald-300' : 'bg-sky-950 border border-sky-500/60 text-sky-300')
-        : 'bg-sky-950/60 border border-sky-500/40 text-sky-400 font-bold'
-    },
-    {
-      id: 'origin',
-      label: 'Origin',
-      icon: <Globe className="w-3.5 h-3.5" />,
-      activeClass: 'bg-emerald-950/80 text-emerald-200 border-emerald-500/70 shadow-[0_0_12px_rgba(16,185,129,0.2)]',
-      badge: characterData['char-origin'] ? (originAllocationMetrics?.isComplete ? '✓ Ready' : 'Pending Allocation') : 'Required',
-      badgeClass: characterData['char-origin']
-        ? (originAllocationMetrics?.isComplete ? 'bg-emerald-950 border border-emerald-500/60 text-emerald-300' : 'bg-emerald-950 border border-emerald-500/60 text-emerald-300')
-        : 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 font-bold'
-    },
-    {
-      id: 'faction',
-      label: 'Faction',
-      icon: <Building2 className="w-3.5 h-3.5" />,
-      activeClass: 'bg-purple-950/80 text-purple-200 border-purple-500/70 shadow-[0_0_12px_rgba(168,85,247,0.2)]',
-      badge: characterData['char-faction'] ? (factionAllocationMetrics?.isComplete ? '✓ Ready' : 'Pending Allocation') : 'Required',
-      badgeClass: characterData['char-faction']
-        ? (factionAllocationMetrics?.isComplete ? 'bg-emerald-950 border border-emerald-500/60 text-emerald-300' : 'bg-purple-950 border border-purple-500/60 text-purple-300')
-        : 'bg-purple-950/60 border border-purple-500/40 text-purple-400 font-bold'
-    },
-    {
-      id: 'all',
-      label: 'All Pillars',
-      icon: <Layers className="w-3.5 h-3.5" />,
-      activeClass: 'bg-slate-800 text-slate-200 border-slate-600',
-      badge: 'Classic View',
-      badgeClass: 'bg-slate-900 border border-slate-700 text-slate-400'
-    }
-  ];
-
   // ----------------------------------------------------------------------------------
   // RENDER: ARCHETYPE CARD / WORKBENCH
   // ----------------------------------------------------------------------------------
-  const renderArchetypeSection = (isDedicated = false) => {
+  const renderArchetypeSection = () => {
     const fieldId = 'char-archetype';
     const label = 'Archetype';
     const browsePath = 'archetypes';
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = isDedicated || Boolean(expandedCards['archetype']);
+    const isExpanded = Boolean(expandedCards['archetype']);
     const essentialSkills = extractNameList(selectedArchetype?.essential_skills);
     const signatureFeatures = extractNameList(selectedArchetype?.signature_features);
     const recOccs = extractNameList(selectedArchetype?.recommended_occupations);
@@ -658,22 +620,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const recFactions = extractNameList(selectedArchetype?.recommended_factions);
 
     return (
-      <div className={`bg-slate-950/90 border border-amber-500/40 rounded-xl overflow-hidden transition-all shadow-none ${isDedicated ? 'p-1' : ''}`}>
+      <div className="bg-slate-950/90 border border-amber-500/40 rounded-xl overflow-hidden transition-all shadow-none">
         {/* Header Bar */}
         <div
-          onClick={() => {
-            if (!isDedicated) {
-              if (val && selectedArchetype) {
-                toggleCard('archetype');
-              } else if (onOpenSelectorModal) {
-                onOpenSelectorModal(fieldId, label, browsePath);
-              }
-            }
-          }}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors ${
-            !isDedicated ? 'cursor-pointer' : ''
-          } ${
-            val ? 'bg-amber-950/20' : 'bg-slate-900/50'
+          onClick={() => toggleCard('archetype')}
+          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
+            val ? 'bg-amber-950/20 hover:bg-amber-950/30' : 'bg-slate-900/50 hover:bg-slate-900/70'
           }`}
         >
           <div className="flex items-center gap-2 min-w-0 pr-2">
@@ -780,16 +732,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </button>
             )}
 
-            {!isDedicated && selectedArchetype && (
-              <button
-                type="button"
-                onClick={() => toggleCard('archetype')}
-                className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-                title={isExpanded ? "Collapse summary" : "Expand summary"}
-              >
-                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => toggleCard('archetype')}
+              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
+              title={isExpanded ? "Collapse card" : "Expand card"}
+            >
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -804,6 +754,22 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               placeholder="Enter custom archetype concept..."
               className="flex-1 bg-slate-950 border border-slate-700 focus:border-amber-400 rounded px-2.5 py-1 text-xs text-slate-100 outline-none font-mono"
             />
+          </div>
+        )}
+
+        {/* Empty State when Expanded without Archetype Selected */}
+        {isExpanded && !selectedArchetype && (
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
+            <span>No Archetype selected yet. Choose an archetype from the quick selector or browse the catalog.</span>
+            {!isSheetLocked && onOpenSelectorModal && (
+              <button
+                type="button"
+                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                className="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/60 text-amber-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
+              >
+                Browse Catalog
+              </button>
+            )}
           </div>
         )}
 
@@ -995,13 +961,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // ----------------------------------------------------------------------------------
   // RENDER: SPECIES CARD / WORKBENCH
   // ----------------------------------------------------------------------------------
-  const renderSpeciesSection = (isDedicated = false) => {
+  const renderSpeciesSection = () => {
     const fieldId = 'char-species';
     const label = 'Species';
     const browsePath = 'species';
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = isDedicated || Boolean(expandedCards['species']);
+    const isExpanded = Boolean(expandedCards['species']);
+    const inherentTraitsList = getInherentSpeciesTraits(selectedSpecies);
     const inherentFeatures = extractNameList(selectedSpecies?.inherent_features);
     const bonusFeatureChoices = extractNameList(selectedSpecies?.bonus_feature_choices || selectedSpecies?.recommended_features);
     const bonusTraitChoices = extractNameList(selectedSpecies?.bonus_trait_choices || selectedSpecies?.recommended_traits || selectedSpecies?.traits);
@@ -1018,22 +985,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-cyan-500/40 shadow-[0_0_10px_rgba(34,211,238,0.08)]'
-      } ${isDedicated ? 'p-1' : ''}`}>
+      }`}>
         {/* Header Bar */}
         <div
-          onClick={() => {
-            if (!isDedicated) {
-              if (val && selectedSpecies) {
-                toggleCard('species');
-              } else if (onOpenSelectorModal) {
-                onOpenSelectorModal(fieldId, label, browsePath);
-              }
-            }
-          }}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors ${
-            !isDedicated ? 'cursor-pointer' : ''
-          } ${
-            val ? 'bg-cyan-950/20' : 'bg-slate-900/50'
+          onClick={() => toggleCard('species')}
+          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
+            val ? 'bg-cyan-950/20 hover:bg-cyan-950/30' : 'bg-slate-900/50 hover:bg-slate-900/70'
           }`}
         >
           <div className="flex items-center gap-2 min-w-0 pr-2">
@@ -1054,6 +1011,17 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-purple-950/80 border border-purple-500/50 text-purple-300 shrink-0">
                 {speciesCost.totalCost} CP
               </span>
+            )}
+            {val && (
+              speciesAllocationMetrics?.isComplete ? (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-950 border border-emerald-500/60 text-emerald-300 flex items-center gap-1 shrink-0">
+                  <Check className="w-3 h-3" /> Ready
+                </span>
+              ) : (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-amber-950 border border-amber-500/60 text-amber-300 shrink-0">
+                  Pending
+                </span>
+              )
             )}
             {selectedSpecies?.parent_species && val && (
               <span className="text-xs font-mono text-slate-400 truncate hidden md:inline">
@@ -1084,7 +1052,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <optgroup key={lin} label={lin} className="bg-slate-950 text-slate-200">
                         {list.map(item => (
                           <option key={item.name || item.id} value={item.name || item.id}>
-                            {item.name || item.id} {item.type ? `(${Array.isArray(item.type) ? item.type.join('/') : item.type})` : ''}
+                            {item.name || item.id} {item.type ? `(${formatSpeciesType(item.type).label})` : ''}
                           </option>
                         ))}
                       </optgroup>
@@ -1145,16 +1113,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </button>
             )}
 
-            {!isDedicated && selectedSpecies && (
-              <button
-                type="button"
-                onClick={() => toggleCard('species')}
-                className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-                title={isExpanded ? "Collapse summary" : "Expand summary"}
-              >
-                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => toggleCard('species')}
+              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
+              title={isExpanded ? "Collapse card" : "Expand card"}
+            >
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -1169,6 +1135,22 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               placeholder="Enter custom species name..."
               className="flex-1 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-2.5 py-1 text-xs text-slate-100 outline-none font-mono"
             />
+          </div>
+        )}
+
+        {/* Empty State when Expanded without Species Selected */}
+        {isExpanded && !selectedSpecies && (
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
+            <span>No Species selected yet. Choose a species from the quick selector or browse the catalog.</span>
+            {!isSheetLocked && onOpenSelectorModal && (
+              <button
+                type="button"
+                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                className="px-2.5 py-1 rounded bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/60 text-cyan-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
+              >
+                Browse Catalog
+              </button>
+            )}
           </div>
         )}
 
@@ -1228,10 +1210,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {/* In dedicated tab mode, use a 2-column layout: Specs on Left, Allocation Suite on Right */}
-            <div className={isDedicated ? "grid grid-cols-1 lg:grid-cols-12 gap-5 items-start" : "space-y-4"}>
+            <div className="space-y-4">
               {/* Left Panel: Specifications & CP Cost Breakdown */}
-              <div className={isDedicated ? "lg:col-span-5 space-y-4" : "space-y-3"}>
+              <div className="space-y-3">
                 {/* Cost Breakdown */}
                 {speciesCost && (
                   <div className="bg-slate-900/80 p-3 rounded-lg border border-purple-500/30 text-[11px] font-mono space-y-2">
@@ -1277,24 +1258,64 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     <span className="text-slate-500 block text-[10px]">Lineage</span>
                     <strong className="text-cyan-300">{selectedSpecies.parent_species || 'Species'}</strong>
                   </div>
-                  {selectedSpecies.type && (
-                    <div>
-                      <span className="text-slate-500 block text-[10px]">Type</span>
-                      <strong className="text-cyan-300">{formatList(selectedSpecies.type)}</strong>
-                    </div>
-                  )}
-                  {selectedSpecies.size && (
-                    <div>
-                      <span className="text-slate-500 block text-[10px]">Size</span>
-                      <strong className="text-cyan-300">{formatList(selectedSpecies.size)}</strong>
-                    </div>
-                  )}
-                  {selectedSpecies.movement && (
-                    <div>
-                      <span className="text-slate-500 block text-[10px]">Movement</span>
-                      <strong className="text-cyan-300">{formatList(selectedSpecies.movement)}</strong>
-                    </div>
-                  )}
+                  {selectedSpecies.type && (() => {
+                    const info = formatSpeciesType(selectedSpecies.type);
+                    return (
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Type</span>
+                        <FolioTooltip
+                          title={info.tooltip.title}
+                          badge={info.tooltip.badge}
+                          badgeColor="cyan"
+                          description={info.tooltip.description}
+                          rules={info.tooltip.rules}
+                          cost={info.tooltip.cost}
+                        >
+                          <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                            {info.label}
+                          </strong>
+                        </FolioTooltip>
+                      </div>
+                    );
+                  })()}
+                  {selectedSpecies.size && (() => {
+                    const info = formatSpeciesSize(selectedSpecies.size);
+                    return (
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Size</span>
+                        <FolioTooltip
+                          title={info.tooltip.title}
+                          badge={info.tooltip.badge}
+                          badgeColor="purple"
+                          description={info.tooltip.description}
+                          rules={info.tooltip.rules}
+                        >
+                          <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                            {info.label}
+                          </strong>
+                        </FolioTooltip>
+                      </div>
+                    );
+                  })()}
+                  {selectedSpecies.movement && (() => {
+                    const info = formatSpeciesMovement(selectedSpecies.movement);
+                    return (
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Movement</span>
+                        <FolioTooltip
+                          title={info.tooltip.title}
+                          badge={info.tooltip.badge}
+                          badgeColor="amber"
+                          description={info.tooltip.description}
+                          rules={info.tooltip.rules}
+                        >
+                          <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                            {info.label}
+                          </strong>
+                        </FolioTooltip>
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {/* Inherent Attributes */}
@@ -1312,16 +1333,34 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 )}
 
                 {/* Guaranteed Inherent Traits */}
-                {inherentFeatures.length > 0 && (
+                {inherentTraitsList.length > 0 && (
                   <div className="text-xs font-mono space-y-1.5 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
                     <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Guaranteed Traits:</span>
                     <div className="flex flex-wrap gap-1.5">
-                      {inherentFeatures.map(featName => (
-                        <span key={featName} className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/60 text-cyan-100 font-semibold flex items-center gap-1.5">
-                          <span>🧬</span>
-                          <span>{featName} ✓</span>
-                        </span>
-                      ))}
+                      {inherentTraitsList.map((traitItem, idx) => {
+                        const info = formatSpeciesTrait(traitItem, selectedSpecies);
+                        const badgeColor = info.category === 'Humanoid Special Ability'
+                          ? 'purple'
+                          : info.category === 'Special Ability'
+                          ? 'amber'
+                          : 'cyan';
+                        return (
+                          <FolioTooltip
+                            key={idx}
+                            title={info.tooltip.title}
+                            badge={info.tooltip.badge}
+                            badgeColor={badgeColor}
+                            description={info.tooltip.description}
+                            rules={info.tooltip.rules}
+                            cost={info.tooltip.cost}
+                          >
+                            <span className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/60 text-cyan-100 font-semibold flex items-center gap-1.5 cursor-help hover:border-cyan-300 hover:bg-cyan-900/70 transition-all select-none">
+                              <span>🧬</span>
+                              <span>{info.label} ✓</span>
+                            </span>
+                          </FolioTooltip>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -1348,7 +1387,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
 
               {/* Right Panel: Allocation Suite Workbench */}
-              <div className={isDedicated ? "lg:col-span-7 space-y-4" : "space-y-4 pt-2 border-t border-cyan-900/40"}>
+              <div className="space-y-4 pt-2 border-t border-cyan-900/40">
                 {/* Interactive Species Bonus Attribute Pool */}
                 {(selectedSpecies.bonus_attribute_points > 0 || selectedSpecies.bonus_attribute_choices > 0 || (Array.isArray(selectedSpecies.bonus_attribute_options) && selectedSpecies.bonus_attribute_options.length > 0)) && (
                   <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
@@ -1427,14 +1466,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // ----------------------------------------------------------------------------------
   // RENDER: OCCUPATION CARD / WORKBENCH
   // ----------------------------------------------------------------------------------
-  const renderOccupationSection = (isDedicated = false) => {
+  const renderOccupationSection = () => {
     const fieldId = 'char-occu';
     const label = 'Occupation';
     const browsePath = 'occupations';
     const val = characterData[fieldId] || '';
     const secOccVal = characterData['char-secondary-occu'] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = isDedicated || Boolean(expandedCards['occupation']);
+    const isExpanded = Boolean(expandedCards['occupation']);
     const profSkills = extractNameList(selectedOccupation?.professional_skills || selectedOccupation?.skills);
 
     const commonTraitNames = COMMON_OCCUPATIONAL_TRAITS.map(t => t.name);
@@ -1451,22 +1490,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-sky-500/40 shadow-[0_0_10px_rgba(14,165,233,0.08)]'
-      } ${isDedicated ? 'p-1' : ''}`}>
+      }`}>
         {/* Header Bar */}
         <div
-          onClick={() => {
-            if (!isDedicated) {
-              if (val && selectedOccupation) {
-                toggleCard('occupation');
-              } else if (onOpenSelectorModal) {
-                onOpenSelectorModal(fieldId, label, browsePath);
-              }
-            }
-          }}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors ${
-            !isDedicated ? 'cursor-pointer' : ''
-          } ${
-            val ? 'bg-sky-950/20' : 'bg-slate-900/50'
+          onClick={() => toggleCard('occupation')}
+          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
+            val ? 'bg-sky-950/20 hover:bg-sky-950/30' : 'bg-slate-900/50 hover:bg-slate-900/70'
           }`}
         >
           <div className="flex items-center gap-2 min-w-0 pr-2">
@@ -1489,6 +1518,17 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               <span className="text-xs font-mono text-slate-400/80 italic truncate">
                 None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
               </span>
+            )}
+            {val && (
+              occuAllocationMetrics?.isComplete ? (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-950 border border-emerald-500/60 text-emerald-300 flex items-center gap-1 shrink-0">
+                  <Check className="w-3 h-3" /> Ready
+                </span>
+              ) : (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-amber-950 border border-amber-500/60 text-amber-300 shrink-0">
+                  Pending
+                </span>
+              )
             )}
             {val && (
               <span className="text-xs font-mono text-slate-400 truncate hidden md:inline">
@@ -1581,16 +1621,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </button>
             )}
 
-            {!isDedicated && selectedOccupation && (
-              <button
-                type="button"
-                onClick={() => toggleCard('occupation')}
-                className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-                title={isExpanded ? "Collapse summary" : "Expand summary"}
-              >
-                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => toggleCard('occupation')}
+              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
+              title={isExpanded ? "Collapse card" : "Expand card"}
+            >
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -1605,6 +1643,22 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               placeholder="Enter custom occupation name..."
               className="flex-1 bg-slate-950 border border-slate-700 focus:border-sky-400 rounded px-2.5 py-1 text-xs text-slate-100 outline-none font-mono"
             />
+          </div>
+        )}
+
+        {/* Empty State when Expanded without Occupation Selected */}
+        {isExpanded && !selectedOccupation && (
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
+            <span>No Occupation selected yet. Choose an occupation from the quick selector or browse the catalog.</span>
+            {!isSheetLocked && onOpenSelectorModal && (
+              <button
+                type="button"
+                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                className="px-2.5 py-1 rounded bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/60 text-sky-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
+              >
+                Browse Catalog
+              </button>
+            )}
           </div>
         )}
 
@@ -1650,9 +1704,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             </div>
 
-            {/* Layout: Specifications on Left, Allocation Suite on Right in dedicated mode */}
-            <div className={isDedicated ? "grid grid-cols-1 lg:grid-cols-12 gap-5 items-start" : "space-y-4"}>
-              <div className={isDedicated ? "lg:col-span-5 space-y-3" : "space-y-3"}>
+            <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
                   <div>
                     <span className="text-slate-500 block text-[10px]">Skill Points Pool</span>
@@ -1679,7 +1732,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 )}
               </div>
 
-              <div className={isDedicated ? "lg:col-span-7 space-y-4" : "space-y-4"}>
+              <div className="space-y-4">
                 {/* Professional Skill Package Pool */}
                 {profSkills.length > 0 && occuSP > 0 && (
                   <div className="bg-slate-900/60 p-3 rounded-xl border border-sky-500/30">
@@ -1740,14 +1793,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // ----------------------------------------------------------------------------------
   // RENDER: ORIGIN CARD / WORKBENCH
   // ----------------------------------------------------------------------------------
-  const renderOriginSection = (isDedicated = false) => {
+  const renderOriginSection = () => {
     const fieldId = 'char-origin';
     const label = 'Origin';
     const browsePath = 'origins';
     const val = characterData[fieldId] || '';
     const secVal = characterData['char-secondary-origin'] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = isDedicated || Boolean(expandedCards['origin']);
+    const isExpanded = Boolean(expandedCards['origin']);
 
     const socSkills = Array.from(new Set([
       ...extractNameList(selectedOrigin?.society_skills),
@@ -1773,21 +1826,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.08)]'
-      } ${isDedicated ? 'p-1' : ''}`}>
+      }`}>
         {/* Header Bar */}
         <div
-          onClick={() => {
-            if (!isDedicated) {
-              if (val && selectedOrigin) {
-                toggleCard('origin');
-              } else if (onOpenSelectorModal) {
-                onOpenSelectorModal(fieldId, label, browsePath);
-              }
-            }
-          }}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors ${
-            !isDedicated ? 'cursor-pointer' : ''
-          } ${
+          onClick={() => toggleCard('origin')}
+          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
             val ? 'hover:bg-emerald-950/30 bg-emerald-950/20' : 'hover:bg-slate-900/80 bg-slate-900/50'
           }`}
         >
@@ -1811,6 +1854,17 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               <span className="text-xs font-mono text-slate-400/80 italic truncate">
                 None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
               </span>
+            )}
+            {val && (
+              originAllocationMetrics?.isComplete ? (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-950 border border-emerald-500/60 text-emerald-300 flex items-center gap-1 shrink-0">
+                  <Check className="w-3 h-3" /> Ready
+                </span>
+              ) : (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-amber-950 border border-amber-500/60 text-amber-300 shrink-0">
+                  Pending
+                </span>
+              )
             )}
             {val && (
               <span className="text-xs font-mono text-slate-400 truncate hidden md:inline">
@@ -1902,16 +1956,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </button>
             )}
 
-            {!isDedicated && selectedOrigin && (
-              <button
-                type="button"
-                onClick={() => toggleCard('origin')}
-                className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-                title={isExpanded ? "Collapse summary" : "Expand summary"}
-              >
-                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => toggleCard('origin')}
+              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
+              title={isExpanded ? "Collapse card" : "Expand card"}
+            >
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -1926,6 +1978,22 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               placeholder="Enter custom origin homeworld name..."
               className="flex-1 bg-slate-950 border border-slate-700 focus:border-emerald-400 rounded px-2.5 py-1 text-xs text-slate-100 outline-none font-mono"
             />
+          </div>
+        )}
+
+        {/* Empty State when Expanded without Origin Selected */}
+        {isExpanded && !selectedOrigin && (
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
+            <span>No Origin selected yet. Choose an origin from the quick selector or browse the catalog.</span>
+            {!isSheetLocked && onOpenSelectorModal && (
+              <button
+                type="button"
+                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                className="px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/60 text-emerald-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
+              >
+                Browse Catalog
+              </button>
+            )}
           </div>
         )}
 
@@ -1971,9 +2039,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             </div>
 
-            {/* Layout: Specifications on Left, Allocation Suite on Right in dedicated mode */}
-            <div className={isDedicated ? "grid grid-cols-1 lg:grid-cols-12 gap-5 items-start" : "space-y-4"}>
-              <div className={isDedicated ? "lg:col-span-5 space-y-3" : "space-y-3"}>
+            <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
                   <div>
                     <span className="text-slate-500 block text-[10px]">Society Skill Points</span>
@@ -1994,7 +2061,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 )}
               </div>
 
-              <div className={isDedicated ? "lg:col-span-7 space-y-4" : "space-y-4"}>
+              <div className="space-y-4">
                 {/* Society Skills Pool */}
                 {socSkills.length > 0 && origSP > 0 && (
                   <div className="bg-slate-900/60 p-3 rounded-xl border border-emerald-500/30">
@@ -2057,13 +2124,13 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // ----------------------------------------------------------------------------------
   // RENDER: FACTION CARD / WORKBENCH
   // ----------------------------------------------------------------------------------
-  const renderFactionSection = (isDedicated = false) => {
+  const renderFactionSection = () => {
     const fieldId = 'char-faction';
     const label = 'Faction';
     const browsePath = 'factions';
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = isDedicated || Boolean(expandedCards['faction']);
+    const isExpanded = Boolean(expandedCards['faction']);
     const pkgSkills = extractNameList(selectedFaction?.skill_package || selectedFaction?.skills);
     const factionTraits = extractNameList(selectedFaction?.traits || selectedFaction?.trait);
     const maxTraits = parseInt(selectedFaction?.bonus_traits || (factionTraits.length > 0 ? 1 : 0), 10);
@@ -2075,21 +2142,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.08)]'
-      } ${isDedicated ? 'p-1' : ''}`}>
+      }`}>
         {/* Header Bar */}
         <div
-          onClick={() => {
-            if (!isDedicated) {
-              if (val && selectedFaction) {
-                toggleCard('faction');
-              } else if (onOpenSelectorModal) {
-                onOpenSelectorModal(fieldId, label, browsePath);
-              }
-            }
-          }}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors ${
-            !isDedicated ? 'cursor-pointer' : ''
-          } ${
+          onClick={() => toggleCard('faction')}
+          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
             val ? 'hover:bg-purple-950/30 bg-purple-950/20' : 'hover:bg-slate-900/80 bg-slate-900/50'
           }`}
         >
@@ -2106,6 +2163,17 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               <span className="text-xs font-mono text-slate-400/80 italic truncate">
                 None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
               </span>
+            )}
+            {val && (
+              factionAllocationMetrics?.isComplete ? (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-950 border border-emerald-500/60 text-emerald-300 flex items-center gap-1 shrink-0">
+                  <Check className="w-3 h-3" /> Ready
+                </span>
+              ) : (
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-amber-950 border border-amber-500/60 text-amber-300 shrink-0">
+                  Pending
+                </span>
+              )
             )}
             {val && (
               <span className="text-xs font-mono text-slate-400 truncate hidden md:inline">
@@ -2198,16 +2266,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </button>
             )}
 
-            {!isDedicated && selectedFaction && (
-              <button
-                type="button"
-                onClick={() => toggleCard('faction')}
-                className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-                title={isExpanded ? "Collapse summary" : "Expand summary"}
-              >
-                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => toggleCard('faction')}
+              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
+              title={isExpanded ? "Collapse card" : "Expand card"}
+            >
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -2225,6 +2291,22 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
+        {/* Empty State when Expanded without Faction Selected */}
+        {isExpanded && !selectedFaction && (
+          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex flex-wrap items-center justify-between gap-2">
+            <span>No Faction selected yet. Choose a faction from the quick selector or browse the catalog.</span>
+            {!isSheetLocked && onOpenSelectorModal && (
+              <button
+                type="button"
+                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                className="px-2.5 py-1 rounded bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/60 text-purple-200 text-[11px] font-bold shrink-0 transition-colors cursor-pointer"
+              >
+                Browse Catalog
+              </button>
+            )}
+          </div>
+        )}
+
         {/* Body Content */}
         {selectedFaction && isExpanded && (
           <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
@@ -2239,8 +2321,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             )}
 
             {/* Layout: Sociological Profile on Left, Allocation Suite on Right */}
-            <div className={isDedicated ? "grid grid-cols-1 lg:grid-cols-12 gap-5 items-start" : "space-y-4"}>
-              <div className={isDedicated ? "lg:col-span-5 space-y-3" : "space-y-3"}>
+            <div className="space-y-4">
+              <div className="space-y-3">
                 {/* Sociological profile */}
                 <div className="space-y-2 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
                   <span className="text-purple-400 font-bold uppercase block text-[10px]">
@@ -2294,7 +2376,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 )}
               </div>
 
-              <div className={isDedicated ? "lg:col-span-7 space-y-4" : "space-y-4"}>
+              <div className="space-y-4">
                 {/* Skill Package Pool */}
                 {pkgSkills.length > 0 && facSP > 0 && (
                   <div className="bg-slate-900/60 p-3 rounded-xl border border-purple-500/30">
@@ -2486,7 +2568,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             </span>
           </div>
           <span className="text-[10px] font-mono text-slate-400">
-            Select a pillar to configure & allocate
+            Click any pillar to open configuration modal
           </span>
         </div>
 
@@ -2494,8 +2576,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         <div className="grid grid-cols-1 gap-3">
           {/* Archetype Summary Card */}
           <div 
-            onClick={() => setActiveSubTab('archetype')}
-            className="p-3 bg-slate-900/60 hover:bg-slate-900/90 border border-amber-500/30 hover:border-amber-500/70 rounded-xl transition-all cursor-pointer group"
+            onClick={() => openPillarModal('archetype')}
+            className="p-3 bg-slate-900/60 hover:bg-slate-900/90 border border-amber-500/30 hover:border-amber-500/70 rounded-xl transition-all cursor-pointer group shadow-sm hover:shadow-amber-500/10"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -2509,7 +2591,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
               <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-amber-300 text-xs font-mono">
                 <span>Configure</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
             {selectedArchetype && (
@@ -2521,8 +2603,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
           {/* Species Summary Card */}
           <div 
-            onClick={() => setActiveSubTab('species')}
-            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group ${
+            onClick={() => openPillarModal('species')}
+            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group shadow-sm hover:shadow-cyan-500/10 ${
               !characterData['char-species']
                 ? 'border-cyan-500/50 shadow-[0_0_12px_rgba(34,211,238,0.15)]'
                 : 'border-cyan-500/30 hover:border-cyan-500/70'
@@ -2540,31 +2622,45 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
               <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-cyan-300 text-xs font-mono">
                 {speciesAllocationMetrics?.isComplete ? (
-                  <span className="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1 font-mono">
                     <Check className="w-3 h-3" /> Ready
                   </span>
                 ) : characterData['char-species'] ? (
-                  <span className="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-500 text-amber-300 text-[10px]">
+                  <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500 text-amber-300 text-[10px] font-mono">
                     Pending Allocation
                   </span>
                 ) : null}
                 <span>Configure</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
             {selectedSpecies && (
               <div className="flex flex-wrap gap-2 text-[10px] font-mono text-slate-400 mt-1">
                 <span>Lineage: <strong className="text-cyan-200">{selectedSpecies.parent_species || 'Species'}</strong></span>
-                {selectedSpecies.size && <span>• Size: <strong className="text-cyan-200">{formatList(selectedSpecies.size)}</strong></span>}
-                {selectedSpecies.movement && <span>• Movement: <strong className="text-cyan-200">{formatList(selectedSpecies.movement)}</strong></span>}
+                {selectedSpecies.size && (
+                  <span>
+                    • Size:{' '}
+                    <strong className="text-cyan-200" title={formatSpeciesSize(selectedSpecies.size).tooltip.description}>
+                      {formatSpeciesSize(selectedSpecies.size).label}
+                    </strong>
+                  </span>
+                )}
+                {selectedSpecies.movement && (
+                  <span>
+                    • Movement:{' '}
+                    <strong className="text-cyan-200" title={formatSpeciesMovement(selectedSpecies.movement).tooltip.description}>
+                      {formatSpeciesMovement(selectedSpecies.movement).label}
+                    </strong>
+                  </span>
+                )}
               </div>
             )}
           </div>
 
           {/* Occupation Summary Card */}
           <div 
-            onClick={() => setActiveSubTab('occupation')}
-            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group ${
+            onClick={() => openPillarModal('occupation')}
+            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group shadow-sm hover:shadow-sky-500/10 ${
               !characterData['char-occu']
                 ? 'border-sky-500/50 shadow-[0_0_12px_rgba(14,165,233,0.15)]'
                 : 'border-sky-500/30 hover:border-sky-500/70'
@@ -2587,16 +2683,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
               <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-sky-300 text-xs font-mono">
                 {occuAllocationMetrics?.isComplete ? (
-                  <span className="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1 font-mono">
                     <Check className="w-3 h-3" /> Ready
                   </span>
                 ) : characterData['char-occu'] ? (
-                  <span className="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-500 text-amber-300 text-[10px]">
+                  <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500 text-amber-300 text-[10px] font-mono">
                     Pending Allocation
                   </span>
                 ) : null}
                 <span>Configure</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
             {selectedOccupation && (
@@ -2609,8 +2705,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
           {/* Origin Summary Card */}
           <div 
-            onClick={() => setActiveSubTab('origin')}
-            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group ${
+            onClick={() => openPillarModal('origin')}
+            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group shadow-sm hover:shadow-emerald-500/10 ${
               !characterData['char-origin']
                 ? 'border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                 : 'border-emerald-500/30 hover:border-emerald-500/70'
@@ -2633,30 +2729,30 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
               <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-emerald-300 text-xs font-mono">
                 {originAllocationMetrics?.isComplete ? (
-                  <span className="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1">
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1 font-mono">
                     <Check className="w-3 h-3" /> Ready
                   </span>
                 ) : characterData['char-origin'] ? (
-                  <span className="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-500 text-amber-300 text-[10px]">
+                  <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500 text-amber-300 text-[10px] font-mono">
                     Pending Allocation
                   </span>
                 ) : null}
                 <span>Configure</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
             {selectedOrigin && (
               <p className="text-[11px] text-slate-400 mt-1 line-clamp-1 font-mono">
-                {selectedOrigin.habitat ? `${selectedOrigin.habitat} • ` : ''}
-                {selectedOrigin.skill_points ? `${selectedOrigin.skill_points} SP Society Pool` : 'Standard Homeworld'}
+                {selectedOrigin.environment_type ? `${selectedOrigin.environment_type} • ` : ''}
+                {selectedOrigin.gravity_baseline ? `Gravity: ${selectedOrigin.gravity_baseline}` : (selectedOrigin.summary || 'Origin Details')}
               </p>
             )}
           </div>
 
           {/* Faction Summary Card */}
           <div 
-            onClick={() => setActiveSubTab('faction')}
-            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group ${
+            onClick={() => openPillarModal('faction')}
+            className={`p-3 bg-slate-900/60 hover:bg-slate-900/90 border rounded-xl transition-all cursor-pointer group shadow-sm hover:shadow-purple-500/10 ${
               !characterData['char-faction']
                 ? 'border-purple-500/50 shadow-[0_0_12px_rgba(168,85,247,0.15)]'
                 : 'border-purple-500/30 hover:border-purple-500/70'
@@ -2669,21 +2765,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   Faction
                 </span>
                 <span className="text-xs font-bold font-mono uppercase text-purple-300">
-                  {characterData['char-faction'] || 'Required — Not Selected'}
+                  {characterData['char-faction'] || 'Optional — Not Selected'}
                 </span>
               </div>
               <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-purple-300 text-xs font-mono">
-                {factionAllocationMetrics?.isComplete ? (
-                  <span className="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1">
-                    <Check className="w-3 h-3" /> Ready
-                  </span>
-                ) : characterData['char-faction'] ? (
-                  <span className="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-500 text-amber-300 text-[10px]">
-                    Pending Allocation
-                  </span>
-                ) : null}
                 <span>Configure</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
             {selectedFaction && (
@@ -2693,225 +2780,121 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             )}
           </div>
         </div>
-
-        {/* Action Button: Proceed to Archetype */}
-        <div className="pt-2">
-          <button
-            type="button"
-            onClick={() => setActiveSubTab('archetype')}
-            className="w-full py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/60 text-cyan-300 hover:text-cyan-100 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-          >
-            <span>Proceed to Step 2: Archetype</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
       </div>
     );
   };
 
   return (
-    <div className="tab-panel active p-2.5 sm:p-4 space-y-4 sm:space-y-5 pb-28 sm:pb-24">
-      {/* High-Tech Sub-Tab Navigation Bar (Horizontal Scrolling Bar on Mobile, Spacious Bar on Desktop) */}
-      <div className="flex items-center gap-1.5 p-1.5 bg-slate-900/95 backdrop-blur-md rounded-xl border border-slate-800 overflow-x-auto scrollbar-none sticky top-0 z-20 shadow-md">
-        {SUB_TABS.map(tab => {
-          const isActive = activeSubTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveSubTab(tab.id)}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap cursor-pointer ${
-                isActive
-                  ? `${tab.activeClass} border`
-                  : 'bg-slate-950/70 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-              }`}
-            >
-              <span className="shrink-0">{tab.icon}</span>
-              <span>{tab.label}</span>
-              {tab.badge && (
-                <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono tracking-tight shrink-0 ${tab.badgeClass}`}>
-                  {tab.badge}
+    <div className="tab-panel active p-4 space-y-6 pb-20">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in duration-150">
+        {/* Left Column: Operative Profile */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-800">
+            <User className="w-4 h-4 text-cyan-400" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+              Operative Profile
+            </span>
+          </div>
+          {renderBioSection()}
+        </div>
+
+        {/* Right Column: Identity Pillars Matrix */}
+        <div className="space-y-4">
+          {renderExecutiveDossier()}
+        </div>
+      </section>
+
+      {/* Dedicated Pillar Configuration Modal */}
+      {activePillarModal && (
+        <div 
+          className="fixed inset-0 z-[220] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none"
+          onClick={() => setActivePillarModal(null)}
+        >
+          <div 
+            className="bg-slate-900 border border-cyan-500/50 rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[88vh] text-slate-100 animate-in fade-in zoom-in-95 duration-150"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">
+                  {activePillarModal === 'archetype' && '🛡️'}
+                  {activePillarModal === 'species' && '🧬'}
+                  {activePillarModal === 'occupation' && '🛠️'}
+                  {activePillarModal === 'origin' && '🌍'}
+                  {activePillarModal === 'faction' && '🏛️'}
                 </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 text-cyan-400 border border-cyan-500/40">
+                      Pillar Configurator
+                    </span>
+                    <span className="text-xs font-mono font-bold uppercase text-slate-300">
+                      {activePillarModal}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-      {/* SUBTAB 1: BIO & DOSSIER */}
-      {activeSubTab === 'bio' && (
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-150">
-          {/* Left Column: Bio Details */}
-          <div>
-            <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-800">
-              <User className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-                Operative Profile
-              </span>
+              {/* Pillar Switcher Quick Tabs in Modal Header */}
+              <div className="hidden sm:flex items-center gap-1 bg-slate-950/80 p-1 rounded-lg border border-slate-800">
+                {[
+                  { id: 'archetype', label: 'Archetype', icon: '🛡️' },
+                  { id: 'species', label: 'Species', icon: '🧬' },
+                  { id: 'occupation', label: 'Occupation', icon: '🛠️' },
+                  { id: 'origin', label: 'Origin', icon: '🌍' },
+                  { id: 'faction', label: 'Faction', icon: '🏛️' }
+                ].map(p => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => openPillarModal(p.id)}
+                    className={`px-2.5 py-1 rounded text-xs font-mono font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
+                      activePillarModal === p.id
+                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-sm'
+                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                    }`}
+                  >
+                    <span>{p.icon}</span>
+                    <span>{p.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              <button 
+                type="button"
+                onClick={() => setActivePillarModal(null)} 
+                className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-100 cursor-pointer transition-colors"
+                title="Close Configurator"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            {renderBioSection()}
-          </div>
 
-          {/* Right Column: Executive Dossier & Matrix Summary */}
-          <div>
-            {renderExecutiveDossier()}
-          </div>
-        </section>
-      )}
-
-      {/* SUBTAB 2: ARCHETYPE */}
-      {activeSubTab === 'archetype' && (
-        <section className="space-y-4 animate-in fade-in duration-150">
-          {renderArchetypeSection(true)}
-          {/* Guided Navigation Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-800 font-mono text-xs">
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('bio')}
-              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5 cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>← Bio & Dossier</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('species')}
-              className="px-3.5 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-200 font-bold flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.2)]"
-            >
-              <span>Proceed to Species →</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* SUBTAB 3: SPECIES */}
-      {activeSubTab === 'species' && (
-        <section className="space-y-4 animate-in fade-in duration-150">
-          {renderSpeciesSection(true)}
-          {/* Guided Navigation Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-800 font-mono text-xs">
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('archetype')}
-              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5 cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>← Archetype</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('occupation')}
-              className="px-3.5 py-1.5 rounded-lg bg-sky-950 hover:bg-sky-900 border border-sky-500/70 text-sky-200 font-bold flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(14,165,233,0.2)]"
-            >
-              <span>Proceed to Occupation →</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* SUBTAB 4: OCCUPATION */}
-      {activeSubTab === 'occupation' && (
-        <section className="space-y-4 animate-in fade-in duration-150">
-          {renderOccupationSection(true)}
-          {/* Guided Navigation Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-800 font-mono text-xs">
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('species')}
-              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5 cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>← Species</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('origin')}
-              className="px-3.5 py-1.5 rounded-lg bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/70 text-emerald-200 font-bold flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(16,185,129,0.2)]"
-            >
-              <span>Proceed to Origin →</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* SUBTAB 5: ORIGIN */}
-      {activeSubTab === 'origin' && (
-        <section className="space-y-4 animate-in fade-in duration-150">
-          {renderOriginSection(true)}
-          {/* Guided Navigation Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-800 font-mono text-xs">
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('occupation')}
-              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5 cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>← Occupation</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('faction')}
-              className="px-3.5 py-1.5 rounded-lg bg-purple-950 hover:bg-purple-900 border border-purple-500/70 text-purple-200 font-bold flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(168,85,247,0.2)]"
-            >
-              <span>Proceed to Faction →</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* SUBTAB 6: FACTION */}
-      {activeSubTab === 'faction' && (
-        <section className="space-y-4 animate-in fade-in duration-150">
-          {renderFactionSection(true)}
-          {/* Guided Navigation Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-slate-800 font-mono text-xs">
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('origin')}
-              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5 cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>← Origin</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveSubTab('bio')}
-              className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-cyan-500/60 text-cyan-200 font-bold flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>Review Full Bio & Dossier →</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </section>
-      )}
-
-      {/* SUBTAB 7: ALL PILLARS (CLASSIC VIEW) */}
-      {activeSubTab === 'all' && (
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-150">
-          {/* Left Column: Bio Details */}
-          <div>
-            <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-800">
-              <User className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-                Operative Profile
-              </span>
+            {/* Modal Body: Scrollable Section */}
+            <div className="overflow-y-auto pr-1 flex-1 custom-scrollbar">
+              {activePillarModal === 'archetype' && renderArchetypeSection()}
+              {activePillarModal === 'species' && renderSpeciesSection()}
+              {activePillarModal === 'occupation' && renderOccupationSection()}
+              {activePillarModal === 'origin' && renderOriginSection()}
+              {activePillarModal === 'faction' && renderFactionSection()}
             </div>
-            {renderBioSection()}
-          </div>
 
-          {/* Right Column: All 5 Selection Cards Stacked */}
-          <div className="space-y-4">
-            {renderArchetypeSection(false)}
-            {renderSpeciesSection(false)}
-            {renderOccupationSection(false)}
-            {renderOriginSection(false)}
-            {renderFactionSection(false)}
+            {/* Modal Footer */}
+            <div className="pt-3 border-t border-slate-800 flex items-center justify-between shrink-0">
+              <span className="text-[11px] font-mono text-slate-400">
+                All allocations save automatically to operative folio
+              </span>
+              <button
+                type="button"
+                onClick={() => setActivePillarModal(null)}
+                className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer shadow-sm"
+              >
+                Confirm & Close
+              </button>
+            </div>
           </div>
-        </section>
+        </div>
       )}
 
       {/* Comprehensive Full Database Entry Inspector Modal */}
@@ -3096,18 +3079,27 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     <div className="flex flex-wrap gap-1.5">
                       {allTraits.map(t => {
                         const acquired = getFeatureAcquiredStatus(t, characterData);
-                        const tTitle = normalizeTraitName(t);
+                        const info = formatSpeciesTrait(t, inspectItem.item);
                         return (
-                          <span 
-                            key={tTitle}
-                            className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                              acquired
-                                ? 'bg-amber-950/80 border-amber-500 text-amber-200 font-bold'
-                                : 'bg-slate-950 border-slate-800 text-slate-400'
-                            }`}
+                          <FolioTooltip
+                            key={info.label}
+                            title={info.tooltip.title}
+                            badge={info.tooltip.badge}
+                            badgeColor={info.category === 'Humanoid Special Ability' ? 'purple' : info.category === 'Special Ability' ? 'amber' : 'cyan'}
+                            description={info.tooltip.description}
+                            rules={info.tooltip.rules}
+                            cost={info.tooltip.cost}
                           >
-                            {tTitle} {acquired ? '✓' : ''}
-                          </span>
+                            <span 
+                              className={`px-2.5 py-1 rounded text-xs font-mono border cursor-help transition-colors ${
+                                acquired
+                                  ? 'bg-amber-950/80 border-amber-500 text-amber-200 font-bold'
+                                  : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                              }`}
+                            >
+                              {info.label} {acquired ? '✓' : ''}
+                            </span>
+                          </FolioTooltip>
                         );
                       })}
                     </div>

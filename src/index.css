@@ -242,7 +242,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-marquee-scifi {
   display: flex;
+  align-items: center;
   width: max-content;
+  white-space: nowrap;
+  flex-shrink: 0;
   will-change: transform;
   animation: scifi-marquee-scroll var(--marquee-duration, 25s) linear infinite;
 }

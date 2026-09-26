@@ -29,6 +29,7 @@ import {
   formatWeightWithConversion,
   getWeightConversion
 } from '../../../engines/tangentMeasurementEngine';
+import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
 
 const getSpeciesAttrModifier = (sp, attrName) => {
   if (!sp) return 0;
@@ -1556,7 +1557,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             const isSelected = draft['char-species'] === sp.name || draft['char-species'] === sp.title || draft['char-species'] === sp.id;
             const bpCost = parseInt(sp.cp_cost ?? sp.cp ?? 10, 10);
             const inherentMods = Array.isArray(sp.inherent_attribute_modifiers) ? sp.inherent_attribute_modifiers : [];
-            const inherentFeats = Array.isArray(sp.inherent_features) ? sp.inherent_features : [];
+            const inherentFeats = getInherentSpeciesTraits(sp);
 
             return (
               <div
@@ -1617,7 +1618,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 {inherentFeats.length > 0 && (
                   <div className="pt-2 border-t border-slate-800/80 text-[11px] text-slate-400">
                     <span className="text-slate-500 font-semibold">Inherent: </span>
-                    <span>{inherentFeats.slice(0, 3).join(', ')}{inherentFeats.length > 3 ? ` +${inherentFeats.length - 3} more` : ''}</span>
+                    <span>
+                      {inherentFeats.slice(0, 3).map(f => formatSpeciesTrait(f, sp).label).join(', ')}
+                      {inherentFeats.length > 3 ? ` +${inherentFeats.length - 3} more` : ''}
+                    </span>
                   </div>
                 )}
               </div>

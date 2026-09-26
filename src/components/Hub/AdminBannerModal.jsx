@@ -134,31 +134,35 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
             </div>
 
             {/* Simulated Banner Container */}
-            <div className={`relative overflow-hidden rounded-xl border ${currentTheme.border} ${currentTheme.bg} ${currentTheme.boxGlow} backdrop-blur-xl p-2.5 sm:p-3 flex items-center transition-all duration-300`}>
-              <div className="flex items-center gap-2.5 shrink-0 z-10 mr-3">
+            <div className={`relative overflow-hidden rounded-lg sm:rounded-xl border ${currentTheme.border} ${currentTheme.bg} ${currentTheme.boxGlow} backdrop-blur-xl px-3 flex items-center transition-all duration-300 ${
+              form.mode === 'static'
+                ? 'w-full min-h-[36px] py-2'
+                : 'w-full h-9 sm:h-10'
+            }`}>
+              <div className="flex items-center justify-center w-5 shrink-0 z-10 mr-2">
                 <div className={`w-2 h-2 rounded-full ${currentTheme.beacon} animate-pulse`} />
-                <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider flex items-center gap-1.5 ${currentTheme.badgeBg}`}>
-                  <SelectedIcon size={12} />
-                  <span>{form.badge || 'TRANSMISSION'}</span>
-                </span>
               </div>
 
               {/* Message Render */}
-              <div className="flex-1 overflow-hidden relative">
+              <div className={`flex-1 overflow-hidden relative min-w-0 ${
+                form.mode === 'static'
+                  ? 'flex items-center justify-center text-center py-0.5'
+                  : 'flex items-center whitespace-nowrap h-full'
+              }`}>
                 {form.mode === 'scrolling' ? (
                   <div 
-                    className="animate-marquee-scifi text-[11px] sm:text-[12px] font-mono tracking-wide"
+                    className="animate-marquee-scifi text-[11px] sm:text-[12px] font-mono tracking-wide flex items-center whitespace-nowrap shrink-0"
                     style={{ '--marquee-duration': BANNER_SPEEDS[form.speed]?.duration || '25s' }}
                   >
-                    <span className={`mr-8 font-semibold ${currentTheme.text} ${currentTheme.textGlow}`}>
+                    <span className={`mr-12 font-semibold whitespace-nowrap shrink-0 ${currentTheme.text} ${currentTheme.textGlow}`}>
                       {form.message || 'NO MESSAGE ENTERED'}
                     </span>
-                    <span className={`mr-8 font-semibold ${currentTheme.text} ${currentTheme.textGlow}`}>
+                    <span className={`mr-12 font-semibold whitespace-nowrap shrink-0 ${currentTheme.text} ${currentTheme.textGlow}`}>
                       {form.message || 'NO MESSAGE ENTERED'}
                     </span>
                   </div>
                 ) : (
-                  <div className={`text-[11px] sm:text-[12px] font-mono truncate font-semibold ${currentTheme.text} ${currentTheme.textGlow}`}>
+                  <div className={`w-full text-center text-[11px] sm:text-[12px] font-mono whitespace-normal break-words leading-relaxed font-semibold ${currentTheme.text} ${currentTheme.textGlow}`}>
                     {form.message || 'NO MESSAGE ENTERED'}
                   </div>
                 )}
@@ -166,7 +170,7 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
 
               {form.linkLabel && (
                 <div className="shrink-0 ml-3 z-10">
-                  <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 ${currentTheme.text}`}>
+                  <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${currentTheme.text}`}>
                     {form.linkLabel}
                   </span>
                 </div>

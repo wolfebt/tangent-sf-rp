@@ -10,6 +10,7 @@ import {
   Compass, 
   CornerDownLeft,
   Tv2,
+  Layers,
   X 
 } from 'lucide-react';
 import { useDBM } from '../../context/DBMContext';

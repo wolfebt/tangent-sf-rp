@@ -44,7 +44,7 @@ export const ChatProvider = ({ children }) => {
   const location = useLocation();
   const [hasNewOperatorLogins, setHasNewOperatorLogins] = useState(false);
   const [newOperatorLogins, setNewOperatorLogins] = useState([]);
-  const knownOnlineUidsRef = useRef(new Set());
+  const knownOnlineUsersRef = useRef(new Set());
   const initialPresenceReceivedRef = useRef(false);
 
   const [lastReadTimestamps, setLastReadTimestamps] = useState(() => {
