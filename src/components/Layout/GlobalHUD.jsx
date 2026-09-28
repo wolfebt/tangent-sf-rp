@@ -17,6 +17,7 @@ import {
   Tv2,
   Hammer,
   Shield,
+  Layers,
   X,
   Command
 } from 'lucide-react';
@@ -90,7 +91,15 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const isCompendium = location.pathname.startsWith('/compendium');
   const isCodex = location.pathname.startsWith('/codex');
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
-  const isFoundry = location.pathname.startsWith('/foundry') || location.pathname.startsWith('/story-foundry') || location.pathname.startsWith('/vtt-ops') || location.pathname.startsWith('/campaign-builder') || location.pathname.startsWith('/spectator') || location.pathname.startsWith('/stage') || location.pathname === '/vtt';
+  const isFoundry = location.pathname.startsWith('/foundry') || 
+                    location.pathname.startsWith('/story-foundry') || 
+                    location.pathname.startsWith('/live-studio') || 
+                    location.pathname.startsWith('/ade-stage') || 
+                    location.pathname.startsWith('/vtt-ops') || 
+                    location.pathname.startsWith('/campaign-builder') || 
+                    location.pathname.startsWith('/spectator') || 
+                    location.pathname.startsWith('/stage') || 
+                    location.pathname === '/vtt';
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
   const isTeams = location.pathname.startsWith('/teams') || location.pathname.startsWith('/groups') || location.pathname.startsWith('/squads');
   const isStage = location.pathname.startsWith('/stage') || location.pathname === '/vtt';
@@ -457,9 +466,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   {/* ADE */}
                   <button
                     type="button"
-                    onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
+                    onClick={() => { navigate('/foundry/live-studio'); setIsMobileNavOpen(false); }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isFoundry && !isStage ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                      isFoundry ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
                     <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-300">
@@ -467,24 +476,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </div>
                     <div className="text-left">
                       <div className="font-bold text-xs">ADE</div>
-                      <div className="text-[10px] text-slate-400">Adventure Dev & Scenarios</div>
-                    </div>
-                  </button>
-
-                  {/* VTT */}
-                  <button
-                    type="button"
-                    onClick={() => { navigate('/stage'); setIsMobileNavOpen(false); }}
-                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isStage ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300">
-                      <MapPin size={16} />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-xs">VTT</div>
-                      <div className="text-[10px] text-slate-400">Tactical Maps & The Stage</div>
+                      <div className="text-[10px] text-slate-400">Consolidated Story, Maps & Stage</div>
                     </div>
                   </button>
 

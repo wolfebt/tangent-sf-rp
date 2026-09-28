@@ -19,22 +19,22 @@ import { useAuth } from '../../../context/AuthContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import Split from 'react-split';
 import { v4 as uuidv4 } from 'uuid';
-import { ELEMENT_TYPES, ELEMENT_SCHEMAS, getTypePillStyle } from '../ElementForge/elementSchemas';
-import { isHalfPageElement } from './exportUtils';
-import { ElementSelectorModal as UnifiedRelationalSelectorModal } from '../ElementForge/ElementSelectorModal';
-import ReactQuill from 'react-quill-new';
-import 'react-quill-new/dist/quill.snow.css';
+import { ELEMENT_TYPES, getTypePillStyle } from '../ElementForge/elementSchemas';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { useToast, showToast } from '../../../context/ToastContext';
 import EditElementModal from '../ElementForge/EditElementModal';
+import CreateScenarioModal from './CreateScenarioModal';
 import OsrControlPanelDeck from './workspaces/OsrControlPanelDeck';
 import StoryWeaver from './workspaces/StoryWeaver';
 import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
 import AIMEChatBox from '../AIME/AIMEChatBox';
-import { ModularCharacterAssembler } from '../ElementForge/components/ModularCharacterAssembler';
-import { NpcScriptBuilder } from '../ElementForge/components/NpcScriptBuilder';
-import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
-import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
+import { TreeNode, AddElementModal, getBreadcrumbPath } from './ScenarioOutlinerTree';
+import { ElementFieldsEditor, ElementImageUploader, AutoResizingTextarea } from './ScenarioCockpitDock';
+import { StageViewportWrapper } from '../../../components/VTT/stage/StageViewportWrapper';
+import { WaypointPromptChip } from '../../../components/VTT/stage/WaypointPromptChip';
+import { useWaypointEngine } from '../LiveStudio/hooks/useWaypointEngine';
+import { createBlankCanvas } from '../../../components/VTT/stage/defaultMaps';
+import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 import { 
   Search, 
   Plus, 
@@ -58,755 +58,15 @@ import {
   Link,
   ChevronDown,
   Swords,
-  PanelRightClose
+  PanelRightClose,
+  Columns,
+  Maximize2,
+  Hammer,
+  Flag,
+  Shield,
+  Map as MapIcon
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
-
-// Helper to get breadcrumb location path for an element
-const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
-  for (let n of nodes) {
-    const newPath = [...currentPath, n.title || 'Untitled'];
-    if (n.id === targetId) return newPath;
-    if (n.children && n.children.length > 0) {
-      const found = getBreadcrumbPath(n.children, targetId, newPath);
-      if (found) return found;
-    }
-  }
-  return null;
-};
-
-// ── OUTLINER TREE NODE ──
-const TreeNode = ({ 
-  node, 
-  activeId, 
-  onSelect, 
-  onDelete, 
-  onMove, 
-  onReorderRelative, 
-  onAddChild, 
-  onExport, 
-  onExportMD, 
-  onExportPDF, 
-  depth = 0,
-  filterQuery = ''
-}) => {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [dropPosition, setDropPosition] = useState(null); // 'above' | 'inside' | 'below' | null
-  const hasChildren = node.children && node.children.length > 0;
-  
-  // Filter matching
-  const matchesSelf = !filterQuery || 
-    (node.title || '').toLowerCase().includes(filterQuery.toLowerCase()) ||
-    (node.type || '').toLowerCase().includes(filterQuery.toLowerCase());
-
-  const checkHasMatchingDescendants = (n) => {
-    if (!filterQuery) return true;
-    if ((n.title || '').toLowerCase().includes(filterQuery.toLowerCase())) return true;
-    if ((n.type || '').toLowerCase().includes(filterQuery.toLowerCase())) return true;
-    if (n.children && n.children.length > 0) {
-      return n.children.some(checkHasMatchingDescendants);
-    }
-    return false;
-  };
-
-  const hasMatchingDescendants = checkHasMatchingDescendants(node);
-
-  if (!matchesSelf && !hasMatchingDescendants) return null;
-
-  const handleDragStart = (e) => {
-    e.stopPropagation();
-    e.dataTransfer.setData('text/plain', node.id);
-    e.dataTransfer.effectAllowed = 'move';
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    e.dataTransfer.dropEffect = 'move';
-    const rect = e.currentTarget.getBoundingClientRect();
-    const offsetY = e.clientY - rect.top;
-    const ratio = offsetY / rect.height;
-
-    if (ratio < 0.25) {
-      setDropPosition('above');
-    } else if (ratio > 0.75) {
-      setDropPosition('below');
-    } else {
-      setDropPosition('inside');
-    }
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDropPosition(null);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const pos = dropPosition;
-    setDropPosition(null);
-    const draggedId = e.dataTransfer.getData('text/plain');
-    if (draggedId && draggedId !== node.id) {
-      if (onReorderRelative && (pos === 'above' || pos === 'below')) {
-        onReorderRelative(draggedId, node.id, pos);
-      } else if (onMove) {
-        onMove(draggedId, node.id);
-      }
-    }
-  };
-
-  return (
-    <div className="flex flex-col min-w-max group select-none relative font-mono">
-      <div 
-        draggable
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        className={`flex items-center py-1.5 px-2 cursor-pointer transition-all justify-between rounded-lg relative my-0.5 ${
-          dropPosition === 'inside'
-            ? 'bg-cyan-950/90 border-2 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.5)]' 
-            : activeId === node.id 
-            ? 'bg-cyan-950/80 border-l-2 border-cyan-400 text-white font-semibold shadow-sm' 
-            : 'hover:bg-slate-800/60 border-l-2 border-transparent text-slate-300'
-        }`}
-        style={{ paddingLeft: `${depth * 0.85 + 0.5}rem` }}
-        onClick={() => onSelect(node.id)}
-      >
-        {/* Drop Indicators */}
-        {dropPosition === 'above' && (
-          <div className="absolute top-0 left-0 right-0 h-1 bg-cyan-400 shadow-[0_0_8px_#22d3ee] z-10" />
-        )}
-        {dropPosition === 'below' && (
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-cyan-400 shadow-[0_0_8px_#22d3ee] z-10" />
-        )}
-
-        <div className="flex items-center gap-1.5 min-w-0 pr-2">
-          <span 
-            className={`w-3.5 text-center text-[11px] text-slate-400 shrink-0 ${hasChildren ? 'hover:text-cyan-300' : 'opacity-0'}`}
-            onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-          >
-            {isExpanded ? '▼' : '▶'}
-          </span>
-          <span className="text-slate-600 hover:text-cyan-400 text-[10px] cursor-grab active:cursor-grabbing shrink-0" title="Drag to reorder">
-            ⣿
-          </span>
-          <div className="flex flex-col min-w-0 items-start">
-            <span className={`inline-block px-1.5 py-0.2 text-[8px] font-extrabold uppercase tracking-wider rounded border leading-tight mb-0.5 shadow-sm ${getTypePillStyle(node.type)}`}>
-              {node.type || 'Element'}
-            </span>
-            <span className="text-xs font-medium whitespace-nowrap truncate max-w-[170px] text-slate-200">
-              {node.title || 'Untitled'}
-            </span>
-          </div>
-        </div>
-
-        {/* Tree Node Actions */}
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0">
-          {onAddChild && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onAddChild(node.id);
-              }}
-              title="Add Sub-Element"
-              className="p-1 text-[10px] bg-cyan-950/80 hover:bg-cyan-800 border border-cyan-500/50 text-cyan-300 rounded leading-none transition-colors"
-            >
-              +
-            </button>
-          )}
-          {onDelete && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(node.id, node.title);
-              }}
-              title="Delete this element"
-              className="p-1 text-[10px] bg-red-950/80 hover:bg-red-800 border border-red-500/60 text-red-300 rounded leading-none transition-colors"
-            >
-              🗑️
-            </button>
-          )}
-        </div>
-      </div>
-
-      {isExpanded && hasChildren && (
-        <div className="flex flex-col">
-          {node.children.map(child => (
-            <TreeNode 
-              key={child.id} 
-              node={child} 
-              activeId={activeId} 
-              onSelect={onSelect} 
-              onDelete={onDelete} 
-              onMove={onMove} 
-              onReorderRelative={onReorderRelative} 
-              onAddChild={onAddChild} 
-              onExport={onExport} 
-              onExportMD={onExportMD} 
-              onExportPDF={onExportPDF} 
-              depth={depth + 1} 
-              filterQuery={filterQuery}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// ── ADD ELEMENT MODAL ──
-const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId, onImport }) => {
-  const { elementsCatalog } = useStory();
-  const [type, setType] = useState('Story Arc');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [selectedSavedId, setSelectedSavedId] = useState('');
-  const [customFields, setCustomFields] = useState([{ id: uuidv4(), label: '', value: '' }]);
-  const [templateFilterType, setTemplateFilterType] = useState('All');
-  const [sortConfig, setSortConfig] = useState({ key: 'title', direction: 'asc' });
-  const fileInputRef = useRef(null);
-
-  if (!isOpen) return null;
-
-  const handleSelectSaved = (val) => {
-    setSelectedSavedId(val);
-    if (!val) {
-      setTitle('');
-      setContent('');
-      return;
-    }
-
-    const savedElem = elementsCatalog.find(item => item.id === val);
-    if (savedElem) {
-      setType(savedElem.type || 'Custom');
-      setTitle(savedElem.title || '');
-      setContent(savedElem.content || '');
-      if (Array.isArray(savedElem.customFields) && savedElem.customFields.length > 0) {
-        setCustomFields(savedElem.customFields);
-      }
-    }
-  };
-
-  const handleCustomFieldChange = (id, key, val) => {
-    setCustomFields(prev => prev.map(f => f.id === id ? { ...f, [key]: val } : f));
-  };
-
-  const handleAddCustomFieldRow = () => {
-    setCustomFields(prev => [...prev, { id: uuidv4(), label: '', value: '' }]);
-  };
-
-  const handleRemoveCustomFieldRow = (id) => {
-    setCustomFields(prev => prev.filter(f => f.id !== id));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validCustomFields = customFields
-      .filter(f => f.label.trim() !== '')
-      .map(f => ({ id: f.id || uuidv4(), label: f.label.trim(), value: f.value }));
-
-    let baseFields = {};
-    let imageUrl = '';
-    if (selectedSavedId) {
-      const savedElem = elementsCatalog.find(item => item.id === selectedSavedId);
-      if (savedElem) {
-        baseFields = { ...(savedElem.fields || {}) };
-        imageUrl = savedElem.imageUrl || '';
-      }
-    }
-
-    onAdd({ 
-      type, 
-      title, 
-      content,
-      imageUrl,
-      fields: baseFields,
-      parentId: defaultParentId || null,
-      customFields: validCustomFields
-    });
-    setTitle('');
-    setContent('');
-    setSelectedSavedId('');
-    setCustomFields([{ id: uuidv4(), label: '', value: '' }]);
-    setType('Story Arc');
-    onClose();
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto font-mono">
-      <div className="bg-slate-900 border border-cyan-500/40 rounded-2xl p-5 w-full max-w-lg flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-800">
-          <h3 className="text-sm font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-2">
-            <Plus size={15} className="text-cyan-400" />
-            Add Story Element
-          </h3>
-          {onImport && (
-            <div>
-              <input 
-                type="file" 
-                accept=".json" 
-                ref={fileInputRef} 
-                className="hidden" 
-                onChange={(e) => { onImport(e, defaultParentId); onClose(); }}
-              />
-              <button 
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                title="Import Element JSON"
-                className="px-2.5 py-1 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-xs font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer"
-              >
-                📥 Import JSON
-              </button>
-            </div>
-          )}
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Element Type
-            </label>
-            <select
-              value={type}
-              onChange={e => setType(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 outline-none focus:border-cyan-400 font-mono font-bold cursor-pointer"
-            >
-              {[...ELEMENT_TYPES].sort((a, b) => a.localeCompare(b)).map(t => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
-              Element Title
-            </label>
-            <input
-              type="text"
-              required
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              placeholder="e.g. Infiltration of Sub-Level 4..."
-              className="w-full bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 outline-none focus:border-cyan-400"
-            />
-          </div>
-
-          <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
-            <button 
-              type="button" 
-              onClick={onClose}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl uppercase tracking-wider transition-colors cursor-pointer"
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit"
-              className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl uppercase tracking-wider transition-colors shadow-lg cursor-pointer"
-            >
-              Create Element
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-// ── AUTO-RESIZING TEXTAREA ──
-const AutoResizingTextarea = ({ value, onChange, placeholder, className }) => {
-  const textareaRef = useRef(null);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.max(34, textareaRef.current.scrollHeight)}px`;
-    }
-  }, [value]);
-
-  return (
-    <textarea
-      ref={textareaRef}
-      rows={1}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      className={className}
-      style={{ resize: 'none', overflowY: 'hidden' }}
-    />
-  );
-};
-
-// ── COMPACT ELEMENT IMAGE UPLOADER (For Right Cockpit Dock) ──
-const ElementImageUploader = ({ activeNode, updateStory }) => {
-  const fileInputRef = useRef(null);
-  const [showUrlInput, setShowUrlInput] = useState(false);
-  const [urlInputValue, setUrlInputValue] = useState('');
-
-  const isHalfPage = isHalfPageElement(activeNode.type);
-
-  const handleImageFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      showToast({ type: 'warning', text: 'Please select a valid image file.' });
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      updateStory(activeNode.id, { imageUrl: event.target.result });
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  };
-
-  const handleUrlSubmit = (e) => {
-    e.preventDefault();
-    if (urlInputValue.trim()) {
-      updateStory(activeNode.id, { imageUrl: urlInputValue.trim() });
-      setUrlInputValue('');
-      setShowUrlInput(false);
-    }
-  };
-
-  const handleClearImage = () => {
-    updateStory(activeNode.id, { imageUrl: null });
-  };
-
-  return (
-    <div className="p-3 bg-slate-950/60 border-b border-slate-800 space-y-2 font-mono">
-      <div className="flex items-center justify-between">
-        <span className="text-[11px] font-bold uppercase text-amber-400 tracking-wider flex items-center gap-1.5">
-          <span>🖼️</span> Element Image
-        </span>
-        <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">
-          {isHalfPage ? 'Half-Page' : 'Quarter-Page'}
-        </span>
-      </div>
-
-      {activeNode.imageUrl ? (
-        <div className="relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950">
-          <img
-            src={activeNode.imageUrl}
-            alt={activeNode.title || 'Element Image'}
-            className="w-full h-32 object-cover"
-          />
-          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="px-2 py-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500 text-cyan-200 text-[10px] font-bold rounded uppercase cursor-pointer"
-            >
-              Replace
-            </button>
-            <button
-              onClick={handleClearImage}
-              className="px-2 py-1 bg-red-950/90 hover:bg-red-900 border border-red-500 text-red-200 text-[10px] font-bold rounded uppercase cursor-pointer"
-            >
-              Remove
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="flex gap-2">
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            className="hidden"
-            onChange={handleImageFileChange}
-          />
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="flex-1 py-1.5 px-2 bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
-          >
-            <span>📥</span> Upload
-          </button>
-          <button
-            onClick={() => setShowUrlInput(!showUrlInput)}
-            className="py-1.5 px-2.5 bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold rounded-xl uppercase tracking-wider transition-colors cursor-pointer"
-          >
-            🔗 URL
-          </button>
-        </div>
-      )}
-
-      {showUrlInput && (
-        <form onSubmit={handleUrlSubmit} className="flex gap-1 pt-1">
-          <input
-            type="url"
-            value={urlInputValue}
-            onChange={(e) => setUrlInputValue(e.target.value)}
-            placeholder="Paste image URL..."
-            className="flex-1 bg-slate-900 border border-slate-700 text-slate-200 text-[10px] px-2 py-1 rounded-lg outline-none focus:border-cyan-400"
-          />
-          <button
-            type="submit"
-            className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white text-[10px] font-bold rounded-lg uppercase cursor-pointer"
-          >
-            Set
-          </button>
-        </form>
-      )}
-    </div>
-  );
-};
-
-// ── ELEMENT FIELDS EDITOR (For Right Cockpit Dock) ──
-const ElementFieldsEditor = ({ activeNode, updateStory }) => {
-  const schema = ELEMENT_SCHEMAS[activeNode.type] || [];
-  const fields = activeNode.fields || {};
-  const customFields = activeNode.customFields || [];
-
-  const [selectorState, setSelectorState] = useState(null);
-  const [newLabel, setNewLabel] = useState('');
-  const [newValue, setNewValue] = useState('');
-  const [activeTabIdx, setActiveTabIdx] = useState(0);
-
-  useEffect(() => {
-    setActiveTabIdx(0);
-  }, [activeNode.type, activeNode.id]);
-
-  const handleChange = (key, value) => {
-    updateStory(activeNode.id, {
-      fields: {
-        ...(activeNode.fields || {}),
-        [key]: value
-      }
-    });
-  };
-
-  const handleCustomFieldChange = (id, val) => {
-    const updated = customFields.map(f => f.id === id ? { ...f, value: val } : f);
-    updateStory(activeNode.id, { customFields: updated });
-  };
-
-  const handleCustomLabelChange = (id, newLabelStr) => {
-    const updated = customFields.map(f => f.id === id ? { ...f, label: newLabelStr } : f);
-    updateStory(activeNode.id, { customFields: updated });
-  };
-
-  const handleDeleteCustomField = (id) => {
-    const updated = customFields.filter(f => f.id !== id);
-    updateStory(activeNode.id, { customFields: updated });
-  };
-
-  const handleAddCustomField = () => {
-    if (!newLabel.trim()) return;
-    const newField = {
-      id: uuidv4(),
-      label: newLabel.trim(),
-      value: newValue
-    };
-    const updated = [...customFields, newField];
-    updateStory(activeNode.id, { customFields: updated });
-    setNewLabel('');
-    setNewValue('');
-  };
-
-  const handleOpenSelector = (fieldDef) => {
-    setSelectorState({
-      key: fieldDef.key,
-      label: fieldDef.label,
-      dbSource: fieldDef.dbSource || 'species'
-    });
-  };
-
-  const [isAimeOpen, setIsAimeOpen] = useState(false);
-  const schemaTabs = Array.from(new Set(schema.map(f => f.tab || 'General')));
-  const allTabs = [...schemaTabs, 'Custom Fields'];
-  const currentTab = allTabs[activeTabIdx] || allTabs[0];
-
-  return (
-    <div className="p-3 font-mono space-y-3">
-      {/* Category Pills & AIME */}
-      <div className="flex items-center justify-between gap-1 pb-2 border-b border-slate-800 flex-wrap">
-        <div className="flex flex-wrap gap-1">
-          {allTabs.map((tab, idx) => (
-            <button 
-              key={idx}
-              onClick={() => setActiveTabIdx(idx)}
-              className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all border ${
-                activeTabIdx === idx 
-                  ? 'bg-cyan-950/90 text-cyan-300 border-cyan-500/80 shadow-sm' 
-                  : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-slate-200'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-        <AimeGuidanceButton size="xs" onClick={() => setIsAimeOpen(true)} label="AIME" />
-      </div>
-
-      {/* Schema Fields & Interactive Modules */}
-      {schemaTabs.includes(currentTab) && (
-        <div className="space-y-3">
-          {/* Modular Character Matrix (MCM) Interactive Assembler */}
-          {activeNode.type === 'Persona' && currentTab === 'Modular Assembly (MCM)' && (
-            <ModularCharacterAssembler
-              fields={fields}
-              onFieldChange={handleChange}
-              elementTitle={activeNode.title}
-              onOpenAimeGuidance={() => setIsAimeOpen(true)}
-            />
-          )}
-
-          {/* Autonomous VTT Script & Relations Builder */}
-          {activeNode.type === 'Persona' && currentTab === 'Relations & Scripting' && (
-            <NpcScriptBuilder
-              fields={fields}
-              onFieldChange={handleChange}
-              elementTitle={activeNode.title}
-              onOpenAimeGuidance={() => setIsAimeOpen(true)}
-            />
-          )}
-          {schema.filter(f => (f.tab || 'General') === currentTab).map(f => {
-            const val = fields[f.key] || '';
-            const isRelational = f.type === 'relational' || f.dbSource;
-
-            return (
-              <div key={f.key} className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <label className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">
-                    {f.label}
-                  </label>
-                  {f.dbSource && (
-                    <button
-                      onClick={() => handleOpenSelector(f)}
-                      className="px-1.5 py-0.2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-bold uppercase transition-colors"
-                    >
-                      ☁️ DB
-                    </button>
-                  )}
-                </div>
-
-                {isRelational && val && (
-                  <div className="flex items-center gap-1.5 bg-cyan-950/60 border border-cyan-500/40 px-2 py-1 rounded text-[10px]">
-                    <span className="text-cyan-400 font-bold">☁️</span>
-                    <span className="text-white font-semibold flex-1 truncate">{val}</span>
-                    <button
-                      onClick={() => handleChange(f.key, '')}
-                      className="text-slate-400 hover:text-red-400 font-bold px-0.5"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                )}
-
-                <AutoResizingTextarea
-                  value={val}
-                  onChange={e => handleChange(f.key, e.target.value)}
-                  placeholder={f.placeholder}
-                  className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-100 p-2 rounded-lg text-xs outline-none leading-relaxed"
-                />
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Custom Fields */}
-      {currentTab === 'Custom Fields' && (
-        <div className="space-y-3">
-          {customFields.map(cf => (
-            <div key={cf.id} className="bg-slate-950/70 border border-slate-800 p-2.5 rounded-xl space-y-1.5">
-              <div className="flex items-center justify-between gap-1">
-                <input
-                  type="text"
-                  value={cf.label}
-                  onChange={(e) => handleCustomLabelChange(cf.id, e.target.value)}
-                  className="bg-transparent text-[11px] font-bold text-cyan-300 uppercase tracking-wider outline-none border-b border-dashed border-cyan-800/60 px-1 py-0.5 flex-1"
-                  placeholder="Field Name..."
-                />
-                <button
-                  type="button"
-                  onClick={() => handleDeleteCustomField(cf.id)}
-                  className="text-slate-500 hover:text-red-400 text-[10px] font-bold px-1"
-                >
-                  ✕
-                </button>
-              </div>
-              <AutoResizingTextarea
-                value={cf.value || ''}
-                onChange={e => handleCustomFieldChange(cf.id, e.target.value)}
-                placeholder="Field value..."
-                className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-400 text-slate-100 p-2 rounded-lg text-xs outline-none"
-              />
-            </div>
-          ))}
-
-          {/* Add custom field */}
-          <div className="p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl space-y-2">
-            <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider block">
-              + New Custom Field
-            </span>
-            <input
-              type="text"
-              value={newLabel}
-              onChange={(e) => setNewLabel(e.target.value)}
-              placeholder="Label (e.g. Danger Level)"
-              className="w-full bg-slate-900 border border-slate-800 text-cyan-300 p-1.5 rounded-lg text-xs outline-none focus:border-cyan-400"
-            />
-            <input
-              type="text"
-              value={newValue}
-              onChange={(e) => setNewValue(e.target.value)}
-              placeholder="Value"
-              className="w-full bg-slate-900 border border-slate-800 text-slate-200 p-1.5 rounded-lg text-xs outline-none focus:border-cyan-400"
-            />
-            {newLabel.trim() && (
-              <button
-                type="button"
-                onClick={handleAddCustomField}
-                className="w-full py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
-              >
-                Add Field
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {selectorState && (
-        <UnifiedRelationalSelectorModal
-          isOpen={Boolean(selectorState)}
-          onClose={() => setSelectorState(null)}
-          sourceCollection={selectorState.dbSource}
-          fieldLabel={selectorState.label}
-          isMulti={false}
-          selectedValues={fields[selectorState.key] ? [fields[selectorState.key]] : []}
-          onSelect={(selectedArr) => {
-            const chosen = Array.isArray(selectedArr) ? selectedArr[0] : selectedArr;
-            handleChange(selectorState.key, chosen || '');
-            setSelectorState(null);
-          }}
-        />
-      )}
-
-      {isAimeOpen && (
-        <AimeGuidanceFlyout
-          isOpen={isAimeOpen}
-          onClose={() => setIsAimeOpen(false)}
-          targetType={currentTab.includes('Script') ? 'VttScript' : (currentTab.includes('Relations') ? 'Relations' : (activeNode.type === 'Persona' ? 'Persona' : 'Story'))}
-          contextData={activeNode}
-          onApplyGuidance={(sug) => {
-            if (!activeNode.content) {
-              updateStory(activeNode.id, { content: sug });
-            } else if (!fields.summary) {
-              handleChange('summary', sug.slice(0, 180));
-            }
-          }}
-        />
-      )}
-    </div>
-  );
-};
 
 // ── MAIN SCENARIO PANE WORKSPACE ──
 export default function ScenarioPane({ 
@@ -823,7 +83,6 @@ export default function ScenarioPane({
   activeCockpitDeck = 'inspector',
   onSelectCockpitDeck,
   onOpenGems,
-  onOpenScratchbook,
   onOpenPrintModal
 }) {
   const navigate = useNavigate();
@@ -842,6 +101,7 @@ export default function ScenarioPane({
     handleSaveStory, 
     handleLoadStory, 
     addMap, 
+    activeMapId,
     setActiveMapId, 
     updateProjectName, 
     isStoryReadOnly, 
@@ -859,11 +119,13 @@ export default function ScenarioPane({
 
   // Internal states
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isScenarioModalOpen, setIsScenarioModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
   const [localContent, setLocalContent] = useState('');
   const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
   const [editingModalElement, setEditingModalElement] = useState(null);
-  const [localWorkspaceTab, setLocalWorkspaceTab] = useState('weaver'); // 'weaver' | 'tactical' | 'interactive'
+  const [localWorkspaceTab, setLocalWorkspaceTab] = useState('weaver'); // 'weaver' | 'stage' | 'tactical' | 'interactive'
+  const [isSplitView, setIsSplitView] = useState(false);
   const [searchFilter, setSearchFilter] = useState('');
 
   // Outliner left-column dual-mode tab: 'scenarios' | 'elements'
@@ -885,7 +147,7 @@ export default function ScenarioPane({
   const rawWorkspaceTab = propWorkspaceTab || localWorkspaceTab;
   const scenarioWorkspaceTab = (rawWorkspaceTab === 'canvas' || rawWorkspaceTab === 'manuscript')
     ? 'weaver'
-    : (rawWorkspaceTab === 'control-panel' ? 'tactical' : rawWorkspaceTab);
+    : (rawWorkspaceTab === 'control-panel' ? 'tactical' : (rawWorkspaceTab === 'map' || rawWorkspaceTab === 'stage' ? 'stage' : rawWorkspaceTab));
   const setScenarioWorkspaceTab = propSetWorkspaceTab || setLocalWorkspaceTab;
 
   const mapFileInputRef = useRef(null);
@@ -920,6 +182,52 @@ export default function ScenarioPane({
   const locationPath = activeNode ? getBreadcrumbPath(universeState.scenarios, activeNode.id) : null;
   const linkedMap = activeNode?.mapId ? (allAvailableMaps.find(m => m.id === activeNode.mapId) || null) : null;
 
+  // Sync activeMapId when linkedMap is present
+  useEffect(() => {
+    if (activeNode?.mapId && setActiveMapId && activeMapId !== activeNode.mapId) {
+      setActiveMapId(activeNode.mapId);
+    }
+  }, [activeNode?.mapId, setActiveMapId, activeMapId]);
+
+  // Live Token Tracking for Waypoint Detection in Stage
+  const liveTokens = useEngineStore(selectAllFusedTokens);
+
+  // Flat scenarios list for waypoint target routing
+  const flatScenarios = useMemo(() => {
+    const list = [];
+    const recurse = (nodes) => {
+      for (const n of nodes) {
+        list.push(n);
+        if (n.children && n.children.length > 0) recurse(n.children);
+      }
+    };
+    if (universeState?.scenarios) recurse(universeState.scenarios);
+    return list;
+  }, [universeState?.scenarios]);
+
+  // Bi-directional Waypoint Engine for Tactical Stage
+  const {
+    waypointPromptData,
+    setWaypointPromptData,
+    executeWaypointTrigger
+  } = useWaypointEngine({
+    activeMap: linkedMap,
+    updateMap: (mapId, updates) => {
+      if (universeState?.maps?.some(m => m.id === mapId)) {
+        setUniverseState(prev => ({
+          ...prev,
+          maps: (prev.maps || []).map(m => m.id === mapId ? { ...m, ...updates } : m)
+        }));
+      }
+    },
+    activeScenario: activeNode,
+    flatScenarios,
+    setActiveScenarioId,
+    storyContext: { universeState, activeScenario: activeNode, linkedMap },
+    studioMode: 'development',
+    liveTokens
+  });
+
   useEffect(() => {
     if (activeNode && activeNode.content !== localContent) {
       setLocalContent(activeNode.content || '');
@@ -946,7 +254,11 @@ export default function ScenarioPane({
 
   const handleOpenAddModal = (targetParentId = null) => {
     setModalParentId(targetParentId);
-    setIsModalOpen(true);
+    if (outlinerTab === 'scenarios') {
+      setIsScenarioModalOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   const handleAddElement = ({ type, title, parentId, customFields, fields, imageUrl }) => {
@@ -1057,21 +369,158 @@ export default function ScenarioPane({
 
   const handleCreateNewMapForElement = () => {
     if (!activeNode) return;
-    const newMap = {
-      id: uuidv4(),
-      title: `${activeNode.title || 'Untitled'} Encounter Map`,
-      gridMode: 'hex',
-      gridType: 'hex',
-      lines: [],
-      tokens: [],
-      terrains: [],
-      objects: [],
-      texts: [],
-      fog: []
-    };
+    const newMap = createBlankCanvas({
+      title: `${activeNode.title || 'Untitled'} Encounter Sector`,
+      gridType: 'hex'
+    });
     addMap(newMap);
     updateStory(activeNode.id, { mapId: newMap.id });
     setActiveMapId(newMap.id);
+  };
+
+  // Render tactical WebGPU Stage viewport with sector picker, architect tools, and waypoint HUD
+  const renderTacticalStage = () => {
+    return (
+      <div className="flex-1 flex flex-col h-full w-full min-h-0 overflow-hidden bg-[#070b13] relative">
+        {/* Tactical Stage Header Bar */}
+        <div className="h-10 px-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between shrink-0 z-20 gap-2">
+          {/* Left: Map status and selector */}
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-1.5 text-xs text-purple-400 font-bold shrink-0">
+              <Swords size={14} className="text-purple-400" />
+              <span className="hidden sm:inline">Tactical Stage</span>
+            </div>
+
+            <div className="h-4 w-px bg-slate-800 shrink-0" />
+
+            {/* Map Selector */}
+            <div className="flex items-center gap-1.5 min-w-0">
+              <MapIcon size={12} className="text-slate-400 shrink-0" />
+              <select
+                value={activeNode?.mapId || ''}
+                onChange={(e) => {
+                  const val = e.target.value || null;
+                  if (activeNode) {
+                    updateStory(activeNode.id, { mapId: val });
+                    if (val && setActiveMapId) setActiveMapId(val);
+                  }
+                }}
+                className="bg-slate-950 border border-slate-700 rounded px-2 py-0.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 max-w-[200px] truncate"
+                title="Select linked map for this scenario node"
+              >
+                <option value="">-- No Map Linked --</option>
+                {allAvailableMaps.map(m => (
+                  <option key={m.id} value={m.id}>
+                    {m.title || m.name || `Sector ${m.id.slice(0, 6)}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Right: Quick actions */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {/* New Sector Button */}
+            <button
+              type="button"
+              onClick={handleCreateNewMapForElement}
+              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white rounded text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer"
+              title="Spawn a new blank tactical grid sector for this scenario"
+            >
+              <Plus size={11} />
+              <span className="hidden sm:inline">New Sector</span>
+            </button>
+
+            {/* Architect / Map Maker button if linked */}
+            {(activeNode?.mapId || linkedMap?.id) && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const targetMapId = activeNode?.mapId || linkedMap?.id;
+                    navigate(`/map-maker?mapId=${targetMapId}`);
+                  }}
+                  className="px-2 py-1 bg-purple-950/70 hover:bg-purple-900 border border-purple-500/40 text-purple-300 rounded text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer"
+                  title="Launch Map Maker / Architect for this tactical grid"
+                >
+                  <Hammer size={11} />
+                  <span className="hidden sm:inline">Sector Architect</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (activeNode) {
+                      updateStory(activeNode.id, { mapId: null });
+                    }
+                  }}
+                  className="p-1 hover:bg-red-950/40 text-slate-400 hover:text-red-400 rounded text-xs transition-colors cursor-pointer"
+                  title="Unlink map from this scenario"
+                >
+                  <X size={13} />
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Tactical Stage Viewport or Empty State */}
+        <div className="flex-1 w-full min-h-0 relative overflow-hidden bg-[#050810]">
+          {activeNode?.mapId || linkedMap?.id ? (
+            <>
+              <StageViewportWrapper
+                campaignId={universeState?.id}
+                sceneId={activeNode?.mapId || linkedMap?.id}
+              />
+              <WaypointPromptChip
+                promptData={waypointPromptData}
+                onExecute={executeWaypointTrigger}
+                onClose={() => setWaypointPromptData(null)}
+              />
+            </>
+          ) : (
+            <div className="h-full w-full flex flex-col items-center justify-center p-6 text-center">
+              <div className="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-purple-400 mb-4 shadow-xl">
+                <Swords size={32} />
+              </div>
+              <h3 className="text-base font-bold text-slate-200 mb-1">No Tactical Sector Linked</h3>
+              <p className="text-xs text-slate-400 max-w-sm mb-4">
+                Connect a tactical battlemap to this scenario node to unlock live WebGPU rendering, token management, dynamic lighting, and narrative waypoints.
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleCreateNewMapForElement}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition-all shadow-lg shadow-purple-600/20 flex items-center gap-2 cursor-pointer"
+                >
+                  <Plus size={14} />
+                  <span>Create New Sector</span>
+                </button>
+                {allAvailableMaps.length > 0 && (
+                  <select
+                    value=""
+                    onChange={(e) => {
+                      if (e.target.value && activeNode) {
+                        updateStory(activeNode.id, { mapId: e.target.value });
+                        if (setActiveMapId) setActiveMapId(e.target.value);
+                      }
+                    }}
+                    className="bg-slate-900 border border-slate-700 hover:border-slate-600 text-slate-300 rounded-lg px-3 py-2 text-xs cursor-pointer focus:outline-none focus:border-purple-500"
+                  >
+                    <option value="" disabled>Link existing sector...</option>
+                    {allAvailableMaps.map(m => (
+                      <option key={m.id} value={m.id}>
+                        {m.title || m.name || `Sector ${m.id.slice(0, 6)}`}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
   };
 
   const modules = {
@@ -1165,6 +614,15 @@ export default function ScenarioPane({
         onClose={() => setIsModalOpen(false)} 
         onAdd={handleAddElement} 
         defaultParentId={modalParentId}
+      />
+
+      <CreateScenarioModal
+        isOpen={isScenarioModalOpen}
+        onClose={() => setIsScenarioModalOpen(false)}
+        defaultParentId={modalParentId}
+        onScenarioCreated={(node) => {
+          if (setActiveScenarioId) setActiveScenarioId(node.id);
+        }}
       />
 
       {/* ── ZONE 1: DUAL-MODE OUTLINER RAIL (Left Column: Scenarios & World Elements) ── */}
@@ -1470,9 +928,12 @@ export default function ScenarioPane({
                 {/* Format switcher tabs */}
                 <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs font-mono">
                   <button
-                    onClick={() => setScenarioWorkspaceTab('weaver')}
+                    onClick={() => {
+                      setScenarioWorkspaceTab('weaver');
+                      setIsSplitView(false);
+                    }}
                     className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
-                      scenarioWorkspaceTab === 'weaver'
+                      scenarioWorkspaceTab === 'weaver' && !isSplitView
                         ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-sm'
                         : 'text-slate-400 hover:text-slate-200'
                     }`}
@@ -1483,9 +944,49 @@ export default function ScenarioPane({
                   </button>
 
                   <button
-                    onClick={() => setScenarioWorkspaceTab('tactical')}
+                    onClick={() => {
+                      setScenarioWorkspaceTab('stage');
+                      setIsSplitView(false);
+                      if (activeNode?.mapId && setActiveMapId) {
+                        setActiveMapId(activeNode.mapId);
+                      }
+                    }}
                     className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
-                      scenarioWorkspaceTab === 'tactical'
+                      scenarioWorkspaceTab === 'stage' && !isSplitView
+                        ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-sm'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                    title="Tactical Stage: Live WebGPU Battlemap, Tokens, Waypoints & Dynamic Lights"
+                  >
+                    <span>⚔️</span>
+                    <span className="hidden sm:inline">Tactical Stage</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setIsSplitView(prev => !prev);
+                      if (activeNode?.mapId && setActiveMapId) {
+                        setActiveMapId(activeNode.mapId);
+                      }
+                    }}
+                    className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                      isSplitView
+                        ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-xs'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                    title="Dual-Pane Split: Side-by-Side Manuscript + Tactical Stage"
+                  >
+                    <Columns size={12} />
+                    <span className="hidden sm:inline">Split Stage</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setScenarioWorkspaceTab('tactical');
+                      setIsSplitView(false);
+                    }}
+                    className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                      scenarioWorkspaceTab === 'tactical' && !isSplitView
                         ? 'bg-amber-950 text-amber-300 border border-amber-500/50 shadow-sm'
                         : 'text-slate-400 hover:text-slate-200'
                     }`}
@@ -1496,9 +997,12 @@ export default function ScenarioPane({
                   </button>
 
                   <button
-                    onClick={() => setScenarioWorkspaceTab('interactive')}
+                    onClick={() => {
+                      setScenarioWorkspaceTab('interactive');
+                      setIsSplitView(false);
+                    }}
                     className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
-                      scenarioWorkspaceTab === 'interactive'
+                      scenarioWorkspaceTab === 'interactive' && !isSplitView
                         ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-sm'
                         : 'text-slate-400 hover:text-slate-200'
                     }`}
@@ -1543,36 +1047,72 @@ export default function ScenarioPane({
               </div>
             </div>
 
-            {/* FORMAT VIEW 1: STORY WEAVER */}
-            {scenarioWorkspaceTab === 'weaver' && (
-              <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#090d16]">
-                <StoryWeaver
-                  activeNode={activeNode}
-                  updateStory={updateStory}
-                  guidanceGems={universeState?.creativeState?.gems?.join(', ') || ''}
-                />
-              </div>
-            )}
+            {/* SPLIT VIEW: SIDE-BY-SIDE MANUSCRIPT + TACTICAL STAGE */}
+            {isSplitView ? (
+              <Split
+                sizes={[50, 50]}
+                minSize={[320, 320]}
+                gutterSize={6}
+                direction="horizontal"
+                className="flex h-full w-full overflow-hidden split-horizontal flex-1 min-h-0"
+              >
+                {/* Left: Story Weaver (Manuscript, Beats, Genesis) */}
+                <div className="h-full w-full overflow-hidden bg-[#090d16] flex flex-col min-w-0">
+                  <StoryWeaver
+                    activeNode={activeNode}
+                    updateStory={updateStory}
+                    guidanceGems={universeState?.creativeState?.gems?.join(', ') || ''}
+                    onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+                  />
+                </div>
 
-            {/* FORMAT VIEW 2: OSR TACTICAL SPREAD */}
-            {scenarioWorkspaceTab === 'tactical' && (
-              <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0f18] scrollbar-thin">
-                <OsrControlPanelDeck
-                  activeNode={activeNode}
-                  updateStory={updateStory}
-                  guidanceGems={universeState?.creativeState?.gems || []}
-                />
-              </div>
-            )}
+                {/* Right: Live Tactical Stage */}
+                <div className="h-full w-full overflow-hidden bg-[#070b13] flex flex-col border-l border-slate-800 min-w-0 relative">
+                  {renderTacticalStage()}
+                </div>
+              </Split>
+            ) : (
+              <>
+                {/* FORMAT VIEW 1: STORY WEAVER */}
+                {scenarioWorkspaceTab === 'weaver' && (
+                  <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#090d16]">
+                    <StoryWeaver
+                      activeNode={activeNode}
+                      updateStory={updateStory}
+                      guidanceGems={universeState?.creativeState?.gems?.join(', ') || ''}
+                      onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+                    />
+                  </div>
+                )}
 
-            {/* FORMAT VIEW 3: INTERACTIVE PLAY STUDIO */}
-            {scenarioWorkspaceTab === 'interactive' && (
-              <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#080c14]">
-                <InteractiveStoryStudio
-                  activeNode={activeNode}
-                  onSelectScenario={(id) => setActiveScenarioId(id)}
-                />
-              </div>
+                {/* FORMAT VIEW 2: INTEGRATED TACTICAL STAGE */}
+                {scenarioWorkspaceTab === 'stage' && (
+                  <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#070b13] relative">
+                    {renderTacticalStage()}
+                  </div>
+                )}
+
+                {/* FORMAT VIEW 3: OSR TACTICAL SPREAD */}
+                {scenarioWorkspaceTab === 'tactical' && (
+                  <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0f18] scrollbar-thin">
+                    <OsrControlPanelDeck
+                      activeNode={activeNode}
+                      updateStory={updateStory}
+                      guidanceGems={universeState?.creativeState?.gems || []}
+                    />
+                  </div>
+                )}
+
+                {/* FORMAT VIEW 4: INTERACTIVE PLAY STUDIO */}
+                {scenarioWorkspaceTab === 'interactive' && (
+                  <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#080c14]">
+                    <InteractiveStoryStudio
+                      activeNode={activeNode}
+                      onSelectScenario={(id) => setActiveScenarioId(id)}
+                    />
+                  </div>
+                )}
+              </>
             )}
           </>
         )}

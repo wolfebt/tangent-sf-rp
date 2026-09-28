@@ -9,6 +9,30 @@ import { db } from '../firebase';
  */
 
 /**
+ * Recursively removes any `undefined` values from objects or replaces them in arrays with null,
+ * guaranteeing the payload complies with Firestore's strict data rules (which throw on any undefined).
+ * @param {any} data
+ * @returns {any}
+ */
+export function sanitizeFirestoreData(data) {
+  if (data === undefined) return null;
+  if (data === null || typeof data !== 'object') return data;
+  if (data instanceof Date) return data.toISOString();
+
+  if (Array.isArray(data)) {
+    return data.map(item => (item === undefined ? null : sanitizeFirestoreData(item)));
+  }
+
+  const clean = {};
+  for (const [key, value] of Object.entries(data)) {
+    if (value !== undefined) {
+      clean[key] = sanitizeFirestoreData(value);
+    }
+  }
+  return clean;
+}
+
+/**
  * Commits an array of operations in safe chunks of 450 items (below the Firestore 500-op transaction limit).
  * Executes chunks sequentially to prevent network and memory bottlenecks.
  *
@@ -38,7 +62,7 @@ export async function commitChunkedBatches(
 
     chunk.forEach(({ ref, data, merge = true }) => {
       if (ref && data) {
-        batch.set(ref, data, { merge });
+        batch.set(ref, sanitizeFirestoreData(data), { merge });
       }
     });
 

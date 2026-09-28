@@ -9,6 +9,7 @@
  */
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { 
   BookOpen, 
@@ -18,7 +19,9 @@ import {
   Printer, 
   PanelLeftClose, 
   PanelLeft,
-  Compass
+  Compass,
+  Sparkles,
+  GitBranch
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 
@@ -64,7 +67,11 @@ const THEMES = {
 export const ADENavRail = ({
   activeView = 'scenarios',
   onSwitchView,
+  activeScenarioWorkspaceTab = 'weaver',
+  onSelectScenarioWorkspaceTab,
   elementsCount = 0,
+  mapsCount = 0,
+  modifiersCount = 0,
   gemsCount = 0,
   pendingCronicleCount = 0,
   onOpenGems,
@@ -75,16 +82,36 @@ export const ADENavRail = ({
   isTreeExpanded = true,
   onToggleTreeExpanded
 }) => {
+  const navigate = useNavigate();
   const [hoveredItem, setHoveredItem] = useState(null);
+
+  const totalGalleryCount = elementsCount + mapsCount + modifiersCount;
 
   const workspaceItems = [
     {
       id: 'scenarios',
       label: 'WEAVER',
       sublabel: 'Story Weaver',
-      description: 'Manuscript Drafting, Story Beats & Live Tactical Feed',
+      description: 'Manuscript Drafting, Story Beats & Genesis',
       icon: BookOpen,
-      colorTheme: 'cyan'
+      colorTheme: 'cyan',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('scenarios');
+        if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('weaver');
+      }
+    },
+    {
+      id: 'stage',
+      aliasIds: ['live-studio', 'stage'],
+      label: 'STAGE',
+      sublabel: 'Tactical Stage',
+      description: 'Integrated WebGPU Tactical Battlemap & Live Simulation',
+      icon: Sparkles,
+      colorTheme: 'purple',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('scenarios');
+        if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
+      }
     },
     {
       id: 'interactive',
@@ -92,6 +119,14 @@ export const ADENavRail = ({
       sublabel: 'Interactive Play',
       description: 'Branching Story Sequences & Decision Gates',
       icon: Play,
+      colorTheme: 'purple'
+    },
+    {
+      id: 'graph',
+      label: 'GRAPH',
+      sublabel: 'Story Graph',
+      description: 'Visual Node Graph Flowchart, Decision Branches & Map Vectors',
+      icon: GitBranch,
       colorTheme: 'purple'
     },
     {
@@ -103,13 +138,14 @@ export const ADENavRail = ({
       colorTheme: 'amber'
     },
     {
-      id: 'elements',
-      label: 'FORGE',
-      sublabel: 'Element Forge',
-      description: 'Worldbuilding Catalog (Personas, Factions, Items, Lore)',
+      id: 'gallery',
+      aliasIds: ['elements', 'gallery'],
+      label: 'GALLERY',
+      sublabel: 'The Gallery',
+      description: "Story Asset Gallery (Elements, Maps, Media & Situational Modifiers)",
       icon: Box,
       colorTheme: 'emerald',
-      badge: elementsCount > 0 ? `${elementsCount}` : null
+      badge: totalGalleryCount > 0 ? `${totalGalleryCount}` : null
     }
   ];
 
@@ -155,9 +191,13 @@ export const ADENavRail = ({
     }
   ];
 
-  const handleSelectWorkspace = (id) => {
+  const handleSelectWorkspace = (item) => {
     AudioService.playTerminalBeep(1150, 0.02);
-    if (onSwitchView) onSwitchView(id);
+    if (item.onClick) {
+      item.onClick();
+      return;
+    }
+    if (onSwitchView) onSwitchView(item.id);
   };
 
   const handleSelectUtility = (item) => {
@@ -182,7 +222,15 @@ export const ADENavRail = ({
 
         {/* 1. Primary Studio Workspaces */}
         {workspaceItems.map((item) => {
-          const isActive = activeView === item.id;
+          const isActive = (() => {
+            if (item.id === 'stage') {
+              return activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage';
+            }
+            if (item.id === 'scenarios') {
+              return activeView === 'scenarios' && (activeScenarioWorkspaceTab === 'weaver' || !activeScenarioWorkspaceTab);
+            }
+            return activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
+          })();
           const theme = THEMES[item.colorTheme] || THEMES.cyan;
           const Icon = item.icon;
 
@@ -190,7 +238,7 @@ export const ADENavRail = ({
             <button
               key={item.id}
               type="button"
-              onClick={() => handleSelectWorkspace(item.id)}
+              onClick={() => handleSelectWorkspace(item)}
               onMouseEnter={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 setHoveredItem({ item, theme, rect });

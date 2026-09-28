@@ -4,7 +4,7 @@ import { doc, setDoc, onSnapshot, collection, getDocs, getDoc, deleteDoc, writeB
 import { onAuthStateChanged } from 'firebase/auth';
 import { attachCreatorTag } from '../utils/creatorUtils';
 import { createDebouncedSaver } from '../utils/debounceUtils';
-import { commitChunkedBatches } from '../utils/firestoreUtils';
+import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreUtils';
 import { StorageService } from '../services/storageService';
 import {
   createDefaultCronicleState,
@@ -59,6 +59,7 @@ const DEFAULT_UNIVERSE_STATE = {
     linkedElements: []
   },
   cronicle: createDefaultCronicleState('Tangent Universe'),
+  galleryModifiers: [],
   updatedAt: new Date().toISOString()
 };
 
@@ -498,7 +499,7 @@ export const StoryProvider = ({ children }) => {
     if (currentUser) {
       try {
         const userStoryDoc = doc(db, 'user_stories', storyId);
-        await setDoc(userStoryDoc, { isPublic: targetIsPublic, ownerId: currentUser.uid }, { merge: true });
+        await setDoc(userStoryDoc, sanitizeFirestoreData({ isPublic: targetIsPublic, ownerId: currentUser.uid }), { merge: true });
       } catch (err) {
         console.warn('Failed to update story visibility in cloud:', err);
       }
@@ -544,7 +545,7 @@ export const StoryProvider = ({ children }) => {
     });
 
     if (currentUser) {
-      setDoc(doc(db, 'user_stories', newId), newStory).catch(e => console.warn(e));
+      setDoc(doc(db, 'user_stories', newId), sanitizeFirestoreData(newStory)).catch(e => console.warn(e));
     }
 
     if (window.history.replaceState) {
@@ -584,7 +585,7 @@ export const StoryProvider = ({ children }) => {
       const userStoryDoc = doc(db, 'user_stories', currentProjectId);
 
       await Promise.all([
-        setDoc(userStoryDoc, payloadWithOwner, { merge: true }),
+        setDoc(userStoryDoc, sanitizeFirestoreData(payloadWithOwner), { merge: true }),
         saveAllElementsIndependently(stateToSave.scenarios, currentUser),
         saveAllMapsIndependently(stateToSave.maps, currentUser)
       ]);
@@ -759,7 +760,7 @@ export const StoryProvider = ({ children }) => {
       const payloadWithOwner = { ...updatedState, ownerId: currentUser.uid };
 
       await Promise.all([
-        setDoc(userStoryDoc, payloadWithOwner, { merge: true }),
+        setDoc(userStoryDoc, sanitizeFirestoreData(payloadWithOwner), { merge: true }),
         saveAllElementsIndependently(currentState.scenarios, currentUser),
         saveAllMapsIndependently(currentState.maps, currentUser)
       ]);
@@ -859,7 +860,7 @@ export const StoryProvider = ({ children }) => {
         authorEmail: currentUser.email || 'Anonymous',
         authorUid: currentUser.uid
       };
-      await setDoc(doc(db, 'story_elements', elementNode.id), payload);
+      await setDoc(doc(db, 'story_elements', elementNode.id), sanitizeFirestoreData(payload));
       setCloudSyncStatus('synced');
       showToast({ type: 'success', text: `Story Element "${elementNode.title || 'Untitled'}" saved to Cloud DB collection.` });
       return true;
@@ -904,7 +905,7 @@ export const StoryProvider = ({ children }) => {
       try {
         const docRef = doc(db, 'user_stories', currentProjectId);
         const payloadWithOwner = { ...DEFAULT_UNIVERSE_STATE, id: currentProjectId, ownerId: currentUser.uid, updatedAt: new Date().toISOString() };
-        await setDoc(docRef, payloadWithOwner);
+        await setDoc(docRef, sanitizeFirestoreData(payloadWithOwner));
       } catch (err) {
         console.warn('Firestore universe clear failed:', err.message);
       }
@@ -1635,7 +1636,7 @@ export const StoryProvider = ({ children }) => {
 
     if (currentUser) {
       const payloadWithOwner = { ...newStory, ownerId: currentUser.uid };
-      setDoc(doc(db, 'user_stories', newId), payloadWithOwner).catch(e => console.warn(e));
+      setDoc(doc(db, 'user_stories', newId), sanitizeFirestoreData(payloadWithOwner)).catch(e => console.warn(e));
     }
     return newStory;
   };
@@ -1780,7 +1781,7 @@ export const StoryProvider = ({ children }) => {
 
     if (currentUser && updatedElem) {
       try {
-        await setDoc(doc(db, 'story_elements', elementId), updatedElem, { merge: true });
+        await setDoc(doc(db, 'story_elements', elementId), sanitizeFirestoreData(updatedElem), { merge: true });
       } catch (e) {
         console.warn('Failed to update element in Firestore:', e);
       }
@@ -1788,9 +1789,59 @@ export const StoryProvider = ({ children }) => {
     return updatedElem;
   };
 
+  // Story Gallery Situational & Temporary Modifier Management
+  const addGalleryModifier = (modifier) => {
+    setUniverseState(prev => {
+      const current = prev.galleryModifiers || [];
+      const updated = [...current, modifier];
+      setIsDirty(true);
+      return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
+    });
+  };
+
+  const updateGalleryModifier = (modifierId, patch) => {
+    setUniverseState(prev => {
+      const current = prev.galleryModifiers || [];
+      const updated = current.map(m => (m.id === modifierId ? { ...m, ...patch } : m));
+      setIsDirty(true);
+      return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
+    });
+  };
+
+  const deleteGalleryModifier = (modifierId) => {
+    setUniverseState(prev => {
+      const current = prev.galleryModifiers || [];
+      const updated = current.filter(m => m.id !== modifierId);
+      setIsDirty(true);
+      return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
+    });
+  };
+
+  const toggleGalleryModifier = (modifierId) => {
+    setUniverseState(prev => {
+      const current = prev.galleryModifiers || [];
+      const updated = current.map(m => (m.id === modifierId ? { ...m, isActive: !m.isActive } : m));
+      setIsDirty(true);
+      return { ...prev, galleryModifiers: updated, updatedAt: new Date().toISOString() };
+    });
+  };
+
+  const setGalleryModifiers = (modifiers) => {
+    setUniverseState(prev => {
+      setIsDirty(true);
+      return { ...prev, galleryModifiers: Array.isArray(modifiers) ? modifiers : [], updatedAt: new Date().toISOString() };
+    });
+  };
+
   const value = {
     universeState,
     setUniverseState,
+    galleryModifiers: universeState?.galleryModifiers || [],
+    addGalleryModifier,
+    updateGalleryModifier,
+    deleteGalleryModifier,
+    toggleGalleryModifier,
+    setGalleryModifiers,
     storyCatalog,
     elementsCatalog,
     mapsCatalog,

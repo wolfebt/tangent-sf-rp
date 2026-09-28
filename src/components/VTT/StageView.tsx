@@ -107,6 +107,7 @@ export const StageView: React.FC<StageViewProps> = ({
   const lightsContainerRef = useRef<Container | null>(null);
   const atmosphereOverlayRef = useRef<Container | null>(null);
   const underlayContainerRef = useRef<Container | null>(null);
+  const waypointsContainerRef = useRef<Container | null>(null);
   const lightSourceMgrRef = useRef<LightSourceManager>(new LightSourceManager());
   const npcTickRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -1166,6 +1167,12 @@ export const StageView: React.FC<StageViewProps> = ({
       compositor.addToLayer(gizmoContainer, ZLayer.ForegroundUI);
       transformGizmoContainerRef.current = gizmoContainer;
 
+      // 11. Spatial Waypoints & Tactical Route Container (ZLayer.UnderlayDebris)
+      const waypointsContainer = new Container();
+      waypointsContainer.label = 'WaypointsLayer';
+      compositor.addToLayer(waypointsContainer, ZLayer.UnderlayDebris);
+      waypointsContainerRef.current = waypointsContainer;
+
       // Initialize Hazard Particle Simulator & Dynamic Lighting on Stage
       const fxLayer = compositor.getLayer(ZLayer.DynamicFX);
       const lightLayer = compositor.getLayer(ZLayer.LightingDarkness);
@@ -1440,6 +1447,161 @@ export const StageView: React.FC<StageViewProps> = ({
       objLayer.addChild(container);
     });
   }, [isCanvasReady, tokens, localObjects]);
+
+  // ── Render Spatial Waypoints & Tactical Route on the Stage ──
+  useEffect(() => {
+    if (!isCanvasReady) return;
+    const container = waypointsContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    const waypoints = currentMap?.waypoints || [];
+    if (waypoints.length === 0) return;
+
+    // 1. Inter-waypoint connecting route vector lines
+    if (waypoints.length > 1) {
+      const routeGraphics = new Graphics();
+      for (let i = 0; i < waypoints.length - 1; i++) {
+        const wpA = waypoints[i];
+        const wpB = waypoints[i + 1];
+        if (typeof wpA.x === 'number' && typeof wpA.y === 'number' &&
+            typeof wpB.x === 'number' && typeof wpB.y === 'number') {
+          routeGraphics.moveTo(wpA.x, wpA.y);
+          routeGraphics.lineTo(wpB.x, wpB.y);
+          routeGraphics.stroke({ width: 3, color: 0xf59e0b, alpha: 0.7 });
+        }
+      }
+      container.addChild(routeGraphics);
+    }
+
+    // 2. Render each Waypoint Beacon and Activation Perimeter
+    waypoints.forEach((wp: any, idx: number) => {
+      if (typeof wp.x !== 'number' || typeof wp.y !== 'number') return;
+      const wpGroup = new Container();
+      wpGroup.x = wp.x;
+      wpGroup.y = wp.y;
+      wpGroup.eventMode = 'static';
+      wpGroup.cursor = 'grab';
+
+      const radius = wp.radius || 60;
+      const isTriggered = !!wp.isTriggered;
+      const action = wp.triggerAction || 'REVEAL_BEAT';
+
+      // Dynamic Palette by Trigger State and Action Type
+      let zoneColor = 0xf59e0b;
+      let coreColor = 0x451a03;
+      let strokeColor = 0xfbbf24;
+      let textColor = 0xfde68a;
+      let actionTag = 'BEAT';
+
+      if (isTriggered) {
+        zoneColor = 0x10b981; // emerald
+        coreColor = 0x064e3b;
+        strokeColor = 0x34d399;
+        textColor = 0xa7f3d0;
+        actionTag = 'DONE';
+      } else if (action === 'ADVANCE_SCENARIO') {
+        zoneColor = 0x06b6d4; // cyan
+        coreColor = 0x083344;
+        strokeColor = 0x38bdf8;
+        textColor = 0xbae6fd;
+        actionTag = 'SCENARIO';
+      } else if (action === 'TRIGGER_AIME') {
+        zoneColor = 0xa855f7; // purple
+        coreColor = 0x3b0764;
+        strokeColor = 0xc084fc;
+        textColor = 0xe9d5ff;
+        actionTag = 'AIME';
+      } else if (action === 'ALERT_GM') {
+        zoneColor = 0xf43f5e; // rose
+        coreColor = 0x4c0519;
+        strokeColor = 0xfb7185;
+        textColor = 0xfecdd3;
+        actionTag = 'ALERT';
+      }
+
+      const markerG = new Graphics();
+
+      // Outer Perimeter Zone
+      markerG.circle(0, 0, radius);
+      markerG.fill({ color: zoneColor, alpha: isTriggered ? 0.16 : 0.08 });
+      markerG.stroke({ width: isTriggered ? 2 : 1.5, color: strokeColor, alpha: isTriggered ? 0.85 : 0.65 });
+
+      // Core Beacon Target
+      markerG.circle(0, 0, 14);
+      markerG.fill({ color: coreColor, alpha: 0.95 });
+      markerG.stroke({ width: 2, color: strokeColor, alpha: 1.0 });
+
+      wpGroup.addChild(markerG);
+
+      // Letter / Index badge or checkmark
+      const letter = String.fromCharCode(65 + (idx % 26));
+      const badgeText = new Text({
+        text: isTriggered ? '✓' : letter,
+        style: new TextStyle({
+          fontFamily: 'monospace',
+          fontSize: isTriggered ? 12 : 10,
+          fontWeight: 'bold',
+          fill: textColor,
+          align: 'center'
+        })
+      });
+      badgeText.anchor.set(0.5, 0.5);
+      wpGroup.addChild(badgeText);
+
+      // Waypoint Name Header with Action Tag
+      const labelText = new Text({
+        text: `🚩 ${wp.name || `Waypoint ${letter}`} [${actionTag}]`,
+        style: new TextStyle({
+          fontFamily: 'monospace',
+          fontSize: 9,
+          fontWeight: 'bold',
+          fill: textColor
+        })
+      });
+      labelText.anchor.set(0.5, 1.0);
+      labelText.y = -18;
+      wpGroup.addChild(labelText);
+
+      // Drag waypoint interaction
+      let isDragging = false;
+      wpGroup.on('pointerdown', (e: any) => {
+        if (e.button === 0) {
+          isDragging = true;
+          wpGroup.cursor = 'grabbing';
+          e.stopPropagation();
+        }
+      });
+
+      wpGroup.on('globalpointermove', (e: any) => {
+        if (!isDragging) return;
+        const localPos = container.toLocal(e.global);
+        wpGroup.x = Math.round(localPos.x);
+        wpGroup.y = Math.round(localPos.y);
+      });
+
+      const handlePointerUp = () => {
+        if (isDragging) {
+          isDragging = false;
+          wpGroup.cursor = 'grab';
+          if (currentMap && updateMap) {
+            const updatedWaypoints = waypoints.map((w: any, wIdx: number) => {
+              if (w.id === wp.id || (wIdx === idx && !w.id)) {
+                return { ...w, x: Math.round(wpGroup.x), y: Math.round(wpGroup.y) };
+              }
+              return w;
+            });
+            updateMap(currentMap.id, { waypoints: updatedWaypoints });
+          }
+        }
+      };
+
+      wpGroup.on('pointerup', handlePointerUp);
+      wpGroup.on('pointerupoutside', handlePointerUp);
+
+      container.addChild(wpGroup);
+    });
+  }, [isCanvasReady, currentMap?.waypoints, updateMap]);
 
   // Render Tokens on the Stage with Action Pips & Mortality Indicators
   useEffect(() => {
@@ -1838,6 +2000,29 @@ export const StageView: React.FC<StageViewProps> = ({
         } else if (activeDesignTool === 'eraser') {
           handleEraseAt(worldPos);
           return;
+        } else if (activeDesignTool === 'waypoint') {
+          if (currentMap && updateMap) {
+            const existing = currentMap.waypoints || [];
+            const newWp = {
+              id: `wp_${Date.now()}`,
+              name: `Waypoint ${String.fromCharCode(65 + (existing.length % 26))}: Sector Objective`,
+              x: Math.round(snapped.x),
+              y: Math.round(snapped.y),
+              radius: 60,
+              type: 'objective',
+              linkedBeatIndex: Math.min(existing.length, 10),
+              readAloudText: 'The squad enters the designated waypoint perimeter.'
+            };
+            updateMap(currentMap.id, {
+              waypoints: [...existing, newWp]
+            });
+            AudioService.playTerminalBeep(1350, 0.04);
+            setCombatLog(prev => [
+              `[WAYPOINT] Objective Marker "${newWp.name}" dropped at (${Math.round(snapped.x)}, ${Math.round(snapped.y)}).`,
+              ...prev.slice(0, 8)
+            ]);
+          }
+          return;
         } else if (activeDesignTool === 'object' || activeDesignTool === 'hazard' || activeDesignTool === 'token') {
           let itemToDeploy = selectedStamp;
           if (!itemToDeploy && storeObjectType) {
@@ -2104,6 +2289,27 @@ export const StageView: React.FC<StageViewProps> = ({
         }
       });
     }
+
+    // ── Evaluate Objective Waypoint Triggers on Token Move ──
+    const waypointsOnMap = currentMap?.waypoints || [];
+    waypointsOnMap.forEach((wp: any) => {
+      if (wp.isTriggered) return;
+      const radius = wp.radius || 60;
+      const dist = Math.hypot(snapped.x - wp.x, snapped.y - wp.y);
+      if (dist <= radius) {
+        VttEventBus.emit('story-waypoint-tripped', {
+          waypoint: wp,
+          token: movedToken,
+          action: wp.triggerAction || 'REVEAL_BEAT',
+          targetScenarioId: wp.targetScenarioId,
+          beat: wp.readAloudText
+        });
+        setCombatLog(prev => [
+          `[WAYPOINT] ${movedToken.name || 'Operative'} entered perimeter of "${wp.name}".`,
+          ...prev.slice(0, 8)
+        ]);
+      }
+    });
   };
 
   // Tactical Eraser Implementation
@@ -2288,6 +2494,100 @@ export const StageView: React.FC<StageViewProps> = ({
     });
     return unsub;
   }, [selectedTokenId]);
+
+  // Listen for inter-studio ADE Stage signals (pan, tool arming, environmental hazard triggers)
+  useEffect(() => {
+    const unsubPan = VttEventBus.on('pan-stage-to', (payload) => {
+      if (!payload) return;
+      const renderer = rendererContextRef.current;
+      const app = renderer?.getApp?.();
+      const canvasWidth = app?.renderer?.width || 1200;
+      const canvasHeight = app?.renderer?.height || 800;
+      setPan({
+        x: Math.round(canvasWidth / 2 - payload.x * zoom),
+        y: Math.round(canvasHeight / 2 - payload.y * zoom)
+      });
+      AudioService.playTerminalBeep(1200, 0.03);
+    });
+
+    const unsubTool = VttEventBus.on('arm-stage-tool', (payload) => {
+      if (payload?.tool) {
+        setActiveDesignTool(payload.tool as any);
+        setIsDesignModeActive(true);
+        AudioService.playTerminalBeep(1350, 0.03);
+      }
+    });
+
+    const unsubToggleDesign = VttEventBus.on('toggle-stage-design-mode', (payload) => {
+      setIsDesignModeActive(prev => {
+        const next = payload?.active !== undefined ? Boolean(payload.active) : !prev;
+        setIsSimulationPaused(next);
+        AudioService.playTerminalBeep(next ? 1500 : 900, 0.04);
+        return next;
+      });
+    });
+
+    const unsubHazard = VttEventBus.on('spawn-environmental-hazard', (payload) => {
+      if (!hazardSimulatorRef.current || !payload?.type) return;
+      const newHazard: HazardField = {
+        id: `hazard-${Date.now()}`,
+        type: payload.type,
+        x: payload.x ?? 400,
+        y: payload.y ?? 350,
+        radius: payload.radius ?? 120,
+        intensity: 1.0
+      };
+      hazardSimulatorRef.current.addHazardField(newHazard);
+      setHazardCount(prev => prev + 1);
+      AudioService.playCriticalChime(false);
+    });
+
+    const unsubClearHazards = VttEventBus.on('clear-environmental-hazards', () => {
+      hazardSimulatorRef.current?.clearHazards();
+      setHazardCount(0);
+    });
+
+    const unsubPreset = VttEventBus.on('apply-atmospheric-preset', (payload) => {
+      if (payload?.presetKey && ATMOSPHERIC_PRESETS[payload.presetKey as AtmosphericWeatherType]) {
+        setAtmosphericWeather(payload.presetKey as AtmosphericWeatherType);
+      }
+    });
+
+    return () => {
+      unsubPan();
+      unsubTool();
+      unsubToggleDesign();
+      unsubHazard();
+      unsubClearHazards();
+      unsubPreset();
+    };
+  }, [zoom, setActiveDesignTool, setIsDesignModeActive]);
+
+  // Synchronize environmental atmospheric weather preset and dynamic particle hazard physics
+  useEffect(() => {
+    const mapPreset = currentMap?.environmental?.weatherPreset || currentMap?.atmosphericWeather;
+    if (mapPreset && mapPreset !== atmosphericWeather && ATMOSPHERIC_PRESETS[mapPreset as AtmosphericWeatherType]) {
+      setAtmosphericWeather(mapPreset as AtmosphericWeatherType);
+    }
+  }, [currentMap?.environmental?.weatherPreset, currentMap?.atmosphericWeather]);
+
+  useEffect(() => {
+    if (!hazardSimulatorRef.current) return;
+    const sim = hazardSimulatorRef.current;
+    sim.clearHazards();
+
+    if (atmosphericWeather === 'toxic_smog') {
+      sim.addHazardField({ id: 'ambient-toxic-1', type: 'corrosive_gas', x: 450, y: 350, radius: 180, intensity: 0.8 });
+      sim.addHazardField({ id: 'ambient-toxic-2', type: 'corrosive_gas', x: 850, y: 650, radius: 200, intensity: 0.9 });
+    } else if (atmosphericWeather === 'red_alert') {
+      sim.addHazardField({ id: 'ambient-plasma-1', type: 'plasma_fire', x: 600, y: 400, radius: 120, intensity: 1.0 });
+    } else if (atmosphericWeather === 'deep_void') {
+      sim.addHazardField({ id: 'ambient-void-1', type: 'void_mist', x: 500, y: 400, radius: 240, intensity: 0.7 });
+    } else if (atmosphericWeather === 'sandstorm') {
+      sim.addHazardField({ id: 'ambient-sand-1', type: 'smoke', x: 600, y: 450, radius: 260, intensity: 0.85 });
+    }
+    setHazardCount(sim.getActiveHazards().length);
+  }, [atmosphericWeather]);
 
   // Environmental Hazard & Lighting Handlers
   const handleToggleDynamicLighting = () => {
@@ -2728,27 +3028,6 @@ export const StageView: React.FC<StageViewProps> = ({
           </div>
         )}
 
-        {/* ── TOP CENTER: Architect Design Mode Active Banner (Standalone Only) ── */}
-        {!isEmbeddedInTripartite && isDesignModeActive && !isZenMode && (
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[115] bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border-2 border-amber-500 rounded-2xl px-4 py-1.5 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex items-center gap-3">
-            <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-            <div>
-              <span className="font-mono text-xs font-bold text-amber-300 tracking-wider block">
-                🛠️ ARCHITECT DESIGN MODE // {activeDesignTool.toUpperCase()} TOOL ARMED
-              </span>
-              <span className="font-mono text-[9px] text-amber-400/80">
-                Draw walls, paint biomes, sketch tactics, place story objects. BVH & Campaign synced.
-              </span>
-            </div>
-            <button
-              onClick={handleToggleDesignMode}
-              className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:from-teal-500 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer ml-1"
-            >
-              <span>⚔️</span>
-              <span>RESUME SIM</span>
-            </button>
-          </div>
-        )}
 
         {/* ── Tripartite Armed Placement Floating HUD Pill ── */}
         {isEmbeddedInTripartite && isDesignModeActive && activeDesignTool !== 'select' && (
@@ -3096,9 +3375,8 @@ export const StageView: React.FC<StageViewProps> = ({
           onSelectAction={handleRadialSelectAction}
         />
 
-        {/* ── IN-SITU ARCHITECT DESIGN STUDIO & ASSET PALETTE (Standalone Only) ── */}
-        {!isEmbeddedInTripartite && (
-          <ArchitectDesignPalette
+        {/* ── IN-SITU ARCHITECT DESIGN STUDIO & ASSET PALETTE ── */}
+        <ArchitectDesignPalette
             isOpen={isDesignModeActive && !isZenMode}
             onClose={() => handleToggleDesignMode()}
             activeTool={activeDesignTool}
@@ -3172,7 +3450,6 @@ export const StageView: React.FC<StageViewProps> = ({
             onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
             onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
           />
-        )}
       </div>
 
       {/* ── MODALS & DRAWERS INTEGRATION ── */}

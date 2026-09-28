@@ -15,13 +15,15 @@ import {
   Crosshair, 
   FolderTree, 
   Hammer,
-  BookOpen
+  BookOpen,
+  Sliders
 } from 'lucide-react';
 import { TripartiteLayout } from './TripartiteLayout';
 import { StageBreadcrumbTabs } from './stage/StageBreadcrumbTabs';
 import { StageViewportWrapper } from './stage/StageViewportWrapper';
 import { ModuleCatalogPanel } from './catalog/ModuleCatalogPanel';
 import { ADEScenarioStageDrawer } from './stage/ADEScenarioStageDrawer';
+import VttModuleIngestionModal from './VttModuleIngestionModal';
 import { OperativeCockpitRail } from '../../pages/Foundry/MapMaker/map/OperativeCockpitRail';
 import { ArchitectConsoleRail } from '../../pages/Foundry/MapMaker/map/ArchitectConsoleRail';
 import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
@@ -90,6 +92,16 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   } = useUILayoutStore();
 
   const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operative');
+  const [isModuleIngestionOpen, setIsModuleIngestionOpen] = useState(false);
+
+  // Listen for open-module-ingestion-modal from top bar or menus
+  useEffect(() => {
+    const off = VttEventBus.on('open-module-ingestion-modal', () => {
+      AudioService.playTerminalBeep(1200, 0.03);
+      setIsModuleIngestionOpen(true);
+    });
+    return () => off();
+  }, []);
 
   const { universeState, activeMapId, setActiveMapId, updateMap, addMap } = useCampaign();
   const availableMaps = universeState?.maps || [];
@@ -466,6 +478,54 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         }
         rightPanel={renderRightPanel()}
         className="w-full h-full"
+      />
+
+      {/* Active Situational & Temporary Modifiers HUD Strip */}
+      {universeState?.galleryModifiers && universeState.galleryModifiers.filter((m: any) => m.isActive).length > 0 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 bg-[#080d18]/92 backdrop-blur-md border border-purple-500/40 rounded-2xl px-3 py-1.5 flex items-center gap-2 shadow-2xl font-mono text-xs select-none max-w-[90vw] overflow-x-auto no-scrollbar animate-in fade-in slide-in-from-bottom-2">
+          <div className="flex items-center gap-1.5 text-purple-400 font-bold uppercase text-[10px] shrink-0 pr-1.5 border-r border-slate-700/80">
+            <Sliders size={12} />
+            <span>Active Mods:</span>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            {universeState.galleryModifiers.filter((m: any) => m.isActive).map((mod: any) => (
+              <div
+                key={mod.id}
+                className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-purple-950/60 border border-purple-500/30 text-slate-200 text-[10px] hover:border-purple-400 transition-colors"
+                title={`${mod.name}: ${mod.description || 'Active situational modifier.'}`}
+              >
+                <span className="font-bold text-purple-300">{mod.name}</span>
+                {mod.effects?.metaphysicMod !== 0 && (
+                  <span className="text-purple-400 font-bold">
+                    {mod.effects.metaphysicMod > 0 ? `+${mod.effects.metaphysicMod}` : mod.effects.metaphysicMod} Meta
+                  </span>
+                )}
+                {mod.effects?.techMod !== 0 && (
+                  <span className="text-cyan-400 font-bold">
+                    {mod.effects.techMod > 0 ? `+${mod.effects.techMod}` : mod.effects.techMod} Tech
+                  </span>
+                )}
+                {mod.effects?.attackMod !== 0 && (
+                  <span className={mod.effects.attackMod > 0 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
+                    {mod.effects.attackMod > 0 ? `+${mod.effects.attackMod}` : mod.effects.attackMod} ATK
+                  </span>
+                )}
+                {mod.isTemporary && (
+                  <span className="text-amber-400 font-mono text-[9px]">
+                    ({mod.remainingRounds}r)
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* VTT Story Module Ingestion Modal */}
+      <VttModuleIngestionModal
+        isOpen={isModuleIngestionOpen}
+        onClose={() => setIsModuleIngestionOpen(false)}
       />
 
     </div>

@@ -180,18 +180,29 @@ export const ArchitectAssetCockpit = ({
   const omnicortexItems = useMemo(() => {
     if (!dbData) return [];
     const items = [];
+    const seenItemKeys = new Set();
+    const ALIAS_CATEGORIES = new Set(['rules_codex', 'trait', 'prerequisites', 'modifiers']);
+
     Object.entries(dbData).forEach(([catKey, catItems]) => {
+      if (ALIAS_CATEGORIES.has(catKey)) return;
       if (Array.isArray(catItems)) {
-        catItems.forEach(item => {
+        catItems.forEach((item, itemIdx) => {
           if (item && (item.name || item.title)) {
+            const rawId = item.id || `${catKey}-${item.name || item.title}`;
+            const dedupeKey = `${rawId}`.toLowerCase().trim();
+            if (seenItemKeys.has(dedupeKey)) return;
+            seenItemKeys.add(dedupeKey);
+
             items.push({
               ...item,
+              id: rawId,
               _sourceType: 'omnicortex',
               _categoryKey: catKey,
               _displayCategory: `Omnicortex (${catKey})`,
               _displayName: item.name || item.title,
               _displayImage: item.imageUrl || item.image || null,
-              _isOnMap: false
+              _isOnMap: false,
+              _uniqueKey: `omnicortex-${catKey}-${rawId}-${itemIdx}`
             });
           }
         });
@@ -520,7 +531,7 @@ export const ArchitectAssetCockpit = ({
                 const isSelected = selectedAsset && (selectedAsset.id === item.id);
                 return (
                   <div
-                    key={`${item._sourceType}-${item.id || idx}`}
+                    key={item._uniqueKey || `${item._sourceType || 'asset'}-${item.id || idx}-${idx}`}
                     onClick={() => {
                       if (onSelectAsset) onSelectAsset(item.id);
                       setCockpitSubTab('inspector');

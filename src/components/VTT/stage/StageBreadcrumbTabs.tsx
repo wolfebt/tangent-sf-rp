@@ -36,7 +36,8 @@ import {
   FilePlus,
   Trash2,
   Camera,
-  ImageIcon
+  ImageIcon,
+  Cpu
 } from 'lucide-react';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { useUILayoutStore } from '../store/uiLayoutStore';
@@ -457,6 +458,18 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                   <Sparkles size={13} className="text-emerald-400" />
                   <span>Procedural Landmass Gen</span>
                 </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    VttEventBus.emit('open-module-ingestion-modal');
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-purple-950/60 text-purple-300 hover:text-purple-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Cpu size={13} className="text-purple-400" />
+                  <span>Ingest VTT Story Module (.json)</span>
+                </button>
               </div>
 
               {/* Group 4: Scene Actions */}
@@ -648,7 +661,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           </button>
 
           {isGridMenuOpen && (
-            <div className="absolute right-0 mt-1.5 w-60 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl p-3 z-50 backdrop-blur-2xl text-xs font-mono space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="absolute left-0 mt-1.5 w-60 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl p-3 z-50 backdrop-blur-2xl text-xs font-mono space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex justify-between items-center border-b border-slate-800 pb-1.5">
                 <span>Coordinate Grid & Scale</span>
                 <span className="text-slate-500 text-[9px]">Shortcut: [G]</span>

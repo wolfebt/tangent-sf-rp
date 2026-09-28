@@ -19,7 +19,9 @@ import {
   Upload, 
   Trash2, 
   FolderOpen,
-  Boxes
+  Boxes,
+  Sliders,
+  Clock
 } from 'lucide-react';
 import { CatalogNodeItem } from './CatalogNodeItem';
 import { useCampaign } from '../../../context/CampaignContext';
@@ -47,7 +49,16 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   onSelectMap
 }) => {
   const { activeCategory } = useUILayoutStore();
-  const { universeState, activeMapId, setActiveMapId, updateMap, elementsCatalog, storyCatalog } = useCampaign();
+  const { 
+    universeState, 
+    activeMapId, 
+    setActiveMapId, 
+    updateMap, 
+    elementsCatalog, 
+    storyCatalog,
+    toggleGalleryModifier,
+    deleteGalleryModifier
+  } = useCampaign();
   const folio = (useFolio() || {}) as any;
   const dbm = (useDBM() || {}) as any;
   const dbData = dbm.dbData || {};
@@ -552,7 +563,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
                   return (
                     <CatalogNodeItem
-                      key={pId}
+                      key={`hero-${pId}-${idx}`}
                       id={pId}
                       title={pName}
                       subtitle={sub}
@@ -605,7 +616,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
                   return (
                     <CatalogNodeItem
-                      key={pId}
+                      key={`ade-persona-${pId}-${idx}`}
                       id={pId}
                       title={pName}
                       subtitle={`ADE Persona • ${pSpecies} • ${pArchetype}`}
@@ -695,7 +706,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
               return (
                 <CatalogNodeItem
-                  key={spId}
+                  key={`bestiary-${spId}-${idx}`}
                   id={spId}
                   title={sp.name}
                   subtitle={`${sp.size || 'Medium'} • ${sp.type || 'Adversary'} • ${isSyn ? `${struct} SP` : '30 HP'}`}
@@ -748,7 +759,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = f.image || f.imageUrl || f.emblem_url;
               return (
                 <CatalogNodeItem
-                  key={fId}
+                  key={`fac-${fId}-${idx}`}
                   id={fId}
                   title={f.name}
                   subtitle={`${f.standing || 'Neutral'} • Power: ${f.influence || f.tier || 'Tier III'}`}
@@ -776,7 +787,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = f.image || f.imageUrl;
               return (
                 <CatalogNodeItem
-                  key={fId}
+                  key={`ade-fac-${fId}-${idx}`}
                   id={fId}
                   title={f.title || f.name}
                   subtitle="ADE Faction Element"
@@ -835,7 +846,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = lore.image || lore.imageUrl;
               return (
                 <CatalogNodeItem
-                  key={lId}
+                  key={`ade-lore-${lId}-${idx}`}
                   id={lId}
                   title={lore.title || lore.name}
                   subtitle={`ADE ${lore.type} • ${(lore.content || '').replace(/<[^>]+>/g, '').slice(0, 45)}...`}
@@ -876,7 +887,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = wpn.image || wpn.imageUrl;
               return (
                 <CatalogNodeItem
-                  key={wId}
+                  key={`wpn-${wId}-${idx}`}
                   id={wId}
                   title={wpn.name}
                   subtitle={`${wpn.category || 'Weapon'} • ${wpn.damage || '2d8'} • Rng: ${wpn.range || '50 ft'} • AP ${wpn.ap || 0}`}
@@ -914,7 +925,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = arm.image || arm.imageUrl;
               return (
                 <CatalogNodeItem
-                  key={aId}
+                  key={`arm-${aId}-${idx}`}
                   id={aId}
                   title={arm.name}
                   subtitle={`${arm.category || 'Armor'} • +${arm.dr || arm.kineticDr || 4} DR • TL ${arm.tl || 3}`}
@@ -952,7 +963,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = gear.image || gear.imageUrl;
               return (
                 <CatalogNodeItem
-                  key={gId}
+                  key={`gear-${gId}-${idx}`}
                   id={gId}
                   title={gear.name}
                   subtitle={`${gear.category || 'Gear'} • ${gear.description || 'Hardware gear'}`}
@@ -982,7 +993,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = aug.image || aug.imageUrl;
               return (
                 <CatalogNodeItem
-                  key={augId}
+                  key={`aug-${augId}-${idx}`}
                   id={augId}
                   title={aug.name}
                   subtitle={`${aug.type || 'Cyberware'} • Stage: ${aug.stage || 'Standard'} • ${aug.essence || aug.strain || 1} Strain`}
@@ -1012,7 +1023,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               const img = item.image || item.imageUrl;
               return (
                 <CatalogNodeItem
-                  key={itId}
+                  key={`ade-item-${itId}-${idx}`}
                   id={itId}
                   title={item.title || item.name}
                   subtitle={`ADE Item • ${item.category || 'World Asset'}`}
@@ -1155,6 +1166,129 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                         <Trash2 size={11} />
                       </button>
                     </div>
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ===================================================================== */}
+      {/* 9. GALLERY SITUATIONAL MODIFIERS TAXONOMY                             */}
+      {/* ===================================================================== */}
+      {activeCategory === 'modifiers' && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-purple-400">
+              Gallery Modifiers ({(universeState?.galleryModifiers || []).length})
+            </span>
+            <span className="text-[9.5px] font-mono text-slate-500">
+              Tactical & Metaphysic
+            </span>
+          </div>
+
+          {(universeState?.galleryModifiers || []).length === 0 ? (
+            <div className="p-4 text-center text-xs font-mono text-slate-500 border border-dashed border-slate-800 rounded-xl space-y-1">
+              <Sliders size={20} className="mx-auto text-purple-500/50 mb-1" />
+              <div>No situational modifiers defined.</div>
+              <p className="text-[10px] text-slate-600">
+                Open ADE Story Gallery to configure Metaphysic, Tech, or Environmental modifiers.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-1.5">
+              {(universeState?.galleryModifiers || [])
+                .filter((mod: any) => !searchQuery || mod.name.toLowerCase().includes(searchQuery.toLowerCase()) || mod.category.toLowerCase().includes(searchQuery.toLowerCase()))
+                .map((mod: any) => (
+                  <div
+                    key={mod.id}
+                    className={`p-2.5 rounded-xl border text-xs font-mono transition-all space-y-1.5 ${
+                      mod.isActive
+                        ? 'bg-purple-950/30 border-purple-500/40 shadow-sm'
+                        : 'bg-slate-900/60 border-slate-800 opacity-60'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-bold text-slate-200 truncate max-w-[170px]" title={mod.name}>
+                        {mod.name}
+                      </span>
+                      <div className="flex items-center gap-1 shrink-0">
+                        {mod.isTemporary && (
+                          <span className="text-[9px] text-amber-400 flex items-center gap-0.5" title="Remaining combat rounds">
+                            <Clock size={9} />
+                            <span>{mod.remainingRounds}r</span>
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            if (toggleGalleryModifier) toggleGalleryModifier(mod.id);
+                          }}
+                          className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors cursor-pointer ${
+                            mod.isActive
+                              ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
+                              : 'bg-slate-800 text-slate-500 border border-slate-700'
+                          }`}
+                        >
+                          {mod.isActive ? 'ON' : 'OFF'}
+                        </button>
+                        {deleteGalleryModifier && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              AudioService.playTerminalBeep(900, 0.02);
+                              deleteGalleryModifier(mod.id);
+                            }}
+                            className="p-0.5 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
+                            title="Remove Modifier"
+                          >
+                            <Trash2 size={11} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-[9.5px]">
+                      <span className="px-1.5 py-0.2 rounded uppercase font-bold bg-slate-800 text-purple-300 border border-purple-500/30">
+                        {mod.category}
+                      </span>
+                      {mod.sourceName && (
+                        <span className="text-slate-400 truncate max-w-[130px]" title={mod.sourceName}>
+                          via {mod.sourceName}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Numeric effect preview */}
+                    <div className="flex flex-wrap gap-1.5 text-[9.5px] text-slate-300 pt-0.5">
+                      {mod.effects?.attackMod !== 0 && (
+                        <span className={mod.effects.attackMod > 0 ? 'text-emerald-400' : 'text-rose-400'}>
+                          {mod.effects.attackMod > 0 ? `+${mod.effects.attackMod}` : mod.effects.attackMod} ATK
+                        </span>
+                      )}
+                      {mod.effects?.defenseMod !== 0 && (
+                        <span className={mod.effects.defenseMod > 0 ? 'text-cyan-400' : 'text-amber-400'}>
+                          {mod.effects.defenseMod > 0 ? `+${mod.effects.defenseMod}` : mod.effects.defenseMod} DEF
+                        </span>
+                      )}
+                      {mod.effects?.metaphysicMod !== 0 && (
+                        <span className="text-purple-300">
+                          {mod.effects.metaphysicMod > 0 ? `+${mod.effects.metaphysicMod}` : mod.effects.metaphysicMod} Meta
+                        </span>
+                      )}
+                      {mod.effects?.techMod !== 0 && (
+                        <span className="text-cyan-300">
+                          {mod.effects.techMod > 0 ? `+${mod.effects.techMod}` : mod.effects.techMod} Tech
+                        </span>
+                      )}
+                    </div>
+
+                    {mod.effects?.customRuleText && (
+                      <p className="text-[9px] text-slate-400 font-sans italic line-clamp-1">
+                        {mod.effects.customRuleText}
+                      </p>
+                    )}
                   </div>
                 ))}
             </div>

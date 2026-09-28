@@ -41,7 +41,9 @@ import {
   PaintBucket,
   Lightbulb,
   ImageIcon,
-  Minus
+  Flag,
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { 
@@ -58,6 +60,7 @@ export type ArchitectDesignTool =
   | 'terrain' 
   | 'fill'
   | 'pencil' 
+  | 'waypoint'
   | 'object' 
   | 'token' 
   | 'text' 
@@ -466,28 +469,64 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
 
   if (isMinimized) {
     return (
-      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2.5 bg-slate-900/95 backdrop-blur-xl border border-amber-500/60 rounded-2xl px-3.5 py-2 shadow-2xl font-mono text-slate-100 animate-in fade-in duration-150 select-none">
-        <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
-        <span className="text-xs font-bold text-amber-300">
-          STUDIO: <span className="uppercase text-white font-bold">{activeTool}</span>
-        </span>
-        <button
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            setIsMinimized(false);
-          }}
-          className="ml-2 px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-black font-bold text-[10px] rounded-lg transition-colors cursor-pointer"
-        >
-          EXPAND
-        </button>
+      <aside className="absolute top-0 right-0 h-full w-12 z-40 bg-[#060a14]/95 backdrop-blur-xl border-l border-cyan-500/30 flex flex-col items-center py-3 justify-between shadow-2xl font-mono text-slate-100 select-none animate-in fade-in duration-150">
+        <div className="flex flex-col items-center gap-2.5 w-full">
+          <button
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              setIsMinimized(false);
+            }}
+            className="w-8 h-8 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-300 flex items-center justify-center transition-all cursor-pointer shadow-sm group"
+            title="Expand Architect Guide Rail"
+          >
+            <ChevronLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
+          </button>
+          
+          <div className="w-6 h-px bg-slate-800" />
+          
+          {/* Active Tool Badge */}
+          <div className="w-8 h-8 rounded-lg bg-slate-900 border border-cyan-500/40 flex items-center justify-center text-cyan-400" title={`Active Tool: ${activeTool.toUpperCase()}`}>
+            <span className="text-amber-400 font-bold text-[9px] uppercase">{activeTool.slice(0, 3)}</span>
+          </div>
+
+          {/* Quick Tool Category Shortcuts */}
+          {[
+            { id: 'wall', icon: Shield, label: 'Wall' },
+            { id: 'terrain', icon: Layers, label: 'Terrain' },
+            { id: 'fill', icon: PaintBucket, label: 'Flooring' },
+            { id: 'object', icon: Terminal, label: 'Object' },
+            { id: 'hazard', icon: Flame, label: 'Hazard' }
+          ].map(tool => {
+            const Icon = tool.icon;
+            const isToolActive = activeTool === tool.id;
+            return (
+              <button
+                key={tool.id}
+                onClick={() => {
+                  handleToolChange(tool.id as any);
+                  setIsMinimized(false);
+                }}
+                className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer ${
+                  isToolActive
+                    ? 'bg-amber-500/30 border border-amber-500 text-amber-300'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                }`}
+                title={tool.label}
+              >
+                <Icon size={14} />
+              </button>
+            );
+          })}
+        </div>
+
         <button
           onClick={onClose}
-          className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+          className="w-8 h-8 rounded-lg hover:bg-rose-950/60 hover:text-rose-400 text-slate-400 flex items-center justify-center transition-colors cursor-pointer"
           title="Exit Architect Mode"
         >
-          <X size={14} />
+          <X size={15} />
         </button>
-      </div>
+      </aside>
     );
   }
 
@@ -526,6 +565,7 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
     { id: 'terrain', label: 'Terrain', icon: Layers, category: 'construct', hotkey: 'T' },
     { id: 'fill', label: 'Flooring', icon: PaintBucket, category: 'construct', hotkey: 'F' },
     { id: 'pencil', label: 'Sketch', icon: Edit3, category: 'annotate', hotkey: 'P' },
+    { id: 'waypoint', label: 'Waypoint', icon: Flag, category: 'dressing', hotkey: 'Y' },
     { id: 'light', label: 'Light', icon: Lightbulb, category: 'dressing', hotkey: 'L' },
     { id: 'object', label: 'Object', icon: Terminal, category: 'dressing', hotkey: 'O' },
     { id: 'token', label: 'Token', icon: Bot, category: 'dressing' },
@@ -540,13 +580,13 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
     : ALL_TOOLS.filter(t => t.category === toolCategory);
 
   return (
-    <aside className="fixed bottom-3 right-3 z-50 w-96 max-h-[85vh] bg-slate-900/95 backdrop-blur-xl border border-cyan-500/40 rounded-2xl shadow-2xl flex flex-col font-mono text-slate-100 overflow-hidden select-none animate-in fade-in slide-in-from-bottom-5 duration-200">
-      {/* ── Studio Header ── */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-950/80 border-b border-cyan-500/30 shrink-0">
+    <aside className="absolute top-0 right-0 h-full w-84 md:w-92 z-40 bg-[#070b14]/98 backdrop-blur-2xl border-l border-cyan-500/30 shadow-[-12px_0_35px_rgba(0,0,0,0.85)] flex flex-col font-mono text-slate-100 select-none animate-in fade-in slide-in-from-right-4 duration-200">
+      {/* ── Studio / Guide Rail Header ── */}
+      <div className="flex items-center justify-between px-3.5 py-2.5 bg-slate-950/90 border-b border-cyan-500/30 shrink-0">
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
           <h2 className="text-xs font-bold text-amber-400 uppercase tracking-wider">
-            ARCHITECT DESIGN STUDIO
+            ARCHITECT GUIDE RAIL
           </h2>
         </div>
 
@@ -556,7 +596,7 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
             <select
               value={atmosphericWeather}
               onChange={(e) => setAtmosphericWeather(e.target.value as AtmosphericWeatherType)}
-              className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-900 text-cyan-300 border border-cyan-500/40 focus:outline-none cursor-pointer"
+              className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-900 text-cyan-300 border border-cyan-500/40 focus:outline-none cursor-pointer max-w-[105px] truncate"
               title="Global Atmospheric Environment / Shader Preset"
             >
               {Object.values(ATMOSPHERIC_PRESETS).map(p => (
@@ -585,15 +625,15 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
               setIsMinimized(true);
             }}
             className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
-            title="Minimize Design Palette"
+            title="Collapse Guide Rail to Slim Dock"
           >
-            <Minus size={15} />
+            <ChevronRight size={15} />
           </button>
 
           <button
             onClick={onClose}
             className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
-            title="Close Design Palette (Resume Play Mode)"
+            title="Close Architect Mode"
           >
             <X size={15} />
           </button>
@@ -724,7 +764,7 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
       )}
 
       {/* ── Scrollable Body: Tool Subpanel & Catalogs ── */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+      <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3 scrollbar-thin">
         {/* SUBPANEL 1: WALL TOOL */}
         {activeTool === 'wall' && (
           <div className="bg-slate-950/70 border border-cyan-500/30 rounded-xl p-3 space-y-2.5">
@@ -1126,6 +1166,21 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
             </div>
             <p className="text-[10px] text-slate-400">
               Measures real-time distance and waypoint vectors across canonical walk, jog, run, and sprint paces.
+            </p>
+          </div>
+        )}
+
+        {/* SUBPANEL 6A: WAYPOINT DROPPING */}
+        {activeTool === 'waypoint' && (
+          <div className="bg-amber-950/40 border border-amber-500/40 rounded-xl p-3 space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-xs font-bold text-amber-300 uppercase flex items-center gap-1.5">
+                <Flag size={13} /> Spatial Waypoint Dropper
+              </span>
+              <span className="text-[10px] text-amber-400 font-mono">Armed</span>
+            </div>
+            <p className="text-[10px] text-slate-300 leading-relaxed">
+              Click anywhere on the tactical Stage canvas to drop an objective waypoint marker. Consecutive waypoints automatically form a tactical route connected with golden beacons.
             </p>
           </div>
         )}

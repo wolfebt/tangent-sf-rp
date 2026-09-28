@@ -70,7 +70,8 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
       factions: factionsCount,
       lore: (storyCards.length || 0) + (universeState?.lore?.length || 0) + adeLoreCount,
       armory: armoryCount,
-      assets: customAssetsCount
+      assets: customAssetsCount,
+      modifiers: (universeState?.galleryModifiers || []).length
     };
   }, [universeState, folio, dbData, elementsCatalog]);
 

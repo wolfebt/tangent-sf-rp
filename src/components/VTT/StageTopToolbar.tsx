@@ -30,7 +30,8 @@ import {
   EyeOff,
   Check,
   Map,
-  ExternalLink
+  ExternalLink,
+  Cpu
 } from 'lucide-react';
 import { GridScaleTier, GridType } from '../../engine/index.ts';
 import { AudioService } from '../../services/audioService';
@@ -54,6 +55,7 @@ export interface StageTopToolbarProps {
   onLoadMapJson: (file: File) => void;
   onExportPng: () => void;
   onOpenUvttModal: () => void;
+  onOpenModuleIngestionModal?: () => void;
   onOpenLandmassModal: () => void;
   onOpenAssetManager: () => void;
   onOpenLayersPanel: () => void;
@@ -91,6 +93,7 @@ export const StageTopToolbar: React.FC<StageTopToolbarProps> = ({
   onLoadMapJson,
   onExportPng,
   onOpenUvttModal,
+  onOpenModuleIngestionModal,
   onOpenLandmassModal,
   onOpenAssetManager,
   onOpenLayersPanel,
@@ -296,6 +299,17 @@ export const StageTopToolbar: React.FC<StageTopToolbarProps> = ({
                   <Upload size={13} className="text-cyan-400" />
                   <span>Import Universal VTT (.uvtt)</span>
                 </button>
+                <button
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    if (onOpenModuleIngestionModal) onOpenModuleIngestionModal();
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-purple-950/60 text-purple-300 hover:text-purple-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Cpu size={13} className="text-purple-400" />
+                  <span>Ingest VTT Story Module (.json)</span>
+                </button>
               </div>
 
               {/* Group 3: Catalogs & Schematics */}
@@ -464,7 +478,7 @@ export const StageTopToolbar: React.FC<StageTopToolbarProps> = ({
           </button>
 
           {isGridMenuOpen && (
-            <div className="absolute right-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl p-3 z-50 backdrop-blur-2xl text-xs font-mono space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="absolute left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl p-3 z-50 backdrop-blur-2xl text-xs font-mono space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex justify-between items-center">
                 <span>Coordinate Grid & Scale</span>
                 <span className="text-slate-400 text-[9px]">Shortcut: [G]</span>

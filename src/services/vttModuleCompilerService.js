@@ -8,8 +8,6 @@
  * and automations are derived directly from authored scenario nodes and live Omnicortex DBM records.
  */
 
-import { AudioService } from './audioService';
-
 export class VttModuleCompilerService {
   /**
    * Compiles an authored scenario, linked map, and relevant elements into a complete VTT package.
@@ -17,11 +15,14 @@ export class VttModuleCompilerService {
   compileScenarioForVtt({
     scenario = null,
     activeMap = null,
+    mapsCatalog = [],
     elementsCatalog = [],
+    galleryModifiers = [],
+    universeState = null,
     dbData = {},
     options = {}
   }) {
-    if (!scenario && !activeMap) {
+    if (!scenario && !activeMap && (!mapsCatalog || mapsCatalog.length === 0)) {
       throw new Error('VTT Compiler requires at least an authored scenario or active map.');
     }
 
@@ -31,13 +32,14 @@ export class VttModuleCompilerService {
     // 1. Compile Story Functions & Narrative Automations
     const compiledStory = this.compileStoryAutomations(scenario, elementsCatalog);
 
-    // 2. Compile Map Functions & Spatial Reactive Automations
-    const compiledMap = this.compileMapAutomations(activeMap, scenario);
+    // 2. Compile Primary Map Functions & Spatial Reactive Automations
+    const effectiveActiveMap = activeMap || (mapsCatalog && mapsCatalog[0]) || (universeState?.maps && universeState.maps[0]) || null;
+    const compiledMap = this.compileMapAutomations(effectiveActiveMap, scenario);
 
     // 3. Compile Element Functions, Modular Characters & Autonomous Scripts
     const { compiledTokens, compiledObjects } = this.compileElementAutomations({
       elementsCatalog,
-      activeMap,
+      activeMap: effectiveActiveMap,
       scenario,
       dbData
     });
@@ -63,22 +65,42 @@ export class VttModuleCompilerService {
     const scriptedNpcTokens = finalTokens.filter(t => t.script && t.script.type);
     const reactiveTraps = finalObjects.filter(o => o.isTrap || o.type === 'hazard' || o.trapType);
 
+    // 4. Compile Complete Story Gallery (Maps, Elements, Situational Modifiers)
+    const rawMapsList = (mapsCatalog && mapsCatalog.length > 0) 
+      ? mapsCatalog 
+      : (universeState?.maps && universeState.maps.length > 0 ? universeState.maps : (effectiveActiveMap ? [effectiveActiveMap] : []));
+    
+    const compiledGalleryMaps = rawMapsList.map(m => this.compileMapAutomations(m, scenario));
+    const compiledModifiers = (galleryModifiers && galleryModifiers.length > 0)
+      ? galleryModifiers
+      : (universeState?.galleryModifiers || []);
+
     const compiledPackage = {
       packageId,
       compiledAt: timestamp,
       manifest: {
-        title: scenario?.title || activeMap?.title || 'Tactical Scenario',
+        title: scenario?.title || effectiveActiveMap?.title || universeState?.projectName || 'Tactical Scenario',
+        version: '1.0.0',
+        author: universeState?.author || 'ADE Studio Architect',
         scenarioId: scenario?.id || null,
-        mapId: activeMap?.id || null,
-        techLevel: parseInt(scenario?.fields?.['tech-level'] || activeMap?.techLevel || '3', 10),
+        mapId: effectiveActiveMap?.id || null,
+        techLevel: parseInt(scenario?.fields?.['tech-level'] || effectiveActiveMap?.techLevel || '3', 10),
         magicLevel: parseInt(scenario?.fields?.['magic-level'] || '0', 10),
         stats: {
           totalTokens: finalTokens.length,
           scriptedNpcs: scriptedNpcTokens.length,
           totalObjects: finalObjects.length,
           reactiveTraps: reactiveTraps.length,
-          wallVectors: (compiledMap.walls || []).length
+          wallVectors: (compiledMap.walls || []).length,
+          totalMaps: compiledGalleryMaps.length,
+          totalElements: elementsCatalog.length,
+          totalModifiers: compiledModifiers.length
         }
+      },
+      gallery: {
+        maps: compiledGalleryMaps,
+        elements: elementsCatalog,
+        modifiers: compiledModifiers
       },
       story: compiledStory,
       map: {
@@ -89,7 +111,8 @@ export class VttModuleCompilerService {
       automations: {
         scriptedNpcs: scriptedNpcTokens,
         reactiveTraps,
-        storyTriggers: compiledStory.triggers || []
+        storyTriggers: compiledStory.triggers || [],
+        activeModifiers: compiledModifiers.filter(m => m.isActive !== false)
       }
     };
 
@@ -298,6 +321,18 @@ export class VttModuleCompilerService {
     bossTokens.forEach(b => {
       if (!b.script || b.script.type === 'dialogue_bark') {
         warnings.push(`Boss token "${b.label}" is set to a simple dialogue bark instead of combat routine.`);
+      }
+    });
+
+    // Validate Gallery Modifiers
+    const modifiers = pkg.gallery?.modifiers || [];
+    modifiers.forEach(m => {
+      if (m.sourceType !== 'story' && m.sourceId) {
+        const hasSource = (pkg.gallery?.elements || []).some(e => e.id === m.sourceId) ||
+                          (pkg.gallery?.maps || []).some(map => map.id === m.sourceId);
+        if (!hasSource && m.sourceName) {
+          warnings.push(`Modifier "${m.name}" references source "${m.sourceName}" which is not in this gallery bundle.`);
+        }
       }
     });
 

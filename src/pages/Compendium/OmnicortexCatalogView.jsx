@@ -851,7 +851,7 @@ export const OmnicortexCatalogView = ({
 
                 return (
                   <div
-                    key={item.id || item.name}
+                    key={`${catKey}_${item.id || item.name}_${idx}`}
                     onClick={() => onOpenItem(item, catKey)}
                     className="bg-slate-950/90 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/60 rounded-xl p-4 transition-all flex flex-col justify-between group shadow-sm hover:shadow-[0_0_15px_rgba(52,211,153,0.15)] cursor-pointer"
                   >
@@ -1004,7 +1004,7 @@ export const OmnicortexCatalogView = ({
 
                     return (
                       <tr
-                        key={item.id || item.name}
+                        key={`${catKey}_${item.id || item.name}_${idx}`}
                         onClick={() => onOpenItem(item, catKey)}
                         className="hover:bg-slate-900/80 transition-colors cursor-pointer group"
                       >

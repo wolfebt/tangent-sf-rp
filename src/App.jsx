@@ -29,6 +29,7 @@ const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSp
 const CommsPage = lazy(() => import('./pages/CommsPage'));
 const TeamsPage = lazy(() => import('./pages/TeamsPage'));
 const StageView = lazy(() => import('./pages/Foundry/MapMaker/MapMaker'));
+const AdeLiveStudio = lazy(() => import('./pages/Foundry/LiveStudio/AdeLiveStudio'));
 
 const PageLoader = () => (
   <div className="flex-1 flex flex-col items-center justify-center bg-black text-cyan-400 font-mono text-xs tracking-wider h-full w-full select-none">
@@ -120,6 +121,10 @@ export function App() {
                                 <Route path="/dbm" element={<DBM />} />
                                 <Route path="/folio" element={<Folio />} />
                                 <Route path="/roster" element={<Navigate to="/folio" replace />} />
+                                <Route path="/live-studio" element={<AdeLiveStudio />} />
+                                <Route path="/ade-stage" element={<AdeLiveStudio />} />
+                                <Route path="/foundry/live-studio" element={<AdeLiveStudio />} />
+                                <Route path="/foundry/ade-stage" element={<AdeLiveStudio />} />
                                 <Route path="/vtt-ops" element={<VttOptionsPage />} />
                                 <Route path="/stage" element={<StageView defaultRole="architect" />} />
                                 <Route path="/vtt" element={<StageView defaultRole="operative" />} />
@@ -127,6 +132,9 @@ export function App() {
                                 <Route path="/foundry/view/:mapId" element={<PlayerSpectatorView />} />
                                 <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />
                                 <Route path="/spectator/:mapId" element={<PlayerSpectatorView />} />
+                                <Route path="/map-maker" element={<StageView />} />
+                                <Route path="/mapmaker" element={<StageView />} />
+                                <Route path="/foundry/map-maker" element={<StageView />} />
                                 <Route path="/foundry/*" element={<FoundryApp />} />
                                 <Route path="/ade/*" element={<Navigate to="/foundry" replace />} />
                                 <Route path="/ade" element={<Navigate to="/foundry" replace />} />

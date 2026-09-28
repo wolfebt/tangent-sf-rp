@@ -10,7 +10,7 @@ import { AimeGuidanceButton } from './AimeGuidanceButton';
 import { AimeGuidanceFlyout } from './AimeGuidanceFlyout';
 import { 
   Cpu, Play, Download, CheckCircle, AlertTriangle, 
-  X, RefreshCw, Shield, Swords, Flame, MapPin, Eye, Sparkles 
+  X, RefreshCw, Shield, Swords, Flame, MapPin, Eye, Sparkles, Sliders 
 } from 'lucide-react';
 
 export const VttCompilerModal = ({
@@ -19,7 +19,7 @@ export const VttCompilerModal = ({
   activeScenario = null
 }) => {
   const navigate = useNavigate();
-  const { universeState, elementsCatalog, mapsCatalog, updateMap } = useStory();
+  const { universeState, elementsCatalog, mapsCatalog, galleryModifiers = [], updateMap } = useStory();
   const { dbData } = useDBM() || { dbData: {} };
 
   const [compiledResult, setCompiledResult] = useState(null);
@@ -46,7 +46,10 @@ export const VttCompilerModal = ({
       const result = VttModuleCompiler.compileScenarioForVtt({
         scenario: activeScenario,
         activeMap,
+        mapsCatalog,
         elementsCatalog,
+        galleryModifiers,
+        universeState,
         dbData
       });
       setCompiledResult(result);
@@ -150,7 +153,7 @@ export const VttCompilerModal = ({
         </div>
 
         {/* Diagnostic Telemetry Strip */}
-        <div className="p-4 bg-slate-900/80 border-b border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-4 bg-slate-900/80 border-b border-slate-800 grid grid-cols-2 sm:grid-cols-5 gap-2.5">
           <div className="p-2.5 bg-slate-950/80 border border-slate-800 rounded-xl space-y-1">
             <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-mono uppercase">
               <Swords size={12} className="text-purple-400" />
@@ -188,6 +191,16 @@ export const VttCompilerModal = ({
             </div>
             <p className="text-base font-extrabold text-amber-300 font-mono">
               {pkg?.manifest.stats.wallVectors || 0}
+            </p>
+          </div>
+
+          <div className="p-2.5 bg-slate-950/80 border border-slate-800 rounded-xl space-y-1">
+            <div className="flex items-center gap-1.5 text-slate-400 text-[10px] font-mono uppercase">
+              <Sliders size={12} className="text-purple-400" />
+              <span>Gallery Modifiers</span>
+            </div>
+            <p className="text-base font-extrabold text-purple-300 font-mono">
+              {pkg?.manifest.stats.totalModifiers || pkg?.gallery?.modifiers?.length || 0}
             </p>
           </div>
         </div>
@@ -244,6 +257,36 @@ export const VttCompilerModal = ({
                   </div>
                   <div className="text-right text-[10px] text-cyan-400">
                     <span>HP {tok.health?.max} / DC {tok.defense}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Gallery Situational Modifiers List */}
+          <div className="space-y-2">
+            <h4 className="text-[10px] font-bold uppercase text-slate-400">
+              Compiled Gallery Modifiers ({pkg?.gallery?.modifiers?.length || 0})
+            </h4>
+
+            {(pkg?.gallery?.modifiers?.length || 0) === 0 ? (
+              <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl text-center text-slate-500 text-[11px]">
+                No situational modifiers defined. Open The Gallery to configure Metaphysic, Tech, or Environmental field effects.
+              </div>
+            ) : (
+              pkg?.gallery?.modifiers.map((mod, idx) => (
+                <div key={idx} className="p-2.5 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{mod.category === 'metaphysic' ? '🔮' : (mod.category === 'tech' ? '⚡' : '🌪️')}</span>
+                    <div>
+                      <span className="font-bold text-slate-200 block">{mod.name}</span>
+                      <span className="text-[10px] text-slate-400">
+                        Category: {mod.category?.toUpperCase()} • Source: {mod.sourceName || mod.sourceType} • Scope: {mod.targetScope}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="text-right text-[10px] text-purple-300">
+                    <span>{mod.isActive ? 'ACTIVE' : 'MUTED'} {mod.isTemporary ? `(${mod.durationRounds}r)` : ''}</span>
                   </div>
                 </div>
               ))

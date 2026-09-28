@@ -116,7 +116,7 @@ const MapToolbar = ({
         <div className="flex items-center gap-1 bg-slate-900 border border-slate-700/80 rounded-xl px-2 py-1 shadow-sm">
           <Globe size={13} className="text-cyan-400 shrink-0" />
           <select
-            value={activeMapId}
+            value={activeMapId || ''}
             onChange={(e) => {
               const targetId = e.target.value;
               if (targetId) setActiveMapId(targetId);
@@ -366,7 +366,7 @@ const MapToolbar = ({
             <ChevronDown size={11} className={`text-slate-400 transition-transform ${isGridMenuOpen ? 'rotate-180' : ''}`} />
           </button>
           {isGridMenuOpen && (
-            <div className="absolute right-0 mt-1.5 w-40 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
+            <div className="absolute left-0 mt-1.5 w-40 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
               {[
                 { id: 'hex', label: 'Hexagonal' },
                 { id: 'square', label: 'Square Grid' },
@@ -409,7 +409,7 @@ const MapToolbar = ({
             <ChevronDown size={11} className={`text-slate-400 transition-transform ${isViewMenuOpen ? 'rotate-180' : ''}`} />
           </button>
           {isViewMenuOpen && (
-            <div className="absolute right-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
+            <div className="absolute left-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-[120] backdrop-blur-xl text-xs">
               <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 border-b border-slate-800 tracking-wider">
                 Toggle Workspace Overlays
               </div>

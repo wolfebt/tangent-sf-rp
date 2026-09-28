@@ -12,6 +12,7 @@ export interface VttEventMap {
   'open-underlay-modal': void;
   'open-layers-panel': void;
   'open-new-map-modal': void;
+  'open-module-ingestion-modal': void;
   'load-preset-starship': void;
   'load-preset-outpost': void;
   'export-stage-png': void;
@@ -25,8 +26,24 @@ export interface VttEventMap {
     isDeploying?: boolean;
   };
   'sentry-alert': { detectedHero: any; alertBark: string; facingAngleDeg: number; distance?: number };
-  'story-foundry-milestone-reached': { scenarioId?: string; scenarioTitle?: string; timestamp?: string; milestoneId?: string };
+  'story-foundry-milestone-reached': { scenarioId?: string; scenarioTitle?: string; timestamp?: string; milestoneId?: string; waypointName?: string; beat?: string };
   'stage-cyberdeck-breach': { targetNode?: any; timestamp?: number; unlockedBulkheadId?: string };
+  'pan-stage-to': { x: number; y: number; zoom?: number };
+  'story-waypoint-tripped': {
+    waypoint: any;
+    token?: any;
+    scenarioId?: string;
+    scenarioTitle?: string;
+    action?: 'ADVANCE_SCENARIO' | 'REVEAL_BEAT' | 'TRIGGER_AIME' | 'ALERT_GM';
+    targetScenarioId?: string;
+    beat?: string;
+  };
+  'reset-stage-waypoints': void;
+  'toggle-stage-design-mode': { active?: boolean };
+  'arm-stage-tool': { tool: string };
+  'spawn-environmental-hazard': { type: 'plasma_fire' | 'corrosive_gas' | 'void_mist' | 'smoke'; x?: number; y?: number; radius?: number };
+  'clear-environmental-hazards': void;
+  'apply-atmospheric-preset': { presetKey: string };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =

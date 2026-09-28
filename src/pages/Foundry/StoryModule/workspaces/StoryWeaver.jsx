@@ -50,10 +50,11 @@ import {
   Plus,
   Zap,
   Terminal,
-  ShieldAlert
+  ShieldAlert,
+  Box
 } from 'lucide-react';
 
-export default function StoryWeaver({ activeNode, updateStory, guidanceGems = '' }) {
+export default function StoryWeaver({ activeNode, updateStory, guidanceGems = '', onSelectScenarioWorkspaceTab }) {
   const { 
     universeState, 
     updateCreativeState,
@@ -64,6 +65,8 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
     mapsCatalog,
     setActiveMapId,
     addMap,
+    addStory,
+    setActiveScenarioId,
     cronicle,
     stageCronicleDeltas
   } = useStory();
@@ -440,75 +443,23 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] font-mono select-none">
-      {/* ── TOP WEAVER CONTROL BAR ── */}
-      <div className="p-2.5 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-3 shrink-0 flex-wrap">
-        {/* Weaver Tabs */}
-        <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs font-mono">
-          <button
-            type="button"
-            onClick={() => setWeaverTab('manuscript')}
-            className={`px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'manuscript'
-                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-            title="Prose drafting & manuscript authoring"
-          >
-            <Feather size={12} />
-            <span>Manuscript &amp; Prose</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setWeaverTab('outline')}
-            className={`px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'outline'
-                ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-            title="Structured plot outline & scene beats"
-          >
-            <Layers size={12} />
-            <span>Outline &amp; Beats</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setWeaverTab('tactical')}
-            className={`px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'tactical'
-                ? 'bg-blue-950 text-blue-300 border border-blue-500/60 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-            title="Tactical battlemap assets, scene triggers & live stage events"
-          >
-            <Target size={12} className={weaverTab === 'tactical' ? 'text-blue-300' : 'text-blue-400'} />
-            <span>Tactical Map &amp; Events</span>
-            {linkedMap && (
-              <span className="text-[9px] px-1 py-0.2 rounded bg-blue-500/30 text-blue-200 font-mono">
-                Linked
-              </span>
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setWeaverTab('genesis')}
-            className={`px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'genesis'
-                ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-            title="Guidance Gems & creative premise genesis"
-          >
-            <Sparkles size={12} />
-            <span>Creative Genesis</span>
-          </button>
+      {/* ── TOP WEAVER CONTROL BAR (Clean, Single Line) ── */}
+      <div className="px-3 py-2 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-3 shrink-0 flex-wrap">
+        {/* Left: Scenario Title & Mode Indicator */}
+        <div className="flex items-center gap-2 min-w-0">
+          <Feather size={14} className="text-cyan-400 shrink-0" />
+          <span className="font-bold text-slate-100 text-xs truncate max-w-[220px]">
+            {activeNode?.title || 'Manuscript Draft'}
+          </span>
+          {activeNode?.type && (
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-bold uppercase shrink-0">
+              {activeNode.type}
+            </span>
+          )}
         </div>
 
-        {/* Telemetry & Actions (Active when on manuscript tab) */}
-        {weaverTab === 'manuscript' && (
-          <div className="flex items-center gap-3 text-xs flex-wrap">
+        {/* Right: Telemetry & Actions */}
+        <div className="flex items-center gap-2.5 text-xs flex-wrap">
             {/* Word Count */}
             <div className="flex items-center gap-1 text-slate-400">
               <Hash size={12} className="text-cyan-400" />
@@ -616,7 +567,6 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
               <Download size={13} />
             </button>
           </div>
-        )}
       </div>
 
       {/* AI Working Banner */}
@@ -634,8 +584,108 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
         </div>
       )}
 
-      {/* ── TAB VIEW 1: MANUSCRIPT & PROSE DRAFTING ── */}
-      {weaverTab === 'manuscript' && (
+      {/* ── MANUSCRIPT VIEWPORT & QUICK-START LAUNCHPAD ── */}
+      {!activeNode ? (
+        <div className="flex-1 overflow-y-auto p-6 flex flex-col items-center justify-center bg-[#070b13] text-center font-mono">
+          <div className="max-w-xl w-full p-8 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-2xl space-y-6">
+            <div className="w-16 h-16 mx-auto rounded-2xl bg-cyan-950/60 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-lg">
+              <Sparkles size={32} />
+            </div>
+
+            <div className="space-y-2">
+              <h2 className="text-lg font-bold text-white tracking-wide">
+                Adventure Development Environment
+              </h2>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Choose a foundation below or select a module from the Guide Rail on the left to begin architecting:
+              </p>
+            </div>
+
+            {/* Quick Action Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+              {/* Action 1: Create First Scenario */}
+              <button
+                type="button"
+                onClick={() => {
+                  const newId = uuidv4();
+                  if (typeof addStory === 'function') {
+                    addStory({
+                      id: newId,
+                      title: 'Act I: The Inciting Incident',
+                      content: '<p><em>The operative stepped onto the pressurized platform, the neon glow of the colony filtering through the atmospheric haze...</em></p>',
+                      type: 'Scenario'
+                    });
+                  }
+                  if (typeof setActiveScenarioId === 'function') {
+                    setActiveScenarioId(newId);
+                  }
+                  AudioService.playCriticalChime(true);
+                }}
+                className="p-3.5 rounded-xl bg-slate-950/80 hover:bg-cyan-950/40 border border-slate-800 hover:border-cyan-500/60 transition-all group cursor-pointer"
+              >
+                <div className="flex items-center gap-2 text-cyan-400 mb-1 font-bold text-xs">
+                  <Feather size={14} />
+                  <span>Start New Scenario</span>
+                </div>
+                <p className="text-[11px] text-slate-400 group-hover:text-slate-300">
+                  Begin prose manuscript drafting with character POV &amp; AIME Co-Pilot.
+                </p>
+              </button>
+
+              {/* Action 2: Spawn Battlemap Sector */}
+              <button
+                type="button"
+                onClick={() => {
+                  handleCreateMapForScenario();
+                }}
+                className="p-3.5 rounded-xl bg-slate-950/80 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/60 transition-all group cursor-pointer"
+              >
+                <div className="flex items-center gap-2 text-purple-400 mb-1 font-bold text-xs">
+                  <Target size={14} />
+                  <span>Spawn Tactical Sector</span>
+                </div>
+                <p className="text-[11px] text-slate-400 group-hover:text-slate-300">
+                  Create a WebGPU tactical grid with tokens, dynamic lighting, and fog.
+                </p>
+              </button>
+
+              {/* Action 3: Story Elements & Foundations */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsExtractorModalOpen(true);
+                }}
+                className="p-3.5 rounded-xl bg-slate-950/80 hover:bg-emerald-950/40 border border-slate-800 hover:border-emerald-500/60 transition-all group cursor-pointer"
+              >
+                <div className="flex items-center gap-2 text-emerald-400 mb-1 font-bold text-xs">
+                  <Box size={14} />
+                  <span>Forge Story Elements</span>
+                </div>
+                <p className="text-[11px] text-slate-400 group-hover:text-slate-300">
+                  Create foundational Personas, Items, Factions, Tech, Encounters, and Lore.
+                </p>
+              </button>
+
+              {/* Action 4: Guidance Gems */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsAimeGuidanceOpen(true);
+                }}
+                className="p-3.5 rounded-xl bg-slate-950/80 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/60 transition-all group cursor-pointer"
+              >
+                <div className="flex items-center gap-2 text-amber-400 mb-1 font-bold text-xs">
+                  <Sparkles size={14} />
+                  <span>Guidance Gems &amp; AIME</span>
+                </div>
+                <p className="text-[11px] text-slate-400 group-hover:text-slate-300">
+                  Pick sci-fi subgenres, narrative mood modifiers, and world tags.
+                </p>
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
         <div className="flex-1 flex flex-col min-h-0 bg-[#090d16] relative z-10 quill-dark-wrapper overflow-hidden">
           <ReactQuill 
             theme="snow"
@@ -758,10 +808,14 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
                       onClick={() => {
                         AudioService.playTerminalBeep(1300, 0.04);
                         if (typeof setActiveMapId === 'function') setActiveMapId(linkedMap.id);
-                        navigate(`/stage?mapId=${linkedMap.id}&scenarioId=${activeNode?.id}`);
+                        if (typeof onSelectScenarioWorkspaceTab === 'function') {
+                          onSelectScenarioWorkspaceTab('stage');
+                        } else {
+                          navigate(`/stage?mapId=${linkedMap.id}&scenarioId=${activeNode?.id}`);
+                        }
                       }}
                       className="px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
-                      title="Launch this battlemap live in The Stage VTT with active operative personas"
+                      title="Launch this battlemap live in the Integrated Tactical Stage"
                     >
                       <span>⚔️</span>
                       <span>Deploy to STAGE</span>

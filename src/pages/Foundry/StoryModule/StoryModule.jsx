@@ -10,9 +10,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import ScenarioPane from './ScenarioPane';
 import ElementForge from '../ElementForge/ElementForge';
+import StoryGallery from './workspaces/StoryGallery';
 import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
+import VisualStoryGraph from './workspaces/VisualStoryGraph';
 import OsrControlPanelDeck from './workspaces/OsrControlPanelDeck';
-import AdventurePrintModal from './workspaces/AdventurePrintModal';
+import SelectivePrintModal from '../../../components/StoryFoundry/SelectivePrintModal';
 import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { UserSettingsModal } from '../../../components/UserSettingsModal';
@@ -29,11 +31,12 @@ import { exportElementMarkdown, exportElementPDF } from './exportUtils';
 import { generateScratchbookMarkdown } from './scratchbookService';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function StoryModule({ defaultView = 'scenarios' }) {
+export default function StoryModule({ defaultView = 'scenarios', defaultWorkspaceTab = 'weaver' }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const storyIdParam = searchParams.get('storyId');
   const viewParam = searchParams.get('view');
+  const tabParam = searchParams.get('tab') || searchParams.get('workspaceTab');
   const { 
     openStory, 
     universeState, 
@@ -43,14 +46,19 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
     deleteSavedElement, 
     updateStory,
     setActiveScenarioId,
-    cronicle 
+    cronicle,
+    mapsCatalog,
+    activeMapId
   } = useStory();
   const { currentUser, userHandle } = useAuth();
 
-  // Mode switcher state: 'scenarios' | 'elements'
+  // Mode switcher state: 'scenarios' | 'interactive' | 'graph' | 'control-panel' | 'gallery'
   const [activeView, setActiveView] = useState(() => {
     const v = viewParam || defaultView;
-    if (v === 'elements') return 'elements';
+    if (v === 'elements' || v === 'gallery') return 'gallery';
+    if (v === 'graph') return 'graph';
+    if (v === 'interactive') return 'interactive';
+    if (v === 'control-panel' || v === 'tactical') return 'control-panel';
     return 'scenarios';
   });
 
@@ -60,9 +68,12 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
   const [activeCockpitDeck, setActiveCockpitDeck] = useState('inspector'); // 'inspector' | 'tactical' | 'elements' | 'aime'
   const [scenarioWorkspaceTab, setScenarioWorkspaceTab] = useState(() => {
     const v = viewParam || defaultView;
+    const t = tabParam || defaultWorkspaceTab;
+    if (v === 'stage' || v === 'live-studio' || t === 'stage') return 'stage';
     if (v === 'control-panel' || v === 'tactical') return 'tactical';
     if (v === 'interactive') return 'interactive';
-    return 'weaver';
+    if (v === 'graph') return 'graph';
+    return t || 'weaver';
   });
 
   // Modals state
@@ -113,12 +124,20 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
 
   const handleSwitchView = (newView) => {
     setActiveView(newView);
-    if (newView === 'control-panel' || newView === 'tactical') {
+    if (newView === 'stage' || newView === 'live-studio') {
+      setActiveView('scenarios');
+      setScenarioWorkspaceTab('stage');
+    } else if (newView === 'control-panel' || newView === 'tactical') {
       setActiveView('control-panel');
       setScenarioWorkspaceTab('tactical');
     } else if (newView === 'interactive') {
       setActiveView('interactive');
       setScenarioWorkspaceTab('interactive');
+    } else if (newView === 'graph') {
+      setActiveView('graph');
+      setScenarioWorkspaceTab('graph');
+    } else if (newView === 'elements' || newView === 'gallery') {
+      setActiveView('gallery');
     } else if (newView === 'scenarios' || newView === 'weaver' || newView === 'manuscript' || newView === 'aime') {
       setActiveView('scenarios');
       setScenarioWorkspaceTab('weaver');
@@ -152,6 +171,14 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
 
     return findNode(scenarios) || scenarios[0] || null;
   }, [universeState]);
+
+  const activeMap = useMemo(() => {
+    const allMaps = [...(mapsCatalog || []), ...(universeState?.maps || [])];
+    if (activeNode?.mapId) {
+      return allMaps.find(m => m.id === activeNode.mapId) || allMaps[0] || null;
+    }
+    return allMaps.find(m => m.id === activeMapId) || allMaps[0] || null;
+  }, [activeNode, mapsCatalog, universeState?.maps, activeMapId]);
 
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative select-none">
@@ -201,7 +228,11 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         <ADENavRail
           activeView={activeView}
           onSwitchView={handleSwitchView}
+          activeScenarioWorkspaceTab={scenarioWorkspaceTab}
+          onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
           elementsCount={elementsCatalog?.length || 0}
+          mapsCount={universeState?.maps?.length || 0}
+          modifiersCount={universeState?.galleryModifiers?.length || 0}
           gemsCount={universeState?.creativeState?.gems?.length || 0}
           pendingCronicleCount={cronicle?.history?.length || 0}
           onOpenGems={() => setIsGemsOpen(true)}
@@ -227,7 +258,7 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
               onSwitchView={handleSwitchView}
               onSwitchTab={(tab) => {
                 if (tab === 'map' || tab === 'stage') {
-                  setScenarioWorkspaceTab('weaver');
+                  setScenarioWorkspaceTab('stage');
                 }
               }}
               scenarioWorkspaceTab={scenarioWorkspaceTab}
@@ -239,7 +270,6 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
               activeCockpitDeck={activeCockpitDeck}
               onSelectCockpitDeck={setActiveCockpitDeck}
               onOpenGems={() => setIsGemsOpen(true)}
-              onOpenScratchbook={() => setIsScratchbookOpen(true)}
               onOpenPrintModal={() => setIsPrintModalOpen(true)}
             />
           </div>
@@ -252,6 +282,25 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
               activeNode={activeNode}
               onSelectScenario={(id) => {
                 if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
+              }}
+            />
+          </div>
+        )}
+
+        {/* VIEW 2.5: DEDICATED VISUAL STORY GRAPH FLOWCHART */}
+        {activeView === 'graph' && (
+          <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-[#070a12] font-mono">
+            <VisualStoryGraph
+              activeScenarioId={activeNode?.id}
+              onSelectScenario={(id) => {
+                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
+              }}
+              onOpenInWeaver={(node) => {
+                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(node.id);
+                handleSwitchView('scenarios');
+              }}
+              onPanStageToMap={(mapId) => {
+                navigate(`/foundry/live-studio?mapId=${mapId}`);
               }}
             />
           </div>
@@ -281,11 +330,12 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
           </div>
         )}
 
-        {/* VIEW 4: ELEMENT FORGE WORLDBUILDING DATABASE */}
-        {activeView === 'elements' && (
+        {/* VIEW 4: THE STORY GALLERY (Elements, Maps, Situational Modifiers) */}
+        {(activeView === 'gallery' || activeView === 'elements') && (
           <div className="flex-1 min-w-0 h-full overflow-hidden">
-            <ElementForge
+            <StoryGallery
               onBackToStory={() => handleSwitchView('scenarios')}
+              onOpenCompiler={() => setIsCompilerOpen(true)}
             />
           </div>
         )}
@@ -349,11 +399,14 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         initialTab="stories"
       />
 
-      {/* Print & Publishing Modal */}
-      <AdventurePrintModal
+      {/* Selective Print & Publishing Studio Modal */}
+      <SelectivePrintModal
         isOpen={isPrintModalOpen}
         onClose={() => setIsPrintModalOpen(false)}
-        storyTitle={universeState?.projectName || activeNode?.title || 'ADE Adventure'}
+        universeState={universeState}
+        elementsCatalog={elementsCatalog}
+        activeScenario={activeNode}
+        activeMap={activeMap}
       />
 
       {/* Guidance Gems Configuration Modal */}

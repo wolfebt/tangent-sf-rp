@@ -77,8 +77,7 @@ export const GlobalSideRail = () => {
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'folio';
     if (path.startsWith('/compendium')) return 'rules';
     if (path.startsWith('/dbm') || path.startsWith('/codex')) return 'cortex';
-    if (path.startsWith('/foundry') || path.startsWith('/ade') || path.startsWith('/campaign-builder')) return 'ade';
-    if (path.startsWith('/stage') || path === '/vtt' || path.startsWith('/vtt-ops')) return 'vtt';
+    if (path.startsWith('/foundry') || path.startsWith('/ade') || path.startsWith('/campaign-builder') || path.startsWith('/live-studio') || path.startsWith('/ade-stage') || path.startsWith('/stage') || path === '/vtt' || path.startsWith('/vtt-ops')) return 'ade';
     if (path.startsWith('/comms') || path.startsWith('/chat')) return 'comms';
     if (path === '/' || path === '/dashboard') return 'hub';
     return null;
@@ -128,25 +127,13 @@ export const GlobalSideRail = () => {
     {
       id: 'ade',
       label: 'ADE',
-      sublabel: 'Adventure Dev & Scenarios',
+      sublabel: 'Consolidated Story, Maps & Stage',
       icon: Layers,
       colorTheme: 'purple',
-      badge: scenarioCount > 0 ? `${scenarioCount}` : null,
+      badge: (scenarioCount + mapsCount) > 0 ? `${scenarioCount + mapsCount}` : null,
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/foundry');
-      }
-    },
-    {
-      id: 'vtt',
-      label: 'VTT',
-      sublabel: 'Tactical Maps & The Stage',
-      icon: MapPin,
-      colorTheme: 'cyan',
-      badge: mapsCount > 0 ? `${mapsCount}` : null,
-      onClick: () => {
-        AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/stage');
+        navigate('/foundry/live-studio');
       }
     },
     {

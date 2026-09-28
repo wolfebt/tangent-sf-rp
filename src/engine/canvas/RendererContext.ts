@@ -187,9 +187,9 @@ export class RendererContext {
           (this.app as any)._cancelResize = () => {};
         }
         // Destroy the renderer without removing the React-managed canvas from the DOM
-        this.app.destroy(false, { children: true, texture: true });
+        this.app.destroy(false, { children: true, texture: false });
       } catch (err) {
-        console.warn('[RendererContext] Error during app destroy:', err);
+        console.warn('[RendererContext] Error during app destroy (safely bypassed):', err);
       }
     }
     if (this.canvasRef) {

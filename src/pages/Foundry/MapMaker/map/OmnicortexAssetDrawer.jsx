@@ -32,16 +32,26 @@ export const OmnicortexAssetDrawer = ({
   const allCompendiumItems = useMemo(() => {
     if (!dbData) return [];
     const items = [];
+    const seenItemKeys = new Set();
+    const ALIAS_CATEGORIES = new Set(['rules_codex', 'trait', 'prerequisites', 'modifiers']);
 
     Object.entries(dbData).forEach(([catKey, catItems]) => {
+      if (ALIAS_CATEGORIES.has(catKey)) return;
       if (Array.isArray(catItems)) {
-        catItems.forEach(item => {
+        catItems.forEach((item, itemIdx) => {
           if (item && (item.name || item.title)) {
+            const rawId = item.id || `${catKey}-${item.name || item.title}`;
+            const dedupeKey = `${rawId}`.toLowerCase().trim();
+            if (seenItemKeys.has(dedupeKey)) return;
+            seenItemKeys.add(dedupeKey);
+
             items.push({
               ...item,
+              id: rawId,
               _categoryKey: catKey,
               _resolvedName: item.name || item.title,
-              _resolvedDesc: item.description || item.desc || item.effect || ''
+              _resolvedDesc: item.description || item.desc || item.effect || '',
+              _uniqueKey: `${catKey}_${rawId}_${items.length}`
             });
           }
         });
@@ -179,7 +189,7 @@ export const OmnicortexAssetDrawer = ({
 
               return (
                 <div
-                  key={`${item.id || idx}_${name}`}
+                  key={item._uniqueKey || `${item._categoryKey || 'cat'}_${item.id || idx}_${idx}`}
                   draggable={true}
                   onDragStart={(e) => handleDragStart(e, item)}
                   className="p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 hover:border-cyan-500/60 transition-all flex items-center justify-between gap-2.5 cursor-grab active:cursor-grabbing group shadow-sm"

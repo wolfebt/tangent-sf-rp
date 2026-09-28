@@ -14,7 +14,8 @@ import {
   Shield, 
   Scroll, 
   Package, 
-  FolderOpen 
+  FolderOpen,
+  Sliders
 } from 'lucide-react';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import type { CatalogCategory } from '../store/uiLayoutStore';
@@ -103,6 +104,14 @@ export const ModuleCatalogRail: React.FC<ModuleCatalogRailProps> = ({
       icon: <FolderOpen size={17} />, 
       color: 'text-teal-400',
       badgeCount: categoryCounts.assets
+    },
+    {
+      id: 'modifiers',
+      label: 'MODS',
+      sublabel: 'Gallery Situational Modifiers',
+      icon: <Sliders size={17} />,
+      color: 'text-purple-400',
+      badgeCount: categoryCounts.modifiers
     }
   ];
 

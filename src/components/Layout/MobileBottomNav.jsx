@@ -11,19 +11,19 @@ import {
   Radio 
 } from 'lucide-react';
 import { useFolio } from '../../context/FolioContext';
+import { useStory } from '../../context/CampaignContext';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
 import { AudioService } from '../../services/audioService';
 
 const NAV_ITEMS = [
-  { id: 'hub',    icon: Compass,  label: 'HUB',    path: '/',           color: 'cyan'    },
-  { id: 'folio',  icon: Users,    label: 'FOLIO',  path: '/folio',      color: 'cyan'    },
-  { id: 'rules',  icon: BookOpen, label: 'RULES',  path: '/compendium', color: 'sky'     },
-  { id: 'cortex', icon: Database, label: 'CORTEX', path: '/dbm',        color: 'amber'   },
-  { id: 'ade',    icon: Layers,   label: 'ADE',    path: '/foundry',    color: 'purple'  },
-  { id: 'vtt',    icon: MapPin,   label: 'VTT',    path: '/stage',      color: 'cyan'    },
-  { id: 'teams',  icon: Shield,   label: 'TEAMS',  path: '/teams',      color: 'emerald' },
-  { id: 'comms',  icon: Radio,    label: 'COMMS',  path: '/comms',      color: 'amber'   },
+  { id: 'hub',    icon: Compass,  label: 'HUB',    path: '/',                     color: 'cyan'    },
+  { id: 'folio',  icon: Users,    label: 'FOLIO',  path: '/folio',                color: 'cyan'    },
+  { id: 'rules',  icon: BookOpen, label: 'RULES',  path: '/compendium',           color: 'sky'     },
+  { id: 'cortex', icon: Database, label: 'CORTEX', path: '/dbm',                  color: 'amber'   },
+  { id: 'ade',    icon: Layers,   label: 'ADE',    path: '/foundry/live-studio',  color: 'purple'  },
+  { id: 'teams',  icon: Shield,   label: 'TEAMS',  path: '/teams',                color: 'emerald' },
+  { id: 'comms',  icon: Radio,    label: 'COMMS',  path: '/comms',                color: 'amber'   },
 ];
 
 const COLOR_ACTIVE = {
@@ -53,6 +53,7 @@ export const MobileBottomNav = () => {
 
   // Telemetry contexts for real-time badges
   const { personaRoster = [], roster = [] } = useFolio() || {};
+  const { universeState, mapsCatalog } = useStory() || {};
   const { 
     totalUnreadCount = 0, 
     hasUnseenMessages = false,
@@ -68,8 +69,7 @@ export const MobileBottomNav = () => {
     if (p.startsWith('/folio') || p.startsWith('/roster')) return 'folio';
     if (p.startsWith('/compendium')) return 'rules';
     if (p.startsWith('/dbm') || p.startsWith('/codex')) return 'cortex';
-    if (p.startsWith('/foundry') || p.startsWith('/ade') || p.startsWith('/campaign-builder')) return 'ade';
-    if (p.startsWith('/stage') || p === '/vtt' || p.startsWith('/vtt-ops')) return 'vtt';
+    if (p.startsWith('/foundry') || p.startsWith('/ade') || p.startsWith('/campaign-builder') || p.startsWith('/live-studio') || p.startsWith('/ade-stage') || p.startsWith('/stage') || p === '/vtt' || p.startsWith('/vtt-ops')) return 'ade';
     if (p.startsWith('/teams') || p.startsWith('/groups') || p.startsWith('/squads')) return 'teams';
     if (p.startsWith('/comms') || p.startsWith('/chat')) return 'comms';
     return null;
@@ -81,6 +81,10 @@ export const MobileBottomNav = () => {
     if (id === 'folio') {
       const count = (personaRoster && personaRoster.length > 0) ? personaRoster.length : (roster?.length || 0);
       return count > 0 ? count : null;
+    }
+    if (id === 'ade') {
+      const total = (universeState?.scenarios?.length || 0) + (mapsCatalog?.length || universeState?.maps?.length || 0);
+      return total > 0 ? total : null;
     }
     if (id === 'teams') {
       const count = (groups && groups.length > 0) ? groups.length : 0;

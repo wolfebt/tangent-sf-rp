@@ -8,8 +8,8 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { GridType, GridScaleTier } from '../../../engine/index';
-import type { CompiledVttPackage } from '../../../types/vttPackage';
+import { GridType, GridScaleTier } from '../../../engine/math/CoordinateEngine.ts';
+import type { CompiledVttPackage } from '../../../types/vttPackage.ts';
 
 export type CatalogCategory = 
   | 'story' 
@@ -19,7 +19,8 @@ export type CatalogCategory =
   | 'factions' 
   | 'lore' 
   | 'armory'
-  | 'assets';
+  | 'assets'
+  | 'modifiers';
 
 export type CockpitTab = 
   | 'vitals' 
@@ -56,6 +57,7 @@ const DEFAULT_PREFS: VttLayoutPreferences = {
 
 function loadStoredPrefs(): VttLayoutPreferences {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return DEFAULT_PREFS;
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_PREFS;
     const parsed = JSON.parse(raw);
@@ -68,6 +70,7 @@ function loadStoredPrefs(): VttLayoutPreferences {
 
 function savePrefs(prefs: Partial<VttLayoutPreferences>) {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
     const current = loadStoredPrefs();
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...current, ...prefs }));
   } catch (e) {

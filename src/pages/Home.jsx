@@ -22,7 +22,6 @@ import {
   Database, 
   Boxes, 
   Layers, 
-  MapPin, 
   Shield, 
   Radio, 
   Settings, 
@@ -189,20 +188,11 @@ const Home = () => {
                 { 
                   id: 'ade', 
                   label: 'ADE', 
-                  sublabel: 'Adventure Dev & Scenarios',
+                  sublabel: 'Consolidated Story, Maps & Stage',
                   icon: Layers,
                   color: 'text-purple-300 border-purple-500/40 hover:border-purple-400 bg-purple-950/20', 
-                  badge: scenarioCount > 0 ? `${scenarioCount}` : null,
-                  action: () => navigate('/foundry') 
-                },
-                { 
-                  id: 'vtt', 
-                  label: 'VTT', 
-                  sublabel: 'Tactical Maps & The Stage',
-                  icon: MapPin,
-                  color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400 bg-cyan-950/20', 
-                  badge: mapCount > 0 ? `${mapCount}` : null,
-                  action: () => navigate('/stage') 
+                  badge: (scenarioCount + mapCount) > 0 ? `${scenarioCount + mapCount}` : null,
+                  action: () => navigate('/foundry/live-studio') 
                 },
                 { 
                   id: 'teams', 

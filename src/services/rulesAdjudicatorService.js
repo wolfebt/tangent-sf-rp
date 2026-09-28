@@ -47,7 +47,8 @@ export const computeTacticalAttackModifiers = ({
   isTargetProne = false,
   isTargetStunned = false,
   isAimed = false,
-  customMod = 0
+  customMod = 0,
+  activeModifiers = []
 } = {}) => {
   let netAttackMod = customMod;
   let netDefenseMod = 0;
@@ -109,6 +110,22 @@ export const computeTacticalAttackModifiers = ({
     breakdown.push(`Environment [${light.label}]: ${light.attackMod} ATK`);
   }
 
+  // 8. Story Gallery Situational & Temporary Modifiers
+  if (Array.isArray(activeModifiers) && activeModifiers.length > 0) {
+    activeModifiers.forEach((mod) => {
+      if (!mod || mod.isActive === false) return;
+      const eff = mod.effects || {};
+      if (eff.attackMod) {
+        netAttackMod += eff.attackMod;
+        breakdown.push(`Gallery [${mod.name}]: ${eff.attackMod > 0 ? `+${eff.attackMod}` : eff.attackMod} ATK`);
+      }
+      if (eff.defenseMod) {
+        netDefenseMod += eff.defenseMod;
+        breakdown.push(`Gallery [${mod.name}]: ${eff.defenseMod > 0 ? `+${eff.defenseMod}` : eff.defenseMod} DEF`);
+      }
+    });
+  }
+
   return {
     netAttackMod,
     netDefenseMod,
@@ -116,3 +133,43 @@ export const computeTacticalAttackModifiers = ({
     summary: breakdown.length > 0 ? breakdown.join(' | ') : 'Standard clean engagement (0 net modifiers).'
   };
 };
+
+/**
+ * Computes net situational modifiers for non-combat checks (Metaphysics, Tech, Skills).
+ */
+export const computeNetSituationalModifiers = ({
+  actionType = 'general', // 'metaphysic' | 'tech' | 'combat' | 'general'
+  skillName = null,
+  activeModifiers = []
+} = {}) => {
+  let netMod = 0;
+  const breakdown = [];
+
+  if (Array.isArray(activeModifiers)) {
+    activeModifiers.forEach((mod) => {
+      if (!mod || mod.isActive === false) return;
+      const eff = mod.effects || {};
+
+      if (actionType === 'metaphysic' && eff.metaphysicMod) {
+        netMod += eff.metaphysicMod;
+        breakdown.push(`${mod.name} (${eff.metaphysicMod > 0 ? `+${eff.metaphysicMod}` : eff.metaphysicMod} Metaphysic)`);
+      }
+      if (actionType === 'tech' && eff.techMod) {
+        netMod += eff.techMod;
+        breakdown.push(`${mod.name} (${eff.techMod > 0 ? `+${eff.techMod}` : eff.techMod} Tech)`);
+      }
+      if (skillName && eff.skillMods && eff.skillMods[skillName]) {
+        const val = eff.skillMods[skillName];
+        netMod += val;
+        breakdown.push(`${mod.name} (${val > 0 ? `+${val}` : val} ${skillName})`);
+      }
+    });
+  }
+
+  return {
+    netMod,
+    breakdown,
+    summary: breakdown.length > 0 ? breakdown.join(' | ') : 'No situational modifiers active.'
+  };
+};
+

@@ -33,7 +33,9 @@ import {
   PanelRightClose,
   PanelRight,
   Sliders,
-  Target
+  Target,
+  GitBranch,
+  X
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { useStory } from '../../../context/CampaignContext';
@@ -99,6 +101,8 @@ export default function ADETopToolbar({
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(universeState?.projectName || 'Untitled Story');
+  const [isNewStoryModalOpen, setIsNewStoryModalOpen] = useState(false);
+  const [newStoryTitle, setNewStoryTitle] = useState('');
 
   const fileMenuRef = useRef(null);
   const storyFileInputRef = useRef(null);
@@ -130,10 +134,8 @@ export default function ADETopToolbar({
   const handleCreateNewStory = () => {
     setIsFileMenuOpen(false);
     AudioService.playTerminalBeep(1200, 0.03);
-    const name = prompt("Enter title for new Story Module:", "New Story Module");
-    if (name && name.trim()) {
-      createNewStory(name.trim());
-    }
+    setNewStoryTitle('New Story Module');
+    setIsNewStoryModalOpen(true);
   };
 
   const handleDeleteActiveStory = async () => {
@@ -173,7 +175,8 @@ export default function ADETopToolbar({
   const pendingCronicleCount = cronicle?.pendingDeltas?.length || 0;
 
   return (
-    <header className="relative z-40 bg-slate-950/98 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-between gap-2 select-none shadow-xl backdrop-blur-2xl font-mono shrink-0 h-12">
+    <>
+      <header className="relative z-40 bg-slate-950/98 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-between gap-2 select-none shadow-xl backdrop-blur-2xl font-mono shrink-0 h-12">
       {/* Hidden File Input */}
       <input
         type="file"
@@ -465,16 +468,22 @@ export default function ADETopToolbar({
               <span className="text-purple-300">Interactive Play</span>
             </>
           )}
+          {activeView === 'graph' && (
+            <>
+              <GitBranch size={12} className="text-purple-400" />
+              <span className="text-purple-300">Story Graph</span>
+            </>
+          )}
           {activeView === 'control-panel' && (
             <>
               <Target size={12} className="text-amber-400" />
               <span className="text-amber-300">Tactical Spread</span>
             </>
           )}
-          {activeView === 'elements' && (
+          {(activeView === 'elements' || activeView === 'gallery') && (
             <>
               <Box size={12} className="text-emerald-400" />
-              <span className="text-emerald-300">Element Forge</span>
+              <span className="text-emerald-300">The Gallery</span>
             </>
           )}
         </div>
@@ -507,6 +516,22 @@ export default function ADETopToolbar({
           <span>⚙️</span>
           <span className="hidden xl:inline">PREP VTT MODULE</span>
           <span className="xl:hidden">PREP VTT</span>
+        </button>
+
+        {/* Consolidated ADE LIVE STUDIO */}
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1400, 0.05);
+            const mapId = targetMapId || universeState?.maps?.[0]?.id || '';
+            navigate(`/foundry/live-studio?scenarioId=${activeNode?.id || ''}&mapId=${mapId}`);
+          }}
+          className="px-2.5 py-1 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 border border-cyan-400 text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(34,211,238,0.4)] cursor-pointer"
+          title="Open consolidated ADE Live Studio (Split View with live WebGPU Stage & Story Weaver)"
+        >
+          <span>✨</span>
+          <span className="hidden xl:inline">LIVE STUDIO</span>
+          <span className="xl:hidden">STUDIO</span>
         </button>
 
         {/* Deploy to STAGE VTT */}
@@ -611,5 +636,68 @@ export default function ADETopToolbar({
         )}
       </div>
     </header>
+
+    {/* Non-blocking Styled New Story Module Creation Modal */}
+    {isNewStoryModalOpen && (
+      <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 font-mono select-none">
+        <div className="bg-slate-900 border border-cyan-500/70 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-150">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">
+              <span className="text-base">✨</span>
+              <span>Create New Story Module</span>
+            </h3>
+            <button
+              type="button"
+              onClick={() => setIsNewStoryModalOpen(false)}
+              className="text-slate-400 hover:text-white cursor-pointer"
+            >
+              <X size={16} />
+            </button>
+          </div>
+          <div>
+            <label className="text-[11px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">
+              Story Module Title
+            </label>
+            <input
+              type="text"
+              autoFocus
+              value={newStoryTitle}
+              onChange={(e) => setNewStoryTitle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && newStoryTitle.trim()) {
+                  createNewStory(newStoryTitle.trim());
+                  setIsNewStoryModalOpen(false);
+                }
+              }}
+              className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 px-3 py-2 rounded-xl text-xs outline-none"
+              placeholder="e.g. Operation Voidfall"
+            />
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => setIsNewStoryModalOpen(false)}
+              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl uppercase tracking-wider cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={!newStoryTitle.trim()}
+              onClick={() => {
+                if (newStoryTitle.trim()) {
+                  createNewStory(newStoryTitle.trim());
+                  setIsNewStoryModalOpen(false);
+                }
+              }}
+              className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl uppercase tracking-wider cursor-pointer shadow-md disabled:opacity-50"
+            >
+              Create Module
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   );
 }

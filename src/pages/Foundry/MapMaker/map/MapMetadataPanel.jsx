@@ -101,7 +101,7 @@ const MapMetadataPanel = ({
                 </button>
               ) : field.type === 'select' ? (
                 <select
-                  value={val}
+                  value={val ?? ''}
                   onChange={(e) => handleFieldChange(field.key, e.target.value)}
                   className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1.5 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10"
                 >

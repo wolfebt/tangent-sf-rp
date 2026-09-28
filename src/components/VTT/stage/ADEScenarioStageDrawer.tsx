@@ -40,7 +40,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
   isInline = false
 }) => {
   const navigate = useNavigate();
-  const { universeState, elementsCatalog } = useCampaign();
+  const { universeState, elementsCatalog, updateScenario } = useCampaign();
 
   const scenarios = universeState?.scenarios || [];
   const activeScenario = scenarios.find((s: any) => s.id === activeScenarioId) || scenarios[0] || null;
@@ -56,8 +56,12 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
     .map((b: string) => b.trim())
     .filter((b: string) => b.length > 0);
 
-  // Completed beats persistent state per scenario
+  // Completed beats persistent state per scenario (Cloud-Synchronized with LocalStorage fallback)
   const [completedBeats, setCompletedBeats] = useState<Set<number>>(() => {
+    const remoteBeats = activeScenario?.completedBeats || activeScenario?.fields?.completedBeats;
+    if (Array.isArray(remoteBeats)) {
+      return new Set(remoteBeats);
+    }
     if (!scenarioId) return new Set();
     try {
       const raw = localStorage.getItem(`tangent_vtt_beats_${scenarioId}`);
@@ -68,30 +72,26 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
     }
   });
 
-  // Persist completed beats whenever set or active scenario changes
+  // Re-sync beats when scenarioId switches or remote cloud updates arrive
   useEffect(() => {
     if (!scenarioId) return;
-    try {
-      localStorage.setItem(
-        `tangent_vtt_beats_${scenarioId}`,
-        JSON.stringify(Array.from(completedBeats))
-      );
-    } catch (e) {
-      console.warn('[ADEScenarioStageDrawer] Failed to persist beats:', e);
+    const remoteBeats = activeScenario?.completedBeats || activeScenario?.fields?.completedBeats;
+    if (Array.isArray(remoteBeats)) {
+      setCompletedBeats(new Set(remoteBeats));
+      return;
     }
-  }, [completedBeats, scenarioId]);
-
-  // Re-sync beats when scenarioId switches
-  useEffect(() => {
-    if (!scenarioId) return;
     try {
       const raw = localStorage.getItem(`tangent_vtt_beats_${scenarioId}`);
       const arr: number[] = raw ? JSON.parse(raw) : [];
       setCompletedBeats(new Set(arr));
+      // Promote existing local progress to cloud if remote beats were undefined
+      if (arr.length > 0 && typeof updateScenario === 'function') {
+        updateScenario(scenarioId, { completedBeats: arr });
+      }
     } catch {
       setCompletedBeats(new Set());
     }
-  }, [scenarioId]);
+  }, [scenarioId, activeScenario?.completedBeats, activeScenario?.fields?.completedBeats, updateScenario]);
 
   const toggleBeat = (idx: number) => {
     AudioService.playTerminalBeep(1200, 0.03);
@@ -101,6 +101,20 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
         next.delete(idx);
       } else {
         next.add(idx);
+      }
+      const arr = Array.from(next);
+      if (scenarioId) {
+        try {
+          localStorage.setItem(
+            `tangent_vtt_beats_${scenarioId}`,
+            JSON.stringify(arr)
+          );
+        } catch (e) {
+          console.warn('[ADEScenarioStageDrawer] Failed to write local beats:', e);
+        }
+        if (typeof updateScenario === 'function') {
+          updateScenario(scenarioId, { completedBeats: arr });
+        }
       }
       return next;
     });
