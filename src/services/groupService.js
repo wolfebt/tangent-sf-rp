@@ -21,10 +21,20 @@ import { ChatService } from './chatService';
 
 // Helper to generate a random 6-character alphanumeric invite code
 const generateInviteCode = () => {
+  // Ensure the character set length is a power of 2 (32 characters) to completely avoid modulo bias
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let result = 'GRP-';
+  const randomValues = new Uint8Array(6);
+  // Support both browser and Node/worker environments
+  const cryptoObj = typeof window !== 'undefined' && window.crypto
+    ? window.crypto
+    : globalThis.crypto;
+
+  cryptoObj.getRandomValues(randomValues);
+
   for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+    // Because chars.length is 32 (a power of 2), modulo 32 is perfectly unbiased for 0-255
+    result += chars[randomValues[i] % chars.length];
   }
   return result;
 };
