@@ -19,12 +19,19 @@ import { db } from '../firebase';
 import { StorageService } from './storageService';
 import { ChatService } from './chatService';
 
-// Helper to generate a random 6-character alphanumeric invite code
+// Helper to generate a secure 6-character alphanumeric invite code
 const generateInviteCode = () => {
+  // Use a 32-character set. Since 32 is a power of 2,
+  // using modulo arithmetic completely avoids modulo bias.
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let result = 'GRP-';
+
+  // Use cryptographically secure random number generator instead of Math.random()
+  const randomBytes = new Uint8Array(6);
+  globalThis.crypto.getRandomValues(randomBytes);
+
   for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+    result += chars.charAt(randomBytes[i] % chars.length);
   }
   return result;
 };
