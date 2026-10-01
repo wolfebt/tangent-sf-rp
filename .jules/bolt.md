@@ -1,0 +1,3 @@
+## 2025-02-18 - Client-Side Search Filtering Defers for Large Catalogs
+**Learning:** Filtering large arrays (e.g. compendium items, catalogs) inside `useMemo` synchronously block the main thread on every keystroke, resulting in significant typing stutter when the data payload is large (which is common in this app's DBM and Omnicortex).
+**Action:** Use React's `useDeferredValue` hook to decouple the user's keystroke rendering from the expensive data sorting and filtering loops. The input state updates instantly, while the DOM rendering of the massive filtered array happens slightly later in the background.
