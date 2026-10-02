@@ -1,0 +1,3 @@
+## 2024-10-02 - Deferred Value for Omnicortex Catalog Browser Search
+**Learning:** React 18's `useDeferredValue` is highly effective for client-side search filtering of large arrays (like the global Omnicortex catalog) without needing to add custom debounce logic. By deferring the search query state passed to the filtering `useMemo` block, rapid keystrokes don't block the main thread, resulting in a much smoother user experience during data exploration.
+**Action:** Always consider `useDeferredValue` as a first-line defense against UI stutter in React components that perform expensive client-side filtering on large datasets. Ensure that the deferred value is the one utilized in the calculation dependencies.
