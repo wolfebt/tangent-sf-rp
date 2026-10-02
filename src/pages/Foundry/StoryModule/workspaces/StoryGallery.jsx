@@ -338,7 +338,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => navigate('/foundry/map-maker')}
+                  onClick={() => navigate('/foundry/map')}
                   className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <Plus size={13} />
@@ -352,7 +352,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
                 <p className="text-sm">No tactical maps created yet in this story gallery.</p>
                 <button
                   type="button"
-                  onClick={() => navigate('/foundry/map-maker')}
+                  onClick={() => navigate('/foundry/map')}
                   className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-xl"
                 >
                   Launch Map Maker

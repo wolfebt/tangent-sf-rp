@@ -62,6 +62,72 @@ export function buildModulePackagePayload(universeState = {}, elementsCatalog = 
 }
 
 /**
+ * Builds a sanitized, player-safe module package payload for Operator Mode.
+ * Strips developer secrets, GM-only notes, hidden trap coordinates, and monster mechanics.
+ */
+export function buildSanitizedOperatorPackagePayload(universeState = {}, elementsCatalog = [], options = {}) {
+  const basePayload = buildModulePackagePayload(universeState, elementsCatalog, options);
+  
+  // 1. Sanitize Scenarios
+  const sanitizedScenarios = (basePayload.scenarios || []).map(sc => {
+    const fields = { ...(sc.fields || {}) };
+    delete fields.secrets;
+    delete fields.gmNotes;
+    delete fields.threatMatrix;
+    delete fields.trapsSummary;
+    delete fields.complications;
+    return {
+      ...sc,
+      fields,
+      gmNotes: undefined
+    };
+  });
+
+  // 2. Sanitize Maps (hide traps, invisible walls, and inactive enemy tokens)
+  const sanitizedMaps = (basePayload.maps || []).map(m => {
+    const visibleTokens = (m.tokens || []).filter(t => t.type === 'hero' || t.isPlayerVisible || t.visibleToPlayers);
+    const visibleObjects = (m.objects || []).filter(o => !o.isTrap && o.type !== 'hazard' && !o.secret);
+    return {
+      ...m,
+      tokens: visibleTokens,
+      objects: visibleObjects,
+      waypoints: (m.waypoints || []).filter(w => w.isPlayerVisible)
+    };
+  });
+
+  // 3. Sanitize Elements (preserve public lore, handouts, portraits, remove secret stat blocks)
+  const sanitizedElements = (basePayload.elements || []).map(elem => {
+    if (elem.type === 'Handout' || elem.type === 'Clue') {
+      return elem;
+    }
+    const fields = { ...(elem.fields || {}) };
+    delete fields.vttScript;
+    delete fields.attacks;
+    delete fields.stats;
+    delete fields.theSecret;
+    delete fields.definingTrauma;
+    return {
+      ...elem,
+      fields
+    };
+  });
+
+  return {
+    ...basePayload,
+    format: 'tangent-player-module',
+    manifest: {
+      ...basePayload.manifest,
+      perspective: 'operator',
+      isSanitizedForPlayers: true,
+      description: `${basePayload.manifest.description || ''} [Sanitized for Player/Operator Use]`
+    },
+    scenarios: sanitizedScenarios,
+    maps: sanitizedMaps,
+    elements: sanitizedElements
+  };
+}
+
+/**
  * Triggers a browser download of the module package as a formatted JSON file.
  */
 export function exportModuleToFile(universeState, elementsCatalog, options = {}) {
@@ -85,6 +151,41 @@ export function exportModuleToFile(universeState, elementsCatalog, options = {})
     return { success: true, filename, payload };
   } catch (err) {
     console.error('[modulePackageService] Export failed:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Exports full Architect Master Module Package (.tangent-module.json)
+ */
+export function exportArchitectModuleToFile(universeState, elementsCatalog, options = {}) {
+  return exportModuleToFile(universeState, elementsCatalog, { ...options, perspective: 'architect' });
+}
+
+/**
+ * Exports sanitized Operator Module Package (.tangent-player.json) safe for players.
+ */
+export function exportOperatorModuleToFile(universeState, elementsCatalog, options = {}) {
+  try {
+    const payload = buildSanitizedOperatorPackagePayload(universeState, elementsCatalog, options);
+    const jsonStr = JSON.stringify(payload, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const title = `${universeState?.projectName || 'adventure_module'}_player_edition`;
+    const filename = formatExportFilename(title, 'player-module', 'json');
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    AudioService.playCriticalChime(true);
+    return { success: true, filename, payload };
+  } catch (err) {
+    console.error('[modulePackageService] Operator export failed:', err);
     return { success: false, error: err.message };
   }
 }

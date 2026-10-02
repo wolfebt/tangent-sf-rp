@@ -15,6 +15,7 @@ import { useStory } from '../../../../context/CampaignContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { AudioService } from '../../../../services/audioService';
 import { streamContent } from '../../../../services/aimeService';
+import { rollDice } from '../../../../services/diceService';
 import { 
   Sparkles, 
   Play, 
@@ -176,9 +177,6 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
 
   // ── SKILL CHECK DICE ARBITRATION ──
   const handleRollCheck = (skillName, dc = 12) => {
-    const d1 = Math.floor(Math.random() * 10) + 1;
-    const d2 = Math.floor(Math.random() * 10) + 1;
-
     // Determine attribute modifier based on skill or protagonist
     let attrMod = 2;
     if (activeProtagonist) {
@@ -198,8 +196,10 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
       }
     }
 
-    const total = d1 + d2 + attrMod;
-    const isSuccess = total >= dc;
+    const rollResult = rollDice(`2d10+${attrMod}`, { targetNumber: dc });
+    const isSuccess = Boolean(rollResult.isSuccess);
+    const d1 = rollResult.rolls?.[0]?.value ?? Math.floor((rollResult.subtotal || 10) / 2);
+    const d2 = rollResult.rolls?.[1]?.value ?? (rollResult.subtotal - d1);
 
     if (isSuccess) AudioService.playTerminalBeep(1100, 0.15);
     else AudioService.playCombatHit(false);
@@ -210,10 +210,10 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
       d1,
       d2,
       attrMod,
-      total,
+      total: rollResult.total,
       isSuccess,
       protagonistName: activeProtagonist?.name || 'Party',
-      text: `${activeProtagonist?.name || 'Operative'} [${skillName}]: Rolled ${d1}+${d2}+${attrMod} = ${total} vs CR ${dc} (${isSuccess ? 'SUCCESS' : 'FAILURE'})`
+      text: `${activeProtagonist?.name || 'Operative'} [${skillName}]: Rolled ${rollResult.formula || `2d10+${attrMod}`} = ${rollResult.total} vs CR ${dc} (${isSuccess ? 'SUCCESS' : 'FAILURE'})`
     });
   };
 

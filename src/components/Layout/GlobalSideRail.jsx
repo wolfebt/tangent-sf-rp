@@ -133,7 +133,7 @@ export const GlobalSideRail = () => {
       badge: (scenarioCount + mapsCount) > 0 ? `${scenarioCount + mapsCount}` : null,
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/foundry/live-studio');
+        navigate('/foundry');
       }
     },
     {

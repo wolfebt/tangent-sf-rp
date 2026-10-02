@@ -128,16 +128,6 @@ export const exportElementPDF = (targetNode, universeState) => {
   if (!targetNode) return;
   const locationPath = getBreadcrumbPath(universeState.scenarios, targetNode.id);
 
-  const printWindow = window.open('', '_blank');
-  if (!printWindow) {
-    showToast({
-      type: 'warning',
-      title: 'POPUP BLOCKED',
-      text: 'Please allow popups to export printable PDF.'
-    });
-    return;
-  }
-
   const buildNodeHTML = (node, depth = 2) => {
     const headingTag = `h${Math.min(depth, 6)}`;
     let html = `<div style="margin-bottom: 24px; page-break-inside: avoid;">`;
@@ -232,8 +222,33 @@ export const exportElementPDF = (targetNode, universeState) => {
     </html>
   `;
 
-  printWindow.document.write(fullHTML);
-  printWindow.document.close();
+  const printWindow = typeof window !== 'undefined' ? window.open('', '_blank') : null;
+  if (printWindow && printWindow.document) {
+    printWindow.document.write(fullHTML);
+    printWindow.document.close();
+  } else if (typeof document !== 'undefined') {
+    // Popup was blocked or unavailable: Fallback to seamless hidden iframe printing
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow?.document;
+    if (doc) {
+      doc.open();
+      doc.write(fullHTML);
+      doc.close();
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+    }
+    setTimeout(() => {
+      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+    }, 60000);
+  }
 };
 
 // Delete Element

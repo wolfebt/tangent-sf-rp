@@ -4,7 +4,7 @@
  * victory evaluations and party AP / Karma disbursements.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export const OBJECTIVE_TEMPLATES = [
   {

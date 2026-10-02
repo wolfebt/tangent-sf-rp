@@ -24,6 +24,7 @@ import { StageViewportWrapper } from './stage/StageViewportWrapper';
 import { ModuleCatalogPanel } from './catalog/ModuleCatalogPanel';
 import { ADEScenarioStageDrawer } from './stage/ADEScenarioStageDrawer';
 import VttModuleIngestionModal from './VttModuleIngestionModal';
+import { StageSettingsModal } from './stage/StageSettingsModal';
 import { OperativeCockpitRail } from '../../pages/Foundry/MapMaker/map/OperativeCockpitRail';
 import { ArchitectConsoleRail } from '../../pages/Foundry/MapMaker/map/ArchitectConsoleRail';
 import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
@@ -93,14 +94,29 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
 
   const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operative');
   const [isModuleIngestionOpen, setIsModuleIngestionOpen] = useState(false);
+  const [isStageSettingsOpen, setIsStageSettingsOpen] = useState(false);
 
-  // Listen for open-module-ingestion-modal from top bar or menus
+  // Check URL query parameters for ?options=true to auto-open settings
   useEffect(() => {
-    const off = VttEventBus.on('open-module-ingestion-modal', () => {
+    if (searchParams.get('options') === 'true') {
+      setIsStageSettingsOpen(true);
+    }
+  }, [searchParams]);
+
+  // Listen for open-module-ingestion-modal and open-stage-options from top bar, menus, or hotkeys
+  useEffect(() => {
+    const offIngest = VttEventBus.on('open-module-ingestion-modal', () => {
       AudioService.playTerminalBeep(1200, 0.03);
       setIsModuleIngestionOpen(true);
     });
-    return () => off();
+    const offOptions = VttEventBus.on('open-stage-options', () => {
+      AudioService.playTerminalBeep(1200, 0.03);
+      setIsStageSettingsOpen(true);
+    });
+    return () => {
+      offIngest();
+      offOptions();
+    };
   }, []);
 
   const { universeState, activeMapId, setActiveMapId, updateMap, addMap } = useCampaign();
@@ -463,6 +479,9 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             onOpenUnderlayModal={() => {
               VttEventBus.emit('open-underlay-modal');
             }}
+            onOpenStageOptions={() => {
+              setIsStageSettingsOpen(true);
+            }}
           />
         }
         leftPanel={renderLeftPanel()}
@@ -526,6 +545,17 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
       <VttModuleIngestionModal
         isOpen={isModuleIngestionOpen}
         onClose={() => setIsModuleIngestionOpen(false)}
+      />
+
+      {/* VTT Stage Settings & Tactical Operations Console */}
+      <StageSettingsModal
+        isOpen={isStageSettingsOpen}
+        onClose={() => setIsStageSettingsOpen(false)}
+        activeMapId={activeMapId || ''}
+        onSelectMap={(id) => {
+          if (setActiveMapId) setActiveMapId(id);
+        }}
+        onDeployElement={handleDeployElementFromDrawer}
       />
 
     </div>

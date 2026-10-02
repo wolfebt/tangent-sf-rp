@@ -12,8 +12,16 @@ import {
   applyBatchDeltas,
   cloneToWorkingCopy
 } from '../services/cronicleService.js';
+import { initCronicleVttBridge } from '../services/cronicleVttBridge.js';
 import { showToast } from './ToastContext';
 import { showConfirm } from './ConfirmContext';
+import {
+  moveNodeInTree,
+  reorderNodeSiblings,
+  reorderRelativeNode,
+  flattenTree,
+  TreeHistoryManager
+} from '../utils/scenarioTreeEngine.js';
 
 const StoryContext = createContext();
 
@@ -238,28 +246,19 @@ export const StoryProvider = ({ children }) => {
   const saveAllElementsIndependently = useCallback(async (scenariosTree, user) => {
     if (!Array.isArray(scenariosTree) || scenariosTree.length === 0) return;
 
-    const extractedElements = [];
-    const flattenNodes = (nodes, parentPath = '') => {
-      nodes.forEach(node => {
-        const cleanTitle = (node.title && node.title.trim()) ? node.title.trim() : `Untitled ${node.type || 'Element'}`;
-        const elemCopy = {
-          ...node,
-          title: cleanTitle,
-          updatedAt: new Date().toISOString(),
-          authorEmail: user?.email || 'Local User',
-          authorUid: user?.uid || 'local',
-          creatorId: user?.uid || 'local',
-          storyId: universeStateRef.current?.id || 'proj_default_universe',
-          parentPath: parentPath
-        };
-        extractedElements.push(elemCopy);
-        if (node.children && node.children.length > 0) {
-          flattenNodes(node.children, parentPath ? `${parentPath} ❯ ${cleanTitle}` : cleanTitle);
-        }
-      });
-    };
-
-    flattenNodes(scenariosTree);
+    const flattened = flattenTree(scenariosTree);
+    const extractedElements = flattened.map(node => {
+      const cleanTitle = (node.title && node.title.trim()) ? node.title.trim() : `Untitled ${node.type || 'Element'}`;
+      return {
+        ...node,
+        title: cleanTitle,
+        updatedAt: new Date().toISOString(),
+        authorEmail: user?.email || 'Local User',
+        authorUid: user?.uid || 'local',
+        creatorId: user?.uid || 'local',
+        storyId: universeStateRef.current?.id || 'proj_default_universe'
+      };
+    });
 
     // Update local elements catalog state (merging/upserting by ID)
     setElementsCatalog(prev => {
@@ -1150,80 +1149,58 @@ export const StoryProvider = ({ children }) => {
     }
   };
 
+  const treeHistoryRef = useRef(new TreeHistoryManager([]));
+
+  // Sync tree history on first universeState load
+  useEffect(() => {
+    if (universeState?.scenarios && universeState.scenarios.length > 0) {
+      if (treeHistoryRef.current.present.length === 0) {
+        treeHistoryRef.current.reset(universeState.scenarios);
+      }
+    }
+  }, [universeState?.scenarios]);
+
+  const undoScenarioTree = () => {
+    if (!treeHistoryRef.current.canUndo) {
+      showToast('No undo history available for scenario hierarchy.', 'info');
+      return;
+    }
+    const previous = treeHistoryRef.current.undo();
+    if (previous) {
+      setUniverseState(prev => ({
+        ...prev,
+        scenarios: previous
+      }));
+      showToast('Undid scenario hierarchy change.', 'success');
+    }
+  };
+
+  const redoScenarioTree = () => {
+    if (!treeHistoryRef.current.canRedo) {
+      showToast('No redo history available for scenario hierarchy.', 'info');
+      return;
+    }
+    const next = treeHistoryRef.current.redo();
+    if (next) {
+      setUniverseState(prev => ({
+        ...prev,
+        scenarios: next
+      }));
+      showToast('Redid scenario hierarchy change.', 'success');
+    }
+  };
+
   // Move scenario node to a new parent (or root if targetParentId is null)
   const moveScenario = (nodeId, targetParentId) => {
     if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     if (nodeId === targetParentId) return;
 
     setUniverseState(prev => {
-      const isDescendant = (nodes, searchId) => {
-        for (let n of nodes) {
-          if (n.id === searchId) return true;
-          if (n.children && isDescendant(n.children, searchId)) return true;
-        }
-        return false;
-      };
-
-      const findSubtree = (nodes, id) => {
-        for (let n of nodes) {
-          if (n.id === id) return n;
-          if (n.children) {
-            const found = findSubtree(n.children, id);
-            if (found) return found;
-          }
-        }
-        return null;
-      };
-
-      const movingNode = findSubtree(prev.scenarios, nodeId);
-      if (!movingNode) return prev;
-
-      if (targetParentId && movingNode.children && isDescendant(movingNode.children, targetParentId)) {
-        console.warn("Cannot move a parent component into its own descendant.");
-        return prev;
-      }
-
-      // Step 1: Remove nodeId from current location
-      const removeRecursive = (nodes) => {
-        return nodes
-          .filter(node => node.id !== nodeId)
-          .map(node => ({
-            ...node,
-            children: node.children ? removeRecursive(node.children) : []
-          }));
-      };
-
-      const cleanedScenarios = removeRecursive(prev.scenarios);
-
-      // Step 2: Insert into new parent or root
-      if (!targetParentId) {
-        return {
-          ...prev,
-          scenarios: [...cleanedScenarios, movingNode]
-        };
-      }
-
-      const insertRecursive = (nodes) => {
-        return nodes.map(node => {
-          if (node.id === targetParentId) {
-            return {
-              ...node,
-              children: [...(node.children || []), movingNode]
-            };
-          }
-          if (node.children && node.children.length > 0) {
-            return {
-              ...node,
-              children: insertRecursive(node.children)
-            };
-          }
-          return node;
-        });
-      };
-
+      treeHistoryRef.current.push(prev.scenarios);
+      const updated = moveNodeInTree(prev.scenarios, nodeId, targetParentId);
       return {
         ...prev,
-        scenarios: insertRecursive(cleanedScenarios)
+        scenarios: updated
       };
     });
   };
@@ -1232,30 +1209,11 @@ export const StoryProvider = ({ children }) => {
   const reorderScenario = (nodeId, direction) => {
     if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setUniverseState(prev => {
-      const reorderInArray = (nodes) => {
-        const idx = nodes.findIndex(n => n.id === nodeId);
-        if (idx !== -1) {
-          const targetIdx = direction === 'up' ? idx - 1 : idx + 1;
-          if (targetIdx < 0 || targetIdx >= nodes.length) return nodes;
-          const newNodes = [...nodes];
-          const [moved] = newNodes.splice(idx, 1);
-          newNodes.splice(targetIdx, 0, moved);
-          return newNodes;
-        }
-        return nodes.map(node => {
-          if (node.children && node.children.length > 0) {
-            return {
-              ...node,
-              children: reorderInArray(node.children)
-            };
-          }
-          return node;
-        });
-      };
-
+      treeHistoryRef.current.push(prev.scenarios);
+      const updated = reorderNodeSiblings(prev.scenarios, nodeId, direction);
       return {
         ...prev,
-        scenarios: reorderInArray(prev.scenarios)
+        scenarios: updated
       };
     });
   };
@@ -1263,41 +1221,12 @@ export const StoryProvider = ({ children }) => {
   const reorderRelativeScenario = (draggedId, targetId, pos) => {
     if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setUniverseState(prev => {
-      // Remove the dragged node from wherever it lives and collect it
-      let draggedNode = null;
-      const removeNode = (nodes) => {
-        const idx = nodes.findIndex(n => n.id === draggedId);
-        if (idx !== -1) {
-          draggedNode = nodes[idx];
-          const result = [...nodes];
-          result.splice(idx, 1);
-          return result;
-        }
-        return nodes.map(n => ({
-          ...n,
-          children: n.children ? removeNode(n.children) : n.children
-        }));
+      treeHistoryRef.current.push(prev.scenarios);
+      const updated = reorderRelativeNode(prev.scenarios, draggedId, targetId, pos);
+      return {
+        ...prev,
+        scenarios: updated
       };
-
-      // Insert the dragged node above or below the target node
-      const insertNode = (nodes) => {
-        const idx = nodes.findIndex(n => n.id === targetId);
-        if (idx !== -1) {
-          const insertAt = pos === 'above' ? idx : idx + 1;
-          const result = [...nodes];
-          result.splice(insertAt, 0, draggedNode);
-          return result;
-        }
-        return nodes.map(n => ({
-          ...n,
-          children: n.children ? insertNode(n.children) : n.children
-        }));
-      };
-
-      const withoutDragged = removeNode(prev.scenarios);
-      if (!draggedNode) return prev;
-      const reordered = insertNode(withoutDragged);
-      return { ...prev, scenarios: reordered };
     });
   };
 
@@ -1502,6 +1431,19 @@ export const StoryProvider = ({ children }) => {
       };
     });
   };
+
+  const stageCronicleDeltasRef = useRef(stageCronicleDeltas);
+  stageCronicleDeltasRef.current = stageCronicleDeltas;
+
+  useEffect(() => {
+    const cleanup = initCronicleVttBridge({
+      stageCronicleDeltas: (deltas) => stageCronicleDeltasRef.current(deltas),
+      onDeltaStaged: (delta) => {
+        showToast(`⚡ CRONICLE Delta Proposed: ${delta.explanation || delta.action}`);
+      }
+    });
+    return cleanup;
+  }, []);
 
   const acceptPendingDelta = (deltaId) => {
     setIsDirty(true);
@@ -1912,6 +1854,10 @@ export const StoryProvider = ({ children }) => {
     reorderStory: reorderScenario,
     reorderScenario,
     reorderRelativeScenario,
+    undoScenarioTree,
+    redoScenarioTree,
+    canUndoScenarioTree: treeHistoryRef.current.canUndo,
+    canRedoScenarioTree: treeHistoryRef.current.canRedo,
     addMap,
     updateMap,
     deleteMap,

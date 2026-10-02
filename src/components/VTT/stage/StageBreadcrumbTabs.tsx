@@ -58,6 +58,7 @@ export interface StageBreadcrumbTabsProps {
   onSelectMap: (mapId: string) => void;
   onOpenMapMaker?: () => void;
   onOpenUnderlayModal?: () => void;
+  onOpenStageOptions?: () => void;
   isSplitOpen?: boolean;
   onToggleSplit?: () => void;
   is3DActive?: boolean;
@@ -69,6 +70,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   onSelectMap,
   onOpenMapMaker,
   onOpenUnderlayModal,
+  onOpenStageOptions,
   isSplitOpen = false,
   onToggleSplit,
   is3DActive = false,
@@ -840,6 +842,21 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             <span className="hidden md:inline">Underlay</span>
           </button>
         )}
+
+        {/* Stage & VTT Operations Settings */}
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1200, 0.03);
+            if (onOpenStageOptions) onOpenStageOptions();
+            else VttEventBus.emit('open-stage-options');
+          }}
+          className="px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-800 text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono"
+          title="VTT Stage Options & Settings (Spectator Broadcast, Grid, Tokens, Audio)"
+        >
+          <Settings size={11} className="text-cyan-400" />
+          <span className="hidden md:inline">Options</span>
+        </button>
 
         <button
           type="button"

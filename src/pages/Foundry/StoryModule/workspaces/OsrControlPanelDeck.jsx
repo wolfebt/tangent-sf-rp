@@ -5,7 +5,7 @@
  * 3-tier threat matrices, and classified GM discoveries with AI generation assist and thinking indicators.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Sparkles, 
   Target, 
@@ -16,10 +16,17 @@ import {
   Trash2, 
   Loader2, 
   ChevronDown, 
-  ChevronUp 
+  ChevronUp,
+  Users,
+  UserCheck,
+  Shield,
+  Heart,
+  Activity
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 import { generateContent } from '../../../../services/aimeService';
+import { rollDice } from '../../../../services/diceService';
+import { useFolio } from '../../../../context/FolioContext';
 
 export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceGems = '' }) {
   if (!activeNode) return null;
@@ -49,6 +56,24 @@ export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceG
   // Dice roll check state
   const [recentRoll, setRecentRoll] = useState(null);
 
+  // Folio Party Roster Awareness
+  const { roster = [], characterData } = useFolio();
+  const partyOperatives = useMemo(() => {
+    const list = [...roster];
+    if (characterData && characterData['char-name'] && !list.some(c => c['character-doc-id'] === characterData['character-doc-id'])) {
+      list.unshift(characterData);
+    }
+    return list;
+  }, [roster, characterData]);
+
+  const [selectedPartyCharId, setSelectedPartyCharId] = useState(() => {
+    return characterData?.['character-doc-id'] || roster?.[0]?.['character-doc-id'] || '';
+  });
+
+  const selectedPartyChar = useMemo(() => {
+    return partyOperatives.find(c => c['character-doc-id'] === selectedPartyCharId) || partyOperatives[0] || null;
+  }, [partyOperatives, selectedPartyCharId]);
+
   const handleUpdateField = (fieldName, val) => {
     updateStory(activeNode.id, {
       fields: {
@@ -58,17 +83,74 @@ export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceG
     });
   };
 
-  const handleRollCheck = (dcText) => {
-    const d1 = Math.floor(Math.random() * 10) + 1;
-    const d2 = Math.floor(Math.random() * 10) + 1;
-    const total = d1 + d2 + 3; // Standard operative +3 modifier
-    AudioService.playTerminalBeep(1200, 0.08);
+  const handleRollCheck = (dcText, charOverride = null) => {
+    const activeChar = charOverride || selectedPartyChar;
+    const dcMatch = dcText.match(/(?:CR|DC)\s*(\d+)/i) || dcText.match(/(\d+)/);
+    const targetNumber = dcMatch ? parseInt(dcMatch[1], 10) : 15;
 
-    setRecentRoll({
-      label: dcText.slice(0, 40),
-      text: `Rolled ${d1}+${d2}+3 = ${total}`
-    });
-    setTimeout(() => setRecentRoll(null), 4000);
+    // Detect relevant attribute from dcText
+    let attrMod = 3;
+    let attrName = 'Base';
+
+    if (activeChar) {
+      const lowerText = dcText.toLowerCase();
+      if (lowerText.includes('agility') || lowerText.includes('reflex') || lowerText.includes('cover') || lowerText.includes('stealth')) {
+        attrMod = Number(activeChar['attr-agility']) || Number(activeChar['attr-reflex']) || 2;
+        attrName = 'Agi';
+      } else if (lowerText.includes('strength') || lowerText.includes('athletics') || lowerText.includes('might') || lowerText.includes('force')) {
+        attrMod = Number(activeChar['attr-strength']) || Number(activeChar['attr-might']) || 2;
+        attrName = 'Str';
+      } else if (lowerText.includes('tech') || lowerText.includes('slicing') || lowerText.includes('intellect') || lowerText.includes('hack')) {
+        attrMod = Number(activeChar['attr-intellect']) || Number(activeChar['attr-logic']) || 2;
+        attrName = 'Int';
+      } else if (lowerText.includes('perception') || lowerText.includes('wisdom') || lowerText.includes('sensor') || lowerText.includes('notice')) {
+        attrMod = Number(activeChar['attr-wisdom']) || Number(activeChar['attr-will']) || 2;
+        attrName = 'Wis';
+      } else if (lowerText.includes('stamina') || lowerText.includes('fortitude') || lowerText.includes('endure') || lowerText.includes('resist')) {
+        attrMod = Number(activeChar['attr-stamina']) || Number(activeChar['attr-fortitude']) || 2;
+        attrName = 'Sta';
+      } else if (lowerText.includes('culture') || lowerText.includes('charisma') || lowerText.includes('diplomacy') || lowerText.includes('bluff')) {
+        attrMod = Number(activeChar['attr-charisma']) || Number(activeChar['attr-presence']) || 2;
+        attrName = 'Cha';
+      } else {
+        const highestAttr = Math.max(
+          Number(activeChar['attr-agility']) || 0,
+          Number(activeChar['attr-strength']) || 0,
+          Number(activeChar['attr-intellect']) || 0,
+          2
+        );
+        attrMod = highestAttr;
+        attrName = 'Operative';
+      }
+    }
+
+    const result = rollDice(`2d10+${attrMod}`, { targetNumber });
+    const die1 = result.rolls[0]?.value || 0;
+    const die2 = result.rolls[1]?.value || 0;
+    const actorLabel = activeChar ? (activeChar['char-name'] || 'Operative') : 'Operative';
+
+    if (result.isCritSuccess) {
+      AudioService.playCriticalChime(true);
+      setRecentRoll({
+        label: dcText.slice(0, 40),
+        text: `★ CRIT SUCCESS! ${actorLabel} (${attrName}+${attrMod}): [${die1}, ${die2}]+${attrMod} = ${result.total} vs CR ${targetNumber}`
+      });
+    } else if (result.isCritFail) {
+      AudioService.playTerminalBeep(400, 0.2);
+      setRecentRoll({
+        label: dcText.slice(0, 40),
+        text: `☠ CRIT FUMBLE! ${actorLabel} (${attrName}+${attrMod}): [${die1}, ${die2}]+${attrMod} = ${result.total} vs CR ${targetNumber}`
+      });
+    } else {
+      AudioService.playTerminalBeep(result.isSuccess ? 1200 : 750, 0.08);
+      const outcome = result.isSuccess ? '✓ SUCCESS' : '✗ FAILED';
+      const marginStr = result.margin !== null ? ` (${result.margin >= 0 ? '+' : ''}${result.margin})` : '';
+      setRecentRoll({
+        label: dcText.slice(0, 40),
+        text: `${outcome}${marginStr}: ${actorLabel} (${attrName}+${attrMod}): [${die1}, ${die2}]+${attrMod} = ${result.total} vs CR ${targetNumber}`
+      });
+    }
+    setTimeout(() => setRecentRoll(null), 5000);
   };
 
   // Add & delete bullet points
@@ -369,6 +451,78 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
           {/* COLUMN 2: 3-TIER THREAT MATRIX & GM SECRETS */}
           <div className="space-y-4">
             
+            {/* Folio Party Quick Vitals & Testing Reference */}
+            {partyOperatives.length > 0 && (
+              <div className="p-3 bg-slate-950/80 border border-cyan-500/40 rounded-xl space-y-2.5 shadow-sm">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="font-bold text-cyan-300 flex items-center gap-1.5 uppercase tracking-wider">
+                    <Users size={13} className="text-cyan-400" />
+                    <span>Folio Party Vitals ({partyOperatives.length})</span>
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] text-slate-400">Tester:</span>
+                    <select
+                      value={selectedPartyCharId}
+                      onChange={(e) => {
+                        setSelectedPartyCharId(e.target.value);
+                        AudioService.playTerminalBeep(900, 0.03);
+                      }}
+                      className="bg-slate-900 border border-cyan-500/40 text-cyan-200 text-[10px] rounded px-1.5 py-0.5 font-mono outline-none"
+                    >
+                      {partyOperatives.map(op => (
+                        <option key={op['character-doc-id'] || op.id} value={op['character-doc-id'] || op.id}>
+                          {op['char-name'] || 'Unnamed'} ({op['char-archetype'] || 'Operative'})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Compact Operative Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1 scrollbar-thin">
+                  {partyOperatives.map((op) => {
+                    const isSelected = (op['character-doc-id'] || op.id) === (selectedPartyChar?.['character-doc-id'] || selectedPartyChar?.id);
+                    const hp = op.health ?? 30;
+                    const vp = op.vitality ?? 30;
+                    const struct = op.structure ?? 60;
+                    const isSynth = op.isSynthetic || op['is-synthetic'];
+                    const armorDr = op['armor-dr'] ?? op.armorDr ?? 0;
+                    const staDr = op['stamina-dr'] ?? op.staminaDr ?? (isSynth ? 0 : 2);
+
+                    return (
+                      <div
+                        key={op['character-doc-id'] || op.id}
+                        onClick={() => setSelectedPartyCharId(op['character-doc-id'] || op.id)}
+                        className={`p-1.5 rounded-lg border text-[10px] font-mono cursor-pointer transition-all ${
+                          isSelected 
+                            ? 'bg-cyan-950/40 border-cyan-400/80 text-cyan-100 shadow-[0_0_10px_rgba(6,182,212,0.15)]' 
+                            : 'bg-slate-900/40 border-slate-800 text-slate-300 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between font-bold">
+                          <span className="truncate">{op['char-name']}</span>
+                          <span className="text-[9px] px-1 rounded bg-slate-950 text-slate-400 border border-slate-800">
+                            {op['char-archetype'] || 'Operative'}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 pt-0.5 text-[9px] text-slate-400">
+                          {isSynth ? (
+                            <span>STR: <strong className="text-amber-400">{struct}</strong></span>
+                          ) : (
+                            <>
+                              <span>HP: <strong className="text-emerald-400">{hp}</strong></span>
+                              <span>VP: <strong className="text-cyan-400">{vp}</strong></span>
+                            </>
+                          )}
+                          <span>DR: <strong className="text-indigo-300">{armorDr}/{staDr}</strong></span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* 3-Tier Threat Matrix */}
             <div className="p-3.5 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2.5">
               <div className="flex items-center justify-between text-xs font-mono">

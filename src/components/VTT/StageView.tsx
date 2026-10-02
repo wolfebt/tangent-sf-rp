@@ -32,7 +32,6 @@ import {
   DashboardOverlay
 } from '../../engine/index.ts';
 import { useCampaign } from '../../context/CampaignContext';
-import { TokenRadialMenu } from './TokenRadialMenu';
 import { 
   ArchitectDesignPalette, 
   type PaletteItem, 
@@ -40,7 +39,7 @@ import {
 } from './ArchitectDesignPalette';
 import { useUILayoutStore } from './store/uiLayoutStore';
 import { deployCompiledPackage } from '../../utils/deployVttPackage';
-import { stepNpcPatrols, evaluateSentryVision, evaluateTrapTriggers } from '../../services/reactiveVttService';
+import { evaluateTrapTriggers } from '../../services/reactiveVttService';
 import { VttEventBus } from '../../utils/vttEventBus';
 import { useMapIngestion } from './hooks/useMapIngestion';
 import { useCanvasEventListeners } from './hooks/useCanvasEventListeners';
@@ -52,8 +51,6 @@ import { Graphics, Container, Text, TextStyle, Sprite } from 'pixi.js';
 import { 
   LightSourceManager, 
   type SceneLightSource, 
-  type AtmosphericWeatherType, 
-  ATMOSPHERIC_PRESETS,
   type LightAnimationType 
 } from '../../engine/vision/LightSourceManager';
 import { 
@@ -74,6 +71,10 @@ import { useMapHistory } from '../../pages/Foundry/MapMaker/hooks/useMapHistory'
 
 // Map Maker Modals & Drawers
 import { StageModalsContainer } from './stage/StageModalsContainer';
+import { useStageLighting } from './stage/useStageLighting';
+import { useStageRaycast } from './stage/useStageRaycast';
+import { useStageTools } from './stage/useStageTools';
+import { StageTokenLayer } from './stage/StageTokenLayer';
 import { createRoomWalls, snapPointToAngle, findNearestWallVertex } from '../../schemas/vttWallSchema.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -109,7 +110,6 @@ export const StageView: React.FC<StageViewProps> = ({
   const underlayContainerRef = useRef<Container | null>(null);
   const waypointsContainerRef = useRef<Container | null>(null);
   const lightSourceMgrRef = useRef<LightSourceManager>(new LightSourceManager());
-  const npcTickRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Campaign Context and Search Params Integration
   const [searchParams, setSearchParams] = useSearchParams();
@@ -230,8 +230,24 @@ export const StageView: React.FC<StageViewProps> = ({
   const [isTacticalConsoleCollapsed, setIsTacticalConsoleCollapsed] = useState<boolean>(false);
   const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
   const [localObjects, setLocalObjects] = useState<SceneInteractiveObject[]>([]);
-  const [localLights, setLocalLights] = useState<SceneLightSource[]>([]);
-  const [atmosphericWeather, setAtmosphericWeather] = useState<AtmosphericWeatherType>('clear');
+  const {
+    atmosphericWeather,
+    setAtmosphericWeather,
+    localLights,
+    setLocalLights,
+    hazardCount,
+    setHazardCount,
+    handleToggleDynamicLighting
+  } = useStageLighting({
+    currentMap,
+    isCanvasReady,
+    atmosphereOverlayRef,
+    lightingContainerRef: lightsContainerRef,
+    hazardSimulatorRef,
+    isDynamicLightingEnabled,
+    toggleDynamicLighting,
+    updateMap
+  });
 
   // Map Maker Modal Launcher States
   const [isLandmassModalOpen, setIsLandmassModalOpen] = useState<boolean>(false);
@@ -296,62 +312,14 @@ export const StageView: React.FC<StageViewProps> = ({
     setStoreLastCompiledPackage(null);
   }, [storeLastCompiledPackage, activeMapId, currentMapId, currentMap?.id, updateMap, setStoreLastCompiledPackage]);
 
-  // ── NPC Simulation Tick (Patrol Steps & Sentry Vision Scanning) ──
-  useEffect(() => {
-    if (!isMultiplayerSimActive || isSimulationPaused) {
-      if (npcTickRef.current) {
-        clearInterval(npcTickRef.current);
-        npcTickRef.current = null;
-      }
-      return;
-    }
-
-    npcTickRef.current = setInterval(() => {
-      const engineStore = useEngineStore.getState();
-      const fusedTokens = selectAllFusedTokens(engineStore);
-      const mapTokens = currentMap?.tokens || [];
-
-      // Combine engine position with script definitions
-      const allTokens = fusedTokens.map(tok => {
-        const mapTok = mapTokens.find((mt: any) => mt.id === tok.id);
-        return {
-          ...tok,
-          script: (tok as any).script || mapTok?.script,
-        };
-      });
-
-      // Step all NPC patrol tokens
-      const updatedTokens = stepNpcPatrols(allTokens, 20);
-      updatedTokens.forEach(tok => {
-        const orig = allTokens.find(t => t.id === tok.id);
-        if (orig && (orig.x !== tok.x || orig.y !== tok.y)) {
-          engineStore.updatePosition(tok.id, tok.x, tok.y);
-        }
-      });
-
-      // Evaluate sentry vision for each sentry token
-      const heroTokens = allTokens.filter(t => t.is_persona || (t as any).designation === 'Ally');
-      updatedTokens.forEach(tok => {
-        const script = tok.script;
-        if (script?.type === 'sentry') {
-          const detection = evaluateSentryVision(
-            { ...tok, script },
-            heroTokens
-          );
-          if (detection) {
-            VttEventBus.emit('sentry-alert', detection);
-          }
-        }
-      });
-    }, 1500);
-
-    return () => {
-      if (npcTickRef.current) {
-        clearInterval(npcTickRef.current);
-        npcTickRef.current = null;
-      }
-    };
-  }, [isMultiplayerSimActive, isSimulationPaused, currentMap?.tokens]);
+  // ── NPC Simulation Tick (Patrol Steps & Sentry Vision Scanning via useStageRaycast) ──
+  useStageRaycast({
+    isMultiplayerSimActive,
+    isSimulationPaused,
+    currentMapTokens: currentMap?.tokens || [],
+    engineStore: useEngineStore.getState(),
+    bvhBuilderRef
+  });
 
   const isVisionEnabled = true;
   const torchRadiusFt = 30;
@@ -369,20 +337,27 @@ export const StageView: React.FC<StageViewProps> = ({
     token: null
   });
 
-  // Environmental FX States
-  const [hazardCount, setHazardCount] = useState<number>(0);
-
-  // Pan & Zoom Navigation States
-  const [zoom, setZoom] = useState<number>(1.0);
-  const [pan, setPan] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isDraggingPan, setIsDraggingPan] = useState(false);
-  const [dragStartPos, setDragStartPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  // Pan & Zoom Navigation States via useStageTools
+  const {
+    zoom,
+    setZoom,
+    pan,
+    setPan,
+    isDraggingPan,
+    setIsDraggingPan,
+    dragStartPos,
+    setDragStartPos,
+    activeTab,
+    setActiveTab
+  } = useStageTools({
+    setActiveDesignTool: (t) => setActiveDesignTool(t),
+    setIsDesignModeActive: (fn) => setIsDesignModeActive(fn),
+    rendererContextRef
+  });
 
   // Tactical Movement & Action States
   const [isMoveModeActive, setIsMoveModeActive] = useState(false);
   const [mouseWorldPos, setMouseWorldPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  // Active Tool Panel Tab
-  const [activeTab, setActiveTab] = useState<'combat' | 'spawner' | 'turns' | 'objects' | 'dice'>('combat');
 
   const tokens = useEngineStore(selectAllFusedTokens);
   const selectedToken = tokens.find(t => t.id === selectedTokenId) || null;
@@ -614,61 +589,6 @@ export const StageView: React.FC<StageViewProps> = ({
     container.addChild(g);
   }, [selectedAssetIds, isMarqueeActive, marqueeStart, marqueeCurrent, localObjects, tokens, localWalls]);
 
-  // ── Render Dynamic Light Sources on the Stage ──
-  useEffect(() => {
-    const container = lightsContainerRef.current;
-    if (!container) return;
-    container.removeChildren();
-
-    if (localLights.length === 0) return;
-
-    localLights.forEach(light => {
-      const lightNode = new Container();
-      lightNode.x = light.x;
-      lightNode.y = light.y;
-
-      const colorHex = typeof light.color === 'string' 
-        ? parseInt(light.color.replace('#', '0x'), 16) || 0xf59e0b 
-        : light.color;
-
-      const g = new Graphics();
-      // Outer subtle falloff halo
-      g.circle(0, 0, light.radius);
-      g.fill({ color: colorHex, alpha: 0.12 });
-      g.stroke({ width: 1, color: colorHex, alpha: 0.25 });
-
-      // Mid intensity circle
-      g.circle(0, 0, light.radius * 0.5);
-      g.fill({ color: colorHex, alpha: 0.2 });
-
-      // Central core bulb
-      g.circle(0, 0, 8);
-      g.fill({ color: 0xffffff });
-      g.stroke({ width: 2, color: colorHex });
-
-      lightNode.addChild(g);
-      container.addChild(lightNode);
-    });
-  }, [isCanvasReady, localLights]);
-
-  // ── Render Atmospheric Weather Tint Overlay ──
-  useEffect(() => {
-    if (!isCanvasReady) return;
-    const container = atmosphereOverlayRef.current;
-    if (!container) return;
-    container.removeChildren();
-
-    const preset = ATMOSPHERIC_PRESETS[atmosphericWeather] || ATMOSPHERIC_PRESETS.clear;
-    if (preset.tintAlpha <= 0 && preset.fogDensity <= 0) return;
-
-    const g = new Graphics();
-    const width = 3840;
-    const height = 2160;
-    g.rect(0, 0, width, height);
-    g.fill({ color: preset.tintHex, alpha: preset.tintAlpha });
-
-    container.addChild(g);
-  }, [isCanvasReady, atmosphericWeather]);
 
   // ── Render Tactical Canvas Mat Plate & Background Blueprint Underlay ──
   useEffect(() => {
@@ -2495,110 +2415,7 @@ export const StageView: React.FC<StageViewProps> = ({
     return unsub;
   }, [selectedTokenId]);
 
-  // Listen for inter-studio ADE Stage signals (pan, tool arming, environmental hazard triggers)
-  useEffect(() => {
-    const unsubPan = VttEventBus.on('pan-stage-to', (payload) => {
-      if (!payload) return;
-      const renderer = rendererContextRef.current;
-      const app = renderer?.getApp?.();
-      const canvasWidth = app?.renderer?.width || 1200;
-      const canvasHeight = app?.renderer?.height || 800;
-      setPan({
-        x: Math.round(canvasWidth / 2 - payload.x * zoom),
-        y: Math.round(canvasHeight / 2 - payload.y * zoom)
-      });
-      AudioService.playTerminalBeep(1200, 0.03);
-    });
-
-    const unsubTool = VttEventBus.on('arm-stage-tool', (payload) => {
-      if (payload?.tool) {
-        setActiveDesignTool(payload.tool as any);
-        setIsDesignModeActive(true);
-        AudioService.playTerminalBeep(1350, 0.03);
-      }
-    });
-
-    const unsubToggleDesign = VttEventBus.on('toggle-stage-design-mode', (payload) => {
-      setIsDesignModeActive(prev => {
-        const next = payload?.active !== undefined ? Boolean(payload.active) : !prev;
-        setIsSimulationPaused(next);
-        AudioService.playTerminalBeep(next ? 1500 : 900, 0.04);
-        return next;
-      });
-    });
-
-    const unsubHazard = VttEventBus.on('spawn-environmental-hazard', (payload) => {
-      if (!hazardSimulatorRef.current || !payload?.type) return;
-      const newHazard: HazardField = {
-        id: `hazard-${Date.now()}`,
-        type: payload.type,
-        x: payload.x ?? 400,
-        y: payload.y ?? 350,
-        radius: payload.radius ?? 120,
-        intensity: 1.0
-      };
-      hazardSimulatorRef.current.addHazardField(newHazard);
-      setHazardCount(prev => prev + 1);
-      AudioService.playCriticalChime(false);
-    });
-
-    const unsubClearHazards = VttEventBus.on('clear-environmental-hazards', () => {
-      hazardSimulatorRef.current?.clearHazards();
-      setHazardCount(0);
-    });
-
-    const unsubPreset = VttEventBus.on('apply-atmospheric-preset', (payload) => {
-      if (payload?.presetKey && ATMOSPHERIC_PRESETS[payload.presetKey as AtmosphericWeatherType]) {
-        setAtmosphericWeather(payload.presetKey as AtmosphericWeatherType);
-      }
-    });
-
-    return () => {
-      unsubPan();
-      unsubTool();
-      unsubToggleDesign();
-      unsubHazard();
-      unsubClearHazards();
-      unsubPreset();
-    };
-  }, [zoom, setActiveDesignTool, setIsDesignModeActive]);
-
-  // Synchronize environmental atmospheric weather preset and dynamic particle hazard physics
-  useEffect(() => {
-    const mapPreset = currentMap?.environmental?.weatherPreset || currentMap?.atmosphericWeather;
-    if (mapPreset && mapPreset !== atmosphericWeather && ATMOSPHERIC_PRESETS[mapPreset as AtmosphericWeatherType]) {
-      setAtmosphericWeather(mapPreset as AtmosphericWeatherType);
-    }
-  }, [currentMap?.environmental?.weatherPreset, currentMap?.atmosphericWeather]);
-
-  useEffect(() => {
-    if (!hazardSimulatorRef.current) return;
-    const sim = hazardSimulatorRef.current;
-    sim.clearHazards();
-
-    if (atmosphericWeather === 'toxic_smog') {
-      sim.addHazardField({ id: 'ambient-toxic-1', type: 'corrosive_gas', x: 450, y: 350, radius: 180, intensity: 0.8 });
-      sim.addHazardField({ id: 'ambient-toxic-2', type: 'corrosive_gas', x: 850, y: 650, radius: 200, intensity: 0.9 });
-    } else if (atmosphericWeather === 'red_alert') {
-      sim.addHazardField({ id: 'ambient-plasma-1', type: 'plasma_fire', x: 600, y: 400, radius: 120, intensity: 1.0 });
-    } else if (atmosphericWeather === 'deep_void') {
-      sim.addHazardField({ id: 'ambient-void-1', type: 'void_mist', x: 500, y: 400, radius: 240, intensity: 0.7 });
-    } else if (atmosphericWeather === 'sandstorm') {
-      sim.addHazardField({ id: 'ambient-sand-1', type: 'smoke', x: 600, y: 450, radius: 260, intensity: 0.85 });
-    }
-    setHazardCount(sim.getActiveHazards().length);
-  }, [atmosphericWeather]);
-
-  // Environmental Hazard & Lighting Handlers
-  const handleToggleDynamicLighting = () => {
-    toggleDynamicLighting();
-    AudioService.playTerminalBeep(!isDynamicLightingEnabled ? 1200 : 800, 0.03);
-  };
-
-  useEffect(() => {
-    hazardSimulatorRef.current?.setDynamicLighting(isDynamicLightingEnabled);
-  }, [isDynamicLightingEnabled]);
-
+  // Environmental hazard spawn handler (invoked by Tactical Console)
   const handleSpawnHazard = (type: HazardType) => {
     const activeTok = selectedToken || tokens[0];
     const spawnX = (activeTok?.x || 350) + (Math.random() - 0.5) * 140;
@@ -3361,17 +3178,13 @@ export const StageView: React.FC<StageViewProps> = ({
       )}
 
         {/* ── Contextual Token Radial Action Wheel ── */}
-        <TokenRadialMenu
-          isOpen={radialMenuState.isOpen}
-          onClose={() => setRadialMenuState(prev => ({ ...prev, isOpen: false }))}
-          position={radialMenuState.position}
-          token={radialMenuState.token}
+        <StageTokenLayer
+          radialMenuState={radialMenuState}
+          onCloseRadialMenu={() => setRadialMenuState(prev => ({ ...prev, isOpen: false }))}
           targetToken={targetToken}
-          isAdjacentToMortalityAlly={Boolean(downedAllyNearby)}
-          mortalityAllyName={downedAllyNearby?.name || 'Allied Operative'}
-          isAdjacentToInteractiveObj={Boolean(nearbyInteractiveObj)}
-          interactiveObjName={nearbyInteractiveObj?.name || 'Bulkhead / Terminal'}
-          isPointBlankRange={isPointBlankTarget}
+          downedAllyNearby={downedAllyNearby}
+          nearbyInteractiveObj={nearbyInteractiveObj}
+          isPointBlankTarget={isPointBlankTarget}
           onSelectAction={handleRadialSelectAction}
         />
 

@@ -5,8 +5,8 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
-import { OBJECT_TYPES } from '../services/interactiveObjectService';
-import { TRAP_TYPES } from '../services/reactiveVttService';
+import { OBJECT_TYPES } from '../services/interactiveObjectService.js';
+import { TRAP_TYPES } from '../services/reactiveVttService.js';
 
 /**
  * Normalizes an ADE story component element into a Stage VTT Token / Static Entity.
@@ -209,4 +209,51 @@ export function syncElementToOmnicortexDBM(element, dbmContext) {
 
   dbmContext.saveItem(mapped.category, mapped.document);
   return true;
+}
+
+/**
+ * Hydrates an ADE story element with the latest canonical fields from Omnicortex DBM.
+ * @param {Object} element - The active ADE story element with fields.dbmRef or dbmRef.
+ * @param {Object} dbData - The Omnicortex database container from useDBM().
+ * @returns {Object|null} - Updated element object, or null if unlinked/not found.
+ */
+export function pullElementFromOmnicortexDBM(element, dbData) {
+  if (!element || !dbData) return null;
+
+  const dbmId = element.fields?.dbmRef || element.dbmRef;
+  if (!dbmId) return null;
+
+  const category = element.fields?.dbmCategory || element.dbmCategory;
+  
+  // Search within specified category or scan all collections
+  const collections = category ? [category] : Object.keys(dbData);
+  let foundRecord = null;
+  let resolvedCategory = category || null;
+
+  for (const col of collections) {
+    const list = dbData[col];
+    if (Array.isArray(list)) {
+      foundRecord = list.find(item => item.id === dbmId);
+      if (foundRecord) {
+        resolvedCategory = col;
+        break;
+      }
+    }
+  }
+
+  if (!foundRecord) return null;
+
+  return {
+    ...element,
+    title: foundRecord.name || foundRecord.title || element.title,
+    content: foundRecord.description || foundRecord.concept || foundRecord.notes || foundRecord.summary || element.content,
+    dbmSyncStatus: 'synced',
+    dbmLastSyncedAt: new Date().toISOString(),
+    fields: {
+      ...(element.fields || {}),
+      ...foundRecord,
+      dbmRef: foundRecord.id,
+      dbmCategory: resolvedCategory
+    }
+  };
 }

@@ -192,7 +192,7 @@ const Home = () => {
                   icon: Layers,
                   color: 'text-purple-300 border-purple-500/40 hover:border-purple-400 bg-purple-950/20', 
                   badge: (scenarioCount + mapCount) > 0 ? `${scenarioCount + mapCount}` : null,
-                  action: () => navigate('/foundry/live-studio') 
+                  action: () => navigate('/foundry') 
                 },
                 { 
                   id: 'teams', 

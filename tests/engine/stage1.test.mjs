@@ -120,4 +120,44 @@ test('Stage 1.5: Yjs CRDT Multi-Client Merging & Deterministic Resolution', () =
   const boardA = docA.getArray('tactical_board');
   assert.equal(boardA.length, 1);
   assert.deepEqual(boardA.get(0), { id: 'token-1', x: 25, y: 50 });
+
+  // Client A edits scenario manuscript prose (Phase 5.1 CRDT Co-Authoring)
+  const manuscriptsA = docA.getMap('scenario_manuscripts');
+  manuscriptsA.set('scene-1', '<p>The airlock hiss echoed down the abandoned corridor.</p>');
+
+  // Sync A -> B
+  const updateManuscriptA = Y.encodeStateAsUpdate(docA);
+  Y.applyUpdate(docB, updateManuscriptA);
+
+  const manuscriptsB = docB.getMap('scenario_manuscripts');
+  assert.equal(manuscriptsB.get('scene-1'), '<p>The airlock hiss echoed down the abandoned corridor.</p>');
 });
+
+test('Stage 1.6: Collaborative CRDT Service Manuscript Prose Sync', async () => {
+  const { 
+    syncScenarioProse, 
+    updateScenarioProse, 
+    subscribeToScenarioProse, 
+    getScenarioProseText 
+  } = await import('../../src/services/crdtCollabService.js');
+
+  const scenarioId = 'scenario-test-collab-1';
+  
+  // 1. Initial Sync
+  const { currentContent } = syncScenarioProse(scenarioId, '<p>Initial narrative draft.</p>');
+  assert.equal(currentContent, '<p>Initial narrative draft.</p>');
+
+  // 2. Subscription
+  let observedText = '';
+  const unsub = subscribeToScenarioProse(scenarioId, (text) => {
+    observedText = text;
+  });
+
+  // 3. Remote/Local Update
+  updateScenarioProse(scenarioId, '<p>Initial narrative draft. Operative advanced cautiously.</p>', 'test-peer');
+  assert.equal(observedText, '<p>Initial narrative draft. Operative advanced cautiously.</p>');
+  assert.equal(getScenarioProseText(scenarioId).toString(), '<p>Initial narrative draft. Operative advanced cautiously.</p>');
+
+  unsub();
+});
+

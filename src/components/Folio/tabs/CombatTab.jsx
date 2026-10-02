@@ -15,15 +15,12 @@ import {
   createAttackFromInvocation
 } from '../../../utils/combatUtils';
 
-export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
+export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTactical }) => {
   const {
     characterData,
     updateField,
     derivedStats,
     getAttrTotal,
-    applyCharacterDamage,
-    updateCharacterHealth,
-    updateCharacterVitality,
     isLocked,
     isPlayerOverride
   } = useFolio();
@@ -31,49 +28,19 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
   const [combatView, setCombatView] = useState('all'); // 'all' | 'offensive' | 'defensive'
-  const [latestDamageRoll, setLatestDamageRoll] = useState(null);
-  const [triageAmount, setTriageAmount] = useState(5);
-  const [triageType, setTriageType] = useState('lethal'); // 'lethal' | 'nonlethal' | 'crit' | 'concussive'
-  const [triageFeedback, setTriageFeedback] = useState(null);
 
   const curHealth = parseInt(characterData.current_health ?? characterData.health ?? 30, 10);
   const maxHealth = parseInt(characterData.health || 30, 10);
   const curVitality = parseInt(characterData.current_vitality ?? characterData.vitality ?? 30, 10);
   const maxVitality = parseInt(characterData.vitality || 30, 10);
+  const curStructure = parseInt(characterData.current_structure ?? characterData.structure ?? 60, 10);
+  const maxStructure = parseInt(characterData.structure || 60, 10);
+  const isSynthetic = Boolean(
+    characterData.isSynthetic ?? characterData.is_synthetic ?? derivedStats?.isSynthetic ?? false
+  );
   const isDead = characterData.is_dead || false;
   const atDeathsDoor = !isDead && (characterData.is_at_deaths_door || (curHealth <= 0 && curVitality <= 0));
   const isIncapacitated = !isDead && !atDeathsDoor && curHealth <= 0;
-
-  const handleApplyDamage = async (amount, type = triageType) => {
-    const dmg = parseInt(amount, 10);
-    if (!dmg || dmg <= 0) return;
-    const res = await applyCharacterDamage(characterData['character-doc-id'] || characterData.id, {
-      incomingDamage: dmg,
-      isNonLethal: type === 'nonlethal',
-      isCritical: type === 'crit',
-      isConcussive: type === 'concussive',
-      attemptedReduction: true
-    });
-    AudioService.playCombatHit(type === 'crit');
-    if (res) {
-      setTriageFeedback(`Suffered ${dmg} ${type} dmg (-${res.vitalityDamage} VIT, -${res.healthDamage} HP). Absorbed ${res.damageAbsorbed}.`);
-    }
-  };
-
-  const handleHeal = (amount, target = 'vitality') => {
-    const pts = parseInt(amount, 10);
-    if (!pts || pts <= 0) return;
-    if (target === 'vitality') {
-      const nextVit = Math.min(maxVitality, curVitality + pts);
-      updateCharacterVitality(characterData['character-doc-id'] || characterData.id, nextVit);
-      setTriageFeedback(`Healed +${pts} Vitality (${nextVit}/${maxVitality})`);
-    } else {
-      const nextHp = Math.min(maxHealth, curHealth + pts);
-      updateCharacterHealth(characterData['character-doc-id'] || characterData.id, nextHp);
-      setTriageFeedback(`Healed +${pts} Health (${nextHp}/${maxHealth})`);
-    }
-    AudioService.playPointSpendSound();
-  };
 
   const handleRollDamage = (damageExpr, weaponName) => {
     if (!damageExpr) return;
@@ -254,9 +221,20 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     updateField('armor', armors.filter((_, i) => i !== index));
   };
 
-  const reflexTotal = getAttrTotal('attr-reflex');
+  const reflexTotal = getAttrTotal ? getAttrTotal('attr-reflex') : parseInt(characterData['attr-reflex'] || 2, 10);
   const initiativeMod = parseInt(characterData['initiative-mod'] || 0, 10);
   const initiativeTotal = reflexTotal + initiativeMod;
+
+  const acroRank = parseInt(characterData['skill-physical-acrobatics-rank'] || characterData['skill-acrobatics-rank'] || 0, 10);
+  const evasionTotal = 10 + reflexTotal + acroRank;
+
+  const meleeSkillRank = Math.max(
+    parseInt(characterData['skill-combat-melee-rank'] || characterData['skill-melee-rank'] || 0, 10),
+    parseInt(characterData['skill-combat-brawling-rank'] || characterData['skill-brawling-rank'] || 0, 10)
+  );
+  const meleeDefenseTotal = 10 + reflexTotal + meleeSkillRank;
+
+  const toughnessTotal = derivedStats?.toughness ?? 0;
 
   return (
     <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
@@ -351,186 +329,114 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         </div>
       </div>
 
-      {/* Latest Damage Roll Feedback Banner */}
-      {latestDamageRoll && (
-        <div className={`p-3.5 rounded-xl border flex items-center justify-between transition-all select-none shadow-lg ${
-          latestDamageRoll.isCritSuccess 
-            ? 'bg-amber-500/20 border-amber-400 text-amber-200 shadow-[0_0_20px_rgba(245,158,11,0.3)]'
-            : latestDamageRoll.isCritFail
-            ? 'bg-red-500/20 border-red-500 text-red-200 shadow-[0_0_20px_rgba(239,68,68,0.3)]'
-            : 'bg-slate-900/95 border-cyan-500/50 text-slate-100'
-        }`}>
-          <div className="flex items-center gap-3">
-            <div className="text-2xl font-bold font-mono text-cyan-300 flex items-center gap-1.5">
-              <span>🎲</span> {latestDamageRoll.total}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* COMBAT PROFILE & DEFENSIVE METRICS BAR (BUILDER LOADOUT VIEW)     */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      <div className="bg-slate-900/90 border border-cyan-900/60 rounded-xl p-4 shadow-xl space-y-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-b border-cyan-950 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-lg bg-cyan-950/80 border border-cyan-500/60 text-cyan-300">
+              <Shield className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-bold text-slate-200 flex items-center gap-2">
-                <span>{latestDamageRoll.label}</span>
-                <span className="font-mono text-cyan-400 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-500/30 text-[10px]">
-                  {latestDamageRoll.expression}
-                </span>
-                {latestDamageRoll.isCritSuccess && (
-                  <span className="text-[10px] font-extrabold text-amber-300 uppercase tracking-wider animate-pulse">
-                    ⚡ CRITICAL HIT!
-                  </span>
-                )}
-                {latestDamageRoll.isCritFail && (
-                  <span className="text-[10px] font-extrabold text-rose-400 uppercase tracking-wider">
-                    💀 CRITICAL MISS!
-                  </span>
-                )}
-              </div>
-              <div className="text-[10px] font-mono text-slate-400">
-                Rolls: [{latestDamageRoll.rolls.map(r => r.value).join(', ')}] {latestDamageRoll.modifier !== 0 ? (latestDamageRoll.modifier > 0 ? `+ ${latestDamageRoll.modifier}` : `${latestDamageRoll.modifier}`) : ''}
-              </div>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">
+                <span>Combat Profile &amp; Defenses Matrix</span>
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Calculated operational ratings, parry thresholds, ranged evasion tolerances, and passive toughness.
+              </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+
+          <div className="flex items-center gap-2.5 flex-wrap">
+            {/* Vitals Snapshot */}
+            <div className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono flex items-center gap-2">
+              {isSynthetic ? (
+                <>
+                  <span className="text-slate-500 font-bold uppercase">Structure:</span>
+                  <span className="text-amber-300 font-bold">{curStructure} / {maxStructure} SP</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-slate-500 font-bold uppercase">HP:</span>
+                  <span className="text-rose-400 font-bold">{curHealth}/{maxHealth}</span>
+                  <span className="text-slate-600">•</span>
+                  <span className="text-slate-500 font-bold uppercase">VIT:</span>
+                  <span className="text-cyan-400 font-bold">{curVitality}/{maxVitality}</span>
+                </>
+              )}
+            </div>
+
+            {/* Launch Tactical Play View */}
             <button
               type="button"
-              onClick={() => handleApplyDamage(latestDamageRoll.total, latestDamageRoll.isCritSuccess ? 'crit' : 'lethal')}
-              className="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-white rounded text-[10px] font-mono font-bold uppercase tracking-wider border border-red-400 shadow-sm cursor-pointer transition-colors"
-              title="Apply this roll damage to hero using Tangent soak mechanics"
+              onClick={() => {
+                if (onSwitchToTactical) {
+                  onSwitchToTactical();
+                } else if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new CustomEvent('folio-view-mode-change', { detail: 'play' }));
+                }
+              }}
+              className="px-3.5 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/80 text-cyan-200 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(6,182,212,0.25)] hover:border-cyan-400 cursor-pointer"
+              title="Switch to Tactical Play View for live combat triage, wound soaking, and active checks"
             >
-              Apply {latestDamageRoll.total} Dmg
-            </button>
-            <button
-              type="button"
-              onClick={() => setLatestDamageRoll(null)}
-              className="text-slate-400 hover:text-white text-xs px-2 py-1 cursor-pointer"
-              title="Dismiss Roll"
-            >
-              ✕
+              <span>⚔️ Launch Tactical Play View &rarr;</span>
             </button>
           </div>
         </div>
-      )}
 
-      {/* Tactical Vitals & Field Triage Panel */}
-      <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-3 shadow-md">
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2">
-          <div className="flex items-center gap-2">
-            <Heart size={15} className="text-rose-400" />
-            <span className="text-xs font-bold font-mono uppercase tracking-wider text-slate-200">
-              Tactical Vitals &amp; Field Triage
+        {/* 4 Defensive Profile Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {/* 1. Initiative */}
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>Initiative</span>
+              <Dices className="w-3.5 h-3.5 text-amber-400" />
             </span>
-            {isDead ? (
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-red-950 border border-red-500 text-red-300">
-                ⚰️ Deceased
-              </span>
-            ) : atDeathsDoor ? (
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-rose-950 border border-rose-500 text-rose-300 animate-pulse">
-                💀 Death's Door ({characterData?.death_clock ?? 1}r)
-              </span>
-            ) : isIncapacitated ? (
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-amber-950 border border-amber-500 text-amber-300">
-                🛌 Incapacitated
-              </span>
-            ) : (
-              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-emerald-950 border border-emerald-500 text-emerald-300">
-                ✓ Combat Active
-              </span>
-            )}
+            <div className="flex items-baseline justify-between mt-1">
+              <span className="text-xl font-bold font-mono text-amber-300">+{initiativeTotal}</span>
+              <span className="text-[10px] font-mono text-slate-500">REF {reflexTotal >= 0 ? `+${reflexTotal}` : reflexTotal}</span>
+            </div>
+            <span className="text-[10px] text-slate-500 mt-1 truncate">2d10 + Reflex check</span>
           </div>
 
-          {triageFeedback && (
-            <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
-              {triageFeedback}
+          {/* 2. Melee Defense (Parry) */}
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>Melee Defense</span>
+              <Crosshair className="w-3.5 h-3.5 text-cyan-400" />
             </span>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
-          {/* Vitals Telemetry Gauges */}
-          <div className="grid grid-cols-2 gap-2">
-            <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2 flex items-center justify-between">
-              <div>
-                <div className="text-[9px] font-mono font-bold uppercase text-slate-400">Health (Lethal)</div>
-                <div className="text-base font-mono font-bold text-slate-100">
-                  {curHealth} <span className="text-[10px] text-slate-500 font-normal">/ {maxHealth}</span>
-                </div>
-              </div>
-              <div className="flex gap-1">
-                <button
-                  type="button"
-                  onClick={() => handleHeal(5, 'health')}
-                  className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700/60 text-emerald-300 rounded text-[10px] font-mono font-bold cursor-pointer"
-                  title="Heal +5 Health"
-                >
-                  +5
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleHeal(maxHealth, 'health')}
-                  className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
-                  title="Full Health Restore"
-                >
-                  Max
-                </button>
-              </div>
+            <div className="flex items-baseline justify-between mt-1">
+              <span className="text-xl font-bold font-mono text-cyan-300">{meleeDefenseTotal}</span>
+              <span className="text-[10px] font-mono text-slate-500">Parry / CQC</span>
             </div>
-
-            <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2 flex items-center justify-between">
-              <div>
-                <div className="text-[9px] font-mono font-bold uppercase text-cyan-400">Vitality (Buffer)</div>
-                <div className="text-base font-mono font-bold text-cyan-300">
-                  {curVitality} <span className="text-[10px] text-slate-500 font-normal">/ {maxVitality}</span>
-                </div>
-              </div>
-              <div className="flex gap-1">
-                <button
-                  type="button"
-                  onClick={() => handleHeal(5, 'vitality')}
-                  className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-700/60 text-cyan-300 rounded text-[10px] font-mono font-bold cursor-pointer"
-                  title="Heal +5 Vitality"
-                >
-                  +5
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleHeal(maxVitality, 'vitality')}
-                  className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
-                  title="Full Vitality Restore"
-                >
-                  Max
-                </button>
-              </div>
-            </div>
+            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + REF + Melee skill</span>
           </div>
 
-          {/* Quick Damage / Soak Triage Controller */}
-          <div className="flex flex-wrap items-center gap-2 justify-end">
-            <div className="flex items-center gap-1 bg-slate-900 px-2 py-1 rounded-lg border border-slate-800">
-              <span className="text-[10px] font-mono text-slate-400 uppercase">Dmg:</span>
-              <input
-                type="number"
-                min="1"
-                max="999"
-                value={triageAmount}
-                onChange={e => setTriageAmount(e.target.value)}
-                className="w-14 bg-slate-950 border border-slate-700 rounded px-1.5 py-0.5 text-xs font-mono text-slate-100 outline-none text-center"
-              />
+          {/* 3. Ranged Defense (Evasion) */}
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>Ranged Defense</span>
+              <Shield className="w-3.5 h-3.5 text-emerald-400" />
+            </span>
+            <div className="flex items-baseline justify-between mt-1">
+              <span className="text-xl font-bold font-mono text-emerald-300">{evasionTotal}</span>
+              <span className="text-[10px] font-mono text-slate-500">Evasion</span>
             </div>
+            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + REF + Acrobatics</span>
+          </div>
 
-            <select
-              value={triageType}
-              onChange={e => setTriageType(e.target.value)}
-              className="bg-slate-900 border border-slate-700 text-slate-200 text-xs font-mono rounded px-2 py-1 outline-none cursor-pointer"
-            >
-              <option value="lethal">Lethal Trauma</option>
-              <option value="nonlethal">Non-Lethal</option>
-              <option value="crit">Critical Hit (Bypass Vit)</option>
-              <option value="concussive">Concussive (Double Soak)</option>
-            </select>
-
-            <button
-              type="button"
-              onClick={() => handleApplyDamage(triageAmount, triageType)}
-              className="px-3 py-1 bg-rose-700 hover:bg-rose-600 text-white rounded text-xs font-mono font-bold uppercase tracking-wider border border-rose-500 cursor-pointer transition-colors shadow-sm"
-            >
-              Apply Damage
-            </button>
+          {/* 4. Toughness / Soak DR */}
+          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>Toughness / DR</span>
+              <Activity className="w-3.5 h-3.5 text-rose-400" />
+            </span>
+            <div className="flex items-baseline justify-between mt-1">
+              <span className="text-xl font-bold font-mono text-rose-300">+{toughnessTotal}</span>
+              <span className="text-[10px] font-mono text-slate-500">Base DR</span>
+            </div>
+            <span className="text-[10px] text-slate-500 mt-1 truncate">Soaks physical damage</span>
           </div>
         </div>
       </div>

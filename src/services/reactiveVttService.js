@@ -6,7 +6,7 @@
  * (waypoint patrols, sentry vision cones, ambush uncloaking, and tactical radio barks).
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export const TRAP_TYPES = {
   proximity_plasma_mine: {

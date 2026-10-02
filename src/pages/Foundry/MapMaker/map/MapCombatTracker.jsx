@@ -44,6 +44,7 @@ import {
   rollCombatantInitiative,
   sortInitiativeOrder
 } from '../../../../services/initiativeService';
+import { VttEventBus } from '../../../../utils/vttEventBus';
 
 const MapCombatTracker = ({
   tokens = [],
@@ -269,6 +270,17 @@ const MapCombatTracker = ({
         } else {
           onTriggerFloatingText(screenX, screenY, `-${numAmount} HEALTH`, 'damage');
         }
+      }
+
+      if (newHealth <= 0 && currentHealth > 0) {
+        VttEventBus.emit('token-defeated', {
+          token,
+          entityId: token.id,
+          name: token.label || token.name || 'Unit',
+          type: token.type || (token.isAdversary ? 'adversary' : 'token'),
+          status: newVitality <= 0 ? 'incapacitated' : 'unconscious',
+          excessDamage
+        });
       }
     } else {
       // Healing Health
@@ -554,6 +566,13 @@ const MapCombatTracker = ({
               const screenY = (activeTok.y || 0) * scale + position.y;
               onTriggerFloatingText(screenX, screenY, `💀 DIED (DEATH CLOCK EXPIRED)`, 'damage');
             }
+            VttEventBus.emit('token-defeated', {
+              token: activeTok,
+              entityId: activeTok.id,
+              name: activeTok.label || activeTok.name || 'Unit',
+              type: activeTok.type || 'character',
+              status: 'deceased'
+            });
           } else {
             onUpdateToken?.(activeTok.id, {
               deathClock: nextClock

@@ -7,8 +7,8 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { AudioService } from '../../../../services/audioService';
-import { VttEventBus } from '../../../../utils/vttEventBus';
+import { AudioService } from '../../../services/audioService';
+import { VttEventBus } from '../../../utils/vttEventBus';
 
 export const useWaypointEngine = ({
   activeMap,

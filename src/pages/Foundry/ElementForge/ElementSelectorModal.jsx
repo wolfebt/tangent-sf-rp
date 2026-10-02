@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import EditElementModal from './EditElementModal';
 import { getTypePillStyle } from './elementSchemas';
+import { STORAGE_KEYS } from '../../../constants/storageKeys';
 
 export const ElementSelectorModal = ({ 
   isOpen, 
@@ -32,7 +33,7 @@ export const ElementSelectorModal = ({
 
   const [viewMode, setViewMode] = useState(() => {
     try {
-      return localStorage.getItem('tangent_catalog_view_mode') || 'cards';
+      return localStorage.getItem(STORAGE_KEYS.CATALOG_VIEW_MODE) || 'cards';
     } catch {
       return 'cards';
     }
@@ -41,7 +42,7 @@ export const ElementSelectorModal = ({
   const handleToggleViewMode = (mode) => {
     setViewMode(mode);
     try {
-      localStorage.setItem('tangent_catalog_view_mode', mode);
+      localStorage.setItem(STORAGE_KEYS.CATALOG_VIEW_MODE, mode);
     } catch {}
   };
 

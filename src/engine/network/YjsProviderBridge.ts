@@ -20,6 +20,7 @@ export class YjsProviderBridge {
   public tacticalBoard: Y.Array<any>;
   public interactiveObjects: Y.Map<any>;
   public campaignWiki: Y.Text;
+  public scenarioManuscripts: Y.Map<any>;
 
   constructor(room: Room) {
     this.room = room;
@@ -33,6 +34,7 @@ export class YjsProviderBridge {
     this.tacticalBoard = this.doc.getArray('tactical_board');
     this.interactiveObjects = this.doc.getMap('interactive_objects');
     this.campaignWiki = this.doc.getText('campaign_wiki');
+    this.scenarioManuscripts = this.doc.getMap('scenario_manuscripts');
 
     this.setupLiveKitListeners();
     this.setupYjsListeners();

@@ -529,8 +529,28 @@ const FolioContainer = () => {
               </button>
             </div>
 
-            {/* Right: Dice Dock & Lock / Unlock */}
+            {/* Right: CP Budget, Dice Dock & Lock / Unlock */}
             <div className="flex items-center gap-1 shrink-0">
+              {(() => {
+                const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
+                const spentCP = computeSpentCP();
+                const isOver = spentCP > startingCP;
+                return (
+                  <button
+                    type="button"
+                    onClick={() => setIsEconomyOpen(true)}
+                    className={`p-1 px-1.5 border rounded text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
+                      isOver
+                        ? 'bg-red-950 border-red-500 text-red-300 animate-pulse'
+                        : 'bg-slate-950 border-slate-800 text-cyan-300 hover:border-cyan-500/50'
+                    }`}
+                    title={`Character Points Budget: ${spentCP}/${startingCP} CP. Click to inspect or modify.`}
+                  >
+                    <span>{spentCP}/{startingCP}</span>
+                  </button>
+                );
+              })()}
+
               <button
                 type="button"
                 onClick={() => {
@@ -714,6 +734,31 @@ const FolioContainer = () => {
             </div>
 
             <div className="flex items-center gap-2">
+              {/* Starting CP Budget Indicator & Modal Trigger */}
+              {(() => {
+                const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
+                const spentCP = computeSpentCP();
+                const isOver = spentCP > startingCP;
+                return (
+                  <button
+                    type="button"
+                    onClick={() => setIsEconomyOpen(true)}
+                    className={`px-2.5 py-1 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm ${
+                      isOver
+                        ? 'bg-red-950/80 hover:bg-red-900 border-red-500/80 text-red-200 animate-pulse'
+                        : 'bg-slate-950 hover:bg-slate-900 border-slate-800 hover:border-cyan-500/50 text-slate-300'
+                    }`}
+                    title={`Character Points Budget: ${spentCP}/${startingCP} CP spent. Click to modify starting budget (150 CP standard default) or inspect economy.`}
+                  >
+                    <span className="text-[10px] text-slate-500 hidden lg:inline">BUDGET:</span>
+                    <span className={isOver ? 'text-red-300 font-extrabold' : 'text-cyan-300 font-bold'}>
+                      {spentCP} / {startingCP} CP
+                    </span>
+                    <span className="text-[10px] text-cyan-400/80">⚙️</span>
+                  </button>
+                );
+              })()}
+
               {!isLocked ? (
                 <button
                   type="button"
@@ -840,6 +885,7 @@ const FolioContainer = () => {
                 <CombatTab
                   onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
+                  onSwitchToTactical={() => setViewMode('play')}
                 />
               )}
               {activeTab === 'companions' && (

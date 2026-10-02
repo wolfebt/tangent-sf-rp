@@ -28,6 +28,7 @@ const LEFT_COLUMN_CONFIG = [
   {
     key: 'physical',
     title: 'Physical Skills',
+    icon: '🏃',
     color: 'text-emerald-400',
     border: 'border-emerald-900/50',
     accentBorder: 'border-emerald-500/60'
@@ -35,6 +36,7 @@ const LEFT_COLUMN_CONFIG = [
   {
     key: 'mental',
     title: 'Mental Skills',
+    icon: '🧠',
     color: 'text-blue-400',
     border: 'border-blue-900/50',
     accentBorder: 'border-blue-500/60'
@@ -45,6 +47,7 @@ const RIGHT_COLUMN_CONFIG = [
   {
     key: 'social',
     title: 'Social Skills',
+    icon: '🗣️',
     color: 'text-cyan-400',
     border: 'border-cyan-900/50',
     accentBorder: 'border-cyan-500/60'
@@ -52,6 +55,7 @@ const RIGHT_COLUMN_CONFIG = [
   {
     key: 'combat',
     title: 'Combat Skills',
+    icon: '⚔️',
     color: 'text-amber-400',
     border: 'border-amber-900/50',
     accentBorder: 'border-amber-500/60'
@@ -59,6 +63,7 @@ const RIGHT_COLUMN_CONFIG = [
   {
     key: 'meta',
     title: 'Metafocus Skills',
+    icon: '🔮',
     color: 'text-purple-400',
     border: 'border-purple-900/50',
     accentBorder: 'border-purple-500/60'
@@ -134,10 +139,33 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     getAttrTotal
   } = useFolio();
   const { openDiceRoller } = useDice();
+  const [activePane, setActivePane] = useState('skills'); // 'skills' | 'granted' | 'modifiers'
+  const [expandedCategories, setExpandedCategories] = useState({}); // ALL CATEGORIES COLLAPSED BY DEFAULT
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
   const [showTrainedOnly, setShowTrainedOnly] = useState(false);
   const [showIdentitySummary, setShowIdentitySummary] = useState(true);
+
+  const toggleCategory = useCallback((catKey) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [catKey]: !prev[catKey]
+    }));
+  }, []);
+
+  const expandAllCategories = useCallback(() => {
+    setExpandedCategories({
+      physical: true,
+      mental: true,
+      social: true,
+      combat: true,
+      meta: true
+    });
+  }, []);
+
+  const collapseAllCategories = useCallback(() => {
+    setExpandedCategories({});
+  }, []);
 
   // Helper to extract clean normalized skill tokens with full group pattern expansion
   const addSkillToPillarSet = (set, raw) => {
@@ -365,6 +393,28 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
       }
     };
   }, [characterData]);
+
+  // Calculate total granted skills count
+  const totalGrantedCount = useMemo(() => {
+    let count = 0;
+    count += Object.keys(identityPoolsBreakdown.species.skills).length;
+    count += Object.keys(identityPoolsBreakdown.occupation.skills).length;
+    count += Object.keys(identityPoolsBreakdown.origin.skills).length;
+    count += Object.keys(identityPoolsBreakdown.faction.skills).length;
+    count += (computedModifiers?.activeSkillModifiers?.length || 0);
+    return count;
+  }, [identityPoolsBreakdown, computedModifiers?.activeSkillModifiers]);
+
+  // Calculate total active modifiers count
+  const totalModifiersCount = useMemo(() => {
+    let count = 0;
+    if (Array.isArray(characterData?.customSituationalModifiers)) {
+      count += characterData.customSituationalModifiers.length;
+    }
+    count += (computedModifiers?.activeEquipmentModifiers?.length || 0);
+    count += (computedModifiers?.activeTraitModifiers?.length || 0);
+    return count;
+  }, [characterData?.customSituationalModifiers, computedModifiers]);
 
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
   const isSheetLocked = Boolean(isFolioLocked && !isPlayerOverride);
@@ -1661,55 +1711,291 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
     const totalSkillCount = filteredGroups.reduce((acc, g) => acc + g.skills.length, 0) + unmappedCustomSkills.length;
 
-    if (totalSkillCount === 0) return null;
+    if (totalSkillCount === 0 && q) return null;
 
     const unmappedBlockTitle = cat.key === 'meta' ? 'Special Abilities' : `Custom ${cat.title}`;
-    const isSingleTabMode = activeCategoryTab !== 'all';
+    // Collapsed by default; auto-expand if searching and matching
+    const isExpanded = Boolean(expandedCategories[cat.key] || (q.length > 0 && totalSkillCount > 0));
 
     return (
-      <div key={cat.key} className="space-y-3">
-        {/* Category Header Banner */}
-        <div className={`flex justify-between items-center px-4 py-2 bg-slate-950/80 border ${cat.border} border-l-4 ${cat.accentBorder} rounded-r-lg rounded-l-sm shadow-md`}>
-          <h3 className={`text-xs font-bold uppercase tracking-widest ${cat.color}`}>
-            {cat.title}
-          </h3>
-          <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 font-bold">
-            {totalSkillCount} {totalSkillCount === 1 ? 'skill' : 'skills'}
-          </span>
-        </div>
+      <div key={cat.key} className={`rounded-xl border ${cat.border} bg-slate-950/70 overflow-hidden shadow-lg transition-all`}>
+        {/* Category Accordion Header Banner */}
+        <div
+          onClick={() => toggleCategory(cat.key)}
+          className={`flex justify-between items-center px-4 py-3 bg-slate-900/80 hover:bg-slate-900 border-l-4 ${cat.accentBorder} ${
+            isExpanded ? 'border-b border-slate-800' : ''
+          } cursor-pointer transition-colors select-none`}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="text-base">{cat.icon || '❖'}</span>
+            <h3 className={`text-xs font-bold uppercase tracking-widest ${cat.color}`}>
+              {cat.title}
+            </h3>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-slate-300 border border-slate-800 font-bold">
+              {totalSkillCount} {totalSkillCount === 1 ? 'skill' : 'skills'}
+            </span>
+          </div>
 
-        {/* Subcategory Blocks */}
-        {isSingleTabMode && cat.key === 'mental' ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-            {/* Left Column: General & Knowledges */}
-            <div className="space-y-4">
-              {filteredGroups
-                .filter((g) => (g.title || 'General') === 'General' || (g.title || '') === 'Knowledges')
-                .map((group, idx) =>
-                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-left-${idx}`, cat.key)
-                )}
-            </div>
-
-            {/* Right Column: Vocations & Custom */}
-            <div className="space-y-4">
-              {filteredGroups
-                .filter((g) => (g.title || '') !== 'General' && (g.title || '') !== 'Knowledges')
-                .map((group, idx) =>
-                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-right-${idx}`, cat.key)
-                )}
-              {unmappedCustomSkills.length > 0 &&
-                renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`, cat.key)
-              }
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider hidden sm:inline">
+              {isExpanded ? 'Collapse' : 'Expand'}
+            </span>
+            <div className="p-1 rounded text-slate-400 hover:text-white transition-colors">
+              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </div>
           </div>
-        ) : (
-          <div className={isSingleTabMode && (filteredGroups.length > 1 || unmappedCustomSkills.length > 0) ? "grid grid-cols-1 lg:grid-cols-2 gap-4 items-start" : "space-y-4"}>
-            {filteredGroups.map((group, idx) =>
-              renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-${idx}`, cat.key)
+        </div>
+
+        {/* Subcategory Blocks (rendered only when accordion is open) */}
+        {isExpanded && (
+          <div className="p-3 sm:p-4 space-y-4">
+            {cat.key === 'mental' ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+                {/* Left Column: General & Knowledges */}
+                <div className="space-y-4">
+                  {filteredGroups
+                    .filter((g) => (g.title || 'General') === 'General' || (g.title || '') === 'Knowledges')
+                    .map((group, idx) =>
+                      renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-left-${idx}`, cat.key)
+                    )}
+                </div>
+
+                {/* Right Column: Vocations & Custom */}
+                <div className="space-y-4">
+                  {filteredGroups
+                    .filter((g) => (g.title || '') !== 'General' && (g.title || '') !== 'Knowledges')
+                    .map((group, idx) =>
+                      renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-right-${idx}`, cat.key)
+                    )}
+                  {unmappedCustomSkills.length > 0 &&
+                    renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`, cat.key)
+                  }
+                </div>
+              </div>
+            ) : (
+              <div className={filteredGroups.length > 1 || unmappedCustomSkills.length > 0 ? "grid grid-cols-1 lg:grid-cols-2 gap-4 items-start" : "space-y-4"}>
+                {filteredGroups.map((group, idx) =>
+                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-${idx}`, cat.key)
+                )}
+                {unmappedCustomSkills.length > 0 &&
+                  renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`, cat.key)
+                }
+              </div>
             )}
-            {unmappedCustomSkills.length > 0 &&
-              renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`, cat.key)
-            }
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ----------------------------------------------------------------------------------
+  // RENDER: GRANTED SKILLS PANE (Grouped by Source: Species, Occupation, Origin, Faction, Features)
+  // ----------------------------------------------------------------------------------
+  const renderGrantedSkillsPane = () => {
+    const pillars = [
+      {
+        id: 'species',
+        label: 'Species Lineage Skills',
+        icon: '🧬',
+        name: identityPoolsBreakdown.species.name,
+        allocated: identityPoolsBreakdown.species.allocated,
+        skills: identityPoolsBreakdown.species.skills,
+        color: 'text-cyan-400',
+        border: 'border-cyan-500/40',
+        bg: 'bg-cyan-950/20',
+        badgeBg: 'bg-cyan-950 text-cyan-300 border-cyan-500/50'
+      },
+      {
+        id: 'occupation',
+        label: 'Career & Professional Skills',
+        icon: '💼',
+        name: identityPoolsBreakdown.occupation.name,
+        allocated: identityPoolsBreakdown.occupation.allocated,
+        skills: identityPoolsBreakdown.occupation.skills,
+        color: 'text-sky-400',
+        border: 'border-sky-500/40',
+        bg: 'bg-sky-950/20',
+        badgeBg: 'bg-sky-950 text-sky-300 border-sky-500/50'
+      },
+      {
+        id: 'origin',
+        label: 'Homeworld & Society Skills',
+        icon: '🌍',
+        name: identityPoolsBreakdown.origin.name,
+        allocated: identityPoolsBreakdown.origin.allocated,
+        skills: identityPoolsBreakdown.origin.skills,
+        color: 'text-emerald-400',
+        border: 'border-emerald-500/40',
+        bg: 'bg-emerald-950/20',
+        badgeBg: 'bg-emerald-950 text-emerald-300 border-emerald-500/50'
+      },
+      {
+        id: 'faction',
+        label: 'Faction Allegiance Skills',
+        icon: '🏛️',
+        name: identityPoolsBreakdown.faction.name,
+        allocated: identityPoolsBreakdown.faction.allocated,
+        skills: identityPoolsBreakdown.faction.skills,
+        color: 'text-purple-400',
+        border: 'border-purple-500/40',
+        bg: 'bg-purple-950/20',
+        badgeBg: 'bg-purple-950 text-purple-300 border-purple-500/50'
+      }
+    ];
+
+    const featureModifiers = computedModifiers?.activeSkillModifiers || [];
+
+    return (
+      <div className="space-y-4">
+        {/* Overview Banner */}
+        <div className="p-3.5 bg-slate-900/80 border border-cyan-900/60 rounded-xl space-y-1">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-cyan-400" />
+            <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300 font-mono">
+              Identity Pillar Granted Skills & Source Packages
+            </h4>
+          </div>
+          <p className="text-[11px] text-slate-400">
+            Operative skills funded and granted through your Species lineage, Occupational career, Origin environment, Faction allegiance, and active cybernetics or traits.
+          </p>
+        </div>
+
+        {/* Pillar Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {pillars.map(p => {
+            const skillEntries = Object.entries(p.skills || {});
+            return (
+              <div key={p.id} className={`rounded-xl border ${p.border} ${p.bg} p-3.5 space-y-3 shadow-md backdrop-blur-sm`}>
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{p.icon}</span>
+                    <div>
+                      <span className="text-[10px] font-mono uppercase text-slate-400 block">{p.label}</span>
+                      <h4 className={`text-xs font-bold uppercase tracking-wide ${p.color}`}>
+                        {p.name || 'None Selected'}
+                      </h4>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${p.badgeBg}`}>
+                    {p.allocated} SP Allocated
+                  </span>
+                </div>
+
+                {skillEntries.length > 0 ? (
+                  <div className="space-y-1.5">
+                    {skillEntries.map(([sName, sVal]) => {
+                      const rank = typeof sVal === 'object' ? (sVal.rank || sVal.value || 1) : parseInt(sVal, 10) || 1;
+                      const cleanName = sName.toLowerCase().replace(/[^a-z0-9]/g, '');
+                      const matchingSkill = allAvailableSkills.find(s => {
+                        const sn = s.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+                        const sid = s.id.replace(/^[a-z]+-/, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                        return sn === cleanName || sid === cleanName;
+                      });
+                      const totalScore = matchingSkill ? getSkillTotal(matchingSkill) : getSkillTotal(sName);
+                      return (
+                        <div key={sName} className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-2.5 py-1.5 rounded-lg text-xs font-mono">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-slate-200 font-semibold truncate">{sName}</span>
+                            <span className="text-[10px] text-cyan-400 font-bold">+{rank} Rank</span>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-700 text-slate-300 font-bold text-[11px]">
+                              Score: {totalScore}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => openDiceRoller({
+                                label: `${sName} (Granted Check)`,
+                                baseModifier: totalScore,
+                                expression: `2d10${totalScore !== 0 ? (totalScore > 0 ? `+${totalScore}` : `${totalScore}`) : ''}`,
+                                rollMode: 'normal',
+                                characterName: characterData['char-name'] || 'Operative',
+                                personaId: characterData['character-doc-id'] || characterData.id,
+                                autoRoll: true
+                              })}
+                              className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
+                              title={`Roll ${sName} Check`}
+                            >
+                              <Dices size={10} /> Roll
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="text-[11px] font-mono text-slate-500 italic py-2 text-center">
+                    No skills currently allocated in this package.
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Feature & Trait Active Modifiers Section */}
+        {featureModifiers.length > 0 && (
+          <div className="rounded-xl border border-purple-500/40 bg-purple-950/20 p-3.5 space-y-3 shadow-md backdrop-blur-sm">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <div>
+                <span className="text-[10px] font-mono uppercase text-slate-400 block">Features, Traits & Cybernetics</span>
+                <h4 className="text-xs font-bold uppercase tracking-wide text-purple-300">
+                  Active Skill Adjustments ({featureModifiers.length})
+                </h4>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {featureModifiers.map((mod, idx) => (
+                <div key={idx} className="bg-slate-900/80 border border-purple-900/50 px-2.5 py-1.5 rounded-lg text-xs font-mono space-y-0.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-slate-200 truncate">{mod.target}</span>
+                    <span className={`font-bold ${mod.value >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      {mod.value >= 0 ? `+${mod.value}` : mod.value}
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-purple-400/90 truncate">
+                    Source: {mod.source} {mod.sourceType ? `(${mod.sourceType})` : ''}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ----------------------------------------------------------------------------------
+  // RENDER: MODIFIERS PANE (SituationalModifiersPanel & Gear/Trait Skill Modifiers)
+  // ----------------------------------------------------------------------------------
+  const renderModifiersPane = () => {
+    return (
+      <div className="space-y-4">
+        {/* Situational & Conditional Skill Check Modifiers Panel */}
+        <SituationalModifiersPanel
+          characterData={characterData}
+          updateField={updateField}
+        />
+
+        {/* Possessed Equipment & Active Modifiers Details */}
+        {(computedModifiers?.activeEquipmentModifiers?.length > 0 || computedModifiers?.activeSkillModifiers?.length > 0) && (
+          <div className="bg-slate-900/80 border border-amber-900/50 rounded-xl p-4 space-y-3">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300 font-mono flex items-center gap-1.5">
+                <span>🎒</span> Possessed Gear &amp; Equipment Skill Adjustments
+              </h4>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
+              {computedModifiers?.activeEquipmentModifiers?.map((eq, i) => (
+                <div key={i} className="bg-slate-950/70 border border-slate-800 p-2 rounded flex items-center justify-between">
+                  <div>
+                    <span className="text-slate-200 font-bold block">{eq.target}</span>
+                    <span className="text-[10px] text-amber-400/90">{eq.source || 'Equipped Item'}</span>
+                  </div>
+                  <span className="text-emerald-300 font-bold">+{eq.value}</span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -1718,306 +2004,202 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
   return (
     <div className="tab-panel active p-4 space-y-4 pb-20">
-      {/* Header Toolbar & Search Filter */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-cyan-900/60 pb-3 gap-3">
-        <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
-            Skill Categories, Custom Skills & Specializations
-          </h3>
-          <p className="text-[11px] text-slate-400">
-            Skills have a maximum level of 20. Linked specializations have a maximum level of 10.
-          </p>
-        </div>
+      {/* Vertical 3-Pane Navigation Rail (Skills Catalog | Granted Skills | Modifiers) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+        <button
+          type="button"
+          onClick={() => setActivePane('skills')}
+          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+            activePane === 'skills'
+              ? 'bg-cyan-950/60 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.2)] text-white'
+              : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="text-lg">📚</span>
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider font-mono">Skills Catalog</div>
+              <div className="text-[10px] text-slate-400">Physical, Mental, Social, Combat, Meta</div>
+            </div>
+          </div>
+          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+            activePane === 'skills' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50' : 'bg-slate-950 text-slate-500'
+          }`}>
+            {categoryCounts.all}
+          </span>
+        </button>
 
-        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          {/* Search Filter Input */}
-          <div className="relative flex-1 sm:w-52">
-            <input
-              type="text"
-              placeholder="Filter skills..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-900/90 border border-cyan-900/70 focus:border-cyan-400 rounded px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 outline-none transition-all"
-            />
-            {searchQuery && (
+        <button
+          type="button"
+          onClick={() => setActivePane('granted')}
+          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+            activePane === 'granted'
+              ? 'bg-purple-950/60 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.2)] text-white'
+              : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="text-lg">✨</span>
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider font-mono">Granted Skills</div>
+              <div className="text-[10px] text-slate-400">Identity Pillars &amp; Source Grants</div>
+            </div>
+          </div>
+          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+            activePane === 'granted' ? 'bg-purple-500/20 text-purple-300 border border-purple-400/50' : 'bg-slate-950 text-slate-500'
+          }`}>
+            {totalGrantedCount}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActivePane('modifiers')}
+          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+            activePane === 'modifiers'
+              ? 'bg-amber-950/60 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.2)] text-white'
+              : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="text-lg">⚡</span>
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider font-mono">Skill Modifiers</div>
+              <div className="text-[10px] text-slate-400">Situational, Tactical &amp; Gear</div>
+            </div>
+          </div>
+          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+            activePane === 'modifiers' ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50' : 'bg-slate-950 text-slate-500'
+          }`}>
+            {totalModifiersCount}
+          </span>
+        </button>
+      </div>
+
+      {/* Pane Content Rendering */}
+      {activePane === 'granted' && renderGrantedSkillsPane()}
+      {activePane === 'modifiers' && renderModifiersPane()}
+
+      {activePane === 'skills' && (
+        <div className="space-y-4">
+          {/* Header Toolbar & Search Filter */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-cyan-900/60 pb-3 gap-3">
+            <div>
+              <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+                Operative Skill Categories &amp; Specializations
+              </h3>
+              <p className="text-[11px] text-slate-400">
+                Skills max rank 20. Linked specializations max rank 10. Click any category header to expand or collapse.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+              {/* Search Filter Input */}
+              <div className="relative flex-1 sm:w-52">
+                <input
+                  type="text"
+                  placeholder="Filter skills..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-slate-900/90 border border-cyan-900/70 focus:border-cyan-400 rounded px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 outline-none transition-all"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs font-bold"
+                  >
+                    &times;
+                  </button>
+                )}
+              </div>
+
+              {/* Trained Only Filter Toggle */}
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs font-bold"
-              >
-                &times;
-              </button>
-            )}
-          </div>
-
-          {/* Trained Only Filter Toggle */}
-          <button
-            type="button"
-            onClick={() => setShowTrainedOnly(prev => !prev)}
-            className={`px-3 py-1.5 rounded text-xs font-bold font-mono transition-all flex items-center gap-1.5 shrink-0 cursor-pointer border ${
-              showTrainedOnly
-                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-                : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border-slate-700'
-            }`}
-            title="Filter to only show skills with trained ranks (> 0)"
-          >
-            <span>🎯</span>
-            <span className="hidden sm:inline">{showTrainedOnly ? 'Trained Only' : 'All Skills'}</span>
-            <span className="sm:hidden">{showTrainedOnly ? 'Trained' : 'All'}</span>
-          </button>
-
-          {/* Consolidated Action Button */}
-          <button
-            type="button"
-            onClick={() => {
-              if (onOpenSelectorModal) {
-                onOpenSelectorModal('skills', 'Skills Database', 'skills');
-              } else if (onOpenAddSkillModal) {
-                onOpenAddSkillModal('skill', allAvailableSkills);
-              }
-            }}
-            className="px-3.5 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0 flex items-center gap-1.5 cursor-pointer"
-            title="Open Skills Catalog (Table / Cards) with build option"
-          >
-            <span>✨</span>
-            <span>+ Add Skill</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Category Sub-Tabs Navigation */}
-      <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 border-b border-cyan-900/50 pb-1">
-        {TABS_CONFIG.map((tab) => {
-          const isActive = activeCategoryTab === tab.key;
-          const count = categoryCounts[tab.key] || 0;
-
-          return (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActiveCategoryTab(tab.key)}
-              className={`px-3.5 py-1.5 text-xs font-bold rounded-t-md transition-all flex items-center gap-2 whitespace-nowrap border-t-2 ${
-                isActive
-                  ? `${tab.activeBg} ${tab.activeBorder} ${tab.color} border-b-2 border-b-transparent shadow-[0_-2px_10px_rgba(0,0,0,0.3)]`
-                  : 'bg-slate-950/60 border-t-transparent border-b border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
-              }`}
-            >
-              <span>{tab.title}</span>
-              <span
-                className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold ${
-                  isActive ? 'bg-slate-900/90 border border-slate-700/80' : 'bg-slate-900 text-slate-500'
+                onClick={() => setShowTrainedOnly(prev => !prev)}
+                className={`px-3 py-1.5 rounded text-xs font-bold font-mono transition-all flex items-center gap-1.5 shrink-0 cursor-pointer border ${
+                  showTrainedOnly
+                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                    : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border-slate-700'
                 }`}
+                title="Filter to only show skills with trained ranks (> 0)"
               >
-                {count}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+                <span>🎯</span>
+                <span className="hidden sm:inline">{showTrainedOnly ? 'Trained Only' : 'All Skills'}</span>
+                <span className="sm:hidden">{showTrainedOnly ? 'Trained' : 'All'}</span>
+              </button>
 
-      {/* Situational & Conditional Skill Check Modifiers Panel */}
-      <SituationalModifiersPanel
-        characterData={characterData}
-        updateField={updateField}
-      />
+              {/* Expand All / Collapse All Accordion Controls */}
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={expandAllCategories}
+                  className="px-2 py-1.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white cursor-pointer transition-colors"
+                  title="Expand all skill categories"
+                >
+                  Expand All
+                </button>
+                <button
+                  type="button"
+                  onClick={collapseAllCategories}
+                  className="px-2 py-1.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white cursor-pointer transition-colors"
+                  title="Collapse all skill categories"
+                >
+                  Collapse All
+                </button>
+              </div>
 
-      {/* Identity Granted Skills & Skill Group Pools Banner */}
-      {(identityPoolsBreakdown.species.allocated > 0 ||
-        identityPoolsBreakdown.occupation.allocated > 0 ||
-        identityPoolsBreakdown.origin.allocated > 0 ||
-        identityPoolsBreakdown.faction.allocated > 0 ||
-        archetypeEssentialSkills.size > 0) && (
-        <div className="bg-slate-900/80 border border-cyan-900/60 rounded-lg p-3 text-xs space-y-2">
-          <div
-            onClick={() => setShowIdentitySummary(prev => !prev)}
-            className="flex items-center justify-between cursor-pointer select-none"
-          >
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span className="font-mono font-bold uppercase tracking-wider text-cyan-300 text-[11px]">
-                Identity Granted Skills & Skill Group Pools
-              </span>
-              <span className="text-[10px] text-slate-500 hidden md:inline">
-                • Track SP allocations from Species, Occupation, Origin, and Faction
-              </span>
+              {/* Add Skill Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (onOpenSelectorModal) {
+                    onOpenSelectorModal('skills', 'Skills Database', 'skills');
+                  } else if (onOpenAddSkillModal) {
+                    onOpenAddSkillModal('skill', allAvailableSkills);
+                  }
+                }}
+                className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0 flex items-center gap-1.5 cursor-pointer"
+                title="Open Skills Catalog (Table / Cards) with build option"
+              >
+                <span>✨</span>
+                <span>+ Add Skill</span>
+              </button>
             </div>
-            <button
-              type="button"
-              className="text-slate-400 hover:text-white p-0.5 transition-colors"
-            >
-              {showIdentitySummary ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-            </button>
           </div>
 
-          {showIdentitySummary && (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-1 border-t border-slate-800/80">
-                {/* Species Pool */}
-                <div className="bg-slate-950/70 border border-cyan-900/50 rounded p-2 space-y-1">
-                  <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-cyan-400 font-bold uppercase truncate">Species: {identityPoolsBreakdown.species.name}</span>
-                    <span className="text-cyan-300 font-bold">{identityPoolsBreakdown.species.allocated} SP</span>
-                  </div>
-                  {Object.keys(identityPoolsBreakdown.species.skills).length > 0 ? (
-                    <div className="flex flex-wrap gap-1">
-                      {Object.entries(identityPoolsBreakdown.species.skills).map(([k, v]) => (
-                        <span key={k} className="px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-800 text-[9px] font-mono text-cyan-200">
-                          {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="text-[9.5px] text-slate-500 italic block">No pool SP allocated</span>
-                  )}
-                </div>
-
-                {/* Occupation Pool */}
-                <div className="bg-slate-950/70 border border-sky-900/50 rounded p-2 space-y-1">
-                  <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-sky-400 font-bold uppercase truncate">Occupation: {identityPoolsBreakdown.occupation.name}</span>
-                    <span className="text-sky-300 font-bold">{identityPoolsBreakdown.occupation.allocated} SP</span>
-                  </div>
-                  {Object.keys(identityPoolsBreakdown.occupation.skills).length > 0 ? (
-                    <div className="flex flex-wrap gap-1">
-                      {Object.entries(identityPoolsBreakdown.occupation.skills).map(([k, v]) => (
-                        <span key={k} className="px-1.5 py-0.2 rounded bg-sky-950/60 border border-sky-800 text-[9px] font-mono text-sky-200">
-                          {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="text-[9.5px] text-slate-500 italic block">No career SP allocated</span>
-                  )}
-                </div>
-
-                {/* Origin Pool */}
-                <div className="bg-slate-950/70 border border-emerald-900/50 rounded p-2 space-y-1">
-                  <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-emerald-400 font-bold uppercase truncate">Origin: {identityPoolsBreakdown.origin.name}</span>
-                    <span className="text-emerald-300 font-bold">{identityPoolsBreakdown.origin.allocated} SP</span>
-                  </div>
-                  {Object.keys(identityPoolsBreakdown.origin.skills).length > 0 ? (
-                    <div className="flex flex-wrap gap-1">
-                      {Object.entries(identityPoolsBreakdown.origin.skills).map(([k, v]) => (
-                        <span key={k} className="px-1.5 py-0.2 rounded bg-emerald-950/60 border border-emerald-800 text-[9px] font-mono text-emerald-200">
-                          {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="text-[9.5px] text-slate-500 italic block">No society SP allocated</span>
-                  )}
-                </div>
-
-                {/* Faction / Archetype Essentials */}
-                <div className="bg-slate-950/70 border border-amber-900/50 rounded p-2 space-y-1">
-                  <div className="flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-amber-400 font-bold uppercase truncate">
-                      {characterData?.['char-archetype'] ? `Archetype: ${characterData['char-archetype']}` : 'Allegiance Pool'}
-                    </span>
-                    <span className="text-amber-300 font-bold">
-                      {identityPoolsBreakdown.faction.allocated > 0 ? `${identityPoolsBreakdown.faction.allocated} SP` : `${archetypeEssentialSkills.size} Essential`}
-                    </span>
-                  </div>
-                  {identityPoolsBreakdown.faction.allocated > 0 ? (
-                    <div className="flex flex-wrap gap-1">
-                      {Object.entries(identityPoolsBreakdown.faction.skills).map(([k, v]) => (
-                        <span key={k} className="px-1.5 py-0.2 rounded bg-purple-950/60 border border-purple-800 text-[9px] font-mono text-purple-200">
-                          {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
-                        </span>
-                      ))}
-                    </div>
-                  ) : (
-                    <span className="text-[9px] font-mono text-amber-300/90 block flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block shrink-0 shadow-[0_0_4px_rgba(245,158,11,0.8)]" />
-                      <span>Archetype essential skills marked with amber dot</span>
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Identity Pillar Color Key Legend */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1.5 border-t border-slate-800/70 text-[9.5px] font-mono text-slate-400">
-                <span className="text-slate-300 font-semibold">Pillar Recommended Dots:</span>
-                <span className="inline-flex items-center gap-1 text-amber-300">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 border border-amber-300/80 shadow-[0_0_4px_rgba(245,158,11,0.8)]" /> Archetype
-                </span>
-                <span className="inline-flex items-center gap-1 text-cyan-300">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 border border-cyan-300/80 shadow-[0_0_4px_rgba(34,211,238,0.8)]" /> Species
-                </span>
-                <span className="inline-flex items-center gap-1 text-sky-300">
-                  <span className="w-2 h-2 rounded-full bg-sky-400 border border-sky-300/80 shadow-[0_0_4px_rgba(56,189,248,0.8)]" /> Occupation
-                </span>
-                <span className="inline-flex items-center gap-1 text-emerald-300">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 border border-emerald-300/80 shadow-[0_0_4px_rgba(52,211,153,0.8)]" /> Origin
-                </span>
-                <span className="inline-flex items-center gap-1 text-purple-300">
-                  <span className="w-2 h-2 rounded-full bg-purple-400 border border-purple-300/80 shadow-[0_0_4px_rgba(192,132,252,0.8)]" /> Faction
-                </span>
-              </div>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Main Skills Content Display */}
-      {activeCategoryTab === 'all' ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-          {/* Left Column: Physical, Mental */}
-          <div className="space-y-6">
-            {LEFT_COLUMN_CONFIG.map(renderCategorySection)}
+          {/* Main Skills Categories Accordions */}
+          <div className="space-y-4">
+            {[...LEFT_COLUMN_CONFIG, ...RIGHT_COLUMN_CONFIG].map(renderCategorySection)}
           </div>
 
-          {/* Right Column: Social, Combat, Metafocus */}
-          <div className="space-y-6">
-            {RIGHT_COLUMN_CONFIG.map(renderCategorySection)}
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {CATEGORY_CONFIG_MAP[activeCategoryTab] && renderCategorySection(CATEGORY_CONFIG_MAP[activeCategoryTab])}
-        </div>
-      )}
-
-      {/* Empty Search / Filter State */}
-      {categoryCounts[activeCategoryTab] === 0 && (
-        <div className="p-8 text-center bg-slate-900/40 border border-slate-800 rounded-lg space-y-2">
-          <p className="text-sm font-semibold text-slate-400">
-            {showTrainedOnly ? (
-              <>
-                No trained skills (&gt; 0 rank) found in{' '}
-                <span className="text-amber-300">
-                  {activeCategoryTab === 'all' ? 'All Skills' : CATEGORY_CONFIG_MAP[activeCategoryTab]?.title || activeCategoryTab}
-                </span>.
-              </>
-            ) : searchQuery ? (
-              <>
-                No skills matching <span className="text-cyan-300">"{searchQuery}"</span> found in{' '}
-                <span className="text-amber-300">
-                  {activeCategoryTab === 'all' ? 'All Skills' : CATEGORY_CONFIG_MAP[activeCategoryTab]?.title || activeCategoryTab}
-                </span>.
-              </>
-            ) : (
-              'No skills found.'
-            )}
-          </p>
-          {showTrainedOnly && (
-            <button
-              type="button"
-              onClick={() => setShowTrainedOnly(false)}
-              className="text-xs text-cyan-400 hover:text-cyan-300 underline font-bold"
-            >
-              Switch to All Skills Catalog
-            </button>
-          )}
-          {activeCategoryTab !== 'all' && categoryCounts.all > 0 && (
-            <button
-              type="button"
-              onClick={() => setActiveCategoryTab('all')}
-              className="text-xs text-cyan-400 hover:text-cyan-300 underline font-bold ml-3"
-            >
-              View results in All Skills ({categoryCounts.all} matches)
-            </button>
+          {/* Empty Search / Filter State */}
+          {categoryCounts.all === 0 && (
+            <div className="p-8 text-center bg-slate-900/40 border border-slate-800 rounded-lg space-y-2">
+              <p className="text-sm font-semibold text-slate-400">
+                {showTrainedOnly ? (
+                  <>
+                    No trained skills (&gt; 0 rank) found.
+                  </>
+                ) : searchQuery ? (
+                  <>
+                    No skills matching <span className="text-cyan-300">"{searchQuery}"</span> found.
+                  </>
+                ) : (
+                  'No skills found.'
+                )}
+              </p>
+              {showTrainedOnly && (
+                <button
+                  type="button"
+                  onClick={() => setShowTrainedOnly(false)}
+                  className="text-xs text-cyan-400 hover:text-cyan-300 underline font-bold cursor-pointer"
+                >
+                  Switch to All Skills Catalog
+                </button>
+              )}
+            </div>
           )}
         </div>
       )}

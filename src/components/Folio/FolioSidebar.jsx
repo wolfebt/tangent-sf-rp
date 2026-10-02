@@ -39,11 +39,11 @@ const NAVIGATION_ITEMS = [
     railLabel: 'FEATURES',
     icon: Sparkles,
     children: [
-      { id: 'features-standard', label: 'Standard Features', icon: Sparkles, section: 'features' },
-      { id: 'features-traits', label: 'Traits', icon: Award, section: 'traits' },
-      { id: 'features-metaphysics', label: 'Metaphysics / Awakened', icon: Zap, section: 'metaphysics' },
-      { id: 'features-augmentations', label: 'Augmentations', icon: Cpu, section: 'augmentations' },
-      { id: 'features-hindrances', label: 'Hindrances', icon: AlertTriangle, section: 'hindrances' }
+      { id: 'features-standard', label: 'Standard Features', subLabel: 'STD FEAT', icon: Sparkles, section: 'features' },
+      { id: 'features-traits', label: 'Traits', subLabel: 'TRAITS', icon: Award, section: 'traits' },
+      { id: 'features-metaphysics', label: 'Metaphysics / Awakened', subLabel: 'META', icon: Zap, section: 'metaphysics' },
+      { id: 'features-augmentations', label: 'Augmentations', subLabel: 'AUGS', icon: Cpu, section: 'augmentations' },
+      { id: 'features-hindrances', label: 'Hindrances', subLabel: 'HINDR', icon: AlertTriangle, section: 'hindrances' }
     ]
   },
   { id: 'combat', label: 'Combat', railLabel: 'COMBAT', icon: Crosshair },
@@ -54,12 +54,12 @@ const NAVIGATION_ITEMS = [
     railLabel: 'PROPERTY',
     icon: Briefcase,
     children: [
-      { id: 'property-weaponry', label: 'Weaponry', icon: Sword, section: 'weaponry' },
-      { id: 'property-armoring', label: 'Armoring', icon: Shield, section: 'armoring' },
-      { id: 'property-gear', label: 'Gear', icon: Package, section: 'gear' },
-      { id: 'property-mech', label: 'Mech', icon: Bot, section: 'mech' },
-      { id: 'property-architecture', label: 'Architecture', icon: Building2, section: 'architecture' },
-      { id: 'property-other', label: 'Other', icon: Layers, section: 'other' }
+      { id: 'property-weaponry', label: 'Weaponry', subLabel: 'WEAP', icon: Sword, section: 'weaponry' },
+      { id: 'property-armoring', label: 'Armoring', subLabel: 'ARMOR', icon: Shield, section: 'armoring' },
+      { id: 'property-gear', label: 'Gear', subLabel: 'GEAR', icon: Package, section: 'gear' },
+      { id: 'property-mech', label: 'Mech', subLabel: 'MECH', icon: Bot, section: 'mech' },
+      { id: 'property-architecture', label: 'Architecture', subLabel: 'ARCH', icon: Building2, section: 'architecture' },
+      { id: 'property-other', label: 'Other', subLabel: 'OTHER', icon: Layers, section: 'other' }
     ]
   },
   { id: 'narrative', label: 'Narrative', railLabel: 'NARRATIVE', icon: BookOpen },
@@ -95,6 +95,9 @@ export const FolioSidebar = ({
     property: true
   });
 
+  // Collapsible toggle state for companion secondary sub-rail in guidance rail mode
+  const [isSubRailCollapsed, setIsSubRailCollapsed] = useState(false);
+
   const toggleExpand = (id, e) => {
     e.stopPropagation();
     setExpandedSections(prev => ({
@@ -112,8 +115,11 @@ export const FolioSidebar = ({
     }
 
     // Auto-expand section if collapsed when landing on hub
-    if (item.children && !expandedSections[item.id]) {
-      setExpandedSections(prev => ({ ...prev, [item.id]: true }));
+    if (item.children) {
+      setIsSubRailCollapsed(false);
+      if (!expandedSections[item.id]) {
+        setExpandedSections(prev => ({ ...prev, [item.id]: true }));
+      }
     }
 
     setActiveTab(item.id);
@@ -127,143 +133,269 @@ export const FolioSidebar = ({
     setActiveTab(child.id);
   };
 
-  // ── 1. COMPACT GUIDANCE RAIL MODE ──
+  // Determine active parent and whether companion sub-rail is applicable
+  const activeParent = NAVIGATION_ITEMS.find(item => 
+    item.id === activeTab || (item.children && item.children.some(c => activeTab === c.id))
+  );
+  const hasSubRail = Boolean(activeParent && Array.isArray(activeParent.children) && activeParent.children.length > 0);
+
+  // ── 1. COMPACT GUIDANCE RAIL MODE (WITH COLLAPSIBLE COMPANION SUB-RAIL) ──
   if (isRailMode) {
     return (
-      <aside 
-        className="w-18 sm:w-20 bg-[#070a12]/95 backdrop-blur-xl border-r border-cyan-500/30 py-2 px-1 flex flex-col items-center justify-between h-full shrink-0 select-none relative z-20 font-sans shadow-xl"
-        aria-label="Folio Guidance Rail"
-      >
-        {/* Top Header / Expand Toggle */}
-        <div className="flex flex-col items-center gap-1.5 w-full">
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              setIsRailMode(false);
-            }}
-            className="w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 flex items-center justify-center transition-all cursor-pointer"
-            title="Expand Full Folio Drawer"
-          >
-            <PanelLeftOpen size={15} />
-          </button>
+      <div className="flex h-full shrink-0 relative select-none">
+        {/* Primary Guidance Rail */}
+        <aside 
+          className="w-18 sm:w-20 bg-[#070a12]/95 backdrop-blur-xl border-r border-cyan-500/30 py-2 px-1 flex flex-col items-center justify-between h-full shrink-0 select-none relative z-20 font-sans shadow-xl"
+          aria-label="Folio Guidance Rail"
+        >
+          {/* Top Header / Expand Toggle */}
+          <div className="flex flex-col items-center gap-1.5 w-full">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setIsRailMode(false);
+              }}
+              className="w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 flex items-center justify-center transition-all cursor-pointer"
+              title="Expand Full Folio Drawer"
+            >
+              <PanelLeftOpen size={15} />
+            </button>
 
-          <div className="w-8 h-px bg-slate-800/80 my-0.5" />
+            <div className="w-8 h-px bg-slate-800/80 my-0.5" />
 
-          {/* Navigation Items with Labels */}
-          <nav className="flex flex-col items-center gap-1 w-full overflow-y-auto no-scrollbar">
-            {NAVIGATION_ITEMS.map((item) => {
-              const hasChildren = Array.isArray(item.children) && item.children.length > 0;
-              const isParentActive = activeTab === item.id || (hasChildren && item.children.some(c => activeTab === c.id));
-              const Icon = item.icon;
+            {/* Navigation Items with Labels */}
+            <nav className="flex flex-col items-center gap-1 w-full overflow-y-auto no-scrollbar">
+              {NAVIGATION_ITEMS.map((item) => {
+                const hasChildren = Array.isArray(item.children) && item.children.length > 0;
+                const isParentActive = activeTab === item.id || (hasChildren && item.children.some(c => activeTab === c.id));
+                const Icon = item.icon;
 
-              return (
-                <div key={item.id} className="relative group w-full">
-                  <button
-                    type="button"
-                    onClick={() => handleSelectNav(item)}
-                    className={`relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none ${
-                      isParentActive
-                        ? 'bg-gradient-to-b from-cyan-500/25 to-blue-950/40 text-cyan-200 border border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                        : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80 border border-transparent hover:border-slate-800'
-                    }`}
-                    title={item.label}
-                  >
-                    {/* Active Left Indicator */}
-                    {isParentActive && (
-                      <span className="absolute -left-1 top-2 bottom-2 w-1 bg-cyan-400 rounded-r-full shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
-                    )}
-
-                    {/* Icon */}
-                    <div className="relative w-7 h-7 rounded-lg flex items-center justify-center shrink-0">
-                      <Icon
-                        size={17}
-                        className={isParentActive ? 'text-cyan-300' : 'text-slate-400 group-hover:text-cyan-400 transition-colors'}
-                      />
-                      {item.id === 'identity' && (isLocked && !isPlayerOverride) && (
-                        <span className="absolute -top-1 -right-1 p-0.5 rounded-full bg-cyan-950 border border-cyan-500/60 text-cyan-300">
-                          <Lock size={9} />
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Visible Monospace Label */}
-                    <span
-                      className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full leading-tight ${
+                return (
+                  <div key={item.id} className="relative group w-full">
+                    <button
+                      type="button"
+                      onClick={() => handleSelectNav(item)}
+                      className={`relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none ${
                         isParentActive
-                          ? 'text-cyan-300 font-extrabold [text-shadow:0_0_8px_rgba(34,211,238,0.5)]'
-                          : 'text-slate-400 group-hover:text-slate-200'
+                          ? 'bg-gradient-to-b from-cyan-500/25 to-blue-950/40 text-cyan-200 border border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
+                          : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80 border border-transparent hover:border-slate-800'
                       }`}
+                      title={item.label}
                     >
-                      {item.railLabel || item.label}
-                    </span>
-                  </button>
+                      {/* Active Left Indicator */}
+                      {isParentActive && (
+                        <span className="absolute -left-1 top-2 bottom-2 w-1 bg-cyan-400 rounded-r-full shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                      )}
 
-                  {/* Submenu Flyout on Hover */}
-                  <div className="absolute left-full ml-2.5 top-0 min-w-[170px] p-1.5 rounded-xl bg-[#0c1017] border border-slate-700 text-slate-100 font-mono shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50 hidden md:block">
-                    <div className="text-cyan-300 font-bold text-xs px-2 py-1 border-b border-slate-800 flex items-center justify-between">
-                      <span>{item.label}</span>
-                      {hasChildren && <span className="text-[9px] text-cyan-400/80">SUB-SECTIONS</span>}
-                    </div>
+                      {/* Icon */}
+                      <div className="relative w-7 h-7 rounded-lg flex items-center justify-center shrink-0">
+                        <Icon
+                          size={17}
+                          className={isParentActive ? 'text-cyan-300' : 'text-slate-400 group-hover:text-cyan-400 transition-colors'}
+                        />
+                        {item.id === 'identity' && (isLocked && !isPlayerOverride) && (
+                          <span className="absolute -top-1 -right-1 p-0.5 rounded-full bg-cyan-950 border border-cyan-500/60 text-cyan-300">
+                            <Lock size={9} />
+                          </span>
+                        )}
+                        {hasChildren && isParentActive && (
+                          <span className="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                        )}
+                      </div>
 
-                    {hasChildren && (
-                      <div className="flex flex-col gap-0.5 mt-1">
-                        {item.children.map((child) => {
-                          const isChildActive = activeTab === child.id;
-                          const ChildIcon = child.icon;
-                          return (
-                            <button
-                              key={child.id}
-                              type="button"
-                              onClick={() => handleSelectChild(child, item.id)}
-                              className={`w-full text-left px-2 py-1 rounded-lg text-[10.5px] flex items-center gap-2 cursor-pointer transition-colors ${
-                                isChildActive
-                                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                              }`}
-                            >
-                              <ChildIcon size={12} />
-                              <span className="truncate">{child.label}</span>
-                            </button>
-                          );
-                        })}
+                      {/* Visible Monospace Label */}
+                      <span
+                        className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full leading-tight ${
+                          isParentActive
+                            ? 'text-cyan-300 font-extrabold [text-shadow:0_0_8px_rgba(34,211,238,0.5)]'
+                            : 'text-slate-400 group-hover:text-slate-200'
+                        }`}
+                      >
+                        {item.railLabel || item.label}
+                      </span>
+                    </button>
+
+                    {/* Submenu Flyout on Hover (only if sub-rail is collapsed or inactive) */}
+                    {(!hasSubRail || isSubRailCollapsed || !isParentActive) && (
+                      <div className="absolute left-full ml-2.5 top-0 min-w-[170px] p-1.5 rounded-xl bg-[#0c1017] border border-slate-700 text-slate-100 font-mono shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50 hidden md:block">
+                        <div className="text-cyan-300 font-bold text-xs px-2 py-1 border-b border-slate-800 flex items-center justify-between">
+                          <span>{item.label}</span>
+                          {hasChildren && <span className="text-[9px] text-cyan-400/80">SUB-SECTIONS</span>}
+                        </div>
+
+                        {hasChildren && (
+                          <div className="flex flex-col gap-0.5 mt-1">
+                            {item.children.map((child) => {
+                              const isChildActive = activeTab === child.id;
+                              const ChildIcon = child.icon;
+                              return (
+                                <button
+                                  key={child.id}
+                                  type="button"
+                                  onClick={() => handleSelectChild(child, item.id)}
+                                  className={`w-full text-left px-2 py-1 rounded-lg text-[10.5px] flex items-center gap-2 cursor-pointer transition-colors ${
+                                    isChildActive
+                                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                                      : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                                  }`}
+                                >
+                                  <ChildIcon size={12} />
+                                  <span className="truncate">{child.label}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                </div>
-              );
-            })}
-          </nav>
-        </div>
+                );
+              })}
+            </nav>
+          </div>
 
-        {/* Bottom Actions: Dice Tray Quick Launch */}
-        <div className="flex flex-col items-center gap-1.5 w-full pt-2 border-t border-slate-800/80 mt-auto">
+          {/* Bottom Actions: Dice Tray Quick Launch */}
+          <div className="flex flex-col items-center gap-1.5 w-full pt-2 border-t border-slate-800/80 mt-auto">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1400, 0.03);
+                if (isDiceOpen) {
+                  closeDiceRoller();
+                } else {
+                  openDiceRoller({ label: `${charName || 'Operative'} Check`, characterName: charName || 'Operative', autoRoll: false });
+                }
+              }}
+              className={`group relative w-full py-1 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer ${
+                isDiceOpen
+                  ? 'bg-amber-950/80 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+                  : 'bg-cyan-950/40 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40'
+              }`}
+              title={isDiceOpen ? "Close Dice Tray" : "Open Dice Tray"}
+            >
+              <div className="w-7 h-7 flex items-center justify-center shrink-0">
+                <Dices size={16} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
+              </div>
+              <span className="font-mono text-[8.5px] uppercase tracking-wider font-bold truncate mt-0.5">
+                DICE
+              </span>
+            </button>
+          </div>
+        </aside>
+
+        {/* Companion Secondary Sub-Rail for Sections with Children */}
+        {hasSubRail && !isSubRailCollapsed && (
+          <aside 
+            className="w-16 sm:w-18 bg-[#0a0f1d]/95 backdrop-blur-xl border-r border-cyan-500/20 py-2 px-1 flex flex-col items-center justify-between h-full shrink-0 select-none relative z-15 font-sans shadow-xl animate-in fade-in duration-150"
+            aria-label={`${activeParent.label} Sub-Rail`}
+          >
+            <div className="flex flex-col items-center gap-1.5 w-full">
+              {/* Header with Title and Collapse Toggle */}
+              <div className="flex items-center justify-between w-full px-1">
+                <span className="text-[8.5px] font-mono font-bold uppercase tracking-wider text-cyan-400 truncate" title={`${activeParent.label} Sub-Rail`}>
+                  {activeParent.railLabel}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    setIsSubRailCollapsed(true);
+                  }}
+                  className="w-5 h-5 rounded flex items-center justify-center text-slate-500 hover:text-cyan-300 hover:bg-slate-800 transition-colors cursor-pointer"
+                  title="Collapse Sub-Rail"
+                >
+                  <ChevronLeft size={13} />
+                </button>
+              </div>
+
+              <div className="w-full h-px bg-slate-800/80 my-0.5" />
+
+              {/* Child Sub-Rail Items */}
+              <nav className="flex flex-col items-center gap-1 w-full overflow-y-auto no-scrollbar">
+                {/* HUB Button to view the parent overview */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    setActiveTab(activeParent.id);
+                  }}
+                  className={`w-full py-1.5 px-0.5 rounded-lg flex flex-col items-center justify-center transition-all cursor-pointer select-none mb-1 border ${
+                    activeTab === activeParent.id
+                      ? 'bg-cyan-950/70 border-cyan-400/80 text-cyan-200 shadow-sm'
+                      : 'bg-slate-950/40 border-slate-800/60 text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                  }`}
+                  title={`${activeParent.label} Hub`}
+                >
+                  <Layers size={14} className={activeTab === activeParent.id ? 'text-cyan-300' : 'text-slate-500'} />
+                  <span className="font-mono text-[8px] uppercase tracking-wider mt-0.5 font-bold">HUB</span>
+                </button>
+
+                {activeParent.children.map((child) => {
+                  const isChildActive = activeTab === child.id;
+                  const ChildIcon = child.icon;
+
+                  const isMetaphysics = child.id === 'features-metaphysics';
+                  const isAugmentations = child.id === 'features-augmentations';
+                  const isHindrances = child.id === 'features-hindrances';
+
+                  const activeBg = isMetaphysics
+                    ? 'bg-purple-950/70 border-purple-500/70 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.3)]'
+                    : isAugmentations
+                    ? 'bg-pink-950/70 border-pink-500/70 text-pink-200 shadow-[0_0_10px_rgba(219,39,119,0.3)]'
+                    : isHindrances
+                    ? 'bg-rose-950/70 border-rose-500/70 text-rose-200 shadow-[0_0_10px_rgba(244,63,94,0.3)]'
+                    : 'bg-gradient-to-b from-cyan-500/25 to-blue-950/40 text-cyan-200 border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]';
+
+                  return (
+                    <button
+                      key={child.id}
+                      type="button"
+                      onClick={() => handleSelectChild(child, activeParent.id)}
+                      className={`relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
+                        isChildActive
+                          ? `${activeBg} font-bold`
+                          : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/80 border-transparent hover:border-slate-800'
+                      }`}
+                      title={child.label}
+                    >
+                      {isChildActive && (
+                        <span className="absolute -left-1 top-2 bottom-2 w-1 bg-cyan-400 rounded-r-full shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+                      )}
+                      <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0">
+                        <ChildIcon
+                          size={15}
+                          className={isChildActive ? 'text-cyan-300' : 'text-slate-400 hover:text-cyan-300'}
+                        />
+                      </div>
+                      <span className={`font-mono text-[7.5px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full leading-tight ${
+                        isChildActive ? 'text-cyan-300 font-extrabold' : 'text-slate-400'
+                      }`}>
+                        {child.subLabel || child.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+          </aside>
+        )}
+
+        {/* Collapsed Secondary Rail Re-Expand Button */}
+        {hasSubRail && isSubRailCollapsed && (
           <button
             type="button"
             onClick={() => {
-              AudioService.playTerminalBeep(1400, 0.03);
-              if (isDiceOpen) {
-                closeDiceRoller();
-              } else {
-                openDiceRoller({ label: `${charName || 'Operative'} Check`, characterName: charName || 'Operative', autoRoll: false });
-              }
+              AudioService.playTerminalBeep(1200, 0.02);
+              setIsSubRailCollapsed(false);
             }}
-            className={`group relative w-full py-1 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer ${
-              isDiceOpen
-                ? 'bg-amber-950/80 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                : 'bg-cyan-950/40 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40'
-            }`}
-            title={isDiceOpen ? "Close Dice Tray" : "Open Dice Tray"}
+            className="absolute -right-3.5 top-16 z-30 w-4 h-9 bg-slate-900 hover:bg-cyan-950 border border-cyan-500/50 hover:border-cyan-400 rounded-r flex items-center justify-center text-cyan-400 hover:text-cyan-200 transition-all shadow-lg cursor-pointer"
+            title={`Expand ${activeParent.label} sub-rail`}
           >
-            <div className="w-7 h-7 flex items-center justify-center shrink-0">
-              <Dices size={16} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
-            </div>
-            <span className="font-mono text-[8.5px] uppercase tracking-wider font-bold truncate mt-0.5">
-              DICE
-            </span>
+            <ChevronRight size={13} />
           </button>
-        </div>
-      </aside>
+        )}
+      </div>
     );
   }
 

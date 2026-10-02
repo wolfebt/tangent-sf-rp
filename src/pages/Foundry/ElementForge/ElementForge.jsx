@@ -7,10 +7,13 @@ import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal'
 import AimeGuidanceButton from '../../../components/StoryFoundry/AimeGuidanceButton';
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { generateContent } from '../../../services/aimeService';
-import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2 } from 'lucide-react';
+import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2, Upload, Download, Database, CheckSquare, Square, RefreshCw } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { showToast } from '../../../context/ToastContext';
 import DOMPurify from 'dompurify';
+import { downloadElementMarkdownFile, batchIngestElementFiles } from '../../../services/elementIngestionService.js';
+import { useDBM } from '../../../context/DBMContext';
+import { pullElementFromOmnicortexDBM } from '../../../utils/storyAssetAdapter.js';
 
 export const ElementForge = ({ onBackToStory }) => {
   const navigate = useNavigate();
@@ -27,6 +30,82 @@ export const ElementForge = ({ onBackToStory }) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isAimeFlyoutOpen, setIsAimeFlyoutOpen] = useState(false);
+
+  // Omnicortex DBM Ingestion State
+  const { dbData = {} } = useDBM() || {};
+  const [isDbmImportOpen, setIsDbmImportOpen] = useState(false);
+  const [selectedDbmIds, setSelectedDbmIds] = useState(new Set());
+  const [dbmSearchTerm, setDbmSearchTerm] = useState('');
+
+  // Discover matching DBM canonical records for the active element type
+  const matchingDbmItems = useMemo(() => {
+    if (!dbData) return [];
+    let items = [];
+    if (activeType === 'Faction') {
+      items = (dbData.factions || []).map(f => ({ ...f, dbmCategory: 'factions', title: f.name || f.factionName }));
+    } else if (activeType === 'Species') {
+      items = (dbData.species || []).map(s => ({ ...s, dbmCategory: 'species', title: s.name || s.speciesName }));
+    } else if (activeType === 'Item') {
+      items = [
+        ...(dbData.weaponry || []).map(w => ({ ...w, dbmCategory: 'weaponry', title: w.name })),
+        ...(dbData.armoring || []).map(a => ({ ...a, dbmCategory: 'armoring', title: a.name })),
+        ...(dbData.gear || []).map(g => ({ ...g, dbmCategory: 'gear', title: g.name })),
+        ...(dbData.augmentations || []).map(au => ({ ...au, dbmCategory: 'augmentations', title: au.name }))
+      ];
+    } else if (activeType === 'Persona') {
+      items = (dbData.archetypes || []).map(ar => ({ ...ar, dbmCategory: 'archetypes', title: ar.name }));
+    } else if (activeType === 'Philosophy') {
+      items = [
+        ...(dbData.invocations || []).map(i => ({ ...i, dbmCategory: 'invocations', title: i.name })),
+        ...(dbData.features || []).map(f => ({ ...f, dbmCategory: 'features', title: f.name }))
+      ];
+    }
+    return items;
+  }, [dbData, activeType]);
+
+  const handleImportSelectedDbm = async () => {
+    if (selectedDbmIds.size === 0) return;
+    const itemsToImport = matchingDbmItems.filter(item => selectedDbmIds.has(item.id));
+    let count = 0;
+    for (const item of itemsToImport) {
+      const newElem = {
+        id: `elem_dbm_${item.id || Date.now()}`,
+        title: item.title || item.name || 'Omnicortex Element',
+        type: activeType,
+        content: item.description || item.concept || item.notes || item.summary || '',
+        dbmSyncStatus: 'synced',
+        fields: {
+          dbmRef: item.id,
+          dbmCategory: item.dbmCategory,
+          ...item
+        }
+      };
+      await updateSavedElement(newElem.id, newElem);
+      await saveElementToCloud(newElem);
+      count++;
+    }
+    showToast({ type: 'success', text: `Successfully synced ${count} ${activeType} element(s) from Omnicortex DBM!` });
+    setSelectedDbmIds(new Set());
+    setIsDbmImportOpen(false);
+  };
+
+  const handleRefreshAllDbmLinks = async () => {
+    const linked = (elementsCatalog || []).filter(el => el.fields?.dbmRef || el.dbmRef);
+    if (linked.length === 0) {
+      showToast({ type: 'info', text: 'No DBM-linked elements found in this catalog.' });
+      return;
+    }
+    let updatedCount = 0;
+    for (const el of linked) {
+      const updated = pullElementFromOmnicortexDBM(el, dbData);
+      if (updated) {
+        await updateSavedElement(updated.id, updated);
+        await saveElementToCloud(updated);
+        updatedCount++;
+      }
+    }
+    showToast({ type: 'success', text: `Refreshed ${updatedCount} element(s) with canonical Omnicortex DBM records!` });
+  };
 
   // Filter elements by active type and search term
   const filteredElements = (elementsCatalog || []).filter(el => {
@@ -227,6 +306,64 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
               <Plus size={14} />
               <span>Create {activeType}</span>
             </button>
+
+            {/* Ingest ELEMENTS.md Button */}
+            <label className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm">
+              <Upload size={14} className="text-cyan-400" />
+              <span className="hidden sm:inline">Ingest .md</span>
+              <input
+                type="file"
+                multiple
+                accept=".md,.markdown"
+                className="hidden"
+                onChange={async (e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    const results = await batchIngestElementFiles(Array.from(e.target.files));
+                    let count = 0;
+                    for (const res of results) {
+                      if (res.success && res.element) {
+                        const newElem = {
+                          ...res.element,
+                          title: res.element.name
+                        };
+                        await updateSavedElement(newElem.id, newElem);
+                        await saveElementToCloud(newElem);
+                        count++;
+                      }
+                    }
+                    if (count > 0) {
+                      showToast({ type: 'success', text: `Ingested ${count} element(s) adhering to ELEMENTS.md!` });
+                    }
+                  }
+                }}
+              />
+            </label>
+
+            {/* Import from Omnicortex DBM */}
+            {matchingDbmItems.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setIsDbmImportOpen(true)}
+                className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-cyan-500/50 text-cyan-300 hover:text-cyan-200 font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title={`Import existing canonical ${activeType} entries from Omnicortex DBM`}
+              >
+                <Database size={14} className="text-cyan-400" />
+                <span className="hidden sm:inline">DBM Sync ({matchingDbmItems.length})</span>
+              </button>
+            )}
+
+            {/* Refresh All DBM Linked Records */}
+            {(elementsCatalog || []).some(el => el.fields?.dbmRef || el.dbmRef) && (
+              <button
+                type="button"
+                onClick={handleRefreshAllDbmLinks}
+                className="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-teal-500/50 text-teal-300 hover:text-teal-200 font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title="Refresh all DBM-linked elements with latest canon updates"
+              >
+                <RefreshCw size={13} className="text-teal-400" />
+                <span className="hidden sm:inline">Refresh Canon</span>
+              </button>
+            )}
           </div>
         </div>
 
@@ -257,33 +394,80 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
               {filteredElements.map(el => (
                 <div 
                   key={el.id} 
-                  className="bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-5 hover:border-amber-500/50 hover:bg-slate-800/60 hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-300 flex flex-col group cursor-pointer transform hover:-translate-y-1"
+                  className="bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-5 hover:border-amber-500/50 hover:bg-slate-800/60 hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-300 flex flex-col justify-between group cursor-pointer transform hover:-translate-y-1"
                   onClick={() => handleEdit(el)}
                 >
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-lg font-extrabold text-slate-200 group-hover:text-amber-400 transition-colors line-clamp-1 tracking-wide">
-                      {el.title || 'Untitled'}
-                    </h3>
+                  <div>
+                    <div className="flex justify-between items-start mb-2 gap-2">
+                      <h3 className="text-base font-extrabold text-slate-200 group-hover:text-amber-400 transition-colors line-clamp-1 tracking-wide">
+                        {el.title || el.name || 'Untitled'}
+                      </h3>
+                      <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${
+                        (el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                          ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50 shadow-sm' 
+                          : el.dbmSyncStatus === 'local_override'
+                          ? 'bg-amber-950/60 text-amber-300 border-amber-500/40'
+                          : 'bg-slate-900 text-slate-400 border-slate-700'
+                      }`}>
+                        {(el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced') ? '⚡ DBM' : el.dbmSyncStatus === 'local_override' ? '▲ Override' : '○ Standalone'}
+                      </span>
+                    </div>
+                    
+                    {el.fields?.summary && (
+                      <p className="text-xs text-slate-400 line-clamp-2 mb-3">
+                        {el.fields.summary}
+                      </p>
+                    )}
+                    
+                    {el.content && !el.fields?.summary && (
+                      <div 
+                        className="text-xs text-slate-400 line-clamp-2 mb-3 overflow-hidden"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el.content.substring(0, 100)) }}
+                      />
+                    )}
                   </div>
-                  
-                  {el.fields?.summary && (
-                    <p className="text-xs text-slate-400 line-clamp-2 mb-3 flex-1">
-                      {el.fields.summary}
-                    </p>
-                  )}
-                  
-                  {el.content && !el.fields?.summary && (
-                    <div 
-                      className="text-xs text-slate-400 line-clamp-2 mb-3 flex-1 overflow-hidden"
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el.content.substring(0, 100)) }}
-                    />
-                  )}
 
-                  <div className="flex justify-between items-center pt-4 border-t border-slate-700/50 mt-auto shrink-0">
+                  <div className="flex justify-between items-center pt-3 border-t border-slate-700/50 mt-3 shrink-0">
                     <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold font-mono">
                       {el.authorUid === 'local' ? 'Local Draft' : 'Cloud Synced'}
                     </span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
+                      {/* Pull Canon Updates from Omnicortex DBM */}
+                      {(el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced') && (
+                        <button
+                          type="button"
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            const updated = pullElementFromOmnicortexDBM(el, dbData);
+                            if (updated) {
+                              await updateSavedElement(updated.id, updated);
+                              await saveElementToCloud(updated);
+                              showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
+                            } else {
+                              showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
+                            }
+                          }}
+                          className="p-1.5 rounded text-cyan-400 hover:text-cyan-200 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
+                          title="Pull canonical updates from Omnicortex DBM"
+                        >
+                          <RefreshCw size={13} />
+                        </button>
+                      )}
+
+                      {/* Markdown Export Button */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          downloadElementMarkdownFile({ ...el, name: el.title || el.name });
+                          showToast({ type: 'info', text: `Exported ${el.title || el.name} to ELEMENTS.md markdown.` });
+                        }}
+                        className="p-1.5 rounded text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-colors"
+                        title="Export as ELEMENTS.md Markdown"
+                      >
+                        <Download size={13} />
+                      </button>
+
                       <button
                         type="button"
                         onClick={async (e) => {
@@ -293,12 +477,12 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                             deleteSavedElement(el.id);
                           }
                         }}
-                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
+                        className="p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
                         title="Delete Element"
                       >
                         <Trash2 size={13} />
                       </button>
-                      <span className="text-[10px] text-cyan-400 group-hover:text-amber-300 transition-colors">
+                      <span className="text-[10px] text-cyan-400 group-hover:text-amber-300 transition-colors ml-1 font-bold">
                         Edit ✏️
                       </span>
                     </div>
@@ -448,6 +632,148 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
             sampleTitles: filteredElements.slice(0, 5).map(e => e.title)
           }}
         />
+      )}
+
+      {/* Omnicortex DBM Import Modal */}
+      {isDbmImportOpen && (
+        <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
+          <div className="w-full max-w-2xl bg-[#0d1117] border border-cyan-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(6,182,212,0.25)] flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-cyan-950 border border-cyan-500/50 flex items-center justify-center text-cyan-300">
+                  <Database size={18} />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white tracking-wide">
+                    Sync {activeType}s from Omnicortex DBM
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Import existing canonical compendium data directly into your adventure element catalog.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsDbmImportOpen(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Search & Selection Controls */}
+            <div className="flex items-center justify-between gap-3">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder={`Search ${matchingDbmItems.length} available DBM entries...`}
+                  value={dbmSearchTerm}
+                  onChange={(e) => setDbmSearchTerm(e.target.value)}
+                  className="w-full pl-9 pr-3 py-1.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
+                />
+                <Search size={14} className="absolute left-3 top-2 text-slate-500" />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const visibleIds = matchingDbmItems
+                    .filter(i => !dbmSearchTerm || (i.title || i.name || '').toLowerCase().includes(dbmSearchTerm.toLowerCase()))
+                    .map(i => i.id);
+                  if (selectedDbmIds.size === visibleIds.length) {
+                    setSelectedDbmIds(new Set());
+                  } else {
+                    setSelectedDbmIds(new Set(visibleIds));
+                  }
+                }}
+                className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold transition-colors shrink-0"
+              >
+                {selectedDbmIds.size > 0 ? 'Deselect All' : 'Select All'}
+              </button>
+            </div>
+
+            {/* Items List */}
+            <div className="flex-1 overflow-y-auto space-y-2 pr-1 scrollbar-thin max-h-[50vh]">
+              {matchingDbmItems
+                .filter(i => !dbmSearchTerm || (i.title || i.name || '').toLowerCase().includes(dbmSearchTerm.toLowerCase()))
+                .map(item => {
+                  const isSelected = selectedDbmIds.has(item.id);
+                  const alreadyImported = (elementsCatalog || []).some(el => el.fields?.dbmRef === item.id || el.id === `elem_dbm_${item.id}`);
+
+                  return (
+                    <div
+                      key={item.id}
+                      onClick={() => {
+                        setSelectedDbmIds(prev => {
+                          const next = new Set(prev);
+                          if (next.has(item.id)) next.delete(item.id);
+                          else next.add(item.id);
+                          return next;
+                        });
+                      }}
+                      className={`p-3 rounded-xl border text-xs font-mono flex items-center justify-between gap-3 cursor-pointer transition-all ${
+                        isSelected
+                          ? 'bg-cyan-950/40 border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.15)] text-cyan-100'
+                          : alreadyImported
+                          ? 'bg-slate-950/40 border-slate-800/80 text-slate-400 opacity-75'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:border-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="shrink-0 text-cyan-400">
+                          {isSelected ? <CheckSquare size={16} /> : <Square size={16} />}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold truncate text-sm">{item.title || item.name}</span>
+                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-950 border border-slate-700 text-slate-400 uppercase font-mono">
+                              {item.dbmCategory || activeType}
+                            </span>
+                            {alreadyImported && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-mono">
+                                In Catalog
+                              </span>
+                            )}
+                          </div>
+                          {(item.description || item.concept || item.notes || item.summary) && (
+                            <p className="text-[11px] text-slate-400 line-clamp-1 pt-0.5">
+                              {item.description || item.concept || item.notes || item.summary}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between pt-3 border-t border-slate-800">
+              <span className="text-xs font-mono text-slate-400">
+                {selectedDbmIds.size} of {matchingDbmItems.length} selected
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsDbmImportOpen(false)}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={selectedDbmIds.size === 0}
+                  onClick={handleImportSelectedDbm}
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-[0_0_15px_rgba(6,182,212,0.3)] disabled:opacity-40 cursor-pointer flex items-center gap-1.5"
+                >
+                  <Database size={13} />
+                  <span>Import {selectedDbmIds.size} Elements</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Edit Modal */}

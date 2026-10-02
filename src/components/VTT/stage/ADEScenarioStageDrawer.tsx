@@ -16,18 +16,23 @@ import {
   ExternalLink, 
   Box, 
   Layers, 
-  Flag 
+  Flag,
+  Check,
+  CheckCheck
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { useCampaign } from '../../../context/CampaignContext';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { STORAGE_KEYS } from '../../../constants/storageKeys';
+import { ROUTES } from '../../../constants/routes';
+import type { AdeElementRecord, AdeScenarioRecord, CronicleDeltaRecord } from '../../../types/ade';
 
 export interface ADEScenarioStageDrawerProps {
   isOpen?: boolean;
   onClose?: () => void;
   activeScenarioId?: string;
-  onDeployElement?: (element: any) => void;
-  onDeployAllElements?: (elements: any[]) => void;
+  onDeployElement?: (element: AdeElementRecord) => void;
+  onDeployAllElements?: (elements: AdeElementRecord[]) => void;
   isInline?: boolean;
 }
 
@@ -40,14 +45,25 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
   isInline = false
 }) => {
   const navigate = useNavigate();
-  const { universeState, elementsCatalog, updateScenario } = useCampaign();
+  const { 
+    universeState, 
+    elementsCatalog, 
+    updateScenario,
+    cronicle,
+    acceptPendingDelta,
+    rejectPendingDelta,
+    acceptAllPendingDeltas
+  } = useCampaign();
 
-  const scenarios = universeState?.scenarios || [];
-  const activeScenario = scenarios.find((s: any) => s.id === activeScenarioId) || scenarios[0] || null;
+  const pendingDeltas: CronicleDeltaRecord[] = cronicle?.pendingDeltas || [];
+  const pendingCount = pendingDeltas.length;
+
+  const scenarios: AdeScenarioRecord[] = universeState?.scenarios || [];
+  const activeScenario = scenarios.find((s: AdeScenarioRecord) => s.id === activeScenarioId) || scenarios[0] || null;
   const scenarioId = activeScenario?.id;
 
   const linkedElementIds: string[] = activeScenario?.linkedElements || [];
-  const linkedElements = (elementsCatalog || []).filter((e: any) => linkedElementIds.includes(e.id));
+  const linkedElements: AdeElementRecord[] = (elementsCatalog || []).filter((e: AdeElementRecord) => linkedElementIds.includes(e.id));
 
   // Parse beats from scenario fields or outline
   const rawBeats = activeScenario?.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '';
@@ -64,7 +80,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
     }
     if (!scenarioId) return new Set();
     try {
-      const raw = localStorage.getItem(`tangent_vtt_beats_${scenarioId}`);
+      const raw = localStorage.getItem(STORAGE_KEYS.VTT_BEATS(scenarioId));
       const arr: number[] = raw ? JSON.parse(raw) : [];
       return new Set(arr);
     } catch {
@@ -81,7 +97,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
       return;
     }
     try {
-      const raw = localStorage.getItem(`tangent_vtt_beats_${scenarioId}`);
+      const raw = localStorage.getItem(STORAGE_KEYS.VTT_BEATS(scenarioId));
       const arr: number[] = raw ? JSON.parse(raw) : [];
       setCompletedBeats(new Set(arr));
       // Promote existing local progress to cloud if remote beats were undefined
@@ -97,24 +113,42 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
     AudioService.playTerminalBeep(1200, 0.03);
     setCompletedBeats(prev => {
       const next = new Set(prev);
-      if (next.has(idx)) {
-        next.delete(idx);
-      } else {
+      const isNowCompleted = !next.has(idx);
+      if (isNowCompleted) {
         next.add(idx);
+      } else {
+        next.delete(idx);
       }
       const arr = Array.from(next);
       if (scenarioId) {
         try {
           localStorage.setItem(
-            `tangent_vtt_beats_${scenarioId}`,
+            STORAGE_KEYS.VTT_BEATS(scenarioId),
             JSON.stringify(arr)
           );
         } catch (e) {
           console.warn('[ADEScenarioStageDrawer] Failed to write local beats:', e);
         }
         if (typeof updateScenario === 'function') {
-          updateScenario(scenarioId, { completedBeats: arr });
+          updateScenario(scenarioId, {
+            completedBeats: arr,
+            fields: {
+              ...(activeScenario?.fields || {}),
+              completedBeats: arr
+            }
+          });
         }
+
+        // Emit live milestone progress event across VttEventBus
+        VttEventBus.emit('story-foundry-milestone-reached', {
+          scenarioId: activeScenario?.id,
+          scenarioTitle: activeScenario?.title,
+          beatIndex: idx,
+          beatText: beatsList[idx] || '',
+          isCompleted: isNowCompleted,
+          completedBeats: arr,
+          timestamp: new Date().toLocaleTimeString()
+        });
       }
       return next;
     });
@@ -144,9 +178,16 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
             <BookOpen size={14} />
           </div>
           <div>
-            <h3 className="font-bold text-xs text-purple-200 tracking-wider">
-              ADE SCENARIO DECK
-            </h3>
+            <div className="flex items-center gap-1.5">
+              <h3 className="font-bold text-xs text-purple-200 tracking-wider">
+                ADE SCENARIO DECK
+              </h3>
+              {pendingCount > 0 && (
+                <span className="px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-amber-500/20 border border-amber-500/60 text-amber-300 animate-pulse">
+                  {pendingCount} DELTA{pendingCount > 1 ? 'S' : ''}
+                </span>
+              )}
+            </div>
             <p className="text-[9px] text-slate-400 truncate max-w-[200px]">
               {activeScenario?.title || 'Tactical Sector Story'}
             </p>
@@ -158,7 +199,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1100, 0.03);
-              navigate(`/foundry/ade?storyId=${universeState?.id || ''}&scenarioId=${activeScenario?.id || ''}`);
+              navigate(`${ROUTES.FOUNDRY_ADE}?storyId=${universeState?.id || ''}&scenarioId=${activeScenario?.id || ''}`);
             }}
             className="p-1 rounded bg-slate-900 hover:bg-slate-800 text-purple-400 border border-slate-700 hover:border-purple-500 transition-colors cursor-pointer"
             title="Open in ADE Studio Story Weaver"
@@ -179,6 +220,87 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto p-3.5 space-y-4 text-xs scrollbar-thin">
+        {/* CRONICLE Combat & State Deltas HUD Review */}
+        {pendingCount > 0 && (
+          <div className="p-3 bg-amber-950/20 border border-amber-500/50 rounded-xl space-y-2.5 shadow-lg shadow-amber-950/20 animate-in fade-in duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+                <span className="text-[10px] font-bold text-amber-300 uppercase tracking-wider">
+                  CRONICLE Deltas ({pendingCount})
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playCriticalChime(true);
+                  acceptAllPendingDeltas?.();
+                }}
+                className="text-[9px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold transition-all cursor-pointer flex items-center gap-1"
+                title="Accept and commit all pending state deltas into living memory"
+              >
+                <CheckCheck size={11} />
+                <span>Approve All</span>
+              </button>
+            </div>
+
+            <p className="text-[10px] text-slate-400 font-sans leading-tight">
+              Combat occurrences captured on Stage awaiting referee confirmation:
+            </p>
+
+            <div className="space-y-1.5 max-h-56 overflow-y-auto pr-0.5 scrollbar-thin">
+              {pendingDeltas.map((delta: CronicleDeltaRecord) => (
+                <div
+                  key={delta.id}
+                  className="p-2 rounded-lg bg-slate-950/90 border border-amber-500/30 flex items-start justify-between gap-2"
+                >
+                  <div className="min-w-0 space-y-0.5 font-sans">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-amber-950 border border-amber-500/40 text-amber-300 font-bold uppercase">
+                        {delta.action?.replace(/_/g, ' ')}
+                      </span>
+                      <span className="text-[10px] font-bold text-slate-200 truncate">
+                        {delta.target || delta.entityId || 'State Update'}
+                      </span>
+                    </div>
+                    <p className="text-[9.5px] text-slate-300 leading-tight">
+                      {delta.explanation || delta.value || 'Stage state mutation.'}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-1 shrink-0 pt-0.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1200, 0.04);
+                        acceptPendingDelta?.(delta.id);
+                      }}
+                      className="p-1 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 transition-colors cursor-pointer"
+                      title="Approve Delta"
+                    >
+                      <Check size={12} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(700, 0.04);
+                        rejectPendingDelta?.(delta.id);
+                      }}
+                      className="p-1 rounded bg-red-950/80 hover:bg-red-900 border border-red-500/50 text-red-300 transition-colors cursor-pointer"
+                      title="Dismiss Delta"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Scenario Identity Card */}
         <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-2">
           <div className="flex items-center justify-between">
@@ -267,7 +389,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
             <p className="text-[10px] text-slate-500 italic">No elements linked to this scenario yet.</p>
           ) : (
             <div className="space-y-1.5">
-              {linkedElements.map((elem: any) => (
+              {linkedElements.map((elem: AdeElementRecord) => (
                 <div
                   key={elem.id}
                   className="p-2 rounded-lg bg-slate-950/80 border border-slate-800 hover:border-slate-700 flex items-center justify-between gap-2"
@@ -315,7 +437,18 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
           type="button"
           onClick={() => {
             setCompletedBeats(new Set());
-            if (scenarioId) localStorage.removeItem(`tangent_vtt_beats_${scenarioId}`);
+            if (scenarioId) {
+              localStorage.removeItem(STORAGE_KEYS.VTT_BEATS(scenarioId));
+              if (typeof updateScenario === 'function') {
+                updateScenario(scenarioId, {
+                  completedBeats: [],
+                  fields: {
+                    ...(activeScenario?.fields || {}),
+                    completedBeats: []
+                  }
+                });
+              }
+            }
             AudioService.playTerminalBeep(900, 0.03);
           }}
           className="px-2.5 py-1.5 rounded-xl text-[10px] text-slate-500 hover:text-red-400 hover:bg-red-950/30 border border-slate-800 hover:border-red-900/50 font-mono transition-colors cursor-pointer"

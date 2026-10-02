@@ -116,7 +116,7 @@ export const FeaturesTab = ({
   );
 
   // Features View Mode: 'my-features' | 'recommended' | 'catalog'
-  const [featuresViewMode, setFeaturesViewMode] = useState('my-features');
+  const [featuresViewMode, setFeaturesViewMode] = useState('catalog');
 
   // Complete Catalog Mode controls
   const [featuresSearchQuery, setFeaturesSearchQuery] = useState('');
@@ -1040,14 +1040,32 @@ export const FeaturesTab = ({
   }, [augmentationsList]);
 
   const hindrancesList = useMemo(() => {
-    const fromHindrances = (Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0)
-      ? characterData.hindrances
-      : getItemList('disadvantages');
-
-    return fromHindrances.map((item, idx) => ({
+    const fromHindrances = getItemList('hindrances').map((item, idx) => ({
       ...(typeof item === 'object' ? item : { name: item }),
-      originalIndex: idx
+      sourceList: 'hindrances',
+      sourceIndex: idx
     }));
+
+    const fromDisadvantages = getItemList('disadvantages').map((item, idx) => ({
+      ...(typeof item === 'object' ? item : { name: item }),
+      sourceList: 'disadvantages',
+      sourceIndex: idx
+    }));
+
+    const seen = new Set();
+    const combined = [];
+    [...fromHindrances, ...fromDisadvantages].forEach((item) => {
+      const key = (item.id || item.name || item.title || '').toLowerCase().trim();
+      if (key && !seen.has(key)) {
+        seen.add(key);
+        combined.push({
+          ...item,
+          originalIndex: combined.length
+        });
+      }
+    });
+
+    return combined;
   }, [characterData.hindrances, characterData.disadvantages]);
 
   const groupedHindrances = useMemo(() => {
@@ -1082,7 +1100,9 @@ export const FeaturesTab = ({
 
   const totalHindrancesRefund = useMemo(() => {
     return hindrancesList.reduce((acc, dis) => {
-      const refund = typeof dis === 'object' && dis.cp !== undefined ? parseInt(dis.cp, 10) : 3;
+      const refund = typeof dis === 'object' && dis.cp !== undefined
+        ? parseInt(dis.cp, 10)
+        : (typeof dis === 'object' && (dis.refundBP || dis.bp) ? parseInt(dis.refundBP || dis.bp, 10) : 3);
       return acc + (isNaN(refund) ? 3 : refund);
     }, 0);
   }, [hindrancesList]);
@@ -1091,10 +1111,25 @@ export const FeaturesTab = ({
     const itemName = typeof item === 'object' ? (item.name || item.title || 'Hindrance') : String(item);
     if (!(await confirmTypedDeletion(itemName, 'hindrance'))) return;
 
-    const targetKey = Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0 ? 'hindrances' : 'disadvantages';
-    const currentList = getItemList(targetKey);
-    const updated = currentList.filter((_, i) => i !== item.originalIndex);
-    updateField(targetKey, updated);
+    const normName = itemName.toLowerCase().trim();
+    const hindrancesArr = getItemList('hindrances');
+    const disadvantagesArr = getItemList('disadvantages');
+
+    const updatedHindrances = hindrancesArr.filter(h => {
+      const n = (typeof h === 'object' ? (h.name || h.title || h.id || '') : String(h)).toLowerCase().trim();
+      return n !== normName;
+    });
+    const updatedDisadvantages = disadvantagesArr.filter(d => {
+      const n = (typeof d === 'object' ? (d.name || d.title || d.id || '') : String(d)).toLowerCase().trim();
+      return n !== normName;
+    });
+
+    if (hindrancesArr.length !== updatedHindrances.length) {
+      updateField('hindrances', updatedHindrances);
+    }
+    if (disadvantagesArr.length !== updatedDisadvantages.length) {
+      updateField('disadvantages', updatedDisadvantages);
+    }
   };
 
   // Grand Capabilities Totals

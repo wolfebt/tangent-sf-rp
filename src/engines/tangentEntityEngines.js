@@ -2536,9 +2536,20 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
 
   // 5. Hindrances / Disadvantages (Yields CP Refunds unless from Species Package)
   let disadvantageRefund = 0;
-  const hindrancesList = (Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0)
-    ? characterData.hindrances
-    : (Array.isArray(characterData.disadvantages) ? characterData.disadvantages : []);
+  const rawHindranceEntries = [
+    ...(Array.isArray(characterData.hindrances) ? characterData.hindrances : []),
+    ...(Array.isArray(characterData.disadvantages) ? characterData.disadvantages : [])
+  ];
+  const seenHindranceNames = new Set();
+  const hindrancesList = [];
+  rawHindranceEntries.forEach(h => {
+    if (!h) return;
+    const key = (typeof h === 'object' ? (h.id || h.name || h.title || '') : String(h)).toLowerCase().trim();
+    if (key && !seenHindranceNames.has(key)) {
+      seenHindranceNames.add(key);
+      hindrancesList.push(h);
+    }
+  });
 
   hindrancesList.forEach((dis) => {
     const name = typeof dis === 'object' ? (dis.name || dis.title || 'Unnamed Hindrance') : String(dis);

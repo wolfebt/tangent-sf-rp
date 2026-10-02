@@ -32,6 +32,8 @@
     "workbox-window": "^7.4.1"
   },
   "dependencies": {
+    "@google/genai": "^2.25.0",
+    "@modelcontextprotocol/sdk": "^1.31.0",
     "@sqlite.org/sqlite-wasm": "^3.53.0-build1",
     "@types/three": "^0.185.4",
     "dompurify": "^3.4.13",

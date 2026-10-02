@@ -215,8 +215,31 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
               value={startingCP}
               onChange={(e) => updateField('starting-cp', parseInt(e.target.value, 10) || 0)}
               className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded text-center py-1 text-sm font-mono font-bold text-cyan-300 outline-none"
-              title="Base character creation Character Points (Standard 150 CP)"
+              title="Base character creation Character Points (Standard 150 CP default)"
             />
+            {/* Quick Campaign Tier Presets */}
+            <div className="flex items-center justify-center gap-1 mt-1.5 flex-wrap">
+              {[
+                { label: '100', cp: 100, title: 'Gritty / Low-Powered (100 CP)' },
+                { label: '150', cp: 150, title: 'Standard Operative (150 CP Default)' },
+                { label: '200', cp: 200, title: 'Heroic / Veteran (200 CP)' },
+                { label: '250', cp: 250, title: 'Mythic / Apex (250 CP)' }
+              ].map((preset) => (
+                <button
+                  key={preset.cp}
+                  type="button"
+                  onClick={() => updateField('starting-cp', preset.cp)}
+                  className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono font-bold transition-all cursor-pointer ${
+                    startingCP === preset.cp
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-sm'
+                      : 'bg-slate-950/80 text-slate-400 hover:text-slate-200 border border-slate-800 hover:border-slate-700'
+                  }`}
+                  title={preset.title}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-col">

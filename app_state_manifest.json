@@ -1,0 +1,446 @@
+{
+  "generatedAt": "2026-10-01T17:47:04.598Z",
+  "diagnostics": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "appName": "tangent-sfr",
+    "appVersion": "1.0.0",
+    "type": "module",
+    "scripts": [
+      "dev",
+      "build",
+      "preview",
+      "deploy",
+      "sync:species",
+      "sync:species-traits",
+      "sync:species-disadvantages",
+      "build:data",
+      "test:data",
+      "test:engine",
+      "test"
+    ],
+    "dependencies": {
+      "@google/genai": "^2.25.0",
+      "@modelcontextprotocol/sdk": "^1.31.0",
+      "@sqlite.org/sqlite-wasm": "^3.53.0-build1",
+      "@types/three": "^0.185.4",
+      "dompurify": "^3.4.13",
+      "firebase": "^12.16.0",
+      "glob": "^13.0.6",
+      "gray-matter": "^4.0.3",
+      "immer": "^11.1.15",
+      "konva": "^10.3.0",
+      "livekit-client": "^2.22.2",
+      "lucide-react": "^1.31.0",
+      "marked": "^18.0.9",
+      "pixi.js": "^8.20.1",
+      "react": "^19.2.7",
+      "react-dom": "^19.2.7",
+      "react-konva": "^19.2.5",
+      "react-markdown": "^10.1.0",
+      "react-quill-new": "^3.8.3",
+      "react-router-dom": "^7.18.1",
+      "react-split": "^2.0.14",
+      "remark-gfm": "^4.0.1",
+      "three": "^0.185.1",
+      "uuid": "^14.0.1",
+      "yjs": "^13.6.32",
+      "zod": "^4.4.3",
+      "zustand": "^5.0.15"
+    },
+    "devDependencies": {
+      "@tailwindcss/vite": "^4.3.3",
+      "@types/react-dom": "^19.2.5",
+      "@vitejs/plugin-react": "^6.0.3",
+      "firebase-admin": "^14.2.0",
+      "tailwindcss": "^4.3.3",
+      "typescript": "~6.0.2",
+      "vite": "^8.1.1",
+      "vite-plugin-pwa": "^1.3.0",
+      "workbox-core": "^7.4.1",
+      "workbox-precaching": "^7.4.1",
+      "workbox-routing": "^7.4.1",
+      "workbox-strategies": "^7.4.1",
+      "workbox-window": "^7.4.1"
+    },
+    "git": {
+      "isRepo": true,
+      "branch": "main",
+      "lastCommit": "41bb1bd - LiveStudio ADE, StoryModule refactor, VTT waypoint engine & module ingestion, modifier/package services, scenario cockpit, story gallery & graph views, SelectivePrintModal, WaypointPromptChip, adeStore, vttEventBus toggle-stage-design-mode event (2026-09-28 00:15:42 -0500)",
+      "hasUncommittedChanges": true
+    },
+    "memoryUsageMB": {
+      "rss": "68.26",
+      "heapUsed": "18.79"
+    }
+  },
+  "routes": {
+    "reactAppRoutes": [
+      {
+        "path": "/",
+        "element": "unspecified"
+      },
+      {
+        "path": "/dashboard",
+        "element": "unspecified"
+      },
+      {
+        "path": "/comms",
+        "element": "unspecified"
+      },
+      {
+        "path": "/chat",
+        "element": "unspecified"
+      },
+      {
+        "path": "/teams",
+        "element": "unspecified"
+      },
+      {
+        "path": "/groups",
+        "element": "unspecified"
+      },
+      {
+        "path": "/squads",
+        "element": "unspecified"
+      },
+      {
+        "path": "/codex",
+        "element": "unspecified"
+      },
+      {
+        "path": "/codex/*",
+        "element": "unspecified"
+      },
+      {
+        "path": "/compendium",
+        "element": "unspecified"
+      },
+      {
+        "path": "/compendium/*",
+        "element": "unspecified"
+      },
+      {
+        "path": "/dbm",
+        "element": "unspecified"
+      },
+      {
+        "path": "/folio",
+        "element": "unspecified"
+      },
+      {
+        "path": "/roster",
+        "element": "unspecified"
+      },
+      {
+        "path": "/live-studio",
+        "element": "unspecified"
+      },
+      {
+        "path": "/ade-stage",
+        "element": "unspecified"
+      },
+      {
+        "path": "/map-maker",
+        "element": "unspecified"
+      },
+      {
+        "path": "/mapmaker",
+        "element": "unspecified"
+      },
+      {
+        "path": "/vtt-ops",
+        "element": "unspecified"
+      },
+      {
+        "path": "/stage",
+        "element": "unspecified"
+      },
+      {
+        "path": "/vtt",
+        "element": "unspecified"
+      },
+      {
+        "path": "/spectator/:mapId",
+        "element": "unspecified"
+      },
+      {
+        "path": "/foundry/*",
+        "element": "unspecified"
+      },
+      {
+        "path": "/ade/*",
+        "element": "unspecified"
+      },
+      {
+        "path": "/ade",
+        "element": "unspecified"
+      },
+      {
+        "path": "/ade-studio/*",
+        "element": "unspecified"
+      },
+      {
+        "path": "/ade-studio",
+        "element": "unspecified"
+      },
+      {
+        "path": "/story-foundry",
+        "element": "unspecified"
+      },
+      {
+        "path": "/campaign-builder",
+        "element": "unspecified"
+      }
+    ],
+    "foundryRoutes": [
+      {
+        "path": "/",
+        "element": "unspecified"
+      },
+      {
+        "path": "mission-control",
+        "element": "unspecified"
+      },
+      {
+        "path": "dashboard",
+        "element": "unspecified"
+      },
+      {
+        "path": "hub",
+        "element": "unspecified"
+      },
+      {
+        "path": "live",
+        "element": "unspecified"
+      },
+      {
+        "path": "live-studio",
+        "element": "unspecified"
+      },
+      {
+        "path": "ade-stage",
+        "element": "unspecified"
+      },
+      {
+        "path": "live-studio-standalone",
+        "element": "unspecified"
+      },
+      {
+        "path": "stage",
+        "element": "unspecified"
+      },
+      {
+        "path": "ade",
+        "element": "unspecified"
+      },
+      {
+        "path": "story",
+        "element": "unspecified"
+      },
+      {
+        "path": "interactive",
+        "element": "unspecified"
+      },
+      {
+        "path": "narrative",
+        "element": "unspecified"
+      },
+      {
+        "path": "scripts",
+        "element": "unspecified"
+      },
+      {
+        "path": "presets",
+        "element": "unspecified"
+      },
+      {
+        "path": "automation",
+        "element": "unspecified"
+      },
+      {
+        "path": "assets",
+        "element": "unspecified"
+      },
+      {
+        "path": "elements",
+        "element": "unspecified"
+      },
+      {
+        "path": "gallery",
+        "element": "unspecified"
+      },
+      {
+        "path": "graph",
+        "element": "unspecified"
+      },
+      {
+        "path": "tactical",
+        "element": "unspecified"
+      },
+      {
+        "path": "catalog",
+        "element": "unspecified"
+      },
+      {
+        "path": "map",
+        "element": "unspecified"
+      },
+      {
+        "path": "map-maker",
+        "element": "unspecified"
+      },
+      {
+        "path": "map-maker-legacy",
+        "element": "unspecified"
+      },
+      {
+        "path": "vtt-options",
+        "element": "unspecified"
+      },
+      {
+        "path": "aime",
+        "element": "unspecified"
+      },
+      {
+        "path": "view/:mapId",
+        "element": "unspecified"
+      },
+      {
+        "path": "spectator/:mapId",
+        "element": "unspecified"
+      }
+    ],
+    "totalPageModules": 131,
+    "pageModulesSample": [
+      "src/pages/Codex/CodexAiSynthesizerModal.jsx",
+      "src/pages/Codex/CodexApp.jsx",
+      "src/pages/Codex/codexAssetBridge.js",
+      "src/pages/Codex/codexConfig.js",
+      "src/pages/Codex/CodexDatasetDashboard.jsx",
+      "src/pages/Codex/codexDatasetGuidance.js",
+      "src/pages/Codex/CodexIngestionEngine.jsx",
+      "src/pages/Codex/CodexIngestionModal.jsx",
+      "src/pages/Codex/CodexMatrixBuilder.jsx",
+      "src/pages/Codex/codexPromptRegistry.js",
+      "src/pages/Codex/CodexSidebar.jsx",
+      "src/pages/Codex/components/ArchetypeConfigurator.jsx",
+      "src/pages/Codex/components/ArchitectureBlueprintConfigurator.jsx",
+      "src/pages/Codex/components/ArmorCoverageSelector.jsx",
+      "src/pages/Codex/components/AugmentationNodeConfigurator.jsx"
+    ]
+  },
+  "schemas": {
+    "totalSchemasDetected": 20,
+    "summary": [
+      {
+        "file": "src/pages/Foundry/ElementForge/elementSchemas.js",
+        "priority": "canonical",
+        "bytes": 38274
+      },
+      {
+        "file": "firestore.rules",
+        "priority": "canonical",
+        "bytes": 11540
+      },
+      {
+        "file": "src/components/Folio/schema.js",
+        "priority": "detected",
+        "bytes": 14060
+      },
+      {
+        "file": "src/components/Folio/shared/IdentityPoolPulldown.jsx",
+        "priority": "detected",
+        "bytes": 95387
+      },
+      {
+        "file": "src/components/Folio/tabs/IdentityTab.jsx",
+        "priority": "detected",
+        "bytes": 186064
+      },
+      {
+        "file": "src/data/archetypesData.js",
+        "priority": "detected",
+        "bytes": 173722
+      },
+      {
+        "file": "src/data/speciesTraitsData.js",
+        "priority": "detected",
+        "bytes": 682353
+      },
+      {
+        "file": "src/data/speciesTypesData.js",
+        "priority": "detected",
+        "bytes": 13786
+      },
+      {
+        "file": "src/data/speciesTypesRaw.json",
+        "priority": "detected",
+        "bytes": 18406
+      },
+      {
+        "file": "src/engine/migration/migrate_omnicortex_schema.mjs",
+        "priority": "detected",
+        "bytes": 4821
+      },
+      {
+        "file": "src/engine/migration/tangentSchemaAdapters.js",
+        "priority": "detected",
+        "bytes": 4892
+      },
+      {
+        "file": "src/engines/tangentEntityEngines.js",
+        "priority": "detected",
+        "bytes": 123247
+      },
+      {
+        "file": "src/engines/tangentIdentityEngine.js",
+        "priority": "detected",
+        "bytes": 52282
+      },
+      {
+        "file": "src/engines/__tests__/tangentEntityEngines.test.js",
+        "priority": "detected",
+        "bytes": 36218
+      },
+      {
+        "file": "src/engines/__tests__/tangentIdentityEngine.test.js",
+        "priority": "detected",
+        "bytes": 19698
+      },
+      {
+        "file": "src/schemas/sharedSchemas.js",
+        "priority": "detected",
+        "bytes": 15879
+      },
+      {
+        "file": "src/schemas/vttWallSchema.js",
+        "priority": "detected",
+        "bytes": 6082
+      },
+      {
+        "file": "src/schemas/vttWallSchema.test.mjs",
+        "priority": "detected",
+        "bytes": 3516
+      },
+      {
+        "file": "src/services/entityHydrator.js",
+        "priority": "detected",
+        "bytes": 8827
+      },
+      {
+        "file": "src/utils/tangentSchemaAdapters.js",
+        "priority": "detected",
+        "bytes": 19133
+      }
+    ]
+  },
+  "gitDiff": {
+    "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "stagedOnly": false,
+    "statusOrDiff": " D ade_comprehensive_review.md\n D docs/ADE_Comprehensive_Review.md\n D docs/teams-comms-review.md\n M package-lock.json\n M package.json\n M src/App.jsx\n M src/components/Chat/CommsVttPanel.jsx\n M src/components/Folio/FolioContainer.jsx\n M src/components/Folio/FolioSidebar.jsx\n M src/components/Folio/augmentations/AugmentationsManager.jsx\n M src/components/Folio/modals/EconomyModal.jsx\n M src/components/Folio/shared/FolioTooltip.jsx\n M src/components/Folio/tabs/CombatTab.jsx\n M src/components/Folio/tabs/CoreStatsTab.jsx\n M src/components/Folio/tabs/FeaturesTab.jsx\n M src/components/Folio/tabs/IdentityTab.jsx\n M src/components/Folio/tabs/SkillsTab.jsx\n M src/components/Folio/views/TacticalPlayView.jsx\n M src/components/Layout/GlobalSideRail.jsx\n M src/components/Layout/hud/ADEHUDBar.jsx\n M src/components/StoryFoundry/Cronicle/CronicleDeckModal.jsx\n M src/components/VTT/StageView.tsx\n M src/components/VTT/TripartiteStageView.tsx\n M src/components/VTT/stage/ADEScenarioStageDrawer.tsx\n M src/components/VTT/stage/StageBreadcrumbTabs.tsx\n M src/context/CampaignContext.jsx\n M src/data/speciesTraitsData.js\n M src/engine/network/YjsProviderBridge.ts\n M src/engines/tangentEntityEngines.js\n M src/pages/Foundry/Dashboard/DashboardCatalogPanel.jsx\n M src/pages/Foundry/ElementForge/ElementForge.jsx\n M src/pages/Foundry/ElementForge/elementSchemas.js\n M src/pages/Foundry/FoundryApp.jsx\n D src/pages/Foundry/LiveStudio/AdeGuideRailDrawer.jsx\n D src/pages/Foundry/LiveStudio/AdeLiveStudio.jsx\n D src/pages/Foundry/LiveStudio/AdeMasterControlBar.jsx\n D src/pages/Foundry/LiveStudio/hooks/useWaypointEngine.js\n M src/pages/Foundry/MapMaker/map/MapCombatTracker.jsx\n M src/pages/Foundry/StoryModule/ADENavRail.jsx\n M src/pages/Foundry/StoryModule/ADETopToolbar.jsx\n M src/pages/Foundry/StoryModule/ScenarioCockpitDock.jsx\n M src/pages/Foundry/StoryModule/ScenarioOutlinerTree.jsx\n M src/pages/Foundry/StoryModule/ScenarioPane.jsx\n M src/pages/Foundry/StoryModule/StoryModule.jsx\n M src/pages/Foundry/StoryModule/exportUtils.js\n M src/pages/Foundry/StoryModule/workspaces/InteractiveStoryStudio.jsx\n M src/pages/Foundry/StoryModule/workspaces/OsrControlPanelDeck.jsx\n M src/pages/Foundry/StoryModule/workspaces/StoryGallery.jsx\n M src/pages/Foundry/StoryModule/workspaces/StoryWeaver.jsx\n M src/pages/Foundry/store/adeStore.ts\n M src/pages/Home.jsx\n M src/services/interactiveObjectService.js\n M src/services/modulePackageService.js\n M src/services/reactiveVttService.js\n M src/utils/storyAssetAdapter.js\n M src/utils/vttEventBus.ts\n M tests/engine/cronicleService.test.mjs\n M tests/engine/stage1.test.mjs\n M vite.config.js\n?? .agents/mcp_config.json\n?? app_state_manifest.json\n?? app_state_summary.md\n?? scripts/extract-app-context.mjs\n?? scripts/mcp-app-inspector.mjs\n?? src/components/Folio/modals/AugmentationDiagnosticsModal.jsx\n?? src/components/StoryFoundry/Cronicle/tabs/\n?? src/components/VTT/stage/StageSettingsModal.tsx\n?? src/components/VTT/stage/StageTokenLayer.tsx\n?? src/components/VTT/stage/useStageLighting.ts\n?? src/components/VTT/stage/useStageRaycast.ts\n?? src/components/VTT/stage/useStageTools.ts\n?? src/pages/Foundry/Dashboard/ModuleMissionControl.jsx\n?? src/pages/Foundry/PresetsAndScripts/\n?? src/pages/Foundry/_archive/\n?? src/pages/Foundry/hooks/\n?? src/services/crdtCollabService.js\n?? src/services/cronicleVttBridge.js\n?? src/services/elementIngestionService.js\n?? src/utils/scenarioTreeEngine.js\n?? tests/engine/adeStoreCentralization.test.mjs\n?? tests/engine/elementIngestion.test.mjs\n?? tests/engine/routeRedirectsAndDeepLinks.test.mjs\n?? tests/engine/scenarioTree.test.mjs\n?? tests/engine/storyAssetAdapter.test.mjs\n",
+    "diffStat": " ade_comprehensive_review.md                        |  614 -------\n docs/ADE_Comprehensive_Review.md                   |  614 -------\n docs/teams-comms-review.md                         |  118 --\n package-lock.json                                  | 1117 +++++++++++-\n package.json                                       |    2 +\n src/App.jsx                                        |   56 +-\n src/components/Chat/CommsVttPanel.jsx              |    2 +-\n src/components/Folio/FolioContainer.jsx            |   48 +-\n src/components/Folio/FolioSidebar.jsx              |  400 ++--\n .../Folio/augmentations/AugmentationsManager.jsx   |  342 +---\n src/components/Folio/modals/EconomyModal.jsx       |   25 +-\n src/components/Folio/shared/FolioTooltip.jsx       |   81 +\n src/components/Folio/tabs/CombatTab.jsx            |  304 ++--\n src/components/Folio/tabs/CoreStatsTab.jsx         |   42 +\n src/components/Folio/tabs/FeaturesTab.jsx          |   57 +-\n src/components/Folio/tabs/IdentityTab.jsx          | 1921 +++++++++++++-------\n src/components/Folio/tabs/SkillsTab.jsx            |  820 +++++----\n src/components/Folio/views/TacticalPlayView.jsx    |   30 +-\n src/components/Layout/GlobalSideRail.jsx           |    2 +-\n src/components/Layout/hud/ADEHUDBar.jsx            |   45 +-\n .../StoryFoundry/Cronicle/CronicleDeckModal.jsx    | 1189 ++----------\n src/components/VTT/StageView.tsx                   |  297 +--\n src/components/VTT/TripartiteStageView.tsx         |   36 +-\n .../VTT/stage/ADEScenarioStageDrawer.tsx           |  150 +-\n src/components/VTT/stage/StageBreadcrumbTabs.tsx   |   17 +\n src/context/CampaignContext.jsx                    |  234 +--\n src/data/speciesTraitsData.js                      |   74 +\n src/engine/network/YjsProviderBridge.ts            |    2 +\n src/engines/tangentEntityEngines.js                |   17 +-\n .../Foundry/Dashboard/DashboardCatalogPanel.jsx    |    6 +-\n src/pages/Foundry/ElementForge/ElementForge.jsx    |  374 +++-\n src/pages/Foundry/ElementForge/elementSchemas.js   |   29 +-\n src/pages/Foundry/FoundryApp.jsx                   |   30 +-\n .../Foundry/LiveStudio/AdeGuideRailDrawer.jsx      | 1172 ------------\n src/pages/Foundry/LiveStudio/AdeLiveStudio.jsx     | 1002 ----------\n .../Foundry/LiveStudio/AdeMasterControlBar.jsx     |  272 ---\n .../Foundry/LiveStudio/hooks/useWaypointEngine.js  |  299 ---\n .../Foundry/MapMaker/map/MapCombatTracker.jsx      |   19 +\n src/pages/Foundry/StoryModule/ADENavRail.jsx       |   36 +-\n src/pages/Foundry/StoryModule/ADETopToolbar.jsx    |  104 +-\n .../Foundry/StoryModule/ScenarioCockpitDock.jsx    |  544 +++++-\n .../Foundry/StoryModule/ScenarioOutlinerTree.jsx   |  342 +++-\n src/pages/Foundry/StoryModule/ScenarioPane.jsx     |  843 +--------\n src/pages/Foundry/StoryModule/StoryModule.jsx      |  255 ++-\n src/pages/Foundry/StoryModule/exportUtils.js       |   39 +-\n .../workspaces/InteractiveStoryStudio.jsx          |   14 +-\n .../StoryModule/workspaces/OsrControlPanelDeck.jsx |  178 +-\n .../StoryModule/workspaces/StoryGallery.jsx        |    4 +-\n .../Foundry/StoryModule/workspaces/StoryWeaver.jsx |  211 ++-\n src/pages/Foundry/store/adeStore.ts                |   88 +-\n src/pages/Home.jsx                                 |    2 +-\n src/services/interactiveObjectService.js           |    2 +-\n src/services/modulePackageService.js               |  101 +\n src/services/reactiveVttService.js                 |    2 +-\n src/utils/storyAssetAdapter.js                     |   51 +-\n src/utils/vttEventBus.ts                           |   19 +-\n tests/engine/cronicleService.test.mjs              |   90 +\n tests/engine/stage1.test.mjs                       |   40 +\n vite.config.js                                     |    3 +\n 59 files changed, 6599 insertions(+), 8228 deletions(-)\n"
+  }
+}

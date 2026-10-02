@@ -4,7 +4,7 @@
  * Security Slicing Terminals, Power Generators) and resolves interactions and damage triggers.
  */
 
-import { AudioService } from './audioService';
+import { AudioService } from './audioService.js';
 
 export const OBJECT_TYPES = {
   explosive_canister: {

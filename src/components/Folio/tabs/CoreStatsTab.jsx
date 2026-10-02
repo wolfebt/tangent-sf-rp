@@ -389,6 +389,47 @@ const CoreStatsTab = () => {
                     const mod = getAttrMod(attr.id);
                     const total = getAttrTotal(attr.id);
 
+                    // Calculate detailed breakdown sources for the tooltip
+                    const attrSources = [];
+                    if (!isSub) {
+                      const userMod = parseInt(characterData[`${attr.id}-mod`] || 0, 10);
+                      if (userMod !== 0) {
+                        attrSources.push({ name: 'Direct Modifier Input', val: userMod });
+                      }
+                      const speciesAlloc = characterData.speciesAllocations?.attributes?.[attr.id] || 0;
+                      if (speciesAlloc !== 0) {
+                        attrSources.push({ name: 'Species Lineage Bonus', val: speciesAlloc });
+                      }
+                      const identityMod = computedModifiers?.attributeMods?.[attr.id] || 0;
+                      const remainingIdentityMod = identityMod - speciesAlloc;
+                      if (remainingIdentityMod !== 0) {
+                        attrSources.push({ name: 'Features, Traits & Cybernetics', val: remainingIdentityMod });
+                      }
+                    } else {
+                      let saveMod = 0;
+                      if (attr.id === 'attr-fortitude') saveMod = computedModifiers?.saveMods?.Fortitude || 0;
+                      else if (attr.id === 'attr-reflex') saveMod = computedModifiers?.saveMods?.Reflex || 0;
+                      else if (attr.id === 'attr-will' || attr.id === 'attr-willpower') saveMod = computedModifiers?.saveMods?.Will || 0;
+                      if (saveMod !== 0) {
+                        attrSources.push({ name: 'Save Specialization Bonus', val: saveMod });
+                      }
+                      const userMod = parseInt(characterData[`${attr.id}-mod`] || 0, 10);
+                      if (userMod !== 0) {
+                        attrSources.push({ name: 'Direct Modifier Input', val: userMod });
+                      }
+                    }
+
+                    const attrBreakdown = {
+                      isSub,
+                      base: rawBase,
+                      purchased: !isSub ? rawBase : 0,
+                      purchasedBonus: isSub ? Math.max(0, rawBase - calculatedSubBase) : 0,
+                      governingBase: isSub ? calculatedSubBase : null,
+                      mod,
+                      total,
+                      sources: attrSources
+                    };
+
                     return (
                       <tr 
                         key={attr.id} 
@@ -404,6 +445,7 @@ const CoreStatsTab = () => {
                             cost={attr.cost}
                             tags={attr.tags}
                             showInfoIcon={true}
+                            attrBreakdown={attrBreakdown}
                           >
                             <div className="flex items-center gap-1.5 font-sans">
                               {isSub && <span className="text-slate-600 text-xs pl-1.5">↳</span>}

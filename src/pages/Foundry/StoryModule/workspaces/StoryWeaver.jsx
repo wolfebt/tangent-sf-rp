@@ -15,9 +15,11 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { useStory } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
+import { useFolio } from '../../../../context/FolioContext';
 import { AudioService } from '../../../../services/audioService';
 import { generateContent, streamContent } from '../../../../services/aimeService';
 import { extractNarrativeDeltas } from '../../../../services/cronicleService';
+import crdtCollabService from '../../../../services/crdtCollabService';
 import { GUIDANCE_GEMS } from '../guidanceGemsConfig';
 import StoryElementExtractorModal from '../StoryElementExtractorModal';
 import AimeGuidanceButton from '../../../../components/StoryFoundry/AimeGuidanceButton';
@@ -116,13 +118,31 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
   const [premisePrompt, setPremisePrompt] = useState('');
   const [isBrainstorming, setIsBrainstorming] = useState(false);
 
-  // Sync content when activeNode changes
+  // Real-time collaborative CRDT state
+  const [collabStatus, setCollabStatus] = useState(() => crdtCollabService.getCollabStatus());
+
   useEffect(() => {
-    if (activeNode) {
-      setContent(activeNode.content || '');
+    const unsub = crdtCollabService.onCollabStatusChange(setCollabStatus);
+    return unsub;
+  }, []);
+
+  // Sync content when activeNode changes and subscribe to CRDT shared text
+  useEffect(() => {
+    if (activeNode?.id) {
+      const initialText = activeNode.content || '';
+      const { currentContent } = crdtCollabService.syncScenarioProse(activeNode.id, initialText);
+      setContent(currentContent || initialText);
       setActivePov(activeNode.fields?.pov || '');
       setOutline(activeNode.fields?.storyOutline || universeState?.creativeState?.storyOutline || '');
       setSceneBeats(activeNode.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '');
+
+      const unsubProse = crdtCollabService.subscribeToScenarioProse(activeNode.id, (newText, event, transaction) => {
+        if (transaction?.origin !== 'local') {
+          setContent(newText);
+        }
+      });
+
+      return unsubProse;
     }
   }, [activeNode?.id]);
 
@@ -130,6 +150,53 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3000);
   };
+
+  // Folio Operatives & Story Personas for POV Context Injection
+  const { roster = [], characterData } = useFolio();
+
+  const povOptions = useMemo(() => {
+    const list = [
+      { id: '', name: '', label: 'POV: 3rd Person Omniscient', type: 'narrator', subtitle: 'Default Narrator' }
+    ];
+
+    if (characterData && characterData['char-name']) {
+      list.push({
+        id: characterData['character-doc-id'] || 'active_folio',
+        name: characterData['char-name'],
+        label: `${characterData['char-name']} (${characterData['char-archetype'] || 'Hero'})`,
+        type: 'folio',
+        subtitle: `${characterData['char-archetype'] || 'Hero'} (Active Folio Operative)`,
+        char: characterData
+      });
+    }
+
+    (roster || []).forEach(op => {
+      if (op && op['char-name'] && op['character-doc-id'] !== characterData?.['character-doc-id']) {
+        list.push({
+          id: op['character-doc-id'] || op.id,
+          name: op['char-name'],
+          label: `${op['char-name']} (${op['char-archetype'] || 'Operative'})`,
+          type: 'folio',
+          subtitle: `${op['char-archetype'] || 'Operative'} (Roster)`,
+          char: op
+        });
+      }
+    });
+
+    (elementsCatalog || []).filter(e => e.type === 'Persona').forEach(p => {
+      const pName = p.title || p.name || 'Persona';
+      list.push({
+        id: p.id,
+        name: pName,
+        label: `${pName} (${p.fields?.species || 'Story Persona'})`,
+        type: 'story_persona',
+        subtitle: `${p.fields?.species || 'Story Persona'}`,
+        element: p
+      });
+    });
+
+    return list;
+  }, [roster, characterData, elementsCatalog]);
 
   // Telemetry
   const words = useMemo(() => {
@@ -141,6 +208,7 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
   const handleContentChange = (val) => {
     setContent(val);
     if (activeNode?.id) {
+      crdtCollabService.updateScenarioProse(activeNode.id, val, 'local');
       updateStory(activeNode.id, { content: val });
     }
   };
@@ -187,15 +255,23 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
     const plainText = content.replace(/<[^>]+>/g, '');
     let prompt = '';
 
+    const povEntry = povOptions.find(o => o.name === activePov);
+    let povDirective = activePov ? `Point of View: ${activePov}` : 'Point of View: Third Person Omniscient';
+    if (povEntry?.char) {
+      povDirective += ` [Hero Operative - Archetype: ${povEntry.char['char-archetype'] || 'Operative'}, Species: ${povEntry.char['char-species'] || 'Terran'}, Motive: "${povEntry.char['char-motive'] || 'Survive and accomplish mission'}"]`;
+    } else if (povEntry?.element) {
+      povDirective += ` [Story Persona - Species: ${povEntry.element.fields?.species || 'Unknown'}, Archetype: ${povEntry.element.fields?.archetype || 'NPC'}]`;
+    }
+
     if (actionType === 'continue') {
       setAiActionLabel('Continuing Scene Narrative...');
-      prompt = `Continue writing the narrative from this exact point for 2 evocative paragraphs. Maintain the POV (${activePov || 'Third Person'}), active tone (${guidanceGems || 'Sci-Fi'}), and established atmosphere:\n\n${plainText.slice(-800)}`;
+      prompt = `Continue writing the narrative from this exact point for 2 evocative paragraphs. Maintain the ${povDirective}, active tone (${guidanceGems || 'Sci-Fi'}), and established atmosphere:\n\n${plainText.slice(-800)}`;
     } else if (actionType === 'expand') {
       setAiActionLabel('Expanding Sensory Details...');
-      prompt = `Rewrite and expand the following scene segment with rich sensory textures (tactile details, lighting, sci-fi acoustics, interiority) while preserving the plot beats:\n\n${plainText.slice(-600)}`;
+      prompt = `Rewrite and expand the following scene segment with rich sensory textures (tactile details, lighting, sci-fi acoustics, interiority) under ${povDirective} while preserving the plot beats:\n\n${plainText.slice(-600)}`;
     } else if (actionType === 'polish') {
       setAiActionLabel('Polishing Prose & Style...');
-      prompt = `Line-edit and polish the following prose for maximum dramatic tension, crisp pacing, and evocative science-fantasy style:\n\n${plainText.slice(-800)}`;
+      prompt = `Line-edit and polish the following prose for maximum dramatic tension, crisp pacing, and evocative science-fantasy style (${povDirective}):\n\n${plainText.slice(-800)}`;
     }
 
     try {
@@ -396,17 +472,74 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
   const handleLogEventToProse = (evt) => {
     let summary = `Event: ${evt.type}`;
     if (evt.type === 'stage-bulkhead-toggled') {
-      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}`;
+      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}${evt.detail?.operativeId ? ` by operative ${evt.detail.operativeId}` : ''}`;
     } else if (evt.type === 'story-foundry-node-triggered') {
       summary = `Data terminal accessed: ${evt.detail?.action || 'Encrypted node decrypted'}`;
     } else if (evt.type === 'stage-hazard-toggled') {
       summary = `Environmental hazard emitter ${evt.detail?.isActive ? 'activated' : 'vented/deactivated'}`;
     } else if (evt.type === 'omnicortex-loot-dispensed') {
-      summary = `Supply container unlocked, gear acquired`;
+      summary = `Supply container unlocked, gear acquired (${evt.detail?.omnicortexGearId || 'salvage'})`;
+    } else if (evt.type === 'story-foundry-milestone-reached') {
+      const beatNum = (evt.detail?.beatIndex ?? 0) + 1;
+      const beatName = evt.detail?.beatText ? `"${evt.detail.beatText}"` : `Beat #${beatNum}`;
+      summary = `Tactical Milestone Beat #${beatNum} (${beatName}) ${evt.detail?.isCompleted ? 'Accomplished' : 'Reset'}`;
     }
     const formattedNote = `<p><em>[Tactical Event @ ${evt.time}]: ${summary}.</em></p>`;
     handleContentChange((content ? content + '<br/>' : '') + formattedNote);
     showToast('✓ Logged event into Manuscript');
+  };
+
+  // Synthesize rich immediate aftermath prose using AIME and inject directly into manuscript
+  const handleDraftAftermathToProse = async (evt) => {
+    if (isAiWorking) return;
+    setIsAiWorking(true);
+    setAiActionLabel('Drafting Tactical Aftermath...');
+    AudioService.playTerminalBeep(1100, 0.05);
+
+    let summary = `Event: ${evt.type}`;
+    if (evt.type === 'stage-bulkhead-toggled') {
+      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}${evt.detail?.operativeId ? ` by operative ${evt.detail.operativeId}` : ''}`;
+    } else if (evt.type === 'story-foundry-node-triggered') {
+      summary = `Data terminal accessed: ${evt.detail?.action || 'Encrypted node decrypted'}`;
+    } else if (evt.type === 'stage-hazard-toggled') {
+      summary = `Environmental hazard emitter ${evt.detail?.isActive ? 'activated' : 'vented/deactivated'}`;
+    } else if (evt.type === 'omnicortex-loot-dispensed') {
+      summary = `Supply container unlocked, gear acquired (${evt.detail?.omnicortexGearId || 'salvage'})`;
+    } else if (evt.type === 'story-foundry-milestone-reached') {
+      const beatNum = (evt.detail?.beatIndex ?? 0) + 1;
+      const beatName = evt.detail?.beatText ? `"${evt.detail.beatText}"` : `Beat #${beatNum}`;
+      summary = `Tactical Milestone Beat #${beatNum} (${beatName}) ${evt.detail?.isCompleted ? 'Accomplished' : 'Reset'}`;
+    }
+
+    const povEntry = povOptions.find(o => o.name === activePov);
+    let povDirective = activePov ? `Point of View: ${activePov}` : 'Point of View: Third Person Omniscient';
+    if (povEntry?.char) {
+      povDirective += ` [Hero Operative - Archetype: ${povEntry.char['char-archetype'] || 'Operative'}, Species: ${povEntry.char['char-species'] || 'Terran'}, Motive: "${povEntry.char['char-motive'] || 'Survive and accomplish mission'}"]`;
+    } else if (povEntry?.element) {
+      povDirective += ` [Story Persona - Species: ${povEntry.element.fields?.species || 'Unknown'}, Archetype: ${povEntry.element.fields?.archetype || 'NPC'}]`;
+    }
+
+    const prompt = `Write a vivid, sensory narrative aftermath paragraph describing what happens in the scene following this tactical event in the Tangent SFF RPG:
+Scenario: "${activeNode?.title || 'Tactical Scene'}"
+Tactical Event: ${summary}
+${povDirective}
+Guidance/Atmosphere: ${guidanceGems || 'Sci-Fi Dark Tactical'}
+Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impact, operative reactions, and changing situational stakes.`;
+
+    try {
+      const result = await generateContent({ prompt, context: activeNode });
+      if (result) {
+        const formatted = `<p><strong>[Aftermath: ${summary}]</strong></p><p>${result.replace(/\n\n/g, '</p><p>')}</p>`;
+        handleContentChange((content ? content + '<br/>' : '') + formatted);
+        showToast('✓ AI Aftermath appended to Manuscript');
+      }
+    } catch (err) {
+      console.warn('Aftermath generation failed:', err);
+      showToast('Aftermath generation failed');
+    } finally {
+      setIsAiWorking(false);
+      setAiActionLabel('');
+    }
   };
 
   // Link or create map helper
@@ -456,6 +589,14 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
               {activeNode.type}
             </span>
           )}
+          {/* Real-time CRDT Co-Authoring Indicator */}
+          <div 
+            className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono tracking-tight bg-slate-900 border border-slate-800 text-slate-300 shrink-0"
+            title="CRDT Yjs P2P Prose Synchronization Active"
+          >
+            <span className={`w-1.5 h-1.5 rounded-full ${collabStatus.isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
+            <span className="text-[9.5px]">CRDT {collabStatus.isConnected ? 'LIVE' : 'READY'}</span>
+          </div>
         </div>
 
         {/* Right: Telemetry & Actions */}
@@ -474,15 +615,33 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
 
             {/* POV Lock */}
             <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded-lg text-[11px]">
-              <UserCheck size={12} className="text-purple-400" />
-              <input
-                type="text"
+              <UserCheck size={12} className="text-purple-400 shrink-0" />
+              <select
                 value={activePov}
                 onChange={e => handlePovChange(e.target.value)}
-                placeholder="POV: 3rd Person"
-                className="bg-transparent text-purple-300 font-bold outline-none w-24 text-[10px]"
-                title="Active Character Point of View"
-              />
+                className="bg-transparent text-purple-300 font-bold outline-none text-[10px] cursor-pointer max-w-[140px] truncate"
+                title="Active Character Point of View (Folio Operatives & Story Personas)"
+              >
+                <option value="" className="bg-slate-950 text-slate-400">POV: 3rd Person Omniscient</option>
+                {povOptions.filter(o => o.type === 'folio').length > 0 && (
+                  <optgroup label="Folio Heroes" className="bg-slate-950 text-purple-300">
+                    {povOptions.filter(o => o.type === 'folio').map(op => (
+                      <option key={op.id} value={op.name} className="bg-slate-950 text-purple-200">
+                        👤 {op.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+                {povOptions.filter(o => o.type === 'story_persona').length > 0 && (
+                  <optgroup label="Story Personas" className="bg-slate-950 text-emerald-300">
+                    {povOptions.filter(o => o.type === 'story_persona').map(p => (
+                      <option key={p.id} value={p.name} className="bg-slate-950 text-emerald-200">
+                        🎭 {p.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+              </select>
             </div>
 
             {/* Create Story Component / Element Extractor */}
@@ -969,16 +1128,32 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
                                 <span>Loot crate dispensed gear item {evt.detail?.omnicortexGearId || ''}.</span>
                               )}
                               {evt.type === 'story-foundry-milestone-reached' && (
-                                <span>Story milestone beacon reached by operative.</span>
+                                <span>
+                                  {evt.detail?.beatText ? (
+                                    <>Milestone Beat #{((evt.detail?.beatIndex ?? 0) + 1)}: <strong className="text-amber-200">{evt.detail.beatText}</strong> ({evt.detail?.isCompleted ? 'Accomplished' : 'Reset'})</>
+                                  ) : (
+                                    <>Story milestone beacon reached by operative.</>
+                                  )}
+                                </span>
                               )}
                             </div>
-                            <div className="pt-1 flex justify-end">
+                            <div className="pt-1 flex items-center justify-end gap-1.5 flex-wrap">
+                              <button
+                                type="button"
+                                onClick={() => handleDraftAftermathToProse(evt)}
+                                disabled={isAiWorking}
+                                className="px-2 py-0.5 text-[9px] font-bold bg-purple-950/70 hover:bg-purple-800 border border-purple-500/40 text-purple-200 rounded uppercase transition-colors cursor-pointer flex items-center gap-1 disabled:opacity-50"
+                                title="Draft an AI aftermath paragraph describing consequences of this event"
+                              >
+                                <Sparkles size={10} className="text-purple-300" />
+                                <span>✦ Draft Aftermath</span>
+                              </button>
                               <button
                                 type="button"
                                 onClick={() => handleLogEventToProse(evt)}
                                 className="px-2 py-0.5 text-[9px] font-bold bg-amber-950/60 hover:bg-amber-800 border border-amber-500/40 text-amber-200 rounded uppercase transition-colors cursor-pointer"
                               >
-                                + Log into Manuscript
+                                + Log Note
                               </button>
                             </div>
                           </div>

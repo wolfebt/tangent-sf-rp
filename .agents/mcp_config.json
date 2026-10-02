@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "app-inspector": {
+      "command": "node",
+      "args": ["scripts/mcp-app-inspector.mjs"],
+      "env": {
+        "APP_ROOT": "."
+      }
+    }
+  }
+}

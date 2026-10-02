@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { CampaignProvider } from './context/CampaignContext';
 import { DBMProvider } from './context/DBMContext';
 import { FolioProvider } from './context/FolioContext';
@@ -24,12 +24,22 @@ const Compendium = lazy(() => import('./pages/Compendium'));
 const DBM = lazy(() => import('./pages/DBM'));
 const Folio = lazy(() => import('./pages/Folio'));
 const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
-const VttOptionsPage = lazy(() => import('./pages/Foundry/MapMaker/VttOptionsPage'));
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
 const CommsPage = lazy(() => import('./pages/CommsPage'));
 const TeamsPage = lazy(() => import('./pages/TeamsPage'));
-const StageView = lazy(() => import('./pages/Foundry/MapMaker/MapMaker'));
-const AdeLiveStudio = lazy(() => import('./pages/Foundry/LiveStudio/AdeLiveStudio'));
+const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
+
+const VttOpsRedirect = () => {
+  const location = useLocation();
+  const search = location.search;
+  const target = `/stage${search ? (search.includes('options=') ? search : `${search}&options=true`) : '?options=true'}`;
+  return <Navigate to={target} replace />;
+};
+
+const SearchPreservingRedirect = ({ to }) => {
+  const location = useLocation();
+  return <Navigate to={`${to}${location.search}`} replace />;
+};
 
 const PageLoader = () => (
   <div className="flex-1 flex flex-col items-center justify-center bg-black text-cyan-400 font-mono text-xs tracking-wider h-full w-full select-none">
@@ -108,40 +118,34 @@ export function App() {
                             <Suspense fallback={<PageLoader />}>
                               <Routes>
                                 <Route path="/" element={<Dashboard />} />
-                                <Route path="/dashboard" element={<Navigate to="/" replace />} />
+                                <Route path="/dashboard" element={<SearchPreservingRedirect to="/" />} />
                                 <Route path="/comms" element={<CommsPage />} />
-                                <Route path="/chat" element={<Navigate to="/comms" replace />} />
+                                <Route path="/chat" element={<SearchPreservingRedirect to="/comms" />} />
                                 <Route path="/teams" element={<TeamsPage />} />
-                                <Route path="/groups" element={<Navigate to="/teams" replace />} />
-                                <Route path="/squads" element={<Navigate to="/teams" replace />} />
+                                <Route path="/groups" element={<SearchPreservingRedirect to="/teams" />} />
+                                <Route path="/squads" element={<SearchPreservingRedirect to="/teams" />} />
                                 <Route path="/codex" element={<CodexApp />} />
                                 <Route path="/codex/*" element={<CodexApp />} />
                                 <Route path="/compendium" element={<Compendium />} />
                                 <Route path="/compendium/*" element={<Compendium />} />
                                 <Route path="/dbm" element={<DBM />} />
                                 <Route path="/folio" element={<Folio />} />
-                                <Route path="/roster" element={<Navigate to="/folio" replace />} />
-                                <Route path="/live-studio" element={<AdeLiveStudio />} />
-                                <Route path="/ade-stage" element={<AdeLiveStudio />} />
-                                <Route path="/foundry/live-studio" element={<AdeLiveStudio />} />
-                                <Route path="/foundry/ade-stage" element={<AdeLiveStudio />} />
-                                <Route path="/vtt-ops" element={<VttOptionsPage />} />
+                                <Route path="/roster" element={<SearchPreservingRedirect to="/folio" />} />
+                                <Route path="/live-studio" element={<SearchPreservingRedirect to="/foundry/live" />} />
+                                <Route path="/ade-stage" element={<SearchPreservingRedirect to="/foundry/live" />} />
+                                <Route path="/map-maker" element={<SearchPreservingRedirect to="/foundry/map" />} />
+                                <Route path="/mapmaker" element={<SearchPreservingRedirect to="/foundry/map" />} />
+                                <Route path="/vtt-ops" element={<VttOpsRedirect />} />
                                 <Route path="/stage" element={<StageView defaultRole="architect" />} />
                                 <Route path="/vtt" element={<StageView defaultRole="operative" />} />
-                                <Route path="/foundry/vtt-options" element={<VttOptionsPage />} />
-                                <Route path="/foundry/view/:mapId" element={<PlayerSpectatorView />} />
-                                <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />
                                 <Route path="/spectator/:mapId" element={<PlayerSpectatorView />} />
-                                <Route path="/map-maker" element={<StageView />} />
-                                <Route path="/mapmaker" element={<StageView />} />
-                                <Route path="/foundry/map-maker" element={<StageView />} />
                                 <Route path="/foundry/*" element={<FoundryApp />} />
-                                <Route path="/ade/*" element={<Navigate to="/foundry" replace />} />
-                                <Route path="/ade" element={<Navigate to="/foundry" replace />} />
-                                <Route path="/ade-studio/*" element={<Navigate to="/foundry" replace />} />
-                                <Route path="/ade-studio" element={<Navigate to="/foundry" replace />} />
-                                <Route path="/story-foundry" element={<Navigate to="/foundry" replace />} />
-                                <Route path="/campaign-builder" element={<Navigate to="/foundry" replace />} />
+                                <Route path="/ade/*" element={<SearchPreservingRedirect to="/foundry" />} />
+                                <Route path="/ade" element={<SearchPreservingRedirect to="/foundry" />} />
+                                <Route path="/ade-studio/*" element={<SearchPreservingRedirect to="/foundry" />} />
+                                <Route path="/ade-studio" element={<SearchPreservingRedirect to="/foundry" />} />
+                                <Route path="/story-foundry" element={<SearchPreservingRedirect to="/foundry" />} />
+                                <Route path="/campaign-builder" element={<SearchPreservingRedirect to="/foundry" />} />
                               </Routes>
                             </Suspense>
                           </ErrorBoundary>

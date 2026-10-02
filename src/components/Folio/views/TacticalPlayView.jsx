@@ -790,8 +790,34 @@ export const TacticalPlayView = ({
           </div>
         </div>
 
-        {/* Builder Switcher / Close / Lock Buttons (Hidden on mobile as they are in the persistent Folio toolbar) */}
-        <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
+        {/* Builder Switcher / Close / Lock Buttons */}
+        <div className="flex items-center gap-2 self-end md:self-auto shrink-0 flex-wrap">
+          <FolioTooltip
+            title="Tangent SF RP Combat Rules"
+            badge="Core 2d10 Mechanics"
+            badgeColor="cyan"
+            maxWidth={380}
+            formula="Check / Attack = 2d10 + Ability Mod + Skill vs DC / EV"
+            rules={[
+              "Critical Hit: Dual 10s on 2d10 is treated as 30 (+10 bonus over max 20).",
+              "Critical Failure (Fumble): Dual 1s on 2d10 is treated as -10.",
+              "Advantage / Disadvantage: Roll two pairs of 2d10, take higher (Adv) or lower (Disadv). Cancels if both apply.",
+              "Biological Vitals: Damage depletes Vitality (stamina/shields) first, then Health (fatal flesh wounds).",
+              "Synthetic Vitals: Synthetic chassis use Structure Points (SP) exclusively. No separate Health or Vitality."
+            ]}
+            tags={['2d10 Base', 'Crits = 30', 'Fumbles = -10', 'Adv / Disadv', 'Triage System']}
+            notes="Target DC or Evasion Value (EV = 10 + AGI + Acrobatics). Physical Armor and Energy Shields mitigate damage before vitals attrition."
+          >
+            <button
+              type="button"
+              className="px-2.5 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700/90 text-cyan-300 hover:text-cyan-200 border border-cyan-500/40 hover:border-cyan-400 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm"
+              title="View Core 2d10 Rules Reference"
+            >
+              <BookOpen size={12} className="text-cyan-400" />
+              <span>Rules Ref</span>
+            </button>
+          </FolioTooltip>
+
           <div className="hidden md:flex items-center gap-2">
             {isPreview && (
               <button

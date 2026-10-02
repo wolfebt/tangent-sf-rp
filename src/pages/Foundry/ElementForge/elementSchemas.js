@@ -4,7 +4,7 @@
  */
 
 export const ELEMENT_TYPES = [
-  'Story Arc', 'Adventure', 'Persona', 'Scene', 'Faction', 
+  'Story Arc', 'Adventure', 'Persona', 'Scene', 'Setting', 'Faction', 
   'Encounter', 'Item', 'Clue', 'Handout', 'Custom',
   'Universe', 'World', 'Philosophy', 'Technology', 'Species'
 ];
@@ -17,6 +17,7 @@ export const getTypePillStyle = (type) => {
     case 'Persona':
       return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
     case 'Scene':
+    case 'Setting':
     case 'Encounter':
       return 'bg-rose-500/20 text-rose-300 border-rose-500/40';
     case 'Faction':
@@ -153,6 +154,32 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Plot & Pacing', key: 'potentialEncounters', label: 'Potential Encounters & Conflict', type: 'textarea', placeholder: 'Creatures, hazards, or events here...' },
     { tab: 'Plot & Pacing', key: 'sensoryDialogue', label: 'Sensory Details & Key Dialogue', type: 'textarea', placeholder: 'Dialogue...' },
     { tab: 'Plot & Pacing', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Tags (e.g. TL-4, High-Danger, Subterranean)...' }
+  ],
+  'Setting': [
+    { tab: 'Overview', key: 'settingName', label: 'Setting Name', type: 'text', placeholder: 'Name of the region, city, or star system...' },
+    { tab: 'Overview', key: 'scale', label: 'Scale', type: 'text', placeholder: 'Room, Sector, Outpost, Metropolis, Planet...' },
+    { tab: 'Overview', key: 'genreTech', label: 'Genre & Tech Level', type: 'text', placeholder: 'TL-3 Space Opera, Cyberpunk Megacity...' },
+    { tab: 'Overview', key: 'coreConcept', label: 'Core Concept', type: 'textarea', placeholder: 'One-sentence summary of the setting...' },
+    { tab: 'Overview', key: 'primaryConflict', label: 'Primary Conflict / Tension', type: 'textarea', placeholder: 'Central source of strife...' },
+    { tab: 'Geography & Environment', key: 'cosmology', label: 'Cosmology & Astronomy', type: 'textarea', placeholder: 'Star system, celestial bodies, anomalies...' },
+    { tab: 'Geography & Environment', key: 'climate', label: 'Climate & Weather Patterns', type: 'textarea', placeholder: 'Climate, atmospheric pressure, seasonal storms...' },
+    { tab: 'Geography & Environment', key: 'terrain', label: 'Major Regions & Terrain', type: 'textarea', placeholder: 'Topography, biomes, choke points...' },
+    { tab: 'Geography & Environment', key: 'hazards', label: 'Natural Hazards & Phenomena', type: 'textarea', placeholder: 'Radiation pockets, acid fog, zero-G pockets...' },
+    { tab: 'Inhabitants & Ecology', key: 'floraFauna', label: 'Native Flora & Fauna', type: 'textarea', placeholder: 'Predators, dangerous flora, harvestable resources...' },
+    { tab: 'Inhabitants & Ecology', key: 'demographics', label: 'Inhabitants & Demographics', type: 'textarea', placeholder: 'Populations, sentient species, enclaves...' },
+    { tab: 'History & Lore', key: 'origins', label: 'Creation Origin & Backstory', type: 'textarea', placeholder: 'Colonization, mythic origin, founding...' },
+    { tab: 'History & Lore', key: 'majorEvents', label: 'Major Historical Turning Points', type: 'textarea', placeholder: 'Wars, cataclysms, treaty signings...' },
+    { tab: 'History & Lore', key: 'ancientRuins', label: 'Ancient Ruins & Relics', type: 'textarea', placeholder: 'Precursor installations, buried hulks...' },
+    { tab: 'Society & Culture', key: 'government', label: 'Government & Power Structure', type: 'textarea', placeholder: 'Ruling bodies, corporations, syndicates...' },
+    { tab: 'Society & Culture', key: 'economy', label: 'Economy & Primary Trade', type: 'textarea', placeholder: 'Currency, trade commodities, black markets...' },
+    { tab: 'Society & Culture', key: 'customs', label: 'Customs & Cultural Norms', type: 'textarea', placeholder: 'Etiquette, taboos, rituals...' },
+    { tab: 'Sensory & Atmosphere', key: 'dominantSights', label: 'Key Sights & Aesthetics', type: 'textarea', placeholder: 'Visual architecture, lighting, skyline...' },
+    { tab: 'Sensory & Atmosphere', key: 'soundsSmells', label: 'Sounds & Smells', type: 'textarea', placeholder: 'Industrial hum, ozone smell, silence of the void...' },
+    { tab: 'Sensory & Atmosphere', key: 'moodAtmosphere', label: 'Mood & Emotional Tone', type: 'textarea', placeholder: 'Bleak, wondrous, claustrophobic...' },
+    { tab: 'Landmarks & Points of Interest', key: 'majorLandmarks', label: 'Major Landmarks', type: 'textarea', placeholder: 'Citadel, space elevator, subterranean market...' },
+    { tab: 'Landmarks & Points of Interest', key: 'hiddenLocations', label: 'Hidden Locations & Secrets', type: 'textarea', placeholder: 'Smuggler caches, lost labs, safehouses...' },
+    { tab: 'Rules & Systems', key: 'specialRules', label: 'Special Setting Rules & Modifiers', type: 'textarea', placeholder: 'Corrosive atmosphere (CON DC 14), low gravity (+2 Agility)...' },
+    { tab: 'Rules & Systems', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Tags (e.g. TL-4, High-Radiation, Orbital)...' }
   ],
   'Faction': [
     { tab: 'Overview', key: 'dbmFactionRef', label: 'Faction Record (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Link Cloud DBM Faction...' },

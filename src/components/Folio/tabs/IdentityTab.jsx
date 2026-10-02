@@ -46,7 +46,9 @@ import {
   Layers,
   AlertTriangle,
   ArrowUpRight,
-  CheckCircle2
+  CheckCircle2,
+  Search,
+  Filter
 } from 'lucide-react';
 import {
   formatHeightWithConversion,
@@ -218,6 +220,43 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       origin: false,
       faction: false
     });
+  };
+
+  const [showCatalog, setShowCatalog] = useState({
+    archetype: false,
+    species: false,
+    occupation: false,
+    origin: false,
+    faction: false
+  });
+  const [catalogSearch, setCatalogSearch] = useState({
+    archetype: '',
+    species: '',
+    occupation: '',
+    origin: '',
+    faction: ''
+  });
+  const [catalogFilter, setCatalogFilter] = useState({
+    archetype: 'all',
+    species: 'all',
+    occupation: 'all',
+    origin: 'all',
+    faction: 'all'
+  });
+  const [showDossier, setShowDossier] = useState({
+    archetype: false,
+    species: false,
+    occupation: false,
+    origin: false,
+    faction: false
+  });
+
+  const toggleCatalog = (pillarKey) => {
+    setShowCatalog(prev => ({ ...prev, [pillarKey]: !prev[pillarKey] }));
+  };
+
+  const toggleDossier = (pillarKey) => {
+    setShowDossier(prev => ({ ...prev, [pillarKey]: !prev[pillarKey] }));
   };
 
   const handleInspectItem = (item, categoryKey, title) => {
@@ -606,6 +645,288 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   };
 
   // ----------------------------------------------------------------------------------
+  // MODERNIZED PILLAR CATALOG & DOSSIER SHARED HELPERS
+  // ----------------------------------------------------------------------------------
+  const THEME_CLASSES = {
+    amber: {
+      border: 'border-amber-500/40',
+      borderActive: 'border-amber-400',
+      bgBadge: 'bg-amber-950/80',
+      textBadge: 'text-amber-300',
+      borderBadge: 'border-amber-500/50',
+      textAccent: 'text-amber-400',
+      btnBg: 'bg-amber-600 hover:bg-amber-500 text-slate-950',
+      cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
+      cardActive: 'border-amber-400 bg-amber-950/30'
+    },
+    cyan: {
+      border: 'border-cyan-500/40',
+      borderActive: 'border-cyan-400',
+      bgBadge: 'bg-cyan-950/80',
+      textBadge: 'text-cyan-300',
+      borderBadge: 'border-cyan-500/50',
+      textAccent: 'text-cyan-400',
+      btnBg: 'bg-cyan-600 hover:bg-cyan-500 text-slate-950',
+      cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
+      cardActive: 'border-cyan-400 bg-cyan-950/30'
+    },
+    sky: {
+      border: 'border-sky-500/40',
+      borderActive: 'border-sky-400',
+      bgBadge: 'bg-sky-950/80',
+      textBadge: 'text-sky-300',
+      borderBadge: 'border-sky-500/50',
+      textAccent: 'text-sky-400',
+      btnBg: 'bg-sky-600 hover:bg-sky-500 text-slate-950',
+      cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
+      cardActive: 'border-sky-400 bg-sky-950/30'
+    },
+    emerald: {
+      border: 'border-emerald-500/40',
+      borderActive: 'border-emerald-400',
+      bgBadge: 'bg-emerald-950/80',
+      textBadge: 'text-emerald-300',
+      borderBadge: 'border-emerald-500/50',
+      textAccent: 'text-emerald-400',
+      btnBg: 'bg-emerald-600 hover:bg-emerald-500 text-slate-950',
+      cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
+      cardActive: 'border-emerald-400 bg-emerald-950/30'
+    },
+    purple: {
+      border: 'border-purple-500/40',
+      borderActive: 'border-purple-400',
+      bgBadge: 'bg-purple-950/80',
+      textBadge: 'text-purple-300',
+      borderBadge: 'border-purple-500/50',
+      textAccent: 'text-purple-400',
+      btnBg: 'bg-purple-600 hover:bg-purple-500 text-slate-950',
+      cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
+      cardActive: 'border-purple-400 bg-purple-950/30'
+    }
+  };
+
+  const renderPillarCatalogPicker = ({
+    pillarKey,
+    title,
+    catalog,
+    selectedValue,
+    onSelect,
+    browsePath,
+    categoryExtractor = (item) => item.category || 'General',
+    colorTheme = 'cyan',
+    renderCardBadges
+  }) => {
+    const search = catalogSearch[pillarKey] || '';
+    const filter = catalogFilter[pillarKey] || 'all';
+
+    const categories = ['all', ...Array.from(new Set(catalog.map(categoryExtractor).filter(Boolean)))];
+
+    const filteredItems = catalog.filter(item => {
+      const name = (item.name || item.title || item.id || '').toLowerCase();
+      const desc = (item.description || item.summary || item.core_concept || '').toLowerCase();
+      const cat = (categoryExtractor(item) || '').toLowerCase();
+      const searchMatch = !search || name.includes(search.toLowerCase()) || desc.includes(search.toLowerCase()) || cat.includes(search.toLowerCase());
+      const filterMatch = filter === 'all' || categoryExtractor(item) === filter;
+      return searchMatch && filterMatch;
+    });
+
+    const theme = THEME_CLASSES[colorTheme] || THEME_CLASSES.cyan;
+
+    return (
+      <div className={`p-3 bg-slate-950/85 rounded-xl border ${theme.border} space-y-3 shadow-inner`}>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${theme.bgBadge} ${theme.textBadge} border ${theme.borderBadge}`}>
+              {title} Catalog ({filteredItems.length})
+            </span>
+            <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">
+              Select an option below or filter by category
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setCatalogSearch(prev => ({ ...prev, [pillarKey]: e.target.value }))}
+                placeholder={`Search ${title.toLowerCase()}...`}
+                className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded-lg pl-8 pr-6 py-1 text-xs text-slate-200 outline-none font-mono w-40 sm:w-56"
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setCatalogSearch(prev => ({ ...prev, [pillarKey]: '' }))}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 cursor-pointer"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+
+            {selectedValue && (
+              <button
+                type="button"
+                onClick={() => setShowCatalog(prev => ({ ...prev, [pillarKey]: false }))}
+                className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer"
+                title="Collapse catalog view"
+              >
+                Hide Catalog
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Category Filters */}
+        {categories.length > 2 && (
+          <div className="flex flex-wrap items-center gap-1.5 pt-1">
+            <span className="text-[10px] font-mono uppercase text-slate-500 flex items-center gap-1 mr-1">
+              <Filter className="w-3 h-3" /> Filter:
+            </span>
+            {categories.map(cat => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setCatalogFilter(prev => ({ ...prev, [pillarKey]: cat }))}
+                className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-all cursor-pointer ${
+                  filter === cat
+                    ? `${theme.bgBadge} ${theme.textBadge} border ${theme.borderBadge}`
+                    : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {cat === 'all' ? 'All' : cat}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Catalog Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-72 sm:max-h-96 overflow-y-auto pr-1 custom-scrollbar">
+          {filteredItems.map(item => {
+            const itemName = item.name || item.title || item.id;
+            const isSelected = (selectedValue || '').toLowerCase() === itemName.toLowerCase();
+            return (
+              <div
+                key={item.id || itemName}
+                onClick={() => onSelect(item)}
+                className={`p-2.5 rounded-lg border transition-all cursor-pointer flex flex-col justify-between group ${
+                  isSelected
+                    ? `${theme.cardActive} shadow-sm`
+                    : `${theme.cardBg} border-slate-800 hover:${theme.border}`
+                }`}
+              >
+                <div className="space-y-1">
+                  <div className="flex items-start justify-between gap-1.5">
+                    <span className={`text-xs font-bold font-mono uppercase ${isSelected ? theme.textAccent : 'text-slate-200 group-hover:' + theme.textAccent} truncate`}>
+                      {itemName}
+                    </span>
+                    {isSelected && (
+                      <span className="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500 text-emerald-300 text-[9px] font-mono font-bold flex items-center gap-0.5 shrink-0">
+                        <Check className="w-2.5 h-2.5" /> Selected
+                      </span>
+                    )}
+                  </div>
+
+                  {renderCardBadges && (
+                    <div className="flex flex-wrap gap-1 text-[10px] font-mono">
+                      {renderCardBadges(item)}
+                    </div>
+                  )}
+
+                  {(item.core_concept || item.summary || item.tactical_role || item.description) && (
+                    <p className="text-[11px] text-slate-400 line-clamp-2 leading-snug">
+                      {item.core_concept || item.summary || item.tactical_role || item.description}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between pt-2 mt-2 border-t border-slate-800/80 shrink-0" onClick={e => e.stopPropagation()}>
+                  <button
+                    type="button"
+                    onClick={() => onSelect(item)}
+                    className={`px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-emerald-900/60 border border-emerald-500/80 text-emerald-200'
+                        : `${theme.btnBg}`
+                    }`}
+                  >
+                    {isSelected ? 'Active' : 'Select'}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleInspectItem(item, browsePath, `${title}: ${itemName}`)}
+                    className="p-1 rounded text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors cursor-pointer"
+                    title={`Inspect full details for ${itemName}`}
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+          {filteredItems.length === 0 && (
+            <div className="col-span-full p-4 text-center text-xs font-mono text-slate-500">
+              No matching {title.toLowerCase()} found for "{search}".
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderConsolidatedDossier = (pillarKey, label, children, item, browsePath) => {
+    const isOpen = Boolean(showDossier[pillarKey]);
+    return (
+      <div className="bg-slate-900/40 rounded-xl border border-slate-800/80 overflow-hidden">
+        <div
+          onClick={() => toggleDossier(pillarKey)}
+          className="flex items-center justify-between p-2.5 px-3 bg-slate-900/70 hover:bg-slate-900 transition-colors cursor-pointer select-none"
+        >
+          <div className="flex items-center gap-2">
+            <BookOpen className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300">
+              Reference Dossier & Lore Specifications
+            </span>
+            <span className="text-[10px] font-mono text-slate-500 hidden sm:inline">
+              (Lore, Inherent Traits & System Specs)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2" onClick={e => e.stopPropagation()}>
+            {item && (
+              <button
+                type="button"
+                onClick={() => handleInspectItem(item, browsePath, `${label}: ${item.name || item.title || item.id}`)}
+                className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[10px] font-mono flex items-center gap-1 transition-colors cursor-pointer"
+                title="Open full database record in inspector"
+              >
+                <Eye className="w-3 h-3 text-cyan-400" />
+                <span>Inspect Record</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => toggleDossier(pillarKey)}
+              className="p-1 rounded text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+            >
+              {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        {isOpen && (
+          <div className="p-3.5 border-t border-slate-800/80 space-y-3 animate-in fade-in duration-150">
+            {children}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // ----------------------------------------------------------------------------------
   // RENDER: ARCHETYPE CARD / WORKBENCH
   // ----------------------------------------------------------------------------------
   const renderArchetypeSection = () => {
@@ -615,6 +936,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
     const isExpanded = Boolean(expandedCards['archetype']);
+    const isCatalogOpen = Boolean(showCatalog['archetype'] || !val);
     const essentialSkills = extractNameList(selectedArchetype?.essential_skills);
     const signatureFeatures = extractNameList(selectedArchetype?.signature_features);
     const recOccs = extractNameList(selectedArchetype?.recommended_occupations);
@@ -683,19 +1005,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && onOpenSelectorModal && (
+            {!isSheetLocked && (
               <button
                 type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                onClick={() => toggleCatalog('archetype')}
                 className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer shadow-none ${
-                  val
+                  showCatalog.archetype
+                    ? 'bg-amber-950/80 border-amber-500 text-amber-200'
+                    : val
                     ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-amber-300 hover:text-amber-100 hover:border-amber-400'
                     : 'bg-amber-500/20 hover:bg-amber-500/30 border-amber-500/60 text-amber-200 hover:text-white'
                 }`}
-                title="Browse Full Catalog Window"
+                title="Toggle visual catalog cards browser"
               >
                 <Sparkles className="w-3 h-3 text-amber-400" />
-                <span>{val ? 'Browse Catalog' : 'Catalog'}</span>
+                <span>{showCatalog.archetype ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
               </button>
             )}
 
@@ -759,191 +1083,224 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Empty State when Expanded without Archetype Selected */}
-        {isExpanded && !selectedArchetype && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
-            <span>No Archetype selected yet. Choose an archetype from the quick selector or catalog.</span>
-          </div>
-        )}
-
         {/* Body Content */}
-        {selectedArchetype && isExpanded && (
+        {isExpanded && (
           <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Top Blueprint Banner & 80 CP Pre-build Button */}
-            <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-gradient-to-r from-amber-950/30 to-slate-900/60 border border-amber-500/30 rounded-lg">
-              <div className="space-y-0.5">
-                <span className="text-[10px] font-mono uppercase text-amber-400/90 font-bold block">
-                  Core Concept Blueprint
-                </span>
-                <p className="text-xs font-mono text-slate-300">
-                  {selectedArchetype.core_concept || selectedArchetype.summary || selectedArchetype.tactical_role || 'Chassis Blueprint'}
-                </p>
-              </div>
-
-              {!isSheetLocked && applyArchetypeChassis && (
-                <button
-                  type="button"
-                  onClick={() => applyArchetypeChassis(selectedArchetype)}
-                  className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all shadow cursor-pointer active:scale-95 flex items-center gap-1.5 shrink-0"
-                  title="Apply 80 CP Archetype Pre-build: +3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Apply 80 CP Pre-build</span>
-                </button>
-              )}
-            </div>
-
-            {/* Attributes Specification */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono text-slate-300 bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-              <div className="flex items-center justify-between p-2 rounded bg-slate-950 border border-slate-800">
-                <span className="text-slate-400">Primary Attribute:</span>
-                <strong className="text-amber-300 text-sm">{selectedArchetype.primary_attribute || 'Strength'} (+3)</strong>
-              </div>
-              <div className="flex items-center justify-between p-2 rounded bg-slate-950 border border-slate-800">
-                <span className="text-slate-400">Secondary Attribute:</span>
-                <strong className="text-amber-300 text-sm">{selectedArchetype.secondary_attribute || 'Agility'} (+2)</strong>
-              </div>
-            </div>
-
-            {/* Archetype Recommended Pathways Dossier */}
-            {(recOccs.length > 0 || recOrigins.length > 0 || recFactions.length > 0) && (
-              <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 space-y-2.5">
-                <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">
-                  <span>★</span> Recommended Pathways & Synergies
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
-                  {recOccs.length > 0 && (
-                    <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
-                      <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
-                      <div className="flex flex-wrap gap-1">
-                        {recOccs.map(occName => {
-                          const rawOcc = characterData['char-occu'];
-                          const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
-                          const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
-                          return (
-                            <span
-                              key={occName}
-                              className={`px-2 py-0.5 rounded text-[10px] border ${
-                                isCurrent
-                                  ? 'bg-sky-950 border-sky-500 text-sky-200 font-bold'
-                                  : 'bg-slate-900 border-slate-800 text-slate-400'
-                              }`}
-                            >
-                              {occName} {isCurrent ? '✓' : ''}
-                            </span>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                  {recOrigins.length > 0 && (
-                    <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
-                      <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
-                      <div className="flex flex-wrap gap-1">
-                        {recOrigins.map(origName => {
-                          const rawOrig = characterData['char-origin'];
-                          const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
-                          const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
-                          return (
-                            <span
-                              key={origName}
-                              className={`px-2 py-0.5 rounded text-[10px] border ${
-                                isCurrent
-                                  ? 'bg-emerald-950 border-emerald-500 text-emerald-200 font-bold'
-                                  : 'bg-slate-900 border-slate-800 text-slate-400'
-                              }`}
-                            >
-                              {origName} {isCurrent ? '✓' : ''}
-                            </span>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                  {recFactions.length > 0 && (
-                    <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
-                      <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
-                      <div className="flex flex-wrap gap-1">
-                        {recFactions.map(facName => {
-                          const rawFac = characterData['char-faction'];
-                          const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
-                          const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
-                          return (
-                            <span
-                              key={facName}
-                              className={`px-2 py-0.5 rounded text-[10px] border ${
-                                isCurrent
-                                  ? 'bg-purple-950 border-purple-500 text-purple-200 font-bold'
-                                  : 'bg-slate-900 border-slate-800 text-slate-400'
-                              }`}
-                            >
-                              {facName} {isCurrent ? '✓' : ''}
-                            </span>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Essential Skills */}
-            {essentialSkills.length > 0 && (
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
-                  Essential Skills (Rank 6 Blueprint Options & Selections):
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {essentialSkills.map(skName => {
-                    const status = getSkillTrainingStatus(skName, characterData);
-                    return (
-                      <span
-                        key={skName}
-                        className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                          status.isTrained
-                            ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
-                            : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                        }`}
-                      >
-                        {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
+            {/* Visual Catalog Cards Picker */}
+            {isCatalogOpen && (
+              renderPillarCatalogPicker({
+                pillarKey: 'archetype',
+                title: 'Archetype',
+                catalog: archetypesCatalog,
+                selectedValue: val,
+                browsePath,
+                colorTheme: 'amber',
+                categoryExtractor: (item) => item.sphere || item.category || 'General',
+                renderCardBadges: (item) => (
+                  <>
+                    {item.sphere && (
+                      <span className="px-1.5 py-0.5 rounded bg-amber-950 border border-amber-600/40 text-amber-300 font-bold">
+                        {item.sphere}
                       </span>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Signature Features */}
-            {signatureFeatures.length > 0 && (
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
-                  Signature Features (Options & Selections):
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {signatureFeatures.map(fName => {
-                    const acquired = getFeatureAcquiredStatus(fName, characterData);
-                    return (
-                      <span
-                        key={fName}
-                        className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                          acquired
-                            ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
-                            : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                        }`}
-                      >
-                        {fName} {acquired ? '✓' : ''}
+                    )}
+                    {item.primary_attribute && (
+                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                        {item.primary_attribute} (+3) / {item.secondary_attribute} (+2)
                       </span>
-                    );
-                  })}
-                </div>
-              </div>
+                    )}
+                  </>
+                ),
+                onSelect: (item) => {
+                  handleArchetypeChange(item.name || item.id);
+                  setShowCatalog(prev => ({ ...prev, archetype: false }));
+                }
+              })
             )}
 
-            {selectedArchetype.description && (
-              <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                {selectedArchetype.description}
-              </p>
+            {selectedArchetype && (
+              <>
+                {/* Top Blueprint Banner & 80 CP Pre-build Button */}
+                <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-gradient-to-r from-amber-950/30 to-slate-900/60 border border-amber-500/30 rounded-lg">
+                  <div className="space-y-0.5">
+                    <span className="text-[10px] font-mono uppercase text-amber-400/90 font-bold block">
+                      Core Concept Blueprint
+                    </span>
+                    <p className="text-xs font-mono text-slate-300">
+                      {selectedArchetype.core_concept || selectedArchetype.summary || selectedArchetype.tactical_role || 'Chassis Blueprint'}
+                    </p>
+                  </div>
+
+                  {!isSheetLocked && applyArchetypeChassis && (
+                    <button
+                      type="button"
+                      onClick={() => applyArchetypeChassis(selectedArchetype)}
+                      className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all shadow cursor-pointer active:scale-95 flex items-center gap-1.5 shrink-0"
+                      title="Apply 80 CP Archetype Pre-build: +3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Apply 80 CP Pre-build</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Attributes Specification */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono text-slate-300 bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                  <div className="flex items-center justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                    <span className="text-slate-400">Primary Attribute:</span>
+                    <strong className="text-amber-300 text-sm">{selectedArchetype.primary_attribute || 'Strength'} (+3)</strong>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded bg-slate-950 border border-slate-800">
+                    <span className="text-slate-400">Secondary Attribute:</span>
+                    <strong className="text-amber-300 text-sm">{selectedArchetype.secondary_attribute || 'Agility'} (+2)</strong>
+                  </div>
+                </div>
+
+                {/* Consolidated Reference Dossier */}
+                {renderConsolidatedDossier('archetype', 'Archetype', (
+                  <div className="space-y-3">
+                    {/* Archetype Recommended Pathways Dossier */}
+                    {(recOccs.length > 0 || recOrigins.length > 0 || recFactions.length > 0) && (
+                      <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 space-y-2.5">
+                        <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">
+                          <span>★</span> Recommended Pathways & Synergies
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+                          {recOccs.length > 0 && (
+                            <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
+                              <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
+                              <div className="flex flex-wrap gap-1">
+                                {recOccs.map(occName => {
+                                  const rawOcc = characterData['char-occu'];
+                                  const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
+                                  const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
+                                  return (
+                                    <span
+                                      key={occName}
+                                      className={`px-2 py-0.5 rounded text-[10px] border ${
+                                        isCurrent
+                                          ? 'bg-sky-950 border-sky-500 text-sky-200 font-bold'
+                                          : 'bg-slate-900 border-slate-800 text-slate-400'
+                                      }`}
+                                    >
+                                      {occName} {isCurrent ? '✓' : ''}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                          {recOrigins.length > 0 && (
+                            <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
+                              <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
+                              <div className="flex flex-wrap gap-1">
+                                {recOrigins.map(origName => {
+                                  const rawOrig = characterData['char-origin'];
+                                  const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
+                                  const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
+                                  return (
+                                    <span
+                                      key={origName}
+                                      className={`px-2 py-0.5 rounded text-[10px] border ${
+                                        isCurrent
+                                          ? 'bg-emerald-950 border-emerald-500 text-emerald-200 font-bold'
+                                          : 'bg-slate-900 border-slate-800 text-slate-400'
+                                      }`}
+                                    >
+                                      {origName} {isCurrent ? '✓' : ''}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                          {recFactions.length > 0 && (
+                            <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
+                              <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
+                              <div className="flex flex-wrap gap-1">
+                                {recFactions.map(facName => {
+                                  const rawFac = characterData['char-faction'];
+                                  const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
+                                  const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
+                                  return (
+                                    <span
+                                      key={facName}
+                                      className={`px-2 py-0.5 rounded text-[10px] border ${
+                                        isCurrent
+                                          ? 'bg-purple-950 border-purple-500 text-purple-200 font-bold'
+                                          : 'bg-slate-900 border-slate-800 text-slate-400'
+                                      }`}
+                                    >
+                                      {facName} {isCurrent ? '✓' : ''}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Essential Skills */}
+                    {essentialSkills.length > 0 && (
+                      <div className="space-y-1.5">
+                        <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
+                          Essential Skills (Rank 6 Blueprint Options & Selections):
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {essentialSkills.map(skName => {
+                            const status = getSkillTrainingStatus(skName, characterData);
+                            return (
+                              <span
+                                key={skName}
+                                className={`px-2.5 py-1 rounded text-xs font-mono border ${
+                                  status.isTrained
+                                    ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
+                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                                }`}
+                              >
+                                {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Signature Features */}
+                    {signatureFeatures.length > 0 && (
+                      <div className="space-y-1.5">
+                        <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
+                          Signature Features (Options & Selections):
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {signatureFeatures.map(fName => {
+                            const acquired = getFeatureAcquiredStatus(fName, characterData);
+                            return (
+                              <span
+                                key={fName}
+                                className={`px-2.5 py-1 rounded text-xs font-mono border ${
+                                  acquired
+                                    ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
+                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                                }`}
+                              >
+                                {fName} {acquired ? '✓' : ''}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedArchetype.description && (
+                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                        {selectedArchetype.description}
+                      </p>
+                    )}
+                  </div>
+                ), selectedArchetype, browsePath)}
+              </>
             )}
           </div>
         )}
@@ -961,6 +1318,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
     const isExpanded = Boolean(expandedCards['species']);
+    const isCatalogOpen = Boolean(showCatalog['species'] || !val);
     const inherentTraitsList = getInherentSpeciesTraits(selectedSpecies);
     const inherentFeatures = extractNameList(selectedSpecies?.inherent_features);
     const bonusFeatureChoices = extractNameList(selectedSpecies?.bonus_feature_choices || selectedSpecies?.recommended_features);
@@ -1055,19 +1413,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && onOpenSelectorModal && (
+            {!isSheetLocked && (
               <button
                 type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                onClick={() => toggleCatalog('species')}
                 className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  val
+                  showCatalog.species
+                    ? 'bg-cyan-950/80 border-cyan-500 text-cyan-200'
+                    : val
                     ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-cyan-300 hover:text-cyan-100 hover:border-cyan-400'
                     : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
                 }`}
-                title="Browse Full Catalog Window"
+                title="Toggle visual species catalog cards browser"
               >
                 <Sparkles className="w-3 h-3 text-cyan-400" />
-                <span>{val ? 'Browse Catalog' : 'Catalog'}</span>
+                <span>{showCatalog.species ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
               </button>
             )}
 
@@ -1131,315 +1491,348 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Empty State when Expanded without Species Selected */}
-        {isExpanded && !selectedSpecies && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
-            <span>No Species selected yet. Choose a species from the quick selector or catalog.</span>
-          </div>
-        )}
-
         {/* Body Content */}
-        {selectedSpecies && isExpanded && (
+        {isExpanded && (
           <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Real-time Allocation Overview Bar */}
-            {speciesAllocationMetrics?.hasAllocations && (
-              <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-cyan-500/30 font-mono text-xs">
-                <div className="flex items-center gap-1.5 text-cyan-300 font-bold uppercase">
-                  <span>🧬</span>
-                  <span>Species Allocations:</span>
-                </div>
-                <div className="flex flex-wrap items-center gap-2 text-[11px]">
-                  {speciesAllocationMetrics.bonusAttrPoints > 0 && (
-                    <span className={`px-2 py-0.5 rounded border ${
-                      speciesAllocationMetrics.allocatedAttrsCount >= speciesAllocationMetrics.bonusAttrPoints
-                        ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
-                        : 'bg-amber-950/80 border-amber-500 text-amber-300'
-                    }`}>
-                      Attributes: {speciesAllocationMetrics.allocatedAttrsCount}/{speciesAllocationMetrics.bonusAttrPoints}
-                    </span>
-                  )}
-                  {speciesAllocationMetrics.maxTraits > 0 && (
-                    <span className={`px-2 py-0.5 rounded border ${
-                      speciesAllocationMetrics.allocatedTraitsCount >= speciesAllocationMetrics.maxTraits
-                        ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
-                        : 'bg-amber-950/80 border-amber-500 text-amber-300'
-                    }`}>
-                      Traits: {speciesAllocationMetrics.allocatedTraitsCount}/{speciesAllocationMetrics.maxTraits}
-                    </span>
-                  )}
-                  {speciesAllocationMetrics.maxFeats > 0 && (
-                    <span className={`px-2 py-0.5 rounded border ${
-                      speciesAllocationMetrics.allocatedFeaturesCount >= speciesAllocationMetrics.maxFeats
-                        ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
-                        : 'bg-amber-950/80 border-amber-500 text-amber-300'
-                    }`}>
-                      Features: {speciesAllocationMetrics.allocatedFeaturesCount}/{speciesAllocationMetrics.maxFeats}
-                    </span>
-                  )}
-                  {speciesAllocationMetrics.speciesSkillSP > 0 && (
-                    <span className={`px-2 py-0.5 rounded border ${
-                      speciesAllocationMetrics.allocatedSPCount >= speciesAllocationMetrics.speciesSkillSP
-                        ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
-                        : 'bg-amber-950/80 border-amber-500 text-amber-300'
-                    }`}>
-                      Skills: {speciesAllocationMetrics.allocatedSPCount}/{speciesAllocationMetrics.speciesSkillSP} SP
-                    </span>
-                  )}
-                  {speciesAllocationMetrics.isComplete && (
-                    <span className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500 text-emerald-200 font-bold flex items-center gap-1">
-                      <Check className="w-3 h-3 text-emerald-400" /> Complete
-                    </span>
-                  )}
-                </div>
-              </div>
+            {/* Visual Species Catalog Cards Picker */}
+            {isCatalogOpen && (
+              renderPillarCatalogPicker({
+                pillarKey: 'species',
+                title: 'Species',
+                catalog: speciesCatalog,
+                selectedValue: val,
+                browsePath,
+                colorTheme: 'cyan',
+                categoryExtractor: (item) => item.parent_species || item.lineage || 'Independent Xenotypes',
+                renderCardBadges: (item) => (
+                  <>
+                    {item.parent_species && (
+                      <span className="px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-600/40 text-cyan-300 font-bold">
+                        {item.parent_species}
+                      </span>
+                    )}
+                    {item.type && (
+                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                        {formatSpeciesType(item.type).label}
+                      </span>
+                    )}
+                    {item.size && (
+                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">
+                        Size {formatSpeciesSize(item.size).label}
+                      </span>
+                    )}
+                  </>
+                ),
+                onSelect: (item) => {
+                  handleSpeciesChange(item.name || item.id);
+                  setShowCatalog(prev => ({ ...prev, species: false }));
+                }
+              })
             )}
 
-            {/* Interactive Species Allocation Suite Workbench */}
-            {speciesAllocationMetrics?.hasAllocations && (
-              <div className="space-y-4">
-                {/* Interactive Species Skill Choices Rank Pulldown */}
-                {speciesSkillSP > 0 && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                    <SkillPoolRankPulldown
-                      title="Species Skill Point Pool"
-                      categoryLabel="Species Skill"
-                      maxSP={speciesSkillSP}
-                      allocatedSkills={characterData.speciesAllocations?.skills || {}}
-                      recommendedSkills={bonusSkillChoices}
-                      allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
-                      onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, newRank, delta, speciesSkillSP)}
-                      onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, 0, 0, speciesSkillSP)}
-                      colorTheme="cyan"
-                    />
-                  </div>
-                )}
-
-                {/* Interactive Species Bonus Attribute Pool */}
-                {(selectedSpecies.bonus_attribute_points > 0 || selectedSpecies.bonus_attribute_choices > 0 || (Array.isArray(selectedSpecies.bonus_attribute_options) && selectedSpecies.bonus_attribute_options.length > 0)) && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                    <AttributePoolPulldown
-                      title="Species Bonus Attribute Pool"
-                      maxPoints={parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10)}
-                      allocatedAttrs={characterData.speciesAllocations?.attributes || {}}
-                      onAllocate={(attrId, delta) => allocatePoolAttribute && allocatePoolAttribute('speciesAllocations', attrId, delta, parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10))}
-                      allowedOptions={selectedSpecies.bonus_attribute_options}
-                      colorTheme="cyan"
-                    />
-                  </div>
-                )}
-
-                {/* Interactive Species Trait Choices Multiselect Pulldown */}
-                {maxTraits > 0 && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                    <TraitMultiselectPulldown
-                      title="Species Trait Choices Pool"
-                      categoryLabel="Species Trait"
-                      maxSelectable={maxTraits}
-                      selectedTraits={characterData.speciesAllocations?.traits || []}
-                      recommendedTraits={bonusTraitChoices}
-                      allTraits={allCanonicalAndDbTraits}
-                      onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, maxTraits)}
-                      onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
-                      colorTheme="cyan"
-                    />
-                  </div>
-                )}
-
-                {/* Interactive Species Feature Choices Multiselect Pulldown */}
-                {maxFeats > 0 && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
-                    <FeatureMultiselectPulldown
-                      title="Species Feature Choices Pool"
-                      categoryLabel="Species Feature"
-                      maxSelectable={maxFeats}
-                      selectedFeatures={characterData.speciesAllocations?.features || []}
-                      recommendedFeatures={bonusFeatureChoices}
-                      allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
-                      onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('speciesAllocations', fName, fObj, maxFeats)}
-                      onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('speciesAllocations', fName)}
-                      colorTheme="cyan"
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="space-y-4">
-              {/* Left Panel: Specifications & CP Cost Breakdown */}
-              <div className="space-y-3">
-                {/* Cost Breakdown */}
-                {speciesCost && (
-                  <div className="bg-slate-900/80 p-3 rounded-lg border border-purple-500/30 text-[11px] font-mono space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-purple-300 font-bold uppercase flex items-center gap-1">
-                        <span>🧬</span> Component Breakdown:
-                      </span>
-                      <span className="text-purple-200 font-bold px-2 py-0.5 rounded bg-purple-950/90 border border-purple-500/60">
-                        Total: {speciesCost.totalCost} CP
-                      </span>
+            {selectedSpecies && (
+              <>
+                {/* Real-time Allocation Overview Bar */}
+                {speciesAllocationMetrics?.hasAllocations && (
+                  <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-cyan-500/30 font-mono text-xs">
+                    <div className="flex items-center gap-1.5 text-cyan-300 font-bold uppercase">
+                      <span>🧬</span>
+                      <span>Species Allocations:</span>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 text-slate-300">
-                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                        Type: <strong className="text-purple-300">{speciesCost.breakdown.typeBP} CP</strong>
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                        Size: <strong className="text-purple-300">{speciesCost.breakdown.sizeBP} CP</strong>
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                        Movement: <strong className="text-purple-300">{speciesCost.breakdown.movementBP} CP</strong>
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                        Attributes: <strong className="text-purple-300">{speciesCost.breakdown.attributeBP >= 0 ? `+${speciesCost.breakdown.attributeBP}` : speciesCost.breakdown.attributeBP} CP</strong>
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                        Skills: <strong className="text-purple-300">{speciesCost.breakdown.skillsBP} CP</strong>
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                        Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} CP</strong>
-                      </span>
-                      {speciesCost.breakdown.disadvantagesRefund > 0 && (
-                        <span className="px-2 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
-                          Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} CP</strong>
+                    <div className="flex flex-wrap items-center gap-2 text-[11px]">
+                      {speciesAllocationMetrics.bonusAttrPoints > 0 && (
+                        <span className={`px-2 py-0.5 rounded border ${
+                          speciesAllocationMetrics.allocatedAttrsCount >= speciesAllocationMetrics.bonusAttrPoints
+                            ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                            : 'bg-amber-950/80 border-amber-500 text-amber-300'
+                        }`}>
+                          Attributes: {speciesAllocationMetrics.allocatedAttrsCount}/{speciesAllocationMetrics.bonusAttrPoints}
+                        </span>
+                      )}
+                      {speciesAllocationMetrics.maxTraits > 0 && (
+                        <span className={`px-2 py-0.5 rounded border ${
+                          speciesAllocationMetrics.allocatedTraitsCount >= speciesAllocationMetrics.maxTraits
+                            ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                            : 'bg-amber-950/80 border-amber-500 text-amber-300'
+                        }`}>
+                          Traits: {speciesAllocationMetrics.allocatedTraitsCount}/{speciesAllocationMetrics.maxTraits}
+                        </span>
+                      )}
+                      {speciesAllocationMetrics.maxFeats > 0 && (
+                        <span className={`px-2 py-0.5 rounded border ${
+                          speciesAllocationMetrics.allocatedFeaturesCount >= speciesAllocationMetrics.maxFeats
+                            ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                            : 'bg-amber-950/80 border-amber-500 text-amber-300'
+                        }`}>
+                          Features: {speciesAllocationMetrics.allocatedFeaturesCount}/{speciesAllocationMetrics.maxFeats}
+                        </span>
+                      )}
+                      {speciesAllocationMetrics.speciesSkillSP > 0 && (
+                        <span className={`px-2 py-0.5 rounded border ${
+                          speciesAllocationMetrics.allocatedSPCount >= speciesAllocationMetrics.speciesSkillSP
+                            ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                            : 'bg-amber-950/80 border-amber-500 text-amber-300'
+                        }`}>
+                          Skills: {speciesAllocationMetrics.allocatedSPCount}/{speciesAllocationMetrics.speciesSkillSP} SP
+                        </span>
+                      )}
+                      {speciesAllocationMetrics.isComplete && (
+                        <span className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500 text-emerald-200 font-bold flex items-center gap-1">
+                          <Check className="w-3 h-3 text-emerald-400" /> Complete
                         </span>
                       )}
                     </div>
                   </div>
                 )}
 
-                {/* Physiology Specs */}
-                <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                  <div>
-                    <span className="text-slate-500 block text-[10px]">Lineage</span>
-                    <strong className="text-cyan-300">{selectedSpecies.parent_species || 'Species'}</strong>
-                  </div>
-                  {selectedSpecies.type && (() => {
-                    const info = formatSpeciesType(selectedSpecies.type);
-                    return (
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Type</span>
-                        <FolioTooltip
-                          title={info.tooltip.title}
-                          badge={info.tooltip.badge}
-                          badgeColor="cyan"
-                          description={info.tooltip.description}
-                          rules={info.tooltip.rules}
-                          cost={info.tooltip.cost}
-                        >
-                          <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
-                            {info.label}
-                          </strong>
-                        </FolioTooltip>
+                {/* Interactive Species Allocation Suite Workbench */}
+                {speciesAllocationMetrics?.hasAllocations && (
+                  <div className="space-y-4">
+                    {/* Interactive Species Skill Choices Rank Pulldown */}
+                    {speciesSkillSP > 0 && (
+                      <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                        <SkillPoolRankPulldown
+                          title="Species Skill Point Pool"
+                          categoryLabel="Species Skill"
+                          maxSP={speciesSkillSP}
+                          allocatedSkills={characterData.speciesAllocations?.skills || {}}
+                          recommendedSkills={bonusSkillChoices}
+                          allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
+                          onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, newRank, delta, speciesSkillSP)}
+                          onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, 0, 0, speciesSkillSP)}
+                          colorTheme="cyan"
+                        />
                       </div>
-                    );
-                  })()}
-                  {selectedSpecies.size && (() => {
-                    const info = formatSpeciesSize(selectedSpecies.size);
-                    return (
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Size</span>
-                        <FolioTooltip
-                          title={info.tooltip.title}
-                          badge={info.tooltip.badge}
-                          badgeColor="purple"
-                          description={info.tooltip.description}
-                          rules={info.tooltip.rules}
-                        >
-                          <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
-                            {info.label}
-                          </strong>
-                        </FolioTooltip>
-                      </div>
-                    );
-                  })()}
-                  {selectedSpecies.movement && (() => {
-                    const info = formatSpeciesMovement(selectedSpecies.movement);
-                    return (
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Movement</span>
-                        <FolioTooltip
-                          title={info.tooltip.title}
-                          badge={info.tooltip.badge}
-                          badgeColor="amber"
-                          description={info.tooltip.description}
-                          rules={info.tooltip.rules}
-                        >
-                          <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
-                            {info.label}
-                          </strong>
-                        </FolioTooltip>
-                      </div>
-                    );
-                  })()}
-                </div>
+                    )}
 
-                {/* Inherent Attributes */}
-                {attrMods.length > 0 && (
-                  <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
-                    <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Attribute Adjustments:</span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {attrMods.map((m, idx) => (
-                        <span key={idx} className="px-2.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 font-bold">
-                          {m.attribute}: {Number(m.bonus) > 0 ? `+${m.bonus}` : m.bonus}
-                        </span>
-                      ))}
-                    </div>
+                    {/* Interactive Species Bonus Attribute Pool */}
+                    {(selectedSpecies.bonus_attribute_points > 0 || selectedSpecies.bonus_attribute_choices > 0 || (Array.isArray(selectedSpecies.bonus_attribute_options) && selectedSpecies.bonus_attribute_options.length > 0)) && (
+                      <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                        <AttributePoolPulldown
+                          title="Species Bonus Attribute Pool"
+                          maxPoints={parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10)}
+                          allocatedAttrs={characterData.speciesAllocations?.attributes || {}}
+                          onAllocate={(attrId, delta) => allocatePoolAttribute && allocatePoolAttribute('speciesAllocations', attrId, delta, parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10))}
+                          allowedOptions={selectedSpecies.bonus_attribute_options}
+                          colorTheme="cyan"
+                        />
+                      </div>
+                    )}
+
+                    {/* Interactive Species Trait Choices Multiselect Pulldown */}
+                    {maxTraits > 0 && (
+                      <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                        <TraitMultiselectPulldown
+                          title="Species Trait Choices Pool"
+                          categoryLabel="Species Trait"
+                          maxSelectable={maxTraits}
+                          selectedTraits={characterData.speciesAllocations?.traits || []}
+                          recommendedTraits={bonusTraitChoices}
+                          allTraits={allCanonicalAndDbTraits}
+                          onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, maxTraits)}
+                          onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
+                          colorTheme="cyan"
+                        />
+                      </div>
+                    )}
+
+                    {/* Interactive Species Feature Choices Multiselect Pulldown */}
+                    {maxFeats > 0 && (
+                      <div className="bg-slate-900/60 p-3 rounded-xl border border-cyan-500/30">
+                        <FeatureMultiselectPulldown
+                          title="Species Feature Choices Pool"
+                          categoryLabel="Species Feature"
+                          maxSelectable={maxFeats}
+                          selectedFeatures={characterData.speciesAllocations?.features || []}
+                          recommendedFeatures={bonusFeatureChoices}
+                          allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
+                          onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('speciesAllocations', fName, fObj, maxFeats)}
+                          onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('speciesAllocations', fName)}
+                          colorTheme="cyan"
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
 
-                {/* Guaranteed Inherent Traits */}
-                {inherentTraitsList.length > 0 && (
-                  <div className="text-xs font-mono space-y-1.5 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
-                    <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Guaranteed Traits:</span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {inherentTraitsList.map((traitItem, idx) => {
-                        const info = formatSpeciesTrait(traitItem, selectedSpecies);
-                        const badgeColor = info.category === 'Humanoid Special Ability'
-                          ? 'purple'
-                          : info.category === 'Special Ability'
-                          ? 'amber'
-                          : 'cyan';
-                        return (
-                          <FolioTooltip
-                            key={idx}
-                            title={info.tooltip.title}
-                            badge={info.tooltip.badge}
-                            badgeColor={badgeColor}
-                            description={info.tooltip.description}
-                            rules={info.tooltip.rules}
-                            cost={info.tooltip.cost}
-                          >
-                            <span className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/60 text-cyan-100 font-semibold flex items-center gap-1.5 cursor-help hover:border-cyan-300 hover:bg-cyan-900/70 transition-all select-none">
-                              <span>🧬</span>
-                              <span>{info.label} ✓</span>
+                {/* Consolidated Reference Dossier */}
+                {renderConsolidatedDossier('species', 'Species', (
+                  <div className="space-y-3">
+                    {/* Cost Breakdown */}
+                    {speciesCost && (
+                      <div className="bg-slate-900/80 p-3 rounded-lg border border-purple-500/30 text-[11px] font-mono space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-purple-300 font-bold uppercase flex items-center gap-1">
+                            <span>🧬</span> Component Breakdown:
+                          </span>
+                          <span className="text-purple-200 font-bold px-2 py-0.5 rounded bg-purple-950/90 border border-purple-500/60">
+                            Total: {speciesCost.totalCost} CP
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5 text-slate-300">
+                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Type: <strong className="text-purple-300">{speciesCost.breakdown.typeBP} CP</strong>
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Size: <strong className="text-purple-300">{speciesCost.breakdown.sizeBP} CP</strong>
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Movement: <strong className="text-purple-300">{speciesCost.breakdown.movementBP} CP</strong>
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Attributes: <strong className="text-purple-300">{speciesCost.breakdown.attributeBP >= 0 ? `+${speciesCost.breakdown.attributeBP}` : speciesCost.breakdown.attributeBP} CP</strong>
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Skills: <strong className="text-purple-300">{speciesCost.breakdown.skillsBP} CP</strong>
+                          </span>
+                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} CP</strong>
+                          </span>
+                          {speciesCost.breakdown.disadvantagesRefund > 0 && (
+                            <span className="px-2 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
+                              Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} CP</strong>
                             </span>
-                          </FolioTooltip>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Physiology Specs */}
+                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Lineage</span>
+                        <strong className="text-cyan-300">{selectedSpecies.parent_species || 'Species'}</strong>
+                      </div>
+                      {selectedSpecies.type && (() => {
+                        const info = formatSpeciesType(selectedSpecies.type);
+                        return (
+                          <div>
+                            <span className="text-slate-500 block text-[10px]">Type</span>
+                            <FolioTooltip
+                              title={info.tooltip.title}
+                              badge={info.tooltip.badge}
+                              badgeColor="cyan"
+                              description={info.tooltip.description}
+                              rules={info.tooltip.rules}
+                              cost={info.tooltip.cost}
+                            >
+                              <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                                {info.label}
+                              </strong>
+                            </FolioTooltip>
+                          </div>
                         );
-                      })}
+                      })()}
+                      {selectedSpecies.size && (() => {
+                        const info = formatSpeciesSize(selectedSpecies.size);
+                        return (
+                          <div>
+                            <span className="text-slate-500 block text-[10px]">Size</span>
+                            <FolioTooltip
+                              title={info.tooltip.title}
+                              badge={info.tooltip.badge}
+                              badgeColor="purple"
+                              description={info.tooltip.description}
+                              rules={info.tooltip.rules}
+                            >
+                              <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                                {info.label}
+                              </strong>
+                            </FolioTooltip>
+                          </div>
+                        );
+                      })()}
+                      {selectedSpecies.movement && (() => {
+                        const info = formatSpeciesMovement(selectedSpecies.movement);
+                        return (
+                          <div>
+                            <span className="text-slate-500 block text-[10px]">Movement</span>
+                            <FolioTooltip
+                              title={info.tooltip.title}
+                              badge={info.tooltip.badge}
+                              badgeColor="amber"
+                              description={info.tooltip.description}
+                              rules={info.tooltip.rules}
+                            >
+                              <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                                {info.label}
+                              </strong>
+                            </FolioTooltip>
+                          </div>
+                        );
+                      })()}
                     </div>
-                  </div>
-                )}
 
-                {/* Skill Bonuses */}
-                {skillBonuses.length > 0 && (
-                  <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
-                    <span className="text-cyan-400 font-bold uppercase block text-[10px]">Specific Skill Bonuses:</span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {skillBonuses.map((sb, idx) => (
-                        <span key={idx} className="px-2.5 py-0.5 rounded bg-slate-900 border border-cyan-900/60 text-cyan-300">
-                          {sb.skill}: +{sb.bonus}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                    {/* Inherent Attributes */}
+                    {attrMods.length > 0 && (
+                      <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
+                        <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Attribute Adjustments:</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {attrMods.map((m, idx) => (
+                            <span key={idx} className="px-2.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 font-bold">
+                              {m.attribute}: {Number(m.bonus) > 0 ? `+${m.bonus}` : m.bonus}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-                {selectedSpecies.description && (
-                  <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                    {selectedSpecies.description}
-                  </p>
-                )}
-              </div>
-            </div>
+                    {/* Guaranteed Inherent Traits */}
+                    {inherentTraitsList.length > 0 && (
+                      <div className="text-xs font-mono space-y-1.5 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
+                        <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Guaranteed Traits:</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {inherentTraitsList.map((traitItem, idx) => {
+                            const info = formatSpeciesTrait(traitItem, selectedSpecies);
+                            const badgeColor = info.category === 'Humanoid Special Ability'
+                              ? 'purple'
+                              : info.category === 'Special Ability'
+                              ? 'amber'
+                              : 'cyan';
+                            return (
+                              <FolioTooltip
+                                key={idx}
+                                title={info.tooltip.title}
+                                badge={info.tooltip.badge}
+                                badgeColor={badgeColor}
+                                description={info.tooltip.description}
+                                rules={info.tooltip.rules}
+                                cost={info.tooltip.cost}
+                              >
+                                <span className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/60 text-cyan-100 font-semibold flex items-center gap-1.5 cursor-help hover:border-cyan-300 hover:bg-cyan-900/70 transition-all select-none">
+                                  <span>🧬</span>
+                                  <span>{info.label} ✓</span>
+                                </span>
+                              </FolioTooltip>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Skill Bonuses */}
+                    {skillBonuses.length > 0 && (
+                      <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
+                        <span className="text-cyan-400 font-bold uppercase block text-[10px]">Specific Skill Bonuses:</span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {skillBonuses.map((sb, idx) => (
+                            <span key={idx} className="px-2.5 py-0.5 rounded bg-slate-900 border border-cyan-900/60 text-cyan-300">
+                              {sb.skill}: +{sb.bonus}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedSpecies.description && (
+                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                        {selectedSpecies.description}
+                      </p>
+                    )}
+                  </div>
+                ), selectedSpecies, browsePath)}
+              </>
+            )}
           </div>
         )}
       </div>
@@ -1457,6 +1850,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const secOccVal = characterData['char-secondary-occu'] || '';
     const isManual = Boolean(manualMode[fieldId]);
     const isExpanded = Boolean(expandedCards['occupation']);
+    const isCatalogOpen = Boolean(showCatalog['occupation'] || !val);
     const profSkills = extractNameList(selectedOccupation?.professional_skills || selectedOccupation?.skills);
 
     const commonTraitNames = COMMON_OCCUPATIONAL_TRAITS.map(t => t.name);
@@ -1553,19 +1947,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && onOpenSelectorModal && (
+            {!isSheetLocked && (
               <button
                 type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                onClick={() => toggleCatalog('occupation')}
                 className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  val
+                  showCatalog.occupation
+                    ? 'bg-sky-950/80 border-sky-500 text-sky-200'
+                    : val
                     ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-sky-300 hover:text-sky-100 hover:border-sky-400'
                     : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
                 }`}
-                title="Browse Full Catalog Window"
+                title="Toggle visual occupation catalog cards browser"
               >
-                <Sparkles className="w-3 h-3 text-cyan-400" />
-                <span>{val ? 'Browse Catalog' : 'Catalog'}</span>
+                <Sparkles className="w-3 h-3 text-sky-400" />
+                <span>{showCatalog.occupation ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
               </button>
             )}
 
@@ -1629,84 +2025,86 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Empty State when Expanded without Occupation Selected */}
-        {isExpanded && !selectedOccupation && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
-            <span>No Occupation selected yet. Choose an occupation from the quick selector or catalog.</span>
-          </div>
-        )}
-
         {/* Body Content */}
-        {selectedOccupation && isExpanded && (
+        {isExpanded && (
           <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Background Occupation Sub-Bar */}
-            <div className="p-3 rounded-lg bg-sky-950/30 border border-sky-500/30 flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="text-[10px] font-mono font-bold uppercase text-sky-300 shrink-0">
-                  Background Career / Dual Training:
-                </span>
-                {secOccVal ? (
-                  <span className="text-xs font-bold text-white truncate">
-                    {secOccVal}
-                  </span>
-                ) : (
-                  <span className="text-xs text-slate-400 italic truncate">
-                    None (Optional: grants additional career training via Background Trait)
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-1.5 shrink-0 ml-auto">
-                {!isSheetLocked && onOpenSelectorModal && (
-                  <button
-                    type="button"
-                    onClick={() => onOpenSelectorModal('char-secondary-occu', 'Background Occupation', 'occupations')}
-                    className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border bg-slate-900 hover:bg-slate-800 border-slate-700 text-sky-300 hover:text-sky-100 cursor-pointer"
-                  >
-                    {secOccVal ? 'Change Background' : '+ Add Background'}
-                  </button>
-                )}
-                {!isSheetLocked && secOccVal && (
-                  <button
-                    type="button"
-                    onClick={() => updateField('char-secondary-occu', '')}
-                    className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                    title="Remove background occupation"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-            </div>
+            {/* Visual Occupation Catalog Cards Picker */}
+            {isCatalogOpen && (
+              renderPillarCatalogPicker({
+                pillarKey: 'occupation',
+                title: 'Occupation',
+                catalog: occupationsCatalog,
+                selectedValue: val,
+                browsePath,
+                colorTheme: 'sky',
+                categoryExtractor: (item) => item.field || item.category_type || (item.tech_level !== undefined ? `Tech Level ${item.tech_level}` : 'General Careers'),
+                renderCardBadges: (item) => (
+                  <>
+                    {item.field && (
+                      <span className="px-1.5 py-0.5 rounded bg-sky-950 border border-sky-600/40 text-sky-300 font-bold">
+                        {item.field}
+                      </span>
+                    )}
+                    {item.tech_level !== undefined && (
+                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                        TL {item.tech_level}
+                      </span>
+                    )}
+                    {item.skill_points && (
+                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-sky-300">
+                        {item.skill_points} SP
+                      </span>
+                    )}
+                  </>
+                ),
+                onSelect: (item) => {
+                  handleOccupationChange(item.name || item.id);
+                  setShowCatalog(prev => ({ ...prev, occupation: false }));
+                }
+              })
+            )}
 
-            <div className="space-y-4">
-              <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                  <div>
-                    <span className="text-slate-500 block text-[10px]">Skill Points Pool</span>
-                    <strong className="text-sky-300">{selectedOccupation.skill_points || 20} SP</strong>
+            {selectedOccupation && (
+              <>
+                {/* Background Occupation Sub-Bar */}
+                <div className="p-3 rounded-lg bg-sky-950/30 border border-sky-500/30 flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-[10px] font-mono font-bold uppercase text-sky-300 shrink-0">
+                      Background Career / Dual Training:
+                    </span>
+                    {secOccVal ? (
+                      <span className="text-xs font-bold text-white truncate">
+                        {secOccVal}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-slate-400 italic truncate">
+                        None (Optional: grants additional career training via Background Trait)
+                      </span>
+                    )}
                   </div>
-                  {selectedOccupation.tech_level !== undefined && (
-                    <div>
-                      <span className="text-slate-500 block text-[10px]">Tech Level</span>
-                      <strong className="text-sky-300">TL {selectedOccupation.tech_level}</strong>
-                    </div>
-                  )}
-                  {selectedOccupation.field && (
-                    <div className="col-span-2">
-                      <span className="text-slate-500 block text-[10px]">Professional Field</span>
-                      <strong className="text-slate-200">{selectedOccupation.field}</strong>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1.5 shrink-0 ml-auto">
+                    {!isSheetLocked && onOpenSelectorModal && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenSelectorModal('char-secondary-occu', 'Background Occupation', 'occupations')}
+                        className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border bg-slate-900 hover:bg-slate-800 border-slate-700 text-sky-300 hover:text-sky-100 cursor-pointer"
+                      >
+                        {secOccVal ? 'Change Background' : '+ Add Background'}
+                      </button>
+                    )}
+                    {!isSheetLocked && secOccVal && (
+                      <button
+                        type="button"
+                        onClick={() => updateField('char-secondary-occu', '')}
+                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                        title="Remove background occupation"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                {selectedOccupation.description && (
-                  <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                    {selectedOccupation.description}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-4">
                 {/* Professional Skill Package Pool */}
                 {profSkills.length > 0 && occuSP > 0 && (
                   <div className="bg-slate-900/60 p-3 rounded-xl border border-sky-500/30">
@@ -1756,8 +2154,38 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     />
                   </div>
                 )}
-              </div>
-            </div>
+
+                {/* Consolidated Reference Dossier */}
+                {renderConsolidatedDossier('occupation', 'Occupation', (
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Skill Points Pool</span>
+                        <strong className="text-sky-300">{selectedOccupation.skill_points || 20} SP</strong>
+                      </div>
+                      {selectedOccupation.tech_level !== undefined && (
+                        <div>
+                          <span className="text-slate-500 block text-[10px]">Tech Level</span>
+                          <strong className="text-sky-300">TL {selectedOccupation.tech_level}</strong>
+                        </div>
+                      )}
+                      {selectedOccupation.field && (
+                        <div className="col-span-2">
+                          <span className="text-slate-500 block text-[10px]">Professional Field</span>
+                          <strong className="text-slate-200">{selectedOccupation.field}</strong>
+                        </div>
+                      )}
+                    </div>
+
+                    {selectedOccupation.description && (
+                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                        {selectedOccupation.description}
+                      </p>
+                    )}
+                  </div>
+                ), selectedOccupation, browsePath)}
+              </>
+            )}
           </div>
         )}
       </div>
@@ -1775,6 +2203,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const secVal = characterData['char-secondary-origin'] || '';
     const isManual = Boolean(manualMode[fieldId]);
     const isExpanded = Boolean(expandedCards['origin']);
+    const isCatalogOpen = Boolean(showCatalog['origin'] || !val);
 
     const socSkills = Array.from(new Set([
       ...extractNameList(selectedOrigin?.society_skills),
@@ -1879,19 +2308,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && onOpenSelectorModal && (
+            {!isSheetLocked && (
               <button
                 type="button"
-                onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
+                onClick={() => toggleCatalog('origin')}
                 className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  val
+                  showCatalog.origin
+                    ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200'
+                    : val
                     ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-emerald-300 hover:text-emerald-100 hover:border-emerald-400'
                     : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
                 }`}
-                title="Browse Full Catalog Window"
+                title="Toggle visual origin catalog cards browser"
               >
-                <Sparkles className="w-3 h-3 text-cyan-400" />
-                <span>{val ? 'Browse Catalog' : 'Catalog'}</span>
+                <Sparkles className="w-3 h-3 text-emerald-400" />
+                <span>{showCatalog.origin ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
               </button>
             )}
 
@@ -1955,78 +2386,86 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Empty State when Expanded without Origin Selected */}
-        {isExpanded && !selectedOrigin && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
-            <span>No Origin selected yet. Choose an origin from the quick selector or catalog.</span>
-          </div>
-        )}
-
         {/* Body Content */}
-        {selectedOrigin && isExpanded && (
+        {isExpanded && (
           <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Secondary Origin Sub-Bar */}
-            <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="text-[10px] font-mono font-bold uppercase text-emerald-300 shrink-0">
-                  Secondary Origin / Diaspora:
-                </span>
-                {secVal ? (
-                  <span className="text-xs font-bold text-white truncate">
-                    {secVal}
-                  </span>
-                ) : (
-                  <span className="text-xs text-slate-400 italic truncate">
-                    None (Optional: expands society skill & trait choices without extra points)
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-1.5 shrink-0 ml-auto">
-                {!isSheetLocked && onOpenSelectorModal && (
-                  <button
-                    type="button"
-                    onClick={() => onOpenSelectorModal('char-secondary-origin', 'Secondary Origin', 'origins')}
-                    className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border bg-slate-900 hover:bg-slate-800 border-slate-700 text-emerald-300 hover:text-emerald-100 cursor-pointer"
-                  >
-                    {secVal ? 'Change Secondary' : '+ Add Secondary'}
-                  </button>
-                )}
-                {!isSheetLocked && secVal && (
-                  <button
-                    type="button"
-                    onClick={() => updateField('char-secondary-origin', '')}
-                    className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                    title="Remove secondary origin"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-            </div>
+            {/* Visual Origin Catalog Cards Picker */}
+            {isCatalogOpen && (
+              renderPillarCatalogPicker({
+                pillarKey: 'origin',
+                title: 'Origin',
+                catalog: originsCatalog,
+                selectedValue: val,
+                browsePath,
+                colorTheme: 'emerald',
+                categoryExtractor: (item) => item.environment_type || item.habitat || item.origin_type || 'Homeworlds',
+                renderCardBadges: (item) => (
+                  <>
+                    {(item.environment_type || item.habitat) && (
+                      <span className="px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-600/40 text-emerald-300 font-bold">
+                        {item.environment_type || item.habitat}
+                      </span>
+                    )}
+                    {item.gravity_baseline && (
+                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                        {item.gravity_baseline}
+                      </span>
+                    )}
+                    {item.skill_points && (
+                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-300">
+                        {item.skill_points} SP
+                      </span>
+                    )}
+                  </>
+                ),
+                onSelect: (item) => {
+                  handleOriginChange(item.name || item.id);
+                  setShowCatalog(prev => ({ ...prev, origin: false }));
+                }
+              })
+            )}
 
-            <div className="space-y-4">
-              <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                  <div>
-                    <span className="text-slate-500 block text-[10px]">Society Skill Points</span>
-                    <strong className="text-emerald-300">{selectedOrigin.skill_points || 20} SP</strong>
+            {selectedOrigin && (
+              <>
+                {/* Secondary Origin Sub-Bar */}
+                <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-[10px] font-mono font-bold uppercase text-emerald-300 shrink-0">
+                      Secondary Origin / Diaspora:
+                    </span>
+                    {secVal ? (
+                      <span className="text-xs font-bold text-white truncate">
+                        {secVal}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-slate-400 italic truncate">
+                        None (Optional: expands society skill & trait choices without extra points)
+                      </span>
+                    )}
                   </div>
-                  {selectedOrigin.habitat && (
-                    <div>
-                      <span className="text-slate-500 block text-[10px]">Habitat</span>
-                      <strong className="text-emerald-300">{selectedOrigin.habitat}</strong>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1.5 shrink-0 ml-auto">
+                    {!isSheetLocked && onOpenSelectorModal && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenSelectorModal('char-secondary-origin', 'Secondary Origin', 'origins')}
+                        className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border bg-slate-900 hover:bg-slate-800 border-slate-700 text-emerald-300 hover:text-emerald-100 cursor-pointer"
+                      >
+                        {secVal ? 'Change Secondary' : '+ Add Secondary'}
+                      </button>
+                    )}
+                    {!isSheetLocked && secVal && (
+                      <button
+                        type="button"
+                        onClick={() => updateField('char-secondary-origin', '')}
+                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                        title="Remove secondary origin"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                {selectedOrigin.description && (
-                  <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                    {selectedOrigin.description}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-4">
                 {/* Society Skills Pool */}
                 {socSkills.length > 0 && origSP > 0 && (
                   <div className="bg-slate-900/60 p-3 rounded-xl border border-emerald-500/30">
@@ -2078,8 +2517,32 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     />
                   </div>
                 )}
-              </div>
-            </div>
+
+                {/* Consolidated Reference Dossier */}
+                {renderConsolidatedDossier('origin', 'Origin', (
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Society Skill Points</span>
+                        <strong className="text-emerald-300">{selectedOrigin.skill_points || 20} SP</strong>
+                      </div>
+                      {selectedOrigin.habitat && (
+                        <div>
+                          <span className="text-slate-500 block text-[10px]">Habitat</span>
+                          <strong className="text-emerald-300">{selectedOrigin.habitat}</strong>
+                        </div>
+                      )}
+                    </div>
+
+                    {selectedOrigin.description && (
+                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                        {selectedOrigin.description}
+                      </p>
+                    )}
+                  </div>
+                ), selectedOrigin, browsePath)}
+              </>
+            )}
           </div>
         )}
       </div>
@@ -2096,6 +2559,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
     const isExpanded = Boolean(expandedCards['faction']);
+    const isCatalogOpen = Boolean(showCatalog['faction'] || !val);
     const pkgSkills = extractNameList(selectedFaction?.skill_package || selectedFaction?.skills);
     const factionTraits = extractNameList(selectedFaction?.traits || selectedFaction?.trait);
     const maxTraits = parseInt(selectedFaction?.bonus_traits || (factionTraits.length > 0 ? 1 : 0), 10);
@@ -2180,19 +2644,31 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
+            {/* Toggle Embedded Visual Catalog Picker */}
+            {!isSheetLocked && !isManual && (
+              <button
+                type="button"
+                onClick={() => toggleCatalog('faction')}
+                className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
+                  isCatalogOpen
+                    ? 'bg-purple-950/80 border-purple-500/70 text-purple-200'
+                    : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-300 hover:text-white'
+                }`}
+                title={isCatalogOpen ? "Hide catalog selection grid" : "Show visual catalog selection grid"}
+              >
+                <span>{isCatalogOpen ? 'Close Catalog' : 'Catalog'}</span>
+              </button>
+            )}
+
             {!isSheetLocked && onOpenSelectorModal && (
               <button
                 type="button"
                 onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
-                className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  val
-                    ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-purple-300 hover:text-purple-100 hover:border-purple-400'
-                    : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
-                }`}
-                title="Browse Full Catalog Window"
+                className="px-2 py-1 rounded text-[10px] font-mono font-bold uppercase border bg-slate-900 hover:bg-slate-800 border-slate-700 text-purple-300 hover:text-purple-100 hover:border-purple-400 transition-all flex items-center gap-1 cursor-pointer"
+                title="Browse Full Database Modal Window"
               >
-                <Sparkles className="w-3 h-3 text-cyan-400" />
-                <span>{val ? 'Browse Catalog' : 'Catalog'}</span>
+                <Sparkles className="w-3 h-3 text-purple-400" />
+                <span className="hidden sm:inline">DB Modal</span>
               </button>
             )}
 
@@ -2256,83 +2732,66 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Empty State when Expanded without Faction Selected */}
-        {isExpanded && !selectedFaction && (
-          <div className="p-3.5 border-t border-slate-800/80 text-xs font-mono text-slate-400 bg-slate-950/60 flex items-center justify-between gap-2">
-            <span>No Faction selected yet. Choose a faction from the quick selector or catalog.</span>
-          </div>
-        )}
-
         {/* Body Content */}
-        {selectedFaction && isExpanded && (
+        {isExpanded && (
           <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Driving Mandate Banner */}
-            {(selectedFaction.driving_mandate || selectedFaction.mandate) && (
-              <div className="text-xs text-slate-200 italic font-serif bg-purple-950/40 p-3 rounded-lg border border-purple-500/40">
-                <span className="text-purple-400 not-italic font-bold font-mono text-[10px] uppercase block mb-1">
-                  Driving Mandate:
-                </span>
-                "{selectedFaction.driving_mandate || selectedFaction.mandate}"
+            {/* Visual Catalog Picker */}
+            {isCatalogOpen && !isManual && renderPillarCatalogPicker({
+              pillarKey: 'faction',
+              label: 'Faction',
+              items: factionsCatalog,
+              selectedId: val,
+              onSelect: handleFactionChange,
+              colorTheme: 'purple',
+              filterExtractor: (item) => item.faction_classification || item.faction_type || 'Factions & Organizations',
+              secondaryInfoExtractor: (item) => (
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {item.tech_level !== undefined && (
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950/60 border border-purple-800/40 text-purple-300">
+                      TL {item.tech_level}
+                    </span>
+                  )}
+                  {item.skill_points && (
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                      {item.skill_points} SP
+                    </span>
+                  )}
+                  {item.archetype && (
+                    <span className="text-[10px] font-mono text-slate-400 italic">
+                      {item.archetype}
+                    </span>
+                  )}
+                </div>
+              )
+            })}
+
+            {/* Empty State when Expanded without Faction Selected and Catalog Closed */}
+            {!selectedFaction && !isCatalogOpen && (
+              <div className="p-3.5 border border-slate-800/80 rounded-lg text-xs font-mono text-slate-400 bg-slate-900/40 flex items-center justify-between gap-2">
+                <span>No Faction allegiance selected yet.</span>
+                <button
+                  type="button"
+                  onClick={() => toggleCatalog('faction')}
+                  className="px-2.5 py-1 rounded text-[10px] font-bold uppercase bg-purple-950/80 border border-purple-500/50 text-purple-300 hover:text-white"
+                >
+                  Open Catalog
+                </button>
               </div>
             )}
 
-            {/* Layout: Sociological Profile on Left, Allocation Suite on Right */}
-            <div className="space-y-4">
-              <div className="space-y-3">
-                {/* Sociological profile */}
-                <div className="space-y-2 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-                  <span className="text-purple-400 font-bold uppercase block text-[10px]">
-                    Sociological & Strategic Dossier
-                  </span>
-                  {selectedFaction.core_beliefs && (
-                    <div>
-                      <span className="text-slate-400 text-[10px] block">Core Beliefs:</span>
-                      <p className="text-slate-300">{selectedFaction.core_beliefs}</p>
-                    </div>
-                  )}
-                  {selectedFaction.social_structure && (
-                    <div>
-                      <span className="text-slate-400 text-[10px] block">Social Structure:</span>
-                      <p className="text-slate-300">{selectedFaction.social_structure}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Hindrances & Restrictions */}
-                {factionHindrances.length > 0 && (
-                  <div className="text-xs font-mono space-y-1.5 bg-rose-950/20 p-3 rounded-lg border border-rose-900/40">
-                    <span className="text-rose-400 font-bold uppercase block text-[10px] flex items-center gap-1">
-                      <AlertTriangle className="w-3.5 h-3.5" />
-                      <span>Hindrances & Restrictions:</span>
+            {/* Faction Configuration Suite */}
+            {selectedFaction && (
+              <>
+                {/* Driving Mandate Banner */}
+                {(selectedFaction.driving_mandate || selectedFaction.mandate) && (
+                  <div className="text-xs text-slate-200 italic font-serif bg-purple-950/30 p-3 rounded-lg border border-purple-500/40">
+                    <span className="text-purple-400 not-italic font-bold font-mono text-[10px] uppercase block mb-1">
+                      Driving Mandate:
                     </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {factionHindrances.map((hind, idx) => {
-                        const active = hind.startsWith('[Gained]') || getDisadvantageActiveStatus(hind, characterData);
-                        return (
-                          <span
-                            key={idx}
-                            className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                              active
-                                ? 'bg-rose-950/90 border-rose-400 text-rose-100 font-bold shadow-[0_0_8px_rgba(244,63,94,0.2)]'
-                                : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                            }`}
-                          >
-                            {hind} {active ? '⚠' : ''}
-                          </span>
-                        );
-                      })}
-                    </div>
+                    "{selectedFaction.driving_mandate || selectedFaction.mandate}"
                   </div>
                 )}
 
-                {selectedFaction.description && (
-                  <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                    {selectedFaction.description}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-4">
                 {/* Skill Package Pool */}
                 {pkgSkills.length > 0 && facSP > 0 && (
                   <div className="bg-slate-900/60 p-3 rounded-xl border border-purple-500/30">
@@ -2383,8 +2842,64 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     />
                   </div>
                 )}
-              </div>
-            </div>
+
+                {/* Consolidated Reference Dossier */}
+                {renderConsolidatedDossier('faction', 'Faction Allegiance & Strategic Dossier', (
+                  <div className="space-y-3">
+                    {/* Sociological profile */}
+                    {(selectedFaction.core_beliefs || selectedFaction.social_structure) && (
+                      <div className="space-y-2 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                        {selectedFaction.core_beliefs && (
+                          <div>
+                            <span className="text-slate-400 text-[10px] font-mono uppercase block">Core Beliefs:</span>
+                            <p className="text-slate-300">{selectedFaction.core_beliefs}</p>
+                          </div>
+                        )}
+                        {selectedFaction.social_structure && (
+                          <div className="pt-2 border-t border-slate-800/60">
+                            <span className="text-slate-400 text-[10px] font-mono uppercase block">Social Structure:</span>
+                            <p className="text-slate-300">{selectedFaction.social_structure}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Hindrances & Restrictions */}
+                    {factionHindrances.length > 0 && (
+                      <div className="text-xs font-mono space-y-1.5 bg-rose-950/20 p-3 rounded-lg border border-rose-900/40">
+                        <span className="text-rose-400 font-bold uppercase block text-[10px] flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5" />
+                          <span>Hindrances & Restrictions:</span>
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {factionHindrances.map((hind, idx) => {
+                            const active = hind.startsWith('[Gained]') || getDisadvantageActiveStatus(hind, characterData);
+                            return (
+                              <span
+                                key={idx}
+                                className={`px-2.5 py-1 rounded text-xs font-mono border ${
+                                  active
+                                    ? 'bg-rose-950/90 border-rose-400 text-rose-100 font-bold shadow-[0_0_8px_rgba(244,63,94,0.2)]'
+                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                                }`}
+                              >
+                                {hind} {active ? '⚠' : ''}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedFaction.description && (
+                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                        {selectedFaction.description}
+                      </p>
+                    )}
+                  </div>
+                ), selectedFaction, browsePath)}
+              </>
+            )}
           </div>
         )}
       </div>

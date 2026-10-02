@@ -66,7 +66,7 @@ export const CommsVttPanel = () => {
 
   const handleLaunchVttOptions = () => {
     AudioService.playTerminalBeep(1150, 0.02);
-    navigate('/vtt-ops');
+    navigate(`/stage?mapId=${currentMap.id}&options=true`);
   };
 
   return (

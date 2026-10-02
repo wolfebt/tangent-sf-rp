@@ -284,3 +284,93 @@ test('CRONICLE 3-Tier Context Injection: Serializes Guidance Gems with proper pr
   assert.ok(md.includes('Aetherite Refinery 4'));
   assert.ok(md.includes('Marshal Kael'));
 });
+
+test('Stage-to-CRONICLE Bridge: Generates accurate deltas and mutates CRONICLE state deterministically', async () => {
+  const { createDeltaFromCombatEvent, initCronicleVttBridge } = await import('../../src/services/cronicleVttBridge.js');
+
+  const baseState = createDefaultCronicleState('Combat Test Sector');
+  baseState.personas['op_kael'] = {
+    id: 'op_kael',
+    name: 'Marshal Kael',
+    current_status: 'active',
+    active_inventory: ['Standard Sidearm']
+  };
+  baseState.locations['loc_outpost'] = {
+    id: 'loc_outpost',
+    name: 'Research Outpost Delta',
+    environmental_hazards: []
+  };
+
+  // 1. Token Defeated event
+  const defeatedDelta = createDeltaFromCombatEvent('token-defeated', {
+    entityId: 'op_kael',
+    name: 'Marshal Kael',
+    status: 'incapacitated'
+  });
+  assert.ok(defeatedDelta);
+  assert.equal(defeatedDelta.source, 'stage-combat');
+  assert.equal(defeatedDelta.action, 'update_status');
+  assert.equal(defeatedDelta.value, 'incapacitated');
+
+  const stateAfterDefeat = applyCronicleDelta(baseState, defeatedDelta);
+  assert.equal(stateAfterDefeat.personas['op_kael'].current_status, 'incapacitated');
+
+  // 2. Bulkhead Toggled event
+  const bulkheadDelta = createDeltaFromCombatEvent('stage-bulkhead-toggled', {
+    objectId: 'door_vault_01',
+    isOpen: true,
+    operativeId: 'op_kael'
+  });
+  assert.ok(bulkheadDelta);
+  assert.equal(bulkheadDelta.action, 'add_timeline_event');
+  assert.ok(bulkheadDelta.value.includes('breached/opened'));
+  const stateAfterDoor = applyCronicleDelta(stateAfterDefeat, bulkheadDelta);
+  assert.equal(stateAfterDoor.timeline.length, 1);
+  assert.ok(stateAfterDoor.timeline[0].summary.includes('breached/opened'));
+
+  // 3. Loot Dispensed event
+  const lootDelta = createDeltaFromCombatEvent('omnicortex-loot-dispensed', {
+    operativeId: 'op_kael',
+    omnicortexGearId: 'Cybernetic Monoblade'
+  });
+  assert.ok(lootDelta);
+  assert.equal(lootDelta.action, 'add_item');
+  const stateAfterLoot = applyCronicleDelta(stateAfterDoor, lootDelta);
+  assert.ok(stateAfterLoot.personas['op_kael'].active_inventory.includes('Cybernetic Monoblade'));
+
+  // 4. Hazard Toggled event
+  const hazardDelta = createDeltaFromCombatEvent('stage-hazard-toggled', {
+    objectId: 'loc_outpost',
+    hazardType: 'Corrosive Plasma Spores',
+    isActive: true
+  });
+  assert.ok(hazardDelta);
+  assert.equal(hazardDelta.action, 'add_hazard');
+  const stateAfterHazard = applyCronicleDelta(stateAfterLoot, hazardDelta);
+  assert.ok(stateAfterHazard.locations['loc_outpost'].environmental_hazards.includes('Corrosive Plasma Spores'));
+
+  // 5. Test initCronicleVttBridge with mock event bus
+  const staged = [];
+  const mockHandlers = {};
+  const mockBus = {
+    on: (evt, cb) => {
+      mockHandlers[evt] = cb;
+      return () => { delete mockHandlers[evt]; };
+    }
+  };
+
+  const cleanup = initCronicleVttBridge({
+    stageCronicleDeltas: (deltas) => staged.push(...deltas),
+    eventBus: mockBus
+  });
+
+  assert.ok(typeof mockHandlers['token-defeated'] === 'function');
+  mockHandlers['token-defeated']({ entityId: 'enemy_dreadnought', name: 'Dreadnought', status: 'destroyed' });
+  assert.equal(staged.length, 1);
+  assert.equal(staged[0].entityId, 'enemy_dreadnought');
+  assert.equal(staged[0].target, 'destroyed');
+
+  cleanup();
+  assert.equal(mockHandlers['token-defeated'], undefined);
+});
+

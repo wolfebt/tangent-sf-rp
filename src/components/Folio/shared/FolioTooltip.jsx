@@ -43,6 +43,7 @@ export const FolioTooltip = ({
   maxWidth = 320,
   className = '',
   skillBreakdown = null,
+  attrBreakdown = null,
   associatedEquipment = null,
   delay = 1000,
   children
@@ -399,6 +400,86 @@ export const FolioTooltip = ({
                   {skillBreakdown.rank ?? 0} / 20
                 </span>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Attribute Breakdown Summary Bar (Purchased vs Bonus, Detailed Modifiers) */}
+        {attrBreakdown && (
+          <div className="bg-slate-950/90 border border-cyan-500/40 rounded p-2 space-y-2 shadow-inner">
+            <div className="flex items-center justify-between gap-2 border-b border-cyan-900/40 pb-1">
+              <span className="text-[10px] font-mono uppercase font-bold text-slate-300">
+                {attrBreakdown.isSub ? 'Check / Save Breakdown' : 'Attribute Breakdown'}
+              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="px-1.5 py-0.5 rounded font-mono font-bold text-[9.5px] bg-slate-900 text-slate-300 border border-slate-700">
+                  Base: {attrBreakdown.base ?? 0}
+                </span>
+                <span className={`px-2 py-0.5 rounded font-mono font-extrabold text-xs border shadow-sm ${
+                  attrBreakdown.isSub
+                    ? 'bg-amber-950 text-amber-300 border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.25)]'
+                    : 'bg-cyan-950 text-cyan-300 border-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                }`}>
+                  Total: {attrBreakdown.total ?? 0}
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-1.5 text-[10px] font-mono">
+              {attrBreakdown.isSub ? (
+                <>
+                  <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-2 py-1 rounded">
+                    <span className="text-slate-400">Governing Base [2 + (Primary × 2)]:</span>
+                    <span className="text-amber-200 font-bold">{attrBreakdown.governingBase ?? 0}</span>
+                  </div>
+                  {attrBreakdown.purchasedBonus > 0 && (
+                    <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-2 py-1 rounded">
+                      <span className="text-slate-400">Purchased Bonus (BP):</span>
+                      <span className="text-emerald-300 font-bold">+{attrBreakdown.purchasedBonus}</span>
+                    </div>
+                  )}
+                  {attrBreakdown.mod !== 0 && (
+                    <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 px-2 py-1 rounded">
+                      <span className="text-slate-400">Identity & Gear Modifiers:</span>
+                      <span className={attrBreakdown.mod > 0 ? "text-emerald-300 font-bold" : "text-rose-300 font-bold"}>
+                        {attrBreakdown.mod > 0 ? `+${attrBreakdown.mod}` : attrBreakdown.mod}
+                      </span>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <div className="bg-slate-900/80 border border-slate-800 rounded px-2 py-1 flex items-center justify-between">
+                      <span className="text-slate-400">Purchased:</span>
+                      <span className="text-cyan-200 font-bold">
+                        {attrBreakdown.purchased ?? 0} ({(attrBreakdown.purchased ?? 0) * 5} CP)
+                      </span>
+                    </div>
+                    <div className="bg-slate-900/80 border border-slate-800 rounded px-2 py-1 flex items-center justify-between">
+                      <span className="text-slate-400">Bonus Mod:</span>
+                      <span className={`font-bold ${attrBreakdown.mod > 0 ? 'text-emerald-300' : attrBreakdown.mod < 0 ? 'text-rose-300' : 'text-slate-400'}`}>
+                        {attrBreakdown.mod > 0 ? `+${attrBreakdown.mod}` : attrBreakdown.mod ?? 0}
+                      </span>
+                    </div>
+                  </div>
+                  {attrBreakdown.sources && attrBreakdown.sources.length > 0 && (
+                    <div className="bg-slate-900/60 border border-slate-800/80 rounded p-1.5 space-y-1">
+                      <div className="text-[9px] uppercase font-bold text-slate-400">Modifier Breakdown:</div>
+                      <div className="space-y-0.5 max-h-24 overflow-y-auto">
+                        {attrBreakdown.sources.map((s, i) => (
+                          <div key={i} className="flex items-center justify-between text-[9.5px]">
+                            <span className="text-slate-300 truncate mr-2">{s.name}:</span>
+                            <span className={`shrink-0 ${s.val > 0 ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}`}>
+                              {s.val > 0 ? `+${s.val}` : s.val}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
         )}

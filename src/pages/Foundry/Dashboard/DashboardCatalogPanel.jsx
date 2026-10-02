@@ -616,7 +616,7 @@ export const DashboardCatalogPanel = () => {
             <div className="flex items-center justify-between pb-1 text-[11px] font-mono text-slate-400">
               <span>Tactical Encounter Sessions</span>
               <button
-                onClick={() => navigate('/foundry/vtt-options')}
+                onClick={() => navigate('/foundry/stage?options=true')}
                 className="text-amber-400 hover:text-amber-300 text-[10px] font-bold uppercase cursor-pointer"
               >
                 Control Console →
@@ -671,9 +671,9 @@ export const DashboardCatalogPanel = () => {
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     <button
-                      onClick={() => navigate(`/foundry/vtt-options?mapId=${session.id}`)}
+                      onClick={() => navigate(`/foundry/stage?mapId=${session.id}&options=true`)}
                       className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-mono uppercase rounded-lg transition-colors cursor-pointer"
-                      title="Setup tokens and fog-of-war"
+                      title="Setup tokens and tactical stage settings"
                     >
                       Config
                     </button>

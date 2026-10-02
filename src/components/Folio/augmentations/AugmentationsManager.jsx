@@ -32,6 +32,7 @@ import {
   checkAugmentationStageCompatibility
 } from '../../../engines/tangentComplexEngines';
 import FolioTooltip from '../shared/FolioTooltip';
+import AugmentationDiagnosticsModal from '../modals/AugmentationDiagnosticsModal';
 
 const BODY_SLOT_KEYS = [
   { id: 'Head', label: 'Head', max: 10, icon: Zap },
@@ -57,6 +58,7 @@ export const AugmentationsManager = ({
   const [activeStageFilter, setActiveStageFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isRulesExpanded, setIsRulesExpanded] = useState(false);
+  const [isDiagnosticsOpen, setIsDiagnosticsOpen] = useState(false);
 
   // Derived character attributes
   const staminaScore = useMemo(() => {
@@ -267,195 +269,33 @@ export const AugmentationsManager = ({
             }`}>
               <span>{bodyBreakdown.totalUsedNodes} / {bodyBreakdown.totalMaxCapacity} Nodes</span>
             </div>
-          </div>
-        </div>
 
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        {/* SECTION 2: 4-TIER STAGE PROGRESSION TRACKER */}
-        {/* ══════════════════════════════════════════════════════════════════ */}
-        <div className="mt-5 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Augmentation Stage Progression</span>
-            </span>
+            {/* Diagnostics & Anatomy Modal Trigger Button */}
             <button
               type="button"
-              onClick={() => setIsRulesExpanded(prev => !prev)}
-              className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer transition-colors"
+              onClick={() => setIsDiagnosticsOpen(true)}
+              className="px-3.5 py-1.5 rounded-lg bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(6,182,212,0.2)] hover:border-cyan-400 cursor-pointer"
             >
-              <span>{isRulesExpanded ? 'Hide Stage Details' : 'View Stage Details & Rules'}</span>
-              {isRulesExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              <Activity className="w-4 h-4 text-cyan-400 animate-pulse" />
+              <span>Anatomy &amp; Diagnostics</span>
             </button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {Object.values(AUGMENTATION_STAGES).map(stage => {
-              const isActive = stageInfo.stageId === stage.id;
-              const isHeavy = stage.id === 'heavy';
-              const isExtreme = stage.id === 'extreme';
-              const isAugmented = stage.id === 'augmented';
-
-              // Prerequisites evaluation
-              let prereqMet = true;
-              let prereqLabel = 'None';
-              if (isAugmented) {
-                prereqMet = campaignTL >= 3;
-                prereqLabel = `TL 3+ (Campaign TL: ${campaignTL})`;
-              } else if (isHeavy) {
-                prereqMet = stageInfo.meetsHeavyPrereq;
-                prereqLabel = `Augmented & Stamina 2+ (STA: ${staminaScore})`;
-              } else if (isExtreme) {
-                prereqMet = stageInfo.meetsExtremePrereq;
-                prereqLabel = `Heavy & Stamina 4+ (STA: ${staminaScore})`;
-              }
-
-              return (
-                <div
-                  key={stage.id}
-                  className={`rounded-xl p-3.5 border transition-all relative flex flex-col justify-between ${
-                    isActive
-                      ? 'bg-slate-950/90 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.2)] ring-1 ring-amber-500/50'
-                      : 'bg-slate-950/50 border-slate-800 hover:border-slate-700'
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-1 mb-1.5">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
-                        Tier {stage.tier}
-                      </span>
-                      {isActive && (
-                        <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[9px] font-bold uppercase tracking-wider flex items-center gap-1">
-                          <CheckCircle2 className="w-2.5 h-2.5" /> Active
-                        </span>
-                      )}
-                    </div>
-
-                    <h4 className={`text-sm font-bold leading-tight mb-1 ${
-                      isActive ? 'text-amber-300' : 'text-slate-200'
-                    }`}>
-                      {stage.name}
-                    </h4>
-
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-800/80 text-amber-300 text-[10px] font-mono font-bold">
-                        +{stage.bpCredit} BP Credit
-                      </span>
-                    </div>
-
-                    <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2 mb-2">
-                      {stage.description}
-                    </p>
-                  </div>
-
-                  <div className="space-y-2 pt-2 border-t border-slate-900 mt-auto">
-                    {/* Prerequisite Check */}
-                    <div className="text-[10px] font-mono flex items-center justify-between gap-1">
-                      <span className="text-slate-500">Prereq:</span>
-                      <span className={`text-right truncate ${prereqMet ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {prereqLabel}
-                      </span>
-                    </div>
-
-                    {/* Action Button */}
-                    {isActive ? (
-                      <div className="w-full py-1 text-center bg-amber-950/60 border border-amber-800/60 rounded text-[11px] font-mono font-bold text-amber-300 cursor-default">
-                        Current Stage
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => handleSelectStage(stage.id)}
-                        className="w-full py-1 rounded text-[11px] font-mono font-bold bg-slate-900 hover:bg-amber-950/80 border border-slate-700 hover:border-amber-600 text-slate-300 hover:text-amber-200 transition-all cursor-pointer"
-                      >
-                        {stage.id === 'negligible' ? 'Set Baseline' : `Acquire ${stage.name}`}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Expandable Rules Drawer */}
-          {isRulesExpanded && (
-            <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-3 text-xs">
-              <div className="flex items-center gap-2 text-amber-400 font-bold uppercase tracking-wider text-[11px]">
-                <Info className="w-4 h-4" />
-                <span>Active Stage Mechanics: {stageInfo.stage.name}</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-slate-300">
-                <div className="p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                  <span className="text-[10px] font-mono uppercase text-slate-500 block mb-1">Prerequisites</span>
-                  <p className="text-slate-300 font-mono text-[11px]">{stageInfo.stage.prerequisites}</p>
-                </div>
-                <div className="p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                  <span className="text-[10px] font-mono uppercase text-slate-500 block mb-1">Benefit</span>
-                  <p className="text-slate-300 text-[11px]">{stageInfo.stage.benefit}</p>
-                </div>
-                <div className="p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                  <span className="text-[10px] font-mono uppercase text-slate-500 block mb-1">Special &amp; BP Credit</span>
-                  <p className="text-slate-300 text-[11px]">{stageInfo.stage.special}</p>
-                </div>
-              </div>
-
-              {/* Prerequisite Warnings */}
-              {stageInfo.prerequisiteWarnings.length > 0 && (
-                <div className="p-2.5 rounded bg-amber-950/40 border border-amber-800/80 text-amber-300 flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 shrink-0 text-amber-400" />
-                  <div className="text-[11px]">
-                    {stageInfo.prerequisiteWarnings.map((warn, i) => (
-                      <span key={i} className="block">{warn}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          {/* SECTION 3: BUILD POINTS (BP) CREDIT TRACKER BAR */}
-          {/* ══════════════════════════════════════════════════════════════════ */}
-          <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase text-slate-300 tracking-wider">Augmentation BP Credit:</span>
-                <span className="font-mono text-xs font-bold text-amber-400">
-                  {bpStats.totalBPSpent} / {bpStats.bpCredit} BP
-                </span>
-                {bpStats.remainingCredit > 0 && (
-                  <span className="text-[11px] font-mono text-emerald-400">
-                    ({bpStats.remainingCredit} BP Credit Available)
-                  </span>
-                )}
-              </div>
-              <p className="text-[11px] text-slate-400">
-                {bpStats.isOverCredit
-                  ? `Exceeded credit allowance by ${bpStats.overflowBP} BP. Overflow must be paid with BP or ${bpStats.overflowCreditsEquivalent.toLocaleString()} Credits.`
-                  : `Fully covered by the ${stageInfo.stage.name} initial augmentation credit suite.`}
-              </p>
-            </div>
-
-            {/* Visual Mini Progress Meter */}
-            <div className="w-full sm:w-48 space-y-1">
-              <div className="w-full h-2 rounded-full bg-slate-900 overflow-hidden border border-slate-800">
-                <div
-                  className={`h-full transition-all duration-300 ${
-                    bpStats.isOverCredit ? 'bg-rose-500' : 'bg-amber-400'
-                  }`}
-                  style={{
-                    width: `${Math.min(100, bpStats.bpCredit > 0 ? (bpStats.totalBPSpent / bpStats.bpCredit) * 100 : (bpStats.totalBPSpent > 0 ? 100 : 0))}%`
-                  }}
-                />
-              </div>
-              <div className="flex justify-between text-[10px] font-mono text-slate-500">
-                <span>0 BP</span>
-                <span>{bpStats.bpCredit} BP Free Credit</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+
+      {/* Diagnostics & Stage Progression Modal */}
+      <AugmentationDiagnosticsModal
+        isOpen={isDiagnosticsOpen}
+        onClose={() => setIsDiagnosticsOpen(false)}
+        characterData={characterData}
+        stageInfo={stageInfo}
+        bpStats={bpStats}
+        bodyBreakdown={bodyBreakdown}
+        campaignTL={campaignTL}
+        staminaScore={staminaScore}
+        handleSelectStage={handleSelectStage}
+        incompatibleAugs={incompatibleAugs}
+      />
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* STAGE PREREQUISITE COMPATIBILITY WARNING BANNER */}
@@ -490,33 +330,27 @@ export const AugmentationsManager = ({
       )}
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* SECTION 4: ANATOMICAL BODY CHART (CAPACITY BREAKDOWN) */}
+      {/* COMPACT ANATOMICAL QUICK-SLOT FILTER RAIL */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <div className="bg-slate-900/90 border border-cyan-900/50 rounded-xl p-5 shadow-xl space-y-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-cyan-950/80 pb-3">
-          <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">
-              <Activity className="w-4 h-4 text-cyan-400" />
-              <span>Anatomical Body Chart &amp; Capacity Limits</span>
-            </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Hardware node consumption limits per anatomical section. Click any location to filter installed hardware.
-            </p>
-          </div>
+      <div className="bg-slate-900/90 border border-cyan-900/50 rounded-xl p-3 sm:p-4 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5 mr-1">
+            <Activity className="w-3.5 h-3.5" />
+            <span>Slot Filter:</span>
+          </span>
 
-          {activeSlotFilter !== 'all' && (
-            <button
-              type="button"
-              onClick={() => setActiveSlotFilter('all')}
-              className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-700 text-cyan-300 text-xs font-mono font-bold hover:bg-cyan-900 transition-colors cursor-pointer"
-            >
-              &times; Reset Filter (Show All)
-            </button>
-          )}
-        </div>
+          <button
+            type="button"
+            onClick={() => setActiveSlotFilter('all')}
+            className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+              activeSlotFilter === 'all'
+                ? 'bg-cyan-500 text-slate-950 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                : 'bg-slate-950 border border-slate-800 text-slate-400 hover:border-cyan-800 hover:text-cyan-300'
+            }`}
+          >
+            All Slots ({augmentationsList.length})
+          </button>
 
-        {/* Body Slot Cards Schematic */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {BODY_SLOT_KEYS.map(slotKey => {
             const slotData = bodyBreakdown.slots[slotKey.id] || {
               name: slotKey.label,
@@ -527,94 +361,46 @@ export const AugmentationsManager = ({
               isOverCapacity: false,
               items: []
             };
-
             const isSelected = activeSlotFilter === slotKey.id;
-            const SlotIcon = slotKey.icon;
 
             return (
-              <div
+              <button
                 key={slotKey.id}
+                type="button"
                 onClick={() => setActiveSlotFilter(prev => prev === slotKey.id ? 'all' : slotKey.id)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer select-none relative flex flex-col justify-between ${
+                className={`px-2.5 py-1 rounded-lg text-xs font-mono flex items-center gap-1.5 transition-all cursor-pointer border ${
                   isSelected
-                    ? 'bg-cyan-950/60 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.25)] ring-1 ring-cyan-400'
+                    ? 'bg-cyan-950 border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(6,182,212,0.3)] ring-1 ring-cyan-400'
                     : slotData.isOverCapacity
-                      ? 'bg-rose-950/40 border-rose-600/80 hover:border-rose-500'
-                      : 'bg-slate-950/70 border-slate-800 hover:border-cyan-800/80'
+                      ? 'bg-rose-950/60 border-rose-600 text-rose-300'
+                      : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-cyan-800'
                 }`}
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <div className={`p-1.5 rounded-lg border ${
-                        isSelected
-                          ? 'bg-cyan-900/60 border-cyan-500 text-cyan-200'
-                          : 'bg-slate-900 border-slate-800 text-slate-400'
-                      }`}>
-                        <SlotIcon className="w-4 h-4" />
-                      </div>
-                      <span className="font-bold text-xs text-slate-200">{slotKey.label}</span>
-                    </div>
-
-                    <div className="flex items-center gap-1.5">
-                      <span className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold border ${
-                        slotData.isOverCapacity
-                          ? 'bg-rose-950 border-rose-700 text-rose-300'
-                          : slotData.percentage >= 80
-                            ? 'bg-amber-950 border-amber-700 text-amber-300'
-                            : 'bg-slate-900 border-slate-800 text-cyan-300'
-                      }`}>
-                        {slotData.usedNodes} / {slotData.maxNodes} Nodes
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="w-full h-2 rounded-full bg-slate-900 border border-slate-800 overflow-hidden mb-2">
-                    <div
-                      className={`h-full transition-all duration-300 ${
-                        slotData.isOverCapacity
-                          ? 'bg-rose-500'
-                          : slotData.percentage >= 80
-                            ? 'bg-amber-400'
-                            : 'bg-cyan-400'
-                      }`}
-                      style={{ width: `${Math.min(100, slotData.percentage)}%` }}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1 border-t border-slate-900">
-                  <span>{slotData.items.length} {slotData.items.length === 1 ? 'Augment' : 'Augments'}</span>
-                  {slotData.isOverCapacity ? (
-                    <span className="text-rose-400 font-bold">+{slotData.overflowNodes} Over Limit!</span>
-                  ) : (
-                    <span className="text-slate-500">{slotData.remainingNodes} Nodes Free</span>
-                  )}
-                </div>
-              </div>
+                <span>{slotKey.label}</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded font-bold ${
+                  slotData.isOverCapacity ? 'bg-rose-900 text-rose-100' : 'bg-slate-900 text-slate-400'
+                }`}>
+                  {slotData.usedNodes}/{slotData.maxNodes}
+                </span>
+              </button>
             );
           })}
         </div>
 
-        {/* Total Chassis Capacity Summary Bar */}
-        <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="text-slate-400">Total Body Chassis Load:</span>
-            <span className="font-mono font-bold text-cyan-300">
-              {bodyBreakdown.totalUsedNodes} / {bodyBreakdown.totalMaxCapacity} Nodes
-            </span>
-            <span className="text-[11px] font-mono text-slate-500">
-              ({bodyBreakdown.totalRemainingNodes} Nodes Remaining)
-            </span>
-          </div>
-
+        <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
           {bodyBreakdown.hasAnyOverCapacity && (
-            <div className="flex items-center gap-1.5 text-rose-400 font-mono text-xs font-bold animate-pulse">
-              <AlertTriangle className="w-4 h-4" />
-              <span>One or more anatomical sections exceed node capacity!</span>
+            <div className="flex items-center gap-1 text-rose-400 text-xs font-mono font-bold animate-pulse mr-2">
+              <AlertTriangle className="w-3.5 h-3.5" />
+              <span>Chassis Overload</span>
             </div>
           )}
+          <button
+            type="button"
+            onClick={() => setIsDiagnosticsOpen(true)}
+            className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer transition-colors"
+          >
+            <span>Full Anatomical Schematic &rarr;</span>
+          </button>
         </div>
       </div>
 

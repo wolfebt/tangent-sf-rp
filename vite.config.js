@@ -12,6 +12,9 @@ export default defineConfig({
       ignored: ['**/docs/**', '**/*.md']
     }
   },
+  build: {
+    chunkSizeWarningLimit: 1500
+  },
   plugins: [
     react(),
     tailwindcss(),
