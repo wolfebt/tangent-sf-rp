@@ -23,8 +23,11 @@ import { ChatService } from './chatService';
 const generateInviteCode = () => {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let result = 'GRP-';
+  const randomArray = new Uint8Array(6);
+  window.crypto.getRandomValues(randomArray);
   for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+    // Character length is exactly 32 (a power of 2), so modulo 32 has no bias when mapped from a 0-255 distribution
+    result += chars.charAt(randomArray[i] % chars.length);
   }
   return result;
 };
