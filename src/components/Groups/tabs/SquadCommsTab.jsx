@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Radio, ExternalLink } from 'lucide-react';
 import { useChat } from '../../../context/ChatContext';
 import { MessageView } from '../../Chat/MessageView';
@@ -18,8 +18,17 @@ export const SquadCommsTab = ({
   const { 
     messages = [], 
     loadingMessages = false, 
-    activeChannel 
+    activeChannel,
+    activeChannelId,
+    selectChannel
   } = useChat() || {};
+
+  // Ensure active squad channel is selected for tactical feed
+  useEffect(() => {
+    if (activeGroup?.channelId && activeChannelId !== activeGroup.channelId && selectChannel) {
+      selectChannel(activeGroup.channelId);
+    }
+  }, [activeGroup?.channelId, activeChannelId, selectChannel]);
 
   return (
     <div className="flex-1 flex flex-col h-full min-h-0 bg-[#070b12]">

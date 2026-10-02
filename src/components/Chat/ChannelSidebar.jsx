@@ -201,8 +201,13 @@ export const ChannelSidebar = ({
                 </span>
               )}
               {isGroup && (
-                <span className="px-1 py-0.1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold uppercase">
-                  SQUAD
+                <span className="px-1 py-0.1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold uppercase" title="Addresses Squad Personas">
+                  🎭 PERSONAS
+                </span>
+              )}
+              {!isCharacterDM && !isPlayerDM && !isGroup && !isPersonaLog && (
+                <span className="px-1 py-0.1 bg-cyan-500/10 text-cyan-300/90 border border-cyan-500/20 text-[8px] rounded font-mono font-bold uppercase" title="Addresses Operators">
+                  👤 OPERATOR
                 </span>
               )}
             </div>
@@ -369,6 +374,9 @@ export const ChannelSidebar = ({
               {collapsedSections.teams ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
               <Shield size={12} />
               <span>TACTICAL TEAMS</span>
+              <span className="px-1 py-0.2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                PERSONAS
+              </span>
             </span>
             <div className="flex items-center gap-1.5">
               <button
@@ -418,6 +426,9 @@ export const ChannelSidebar = ({
               {collapsedSections.public ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
               <Globe size={12} className="text-cyan-400" />
               <span>HOLONET FREQUENCIES</span>
+              <span className="px-1 py-0.2 bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                OPERATORS
+              </span>
             </span>
             <span className="text-slate-500 text-[10px]">{publicChannels.length}</span>
           </div>

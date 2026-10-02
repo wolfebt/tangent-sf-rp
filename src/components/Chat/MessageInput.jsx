@@ -45,10 +45,19 @@ export const MessageInput = ({ isCompact = false }) => {
     setSelectedPersona,
     activeChannel,
     broadcastToVtt,
-    setBroadcastToVtt
+    setBroadcastToVtt,
+    isTeamChannel: checkIsTeam,
+    isStandardChannel: checkIsStandard
   } = useChat();
   const { personaRoster, roster, characterData } = useFolio();
   const { currentUser, userHandle } = useAuth();
+
+  const isTeam = checkIsTeam 
+    ? checkIsTeam(activeChannel) 
+    : (activeChannel?.type === 'group' || !!activeChannel?.groupId || (Array.isArray(activeChannel?.characterMembers) && activeChannel.characterMembers.length > 0));
+  const isStandard = checkIsStandard 
+    ? checkIsStandard(activeChannel) 
+    : (activeChannel?.type === 'public' || activeChannel?.id?.startsWith('public_'));
 
   const [text, setText] = useState('');
   const [isIdentityDropdownOpen, setIsIdentityDropdownOpen] = useState(false);
@@ -127,7 +136,7 @@ export const MessageInput = ({ isCompact = false }) => {
     try {
       const isAdv = rollAdvantage === 'adv';
       const isDis = rollAdvantage === 'dis';
-      const cName = speakingMode === 'IC' && selectedPersona
+      const cName = (speakingMode === 'IC' || isTeam) && selectedPersona
         ? (selectedPersona['char-name'] || selectedPersona.name || 'Persona')
         : (userHandle || 'Operator');
 
@@ -252,13 +261,18 @@ export const MessageInput = ({ isCompact = false }) => {
                     <span className="text-[9.5px] px-1 py-0.1 bg-purple-500/20 text-purple-300 rounded ml-0.5">
                       {activePersonaHP}/{activePersonaMaxHP} HP
                     </span>
+                    {isTeam && (
+                      <span className="text-[8.5px] px-1 py-0.2 bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 rounded font-bold uppercase ml-0.5">
+                        SQUAD PERSONA
+                      </span>
+                    )}
                   </>
                 ) : (
                   <>
                     <User size={13} className="text-cyan-400" />
                     <span>OOC: @{userHandle || 'Operator'}</span>
                     <span className="text-[9.5px] px-1.5 py-0.2 bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 rounded ml-0.5">
-                      PLAYER
+                      {isStandard ? 'STANDARD OPERATOR' : 'OPERATOR'}
                     </span>
                   </>
                 )}
@@ -267,16 +281,33 @@ export const MessageInput = ({ isCompact = false }) => {
 
               {/* Identity Picker Popover */}
               {isIdentityDropdownOpen && (
-                <div className="absolute left-0 bottom-full mb-1.5 w-72 bg-[#0c111a] border border-slate-700 rounded-xl shadow-2xl p-2 space-y-1.5 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-800 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    <span>SELECT TRANSMITTING IDENTITY</span>
-                    <button
-                      type="button"
-                      onClick={() => setIsIdentityDropdownOpen(false)}
-                      className="p-0.5 hover:text-white"
-                    >
-                      <X size={12} />
-                    </button>
+                <div className="absolute left-0 bottom-full mb-1.5 w-76 bg-[#0c111a] border border-slate-700 rounded-xl shadow-2xl p-2.5 space-y-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="pb-1.5 border-b border-slate-800">
+                    <div className="flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      <span>SELECT TRANSMITTING IDENTITY</span>
+                      <button
+                        type="button"
+                        onClick={() => setIsIdentityDropdownOpen(false)}
+                        className="p-0.5 hover:text-white"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                    <div className="text-[9.5px] font-mono mt-1">
+                      {isTeam ? (
+                        <span className="text-emerald-400 font-semibold">
+                          🛡️ Team Channel: Character Personas addressed by default
+                        </span>
+                      ) : isStandard ? (
+                        <span className="text-cyan-400 font-semibold">
+                          🌐 Standard Channel: Operators (Players) addressed by default
+                        </span>
+                      ) : (
+                        <span className="text-slate-400">
+                          Direct Relay: Choose transmission profile
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   {/* Option 1: Player (OOC) */}
@@ -560,9 +591,13 @@ export const MessageInput = ({ isCompact = false }) => {
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder={
-                speakingMode === 'IC'
-                  ? `Transmit as ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
-                  : `Transmit as @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
+                isTeam
+                  ? `[SQUAD FREQ] Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
+                  : isStandard
+                    ? `[STANDARD RELAY] Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
+                    : speakingMode === 'IC'
+                      ? `Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
+                      : `Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
               }
               className={`w-full pl-3.5 pr-12 py-2.5 bg-slate-950 border rounded-xl text-xs sm:text-sm font-mono placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
                 speakingMode === 'IC'

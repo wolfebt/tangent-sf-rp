@@ -22,6 +22,37 @@ export const useChat = () => {
   return context;
 };
 
+export const isTeamChannel = (channel) => {
+  if (!channel) return false;
+  return channel.type === 'group' || 
+         Boolean(channel.groupId) || 
+         (typeof channel.id === 'string' && channel.id.startsWith('group_')) || 
+         (Array.isArray(channel.characterMembers) && channel.characterMembers.length > 0);
+};
+
+export const isStandardChannel = (channel) => {
+  if (!channel) return false;
+  return channel.type === 'public' || 
+         (typeof channel.id === 'string' && channel.id.startsWith('public_')) ||
+         channel.type === 'standard' ||
+         (typeof channel.id === 'string' && channel.id.startsWith('standard_'));
+};
+
+export const getChannelAddressingMode = (channel) => {
+  if (!channel) return 'operator';
+  if (isTeamChannel(channel)) return 'persona';
+  if (channel.type === 'direct' || (typeof channel.id === 'string' && channel.id.startsWith('dm_'))) {
+    if (channel.recipientType === 'character' || Boolean(channel.targetPersona) || (typeof channel.id === 'string' && channel.id.startsWith('dm_char_'))) {
+      return 'persona';
+    }
+    return 'operator';
+  }
+  if (channel.type === 'persona_log' || (typeof channel.id === 'string' && channel.id.startsWith('persona_log_'))) {
+    return 'persona';
+  }
+  return 'operator';
+};
+
 export const ChatProvider = ({ children }) => {
   const { currentUser, userHandle } = useAuth();
   const folio = useFolio() || {};
@@ -97,8 +128,10 @@ export const ChatProvider = ({ children }) => {
   useEffect(() => {
     if (folioActivePersona) {
       setSelectedPersona(folioActivePersona);
+    } else if (!selectedPersona && currentUserCharacters.length > 0) {
+      setSelectedPersona(currentUserCharacters[0]);
     }
-  }, [folioActivePersona]);
+  }, [folioActivePersona, selectedPersona, currentUserCharacters]);
 
   // Initialize default channels in Firestore once
   useEffect(() => {
@@ -599,20 +632,114 @@ export const ChatProvider = ({ children }) => {
     setIsCommsDockOpen(prev => !prev);
   }, []);
 
+  const isCurrentTeamChannel = useMemo(() => isTeamChannel(activeChannel), [activeChannel]);
+  const isCurrentStandardChannel = useMemo(() => isStandardChannel(activeChannel), [activeChannel]);
+  const channelAddressingMode = useMemo(() => getChannelAddressingMode(activeChannel), [activeChannel]);
+
+  // Channel participants tailored to channel context:
+  // In Team channels, addresses and lists Personas enrolled in the squad.
+  // In Standard channels, addresses and lists Operators active across the HoloNet.
+  const activeChannelUsers = useMemo(() => {
+    if (!activeChannel) {
+      return { mode: 'operator', personas: [], operators: effectiveUserDirectory };
+    }
+
+    if (isTeamChannel(activeChannel)) {
+      const charMembers = Array.isArray(activeChannel.characterMembers) ? activeChannel.characterMembers : [];
+      const memberUids = new Set(Array.isArray(activeChannel.members) ? activeChannel.members : []);
+      if (activeChannel.createdById) memberUids.add(activeChannel.createdById);
+
+      const personasList = [];
+      const seenCharIds = new Set();
+
+      charMembers.forEach(cm => {
+        if (!cm) return;
+        const cId = cm.id || cm['character-doc-id'] || cm.name;
+        if (cId && !seenCharIds.has(cId)) {
+          seenCharIds.add(cId);
+          personasList.push({
+            id: cId,
+            'character-doc-id': cId,
+            name: cm.name || cm['char-name'] || 'Persona',
+            species: cm.species || cm['char-species'] || 'Human',
+            role: cm.role || cm['char-concept'] || cm['char-occu'] || 'Specialist',
+            avatar: cm.avatar || null,
+            ownerUid: cm.ownerUid || null,
+            ownerHandle: cm.ownerHandle || 'Operator',
+            isOnline: Boolean(effectiveUserDirectory.find(u => u.uid === cm.ownerUid)?.isOnline)
+          });
+        }
+      });
+
+      effectiveUserDirectory.forEach(u => {
+        if (memberUids.has(u.uid) && Array.isArray(u.characters)) {
+          u.characters.forEach(c => {
+            const cId = c.id || c['character-doc-id'] || c.name;
+            if (cId && !seenCharIds.has(cId)) {
+              seenCharIds.add(cId);
+              personasList.push({
+                ...c,
+                ownerUid: u.uid,
+                ownerHandle: u.userHandle || getEffectiveUserHandle(u),
+                isOnline: Boolean(u.isOnline)
+              });
+            }
+          });
+        }
+      });
+
+      const operatorsList = effectiveUserDirectory.filter(u => memberUids.has(u.uid));
+
+      return {
+        mode: 'persona',
+        personas: personasList,
+        operators: operatorsList.length > 0 ? operatorsList : effectiveUserDirectory
+      };
+    }
+
+    // Standard / Public Channel
+    return {
+      mode: 'operator',
+      personas: allNetworkPersonas,
+      operators: effectiveUserDirectory
+    };
+  }, [activeChannel, effectiveUserDirectory, allNetworkPersonas]);
+
   const selectChannel = useCallback((channelId) => {
     AudioService.playTerminalBeep(1100, 0.02);
     setActiveChannelId(channelId);
     markChannelAsRead(channelId);
-  }, [markChannelAsRead]);
+
+    // Auto-adjust speaking mode based on channel addressing convention:
+    // Team channels address Personas (IC). Standard channels address Operators (OOC).
+    const targetChan = channels.find(c => c.id === channelId);
+    if (targetChan) {
+      const mode = getChannelAddressingMode(targetChan);
+      if (mode === 'persona') {
+        setSpeakingMode('IC');
+      } else {
+        setSpeakingMode('OOC');
+      }
+    }
+  }, [channels, markChannelAsRead]);
 
   // Send a dice roll transmission to the active or specified channel
   const sendDiceRoll = useCallback(async (diceRollData, targetChannelId = null) => {
     const channelId = targetChannelId || activeChannelId;
     if (!channelId) return;
 
-    const senderHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
-    const isIC = speakingMode === 'IC' && selectedPersona;
-    const displayName = isIC ? (selectedPersona.name || selectedPersona['char-name'] || selectedPersona.identity?.name || senderHandle) : senderHandle;
+    const targetChan = channels.find(c => c.id === channelId) || activeChannel;
+    const channelMode = getChannelAddressingMode(targetChan);
+    const isTeam = channelMode === 'persona';
+    const effectiveIsIC = isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC');
+    const activeP = selectedPersona || currentUserCharacters[0];
+    const hasPersona = Boolean(activeP && (activeP.name || activeP['char-name']));
+
+    const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
+    const isIC = Boolean(effectiveIsIC && hasPersona);
+    const displayName = isIC 
+      ? (activeP.name || activeP['char-name'] || activeP.identity?.name || operatorHandle) 
+      : operatorHandle;
 
     const checkLabel = diceRollData.label ? `${diceRollData.label} ` : '';
     const advTag = diceRollData.isAdvantage ? ' [Advantage: I Got This]' : diceRollData.isDisadvantage ? ' [Disadvantage: Negative Karma]' : '';
@@ -620,14 +747,19 @@ export const ChatProvider = ({ children }) => {
       text: `${displayName} rolled ${checkLabel}(${diceRollData.expression || 'dice'})${advTag}: ${diceRollData.total ?? diceRollData.result}`,
       type: 'dice_roll',
       senderId: currentUser?.uid || 'anon',
+      senderUid: currentUser?.uid || null,
       senderHandle: displayName,
+      operatorHandle: operatorHandle,
+      senderType: isIC ? 'persona' : 'operator',
+      addressingMode: channelMode,
       isIC: isIC,
       broadcastToVtt: Boolean(broadcastToVtt),
       personaDetails: isIC ? {
-        id: selectedPersona['character-doc-id'] || selectedPersona.id,
-        name: selectedPersona['char-name'] || selectedPersona.name || 'Persona',
-        species: selectedPersona['char-species'] || selectedPersona.species || 'Human',
-        role: selectedPersona['char-concept'] || selectedPersona.role || selectedPersona['char-occu'] || 'Specialist'
+        id: activeP['character-doc-id'] || activeP.id,
+        name: activeP['char-name'] || activeP.name || 'Persona',
+        species: activeP['char-species'] || activeP.species || 'Human',
+        role: activeP['char-concept'] || activeP.role || activeP['char-occu'] || 'Specialist',
+        operatorHandle: operatorHandle
       } : null,
       metadata: {
         ...diceRollData,
@@ -642,7 +774,7 @@ export const ChatProvider = ({ children }) => {
 
     AudioService.playTerminalBeep(1550, 0.04);
     await ChatService.sendMessage(channelId, payload);
-  }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona, broadcastToVtt]);
+  }, [activeChannelId, channels, activeChannel, currentUser, userHandle, speakingMode, selectedPersona, currentUserCharacters, broadcastToVtt]);
 
   const sendMessage = useCallback(async (text, customPayload = {}) => {
     let rawText = text;
@@ -665,16 +797,24 @@ export const ChatProvider = ({ children }) => {
       const label = parts.slice(2).join(' ') || 'Tactical Check';
       try {
         const rollResult = rollDice(expr, { label });
-        await sendDiceRoll(rollResult);
+        await sendDiceRoll(rollResult, targetChannelId);
         return;
       } catch (err) {
         console.warn('Roll command error:', err);
       }
     }
 
-    const senderHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Anonymous Operator';
-    const isIC = speakingMode === 'IC' && (customPayload.persona || selectedPersona);
-    const activeP = customPayload.persona || selectedPersona;
+    const targetChan = channels.find(c => c.id === targetChannelId) || activeChannel;
+    const channelMode = getChannelAddressingMode(targetChan);
+    const isTeam = channelMode === 'persona';
+    const effectiveIsIC = customPayload.isIC !== undefined 
+      ? Boolean(customPayload.isIC)
+      : (isTeam ? (speakingMode !== 'OOC') : (speakingMode === 'IC'));
+
+    const activeP = customPayload.persona || selectedPersona || currentUserCharacters[0];
+    const hasPersona = Boolean(activeP && (activeP.name || activeP['char-name']));
+    const operatorHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Anonymous Operator';
+    const isIC = Boolean(effectiveIsIC && hasPersona);
 
     // 2. RPG command: /me or /act or /ooc
     let messageType = isIC ? 'ic_transmission' : 'text';
@@ -691,8 +831,12 @@ export const ChatProvider = ({ children }) => {
       text: cleanText || '',
       type: customPayload.type || messageType,
       senderId: currentUser?.uid || 'anon',
-      senderHandle: isIC ? (activeP.name || activeP['char-name'] || activeP.identity?.name || senderHandle) : senderHandle,
-      isIC: Boolean(isIC),
+      senderUid: currentUser?.uid || null,
+      senderHandle: isIC ? (activeP.name || activeP['char-name'] || activeP.identity?.name || operatorHandle) : operatorHandle,
+      operatorHandle: operatorHandle,
+      senderType: isIC ? 'persona' : 'operator',
+      addressingMode: channelMode,
+      isIC: isIC,
       broadcastToVtt: Boolean(broadcastToVtt),
       personaDetails: isIC ? {
         id: activeP['character-doc-id'] || activeP.id,
@@ -703,14 +847,15 @@ export const ChatProvider = ({ children }) => {
         health: activeP.health || 30,
         currentHealth: activeP.current_health ?? (activeP.current_hp ?? 30),
         vitality: activeP.vitality || 30,
-        currentVitality: activeP.current_vitality ?? 30
+        currentVitality: activeP.current_vitality ?? 30,
+        operatorHandle: operatorHandle
       } : null,
       ...customPayload
     };
 
     AudioService.playTerminalBeep(1450, 0.02);
     await ChatService.sendMessage(targetChannelId, payload);
-  }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona, sendDiceRoll, broadcastToVtt]);
+  }, [activeChannelId, channels, activeChannel, currentUser, userHandle, speakingMode, selectedPersona, currentUserCharacters, sendDiceRoll, broadcastToVtt]);
 
   // Start or open a 1-on-1 Direct Message with target user (and optional specific persona)
   const startDirectMessage = useCallback(async (targetUser, targetPersona = null) => {
@@ -833,7 +978,15 @@ export const ChatProvider = ({ children }) => {
     addChannelMember,
     removeChannelMember,
     deleteChannel,
-    clearChannelMessages
+    clearChannelMessages,
+    isTeamChannel,
+    isStandardChannel,
+    getChannelAddressingMode,
+    isCurrentTeamChannel,
+    isCurrentStandardChannel,
+    channelAddressingMode,
+    activeChannelUsers,
+    currentUserCharacters
   };
 
   return (
