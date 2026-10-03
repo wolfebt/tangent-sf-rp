@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useDeferredValue } from 'react';
 import { categoryConfig } from '../../components/DBM/categoryConfig';
 import { AudioService } from '../../services/audioService';
 import { OmnicortexNavRail } from '../../components/DBM/OmnicortexNavRail';
@@ -194,6 +194,7 @@ export const OmnicortexCatalogView = ({
 }) => {
   const [activeCategoryKey, setActiveCategoryKey] = useState('species');
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const [isGlobalSearch, setIsGlobalSearch] = useState(false);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'table'
   const [collapsedDomains, setCollapsedDomains] = useState({});
@@ -306,9 +307,10 @@ export const OmnicortexCatalogView = ({
   }, [rawItems, activeCategoryKey]);
 
   // Filter items based on active filters, search query, and global/local scope
+  // ⚡ Bolt: Using deferredSearchQuery to prevent UI stutter during rapid typing in large catalogs
   const filteredItems = useMemo(() => {
     const sourceList = isGlobalSearch ? allConsolidatedItems : rawItems;
-    const q = searchQuery.toLowerCase().trim();
+    const q = deferredSearchQuery.toLowerCase().trim();
 
     return sourceList.filter(item => {
       // Search term filter
@@ -385,7 +387,7 @@ export const OmnicortexCatalogView = ({
 
       return true;
     }).sort((a, b) => (a.name || a.title || '').localeCompare(b.name || b.title || ''));
-  }, [isGlobalSearch, allConsolidatedItems, rawItems, searchQuery, selectedTL, selectedML, selectedLineage, selectedType, selectedStage]);
+  }, [isGlobalSearch, allConsolidatedItems, rawItems, deferredSearchQuery, selectedTL, selectedML, selectedLineage, selectedType, selectedStage]);
 
   const toggleDomainCollapse = (domainId) => {
     setCollapsedDomains(prev => ({
