@@ -121,10 +121,18 @@ export const VoiceChatProvider = ({ children }) => {
       disconnectVoiceRoom();
     }
 
+    if (!currentUser) {
+      const err = 'Authentication required: You must be logged into an authenticated Terran Net account to access voice channels.';
+      setConnectionError(err);
+      setIsConnecting(false);
+      console.warn('[VoiceChat]', err);
+      return false;
+    }
+
     setIsConnecting(true);
     setConnectionError(null);
 
-    const identity = currentUser?.uid || `anon_${Math.random().toString(36).substring(2, 8)}`;
+    const identity = currentUser.uid;
     const effectiveHandle = userHandle || getEffectiveUserHandle(currentUser) || 'Operator';
     const personaName = activePersona?.['char-name'] || activePersona?.name || effectiveHandle;
     const metadata = {

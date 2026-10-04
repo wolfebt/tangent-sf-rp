@@ -218,7 +218,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
           </div>
           <div>
             <h2 className="text-xs font-mono font-bold tracking-wider uppercase text-emerald-300 flex items-center gap-2">
-              <span>THE GALLERY</span>
+              <span>STORY ELEMENTS</span>
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/40">
                 Story Asset Repository
               </span>

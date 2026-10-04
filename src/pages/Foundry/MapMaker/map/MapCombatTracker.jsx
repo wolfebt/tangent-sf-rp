@@ -809,7 +809,7 @@ const MapCombatTracker = ({
   };
 
   const handleAutoExecuteNpcTurn = (attackerToken) => {
-    const unitToAct = attackerToken || activeTurnToken || sortedTokens.find(t => !t.linkedHeroId && !t.isDead);
+    const unitToAct = attackerToken || sortedTokens.find(t => t.id === activeTurnTokenId) || sortedTokens.find(t => !t.linkedHeroId && !t.isDead);
     if (!unitToAct) return;
 
     const heroCandidates = sortedTokens.filter(t => Boolean(t.linkedHeroId) && !t.isDead);

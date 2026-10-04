@@ -6,7 +6,12 @@
  */
 
 import { DEFAULT_FEATURES } from '../data/featuresData.js';
-import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
+import { 
+  ALL_CANONICAL_TRAITS,
+  SPECIES_TRAITS_BASIC,
+  SPECIES_TRAITS_ADVANCED,
+  SPECIES_TRAITS_ELITE
+} from '../data/speciesTraitsData.js';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData.js';
 import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData.js';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
@@ -291,6 +296,10 @@ export function resolveCanonicalCatalogItem(raw) {
 
   // Search Traits
   const trait = ALL_CANONICAL_TRAITS.find(t => {
+    const tId = (t.id || '').toLowerCase();
+    const tName = (t.name || t.title || '').toLowerCase();
+    return tId === clean || tName === clean || tName.replace(/[-_]/g, ' ') === normalized;
+  }) || [...SPECIES_TRAITS_ADVANCED, ...SPECIES_TRAITS_BASIC, ...SPECIES_TRAITS_ELITE].find(t => {
     const tId = (t.id || '').toLowerCase();
     const tName = (t.name || t.title || '').toLowerCase();
     return tId === clean || tName === clean || tName.replace(/[-_]/g, ' ') === normalized;

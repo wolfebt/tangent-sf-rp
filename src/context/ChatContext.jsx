@@ -11,6 +11,7 @@ import {
   isPersonaEmptyTemplate, 
   getEffectiveUserHandle 
 } from '../utils/personaValidationUtils';
+import { showToast } from './ToastContext';
 
 const ChatContext = createContext();
 
@@ -56,7 +57,7 @@ export const getChannelAddressingMode = (channel) => {
 export const ChatProvider = ({ children }) => {
   const { currentUser, userHandle } = useAuth();
   const folio = useFolio() || {};
-  const { activePersona: folioActivePersona, personaRoster, roster } = folio;
+  const { activePersona: folioActivePersona, personaRoster, roster, togglePersonaNetworkEngaged } = folio;
 
   const [channels, setChannels] = useState(DEFAULT_PUBLIC_CHANNELS);
   const [activeChannelId, setActiveChannelId] = useState('public_general');
@@ -124,9 +125,59 @@ export const ChatProvider = ({ children }) => {
     }
   }, [activeNavTab, hasNewOperatorLogins, clearNewOperatorLogins]);
 
+  // All local personas for current user with network engagement flags
+  const allUserPersonas = useMemo(() => {
+    const tombstones = getFolioTombstones();
+    const list = [];
+    const seen = new Set();
+    const source = Array.isArray(personaRoster) && personaRoster.length > 0
+      ? personaRoster
+      : (Array.isArray(roster) && roster.length > 0 ? roster : (folioActivePersona ? [folioActivePersona] : []));
+
+    // Check if operator has explicitly set network flags on any persona
+    const hasExplicitFlags = source.some(p => typeof p.networkEngaged === 'boolean' || typeof p.isNetworkEngaged === 'boolean');
+    const activeDocId = folioActivePersona ? (folioActivePersona['character-doc-id'] || folioActivePersona.id) : null;
+
+    source.forEach((p, idx) => {
+      if (!p) return;
+      const pId = p['character-doc-id'] || p.id;
+      const pName = p['char-name'] || p.name;
+      if (pId && pName && !seen.has(pId) && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
+        seen.add(pId);
+
+        // If operator has explicitly set flags on any persona, strictly respect that flag.
+        // If no personas have ever been flagged yet, default to engaging the single active persona.
+        const isEngaged = hasExplicitFlags
+          ? Boolean(p.networkEngaged ?? p.isNetworkEngaged)
+          : (activeDocId ? pId === activeDocId : idx === 0);
+
+        list.push({
+          id: pId,
+          'character-doc-id': pId,
+          name: pName,
+          species: p['char-species'] || p.species || 'Human',
+          role: p['char-concept'] || p.role || p['char-occu'] || 'Specialist',
+          avatar: p.avatar || null,
+          ownerUid: currentUser?.uid,
+          ownerHandle: userHandle || getEffectiveUserHandle(currentUser),
+          isOnline: true,
+          networkEngaged: isEngaged,
+          isNetworkEngaged: isEngaged
+        });
+      }
+    });
+
+    return list;
+  }, [personaRoster, roster, folioActivePersona, currentUser, userHandle]);
+
+  // Network-engaged personas: ONLY the personas flagged for the network to engage
+  const currentUserCharacters = useMemo(() => {
+    return allUserPersonas.filter(p => p.networkEngaged);
+  }, [allUserPersonas]);
+
   // Decoupled persona selection: support ad-hoc persona picking without globally forcing active character
   useEffect(() => {
-    if (folioActivePersona) {
+    if (folioActivePersona && (!selectedPersona || selectedPersona.id === (folioActivePersona['character-doc-id'] || folioActivePersona.id))) {
       setSelectedPersona(folioActivePersona);
     } else if (!selectedPersona && currentUserCharacters.length > 0) {
       setSelectedPersona(currentUserCharacters[0]);
@@ -137,38 +188,6 @@ export const ChatProvider = ({ children }) => {
   useEffect(() => {
     ChatService.initDefaultChannels();
   }, []);
-
-  // Canonical current user characters derived cleanly from FolioContext
-  const currentUserCharacters = useMemo(() => {
-    const tombstones = getFolioTombstones();
-    const list = [];
-    const seen = new Set();
-    const source = Array.isArray(personaRoster) && personaRoster.length > 0
-      ? personaRoster
-      : (Array.isArray(roster) && roster.length > 0 ? roster : (folioActivePersona ? [folioActivePersona] : []));
-
-    source.forEach(p => {
-      if (!p) return;
-      const pId = p['character-doc-id'] || p.id;
-      const pName = p['char-name'] || p.name;
-      if (pId && pName && !seen.has(pId) && !isFolioPersonaDeleted(pId, tombstones) && !isPersonaEmptyTemplate(p) && !p.isDeleted) {
-        seen.add(pId);
-        list.push({
-          id: pId,
-          'character-doc-id': pId,
-          name: pName,
-          species: p['char-species'] || p.species || 'Human',
-          role: p['char-concept'] || p.role || p['char-occu'] || 'Specialist',
-          avatar: p.avatar || null,
-          ownerUid: currentUser?.uid,
-          ownerHandle: userHandle || getEffectiveUserHandle(currentUser),
-          isOnline: true
-        });
-      }
-    });
-
-    return list;
-  }, [personaRoster, roster, folioActivePersona, currentUser, userHandle]);
 
   // Presence Heartbeat & Window Lifecyle Management
   useEffect(() => {
@@ -725,6 +744,16 @@ export const ChatProvider = ({ children }) => {
 
   // Send a dice roll transmission to the active or specified channel
   const sendDiceRoll = useCallback(async (diceRollData, targetChannelId = null) => {
+    if (!currentUser) {
+      AudioService.playTerminalBeep(450, 0.08);
+      showToast({
+        type: 'error',
+        title: 'Authentication Required',
+        text: 'You must log into an authenticated Terran Net account to transmit dice rolls.'
+      });
+      return;
+    }
+
     const channelId = targetChannelId || activeChannelId;
     if (!channelId) return;
 
@@ -782,6 +811,16 @@ export const ChatProvider = ({ children }) => {
     if (typeof text === 'object' && text !== null) {
       rawText = text.text || text.content || '';
       extra = { ...text, ...customPayload };
+    }
+
+    if (!currentUser) {
+      AudioService.playTerminalBeep(450, 0.08);
+      showToast({
+        type: 'error',
+        title: 'Authentication Required',
+        text: 'You must log into an authenticated Terran Net account to transmit messages.'
+      });
+      return;
     }
 
     if (!rawText && !extra.metadata && !extra.summary) return;
@@ -986,7 +1025,9 @@ export const ChatProvider = ({ children }) => {
     isCurrentStandardChannel,
     channelAddressingMode,
     activeChannelUsers,
-    currentUserCharacters
+    currentUserCharacters,
+    allUserPersonas,
+    togglePersonaNetworkEngaged
   };
 
   return (

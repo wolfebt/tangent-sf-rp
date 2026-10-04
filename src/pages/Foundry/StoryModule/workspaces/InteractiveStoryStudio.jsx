@@ -1,21 +1,26 @@
 /**
  * @file InteractiveStoryStudio.jsx
- * @description Interactive Play Studio for ADE Studio.
- * Allows playing through any scenario from this foundry with branching story beats,
- * decision gates, and skill checks.
- *
- * Protagonist Modes:
- *   1. Folio Persona: Real character from player's Folio roster with actual attributes & skills.
- *   2. Preset Characters: Iconic Tangent SFF RPG operatives (Void Marine, Slicer, Psionic Envoy, Route Scout).
- *   3. Open World Narrative Script: Freeform GM / omniscient narrative director mode.
+ * @description Master Interactive Play Studio for ADE (Adventure Development Environment).
+ * COMPLETELY DRIVEN BY DATABASE CONTENT — ZERO MOCK PRESETS OR HARDCODED CHARACTERS:
+ *   1. Operatives pulled directly from Folio Database Roster, Story Foundry Elements, and Omnicortex DB.
+ *   2. Solo by default with dynamic Squad expansion.
+ *   3. Real-time Folio & VTT dynamic modifiers ledger and vitals synchronization.
+ *   4. Flexible presentation modes: Fullscreen Interactive, Fullscreen VTT Stage, and Side-by-Side Split View.
+ *   5. Dual-mode decision matrix: Pre-authored Visual Story Graph branches + AIME dynamic overseer.
+ *   6. Canonical Tangent SFF RPG 2d10 dice check evaluation with criticals, fumbles, and margin of success tiers.
+ *   7. Sensory soundscapes (ambient drone, hit audio) and Web Speech API TTS Sensory Read-Aloud.
+ *   8. GM Director Mode vs. Solo Operative Mode with direct VTT chat broadcasting.
+ *   9. Session management (auto-save, checkpoint fork, session drawer, markdown export).
  */
 
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useStory } from '../../../../context/CampaignContext';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import Split from 'react-split';
+import { useCampaign, useStory } from '../../../../context/CampaignContext';
 import { useFolio } from '../../../../context/FolioContext';
+import { useDBM } from '../../../../context/DBMContext';
 import { AudioService } from '../../../../services/audioService';
 import { streamContent } from '../../../../services/aimeService';
-import { rollDice } from '../../../../services/diceService';
+import { VttEventBus } from '../../../../utils/vttEventBus';
 import { 
   Sparkles, 
   Play, 
@@ -24,75 +29,79 @@ import {
   Send, 
   Dices, 
   User, 
+  Users, 
   MapPin, 
   Shield, 
-  Search, 
   FileText, 
-  CheckCircle, 
   ChevronRight, 
-  Printer, 
-  Settings, 
   ArrowRight, 
   Loader2,
-  Users,
   Compass,
   Zap,
-  Globe
+  Globe,
+  Volume2,
+  VolumeX,
+  Columns,
+  Maximize2,
+  Radio,
+  FolderOpen,
+  Plus,
+  GitBranch,
+  ShieldAlert,
+  Swords,
+  Database
 } from 'lucide-react';
 
-// 4 Canonical Tangent SFF RPG Preset Characters
-const PRESET_CHARACTERS = [
-  {
-    id: 'preset-jax',
-    name: 'Jax Vance',
-    archetype: 'Soldier',
-    species: 'Human',
-    focus: 'Heavy Kinetics & Armor Soak',
-    attributes: { strength: 3, agility: 2, stamina: 4, intellect: 1, wisdom: 2, charisma: 1 },
-    concept: 'Hardened veteran void marine with scarred carbon-composite armor and kinetic carbine.'
-  },
-  {
-    id: 'preset-nyx',
-    name: 'Nyx Kael',
-    archetype: 'Cyber-Slicer',
-    species: 'Alterian',
-    focus: 'System Infiltration & Reflex Slicing',
-    attributes: { strength: 1, agility: 3, stamina: 2, intellect: 4, wisdom: 2, charisma: 2 },
-    concept: 'Bionic decker equipped with neural cyber-rig and quantum crypto-crackers.'
-  },
-  {
-    id: 'preset-tariq',
-    name: 'Tariq Shan',
-    archetype: 'Psionic Envoy',
-    species: 'Celestine',
-    focus: 'Empathic Influence & Bio-Kinetics',
-    attributes: { strength: 1, agility: 2, stamina: 2, intellect: 3, wisdom: 4, charisma: 3 },
-    concept: 'Diplomatic consular capable of sensing thought currents and psychically shielding allies.'
-  },
-  {
-    id: 'preset-vesper',
-    name: 'Vesper Thorne',
-    archetype: 'Route Scout',
-    species: 'Terran',
-    focus: 'Frontier Navigation & Stealth Ballistics',
-    attributes: { strength: 2, agility: 4, stamina: 3, intellect: 2, wisdom: 3, charisma: 1 },
-    concept: 'Frontier pathfinder who maps uncharted anomaly vectors with laser carbine in hand.'
-  }
-];
+import TacticalStageViewport from '../panels/TacticalStageViewport';
+import ActiveModifiersPillBar from '../panels/ActiveModifiersPillBar';
+import FireteamVitalsBar from '../panels/FireteamVitalsBar';
+import {
+  loadDatabasePersonas,
+  loadDatabaseModifiers,
+  evaluateTangentCheck,
+  loadAllSessions,
+  persistAllSessions,
+  createInteractiveSession,
+  exportSessionMarkdown
+} from '../interactivePlayService';
 
-export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectScenario }) => {
+export const InteractiveStoryStudio = ({ 
+  activeNode: propActiveNode, 
+  onSelectScenario,
+  linkedMap: propLinkedMap,
+  allAvailableMaps: propAllAvailableMaps
+}) => {
+  // Campaign & Story Context
+  const campaign = useCampaign() || {};
   const { 
     universeState, 
-    elementsCatalog, 
-    updateStory,
-    openStory,
+    elementsCatalog = [], 
+    updateStory, 
+    setActiveScenarioId,
+    activeMapId,
+    setActiveMapId,
+    mapsCatalog = [],
+    addMap,
+    handleCreateNewMapForElement,
     getActiveGemsText 
-  } = useStory();
-  
-  const { roster, characterData } = useFolio();
+  } = campaign;
+
+  // Folio Context
+  const folio = useFolio() || {};
+  const { 
+    roster = [], 
+    characterData, 
+    applyVTTStatusConditions, 
+    recordTrackedModification,
+    updateCharacterHealth,
+    updateCharacterVitality
+  } = folio;
+
+  // DBM Database Context
+  const dbm = useDBM() || {};
+  const dbData = dbm.dbData || {};
 
   // ── FOUNDRY SCENARIO SELECTION ──
-  // Flatten all scenarios/scenes in this foundry for easy switching
   const allFoundryScenarios = useMemo(() => {
     const list = [];
     const extract = (nodes) => {
@@ -111,7 +120,7 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
   );
 
   useEffect(() => {
-    if (propActiveNode?.id) {
+    if (propActiveNode?.id && propActiveNode.id !== selectedScenarioId) {
       setSelectedScenarioId(propActiveNode.id);
     }
   }, [propActiveNode?.id]);
@@ -120,43 +129,194 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
     return allFoundryScenarios.find(s => s.id === selectedScenarioId) || propActiveNode || allFoundryScenarios[0] || null;
   }, [allFoundryScenarios, selectedScenarioId, propActiveNode]);
 
-  // ── PROTAGONIST MODE ──
-  // 'folio' | 'preset' | 'narrative'
-  const [protagonistMode, setProtagonistMode] = useState('preset');
-  const [selectedPresetId, setSelectedPresetId] = useState(PRESET_CHARACTERS[0].id);
-  const [selectedFolioCharId, setSelectedFolioCharId] = useState(
-    characterData?.['character-doc-id'] || roster?.[0]?.['character-doc-id'] || ''
-  );
-
-  const activeProtagonist = useMemo(() => {
-    if (protagonistMode === 'folio') {
-      const char = (roster || []).find(c => c['character-doc-id'] === selectedFolioCharId) || characterData;
-      if (char && char['char-name']) {
-        return {
-          id: char['character-doc-id'] || 'active-folio',
-          name: char['char-name'],
-          archetype: char['char-archetype'] || 'Operative',
-          species: char['char-species'] || 'Terran',
-          focus: char['char-concept'] || 'Custom Hero',
-          attributes: {
-            strength: Number(char['attr-strength']) || 1,
-            agility: Number(char['attr-agility']) || 1,
-            stamina: Number(char['attr-stamina']) || 1,
-            intellect: Number(char['attr-intellect']) || 1,
-            wisdom: Number(char['attr-wisdom']) || 1,
-            charisma: Number(char['attr-charisma']) || 1
-          },
-          concept: char['char-concept'] || 'Custom Persona from Folio Roster'
-        };
+  // ── PRE-AUTHORED STORY GRAPH BRANCHES (DIRECTLY FROM SCENARIO DATABASE) ──
+  const preAuthoredBranches = useMemo(() => {
+    if (!activeScenario) return [];
+    const branches = [];
+    // 1. Direct children in scenario hierarchy
+    if (Array.isArray(activeScenario.children) && activeScenario.children.length > 0) {
+      for (const child of activeScenario.children) {
+        branches.push({
+          id: child.id,
+          targetScenarioId: child.id,
+          text: `Advance to: ${child.title || 'Next Scene'}`,
+          type: child.type || 'Scene',
+          readAloud: child.fields?.readAloud || child.content || ''
+        });
       }
     }
-    if (protagonistMode === 'preset') {
-      return PRESET_CHARACTERS.find(p => p.id === selectedPresetId) || PRESET_CHARACTERS[0];
+    // 2. Outgoing branch connections in Visual Story Graph
+    if (Array.isArray(activeScenario.branchConnections)) {
+      for (const conn of activeScenario.branchConnections) {
+        const target = allFoundryScenarios.find(s => s.id === conn.targetId);
+        if (target && !branches.some(b => b.targetScenarioId === target.id)) {
+          branches.push({
+            id: `conn_${conn.targetId}`,
+            targetScenarioId: target.id,
+            text: conn.label ? `${conn.label} ➔ ${target.title}` : `Branch to: ${target.title}`,
+            type: target.type || 'Scene',
+            readAloud: target.fields?.readAloud || target.content || ''
+          });
+        }
+      }
     }
-    return null; // Open narrative mode
-  }, [protagonistMode, selectedPresetId, selectedFolioCharId, roster, characterData]);
+    return branches;
+  }, [activeScenario, allFoundryScenarios]);
 
-  // ── INTERACTIVE STORY BEATS FEED ──
+  // ── DATABASE OPERATIVES AGGREGATION (ZERO MOCK / ZERO HARDCODED) ──
+  const allDatabasePersonas = useMemo(() => {
+    return loadDatabasePersonas({
+      roster,
+      characterData,
+      elementsCatalog,
+      activeScenario,
+      dbArchetypes: dbData.archetypes || []
+    });
+  }, [roster, characterData, elementsCatalog, activeScenario, dbData.archetypes]);
+
+  // ── DATABASE MODIFIERS AGGREGATION (ZERO HARDCODED PRESETS) ──
+  const availableDatabaseModifiers = useMemo(() => {
+    return loadDatabaseModifiers({
+      dbModifiers: dbData.modifiers || [],
+      galleryModifiers: universeState?.galleryModifiers || [],
+      activeCharacter: characterData
+    });
+  }, [dbData.modifiers, universeState?.galleryModifiers, characterData]);
+
+  // ── PRESENTATION MODES: FULLSCREEN PLAY, SPLIT VIEW, FULLSCREEN STAGE ──
+  const [layoutMode, setLayoutMode] = useState('split');
+  const [splitRatio, setSplitRatio] = useState('50_50');
+
+  const splitSizes = useMemo(() => {
+    if (splitRatio === 'story_bias') return [65, 35];
+    if (splitRatio === 'stage_bias') return [35, 65];
+    return [50, 50];
+  }, [splitRatio]);
+
+  // ── DIRECTOR MODE VS SOLO OPERATIVE MODE ──
+  const [directorMode, setDirectorMode] = useState('solo');
+
+  // ── PARTY CONFIGURATION: SOLO (DEFAULT) VS GROUP ──
+  const [partyMode, setPartyMode] = useState('solo');
+  const [selectedPersonaSourceFilter, setSelectedPersonaSourceFilter] = useState('all'); // 'all' | 'folio' | 'foundry' | 'omnicortex'
+
+  // Filtered personas list by database source
+  const filteredPersonas = useMemo(() => {
+    if (selectedPersonaSourceFilter === 'all') return allDatabasePersonas;
+    return allDatabasePersonas.filter(p => p.sourceType === selectedPersonaSourceFilter);
+  }, [allDatabasePersonas, selectedPersonaSourceFilter]);
+
+  // Selected Solo Operative ID
+  const [selectedOperativeId, setSelectedOperativeId] = useState(() => {
+    return characterData?.['character-doc-id'] || characterData?.id || allDatabasePersonas[0]?.id || '';
+  });
+
+  useEffect(() => {
+    if (!selectedOperativeId && allDatabasePersonas.length > 0) {
+      setSelectedOperativeId(allDatabasePersonas[0].id);
+    }
+  }, [allDatabasePersonas, selectedOperativeId]);
+
+  // Active Operatives in Fireteam
+  const [operatives, setOperatives] = useState(() => {
+    const match = allDatabasePersonas.find(p => p.id === selectedOperativeId);
+    return match ? [match] : (allDatabasePersonas.slice(0, 1) || []);
+  });
+
+  // Re-sync operative when selection changes
+  useEffect(() => {
+    const match = allDatabasePersonas.find(p => p.id === selectedOperativeId);
+    if (match) {
+      if (partyMode === 'solo') {
+        setOperatives([match]);
+      } else {
+        // In group mode, ensure selected is in operatives array
+        setOperatives(prev => {
+          if (prev.some(p => p.id === match.id)) return prev;
+          return [match, ...prev];
+        });
+      }
+    }
+  }, [selectedOperativeId, allDatabasePersonas, partyMode]);
+
+  const [activeOperativeId, setActiveOperativeId] = useState(() => selectedOperativeId || operatives[0]?.id || '');
+
+  useEffect(() => {
+    if (operatives.length > 0 && !operatives.some(o => o.id === activeOperativeId)) {
+      setActiveOperativeId(operatives[0].id);
+    }
+  }, [operatives, activeOperativeId]);
+
+  const activeOperative = useMemo(() => {
+    return operatives.find(o => o.id === activeOperativeId) || operatives[0] || null;
+  }, [operatives, activeOperativeId]);
+
+  // ── DYNAMIC MODIFIERS LEDGER ──
+  const [activeModifiers, setActiveModifiers] = useState([]);
+
+  const handleAddModifier = useCallback((modifier) => {
+    setActiveModifiers(prev => {
+      const next = [...prev, modifier];
+      // Sync to Folio if active operative is from Folio
+      if (typeof recordTrackedModification === 'function' && activeOperative?.sourceType === 'folio') {
+        recordTrackedModification({
+          field: 'active_modifiers',
+          label: modifier.name,
+          value: modifier.value,
+          reason: `ADE Interactive Play: ${modifier.description || modifier.name}`
+        });
+      }
+      return next;
+    });
+  }, [recordTrackedModification, activeOperative]);
+
+  const handleRemoveModifier = useCallback((instanceId) => {
+    setActiveModifiers(prev => prev.filter(m => (m.instanceId || m.id) !== instanceId));
+  }, []);
+
+  // Update operative vitals with Folio & VTT sync
+  const handleUpdateOperativeVitals = useCallback((opId, nextVitals) => {
+    setOperatives(prev => prev.map(op => {
+      if (op.id !== opId) return op;
+      return { ...op, vitals: nextVitals };
+    }));
+
+    // If folio hero, sync health/vitality back
+    if (activeOperative?.sourceType === 'folio' && opId === activeOperative?.id) {
+      if (typeof updateCharacterHealth === 'function' && nextVitals.health !== undefined) {
+        updateCharacterHealth(opId, nextVitals.health);
+      }
+      if (typeof updateCharacterVitality === 'function' && nextVitals.strain !== undefined) {
+        updateCharacterVitality(opId, nextVitals.strain);
+      }
+    }
+
+    // Emit damage/heal event to VTT Stage
+    VttEventBus.emit('vtt-token-vitals-updated', {
+      tokenId: opId,
+      vitals: nextVitals
+    });
+  }, [activeOperative, updateCharacterHealth, updateCharacterVitality]);
+
+  // ── SESSION MANAGEMENT & PERSISTENCE ──
+  const [currentSessionId, setCurrentSessionId] = useState(() => `ips_${Date.now()}`);
+  const [savedSessions, setSavedSessions] = useState(() => loadAllSessions());
+
+  const syncSessionToStorage = useCallback((sessionData) => {
+    const all = loadAllSessions();
+    const idx = all.findIndex(s => s.id === sessionData.id);
+    let next;
+    if (idx >= 0) {
+      next = [...all];
+      next[idx] = sessionData;
+    } else {
+      next = [sessionData, ...all];
+    }
+    persistAllSessions(next);
+    setSavedSessions(next);
+  }, []);
+
+  // ── STORY BEATS TIMELINE FEED ──
   const [beats, setBeats] = useState([]);
   const [customActionInput, setCustomActionInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -166,59 +326,92 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
   const [toastMessage, setToastMessage] = useState(null);
   const endOfBeatsRef = useRef(null);
 
+  // Audio Atmosphere & Speech Synthesis (TTS)
+  const [isAmbientDroneActive, setIsAmbientDroneActive] = useState(false);
+  const [isSpeakingBeatId, setIsSpeakingBeatId] = useState(null);
+
   useEffect(() => {
     endOfBeatsRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [beats, activeStreamingText, isGenerating]);
 
   const showToast = (msg) => {
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
+    setTimeout(() => setToastMessage(null), 3200);
   };
 
-  // ── SKILL CHECK DICE ARBITRATION ──
-  const handleRollCheck = (skillName, dc = 12) => {
-    // Determine attribute modifier based on skill or protagonist
-    let attrMod = 2;
-    if (activeProtagonist) {
-      const lower = skillName.toLowerCase();
-      if (lower.includes('kinetic') || lower.includes('might') || lower.includes('melee')) {
-        attrMod = activeProtagonist.attributes.strength || 2;
-      } else if (lower.includes('agility') || lower.includes('reflex') || lower.includes('stealth')) {
-        attrMod = activeProtagonist.attributes.agility || 2;
-      } else if (lower.includes('slicing') || lower.includes('tech') || lower.includes('intellect')) {
-        attrMod = activeProtagonist.attributes.intellect || 2;
-      } else if (lower.includes('perception') || lower.includes('survival') || lower.includes('psionic')) {
-        attrMod = activeProtagonist.attributes.wisdom || 2;
-      } else if (lower.includes('influence') || lower.includes('culture') || lower.includes('diplomacy')) {
-        attrMod = activeProtagonist.attributes.charisma || 2;
-      } else {
-        attrMod = activeProtagonist.attributes.stamina || 2;
-      }
+  const handleToggleAmbientAudio = () => {
+    if (isAmbientDroneActive) {
+      AudioService.stopAmbientDrone();
+      setIsAmbientDroneActive(false);
+    } else {
+      AudioService.startAmbientDrone();
+      setIsAmbientDroneActive(true);
+    }
+  };
+
+  const handleSpeakBeat = (beatId, text) => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) {
+      showToast('Speech synthesis not supported in this environment');
+      return;
     }
 
-    const rollResult = rollDice(`2d10+${attrMod}`, { targetNumber: dc });
-    const isSuccess = Boolean(rollResult.isSuccess);
-    const d1 = rollResult.rolls?.[0]?.value ?? Math.floor((rollResult.subtotal || 10) / 2);
-    const d2 = rollResult.rolls?.[1]?.value ?? (rollResult.subtotal - d1);
+    if (isSpeakingBeatId === beatId) {
+      window.speechSynthesis.cancel();
+      setIsSpeakingBeatId(null);
+      return;
+    }
 
-    if (isSuccess) AudioService.playTerminalBeep(1100, 0.15);
-    else AudioService.playCombatHit(false);
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/<[^>]+>/g, '').trim();
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.rate = 0.95;
+    utterance.pitch = 0.95;
 
-    setSkillCheckRoll({
-      skillName,
-      dc,
-      d1,
-      d2,
-      attrMod,
-      total: rollResult.total,
-      isSuccess,
-      protagonistName: activeProtagonist?.name || 'Party',
-      text: `${activeProtagonist?.name || 'Operative'} [${skillName}]: Rolled ${rollResult.formula || `2d10+${attrMod}`} = ${rollResult.total} vs CR ${dc} (${isSuccess ? 'SUCCESS' : 'FAILURE'})`
-    });
+    utterance.onend = () => setIsSpeakingBeatId(null);
+    utterance.onerror = () => setIsSpeakingBeatId(null);
+
+    setIsSpeakingBeatId(beatId);
+    window.speechSynthesis.speak(utterance);
   };
 
-  // ── ADVANCE STORY BEAT WITH AI OVERSEER ──
-  const handleAdvanceBeat = async (selectedOptionText) => {
+  // ── TANGENT 2D10 SKILL CHECK ARBITRATION ──
+  const handleRollCheck = (skillName, dc = 12) => {
+    let subAttrKey = 'attr-might';
+    const lower = (skillName || '').toLowerCase();
+
+    if (lower.includes('kinetic') || lower.includes('might') || lower.includes('melee') || lower.includes('strength')) {
+      subAttrKey = 'attr-might';
+    } else if (lower.includes('agility') || lower.includes('reflex') || lower.includes('stealth') || lower.includes('ballistics')) {
+      subAttrKey = 'attr-reflex';
+    } else if (lower.includes('slicing') || lower.includes('tech') || lower.includes('intellect') || lower.includes('logic')) {
+      subAttrKey = 'attr-logic';
+    } else if (lower.includes('fortitude') || lower.includes('stamina') || lower.includes('endurance') || lower.includes('soak')) {
+      subAttrKey = 'attr-fortitude';
+    } else if (lower.includes('perception') || lower.includes('survival') || lower.includes('psionic') || lower.includes('will')) {
+      subAttrKey = 'attr-will';
+    } else if (lower.includes('influence') || lower.includes('culture') || lower.includes('diplomacy') || lower.includes('charisma')) {
+      subAttrKey = 'attr-etiquette';
+    }
+
+    const checkResult = evaluateTangentCheck({
+      operative: activeOperative,
+      skillName,
+      subAttrKey,
+      targetCR: dc,
+      activeModifiers
+    });
+
+    if (checkResult.isSuccess) {
+      AudioService.playCriticalChime(true);
+    } else {
+      AudioService.playCombatHit(checkResult.tier === 'critical_fumble');
+    }
+
+    setSkillCheckRoll(checkResult);
+  };
+
+  // ── ADVANCE STORY BEAT ──
+  const handleAdvanceBeat = async (selectedOptionText, targetScenarioId = null) => {
     if (isGenerating) return;
     const chosenAction = (selectedOptionText || customActionInput || '').trim();
     if (!chosenAction) return;
@@ -227,6 +420,18 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
     setIsGenerating(true);
     setGeneratingActionText(chosenAction);
     setActiveStreamingText('');
+
+    // Pre-authored graph branch transition
+    if (targetScenarioId && targetScenarioId !== activeScenario?.id) {
+      setSelectedScenarioId(targetScenarioId);
+      if (typeof onSelectScenario === 'function') onSelectScenario(targetScenarioId);
+      if (typeof setActiveScenarioId === 'function') setActiveScenarioId(targetScenarioId);
+      
+      const targetScenarioNode = allFoundryScenarios.find(s => s.id === targetScenarioId);
+      if (targetScenarioNode?.mapId && typeof setActiveMapId === 'function') {
+        setActiveMapId(targetScenarioNode.mapId);
+      }
+    }
 
     // Mark previous beat with chosen decision
     let updatedBeats = [...beats];
@@ -239,29 +444,29 @@ export const InteractiveStoryStudio = ({ activeNode: propActiveNode, onSelectSce
           gate: {
             ...(currentBeat.gate || {}),
             chosenOption: chosenAction,
-            checkResult: skillCheckRoll ? skillCheckRoll.text : null
+            checkResult: skillCheckRoll ? skillCheckRoll.summary : null
           }
         };
         setBeats(updatedBeats);
       }
     }
 
-    const protagonistContext = activeProtagonist
-      ? `Protagonist: ${activeProtagonist.name} (${activeProtagonist.species} ${activeProtagonist.archetype}). Focus: ${activeProtagonist.focus}. Concept: ${activeProtagonist.concept}.`
-      : 'Perspective: Open Narrative Script / Omniscient Party Directive.';
+    const protagonistContext = activeOperative
+      ? `Protagonist: ${activeOperative.name} (${activeOperative.species} ${activeOperative.archetype}). Focus: ${activeOperative.focus || activeOperative.concept}. Vitals: Shields ${activeOperative.vitals.shields}/${activeOperative.vitals.maxShields}, Health ${activeOperative.vitals.health}/${activeOperative.vitals.maxHealth}. Source: ${activeOperative.sourceLabel}. Active Modifiers: ${activeModifiers.map(m => m.name).join(', ') || 'None'}.`
+      : 'Perspective: Open Narrative Script / Omniscient Director Directive.';
 
     const scenarioContext = `
 Foundry Scenario: "${activeScenario?.title || 'Tactical Encounter'}"
-Location: ${activeScenario?.type || 'Encounter Area'}
-Read-Aloud Briefing: ${activeScenario?.fields?.readAloud || 'Immediate tactical engagement'}
+Location Type: ${activeScenario?.type || 'Encounter Area'}
+Read-Aloud Briefing: ${activeScenario?.fields?.readAloud || activeScenario?.content || 'Immediate tactical engagement'}
 Tactical Clues & Obstacles: ${(activeScenario?.fields?.bulletPoints || []).join('; ')}
 Threats: ${(activeScenario?.fields?.threats || []).map(t => `${t.name} (${t.tier})`).join(', ')}
 Guidance: ${typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci-Fi Action'}
 `;
 
-    const recentBeatsText = updatedBeats.slice(-3).map(b => `[Beat #${b.beatIndex}]: ${b.text}`).join('\n\n');
+    const recentBeatsText = updatedBeats.slice(-3).map(b => `[Beat #${b.beatIndex} - ${b.protagonistName}]: ${b.text}`).join('\n\n');
 
-    const prompt = `You are the AI Overseer executing an interactive Sci-Fi RPG scenario beat.
+    const prompt = `You are AIME, the Creative AI Overseer running an interactive Tangent SFF RPG tactical encounter.
 ${scenarioContext}
 ${protagonistContext}
 
@@ -270,16 +475,16 @@ ${recentBeatsText || 'Scene commencement.'}
 
 Player's Declared Action:
 "${chosenAction}"
-${skillCheckRoll ? `Dice Roll Result: ${skillCheckRoll.text}` : ''}
+${skillCheckRoll ? `Dice Roll Result: ${skillCheckRoll.formula} ➔ ${skillCheckRoll.tierLabel}` : ''}
 
 INSTRUCTIONS:
-1. Write exactly ONE OR TWO atmospheric paragraphs (120-180 words) showing the direct consequences of the action. Highlight sensory textures (lighting, acoustic reverberation, hazards, tactical position).
+1. Write exactly ONE OR TWO atmospheric paragraphs (120-180 words) depicting direct sensory consequences. Honor Tangent SFF rules (Tech Levels 0-5, kinetic shields, physical armor soak, called shots, and trauma thresholds).
 2. Conclude with a Decision Gate containing exactly 3 distinct tactical branching options for the next action.
 FORMAT YOUR OUTPUT AS VALID JSON:
 {
   "narrative": "Paragraph text here...",
   "gate": {
-    "prompt": "What does the operative do next?",
+    "prompt": "What is the operative's next move?",
     "options": [
       { "id": "1", "text": "Aggressive or kinetic move...", "skill": "Kinetics / Ballistics CR 12" },
       { "id": "2", "text": "Tactical, technical, or stealth move...", "skill": "Slicing / Stealth CR 13" },
@@ -299,7 +504,6 @@ FORMAT YOUR OUTPUT AS VALID JSON:
         }
       });
 
-      // Parse JSON response
       let parsed = null;
       try {
         const cleaned = accumulated.replace(/```json/g, '').replace(/```/g, '').trim();
@@ -310,9 +514,9 @@ FORMAT YOUR OUTPUT AS VALID JSON:
           gate: {
             prompt: "What is your next tactical move?",
             options: [
-              { id: "1", text: "Press the offensive under cover", skill: "Ballistics CR 12" },
-              { id: "2", text: "Access local terminal to slice blast doors", skill: "Slicing CR 13" },
-              { id: "3", text: "Reposition and flank target perimeter", skill: "Agility CR 11" }
+              { id: "1", text: "Press offensive from cover", skill: "Ballistics CR 12" },
+              { id: "2", text: "Slice terminal to cycle blast doors", skill: "Slicing CR 13" },
+              { id: "3", text: "Reposition and assess perimeter", skill: "Reflex CR 11" }
             ]
           }
         };
@@ -321,17 +525,44 @@ FORMAT YOUR OUTPUT AS VALID JSON:
       const newBeat = {
         id: `beat_${Date.now()}`,
         beatIndex: updatedBeats.length + 1,
-        protagonistName: activeProtagonist?.name || 'Operative',
+        scenarioId: activeScenario?.id,
+        scenarioTitle: activeScenario?.title,
+        protagonistName: activeOperative?.name || 'Operative',
         text: parsed.narrative || accumulated,
         gate: parsed.gate || null,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
-      setBeats([...updatedBeats, newBeat]);
+      const finalBeats = [...updatedBeats, newBeat];
+      setBeats(finalBeats);
       setActiveStreamingText('');
       setCustomActionInput('');
       setSkillCheckRoll(null);
       AudioService.playTerminalBeep(1200, 0.05);
+
+      // Auto-save to session storage
+      syncSessionToStorage({
+        id: currentSessionId,
+        storyId: universeState?.id || 'default_story',
+        activeScenarioId: activeScenario?.id,
+        activeScenarioTitle: activeScenario?.title,
+        mode: directorMode,
+        partyMode,
+        operatives,
+        activeOperativeId,
+        activeModifiers,
+        beats: finalBeats,
+        updatedAt: new Date().toISOString()
+      });
+
+      if (directorMode === 'director') {
+        VttEventBus.emit('chat-message', {
+          sender: `DIRECTOR • ${activeScenario?.title || 'Story'}`,
+          text: newBeat.text,
+          type: 'narration',
+          timestamp: newBeat.timestamp
+        });
+      }
     } catch (err) {
       console.error('Interactive beat error:', err);
       showToast('Error synthesizing story beat');
@@ -341,16 +572,39 @@ FORMAT YOUR OUTPUT AS VALID JSON:
     }
   };
 
-  // ── COMMIT BEATS TO ACTIVE SCENARIO STORY WEAVER ──
   const handleCommitToStoryWeaver = () => {
     if (beats.length === 0 || !activeScenario?.id) return;
     const beatTexts = beats.map(b => `<p><strong>[Beat #${b.beatIndex} - ${b.protagonistName}]:</strong> ${b.text}</p>`).join('');
     const existing = activeScenario.content || '';
     const merged = existing ? `${existing}<br/><hr/><h3>Interactive Play Beats Log:</h3>${beatTexts}` : beatTexts;
 
-    updateStory(activeScenario.id, { content: merged });
-    AudioService.playTerminalBeep(1300, 0.08);
-    showToast(`✓ Committed ${beats.length} beats into Story Weaver for "${activeScenario.title}"!`);
+    if (typeof updateStory === 'function') {
+      updateStory(activeScenario.id, { content: merged });
+      AudioService.playTerminalBeep(1300, 0.08);
+      showToast(`✓ Committed ${beats.length} beats into Story Weaver for "${activeScenario.title}"!`);
+    }
+  };
+
+  const handleExportMarkdown = () => {
+    const md = exportSessionMarkdown({
+      id: currentSessionId,
+      activeScenarioTitle: activeScenario?.title,
+      partyMode,
+      mode: directorMode,
+      operatives,
+      activeModifiers,
+      beats,
+      createdAt: new Date().toISOString()
+    }, activeScenario);
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${(activeScenario?.title || 'interactive-session').toLowerCase().replace(/\s+/g, '-')}-transcript.md`;
+    link.click();
+    URL.revokeObjectURL(url);
+    showToast('✓ Exported Markdown Transcript');
   };
 
   const handleResetSession = () => {
@@ -365,324 +619,610 @@ FORMAT YOUR OUTPUT AS VALID JSON:
   const activeBeat = beats.length > 0 ? beats[beats.length - 1] : null;
 
   return (
-    <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d15] font-mono select-none">
-      {/* ── TOP INTEGRATED HEADER: SCENARIO SELECTOR & PROTAGONIST BAR ── */}
-      <div className="p-2.5 border-b border-slate-800 bg-slate-950/95 flex items-center justify-between gap-3 shrink-0 flex-wrap text-xs">
-        {/* Scenario Selection from this Foundry */}
+    <div className="flex-1 flex flex-col h-full w-full overflow-hidden bg-[#080c14] font-mono select-none">
+      {/* ── TOP INTEGRATED HEADER: SCENARIO & DATABASE PERSONA SELECTOR ── */}
+      <div className="p-2 border-b border-slate-800 bg-slate-950 flex items-center justify-between gap-2.5 shrink-0 flex-wrap text-xs z-20">
+        {/* Left: Scenario Selector & Presentation Switcher */}
         <div className="flex items-center gap-2 min-w-0">
           <BookOpen size={14} className="text-amber-400 shrink-0" />
-          <span className="text-slate-400 uppercase font-bold text-[10px] hidden sm:inline">Scenario:</span>
-          {allFoundryScenarios.length > 0 ? (
-            <select
-              value={activeScenario?.id || ''}
-              onChange={(e) => {
-                setSelectedScenarioId(e.target.value);
-                if (onSelectScenario) onSelectScenario(e.target.value);
-              }}
-              className="bg-slate-900 border border-slate-700 text-cyan-300 font-bold px-2 py-1 rounded-lg outline-none focus:border-cyan-400 text-xs max-w-[200px] truncate cursor-pointer"
-              title="Select Foundry Scenario to Play"
+          <select
+            value={activeScenario?.id || ''}
+            onChange={(e) => {
+              const val = e.target.value;
+              setSelectedScenarioId(val);
+              if (onSelectScenario) onSelectScenario(val);
+              if (setActiveScenarioId) setActiveScenarioId(val);
+            }}
+            className="bg-slate-900 border border-slate-700 text-cyan-300 font-bold px-2 py-1 rounded-lg outline-none focus:border-cyan-400 text-xs max-w-[170px] md:max-w-[210px] truncate cursor-pointer"
+            title="Select Scenario to Play"
+          >
+            {allFoundryScenarios.map(s => (
+              <option key={s.id} value={s.id} className="bg-slate-900 text-slate-100">
+                {s.title || 'Untitled Scenario'} ({s.type || 'Scene'})
+              </option>
+            ))}
+          </select>
+
+          {/* Presentation Mode Selector: Fullscreen Play vs Split View vs Fullscreen Stage */}
+          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs ml-1">
+            <button
+              type="button"
+              onClick={() => setLayoutMode('fullscreen_play')}
+              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                layoutMode === 'fullscreen_play'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Fullscreen Interactive Play"
             >
-              {allFoundryScenarios.map(s => (
-                <option key={s.id} value={s.id} className="bg-slate-900 text-slate-100">
-                  {s.title || 'Untitled Scenario'} ({s.type || 'Scene'})
-                </option>
-              ))}
-            </select>
-          ) : (
-            <span className="font-bold text-cyan-300">{activeScenario?.title || 'Open Encounter'}</span>
+              <Maximize2 size={11} />
+              <span className="hidden sm:inline">Play</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setLayoutMode('split')}
+              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                layoutMode === 'split'
+                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-xs'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Side-by-Side Dual-Pane Split View"
+            >
+              <Columns size={11} />
+              <span className="hidden sm:inline">Split</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setLayoutMode('fullscreen_stage')}
+              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                layoutMode === 'fullscreen_stage'
+                  ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-xs'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Fullscreen Tactical Stage (VTT)"
+            >
+              <Swords size={11} />
+              <span className="hidden sm:inline">Stage</span>
+            </button>
+          </div>
+
+          {/* Split Ratio Presets */}
+          {layoutMode === 'split' && (
+            <div className="hidden lg:flex items-center gap-0.5 bg-slate-950 px-1 py-0.5 rounded-lg border border-emerald-500/30 text-[9px] font-bold">
+              <button
+                type="button"
+                onClick={() => setSplitRatio('story_bias')}
+                className={`px-1.5 py-0.2 rounded ${splitRatio === 'story_bias' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
+                title="75% Story / 25% Stage"
+              >
+                75/25
+              </button>
+              <button
+                type="button"
+                onClick={() => setSplitRatio('50_50')}
+                className={`px-1.5 py-0.2 rounded ${splitRatio === '50_50' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
+                title="50% Story / 50% Stage"
+              >
+                50/50
+              </button>
+              <button
+                type="button"
+                onClick={() => setSplitRatio('stage_bias')}
+                className={`px-1.5 py-0.2 rounded ${splitRatio === 'stage_bias' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
+                title="25% Story / 75% Stage"
+              >
+                25/75
+              </button>
+            </div>
           )}
         </div>
 
-        {/* Protagonist Mode Switcher */}
+        {/* Center/Right: Database Persona Selector & Party Controls */}
         <div className="flex items-center gap-2 flex-wrap">
+          {/* Database Personas Selector */}
+          <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl px-2 py-0.5 text-xs">
+            <Database size={11} className="text-cyan-400 shrink-0" />
+            <span className="text-[10px] text-slate-400 uppercase font-bold hidden xl:inline">Operative DB:</span>
+            <select
+              value={selectedOperativeId}
+              onChange={(e) => setSelectedOperativeId(e.target.value)}
+              className="bg-transparent border-none text-slate-200 font-bold text-xs outline-none max-w-[160px] md:max-w-[190px] truncate cursor-pointer"
+              title="Select Operative from Database Content"
+            >
+              {allDatabasePersonas.map(p => (
+                <option key={p.id} value={p.id} className="bg-slate-900 text-slate-100">
+                  {p.name} [{p.sourceLabel}]
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Party Mode: Solo by default vs Group */}
           <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs">
             <button
               type="button"
-              onClick={() => setProtagonistMode('preset')}
-              className={`px-2.5 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                protagonistMode === 'preset'
+              onClick={() => setPartyMode('solo')}
+              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                partyMode === 'solo'
                   ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60'
                   : 'text-slate-400 hover:text-white'
               }`}
+              title="Solo Operative Mode (Default)"
             >
-              <Zap size={11} />
-              <span>Preset</span>
+              <User size={11} />
+              <span>Solo</span>
             </button>
-
             <button
               type="button"
-              onClick={() => setProtagonistMode('folio')}
-              className={`px-2.5 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                protagonistMode === 'folio'
+              onClick={() => {
+                setPartyMode('group');
+                if (operatives.length < 2 && allDatabasePersonas.length > 1) {
+                  setOperatives(allDatabasePersonas.slice(0, 3));
+                }
+              }}
+              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                partyMode === 'group'
                   ? 'bg-purple-950 text-purple-300 border border-purple-500/60'
                   : 'text-slate-400 hover:text-white'
               }`}
+              title="Fireteam Squad Mode"
             >
-              <User size={11} />
-              <span>Folio Hero</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setProtagonistMode('narrative')}
-              className={`px-2.5 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
-                protagonistMode === 'narrative'
-                  ? 'bg-amber-950 text-amber-300 border border-amber-500/60'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Globe size={11} />
-              <span className="hidden md:inline">Open Script</span>
+              <Users size={11} />
+              <span>Squad</span>
             </button>
           </div>
 
-          {/* Preset Selector */}
-          {protagonistMode === 'preset' && (
-            <select
-              value={selectedPresetId || ''}
-              onChange={e => setSelectedPresetId(e.target.value)}
-              className="bg-slate-900 border border-slate-700 text-cyan-200 px-2 py-1 rounded-lg text-xs outline-none focus:border-cyan-400 font-bold cursor-pointer max-w-[170px]"
-            >
-              {PRESET_CHARACTERS.map(p => (
-                <option key={p.id} value={p.id}>
-                  {p.name} ({p.archetype})
-                </option>
-              ))}
-            </select>
-          )}
+          {/* Director Mode */}
+          <button
+            type="button"
+            onClick={() => setDirectorMode(prev => prev === 'solo' ? 'director' : 'solo')}
+            className={`px-2 py-1 rounded-xl text-[10px] font-bold border transition-all cursor-pointer flex items-center gap-1 ${
+              directorMode === 'director'
+                ? 'bg-rose-950/80 text-rose-300 border-rose-500/60 shadow-[0_0_8px_rgba(244,63,94,0.2)]'
+                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+            }`}
+            title="Toggle GM Director Overseer mode with stage chat broadcast"
+          >
+            <Radio size={11} className={directorMode === 'director' ? 'animate-pulse text-rose-400' : ''} />
+            <span className="hidden md:inline">{directorMode === 'director' ? 'GM DIRECTOR' : 'SOLO PLAY'}</span>
+          </button>
 
-          {/* Folio Hero Selector */}
-          {protagonistMode === 'folio' && (
-            <select
-              value={selectedFolioCharId || ''}
-              onChange={e => setSelectedFolioCharId(e.target.value)}
-              className="bg-slate-900 border border-slate-700 text-purple-200 px-2 py-1 rounded-lg text-xs outline-none focus:border-purple-400 font-bold cursor-pointer max-w-[170px]"
-            >
-              {(!roster || roster.length === 0) ? (
-                <option value="">No Folio characters found</option>
-              ) : (
-                roster.map(c => (
-                  <option key={c['character-doc-id']} value={c['character-doc-id']}>
-                    {c['char-name'] || 'Unnamed Hero'} ({c['char-archetype'] || 'Hero'})
-                  </option>
-                ))
-              )}
-            </select>
-          )}
+          {/* Ambient Audio Toggle */}
+          <button
+            type="button"
+            onClick={handleToggleAmbientAudio}
+            className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+              isAmbientDroneActive
+                ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60 shadow-xs'
+                : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+            }`}
+            title={isAmbientDroneActive ? "Mute Ambient Sci-Fi Drone" : "Start Ambient Sci-Fi Drone"}
+          >
+            {isAmbientDroneActive ? <Volume2 size={13} /> : <VolumeX size={13} />}
+          </button>
 
-          {/* Commit & Reset Actions */}
-          <div className="flex items-center gap-1.5 ml-1">
-            {beats.length > 0 && (
+          {/* Markdown & Commit Actions */}
+          {beats.length > 0 && (
+            <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={handleCommitToStoryWeaver}
-                className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-sm"
-                title="Commit narrative beats into the Story Weaver prose draft"
+                className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-all cursor-pointer"
+                title="Commit narrative beats into Story Weaver manuscript"
               >
-                <FileText size={11} />
-                <span className="hidden sm:inline">Commit to Weaver</span>
+                <FileText size={10} />
+                <span className="hidden xl:inline">Weaver</span>
               </button>
-            )}
+              <button
+                type="button"
+                onClick={handleExportMarkdown}
+                className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-[10px] font-bold transition-all cursor-pointer"
+                title="Export session transcript as Markdown (.md)"
+              >
+                MD
+              </button>
+            </div>
+          )}
 
-            <button
-              type="button"
-              onClick={handleResetSession}
-              className="p-1 text-slate-500 hover:text-red-400 rounded transition-colors cursor-pointer"
-              title="Reset Timeline Beats"
-            >
-              <RotateCcw size={13} />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleResetSession}
+            className="p-1 text-slate-500 hover:text-red-400 rounded transition-colors cursor-pointer"
+            title="Reset Timeline Beats"
+          >
+            <RotateCcw size={13} />
+          </button>
         </div>
       </div>
 
-      {/* Protagonist Mini Card Banner */}
-      {activeProtagonist && (
-        <div className="px-4 py-1.5 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between text-[11px] text-slate-400 shrink-0">
-          <div className="flex items-center gap-2 truncate">
-            <span className="text-cyan-400 font-bold">👤 {activeProtagonist.name}</span>
-            <span>•</span>
-            <span className="text-slate-300">{activeProtagonist.species} {activeProtagonist.archetype}</span>
-            <span>•</span>
-            <span className="text-slate-500 hidden md:inline truncate">{activeProtagonist.focus}</span>
-          </div>
-          <div className="flex items-center gap-2 font-mono text-[10px] shrink-0">
-            <span>STR {activeProtagonist.attributes.strength}</span>
-            <span>AGI {activeProtagonist.attributes.agility}</span>
-            <span>INT {activeProtagonist.attributes.intellect}</span>
-            <span>WIS {activeProtagonist.attributes.wisdom}</span>
-          </div>
-        </div>
-      )}
+      {/* ── TOP SUB-BARS: FIRETEAM VITALS & DYNAMIC DATABASE MODIFIERS ── */}
+      <FireteamVitalsBar
+        partyMode={partyMode}
+        operatives={operatives}
+        activeOperativeId={activeOperativeId}
+        onSelectActiveOperative={setActiveOperativeId}
+        onUpdateOperativeVitals={handleUpdateOperativeVitals}
+        isFolioLinked={activeOperative?.sourceType === 'folio'}
+      />
+
+      <ActiveModifiersPillBar
+        activeModifiers={activeModifiers}
+        onAddModifier={handleAddModifier}
+        onRemoveModifier={handleRemoveModifier}
+        availableDatabaseModifiers={availableDatabaseModifiers}
+        folioCharacter={characterData}
+      />
 
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="absolute top-16 right-6 z-40 bg-slate-900 border border-cyan-500 text-cyan-200 text-xs px-3 py-1.5 rounded-xl shadow-2xl animate-in fade-in">
+        <div className="absolute top-28 right-6 z-50 bg-slate-900 border border-cyan-500 text-cyan-200 text-xs px-3 py-1.5 rounded-xl shadow-2xl animate-in fade-in">
           {toastMessage}
         </div>
       )}
 
-      {/* ── SCROLLABLE STORY BEATS STREAM ── */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-5 scrollbar-thin">
-        {beats.length === 0 && !activeStreamingText && !isGenerating && (
-          <div className="max-w-md mx-auto text-center py-16 text-slate-500 space-y-3 font-mono text-xs">
-            <Compass size={36} className="mx-auto text-cyan-500/60 animate-pulse" />
-            <p className="text-slate-300 font-bold uppercase tracking-wider">
-              {activeScenario?.title || 'Interactive Scenario Ready'}
-            </p>
-            <p className="text-slate-400 text-[11px] leading-relaxed">
-              {activeScenario?.fields?.readAloud
-                ? `"${activeScenario.fields.readAloud.slice(0, 140)}..."`
-                : 'Select an operative action in the Decision Gate below to synthesize Beat #1.'}
-            </p>
+      {/* ── MAIN WORKSPACE PRESENTATION BRANCHES ── */}
+      <div className="flex-1 flex overflow-hidden min-h-0 w-full relative">
+        {/* PRESENTATION 1: FULLSCREEN TACTICAL STAGE */}
+        {layoutMode === 'fullscreen_stage' && (
+          <div className="h-full w-full flex flex-col overflow-hidden">
+            <TacticalStageViewport
+              activeNode={activeScenario}
+              linkedMap={propLinkedMap}
+              allAvailableMaps={propAllAvailableMaps || mapsCatalog}
+              universeState={universeState}
+              updateStory={updateStory}
+              setActiveMapId={setActiveMapId}
+              addMap={addMap}
+              handleCreateNewMapForElement={handleCreateNewMapForElement}
+            />
           </div>
         )}
 
-        {/* Existing Beats */}
-        {beats.map((beat) => (
-          <div
-            key={beat.id}
-            className="max-w-3xl mx-auto bg-slate-900/80 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-3 shadow-lg"
-          >
-            <div className="flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-850 pb-2">
-              <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-400 font-bold uppercase tracking-wider">
-                Beat #{beat.beatIndex} • {beat.protagonistName}
-              </span>
-              <span>{beat.timestamp}</span>
-            </div>
-
-            <p className="text-slate-100 text-sm leading-relaxed font-sans select-text">
-              {beat.text}
-            </p>
-
-            {beat.gate?.chosenOption && (
-              <div className="p-2.5 rounded-xl bg-slate-950/80 border border-cyan-900/50 flex flex-col gap-1 text-xs">
-                <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
-                  <ArrowRight size={12} className="text-cyan-400 shrink-0" />
-                  <span>Decision: {beat.gate.chosenOption}</span>
+        {/* PRESENTATION 2: FULLSCREEN INTERACTIVE PLAY */}
+        {layoutMode === 'fullscreen_play' && (
+          <div className="h-full w-full flex flex-col overflow-hidden bg-[#090d16]">
+            {/* Scrollable Story Beats Stream */}
+            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-5 scrollbar-thin">
+              {beats.length === 0 && !activeStreamingText && !isGenerating && (
+                <div className="max-w-xl mx-auto text-center py-16 text-slate-500 space-y-3 font-mono text-xs">
+                  <Compass size={40} className="mx-auto text-cyan-500/60 animate-pulse" />
+                  <p className="text-slate-300 font-bold uppercase tracking-wider text-sm">
+                    {activeScenario?.title || 'Interactive Tactical Scenario'}
+                  </p>
+                  <p className="text-slate-400 text-xs leading-relaxed max-w-md mx-auto">
+                    {activeScenario?.fields?.readAloud
+                      ? `"${activeScenario.fields.readAloud.slice(0, 160)}..."`
+                      : 'Select a tactical action or author-scripted branch in the Decision Gate below to commence.'}
+                  </p>
                 </div>
-                {beat.gate.checkResult && (
-                  <span className="text-[10px] text-amber-300 font-mono pl-4">
-                    🎲 {beat.gate.checkResult}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+              )}
 
-        {/* Live Streaming Active Beat */}
-        {activeStreamingText && (
-          <div className="max-w-3xl mx-auto bg-slate-900/90 border border-cyan-500/60 rounded-2xl p-5 shadow-[0_0_20px_rgba(6,182,212,0.15)] animate-in fade-in">
-            <div className="flex items-center justify-between text-[10px] text-cyan-400 mb-2 font-bold uppercase">
-              <span>Synthesizing Beat #{beats.length + 1}...</span>
-              <Loader2 size={12} className="animate-spin" />
-            </div>
-            <p className="text-slate-100 text-sm leading-relaxed font-sans select-text whitespace-pre-wrap">
-              {activeStreamingText}
-            </p>
-          </div>
-        )}
-
-        <div ref={endOfBeatsRef} />
-      </div>
-
-      {/* ── DECISION GATE COCKPIT (Bottom) ── */}
-      <div className="border-t border-slate-800 bg-slate-950/95 p-3 md:p-4 shrink-0 shadow-2xl">
-        <div className="max-w-3xl mx-auto space-y-3">
-          {/* Active Generation Thinking Banner */}
-          {isGenerating && (
-            <div className="flex items-center justify-between p-2 rounded-xl bg-cyan-950/90 border border-cyan-400/50 text-cyan-300 text-xs shadow animate-pulse">
-              <div className="flex items-center gap-2">
-                <Loader2 size={13} className="animate-spin text-cyan-400" />
-                <span className="font-bold text-amber-300 uppercase">AI Overseer:</span>
-                <span className="truncate">Resolving "{generatingActionText}"...</span>
-              </div>
-              <span className="text-[10px] text-cyan-400 font-bold hidden sm:inline">DECISION MATRIX ACTIVE</span>
-            </div>
-          )}
-
-          {/* Decision Gate Options */}
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-amber-300 flex items-center gap-1 uppercase tracking-wider">
-              <ChevronRight size={14} className="text-amber-400" />
-              <span>Decision Gate: {activeBeat?.gate?.prompt || 'Declare Operative Action:'}</span>
-            </span>
-
-            {skillCheckRoll && (
-              <span className={`text-[10px] px-2 py-0.5 rounded font-mono border ${
-                skillCheckRoll.isSuccess 
-                  ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50' 
-                  : 'bg-rose-950 text-rose-300 border-rose-500/50'
-              }`}>
-                {skillCheckRoll.text}
-              </span>
-            )}
-          </div>
-
-          {/* 3 Interactive Branching Options */}
-          {activeBeat?.gate?.options && activeBeat.gate.options.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {activeBeat.gate.options.map((opt, i) => (
-                <button
-                  key={opt.id || i}
-                  type="button"
-                  disabled={isGenerating}
-                  onClick={() => handleAdvanceBeat(opt.text)}
-                  className="p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-cyan-500/60 border border-slate-800 text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 shadow-sm disabled:opacity-50"
+              {/* Existing Beats Feed */}
+              {beats.map((beat) => (
+                <div
+                  key={beat.id}
+                  className="max-w-3xl mx-auto bg-slate-900/85 border border-slate-800 rounded-2xl p-5 md:p-6 space-y-3 shadow-lg"
                 >
-                  <div className="flex items-start gap-1.5">
-                    <span className="text-[9px] font-bold text-cyan-400 bg-cyan-950 px-1 py-0.2 rounded border border-cyan-500/30 shrink-0">
-                      #{i + 1}
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-850 pb-2">
+                    <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-400 font-bold uppercase tracking-wider">
+                      Beat #{beat.beatIndex} • {beat.protagonistName}
                     </span>
-                    <span className="text-xs text-slate-200 hover:text-cyan-300 leading-snug">
-                      {opt.text}
-                    </span>
-                  </div>
-
-                  {opt.skill && (
-                    <div className="flex items-center justify-between text-[10px] text-amber-300/90 pt-1 border-t border-slate-800/80">
-                      <span className="truncate">{opt.skill}</span>
+                    <div className="flex items-center gap-2">
                       <button
                         type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRollCheck(opt.skill, 12);
-                        }}
-                        className="px-1.5 py-0.2 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
-                        title="Roll 2d10 skill check with character attribute"
+                        onClick={() => handleSpeakBeat(beat.id, beat.text)}
+                        className={`hover:text-cyan-300 transition-colors p-0.5 rounded cursor-pointer ${
+                          isSpeakingBeatId === beat.id ? 'text-cyan-400 animate-pulse' : 'text-slate-500'
+                        }`}
+                        title="Narrate Beat Aloud (TTS)"
                       >
-                        🎲 Roll
+                        <Volume2 size={13} />
                       </button>
+                      <span>{beat.timestamp}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-slate-100 text-sm leading-relaxed font-sans select-text">
+                    {beat.text}
+                  </p>
+
+                  {beat.gate?.chosenOption && (
+                    <div className="p-2.5 rounded-xl bg-slate-950/80 border border-cyan-900/50 flex flex-col gap-1 text-xs">
+                      <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
+                        <ArrowRight size={12} className="text-cyan-400 shrink-0" />
+                        <span>Action Taken: {beat.gate.chosenOption}</span>
+                      </div>
+                      {beat.gate.checkResult && (
+                        <span className="text-[10px] text-amber-300 font-mono pl-4">
+                          🎲 {beat.gate.checkResult}
+                        </span>
+                      )}
                     </div>
                   )}
-                </button>
+                </div>
               ))}
-            </div>
-          )}
 
-          {/* Custom Action Input Box */}
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={customActionInput}
-              onChange={e => setCustomActionInput(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') handleAdvanceBeat(); }}
-              disabled={isGenerating}
-              placeholder={activeProtagonist ? `Declare ${activeProtagonist.name}'s custom action or operative response...` : 'Declare operative action...'}
-              className="flex-1 bg-slate-900 border border-slate-700 text-slate-100 text-xs px-3 py-2 rounded-xl outline-none focus:border-cyan-400 placeholder-slate-500"
-            />
-            <button
-              type="button"
-              disabled={isGenerating || !customActionInput.trim()}
-              onClick={() => handleAdvanceBeat()}
-              className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-            >
-              <Send size={12} />
-              <span>Act</span>
-            </button>
+              {/* Streaming Active Beat */}
+              {activeStreamingText && (
+                <div className="max-w-3xl mx-auto bg-slate-900/90 border border-cyan-500/60 rounded-2xl p-5 shadow-[0_0_20px_rgba(6,182,212,0.15)] animate-in fade-in">
+                  <div className="flex items-center justify-between text-[10px] text-cyan-400 mb-2 font-bold uppercase">
+                    <span>Synthesizing Beat #{beats.length + 1}...</span>
+                    <Loader2 size={12} className="animate-spin" />
+                  </div>
+                  <p className="text-slate-100 text-sm leading-relaxed font-sans select-text whitespace-pre-wrap">
+                    {activeStreamingText}
+                  </p>
+                </div>
+              )}
+
+              <div ref={endOfBeatsRef} />
+            </div>
+
+            {/* Bottom Decision Cockpit */}
+            <div className="border-t border-slate-800 bg-slate-950/95 p-3 md:p-4 shrink-0 shadow-2xl">
+              <div className="max-w-3xl mx-auto space-y-3">
+                {/* Pre-authored Graph Branches from Scenario Database */}
+                {preAuthoredBranches.length > 0 && (
+                  <div className="space-y-1.5 border-b border-slate-800/80 pb-2.5">
+                    <span className="text-[10px] text-purple-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                      <GitBranch size={12} className="text-purple-400" />
+                      <span>Author-Scripted Story Branches:</span>
+                    </span>
+                    <div className="flex gap-2 flex-wrap">
+                      {preAuthoredBranches.map((branch) => (
+                        <button
+                          key={branch.id}
+                          type="button"
+                          disabled={isGenerating}
+                          onClick={() => handleAdvanceBeat(branch.text, branch.targetScenarioId)}
+                          className="px-3 py-1.5 rounded-xl bg-purple-950/70 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shadow-sm disabled:opacity-50"
+                        >
+                          <ChevronRight size={12} className="text-purple-400" />
+                          <span>{branch.text}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Decision Gate Header & Dice Check Results */}
+                <div className="flex items-center justify-between text-xs flex-wrap gap-2">
+                  <span className="font-bold text-amber-300 flex items-center gap-1 uppercase tracking-wider">
+                    <ChevronRight size={14} className="text-amber-400" />
+                    <span>Decision Gate: {activeBeat?.gate?.prompt || 'Declare Operative Action:'}</span>
+                  </span>
+
+                  {skillCheckRoll && (
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-mono border ${
+                      skillCheckRoll.isSuccess 
+                        ? 'bg-emerald-950 text-emerald-300 border-emerald-500/50 shadow-sm' 
+                        : 'bg-rose-950 text-rose-300 border-rose-500/50'
+                    }`}>
+                      {skillCheckRoll.formula} ➔ {skillCheckRoll.tierLabel}
+                    </span>
+                  )}
+                </div>
+
+                {/* 3 AI Dynamic Branching Options */}
+                {activeBeat?.gate?.options && activeBeat.gate.options.length > 0 && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    {activeBeat.gate.options.map((opt, i) => (
+                      <button
+                        key={opt.id || i}
+                        type="button"
+                        disabled={isGenerating}
+                        onClick={() => handleAdvanceBeat(opt.text)}
+                        className="p-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-cyan-500/60 border border-slate-800 text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 shadow-sm disabled:opacity-50"
+                      >
+                        <div className="flex items-start gap-1.5">
+                          <span className="text-[9px] font-bold text-cyan-400 bg-cyan-950 px-1 py-0.2 rounded border border-cyan-500/30 shrink-0">
+                            #{i + 1}
+                          </span>
+                          <span className="text-xs text-slate-200 hover:text-cyan-300 leading-snug">
+                            {opt.text}
+                          </span>
+                        </div>
+
+                        {opt.skill && (
+                          <div className="flex items-center justify-between text-[10px] text-amber-300/90 pt-1 border-t border-slate-800/80">
+                            <span className="truncate">{opt.skill}</span>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRollCheck(opt.skill, 12);
+                              }}
+                              className="px-1.5 py-0.2 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
+                              title="Roll Canonical 2d10 with Operative Sub-Attributes & Active Modifiers"
+                            >
+                              🎲 Roll 2d10
+                            </button>
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Custom Action Input Box */}
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={customActionInput}
+                    onChange={e => setCustomActionInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') handleAdvanceBeat(); }}
+                    disabled={isGenerating}
+                    placeholder={activeOperative ? `Declare ${activeOperative.name}'s action or tactical response...` : 'Declare operative action...'}
+                    className="flex-1 bg-slate-900 border border-slate-700 text-slate-100 text-xs px-3 py-2 rounded-xl outline-none focus:border-cyan-400 placeholder-slate-500"
+                  />
+                  <button
+                    type="button"
+                    disabled={isGenerating || !customActionInput.trim()}
+                    onClick={() => handleAdvanceBeat()}
+                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl uppercase tracking-wider transition-all shadow-md flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  >
+                    <Send size={12} />
+                    <span>Act</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* PRESENTATION 3: SIDE-BY-SIDE SPLIT VIEW */}
+        {layoutMode === 'split' && (
+          <Split
+            sizes={splitSizes}
+            minSize={[300, 300]}
+            gutterSize={6}
+            direction="horizontal"
+            className="flex h-full w-full overflow-hidden split-horizontal flex-1 min-h-0"
+          >
+            {/* Left Pane: Interactive Play Studio */}
+            <div className="h-full w-full overflow-hidden bg-[#090d16] flex flex-col min-w-0">
+              <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 scrollbar-thin">
+                {beats.length === 0 && !activeStreamingText && !isGenerating && (
+                  <div className="text-center py-12 text-slate-500 space-y-2 font-mono text-xs">
+                    <Compass size={32} className="mx-auto text-cyan-500/60 animate-pulse" />
+                    <p className="text-slate-300 font-bold uppercase">{activeScenario?.title || 'Tactical Scenario'}</p>
+                    <p className="text-slate-400 text-xs leading-relaxed max-w-sm mx-auto">
+                      Declare an operative move below to synthesize the initial scenario beat.
+                    </p>
+                  </div>
+                )}
+
+                {beats.map((beat) => (
+                  <div
+                    key={beat.id}
+                    className="bg-slate-900/85 border border-slate-800 rounded-xl p-4 space-y-2 shadow-sm"
+                  >
+                    <div className="flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-850 pb-1.5">
+                      <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-400 font-bold uppercase">
+                        Beat #{beat.beatIndex} • {beat.protagonistName}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleSpeakBeat(beat.id, beat.text)}
+                          className="hover:text-cyan-300 p-0.5 cursor-pointer"
+                          title="TTS Read-Aloud"
+                        >
+                          <Volume2 size={12} className={isSpeakingBeatId === beat.id ? 'text-cyan-400 animate-pulse' : 'text-slate-500'} />
+                        </button>
+                        <span>{beat.timestamp}</span>
+                      </div>
+                    </div>
+                    <p className="text-slate-100 text-xs leading-relaxed font-sans select-text">
+                      {beat.text}
+                    </p>
+                    {beat.gate?.chosenOption && (
+                      <div className="p-2 rounded-lg bg-slate-950/80 border border-cyan-900/40 text-[11px] text-cyan-300 font-bold flex items-center gap-1.5">
+                        <ArrowRight size={11} className="text-cyan-400 shrink-0" />
+                        <span>Decision: {beat.gate.chosenOption}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {activeStreamingText && (
+                  <div className="bg-slate-900/90 border border-cyan-500/60 rounded-xl p-4 animate-in fade-in">
+                    <div className="flex items-center justify-between text-[10px] text-cyan-400 mb-1.5 font-bold uppercase">
+                      <span>Synthesizing Beat #{beats.length + 1}...</span>
+                      <Loader2 size={11} className="animate-spin" />
+                    </div>
+                    <p className="text-slate-100 text-xs leading-relaxed font-sans whitespace-pre-wrap">
+                      {activeStreamingText}
+                    </p>
+                  </div>
+                )}
+                <div ref={endOfBeatsRef} />
+              </div>
+
+              {/* Bottom Decision Cockpit for Split Mode */}
+              <div className="border-t border-slate-800 bg-slate-950 p-3 shrink-0 space-y-2">
+                {preAuthoredBranches.length > 0 && (
+                  <div className="flex gap-1.5 flex-wrap pb-1 border-b border-slate-850">
+                    {preAuthoredBranches.map(branch => (
+                      <button
+                        key={branch.id}
+                        type="button"
+                        onClick={() => handleAdvanceBeat(branch.text, branch.targetScenarioId)}
+                        className="px-2 py-1 rounded-lg bg-purple-950/70 border border-purple-500/50 text-purple-200 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
+                      >
+                        <ChevronRight size={10} />
+                        <span className="truncate max-w-[140px]">{branch.text}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* 3 AI Options in Split Mode */}
+                {activeBeat?.gate?.options && (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                    {activeBeat.gate.options.map((opt, i) => (
+                      <button
+                        key={opt.id || i}
+                        type="button"
+                        disabled={isGenerating}
+                        onClick={() => handleAdvanceBeat(opt.text)}
+                        className="p-2 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 text-left text-[11px] text-slate-200 flex flex-col justify-between gap-1 cursor-pointer disabled:opacity-50"
+                      >
+                        <span className="leading-snug">{opt.text}</span>
+                        {opt.skill && (
+                          <div className="flex items-center justify-between text-[9px] text-amber-300 pt-1 border-t border-slate-800">
+                            <span className="truncate">{opt.skill}</span>
+                            <span
+                              onClick={(e) => { e.stopPropagation(); handleRollCheck(opt.skill, 12); }}
+                              className="font-bold cursor-pointer hover:underline"
+                            >
+                              🎲 2d10
+                            </span>
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Input row */}
+                <div className="flex gap-1.5">
+                  <input
+                    type="text"
+                    value={customActionInput}
+                    onChange={e => setCustomActionInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') handleAdvanceBeat(); }}
+                    disabled={isGenerating}
+                    placeholder="Declare operative action..."
+                    className="flex-1 bg-slate-900 border border-slate-700 text-slate-100 text-[11px] px-2.5 py-1.5 rounded-lg outline-none focus:border-cyan-400"
+                  />
+                  <button
+                    type="button"
+                    disabled={isGenerating || !customActionInput.trim()}
+                    onClick={() => handleAdvanceBeat()}
+                    className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-[11px] font-bold rounded-lg uppercase cursor-pointer disabled:opacity-50"
+                  >
+                    Act
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Pane: Live Tactical Stage (VTT) */}
+            <div className="h-full w-full overflow-hidden bg-[#070b13] flex flex-col border-l border-slate-800 min-w-0 relative">
+              <TacticalStageViewport
+                activeNode={activeScenario}
+                linkedMap={propLinkedMap}
+                allAvailableMaps={propAllAvailableMaps || mapsCatalog}
+                universeState={universeState}
+                updateStory={updateStory}
+                setActiveMapId={setActiveMapId}
+                addMap={addMap}
+                handleCreateNewMapForElement={handleCreateNewMapForElement}
+              />
+            </div>
+          </Split>
+        )}
       </div>
     </div>
   );

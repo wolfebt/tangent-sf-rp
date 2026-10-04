@@ -428,7 +428,7 @@ export default function ModuleMissionControl({
 
       {/* ── SECTION 1: NOTIFICATION TO SELECT OR CREATE A MODULE ── */}
       {!isNotificationDismissed && (
-        <div className={`mb-5 p-4 rounded-2xl border transition-all shadow-xl relative overflow-hidden backdrop-blur-xl ${
+        <div className={`mb-5 p-4 rounded-2xl border transition-all shadow-xl relative overflow-hidden backdrop-blur-xl shrink-0 ${
           isDefaultModuleName
             ? 'bg-gradient-to-r from-cyan-950/80 via-slate-900/90 to-amber-950/60 border-cyan-500/50 shadow-[0_0_24px_rgba(34,211,238,0.2)]'
             : 'bg-slate-900/80 border-slate-800 shadow-md'
@@ -451,7 +451,7 @@ export default function ModuleMissionControl({
                 )}
               </div>
 
-              <div>
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider border ${
                     isDefaultModuleName 
@@ -557,7 +557,7 @@ export default function ModuleMissionControl({
       )}
 
       {/* ── SECTION 2: CONSOLIDATED ADE MASTER COCKPIT BAR (Shifted from ADE Studio Bar) ── */}
-      <div className="mb-6 p-3 sm:p-4 rounded-2xl bg-[#0c121e] border border-cyan-500/30 shadow-2xl backdrop-blur-2xl flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 font-mono">
+      <div className="mb-6 p-3 sm:p-4 rounded-2xl bg-[#0c121e] border border-cyan-500/30 shadow-2xl backdrop-blur-2xl flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 font-mono shrink-0">
         {/* Left Deck: Identity, Title, Project Menu, Cloud Status */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Brand Indicator */}
@@ -930,7 +930,7 @@ export default function ModuleMissionControl({
       </div>
 
       {/* ── SECTION 3: TOP METRICS ROW: READINESS SCORE & STATS ── */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 shrink-0">
         {/* Scorecard */}
         <div className="p-4 rounded-2xl bg-[#0e1422] border border-cyan-500/30 relative overflow-hidden shadow-lg flex flex-col justify-between">
           <div className="flex items-center justify-between mb-2">
@@ -989,7 +989,7 @@ export default function ModuleMissionControl({
       </div>
 
       {/* ── SECTION 4: 5 PILLARS WORKSPACE CARDS ── */}
-      <div className="mb-6">
+      <div className="mb-6 shrink-0">
         <h2 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 mb-3 flex items-center gap-2">
           <Layers size={14} className="text-cyan-400" />
           Module Component Workspaces
@@ -1068,7 +1068,7 @@ export default function ModuleMissionControl({
           {/* Pillar 4: Asset & DBM Forge */}
           <div 
             onClick={() => {
-              if (onSwitchView) onSwitchView('gallery');
+              if (onSwitchView) onSwitchView('elements');
               else handleLaunchPillar('assets', '/foundry/elements');
             }}
             className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-emerald-500/30 hover:border-emerald-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
@@ -1111,7 +1111,7 @@ export default function ModuleMissionControl({
       </div>
 
       {/* ── SECTION 5: PACKAGE EXPORTS & INGESTION DROPZONE ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0">
         {/* Module Packaging Console */}
         <div className="p-5 rounded-2xl bg-[#0c121e] border border-slate-800 flex flex-col justify-between shadow-lg">
           <div>

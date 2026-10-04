@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import FolioInput from '../shared/FolioInput';
 import FolioTooltip from '../shared/FolioTooltip';
 import { useFolio } from '../../../context/FolioContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { useDice } from '../../../context/DiceContext';
 import { Dices } from 'lucide-react';
 import DiscreetFateOverrideModal from '../modals/DiscreetFateOverrideModal';
@@ -195,6 +196,7 @@ const CoreStatsTab = () => {
     isPlayerOverride,
     updateCharacterVitality
   } = useFolio();
+  const confirm = useConfirm();
 
   const { openDiceRoller } = useDice();
 
@@ -1348,8 +1350,14 @@ const CoreStatsTab = () => {
 
                     <button
                       type="button"
-                      onClick={() => {
-                        if (window.confirm("Perform Revivification? 'The High Cost of Dying' applies: Character loses ALL remaining Karma Points and suffers a -5 Experience Debt.")) {
+                      onClick={async () => {
+                        const ok = await confirm({
+                          title: 'Perform Revivification',
+                          message: "Perform Revivification? 'The High Cost of Dying' applies: Character loses ALL remaining Karma Points and suffers a -5 Experience Debt.",
+                          danger: true,
+                          confirmLabel: 'Revivify (-5 XP Debt)'
+                        });
+                        if (ok) {
                           revivifyCharacter();
                         }
                       }}

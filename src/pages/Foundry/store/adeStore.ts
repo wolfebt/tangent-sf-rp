@@ -14,10 +14,10 @@ import { STORAGE_KEYS } from '../../../constants/storageKeys.ts';
 export type StudioMode = 'development' | 'live_session';
 export type PerspectiveMode = 'architect' | 'operator';
 export type AdePillar = 'mission_control' | 'narrative' | 'maps' | 'scripts' | 'assets' | 'live_director';
-export type AdeView = 'mission_control' | 'scenarios' | 'control-panel' | 'interactive' | 'graph' | 'gallery' | 'map' | 'scripts';
+export type AdeView = 'mission_control' | 'scenarios' | 'control-panel' | 'interactive' | 'graph' | 'gallery' | 'elements' | 'map' | 'scripts';
 export type ViewportSplit = 'side_by_side' | 'canvas_only' | 'story_only';
 export type GuideSection = 'scenarios' | 'sectors' | 'waypoints' | 'bestiary' | 'props' | 'weather' | 'memory' | 'aime';
-export type StoryWorkspaceTab = 'weaver' | 'stage' | 'tactical' | 'interactive' | 'graph' | 'gallery';
+export type StoryWorkspaceTab = 'weaver' | 'stage' | 'tactical' | 'interactive' | 'graph' | 'gallery' | 'elements';
 export type CockpitDeck = 'inspector' | 'tactical' | 'elements' | 'aime';
 export type CronicleDeckMode = 'living_memory' | 'scratchbook';
 

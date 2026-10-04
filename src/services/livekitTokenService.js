@@ -14,7 +14,9 @@ const env = (typeof import.meta !== 'undefined' && import.meta.env)
 export const LIVEKIT_CONFIG = {
   url: env.VITE_LIVEKIT_URL || '',
   apiKey: env.VITE_LIVEKIT_API_KEY || '',
-  apiSecret: env.VITE_LIVEKIT_API_SECRET || '',
+  // NOTE: apiSecret is strictly purged from client production bundles.
+  // In Node/test runners, it can be assigned explicitly by unit tests.
+  apiSecret: (typeof window === 'undefined' && typeof process !== 'undefined') ? (process.env.LIVEKIT_TEST_SIGNING_SECRET || '') : '',
   tokenEndpoint: env.VITE_LIVEKIT_TOKEN_ENDPOINT || ''
 };
 
@@ -36,13 +38,16 @@ function stringToBase64Url(str) {
 }
 
 /**
- * Generates a signed LiveKit Access Token JWT using Web Crypto API (HMAC-SHA256)
+ * Generates a signed LiveKit Access Token JWT.
+ * In production/browser, calls the authenticated backend tokenEndpoint.
+ * In Node test environments, falls back to Web Crypto HMAC-SHA256 signing.
  * @param {Object} options
  * @param {string} options.roomName - Name of the voice room or squad channel
  * @param {string} options.identity - Unique participant user ID
  * @param {string} [options.name] - Display name / persona name
  * @param {Object} [options.metadata] - Extra metadata (avatar, role, species, etc.)
  * @param {number} [options.ttlSeconds=14400] - Token expiration in seconds (default 4 hours)
+ * @param {string} [options.idToken] - Firebase ID token (optional, auto-detected in browser)
  * @returns {Promise<string>} Signed JWT token
  */
 export async function generateLiveKitToken({
@@ -50,81 +55,108 @@ export async function generateLiveKitToken({
   identity,
   name,
   metadata,
-  ttlSeconds = 14400
+  ttlSeconds = 14400,
+  idToken
 }) {
   if (!roomName) throw new Error('LiveKit roomName is required');
   if (!identity) throw new Error('LiveKit participant identity is required');
 
-  // If a dedicated backend token endpoint is provided, use it
-  if (LIVEKIT_CONFIG.tokenEndpoint) {
+  const isBrowser = typeof window !== 'undefined';
+
+  // 1. Resolve Firebase ID token if running in the browser
+  let authToken = idToken;
+  if (!authToken && isBrowser) {
     try {
-      const resp = await fetch(LIVEKIT_CONFIG.tokenEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ roomName, identity, name, metadata })
-      });
-      if (resp.ok) {
-        const data = await resp.json();
-        if (data.token) return data.token;
+      const { auth } = await import('../firebase');
+      if (auth?.currentUser) {
+        authToken = await auth.currentUser.getIdToken();
       }
-    } catch (err) {
-      console.warn('[LiveKit Token] Token endpoint failed, falling back to local signer:', err);
+    } catch (e) {
+      console.warn('[LiveKit Token] Unable to retrieve Firebase ID token:', e);
     }
   }
 
-  const apiKey = LIVEKIT_CONFIG.apiKey;
-  const apiSecret = LIVEKIT_CONFIG.apiSecret;
+  // 2. Production path: Backend token endpoint (e.g. Firebase Cloud Function)
+  if (LIVEKIT_CONFIG.tokenEndpoint) {
+    const headers = { 'Content-Type': 'application/json' };
+    if (authToken) {
+      headers['Authorization'] = `Bearer ${authToken}`;
+    }
 
-  if (!apiKey || !apiSecret) {
-    throw new Error('LiveKit credentials missing (VITE_LIVEKIT_API_KEY / VITE_LIVEKIT_API_SECRET)');
+    const resp = await fetch(LIVEKIT_CONFIG.tokenEndpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ roomName, identity, name, metadata, ttlSeconds })
+    });
+
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data.token) return data.token;
+    } else {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.error || `Voice token uplink failed (HTTP ${resp.status})`);
+    }
   }
 
-  const header = { alg: 'HS256', typ: 'JWT' };
-  const now = Math.floor(Date.now() / 1000);
-  const payload = {
-    iss: apiKey,
-    sub: String(identity),
-    nbf: now - 5,
-    exp: now + ttlSeconds,
-    video: {
-      room: String(roomName),
-      roomJoin: true,
-      canPublish: true,
-      canSubscribe: true,
-      canPublishData: true
-    },
-    name: name || identity
-  };
+  // 3. Isolated test runner fallback (Node.js unit tests only)
+  const isTestEnv = !isBrowser || (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test');
+  const testSecret = LIVEKIT_CONFIG.apiSecret;
 
-  if (metadata) {
-    payload.metadata = typeof metadata === 'string' ? metadata : JSON.stringify(metadata);
+  if (isTestEnv && testSecret && LIVEKIT_CONFIG.apiKey) {
+    const header = { alg: 'HS256', typ: 'JWT' };
+    const now = Math.floor(Date.now() / 1000);
+    const payload = {
+      iss: LIVEKIT_CONFIG.apiKey,
+      sub: String(identity),
+      nbf: now - 5,
+      exp: now + ttlSeconds,
+      video: {
+        room: String(roomName),
+        roomJoin: true,
+        canPublish: true,
+        canSubscribe: true,
+        canPublishData: true
+      },
+      name: name || identity
+    };
+
+    if (metadata) {
+      payload.metadata = typeof metadata === 'string' ? metadata : JSON.stringify(metadata);
+    }
+
+    const encodedHeader = stringToBase64Url(JSON.stringify(header));
+    const encodedPayload = stringToBase64Url(JSON.stringify(payload));
+    const dataToSign = `${encodedHeader}.${encodedPayload}`;
+
+    const subtleCrypto = (typeof window !== 'undefined' && window.crypto?.subtle) 
+      ? window.crypto.subtle 
+      : globalThis.crypto?.subtle;
+
+    if (!subtleCrypto) {
+      throw new Error('Web Crypto API (crypto.subtle) is not available in this environment');
+    }
+
+    const enc = new TextEncoder();
+    const cryptoKey = await subtleCrypto.importKey(
+      'raw',
+      enc.encode(testSecret),
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign']
+    );
+
+    const signatureBuffer = await subtleCrypto.sign('HMAC', cryptoKey, enc.encode(dataToSign));
+    const encodedSignature = bufferToBase64Url(signatureBuffer);
+
+    return `${dataToSign}.${encodedSignature}`;
   }
 
-  const encodedHeader = stringToBase64Url(JSON.stringify(header));
-  const encodedPayload = stringToBase64Url(JSON.stringify(payload));
-  const dataToSign = `${encodedHeader}.${encodedPayload}`;
-
-  const subtleCrypto = (typeof window !== 'undefined' && window.crypto?.subtle) 
-    ? window.crypto.subtle 
-    : globalThis.crypto?.subtle;
-
-  if (!subtleCrypto) {
-    throw new Error('Web Crypto API (crypto.subtle) is not available in this environment');
+  // If in browser and no token endpoint configured or reached
+  if (isBrowser) {
+    throw new Error('LiveKit token endpoint is not configured. Please contact the Terran Net Architect.');
   }
 
-  const enc = new TextEncoder();
-  const cryptoKey = await subtleCrypto.importKey(
-    'raw',
-    enc.encode(apiSecret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign']
-  );
-
-  const signatureBuffer = await subtleCrypto.sign('HMAC', cryptoKey, enc.encode(dataToSign));
-  const encodedSignature = bufferToBase64Url(signatureBuffer);
-
-  return `${dataToSign}.${encodedSignature}`;
+  throw new Error('LiveKit credentials missing or test secret unavailable.');
 }
 
 export function getLiveKitServerUrl() {
@@ -132,6 +164,10 @@ export function getLiveKitServerUrl() {
 }
 
 export function isLiveKitConfigured() {
+  const isBrowser = typeof window !== 'undefined';
+  if (isBrowser) {
+    return Boolean(LIVEKIT_CONFIG.url && LIVEKIT_CONFIG.tokenEndpoint);
+  }
   return Boolean(LIVEKIT_CONFIG.url && (LIVEKIT_CONFIG.tokenEndpoint || (LIVEKIT_CONFIG.apiKey && LIVEKIT_CONFIG.apiSecret)));
 }
 

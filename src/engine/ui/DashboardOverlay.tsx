@@ -302,7 +302,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
           {/* 1. Attack / Strike Button */}
           <button 
             onClick={onInitiateAttack}
-            className="px-3.5 py-2 text-xs font-mono font-bold text-white bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 border border-red-400/50 rounded-xl transition-all shadow-lg shadow-red-950/50 flex items-center gap-1.5 cursor-pointer active:scale-95"
+            className="px-3.5 py-2 min-h-[44px] touch-manipulation text-xs font-mono font-bold text-white bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 border border-red-400/50 rounded-xl transition-all shadow-lg shadow-red-950/50 flex items-center gap-1.5 cursor-pointer active:scale-95"
             title="Open Combat Strike Panel"
           >
             <Crosshair size={14} />
@@ -312,7 +312,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
           {/* 2. Dynamic Movement Button */}
           <button 
             onClick={onInitiateMove}
-            className={`px-3.5 py-2 text-xs font-mono font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 border ${
+            className={`px-3.5 py-2 min-h-[44px] touch-manipulation text-xs font-mono font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 border ${
               isMoveModeActive 
                 ? 'bg-cyan-500 text-black border-cyan-300 shadow-[0_0_15px_rgba(34,211,238,0.8)] animate-pulse' 
                 : 'bg-cyan-950/70 hover:bg-cyan-900 text-cyan-200 border-cyan-500/40'
@@ -326,7 +326,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
           {/* 3. Tactical Scan / LoS */}
           <button 
             onClick={onInitiateScan}
-            className="px-3.5 py-2 text-xs font-mono font-bold text-amber-200 bg-amber-950/70 hover:bg-amber-900 border border-amber-500/40 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+            className="px-3.5 py-2 min-h-[44px] touch-manipulation text-xs font-mono font-bold text-amber-200 bg-amber-950/70 hover:bg-amber-900 border border-amber-500/40 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
             title="Perform Tactical Sensor Scan"
           >
             <Radio size={14} />
@@ -336,7 +336,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
           {/* 4. Guard / Stance Toggle */}
           <button 
             onClick={onToggleGuard}
-            className={`px-3 py-2 text-xs font-mono font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 border ${
+            className={`px-3 py-2 min-h-[44px] touch-manipulation text-xs font-mono font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 border ${
               activeStance === 'guard'
                 ? 'bg-purple-600 text-white border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.6)]'
                 : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
@@ -352,7 +352,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
           {/* 5. Dynamic Lighting & FX Controls */}
           <button
             onClick={onToggleDynamicLighting}
-            className={`p-2 rounded-xl border text-xs font-mono transition-all flex items-center gap-1 cursor-pointer active:scale-95 ${
+            className={`p-2 min-h-[44px] min-w-[44px] touch-manipulation rounded-xl border text-xs font-mono transition-all flex items-center justify-center gap-1 cursor-pointer active:scale-95 ${
               isDynamicLightingEnabled
                 ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
                 : 'bg-slate-800/80 text-slate-400 border-slate-700 hover:text-slate-200'
@@ -367,7 +367,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
           <div className="flex items-center gap-1">
             <button
               onClick={() => onSpawnHazard && onSpawnHazard('plasma_fire')}
-              className="p-2 bg-orange-950/60 hover:bg-orange-900/80 text-orange-300 border border-orange-600/50 rounded-xl text-xs font-mono transition-all flex items-center gap-1 cursor-pointer"
+              className="p-2 min-h-[44px] touch-manipulation bg-orange-950/60 hover:bg-orange-900/80 text-orange-300 border border-orange-600/50 rounded-xl text-xs font-mono transition-all flex items-center gap-1 cursor-pointer"
               title="Spawn Plasma Fire Hazard Particle Field"
             >
               <Flame size={14} />
@@ -375,7 +375,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
             </button>
             <button
               onClick={() => onSpawnHazard && onSpawnHazard('smoke')}
-              className="p-2 bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-600/50 rounded-xl text-xs font-mono transition-all flex items-center gap-1 cursor-pointer"
+              className="p-2 min-h-[44px] touch-manipulation bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-600/50 rounded-xl text-xs font-mono transition-all flex items-center gap-1 cursor-pointer"
               title="Spawn Smoke Occlusion Particle Field"
             >
               <Wind size={14} />
@@ -384,7 +384,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
             {hazardCount > 0 && onClearHazards && (
               <button
                 onClick={onClearHazards}
-                className="px-2 py-1.5 bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-700/50 rounded-xl text-[10px] font-mono cursor-pointer"
+                className="px-2 py-1.5 min-h-[44px] touch-manipulation bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-700/50 rounded-xl text-[10px] font-mono cursor-pointer"
                 title="Clear all active hazard fields"
               >
                 Clear ({hazardCount})
@@ -397,7 +397,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
           {/* 7. Multiplayer Presence / Simulation Indicator */}
           <button
             onClick={onToggleMultiplayerSim}
-            className={`px-2.5 py-1.5 rounded-xl border text-[11px] font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`px-2.5 py-1.5 min-h-[44px] touch-manipulation rounded-xl border text-[11px] font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
               isMultiplayerSimActive
                 ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
                 : 'bg-slate-800 hover:bg-slate-700 text-slate-400 border-slate-700'

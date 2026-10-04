@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { showToast } from '../../../context/ToastContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna, Bot, RefreshCw, Wand2, ArrowRight, Zap } from 'lucide-react';
@@ -2154,15 +2155,15 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         } else {
           if (poolKey === 'originAllocations') {
             if (currentTraits.length >= maxTraits && bpRemaining < 1) {
-              alert('Not enough remaining CP to purchase an additional origin trait (Cost: 1 CP each beyond the 2 free).');
+              showToast({ type: 'warn', title: 'Insufficient CP', text: 'Not enough remaining CP to purchase an additional origin trait (Cost: 1 CP each beyond the 2 free).' });
               return prev;
             }
           } else if (!isGeneral && currentTraits.length >= maxTraits) {
-            alert(`Maximum of ${maxTraits} traits already selected in this pool.`);
+            showToast({ type: 'warn', title: 'Trait Limit Reached', text: `Maximum of ${maxTraits} traits already selected in this pool.` });
             return prev;
           }
           if (isGeneral && bpRemaining < 1) {
-            alert('Not enough remaining CP to purchase an additional trait (Cost: 1 CP).');
+            showToast({ type: 'warn', title: 'Insufficient CP', text: 'Not enough remaining CP to purchase an additional trait (Cost: 1 CP).' });
             return prev;
           }
           nextTraits = [...currentTraits, traitName];
@@ -2201,11 +2202,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           nextFeats = currentFeats.filter(f => f !== featName);
         } else {
           if (!isGeneral && currentFeats.length >= maxFeats) {
-            alert(`Maximum of ${maxFeats} features already selected in this pool.`);
+            showToast({ type: 'warn', title: 'Feature Limit Reached', text: `Maximum of ${maxFeats} features already selected in this pool.` });
             return prev;
           }
           if (isGeneral && bpRemaining < 3) {
-            alert('Not enough remaining CP to purchase an additional feature (Cost: 3 CP).');
+            showToast({ type: 'warn', title: 'Insufficient CP', text: 'Not enough remaining CP to purchase an additional feature (Cost: 3 CP).' });
             return prev;
           }
           nextFeats = [...currentFeats, featName];
@@ -2241,7 +2242,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         const currentVal = parseInt(currentAttrs[attrId] || 0, 10);
         const totalSpent = Object.values(currentAttrs).reduce((acc, v) => acc + (parseInt(v, 10) || 0), 0);
         if (delta > 0 && totalSpent >= maxPoints) {
-          alert(`All ${maxPoints} bonus attribute points have been allocated.`);
+          showToast({ type: 'warn', title: 'Points Allocated', text: `All ${maxPoints} bonus attribute points have been allocated.` });
           return prev;
         }
         if (delta < 0 && currentVal <= 0) return prev;

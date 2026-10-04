@@ -5,12 +5,15 @@ import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { AudioService } from '../../../services/audioService';
 import { 
   Users, X, Plus, Sparkles, Search, Copy, Check, Trash2, 
-  ChevronRight, ArrowUpRight, Lock 
+  ChevronRight, ArrowUpRight, Lock, Radio 
 } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { useConfirm } from '../../../context/ConfirmContext';
+import { showToast } from '../../../context/ToastContext';
 
 export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const {
     personaRoster,
     roster,
@@ -20,6 +23,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
     duplicateRosterCharacter,
     deleteRosterCharacter,
     togglePersonaVisibility,
+    togglePersonaNetworkEngaged,
     loadPublicPersonas,
     publicCatalog,
     clonePublicPersona
@@ -40,16 +44,30 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
     return String(val).trim() || 'Unspecified';
   };
 
-  const handleCopyShareLink = (url, key) => {
+  const handleCopyShareLink = async (url, key) => {
     AudioService.playTerminalBeep(1200, 0.03);
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(() => {
+      try {
+        await navigator.clipboard.writeText(url);
         setCopiedLink(key);
         setTimeout(() => setCopiedLink(''), 2500);
-      });
-    } else {
-      prompt('Copy share link:', url);
+        showToast({
+          type: 'success',
+          title: 'Link Copied',
+          text: 'Share link copied to clipboard.'
+        });
+        return;
+      } catch (err) {
+        // Fallback to modal
+      }
     }
+    await confirm({
+      title: 'Share Link',
+      message: 'Copy share link to clipboard:',
+      inputLabel: 'Share URL',
+      inputValue: url,
+      confirmLabel: 'Done'
+    });
   };
 
   const handleOpenOperative = (docId) => {
@@ -346,6 +364,27 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                             title="Toggle Public Sharing"
                           >
                             {char.isPublic ? 'Public' : 'Private'}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (togglePersonaNetworkEngaged) togglePersonaNetworkEngaged(docId);
+                            }}
+                            className={`px-1.5 py-1 rounded text-[9px] font-mono font-bold uppercase border transition-colors flex items-center gap-1 cursor-pointer ${
+                              char.networkEngaged || char.isNetworkEngaged
+                                ? 'bg-emerald-950 text-emerald-300 border-emerald-500/70 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                                : 'bg-slate-900 text-slate-500 border-slate-800 hover:text-emerald-300'
+                            }`}
+                            title={
+                              char.networkEngaged || char.isNetworkEngaged
+                                ? "Network Engaged: Visible on Terran Data Network and in squad directories. Click to disengage."
+                                : "Network Standby: Private to you. Click to engage and broadcast to network."
+                            }
+                          >
+                            <Radio size={9} className={char.networkEngaged || char.isNetworkEngaged ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                            <span>{char.networkEngaged || char.isNetworkEngaged ? 'Engaged' : 'Standby'}</span>
                           </button>
 
                           <button

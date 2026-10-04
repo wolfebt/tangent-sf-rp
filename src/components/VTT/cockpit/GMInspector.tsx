@@ -31,6 +31,8 @@ import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 import { MultiSelectCard } from './MultiSelectCard';
 import { AudioService } from '../../../services/audioService';
 import { useFolio } from '../../../context/FolioContext';
+import { showToast } from '../../../context/ToastContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { GMModificationReviewModal } from './GMModificationReviewModal';
 
 const AVAILABLE_CONDITIONS = [
@@ -46,6 +48,7 @@ const AVAILABLE_CONDITIONS = [
 ];
 
 export const GMInspector: React.FC = () => {
+  const confirm = useConfirm();
   const tokens = useEngineStore(selectAllFusedTokens);
   const selectedTokens = tokens.filter(t => t.is_selected);
 
@@ -150,17 +153,38 @@ export const GMInspector: React.FC = () => {
     AudioService.playTerminalBeep();
   };
 
-  const handleAwardXP = () => {
+  const handleAwardXP = async () => {
     if (!currentToken) return;
-    const input = window.prompt(`Award Advancement Points (AP) to ${currentToken.name}:`, "2");
-    if (!input) return;
-    const amount = parseInt(input, 10);
+    const apRes = await confirm({
+      title: 'Award Advancement Points (AP)',
+      message: `Specify AP amount to award to ${currentToken.name}:`,
+      inputLabel: 'Advancement Points',
+      inputValue: '2',
+      confirmLabel: 'Next: Reason'
+    });
+    if (!apRes) return;
+    const amountVal = typeof apRes === 'object' ? apRes?.value : apRes;
+    const amount = parseInt(amountVal, 10);
     if (isNaN(amount) || amount <= 0) return;
-    const reason = window.prompt("Reason / Campaign Milestone note:", "VTT Tactical Encounter");
+
+    const reasonRes = await confirm({
+      title: 'Milestone / Tactical Note',
+      message: 'Specify reason or milestone note for this AP award:',
+      inputLabel: 'Reason',
+      inputValue: 'VTT Tactical Encounter',
+      confirmLabel: 'Award AP'
+    });
+    if (!reasonRes) return;
+    const reasonVal = typeof reasonRes === 'object' ? reasonRes?.value : reasonRes;
+
     if (awardExperience) {
-      awardExperience(resolvedHeroId, { amount, reason: reason || 'Tactical Award' });
+      awardExperience(resolvedHeroId, { amount, reason: (typeof reasonVal === 'string' ? reasonVal : '') || 'Tactical Award' });
       AudioService.playCriticalChime(true);
-      alert(`Awarded ${amount} AP to ${currentToken.name}!`);
+      showToast({
+        type: 'success',
+        title: 'AP Awarded',
+        text: `Awarded ${amount} AP to ${currentToken.name}!`
+      });
     }
   };
 

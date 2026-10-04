@@ -35,7 +35,9 @@ export const GameGroupsDrawer = ({ onClose }) => {
     reviewingInvite,
     openInviteConfirmation,
     closeInviteConfirmation,
-    joinByCode 
+    joinByCode,
+    acceptInvite,
+    declineInvite
   } = useGroup();
   const { selectChannel } = useChat();
   const { currentUser } = useAuth();
@@ -76,7 +78,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
     if (group.channelId) {
       selectChannel(group.channelId);
     }
-    navigate('/comms');
+    navigate('/network?view=comms');
   };
 
   const handleJoinByCode = async (e) => {

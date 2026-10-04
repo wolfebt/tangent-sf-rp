@@ -11,6 +11,7 @@ import {
   PillarMarkerDots
 } from '../../../utils/pillarRecommendations.jsx';
 import FolioTooltip from './FolioTooltip';
+import { showToast } from '../../../context/ToastContext';
 
 const PRIMARY_ATTRIBUTES = [
   { id: 'attr-strength', name: 'Strength', short: 'STR', category: 'Physical' },
@@ -1315,7 +1316,11 @@ export const FeatureMultiselectPulldown = ({
                         onRemoveFeature && onRemoveFeature(fName);
                       } else {
                         if (isAtCapacity) {
-                          alert(`You have already selected the maximum of ${maxSelectable} features in this pool. Remove one first to swap.`);
+                          showToast({
+                            type: 'warn',
+                            title: 'Capacity Reached',
+                            text: `You have already selected the maximum of ${maxSelectable} features in this pool. Remove one first to swap.`
+                          });
                           return;
                         }
                         onToggleFeature && onToggleFeature(cleanTitle, feat);
@@ -1700,7 +1705,11 @@ export const TraitMultiselectPulldown = ({
                         onRemoveTrait && onRemoveTrait(trait.name);
                       } else {
                         if (isAtCapacity && !allowExtraWithCpCost) {
-                          alert(`You have already selected the maximum of ${maxSelectable} traits in this pool. Remove one first to swap.`);
+                          showToast({
+                            type: 'warn',
+                            title: 'Capacity Reached',
+                            text: `You have already selected the maximum of ${maxSelectable} traits in this pool. Remove one first to swap.`
+                          });
                           return;
                         }
                         onToggleTrait && onToggleTrait(trait.name, trait, maxSelectable);

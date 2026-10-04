@@ -31,7 +31,12 @@ import { GameGroupModal } from '../components/Groups/GameGroupModal';
 import { TeamInviteConfirmationModal } from '../components/Groups/TeamInviteConfirmationModal';
 import { AudioService } from '../services/audioService';
 
-export const CommsPage = () => {
+export const CommsPage = ({
+  hideHeader = false,
+  onSwitchToTeams,
+  mobileViewOverride,
+  setMobileViewOverride
+}) => {
   const { 
     activeChannel, 
     messages, 
@@ -51,12 +56,15 @@ export const CommsPage = () => {
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
-  const [mobileView, setMobileView] = useState('chat'); // 'sidebar' | 'chat'
+  const [internalMobileView, setInternalMobileView] = useState('chat'); // 'sidebar' | 'chat'
+  const mobileView = mobileViewOverride !== undefined ? mobileViewOverride : internalMobileView;
+  const setMobileView = setMobileViewOverride || setInternalMobileView;
 
   return (
     <div className="h-full w-full flex flex-col bg-[#080c14] text-slate-100 font-sans overflow-hidden select-none">
       {/* ── Top Station Status & Breadcrumb Header ── */}
-      <header className="px-3 sm:px-4 py-2 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs font-mono shrink-0 shadow-sm z-10">
+      {!hideHeader && (
+        <header className="px-3 sm:px-4 py-2 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs font-mono shrink-0 shadow-sm z-10">
         <div className="flex items-center gap-2 min-w-0">
           {/* Mobile View Toggle */}
           <button
@@ -99,9 +107,10 @@ export const CommsPage = () => {
           <span className="hidden md:inline text-slate-500 text-[10px]">ENCRYPTION: AES-256</span>
         </div>
       </header>
+      )}
 
       {/* ── High-Visibility Pending Squad Commission Alert Banner ── */}
-      {pendingInvites && pendingInvites.length > 0 && (
+      {!hideHeader && pendingInvites && pendingInvites.length > 0 && (
         <div className="px-3.5 sm:px-4 py-2 bg-gradient-to-r from-emerald-950 via-[#0a161f] to-slate-950 border-b border-emerald-500/50 flex items-center justify-between gap-3 text-xs font-mono shrink-0 shadow-lg z-10 animate-in slide-in-from-top duration-200">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="p-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shrink-0">
@@ -146,8 +155,8 @@ export const CommsPage = () => {
         {/* 1. Left Navigation Rail (Width: ~72px) */}
         <CommsNavRail
           onOpenCreateModal={() => setIsCreateModalOpen(true)}
-          onOpenSquadModal={() => setIsTeamModalOpen(true)}
-          onOpenTeamModal={() => setIsTeamModalOpen(true)}
+          onOpenSquadModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
+          onOpenTeamModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
         />
 
         {/* 2. Secondary Sub-Panel based on Active Nav Rail Tab */}
@@ -157,8 +166,9 @@ export const CommsPage = () => {
           {activeNavTab === 'matrix' && (
             <ChannelSidebar
               onOpenCreateModal={() => setIsCreateModalOpen(true)}
-              onOpenSquadModal={() => setIsTeamModalOpen(true)}
-              onOpenTeamModal={() => setIsTeamModalOpen(true)}
+              onOpenSquadModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
+              onOpenTeamModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
+              onSwitchToTeams={onSwitchToTeams}
             />
           )}
 
@@ -170,6 +180,7 @@ export const CommsPage = () => {
             <SquadSummarySidebar
               onOpenCreateModal={() => setIsCreateModalOpen(true)}
               onOpenSquadModal={() => setIsTeamModalOpen(true)}
+              onSwitchToTeams={onSwitchToTeams}
             />
           )}
 

@@ -16,6 +16,7 @@ import {
   type BVHBuilder
 } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
+import { showToast } from '../../../context/ToastContext';
 
 export interface UseCombatControllerOptions {
   selectedToken: any;
@@ -92,12 +93,20 @@ export function useCombatController({
 
   const handleExecuteCombatStrike = useCallback(() => {
     if (isSimulationPaused) {
-      alert('Tactical Simulation is paused while in Architect Design Mode. Click Resume Sim in the banner to continue live combat.');
+      showToast({
+        type: 'warn',
+        title: 'Simulation Paused',
+        text: 'Tactical Simulation is paused while in Architect Design Mode. Click Resume Sim in the banner to continue live combat.'
+      });
       return;
     }
 
     if (!selectedToken || !targetToken) {
-      alert('Select an Attacker and a Target on The Stage.');
+      showToast({
+        type: 'warn',
+        title: 'Target Required',
+        text: 'Select an Attacker and a Target on The Stage.'
+      });
       return;
     }
 
@@ -239,7 +248,11 @@ export function useCombatController({
         ...prev.slice(0, 8)
       ]);
     } catch (err: any) {
-      alert(`Dice Syntax Error: ${err.message}`);
+      showToast({
+        type: 'error',
+        title: 'Dice Syntax Error',
+        text: err?.message || 'Invalid dice expression.'
+      });
     }
   }, [customDiceExpr, selectedTokenId]);
 

@@ -147,10 +147,10 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                 onClick={() => {
                   AudioService.playTerminalBeep(1200, 0.02);
                   onClose();
-                  navigate('/comms');
+                  navigate('/network?view=comms');
                 }}
                 className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
-                title="Expand to Full Comms Matrix (/comms)"
+                title="Expand to Full Comms Matrix (/network?view=comms)"
               >
                 <Maximize2 size={14} />
               </button>

@@ -28,6 +28,7 @@ import { AudioService } from '../../services/audioService';
 export const SquadSummarySidebar = ({ 
   onOpenSquadModal, 
   onOpenCreateModal,
+  onSwitchToTeams,
   isCompact = false 
 }) => {
   const navigate = useNavigate();
@@ -58,7 +59,11 @@ export const SquadSummarySidebar = ({
 
   const handleNavigateToTeams = () => {
     AudioService.playTerminalBeep(1150, 0.02);
-    navigate('/teams');
+    if (onSwitchToTeams) {
+      onSwitchToTeams();
+    } else {
+      navigate('/network?view=teams');
+    }
   };
 
   const isCurrentChannelTuned = activeGroup?.channelId && activeChannelId === activeGroup.channelId;
@@ -214,19 +219,34 @@ export const SquadSummarySidebar = ({
               </div>
 
               <div className="space-y-1">
-                {(activeGroup.members || []).map((m, idx) => {
-                  const isOnline = onlineOperators.some(op => op.uid === m.userId || op.userHandle === m.userHandle);
-                  const isSelf = m.userId === currentUser?.uid;
+                {(
+                  Array.isArray(activeGroup.members) && activeGroup.members.length > 0
+                    ? activeGroup.members
+                    : Object.keys(activeGroup.memberDetails || {})
+                ).map((rawMember, idx) => {
+                  const memberId = typeof rawMember === 'string'
+                    ? rawMember
+                    : (rawMember?.userId || rawMember?.uid || rawMember?.id || `squad-op-${idx}`);
+
+                  const details = (typeof rawMember === 'object' && rawMember !== null)
+                    ? rawMember
+                    : (activeGroup.memberDetails?.[memberId] || {});
+
+                  const handle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : null) || 'Operator';
+                  const isOnline = onlineOperators.some(op => op.uid === memberId || op.userHandle === handle);
+                  const isSelf = memberId === currentUser?.uid;
+                  const personaName = details.persona?.name || details.personaName;
+                  const role = details.role || (memberId === activeGroup.creatorId ? 'GM' : 'Operator');
 
                   return (
                     <div
-                      key={m.userId || idx}
+                      key={memberId}
                       className="p-2 rounded-lg bg-slate-950/80 border border-slate-800/90 flex items-center justify-between text-xs"
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <div className="relative shrink-0">
                           <div className="w-6 h-6 rounded-md bg-slate-800 border border-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-200">
-                            {(m.displayName || m.userHandle || 'OP').substring(0, 2).toUpperCase()}
+                            {handle.substring(0, 2).toUpperCase()}
                           </div>
                           <span className={`absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full border border-black ${
                             isOnline ? 'bg-emerald-400' : 'bg-slate-600'
@@ -236,7 +256,7 @@ export const SquadSummarySidebar = ({
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5">
                             <span className="font-bold text-slate-200 truncate block text-[11px]">
-                              {m.displayName || m.userHandle || 'Operator'}
+                              {handle}
                             </span>
                             {isSelf && (
                               <span className="text-[8.5px] px-1 rounded bg-slate-800 text-cyan-300 font-bold">
@@ -244,23 +264,23 @@ export const SquadSummarySidebar = ({
                               </span>
                             )}
                           </div>
-                          {m.personaName && (
+                          {personaName && (
                             <span className="text-[9.5px] text-emerald-400/90 truncate block">
-                              Persona: {m.personaName}
+                              Persona: {personaName}
                             </span>
                           )}
                         </div>
                       </div>
 
                       <div className="shrink-0 flex items-center gap-1 text-[9.5px]">
-                        {m.role === 'Leader' || m.role === 'GM' ? (
+                        {role === 'Leader' || role === 'GM' ? (
                           <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold flex items-center gap-0.5">
                             <Crown size={9} />
-                            <span>{m.role}</span>
+                            <span>{role}</span>
                           </span>
                         ) : (
                           <span className="text-slate-500 font-mono text-[9px]">
-                            {m.role || 'Member'}
+                            {role || 'Operator'}
                           </span>
                         )}
                       </div>

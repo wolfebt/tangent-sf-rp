@@ -23,6 +23,8 @@ import {
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirm } from '../../context/ConfirmContext';
+import { useToast, showToast } from '../../context/ToastContext';
 import { ChatService } from '../../services/chatService';
 import { AudioService } from '../../services/audioService';
 
@@ -38,6 +40,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
     clearChannelMessages
   } = useChat();
   const { currentUser, isAdmin } = useAuth();
+  const confirm = useConfirm();
 
   const targetChannel = channel;
   const [displayName, setDisplayName] = useState('');
@@ -103,30 +106,46 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
   };
 
   const handleRemoveMember = async (uid) => {
-    if (window.confirm('Remove operator from frequency?')) {
-      try {
-        await removeChannelMember(targetChannel.id, uid);
-        setSuccessMsg('Operator removed from frequency.');
-        setTimeout(() => setSuccessMsg(''), 2500);
-      } catch (err) {
-        setErrorMsg('Failed to remove operator.');
-      }
+    const ok = await confirm({
+      title: 'Remove Operator',
+      message: 'Are you sure you want to remove this operator from the frequency?',
+      confirmLabel: 'Remove Operator',
+      danger: true
+    });
+    if (!ok) return;
+
+    try {
+      await removeChannelMember(targetChannel.id, uid);
+      setSuccessMsg('Operator removed from frequency.');
+      showToast({ type: 'success', title: 'Member Removed', text: 'Operator removed from frequency.' });
+      setTimeout(() => setSuccessMsg(''), 2500);
+    } catch (err) {
+      setErrorMsg('Failed to remove operator.');
+      showToast({ type: 'error', title: 'Action Failed', text: 'Failed to remove operator.' });
     }
   };
 
   const handleDelete = async () => {
     if (isDefaultPublic) {
-      alert('Default Holonet channels cannot be terminated.');
+      showToast({ type: 'warn', title: 'Protected Frequency', text: 'Default Holonet channels cannot be terminated.' });
       return;
     }
-    if (window.confirm(`Terminate frequency "${targetChannel.displayName || targetChannel.name}"? This action is permanent.`)) {
-      try {
-        AudioService.playTerminalBeep(900, 0.05);
-        await deleteChannel(targetChannel.id);
-        onClose();
-      } catch (err) {
-        setErrorMsg('Failed to terminate channel.');
-      }
+    const ok = await confirm({
+      title: 'Terminate Frequency',
+      message: `Terminate frequency "${targetChannel.displayName || targetChannel.name}"? This action is permanent and cannot be undone.`,
+      confirmLabel: 'Terminate Frequency',
+      danger: true
+    });
+    if (!ok) return;
+
+    try {
+      AudioService.playTerminalBeep(900, 0.05);
+      await deleteChannel(targetChannel.id);
+      showToast({ type: 'success', title: 'Frequency Terminated', text: `Frequency "${targetChannel.displayName || targetChannel.name}" has been decommissioned.` });
+      onClose();
+    } catch (err) {
+      setErrorMsg('Failed to terminate channel.');
+      showToast({ type: 'error', title: 'Action Failed', text: 'Failed to terminate frequency.' });
     }
   };
 
@@ -151,7 +170,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
 
       const printWindow = window.open('', '_blank', 'width=850,height=900');
       if (!printWindow) {
-        alert('Please allow popups to print transmission transcripts.');
+        showToast({ type: 'warn', title: 'Popups Blocked', text: 'Please allow popups in your browser to print transmission transcripts.' });
         setSaving(false);
         return;
       }
@@ -250,24 +269,31 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
 
   const handleClearChat = async () => {
     if (isDefaultPublic && !isAdmin) {
-      alert('Default Holonet frequency messages can only be purged by an Administrator.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Default Holonet frequency messages can only be purged by an Administrator.' });
       return;
     }
 
-    const confirmMsg = `WARNING: Are you sure you want to CLEAR all message transmissions for "${targetChannel.displayName || targetChannel.name}"? This action cannot be undone.`;
-    if (window.confirm(confirmMsg)) {
-      try {
-        setSaving(true);
-        AudioService.playTerminalBeep(900, 0.05);
-        await clearChannelMessages(targetChannel.id);
-        setSuccessMsg('Frequency transmission logs cleared successfully.');
-        setTimeout(() => setSuccessMsg(''), 3000);
-      } catch (err) {
-        console.error('Failed to clear channel messages:', err);
-        setErrorMsg('Failed to clear transmission logs.');
-      } finally {
-        setSaving(false);
-      }
+    const ok = await confirm({
+      title: 'Purge Frequency Transmissions',
+      message: `WARNING: Are you sure you want to CLEAR all message transmissions for "${targetChannel.displayName || targetChannel.name}"? This action cannot be undone.`,
+      confirmLabel: 'Purge Transmissions',
+      danger: true
+    });
+    if (!ok) return;
+
+    try {
+      setSaving(true);
+      AudioService.playTerminalBeep(900, 0.05);
+      await clearChannelMessages(targetChannel.id);
+      setSuccessMsg('Frequency transmission logs cleared successfully.');
+      showToast({ type: 'success', title: 'Transmissions Purged', text: 'Frequency transmission logs cleared successfully.' });
+      setTimeout(() => setSuccessMsg(''), 3000);
+    } catch (err) {
+      console.error('Failed to clear channel messages:', err);
+      setErrorMsg('Failed to clear transmission logs.');
+      showToast({ type: 'error', title: 'Purge Failed', text: 'Failed to clear transmission logs.' });
+    } finally {
+      setSaving(false);
     }
   };
 

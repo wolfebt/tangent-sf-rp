@@ -35,7 +35,9 @@ export const NetworkRosterView = ({ isCompact = false }) => {
     startDirectMessage,
     hasNewOperatorLogins = false,
     newOperatorLogins = [],
-    clearNewOperatorLogins
+    clearNewOperatorLogins,
+    allUserPersonas = [],
+    togglePersonaNetworkEngaged
   } = useChat();
   const { currentUser } = useAuth();
   const { groups = [] } = useGroup() || {};
@@ -128,7 +130,12 @@ export const NetworkRosterView = ({ isCompact = false }) => {
     const isSelf = currentUser && currentUser.uid === user.uid;
     const handle = getEffectiveUserHandle(user);
     const isExpanded = expandedOperators[user.uid] ?? true; // default open
-    const charList = Array.isArray(user.characters) ? user.characters : [];
+    const charList = isSelf 
+      ? (allUserPersonas.length > 0 ? allUserPersonas : (Array.isArray(user.characters) ? user.characters : []))
+      : (Array.isArray(user.characters) ? user.characters : []);
+    const engagedCount = isSelf 
+      ? charList.filter(p => p.networkEngaged || p.isNetworkEngaged).length 
+      : charList.length;
 
     return (
       <div 
@@ -145,7 +152,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
             <button
               type="button"
               onClick={() => toggleOperatorExpand(user.uid)}
-              className="p-1 rounded hover:bg-slate-800 text-slate-400 transition-colors"
+              className="p-1 rounded hover:bg-slate-800 text-slate-400 transition-colors cursor-pointer"
               title="Expand/Collapse Personas"
             >
               {charList.length > 0 ? (
@@ -184,7 +191,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                 </span>
               </div>
               <p className="text-[9.5px] font-mono text-slate-500 truncate">
-                {formatLastSeen(user)} • {charList.length} Persona{charList.length === 1 ? '' : 's'}
+                {formatLastSeen(user)} • {isSelf ? `${engagedCount} / ${charList.length} Engaged` : `${charList.length} Persona${charList.length === 1 ? '' : 's'}`}
               </p>
             </div>
           </div>
@@ -222,23 +229,35 @@ export const NetworkRosterView = ({ isCompact = false }) => {
         {/* Nested Personas List for this Operator */}
         {isExpanded && charList.length > 0 && (
           <div className="mt-2.5 pt-2 border-t border-slate-800/80 space-y-1.5 pl-3">
-            <span className="text-[9px] font-mono text-purple-400 font-bold uppercase tracking-wider block">
-              PERSONAS ({charList.length})
-            </span>
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-mono text-purple-400 font-bold uppercase tracking-wider block">
+                {isSelf ? `YOUR PERSONAS (${engagedCount} of ${charList.length} Network-Engaged)` : `PERSONAS (${charList.length})`}
+              </span>
+              {isSelf && (
+                <span className="text-[8.5px] font-mono text-slate-500 hidden sm:inline">
+                  Flag personas to engage the network
+                </span>
+              )}
+            </div>
 
             <div className="space-y-1">
               {charList.map(c => {
                 const cId = c.id || c['character-doc-id'] || c.name;
+                const isEngaged = Boolean(c.networkEngaged ?? c.isNetworkEngaged);
                 return (
                   <div 
                     key={cId}
-                    className="p-1.5 px-2 rounded-lg bg-purple-950/20 hover:bg-purple-950/40 border border-purple-500/30 flex items-center justify-between gap-2 text-xs font-mono transition-colors"
+                    className={`p-1.5 px-2 rounded-lg border flex items-center justify-between gap-2 text-xs font-mono transition-colors ${
+                      isEngaged
+                        ? 'bg-purple-950/20 hover:bg-purple-950/40 border-purple-500/40'
+                        : 'bg-slate-950/40 hover:bg-slate-900/60 border-slate-800/80 text-slate-400'
+                    }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="text-sm">🎭</span>
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-[11px] font-bold text-purple-200 truncate">
+                          <span className={`text-[11px] font-bold truncate ${isEngaged ? 'text-purple-200' : 'text-slate-400'}`}>
                             {c.name}
                           </span>
                           <span className="text-[9px] text-slate-400 truncate">
@@ -248,17 +267,37 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                       </div>
                     </div>
 
-                    {!isSelf && (
-                      <button
-                        type="button"
-                        onClick={() => handleMessagePersona(user, c)}
-                        className="px-2 py-0.8 rounded-md bg-purple-900/80 hover:bg-purple-800 border border-purple-500/50 text-purple-200 text-[9.5px] font-mono font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer"
-                        title={`Send In-Character Direct Message to ${c.name} (${isOnline ? 'Online' : 'Offline'})`}
-                      >
-                        <Shield size={10} />
-                        <span>DM PERSONA</span>
-                      </button>
-                    )}
+                    <div className="flex items-center gap-1 shrink-0">
+                      {isSelf ? (
+                        <button
+                          type="button"
+                          onClick={() => togglePersonaNetworkEngaged && togglePersonaNetworkEngaged(cId, !isEngaged)}
+                          className={`px-2 py-0.5 rounded text-[9.5px] font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer border ${
+                            isEngaged
+                              ? 'bg-emerald-950/80 hover:bg-emerald-900 border-emerald-500/70 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.25)]'
+                              : 'bg-slate-900 hover:bg-slate-800 border-slate-700 hover:border-emerald-500/50 text-slate-400 hover:text-emerald-300'
+                          }`}
+                          title={
+                            isEngaged
+                              ? "Network Engaged: Visible to other operators on the network. Click to disengage and make private."
+                              : "Standby: Private to you. Click to engage and broadcast to the network."
+                          }
+                        >
+                          <Radio size={10} className={isEngaged ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                          <span>{isEngaged ? 'ENGAGED' : 'STANDBY'}</span>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleMessagePersona(user, c)}
+                          className="px-2 py-0.8 rounded-md bg-purple-900/80 hover:bg-purple-800 border border-purple-500/50 text-purple-200 text-[9.5px] font-mono font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer"
+                          title={`Send In-Character Direct Message to ${c.name} (${isOnline ? 'Online' : 'Offline'})`}
+                        >
+                          <Shield size={10} />
+                          <span>DM PERSONA</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 );
               })}
@@ -313,6 +352,23 @@ export const NetworkRosterView = ({ isCompact = false }) => {
             </span>
           </div>
         </div>
+
+        {isSelf && (
+          <div className="flex items-center gap-1 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                const pId = persona.id || persona['character-doc-id'];
+                if (pId) togglePersonaNetworkEngaged && togglePersonaNetworkEngaged(pId);
+              }}
+              className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer border bg-emerald-950/80 hover:bg-emerald-900 border-emerald-500/70 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.25)]"
+              title="Network Engaged. Click to disengage."
+            >
+              <Radio size={10} className="text-emerald-400 animate-pulse" />
+              <span>ENGAGED</span>
+            </button>
+          </div>
+        )}
 
         {!isSelf && persona.targetUser && (
           <div className="flex items-center gap-1 shrink-0">

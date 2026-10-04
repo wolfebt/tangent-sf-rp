@@ -9,9 +9,10 @@ export const ADEHUDBar = ({
   isStage
 }) => {
   const pathname = location?.pathname || '';
-  const isLiveStudio = isAdeLiveStudioRoute(pathname);
-  const isHub = isAdeHubRoute(pathname, isStage);
-  const isStoryFoundry = isStoryFoundryRoute(pathname, isStage);
+  const search = location?.search || '';
+  const isLiveStudio = isAdeLiveStudioRoute(pathname, search);
+  const isHub = isAdeHubRoute(pathname, isStage, search);
+  const isStoryFoundry = isStoryFoundryRoute(pathname, isStage, search);
 
   return (
     <div className="flex items-center gap-1 sm:gap-1.5 font-mono select-none">
@@ -45,7 +46,7 @@ export const ADEHUDBar = ({
 
       <button
         type="button"
-        onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate(ROUTES.FOUNDRY_LIVE_STUDIO); }}
+        onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate(`${ROUTES.FOUNDRY}?view=scenarios&tab=stage`); }}
         className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer ${
           isLiveStudio
             ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-[0_0_12px_rgba(34,211,238,0.5)] border border-cyan-400'

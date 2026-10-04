@@ -25,6 +25,7 @@ const DBM = lazy(() => import('./pages/DBM'));
 const Folio = lazy(() => import('./pages/Folio'));
 const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
+const NetworkPage = lazy(() => import('./pages/NetworkPage'));
 const CommsPage = lazy(() => import('./pages/CommsPage'));
 const TeamsPage = lazy(() => import('./pages/TeamsPage'));
 const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
@@ -39,6 +40,15 @@ const VttOpsRedirect = () => {
 const SearchPreservingRedirect = ({ to }) => {
   const location = useLocation();
   return <Navigate to={`${to}${location.search}`} replace />;
+};
+
+const NetworkRedirect = ({ defaultView = 'comms' }) => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  if (!params.has('view')) {
+    params.set('view', defaultView);
+  }
+  return <Navigate to={`/network?${params.toString()}`} replace />;
 };
 
 const PageLoader = () => (
@@ -119,15 +129,19 @@ export function App() {
                               <Routes>
                                 <Route path="/" element={<Dashboard />} />
                                 <Route path="/dashboard" element={<SearchPreservingRedirect to="/" />} />
-                                <Route path="/comms" element={<CommsPage />} />
-                                <Route path="/chat" element={<SearchPreservingRedirect to="/comms" />} />
-                                <Route path="/teams" element={<TeamsPage />} />
-                                <Route path="/groups" element={<SearchPreservingRedirect to="/teams" />} />
-                                <Route path="/squads" element={<SearchPreservingRedirect to="/teams" />} />
+                                <Route path="/network" element={<NetworkPage />} />
+                                <Route path="/network/*" element={<NetworkPage />} />
+                                <Route path="/comms" element={<NetworkRedirect defaultView="comms" />} />
+                                <Route path="/chat" element={<NetworkRedirect defaultView="comms" />} />
+                                <Route path="/teams" element={<NetworkRedirect defaultView="teams" />} />
+                                <Route path="/groups" element={<NetworkRedirect defaultView="teams" />} />
+                                <Route path="/squads" element={<NetworkRedirect defaultView="teams" />} />
                                 <Route path="/codex" element={<CodexApp />} />
                                 <Route path="/codex/*" element={<CodexApp />} />
                                 <Route path="/compendium" element={<Compendium />} />
                                 <Route path="/compendium/*" element={<Compendium />} />
+                                <Route path="/rules" element={<SearchPreservingRedirect to="/compendium" />} />
+                                <Route path="/rules/*" element={<SearchPreservingRedirect to="/compendium" />} />
                                 <Route path="/dbm" element={<DBM />} />
                                 <Route path="/folio" element={<Folio />} />
                                 <Route path="/roster" element={<SearchPreservingRedirect to="/folio" />} />

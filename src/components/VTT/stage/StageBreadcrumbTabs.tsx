@@ -40,6 +40,8 @@ import {
   Cpu
 } from 'lucide-react';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
+import { showToast } from '../../../context/ToastContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { GridType, GridScaleTier } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
@@ -77,6 +79,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   onToggle3D
 }) => {
   const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
+  const confirm = useConfirm();
   const {
     isZenMode,
     toggleZenMode,
@@ -172,19 +175,25 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   };
 
   // Handle Tab Close
-  const handleCloseTab = (mapId: string, e: React.MouseEvent) => {
+  const handleCloseTab = async (mapId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     if (availableMaps.length <= 1) {
-      alert('Cannot close the last remaining scene in the module.');
+      showToast({ type: 'warn', title: 'Cannot Close Scene', text: 'Cannot close the last remaining scene in the module.' });
       return;
     }
-    if (window.confirm('Remove this tactical scene from the active campaign tabs?')) {
-      if (deleteMap) deleteMap(mapId);
-      const remaining = availableMaps.filter((m: any) => m.id !== mapId);
-      if (remaining.length > 0 && mapId === currentMapId) {
-        onSelectMap(remaining[0].id);
-        if (setActiveMapId) setActiveMapId(remaining[0].id);
-      }
+    const ok = await confirm({
+      title: 'Remove Scene Tab',
+      message: 'Remove this tactical scene from the active campaign tabs?',
+      confirmLabel: 'Remove Scene',
+      danger: true
+    });
+    if (!ok) return;
+
+    if (deleteMap) deleteMap(mapId);
+    const remaining = availableMaps.filter((m: any) => m.id !== mapId);
+    if (remaining.length > 0 && mapId === currentMapId) {
+      onSelectMap(remaining[0].id);
+      if (setActiveMapId) setActiveMapId(remaining[0].id);
     }
   };
 
@@ -224,12 +233,13 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           onSelectMap(newId);
           if (setActiveMapId) setActiveMapId(newId);
           AudioService.playCriticalChime(true);
+          showToast({ type: 'success', title: 'Map Loaded', text: `Tactical map "${newMap.title || newMap.name || 'Scene'}" imported successfully.` });
         } else {
-          alert('Invalid map JSON file format.');
+          showToast({ type: 'error', title: 'Import Failed', text: 'Invalid map JSON file format.' });
         }
       } catch (err) {
         console.error(err);
-        alert('Failed to parse map JSON file.');
+        showToast({ type: 'error', title: 'Parse Failed', text: 'Failed to parse map JSON file.' });
       }
     };
     reader.readAsText(file);

@@ -24,6 +24,7 @@ import { GUIDANCE_GEMS } from '../guidanceGemsConfig';
 import StoryElementExtractorModal from '../StoryElementExtractorModal';
 import AimeGuidanceButton from '../../../../components/StoryFoundry/AimeGuidanceButton';
 import AimeGuidanceFlyout from '../../../../components/StoryFoundry/AimeGuidanceFlyout';
+import AimeCanvasSculptor from './AimeCanvasSculptor';
 import { 
   Feather, 
   UserCheck, 
@@ -101,6 +102,7 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
   const [isGeneratingTacticalProse, setIsGeneratingTacticalProse] = useState(false);
 
   // Manuscript / Prose State
+  const quillRef = useRef(null);
   const [content, setContent] = useState(activeNode?.content || '');
   const [activePov, setActivePov] = useState(activeNode?.fields?.pov || '');
   const [copied, setCopied] = useState(false);
@@ -728,6 +730,70 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
           </div>
       </div>
 
+      {/* ── WEAVER SUB-MODE SELECTOR BAR ── */}
+      <div className="px-3 py-1.5 border-b border-slate-800 bg-slate-950/70 flex items-center justify-between gap-2 shrink-0 flex-wrap">
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setWeaverTab('manuscript')}
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              weaverTab === 'manuscript'
+                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <span>✍️</span>
+            <span>The Canvas</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setWeaverTab('outline')}
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              weaverTab === 'outline'
+                ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <span>📋</span>
+            <span>Outline &amp; Beats</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setWeaverTab('tactical')}
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              weaverTab === 'tactical'
+                ? 'bg-blue-950 text-blue-300 border border-blue-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <span>🗺️</span>
+            <span>Tactical Stage Link</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setWeaverTab('genesis')}
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              weaverTab === 'genesis'
+                ? 'bg-amber-950 text-amber-300 border border-amber-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <span>✨</span>
+            <span>Creative Genesis</span>
+          </button>
+        </div>
+
+        {weaverTab === 'manuscript' && (
+          <div className="text-[10px] text-slate-500 font-mono hidden md:flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span>Highlight text on The Canvas for AIME Surgical Sculpting tools</span>
+          </div>
+        )}
+      </div>
+
       {/* AI Working Banner */}
       {isAiWorking && (
         <div className="px-4 py-1.5 bg-cyan-950/90 border-b border-cyan-400/50 text-cyan-300 text-xs flex items-center gap-2 font-mono shrink-0 animate-pulse">
@@ -844,9 +910,10 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
             </div>
           </div>
         </div>
-      ) : (
+      ) : weaverTab === 'manuscript' ? (
         <div className="flex-1 flex flex-col min-h-0 bg-[#090d16] relative z-10 quill-dark-wrapper overflow-hidden">
           <ReactQuill 
+            ref={quillRef}
             theme="snow"
             value={content}
             onChange={handleContentChange}
@@ -854,8 +921,17 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
             className="h-full flex flex-col"
             placeholder="Draft story prose, chapter narrative, sensory atmosphere, or dialogue..."
           />
+          <AimeCanvasSculptor
+            quillRef={quillRef}
+            activeNode={activeNode}
+            elementsCatalog={elementsCatalog}
+            guidanceGems={guidanceGems}
+            activePov={activePov}
+            onApplySculpt={handleContentChange}
+            onShowToast={showToast}
+          />
         </div>
-      )}
+      ) : null}
 
       {/* ── TAB VIEW 2: OUTLINE & SCENE BEATS ── */}
       {weaverTab === 'outline' && (

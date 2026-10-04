@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { VITALITY_HEALTH_STRUCTURE_RULES, DEATH_AND_DYING_RULES } from '../../../engines/tangentConstants';
 
 const DAMAGE_ROUTING_TIERS = [
@@ -73,6 +74,7 @@ const MORTALITY_STAGES = [
 ];
 
 const VitalsDyingModal = ({ isOpen, onClose }) => {
+  const confirm = useConfirm();
   const {
     characterData,
     derivedStats,
@@ -223,8 +225,14 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
                 {isDead && (
                   <button
                     type="button"
-                    onClick={() => {
-                      if (window.confirm("Perform Revivification? 'The High Cost of Dying' applies: Character loses ALL remaining Karma Points and suffers a -5 AP Debt.")) {
+                    onClick={async () => {
+                      const ok = await confirm({
+                        title: 'Perform Revivification',
+                        message: "Perform Revivification? 'The High Cost of Dying' applies: Character loses ALL remaining Karma Points and suffers a -5 AP Debt.",
+                        danger: true,
+                        confirmLabel: 'Revivify (-5 AP Debt)'
+                      });
+                      if (ok) {
                         revivifyCharacter();
                       }
                     }}

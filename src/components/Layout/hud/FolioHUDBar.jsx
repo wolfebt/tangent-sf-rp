@@ -16,7 +16,8 @@ import {
   Download, 
   Upload, 
   FileText,
-  Zap
+  Zap,
+  Radio
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 
@@ -37,7 +38,8 @@ export const FolioHUDBar = ({
   handleSaveLocal,
   handleExportAsStoryElement,
   handleOpenGuide,
-  confirm
+  confirm,
+  togglePersonaNetworkEngaged
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -80,6 +82,12 @@ export const FolioHUDBar = ({
   const spentCP = computeSpentCP ? computeSpentCP() : 0;
   const percent = Math.min(100, Math.max(0, (spentCP / startingCP) * 100));
   const isOver = spentCP > startingCP;
+
+  const isEngaged = Boolean(
+    (characterData?.networkEngaged !== undefined || characterData?.isNetworkEngaged !== undefined)
+      ? (characterData?.networkEngaged || characterData?.isNetworkEngaged)
+      : true
+  );
 
   return (
     <div className="flex items-center gap-1.5 sm:gap-2">
@@ -134,6 +142,30 @@ export const FolioHUDBar = ({
       >
         <Users size={13} className="text-cyan-400 shrink-0" />
         <span className="truncate">{characterData?.['char-name'] || 'Operative Catalog'}</span>
+      </button>
+
+      {/* Network Engagement Quick Toggle */}
+      <button
+        type="button"
+        onClick={() => {
+          const docId = characterData?.['character-doc-id'] || characterData?.id;
+          if (docId && togglePersonaNetworkEngaged) {
+            togglePersonaNetworkEngaged(docId);
+          }
+        }}
+        className={`px-2 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shrink-0 border ${
+          isEngaged
+            ? 'bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+            : 'bg-slate-900/80 hover:bg-slate-800 text-slate-400 border-slate-700/60 hover:text-slate-200'
+        }`}
+        title={
+          isEngaged
+            ? "Network Engaged: Persona is broadcast to the Terran Data Network and squad comms. Click to switch to Standby."
+            : "Network Standby: Persona is hidden from the network. Click to engage and broadcast to comms."
+        }
+      >
+        <Radio size={11} className={isEngaged ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+        <span className="hidden md:inline">{isEngaged ? 'ENGAGED' : 'STANDBY'}</span>
       </button>
 
       {/* Bastion AI Trigger (Desktop/Tablet) */}
@@ -199,6 +231,30 @@ export const FolioHUDBar = ({
               </span>
               <span className="text-[10px] text-emerald-400 font-mono">
                 {cloudSaveStatus === 'saving' ? 'Saving...' : cloudSaveStatus === 'saved' ? 'Saved' : 'Ready'}
+              </span>
+            </button>
+
+            {/* Network Broadcast Engagement */}
+            <button
+              onClick={() => {
+                const docId = characterData?.['character-doc-id'] || characterData?.id;
+                if (docId && togglePersonaNetworkEngaged) {
+                  togglePersonaNetworkEngaged(docId);
+                }
+              }}
+              className={`w-full text-left px-3 py-1.5 uppercase font-bold rounded flex items-center justify-between cursor-pointer ${
+                isEngaged
+                  ? 'hover:bg-emerald-950/80 text-emerald-300'
+                  : 'hover:bg-slate-800 text-slate-300'
+              }`}
+              title="Toggle broadcasting this operative to the Terran Data Network"
+            >
+              <span className="flex items-center gap-1.5">
+                <Radio size={13} className={isEngaged ? "text-emerald-400 animate-pulse" : "text-slate-400"} />
+                <span>{isEngaged ? 'Network: Engaged' : 'Network: Standby'}</span>
+              </span>
+              <span className={`text-[9px] font-mono ${isEngaged ? 'text-emerald-400 font-bold' : 'text-slate-500'}`}>
+                {isEngaged ? 'BROADCAST' : 'PRIVATE'}
               </span>
             </button>
 

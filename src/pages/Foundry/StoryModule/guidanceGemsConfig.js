@@ -2,9 +2,74 @@
  * @file guidanceGemsConfig.js
  * @description Centralized Guidance Gems taxonomy and presets for the Tangent SF RP
  * Adventure Development Environment (ADE) and AIME Creative Suite.
+ * Grounded in "The Art of AI Crafting" Layer 1 (Directorial Guidance).
  */
 
-export const GUIDANCE_GEMS = {
+/**
+ * The 6 Canonical AIME Guidance Gems as defined in "The Art of AI Crafting".
+ * These gems control the directorial lens (the 'How') independent of subject matter (the 'What').
+ */
+export const AIME_CANONICAL_GEMS = {
+  "Genre": [
+    "Action",
+    "Adventure",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Sci-Fi",
+    "Horror",
+    "Mystery",
+    "Romance",
+    "Thriller"
+  ],
+  "Tone": [
+    "Serious",
+    "Humorous",
+    "Formal",
+    "Informal",
+    "Optimistic",
+    "Pessimistic",
+    "Joyful",
+    "Sad",
+    "Hopeful",
+    "Cynical"
+  ],
+  "Pacing": [
+    "Fast-paced",
+    "Slow-burn",
+    "Steady",
+    "Urgent",
+    "Relaxed",
+    "Meditative"
+  ],
+  "Point of View": [
+    "First Person",
+    "Third Person Limited",
+    "Third Person Omniscient",
+    "Second Person"
+  ],
+  "Literary Devices": [
+    "Metaphor",
+    "Simile",
+    "Personification",
+    "Alliteration",
+    "Symbolism",
+    "Irony",
+    "Foreshadowing"
+  ],
+  "Structure": [
+    "Linear",
+    "Non-linear",
+    "Episodic",
+    "In Medias Res",
+    "Frame Story"
+  ]
+};
+
+/**
+ * Extended RPG & Worldbuilding Gems for deep Tangent SFF flavor.
+ */
+export const EXTENDED_GEMS = {
   "Mood": [
     "Gritty & Bleak",
     "Tense & Suspenseful",
@@ -17,53 +82,6 @@ export const GUIDANCE_GEMS = {
     "Paranoiac & Claustrophobic",
     "Wonder & Exploration",
     "Cyber-Noir"
-  ],
-  "Genre": [
-    "Cyberpunk",
-    "Space Opera",
-    "Science Fantasy",
-    "Hard Sci-Fi",
-    "Techno-Thriller",
-    "Cosmic Horror",
-    "Post-Apocalyptic",
-    "Dark Fantasy",
-    "Espionage / Heist",
-    "Military Sci-Fi",
-    "Solarpunk",
-    "Retro-Futuristic"
-  ],
-  "Tone": [
-    "Serious",
-    "Sardonic & Dry",
-    "Humorous",
-    "Poetic & Lyrical",
-    "Clinical & Analytical",
-    "Formal & Dignified",
-    "Cynical",
-    "Optimistic & Hopeful",
-    "Grimdark",
-    "Laconic & Terse",
-    "Mythic"
-  ],
-  "Pacing": [
-    "Fast-paced",
-    "Slow-burn",
-    "Steady",
-    "Urgent & Relentless",
-    "Relaxed & Exploratory",
-    "Meditative",
-    "Action-Packed",
-    "Rollercoaster Beats",
-    "Episodic"
-  ],
-  "POV": [
-    "First Person (\"I\")",
-    "Third Person Limited (\"He/She/They\")",
-    "Third Person Omniscient",
-    "Second Person (\"You\")",
-    "Alternating POV",
-    "Epistolary / Mission Logs",
-    "Stream of Consciousness"
   ],
   "Theme": [
     "Redemption",
@@ -89,7 +107,7 @@ export const GUIDANCE_GEMS = {
     "Ancient Precursor Awakening",
     "Cybernetic Alienation"
   ],
-  "Setting": [
+  "Setting Style": [
     "Neon Megacity Sprawl",
     "Deep Space Void Station",
     "Derelict Starship Bulkheads",
@@ -100,6 +118,16 @@ export const GUIDANCE_GEMS = {
     "Arcane Relic Vault",
     "Virtual Matrix Grid"
   ]
+};
+
+/**
+ * Combined Guidance Gems taxonomy, with the 6 Canonical AIME Gems positioned first.
+ * Aliases "POV" to "Point of View" for backwards compatibility.
+ */
+export const GUIDANCE_GEMS = {
+  ...AIME_CANONICAL_GEMS,
+  "POV": AIME_CANONICAL_GEMS["Point of View"],
+  ...EXTENDED_GEMS
 };
 
 /**
@@ -121,9 +149,46 @@ export const getMergedGems = (customGems = {}) => {
 };
 
 /**
- * Formats active gems array into a structured markdown prompt snippet
+ * Formats active gems array or object into a structured markdown prompt snippet.
  */
 export const formatGemsPrompt = (activeGems = []) => {
-  if (!activeGems || activeGems.length === 0) return 'Standard Tangent Science Fantasy';
-  return activeGems.join(', ');
+  if (!activeGems) return 'Standard Tangent Science Fantasy';
+  if (typeof activeGems === 'string') return activeGems.trim();
+  if (Array.isArray(activeGems)) {
+    if (activeGems.length === 0) return 'Standard Tangent Science Fantasy';
+    return activeGems.join(', ');
+  }
+  if (typeof activeGems === 'object') {
+    const parts = [];
+    for (const [k, v] of Object.entries(activeGems)) {
+      if (Array.isArray(v) && v.length > 0) parts.push(`${k}: ${v.join(', ')}`);
+      else if (typeof v === 'string' && v.trim()) parts.push(`${k}: ${v.trim()}`);
+    }
+    return parts.length > 0 ? parts.join(' | ') : 'Standard Tangent Science Fantasy';
+  }
+  return 'Standard Tangent Science Fantasy';
+};
+
+/**
+ * Formats canonical 6 AIME gems into an explicit directorial instruction block for LLM prompts.
+ */
+export const formatAimeGuidanceDirective = (guidance = {}) => {
+  if (!guidance || typeof guidance !== 'object') return '';
+  const lines = [];
+
+  const genre = guidance.genre || guidance.Genre;
+  const tone = guidance.tone || guidance.Tone;
+  const pacing = guidance.pacing || guidance.Pacing;
+  const pov = guidance.pov || guidance.POV || guidance["Point of View"];
+  const devices = guidance.literaryDevices || guidance.devices || guidance["Literary Devices"];
+  const structure = guidance.structure || guidance.Structure;
+
+  if (genre) lines.push(`- Genre: ${Array.isArray(genre) ? genre.join(', ') : genre}`);
+  if (tone) lines.push(`- Tone: ${Array.isArray(tone) ? tone.join(', ') : tone}`);
+  if (pacing) lines.push(`- Pacing: ${Array.isArray(pacing) ? pacing.join(', ') : pacing}`);
+  if (pov) lines.push(`- Point of View: ${Array.isArray(pov) ? pov.join(', ') : pov}`);
+  if (devices && devices.length > 0) lines.push(`- Literary Devices: ${Array.isArray(devices) ? devices.join(', ') : devices}`);
+  if (structure) lines.push(`- Narrative Structure: ${Array.isArray(structure) ? structure.join(', ') : structure}`);
+
+  return lines.length > 0 ? lines.join('\n') : '';
 };

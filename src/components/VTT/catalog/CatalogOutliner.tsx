@@ -30,6 +30,7 @@ import { useDBM } from '../../../context/DBMContext';
 import { useEngineStore } from '../../../engine/index';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { AudioService } from '../../../services/audioService';
+import { showToast } from '../../../context/ToastContext';
 import { DEFAULT_WEAPONRY } from '../../../data/weaponryData';
 import { DEFAULT_ARMORING } from '../../../data/armoringData';
 import { DEFAULT_AUGMENTATIONS } from '../../../data/augmentationsData';
@@ -265,7 +266,11 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     const elementsToDeploy = (elementsCatalog || []).filter((e: any) => linkedIds.includes(e.id));
 
     if (elementsToDeploy.length === 0) {
-      alert('No linked elements found for this scenario. Link elements in the ADE Story Weaver first!');
+      showToast({
+        type: 'warn',
+        title: 'No Linked Elements',
+        text: 'No linked elements found for this scenario. Link elements in the ADE Story Weaver first!'
+      });
       return;
     }
 

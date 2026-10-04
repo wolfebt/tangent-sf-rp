@@ -5,7 +5,26 @@ import { categoryConfig } from '../components/DBM/categoryConfig';
 import { onAuthStateChanged } from 'firebase/auth';
 import { commitChunkedBatches } from '../utils/firestoreUtils';
 import { validateDbmEntry } from '../utils/dbmValidators';
-import compendiumSeedData from '../data/compendiumSeed.json';
+
+let cachedCompendiumSeed = null;
+let compendiumSeedPromise = null;
+
+export const loadCompendiumCatalog = async () => {
+  if (cachedCompendiumSeed) return cachedCompendiumSeed;
+  if (!compendiumSeedPromise) {
+    compendiumSeedPromise = import('../data/compendiumSeed.json')
+      .then(mod => {
+        cachedCompendiumSeed = mod.default || mod;
+        return cachedCompendiumSeed;
+      })
+      .catch(err => {
+        console.warn('[DBMContext] Failed to load compendium seed dynamically:', err);
+        compendiumSeedPromise = null;
+        return [];
+      });
+  }
+  return compendiumSeedPromise;
+};
 import { DEFAULT_ARCHETYPES } from '../data/archetypesData';
 import { DEFAULT_SPECIES } from '../data/speciesData';
 import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData';
@@ -157,7 +176,7 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
 };
 
 export const getFallbackSeedForCategory = (catK) => {
-  if (catK === 'compendium' || catK === 'rules_codex') return compendiumSeedData;
+  if (catK === 'compendium' || catK === 'rules_codex') return cachedCompendiumSeed || [];
   if (catK === 'archetypes') return DEFAULT_ARCHETYPES;
   if (catK === 'species') return DEFAULT_SPECIES;
   if (catK === 'species_type') return DEFAULT_SPECIES_TYPES;
@@ -207,7 +226,7 @@ export const getFallbackSeedForCategory = (catK) => {
 
 export const DBMProvider = ({ children }) => {
   const [dbData, setDbData] = useState(() => ({
-    compendium: filterInitialData(compendiumSeedData),
+    compendium: cachedCompendiumSeed ? filterInitialData(cachedCompendiumSeed) : [],
     archetypes: filterInitialData(DEFAULT_ARCHETYPES),
     species: filterInitialData(DEFAULT_SPECIES),
     species_type: filterInitialData(DEFAULT_SPECIES_TYPES),
@@ -346,11 +365,26 @@ export const DBMProvider = ({ children }) => {
     };
   }, []);
 
+  // Lazy-load compendium seed on demand
+  const ensureCompendiumLoaded = useCallback(async () => {
+    if (latestDbDataRef.current.compendium?.length > 0 && cachedCompendiumSeed) {
+      return latestDbDataRef.current.compendium;
+    }
+    const seed = await loadCompendiumCatalog();
+    const tombstones = getOmnicortexTombstones();
+    setDbData(prev => {
+      const merged = mergeSeedsWithDocs(prev.compendium || [], 'compendium', tombstones);
+      return { ...prev, compendium: merged };
+    });
+    return seed;
+  }, []);
+
   // Sync all Canonical Compendium Articles to Firestore Cloud
   const syncCanonicalCompendium = useCallback(async () => {
     try {
-      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${compendiumSeedData.length} canonical articles to cloud...` });
-      const operations = compendiumSeedData.map(item => ({
+      const seed = await loadCompendiumCatalog();
+      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${seed.length} canonical articles to cloud...` });
+      const operations = seed.map(item => ({
         ref: doc(db, 'compendium', item.id),
         data: {
           ...item,
@@ -363,7 +397,7 @@ export const DBMProvider = ({ children }) => {
       showToast({
         type: 'success',
         title: 'Compendium Synced',
-        text: `All ${compendiumSeedData.length} canonical articles successfully synced to Firestore.`
+        text: `All ${seed.length} canonical articles successfully synced to Firestore.`
       });
       return true;
     } catch (err) {
@@ -939,6 +973,8 @@ export const DBMProvider = ({ children }) => {
       deleteEntry,
       importJSON,
       syncCanonicalCompendium,
+      ensureCompendiumLoaded,
+      loadCompendiumCatalog,
       syncCanonicalSpecies,
       syncCanonicalFactions,
       syncMasterSpeciesMatrix,

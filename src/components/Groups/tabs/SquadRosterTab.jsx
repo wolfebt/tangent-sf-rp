@@ -7,8 +7,10 @@ import {
   Copy, 
   Check, 
   QrCode, 
-  Layers 
+  Layers,
+  Radio
 } from 'lucide-react';
+import { useFolio } from '../../../context/FolioContext';
 
 export const SquadRosterTab = ({
   activeGroup,
@@ -25,6 +27,8 @@ export const SquadRosterTab = ({
   setIsCreateModalOpen,
   setActiveTab
 }) => {
+  const { characterData, togglePersonaNetworkEngaged } = useFolio() || {};
+
   if (!activeGroup) {
     return (
       <div className="flex-1 overflow-y-auto p-4 sm:p-6">
@@ -114,7 +118,7 @@ export const SquadRosterTab = ({
           <div className="p-2 bg-white rounded-xl shadow-md shrink-0">
             <img 
               src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(
-                `${typeof window !== 'undefined' ? window.location.origin : ''}/teams?join=${activeGroup.inviteCode}`
+                `${typeof window !== 'undefined' ? window.location.origin : ''}/network?view=teams&join=${activeGroup.inviteCode}`
               )}`}
               alt="Squad Join QR"
               className="w-28 h-28"
@@ -147,15 +151,32 @@ export const SquadRosterTab = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-          {(activeGroup.members || []).map((member) => {
-            const isSelf = member.userId === currentUser?.uid;
-            const persona = member.persona;
-            const isLeader = member.role === 'GM' || member.role === 'Leader';
-            const displayRole = (member.role === 'Operative' ? 'Operator' : member.role) || 'Operator';
+          {(
+            Array.isArray(activeGroup.members) && activeGroup.members.length > 0
+              ? activeGroup.members
+              : Object.keys(activeGroup.memberDetails || {})
+          ).map((rawMember, index) => {
+            const memberId = (
+              typeof rawMember === 'string' && rawMember.trim()
+                ? rawMember.trim()
+                : (rawMember?.userId || rawMember?.uid || rawMember?.id || `member-${index}`)
+            ) || `member-${index}`;
+            const uniqueKey = `${memberId}-${index}`;
+
+            const details = (typeof rawMember === 'object' && rawMember !== null)
+              ? rawMember
+              : (activeGroup.memberDetails?.[memberId] || {});
+
+            const memberHandle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : null) || 'Operator';
+            const memberRole = details.role || (memberId === activeGroup.creatorId ? 'GM' : 'Operator');
+            const isSelf = memberId === currentUser?.uid;
+            const persona = details.persona || null;
+            const isLeader = memberRole === 'GM' || memberRole === 'Leader';
+            const displayRole = (memberRole === 'Operative' ? 'Operator' : memberRole) || 'Operator';
 
             return (
               <div
-                key={member.userId}
+                key={uniqueKey}
                 className={`p-3.5 rounded-xl border transition-all flex flex-col justify-between space-y-3 ${
                   isSelf
                     ? 'bg-emerald-950/20 border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
@@ -175,7 +196,7 @@ export const SquadRosterTab = ({
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-mono font-bold text-white truncate">
-                          {member.handle || 'Operator'}
+                          {memberHandle}
                         </span>
                         {isSelf && (
                           <span className="text-[9px] px-1 bg-emerald-500/20 text-emerald-300 rounded font-mono">
@@ -196,13 +217,13 @@ export const SquadRosterTab = ({
                       onClick={async () => {
                         const ok = await confirm({
                           title: 'Remove Operator',
-                          message: `Are you sure you want to remove ${member.handle} from ${activeGroup.name}?`,
+                          message: `Are you sure you want to remove ${memberHandle} from ${activeGroup.name}?`,
                           danger: true,
                           confirmLabel: 'Remove'
                         });
                         if (ok) {
-                          kickMember(activeGroup.id, member.userId);
-                          toast({ type: 'info', text: `${member.handle} removed from squad.` });
+                          kickMember(activeGroup.id, memberId);
+                          toast({ type: 'info', text: `${memberHandle} removed from squad.` });
                         }
                       }}
                       className="text-slate-500 hover:text-rose-400 p-1 transition-colors cursor-pointer"
@@ -253,12 +274,61 @@ export const SquadRosterTab = ({
                         </div>
                       </div>
                     </div>
+
+                    {isSelf && (
+                      <div className="flex items-center justify-between pt-1 border-t border-slate-800/60 mt-1">
+                        <span className="text-[9.5px] font-mono text-slate-400">NETWORK:</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const targetDocId = persona?.docId || persona?.id || characterData?.['character-doc-id'];
+                            if (targetDocId && togglePersonaNetworkEngaged) {
+                              togglePersonaNetworkEngaged(targetDocId);
+                            }
+                          }}
+                          className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono font-bold uppercase border transition-colors flex items-center gap-1 cursor-pointer ${
+                            (characterData?.networkEngaged || characterData?.isNetworkEngaged)
+                              ? 'bg-emerald-950 text-emerald-300 border-emerald-500/70 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                              : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-emerald-300'
+                          }`}
+                          title="Toggle network broadcast engagement for this persona"
+                        >
+                          <Radio size={8} className={(characterData?.networkEngaged || characterData?.isNetworkEngaged) ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                          <span>{(characterData?.networkEngaged || characterData?.isNetworkEngaged) ? 'ENGAGED' : 'STANDBY'}</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ) : (
-                  <div className="p-2.5 rounded-lg bg-slate-950/40 border border-dashed border-slate-800 text-center">
-                    <span className="text-[10px] font-mono text-slate-500">
+                  <div className="p-2.5 rounded-lg bg-slate-950/40 border border-dashed border-slate-800 text-center space-y-1">
+                    <span className="text-[10px] font-mono text-slate-500 block">
                       NO PERSONA BOUND YET
                     </span>
+                    {isSelf && characterData?.['char-name'] && (
+                      <div className="flex items-center justify-between pt-1 border-t border-slate-800/60">
+                        <span className="text-[9.5px] font-mono text-cyan-400 truncate">
+                          Active: {characterData['char-name']}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const docId = characterData?.['character-doc-id'] || characterData?.id;
+                            if (docId && togglePersonaNetworkEngaged) {
+                              togglePersonaNetworkEngaged(docId);
+                            }
+                          }}
+                          className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono font-bold uppercase border transition-colors flex items-center gap-1 cursor-pointer ${
+                            (characterData?.networkEngaged || characterData?.isNetworkEngaged)
+                              ? 'bg-emerald-950 text-emerald-300 border-emerald-500/70 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                              : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-emerald-300'
+                          }`}
+                          title="Toggle network broadcast engagement for your active persona"
+                        >
+                          <Radio size={8} className={(characterData?.networkEngaged || characterData?.isNetworkEngaged) ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                          <span>{(characterData?.networkEngaged || characterData?.isNetworkEngaged) ? 'Engaged' : 'Standby'}</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -267,8 +337,8 @@ export const SquadRosterTab = ({
                   <div className="pt-1 flex items-center justify-between text-[10px] font-mono border-t border-slate-800/80">
                     <span className="text-slate-500">TACTICAL ROLE:</span>
                     <select
-                      value={member.role === 'Operative' ? 'Operator' : (member.role || 'Operator')}
-                      onChange={(e) => updateMemberRole(activeGroup.id, member.userId, e.target.value)}
+                      value={memberRole === 'Operative' ? 'Operator' : (memberRole || 'Operator')}
+                      onChange={(e) => updateMemberRole(activeGroup.id, memberId, e.target.value)}
                       className="bg-slate-950 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-[10px] focus:outline-none focus:border-emerald-400"
                     >
                       <option value="GM">Lead Architect (GM)</option>

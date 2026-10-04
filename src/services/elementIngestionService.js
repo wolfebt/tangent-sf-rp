@@ -399,7 +399,15 @@ export function validateElementAgainstSchema(element) {
   const missingRequired = [];
 
   for (const field of schema) {
-    const val = (element.fields && (element.fields[field.key] || element.fields[normalizeFieldKey(field.label)]));
+    let val = element.fields && (element.fields[field.key] || element.fields[normalizeFieldKey(field.label)]);
+    if (!val && field.aliasKeys && Array.isArray(field.aliasKeys) && element.fields) {
+      for (const ak of field.aliasKeys) {
+        if (element.fields[ak]) {
+          val = element.fields[ak];
+          break;
+        }
+      }
+    }
     if (val && String(val).trim().length > 0) {
       filledCount++;
     } else if (field.required) {

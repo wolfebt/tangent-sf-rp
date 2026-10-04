@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCampaign } from '../../../context/CampaignContext';
-import { ELEMENT_TYPES, getTypePillStyle, SCENARIO_GUIDE_MODULES } from './elementSchemas';
+import { ELEMENT_TYPES, getTypePillStyle, SCENARIO_GUIDE_MODULES, getElementFileExtension } from './elementSchemas';
 import EditElementModal from './EditElementModal';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import AimeGuidanceButton from '../../../components/StoryFoundry/AimeGuidanceButton';
@@ -12,6 +12,7 @@ import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { showToast } from '../../../context/ToastContext';
 import DOMPurify from 'dompurify';
 import { downloadElementMarkdownFile, batchIngestElementFiles } from '../../../services/elementIngestionService.js';
+import { downloadAimeAssetFile, downloadAimeAssetBundle, batchIngestAimeFiles } from '../../../services/aimeAssetFileService.js';
 import { useDBM } from '../../../context/DBMContext';
 import { pullElementFromOmnicortexDBM } from '../../../utils/storyAssetAdapter.js';
 
@@ -30,6 +31,24 @@ export const ElementForge = ({ onBackToStory }) => {
   const [selectedElement, setSelectedElement] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isAimeFlyoutOpen, setIsAimeFlyoutOpen] = useState(false);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
+
+  const processImportFiles = async (files) => {
+    const results = await batchIngestAimeFiles(files);
+    let count = 0;
+    for (const res of results) {
+      if (res.success && res.element) {
+        await updateSavedElement(res.element.id, res.element);
+        await saveElementToCloud(res.element);
+        count++;
+      }
+    }
+    if (count > 0) {
+      showToast({ type: 'success', text: `Ingested ${count} AIME portable asset(s)!` });
+    } else {
+      showToast({ type: 'warning', text: 'No valid element files could be ingested.' });
+    }
+  };
 
   // Omnicortex DBM Ingestion State
   const { dbData = {} } = useDBM() || {};
@@ -195,7 +214,32 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
   };
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-[#0a0a0e] text-slate-100 font-sans relative select-none">
+    <div 
+      className="flex h-full w-full overflow-hidden bg-[#0a0a0e] text-slate-100 font-sans relative select-none"
+      onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setIsDraggingOver(true); }}
+      onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); setIsDraggingOver(false); }}
+      onDrop={async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingOver(false);
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          await processImportFiles(Array.from(e.dataTransfer.files));
+        }
+      }}
+    >
+      {/* Drag & Drop Visual Overlay */}
+      {isDraggingOver && (
+        <div className="absolute inset-0 z-50 bg-black/85 border-2 border-dashed border-amber-500 rounded-2xl flex flex-col items-center justify-center p-6 text-center backdrop-blur-md animate-in fade-in pointer-events-none">
+          <Sparkles size={48} className="text-amber-400 animate-pulse mb-3" />
+          <h3 className="text-lg font-bold text-white uppercase tracking-wider mb-1">
+            Drop Portable AIME Assets Here
+          </h3>
+          <p className="text-xs text-amber-200/80 max-w-md">
+            Instantly ingest .persona, .setting, .world, .species, .tech, .philosophy, .scene, or .aime bundles into your project.
+          </p>
+        </div>
+      )}
+
       {/* Forge Glow Background */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -307,37 +351,38 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
               <span>Create {activeType}</span>
             </button>
 
-            {/* Ingest ELEMENTS.md Button */}
+            {/* Ingest AIME / ELEMENTS.md Button */}
             <label className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm">
               <Upload size={14} className="text-cyan-400" />
-              <span className="hidden sm:inline">Ingest .md</span>
+              <span className="hidden sm:inline">Import Assets</span>
               <input
                 type="file"
                 multiple
-                accept=".md,.markdown"
+                accept=".persona,.setting,.world,.species,.tech,.philosophy,.scene,.aime,.json,.md,.markdown"
                 className="hidden"
                 onChange={async (e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    const results = await batchIngestElementFiles(Array.from(e.target.files));
-                    let count = 0;
-                    for (const res of results) {
-                      if (res.success && res.element) {
-                        const newElem = {
-                          ...res.element,
-                          title: res.element.name
-                        };
-                        await updateSavedElement(newElem.id, newElem);
-                        await saveElementToCloud(newElem);
-                        count++;
-                      }
-                    }
-                    if (count > 0) {
-                      showToast({ type: 'success', text: `Ingested ${count} element(s) adhering to ELEMENTS.md!` });
-                    }
+                    await processImportFiles(Array.from(e.target.files));
                   }
                 }}
               />
             </label>
+
+            {/* Export All as .aime Bundle */}
+            {filteredElements.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  downloadAimeAssetBundle(filteredElements, `${activeType.toLowerCase()}_compendium`);
+                  showToast({ type: 'success', text: `Exported ${filteredElements.length} ${activeType} elements to .aime bundle!` });
+                }}
+                className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-300 hover:text-amber-200 font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title={`Export all ${filteredElements.length} ${activeType} elements as a portable .aime bundle`}
+              >
+                <Sparkles size={13} className="text-amber-400" />
+                <span className="hidden sm:inline">Export .aime ({filteredElements.length})</span>
+              </button>
+            )}
 
             {/* Import from Omnicortex DBM */}
             {matchingDbmItems.length > 0 && (
@@ -453,6 +498,20 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                           <RefreshCw size={13} />
                         </button>
                       )}
+
+                      {/* AIME Portable Asset Export Button */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          downloadAimeAssetFile(el);
+                          showToast({ type: 'success', text: `Exported ${el.title || el.name} as portable ${getElementFileExtension(el.type)} asset!` });
+                        }}
+                        className="p-1.5 rounded text-amber-400 hover:text-amber-200 hover:bg-amber-950/60 border border-amber-500/30 transition-colors"
+                        title={`Export AIME Asset (${getElementFileExtension(el.type)})`}
+                      >
+                        <Sparkles size={13} />
+                      </button>
 
                       {/* Markdown Export Button */}
                       <button

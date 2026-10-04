@@ -28,6 +28,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
   const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
   const [combatView, setCombatView] = useState('all'); // 'all' | 'offensive' | 'defensive'
+  const [latestDamageRoll, setLatestDamageRoll] = useState(null);
 
   const curHealth = parseInt(characterData.current_health ?? characterData.health ?? 30, 10);
   const maxHealth = parseInt(characterData.health || 30, 10);

@@ -708,25 +708,36 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const renderPillarCatalogPicker = ({
     pillarKey,
     title,
+    label,
     catalog,
+    items,
     selectedValue,
+    selectedId,
     onSelect,
     browsePath,
-    categoryExtractor = (item) => item.category || 'General',
+    categoryExtractor,
+    filterExtractor,
     colorTheme = 'cyan',
-    renderCardBadges
+    renderCardBadges,
+    secondaryInfoExtractor
   }) => {
+    const pickerTitle = title || label || '';
+    const rawCatalog = Array.isArray(catalog) ? catalog : (Array.isArray(items) ? items : []);
+    const currentSelected = selectedValue ?? selectedId ?? '';
+    const extractor = categoryExtractor || filterExtractor || ((item) => item?.category || 'General');
+    const badgeRenderer = renderCardBadges || secondaryInfoExtractor;
+
     const search = catalogSearch[pillarKey] || '';
     const filter = catalogFilter[pillarKey] || 'all';
 
-    const categories = ['all', ...Array.from(new Set(catalog.map(categoryExtractor).filter(Boolean)))];
+    const categories = ['all', ...Array.from(new Set(rawCatalog.map(extractor).filter(Boolean)))];
 
-    const filteredItems = catalog.filter(item => {
+    const filteredItems = rawCatalog.filter(item => {
       const name = (item.name || item.title || item.id || '').toLowerCase();
       const desc = (item.description || item.summary || item.core_concept || '').toLowerCase();
-      const cat = (categoryExtractor(item) || '').toLowerCase();
+      const cat = (extractor(item) || '').toLowerCase();
       const searchMatch = !search || name.includes(search.toLowerCase()) || desc.includes(search.toLowerCase()) || cat.includes(search.toLowerCase());
-      const filterMatch = filter === 'all' || categoryExtractor(item) === filter;
+      const filterMatch = filter === 'all' || extractor(item) === filter;
       return searchMatch && filterMatch;
     });
 
@@ -737,7 +748,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${theme.bgBadge} ${theme.textBadge} border ${theme.borderBadge}`}>
-              {title} Catalog ({filteredItems.length})
+              {pickerTitle} Catalog ({filteredItems.length})
             </span>
             <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">
               Select an option below or filter by category
@@ -751,7 +762,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 type="text"
                 value={search}
                 onChange={(e) => setCatalogSearch(prev => ({ ...prev, [pillarKey]: e.target.value }))}
-                placeholder={`Search ${title.toLowerCase()}...`}
+                placeholder={`Search ${pickerTitle.toLowerCase()}...`}
                 className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded-lg pl-8 pr-6 py-1 text-xs text-slate-200 outline-none font-mono w-40 sm:w-56"
               />
               {search && (
@@ -765,7 +776,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               )}
             </div>
 
-            {selectedValue && (
+            {currentSelected && (
               <button
                 type="button"
                 onClick={() => setShowCatalog(prev => ({ ...prev, [pillarKey]: false }))}
@@ -805,7 +816,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-72 sm:max-h-96 overflow-y-auto pr-1 custom-scrollbar">
           {filteredItems.map(item => {
             const itemName = item.name || item.title || item.id;
-            const isSelected = (selectedValue || '').toLowerCase() === itemName.toLowerCase();
+            const isSelected = (currentSelected || '').toLowerCase() === itemName.toLowerCase();
             return (
               <div
                 key={item.id || itemName}
@@ -828,9 +839,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     )}
                   </div>
 
-                  {renderCardBadges && (
+                  {badgeRenderer && (
                     <div className="flex flex-wrap gap-1 text-[10px] font-mono">
-                      {renderCardBadges(item)}
+                      {badgeRenderer(item)}
                     </div>
                   )}
 
@@ -856,7 +867,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
                   <button
                     type="button"
-                    onClick={() => handleInspectItem(item, browsePath, `${title}: ${itemName}`)}
+                    onClick={() => handleInspectItem(item, browsePath, `${pickerTitle}: ${itemName}`)}
                     className="p-1 rounded text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors cursor-pointer"
                     title={`Inspect full details for ${itemName}`}
                   >
@@ -868,7 +879,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           })}
           {filteredItems.length === 0 && (
             <div className="col-span-full p-4 text-center text-xs font-mono text-slate-500">
-              No matching {title.toLowerCase()} found for "{search}".
+              No matching {pickerTitle.toLowerCase()} found for "{search}".
             </div>
           )}
         </div>
@@ -2738,14 +2749,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             {/* Visual Catalog Picker */}
             {isCatalogOpen && !isManual && renderPillarCatalogPicker({
               pillarKey: 'faction',
-              label: 'Faction',
-              items: factionsCatalog,
-              selectedId: val,
-              onSelect: handleFactionChange,
+              title: 'Faction',
+              catalog: factionsCatalog,
+              selectedValue: val,
+              browsePath,
               colorTheme: 'purple',
-              filterExtractor: (item) => item.faction_classification || item.faction_type || 'Factions & Organizations',
-              secondaryInfoExtractor: (item) => (
-                <div className="flex items-center gap-1.5 flex-wrap">
+              categoryExtractor: (item) => item.faction_classification || item.faction_type || 'Factions & Organizations',
+              renderCardBadges: (item) => (
+                <>
                   {item.tech_level !== undefined && (
                     <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950/60 border border-purple-800/40 text-purple-300">
                       TL {item.tech_level}
@@ -2761,8 +2772,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       {item.archetype}
                     </span>
                   )}
-                </div>
-              )
+                </>
+              ),
+              onSelect: (item) => {
+                handleFactionChange(item.name || item.id);
+                setShowCatalog(prev => ({ ...prev, faction: false }));
+              }
             })}
 
             {/* Empty State when Expanded without Faction Selected and Catalog Closed */}

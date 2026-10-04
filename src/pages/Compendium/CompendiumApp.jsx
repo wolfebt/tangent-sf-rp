@@ -83,6 +83,11 @@ export const CompendiumApp = () => {
   const fullDbData = dbm.dbData || firestoreDbData || {};
   const currentRulesItems = fullDbData[currentRulesKey] || [];
 
+  // Ensure compendium seed articles are loaded when entering CompendiumApp
+  useEffect(() => {
+    dbm.ensureCompendiumLoaded?.();
+  }, [dbm.ensureCompendiumLoaded]);
+
   // Item Inspection / Modal State
   const [selectedItem, setSelectedItem] = useState(null);
   const [activeItemCategoryKey, setActiveItemCategoryKey] = useState(currentRulesKey);

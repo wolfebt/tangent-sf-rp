@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Wrench, Plus, Trash2, ArrowUpCircle, ArrowDownCircle, Cpu, Shield, Tag } from 'lucide-react';
 import { WEAPON_MODIFICATIONS, WEAPON_DOWNGRADES } from '../../../engines/tangentConstants';
+import { showToast } from '../../../context/ToastContext';
 
 export const ModificationsWidget = ({
   modifications = [],
@@ -18,7 +19,11 @@ export const ModificationsWidget = ({
   const handleAddModification = () => {
     const name = modName.trim();
     if (!name) {
-      alert('Please enter or select a modification name.');
+      showToast({
+        type: 'warn',
+        title: 'Name Required',
+        text: 'Please enter or select a modification name.'
+      });
       return;
     }
 

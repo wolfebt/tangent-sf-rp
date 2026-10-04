@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import { ToastProvider } from './context/ToastContext.jsx'
 import { ConfirmProvider } from './context/ConfirmContext.jsx'
 import { AudioProvider } from './context/AudioContext.jsx'
+import { ErrorBoundary } from './components/UI/ErrorBoundary.jsx'
 import { registerSW } from 'virtual:pwa-register'
 
 if (import.meta.env.PROD) {
@@ -21,14 +22,16 @@ if (import.meta.env.PROD) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ToastProvider>
-      <ConfirmProvider>
-        <AudioProvider>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </AudioProvider>
-      </ConfirmProvider>
-    </ToastProvider>
+    <ErrorBoundary>
+      <ToastProvider>
+        <ConfirmProvider>
+          <AudioProvider>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </AudioProvider>
+        </ConfirmProvider>
+      </ToastProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
 )

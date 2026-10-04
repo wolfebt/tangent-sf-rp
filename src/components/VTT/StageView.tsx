@@ -46,6 +46,8 @@ import { useCanvasEventListeners } from './hooks/useCanvasEventListeners';
 import { useDesignModeController } from './hooks/useDesignModeController';
 import { useCombatController } from './hooks/useCombatController';
 import { useStageRenderers } from './hooks/useStageRenderers';
+import { useStageGestures } from './hooks/useStageGestures';
+import { useStageHotkeys } from './hooks/useStageHotkeys';
 import { HazardParticleSimulator, type HazardType, type HazardField } from '../../engine/physics/HazardParticleSimulator.ts';
 import { Graphics, Container, Text, TextStyle, Sprite } from 'pixi.js';
 import { 
@@ -86,6 +88,7 @@ export interface StageViewProps {
 
 export const StageView: React.FC<StageViewProps> = ({
   campaignId = 'campaign_alpha',
+  sceneId,
   isEmbeddedInTripartite = false
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -118,6 +121,7 @@ export const StageView: React.FC<StageViewProps> = ({
     universeState, 
     activeMapId, 
     setActiveMapId, 
+    mapsCatalog,
     addMap, 
     updateMap, 
     addCustomTerrain,
@@ -127,17 +131,27 @@ export const StageView: React.FC<StageViewProps> = ({
     updateCustomObject,
     deleteCustomObject
   } = useCampaign();
-  const [currentMapId, setCurrentMapId] = useState<string>(mapIdParam || activeMapId || '');
+  const [currentMapId, setCurrentMapId] = useState<string>(sceneId || mapIdParam || activeMapId || '');
   const [isCanvasReady, setIsCanvasReady] = useState<boolean>(false);
 
   useEffect(() => {
-    if (activeMapId && activeMapId !== currentMapId) {
+    if (sceneId && sceneId !== currentMapId) {
+      setCurrentMapId(sceneId);
+      if (setActiveMapId && activeMapId !== sceneId) {
+        setActiveMapId(sceneId);
+      }
+    } else if (activeMapId && activeMapId !== currentMapId) {
       setCurrentMapId(activeMapId);
     }
-  }, [activeMapId, currentMapId]);
+  }, [sceneId, activeMapId, currentMapId, setActiveMapId]);
 
-  const availableMaps = universeState?.maps || [];
-  const effectiveMapId = activeMapId || mapIdParam || currentMapId;
+  const availableMaps = useMemo(() => {
+    const catalog = (mapsCatalog || []) as any[];
+    const projectMaps = ((universeState?.maps || []) as any[]).filter(m => !catalog.some(cm => cm.id === m.id));
+    return [...catalog, ...projectMaps];
+  }, [mapsCatalog, universeState?.maps]);
+
+  const effectiveMapId = sceneId || activeMapId || mapIdParam || currentMapId;
   const currentMap = availableMaps.find((m: any) => m.id === effectiveMapId) || availableMaps[0] || null;
 
   // Sourced from Unified Layout & Stage Viewport Store
@@ -2348,35 +2362,13 @@ export const StageView: React.FC<StageViewProps> = ({
   };
 
   // Smooth Zoom with Mouse Wheel & Global Drag Safety
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      // Ignore wheel click / middle click or zero/negligible delta to prevent zoom jump on click
-      if ((e.buttons & 4) || !e.deltaY || Math.abs(e.deltaY) < 1) return;
-      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
-      setZoom(prev => Math.max(0.4, Math.min(2.5, prev * zoomFactor)));
-    };
-
-    // Global listener ensures map never sticks to cursor if mouse leaves canvas or context menu closes
-    const handleGlobalMouseUp = () => {
-      setIsDraggingPan(false);
-      setIsMarqueeActive(false);
-      setIsDrawingToolActive(false);
-    };
-
-    window.addEventListener('mouseup', handleGlobalMouseUp);
-    window.addEventListener('blur', handleGlobalMouseUp);
-    canvas.addEventListener('wheel', onWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener('mouseup', handleGlobalMouseUp);
-      window.removeEventListener('blur', handleGlobalMouseUp);
-      canvas.removeEventListener('wheel', onWheel);
-    };
-  }, []);
+  useStageGestures({
+    canvasRef,
+    setZoom,
+    setIsDraggingPan,
+    setIsMarqueeActive,
+    setIsDrawingToolActive
+  });
 
   const handleObjectClick = (obj: SceneInteractiveObject) => {
     setInspectingInteractiveObj(obj);
@@ -2730,85 +2722,31 @@ export const StageView: React.FC<StageViewProps> = ({
   };
 
   // Global Keyboard Shortcuts for Architect & Tactical Stage
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if user is typing in an input field
-      const target = e.target as HTMLElement;
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
-        return;
-      }
-
-      // 1. Delete Selected Assets (Delete / Backspace)
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedAssetIds.length > 0) {
-        e.preventDefault();
-        handleBatchDelete();
-        return;
-      }
-
-      // 2. Duplicate Selected Assets (Ctrl+D / Cmd+D)
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd' && selectedAssetIds.length > 0) {
-        e.preventDefault();
-        handleBatchDuplicate();
-        return;
-      }
-
-      // 3. Arrow Keys Nudge Selected Assets
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key) && selectedAssetIds.length > 0) {
-        e.preventDefault();
-        const step = e.shiftKey ? (gridSnap ? 70 : 20) : (gridSnap ? 10 : 2);
-        const dx = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
-        const dy = e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0;
-        handleBatchNudge(dx, dy);
-        return;
-      }
-
-      // 4. Escape to Clear Selection
-      if (e.key === 'Escape' && selectedAssetIds.length > 0) {
-        e.preventDefault();
-        handleDeselectAll();
-        return;
-      }
-
-      // 5. Finalize Wall Chain (Enter or Escape)
-      if ((e.key === 'Enter' || e.key === 'Escape') && wallConstructionMode === 'chain' && wallChainPoints.length > 0) {
-        e.preventDefault();
-        setWallChainPoints([]);
-        setWallDrawStart(null);
-        setWallDrawCurrent(null);
-        setIsDrawingToolActive(false);
-        AudioService.playTerminalBeep(1200, 0.03);
-        setCombatLog(prev => [`[WALL CHAIN] Finalized polyline wall chain.`, ...prev.slice(0, 8)]);
-        return;
-      }
-
-      // 6. Tool Shortcuts (M, G, V, W, T, P, L, F, E)
-      if (!e.ctrlKey && !e.metaKey && !e.altKey) {
-        if (e.key.toLowerCase() === 'm') {
-          handleToggleDesignMode();
-        } else if (e.key.toLowerCase() === 'g') {
-          toggleGridSnap();
-          AudioService.playTerminalBeep(1000, 0.02);
-        } else if (isDesignModeActive) {
-          if (e.key.toLowerCase() === 'v') setActiveDesignTool('select');
-          else if (e.key.toLowerCase() === 'w') setActiveDesignTool('wall');
-          else if (e.key.toLowerCase() === 't') setActiveDesignTool('terrain');
-          else if (e.key.toLowerCase() === 'f') setActiveDesignTool('fill');
-          else if (e.key.toLowerCase() === 'p') setActiveDesignTool('pencil');
-          else if (e.key.toLowerCase() === 'l') setActiveDesignTool('light');
-          else if (e.key.toLowerCase() === 'e') setActiveDesignTool('eraser');
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedAssetIds, gridSnap, isDesignModeActive, wallConstructionMode, wallChainPoints, handleBatchDelete, handleBatchDuplicate, handleBatchNudge, handleDeselectAll]);
+  useStageHotkeys({
+    selectedAssetIds,
+    gridSnap,
+    isDesignModeActive,
+    wallConstructionMode,
+    wallChainPoints,
+    setWallChainPoints,
+    setWallDrawStart,
+    setWallDrawCurrent,
+    setIsDrawingToolActive,
+    setCombatLog,
+    handleBatchDelete,
+    handleBatchDuplicate,
+    handleBatchNudge,
+    handleDeselectAll,
+    handleToggleDesignMode,
+    toggleGridSnap,
+    setActiveDesignTool
+  });
 
   const currentScaleConfig = GRID_SCALE_CONFIGS[scaleTier];
 
   return (
     <div 
-      className="relative w-full h-full bg-[#050811] overflow-hidden select-none flex flex-col"
+      className="relative w-full h-full bg-[#050811] overflow-hidden select-none flex flex-col touch-manipulation"
       onContextMenu={(e) => e.preventDefault()}
     >
 

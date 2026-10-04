@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { VirtualizedList } from './VirtualizedList';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
+import { useConfirm } from '../../context/ConfirmContext';
 import { SPECIES_LINEAGES } from '../../data/speciesData';
 
 export const CATEGORY_TO_CODEX_MATRIX = {
@@ -235,6 +236,7 @@ export const DBMTableView = ({
   const filtersDropdownRef = useRef(null);
   const fileMenuRef = useRef(null);
   const { syncCanonicalSpecies, syncCanonicalFactions, clearTombstonesForCategory } = useDBM() || {};
+  const confirm = useConfirm();
   const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
   const [isSyncingFactions, setIsSyncingFactions] = useState(false);
 
@@ -1063,7 +1065,13 @@ export const DBMTableView = ({
                   <button
                     onClick={async () => {
                       setIsFileMenuOpen(false);
-                      if (window.confirm(`Sync all 81 canonical species from local definitions to Firestore cloud collection? This will overwrite or update cloud species documents.`)) {
+                      const ok = await confirm({
+                        title: 'Sync Cloud Species',
+                        message: 'Sync all 81 canonical species from local definitions to Firestore cloud collection? This will overwrite or update cloud species documents.',
+                        danger: true,
+                        confirmLabel: 'Sync Species'
+                      });
+                      if (ok) {
                         setIsSyncingSpecies(true);
                         try {
                           await syncCanonicalSpecies();
@@ -1084,7 +1092,13 @@ export const DBMTableView = ({
                   <button
                     onClick={async () => {
                       setIsFileMenuOpen(false);
-                      if (window.confirm(`Sync all 40 canonical factions from local definitions to Firestore cloud collection? This will overwrite or update cloud factions documents.`)) {
+                      const ok = await confirm({
+                        title: 'Sync Cloud Factions',
+                        message: 'Sync all 40 canonical factions from local definitions to Firestore cloud collection? This will overwrite or update cloud factions documents.',
+                        danger: true,
+                        confirmLabel: 'Sync Factions'
+                      });
+                      if (ok) {
                         setIsSyncingFactions(true);
                         try {
                           await syncCanonicalFactions();

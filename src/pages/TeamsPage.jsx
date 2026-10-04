@@ -56,12 +56,16 @@ import { TeamInviteConfirmationModal } from '../components/Groups/TeamInviteConf
  * invite command center with QR codes, tied-in encrypted tactical comms,
  * and direct one-click deployment into The Stage VTT.
  */
-export const TeamsPage = () => {
+export const TeamsPage = ({
+  hideHeader = false,
+  onSwitchToComms,
+  initialTab: propInitialTab
+}) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const confirm = useConfirm();
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialTab = searchParams.get('tab') || 'roster';
+  const initialTab = propInitialTab || searchParams.get('tab') || 'roster';
 
   const [activeTab, setActiveTab] = useState(initialTab);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -146,7 +150,11 @@ export const TeamsPage = () => {
 
   const handleSelectTab = (tabId) => {
     setActiveTab(tabId);
-    setSearchParams({ tab: tabId });
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev);
+      next.set('tab', tabId);
+      return next;
+    });
   };
 
   const handleCopyCode = () => {
@@ -202,9 +210,14 @@ export const TeamsPage = () => {
     }
   };
 
+  const currentMemberDetail = activeGroup?.memberDetails?.[currentUser?.uid] || 
+    (Array.isArray(activeGroup?.members) 
+      ? activeGroup.members.find(m => (typeof m === 'object' && (m?.userId === currentUser?.uid || m?.uid === currentUser?.uid || m?.id === currentUser?.uid)))
+      : null);
+
   const isUserGM = activeGroup?.creatorId === currentUser?.uid || 
-    activeGroup?.members?.find(m => m.userId === currentUser?.uid)?.role === 'GM' ||
-    activeGroup?.members?.find(m => m.userId === currentUser?.uid)?.role === 'Leader';
+    currentMemberDetail?.role === 'GM' ||
+    currentMemberDetail?.role === 'Leader';
 
   // Filter directory list
   const filteredDirectory = useMemo(() => {
@@ -217,7 +230,10 @@ export const TeamsPage = () => {
       if (!matchesSearch) return false;
 
       if (directoryFilter === 'recruiting') return g.status === 'Recruiting';
-      if (directoryFilter === 'mine') return g.members?.some(m => m.userId === currentUser?.uid);
+      if (directoryFilter === 'mine') {
+        const isMember = (g.members || []).some(m => (typeof m === 'string' ? m === currentUser?.uid : (m?.userId || m?.uid || m?.id) === currentUser?.uid));
+        return isMember || g.creatorId === currentUser?.uid;
+      }
       return true;
     });
   }, [groups, directorySearch, directoryFilter, currentUser?.uid]);
@@ -235,103 +251,105 @@ export const TeamsPage = () => {
   return (
     <div className="h-full w-full flex flex-col bg-[#080c14] text-slate-100 font-sans overflow-hidden select-none">
       {/* Top Station Status & Breadcrumb Header */}
-      <header className="px-3 sm:px-4 py-2 bg-slate-950/95 border-b border-slate-800/90 flex items-center justify-between text-xs font-mono shrink-0 shadow-sm">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="flex items-center gap-2 text-slate-400 min-w-0">
-            <span className="text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-              <Shield size={14} className="text-emerald-400" />
-              <span className="hidden sm:inline">GAME TEAMS & SQUADS</span>
-            </span>
-            <span className="text-slate-600">/</span>
+      {!hideHeader && (
+        <header className="px-3 sm:px-4 py-2 bg-slate-950/95 border-b border-slate-800/90 flex items-center justify-between text-xs font-mono shrink-0 shadow-sm">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-2 text-slate-400 min-w-0">
+              <span className="text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <Shield size={14} className="text-emerald-400" />
+                <span className="hidden sm:inline">GAME TEAMS & SQUADS</span>
+              </span>
+              <span className="text-slate-600">/</span>
 
-            {/* Active Squad Selector Dropdown */}
-            {groups.length > 0 ? (
-              <div className="relative group">
-                <select
-                  value={activeGroup?.id || ''}
-                  onChange={(e) => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    selectGroup(e.target.value);
-                  }}
-                  className="bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-bold px-2 py-0.5 rounded-md appearance-none pr-6 cursor-pointer focus:outline-none focus:border-emerald-400 text-xs truncate max-w-[180px] sm:max-w-[240px]"
-                >
-                  {groups.map(g => (
-                    <option key={g.id} value={g.id} className="bg-slate-900 text-slate-100">
-                      {g.name} ({g.members?.length || 0} Operators)
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-emerald-400 text-[10px]">
-                  ▼
+              {/* Active Squad Selector Dropdown */}
+              {groups.length > 0 ? (
+                <div className="relative group">
+                  <select
+                    value={activeGroup?.id || ''}
+                    onChange={(e) => {
+                      AudioService.playTerminalBeep(1100, 0.02);
+                      selectGroup(e.target.value);
+                    }}
+                    className="bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-bold px-2 py-0.5 rounded-md appearance-none pr-6 cursor-pointer focus:outline-none focus:border-emerald-400 text-xs truncate max-w-[180px] sm:max-w-[240px]"
+                  >
+                    {groups.map(g => (
+                      <option key={g.id} value={g.id} className="bg-slate-900 text-slate-100">
+                        {g.name} ({g.members?.length || 0} Operators)
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-emerald-400 text-[10px]">
+                    ▼
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-slate-400 font-bold">
-                NO ACTIVE SQUAD
-              </span>
-            )}
+              ) : (
+                <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-slate-400 font-bold">
+                  NO ACTIVE SQUAD
+                </span>
+              )}
 
-            {/* Active Squad Status Badge */}
-            {activeGroup?.status && (
-              <span className={`hidden md:inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold border ${
-                activeGroup.status === 'Recruiting'
-                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                  : activeGroup.status === 'On Mission'
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                  : 'bg-slate-800 text-slate-300 border-slate-700'
-              }`}>
-                <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                <span>{activeGroup.status.toUpperCase()}</span>
-              </span>
-            )}
+              {/* Active Squad Status Badge */}
+              {activeGroup?.status && (
+                <span className={`hidden md:inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold border ${
+                  activeGroup.status === 'Recruiting'
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                    : activeGroup.status === 'On Mission'
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                    : 'bg-slate-800 text-slate-300 border-slate-700'
+                }`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                  <span>{activeGroup.status.toUpperCase()}</span>
+                </span>
+              )}
 
-            {/* Quick Join Code Badge */}
-            {activeGroup?.inviteCode && (
-              <button
-                type="button"
-                onClick={handleCopyCode}
-                className="hidden lg:flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900/90 border border-slate-700 hover:border-emerald-500/40 text-[9.5px] font-mono text-slate-300 hover:text-emerald-300 transition-colors"
-                title="Click to copy Squad Invite Code"
-              >
-                <span className="text-slate-500">CODE:</span>
-                <span className="font-bold text-emerald-300">{activeGroup.inviteCode}</span>
-                {copiedCode ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
-              </button>
-            )}
+              {/* Quick Join Code Badge */}
+              {activeGroup?.inviteCode && (
+                <button
+                  type="button"
+                  onClick={handleCopyCode}
+                  className="hidden lg:flex items-center gap-1 px-2 py-0.5 rounded bg-slate-900/90 border border-slate-700 hover:border-emerald-500/40 text-[9.5px] font-mono text-slate-300 hover:text-emerald-300 transition-colors"
+                  title="Click to copy Squad Invite Code"
+                >
+                  <span className="text-slate-500">CODE:</span>
+                  <span className="font-bold text-emerald-300">{activeGroup.inviteCode}</span>
+                  {copiedCode ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
+                </button>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Right Station Fast Action Buttons */}
-        <div className="flex items-center gap-2 text-[11px] font-mono shrink-0">
-          {/* Deploy to Stage (VTT) */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.03);
-              navigate('/stage');
-            }}
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-600/80 to-amber-700/80 hover:from-amber-500 hover:to-amber-600 text-white font-bold shadow-sm transition-all cursor-pointer"
-            title="Deploy Squad to the Stage Tactical Viewport"
-          >
-            <Map size={13} />
-            <span>DEPLOY TO STAGE</span>
-          </button>
+          {/* Right Station Fast Action Buttons */}
+          <div className="flex items-center gap-2 text-[11px] font-mono shrink-0">
+            {/* Deploy to Stage (VTT) */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1200, 0.03);
+                navigate('/stage');
+              }}
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-600/80 to-amber-700/80 hover:from-amber-500 hover:to-amber-600 text-white font-bold shadow-sm transition-all cursor-pointer"
+              title="Deploy Squad to the Stage Tactical Viewport"
+            >
+              <Map size={13} />
+              <span>DEPLOY TO STAGE</span>
+            </button>
 
-          {/* Create Squad Button */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1300, 0.03);
-              setIsCreateModalOpen(true);
-            }}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold shadow-sm transition-all cursor-pointer"
-            title="Create a New Tactical Squad"
-          >
-            <Plus size={13} />
-            <span className="hidden xs:inline">NEW SQUAD</span>
-          </button>
-        </div>
-      </header>
+            {/* Create Squad Button */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1300, 0.03);
+                setIsCreateModalOpen(true);
+              }}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold shadow-sm transition-all cursor-pointer"
+              title="Create a New Tactical Squad"
+            >
+              <Plus size={13} />
+              <span className="hidden xs:inline">NEW SQUAD</span>
+            </button>
+          </div>
+        </header>
+      )}
 
       {/* Main Workstation Container */}
       <div className="flex-1 flex min-h-0 overflow-hidden relative">
@@ -414,6 +432,7 @@ export const TeamsPage = () => {
             <SquadCommsTab
               activeGroup={activeGroup}
               navigate={navigate}
+              onSwitchToComms={onSwitchToComms}
             />
           )}
 

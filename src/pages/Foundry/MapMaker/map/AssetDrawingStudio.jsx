@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useConfirm } from '../../../../context/ConfirmContext';
 
 const PRESET_PALETTES = {
   'Cyber & Neon': [
@@ -72,6 +73,7 @@ export default function AssetDrawingStudio({
   assetType = 'terrain', // 'terrain' | 'object'
   onSaveToAsset
 }) {
+  const confirm = useConfirm();
   const mainCanvasRef = useRef(null);
   const previewCanvasRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -208,8 +210,14 @@ export default function AssetDrawingStudio({
   };
 
   // Clear Canvas
-  const handleClearCanvas = () => {
-    if (window.confirm('Clear canvas? You can undo this action.')) {
+  const handleClearCanvas = async () => {
+    const ok = await confirm({
+      title: 'Clear Canvas',
+      message: 'Clear canvas? You can undo this action.',
+      danger: true,
+      confirmLabel: 'Clear'
+    });
+    if (ok) {
       const canvas = mainCanvasRef.current;
       if (!canvas) return;
       const ctx = canvas.getContext('2d', { willReadFrequently: true });

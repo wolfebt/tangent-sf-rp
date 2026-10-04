@@ -24,6 +24,7 @@ import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useGroup } from '../../context/GroupContext';
 import { AudioService } from '../../services/audioService';
+import { useConfirm } from '../../context/ConfirmContext';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 import { QuickTeamInviteModal } from './QuickTeamInviteModal';
 
@@ -38,8 +39,10 @@ export const ChannelSidebar = ({
   onOpenCreateModal, 
   onOpenSquadModal, 
   onOpenTeamModal, 
+  onSwitchToTeams,
   isCompact = false 
 }) => {
+  const confirm = useConfirm();
   const { 
     publicChannels = [], 
     directChannels = [], 
@@ -275,9 +278,15 @@ export const ChannelSidebar = ({
           {canDelete && (
             <button
               type="button"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.stopPropagation();
-                if (window.confirm(`Delete channel "${channel.displayName || channel.name}"?`)) {
+                const ok = await confirm({
+                  title: 'Delete Frequency',
+                  message: `Are you sure you want to delete channel "${channel.displayName || channel.name}"? This action cannot be undone.`,
+                  danger: true,
+                  confirmLabel: 'Delete Frequency'
+                });
+                if (ok) {
                   deleteChannel(channel.id);
                 }
               }}
@@ -402,7 +411,13 @@ export const ChannelSidebar = ({
                   <p className="text-[10px] text-slate-400 font-mono">No tactical fireteams active.</p>
                   <button
                     type="button"
-                    onClick={() => navigate('/teams')}
+                    onClick={() => {
+                      if (onSwitchToTeams) {
+                        onSwitchToTeams();
+                      } else {
+                        navigate('/network?view=teams');
+                      }
+                    }}
                     className="px-2 py-1 rounded bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 text-[9.5px] font-bold font-mono transition-colors cursor-pointer inline-flex items-center gap-1"
                   >
                     <span>OPEN TEAMS WORKSTATION</span>

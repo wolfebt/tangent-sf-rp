@@ -2,8 +2,9 @@ import { getGeminiApiKey, fetchGeminiContent, parseRollCommand } from './bastion
 import { hydrateElementEntities } from './entityHydrator';
 import { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag';
 import { formatCronicleContextForAIME, extractNarrativeDeltas } from './cronicleService.js';
+import { synthesizeSuperPrompt } from './superPromptSynthesizer.js';
 
-export { parseRollCommand, formatCronicleContextForAIME, extractNarrativeDeltas };
+export { parseRollCommand, formatCronicleContextForAIME, extractNarrativeDeltas, synthesizeSuperPrompt };
 
 export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) ADE Studio.
 Your primary role is to act as an immersive creative writing assistant, lore synthesist, worldbuilding partner, and scenario architect for the ARCHITECT (the GM/Creator).
@@ -29,8 +30,19 @@ export function formatContext(context, promptQuery = '') {
   if (!context) return '';
   if (typeof context === 'string') return context.trim();
   try {
-    let out = '';
-    if (context.projectName) out += `Campaign/Project: "${context.projectName}"\n`;
+    // If activeNode or rich AIME layers are present, leverage the Super-Prompt Synthesizer
+    if (context.activeNode || context.guidance || context.assetHub) {
+      const superPrompt = synthesizeSuperPrompt({
+        activeNode: context.activeNode,
+        guidance: context.guidance || context.guidanceGems,
+        assetHub: context.assetHub || context.activeNode?.assetHub || context.activeNode?.linkedElements,
+        catalog: context.customCatalog || context.catalog || [],
+        taskPrompt: promptQuery,
+        campaignName: context.projectName,
+        cronicle: context.cronicle
+      });
+      if (superPrompt) return superPrompt;
+    }
     
     // Active Scenario Node
     if (context.activeNode) {

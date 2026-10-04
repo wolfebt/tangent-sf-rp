@@ -21,6 +21,7 @@ import {
   Award
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
 import { 
   CHASSIS_TYPES, 
@@ -40,6 +41,7 @@ export const CompanionsTab = () => {
     handleToggleDeployCompanion,
     handleAddItem
   } = useFolio();
+  const confirm = useConfirm();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCompanion, setEditingCompanion] = useState(null);
@@ -201,8 +203,14 @@ export const CompanionsTab = () => {
     setIsModalOpen(false);
   };
 
-  const handleDelete = (comp) => {
-    if (window.confirm(`Decommission companion unit "${comp.name}"? (No BP penalty; narrative retraining required)`)) {
+  const handleDelete = async (comp) => {
+    const ok = await confirm({
+      title: 'Decommission Companion',
+      message: `Decommission companion unit "${comp.name}"? (No BP penalty; narrative retraining required)`,
+      danger: true,
+      confirmLabel: 'Decommission'
+    });
+    if (ok) {
       AudioService.playTerminalBeep(900, 0.03);
       handleDeleteCompanion(comp.id);
     }

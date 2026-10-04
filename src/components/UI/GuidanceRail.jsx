@@ -120,10 +120,13 @@ export const GuidanceRail = ({
                 onMouseEnter={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   setHoveredItem({ item, theme, rect });
+                  if (typeof item.onMouseEnter === 'function') {
+                    item.onMouseEnter();
+                  }
                 }}
                 onMouseLeave={() => setHoveredItem(null)}
                 title={item.title || `${item.label}${item.sublabel ? ` • ${item.sublabel}` : ''}`}
-                className={`group relative w-full py-1.5 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
+                className={`group relative w-full py-1.5 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border min-h-[44px] touch-manipulation ${
                   item.disabled
                     ? 'opacity-40 cursor-not-allowed border-transparent'
                     : isActive

@@ -37,7 +37,15 @@ import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { DEFAULT_ORIGINS } from '../../../data/originsData';
 import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { DEFAULT_FEATURES } from '../../../data/featuresData';
-import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { 
+  ALL_CANONICAL_TRAITS,
+  SPECIES_TRAITS_BASIC,
+  SPECIES_TRAITS_ADVANCED,
+  SPECIES_TRAITS_ELITE,
+  OCCUPATIONAL_TRAITS,
+  ORIGIN_TRAITS
+} from '../../../data/speciesTraitsData';
+import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
 import { resolveCatalogItem } from '../../../engines/tangentIdentityEngine';
 import {
@@ -57,10 +65,20 @@ const normalizeLookupName = (name) => {
   return String(name).replace(/^(feature|trait)-/i, '').replace(/[-_]/g, ' ').trim().toLowerCase();
 };
 
+// Unified trait lookup pool covering all canonical categories and species lineages
+const ALL_TRAIT_LOOKUP = [
+  ...ALL_CANONICAL_TRAITS,
+  ...SPECIES_TRAITS_ADVANCED,
+  ...SPECIES_TRAITS_BASIC,
+  ...SPECIES_TRAITS_ELITE,
+  ...OCCUPATIONAL_TRAITS,
+  ...ORIGIN_TRAITS
+];
+
 /**
  * Resolves a canonical trait object from ID or name
  */
-const findCanonicalTrait = (traitIdOrName) => {
+const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
   if (!traitIdOrName) return null;
   if (typeof traitIdOrName === 'object' && traitIdOrName !== null && (traitIdOrName.name || traitIdOrName.title)) {
     return traitIdOrName;
@@ -68,7 +86,7 @@ const findCanonicalTrait = (traitIdOrName) => {
   const clean = String(traitIdOrName).trim().toLowerCase();
   const normalized = clean.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
   
-  const found = ALL_CANONICAL_TRAITS.find(t => {
+  const found = ALL_TRAIT_LOOKUP.find(t => {
     const tId = (t.id || '').toLowerCase();
     const tName = (t.name || t.title || '').toLowerCase();
     const tNorm = tName.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
@@ -76,6 +94,22 @@ const findCanonicalTrait = (traitIdOrName) => {
   });
 
   if (found) return found;
+
+  const formatted = formatSpeciesTrait(traitIdOrName, speciesContext);
+  if (formatted && formatted.name && formatted.name !== 'Species Adaptation') {
+    return {
+      id: formatted.id || clean,
+      name: formatted.name,
+      category: 'traits',
+      trait_type: formatted.category || 'Species Trait',
+      trait_tier: 'Basic',
+      cp: 1,
+      description: formatted.tooltip?.description || `${formatted.name} species trait.`,
+      mechanic: formatted.tooltip?.rules || '',
+      rules: formatted.tooltip?.rules || '',
+      modifiers: []
+    };
+  }
 
   const formattedName = String(traitIdOrName)
     .replace(/^(trait|feature)-/i, '')
@@ -578,6 +612,7 @@ export const FeaturesTab = ({
     const specName = characterData['char-species'];
     const specObj = specName ? (resolveCatalogItem('species', specName) || DEFAULT_SPECIES.find(s => (s.name || s.id || '').toLowerCase() === String(specName).toLowerCase())) : null;
     const subSpecName = characterData['char-subspecies'] || characterData['char-species-sub'];
+    const subSpecObj = subSpecName ? (resolveCatalogItem('species', subSpecName) || DEFAULT_SPECIES.find(s => (s.name || s.id || '').toLowerCase() === String(subSpecName).toLowerCase())) : null;
 
     // B. Origin Column (Primary + Secondary)
     const origName = characterData['char-origin'];
@@ -598,7 +633,7 @@ export const FeaturesTab = ({
     const secFacObj = secFacName ? (resolveCatalogItem('factions', secFacName) || DEFAULT_FACTIONS.find(f => (f.name || f.id || '').toLowerCase() === String(secFacName).toLowerCase())) : null;
 
     return {
-      species: { name: specName, obj: specObj, subName: subSpecName },
+      species: { name: specName, obj: specObj, subName: subSpecName, subObj: subSpecObj },
       origin: { name: origName, obj: origObj, secName: secOrigName, secObj: secOrigObj },
       occupation: { name: occuName, obj: occuObj, secName: secOccuName, secObj: secOccuObj },
       faction: { name: facName, obj: facObj, secName: secFacName, secObj: secFacObj }
@@ -691,7 +726,11 @@ export const FeaturesTab = ({
   const isTraitAcquired = (traitNameOrId) => {
     if (!traitNameOrId) return false;
     const norm = normalizeLookupName(traitNameOrId);
-    return characterTraits.some(t => t.cleanName === norm);
+    return characterTraits.some(t => {
+      const tNorm = t.cleanName || normalizeLookupName(t.name || t.title);
+      const tIdNorm = normalizeLookupName(t.id);
+      return tNorm === norm || tIdNorm === norm;
+    });
   };
 
   // Extract Column Available Traits (strictly from chosen columns + secondary choices)
@@ -703,39 +742,48 @@ export const FeaturesTab = ({
       faction: []
     };
 
-    // 1. Species Column Available Traits
-    if (columnsData.species.obj) {
-      const spec = columnsData.species.obj;
-      const seen = new Set();
+    // 1. Species Column Available Traits (Primary + Subspecies)
+    const collectSpeciesTraits = (spec, label, isSub = false) => {
+      if (!spec) return;
+      const seen = new Set(result.species.map(t => normalizeLookupName(t.name || t.id)));
 
-      // Inherent species features/traits
-      (spec.inherent_features || []).forEach(f => {
-        const canonical = findCanonicalTrait(f);
-        if (canonical && !seen.has(normalizeLookupName(canonical.name))) {
-          seen.add(normalizeLookupName(canonical.name));
+      // Inherent species traits (traits, species_traits, inherent_traits, inherent_features)
+      const inherentList = getInherentSpeciesTraits(spec);
+      inherentList.forEach(tItem => {
+        const canonical = findCanonicalTrait(tItem, spec);
+        if (canonical && !seen.has(normalizeLookupName(canonical.name || canonical.id))) {
+          seen.add(normalizeLookupName(canonical.name || canonical.id));
           result.species.push({
             ...canonical,
             sourceColumn: 'Species',
-            sourceDetail: spec.name,
+            sourceDetail: isSub ? `${label}: ${spec.name}` : spec.name,
             isInherent: true
           });
         }
       });
 
-      // Bonus feature choices / traits
-      (spec.bonus_feature_choices || []).forEach(f => {
-        const canonical = findCanonicalTrait(f);
-        if (canonical && !seen.has(normalizeLookupName(canonical.name))) {
-          seen.add(normalizeLookupName(canonical.name));
+      // Bonus feature choices / trait choices / recommended traits
+      const choicePool = [
+        ...(Array.isArray(spec.bonus_trait_choices) ? spec.bonus_trait_choices : []),
+        ...(Array.isArray(spec.bonus_feature_choices) ? spec.bonus_feature_choices : []),
+        ...(Array.isArray(spec.recommended_traits) ? spec.recommended_traits : [])
+      ];
+      choicePool.forEach(tItem => {
+        const canonical = findCanonicalTrait(tItem, spec);
+        if (canonical && !seen.has(normalizeLookupName(canonical.name || canonical.id))) {
+          seen.add(normalizeLookupName(canonical.name || canonical.id));
           result.species.push({
             ...canonical,
             sourceColumn: 'Species',
-            sourceDetail: `${spec.name} (Choice)`,
+            sourceDetail: isSub ? `${label}: ${spec.name} (Choice)` : `${spec.name} (Choice)`,
             isInherent: false
           });
         }
       });
-    }
+    };
+
+    if (columnsData.species.obj) collectSpeciesTraits(columnsData.species.obj, 'Primary Species', false);
+    if (columnsData.species.subObj) collectSpeciesTraits(columnsData.species.subObj, 'Subspecies', true);
 
     // 2. Origin Column Available Traits (Primary + Secondary)
     const collectOriginTraits = (orig, label) => {
@@ -2381,19 +2429,9 @@ export const FeaturesTab = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {columnAvailableTraits.species.map((trait, idx) => {
                       const acquired = isTraitAcquired(trait.name || trait.id);
-                      const isPurchasable = Boolean(
-                        trait.isPurchasable === true ||
-                        trait.isPurchasable === 'Yes' ||
-                        trait.purchasable === true ||
-                        trait.purchasable === 'Yes' ||
-                        trait.purchasableByCharacter === true ||
-                        trait.purchasableByCharacter === 'Yes' ||
-                        trait.is_purchasable === true ||
-                        trait.is_purchasable === 'Yes'
-                      );
                       const rawCp = parseInt(trait.cpCost || trait.cp || trait.bp || 1, 10);
-                      const traitCp = [1, 2, 4].includes(rawCp) ? rawCp : 1;
-                      const costDisplay = isPurchasable ? `${traitCp} CP` : (trait.isInherent ? 'Inherent (0 CP)' : 'Species Baseline');
+                      const traitCp = trait.isInherent ? 0 : ([1, 2, 4].includes(rawCp) ? rawCp : 1);
+                      const costDisplay = trait.isInherent ? 'Inherent (0 CP)' : `${traitCp} CP`;
                       const prereqResult = checkPrerequisite(trait, characterData, 'features');
                       const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
@@ -2412,7 +2450,7 @@ export const FeaturesTab = ({
                           <div className="flex items-center justify-between gap-2 min-w-0">
                             <FolioTooltip
                               title={trait.name}
-                              badge="Species Trait"
+                              badge={trait.trait_type || 'Species Trait'}
                               badgeColor="cyan"
                               description={trait.description || 'Species heritage trait.'}
                               formula={trait.mechanic || undefined}
@@ -2448,11 +2486,7 @@ export const FeaturesTab = ({
                                 {costDisplay}
                               </span>
                               {!acquired ? (
-                                !isPurchasable ? (
-                                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900 border border-slate-800" title="Species traits are biological baselines and cannot be purchased unless flagged in species data.">
-                                    Baseline
-                                  </span>
-                                ) : isPrereqUnmet ? (
+                                isPrereqUnmet ? (
                                   <button
                                     type="button"
                                     disabled
@@ -2469,12 +2503,12 @@ export const FeaturesTab = ({
                                       id: trait.id || `trait_${Date.now()}`,
                                       name: trait.name,
                                       category: 'traits',
-                                      trait_type: 'Species Trait',
+                                      trait_type: trait.trait_type || 'Species Trait',
                                       trait_tier: trait.trait_tier || 'Basic',
                                       source: 'species',
                                       columnSource: 'Species',
                                       sourceDetail: trait.sourceDetail || 'Species Trait',
-                                      cp: traitCp,
+                                      cp: trait.isInherent ? 0 : traitCp,
                                       description: trait.description,
                                       mechanic: trait.mechanic,
                                       modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
@@ -2482,7 +2516,7 @@ export const FeaturesTab = ({
                                     className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 hover:bg-cyan-900 border border-cyan-600 text-cyan-200 transition-all cursor-pointer flex items-center gap-1"
                                   >
                                     <Plus className="w-3 h-3" />
-                                    <span>+ Add ({traitCp} CP)</span>
+                                    <span>+ Add {trait.isInherent ? '(0 CP)' : `(${traitCp} CP)`}</span>
                                   </button>
                                 )
                               ) : (

@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { categoryConfig, DEVELOPMENT_FIELDS_GROUPS, DEVELOPMENT_FIELDS_REGISTRY } from './categoryConfig';
 import { DBMItemModal } from './DBMItemModal';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
+import { useToast, showToast } from '../../context/ToastContext';
+import { useConfirm } from '../../context/ConfirmContext';
 
 export const ArchitectDevFieldsModal = ({
   isOpen,
@@ -12,6 +14,7 @@ export const ArchitectDevFieldsModal = ({
   currentUser,
   isAdmin
 }) => {
+  const confirm = useConfirm();
   const [selectedFieldKey, setSelectedFieldKey] = useState(null);
   const [searchFieldTerm, setSearchFieldTerm] = useState('');
   const [searchEntryTerm, setSearchEntryTerm] = useState('');
@@ -106,13 +109,20 @@ export const ArchitectDevFieldsModal = ({
   // Handle Creating a New Entry in the active field
   const handleCreateNewEntry = async () => {
     if (!isAdmin) {
-      alert('Administrator or Architect privileges are required to create development entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to create development entries.' });
       return;
     }
 
     const fieldLabel = activeFieldRegistry?.label || activeFieldConfig?.label || 'Entry';
-    const newName = window.prompt(`Enter a name for the new ${fieldLabel}:`, '');
-    if (!newName || !newName.trim()) return;
+    const res = await confirm({
+      title: `Create New ${fieldLabel}`,
+      message: `Specify a name for the new ${fieldLabel}:`,
+      inputLabel: 'Entry Name',
+      inputValue: '',
+      confirmLabel: 'Create Entry'
+    });
+    const newName = typeof res === 'object' ? res?.value : (typeof res === 'string' ? res : '');
+    if (!res || !newName || !newName.trim()) return;
 
     const initialData = { name: newName.trim(), description: '' };
     if (activeFieldConfig?.fields) {
@@ -145,8 +155,9 @@ export const ArchitectDevFieldsModal = ({
         setEditFormData(payload);
         setIsEditMode(true);
         setIsEntryModalOpen(true);
+        showToast({ type: 'success', title: 'Entry Created', text: `Created development entry: "${newName.trim()}"` });
       } else {
-        alert('Failed to create new entry.');
+        showToast({ type: 'error', title: 'Creation Failed', text: 'Failed to create new development entry.' });
       }
     }
   };
@@ -154,15 +165,15 @@ export const ArchitectDevFieldsModal = ({
   // Handle Saving Entry from DBMItemModal
   const handleSaveItemModal = async (closeOnSuccess = false) => {
     if (!currentUser) {
-      alert('You must be logged in to save entries.');
+      showToast({ type: 'error', title: 'Authentication Required', text: 'You must be logged in to save entries.' });
       return;
     }
     if (!isAdmin) {
-      alert('Administrator or Architect privileges are required to save development entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to save development entries.' });
       return;
     }
     if (!editFormData.name || !editFormData.name.trim()) {
-      alert('Entry name is required!');
+      showToast({ type: 'warn', title: 'Validation Warning', text: 'Entry name is mandatory before saving.' });
       return;
     }
     const docId = selectedEntry?.id || editFormData.id || `entry_${Date.now()}`;
@@ -176,11 +187,12 @@ export const ArchitectDevFieldsModal = ({
     if (saveEntry) {
       const success = await saveEntry(payload, selectedFieldKey);
       if (success) {
+        showToast({ type: 'success', title: 'Entry Saved', text: `Saved "${payload.name}" successfully.` });
         if (closeOnSuccess) {
           setIsEntryModalOpen(false);
         }
       } else {
-        alert('Save failed. Check browser console.');
+        showToast({ type: 'error', title: 'Save Failed', text: 'Save failed. Check browser console for details.' });
       }
     }
   };
@@ -190,20 +202,23 @@ export const ArchitectDevFieldsModal = ({
     const target = itemToDelete || selectedEntry;
     if (!target) return;
     if (!isAdmin) {
-      alert('Administrator or Architect privileges are required to delete development entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to delete development entries.' });
       return;
     }
     const entryName = target.name || target.title || 'this entry';
     const fieldLabel = activeFieldRegistry?.label || activeFieldConfig?.label || 'development entry';
-    if (!confirmTypedDeletion(entryName, fieldLabel)) return;
+    const ok = await confirmTypedDeletion(confirm, entryName, fieldLabel);
+    if (!ok) return;
 
     setIsEntryModalOpen(false);
     setSelectedEntry(null);
 
     if (deleteEntry) {
       const success = await deleteEntry(target.id, selectedFieldKey);
-      if (!success) {
-        alert('Delete failed. Check console for details.');
+      if (success) {
+        showToast({ type: 'success', title: 'Entry Deleted', text: `Deleted "${entryName}" successfully.` });
+      } else {
+        showToast({ type: 'error', title: 'Delete Failed', text: 'Delete failed. Check console for details.' });
       }
     }
   };

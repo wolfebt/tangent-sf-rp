@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   Compass, 
   Users, 
-  BookOpen, 
   Database, 
   Layers, 
   MapPin, 
@@ -14,16 +13,15 @@ import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
+import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { AudioService } from '../../services/audioService';
 
 const NAV_ITEMS = [
-  { id: 'hub',    icon: Compass,  label: 'HUB',    path: '/',                     color: 'cyan'    },
-  { id: 'folio',  icon: Users,    label: 'FOLIO',  path: '/folio',                color: 'cyan'    },
-  { id: 'rules',  icon: BookOpen, label: 'RULES',  path: '/compendium',           color: 'sky'     },
-  { id: 'cortex', icon: Database, label: 'CORTEX', path: '/dbm',                  color: 'amber'   },
-  { id: 'ade',    icon: Layers,   label: 'ADE',    path: '/foundry/live-studio',  color: 'purple'  },
-  { id: 'teams',  icon: Shield,   label: 'TEAMS',  path: '/teams',                color: 'emerald' },
-  { id: 'comms',  icon: Radio,    label: 'COMMS',  path: '/comms',                color: 'amber'   },
+  { id: 'hub',     icon: Compass,  label: 'HUB',     path: '/',                     color: 'cyan'    },
+  { id: 'folio',   icon: Users,    label: 'FOLIO',   path: '/folio',                color: 'cyan'    },
+  { id: 'cortex',  icon: Database, label: 'CORTEX',  path: '/dbm',                  color: 'amber'   },
+  { id: 'ade',     icon: Layers,   label: 'ADE',     path: '/foundry/live-studio',  color: 'purple'  },
+  { id: 'network', icon: Radio,    label: 'NETWORK', path: '/network',              color: 'emerald' },
 ];
 
 const COLOR_ACTIVE = {
@@ -70,8 +68,7 @@ export const MobileBottomNav = () => {
     if (p.startsWith('/compendium')) return 'rules';
     if (p.startsWith('/dbm') || p.startsWith('/codex')) return 'cortex';
     if (p.startsWith('/foundry') || p.startsWith('/ade') || p.startsWith('/campaign-builder') || p.startsWith('/live-studio') || p.startsWith('/ade-stage') || p.startsWith('/stage') || p === '/vtt' || p.startsWith('/vtt-ops')) return 'ade';
-    if (p.startsWith('/teams') || p.startsWith('/groups') || p.startsWith('/squads')) return 'teams';
-    if (p.startsWith('/comms') || p.startsWith('/chat')) return 'comms';
+    if (p.startsWith('/network') || p.startsWith('/teams') || p.startsWith('/groups') || p.startsWith('/squads') || p.startsWith('/comms') || p.startsWith('/chat')) return 'network';
     return null;
   };
 
@@ -86,14 +83,11 @@ export const MobileBottomNav = () => {
       const total = (universeState?.scenarios?.length || 0) + (mapsCatalog?.length || universeState?.maps?.length || 0);
       return total > 0 ? total : null;
     }
-    if (id === 'teams') {
-      const count = (groups && groups.length > 0) ? groups.length : 0;
-      return count > 0 ? count : (pendingInvites?.length > 0 ? `${pendingInvites.length}!` : null);
-    }
-    if (id === 'comms') {
+    if (id === 'network') {
       if (totalUnreadCount > 0) return totalUnreadCount;
+      if (pendingInvites?.length > 0) return `${pendingInvites.length}!`;
       if (hasNewOperatorLogins) return newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW';
-      return null;
+      return (groups && groups.length > 0) ? groups.length : null;
     }
     if (id === 'hub') {
       return pendingInvites.length > 0 ? pendingInvites.length : null;
@@ -123,6 +117,16 @@ export const MobileBottomNav = () => {
           <button
             key={item.id}
             type="button"
+            onMouseEnter={() => {
+              if (item.id === 'rules' || item.id === 'cortex') {
+                loadCompendiumCatalog();
+              }
+            }}
+            onTouchStart={() => {
+              if (item.id === 'rules' || item.id === 'cortex') {
+                loadCompendiumCatalog();
+              }
+            }}
             onClick={() => {
               AudioService.playTerminalBeep(1150, 0.02);
               if (isComms && hasNewOperatorLogins && totalUnreadCount === 0) {
@@ -130,7 +134,7 @@ export const MobileBottomNav = () => {
               }
               navigate(item.path);
             }}
-            className={`relative flex flex-col items-center justify-center gap-0.5 px-1 py-1 rounded-lg border transition-all flex-1 mx-0.5 cursor-pointer active:scale-95 ${
+            className={`relative flex flex-col items-center justify-center gap-0.5 px-1 py-1 rounded-lg border transition-all flex-1 mx-0.5 min-h-[44px] min-w-[44px] touch-manipulation cursor-pointer active:scale-95 ${
               isActive
                 ? `${activeStyle}`
                 : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-900/40'

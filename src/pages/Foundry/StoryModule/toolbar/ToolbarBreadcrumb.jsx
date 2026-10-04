@@ -49,7 +49,7 @@ export default function ToolbarBreadcrumb({
         {(activeView === 'elements' || activeView === 'gallery') && (
           <>
             <Box size={12} className="text-emerald-400" />
-            <span className="text-emerald-300">The Gallery</span>
+            <span className="text-emerald-300">Story Elements</span>
           </>
         )}
       </div>

@@ -41,6 +41,7 @@ export default function ScenarioCanvasSwitch({
   linkedMap,
   allAvailableMaps,
   setActiveMapId,
+  addMap,
   handleCreateNewMapForElement,
   onSwitchView,
   waypointPromptData,
@@ -88,6 +89,8 @@ export default function ScenarioCanvasSwitch({
         <InteractiveStoryStudio
           activeNode={null}
           onSelectScenario={(id) => setActiveScenarioId(id)}
+          linkedMap={linkedMap}
+          allAvailableMaps={allAvailableMaps}
         />
       </div>
     );
@@ -202,8 +205,9 @@ export default function ScenarioCanvasSwitch({
               onClick={() => {
                 setScenarioWorkspaceTab('stage');
                 setIsSplitView(false);
-                if (activeNode?.mapId && setActiveMapId) {
-                  setActiveMapId(activeNode.mapId);
+                const targetMapId = activeNode?.mapId || linkedMap?.id || (allAvailableMaps.length > 0 ? allAvailableMaps[0].id : null);
+                if (targetMapId && setActiveMapId) {
+                  setActiveMapId(targetMapId);
                 }
               }}
               className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
@@ -220,8 +224,9 @@ export default function ScenarioCanvasSwitch({
             <button
               onClick={() => {
                 setIsSplitView(prev => !prev);
-                if (activeNode?.mapId && setActiveMapId) {
-                  setActiveMapId(activeNode.mapId);
+                const targetMapId = activeNode?.mapId || linkedMap?.id || (allAvailableMaps.length > 0 ? allAvailableMaps[0].id : null);
+                if (targetMapId && setActiveMapId) {
+                  setActiveMapId(targetMapId);
                 }
               }}
               className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
@@ -423,6 +428,7 @@ export default function ScenarioCanvasSwitch({
               universeState={universeState}
               updateStory={updateStory}
               setActiveMapId={setActiveMapId}
+              addMap={addMap}
               handleCreateNewMapForElement={handleCreateNewMapForElement}
               onSwitchView={onSwitchView}
               waypointPromptData={waypointPromptData}
@@ -455,6 +461,7 @@ export default function ScenarioCanvasSwitch({
                 universeState={universeState}
                 updateStory={updateStory}
                 setActiveMapId={setActiveMapId}
+                addMap={addMap}
                 handleCreateNewMapForElement={handleCreateNewMapForElement}
                 onSwitchView={onSwitchView}
                 waypointPromptData={waypointPromptData}
@@ -481,6 +488,8 @@ export default function ScenarioCanvasSwitch({
               <InteractiveStoryStudio
                 activeNode={activeNode}
                 onSelectScenario={(id) => setActiveScenarioId(id)}
+                linkedMap={linkedMap}
+                allAvailableMaps={allAvailableMaps}
               />
             </div>
           )}

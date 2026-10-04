@@ -5,9 +5,12 @@ import { useGroup } from '../../../context/GroupContext';
 import { AudioService } from '../../../services/audioService';
 import { Map, X, Plus, Search, Eye, Check, Trash2, ChevronRight, ArrowUpRight, Play, MapPin, Users, Radio, Copy } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { useConfirm } from '../../../context/ConfirmContext';
+import { showToast } from '../../../context/ToastContext';
 
 export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { universeState, mapsCatalog, deleteSavedMap, activeMapId, setActiveMapId } = useStory();
   const { activeGroup } = useGroup();
 
@@ -31,16 +34,30 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
   const activeScenario = universeState?.scenarios?.[0] || null;
   const teamMembers = Object.values(activeGroup?.memberDetails || {});
 
-  const handleCopyShareLink = (url, key) => {
+  const handleCopyShareLink = async (url, key) => {
     AudioService.playTerminalBeep(1200, 0.03);
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(() => {
+      try {
+        await navigator.clipboard.writeText(url);
         setCopiedLink(key);
         setTimeout(() => setCopiedLink(''), 2500);
-      });
-    } else {
-      prompt('Copy Spectator URL:', url);
+        showToast({
+          type: 'success',
+          title: 'URL Copied',
+          text: 'Spectator URL copied to clipboard.'
+        });
+        return;
+      } catch (err) {
+        // Fallback to modal
+      }
     }
+    await confirm({
+      title: 'Spectator URL',
+      message: 'Copy Spectator URL to clipboard:',
+      inputLabel: 'Spectator URL',
+      inputValue: url,
+      confirmLabel: 'Done'
+    });
   };
 
   const handleOpenMapWorkspace = (mapId) => {

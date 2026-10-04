@@ -32,12 +32,16 @@ import {
 } from 'lucide-react';
 import { AudioService } from '../services/audioService';
 
+// Module-scoped flag: resets whenever the page is refreshed/reloaded in the browser.
+// Ensures tactical briefing opens by default on homepage load, and stays closed once dismissed until refresh.
+let briefingDismissedUntilRefresh = false;
+
 const Home = () => {
   const navigate = useNavigate();
-  const { currentUser, userHandle, openAuthModal } = useAuth();
-  const { universeState, mapsCatalog, elementsCatalog } = useStory();
-  const { personaRoster, roster } = useFolio();
-  const { groups, pendingInvites } = useGroup();
+  const { currentUser, userHandle, openAuthModal } = useAuth() || {};
+  const { universeState, mapsCatalog, elementsCatalog } = useStory() || {};
+  const { personaRoster, roster } = useFolio() || {};
+  const { groups = [], pendingInvites = [] } = useGroup() || {};
   const { totalUnreadCount = 0 } = useChat() || {};
   const dbContext = useDBM() || {};
   const dbData = dbContext.dbData || {};
@@ -53,12 +57,21 @@ const Home = () => {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [showWelcomeBriefing, setShowWelcomeBriefing] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return !localStorage.getItem('tangent_welcome_briefing_dismissed');
-    }
-    return true;
+    return !briefingDismissedUntilRefresh;
   });
   const joinCodeHandled = useRef(false);
+
+  // Clear legacy persistent localStorage item so briefing is open by default on reload
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('tangent_welcome_briefing_dismissed')) {
+      localStorage.removeItem('tangent_welcome_briefing_dismissed');
+    }
+  }, []);
+
+  const handleDismissBriefing = () => {
+    briefingDismissedUntilRefresh = true;
+    setShowWelcomeBriefing(false);
+  };
 
   useEffect(() => {
     const handleOpenBriefing = () => setShowWelcomeBriefing(true);
@@ -105,7 +118,7 @@ const Home = () => {
   return (
     <div
       onClick={() => setActiveDrawer(null)}
-      className="h-full w-full relative bg-cover bg-center bg-no-repeat text-slate-100 font-sans flex flex-col overflow-hidden select-none"
+      className="h-full w-full relative bg-[#060a12] bg-cover bg-center bg-no-repeat text-slate-100 font-sans flex flex-col overflow-hidden select-none"
       style={{ backgroundImage: "url('/assets/images/background.png')" }}
     >
       {/* ── Creator Tag — Top Right View Area ── */}
@@ -195,23 +208,16 @@ const Home = () => {
                   action: () => navigate('/foundry') 
                 },
                 { 
-                  id: 'teams', 
-                  label: 'TEAMS', 
-                  sublabel: 'Game Squads & Tactical Groups',
-                  icon: Shield,
-                  color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400 bg-emerald-950/20', 
-                  badge: teamCount > 0 ? `${teamCount}` : (inviteCount > 0 ? `${inviteCount}!` : null),
-                  action: () => navigate('/teams') 
-                },
-                { 
-                  id: 'comms', 
-                  label: 'COMMS', 
-                  sublabel: 'CommLink Relay & Voice Channels',
+                  id: 'network', 
+                  label: 'NETWORK', 
+                  sublabel: 'Tactical Squads, CommLink & Operator Relay',
                   icon: Radio,
-                  color: 'text-amber-300 border-amber-500/40 hover:border-amber-400 bg-amber-950/20', 
-                  badge: totalUnreadCount > 0 ? `${totalUnreadCount}` : null,
-                  badgeColor: 'bg-amber-500 text-black animate-pulse',
-                  action: () => navigate('/comms') 
+                  color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400 bg-emerald-950/20', 
+                  badge: (totalUnreadCount > 0) 
+                    ? `${totalUnreadCount}` 
+                    : (inviteCount > 0 ? `${inviteCount}!` : (teamCount > 0 ? `${teamCount}` : null)),
+                  badgeColor: (totalUnreadCount > 0 || inviteCount > 0) ? 'bg-amber-500 text-black animate-pulse' : undefined,
+                  action: () => navigate('/network') 
                 },
               ].map(item => {
                 const Icon = item.icon;
@@ -327,7 +333,7 @@ const Home = () => {
                 />
               ) : showWelcomeBriefing ? (
                 <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 overflow-y-auto w-full max-h-full">
-                  <WelcomeBriefing onDismiss={() => setShowWelcomeBriefing(false)} />
+                  <WelcomeBriefing onDismiss={handleDismissBriefing} />
                 </div>
               ) : (
                 /* Idle state — guidance prompt */
@@ -389,7 +395,7 @@ const Home = () => {
               </div>
             ) : showWelcomeBriefing ? (
               <div className="flex-1 flex flex-col items-center justify-start p-3 sm:p-4 overflow-y-auto w-full max-h-full">
-                <WelcomeBriefing isMobile onDismiss={() => setShowWelcomeBriefing(false)} />
+                <WelcomeBriefing isMobile onDismiss={handleDismissBriefing} />
               </div>
             ) : (
               <div className="flex-1 flex flex-col items-center justify-start pt-10 sm:pt-14 p-6 text-center font-mono space-y-4 animate-fadeIn">

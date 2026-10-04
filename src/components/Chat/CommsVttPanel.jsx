@@ -21,9 +21,12 @@ import { useStory } from '../../context/CampaignContext';
 import { useFolio } from '../../context/FolioContext';
 import { useChat } from '../../context/ChatContext';
 import { AudioService } from '../../services/audioService';
+import { useConfirm } from '../../context/ConfirmContext';
+import { showToast } from '../../context/ToastContext';
 
 export const CommsVttPanel = () => {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { universeState, mapsCatalog, activeMapId, setActiveMapId } = useStory();
   const { personaRoster = [], roster = [] } = useFolio();
   const { broadcastToVtt, setBroadcastToVtt, sendDiceRoll } = useChat();
@@ -47,16 +50,30 @@ export const CommsVttPanel = () => {
   const allPersonas = personaRoster.length > 0 ? personaRoster : roster;
   const spectatorUrl = `${window.location.origin}/spectator/${currentMap.id || 'tactical-zone'}`;
 
-  const handleCopySpectatorLink = () => {
+  const handleCopySpectatorLink = async () => {
     AudioService.playTerminalBeep(1200, 0.03);
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(spectatorUrl).then(() => {
+      try {
+        await navigator.clipboard.writeText(spectatorUrl);
         setCopiedLink(true);
         setTimeout(() => setCopiedLink(false), 2500);
-      });
-    } else {
-      prompt('Copy Spectator URL:', spectatorUrl);
+        showToast({
+          type: 'success',
+          title: 'URL Copied',
+          text: 'Spectator URL copied to clipboard.'
+        });
+        return;
+      } catch (err) {
+        // Fallback to modal prompt
+      }
     }
+    await confirm({
+      title: 'Spectator URL',
+      message: 'Copy Spectator URL to clipboard:',
+      inputLabel: 'Spectator URL',
+      inputValue: spectatorUrl,
+      confirmLabel: 'Done'
+    });
   };
 
   const handleLaunchStage = () => {

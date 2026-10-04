@@ -94,7 +94,7 @@ export const FolioHeroTokenDrawer = ({
           heroId: m.uid || `sq_mem_${idx}`,
           name: m.characterName || m.displayName || `Operative ${idx + 1}`,
           avatarUrl: m.photoURL || null,
-          haloColor: squad.themeColor || '#22d3ee',
+          haloColor: team.themeColor || '#22d3ee',
           maxHealth: 30,
           currentHealth: 30,
           maxVitality: 30,

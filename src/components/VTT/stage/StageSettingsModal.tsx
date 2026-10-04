@@ -26,6 +26,8 @@ import { useFolio } from '../../../context/FolioContext';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { GridType } from '../../../engine/math/CoordinateEngine';
 import { AudioService } from '../../../services/audioService';
+import { useConfirm } from '../../../context/ConfirmContext';
+import { showToast } from '../../../context/ToastContext';
 import { VttEventBus } from '../../../utils/vttEventBus';
 
 export interface StageSettingsModalProps {
@@ -46,6 +48,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
   onDeployElement
 }) => {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { universeState, updateMap, setActiveMapId } = useCampaign();
   const { personaRoster, roster } = (useFolio() as any) || {};
 
@@ -92,16 +95,30 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
     ? `${window.location.origin}/spectator/${currentMapId}`
     : '';
 
-  const handleCopySpectatorLink = () => {
+  const handleCopySpectatorLink = async () => {
     AudioService.playTerminalBeep(1200, 0.03);
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(spectatorUrl).then(() => {
+      try {
+        await navigator.clipboard.writeText(spectatorUrl);
         setCopiedLink(true);
         setTimeout(() => setCopiedLink(false), 2500);
-      });
-    } else {
-      prompt('Copy Spectator URL:', spectatorUrl);
+        showToast({
+          type: 'success',
+          title: 'URL Copied',
+          text: 'Spectator URL copied to clipboard.'
+        });
+        return;
+      } catch (err) {
+        // Fallback to modal
+      }
     }
+    await confirm({
+      title: 'Spectator URL',
+      message: 'Copy Spectator URL to clipboard:',
+      inputLabel: 'Spectator URL',
+      inputValue: spectatorUrl,
+      confirmLabel: 'Done'
+    });
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {

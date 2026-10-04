@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useToast } from '../../../context/ToastContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { generateContent, streamContent } from '../../../services/aimeService';
 import { StorageService } from '../../../services/storageService';
@@ -19,6 +20,7 @@ export { GUIDANCE_GEMS };
 
 export default function AIME() {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { toast } = useToast();
   const { currentUser, userHandle } = useAuth();
   const { 
@@ -295,8 +297,14 @@ export default function AIME() {
     showToast(`Created new Scenario "${title}" in ADE tree!`);
   };
 
-  const handleClearCanvas = (canvasKey) => {
-    if (!window.confirm("Are you sure you want to clear this canvas? This action cannot be undone unless you have a local save.")) return;
+  const handleClearCanvas = async (canvasKey) => {
+    const ok = await confirm({
+      title: 'Clear Canvas',
+      message: 'Are you sure you want to clear this canvas? This action cannot be undone unless you have a local save.',
+      danger: true,
+      confirmLabel: 'Clear Canvas'
+    });
+    if (!ok) return;
     if (canvasKey === 'brainstorm') {
       setBrainstormPrompt('');
       updateStoryCards([]);

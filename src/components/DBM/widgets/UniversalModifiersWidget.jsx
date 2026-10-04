@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Plus, Trash2, Zap, Brain, Shield, Coins, BookOpen, Star } from 'lucide-react';
 import { ALL_CANONICAL_SKILLS, SKILL_CATEGORY_SECTIONS } from '../../../data/skillsData';
+import { showToast } from '../../../context/ToastContext';
 
 export const CANONICAL_ATTRIBUTES = [
   {
@@ -40,7 +41,11 @@ export const UniversalModifiersWidget = ({
   const handleAddModifier = () => {
     const target = (customTargetText.trim() || newModTarget.trim());
     if (!target) {
-      alert('Please specify a modifier target.');
+      showToast({
+        type: 'warn',
+        title: 'Target Required',
+        text: 'Please specify a modifier target.'
+      });
       return;
     }
 

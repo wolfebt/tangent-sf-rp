@@ -10,7 +10,11 @@ import { DEFAULT_ORIGINS } from '../data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
 import { DEFAULT_ARMORING } from '../data/armoringData.js';
-import compendiumSeed from '../data/compendiumSeed.json';
+
+let compendiumSeed = [];
+import('../data/compendiumSeed.json').then(mod => {
+  compendiumSeed = mod.default || mod;
+}).catch(() => {});
 
 /**
  * Standardizes comparison strings

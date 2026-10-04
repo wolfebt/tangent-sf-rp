@@ -31,7 +31,7 @@ import {
 } from './hud';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
-import { useDBM } from '../../context/DBMContext';
+import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { useFolio } from '../../context/FolioContext';
 import { useAudio } from '../../context/AudioContext';
 import { useToast } from '../../context/ToastContext';
@@ -84,11 +84,12 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     lockPersona,
     unlockPersona,
     clonePersonaVariant,
-    isInActiveGame
+    isInActiveGame,
+    togglePersonaNetworkEngaged
   } = folio;
 
   const isDBM = location.pathname.startsWith('/dbm');
-  const isCompendium = location.pathname.startsWith('/compendium');
+  const isCompendium = location.pathname.startsWith('/compendium') || location.pathname.startsWith('/rules');
   const isCodex = location.pathname.startsWith('/codex');
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   const isFoundry = location.pathname.startsWith('/foundry') || 
@@ -102,6 +103,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     location.pathname === '/vtt';
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
   const isTeams = location.pathname.startsWith('/teams') || location.pathname.startsWith('/groups') || location.pathname.startsWith('/squads');
+  const isNetwork = location.pathname.startsWith('/network') || isComms || isTeams;
   const isStage = location.pathname.startsWith('/stage') || location.pathname === '/vtt';
   
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -110,6 +112,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const [guideInitialTab, setGuideInitialTab] = useState('hub');
   const { isMuted: isAudioMuted, toggleMute: toggleAudio } = useAudio();
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const dbmFileInputRef = useRef(null);
 
   // Global custom event listeners for Team Management
   useEffect(() => {
@@ -129,6 +132,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
   const getRouteGuideTab = () => {
     const path = location.pathname;
+    if (path.startsWith('/network')) {
+      const search = new URLSearchParams(location.search);
+      const view = search.get('view');
+      return (view === 'teams' || view === 'squads') ? 'squads' : 'comms';
+    }
     if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'squads';
     if (path.startsWith('/comms') || path.startsWith('/chat')) return 'comms';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'folio';
@@ -185,6 +193,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const getActivePageTitle = () => {
     const path = location.pathname;
     if (path === '/' || path === '/dashboard') return null; // Dashboard - no user-facing label needed
+    if (path.startsWith('/network')) {
+      const search = new URLSearchParams(location.search);
+      const view = search.get('view');
+      if (view === 'teams' || view === 'squads') return 'NETWORK • TACTICAL SQUADS';
+      if (view === 'roster') return 'NETWORK • OPERATOR DIRECTORY';
+      return 'NETWORK • COMMLINK RELAY';
+    }
     if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'GAME TEAMS & SQUADS';
     if (path.startsWith('/comms')) return 'COMMLINK RELAY';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'PERSONA FOLIO';
@@ -218,6 +233,26 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             <span className="hidden sm:inline text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Role Playing Engine</span>
           </NavLink>
 
+          {/* Persistent Rules Compendium Button */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1150, 0.02);
+              navigate('/compendium');
+            }}
+            onMouseEnter={() => {
+              loadCompendiumCatalog();
+            }}
+            className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shrink-0 ${
+              isCompendium
+                ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
+            }`}
+            title="Open Compendium & BASTION Rules Wiki (/compendium)"
+          >
+            <BookOpen size={14} className={isCompendium ? 'text-sky-300' : 'text-sky-400'} />
+            <span className="inline font-bold">RULES</span>
+          </button>
         </div>
 
         {/* Center Section: Dynamic Contextual Header Options for Active Page */}
@@ -242,6 +277,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               handleExportAsStoryElement={handleExportAsStoryElement}
               handleOpenGuide={handleOpenGuide}
               confirm={confirm}
+              togglePersonaNetworkEngaged={togglePersonaNetworkEngaged}
             />
           )}
 
@@ -480,37 +516,27 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </div>
                   </button>
 
-                  {/* TEAMS */}
+                  {/* NETWORK */}
                   <button
                     type="button"
-                    onClick={() => { navigate('/teams'); setIsMobileNavOpen(false); }}
+                    onClick={() => { navigate('/network'); setIsMobileNavOpen(false); }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isTeams ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                      isNetwork ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
                     <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300">
-                      <Shield size={16} />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-xs">TEAMS</div>
-                      <div className="text-[10px] text-slate-400">Game Squads & Tactical Groups</div>
-                    </div>
-                  </button>
-
-                  {/* COMMS */}
-                  <button
-                    type="button"
-                    onClick={() => { navigate('/comms'); setIsMobileNavOpen(false); }}
-                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isComms ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
                       <Radio size={16} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-xs">COMMS</div>
-                      <div className="text-[10px] text-slate-400">CommLink Relay & Voice Channels</div>
+                      <div className="font-bold text-xs flex items-center gap-2">
+                        <span>NETWORK</span>
+                        {(totalUnreadCount > 0 || (pendingInvites && pendingInvites.length > 0)) && (
+                          <span className="px-1.5 py-0.2 rounded bg-amber-500 text-black font-extrabold text-[9px] animate-pulse">
+                            {totalUnreadCount > 0 ? `${totalUnreadCount} MSG` : `${pendingInvites.length} INV`}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[10px] text-slate-400">Tactical Squads, CommLink & Operator Relay</div>
                     </div>
                   </button>
                 </div>
@@ -652,6 +678,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         isOpen={isTeamModalOpen}
         onClose={() => setIsTeamModalOpen(false)}
         initialTab="roster"
+      />
+
+      <input
+        type="file"
+        ref={dbmFileInputRef}
+        onChange={handleImportMasterJSON}
+        accept=".json"
+        className="hidden"
       />
     </>
   );

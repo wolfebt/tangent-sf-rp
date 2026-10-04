@@ -3,6 +3,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
+import { useConfirm } from '../../context/ConfirmContext';
+import { showToast } from '../../context/ToastContext';
 import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, Copy, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu } from 'lucide-react';
 
 const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
@@ -239,6 +241,7 @@ export const DBMWikiView = ({
   handleDeleteEntry,
   handleDuplicateEntry
 }) => {
+  const confirm = useConfirm();
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [perspectiveFilter, setPerspectiveFilter] = useState('operator'); // 'operator' | 'architect' | 'all'
@@ -249,10 +252,19 @@ export const DBMWikiView = ({
 
   const handleSyncCloud = async () => {
     if (!syncCanonicalCompendium) return;
-    if (window.confirm('Sync all 71 canonical rulebook articles to Firestore cloud collection? This will overwrite or update seed documents in the database.')) {
+    const ok = await confirm({
+      title: 'Sync Canonical Rulebook',
+      message: 'Sync all 71 canonical rulebook articles to Firestore cloud collection? This will overwrite or update seed documents in the database.',
+      danger: true,
+      confirmLabel: 'Sync Rulebook'
+    });
+    if (ok) {
       setIsSyncing(true);
-      await syncCanonicalCompendium();
-      setIsSyncing(false);
+      try {
+        await syncCanonicalCompendium();
+      } finally {
+        setIsSyncing(false);
+      }
     }
   };
 
@@ -458,7 +470,11 @@ export const DBMWikiView = ({
     if (targetItem) {
       handleSelectArticle(targetItem);
     } else {
-      alert(`Wiki article "${targetName}" does not exist yet.`);
+      showToast({
+        type: 'info',
+        title: 'Article Not Found',
+        text: `Wiki article "${targetName}" does not exist yet.`
+      });
     }
   };
 

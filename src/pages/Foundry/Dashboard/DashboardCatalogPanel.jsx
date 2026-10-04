@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { useStory } from '../../../context/CampaignContext';
 import { useFolio } from '../../../context/FolioContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { 
   getFolders, 
@@ -43,6 +44,7 @@ import { AudioService } from '../../../services/audioService';
 
 export const DashboardCatalogPanel = () => {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { 
     universeState, 
     storyCatalog, 
@@ -231,8 +233,16 @@ export const DashboardCatalogPanel = () => {
     navigate('/folio');
   };
 
-  const handleCreateNewStoryClick = () => {
-    const title = prompt('Enter a title for your new story project:');
+  const handleCreateNewStoryClick = async () => {
+    const res = await confirm({
+      title: 'New Story Project',
+      message: 'Enter a title for your new story project:',
+      inputLabel: 'Story Title',
+      inputValue: 'New Story Arc',
+      confirmLabel: 'Create Project'
+    });
+    if (!res) return;
+    const title = typeof res === 'object' ? res?.value : res;
     if (title && title.trim()) {
       AudioService.playTerminalBeep(1300, 0.03);
       const newProj = createNewStory(title.trim());

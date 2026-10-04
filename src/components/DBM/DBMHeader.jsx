@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirm } from '../../context/ConfirmContext';
+import { showToast } from '../../context/ToastContext';
+import { useDBM } from '../../context/DBMContext';
 
 export const DBMHeader = ({
   historyIndex,
@@ -18,7 +21,9 @@ export const DBMHeader = ({
   onOpenArchitectModal
 }) => {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
+  const { syncMasterSpeciesMatrix, syncCanonicalCompendium } = useDBM() || {};
   const fileInputRef = useRef(null);
   const menuRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,7 +40,11 @@ export const DBMHeader = ({
 
   const triggerImport = () => {
     if (!isAdmin) {
-      alert('Administrator or GM access required to import Master Database backups.');
+      showToast({
+        type: 'warn',
+        title: 'Restricted Access',
+        text: 'Administrator or GM access required to import Master Database backups.'
+      });
       return;
     }
     if (fileInputRef.current) {
@@ -43,8 +52,14 @@ export const DBMHeader = ({
     }
   };
 
-  const handleClearCache = () => {
-    if (window.confirm('Are you sure you want to clear your local Omnicortex temporary cache and search filters?')) {
+  const handleClearCache = async () => {
+    const ok = await confirm({
+      title: 'Clear Cache',
+      message: 'Are you sure you want to clear your local Omnicortex temporary cache and search filters?',
+      danger: true,
+      confirmLabel: 'Clear Cache'
+    });
+    if (ok) {
       localStorage.removeItem('tangent_dbm_cache');
       window.location.reload();
     }

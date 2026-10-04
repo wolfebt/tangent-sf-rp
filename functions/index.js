@@ -16,8 +16,23 @@ function base64UrlEncode(str) {
 }
 
 /**
+ * Helper to verify Firebase ID token from Authorization header
+ */
+async function authenticateRequest(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    throw new Error('Unauthorized: Missing or malformed Authorization header. Expected Bearer <token>.');
+  }
+  const idToken = authHeader.split('Bearer ')[1].trim();
+  if (!idToken) {
+    throw new Error('Unauthorized: Empty Bearer token provided.');
+  }
+  return await admin.auth().verifyIdToken(idToken);
+}
+
+/**
  * Cloud Function: getLiveKitToken
- * Securely signs LiveKit JWT tokens server-side without exposing API Secret to the frontend client.
+ * Securely signs LiveKit JWT tokens server-side for authenticated users only.
  */
 exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
   // Enable CORS
@@ -33,12 +48,25 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed. Use POST.' });
   }
 
+  // 1. Authenticate caller
+  let decodedUser;
   try {
-    const { roomName, identity, name, metadata, ttlSeconds = 14400 } = req.body || {};
+    decodedUser = await authenticateRequest(req);
+  } catch (authErr) {
+    return res.status(401).json({ error: authErr.message || 'Authentication required' });
+  }
 
-    if (!roomName || !identity) {
-      return res.status(400).json({ error: 'Missing required parameters: roomName and identity are mandatory.' });
+  try {
+    const { roomName, name, metadata, ttlSeconds = 14400 } = req.body || {};
+
+    if (!roomName) {
+      return res.status(400).json({ error: 'Missing required parameter: roomName is mandatory.' });
     }
+
+    // Bind identity strictly to the authenticated user's Firebase UID.
+    // If identity is provided in body, only allow override if user has admin/GM role.
+    const isPrivileged = !!(decodedUser.admin || decodedUser.role === 'admin' || decodedUser.role === 'GM');
+    const identity = (isPrivileged && req.body?.identity) ? String(req.body.identity) : decodedUser.uid;
 
     const apiKey = process.env.LIVEKIT_API_KEY || functions.config().livekit?.api_key;
     const apiSecret = process.env.LIVEKIT_API_SECRET || functions.config().livekit?.api_secret;
@@ -61,7 +89,7 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
         canSubscribe: true,
         canPublishData: true
       },
-      name: name || identity
+      name: name || decodedUser.name || decodedUser.email || identity
     };
 
     if (metadata) {
@@ -92,7 +120,8 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
 
 /**
  * Cloud Function: geminiProxy
- * Secure gateway for Google Gemini GenAI calls, injecting server-managed API key.
+ * Secure gateway for Google Gemini GenAI calls (dedicated to automated reporting).
+ * Requires authenticated caller.
  */
 exports.geminiProxy = functions.https.onRequest(async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
@@ -107,16 +136,26 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed. Use POST.' });
   }
 
+  // 1. Authenticate caller
+  let decodedUser;
+  try {
+    decodedUser = await authenticateRequest(req);
+  } catch (authErr) {
+    return res.status(401).json({ error: authErr.message || 'Authentication required for reporting generation' });
+  }
+
   try {
     const geminiKey = process.env.GEMINI_API_KEY || functions.config().gemini?.key;
     if (!geminiKey) {
       return res.status(500).json({ error: 'Server configuration error: Gemini API key missing.' });
     }
 
-    const { prompt, model = 'gemini-1.5-flash', systemInstruction } = req.body || {};
+    const { prompt, model = 'gemini-1.5-flash', systemInstruction, reportType } = req.body || {};
     if (!prompt) {
-      return res.status(400).json({ error: 'Prompt is required.' });
+      return res.status(400).json({ error: 'Prompt is required for reporting generation.' });
     }
+
+    console.log(`[geminiProxy] Generating report (${reportType || 'general'}) for user: ${decodedUser.uid}`);
 
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
     const payload = {
@@ -133,7 +172,7 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
     const data = await fetchResponse.json();
     return res.status(fetchResponse.status).json(data);
   } catch (err) {
-    console.error('Error proxying Gemini API request:', err);
+    console.error('Error proxying Gemini API reporting request:', err);
     return res.status(500).json({ error: err.message || 'Internal server error' });
   }
 });

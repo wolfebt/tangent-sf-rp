@@ -42,6 +42,17 @@ export class QuickJSSandbox {
         const keys = Object.keys(sandboxEnv);
         const values = Object.values(sandboxEnv);
         
+        const trimmed = code.trim();
+        const hasReturn = /\breturn\b/.test(trimmed);
+        const isStatement = /^(const|let|var|if|for|while|switch|function|try|throw)\b/.test(trimmed);
+        let scriptBody = (hasReturn || isStatement) ? trimmed : `return (${trimmed});`;
+
+        // Inject watchdog checks into loops to prevent infinite thread freezing
+        scriptBody = scriptBody.replace(
+          /\b(for|while)\s*\(([^)]*)\)\s*\{/g,
+          `$1($2) { if (performance.now() - ${startTime} > ${this.EXECUTION_TIMEOUT_MS}) throw new Error('[QuickJS Sandbox] Watchdog Terminated: Macro exceeded ${this.EXECUTION_TIMEOUT_MS}ms timeout limit.'); `
+        );
+
         // Construct sandbox function without access to window or document
         const secureFunc = new Function(
           ...keys, 
@@ -50,7 +61,7 @@ export class QuickJSSandbox {
            const document = undefined; 
            const fetch = undefined; 
            const localStorage = undefined; 
-           return (${code});`
+           ${scriptBody}`
         );
         
         const result = secureFunc(...values);

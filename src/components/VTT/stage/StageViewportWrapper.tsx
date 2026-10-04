@@ -15,6 +15,7 @@ import { Stage3DViewport } from './Stage3DViewport';
 import { useCampaign } from '../../../context/CampaignContext';
 import { useEngineStore } from '../../../engine/index';
 import { useUILayoutStore } from '../store/uiLayoutStore';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
 import { VttEventBus } from '../../../utils/vttEventBus';
 import { 
@@ -27,17 +28,33 @@ import { Grid, Plus, Rocket, Shield, Hammer, ExternalLink, Columns } from 'lucid
 export interface StageViewportWrapperProps extends StageViewProps {
   onOpenMapMaker?: () => void;
   onOpenUnderlayModal?: () => void;
+  sceneId?: string;
 }
 
 export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
   onOpenMapMaker,
   onOpenUnderlayModal,
+  sceneId,
   ...stageProps
 }) => {
   const navigate = useNavigate();
-  const { universeState, activeMapId, setActiveMapId, updateMap, addMap } = useCampaign();
-  const availableMaps = universeState?.maps || [];
-  const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0] || null;
+  const confirm = useConfirm();
+  const { universeState, activeMapId, setActiveMapId, updateMap, addMap, mapsCatalog } = useCampaign();
+
+  const availableMaps = React.useMemo(() => {
+    const catalog = ((mapsCatalog || []) as any[]);
+    const projectMaps = (((universeState?.maps || []) as any[])).filter(m => !catalog.some(cm => cm.id === m.id));
+    return [...catalog, ...projectMaps];
+  }, [mapsCatalog, universeState?.maps]);
+
+  const targetMapId = sceneId || activeMapId || availableMaps[0]?.id || null;
+  const currentMap = availableMaps.find((m: any) => m.id === targetMapId) || availableMaps[0] || null;
+
+  useEffect(() => {
+    if (sceneId && activeMapId !== sceneId && setActiveMapId) {
+      setActiveMapId(sceneId);
+    }
+  }, [sceneId, activeMapId, setActiveMapId]);
 
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isArchitectActive, setIsArchitectActive] = useState(false);
@@ -118,7 +135,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
         const file = e.dataTransfer.files[0];
         if (file && (file.type.startsWith('image/') || /\.(png|jpe?g|webp|svg)$/i.test(file.name))) {
           const reader = new FileReader();
-          reader.onload = (loadEvt) => {
+          reader.onload = async (loadEvt) => {
             const dataUrl = loadEvt.target?.result as string;
             if (!dataUrl) return;
 
@@ -126,12 +143,15 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
             const dropX = rect ? Math.max(20, Math.round(e.clientX - rect.left)) : 350;
             const dropY = rect ? Math.max(20, Math.round(e.clientY - rect.top)) : 350;
 
-            const isMap = window.confirm(
-              `Asset Ingestion: "${file.name}"\n\nClick [OK] to deploy as Battlemap Background.\nClick [Cancel] to spawn as an Actor Token at (${dropX}, ${dropY}).`
-            );
+            const isMap = await confirm({
+              title: `Asset Ingestion: "${file.name}"`,
+              message: `Deploy as Battlemap Background or spawn as Actor Token at (${dropX}, ${dropY})?`,
+              confirmLabel: 'Deploy Battlemap',
+              cancelLabel: 'Spawn Token'
+            });
 
             if (isMap) {
-              const activeMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+              const activeMap = availableMaps.find((m: any) => m.id === (targetMapId || activeMapId)) || availableMaps[0];
               if (activeMap && updateMap) {
                 updateMap(activeMap.id, {
                   background_url: dataUrl,
@@ -169,7 +189,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
               useEngineStore.getState().clearSelection();
               useEngineStore.getState().setSelection(newId, true);
 
-              const activeMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+              const activeMap = availableMaps.find((m: any) => m.id === (targetMapId || activeMapId)) || availableMaps[0];
               if (activeMap && updateMap) {
                 updateMap(activeMap.id, {
                   tokens: [...(activeMap.tokens || []), { ...staticToken, x: dropX, y: dropY }]
@@ -229,7 +249,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
         useEngineStore.getState().setSelection(newId, true);
 
         // Persist into active Campaign map token collection
-        const activeMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+        const activeMap = availableMaps.find((m: any) => m.id === (targetMapId || activeMapId)) || availableMaps[0];
         if (activeMap && updateMap) {
           updateMap(activeMap.id, {
             tokens: [...(activeMap.tokens || []), { ...staticToken, x: dropX, y: dropY }]
@@ -266,7 +286,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           readAloudText: elem.content || elem.fields?.summary || ''
         };
 
-        const activeMap = universeState?.maps?.find((m: any) => m.id === activeMapId) || universeState?.maps?.[0];
+        const activeMap = availableMaps.find((m: any) => m.id === (targetMapId || activeMapId)) || availableMaps[0];
         if (activeMap && updateMap) {
           updateMap(activeMap.id, {
             objects: [...(activeMap.objects || []), newMapObj]
@@ -368,7 +388,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
         {/* Right: Map Switcher & Quick New Canvas */}
         <div className="flex items-center gap-1.5 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl px-2 py-1 shadow-lg">
           <select
-            value={activeMapId || ''}
+            value={currentMap?.id || activeMapId || ''}
             onChange={(e) => {
               if (setActiveMapId) setActiveMapId(e.target.value);
               AudioService.playTerminalBeep(1100, 0.02);
@@ -420,7 +440,11 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           {is3DActive ? (
             <Stage3DViewport onSwitchTo2D={() => set3DActive(false)} />
           ) : (
-            <StageView {...stageProps} isEmbeddedInTripartite={stageProps.isEmbeddedInTripartite ?? true} />
+            <StageView
+              {...stageProps}
+              sceneId={targetMapId || undefined}
+              isEmbeddedInTripartite={stageProps.isEmbeddedInTripartite ?? true}
+            />
           )}
 
           {/* Drop Target HUD Banner */}

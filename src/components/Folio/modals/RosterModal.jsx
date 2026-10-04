@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
-import { Lock } from 'lucide-react';
+import { useConfirm } from '../../../context/ConfirmContext';
+import { showToast } from '../../../context/ToastContext';
+import { Lock, Radio } from 'lucide-react';
 
 export const RosterModal = ({
   isOpen,
@@ -15,11 +17,13 @@ export const RosterModal = ({
   onDeleteCharacter,
   onUpdateNote,
   onToggleVisibility,
+  onToggleNetworkEngaged,
   onLoadPublicGallery,
   publicCatalog = [],
   onSelectPublicPersona,
   onClonePublicPersona
 }) => {
+  const confirm = useConfirm();
   const [catalogTab, setCatalogTab] = useState('my-roster'); // 'my-roster' | 'public-gallery'
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('card'); // 'card' | 'table'
@@ -39,17 +43,28 @@ export const RosterModal = ({
     }
   };
 
-  const handleCopyShareLink = (ownerUid, docId) => {
+  const handleCopyShareLink = async (ownerUid, docId) => {
     const url = `${window.location.origin}/folio?user=${ownerUid || ''}&id=${docId}`;
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(() => {
-        alert(`Public Share Link copied to clipboard:\n\n${url}`);
-      }).catch(() => {
-        prompt("Copy this public share link:", url);
-      });
-    } else {
-      prompt("Copy this public share link:", url);
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast({
+          type: 'success',
+          title: 'Link Copied',
+          text: 'Public Share Link copied to clipboard.'
+        });
+        return;
+      } catch (err) {
+        // Fallback to confirm modal with input
+      }
     }
+    await confirm({
+      title: 'Public Share Link',
+      message: 'Copy this public share link to your clipboard:',
+      inputLabel: 'Share Link URL',
+      inputValue: url,
+      confirmLabel: 'Done'
+    });
   };
 
   // Helper to extract string value from identity fields
@@ -314,6 +329,28 @@ export const RosterModal = ({
                                 <span>{char.isPublic ? 'Public' : 'Private'}</span>
                               </button>
                             )}
+                            {catalogTab === 'my-roster' && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onToggleNetworkEngaged && onToggleNetworkEngaged(docId);
+                                }}
+                                className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border transition-colors flex items-center gap-1 cursor-pointer ${
+                                  char.networkEngaged || char.isNetworkEngaged
+                                    ? 'bg-emerald-950 text-emerald-300 border-emerald-500/70 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-emerald-300'
+                                }`}
+                                title={
+                                  char.networkEngaged || char.isNetworkEngaged
+                                    ? "Network Engaged: Visible on Terran Data Network and in squad directories. Click to disengage."
+                                    : "Network Standby: Private to you. Click to engage and broadcast to network."
+                                }
+                              >
+                                <Radio size={10} className={char.networkEngaged || char.isNetworkEngaged ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                                <span>{char.networkEngaged || char.isNetworkEngaged ? 'Network Engaged' : 'Engage Network'}</span>
+                              </button>
+                            )}
                             {catalogTab === 'my-roster' && char.isPublic && (
                               <button
                                 onClick={() => handleCopyShareLink(char.ownerUid, docId)}
@@ -558,6 +595,23 @@ export const RosterModal = ({
                                 title="Toggle Public Visibility"
                               >
                                 {char.isPublic ? 'Public' : 'Private'}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => onToggleNetworkEngaged && onToggleNetworkEngaged(docId)}
+                                className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border transition-colors flex items-center gap-1 cursor-pointer ${
+                                  char.networkEngaged || char.isNetworkEngaged
+                                    ? 'bg-emerald-950 text-emerald-300 border-emerald-500/70'
+                                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-emerald-300'
+                                }`}
+                                title={
+                                  char.networkEngaged || char.isNetworkEngaged
+                                    ? "Network Engaged: Visible on Terran Data Network and in squad directories. Click to disengage."
+                                    : "Network Standby: Private to you. Click to engage and broadcast to network."
+                                }
+                              >
+                                <Radio size={10} className={char.networkEngaged || char.isNetworkEngaged ? "text-emerald-400" : "text-slate-500"} />
+                                <span>{char.networkEngaged || char.isNetworkEngaged ? 'Engaged' : 'Standby'}</span>
                               </button>
                               {char.isPublic && (
                                 <button

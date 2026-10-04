@@ -16,7 +16,12 @@ import { DEFAULT_ORIGINS } from '../data/originsData.js';
 import { DEFAULT_FACTIONS } from '../data/factionsData.js';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
 import { DEFAULT_FEATURES } from '../data/featuresData.js';
-import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
+import { 
+  ALL_CANONICAL_TRAITS,
+  SPECIES_TRAITS_BASIC,
+  SPECIES_TRAITS_ADVANCED,
+  SPECIES_TRAITS_ELITE
+} from '../data/speciesTraitsData.js';
 import { enrichItemWithModifiers } from './tangentModifierEngine.js';
 
 export const PRIMARY_TO_SUB_ATTR_MAP = {
@@ -405,6 +410,9 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
       const clean = normalizeTraitString(rawName).toLowerCase();
       
       const foundTrait = ALL_CANONICAL_TRAITS.find(t => {
+        const tName = (t.name || t.id || '').toLowerCase();
+        return tName === lower || tName === clean || t.id === rawName;
+      }) || [...SPECIES_TRAITS_ADVANCED, ...SPECIES_TRAITS_BASIC, ...SPECIES_TRAITS_ELITE].find(t => {
         const tName = (t.name || t.id || '').toLowerCase();
         return tName === lower || tName === clean || t.id === rawName;
       });
@@ -841,7 +849,7 @@ export const applyOccupationTransition = (characterData, newOccupationInput, dbD
     const normName = normalizeTraitString(tName).toLowerCase();
     const rawName = tName.toLowerCase();
 
-    if (tSource === 'occupation' || fCat === 'Occupation Trait' || fCat === 'Occupational Trait' || fCat === 'Occupation Feature' || fCat === 'Occupation') {
+    if (tSource === 'occupation' || tCat === 'Occupation Trait' || tCat === 'Occupational Trait' || tCat === 'Occupation Feature' || tCat === 'Occupation') {
       return false;
     }
     if (oldOccuTraitNames.has(normName) || oldOccuTraitNames.has(rawName)) {

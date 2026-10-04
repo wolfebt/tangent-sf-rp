@@ -34,6 +34,7 @@ import {
   FOLDERS_UPDATE_EVENT 
 } from '../../services/customFolderService';
 import { AudioService } from '../../services/audioService';
+import { useConfirm } from '../../context/ConfirmContext';
 
 export const FolderOrganizerModal = ({
   isOpen,
@@ -42,6 +43,7 @@ export const FolderOrganizerModal = ({
   personas = [],
   initialFolderId = null
 }) => {
+  const confirm = useConfirm();
   const [folders, setFolders] = useState(() => getFolders());
   const [assignments, setAssignments] = useState(() => getItemFolderAssignments());
   const [selectedFolderId, setSelectedFolderId] = useState(initialFolderId || 'all');
@@ -107,9 +109,15 @@ export const FolderOrganizerModal = ({
     setAssignments(getItemFolderAssignments());
   };
 
-  const handleDeleteFolder = (folderId, e) => {
+  const handleDeleteFolder = async (folderId, e) => {
     e?.stopPropagation();
-    if (window.confirm('Delete this folder? All contained personas and stories will remain safe in Unfiled.')) {
+    const ok = await confirm({
+      title: 'Delete Folder',
+      message: 'Delete this folder? All contained personas and stories will remain safe in Unfiled.',
+      danger: true,
+      confirmLabel: 'Delete Folder'
+    });
+    if (ok) {
       AudioService.playTerminalBeep(700, 0.03);
       deleteFolder(folderId);
       if (selectedFolderId === folderId) {

@@ -66,6 +66,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
 import { AudioService } from '../../services/audioService';
+import { showToast } from '../../context/ToastContext';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 // Engines & Codex Core
@@ -166,7 +167,11 @@ export const StudioTransferBar = ({ item, categoryKey }) => {
 
   const handleEquipToHero = () => {
     if (!activeCharacter && !addItemToInventory) {
-      alert('No active character loaded in Persona Folio. Please open Folio to create or select a character.');
+      showToast({
+        type: 'warn',
+        title: 'No Active Hero',
+        text: 'No active character loaded in Persona Folio. Please open Folio to create or select a character.'
+      });
       return;
     }
 
@@ -217,7 +222,11 @@ export const StudioTransferBar = ({ item, categoryKey }) => {
     const targetScenario = (activeScenarioId && scenarios.find(s => s.id === activeScenarioId)) || scenarios[0];
 
     if (!targetScenario) {
-      alert('No active story scenario found in ADE Studio. Please create or open a story scenario first.');
+      showToast({
+        type: 'warn',
+        title: 'No Active Scenario',
+        text: 'No active story scenario found in ADE Studio. Please create or open a story scenario first.'
+      });
       return;
     }
 

@@ -20,6 +20,7 @@ import {
 import { useChat } from '../../context/ChatContext';
 import { useFolio } from '../../context/FolioContext';
 import { useAuth } from '../../context/AuthContext';
+import { showToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService';
 import { rollDice } from '../../services/diceService';
 import { PersonaLogService, ACTION_TYPES } from '../../services/personaLogService';
@@ -182,7 +183,11 @@ export const MessageInput = ({ isCompact = false }) => {
       setRollLabel('');
     } catch (err) {
       console.error('Dice parse error:', err);
-      alert('Invalid dice expression format. Examples: 2d10, 2d10+4, 1d20');
+      showToast({
+        type: 'error',
+        title: 'Invalid Dice Expression',
+        text: 'Format examples: 2d10, 2d10+4, 1d20'
+      });
     }
   };
 

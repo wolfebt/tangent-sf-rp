@@ -40,6 +40,7 @@ import {
 import { useCampaign, useStory } from '../../../../context/CampaignContext';
 import { useDBM } from '../../../../context/DBMContext';
 import { useFolio } from '../../../../context/FolioContext';
+import { useConfirm } from '../../../../context/ConfirmContext';
 import { useEngineStore } from '../../../../engine/index';
 import { AudioService } from '../../../../services/audioService';
 import { adeElementToStageToken, adeElementToInteractiveObject } from '../../../../utils/storyAssetAdapter';
@@ -110,6 +111,7 @@ export const ArchitectAssetCockpit = ({
   onDeployAsset,
   onOpenTacticalModal
 }) => {
+  const confirm = useConfirm();
   const { universeState, activeMapId, updateMap } = useCampaign();
   const { elementsCatalog } = useStory();
   const { dbData } = useDBM() || { dbData: {} };
@@ -699,8 +701,14 @@ export const ArchitectAssetCockpit = ({
                     {selectedAsset._isOnMap && onDeleteToken && selectedAsset._sourceType === 'token' && (
                       <button
                         type="button"
-                        onClick={() => {
-                          if (window.confirm(`Delete token "${selectedAsset._displayName}" from Stage?`)) {
+                        onClick={async () => {
+                          const ok = await confirm({
+                            title: 'Delete Token',
+                            message: `Delete token "${selectedAsset._displayName}" from Stage?`,
+                            danger: true,
+                            confirmLabel: 'Delete Token'
+                          });
+                          if (ok) {
                             onDeleteToken(selectedAsset.id);
                           }
                         }}
@@ -714,8 +722,14 @@ export const ArchitectAssetCockpit = ({
                     {selectedAsset._isOnMap && onDeleteObject && selectedAsset._sourceType === 'object' && (
                       <button
                         type="button"
-                        onClick={() => {
-                          if (window.confirm(`Delete object "${selectedAsset._displayName}" from Stage?`)) {
+                        onClick={async () => {
+                          const ok = await confirm({
+                            title: 'Delete Object',
+                            message: `Delete object "${selectedAsset._displayName}" from Stage?`,
+                            danger: true,
+                            confirmLabel: 'Delete Object'
+                          });
+                          if (ok) {
                             onDeleteObject(selectedAsset.id);
                           }
                         }}

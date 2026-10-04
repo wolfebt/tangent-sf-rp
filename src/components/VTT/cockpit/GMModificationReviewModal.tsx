@@ -10,6 +10,8 @@ import {
   User
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
+import { useConfirm } from '../../../context/ConfirmContext';
+import { showToast } from '../../../context/ToastContext';
 import { AudioService } from '../../../services/audioService';
 
 interface GMModificationReviewModalProps {
@@ -23,6 +25,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
   onClose,
   targetHeroId
 }) => {
+  const confirm = useConfirm();
   const folio = (useFolio() || {}) as any;
   const { personaRoster, reviewTrackedModification } = folio;
 
@@ -65,7 +68,11 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
   const handleAction = (heroId: string, modId: string, action: 'accepted' | 'refused' | 'adjusted') => {
     const feedback = feedbackNotes[modId] || '';
     if (action === 'adjusted' && !feedback.trim()) {
-      alert("Please provide suggestions or instructions for the player on how to adjust this modification.");
+      showToast({
+        type: 'warn',
+        title: 'Feedback Required',
+        text: 'Please provide suggestions or instructions for the player on how to adjust this modification.'
+      });
       return;
     }
 
@@ -247,9 +254,18 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
 
                     <button
                       type="button"
-                      onClick={() => {
-                        const reason = prompt("Enter refusal reason / explanation for player:", "Disallowed for this encounter");
-                        if (reason !== null) {
+                      onClick={async () => {
+                        const res = await confirm({
+                          title: 'Refuse Modification',
+                          message: 'Enter refusal reason / explanation for player:',
+                          inputLabel: 'Refusal Reason',
+                          inputValue: 'Disallowed for this encounter',
+                          danger: true,
+                          confirmLabel: 'Refuse'
+                        });
+                        if (res) {
+                          const reasonVal = typeof res === 'object' ? res?.value : res;
+                          const reason = typeof reasonVal === 'string' ? reasonVal : 'Disallowed for this encounter';
                           setFeedbackNotes(prev => ({ ...prev, [mod.id]: reason }));
                           handleAction(heroId, mod.id, 'refused');
                         }

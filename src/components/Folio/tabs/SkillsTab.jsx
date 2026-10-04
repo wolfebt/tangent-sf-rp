@@ -1358,7 +1358,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   <div className="flex items-center gap-1">
                     <button
                       type="button"
-                      onClick={() => handleUpdateSpecOrInvRank(spec, specRank - 1)}
+                      onClick={() => handleUpdateSpecOrInv(spec, 'rank', specRank - 1)}
                       className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer select-none"
                     >
                       -
@@ -1368,7 +1368,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     </span>
                     <button
                       type="button"
-                      onClick={() => handleUpdateSpecOrInvRank(spec, specRank + 1)}
+                      onClick={() => handleUpdateSpecOrInv(spec, 'rank', specRank + 1)}
                       className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer select-none"
                     >
                       +

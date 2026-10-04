@@ -7,14 +7,16 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ELEMENT_SCHEMAS, getTypePillStyle } from '../ElementForge/elementSchemas';
+import { ELEMENT_SCHEMAS, getTypePillStyle, getElementFileExtension } from '../ElementForge/elementSchemas';
 import { isHalfPageElement } from './exportUtils';
 import { showToast } from '../../../context/ToastContext';
 import { ElementSelectorModal as UnifiedRelationalSelectorModal } from '../ElementForge/ElementSelectorModal';
 import { ModularCharacterAssembler } from '../ElementForge/components/ModularCharacterAssembler';
 import { NpcScriptBuilder } from '../ElementForge/components/NpcScriptBuilder';
+import AimeThreeTierStack from '../ElementForge/components/AimeThreeTierStack';
 import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
+import { downloadAimeAssetFile } from '../../../services/aimeAssetFileService';
 import { AudioService } from '../../../services/audioService';
 import AIMEChatBox from '../AIME/AIMEChatBox';
 import { 
@@ -26,7 +28,8 @@ import {
   Search, 
   Plus, 
   ExternalLink, 
-  PanelRightClose 
+  PanelRightClose,
+  Download
 } from 'lucide-react';
 
 // ── AUTO-RESIZING TEXTAREA ──
@@ -170,7 +173,7 @@ export const ElementImageUploader = ({ activeNode, updateStory }) => {
 };
 
 // ── ELEMENT FIELDS EDITOR (For Right Cockpit Dock) ──
-export const ElementFieldsEditor = ({ activeNode, updateStory }) => {
+export const ElementFieldsEditor = ({ activeNode, updateStory, elementsCatalog = [] }) => {
   const schema = ELEMENT_SCHEMAS[activeNode.type] || [];
   const fields = activeNode.fields || {};
   const customFields = activeNode.customFields || [];
@@ -190,6 +193,19 @@ export const ElementFieldsEditor = ({ activeNode, updateStory }) => {
         ...(activeNode.fields || {}),
         [key]: value
       }
+    });
+  };
+
+  const handleGuidanceChange = (newGuidance) => {
+    updateStory(activeNode.id, {
+      guidance: newGuidance
+    });
+  };
+
+  const handleAssetHubChange = (newHub) => {
+    updateStory(activeNode.id, {
+      assetHub: newHub,
+      linkedElements: newHub.map(a => a.assetId || a)
     });
   };
 
@@ -230,8 +246,7 @@ export const ElementFieldsEditor = ({ activeNode, updateStory }) => {
   };
 
   const [isAimeOpen, setIsAimeOpen] = useState(false);
-  const schemaTabs = Array.from(new Set(schema.map(f => f.tab || 'General')));
-  const allTabs = [...schemaTabs, 'Custom Fields'];
+  const allTabs = ['AIME 3-Tier Stack', 'Custom Fields'];
   const currentTab = allTabs[activeTabIdx] || allTabs[0];
 
   return (
@@ -256,71 +271,21 @@ export const ElementFieldsEditor = ({ activeNode, updateStory }) => {
         <AimeGuidanceButton size="xs" onClick={() => setIsAimeOpen(true)} label="AIME" />
       </div>
 
-      {/* Schema Fields & Interactive Modules */}
-      {schemaTabs.includes(currentTab) && (
-        <div className="space-y-3">
-          {/* Modular Character Matrix (MCM) Interactive Assembler */}
-          {activeNode.type === 'Persona' && currentTab === 'Modular Assembly (MCM)' && (
-            <ModularCharacterAssembler
-              fields={fields}
-              onFieldChange={handleChange}
-              elementTitle={activeNode.title}
-              onOpenAimeGuidance={() => setIsAimeOpen(true)}
-            />
-          )}
-
-          {/* Autonomous VTT Script & Relations Builder */}
-          {activeNode.type === 'Persona' && currentTab === 'Relations & Scripting' && (
-            <NpcScriptBuilder
-              fields={fields}
-              onFieldChange={handleChange}
-              elementTitle={activeNode.title}
-              onOpenAimeGuidance={() => setIsAimeOpen(true)}
-            />
-          )}
-          {schema.filter(f => (f.tab || 'General') === currentTab).map(f => {
-            const val = fields[f.key] || '';
-            const isRelational = f.type === 'relational' || f.dbSource;
-
-            return (
-              <div key={f.key} className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <label className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">
-                    {f.label}
-                  </label>
-                  {f.dbSource && (
-                    <button
-                      onClick={() => handleOpenSelector(f)}
-                      className="px-1.5 py-0.2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-bold uppercase transition-colors"
-                    >
-                      ☁️ DB
-                    </button>
-                  )}
-                </div>
-
-                {isRelational && val && (
-                  <div className="flex items-center gap-1.5 bg-cyan-950/60 border border-cyan-500/40 px-2 py-1 rounded text-[10px]">
-                    <span className="text-cyan-400 font-bold">☁️</span>
-                    <span className="text-white font-semibold flex-1 truncate">{val}</span>
-                    <button
-                      onClick={() => handleChange(f.key, '')}
-                      className="text-slate-400 hover:text-red-400 font-bold px-0.5"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                )}
-
-                <AutoResizingTextarea
-                  value={val}
-                  onChange={e => handleChange(f.key, e.target.value)}
-                  placeholder={f.placeholder}
-                  className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-100 p-2 rounded-lg text-xs outline-none leading-relaxed"
-                />
-              </div>
-            );
-          })}
-        </div>
+      {/* Tab: AIME 3-Tier Architecture (Default) */}
+      {currentTab === 'AIME 3-Tier Stack' && (
+        <AimeThreeTierStack
+          elementType={activeNode.type}
+          fields={fields}
+          onChangeField={handleChange}
+          guidance={activeNode.guidance || {}}
+          onChangeGuidance={handleGuidanceChange}
+          assetHub={activeNode.assetHub || activeNode.linkedElements || []}
+          onChangeAssetHub={handleAssetHubChange}
+          availableElements={elementsCatalog}
+          currentElementId={activeNode.id}
+          onOpenRelationalSelector={handleOpenSelector}
+          onOpenAimeGuidance={() => setIsAimeOpen(true)}
+        />
       )}
 
       {/* Custom Fields */}
@@ -481,16 +446,31 @@ export const ScenarioCockpitDockPanel = ({
               </span>
             )}
           </div>
-          {onToggleRightDock && (
-            <button
-              type="button"
-              onClick={onToggleRightDock}
-              className="p-1 text-slate-500 hover:text-slate-300 hover:bg-slate-850 rounded transition-colors cursor-pointer"
-              title="Close Cockpit Dock (])"
-            >
-              <X size={13} />
-            </button>
-          )}
+          <div className="flex items-center gap-1">
+            {activeNode && (
+              <button
+                type="button"
+                onClick={() => {
+                  downloadAimeAssetFile(activeNode);
+                  showToast({ type: 'success', text: `Exported ${activeNode.title || 'element'} as portable ${getElementFileExtension(activeNode.type || 'Scenario')}!` });
+                }}
+                className="p-1 text-slate-400 hover:text-amber-400 hover:bg-slate-850 rounded transition-colors cursor-pointer"
+                title={`Export as portable ${getElementFileExtension(activeNode.type || 'Scenario')} asset`}
+              >
+                <Download size={13} />
+              </button>
+            )}
+            {onToggleRightDock && (
+              <button
+                type="button"
+                onClick={onToggleRightDock}
+                className="p-1 text-slate-500 hover:text-slate-300 hover:bg-slate-850 rounded transition-colors cursor-pointer"
+                title="Close Cockpit Dock (])"
+              >
+                <X size={13} />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* DOCK TAB 1: INSPECTOR & FIELDS */}
@@ -544,8 +524,8 @@ export const ScenarioCockpitDockPanel = ({
                   )}
                 </div>
 
-                {/* Type-Specific Structured Fields */}
-                <ElementFieldsEditor activeNode={activeNode} updateStory={updateStory} />
+                {/* Type-Specific Structured Fields (AIME 3-Tier Stack) */}
+                <ElementFieldsEditor activeNode={activeNode} updateStory={updateStory} elementsCatalog={elementsCatalog} />
               </>
             ) : (
               <div className="p-6 text-center text-xs text-slate-500 italic">

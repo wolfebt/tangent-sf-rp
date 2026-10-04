@@ -102,7 +102,7 @@ export const SquadDirectoryTab = ({
       {/* Squads Directory Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {filteredDirectory.map((group) => {
-          const isEnrolled = group.members?.some(m => m.userId === currentUser?.uid);
+          const isEnrolled = (group.members || []).some(m => (typeof m === 'string' ? m === currentUser?.uid : (m?.userId || m?.uid || m?.id) === currentUser?.uid)) || group.creatorId === currentUser?.uid;
           const isSelected = activeGroup?.id === group.id;
 
           return (

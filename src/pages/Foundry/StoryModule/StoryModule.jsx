@@ -41,6 +41,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const storyIdParam = searchParams.get('storyId');
+  const scenarioIdParam = searchParams.get('scenarioId');
+  const mapIdParam = searchParams.get('mapId');
   const viewParam = searchParams.get('view');
   const tabParam = searchParams.get('tab') || searchParams.get('workspaceTab');
   const { 
@@ -51,10 +53,13 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     updateSavedElement, 
     deleteSavedElement, 
     updateStory,
+    activeScenarioId,
     setActiveScenarioId,
     cronicle,
     mapsCatalog,
-    activeMapId
+    activeMapId,
+    setActiveMapId,
+    handleLoadStory
   } = useStory();
   const { currentUser, userHandle } = useAuth();
 
@@ -125,32 +130,45 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     }
   }, [storyIdParam, openStory]);
 
+  // Synchronize scenarioId and mapId from URL params if present
+  useEffect(() => {
+    if (scenarioIdParam && setActiveScenarioId && activeScenarioId !== scenarioIdParam) {
+      setActiveScenarioId(scenarioIdParam);
+    }
+  }, [scenarioIdParam, activeScenarioId, setActiveScenarioId]);
+
+  useEffect(() => {
+    if (mapIdParam && setActiveMapId && activeMapId !== mapIdParam) {
+      setActiveMapId(mapIdParam);
+    }
+  }, [mapIdParam, activeMapId, setActiveMapId]);
+
   // Two-way synchronization between URL search parameters and central adeStore
   useEffect(() => {
+    let resolvedView = 'mission_control';
     const v = viewParam || defaultView;
     if (v) {
-      let resolvedView = 'mission_control';
       if (v === 'mission_control' || v === 'dashboard' || v === 'mission-control' || v === 'hub') resolvedView = 'mission_control';
       else if (v === 'map' || v === 'map-maker' || v === 'mapmaker') resolvedView = 'map';
       else if (v === 'scripts' || v === 'presets') resolvedView = 'scripts';
-      else if (v === 'elements' || v === 'gallery') resolvedView = 'gallery';
+      else if (v === 'elements' || v === 'gallery') resolvedView = 'elements';
       else if (v === 'graph') resolvedView = 'graph';
       else if (v === 'interactive') resolvedView = 'interactive';
       else if (v === 'control-panel' || v === 'tactical') resolvedView = 'control-panel';
-      else if (v === 'scenarios' || v === 'weaver' || v === 'story' || v === 'narrative') resolvedView = 'scenarios';
-
-      if (activeView !== resolvedView) {
-        setActiveView(resolvedView);
-      }
+      else if (v === 'scenarios' || v === 'weaver' || v === 'story' || v === 'narrative' || v === 'stage' || v === 'live' || v === 'live-studio') resolvedView = 'scenarios';
     }
-  }, [viewParam, defaultView, activeView, setActiveView]);
+    setActiveView(resolvedView);
+  }, [viewParam, defaultView, setActiveView]);
 
+  // Workspace tab synchronization: update tab from URL param if present, or initial defaultWorkspaceTab
   useEffect(() => {
-    const t = tabParam || defaultWorkspaceTab;
-    if (t && scenarioWorkspaceTab !== t) {
-      setScenarioWorkspaceTab(t);
+    if (tabParam) {
+      const resolvedTab = (tabParam === 'canvas' || tabParam === 'manuscript') ? 'weaver' : tabParam;
+      setScenarioWorkspaceTab(resolvedTab);
+    } else if (defaultWorkspaceTab && defaultWorkspaceTab !== 'weaver') {
+      setScenarioWorkspaceTab(defaultWorkspaceTab);
     }
-  }, [tabParam, defaultWorkspaceTab, scenarioWorkspaceTab, setScenarioWorkspaceTab]);
+  }, [tabParam, defaultWorkspaceTab, setScenarioWorkspaceTab]);
 
   // Global hotkeys for glass cockpit: ] toggles right dock, [ toggles left outliner
   useEffect(() => {
@@ -169,40 +187,79 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleSwitchView = (newView) => {
-    setActiveView(newView);
+  const handleSelectScenarioWorkspaceTab = (tab) => {
+    const resolvedTab = (tab === 'canvas' || tab === 'manuscript') ? 'weaver' : tab;
+    setScenarioWorkspaceTab(resolvedTab);
+    setActiveView('scenarios');
+
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('view', 'scenarios');
+    if (resolvedTab === 'weaver') {
+      newParams.delete('tab');
+      newParams.delete('workspaceTab');
+    } else {
+      newParams.set('tab', resolvedTab);
+    }
+    const searchStr = newParams.toString();
+    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`, { replace: true });
+  };
+
+  const handleSwitchView = (newView, targetTab) => {
+    let resolvedView = newView;
+    let resolvedTargetTab = targetTab;
+
     if (newView === 'stage' || newView === 'live-studio') {
-      setActiveView('scenarios');
-      setScenarioWorkspaceTab('stage');
+      resolvedView = 'scenarios';
+      resolvedTargetTab = 'stage';
     } else if (newView === 'control-panel' || newView === 'tactical') {
-      setActiveView('control-panel');
-      setScenarioWorkspaceTab('tactical');
+      resolvedView = 'control-panel';
+      resolvedTargetTab = 'tactical';
     } else if (newView === 'interactive') {
-      setActiveView('interactive');
-      setScenarioWorkspaceTab('interactive');
+      resolvedView = 'interactive';
+      resolvedTargetTab = 'interactive';
     } else if (newView === 'graph') {
-      setActiveView('graph');
-      setScenarioWorkspaceTab('graph');
+      resolvedView = 'graph';
+      resolvedTargetTab = 'graph';
     } else if (newView === 'elements' || newView === 'gallery') {
-      setActiveView('gallery');
+      resolvedView = 'elements';
     } else if (newView === 'scenarios' || newView === 'weaver' || newView === 'manuscript' || newView === 'aime') {
-      setActiveView('scenarios');
-      setScenarioWorkspaceTab('weaver');
+      resolvedView = 'scenarios';
+      resolvedTargetTab = targetTab || 'weaver';
+    }
+
+    setActiveView(resolvedView);
+    if (resolvedTargetTab) {
+      setScenarioWorkspaceTab(resolvedTargetTab);
     }
 
     const newParams = new URLSearchParams(searchParams);
-    if (newView === 'mission_control') {
+    if (resolvedView === 'mission_control') {
       newParams.delete('view');
+      newParams.delete('tab');
+      newParams.delete('workspaceTab');
     } else {
-      newParams.set('view', newView);
+      newParams.set('view', resolvedView);
+      if (resolvedView === 'scenarios') {
+        if (resolvedTargetTab && resolvedTargetTab !== 'weaver') {
+          newParams.set('tab', resolvedTargetTab);
+        } else {
+          newParams.delete('tab');
+          newParams.delete('workspaceTab');
+        }
+      } else {
+        newParams.delete('tab');
+        newParams.delete('workspaceTab');
+      }
     }
-    setSearchParams(newParams, { replace: true });
+
+    const searchStr = newParams.toString();
+    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`, { replace: true });
   };
 
   // Find active scenario node for format studios
   const activeNode = useMemo(() => {
     const scenarios = universeState?.scenarios || [];
-    const activeId = universeState?.activeScenarioId;
+    const activeId = activeScenarioId || universeState?.activeScenarioId;
 
     const findNode = (nodes) => {
       if (!Array.isArray(nodes)) return null;
@@ -217,7 +274,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     };
 
     return findNode(scenarios) || scenarios[0] || null;
-  }, [universeState]);
+  }, [universeState, activeScenarioId]);
 
   const activeMap = useMemo(() => {
     const allMaps = [...(mapsCatalog || []), ...(universeState?.maps || [])];
@@ -278,7 +335,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           activeView={activeView}
           onSwitchView={handleSwitchView}
           activeScenarioWorkspaceTab={scenarioWorkspaceTab}
-          onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+          onSelectScenarioWorkspaceTab={handleSelectScenarioWorkspaceTab}
           elementsCount={elementsCatalog?.length || 0}
           mapsCount={universeState?.maps?.length || 0}
           modifiersCount={universeState?.galleryModifiers?.length || 0}
@@ -311,7 +368,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
                 } else if (pillar === 'scripts') {
                   handleSwitchView('scripts');
                 } else if (pillar === 'assets') {
-                  handleSwitchView('gallery');
+                  handleSwitchView('elements');
                 } else if (pillar === 'live_director') {
                   navigate('/stage');
                 }
@@ -346,11 +403,11 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               onSwitchView={handleSwitchView}
               onSwitchTab={(tab) => {
                 if (tab === 'map' || tab === 'stage') {
-                  setScenarioWorkspaceTab('stage');
+                  handleSelectScenarioWorkspaceTab('stage');
                 }
               }}
               scenarioWorkspaceTab={scenarioWorkspaceTab}
-              onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+              onSelectScenarioWorkspaceTab={handleSelectScenarioWorkspaceTab}
               isTreeExpanded={isTreeExpanded}
               onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
               isRightDockOpen={isRightDockOpen}
@@ -390,6 +447,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               onPanStageToMap={(mapId) => {
                 navigate(`/foundry/live?mapId=${mapId}`);
               }}
+              onSwitchView={handleSwitchView}
             />
           </div>
         )}
@@ -418,7 +476,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           </div>
         )}
 
-        {/* VIEW 4: THE STORY GALLERY (Elements, Maps, Situational Modifiers) */}
+        {/* VIEW 4: STORY ELEMENTS (Elements, Maps, Situational Modifiers) */}
         {(activeView === 'gallery' || activeView === 'elements') && (
           <div className="flex-1 min-w-0 h-full overflow-hidden">
             <StoryGallery

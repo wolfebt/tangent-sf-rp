@@ -1,15 +1,99 @@
 /**
- * Element Input Schemas & Field Definitions for Story Foundry
- * Maps each of the 16 Scenario Element Types to its focused input fields and tabs.
+ * @file elementSchemas.js
+ * @description Element Input Schemas & Field Definitions for Story Foundry & AIME Creative Suite.
+ * Grounded in "The Art of AI Crafting" Layer 2 (Traits - The Objective Reality).
+ * Defines the 7 Core Element Modules and supports legacy RPG extensions.
  */
 
-export const ELEMENT_TYPES = [
-  'Story Arc', 'Adventure', 'Persona', 'Scene', 'Setting', 'Faction', 
-  'Encounter', 'Item', 'Clue', 'Handout', 'Custom',
-  'Universe', 'World', 'Philosophy', 'Technology', 'Species'
+export const AIME_CORE_MODULES = [
+  {
+    type: 'World Anvil',
+    canonicalType: 'World',
+    ext: '.world',
+    icon: '🌍',
+    pillStyle: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
+    description: 'Establishes foundational world, factions, history timeline, and unique physics.'
+  },
+  {
+    type: 'Persona Maker',
+    canonicalType: 'Persona',
+    ext: '.persona',
+    icon: '👤',
+    pillStyle: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+    description: 'Creates detailed characters, archetypes, motivations, flaws, and relationships.'
+  },
+  {
+    type: 'Setting Architect',
+    canonicalType: 'Setting',
+    ext: '.setting',
+    icon: '🏛️',
+    pillStyle: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+    description: 'Designs specific geographic, architectural, and demographic locations.'
+  },
+  {
+    type: 'Species Creator',
+    canonicalType: 'Species',
+    ext: '.species',
+    icon: '🧬',
+    pillStyle: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/40',
+    description: 'Fleshes out sentient species, xenobiology, powers, behavior, and habitats.'
+  },
+  {
+    type: 'Technology Forge',
+    canonicalType: 'Technology',
+    ext: '.tech',
+    icon: '⚙️',
+    pillStyle: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+    description: 'Defines technologies, tech levels, power sources, and societal impact.'
+  },
+  {
+    type: 'Philosophy Scribe',
+    canonicalType: 'Philosophy',
+    ext: '.philosophy',
+    icon: '📜',
+    pillStyle: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',
+    description: 'Codifies religions, belief systems, rituals, iconography, and social influence.'
+  },
+  {
+    type: 'Scene Builder',
+    canonicalType: 'Scene',
+    ext: '.scene',
+    icon: '🎬',
+    pillStyle: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+    description: 'Constructs narrative scenes, sluglines, sensory details, and key interactivity.'
+  }
 ];
 
+export const AIME_CORE_ELEMENT_TYPES = AIME_CORE_MODULES.map(m => m.type);
+
+export const ELEMENT_TYPES = [
+  // 7 Core AIME Modules
+  'World Anvil', 'Persona Maker', 'Setting Architect', 'Species Creator', 
+  'Technology Forge', 'Philosophy Scribe', 'Scene Builder',
+  // Canonical Single-Word Aliases & RPG Extensions
+  'Persona', 'Scene', 'Setting', 'World', 'Species', 'Technology', 'Philosophy',
+  'Story Arc', 'Adventure', 'Faction', 'Encounter', 'Item', 'Clue', 'Handout', 'Custom', 'Universe'
+];
+
+/**
+ * Returns canonical file extension for an element type.
+ */
+export const getElementFileExtension = (type = '') => {
+  const norm = (type || '').toLowerCase();
+  if (norm.includes('persona')) return '.persona';
+  if (norm.includes('world') || norm.includes('anvil')) return '.world';
+  if (norm.includes('setting') || norm.includes('architect')) return '.setting';
+  if (norm.includes('species') || norm.includes('creator')) return '.species';
+  if (norm.includes('tech') || norm.includes('forge')) return '.tech';
+  if (norm.includes('philosophy') || norm.includes('scribe')) return '.philosophy';
+  if (norm.includes('scene') || norm.includes('builder')) return '.scene';
+  return '.element';
+};
+
 export const getTypePillStyle = (type) => {
+  const mod = AIME_CORE_MODULES.find(m => m.type === type || m.canonicalType === type);
+  if (mod) return mod.pillStyle;
+
   switch (type) {
     case 'Story Arc':
     case 'Adventure':
@@ -39,8 +123,150 @@ export const getTypePillStyle = (type) => {
   }
 };
 
+// ── 7 CORE AIME ELEMENT SCHEMAS ──
+
+const WORLD_ANVIL_SCHEMA = [
+  // Canonical AIME Core Traits
+  { tab: 'Core Traits', key: 'worldName', aliasKeys: ['title', 'highConcept', 'name'], label: 'World Name', type: 'text', placeholder: 'The foundational identifier for your universe or planet...' },
+  { tab: 'Core Traits', key: 'corePremise', aliasKeys: ['highConcept', 'premise', 'concept'], label: 'Core Premise / High Concept', type: 'textarea', placeholder: 'One-sentence summary that encapsulates the central idea or hook...' },
+  { tab: 'Core Traits', key: 'majorFactions', aliasKeys: ['factions', 'species'], label: 'Major Factions & Powers', type: 'textarea', placeholder: 'Significant organized groups (guilds, kingdoms, megacorps, syndicates) that shape the world...' },
+  { tab: 'Core Traits', key: 'historyTimeline', aliasKeys: ['history', 'cataclysms'], label: 'History & Lore Timeline', type: 'textarea', placeholder: 'Chronological sequence of significant events and cataclysms that shaped the world...' },
+  { tab: 'Core Traits', key: 'cosmologyPhysics', aliasKeys: ['laws', 'cosmology', 'magic'], label: 'Cosmology & Unique Physics', type: 'textarea', placeholder: 'Fundamental rules of your world, including magic/psionics systems and laws of nature...' },
+  // Extended Lore & Geography
+  { tab: 'Geography & Astronomy', key: 'starSystem', label: 'Star System & Planetary Bodies', type: 'textarea', placeholder: 'Star system, celestial bodies, orbital coordinates...' },
+  { tab: 'Geography & Astronomy', key: 'continents', label: 'Continents, Oceans & Climate', type: 'textarea', placeholder: 'Physical geography, major regions, biomes...' },
+  { tab: 'Culture & Themes', key: 'themes', label: 'Themes & Aesthetic Inspirations', type: 'textarea', placeholder: 'Central philosophical themes, motifs, visual styles...' }
+];
+
+const PERSONA_MAKER_SCHEMA = [
+  // Canonical AIME Core Traits
+  { tab: 'Core Traits', key: 'name', aliasKeys: ['char-name', 'fullName', 'title'], label: 'Name', type: 'text', placeholder: 'Character full name / operational callsign...' },
+  { tab: 'Core Traits', key: 'archetype', aliasKeys: ['char-concept', 'characterArchetype'], label: 'Archetype', type: 'text', placeholder: 'Narrative role (e.g. "The Disillusioned Veteran", "The Rebel", "The Mentor")...' },
+  { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'pitch'], label: 'One-Line Pitch', type: 'text', placeholder: 'A single, compelling sentence capturing the character\'s essence...' },
+  { tab: 'Core Traits', key: 'physicalDescription', aliasKeys: ['appearance', 'char-style'], label: 'Physical Description', type: 'textarea', placeholder: 'Details on appearance, cybernetics, clothing, posture, distinguishing marks...' },
+  { tab: 'Core Traits', key: 'personalityMannerisms', aliasKeys: ['mannerisms', 'personalityType'], label: 'Personality & Mannerisms', type: 'textarea', placeholder: 'Their inner world, values, demeanor, speech cadence, and unique habits...' },
+  { tab: 'Core Traits', key: 'backgroundHistory', aliasKeys: ['backstory', 'definingTrauma'], label: 'Background & History', type: 'textarea', placeholder: 'Significant life events and defining trauma that shaped them...' },
+  { tab: 'Core Traits', key: 'goalsMotivations', aliasKeys: ['char-motive', 'goals', 'primaryConflict'], label: 'Goals & Motivations', type: 'textarea', placeholder: 'Internal desires (Need) vs external objectives (Want)...' },
+  { tab: 'Core Traits', key: 'strengthsFlaws', aliasKeys: ['positiveTraits', 'negativeTraits'], label: 'Strengths & Flaws', type: 'textarea', placeholder: 'Virtues, talents, psychological vulnerabilities, and moral failings...' },
+  { tab: 'Core Traits', key: 'roleInStory', aliasKeys: ['role'], label: 'Role in Story', type: 'text', placeholder: 'Protagonist, Quest Giver, Antagonist, Fixer, Tethered Ally...' },
+  { tab: 'Core Traits', key: 'relationships', aliasKeys: ['keyRelationships', 'relationships'], label: 'Relationships', type: 'textarea', placeholder: 'Web of connections with allies, rivals, family, and factions...' },
+
+  // Tangent RPG System Extensions (Preserved)
+  { tab: 'Modular Assembly (MCM)', key: 'mcmTier', label: 'Threat Tier (0-20)', type: 'text', placeholder: '1' },
+  { tab: 'Modular Assembly (MCM)', key: 'mcmDesignation', label: 'Designation', type: 'text', placeholder: 'Adversary / Ally / Companion / Neutral' },
+  { tab: 'Modular Assembly (MCM)', key: 'mcmChassis', label: 'Chassis Array', type: 'text', placeholder: 'Combatant / Specialist / Socialite / Balanced' },
+  { tab: 'Modular Assembly (MCM)', key: 'mcmRole', label: 'Tactical Role', type: 'text', placeholder: 'Bruiser, Commando, Sniper, Guardian, Slicer, Medic, Boss' },
+  { tab: 'Relations & Scripting', key: 'keyRelationships', label: 'Key Relationships & Dynamics', type: 'textarea', placeholder: 'Allies, rivals, patrons, and bonds...' },
+  { tab: 'Relations & Scripting', key: 'relationsStance', label: 'Default Stance', type: 'text', placeholder: 'Hostile / Suspicious / Neutral / Friendly / Guarding' },
+  { tab: 'Relations & Scripting', key: 'vipTarget', label: 'Protected VIP / Ally (Element ID or Name)', type: 'text', placeholder: 'ID or Name of unit to tether/guard...' },
+  { tab: 'Relations & Scripting', key: 'rivalTarget', label: 'Marked Rival / Priority Target', type: 'text', placeholder: 'ID or Name of rival or hostile faction...' },
+  { tab: 'Relations & Scripting', key: 'vttScript', label: 'Autonomous VTT Script (JSON)', type: 'textarea', placeholder: 'VTT routine payload...' },
+  { tab: 'Mechanics: Vitals', key: 'starting-cp', label: 'Starting CP', type: 'text', placeholder: '150' },
+  { tab: 'Mechanics: Vitals', key: 'tech-level', label: 'Tech Level', type: 'text', placeholder: '3' },
+  { tab: 'Mechanics: Vitals', key: 'magic-level', label: 'Magic Level', type: 'text', placeholder: '1' },
+  { tab: 'Mechanics: Vitals', key: 'health', label: 'Health (Physical)', type: 'text', placeholder: '30' },
+  { tab: 'Mechanics: Vitals', key: 'vitality', label: 'Vitality (Mental)', type: 'text', placeholder: '30' },
+  { tab: 'Mechanics: Vitals', key: 'karma', label: 'Karma', type: 'text', placeholder: '3' },
+  { tab: 'Mechanics: Vitals', key: 'plot-points', label: 'Plot Points', type: 'text', placeholder: '0' },
+  { tab: 'Mechanics: JSON', key: 'features', label: 'Features (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'disadvantages', label: 'Disadvantages (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'augmentations', label: 'Augmentations (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'awakened', label: 'Awakened (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'invocations', label: 'Invocations (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'special_abilities', label: 'Special Abilities (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'attacks', label: 'Attacks (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'armor', label: 'Armor (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'gear', label: 'Gear (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  { tab: 'Mechanics: JSON', key: 'weapons', label: 'Weapons (JSON)', type: 'textarea', placeholder: 'JSON Array...' }
+];
+
+const SETTING_ARCHITECT_SCHEMA = [
+  // Canonical AIME Core Traits
+  { tab: 'Core Traits', key: 'settingName', aliasKeys: ['title', 'name'], label: 'Setting Name', type: 'text', placeholder: 'Specific identifier for the location (e.g. "Aethelgard", "Neon Sector 4")...' },
+  { tab: 'Core Traits', key: 'parentWorld', aliasKeys: ['world', 'system'], label: 'Parent World', type: 'text', placeholder: 'The larger world, system, or planet this setting exists within...' },
+  { tab: 'Core Traits', key: 'geographyArchitecture', aliasKeys: ['terrain', 'architecture', 'scale'], label: 'Geography & Architecture', type: 'textarea', placeholder: 'Natural landscape, climate, structure styles, spatial layout...' },
+  { tab: 'Core Traits', key: 'populationDemographics', aliasKeys: ['demographics', 'inhabitants'], label: 'Population & Demographics', type: 'textarea', placeholder: 'Number of inhabitants, dominant species, cultural groups, social strata...' },
+  { tab: 'Core Traits', key: 'functionPurpose', aliasKeys: ['coreConcept', 'primaryConflict'], label: 'Function & Purpose', type: 'textarea', placeholder: 'Primary role (e.g. "Capital City", "Trading Hub", "Precursor Research Vault")...' },
+  // Extended Environment & Atmosphere
+  { tab: 'Atmosphere & Hazards', key: 'climateWeather', aliasKeys: ['climate', 'weather'], label: 'Climate & Weather Patterns', type: 'textarea', placeholder: 'Atmospheric pressure, radiation, seasonal storms...' },
+  { tab: 'Atmosphere & Hazards', key: 'sensoryDetails', aliasKeys: ['soundsSmells', 'dominantSights'], label: 'Sensory Acoustics & Smells', type: 'textarea', placeholder: 'Industrial hum, ozone odor, void echoes...' },
+  { tab: 'Atmosphere & Hazards', key: 'landmarksSecrets', aliasKeys: ['majorLandmarks', 'hiddenLocations'], label: 'Landmarks & Hidden Locations', type: 'textarea', placeholder: 'Key points of interest, smuggler caches, safehouses...' }
+];
+
+const SPECIES_CREATOR_SCHEMA = [
+  // Canonical AIME Core Traits
+  { tab: 'Core Traits', key: 'speciesName', aliasKeys: ['name', 'title'], label: 'Species Name', type: 'text', placeholder: 'Formal or common name of the species...' },
+  { tab: 'Core Traits', key: 'classification', aliasKeys: ['speciesType', 'archetype'], label: 'Classification', type: 'text', placeholder: 'Biological or synthetic category (e.g. "Sentient Silicate", "Cyber-Augmented Primate")...' },
+  { tab: 'Core Traits', key: 'physicalDescription', aliasKeys: ['appearance', 'features', 'composition'], label: 'Physical Description', type: 'textarea', placeholder: 'Appearance, anatomy, sensory organs, size scale, life cycle...' },
+  { tab: 'Core Traits', key: 'abilitiesPowers', aliasKeys: ['powers', 'abilities', 'traits'], label: 'Abilities & Powers', type: 'textarea', placeholder: 'Special physiological traits, unique skills, natural armor, psionics...' },
+  { tab: 'Core Traits', key: 'behaviorDiet', aliasKeys: ['diet', 'temperament'], label: 'Behavior & Diet', type: 'textarea', placeholder: 'Social structure, temperament, dietary requirements, cultural instincts...' },
+  { tab: 'Core Traits', key: 'habitatOrigin', aliasKeys: ['homeworld', 'origin'], label: 'Habitat & Origin', type: 'textarea', placeholder: 'Native planetary environment and evolutionary history...' },
+  { tab: 'Core Traits', key: 'roleInWorld', aliasKeys: ['role', 'societalImpact'], label: 'Role in the World', type: 'textarea', placeholder: 'Ecological impact, geopolitical niche, or societal role...' },
+  // Extended Cloud DBM Links
+  { tab: 'Cloud DBM Links', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
+  { tab: 'Cloud DBM Links', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' }
+];
+
+const TECHNOLOGY_FORGE_SCHEMA = [
+  // Canonical AIME Core Traits
+  { tab: 'Core Traits', key: 'technologyName', aliasKeys: ['title', 'name', 'category'], label: 'Technology Name', type: 'text', placeholder: 'Clear designation or model name for the technology...' },
+  { tab: 'Core Traits', key: 'techLevel', aliasKeys: ['level', 'tl'], label: 'Tech Level', type: 'text', placeholder: 'Sophistication tier (e.g. "Near-Future", "TL-3 Interstellar", "TL-4 Hard-Light", "Precursor")...' },
+  { tab: 'Core Traits', key: 'functionPurpose', aliasKeys: ['function', 'purpose'], label: 'Function & Purpose', type: 'textarea', placeholder: 'What the technology does and the problem it solves...' },
+  { tab: 'Core Traits', key: 'mechanismPowerSource', aliasKeys: ['power', 'mechanism'], label: 'Mechanism & Power Source', type: 'textarea', placeholder: 'How it operates and what fuels it (e.g. antimatter, zero-point battery, aether tap)...' },
+  { tab: 'Core Traits', key: 'socialEconomicImpact', aliasKeys: ['impact', 'socialImpact'], label: 'Social & Economic Impact', type: 'textarea', placeholder: 'How the technology has altered society, culture, warfare, and the economy...' },
+  // Extended Engineering & Lore
+  { tab: 'Engineering & Drawbacks', key: 'weaknesses', label: 'Drawbacks & Vulnerabilities', type: 'textarea', placeholder: 'Overheating risks, EMP sensitivity, rare resource requirements...' },
+  { tab: 'Engineering & Drawbacks', key: 'originContext', label: 'Inventor & Historical Context', type: 'textarea', placeholder: 'Who created it, when, and under what circumstances...' }
+];
+
+const PHILOSOPHY_SCRIBE_SCHEMA = [
+  // Canonical AIME Core Traits
+  { tab: 'Core Traits', key: 'philosophyName', aliasKeys: ['name', 'title', 'category'], label: 'Belief System / Philosophy Name', type: 'text', placeholder: 'Official or common name of the religion or belief system...' },
+  { tab: 'Core Traits', key: 'coreTenets', aliasKeys: ['tenet', 'tenets', 'beliefs'], label: 'Core Tenets & Beliefs', type: 'textarea', placeholder: 'Foundational principles, doctrines, worldview, and ontological truth...' },
+  { tab: 'Core Traits', key: 'ritualsPractices', aliasKeys: ['rituals', 'practices'], label: 'Rituals & Practices', type: 'textarea', placeholder: 'Ceremonies, daily traditions, regular sacraments, and taboos...' },
+  { tab: 'Core Traits', key: 'symbolsIconography', aliasKeys: ['symbols', 'iconography'], label: 'Symbols & Iconography', type: 'textarea', placeholder: 'Key emblems, sacred colors, holy objects, and visual motifs...' },
+  { tab: 'Core Traits', key: 'influenceSociety', aliasKeys: ['society', 'influence'], label: 'Influence & Role in Society', type: 'textarea', placeholder: 'Impact on culture, laws, social hierarchy, and politics...' },
+  // Extended Ethics & Metaphysics
+  { tab: 'Ethics & Cosmogony', key: 'ethics', label: 'Moral Compass & Virtues/Vices', type: 'textarea', placeholder: 'Virtues rewarded, sins condemned, handling of outsiders...' },
+  { tab: 'Ethics & Cosmogony', key: 'cosmology', label: 'Deity, Origin & Afterlife', type: 'textarea', placeholder: 'Divine entities, cosmic creation, fate of the soul...' }
+];
+
+const SCENE_BUILDER_SCHEMA = [
+  // Canonical AIME Core Traits
+  { tab: 'Core Traits', key: 'sceneName', aliasKeys: ['slugline', 'title', 'sceneTitle'], label: 'Scene Name / Slugline', type: 'text', placeholder: 'Formal slugline (e.g. "INT. COFFEE SHOP - DAY", "EXT. DOCKING BAY 9 - NIGHT")...' },
+  { tab: 'Core Traits', key: 'location', aliasKeys: ['locationType', 'setting'], label: 'Location Description', type: 'text', placeholder: 'Precise description of where the scene unfolds...' },
+  { tab: 'Core Traits', key: 'sensoryDetails', aliasKeys: ['soundsSmells', 'atmosphere'], label: 'Sensory Details', type: 'textarea', placeholder: 'Sights, sounds, smells, temperature, lighting, and tactile details to bring it to life...' },
+  { tab: 'Core Traits', key: 'moodAtmosphere', aliasKeys: ['atmosphere', 'mood'], label: 'Mood & Atmosphere', type: 'textarea', placeholder: 'Overall emotional, dramatic, and psychological tension level...' },
+  { tab: 'Core Traits', key: 'keyObjects', aliasKeys: ['keySights', 'props'], label: 'Key Objects & Interactivity', type: 'textarea', placeholder: 'Important props, terminals, clues, or elements characters can interact with...' },
+  // Extended Tactical & Beats
+  { tab: 'Tactical & Beats', key: 'sceneBeats', label: 'Tactical Scene Beats', type: 'textarea', placeholder: 'Sequential beats: 1. Infiltration, 2. Confrontation, 3. Climax, 4. Extraction...' },
+  { tab: 'Tactical & Beats', key: 'readAloud', label: 'GM Read-Aloud Narration', type: 'textarea', placeholder: 'Sensory immersion text to read aloud to players...' }
+];
 
 export const ELEMENT_SCHEMAS = {
+  // 7 Core AIME Modules (Mapped to both Title and Single-word alias)
+  'World Anvil': WORLD_ANVIL_SCHEMA,
+  'World': WORLD_ANVIL_SCHEMA,
+
+  'Persona Maker': PERSONA_MAKER_SCHEMA,
+  'Persona': PERSONA_MAKER_SCHEMA,
+
+  'Setting Architect': SETTING_ARCHITECT_SCHEMA,
+  'Setting': SETTING_ARCHITECT_SCHEMA,
+
+  'Species Creator': SPECIES_CREATOR_SCHEMA,
+  'Species': SPECIES_CREATOR_SCHEMA,
+
+  'Technology Forge': TECHNOLOGY_FORGE_SCHEMA,
+  'Technology': TECHNOLOGY_FORGE_SCHEMA,
+
+  'Philosophy Scribe': PHILOSOPHY_SCRIBE_SCHEMA,
+  'Philosophy': PHILOSOPHY_SCRIBE_SCHEMA,
+
+  'Scene Builder': SCENE_BUILDER_SCHEMA,
+  'Scene': SCENE_BUILDER_SCHEMA,
+
+  // Legacy RPG Types (Preserved for compatibility)
   'Custom': [],
   'Story Arc': [
     { tab: 'Overview', key: 'summary', label: 'Summary', type: 'textarea', placeholder: 'Brief overview of the arc...' },
@@ -57,130 +283,6 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Overview', key: 'resolution', label: 'Resolution', type: 'textarea', placeholder: 'How the adventure might end...' },
     { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Gameplay tags (e.g. Investigation, Combat, Heist)...' }
   ],
-  'Persona': [
-    { tab: 'Overview', key: 'role', label: 'Role in Story', type: 'text', placeholder: 'Quest Giver, Rival, Fixer...' },
-    { tab: 'Overview', key: 'char-concept', label: 'Character Archetype', type: 'text', placeholder: 'Archetype...' },
-    { tab: 'Overview', key: 'summary', label: 'One-Sentence Summary', type: 'text', placeholder: 'Summary...' },
-    { tab: 'Overview', key: 'char-motive', label: 'Core Motivation', type: 'textarea', placeholder: 'What drives this character...' },
-    { tab: 'Overview', key: 'primaryConflict', label: 'Primary Conflict/Goal', type: 'textarea', placeholder: 'Conflict...' },
-    { tab: 'Profile: Vitals', key: 'char-name', label: 'Full Name', type: 'text', placeholder: 'Name...' },
-    { tab: 'Profile: Vitals', key: 'nicknames', label: 'Nicknames / Aliases', type: 'text', placeholder: 'Aliases...' },
-    { tab: 'Profile: Vitals', key: 'char-age', label: 'Age & Date of Birth', type: 'text', placeholder: 'Age...' },
-    { tab: 'Profile: Vitals', key: 'char-gender', label: 'Gender & Pronouns', type: 'text', placeholder: 'Gender...' },
-    { tab: 'Profile: Vitals', key: 'char-occu', label: 'Occupation (Cloud DB)', type: 'relational', dbSource: 'occupations', placeholder: 'Link Cloud DBM Occupation...' },
-    { tab: 'Profile: Vitals', key: 'socialClass', label: 'Social Class & Status', type: 'text', placeholder: 'Social class...' },
-    { tab: 'Profile: Vitals', key: 'char-origin', label: 'Origin (Cloud DB)', type: 'relational', dbSource: 'origins', placeholder: 'Link Cloud DBM Origin...' },
-    { tab: 'Profile: Vitals', key: 'char-faction', label: 'Faction (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Link Cloud DBM Faction...' },
-    { tab: 'Profile: Vitals', key: 'currentResidence', label: 'Current Residence', type: 'text', placeholder: 'Residence...' },
-    { tab: 'Profile: Physicality', key: 'appearance', label: 'Physical Description', type: 'textarea', placeholder: 'Physical appearance, cybernetics...' },
-    { tab: 'Profile: Physicality', key: 'char-height', label: 'Height', type: 'text', placeholder: 'Height...' },
-    { tab: 'Profile: Physicality', key: 'char-weight', label: 'Weight', type: 'text', placeholder: 'Weight...' },
-    { tab: 'Profile: Physicality', key: 'voice', label: 'Voice & Speech', type: 'textarea', placeholder: 'Speech pattern...' },
-    { tab: 'Profile: Physicality', key: 'char-style', label: 'Typical Clothing Style', type: 'textarea', placeholder: 'Clothing...' },
-    { tab: 'Profile: Physicality', key: 'mannerisms', label: 'Mannerisms & Body Language', type: 'textarea', placeholder: 'Mannerisms...' },
-    { tab: 'Profile: Personality', key: 'positiveTraits', label: 'Positive Traits', type: 'textarea', placeholder: 'Positive...' },
-    { tab: 'Profile: Personality', key: 'negativeTraits', label: 'Negative Traits / Flaws', type: 'textarea', placeholder: 'Negative...' },
-    { tab: 'Profile: Personality', key: 'likesDislikes', label: 'Likes & Dislikes', type: 'textarea', placeholder: 'Likes and dislikes...' },
-    { tab: 'Profile: Personality', key: 'hobbies', label: 'Hobbies & Skills', type: 'textarea', placeholder: 'Hobbies...' },
-    { tab: 'Profile: Personality', key: 'personalityType', label: 'Personality Type', type: 'text', placeholder: 'Type...' },
-    { tab: 'Backstory', key: 'backstory', label: 'Detailed Backstory', type: 'textarea', placeholder: 'History...' },
-    { tab: 'Backstory', key: 'definingTrauma', label: 'Defining Trauma / Wound', type: 'textarea', placeholder: 'Trauma...' },
-    { tab: 'Backstory', key: 'greatestAccomplishment', label: 'Greatest Accomplishment(s)', type: 'textarea', placeholder: 'Accomplishment...' },
-    { tab: 'Backstory', key: 'childhoodEvents', label: 'Childhood & Adolescence Events', type: 'textarea', placeholder: 'Childhood...' },
-    { tab: 'Backstory', key: 'keyRelationships', label: 'Key Relationships & Dynamics', type: 'textarea', placeholder: 'Relationships...' },
-    { tab: 'Psychology', key: 'worldview', label: 'Worldview & Ethics', type: 'textarea', placeholder: 'Worldview...' },
-    { tab: 'Psychology', key: 'theLie', label: 'The Lie They Believe', type: 'textarea', placeholder: 'Lie...' },
-    { tab: 'Psychology', key: 'theTruth', label: 'The Truth They Must Learn', type: 'textarea', placeholder: 'Truth...' },
-    { tab: 'Psychology', key: 'deepestFear', label: 'Deepest Fear & Secret', type: 'textarea', placeholder: 'Fear/Secret...' },
-    { tab: 'Psychology', key: 'goals', label: 'External Goal vs Internal Need', type: 'textarea', placeholder: 'Want vs Need...' },
-    { tab: 'Psychology', key: 'stakes', label: 'Stakes & Character Arc', type: 'textarea', placeholder: 'Stakes...' },
-    { tab: 'Genre & Notes', key: 'char-species', label: 'Species (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
-    { tab: 'Genre & Notes', key: 'stats', label: 'Powers / Abilities / Tech', type: 'textarea', placeholder: 'Game-specific stats, abilities, gear...' },
-    { tab: 'Genre & Notes', key: 'plotHooks', label: 'Plot Connection & Motives', type: 'textarea', placeholder: 'How they launch or start new adventures...' },
-    { tab: 'Genre & Notes', key: 'romanticHistory', label: 'Romantic History & Philosophy', type: 'textarea', placeholder: 'Romance...' },
-    { tab: 'Genre & Notes', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Character tags (e.g. Merchant, Ally, Faction-Lead)...' },
-    { tab: 'Modular Assembly (MCM)', key: 'mcmTier', label: 'Threat Tier (0-20)', type: 'text', placeholder: '1' },
-    { tab: 'Modular Assembly (MCM)', key: 'mcmDesignation', label: 'Designation', type: 'text', placeholder: 'Adversary / Ally / Companion / Neutral' },
-    { tab: 'Modular Assembly (MCM)', key: 'mcmChassis', label: 'Chassis Array', type: 'text', placeholder: 'Combatant / Specialist / Socialite / Balanced' },
-    { tab: 'Modular Assembly (MCM)', key: 'mcmRole', label: 'Tactical Role', type: 'text', placeholder: 'Bruiser, Commando, Sniper, Guardian, Slicer, Medic, Boss' },
-    { tab: 'Relations & Scripting', key: 'keyRelationships', label: 'Key Relationships & Dynamics', type: 'textarea', placeholder: 'Allies, rivals, patrons, and bonds...' },
-    { tab: 'Relations & Scripting', key: 'relationsStance', label: 'Default Stance', type: 'text', placeholder: 'Hostile / Suspicious / Neutral / Friendly / Guarding' },
-    { tab: 'Relations & Scripting', key: 'vipTarget', label: 'Protected VIP / Ally (Element ID or Name)', type: 'text', placeholder: 'ID or Name of unit to tether/guard...' },
-    { tab: 'Relations & Scripting', key: 'rivalTarget', label: 'Marked Rival / Priority Target', type: 'text', placeholder: 'ID or Name of rival or hostile faction...' },
-    { tab: 'Relations & Scripting', key: 'vttScript', label: 'Autonomous VTT Script (JSON)', type: 'textarea', placeholder: 'VTT routine payload...' },
-    { tab: 'Mechanics: Vitals', key: 'starting-cp', label: 'Starting CP', type: 'text', placeholder: '150' },
-    { tab: 'Mechanics: Vitals', key: 'tech-level', label: 'Tech Level', type: 'text', placeholder: '3' },
-    { tab: 'Mechanics: Vitals', key: 'magic-level', label: 'Magic Level', type: 'text', placeholder: '1' },
-    { tab: 'Mechanics: Vitals', key: 'health', label: 'Health (Physical)', type: 'text', placeholder: '30' },
-    { tab: 'Mechanics: Vitals', key: 'vitality', label: 'Vitality (Mental)', type: 'text', placeholder: '30' },
-    { tab: 'Mechanics: Vitals', key: 'karma', label: 'Karma', type: 'text', placeholder: '3' },
-    { tab: 'Mechanics: Vitals', key: 'plot-points', label: 'Plot Points', type: 'text', placeholder: '0' },
-    { tab: 'Mechanics: JSON', key: 'features', label: 'Features (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'disadvantages', label: 'Disadvantages (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'augmentations', label: 'Augmentations (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'awakened', label: 'Awakened (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'invocations', label: 'Invocations (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'special_abilities', label: 'Special Abilities (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'attacks', label: 'Attacks (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'armor', label: 'Armor (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'gear', label: 'Gear (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'weapons', label: 'Weapons (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'armoring', label: 'Armoring (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'mecha', label: 'Mecha (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'other', label: 'Other (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'specializations', label: 'Specializations (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-    { tab: 'Mechanics: JSON', key: 'notes', label: 'Notes (JSON)', type: 'textarea', placeholder: 'JSON Array...' }
-  ],
-  'Scene': [
-    { tab: 'Core Elements', key: 'scenePurpose', label: 'Scene Purpose & Summary', type: 'textarea', placeholder: 'One sentence summary and purpose...' },
-    { tab: 'Core Elements', key: 'locationType', label: 'Location Type & Scale', type: 'text', placeholder: 'Kind of place (e.g. Dungeon, Spaceport, Megacity)...' },
-    { tab: 'Core Elements', key: 'genreConcept', label: 'Genre / Tech Level / Core Concept', type: 'text', placeholder: 'Concept...' },
-    { tab: 'Core Elements', key: 'stateChange', label: 'Beginning State vs Ending State', type: 'textarea', placeholder: 'State change...' },
-    { tab: 'Setting & Atmosphere', key: 'atmosphere', label: 'Atmosphere & Key Props', type: 'text', placeholder: 'Mood, lighting, tension level...' },
-    { tab: 'Setting & Atmosphere', key: 'weather', label: 'Weather & Environment', type: 'text', placeholder: 'Weather...' },
-    { tab: 'Setting & Atmosphere', key: 'soundsSmells', label: 'Sounds and Smells', type: 'textarea', placeholder: 'Auditory and olfactory details...' },
-    { tab: 'Setting & Atmosphere', key: 'keySights', label: 'Key Sights & Color Palette', type: 'textarea', placeholder: 'Notable visual features and landmarks...' },
-    { tab: 'Geography & Ecology', key: 'geography', label: 'Geography, Cosmology, Terrain', type: 'textarea', placeholder: 'Terrain...' },
-    { tab: 'Geography & Ecology', key: 'floraFauna', label: 'Ecosystems, Flora, Fauna, Hazards', type: 'textarea', placeholder: 'Ecosystem...' },
-    { tab: 'History & Society', key: 'history', label: 'Creation Origin & Ancient Ruins', type: 'textarea', placeholder: 'History...' },
-    { tab: 'History & Society', key: 'demographics', label: 'Demographics, Government & Economy', type: 'textarea', placeholder: 'Society...' },
-    { tab: 'History & Society', key: 'secrets', label: 'Secrets & Hidden Lairs', type: 'textarea', placeholder: 'Hidden truths or concealed areas...' },
-    { tab: 'Characters & POV', key: 'pov', label: 'POV Character & Audience', type: 'text', placeholder: 'POV...' },
-    { tab: 'Characters & POV', key: 'charactersPresent', label: 'Characters Present', type: 'textarea', placeholder: 'Who is here...' },
-    { tab: 'Characters & POV', key: 'povGoals', label: 'POV Goal vs Opponent Goal', type: 'textarea', placeholder: 'Goals...' },
-    { tab: 'Characters & POV', key: 'emotionalArc', label: 'Emotional Arc', type: 'textarea', placeholder: 'Arc...' },
-    { tab: 'Plot & Pacing', key: 'openingBeat', label: 'Opening Beat & Inciting Event', type: 'textarea', placeholder: 'Opening...' },
-    { tab: 'Plot & Pacing', key: 'risingAction', label: 'Rising Action & Climax', type: 'textarea', placeholder: 'Climax...' },
-    { tab: 'Plot & Pacing', key: 'potentialEncounters', label: 'Potential Encounters & Conflict', type: 'textarea', placeholder: 'Creatures, hazards, or events here...' },
-    { tab: 'Plot & Pacing', key: 'sensoryDialogue', label: 'Sensory Details & Key Dialogue', type: 'textarea', placeholder: 'Dialogue...' },
-    { tab: 'Plot & Pacing', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Tags (e.g. TL-4, High-Danger, Subterranean)...' }
-  ],
-  'Setting': [
-    { tab: 'Overview', key: 'settingName', label: 'Setting Name', type: 'text', placeholder: 'Name of the region, city, or star system...' },
-    { tab: 'Overview', key: 'scale', label: 'Scale', type: 'text', placeholder: 'Room, Sector, Outpost, Metropolis, Planet...' },
-    { tab: 'Overview', key: 'genreTech', label: 'Genre & Tech Level', type: 'text', placeholder: 'TL-3 Space Opera, Cyberpunk Megacity...' },
-    { tab: 'Overview', key: 'coreConcept', label: 'Core Concept', type: 'textarea', placeholder: 'One-sentence summary of the setting...' },
-    { tab: 'Overview', key: 'primaryConflict', label: 'Primary Conflict / Tension', type: 'textarea', placeholder: 'Central source of strife...' },
-    { tab: 'Geography & Environment', key: 'cosmology', label: 'Cosmology & Astronomy', type: 'textarea', placeholder: 'Star system, celestial bodies, anomalies...' },
-    { tab: 'Geography & Environment', key: 'climate', label: 'Climate & Weather Patterns', type: 'textarea', placeholder: 'Climate, atmospheric pressure, seasonal storms...' },
-    { tab: 'Geography & Environment', key: 'terrain', label: 'Major Regions & Terrain', type: 'textarea', placeholder: 'Topography, biomes, choke points...' },
-    { tab: 'Geography & Environment', key: 'hazards', label: 'Natural Hazards & Phenomena', type: 'textarea', placeholder: 'Radiation pockets, acid fog, zero-G pockets...' },
-    { tab: 'Inhabitants & Ecology', key: 'floraFauna', label: 'Native Flora & Fauna', type: 'textarea', placeholder: 'Predators, dangerous flora, harvestable resources...' },
-    { tab: 'Inhabitants & Ecology', key: 'demographics', label: 'Inhabitants & Demographics', type: 'textarea', placeholder: 'Populations, sentient species, enclaves...' },
-    { tab: 'History & Lore', key: 'origins', label: 'Creation Origin & Backstory', type: 'textarea', placeholder: 'Colonization, mythic origin, founding...' },
-    { tab: 'History & Lore', key: 'majorEvents', label: 'Major Historical Turning Points', type: 'textarea', placeholder: 'Wars, cataclysms, treaty signings...' },
-    { tab: 'History & Lore', key: 'ancientRuins', label: 'Ancient Ruins & Relics', type: 'textarea', placeholder: 'Precursor installations, buried hulks...' },
-    { tab: 'Society & Culture', key: 'government', label: 'Government & Power Structure', type: 'textarea', placeholder: 'Ruling bodies, corporations, syndicates...' },
-    { tab: 'Society & Culture', key: 'economy', label: 'Economy & Primary Trade', type: 'textarea', placeholder: 'Currency, trade commodities, black markets...' },
-    { tab: 'Society & Culture', key: 'customs', label: 'Customs & Cultural Norms', type: 'textarea', placeholder: 'Etiquette, taboos, rituals...' },
-    { tab: 'Sensory & Atmosphere', key: 'dominantSights', label: 'Key Sights & Aesthetics', type: 'textarea', placeholder: 'Visual architecture, lighting, skyline...' },
-    { tab: 'Sensory & Atmosphere', key: 'soundsSmells', label: 'Sounds & Smells', type: 'textarea', placeholder: 'Industrial hum, ozone smell, silence of the void...' },
-    { tab: 'Sensory & Atmosphere', key: 'moodAtmosphere', label: 'Mood & Emotional Tone', type: 'textarea', placeholder: 'Bleak, wondrous, claustrophobic...' },
-    { tab: 'Landmarks & Points of Interest', key: 'majorLandmarks', label: 'Major Landmarks', type: 'textarea', placeholder: 'Citadel, space elevator, subterranean market...' },
-    { tab: 'Landmarks & Points of Interest', key: 'hiddenLocations', label: 'Hidden Locations & Secrets', type: 'textarea', placeholder: 'Smuggler caches, lost labs, safehouses...' },
-    { tab: 'Rules & Systems', key: 'specialRules', label: 'Special Setting Rules & Modifiers', type: 'textarea', placeholder: 'Corrosive atmosphere (CON DC 14), low gravity (+2 Agility)...' },
-    { tab: 'Rules & Systems', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Tags (e.g. TL-4, High-Radiation, Orbital)...' }
-  ],
   'Faction': [
     { tab: 'Overview', key: 'dbmFactionRef', label: 'Faction Record (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Link Cloud DBM Faction...' },
     { tab: 'Overview', key: 'coreIdentity', label: 'Core Identity & Mandate', type: 'textarea', placeholder: 'Identity...' },
@@ -188,44 +290,25 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Ideology & Governance', key: 'ideology', label: 'Core Ideology', type: 'textarea', placeholder: 'Core beliefs and code of operation...' },
     { tab: 'Ideology & Governance', key: 'goals', label: 'Public vs Hidden Agenda', type: 'textarea', placeholder: 'What the faction wants to achieve...' },
     { tab: 'Ideology & Governance', key: 'government', label: 'Government Type & Leadership', type: 'textarea', placeholder: 'Leadership...' },
-    { tab: 'Ideology & Governance', key: 'laws', label: 'Laws & Membership Criteria', type: 'textarea', placeholder: 'Laws...' },
     { tab: 'Assets & Resources', key: 'resources', label: 'Economic Power & Industry', type: 'textarea', placeholder: 'Assets, weapons, wealth, contacts...' },
-    { tab: 'Assets & Resources', key: 'territory', label: 'Scope of Influence & Territory', type: 'textarea', placeholder: 'Territory...' },
-    { tab: 'Assets & Resources', key: 'military', label: 'Population & Military Strength', type: 'textarea', placeholder: 'Military...' },
-    { tab: 'Assets & Resources', key: 'specialUnits', label: 'Specialized Units & Tactical Specialties', type: 'textarea', placeholder: 'Units...' },
-    { tab: 'Culture & Relations', key: 'culture', label: 'Social Hierarchy & Aesthetics', type: 'textarea', placeholder: 'Culture...' },
-    { tab: 'Culture & Relations', key: 'relations', label: 'Allies, Enemies & Neutral Parties', type: 'textarea', placeholder: 'Relations...' },
-    { tab: 'Culture & Relations', key: 'reputation', label: 'Foreign Policy & World Reputation', type: 'textarea', placeholder: 'Reputation...' },
-    { tab: 'History & Figures', key: 'history', label: 'Founding Story & Historical Figures', type: 'textarea', placeholder: 'History...' },
-    { tab: 'History & Figures', key: 'turningPoints', label: 'Major Turning Points', type: 'textarea', placeholder: 'Turning points...' },
-    { tab: 'History & Figures', key: 'keyMembers', label: 'Key NPCs & Plot Hooks', type: 'textarea', placeholder: 'Important figures and leaders...' },
-    { tab: 'History & Figures', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Faction tags (e.g. Megacorp, Syndicate, Cult)...' }
+    { tab: 'Assets & Resources', key: 'territory', label: 'Scope of Influence & Territory', type: 'textarea', placeholder: 'Territory...' }
   ],
   'Encounter': [
     { tab: 'Overview', key: 'encounterType', label: 'Type', type: 'text', placeholder: 'Kind of encounter (e.g. Combat, Social, Puzzle, Chase)...' },
     { tab: 'Overview', key: 'setup', label: 'Setup', type: 'textarea', placeholder: 'How the encounter begins...' },
     { tab: 'Overview', key: 'resolution', label: 'Resolution', type: 'textarea', placeholder: 'Possible outcomes and rewards...' },
-    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Special rules, timers, or hazards...' },
-    { tab: 'Mechanics', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Encounter tags (e.g. Lethal, Tactical, Boss)...' }
+    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Special rules, timers, or hazards...' }
   ],
   'Item': [
     { tab: 'Overview', key: 'itemCategory', label: 'Cloud DB Category', type: 'text', placeholder: 'Weaponry / Armoring / Gear / Augmentations...' },
-    { tab: 'Overview', key: 'weaponRef', label: 'Weapon Record (Cloud DB)', type: 'relational', dbSource: 'weaponry', placeholder: 'Link Cloud DBM Weapon...' },
-    { tab: 'Overview', key: 'armoringRef', label: 'Armor Record (Cloud DB)', type: 'relational', dbSource: 'armoring', placeholder: 'Link Cloud DBM Armor...' },
-    { tab: 'Overview', key: 'gearRef', label: 'Gear Record (Cloud DB)', type: 'relational', dbSource: 'gear', placeholder: 'Link Cloud DBM Gear...' },
     { tab: 'Overview', key: 'rarity', label: 'Rarity', type: 'text', placeholder: 'Rarity (e.g. Common, Prototype, Artifact)...' },
-    { tab: 'Properties', key: 'attunement', label: 'Attunement', type: 'text', placeholder: 'Attunement requirement (e.g. Cyberware ML-2)...' },
     { tab: 'Properties', key: 'properties', label: 'Properties', type: 'textarea', placeholder: 'Passive abilities and bonuses...' },
-    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Active functioning and usage rules...' },
-    { tab: 'Lore', key: 'history', label: 'History', type: 'textarea', placeholder: 'Origin story and previous owners...' },
-    { tab: 'Lore', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Item tags (e.g. Tech, Weapon, Psionic)...' }
+    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Active functioning and usage rules...' }
   ],
   'Clue': [
-    { tab: 'Overview', key: 'rulesRef', label: 'Compendium / Rules (Cloud DB)', type: 'relational', dbSource: 'compendium', placeholder: 'Link Cloud DBM Compendium...' },
     { tab: 'Overview', key: 'information', label: 'Information Revealed', type: 'textarea', placeholder: 'What this clue reveals...' },
     { tab: 'Overview', key: 'locationFound', label: 'Location Found', type: 'text', placeholder: 'Where or how it is discovered...' },
-    { tab: 'Overview', key: 'conclusion', label: 'Player Conclusion', type: 'textarea', placeholder: 'What players should realize...' },
-    { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Clue tags (e.g. Datapad, Forensic, Keycode)...' }
+    { tab: 'Overview', key: 'conclusion', label: 'Player Conclusion', type: 'textarea', placeholder: 'What players should realize...' }
   ],
   'Map': [
     { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Map tags (e.g. Grid-Square, Sector-A)...' }
@@ -236,97 +319,16 @@ export const ELEMENT_SCHEMAS = {
   'Universe': [
     { tab: 'Core Concept & Metaphysics', key: 'designation', label: 'Universe Designation & Pitch', type: 'textarea', placeholder: 'Designation...' },
     { tab: 'Core Concept & Metaphysics', key: 'ontological', label: 'Ontological Premise & The Source', type: 'textarea', placeholder: 'Premise...' },
-    { tab: 'Universal Laws & Structure', key: 'lawsPhysics', label: 'Laws of Physics & Metaphysics', type: 'textarea', placeholder: 'Laws...' },
-    { tab: 'Universal Laws & Structure', key: 'natureMagic', label: 'Nature of Magic, Time & Space', type: 'textarea', placeholder: 'Magic...' },
-    { tab: 'Universal Laws & Structure', key: 'cosmological', label: 'Cosmological Model & Multiverse Planes', type: 'textarea', placeholder: 'Cosmology...' },
-    { tab: 'Cosmogony, Powers & Dynamics', key: 'creation', label: 'Cosmic Creation & End of Universe', type: 'textarea', placeholder: 'Creation...' },
-    { tab: 'Cosmogony, Powers & Dynamics', key: 'entities', label: 'Cosmic Entities & Divine Hierarchy', type: 'textarea', placeholder: 'Entities...' },
-    { tab: 'Cosmogony, Powers & Dynamics', key: 'interplanar', label: 'Inter-Planar Travel & Convergence Points', type: 'textarea', placeholder: 'Travel...' },
-    { tab: 'Cosmogony, Powers & Dynamics', key: 'centralQuestion', label: 'Central Question & Overall Vibe', type: 'textarea', placeholder: 'Question...' }
-  ],
-  'World': [
-    { tab: 'Cosmology & Magic Laws', key: 'highConcept', label: 'World Name & High Concept', type: 'textarea', placeholder: 'Concept...' },
-    { tab: 'Cosmology & Magic Laws', key: 'laws', label: 'Cosmology & Laws of Physics', type: 'textarea', placeholder: 'Laws...' },
-    { tab: 'Cosmology & Magic Laws', key: 'magic', label: 'Magic System: Source, Rules & Limits', type: 'textarea', placeholder: 'Magic...' },
-    { tab: 'Physical Geography & History', key: 'starSystem', label: 'Star System & Planets', type: 'textarea', placeholder: 'Stars...' },
-    { tab: 'Physical Geography & History', key: 'continents', label: 'Continents, Oceans & Weather', type: 'textarea', placeholder: 'Geography...' },
-    { tab: 'Physical Geography & History', key: 'history', label: 'Creation Myth & Historical Eras', type: 'textarea', placeholder: 'History...' },
-    { tab: 'Physical Geography & History', key: 'cataclysms', label: 'Cataclysms & Fallen Empires', type: 'textarea', placeholder: 'Cataclysms...' },
-    { tab: 'Life, Inhabitants & Systems', key: 'species', label: 'Major Sentient Species & Factions', type: 'textarea', placeholder: 'Species...' },
-    { tab: 'Life, Inhabitants & Systems', key: 'demographics', label: 'Global Demographics & Monsters', type: 'textarea', placeholder: 'Demographics...' },
-    { tab: 'Life, Inhabitants & Systems', key: 'techLevel', label: 'Tech Level, Global Economy & Languages', type: 'textarea', placeholder: 'Tech...' },
-    { tab: 'Themes & Pantheons', key: 'pantheons', label: 'Gods & Pantheons', type: 'textarea', placeholder: 'Gods...' },
-    { tab: 'Themes & Pantheons', key: 'themes', label: 'Central Themes & Overall Vibe', type: 'textarea', placeholder: 'Themes...' },
-    { tab: 'Themes & Pantheons', key: 'inspirations', label: 'Aesthetic Inspirations', type: 'textarea', placeholder: 'Aesthetics...' }
-  ],
-  'Philosophy': [
-    { tab: 'Overview & Tenets', key: 'category', label: 'Philosophy Name & Category', type: 'text', placeholder: 'Name...' },
-    { tab: 'Overview & Tenets', key: 'tenet', label: 'Core Tenet & Guiding Question', type: 'textarea', placeholder: 'Tenet...' },
-    { tab: 'Metaphysics & Epistemology', key: 'cosmology', label: 'Cosmology, Deity & Afterlife', type: 'textarea', placeholder: 'Cosmology...' },
-    { tab: 'Metaphysics & Epistemology', key: 'freeWill', label: 'Free Will vs Determinism', type: 'textarea', placeholder: 'Free Will...' },
-    { tab: 'Metaphysics & Epistemology', key: 'truth', label: 'Source of Truth & Forbidden Knowledge', type: 'textarea', placeholder: 'Truth...' },
-    { tab: 'Ethics, Society & Practice', key: 'ethics', label: 'Moral Compass & Virtues/Vices', type: 'textarea', placeholder: 'Ethics...' },
-    { tab: 'Ethics, Society & Practice', key: 'society', label: 'Ideal Government & Social Structure', type: 'textarea', placeholder: 'Society...' },
-    { tab: 'Ethics, Society & Practice', key: 'rituals', label: 'Founders, Sacred Texts & Rituals', type: 'textarea', placeholder: 'Rituals...' }
-  ],
-  'Technology': [
-    { tab: 'Overview & Concept', key: 'category', label: 'Technology Name & Category', type: 'text', placeholder: 'Name...' },
-    { tab: 'Overview & Concept', key: 'function', label: 'Core Function & Readiness Level', type: 'textarea', placeholder: 'Function...' },
-    { tab: 'Mechanics & Principles', key: 'power', label: 'Power Source & Operating Principles', type: 'textarea', placeholder: 'Power...' },
-    { tab: 'Mechanics & Principles', key: 'components', label: 'Key Components & User Interface', type: 'textarea', placeholder: 'Components...' },
-    { tab: 'Origin, Aesthetics & Production', key: 'origin', label: 'Inventor, Date & Historical Context', type: 'textarea', placeholder: 'Origin...' },
-    { tab: 'Origin, Aesthetics & Production', key: 'aesthetics', label: 'Physical & Sensory Description', type: 'textarea', placeholder: 'Aesthetics...' },
-    { tab: 'Origin, Aesthetics & Production', key: 'production', label: 'Manufacturing Process & Cost', type: 'textarea', placeholder: 'Production...' },
-    { tab: 'Societal Impact & Story Role', key: 'impact', label: 'Economic, Social & Military Impact', type: 'textarea', placeholder: 'Impact...' },
-    { tab: 'Societal Impact & Story Role', key: 'weaknesses', label: 'Strengths, Weaknesses & Drawbacks', type: 'textarea', placeholder: 'Weaknesses...' },
-    { tab: 'Societal Impact & Story Role', key: 'role', label: 'Role in the Narrative', type: 'textarea', placeholder: 'Role...' }
-  ],
-  'Species': [
-    { tab: 'Overview', key: 'name', label: 'Species Name', type: 'text', placeholder: 'Name...' },
-    { tab: 'Overview', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
-    { tab: 'Overview', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' },
-    { tab: 'Overview', key: 'speciesSizeRef', label: 'Species Size (Cloud DB)', type: 'relational', dbSource: 'species_size', placeholder: 'Select Species Size...' },
-    { tab: 'Overview', key: 'speciesMovementRef', label: 'Species Movement (Cloud DB)', type: 'relational', dbSource: 'species_movement', placeholder: 'Select Species Movement...' },
-    { tab: 'Overview', key: 'homeworld', label: 'Homeworld / Plane of Origin', type: 'text', placeholder: 'Homeworld...' },
-    { tab: 'Overview', key: 'sentience', label: 'Sentience Level', type: 'text', placeholder: 'Sentience...' },
-    { tab: 'Overview', key: 'description', label: 'General Description', type: 'textarea', placeholder: 'Description...' },
-    { tab: 'Overview', key: 'archetype', label: 'Core Concept / Archetype', type: 'text', placeholder: 'Archetype...' },
-    { tab: 'Biology & Physiology', key: 'appearance', label: 'General Appearance', type: 'textarea', placeholder: 'Appearance...' },
-    { tab: 'Biology & Physiology', key: 'composition', label: 'Physical Composition & Skeleton', type: 'textarea', placeholder: 'Skeleton...' },
-    { tab: 'Biology & Physiology', key: 'features', label: 'Limbs, Integument & Head Features', type: 'textarea', placeholder: 'Features...' },
-    { tab: 'Biology & Physiology', key: 'diet', label: 'Diet, Metabolism & Senses', type: 'textarea', placeholder: 'Diet...' },
-    { tab: 'Biology & Physiology', key: 'reproduction', label: 'Reproduction & Life Cycle', type: 'textarea', placeholder: 'Life Cycle...' },
-    { tab: 'Biology & Physiology', key: 'vulnerabilities', label: 'Vulnerabilities & Resistances', type: 'textarea', placeholder: 'Vulnerabilities...' },
-    { tab: 'Psychology & Cognition', key: 'intelligence', label: 'Intelligence & Problem-Solving', type: 'textarea', placeholder: 'Intelligence...' },
-    { tab: 'Psychology & Cognition', key: 'communication', label: 'Communication Method', type: 'textarea', placeholder: 'Communication...' },
-    { tab: 'Psychology & Cognition', key: 'temperament', label: 'Dominant Instincts & Temperament', type: 'textarea', placeholder: 'Temperament...' },
-    { tab: 'Psychology & Cognition', key: 'emotion', label: 'Emotional Range & Self-Concept', type: 'textarea', placeholder: 'Emotion...' },
-    { tab: 'Culture & Society', key: 'society', label: 'Social Structure & Government', type: 'textarea', placeholder: 'Society...' },
-    { tab: 'Culture & Society', key: 'laws', label: 'Laws, Ethics & Rank Hierarchy', type: 'textarea', placeholder: 'Laws...' },
-    { tab: 'Culture & Society', key: 'language', label: 'Language, Tech Level & Art', type: 'textarea', placeholder: 'Language...' },
-    { tab: 'Culture & Society', key: 'religion', label: 'Religion, Rituals & Cuisine', type: 'textarea', placeholder: 'Religion...' },
-    { tab: 'Ecology & Abilities', key: 'traitsRef', label: 'Species Traits (Cloud DB)', type: 'relational', dbSource: 'trait', placeholder: 'Select Cloud DBM Species Traits...' },
-    { tab: 'Ecology & Abilities', key: 'ecology', label: 'Homeworld Environment & Niche', type: 'textarea', placeholder: 'Environment...' },
-    { tab: 'Ecology & Abilities', key: 'abilities', label: 'Inherent Abilities & Strengths', type: 'textarea', placeholder: 'Abilities...' },
-    { tab: 'Ecology & Abilities', key: 'weaknesses', label: 'Species Weaknesses & Unique Traits', type: 'textarea', placeholder: 'Weaknesses...' },
-    { tab: 'Ecology & Abilities', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Species tags (e.g. Organic, Cyber-Enhanced, Aquatic)...' }
+    { tab: 'Universal Laws & Structure', key: 'lawsPhysics', label: 'Laws of Physics & Metaphysics', type: 'textarea', placeholder: 'Laws...' }
   ]
 };
 
 export const SCENARIO_GUIDE_MODULES = [
   {
-    id: 'sg_adventure',
-    name: 'Adventure Module',
-    category: 'Narrative',
-    elementType: 'Adventure',
-    icon: '📜',
-    promptTemplate: 'Synthesize a multi-act science fantasy Adventure Module titled "{title}". Include premise, key locations, hazards, NPC cast, combat encounters, and branching outcomes.'
-  },
-  {
     id: 'sg_encounter',
     name: 'Combat & Trap Encounter',
     category: 'Tactical',
-    elementType: 'Encounter',
+    elementType: 'Scene',
     icon: '⚔️',
     promptTemplate: 'Design a tactical Combat & Trap Encounter titled "{title}". Include terrain features, cover, environmental hazards, enemy statblocks, tactics, and AP/CP rewards.'
   },
@@ -395,4 +397,3 @@ export const SCENARIO_GUIDE_MODULES = [
     promptTemplate: 'Generate a Tactical Map Layout Specification for "{title}". Include grid dimensions, terrain biomes, elevation levels, cover positions, and dynamic lighting zones.'
   }
 ];
-

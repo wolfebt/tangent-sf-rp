@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ELEMENT_TYPES, ELEMENT_SCHEMAS } from './elementSchemas';
+import { ELEMENT_TYPES, ELEMENT_SCHEMAS, getElementFileExtension } from './elementSchemas';
+import { downloadAimeAssetFile } from '../../../services/aimeAssetFileService';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { attachCreatorTag } from '../../../utils/creatorUtils';
@@ -12,6 +13,7 @@ import { ModularCharacterAssembler } from './components/ModularCharacterAssemble
 import { NpcScriptBuilder } from './components/NpcScriptBuilder';
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
+import AimeThreeTierStack from './components/AimeThreeTierStack';
 
 const AutoExpandingElementTextarea = ({ value, onChange, placeholder, className }) => {
   const textareaRef = useRef(null);
@@ -45,13 +47,15 @@ const AutoExpandingElementTextarea = ({ value, onChange, placeholder, className 
 };
 
 const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
-  const { deleteSavedElement } = useStory();
+  const { deleteSavedElement, elementsCatalog } = useStory();
   const [type, setType] = useState('Scenario');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [fields, setFields] = useState({});
   const [customFields, setCustomFields] = useState([]);
+  const [guidance, setGuidance] = useState({});
+  const [assetHub, setAssetHub] = useState([]);
   const [activeTabIdx, setActiveTabIdx] = useState(0);
 
   const [pendingType, setPendingType] = useState(null);
@@ -71,6 +75,8 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
       setImageUrl(element.imageUrl || '');
       setFields(element.fields || {});
       setCustomFields(Array.isArray(element.customFields) ? element.customFields : []);
+      setGuidance(element.guidance || {});
+      setAssetHub(element.assetHub || element.linkedElements || []);
       setActiveTabIdx(0);
       setPendingType(null);
       setShowTypeConfirm(false);
@@ -79,9 +85,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
 
   if (!isOpen || !element) return null;
 
-  const schema = ELEMENT_SCHEMAS[type] || [];
-  const schemaTabs = Array.from(new Set(schema.map(f => f.tab || 'General')));
-  const allTabs = ['Main Content', ...schemaTabs, 'Custom Fields'];
+  const allTabs = ['AIME 3-Tier Architecture', 'Narrative Prose & Lore', 'Custom Fields'];
   const currentTab = allTabs[activeTabIdx] || allTabs[0];
 
   const handleTypeSelectChange = (newType) => {
@@ -169,6 +173,9 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
       imageUrl,
       fields,
       customFields: validCustomFields,
+      guidance,
+      assetHub,
+      linkedElements: (assetHub || []).map(a => a.assetId || a),
       updatedAt: new Date().toISOString()
     };
     const updatedElement = attachCreatorTag(rawUpdatedElement, localStorage.getItem('userHandle'));
@@ -373,13 +380,29 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
 
           {/* Main Tab Content Scroll Area */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-900/60">
-            {/* Tab: Main Content */}
-            {currentTab === 'Main Content' && (
+            {/* Tab: AIME 3-Tier Architecture (Default & Master View) */}
+            {currentTab === 'AIME 3-Tier Architecture' && (
+              <AimeThreeTierStack
+                elementType={type}
+                fields={fields}
+                onChangeField={handleFieldChange}
+                guidance={guidance}
+                onChangeGuidance={setGuidance}
+                assetHub={assetHub}
+                onChangeAssetHub={setAssetHub}
+                availableElements={elementsCatalog || []}
+                currentElementId={element?.id}
+                onOpenAimeGuidance={() => setIsAimeGuidanceOpen(true)}
+              />
+            )}
+
+            {/* Tab: Narrative Prose & Lore */}
+            {currentTab === 'Narrative Prose & Lore' && (
               <div className="space-y-2 h-full flex flex-col">
                 <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
                   Detailed Description & Narrative Notes
                 </label>
-                <div className="bg-slate-950 text-white rounded-lg border border-slate-700 overflow-hidden flex-1 min-h-[220px]">
+                <div className="bg-slate-950 text-white rounded-lg border border-slate-700 overflow-hidden flex-1 min-h-[300px]">
                   <ReactQuill
                     theme="snow"
                     value={content}
@@ -387,59 +410,6 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
                     placeholder="Write detailed lore, background, secrets, or description..."
                     className="h-full flex flex-col text-slate-100"
                   />
-                </div>
-              </div>
-            )}
-
-            {/* Tab: Schema Fields & Interactive Modules */}
-            {schemaTabs.includes(currentTab) && (
-              <div className="space-y-4">
-                {/* Modular Character Matrix (MCM) Interactive Assembler */}
-                {type === 'Persona' && currentTab === 'Modular Assembly (MCM)' && (
-                  <ModularCharacterAssembler
-                    fields={fields}
-                    onFieldChange={handleFieldChange}
-                    elementTitle={title}
-                    onOpenAimeGuidance={() => setIsAimeGuidanceOpen(true)}
-                  />
-                )}
-
-                {/* Autonomous VTT Script & Relations Builder */}
-                {type === 'Persona' && currentTab === 'Relations & Scripting' && (
-                  <NpcScriptBuilder
-                    fields={fields}
-                    onFieldChange={handleFieldChange}
-                    elementTitle={title}
-                    onOpenAimeGuidance={() => setIsAimeGuidanceOpen(true)}
-                  />
-                )}
-
-                {/* Standard Schema Field Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {schema.filter(f => (f.tab || 'General') === currentTab).map(f => (
-                    <div key={f.key} className="space-y-1.5">
-                      <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
-                        {f.label}
-                      </label>
-                      {f.type === 'textarea' ? (
-                        <textarea
-                          rows={3}
-                          value={fields[f.key] || ''}
-                          onChange={(e) => handleFieldChange(f.key, e.target.value)}
-                          placeholder={f.placeholder || `Enter ${f.label}...`}
-                          className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed"
-                        />
-                      ) : (
-                        <input
-                          type="text"
-                          value={fields[f.key] || ''}
-                          onChange={(e) => handleFieldChange(f.key, e.target.value)}
-                          placeholder={f.placeholder || `Enter ${f.label}...`}
-                          className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none"
-                        />
-                      )}
-                    </div>
-                  ))}
                 </div>
               </div>
             )}
@@ -522,6 +492,27 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
               )}
             </div>
             <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  downloadAimeAssetFile({
+                    ...element,
+                    title: title.trim() || 'Untitled',
+                    type,
+                    fields,
+                    content,
+                    guidance,
+                    assetHub,
+                    customFields
+                  });
+                  showToast({ type: 'success', text: `Exported ${title || 'element'} as portable ${getElementFileExtension(type)} asset!` });
+                }}
+                className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title={`Export this element as a self-contained ${getElementFileExtension(type)} file`}
+              >
+                <span>📦</span>
+                <span>Export {getElementFileExtension(type)}</span>
+              </button>
               <button
                 type="button"
                 onClick={onClose}

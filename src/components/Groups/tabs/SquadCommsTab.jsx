@@ -13,12 +13,13 @@ import { AudioService } from '../../../services/audioService';
  */
 export const SquadCommsTab = ({
   activeGroup,
-  navigate
+  navigate,
+  onSwitchToComms
 }) => {
   const { 
     messages = [], 
     loadingMessages = false, 
-    activeChannel,
+    activeChannel, 
     activeChannelId,
     selectChannel
   } = useChat() || {};
@@ -49,10 +50,14 @@ export const SquadCommsTab = ({
           type="button"
           onClick={() => {
             AudioService.playTerminalBeep(1150, 0.02);
-            navigate('/comms');
+            if (onSwitchToComms) {
+              onSwitchToComms();
+            } else {
+              navigate('/network?view=comms');
+            }
           }}
           className="px-2.5 py-1 rounded bg-slate-900 border border-slate-700 hover:border-cyan-400 text-cyan-300 text-[10.5px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer shrink-0"
-          title="Open in full HoloNet CommLink matrix (/comms)"
+          title="Open in full HoloNet CommLink matrix"
         >
           <span>FULL COMMS STATION</span>
           <ExternalLink size={11} />

@@ -72,8 +72,21 @@ export const ADENavRail = ({
       icon: BookOpen,
       colorTheme: 'cyan',
       onClick: () => {
-        if (onSwitchView) onSwitchView('scenarios');
-        if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('weaver');
+        if (onSwitchView) onSwitchView('scenarios', 'weaver');
+        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('weaver');
+      }
+    },
+    {
+      id: 'elements',
+      aliasIds: ['gallery', 'elements'],
+      label: 'ELEMENTS',
+      sublabel: 'Story Elements',
+      description: 'Story Asset & Elements Repository (Personas, Places, Items & Modifiers)',
+      icon: Box,
+      colorTheme: 'emerald',
+      badge: elementsCount > 0 ? `${elementsCount}` : (totalGalleryCount > 0 ? `${totalGalleryCount}` : null),
+      onClick: () => {
+        if (onSwitchView) onSwitchView('elements');
       }
     },
     {
@@ -84,7 +97,10 @@ export const ADENavRail = ({
       description: 'Design Tactical Vector Grids, Line-of-Sight Walls & Smart Props',
       icon: MapIcon,
       colorTheme: 'cyan',
-      badge: mapsCount > 0 ? `${mapsCount}` : null
+      badge: mapsCount > 0 ? `${mapsCount}` : null,
+      onClick: () => {
+        if (onSwitchView) onSwitchView('map');
+      }
     },
     {
       id: 'stage',
@@ -95,8 +111,8 @@ export const ADENavRail = ({
       icon: Sparkles,
       colorTheme: 'purple',
       onClick: () => {
-        if (onSwitchView) onSwitchView('scenarios');
-        if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
+        if (onSwitchView) onSwitchView('scenarios', 'stage');
+        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
       }
     },
     {
@@ -105,7 +121,10 @@ export const ADENavRail = ({
       sublabel: 'Interactive Play',
       description: 'Branching Story Sequences & Decision Gates',
       icon: Play,
-      colorTheme: 'purple'
+      colorTheme: 'purple',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('interactive', 'interactive');
+      }
     },
     {
       id: 'graph',
@@ -113,15 +132,22 @@ export const ADENavRail = ({
       sublabel: 'Story Graph',
       description: 'Visual Node Graph Flowchart, Decision Branches & Map Vectors',
       icon: GitBranch,
-      colorTheme: 'purple'
+      colorTheme: 'purple',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('graph', 'graph');
+      }
     },
     {
       id: 'control-panel',
+      aliasIds: ['tactical'],
       label: 'TACTICAL',
       sublabel: 'Tactical Spread',
       description: 'OSR 2-Page Control Spread (Read-Aloud, DCs, Secrets)',
       icon: Target,
-      colorTheme: 'amber'
+      colorTheme: 'amber',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('control-panel', 'tactical');
+      }
     },
     {
       id: 'scripts',
@@ -131,17 +157,10 @@ export const ADENavRail = ({
       description: 'NPC Behavioral Routines, Reactive Traps, Atmospherics & Combat Modifiers',
       icon: Cpu,
       colorTheme: 'purple',
-      badge: modifiersCount > 0 ? `${modifiersCount}` : null
-    },
-    {
-      id: 'gallery',
-      aliasIds: ['elements', 'gallery'],
-      label: 'GALLERY',
-      sublabel: 'The Gallery',
-      description: "Story Asset Gallery (Elements, Maps, Media & Situational Modifiers)",
-      icon: Box,
-      colorTheme: 'emerald',
-      badge: totalGalleryCount > 0 ? `${totalGalleryCount}` : null
+      badge: modifiersCount > 0 ? `${modifiersCount}` : null,
+      onClick: () => {
+        if (onSwitchView) onSwitchView('scripts');
+      }
     }
   ];
 
@@ -189,6 +208,7 @@ export const ADENavRail = ({
 
   const handleSelectWorkspace = (item) => {
     AudioService.playTerminalBeep(1150, 0.02);
+    setHoveredItem(null);
     if (item.onClick) {
       item.onClick();
       return;
@@ -198,6 +218,7 @@ export const ADENavRail = ({
 
   const handleSelectUtility = (item) => {
     AudioService.playTerminalBeep(1200, 0.03);
+    setHoveredItem(null);
     if (item.onClick) item.onClick();
   };
 
@@ -224,6 +245,15 @@ export const ADENavRail = ({
             }
             if (item.id === 'scenarios') {
               return activeView === 'scenarios' && (activeScenarioWorkspaceTab === 'weaver' || !activeScenarioWorkspaceTab);
+            }
+            if (item.id === 'control-panel') {
+              return activeView === 'control-panel' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'tactical');
+            }
+            if (item.id === 'interactive') {
+              return activeView === 'interactive' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'interactive');
+            }
+            if (item.id === 'graph') {
+              return activeView === 'graph' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'graph');
             }
             return activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
           })();

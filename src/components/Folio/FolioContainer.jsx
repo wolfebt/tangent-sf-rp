@@ -5,6 +5,8 @@ import { useFolio } from '../../context/FolioContext';
 import { useDice } from '../../context/DiceContext';
 import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save } from 'lucide-react';
 import { Toast } from '../UI/Toast';
+import { useToast, showToast } from '../../context/ToastContext';
+import { useConfirm } from '../../context/ConfirmContext';
 import { TrackedModificationsModal } from './modals/TrackedModificationsModal';
 import FolioSidebar from './FolioSidebar';
 import IdentityTab from './tabs/IdentityTab';
@@ -17,7 +19,6 @@ import CompanionsTab from './tabs/CompanionsTab';
 import PropertyTab from './tabs/PropertyTab';
 import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
-import MetaphysicsModal from './modals/MetaphysicsModal';
 import EconomyModal from './modals/EconomyModal';
 import AddSkillModal from './modals/AddSkillModal';
 import CustomSelectorModal from './modals/CustomSelectorModal';
@@ -26,22 +27,27 @@ import ConfirmationModal from './modals/ConfirmationModal';
 import PreviewModal from './modals/PreviewModal';
 import RosterModal from './modals/RosterModal';
 import BastionDrawer from './BastionDrawer';
-import PrintFolio from './print/PrintFolio';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { resolveMetaSkillForInvocation } from '../../utils/metaphysicsUtils';
 import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
 import { FolioGuideModal } from './FolioGuideModal';
-import GuidedCreatorModal from './modals/GuidedCreatorModal';
 import { UserSettingsModal } from '../UserSettingsModal';
+import { AudioService } from '../../services/audioService';
 import RosterCatalogView from './views/RosterCatalogView';
 import FeaturesHubView from './views/FeaturesHubView';
+
+// Lazy Loaded Heavy Modals & Print Component
+const MetaphysicsModal = React.lazy(() => import('./modals/MetaphysicsModal'));
+const GuidedCreatorModal = React.lazy(() => import('./modals/GuidedCreatorModal'));
+const PrintFolio = React.lazy(() => import('./print/PrintFolio'));
 import PropertyHubView from './views/PropertyHubView';
 import TacticalPlayView from './views/TacticalPlayView';
 
 const FolioContainer = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
+  const confirm = useConfirm();
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -100,6 +106,7 @@ const FolioContainer = () => {
     isReadOnly,
     clonePublicPersona,
     togglePersonaVisibility,
+    togglePersonaNetworkEngaged,
     loadPublicPersonas,
     publicCatalog,
     applyArchetypeChassis,
@@ -185,12 +192,19 @@ const FolioContainer = () => {
 
       // Auto-prompt archetype 80 CP chassis if present
       if (key === 'char-archetype' && typeof taggedData === 'object') {
-        const autoApply = window.confirm(`Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`);
-        if (autoApply && applyArchetypeChassis) {
-          applyArchetypeChassis(taggedData);
-        } else {
-          updateField(key, name);
-        }
+        (async () => {
+          const autoApply = await confirm({
+            title: 'Apply Archetype Chassis',
+            message: `Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`,
+            confirmLabel: 'Apply 80 CP Pre-Build',
+            danger: false
+          });
+          if (autoApply && applyArchetypeChassis) {
+            applyArchetypeChassis(taggedData);
+          } else {
+            updateField(key, name);
+          }
+        })();
       } else {
         updateField(key, name);
       }
@@ -240,7 +254,7 @@ const FolioContainer = () => {
         const currentInvs = Array.isArray(characterData.invocations) ? characterData.invocations : [];
         const exists = currentInvs.some(i => (typeof i === 'object' ? (i.name || i.title) : i).toLowerCase() === newInv.name.toLowerCase());
         if (exists) {
-          alert(`Invocation "${newInv.name}" is already known.`);
+          showToast({ type: 'warn', title: 'Invocation Already Known', text: `Invocation "${newInv.name}" is already known.` });
         } else {
           handleAddItem('invocations', newInv);
         }
@@ -304,12 +318,19 @@ const FolioContainer = () => {
 
       // Auto-prompt archetype 80 CP chassis if present
       if (key === 'char-archetype' && typeof value === 'object') {
-        const autoApply = window.confirm(`Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`);
-        if (autoApply && applyArchetypeChassis) {
-          applyArchetypeChassis(value);
-        } else {
-          updateField(key, name);
-        }
+        (async () => {
+          const autoApply = await confirm({
+            title: 'Apply Archetype Chassis',
+            message: `Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`,
+            confirmLabel: 'Apply 80 CP Pre-Build',
+            danger: false
+          });
+          if (autoApply && applyArchetypeChassis) {
+            applyArchetypeChassis(value);
+          } else {
+            updateField(key, name);
+          }
+        })();
       } else {
         updateField(key, name);
       }
@@ -357,7 +378,7 @@ const FolioContainer = () => {
       const currentInvs = Array.isArray(characterData.invocations) ? characterData.invocations : [];
       const exists = currentInvs.some(i => (typeof i === 'object' ? (i.name || i.title) : i).toLowerCase() === newInv.name.toLowerCase());
       if (exists) {
-        alert(`Invocation "${newInv.name}" is already known by this operative.`);
+        showToast({ type: 'warn', title: 'Invocation Already Known', text: `Invocation "${newInv.name}" is already known by this operative.` });
       } else {
         handleAddItem('invocations', itemObj);
       }
@@ -373,15 +394,22 @@ const FolioContainer = () => {
       const itemObj = attachCreatorTag(rawObj, userHandle, currentUser);
       handleAddItem(key, itemObj);
     }
-  }, [updateField, handleAddItem, handleAddSkill, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
+  }, [updateField, handleAddItem, handleAddSkill, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments, confirm]);
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
     if (file) handleLoadLocal(file);
   };
 
-  const handleCloudLoadPrompt = () => {
-    const docId = prompt("Enter Persona Document ID to load from Cloud:", characterData['character-doc-id'] || '');
+  const handleCloudLoadPrompt = async () => {
+    const res = await confirm({
+      title: 'Load Persona from Cloud',
+      message: 'Enter Persona Document ID to load from Terran Net cloud vault:',
+      inputLabel: 'Persona Document ID',
+      inputValue: characterData['character-doc-id'] || '',
+      confirmLabel: 'Load Persona'
+    });
+    const docId = typeof res === 'object' ? res?.value : (typeof res === 'string' ? res : '');
     if (docId && docId.trim()) {
       handleLoadCloud(docId.trim());
     }
@@ -605,7 +633,7 @@ const FolioContainer = () => {
               )}
             </div>
           </div>
-        ) : isCharacterSelected && activeTab === 'catalog' ? (
+        ) : activeTab === 'catalog' ? (
           <div className="md:hidden flex items-center justify-between px-3 py-1.5 bg-[#121824] border-b border-slate-800">
             <button
               type="button"
@@ -817,6 +845,7 @@ const FolioContainer = () => {
               onDeleteCharacter={deleteRosterCharacter}
               onUpdateNote={updateRosterCharacterNote}
               onToggleVisibility={togglePersonaVisibility}
+              onToggleNetworkEngaged={togglePersonaNetworkEngaged}
               onLoadPublicGallery={loadPublicPersonas}
               publicCatalog={publicCatalog}
               onSelectPublicPersona={(char) => {
@@ -989,6 +1018,7 @@ const FolioContainer = () => {
         onDeleteCharacter={deleteRosterCharacter}
         onUpdateNote={updateRosterCharacterNote}
         onToggleVisibility={togglePersonaVisibility}
+        onToggleNetworkEngaged={togglePersonaNetworkEngaged}
         onLoadPublicGallery={loadPublicPersonas}
         publicCatalog={publicCatalog}
         onSelectPublicPersona={(char) => {
@@ -1010,21 +1040,29 @@ const FolioContainer = () => {
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
       />
-      <GuidedCreatorModal
-        isOpen={isGuidedCreatorOpen}
-        onClose={() => setIsGuidedCreatorOpen(false)}
-        onCharacterCreated={() => {
-          setActiveTab('identity');
-        }}
-      />
+      <React.Suspense fallback={null}>
+        {isGuidedCreatorOpen && (
+          <GuidedCreatorModal
+            isOpen={isGuidedCreatorOpen}
+            onClose={() => setIsGuidedCreatorOpen(false)}
+            onCharacterCreated={() => {
+              setActiveTab('identity');
+            }}
+          />
+        )}
+      </React.Suspense>
       <UserSettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
       />
-      <MetaphysicsModal
-        isOpen={isMetaphysicsOpen}
-        onClose={() => setIsMetaphysicsOpen(false)}
-      />
+      <React.Suspense fallback={null}>
+        {isMetaphysicsOpen && (
+          <MetaphysicsModal
+            isOpen={isMetaphysicsOpen}
+            onClose={() => setIsMetaphysicsOpen(false)}
+          />
+        )}
+      </React.Suspense>
       <TrackedModificationsModal
         isOpen={isTrackedModsOpen}
         onClose={() => setIsTrackedModsOpen(false)}
@@ -1032,9 +1070,11 @@ const FolioContainer = () => {
         onRevert={(modId) => revertTrackedModification(modId)}
       />
       {/* Print-only Folio Output */}
-      <div className="hidden print:block">
-        <PrintFolio characterData={characterData} />
-      </div>
+      <React.Suspense fallback={null}>
+        <div className="hidden print:block">
+          <PrintFolio characterData={characterData} />
+        </div>
+      </React.Suspense>
 
       {/* Save & System Notification Toast */}
       {toast && <Toast toast={toast} onClose={() => setToast(null)} />}

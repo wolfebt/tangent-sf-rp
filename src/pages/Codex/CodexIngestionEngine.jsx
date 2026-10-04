@@ -15,6 +15,7 @@ import {
   verifyFolioAssetHealth 
 } from '../../services/bastionService';
 import { AudioService } from '../../services/audioService';
+import { showToast } from '../../context/ToastContext';
 import { 
   Database, 
   Play, 
@@ -538,7 +539,11 @@ export const CodexIngestionEngine = ({
 
     const itemsToInject = parsedItems.filter(item => selectedItemIds.has(item.id));
     if (itemsToInject.length === 0) {
-      alert('Please select at least one item to inject.');
+      showToast({
+        type: 'warn',
+        title: 'Selection Required',
+        text: 'Please select at least one item to inject.'
+      });
       return;
     }
 

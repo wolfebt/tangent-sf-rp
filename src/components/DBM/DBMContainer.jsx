@@ -10,6 +10,8 @@ import {
 import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
+import { useToast, showToast } from '../../context/ToastContext';
+import { useConfirm } from '../../context/ConfirmContext';
 
 // Extracted Components
 import { DBMWikiView } from './DBMWikiView';
@@ -34,7 +36,8 @@ import { OmnicortexNavRail } from './OmnicortexNavRail';
 const EMPTY_CONFIG = {};
 
 export const DBMContainer = () => {
-  const { currentUser, userHandle, loginWithGoogle, isAdmin } = useAuth();
+  const { currentUser, userHandle, loginWithGoogle, isAdmin, toggleAdminOverride } = useAuth();
+  const confirm = useConfirm();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchParams] = useSearchParams();
 
@@ -272,12 +275,19 @@ export const DBMContainer = () => {
 
   const handleCreateNew = async () => {
     if (!isAdmin) {
-      alert('Administrator or GM privileges are required to create new database entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to create new database entries.' });
       return;
     }
 
-    const newName = window.prompt(`Enter a name for the new ${currentConfig?.label || 'Entry'}:`, '');
-    if (!newName || !newName.trim()) return;
+    const res = await confirm({
+      title: `Create New ${currentConfig?.label || 'Entry'}`,
+      message: `Specify an identifier or name for the new ${currentConfig?.label || 'database entry'}:`,
+      inputLabel: 'Entry Name',
+      inputValue: '',
+      confirmLabel: 'Create Entry'
+    });
+    const newName = typeof res === 'object' ? res?.value : (typeof res === 'string' ? res : '');
+    if (!res || !newName || !newName.trim()) return;
 
     setSelectedItem(null);
     const initialData = { name: newName.trim(), description: '' };
@@ -305,8 +315,9 @@ export const DBMContainer = () => {
       setEditFormData(payload);
       setIsEditMode(true);
       setIsEntryModalOpen(true);
+      showToast({ type: 'success', title: 'Entry Created', text: `Created new entry: "${newName.trim()}"` });
     } else {
-      alert('Failed to create new entry. Check console or network.');
+      showToast({ type: 'error', title: 'Creation Failed', text: 'Failed to create new entry. Check console or network.' });
     }
   };
 
@@ -314,7 +325,7 @@ export const DBMContainer = () => {
     const target = itemToDuplicate || selectedItem;
     if (!target) return;
     if (!isAdmin) {
-      alert('Administrator or GM privileges are required to duplicate database entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to duplicate database entries.' });
       return;
     }
     const baseName = target.name || target.title || 'Entry';
@@ -333,24 +344,24 @@ export const DBMContainer = () => {
       setEditFormData(clonedPayload);
       setIsEditMode(true);
       setIsEntryModalOpen(true);
-      showToast && showToast(`Duplicated "${baseName}" as "${clonedName}"`, 'success');
+      showToast({ type: 'success', title: 'Entry Duplicated', text: `Duplicated "${baseName}" as "${clonedName}"` });
     } else {
-      alert('Failed to clone entry.');
+      showToast({ type: 'error', title: 'Clone Failed', text: 'Failed to clone entry. Check console for details.' });
     }
   };
 
   const handleSaveEntry = async (closeOnSuccess = false, customPayload = null) => {
     if (!currentUser && !isAdmin) {
-      alert('You must be logged in to save entries. Please sign in using the Login button in the header.');
+      showToast({ type: 'error', title: 'Authentication Required', text: 'You must be logged into Terran Net to save database entries.' });
       return;
     }
     if (!isAdmin) {
-      alert('Administrator or GM privileges are required to save database entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to save database entries.' });
       return;
     }
     const currentData = customPayload || editFormData;
     if (!currentData.name || !currentData.name.trim()) {
-      alert('Entry name is required!');
+      showToast({ type: 'warn', title: 'Validation Warning', text: 'Entry name is mandatory before saving.' });
       return;
     }
     const docId = selectedItem?.id || currentData.id || `entry_${Date.now()}`;
@@ -358,11 +369,12 @@ export const DBMContainer = () => {
 
     const success = await saveEntry(payload, currentKey);
     if (success) {
+      showToast({ type: 'success', title: 'Entry Saved', text: `Saved "${payload.name}" successfully.` });
       if (closeOnSuccess === true) {
         setIsEntryModalOpen(false);
       }
     } else {
-      alert('Save failed. You may not have administrative privileges, or a network error occurred. Check browser console for details.');
+      showToast({ type: 'error', title: 'Save Failed', text: 'Save failed. You may not have administrative privileges, or a network error occurred.' });
     }
   };
 
@@ -370,19 +382,22 @@ export const DBMContainer = () => {
     const target = itemToDelete || selectedItem;
     if (!target) return;
     if (!isAdmin) {
-      alert('Administrator or GM privileges are required to delete database entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to delete database entries.' });
       return;
     }
     const entryName = target.name || target.title || 'this entry';
-    if (!confirmTypedDeletion(entryName, currentConfig?.label || 'database entry')) return;
+    const ok = await confirmTypedDeletion(confirm, entryName, currentConfig?.label || 'database entry');
+    if (!ok) return;
 
     // Close modal & clear selection immediately to prevent any auto-saves
     setIsEntryModalOpen(false);
     setSelectedItem(null);
 
     const success = await deleteEntry(target.id, currentKey);
-    if (!success) {
-      alert('Delete failed. Check the browser console for details.');
+    if (success) {
+      showToast({ type: 'success', title: 'Entry Deleted', text: `Deleted "${entryName}" successfully.` });
+    } else {
+      showToast({ type: 'error', title: 'Delete Failed', text: 'Delete failed. Check browser console for details.' });
     }
   };
 
@@ -400,7 +415,7 @@ export const DBMContainer = () => {
 
   const handleImportJSON = (e) => {
     if (!isAdmin) {
-      alert('Administrator or GM privileges are required to import entries.');
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to import entries.' });
       return;
     }
     const file = e.target.files[0];
@@ -411,9 +426,9 @@ export const DBMContainer = () => {
         const parsed = JSON.parse(event.target.result);
         const list = Array.isArray(parsed) ? parsed : [parsed];
         await importJSON(list, currentKey);
-        alert(`Successfully imported ${list.length} entries into ${currentConfig.label || currentKey}!`);
+        showToast({ type: 'success', title: 'Import Complete', text: `Successfully imported ${list.length} entries into ${currentConfig.label || currentKey}!` });
       } catch (err) {
-        alert('Invalid JSON file format.');
+        showToast({ type: 'error', title: 'Import Error', text: 'Invalid JSON file format. Please check file structure.' });
       }
     };
     reader.readAsText(file);

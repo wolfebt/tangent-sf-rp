@@ -833,7 +833,7 @@ export const OmnicortexCatalogView = ({
           ) : viewMode === 'grid' ? (
             /* Card Grid View */
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3.5">
-              {filteredItems.map(item => {
+              {filteredItems.map((item, idx) => {
                 const name = item.name || item.title || 'Unnamed Asset';
                 const catKey = item._categoryKey || activeCategoryKey;
                 const catLabel = item._categoryLabel || categoryConfig[catKey]?.label || catKey.toUpperCase();
@@ -989,7 +989,7 @@ export const OmnicortexCatalogView = ({
                   )}
                 </thead>
                 <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                  {filteredItems.map(item => {
+                  {filteredItems.map((item, idx) => {
                     const name = item.name || item.title || 'Unnamed';
                     const catKey = item._categoryKey || activeCategoryKey;
                     const catLabel = item._categoryLabel || categoryConfig[catKey]?.label || catKey.toUpperCase();

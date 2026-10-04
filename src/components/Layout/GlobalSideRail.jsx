@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GuidanceRail } from '../UI/GuidanceRail';
 import { useFolio } from '../../context/FolioContext';
-import { useDBM } from '../../context/DBMContext';
+import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { useStory } from '../../context/CampaignContext';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
@@ -12,7 +12,6 @@ import { UserSettingsModal } from '../UserSettingsModal';
 import {
   Compass,
   Users,
-  BookOpen,
   Database,
   Layers,
   MapPin,
@@ -73,12 +72,11 @@ export const GlobalSideRail = () => {
   // Determine active item from current route
   const getActiveId = () => {
     const path = location.pathname;
-    if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'teams';
+    if (path.startsWith('/network') || path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads') || path.startsWith('/comms') || path.startsWith('/chat')) return 'network';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'folio';
     if (path.startsWith('/compendium')) return 'rules';
     if (path.startsWith('/dbm') || path.startsWith('/codex')) return 'cortex';
     if (path.startsWith('/foundry') || path.startsWith('/ade') || path.startsWith('/campaign-builder') || path.startsWith('/live-studio') || path.startsWith('/ade-stage') || path.startsWith('/stage') || path === '/vtt' || path.startsWith('/vtt-ops')) return 'ade';
-    if (path.startsWith('/comms') || path.startsWith('/chat')) return 'comms';
     if (path === '/' || path === '/dashboard') return 'hub';
     return null;
   };
@@ -101,24 +99,15 @@ export const GlobalSideRail = () => {
       }
     },
     {
-      id: 'rules',
-      label: 'RULES',
-      sublabel: 'Compendium & BASTION Rules Wiki',
-      icon: BookOpen,
-      colorTheme: 'blue',
-      badge: null,
-      onClick: () => {
-        AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/compendium');
-      }
-    },
-    {
       id: 'cortex',
       label: 'CORTEX',
       sublabel: 'Omnicortex Master Database',
       icon: Database,
       colorTheme: 'amber',
       badge: dbmTotalItems > 0 ? `${dbmTotalItems}` : null,
+      onMouseEnter: () => {
+        loadCompendiumCatalog();
+      },
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
         navigate('/dbm');
@@ -137,46 +126,37 @@ export const GlobalSideRail = () => {
       }
     },
     {
-      id: 'teams',
-      label: 'TEAMS',
-      sublabel: 'Game Squads & Tactical Groups',
-      icon: Shield,
-      colorTheme: 'emerald',
-      badge: teamCount > 0 ? `${teamCount}` : (inviteCount > 0 ? `${inviteCount}!` : null),
-      badgeColor: inviteCount > 0 ? 'bg-amber-500 text-black animate-pulse' : undefined,
-      onClick: () => {
-        AudioService.playTerminalBeep(1200, 0.02);
-        navigate('/teams');
-      }
-    },
-    {
-      id: 'comms',
-      label: 'COMMS',
+      id: 'network',
+      label: 'NETWORK',
       sublabel: hasNewOperatorLogins
         ? `Operator Online: ${newOperatorLogins.map(o => o.userHandle || o.displayName).slice(0, 2).join(', ')}`
         : totalUnreadCount > 0
         ? `${totalUnreadCount} Unseen Messages`
-        : 'CommLink Relay & Voice Channels',
+        : inviteCount > 0
+        ? `${inviteCount} Pending Squad Invite${inviteCount > 1 ? 's' : ''}`
+        : 'Tactical Squads, CommLink & Operator Relay',
       icon: Radio,
-      colorTheme: 'amber',
+      colorTheme: 'emerald',
       badge: totalUnreadCount > 0 
         ? `${totalUnreadCount}` 
-        : (hasNewOperatorLogins ? (newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW') : null),
-      badgeColor: hasNewOperatorLogins && totalUnreadCount === 0
-        ? 'bg-emerald-400 text-black animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]'
-        : 'bg-amber-500 text-black animate-pulse',
-      pulse: totalUnreadCount > 0 || hasNewOperatorLogins,
-      pulseClass: (totalUnreadCount > 0 && hasNewOperatorLogins)
-        ? 'animate-nav-pulse-hybrid'
-        : hasNewOperatorLogins
-        ? 'animate-nav-pulse-emerald'
-        : 'animate-nav-pulse-amber',
+        : (inviteCount > 0 
+          ? `${inviteCount}!` 
+          : (hasNewOperatorLogins 
+            ? (newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW') 
+            : (teamCount > 0 ? `${teamCount}` : null))),
+      badgeColor: (totalUnreadCount > 0 || inviteCount > 0)
+        ? 'bg-amber-500 text-black font-extrabold animate-pulse'
+        : (hasNewOperatorLogins ? 'bg-emerald-400 text-black animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]' : undefined),
+      pulse: totalUnreadCount > 0 || inviteCount > 0 || hasNewOperatorLogins,
+      pulseClass: (totalUnreadCount > 0 || inviteCount > 0)
+        ? 'animate-nav-pulse-amber'
+        : 'animate-nav-pulse-emerald',
       onClick: () => {
         AudioService.playTerminalBeep(1150, 0.02);
         if (hasNewOperatorLogins && totalUnreadCount === 0) {
           clearNewOperatorLogins?.();
         }
-        navigate('/comms');
+        navigate('/network');
       }
     }
   ];
@@ -194,7 +174,7 @@ export const GlobalSideRail = () => {
                 AudioService.playTerminalBeep(1100, 0.03);
                 navigate('/');
               }}
-              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center cursor-pointer transition-all group ${
+              className={`w-9 h-9 sm:w-10 sm:h-10 min-w-[44px] min-h-[44px] touch-manipulation rounded-xl flex items-center justify-center cursor-pointer transition-all group ${
                 isHubActive
                   ? 'bg-cyan-950 border-2 border-cyan-400 text-cyan-200 shadow-[0_0_16px_rgba(34,211,238,0.5)]'
                   : 'bg-gradient-to-br from-cyan-950/80 via-slate-900 to-blue-950/80 border border-cyan-500/40 text-cyan-400 hover:border-cyan-400 hover:scale-105 shadow-[0_0_10px_rgba(6,182,212,0.25)]'
@@ -210,7 +190,7 @@ export const GlobalSideRail = () => {
               <button
                 type="button"
                 onClick={toggleAudio}
-                className={`group relative w-full py-1 px-1 rounded-xl flex flex-col items-center justify-center transition-colors cursor-pointer ${
+                className={`group relative w-full py-1 px-1 min-h-[44px] touch-manipulation rounded-xl flex flex-col items-center justify-center transition-colors cursor-pointer ${
                   isAudioMuted
                     ? 'text-rose-400 hover:text-rose-300 hover:bg-slate-900'
                     : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-900'
@@ -232,7 +212,7 @@ export const GlobalSideRail = () => {
                   AudioService.playTerminalBeep(1000, 0.02);
                   setIsSettingsOpen(true);
                 }}
-                className="group relative w-full py-1 px-1 rounded-xl flex flex-col items-center justify-center text-slate-400 hover:text-cyan-300 hover:bg-slate-900 transition-colors cursor-pointer"
+                className="group relative w-full py-1 px-1 min-h-[44px] touch-manipulation rounded-xl flex flex-col items-center justify-center text-slate-400 hover:text-cyan-300 hover:bg-slate-900 transition-colors cursor-pointer"
                 title="System Configuration & Preferences"
               >
                 <div className="w-7 h-7 flex items-center justify-center shrink-0">

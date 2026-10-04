@@ -18,7 +18,7 @@ import { ScenarioCockpitDockPanel } from './ScenarioCockpitDock';
 import { useAdeStore } from '../store/adeStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useWaypointEngine } from '../hooks/useWaypointEngine';
-import { createBlankCanvas } from '../../../components/VTT/stage/defaultMaps';
+import { createBlankCanvas, getStarterMapsCollection } from '../../../components/VTT/stage/defaultMaps';
 import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 import { v4 as uuidv4 } from 'uuid';
 import { useScenarioOperations } from './panels/useScenarioOperations';
@@ -107,7 +107,10 @@ export default function ScenarioPane({
   const scenarioWorkspaceTab = (rawWorkspaceTab === 'canvas' || rawWorkspaceTab === 'manuscript')
     ? 'weaver'
     : (rawWorkspaceTab === 'control-panel' ? 'tactical' : (rawWorkspaceTab === 'map' || rawWorkspaceTab === 'stage' ? 'stage' : rawWorkspaceTab));
-  const setScenarioWorkspaceTab = propSetWorkspaceTab || setStoreWorkspaceTab;
+  const setScenarioWorkspaceTab = (tab) => {
+    setStoreWorkspaceTab(tab);
+    if (propSetWorkspaceTab) propSetWorkspaceTab(tab);
+  };
 
   // Unified Map Catalog access
   const allAvailableMaps = useMemo(() => {
@@ -115,6 +118,20 @@ export default function ScenarioPane({
     const projectMaps = (universeState?.maps || []).filter(m => !catalog.some(cm => cm.id === m.id));
     return [...catalog, ...projectMaps];
   }, [mapsCatalog, universeState?.maps]);
+
+  // Bootstrap starter maps if both universeState.maps and mapsCatalog are empty
+  useEffect(() => {
+    if (universeState && (!universeState.maps || universeState.maps.length === 0) && (!mapsCatalog || mapsCatalog.length === 0)) {
+      const starters = getStarterMapsCollection();
+      setUniverseState(prev => ({
+        ...prev,
+        maps: starters
+      }));
+      if (starters.length > 0 && setActiveMapId && !activeMapId) {
+        setActiveMapId(starters[0].id);
+      }
+    }
+  }, [universeState, mapsCatalog, setUniverseState, setActiveMapId, activeMapId]);
 
   // Locate active node
   let activeNode = null;
@@ -376,6 +393,7 @@ export default function ScenarioPane({
         linkedMap={linkedMap}
         allAvailableMaps={allAvailableMaps}
         setActiveMapId={setActiveMapId}
+        addMap={addMap}
         handleCreateNewMapForElement={handleCreateNewMapForElement}
         onSwitchView={onSwitchView}
         waypointPromptData={waypointPromptData}

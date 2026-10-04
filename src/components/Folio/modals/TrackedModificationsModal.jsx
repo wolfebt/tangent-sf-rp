@@ -11,9 +11,11 @@ import {
   X
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
 
 export const TrackedModificationsModal = ({ isOpen, onClose }) => {
+  const confirm = useConfirm();
   const { 
     characterData, 
     revertTrackedModification
@@ -39,8 +41,14 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
     return String(val);
   };
 
-  const handleRevert = (modId) => {
-    if (window.confirm("Revert this modification back to its original value?")) {
+  const handleRevert = async (modId) => {
+    const ok = await confirm({
+      title: 'Revert Modification',
+      message: 'Revert this modification back to its original value?',
+      danger: true,
+      confirmLabel: 'Revert'
+    });
+    if (ok) {
       revertTrackedModification(modId);
       AudioService.playTerminalBeep(1100, 0.05);
     }

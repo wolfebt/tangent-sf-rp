@@ -32,6 +32,7 @@ import { useDice } from '../../../context/DiceContext';
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
+import { showToast } from '../../../context/ToastContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { DEFAULT_INVOCATIONS } from '../../../data/invocationsData';
 import { resolveMetaSkillForInvocation, isSpecialAbility, resolvePowerFoundation } from '../../../utils/metaphysicsUtils';
@@ -514,7 +515,11 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   const handleLearnInvocation = (inv) => {
     const existingIdx = knownInvocations.findIndex(k => (k.name || '').toLowerCase() === (inv.name || '').toLowerCase());
     if (existingIdx >= 0) {
-      alert(`Invocation "${inv.name}" is already known by this operative.`);
+      showToast({
+        type: 'info',
+        title: 'Already Known',
+        text: `Invocation "${inv.name}" is already known by this operative.`
+      });
       return;
     }
     const resolved = resolveMetaSkillForInvocation(inv);
@@ -536,7 +541,11 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   const handleAddSpecialAbility = (abil) => {
     const existingIdx = specialAbilities.findIndex(a => (a.name || '').toLowerCase() === (abil.name || '').toLowerCase());
     if (existingIdx >= 0) {
-      alert(`Special Ability "${abil.name}" is already possessed by this operative.`);
+      showToast({
+        type: 'info',
+        title: 'Already Possessed',
+        text: `Special Ability "${abil.name}" is already possessed by this operative.`
+      });
       return;
     }
     const newAbil = {

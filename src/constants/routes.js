@@ -21,7 +21,8 @@ export const ROUTES = {
   TEAMS: '/teams'
 };
 
-export function isAdeLiveStudioRoute(pathname = '') {
+export function isAdeLiveStudioRoute(pathname = '', search = '') {
+  if (search && (search.includes('tab=stage') || search.includes('live-studio'))) return true;
   return (
     pathname.startsWith('/foundry/live') ||
     pathname.startsWith('/foundry/live-studio') ||
@@ -30,8 +31,9 @@ export function isAdeLiveStudioRoute(pathname = '') {
   );
 }
 
-export function isAdeHubRoute(pathname = '', isStage = false) {
-  if (isStage || isAdeLiveStudioRoute(pathname)) return false;
+export function isAdeHubRoute(pathname = '', isStage = false, search = '') {
+  if (isStage || isAdeLiveStudioRoute(pathname, search)) return false;
+  if (search && search.includes('view=') && !search.includes('view=mission_control')) return false;
   return (
     pathname === '/foundry' ||
     pathname === '/foundry/' ||
@@ -40,8 +42,8 @@ export function isAdeHubRoute(pathname = '', isStage = false) {
   );
 }
 
-export function isStoryFoundryRoute(pathname = '', isStage = false) {
-  if (isStage || isAdeLiveStudioRoute(pathname) || isAdeHubRoute(pathname, isStage)) return false;
+export function isStoryFoundryRoute(pathname = '', isStage = false, search = '') {
+  if (isStage || isAdeLiveStudioRoute(pathname, search) || isAdeHubRoute(pathname, isStage, search)) return false;
   return (
     pathname.startsWith('/foundry') ||
     pathname.startsWith('/ade') ||

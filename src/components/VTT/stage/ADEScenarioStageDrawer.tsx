@@ -62,7 +62,8 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
   const activeScenario = scenarios.find((s: AdeScenarioRecord) => s.id === activeScenarioId) || scenarios[0] || null;
   const scenarioId = activeScenario?.id;
 
-  const linkedElementIds: string[] = activeScenario?.linkedElements || [];
+  const rawLinked = activeScenario?.linkedElements || [];
+  const linkedElementIds: string[] = rawLinked.map((l: any) => typeof l === 'string' ? l : l?.assetId).filter(Boolean);
   const linkedElements: AdeElementRecord[] = (elementsCatalog || []).filter((e: AdeElementRecord) => linkedElementIds.includes(e.id));
 
   // Parse beats from scenario fields or outline

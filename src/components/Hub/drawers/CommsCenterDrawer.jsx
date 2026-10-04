@@ -120,10 +120,10 @@ export const CommsCenterDrawer = ({ onClose, onOpenDrawer }) => {
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1200, 0.02);
-              navigate('/comms');
+              navigate('/network?view=comms');
             }}
             className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 hover:text-white transition-colors"
-            title="Open Full Screen Matrix (/comms)"
+            title="Open Full Screen Matrix (/network?view=comms)"
           >
             <Maximize2 size={15} />
           </button>

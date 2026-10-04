@@ -24,6 +24,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { 
   CORE_ATTRIBUTES, 
   ATTRIBUTE_CHECKS, 
@@ -265,6 +266,7 @@ const PerceptionEssenceMovementModal = ({
 }) => {
   // Use Folio context for live reactive state & methods
   const folio = useFolio();
+  const confirm = useConfirm();
   const characterData = propCharacterData || folio.characterData || {};
   const getAttrTotal = propGetAttrTotal || folio.getAttrTotal || (() => 0);
   const derivedStats = propDerivedStats || folio.derivedStats || {};
@@ -753,8 +755,14 @@ const PerceptionEssenceMovementModal = ({
                     {isDead && revivifyCharacter && (
                       <button
                         type="button"
-                        onClick={() => {
-                          if (window.confirm("Perform Revivification? Character loses ALL Karma and suffers -5 AP Debt.")) {
+                        onClick={async () => {
+                          const ok = await confirm({
+                            title: 'Perform Revivification',
+                            message: 'Perform Revivification? Character loses ALL Karma and suffers -5 AP Debt.',
+                            danger: true,
+                            confirmLabel: 'Revivify (-5 AP Debt)'
+                          });
+                          if (ok) {
                             revivifyCharacter();
                           }
                         }}

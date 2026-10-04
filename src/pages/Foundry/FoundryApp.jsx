@@ -23,6 +23,23 @@ const SearchPreservingRedirect = ({ to }) => {
   return <Navigate to={`${to}${location.search}`} replace />;
 };
 
+const FoundryRouteRedirect = ({ view, tab }) => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  if (view && !params.has('view')) {
+    if (view === 'mission_control') {
+      params.delete('view');
+    } else {
+      params.set('view', view);
+    }
+  }
+  if (tab && !params.has('tab')) {
+    params.set('tab', tab);
+  }
+  const search = params.toString();
+  return <Navigate to={`/foundry${search ? `?${search}` : ''}`} replace />;
+};
+
 const FoundryAppInner = () => {
   const { syncConflict, resolveConflictOverwrite, resolveConflictPull, resolveConflictCancel } = useCampaign();
   
@@ -31,26 +48,26 @@ const FoundryAppInner = () => {
       <AppShell>
         <Routes>
           <Route path="/" element={<StoryModule />} />
-          <Route path="mission-control" element={<StoryModule defaultView="mission_control" />} />
-          <Route path="dashboard" element={<StoryModule defaultView="mission_control" />} />
-          <Route path="hub" element={<StoryModule defaultView="mission_control" />} />
-          <Route path="live" element={<StoryModule defaultView="scenarios" defaultWorkspaceTab="stage" />} />
-          <Route path="live-studio" element={<StoryModule defaultView="scenarios" defaultWorkspaceTab="stage" />} />
-          <Route path="ade-stage" element={<StoryModule defaultView="scenarios" defaultWorkspaceTab="stage" />} />
+          <Route path="mission-control" element={<FoundryRouteRedirect view="mission_control" />} />
+          <Route path="dashboard" element={<FoundryRouteRedirect view="mission_control" />} />
+          <Route path="hub" element={<FoundryRouteRedirect view="mission_control" />} />
+          <Route path="live" element={<FoundryRouteRedirect view="scenarios" tab="stage" />} />
+          <Route path="live-studio" element={<FoundryRouteRedirect view="scenarios" tab="stage" />} />
+          <Route path="ade-stage" element={<FoundryRouteRedirect view="scenarios" tab="stage" />} />
           <Route path="live-studio-standalone" element={<SearchPreservingRedirect to="/foundry/live" />} />
           <Route path="stage" element={<ADEStage />} />
           <Route path="ade" element={<StoryModule />} />
           <Route path="story" element={<StoryModule />} />
-          <Route path="interactive" element={<StoryModule defaultView="interactive" />} />
-          <Route path="narrative" element={<StoryModule defaultView="scenarios" />} />
-          <Route path="scripts" element={<StoryModule defaultView="scripts" />} />
-          <Route path="presets" element={<StoryModule defaultView="scripts" />} />
-          <Route path="automation" element={<StoryModule defaultView="scripts" />} />
-          <Route path="assets" element={<StoryModule defaultView="gallery" />} />
-          <Route path="elements" element={<StoryModule defaultView="gallery" />} />
-          <Route path="gallery" element={<StoryModule defaultView="gallery" />} />
-          <Route path="graph" element={<StoryModule defaultView="graph" />} />
-          <Route path="tactical" element={<StoryModule defaultView="control-panel" />} />
+          <Route path="interactive" element={<FoundryRouteRedirect view="interactive" />} />
+          <Route path="narrative" element={<FoundryRouteRedirect view="scenarios" />} />
+          <Route path="scripts" element={<FoundryRouteRedirect view="scripts" />} />
+          <Route path="presets" element={<FoundryRouteRedirect view="scripts" />} />
+          <Route path="automation" element={<FoundryRouteRedirect view="scripts" />} />
+          <Route path="assets" element={<FoundryRouteRedirect view="elements" />} />
+          <Route path="elements" element={<FoundryRouteRedirect view="elements" />} />
+          <Route path="gallery" element={<FoundryRouteRedirect view="elements" />} />
+          <Route path="graph" element={<FoundryRouteRedirect view="graph" />} />
+          <Route path="tactical" element={<FoundryRouteRedirect view="control-panel" />} />
           <Route path="catalog" element={<Dashboard />} />
           <Route path="map" element={<MapMaker />} />
           <Route path="map-maker" element={<MapMaker />} />

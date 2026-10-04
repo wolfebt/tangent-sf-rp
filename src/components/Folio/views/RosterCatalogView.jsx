@@ -3,7 +3,7 @@ import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { AudioService } from '../../../services/audioService';
 import { useToast } from '../../../context/ToastContext';
-import { Users, Globe, Search, LayoutGrid, List, Plus, Sparkles, Copy, Trash2, Edit3, Share2, Eye, EyeOff, Shield, Activity, Award, User, Lock, ExternalLink } from 'lucide-react';
+import { Users, Globe, Search, LayoutGrid, List, Plus, Sparkles, Copy, Trash2, Edit3, Share2, Eye, EyeOff, Shield, Activity, Award, User, Lock, ExternalLink, Radio } from 'lucide-react';
 
 export const RosterCatalogView = ({
   personaRoster = [],
@@ -15,6 +15,7 @@ export const RosterCatalogView = ({
   onDeleteCharacter,
   onUpdateNote,
   onToggleVisibility,
+  onToggleNetworkEngaged,
   onLoadPublicGallery,
   publicCatalog = [],
   onSelectPublicPersona,
@@ -285,19 +286,41 @@ export const RosterCatalogView = ({
                       </div>
 
                       {catalogTab === 'my-roster' ? (
-                        <button
-                          type="button"
-                          onClick={() => onToggleVisibility && onToggleVisibility(docId, !isPublic)}
-                          className={`px-2 py-0.5 rounded-md text-[9.5px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer border ${
-                            isPublic
-                              ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/80'
-                              : 'bg-slate-900 border-slate-700 text-slate-500 hover:text-slate-300'
-                          }`}
-                          title={isPublic ? 'Public Persona (Click to make Private)' : 'Private Persona (Click to make Public)'}
-                        >
-                          {isPublic ? <Eye size={10} /> : <EyeOff size={10} />}
-                          <span>{isPublic ? 'Public' : 'Private'}</span>
-                        </button>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onToggleNetworkEngaged && onToggleNetworkEngaged(docId);
+                            }}
+                            className={`px-2 py-0.5 rounded-md text-[9.5px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer border ${
+                              char.networkEngaged || char.isNetworkEngaged
+                                ? 'bg-emerald-950/80 border-emerald-500/70 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                                : 'bg-slate-900 border-slate-700 text-slate-500 hover:text-emerald-300'
+                            }`}
+                            title={
+                              char.networkEngaged || char.isNetworkEngaged
+                                ? 'Network Engaged: Visible on Terran Data Network and in squad directories. Click to disengage.'
+                                : 'Network Standby: Private to you. Click to engage and broadcast to network.'
+                            }
+                          >
+                            <Radio size={10} className={char.networkEngaged || char.isNetworkEngaged ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                            <span>{char.networkEngaged || char.isNetworkEngaged ? 'Engaged' : 'Standby'}</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onToggleVisibility && onToggleVisibility(docId, !isPublic)}
+                            className={`px-2 py-0.5 rounded-md text-[9.5px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer border ${
+                              isPublic
+                                ? 'bg-cyan-950/60 border-cyan-500/40 text-cyan-300 hover:bg-cyan-900/80'
+                                : 'bg-slate-900 border-slate-700 text-slate-500 hover:text-slate-300'
+                            }`}
+                            title={isPublic ? 'Public Persona (Click to make Private)' : 'Private Persona (Click to make Public)'}
+                          >
+                            {isPublic ? <Eye size={10} /> : <EyeOff size={10} />}
+                            <span>{isPublic ? 'Public' : 'Private'}</span>
+                          </button>
+                        </div>
                       ) : (
                         <span className="text-[10px] font-mono text-purple-400">
                           by @{author}
@@ -461,6 +484,25 @@ export const RosterCatalogView = ({
                                 <Lock size={9} className="text-cyan-400" />
                                 <span>Locked</span>
                               </span>
+                            )}
+                            {catalogTab === 'my-roster' && (
+                              <button
+                                type="button"
+                                onClick={() => onToggleNetworkEngaged && onToggleNetworkEngaged(docId)}
+                                className={`px-2 py-0.5 rounded text-[9px] uppercase font-bold border transition-colors flex items-center gap-1 cursor-pointer ${
+                                  char.networkEngaged || char.isNetworkEngaged
+                                    ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/70 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                                    : 'bg-slate-900 text-slate-500 border-slate-700 hover:text-emerald-300'
+                                }`}
+                                title={
+                                  char.networkEngaged || char.isNetworkEngaged
+                                    ? "Network Engaged: Visible on Terran Data Network. Click to disengage."
+                                    : "Network Standby: Private to you. Click to engage and broadcast to network."
+                                }
+                              >
+                                <Radio size={9} className={char.networkEngaged || char.isNetworkEngaged ? "text-emerald-400" : "text-slate-500"} />
+                                <span>{char.networkEngaged || char.isNetworkEngaged ? 'Engaged' : 'Standby'}</span>
+                              </button>
                             )}
                             {isPublic ? (
                               <span className="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9px] uppercase font-bold">

@@ -122,7 +122,8 @@ export const QuickTeamInviteModal = ({
   // Filter available users to invite (excluding current user and already joined members)
   const candidateUsers = (userDirectory || []).filter(u => {
     if (!u || u.uid === currentUser?.uid) return false;
-    if (currentSelectedGroup?.members?.includes(u.uid)) return false;
+    const isAlreadyMember = (currentSelectedGroup?.members || []).some(m => (typeof m === 'string' ? m === u.uid : (m?.userId || m?.uid || m?.id) === u.uid));
+    if (isAlreadyMember) return false;
 
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase().trim();

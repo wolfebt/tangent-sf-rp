@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { showToast } from '../../../context/ToastContext';
 import KarmaCodexModal from './KarmaCodexModal';
 import ExperienceCodexModal from './ExperienceCodexModal';
 
@@ -142,7 +143,11 @@ export const DiscreetFateOverrideModal = ({
 
   const handleApplyKarmaAction = async (action) => {
     if (currentKarma <= -maxKarmaDebt) {
-      alert(`Cannot spend Karma: You have reached maximum Karmic Debt (-${maxKarmaDebt}).`);
+      showToast({
+        type: 'warn',
+        title: 'Karma Debt Limit',
+        text: `Cannot spend Karma: You have reached maximum Karmic Debt (-${maxKarmaDebt}).`
+      });
       return;
     }
     if (updateCharacterKarma && heroId) {
