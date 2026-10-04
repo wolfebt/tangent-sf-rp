@@ -19,12 +19,23 @@ import { db } from '../firebase';
 import { StorageService } from './storageService';
 import { ChatService } from './chatService';
 
-// Helper to generate a random 6-character alphanumeric invite code
+// Helper to generate a secure random 6-character alphanumeric invite code
 const generateInviteCode = () => {
+  // Length is 32 to avoid modulo bias when selecting characters
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let result = 'GRP-';
-  for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+
+  if (typeof globalThis.crypto !== 'undefined' && globalThis.crypto.getRandomValues) {
+    const randomBytes = new Uint8Array(6);
+    globalThis.crypto.getRandomValues(randomBytes);
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(randomBytes[i] % chars.length);
+    }
+  } else {
+    // Fallback if Web Crypto API is unavailable
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
   }
   return result;
 };
