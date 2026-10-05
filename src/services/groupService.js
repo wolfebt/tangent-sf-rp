@@ -23,8 +23,11 @@ import { ChatService } from './chatService';
 const generateInviteCode = () => {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let result = 'GRP-';
+  const randomArray = new Uint8Array(6);
+  globalThis.crypto.getRandomValues(randomArray);
   for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+    // safe modulo because length is 32 (power of 2)
+    result += chars.charAt(randomArray[i] % chars.length);
   }
   return result;
 };
