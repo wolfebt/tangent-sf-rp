@@ -5,8 +5,35 @@
  * super-prompt weighted by importance rankings and enriched with directorial annotations.
  */
 
-import { formatAimeGuidanceDirective, formatGemsPrompt } from '../pages/Foundry/StoryModule/guidanceGemsConfig';
-import { normalizeLinkedAssets } from '../pages/Foundry/ElementForge/components/AssetHubDeck';
+import { formatAimeGuidanceDirective, formatGemsPrompt } from '../pages/Foundry/StoryModule/guidanceGemsConfig.js';
+import { normalizeLinkedAssets } from '../pages/Foundry/ElementForge/components/assetHubUtils.js';
+import { scanDynamicLorebook } from './lorebookScanner.ts';
+
+/**
+ * Builds the static, immutable KV prefix containing foundational BASTION rules,
+ * universe constants, and active Folio base stats for prefix caching.
+ */
+export function buildStaticRulesPrefix({ campaignName = '', folioCharacter = null } = {}) {
+  const prefixParts = [
+    '=== [BASTION CANONICAL STATIC RULES PREFIX — OMNICORTEX ATTUNED] ===',
+    'Foundational Mechanics & Universal Constants:',
+    '• Dual Resolution: Checks resolve via 2d10 + Attribute Mod + Skill Rank vs. TN (Target Number = 11 + Defense). Critical success on double 10s (natural 20), fumble on double 1s (natural 2). Margin of success (+5 Superior, +10 Masterful) dictates tactical advantage.',
+    '• Called Shots & 33.3% Trauma: Anatomy targeting (-2 Head, -2 Arms, -1 Legs, -3 Optics). Major Wound Trauma triggers at >= 33.3% Target Max HP in a single strike, inflicting anatomical impairment.',
+    '• Tech Levels (TL 0–5): TL-0 Primitive/Archaic, TL-1 Industrial, TL-2 Advanced Electronic, TL-3 Interstellar/Cybernetic (Galactic baseline), TL-4 Nanotech/Hard-Light, TL-5 Progenitor/Precursor.',
+    '• Economatrix Unified Cost: Cost = Base * (2^TL) * (1.5^ML).',
+    '• Tactical Stances: Guard (+2 Armor DR), Aim (+2 To-Hit), Overcharge (+6 DMG / +2 Heat/Fatigue).'
+  ];
+
+  if (campaignName) {
+    prefixParts.push(`Campaign Universe Constants: "${campaignName}"`);
+  }
+
+  if (folioCharacter) {
+    prefixParts.push(`Active Operative Folio Baseline: ${folioCharacter.name || 'Operative'} (${folioCharacter.species || 'Species'} ${folioCharacter.archetype || 'Archetype'}) | Attributes: Might=${folioCharacter.attributes?.might ?? 0}, Reflex=${folioCharacter.attributes?.reflex ?? 0}, Logic=${folioCharacter.attributes?.logic ?? 0}, Fortitude=${folioCharacter.attributes?.fortitude ?? 0}, Will=${folioCharacter.attributes?.will ?? 0}, Etiquette=${folioCharacter.attributes?.etiquette ?? 0}`);
+  }
+
+  return prefixParts.join('\n');
+}
 
 /**
  * Strips HTML tags and normalizes whitespace for clean LLM prompt tokens.
@@ -62,7 +89,11 @@ export function synthesizeSuperPrompt({
   catalog = [],
   taskPrompt = '',
   campaignName = '',
-  cronicle = null
+  cronicle = null,
+  storyFlags = null,
+  lorebookConfig = null,
+  folioCharacter = null,
+  returnPrefixStructure = false
 }) {
   const sections = [];
 
@@ -173,11 +204,41 @@ export function synthesizeSuperPrompt({
     }
   }
 
+  // ── DYNAMIC RECURSIVE LOREBOOK SCAN (PHASE 1 ARCHITECTURE) ──
+  if (Array.isArray(catalog) && catalog.length > 0) {
+    try {
+      const scanResult = scanDynamicLorebook({
+        input: taskPrompt,
+        activeScenario: activeNode,
+        catalog,
+        storyFlags: storyFlags || {},
+        config: lorebookConfig || {}
+      });
+
+      if (scanResult.formattedPromptContext) {
+        sections.push('\n' + scanResult.formattedPromptContext);
+      }
+    } catch (e) {
+      console.warn('[superPromptSynthesizer] Dynamic lorebook scan skipped:', e);
+    }
+  }
+
   // ── TASK INSTRUCTIONS ──
   if (taskPrompt) {
     sections.push('\n[ARCHITECTURAL TASK]');
     sections.push(taskPrompt);
   }
 
-  return sections.join('\n');
+  const staticPrefix = buildStaticRulesPrefix({ campaignName, folioCharacter });
+  const dynamicSuffix = sections.join('\n');
+
+  if (returnPrefixStructure) {
+    return {
+      staticPrefix,
+      dynamicSuffix,
+      fullPrompt: `${staticPrefix}\n\n${dynamicSuffix}`
+    };
+  }
+
+  return `${staticPrefix}\n\n${dynamicSuffix}`;
 }

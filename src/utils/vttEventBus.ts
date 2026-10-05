@@ -61,6 +61,7 @@ export interface VttEventMap {
   'stage-hazard-toggled': { hazardId?: string; objectId?: string; isActive?: boolean; hazardType?: string; [key: string]: any };
   'omnicortex-loot-dispensed': { omnicortexGearId?: string; operativeId?: string; containerId?: string; objectId?: string; itemName?: string; [key: string]: any };
   'story-foundry-node-triggered': { action?: string; nodeId?: string; objectId?: string; storyElementId?: string; operativeId?: string; [key: string]: any };
+  'mechanical-mandate-executed': { mandate: any };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =

@@ -19,8 +19,19 @@ import { useCampaign, useStory } from '../../../../context/CampaignContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { useDBM } from '../../../../context/DBMContext';
 import { AudioService } from '../../../../services/audioService';
-import { streamContent } from '../../../../services/aimeService';
+import { 
+  streamContent, 
+  generateContent, 
+  LOD_TIERS, 
+  resolveIntelligenceTier, 
+  calculateVramTelemetry 
+} from '../../../../services/aimeService.js';
 import { VttEventBus } from '../../../../utils/vttEventBus';
+import { 
+  adjudicateActionCheck, 
+  formatMandateForPrompt 
+} from '../../../../services/ade/adeEngineBridge.ts';
+import { useAdeStore } from '../../store/adeStore.ts';
 import { 
   Sparkles, 
   Play, 
@@ -49,7 +60,14 @@ import {
   GitBranch,
   ShieldAlert,
   Swords,
-  Database
+  Database,
+  Cpu,
+  Brain,
+  MessageSquare,
+  HelpCircle,
+  CheckCircle2,
+  AlertTriangle,
+  XCircle
 } from 'lucide-react';
 
 import TacticalStageViewport from '../panels/TacticalStageViewport';
@@ -326,6 +344,17 @@ export const InteractiveStoryStudio = ({
   const [toastMessage, setToastMessage] = useState(null);
   const endOfBeatsRef = useRef(null);
 
+  // ── PHASE 3: HARDWARE MITIGATION & LOD INTELLIGENCE TIERING ──
+  const [selectedLodTier, setSelectedLodTier] = useState('auto');
+
+  // ── PHASE 4: EPISTEMIC INTERROGATION & DEDUCTION CONSOLE ──
+  const [isEpistemicConsoleOpen, setIsEpistemicConsoleOpen] = useState(false);
+  const [epistemicTargetType, setEpistemicTargetType] = useState('npc');
+  const [epistemicTargetName, setEpistemicTargetName] = useState('');
+  const [epistemicQuery, setEpistemicQuery] = useState('');
+  const [isEpistemicSubmitting, setIsEpistemicSubmitting] = useState(false);
+  const [epistemicFeed, setEpistemicFeed] = useState([]);
+
   // Audio Atmosphere & Speech Synthesis (TTS)
   const [isAmbientDroneActive, setIsAmbientDroneActive] = useState(false);
   const [isSpeakingBeatId, setIsSpeakingBeatId] = useState(null);
@@ -433,7 +462,55 @@ export const InteractiveStoryStudio = ({
       }
     }
 
-    // Mark previous beat with chosen decision
+    // 1. NEURO-SYMBOLIC ISOLATION: Deterministic Game Engine Master
+    // Adjudicate check and establish immutable structural mandate BEFORE AI generation
+    const storyFlags = useAdeStore.getState().storyFlags || {};
+    const mandate = adjudicateActionCheck({
+      actionText: chosenAction,
+      operative: activeOperative,
+      targetEntity: activeScenario,
+      targetDC: skillCheckRoll ? skillCheckRoll.targetCR : 12,
+      skillName: skillCheckRoll ? skillCheckRoll.skillName : '',
+      subAttrKey: skillCheckRoll ? skillCheckRoll.subAttrKey : '',
+      activeModifiers,
+      storyFlags,
+      diceOverride: skillCheckRoll ? [skillCheckRoll.dice1, skillCheckRoll.dice2] : null
+    });
+
+    // Audio cue based on immutable systemic intent
+    if (mandate.systemIntent === 'CRITICAL_TRIUMPH' || mandate.systemIntent === 'EXECUTE_SUCCESS') {
+      AudioService.playCriticalChime(mandate.systemIntent === 'CRITICAL_TRIUMPH');
+    } else if (mandate.systemIntent === 'CRITICAL_FUMBLE' || mandate.systemIntent === 'REFUSE_ACTION') {
+      AudioService.playCombatHit(true);
+    } else {
+      AudioService.playCombatHit(false);
+    }
+
+    // Apply mechanical outcomes immediately to operative vitals and VTT
+    if (activeOperative && (mandate.mechanicalOutcomes?.shieldsDelta || mandate.mechanicalOutcomes?.hpDelta)) {
+      const currentVitals = activeOperative.vitals || { shields: 10, maxShields: 10, health: 10, maxHealth: 10, strain: 0 };
+      const nextShields = Math.max(0, Math.min(currentVitals.maxShields || 10, (currentVitals.shields || 0) + (mandate.mechanicalOutcomes.shieldsDelta || 0)));
+      const nextHealth = Math.max(0, Math.min(currentVitals.maxHealth || 10, (currentVitals.health || 0) + (mandate.mechanicalOutcomes.hpDelta || 0)));
+      handleUpdateOperativeVitals(activeOperative.id, {
+        ...currentVitals,
+        shields: nextShields,
+        health: nextHealth
+      });
+    }
+
+    if (mandate.mechanicalOutcomes?.conditionsApplied && typeof applyVTTStatusConditions === 'function') {
+      mandate.mechanicalOutcomes.conditionsApplied.forEach(cond => {
+        applyVTTStatusConditions(cond);
+      });
+    }
+
+    if (mandate.mechanicalOutcomes?.flagUpdates) {
+      Object.entries(mandate.mechanicalOutcomes.flagUpdates).forEach(([k, v]) => {
+        useAdeStore.getState().setStoryFlag(k, v, 'scenario', activeScenario?.id);
+      });
+    }
+
+    // Mark previous beat with chosen decision & mandate summary
     let updatedBeats = [...beats];
     if (beats.length > 0) {
       const lastIndex = beats.length - 1;
@@ -444,7 +521,7 @@ export const InteractiveStoryStudio = ({
           gate: {
             ...(currentBeat.gate || {}),
             chosenOption: chosenAction,
-            checkResult: skillCheckRoll ? skillCheckRoll.summary : null
+            checkResult: mandate.diceSummary ? mandate.diceSummary.formula : (skillCheckRoll ? skillCheckRoll.summary : null)
           }
         };
         setBeats(updatedBeats);
@@ -466,6 +543,9 @@ Guidance: ${typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci
 
     const recentBeatsText = updatedBeats.slice(-3).map(b => `[Beat #${b.beatIndex} - ${b.protagonistName}]: ${b.text}`).join('\n\n');
 
+    // Structural mandate prompt formatting ensures 100% subordination of the LLM
+    const mandatePromptText = formatMandateForPrompt(mandate);
+
     const prompt = `You are AIME, the Creative AI Overseer running an interactive Tangent SFF RPG tactical encounter.
 ${scenarioContext}
 ${protagonistContext}
@@ -473,9 +553,7 @@ ${protagonistContext}
 Story history so far:
 ${recentBeatsText || 'Scene commencement.'}
 
-Player's Declared Action:
-"${chosenAction}"
-${skillCheckRoll ? `Dice Roll Result: ${skillCheckRoll.formula} ➔ ${skillCheckRoll.tierLabel}` : ''}
+${mandatePromptText}
 
 INSTRUCTIONS:
 1. Write exactly ONE OR TWO atmospheric paragraphs (120-180 words) depicting direct sensory consequences. Honor Tangent SFF rules (Tech Levels 0-5, kinetic shields, physical armor soak, called shots, and trauma thresholds).
@@ -483,6 +561,7 @@ INSTRUCTIONS:
 FORMAT YOUR OUTPUT AS VALID JSON:
 {
   "narrative": "Paragraph text here...",
+  "mandateExecutionSummary": "${mandate.systemIntent} - ${mandate.narrativeBounds.prescribedOutcome.replace(/"/g, "'")}",
   "gate": {
     "prompt": "What is the operative's next move?",
     "options": [
@@ -498,6 +577,9 @@ FORMAT YOUR OUTPUT AS VALID JSON:
       await streamContent({
         prompt,
         context: activeScenario,
+        mandate,
+        enforceJson: true,
+        tierKey: selectedLodTier,
         onChunk: (chunk) => {
           accumulated += chunk;
           setActiveStreamingText(accumulated);
@@ -530,6 +612,7 @@ FORMAT YOUR OUTPUT AS VALID JSON:
         protagonistName: activeOperative?.name || 'Operative',
         text: parsed.narrative || accumulated,
         gate: parsed.gate || null,
+        mandate: mandate,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
@@ -569,6 +652,74 @@ FORMAT YOUR OUTPUT AS VALID JSON:
     } finally {
       setIsGenerating(false);
       setGeneratingActionText('');
+    }
+  };
+
+  // ── PHASE 4: EPISTEMIC INTERROGATION & DEDUCTION HANDLER ──
+  const handleExecuteEpistemicInterrogation = async () => {
+    if (!epistemicQuery.trim() || isEpistemicSubmitting) return;
+    setIsEpistemicSubmitting(true);
+    AudioService.playTerminalBeep(1100, 0.05);
+
+    try {
+      const skillName = epistemicTargetType === 'terminal' ? 'Slicing' : (epistemicTargetType === 'artifact' ? 'Perception' : 'Etiquette');
+      const dc = 12;
+
+      const check = adjudicateActionCheck({
+        actionText: `Epistemic interrogation: "${epistemicQuery}" directed at ${epistemicTargetName || epistemicTargetType}`,
+        operative: activeOperative,
+        targetEntity: activeScenario,
+        targetDC: dc,
+        skillName,
+        activeModifiers,
+        storyFlags: useAdeStore.getState().storyFlags || {}
+      });
+
+      const prompt = `Epistemic Investigation & Deduction Query:
+Target: ${epistemicTargetName || epistemicTargetType} (${epistemicTargetType.toUpperCase()})
+Investigator: ${activeOperative?.name || 'Operative'}
+Question: "${epistemicQuery}"
+Check Result: ${check.systemIntent} (${check.diceSummary?.formula || 'Adjudicated'})
+
+Instructions:
+Ground your response strictly in the scenario lore, active story flags, and facts from the database.
+If the check succeeded (${check.systemIntent === 'EXECUTE_SUCCESS' || check.systemIntent === 'CRITICAL_TRIUMPH'}), reveal genuine verifiable clues, tactical frequencies, motives, or logical deductions without halluncinating invalid stats.
+If the check failed or was refused, have the target stonewall, deflect with disinformation, or emit a security rejection bark.
+Respond in 2-3 concise in-character sentences.`;
+
+      const response = await generateContent({
+        prompt,
+        context: activeScenario,
+        tierKey: selectedLodTier
+      });
+
+      const logEntry = {
+        id: `epi_${Date.now()}`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        target: epistemicTargetName || (epistemicTargetType === 'npc' ? 'Interrogated NPC' : epistemicTargetType === 'terminal' ? 'Security Terminal' : 'Investigated Artifact'),
+        targetType: epistemicTargetType,
+        query: epistemicQuery,
+        checkSummary: check.diceSummary?.formula || check.systemIntent,
+        systemIntent: check.systemIntent,
+        isSuccess: check.systemIntent === 'EXECUTE_SUCCESS' || check.systemIntent === 'CRITICAL_TRIUMPH',
+        answer: response
+      };
+
+      setEpistemicFeed(prev => [logEntry, ...prev]);
+      setEpistemicQuery('');
+
+      if (check.systemIntent === 'CRITICAL_TRIUMPH') {
+        useAdeStore.getState().setStoryFlag('epistemic_breakthrough', true, 'scenario', activeScenario?.id);
+      } else if (check.systemIntent === 'CRITICAL_FUMBLE') {
+        useAdeStore.getState().setStoryFlag('investigation_compromised', true, 'scenario', activeScenario?.id);
+      }
+
+      AudioService.playTerminalBeep(1300, 0.06);
+    } catch (e) {
+      console.warn('Epistemic interrogation failed:', e);
+      showToast('Epistemic interrogation query failed');
+    } finally {
+      setIsEpistemicSubmitting(false);
     }
   };
 
@@ -772,6 +923,40 @@ FORMAT YOUR OUTPUT AS VALID JSON:
             </button>
           </div>
 
+          {/* Hardware Mitigation & Level-of-Detail (LOD) Tiering */}
+          <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-xl px-2 py-0.5 text-xs" title="Level-of-Detail (LOD) Hardware Mitigation & KV-Cache GQA Compression">
+            <Cpu size={11} className="text-cyan-400 shrink-0" />
+            <select
+              value={selectedLodTier}
+              onChange={(e) => setSelectedLodTier(e.target.value)}
+              className="bg-transparent border-none text-slate-200 font-mono text-xs outline-none cursor-pointer"
+              title="Select Inference LOD Tier"
+            >
+              <option value="auto" className="bg-slate-900 text-slate-100">Auto LOD (Adaptive)</option>
+              <option value="tier1_hero" className="bg-slate-900 text-slate-100">LOD-1: 8B Q4_K_M (Hero/Boss)</option>
+              <option value="tier2_tactical" className="bg-slate-900 text-slate-100">LOD-2: 3B Q4_K_M (Tactical)</option>
+              <option value="tier3_ambient" className="bg-slate-900 text-slate-100">LOD-3: 1B Q4_K_M (Ambient)</option>
+            </select>
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300 font-mono hidden xl:inline">
+              {calculateVramTelemetry(selectedLodTier).badge} • {calculateVramTelemetry(selectedLodTier).fits8GbVram ? '✓ Fits 8GB' : 'High VRAM'}
+            </span>
+          </div>
+
+          {/* Epistemic Interrogation Toggle */}
+          <button
+            type="button"
+            onClick={() => setIsEpistemicConsoleOpen(prev => !prev)}
+            className={`px-2 py-1 rounded-xl text-[10px] font-bold border transition-all cursor-pointer flex items-center gap-1 ${
+              isEpistemicConsoleOpen
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.25)]'
+                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+            }`}
+            title="Toggle Epistemic Interrogation & Deduction Console"
+          >
+            <Brain size={11} className={isEpistemicConsoleOpen ? 'text-amber-400 animate-pulse' : 'text-slate-400'} />
+            <span className="hidden md:inline">Epistemic Investigation</span>
+          </button>
+
           {/* Director Mode */}
           <button
             type="button"
@@ -926,6 +1111,70 @@ FORMAT YOUR OUTPUT AS VALID JSON:
                     {beat.text}
                   </p>
 
+                  {/* Neuro-Symbolic Structural Mandate Badge */}
+                  {beat.mandate && (
+                    <div className="p-3 rounded-xl bg-slate-950/90 border border-slate-800 space-y-1.5 text-xs shadow-inner">
+                      <div className="flex items-center justify-between flex-wrap gap-1">
+                        <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold">
+                          <span className={`px-2 py-0.5 rounded uppercase tracking-wider ${
+                            beat.mandate.systemIntent === 'CRITICAL_TRIUMPH' ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/70 shadow-[0_0_8px_rgba(16,185,129,0.3)]' :
+                            beat.mandate.systemIntent === 'EXECUTE_SUCCESS' ? 'bg-cyan-950 text-cyan-300 border border-cyan-600/60' :
+                            beat.mandate.systemIntent === 'REFUSE_ACTION' ? 'bg-amber-950 text-amber-300 border border-amber-600/70' :
+                            beat.mandate.systemIntent === 'CRITICAL_FUMBLE' ? 'bg-red-950 text-red-300 border border-red-600/70 shadow-[0_0_8px_rgba(239,68,68,0.3)]' :
+                            'bg-rose-950 text-rose-300 border border-rose-800/60'
+                          }`}>
+                            ⚙️ {beat.mandate.systemIntent}
+                          </span>
+                          {beat.mandate.narrativeBounds?.refusalReason && (
+                            <span className="text-amber-300 text-[10px] bg-amber-950/60 px-1.5 py-0.2 rounded border border-amber-800/40">
+                              [{beat.mandate.narrativeBounds.refusalReason}]
+                            </span>
+                          )}
+                        </div>
+                        {beat.mandate.diceSummary && (
+                          <span className="text-[10px] font-mono text-slate-400">
+                            🎲 {beat.mandate.diceSummary.formula}
+                          </span>
+                        )}
+                      </div>
+
+                      {beat.mandate.narrativeBounds?.requiredSensoryCues?.length > 0 && (
+                        <div className="text-[10px] text-slate-400 flex items-center gap-1 flex-wrap">
+                          <span className="text-slate-500 font-semibold">Sensory Mandate:</span>
+                          <span className="italic text-slate-300">{beat.mandate.narrativeBounds.requiredSensoryCues.join('; ')}</span>
+                        </div>
+                      )}
+
+                      <div className="flex flex-wrap gap-1.5 text-[10px] text-slate-400 pt-0.5">
+                        {beat.mandate.mechanicalOutcomes?.shieldsDelta !== undefined && (
+                          <span className="px-1.5 py-0.2 rounded bg-slate-900 border border-slate-700 text-cyan-300 font-mono">
+                            Shields: {beat.mandate.mechanicalOutcomes.shieldsDelta > 0 ? '+' : ''}{beat.mandate.mechanicalOutcomes.shieldsDelta}
+                          </span>
+                        )}
+                        {beat.mandate.mechanicalOutcomes?.damageDealt !== undefined && (
+                          <span className="px-1.5 py-0.2 rounded bg-slate-900 border border-slate-700 text-rose-300 font-mono">
+                            Damage: {beat.mandate.mechanicalOutcomes.damageDealt}
+                          </span>
+                        )}
+                        {beat.mandate.mechanicalOutcomes?.conditionsApplied?.map(cond => (
+                          <span key={cond} className="px-1.5 py-0.2 rounded bg-red-950/80 border border-red-800 text-red-300">
+                            + {cond}
+                          </span>
+                        ))}
+                        {beat.mandate.mechanicalOutcomes?.bulkheadToggled && (
+                          <span className="px-1.5 py-0.2 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-300">
+                            Bulkhead: {beat.mandate.mechanicalOutcomes.bulkheadToggled.state}
+                          </span>
+                        )}
+                        {beat.mandate.mechanicalOutcomes?.alarmRaised && (
+                          <span className="px-1.5 py-0.2 rounded bg-amber-950/80 border border-amber-800 text-amber-300 animate-pulse">
+                            Security Alert Raised
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
                   {beat.gate?.chosenOption && (
                     <div className="p-2.5 rounded-xl bg-slate-950/80 border border-cyan-900/50 flex flex-col gap-1 text-xs">
                       <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
@@ -1044,6 +1293,86 @@ FORMAT YOUR OUTPUT AS VALID JSON:
                   </div>
                 )}
 
+                {/* Epistemic Interrogation & Deduction Console */}
+                {isEpistemicConsoleOpen && (
+                  <div className="p-3 bg-slate-900/90 border border-amber-500/50 rounded-xl space-y-2.5 animate-in fade-in shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                    <div className="flex items-center justify-between text-xs flex-wrap gap-2">
+                      <span className="font-bold text-amber-300 flex items-center gap-1.5">
+                        <Brain size={13} className="text-amber-400" />
+                        <span>Epistemic Interrogation & Free-Form Deduction</span>
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setEpistemicTargetType('npc')}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer ${epistemicTargetType === 'npc' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400 hover:text-white'}`}
+                        >
+                          Interrogate NPC
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEpistemicTargetType('terminal')}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer ${epistemicTargetType === 'terminal' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400 hover:text-white'}`}
+                        >
+                          Slice Terminal
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEpistemicTargetType('artifact')}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold cursor-pointer ${epistemicTargetType === 'artifact' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400 hover:text-white'}`}
+                        >
+                          Deduce Clue
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={epistemicTargetName}
+                        onChange={e => setEpistemicTargetName(e.target.value)}
+                        placeholder={epistemicTargetType === 'npc' ? "Target Name (e.g. Syndicate Officer, Smuggler)..." : epistemicTargetType === 'terminal' ? "Terminal ID (e.g. Sub-deck Data Core)..." : "Clue Object (e.g. Ancient Cipher Disc)..."}
+                        className="w-1/3 bg-slate-950 border border-slate-700 text-slate-200 text-xs px-2.5 py-1.5 rounded-lg outline-none focus:border-amber-400"
+                      />
+                      <input
+                        type="text"
+                        value={epistemicQuery}
+                        onChange={e => setEpistemicQuery(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handleExecuteEpistemicInterrogation(); }}
+                        placeholder="Ask free-form deduction or interrogation question..."
+                        className="flex-1 bg-slate-950 border border-slate-700 text-slate-200 text-xs px-2.5 py-1.5 rounded-lg outline-none focus:border-amber-400"
+                      />
+                      <button
+                        type="button"
+                        disabled={isEpistemicSubmitting || !epistemicQuery.trim()}
+                        onClick={handleExecuteEpistemicInterrogation}
+                        className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-slate-950 text-xs font-bold rounded-lg uppercase tracking-wider flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                      >
+                        {isEpistemicSubmitting ? <Loader2 size={12} className="animate-spin" /> : <MessageSquare size={12} />}
+                        <span>Inquire</span>
+                      </button>
+                    </div>
+
+                    {/* Interrogation Clue Feed */}
+                    {epistemicFeed.length > 0 && (
+                      <div className="max-h-40 overflow-y-auto space-y-1.5 pt-1.5 border-t border-slate-800 text-[11px] scrollbar-thin">
+                        {epistemicFeed.slice(0, 3).map(entry => (
+                          <div key={entry.id} className="p-2 rounded bg-slate-950/80 border border-slate-800 space-y-1">
+                            <div className="flex items-center justify-between text-[10px]">
+                              <span className="font-bold text-amber-300">Target: {entry.target}</span>
+                              <span className={`px-1 py-0.2 rounded font-mono ${entry.isSuccess ? 'bg-emerald-950 text-emerald-300' : 'bg-rose-950 text-rose-300'}`}>
+                                {entry.systemIntent}
+                              </span>
+                            </div>
+                            <div className="text-slate-400 italic">"{entry.query}"</div>
+                            <div className="text-slate-200">{entry.answer}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Custom Action Input Box */}
                 <div className="flex gap-2">
                   <input
@@ -1116,6 +1445,34 @@ FORMAT YOUR OUTPUT AS VALID JSON:
                     <p className="text-slate-100 text-xs leading-relaxed font-sans select-text">
                       {beat.text}
                     </p>
+
+                    {/* Neuro-Symbolic Structural Mandate Badge */}
+                    {beat.mandate && (
+                      <div className="p-2 rounded-lg bg-slate-950/90 border border-slate-800 space-y-1 text-[11px]">
+                        <div className="flex items-center justify-between flex-wrap gap-1">
+                          <span className={`px-1.5 py-0.2 rounded font-mono text-[9px] font-bold uppercase tracking-wider ${
+                            beat.mandate.systemIntent === 'CRITICAL_TRIUMPH' ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/70' :
+                            beat.mandate.systemIntent === 'EXECUTE_SUCCESS' ? 'bg-cyan-950 text-cyan-300 border border-cyan-600/60' :
+                            beat.mandate.systemIntent === 'REFUSE_ACTION' ? 'bg-amber-950 text-amber-300 border border-amber-600/70' :
+                            beat.mandate.systemIntent === 'CRITICAL_FUMBLE' ? 'bg-red-950 text-red-300 border border-red-600/70' :
+                            'bg-rose-950 text-rose-300 border border-rose-800/60'
+                          }`}>
+                            ⚙️ {beat.mandate.systemIntent}
+                          </span>
+                          {beat.mandate.diceSummary && (
+                            <span className="text-[9px] font-mono text-slate-400">
+                              🎲 {beat.mandate.diceSummary.formula}
+                            </span>
+                          )}
+                        </div>
+                        {beat.mandate.narrativeBounds?.requiredSensoryCues?.length > 0 && (
+                          <div className="text-[9px] text-slate-400 truncate">
+                            <span className="text-slate-500 font-semibold">Cues:</span> {beat.mandate.narrativeBounds.requiredSensoryCues.join(', ')}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     {beat.gate?.chosenOption && (
                       <div className="p-2 rounded-lg bg-slate-950/80 border border-cyan-900/40 text-[11px] text-cyan-300 font-bold flex items-center gap-1.5">
                         <ArrowRight size={11} className="text-cyan-400 shrink-0" />
@@ -1182,6 +1539,59 @@ FORMAT YOUR OUTPUT AS VALID JSON:
                         )}
                       </button>
                     ))}
+                  </div>
+                )}
+
+                {/* Epistemic Interrogation Console in Split View */}
+                {isEpistemicConsoleOpen && (
+                  <div className="p-2.5 bg-slate-900/95 border border-amber-500/50 rounded-lg space-y-2 text-xs animate-in fade-in">
+                    <div className="flex items-center justify-between text-[11px] gap-1">
+                      <span className="font-bold text-amber-300 flex items-center gap-1">
+                        <Brain size={12} className="text-amber-400" />
+                        <span>Epistemic Deduction</span>
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setEpistemicTargetType('npc')}
+                          className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${epistemicTargetType === 'npc' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}
+                        >
+                          NPC
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEpistemicTargetType('terminal')}
+                          className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${epistemicTargetType === 'terminal' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}
+                        >
+                          Terminal
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEpistemicTargetType('artifact')}
+                          className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${epistemicTargetType === 'artifact' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}
+                        >
+                          Artifact
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex gap-1.5">
+                      <input
+                        type="text"
+                        value={epistemicQuery}
+                        onChange={e => setEpistemicQuery(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handleExecuteEpistemicInterrogation(); }}
+                        placeholder="Ask epistemic question..."
+                        className="flex-1 bg-slate-950 border border-slate-700 text-slate-200 text-[11px] px-2 py-1 rounded outline-none focus:border-amber-400"
+                      />
+                      <button
+                        type="button"
+                        disabled={isEpistemicSubmitting || !epistemicQuery.trim()}
+                        onClick={handleExecuteEpistemicInterrogation}
+                        className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-slate-950 text-[10px] font-bold rounded uppercase cursor-pointer disabled:opacity-50"
+                      >
+                        {isEpistemicSubmitting ? <Loader2 size={11} className="animate-spin" /> : 'Inquire'}
+                      </button>
+                    </div>
                   </div>
                 )}
 

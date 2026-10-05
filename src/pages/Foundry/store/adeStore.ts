@@ -37,6 +37,21 @@ export type AdeModalKey =
 
 export type PreflightTelemetry = AdePreflightTelemetry;
 
+export interface StoryFlagRecord {
+  key: string;
+  value: boolean | number | string;
+  scope: 'global' | 'scenario' | 'operative';
+  scenarioId?: string;
+  lastUpdated: number;
+}
+
+export interface LorebookConfig {
+  maxTokens: number;             // Configurable lore injection ceiling (default 1200)
+  maxRecursionPasses: number;    // Capped at 1 to 3 passes (default 3)
+  enableRecursiveScanning: boolean;
+  enablePrefixCaching: boolean;
+}
+
 export interface ADEStoreState {
   studioMode: StudioMode;
   perspectiveMode: PerspectiveMode;
@@ -54,6 +69,10 @@ export interface ADEStoreState {
   cronicleInitialMode: CronicleDeckMode;
   preflightTelemetry: PreflightTelemetry;
   modals: Record<AdeModalKey, boolean>;
+
+  // Story Flag Ledger & Dynamic Lorebook Architecture
+  storyFlags: Record<string, StoryFlagRecord>;
+  lorebookConfig: LorebookConfig;
 
   // Actions
   setStudioMode: (mode: StudioMode) => void;
@@ -79,12 +98,99 @@ export interface ADEStoreState {
   setModal: (key: AdeModalKey, open: boolean) => void;
   toggleModal: (key: AdeModalKey) => void;
   closeAllModals: () => void;
+
+  // Story Flag Ledger & Dynamic Lorebook Actions
+  setStoryFlag: (key: string, value: boolean | number | string, scope?: 'global' | 'scenario' | 'operative', scenarioId?: string) => void;
+  getStoryFlag: (key: string, defaultValue?: any) => any;
+  incrementStoryFlag: (key: string, delta?: number) => void;
+  removeStoryFlag: (key: string) => void;
+  resetScenarioFlags: (scenarioId: string) => void;
+  evaluateStoryCondition: (conditionExpr?: string) => boolean;
+  setLorebookConfig: (config: Partial<LorebookConfig>) => void;
+}
+
+/**
+ * Safely evaluates story condition expressions against active story flags without eval.
+ */
+export function evaluateConditionExpression(
+  expr: string | undefined | null,
+  flags: Record<string, StoryFlagRecord> | Record<string, any> = {}
+): boolean {
+  if (!expr || typeof expr !== 'string' || !expr.trim()) return true;
+
+  const trimmed = expr.trim();
+
+  // Logical disjunction (||)
+  if (trimmed.includes('||')) {
+    const parts = trimmed.split('||');
+    return parts.some(p => evaluateConditionExpression(p, flags));
+  }
+
+  // Logical conjunction (&&)
+  if (trimmed.includes('&&')) {
+    const parts = trimmed.split('&&');
+    return parts.every(p => evaluateConditionExpression(p, flags));
+  }
+
+  // Comparison operators: ===, ==, !==, !=, >=, <=, >, <
+  const compRegex = /^\s*([a-zA-Z0-9_.-]+)\s*(===|==|!==|!=|>=|<=|>|<)\s*(.+?)\s*$/;
+  const match = trimmed.match(compRegex);
+
+  if (match) {
+    const [, leftKey, op, rawRight] = match;
+    const flagEntry = flags[leftKey];
+    const leftVal = flagEntry !== undefined 
+      ? (typeof flagEntry === 'object' && flagEntry !== null && 'value' in flagEntry ? flagEntry.value : flagEntry) 
+      : undefined;
+
+    let rightVal: any = rawRight.trim();
+    if (rightVal === 'true') rightVal = true;
+    else if (rightVal === 'false') rightVal = false;
+    else if (rightVal === 'null' || rightVal === 'undefined') rightVal = undefined;
+    else if (!isNaN(Number(rightVal)) && !rightVal.startsWith('"') && !rightVal.startsWith("'")) {
+      rightVal = Number(rightVal);
+    } else {
+      rightVal = rightVal.replace(/^['"]|['"]$/g, '');
+    }
+
+    switch (op) {
+      case '==':
+      case '===':
+        return leftVal == rightVal;
+      case '!=':
+      case '!==':
+        return leftVal != rightVal;
+      case '>':
+        return Number(leftVal) > Number(rightVal);
+      case '>=':
+        return Number(leftVal) >= Number(rightVal);
+      case '<':
+        return Number(leftVal) < Number(rightVal);
+      case '<=':
+        return Number(leftVal) <= Number(rightVal);
+      default:
+        return false;
+    }
+  }
+
+  // Negation: !flagKey
+  if (trimmed.startsWith('!')) {
+    const key = trimmed.slice(1).trim();
+    const entry = flags[key];
+    const val = entry !== undefined ? (typeof entry === 'object' && entry !== null && 'value' in entry ? entry.value : entry) : false;
+    return !Boolean(val);
+  }
+
+  // Direct truthiness check: flagKey
+  const entry = flags[trimmed];
+  const val = entry !== undefined ? (typeof entry === 'object' && entry !== null && 'value' in entry ? entry.value : entry) : false;
+  return Boolean(val);
 }
 
 export const useADEStore = create<ADEStoreState>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         studioMode: 'development',
         perspectiveMode: 'architect',
         activePillar: 'mission_control',
@@ -117,6 +223,13 @@ export const useADEStore = create<ADEStoreState>()(
           floatingAime: false,
           moduleExport: false,
           moduleImport: false
+        },
+        storyFlags: {},
+        lorebookConfig: {
+          maxTokens: 1200,
+          maxRecursionPasses: 3,
+          enableRecursiveScanning: true,
+          enablePrefixCaching: true
         },
 
         // Studio mode: when transitioning to live_session, collapse outliner tree to maximize tactical canvas/stage area
@@ -168,6 +281,69 @@ export const useADEStore = create<ADEStoreState>()(
             acc[k as AdeModalKey] = false;
             return acc;
           }, {} as Record<AdeModalKey, boolean>)
+        })),
+
+        // Story Flag Ledger & Dynamic Lorebook Actions
+        setStoryFlag: (key, value, scope = 'global', scenarioId) => set((state) => ({
+          storyFlags: {
+            ...state.storyFlags,
+            [key]: {
+              key,
+              value,
+              scope,
+              scenarioId,
+              lastUpdated: Date.now()
+            }
+          }
+        })),
+
+        getStoryFlag: (key, defaultValue = undefined) => {
+          const entry = get().storyFlags[key];
+          return entry !== undefined ? entry.value : defaultValue;
+        },
+
+        incrementStoryFlag: (key, delta = 1) => set((state) => {
+          const current = state.storyFlags[key];
+          const prevVal = typeof current?.value === 'number' ? current.value : 0;
+          return {
+            storyFlags: {
+              ...state.storyFlags,
+              [key]: {
+                key,
+                value: prevVal + delta,
+                scope: current?.scope || 'global',
+                scenarioId: current?.scenarioId,
+                lastUpdated: Date.now()
+              }
+            }
+          };
+        }),
+
+        removeStoryFlag: (key) => set((state) => {
+          const next = { ...state.storyFlags };
+          delete next[key];
+          return { storyFlags: next };
+        }),
+
+        resetScenarioFlags: (scenarioId) => set((state) => {
+          const next = { ...state.storyFlags };
+          for (const [k, v] of Object.entries(next)) {
+            if (v.scenarioId === scenarioId) {
+              delete next[k];
+            }
+          }
+          return { storyFlags: next };
+        }),
+
+        evaluateStoryCondition: (conditionExpr) => {
+          return evaluateConditionExpression(conditionExpr, get().storyFlags);
+        },
+
+        setLorebookConfig: (cfg) => set((state) => ({
+          lorebookConfig: {
+            ...state.lorebookConfig,
+            ...cfg
+          }
         }))
       }),
       {
@@ -180,6 +356,8 @@ export const useADEStore = create<ADEStoreState>()(
           viewportSplit: state.viewportSplit,
           perspectiveMode: state.perspectiveMode,
           activeCockpitDeck: state.activeCockpitDeck,
+          storyFlags: state.storyFlags,
+          lorebookConfig: state.lorebookConfig,
         }),
         storage: createJSONStorage(() => {
           if (typeof window !== 'undefined' && window.localStorage) {

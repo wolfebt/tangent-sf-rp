@@ -36,6 +36,7 @@ export default function AimeThreeTierStack({
   // Separate core traits from extended RPG mechanics tabs
   const coreFields = schema.filter(f => !f.tab || f.tab === 'Core Traits');
   const rpgTabs = Array.from(new Set(schema.filter(f => f.tab && f.tab !== 'Core Traits').map(f => f.tab)));
+  const currentRpgTab = rpgTabs.includes(activeRpgTab) ? activeRpgTab : (rpgTabs[0] || 'Modular Assembly (MCM)');
 
   return (
     <div className="space-y-4 font-mono">
@@ -78,7 +79,7 @@ export default function AimeThreeTierStack({
               className="px-2.5 py-1 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-700 text-slate-300 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Sliders size={12} className="text-amber-400" />
-              <span>{isRpgSystemsOpen ? 'Hide RPG Systems' : 'RPG Mechanics & VTT'}</span>
+              <span>{isRpgSystemsOpen ? 'Hide Systems' : 'Extended Systems & Lorebook'}</span>
             </button>
           )}
         </div>
@@ -158,7 +159,7 @@ export default function AimeThreeTierStack({
                     type="button"
                     onClick={() => setActiveRpgTab(tab)}
                     className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-colors border ${
-                      activeRpgTab === tab
+                      currentRpgTab === tab
                         ? 'bg-amber-950 text-amber-200 border-amber-500/70 shadow-sm'
                         : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
                     }`}
@@ -169,7 +170,7 @@ export default function AimeThreeTierStack({
               </div>
 
               {/* Sub-Panel: Modular Character Assembler */}
-              {elementType === 'Persona' && activeRpgTab === 'Modular Assembly (MCM)' && (
+              {elementType === 'Persona' && currentRpgTab === 'Modular Assembly (MCM)' && (
                 <ModularCharacterAssembler
                   fields={fields}
                   onFieldChange={onChangeField}
@@ -179,7 +180,7 @@ export default function AimeThreeTierStack({
               )}
 
               {/* Sub-Panel: Autonomous VTT Script & Relations Builder */}
-              {elementType === 'Persona' && activeRpgTab === 'Relations & Scripting' && (
+              {elementType === 'Persona' && currentRpgTab === 'Relations & Scripting' && (
                 <NpcScriptBuilder
                   fields={fields}
                   onFieldChange={onChangeField}
@@ -189,9 +190,9 @@ export default function AimeThreeTierStack({
               )}
 
               {/* Generic Schema Fields for Active RPG Tab */}
-              {activeRpgTab !== 'Modular Assembly (MCM)' && activeRpgTab !== 'Relations & Scripting' && (
+              {currentRpgTab !== 'Modular Assembly (MCM)' && currentRpgTab !== 'Relations & Scripting' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {schema.filter(f => f.tab === activeRpgTab).map(f => (
+                  {schema.filter(f => f.tab === currentRpgTab).map(f => (
                     <div key={f.key} className={`space-y-1 ${f.type === 'textarea' ? 'md:col-span-2' : ''}`}>
                       <label className="text-[10px] font-bold text-amber-300 uppercase tracking-wider block">
                         {f.label}

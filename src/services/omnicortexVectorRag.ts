@@ -5,10 +5,10 @@
  * keyword/tag boosting, and canonical rules/lore context injection for BASTION and AIME.
  */
 
-import compendiumSeed from '../data/compendiumSeed.json';
+import compendiumSeed from '../data/compendiumSeed.json' with { type: 'json' };
 import { BASTION_MECHANICS_DATASET } from '../data/mechanicsData.js';
-import specializedRules from '../data/omnicortexSpecializedRules.json';
-import catalogChunks from '../data/bastionCatalogChunks.json';
+import specializedRules from '../data/omnicortexSpecializedRules.json' with { type: 'json' };
+import catalogChunks from '../data/bastionCatalogChunks.json' with { type: 'json' };
 
 export interface RuleChunk {
   id: string;

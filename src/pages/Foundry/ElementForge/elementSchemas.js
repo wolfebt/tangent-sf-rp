@@ -123,6 +123,17 @@ export const getTypePillStyle = (type) => {
   }
 };
 
+// ── DYNAMIC LOREBOOK & TRIGGER SCHEMA FIELDS ──
+export const LOREBOOK_TRIGGER_SCHEMA_FIELDS = [
+  { tab: 'Lorebook & Triggers', key: 'primaryTriggers', label: 'Primary Trigger Keys', type: 'text', placeholder: 'Comma-separated trigger words (e.g. Aethelgard, Citadel, Spire)...' },
+  { tab: 'Lorebook & Triggers', key: 'triggerRegex', label: 'Trigger Regex Pattern', type: 'text', placeholder: 'Regex pattern with character codes (e.g. /\\b(AET-[0-9]{2,4}|aethelgard)\\b/i)...' },
+  { tab: 'Lorebook & Triggers', key: 'secondaryTriggers', label: 'Secondary Associative Triggers', type: 'text', placeholder: 'Associative words detected in recursive passes (e.g. security gate, ion grid)...' },
+  { tab: 'Lorebook & Triggers', key: 'loreScanPriority', label: 'Lore Injection Priority (1-100)', type: 'text', placeholder: '50' },
+  { tab: 'Lorebook & Triggers', key: 'loreBudgetTokens', label: 'Max Element Token Budget', type: 'text', placeholder: '250' },
+  { tab: 'Lorebook & Triggers', key: 'loreSuppressCondition', label: 'Story Flag Suppression (e.g. alarm_triggered == true)', type: 'text', placeholder: 'alarm_triggered == true' },
+  { tab: 'Lorebook & Triggers', key: 'loreRequireCondition', label: 'Story Flag Requirement (e.g. reputation >= 10)', type: 'text', placeholder: 'infiltrated_citadel == true' }
+];
+
 // ── 7 CORE AIME ELEMENT SCHEMAS ──
 
 const WORLD_ANVIL_SCHEMA = [
@@ -135,7 +146,8 @@ const WORLD_ANVIL_SCHEMA = [
   // Extended Lore & Geography
   { tab: 'Geography & Astronomy', key: 'starSystem', label: 'Star System & Planetary Bodies', type: 'textarea', placeholder: 'Star system, celestial bodies, orbital coordinates...' },
   { tab: 'Geography & Astronomy', key: 'continents', label: 'Continents, Oceans & Climate', type: 'textarea', placeholder: 'Physical geography, major regions, biomes...' },
-  { tab: 'Culture & Themes', key: 'themes', label: 'Themes & Aesthetic Inspirations', type: 'textarea', placeholder: 'Central philosophical themes, motifs, visual styles...' }
+  { tab: 'Culture & Themes', key: 'themes', label: 'Themes & Aesthetic Inspirations', type: 'textarea', placeholder: 'Central philosophical themes, motifs, visual styles...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
 const PERSONA_MAKER_SCHEMA = [
@@ -177,7 +189,8 @@ const PERSONA_MAKER_SCHEMA = [
   { tab: 'Mechanics: JSON', key: 'attacks', label: 'Attacks (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
   { tab: 'Mechanics: JSON', key: 'armor', label: 'Armor (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
   { tab: 'Mechanics: JSON', key: 'gear', label: 'Gear (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
-  { tab: 'Mechanics: JSON', key: 'weapons', label: 'Weapons (JSON)', type: 'textarea', placeholder: 'JSON Array...' }
+  { tab: 'Mechanics: JSON', key: 'weapons', label: 'Weapons (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
 const SETTING_ARCHITECT_SCHEMA = [
@@ -190,7 +203,8 @@ const SETTING_ARCHITECT_SCHEMA = [
   // Extended Environment & Atmosphere
   { tab: 'Atmosphere & Hazards', key: 'climateWeather', aliasKeys: ['climate', 'weather'], label: 'Climate & Weather Patterns', type: 'textarea', placeholder: 'Atmospheric pressure, radiation, seasonal storms...' },
   { tab: 'Atmosphere & Hazards', key: 'sensoryDetails', aliasKeys: ['soundsSmells', 'dominantSights'], label: 'Sensory Acoustics & Smells', type: 'textarea', placeholder: 'Industrial hum, ozone odor, void echoes...' },
-  { tab: 'Atmosphere & Hazards', key: 'landmarksSecrets', aliasKeys: ['majorLandmarks', 'hiddenLocations'], label: 'Landmarks & Hidden Locations', type: 'textarea', placeholder: 'Key points of interest, smuggler caches, safehouses...' }
+  { tab: 'Atmosphere & Hazards', key: 'landmarksSecrets', aliasKeys: ['majorLandmarks', 'hiddenLocations'], label: 'Landmarks & Hidden Locations', type: 'textarea', placeholder: 'Key points of interest, smuggler caches, safehouses...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
 const SPECIES_CREATOR_SCHEMA = [
@@ -204,7 +218,8 @@ const SPECIES_CREATOR_SCHEMA = [
   { tab: 'Core Traits', key: 'roleInWorld', aliasKeys: ['role', 'societalImpact'], label: 'Role in the World', type: 'textarea', placeholder: 'Ecological impact, geopolitical niche, or societal role...' },
   // Extended Cloud DBM Links
   { tab: 'Cloud DBM Links', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
-  { tab: 'Cloud DBM Links', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' }
+  { tab: 'Cloud DBM Links', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
 const TECHNOLOGY_FORGE_SCHEMA = [
@@ -216,7 +231,8 @@ const TECHNOLOGY_FORGE_SCHEMA = [
   { tab: 'Core Traits', key: 'socialEconomicImpact', aliasKeys: ['impact', 'socialImpact'], label: 'Social & Economic Impact', type: 'textarea', placeholder: 'How the technology has altered society, culture, warfare, and the economy...' },
   // Extended Engineering & Lore
   { tab: 'Engineering & Drawbacks', key: 'weaknesses', label: 'Drawbacks & Vulnerabilities', type: 'textarea', placeholder: 'Overheating risks, EMP sensitivity, rare resource requirements...' },
-  { tab: 'Engineering & Drawbacks', key: 'originContext', label: 'Inventor & Historical Context', type: 'textarea', placeholder: 'Who created it, when, and under what circumstances...' }
+  { tab: 'Engineering & Drawbacks', key: 'originContext', label: 'Inventor & Historical Context', type: 'textarea', placeholder: 'Who created it, when, and under what circumstances...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
 const PHILOSOPHY_SCRIBE_SCHEMA = [
@@ -228,7 +244,8 @@ const PHILOSOPHY_SCRIBE_SCHEMA = [
   { tab: 'Core Traits', key: 'influenceSociety', aliasKeys: ['society', 'influence'], label: 'Influence & Role in Society', type: 'textarea', placeholder: 'Impact on culture, laws, social hierarchy, and politics...' },
   // Extended Ethics & Metaphysics
   { tab: 'Ethics & Cosmogony', key: 'ethics', label: 'Moral Compass & Virtues/Vices', type: 'textarea', placeholder: 'Virtues rewarded, sins condemned, handling of outsiders...' },
-  { tab: 'Ethics & Cosmogony', key: 'cosmology', label: 'Deity, Origin & Afterlife', type: 'textarea', placeholder: 'Divine entities, cosmic creation, fate of the soul...' }
+  { tab: 'Ethics & Cosmogony', key: 'cosmology', label: 'Deity, Origin & Afterlife', type: 'textarea', placeholder: 'Divine entities, cosmic creation, fate of the soul...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
 const SCENE_BUILDER_SCHEMA = [
@@ -240,7 +257,8 @@ const SCENE_BUILDER_SCHEMA = [
   { tab: 'Core Traits', key: 'keyObjects', aliasKeys: ['keySights', 'props'], label: 'Key Objects & Interactivity', type: 'textarea', placeholder: 'Important props, terminals, clues, or elements characters can interact with...' },
   // Extended Tactical & Beats
   { tab: 'Tactical & Beats', key: 'sceneBeats', label: 'Tactical Scene Beats', type: 'textarea', placeholder: 'Sequential beats: 1. Infiltration, 2. Confrontation, 3. Climax, 4. Extraction...' },
-  { tab: 'Tactical & Beats', key: 'readAloud', label: 'GM Read-Aloud Narration', type: 'textarea', placeholder: 'Sensory immersion text to read aloud to players...' }
+  { tab: 'Tactical & Beats', key: 'readAloud', label: 'GM Read-Aloud Narration', type: 'textarea', placeholder: 'Sensory immersion text to read aloud to players...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
 export const ELEMENT_SCHEMAS = {
@@ -291,19 +309,22 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Ideology & Governance', key: 'goals', label: 'Public vs Hidden Agenda', type: 'textarea', placeholder: 'What the faction wants to achieve...' },
     { tab: 'Ideology & Governance', key: 'government', label: 'Government Type & Leadership', type: 'textarea', placeholder: 'Leadership...' },
     { tab: 'Assets & Resources', key: 'resources', label: 'Economic Power & Industry', type: 'textarea', placeholder: 'Assets, weapons, wealth, contacts...' },
-    { tab: 'Assets & Resources', key: 'territory', label: 'Scope of Influence & Territory', type: 'textarea', placeholder: 'Territory...' }
+    { tab: 'Assets & Resources', key: 'territory', label: 'Scope of Influence & Territory', type: 'textarea', placeholder: 'Territory...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
   ],
   'Encounter': [
     { tab: 'Overview', key: 'encounterType', label: 'Type', type: 'text', placeholder: 'Kind of encounter (e.g. Combat, Social, Puzzle, Chase)...' },
     { tab: 'Overview', key: 'setup', label: 'Setup', type: 'textarea', placeholder: 'How the encounter begins...' },
     { tab: 'Overview', key: 'resolution', label: 'Resolution', type: 'textarea', placeholder: 'Possible outcomes and rewards...' },
-    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Special rules, timers, or hazards...' }
+    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Special rules, timers, or hazards...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
   ],
   'Item': [
     { tab: 'Overview', key: 'itemCategory', label: 'Cloud DB Category', type: 'text', placeholder: 'Weaponry / Armoring / Gear / Augmentations...' },
     { tab: 'Overview', key: 'rarity', label: 'Rarity', type: 'text', placeholder: 'Rarity (e.g. Common, Prototype, Artifact)...' },
     { tab: 'Properties', key: 'properties', label: 'Properties', type: 'textarea', placeholder: 'Passive abilities and bonuses...' },
-    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Active functioning and usage rules...' }
+    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Active functioning and usage rules...' },
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
   ],
   'Clue': [
     { tab: 'Overview', key: 'information', label: 'Information Revealed', type: 'textarea', placeholder: 'What this clue reveals...' },

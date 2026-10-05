@@ -1,6 +1,6 @@
 import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPromptRegistry.js';
 import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
-import { queryOmnicortexRAG, formatRagContextForBastion } from './omnicortexVectorRag';
+import { queryOmnicortexRAG, formatRagContextForBastion } from './omnicortexVectorRag.ts';
 import {
   synthesizeCharacterWithBastion,
   getArchetypeRecommendations,
@@ -27,7 +27,9 @@ export {
  */
 
 export const getGeminiApiKey = () => {
-  const key = (localStorage.getItem('geminiApiKey') || import.meta.env.VITE_GEMINI_API_KEY || '').trim();
+  const localKey = (typeof localStorage !== 'undefined' ? localStorage.getItem('geminiApiKey') : '') || '';
+  const envKey = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || (typeof process !== 'undefined' && process.env?.VITE_GEMINI_API_KEY) || '';
+  const key = (localKey || envKey).trim();
   if (!key || key === 'your_gemini_api_key_here' || key === 'your_firebase_api_key_here') {
     return '';
   }

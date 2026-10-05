@@ -274,6 +274,19 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
     } else if (actionType === 'polish') {
       setAiActionLabel('Polishing Prose & Style...');
       prompt = `Line-edit and polish the following prose for maximum dramatic tension, crisp pacing, and evocative science-fantasy style (${povDirective}):\n\n${plainText.slice(-800)}`;
+    } else if (actionType === 'reactive_flavor') {
+      setAiActionLabel('Synthesizing Dynamic Reactive Flavor...');
+      const conditions = characterData?.['char-conditions'] || [];
+      const conditionStr = Array.isArray(conditions) && conditions.length > 0 
+        ? conditions.map(c => typeof c === 'string' ? c : (c.name || c.id)).join(', ')
+        : 'Active Tactical Focus';
+      prompt = `DUAL-TRACK NARRATIVE ARCHITECTURE DIRECTIVE:
+AUTHORITY: The author's prose is CANONICAL GM INTENT and must remain UNTOUCHED.
+Your sole duty is to generate DYNAMIC REACTIVE FLAVOR TEXT reflecting the active operative's conditions: "${conditionStr}".
+Task: Write 1-2 evocative sensory sentences describing how this scene is experienced through the lens of "${conditionStr}" (e.g. sensory distortion, altered dialogue cadence, or kinetic recoil). Do not alter plot beats.
+
+Canonical Scene Extract:
+${plainText.slice(-600)}`;
     }
 
     try {
@@ -282,6 +295,12 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
         let updated = content;
         if (actionType === 'continue') {
           updated = `${content}<p>${result.replace(/\n\n/g, '</p><p>')}</p>`;
+        } else if (actionType === 'reactive_flavor') {
+          const conditions = characterData?.['char-conditions'] || [];
+          const conditionStr = Array.isArray(conditions) && conditions.length > 0 
+            ? conditions.map(c => typeof c === 'string' ? c : (c.name || c.id)).join(', ')
+            : 'Active Tactical Focus';
+          updated = `${content}<blockquote style="border-left: 3px solid #06b6d4; padding-left: 12px; margin: 12px 0; color: #a5f3fc; font-style: italic; background: rgba(8, 51, 68, 0.35); border-radius: 4px; padding-top: 6px; padding-bottom: 6px;"><strong style="color: #38bdf8; font-style: normal; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">⚡ Dynamic Reactive Flavor • Condition: ${conditionStr}</strong>${result.replace(/\n\n/g, '<br/>')}</blockquote>`;
         } else {
           updated = `${content}<br/><hr/><p><strong>[AI Polish Proposal]:</strong></p><p>${result.replace(/\n\n/g, '</p><p>')}</p>`;
         }
@@ -669,6 +688,12 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
               size="sm"
             />
 
+            {/* Dual-Track Narrative Intent Badge */}
+            <div className="hidden xl:flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-700/80 text-[10px] font-mono text-emerald-400" title="Dual-Track Narrative Architecture: Human prose is canonical; AI provides reactive flavor overlays only.">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>GM Canonical Track</span>
+            </div>
+
             {/* AI Authoring Dropdown */}
             <div className="relative group">
               <button
@@ -699,6 +724,13 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
                 >
                   <span>🪄</span> Polish &amp; Stylize
+                </button>
+                <button
+                  onClick={() => handleAiPairAuthor('reactive_flavor')}
+                  className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 cursor-pointer"
+                  title="Generate dynamic sensory flavor text reacting to Folio status conditions without altering GM prose"
+                >
+                  <span>⚡</span> Dynamic Reactive Flavor
                 </button>
                 <button
                   onClick={handleExtractDeltas}

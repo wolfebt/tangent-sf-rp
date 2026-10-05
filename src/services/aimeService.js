@@ -1,10 +1,33 @@
-import { getGeminiApiKey, fetchGeminiContent, parseRollCommand } from './bastionService';
-import { hydrateElementEntities } from './entityHydrator';
-import { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag';
+import { getGeminiApiKey, fetchGeminiContent, parseRollCommand } from './bastionService.js';
+import { hydrateElementEntities } from './entityHydrator.js';
+import { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag.ts';
 import { formatCronicleContextForAIME, extractNarrativeDeltas } from './cronicleService.js';
-import { synthesizeSuperPrompt } from './superPromptSynthesizer.js';
+import { synthesizeSuperPrompt, buildStaticRulesPrefix } from './superPromptSynthesizer.js';
+import { scanDynamicLorebook } from './lorebookScanner.ts';
+import { formatMandateForPrompt } from './ade/adeEngineBridge.ts';
+import { TANGENT_STORY_BEAT_GBNF, TANGENT_STORY_BEAT_JSON_SCHEMA } from '../grammars/storyBeatGrammar.ts';
+import { 
+  LOD_TIERS, 
+  resolveIntelligenceTier, 
+  calculateVramTelemetry, 
+  callLocalLlama 
+} from './aimeTierRouter.ts';
 
-export { parseRollCommand, formatCronicleContextForAIME, extractNarrativeDeltas, synthesizeSuperPrompt };
+export { 
+  parseRollCommand, 
+  formatCronicleContextForAIME, 
+  extractNarrativeDeltas, 
+  synthesizeSuperPrompt, 
+  buildStaticRulesPrefix, 
+  scanDynamicLorebook,
+  formatMandateForPrompt,
+  TANGENT_STORY_BEAT_GBNF,
+  TANGENT_STORY_BEAT_JSON_SCHEMA,
+  LOD_TIERS,
+  resolveIntelligenceTier,
+  calculateVramTelemetry,
+  callLocalLlama
+};
 
 export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) ADE Studio.
 Your primary role is to act as an immersive creative writing assistant, lore synthesist, worldbuilding partner, and scenario architect for the ARCHITECT (the GM/Creator).
@@ -39,7 +62,10 @@ export function formatContext(context, promptQuery = '') {
         catalog: context.customCatalog || context.catalog || [],
         taskPrompt: promptQuery,
         campaignName: context.projectName,
-        cronicle: context.cronicle
+        cronicle: context.cronicle,
+        storyFlags: context.storyFlags,
+        lorebookConfig: context.lorebookConfig,
+        folioCharacter: context.folioCharacter || context.activeOperative
       });
       if (superPrompt) return superPrompt;
     }
@@ -115,17 +141,82 @@ export function formatContext(context, promptQuery = '') {
   }
 }
 
-export async function generateContent({ prompt, context = "", model = "gemini-3.6-flash", apiKey = "" }) {
+export async function generateContent({ 
+  prompt, 
+  context = "", 
+  model = "gemini-3.6-flash", 
+  apiKey = "", 
+  mandate = null, 
+  enforceJson = false,
+  responseSchema = null,
+  grammar = null,
+  tierKey = "auto",
+  localEndpoint = null
+}) {
   const activeKey = apiKey || getGeminiApiKey();
   const formattedCtx = formatContext(context, prompt);
 
-  if (!activeKey) {
-    return `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Consulting local BASTION tactical heuristics and OMNICORTEX lore records for "${prompt}".\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
-  }
-
-  const fullPrompt = formattedCtx 
+  let fullPrompt = formattedCtx 
     ? `[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\nTask Instructions:\n${prompt}`
     : prompt;
+
+  if (mandate) {
+    fullPrompt = `${formatMandateForPrompt(mandate)}\n\n${fullPrompt}`;
+  }
+
+  // 1. Check for Local llama.cpp inference (Phase 3 LOD Tiering & GBNF Logit Constraint)
+  const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
+  const configuredEndpoint = localEndpoint || (typeof localStorage !== 'undefined' ? localStorage.getItem('customEndpoint') : null);
+
+  if (preferredPlatform === 'custom' || configuredEndpoint) {
+    const tierConfig = resolveIntelligenceTier({
+      actionText: prompt,
+      userOverride: tierKey
+    });
+    const gbnfGrammar = enforceJson ? (grammar || TANGENT_STORY_BEAT_GBNF) : grammar;
+
+    try {
+      const localResult = await callLocalLlama({
+        endpoint: configuredEndpoint || 'http://localhost:8080',
+        prompt: fullPrompt,
+        grammar: gbnfGrammar,
+        tier: tierConfig
+      });
+      if (localResult) {
+        return localResult;
+      }
+    } catch (e) {
+      console.warn('Local llama.cpp inference unavailable, falling back to cloud:', e);
+    }
+  }
+
+  // 2. Cloud Gemini Inference
+  if (!activeKey) {
+    if (enforceJson) {
+      const fallbackObj = {
+        narrative: mandate
+          ? `[DETERMINISTIC COGNITION]: ${mandate.initiatorName} attempts "${mandate.actionName}". ${mandate.narrativeBounds?.prescribedOutcome || 'Outcome registered.'} Sensory cues: ${mandate.narrativeBounds?.requiredSensoryCues?.join(', ') || 'Tactical telemetry synced.'}`
+          : `[DETERMINISTIC COGNITION]: The action resolves under local BASTION tactical guidelines. Environmental sensors verify sector state.`,
+        gate: {
+          prompt: "What is the operative's next move?",
+          options: [
+            { id: "1", text: "Advance under cover toward the objective", skillCheck: "Kinetics / Reflex CR 12" },
+            { id: "2", text: "Slice local data conduit for tactical layout", skillCheck: "Slicing CR 13" },
+            { id: "3", text: "Hold perimeter and scan for enemy reinforcements", skillCheck: "Perception CR 11" }
+          ]
+        },
+        stageDeltas: mandate?.mechanicalOutcomes?.bulkheadToggled ? [
+          {
+            entityId: mandate.mechanicalOutcomes.bulkheadToggled.id,
+            property: "state",
+            newValue: mandate.mechanicalOutcomes.bulkheadToggled.state
+          }
+        ] : []
+      };
+      return JSON.stringify(fallbackObj, null, 2);
+    }
+    return `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Consulting local BASTION tactical heuristics and OMNICORTEX lore records for "${prompt}".\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
+  }
 
   const requestBody = {
     systemInstruction: {
@@ -138,6 +229,13 @@ export async function generateContent({ prompt, context = "", model = "gemini-3.
       }
     ]
   };
+
+  if (enforceJson) {
+    requestBody.generationConfig = {
+      responseMimeType: "application/json",
+      responseSchema: responseSchema || TANGENT_STORY_BEAT_JSON_SCHEMA
+    };
+  }
 
   const data = await fetchGeminiContent(activeKey, requestBody);
   return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
@@ -150,19 +248,89 @@ const GEMINI_STREAM_MODELS = [
   'gemini-flash-lite-latest'
 ];
 
-export async function streamContent({ prompt, context = "", model = "gemini-3.6-flash", apiKey = "", onChunk }) {
+export async function streamContent({ 
+  prompt, 
+  context = "", 
+  model = "gemini-3.6-flash", 
+  apiKey = "", 
+  onChunk,
+  mandate = null,
+  enforceJson = false,
+  responseSchema = null,
+  grammar = null,
+  tierKey = "auto",
+  localEndpoint = null
+}) {
   const activeKey = apiKey || getGeminiApiKey();
   const formattedCtx = formatContext(context, prompt);
 
+  let fullPrompt = formattedCtx 
+    ? `[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\nTask Instructions:\n${prompt}`
+    : prompt;
+
+  if (mandate) {
+    fullPrompt = `${formatMandateForPrompt(mandate)}\n\n${fullPrompt}`;
+  }
+
+  // 1. Check for Local llama.cpp streaming inference
+  const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
+  const configuredEndpoint = localEndpoint || (typeof localStorage !== 'undefined' ? localStorage.getItem('customEndpoint') : null);
+
+  if (preferredPlatform === 'custom' || configuredEndpoint) {
+    const tierConfig = resolveIntelligenceTier({
+      actionText: prompt,
+      userOverride: tierKey
+    });
+    const gbnfGrammar = enforceJson ? (grammar || TANGENT_STORY_BEAT_GBNF) : grammar;
+
+    try {
+      const localResult = await callLocalLlama({
+        endpoint: configuredEndpoint || 'http://localhost:8080',
+        prompt: fullPrompt,
+        grammar: gbnfGrammar,
+        tier: tierConfig,
+        onChunk
+      });
+      if (localResult) {
+        return; // Successfully streamed from local llama.cpp
+      }
+    } catch (e) {
+      console.warn('Local llama.cpp stream unavailable, falling back to cloud:', e);
+    }
+  }
+
+  // 2. Cloud Gemini Streaming Inference
   if (!activeKey) {
+    if (enforceJson) {
+      const fallbackObj = {
+        narrative: mandate
+          ? `[DETERMINISTIC COGNITION]: ${mandate.initiatorName} attempts "${mandate.actionName}". ${mandate.narrativeBounds?.prescribedOutcome || 'Outcome registered.'} Sensory cues: ${mandate.narrativeBounds?.requiredSensoryCues?.join(', ') || 'Tactical telemetry synced.'}`
+          : `[DETERMINISTIC COGNITION]: The action resolves under local BASTION tactical guidelines. Environmental sensors verify sector state.`,
+        gate: {
+          prompt: "What is the operative's next move?",
+          options: [
+            { id: "1", text: "Advance under cover toward the objective", skillCheck: "Kinetics / Reflex CR 12" },
+            { id: "2", text: "Slice local data conduit for tactical layout", skillCheck: "Slicing CR 13" },
+            { id: "3", text: "Hold perimeter and scan for enemy reinforcements", skillCheck: "Perception CR 11" }
+          ]
+        },
+        stageDeltas: mandate?.mechanicalOutcomes?.bulkheadToggled ? [
+          {
+            entityId: mandate.mechanicalOutcomes.bulkheadToggled.id,
+            property: "state",
+            newValue: mandate.mechanicalOutcomes.bulkheadToggled.state
+          }
+        ] : []
+      };
+      const jsonText = JSON.stringify(fallbackObj, null, 2);
+      if (onChunk) onChunk(jsonText);
+      return;
+    }
+
     const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Synthesizing narrative for "${prompt}" under local OMNICORTEX guidelines.\n\n*(To connect live streaming AI, add your Gemini API Key in Settings).*`;
     if (onChunk) onChunk(fallback);
     return;
   }
-
-  const fullPrompt = formattedCtx 
-    ? `[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\nTask Instructions:\n${prompt}`
-    : prompt;
 
   const requestBody = {
     systemInstruction: {
@@ -175,6 +343,13 @@ export async function streamContent({ prompt, context = "", model = "gemini-3.6-
       }
     ]
   };
+
+  if (enforceJson) {
+    requestBody.generationConfig = {
+      responseMimeType: "application/json",
+      responseSchema: responseSchema || TANGENT_STORY_BEAT_JSON_SCHEMA
+    };
+  }
 
   const modelsToTry = [model, ...GEMINI_STREAM_MODELS.filter(m => m !== model)];
   let lastError = null;
