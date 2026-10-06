@@ -39,6 +39,20 @@ export interface AimeGuidanceSettings {
   [key: string]: any;
 }
 
+export type LoreTriggerLogic = 'OR' | 'AND_ANY' | 'AND_ALL' | 'NOT_ANY' | 'NOT_ALL';
+
+export interface LorebookTriggerConfig {
+  primaryTriggers: string[] | string;
+  secondaryTriggers?: string[] | string;
+  triggerLogic?: LoreTriggerLogic;
+  triggerRegex?: string;
+  speakerFilter?: 'user_only' | 'npc_only' | 'any';
+  priority?: number;
+  budgetTokens?: number;
+  requireCondition?: string;
+  suppressCondition?: string;
+}
+
 export interface AdeElementRecord {
   id: string;
   title: string;
@@ -51,6 +65,7 @@ export interface AdeElementRecord {
   guidance?: AimeGuidanceSettings;
   assetHub?: LinkedAssetRef[];
   linkedElements?: (string | LinkedAssetRef)[];
+  lorebook?: LorebookTriggerConfig;
   createdAt?: string | number;
   updatedAt?: string | number;
   authorId?: string;
@@ -100,3 +115,28 @@ export interface CronicleDeltaRecord {
   value?: any;
   [key: string]: any;
 }
+
+/**
+ * Neuro-Symbolic Action Request emitted by generative models (AIME).
+ * The generative model NEVER directly mutates game state; it must submit an action request
+ * for deterministic adjudication and validation against Folio stats and 2d10 rules.
+ */
+export interface CronicleActionRequest {
+  requestId: string;
+  action: string;
+  actorId?: string;
+  targetId?: string;
+  parameters?: Record<string, any>;
+  proposedDelta?: Partial<CronicleDeltaRecord>;
+  sensoryNarration?: string;
+  timestamp?: number;
+}
+
+export interface CronicleValidationResult {
+  allowed: boolean;
+  refusalReason?: string;
+  adjudicatedMandate?: any;
+  appliedDelta?: CronicleDeltaRecord;
+  error?: string;
+}
+

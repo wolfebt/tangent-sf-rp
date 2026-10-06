@@ -33,10 +33,14 @@ export default function AimeThreeTierStack({
 
   const schema = ELEMENT_SCHEMAS[elementType] || [];
   
-  // Separate core traits from extended RPG mechanics tabs
+  // Separate core traits from extended RPG mechanics tabs and ensure Dynamic Lorebook is always available
   const coreFields = schema.filter(f => !f.tab || f.tab === 'Core Traits');
-  const rpgTabs = Array.from(new Set(schema.filter(f => f.tab && f.tab !== 'Core Traits').map(f => f.tab)));
-  const currentRpgTab = rpgTabs.includes(activeRpgTab) ? activeRpgTab : (rpgTabs[0] || 'Modular Assembly (MCM)');
+  const rpgTabs = Array.from(new Set([
+    ...schema.filter(f => f.tab && f.tab !== 'Core Traits').map(f => f.tab),
+    'Dynamic Lorebook'
+  ]));
+  const currentRpgTab = rpgTabs.includes(activeRpgTab) ? activeRpgTab : (rpgTabs[0] || 'Dynamic Lorebook');
+
 
   return (
     <div className="space-y-4 font-mono">
@@ -189,8 +193,193 @@ export default function AimeThreeTierStack({
                 />
               )}
 
+              {/* Sub-Panel: Dynamic Lorebook & Trigger Keys */}
+              {currentRpgTab === 'Dynamic Lorebook' && (
+                <div className="space-y-3.5 bg-slate-950/80 p-3.5 rounded-xl border border-amber-500/30 text-xs">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                    <div>
+                      <h4 className="text-[11px] font-black text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                        <span>📖</span>
+                        <span>Dynamic Lorebook Injection Rules</span>
+                      </h4>
+                      <p className="text-[10px] text-slate-400 font-sans mt-0.5">
+                        Configure selective boolean triggers, speaker-code regex, and constrained recursion limits to prevent context window bloat.
+                      </p>
+                    </div>
+                    <span className="text-[9px] px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 font-bold uppercase">
+                      LOD Reactive
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {/* Primary Triggers */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                        Primary Triggers (Comma-Separated)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.primaryTriggers || ''}
+                        onChange={(e) => onChangeField('primaryTriggers', e.target.value)}
+                        placeholder="e.g. cyberdeck, black-site, neural-jack"
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans"
+                      />
+                      <span className="text-[9px] text-slate-400">Surface keywords tested on Pass 1.</span>
+                    </div>
+
+                    {/* Secondary Triggers */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                        Secondary Triggers (Associative & Exclusions)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.secondaryTriggers || ''}
+                        onChange={(e) => onChangeField('secondaryTriggers', e.target.value)}
+                        placeholder="e.g. terminal, classified, decrypted"
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans"
+                      />
+                      <span className="text-[9px] text-slate-400">Tested in Pass 2 & 3 or combined with boolean logic.</span>
+                    </div>
+
+                    {/* Selective Boolean Logic */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">
+                        Selective Boolean Logic
+                      </label>
+                      <select
+                        value={fields.triggerLogic || 'OR'}
+                        onChange={(e) => onChangeField('triggerLogic', e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 text-amber-200 p-2 rounded-lg text-xs outline-none cursor-pointer"
+                      >
+                        <option value="OR">OR (Any Primary Match)</option>
+                        <option value="AND_ANY">AND ANY (At Least 1 Primary AND 1 Secondary)</option>
+                        <option value="AND_ALL">AND ALL (All Primary Keys Present)</option>
+                        <option value="NOT_ANY">NOT ANY (Primary Match AND None of Secondary)</option>
+                        <option value="NOT_ALL">NOT ALL (Primary Match AND Not All Secondary)</option>
+                      </select>
+                    </div>
+
+                    {/* Speaker Filter */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-purple-400 uppercase tracking-wider block">
+                        Speaker Code Filter
+                      </label>
+                      <select
+                        value={fields.speakerFilter || 'any'}
+                        onChange={(e) => onChangeField('speakerFilter', e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-purple-400 text-purple-200 p-2 rounded-lg text-xs outline-none cursor-pointer"
+                      >
+                        <option value="any">Any (Direct Dialogue or Environmental Prose)</option>
+                        <option value="user_only">Player Direct Address Only (\x01{"{{user}}"}:)</option>
+                        <option value="npc_only">NPC Direct Address Only (\x01{"{{char}}"}:)</option>
+                      </select>
+                    </div>
+
+                    {/* Trigger Regex with Quick Presets */}
+                    <div className="space-y-1 md:col-span-2">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">
+                          Regular Expression & Speaker Code Pattern
+                        </label>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => onChangeField('triggerRegex', '/\\x01{{user}}:[^\\x01]*?hello/i')}
+                            className="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[9px] font-mono border border-slate-700"
+                            title="Insert ASCII User Speaker Pattern"
+                          >
+                            +\x01{"{{user}}"}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onChangeField('triggerRegex', '/\\[User: {{user}}\\][^\\n]*?override/i')}
+                            className="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[9px] font-mono border border-slate-700"
+                            title="Insert Tagged User Pattern"
+                          >
+                            +[User: {"{{user}}"}]
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onChangeField('triggerRegex', '/\\b(AET-[0-9]{2,4}|aethelgard)\\b/i')}
+                            className="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 text-[9px] font-mono border border-slate-700"
+                            title="Insert Designation Pattern"
+                          >
+                            +Designation
+                          </button>
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        value={fields.triggerRegex || ''}
+                        onChange={(e) => onChangeField('triggerRegex', e.target.value)}
+                        placeholder="e.g. /\x01{{user}}:[^\x01]*?secret/i"
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-cyan-400 text-cyan-200 p-2 rounded-lg text-xs outline-none font-mono"
+                      />
+                    </div>
+
+                    {/* Scan Priority & Token Budget */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                        Scan Priority (1–100, Higher Wins)
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="100"
+                        value={fields.loreScanPriority || 50}
+                        onChange={(e) => onChangeField('loreScanPriority', Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">
+                        Token Budget Allocation (Tokens)
+                      </label>
+                      <input
+                        type="number"
+                        min="50"
+                        max="800"
+                        step="50"
+                        value={fields.loreBudgetTokens || 250}
+                        onChange={(e) => onChangeField('loreBudgetTokens', Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-amber-400 text-slate-100 p-2 rounded-lg text-xs outline-none font-sans"
+                      />
+                    </div>
+
+                    {/* Story Flag Require & Suppress */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
+                        Story Flag Requirement (Must Be True)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.loreRequireCondition || ''}
+                        onChange={(e) => onChangeField('loreRequireCondition', e.target.value)}
+                        placeholder="e.g. alarm_active && !stealth_mode"
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-emerald-400 text-emerald-200 p-2 rounded-lg text-xs outline-none font-mono"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-rose-400 uppercase tracking-wider block">
+                        Story Flag Suppression (Suppressed If True)
+                      </label>
+                      <input
+                        type="text"
+                        value={fields.loreSuppressCondition || ''}
+                        onChange={(e) => onChangeField('loreSuppressCondition', e.target.value)}
+                        placeholder="e.g. sector_cleared || faction_allied"
+                        className="w-full bg-slate-900 border border-slate-700 focus:border-rose-400 text-rose-200 p-2 rounded-lg text-xs outline-none font-mono"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Generic Schema Fields for Active RPG Tab */}
-              {currentRpgTab !== 'Modular Assembly (MCM)' && currentRpgTab !== 'Relations & Scripting' && (
+              {currentRpgTab !== 'Modular Assembly (MCM)' && currentRpgTab !== 'Relations & Scripting' && currentRpgTab !== 'Dynamic Lorebook' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {schema.filter(f => f.tab === currentRpgTab).map(f => (
                     <div key={f.key} className={`space-y-1 ${f.type === 'textarea' ? 'md:col-span-2' : ''}`}>

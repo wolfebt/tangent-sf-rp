@@ -28,69 +28,8 @@ import { MacroSandboxStudio } from './components/MacroSandboxStudio';
 import { AtmosphericsWorkbench } from './components/AtmosphericsWorkbench';
 import { CombatModifiersWorkbench } from './components/CombatModifiersWorkbench';
 
-// Master Atmospheric & Weather Presets
-export const ATMOSPHERIC_PRESETS = [
-  {
-    id: 'deep_space_vacuum',
-    name: 'Deep Space Vacuum',
-    icon: '🌌',
-    category: 'Orbital',
-    tint: '#020617',
-    fogDensity: 0.05,
-    audioProfile: 'vacuum_drone',
-    description: 'Zero atmosphere, total silence outside suit audio, micro-gravity drift.',
-    modifiers: { attackMod: -1, defenseMod: 1, speedMod: -5, techMod: 0 },
-    rule: 'Unsealed suits take 10 Void damage/round. Sound-based perception checks fail.'
-  },
-  {
-    id: 'reactor_amber_alert',
-    name: 'Reactor Amber Alert',
-    icon: '⚠️',
-    category: 'Industrial',
-    tint: '#d97706',
-    fogDensity: 0.35,
-    audioProfile: 'amber_klaxon',
-    description: 'Emergency containment breach, strobing amber beacons, coolant steam venting.',
-    modifiers: { attackMod: 0, defenseMod: 0, speedMod: 0, techMod: -2 },
-    rule: 'Radiation buildup: CON DC 13 every 3 rounds or gain 1 Rad Condition.'
-  },
-  {
-    id: 'corrosive_acid_rain',
-    name: 'Corrosive Acid Rain',
-    icon: '🌧️',
-    category: 'Exo-Planet',
-    tint: '#84cc16',
-    fogDensity: 0.5,
-    audioProfile: 'heavy_hissing_rain',
-    description: 'Atmospheric acid precipitation dissolves exterior armor and obscures optic sensors.',
-    modifiers: { attackMod: -2, defenseMod: -1, speedMod: -5, techMod: -1 },
-    rule: 'Optic range capped at 60ft. Non-hardened armor loses 1 Armor point per 5 rounds exposed.'
-  },
-  {
-    id: 'cyberpunk_neon_rain',
-    name: 'Cyberpunk Neon Rain',
-    icon: '🏙️',
-    category: 'Megacity',
-    tint: '#06b6d4',
-    fogDensity: 0.25,
-    audioProfile: 'city_hum_rain',
-    description: 'Damp asphalt reflections, holographic advertisements bleeding through mist.',
-    modifiers: { attackMod: 0, defenseMod: 1, speedMod: 0, techMod: 1 },
-    rule: 'High electronic density: +1 to Cyber and Hacking checks. Stealth +2 in shadow pockets.'
-  },
-  {
-    id: 'geothermal_inferno',
-    name: 'Geothermal Sub-Vent',
-    icon: '🌋',
-    category: 'Planetary',
-    tint: '#e11d48',
-    fogDensity: 0.4,
-    audioProfile: 'volcanic_rumble',
-    description: 'Superheated magma trenches, seismic tremors, thermal distortion plumes.',
-    modifiers: { attackMod: -1, defenseMod: 0, speedMod: -10, techMod: -2 },
-    rule: 'Extreme heat: STAMINA check DC 14 every round or suffer Heat Exhaustion.'
-  }
-];
+import { ATMOSPHERIC_PRESETS } from './constants/atmosphericPresets.js';
+export { ATMOSPHERIC_PRESETS };
 
 export default function PresetsAndScriptsDashboard({ onBackToStory }) {
   const navigate = useNavigate();

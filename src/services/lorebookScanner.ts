@@ -10,6 +10,7 @@
  */
 
 import { evaluateConditionExpression } from '../pages/Foundry/store/adeStore.ts';
+import type { LoreTriggerLogic } from '../types/ade.ts';
 
 export interface InjectedLoreEntry {
   id: string;
@@ -28,6 +29,8 @@ export interface LorebookScanOptions {
   activeScenario?: any;
   catalog?: any[];
   storyFlags?: Record<string, any>;
+  userHandle?: string;
+  targetCharName?: string;
   config?: {
     maxTokens?: number;
     maxRecursionPasses?: number;
@@ -56,15 +59,46 @@ export function estimateTokenCount(text: string = ''): number {
 }
 
 /**
+ * Normalizes comma-separated string or array of trigger phrases into a trimmed string array.
+ */
+export function normalizeTriggers(raw: string[] | string | undefined | null): string[] {
+  if (!raw) return [];
+  if (Array.isArray(raw)) {
+    return raw.map(t => String(t || '').trim()).filter(Boolean);
+  }
+  if (typeof raw === 'string') {
+    return raw
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+/**
  * Safely compiles a string representation of a regular expression or regex literal.
  * Supports /pattern/flags format as well as raw patterns.
+ * Supports speaker code expansion: {{user}} and {{char}}, ASCII \x01 delimiters,
+ * and tagged speaker brackets like [User: {{user}}] or [NPC: {{char}}].
  */
-export function compileTriggerRegex(patternStr: string = ''): RegExp | null {
+export function compileTriggerRegex(
+  patternStr: string = '',
+  userHandle: string = 'Operative',
+  charName: string = 'NPC'
+): RegExp | null {
   if (!patternStr || typeof patternStr !== 'string') return null;
-  const trimmed = patternStr.trim();
+  let trimmed = patternStr.trim();
   if (!trimmed) return null;
 
   try {
+    const escapedUser = (userHandle || 'Operative').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedChar = (charName || 'NPC').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    // Replace {{user}} and {{char}} placeholders
+    trimmed = trimmed
+      .replace(/\{\{user\}\}/gi, escapedUser)
+      .replace(/\{\{char\}\}/gi, escapedChar);
+
     if (trimmed.startsWith('/') && trimmed.lastIndexOf('/') > 0) {
       const lastSlash = trimmed.lastIndexOf('/');
       const body = trimmed.slice(1, lastSlash);
@@ -87,25 +121,115 @@ function sanitizeText(str: string = ''): string {
 }
 
 /**
- * Checks whether an element's comma-separated trigger list matches the given text.
+ * Returns all matching keywords from a trigger list found within the scanned text.
  */
-function testKeywordTriggers(triggerListStr: string = '', textToScan: string): string | null {
-  if (!triggerListStr || !textToScan) return null;
-  const triggers = triggerListStr
-    .split(',')
-    .map(t => t.trim())
-    .filter(Boolean);
+export function testKeywordList(keywords: string[] = [], textToScan: string = ''): string[] {
+  if (!keywords || keywords.length === 0 || !textToScan) return [];
+  const matches: string[] = [];
 
-  for (const trig of triggers) {
-    // Word boundary check (case-insensitive)
+  for (const trig of keywords) {
+    if (!trig) continue;
     const escaped = trig.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`\\b${escaped}\\b`, 'i');
     if (regex.test(textToScan)) {
-      return trig;
+      matches.push(trig);
     }
   }
-  return null;
+  return matches;
 }
+
+/**
+ * Evaluates selective boolean logic (OR, AND_ANY, AND_ALL, NOT_ANY, NOT_ALL).
+ */
+export function evaluateSelectiveBooleanLogic({
+  triggerLogic = 'OR',
+  primaryMatches = [],
+  primaryTotal = 0,
+  secondaryMatches = [],
+  secondaryTotal = 0,
+  regexMatched = false,
+  regexPattern = ''
+}: {
+  triggerLogic?: LoreTriggerLogic;
+  primaryMatches?: string[];
+  primaryTotal?: number;
+  secondaryMatches?: string[];
+  secondaryTotal?: number;
+  regexMatched?: boolean;
+  regexPattern?: string;
+}): { isMatch: boolean; triggerLabel: string } {
+  const hasPrimary = primaryMatches.length > 0 || regexMatched;
+  const primaryLabel = regexMatched 
+    ? `Regex: ${regexPattern}` 
+    : (primaryMatches.length > 0 ? `Key: "${primaryMatches[0]}"` : '');
+
+  switch (triggerLogic) {
+    case 'AND_ANY': {
+      // Must match at least one primary/regex AND at least one secondary trigger
+      if (hasPrimary && secondaryMatches.length > 0) {
+        return {
+          isMatch: true,
+          triggerLabel: `${primaryLabel} + Secondary: "${secondaryMatches[0]}" (AND ANY)`
+        };
+      }
+      return { isMatch: false, triggerLabel: '' };
+    }
+
+    case 'AND_ALL': {
+      // Must match all primary triggers (or regex)
+      if (regexMatched || (primaryTotal > 0 && primaryMatches.length === primaryTotal)) {
+        return {
+          isMatch: true,
+          triggerLabel: `${primaryLabel} (AND ALL ${primaryTotal} keys)`
+        };
+      }
+      return { isMatch: false, triggerLabel: '' };
+    }
+
+    case 'NOT_ANY': {
+      // Must match primary/regex AND none of the secondary exclusion triggers
+      if (hasPrimary && secondaryMatches.length === 0) {
+        return {
+          isMatch: true,
+          triggerLabel: `${primaryLabel} (NOT ANY secondary exclusion)`
+        };
+      }
+      return { isMatch: false, triggerLabel: '' };
+    }
+
+    case 'NOT_ALL': {
+      // Must match primary/regex AND NOT ALL secondary triggers are present
+      if (hasPrimary && (secondaryTotal === 0 || secondaryMatches.length < secondaryTotal)) {
+        return {
+          isMatch: true,
+          triggerLabel: `${primaryLabel} (NOT ALL secondary)`
+        };
+      }
+      return { isMatch: false, triggerLabel: '' };
+    }
+
+    case 'OR':
+    default: {
+      if (hasPrimary) {
+        return { isMatch: true, triggerLabel: primaryLabel };
+      }
+      if (secondaryMatches.length > 0) {
+        return { isMatch: true, triggerLabel: `Secondary: "${secondaryMatches[0]}"` };
+      }
+      return { isMatch: false, triggerLabel: '' };
+    }
+  }
+}
+
+/**
+ * Checks whether an element's comma-separated trigger list matches the given text (backward-compatibility).
+ */
+export function testKeywordTriggers(triggerListStr: string = '', textToScan: string = ''): string | null {
+  const list = normalizeTriggers(triggerListStr);
+  const matches = testKeywordList(list, textToScan);
+  return matches.length > 0 ? matches[0] : null;
+}
+
 
 /**
  * Extracts a concise, high-density lore snippet from an element based on its type and fields.
@@ -159,6 +283,58 @@ export function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippe
 }
 
 /**
+ * Helper to match an eligible candidate against arbitrary text using selective boolean logic.
+ */
+function matchCandidateAgainstText(
+  candidate: {
+    elem: any;
+    primaryTriggers: string[];
+    secondaryTriggers: string[];
+    triggerLogic: LoreTriggerLogic;
+    regexPattern: string;
+    compiledRegex: RegExp | null;
+  },
+  textToScan: string
+): string | null {
+  const { elem, primaryTriggers, secondaryTriggers, triggerLogic, regexPattern, compiledRegex } = candidate;
+
+  // 1. Test regex
+  let regexMatched = false;
+  if (compiledRegex && compiledRegex.test(textToScan)) {
+    regexMatched = true;
+  }
+
+  // 2. Test keyword lists
+  const primaryMatches = testKeywordList(primaryTriggers, textToScan);
+  const secondaryMatches = testKeywordList(secondaryTriggers, textToScan);
+
+  // 3. Evaluate selective boolean logic
+  const evalResult = evaluateSelectiveBooleanLogic({
+    triggerLogic,
+    primaryMatches,
+    primaryTotal: primaryTriggers.length,
+    secondaryMatches,
+    secondaryTotal: secondaryTriggers.length,
+    regexMatched,
+    regexPattern: compiledRegex ? compiledRegex.source : regexPattern
+  });
+
+  if (evalResult.isMatch) {
+    return evalResult.triggerLabel;
+  }
+
+  // 4. Exact Title / Designation Match (default primary match under OR logic)
+  if (triggerLogic === 'OR' && elem.title && elem.title.length >= 3) {
+    const titleRegex = new RegExp(`\\b${elem.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+    if (titleRegex.test(textToScan)) {
+      return `Title: "${elem.title}"`;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Master Recursive Lorebook Scanner.
  * Performs Pass 1 (Surface scan), Pass 2 (Associative scan), and Pass 3 (Deep-link scan),
  * filtered by Story Flag conditions and bounded by a strict configurable token ceiling.
@@ -168,6 +344,8 @@ export function scanDynamicLorebook({
   activeScenario = null,
   catalog = [],
   storyFlags = {},
+  userHandle = 'Operative',
+  targetCharName = '',
   config = {}
 }: LorebookScanOptions): LorebookScanResult {
   const maxTokens = typeof config.maxTokens === 'number' && config.maxTokens > 0 
@@ -182,11 +360,15 @@ export function scanDynamicLorebook({
   let candidateCount = 0;
   let suppressedCount = 0;
 
+  const resolvedCharName = targetCharName || activeScenario?.title || 'NPC';
+
   // Step 1: Pre-filter candidate catalog through Story Flag Ledger conditions
   const eligibleElements: Array<{
     elem: any;
-    primaryTriggers: string;
-    secondaryTriggers: string;
+    primaryTriggers: string[];
+    secondaryTriggers: string[];
+    triggerLogic: LoreTriggerLogic;
+    regexPattern: string;
     compiledRegex: RegExp | null;
     priority: number;
     budgetTokens: number;
@@ -197,32 +379,37 @@ export function scanDynamicLorebook({
     candidateCount++;
 
     const fields = elem.fields || {};
+    const lorebook = elem.lorebook || {};
 
     // Check requirement condition (must be true)
-    const reqCond = fields.loreRequireCondition;
+    const reqCond = lorebook.requireCondition || fields.loreRequireCondition;
     if (reqCond && !evaluateConditionExpression(reqCond, storyFlags)) {
       suppressedCount++;
       continue;
     }
 
     // Check suppression condition (must NOT be true)
-    const supCond = fields.loreSuppressCondition;
+    const supCond = lorebook.suppressCondition || fields.loreSuppressCondition;
     if (supCond && evaluateConditionExpression(supCond, storyFlags)) {
       suppressedCount++;
       continue;
     }
 
-    // Parse triggers and metadata
-    const primaryTriggers = fields.primaryTriggers || '';
-    const secondaryTriggers = fields.secondaryTriggers || '';
-    const compiledRegex = compileTriggerRegex(fields.triggerRegex);
-    const priority = Number(fields.loreScanPriority) || 50;
-    const budgetTokens = Number(fields.loreBudgetTokens) || 250;
+    // Parse triggers and metadata from lorebook config or fields fallback
+    const primaryTriggers = normalizeTriggers(lorebook.primaryTriggers || fields.primaryTriggers);
+    const secondaryTriggers = normalizeTriggers(lorebook.secondaryTriggers || fields.secondaryTriggers);
+    const triggerLogic: LoreTriggerLogic = lorebook.triggerLogic || fields.triggerLogic || 'OR';
+    const regexPattern = lorebook.triggerRegex || fields.triggerRegex || '';
+    const compiledRegex = compileTriggerRegex(regexPattern, userHandle, resolvedCharName);
+    const priority = Number(lorebook.priority ?? fields.loreScanPriority) || 50;
+    const budgetTokens = Number(lorebook.budgetTokens ?? fields.loreBudgetTokens) || 250;
 
     eligibleElements.push({
       elem,
       primaryTriggers,
       secondaryTriggers,
+      triggerLogic,
+      regexPattern,
       compiledRegex,
       priority,
       budgetTokens
@@ -245,41 +432,20 @@ export function scanDynamicLorebook({
   const remainingCandidates: typeof eligibleElements = [];
 
   for (const candidate of eligibleElements) {
-    const { elem, primaryTriggers, compiledRegex, priority, budgetTokens } = candidate;
-
-    let matchedTrigger: string | null = null;
-
-    // 1. Regex Match (Character codes, formal designations)
-    if (compiledRegex && compiledRegex.test(surfaceScanText)) {
-      matchedTrigger = `Regex: ${compiledRegex.source}`;
-    }
-
-    // 2. Primary Trigger Keywords
-    if (!matchedTrigger && primaryTriggers) {
-      const trig = testKeywordTriggers(primaryTriggers, surfaceScanText);
-      if (trig) matchedTrigger = `Key: "${trig}"`;
-    }
-
-    // 3. Exact Title / Designation Match
-    if (!matchedTrigger && elem.title && elem.title.length >= 3) {
-      const titleRegex = new RegExp(`\\b${elem.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-      if (titleRegex.test(surfaceScanText)) {
-        matchedTrigger = `Title: "${elem.title}"`;
-      }
-    }
+    const matchedTrigger = matchCandidateAgainstText(candidate, surfaceScanText);
 
     if (matchedTrigger) {
-      const { snippet, tokens } = extractLoreSnippet(elem, budgetTokens);
-      matchedSet.set(elem.id, {
-        id: elem.id,
-        title: elem.title || 'Untitled Element',
-        type: elem.type || 'Lore',
+      const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens);
+      matchedSet.set(candidate.elem.id, {
+        id: candidate.elem.id,
+        title: candidate.elem.title || 'Untitled Element',
+        type: candidate.elem.type || 'Lore',
         passMatched: 1,
         triggerMatched: matchedTrigger,
-        priority,
+        priority: candidate.priority,
         allocatedTokens: tokens,
         snippet,
-        rawElement: elem
+        rawElement: candidate.elem
       });
     } else {
       remainingCandidates.push(candidate);
@@ -297,45 +463,27 @@ export function scanDynamicLorebook({
     const candidatesForPass3: typeof eligibleElements = [];
 
     for (const candidate of remainingCandidates) {
-      const { elem, primaryTriggers, secondaryTriggers, compiledRegex, priority, budgetTokens } = candidate;
-      let matchedTrigger: string | null = null;
-
-      // Check secondary triggers in Pass 1 text
-      if (secondaryTriggers) {
-        const trig = testKeywordTriggers(secondaryTriggers, pass1Text);
-        if (trig) matchedTrigger = `Secondary: "${trig}"`;
-      }
-
-      // Also check primary triggers in Pass 1 text (associative chain)
-      if (!matchedTrigger && primaryTriggers) {
-        const trig = testKeywordTriggers(primaryTriggers, pass1Text);
-        if (trig) matchedTrigger = `Associative Key: "${trig}"`;
-      }
-
-      // Check regex in Pass 1 text
-      if (!matchedTrigger && compiledRegex && compiledRegex.test(pass1Text)) {
-        matchedTrigger = `Regex (P2): ${compiledRegex.source}`;
-      }
+      const matchedTrigger = matchCandidateAgainstText(candidate, pass1Text);
 
       if (matchedTrigger) {
-        const { snippet, tokens } = extractLoreSnippet(elem, budgetTokens);
-        matchedSet.set(elem.id, {
-          id: elem.id,
-          title: elem.title || 'Untitled Element',
-          type: elem.type || 'Lore',
+        const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens);
+        matchedSet.set(candidate.elem.id, {
+          id: candidate.elem.id,
+          title: candidate.elem.title || 'Untitled Element',
+          type: candidate.elem.type || 'Lore',
           passMatched: 2,
-          triggerMatched: matchedTrigger,
-          priority,
+          triggerMatched: `Associative: ${matchedTrigger}`,
+          priority: candidate.priority,
           allocatedTokens: tokens,
           snippet,
-          rawElement: elem
+          rawElement: candidate.elem
         });
       } else {
         candidatesForPass3.push(candidate);
       }
     }
 
-    // ── PASS 3: DEEP-LINK ASSOCIATIVE SCAN (Strictly Capped) ──
+    // ── PASS 3: DEEP-LINK ASSOCIATIVE SCAN (Strictly Capped at 3 Passes) ──
     if (maxRecursionPasses >= 3 && candidatesForPass3.length > 0) {
       passesExecuted = 3;
       const pass2Text = Array.from(matchedSet.values())
@@ -345,35 +493,20 @@ export function scanDynamicLorebook({
 
       if (pass2Text.trim()) {
         for (const candidate of candidatesForPass3) {
-          const { elem, primaryTriggers, secondaryTriggers, compiledRegex, priority, budgetTokens } = candidate;
-          let matchedTrigger: string | null = null;
-
-          if (secondaryTriggers) {
-            const trig = testKeywordTriggers(secondaryTriggers, pass2Text);
-            if (trig) matchedTrigger = `Deep Secondary: "${trig}"`;
-          }
-
-          if (!matchedTrigger && primaryTriggers) {
-            const trig = testKeywordTriggers(primaryTriggers, pass2Text);
-            if (trig) matchedTrigger = `Deep Key: "${trig}"`;
-          }
-
-          if (!matchedTrigger && compiledRegex && compiledRegex.test(pass2Text)) {
-            matchedTrigger = `Regex (P3): ${compiledRegex.source}`;
-          }
+          const matchedTrigger = matchCandidateAgainstText(candidate, pass2Text);
 
           if (matchedTrigger) {
-            const { snippet, tokens } = extractLoreSnippet(elem, budgetTokens);
-            matchedSet.set(elem.id, {
-              id: elem.id,
-              title: elem.title || 'Untitled Element',
-              type: elem.type || 'Lore',
+            const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens);
+            matchedSet.set(candidate.elem.id, {
+              id: candidate.elem.id,
+              title: candidate.elem.title || 'Untitled Element',
+              type: candidate.elem.type || 'Lore',
               passMatched: 3,
-              triggerMatched: matchedTrigger,
-              priority,
+              triggerMatched: `Deep-Link: ${matchedTrigger}`,
+              priority: candidate.priority,
               allocatedTokens: tokens,
               snippet,
-              rawElement: elem
+              rawElement: candidate.elem
             });
           }
         }

@@ -5,12 +5,19 @@ import { formatCronicleContextForAIME, extractNarrativeDeltas } from './cronicle
 import { synthesizeSuperPrompt, buildStaticRulesPrefix } from './superPromptSynthesizer.js';
 import { scanDynamicLorebook } from './lorebookScanner.ts';
 import { formatMandateForPrompt } from './ade/adeEngineBridge.ts';
-import { TANGENT_STORY_BEAT_GBNF, TANGENT_STORY_BEAT_JSON_SCHEMA } from '../grammars/storyBeatGrammar.ts';
+import { 
+  TANGENT_STORY_BEAT_GBNF, 
+  TANGENT_STORY_BEAT_JSON_SCHEMA,
+  TANGENT_ACTION_REQUEST_GBNF,
+  TANGENT_ACTION_REQUEST_JSON_SCHEMA 
+} from '../grammars/storyBeatGrammar.ts';
 import { 
   LOD_TIERS, 
   resolveIntelligenceTier, 
   calculateVramTelemetry, 
-  callLocalLlama 
+  callLocalLlama,
+  callLocalOllama,
+  callAutomatedInferencePipeline
 } from './aimeTierRouter.ts';
 
 export { 
@@ -23,10 +30,14 @@ export {
   formatMandateForPrompt,
   TANGENT_STORY_BEAT_GBNF,
   TANGENT_STORY_BEAT_JSON_SCHEMA,
+  TANGENT_ACTION_REQUEST_GBNF,
+  TANGENT_ACTION_REQUEST_JSON_SCHEMA,
   LOD_TIERS,
   resolveIntelligenceTier,
   calculateVramTelemetry,
-  callLocalLlama
+  callLocalLlama,
+  callLocalOllama,
+  callAutomatedInferencePipeline
 };
 
 export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) ADE Studio.
@@ -164,7 +175,7 @@ export async function generateContent({
     fullPrompt = `${formatMandateForPrompt(mandate)}\n\n${fullPrompt}`;
   }
 
-  // 1. Check for Local llama.cpp inference (Phase 3 LOD Tiering & GBNF Logit Constraint)
+  // 1. Check for Local Inference (llama.cpp -> Ollama automated cascade)
   const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
   const configuredEndpoint = localEndpoint || (typeof localStorage !== 'undefined' ? localStorage.getItem('customEndpoint') : null);
 
@@ -176,17 +187,19 @@ export async function generateContent({
     const gbnfGrammar = enforceJson ? (grammar || TANGENT_STORY_BEAT_GBNF) : grammar;
 
     try {
-      const localResult = await callLocalLlama({
-        endpoint: configuredEndpoint || 'http://localhost:8080',
+      const pipelineResult = await callAutomatedInferencePipeline({
+        llamaEndpoint: configuredEndpoint || 'http://localhost:8080',
+        ollamaEndpoint: 'http://localhost:11434',
         prompt: fullPrompt,
         grammar: gbnfGrammar,
-        tier: tierConfig
+        tier: tierConfig,
+        enforceJson
       });
-      if (localResult) {
-        return localResult;
+      if (pipelineResult && pipelineResult.text) {
+        return pipelineResult.text;
       }
     } catch (e) {
-      console.warn('Local llama.cpp inference unavailable, falling back to cloud:', e);
+      console.warn('Local inference cascade unavailable, falling back to cloud:', e);
     }
   }
 
@@ -272,7 +285,7 @@ export async function streamContent({
     fullPrompt = `${formatMandateForPrompt(mandate)}\n\n${fullPrompt}`;
   }
 
-  // 1. Check for Local llama.cpp streaming inference
+  // 1. Check for Local Streaming Inference (llama.cpp -> Ollama automated cascade)
   const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
   const configuredEndpoint = localEndpoint || (typeof localStorage !== 'undefined' ? localStorage.getItem('customEndpoint') : null);
 
@@ -284,18 +297,20 @@ export async function streamContent({
     const gbnfGrammar = enforceJson ? (grammar || TANGENT_STORY_BEAT_GBNF) : grammar;
 
     try {
-      const localResult = await callLocalLlama({
-        endpoint: configuredEndpoint || 'http://localhost:8080',
+      const pipelineResult = await callAutomatedInferencePipeline({
+        llamaEndpoint: configuredEndpoint || 'http://localhost:8080',
+        ollamaEndpoint: 'http://localhost:11434',
         prompt: fullPrompt,
         grammar: gbnfGrammar,
         tier: tierConfig,
+        enforceJson,
         onChunk
       });
-      if (localResult) {
-        return; // Successfully streamed from local llama.cpp
+      if (pipelineResult && pipelineResult.text) {
+        return; // Successfully streamed from local inference engine
       }
     } catch (e) {
-      console.warn('Local llama.cpp stream unavailable, falling back to cloud:', e);
+      console.warn('Local streaming inference cascade unavailable, falling back to cloud:', e);
     }
   }
 

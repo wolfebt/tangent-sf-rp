@@ -12,7 +12,13 @@ import { runMonteCarloEncounterSim } from '../encounterSimService.js';
 import { SessionJournal } from '../sessionRecapService.js';
 import { evaluateScenarioProgress, OBJECTIVE_TEMPLATES } from '../scenarioEngineService.js';
 import { VttEventBus } from '../../utils/vttEventBus.ts';
-import type { AdePreflightTelemetry, AdeElementRecord } from '../../types/ade.ts';
+import type { 
+  AdePreflightTelemetry, 
+  AdeElementRecord, 
+  CronicleDeltaRecord, 
+  CronicleActionRequest, 
+  CronicleValidationResult 
+} from '../../types/ade.ts';
 import type { 
   AdeStructuralMandate, 
   SystemIntent, 
@@ -20,6 +26,7 @@ import type {
   MechanicalOutcomes, 
   NarrativeBounds 
 } from '../../types/adeMandate.ts';
+
 
 export interface ActionCheckParams {
   actionText: string;
@@ -491,3 +498,133 @@ export function formatMandateForPrompt(mandate: AdeStructuralMandate): string {
 
   return lines.join('\n');
 }
+
+export interface ValidateActionParams {
+  request: CronicleActionRequest;
+  operative?: any;
+  targetEntity?: any;
+  storyFlags?: Record<string, any>;
+  activeModifiers?: any[];
+  diceOverride?: [number, number] | null;
+  targetDC?: number;
+  onCommitDelta?: ((delta: CronicleDeltaRecord) => void) | null;
+}
+
+/**
+ * Neuro-Symbolic Gatekeeper: Validates a generative AI action request against
+ * deterministic 2d10 rules and active Folio statistics before committing state updates.
+ * The generative model is strictly isolated: it cannot directly update CronicleDeltaRecord.
+ */
+export function validateAndCommitActionRequest({
+  request,
+  operative = null,
+  targetEntity = null,
+  storyFlags = {},
+  activeModifiers = [],
+  diceOverride = null,
+  targetDC = 12,
+  onCommitDelta = null
+}: ValidateActionParams): CronicleValidationResult {
+  if (!request || !request.action) {
+    return {
+      allowed: false,
+      refusalReason: 'Malformed action request: missing action declaration',
+      error: 'Invalid Request Payload'
+    };
+  }
+
+  // 1. Dispatch AI action requested signal across VTT bus
+  try {
+    if (typeof window !== 'undefined' && VttEventBus && typeof VttEventBus.emit === 'function') {
+      VttEventBus.emit('ai-action-requested', { request });
+    }
+  } catch (e) {
+    // Non-blocking in headless/node environments
+  }
+
+  // 2. Perform canonical 2d10 adjudication & Tech Level verification
+  const mandate = adjudicateActionCheck({
+    actionText: request.action,
+    operative,
+    targetEntity,
+    targetDC,
+    activeModifiers,
+    storyFlags,
+    diceOverride
+  });
+
+  // 3. State Invariant Check: If refused or failed, reject delta execution
+  if (mandate.systemIntent === 'REFUSE_ACTION') {
+    try {
+      if (typeof window !== 'undefined' && VttEventBus && typeof VttEventBus.emit === 'function') {
+        VttEventBus.emit('ai-action-adjudicated', {
+          request,
+          mandate,
+          error: mandate.narrativeBounds.refusalReason || 'Action refused by engine rules'
+        });
+      }
+    } catch (e) {}
+
+    return {
+      allowed: false,
+      refusalReason: mandate.narrativeBounds.refusalReason || 'Action Refused',
+      adjudicatedMandate: mandate
+    };
+  }
+
+  if (mandate.systemIntent === 'EXECUTE_FAILURE' || mandate.systemIntent === 'CRITICAL_FUMBLE') {
+    try {
+      if (typeof window !== 'undefined' && VttEventBus && typeof VttEventBus.emit === 'function') {
+        VttEventBus.emit('ai-action-adjudicated', {
+          request,
+          mandate,
+          error: `Action failed mechanical check (Margin: ${mandate.diceSummary?.margin ?? -1})`
+        });
+      }
+    } catch (e) {}
+
+    return {
+      allowed: false,
+      refusalReason: `Action failed mechanical check (Margin: ${mandate.diceSummary?.margin ?? -1})`,
+      adjudicatedMandate: mandate
+    };
+  }
+
+  // 4. Success / Critical Triumph: Construct validated delta record
+  const validatedDelta: CronicleDeltaRecord = {
+    id: `delta_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    action: request.proposedDelta?.action || 'action_resolution',
+    target: request.targetId || targetEntity?.id || 'Active Scenario',
+    entityId: request.actorId || operative?.id || 'Operative',
+    explanation: mandate.narrativeBounds.prescribedOutcome || request.sensoryNarration || 'Mechanical action succeeded',
+    value: {
+      systemIntent: mandate.systemIntent,
+      mechanicalOutcomes: mandate.mechanicalOutcomes,
+      margin: mandate.diceSummary?.margin ?? 0,
+      timestamp: Date.now()
+    }
+  };
+
+  // Commit via callback if provided
+  if (typeof onCommitDelta === 'function') {
+    onCommitDelta(validatedDelta);
+  }
+
+  // Emit adjudication event
+  try {
+    if (typeof window !== 'undefined' && VttEventBus && typeof VttEventBus.emit === 'function') {
+      VttEventBus.emit('ai-action-adjudicated', {
+        request,
+        mandate,
+        appliedDelta: validatedDelta
+      });
+    }
+  } catch (e) {}
+
+  return {
+    allowed: true,
+    adjudicatedMandate: mandate,
+    appliedDelta: validatedDelta
+  };
+}
+

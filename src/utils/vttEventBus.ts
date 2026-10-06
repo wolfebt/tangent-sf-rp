@@ -62,6 +62,8 @@ export interface VttEventMap {
   'omnicortex-loot-dispensed': { omnicortexGearId?: string; operativeId?: string; containerId?: string; objectId?: string; itemName?: string; [key: string]: any };
   'story-foundry-node-triggered': { action?: string; nodeId?: string; objectId?: string; storyElementId?: string; operativeId?: string; [key: string]: any };
   'mechanical-mandate-executed': { mandate: any };
+  'ai-action-requested': { request: any };
+  'ai-action-adjudicated': { request: any; mandate: any; appliedDelta?: any; error?: string };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =

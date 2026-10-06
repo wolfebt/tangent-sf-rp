@@ -263,3 +263,163 @@ export async function callLocalLlama({
     return null;
   }
 }
+
+/**
+ * Calls local Ollama server (http://localhost:11434/api/generate).
+ * Returns null if unreachable.
+ */
+export async function callLocalOllama({
+  endpoint = 'http://localhost:11434',
+  prompt,
+  tier = LOD_TIERS.tier1_hero,
+  temperature,
+  format = null,
+  onChunk,
+  signal
+}: {
+  endpoint?: string;
+  prompt: string;
+  tier?: LodTierConfig;
+  temperature?: number;
+  format?: any;
+  onChunk?: (chunk: string) => void;
+  signal?: AbortSignal;
+}): Promise<string | null> {
+  const baseEndpoint = endpoint.replace(/\/+$/, '');
+  const url = `${baseEndpoint}/api/generate`;
+
+  let modelName = 'llama3.1:8b';
+  if (tier.parameterSize === '3B') modelName = 'llama3.2:3b';
+  if (tier.parameterSize === '1B') modelName = 'llama3.2:1b';
+
+  const body: Record<string, any> = {
+    model: modelName,
+    prompt,
+    stream: Boolean(onChunk),
+    options: {
+      temperature: temperature ?? tier.recommendedTemp,
+      num_ctx: tier.maxContextTokens
+    }
+  };
+
+  if (format) {
+    body.format = format;
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), onChunk ? 30000 : 15000);
+    const combinedSignal = signal || controller.signal;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: combinedSignal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!res.ok) return null;
+
+    if (onChunk && res.body) {
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let accumulated = '';
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          try {
+            const parsed = JSON.parse(line.trim());
+            const piece = parsed.response || '';
+            if (piece) {
+              accumulated += piece;
+              onChunk(piece);
+            }
+          } catch (e) {}
+        }
+      }
+      return accumulated;
+    }
+
+    const json = await res.json();
+    return json.response || '';
+  } catch (err) {
+    return null;
+  }
+}
+
+/**
+ * Master Automated Fallback Pipeline:
+ * 1. Attempts local llama.cpp server (with GBNF grammar).
+ * 2. If unreachable, attempts local Ollama server.
+ * 3. Returns null if both local runtimes are unreachable, signaling automatic fallback to Cloud Gemini.
+ */
+export async function callAutomatedInferencePipeline({
+  llamaEndpoint,
+  ollamaEndpoint,
+  prompt,
+  grammar,
+  tier = LOD_TIERS.tier1_hero,
+  temperature,
+  maxTokens = 512,
+  enforceJson = false,
+  onChunk,
+  signal
+}: {
+  llamaEndpoint?: string;
+  ollamaEndpoint?: string;
+  prompt: string;
+  grammar?: string;
+  tier?: LodTierConfig;
+  temperature?: number;
+  maxTokens?: number;
+  enforceJson?: boolean;
+  onChunk?: (chunk: string) => void;
+  signal?: AbortSignal;
+}): Promise<{ text: string | null; engine: 'llama_cpp' | 'ollama' | 'none' }> {
+  // Step 1: Attempt llama.cpp
+  try {
+    const llamaResult = await callLocalLlama({
+      endpoint: llamaEndpoint || 'http://localhost:8080',
+      prompt,
+      grammar,
+      tier,
+      temperature,
+      maxTokens,
+      onChunk,
+      signal
+    });
+    if (llamaResult) {
+      return { text: llamaResult, engine: 'llama_cpp' };
+    }
+  } catch (e) {}
+
+  // Step 2: Automated fallback to Ollama
+  try {
+    const ollamaResult = await callLocalOllama({
+      endpoint: ollamaEndpoint || 'http://localhost:11434',
+      prompt,
+      tier,
+      temperature,
+      format: enforceJson ? 'json' : null,
+      onChunk,
+      signal
+    });
+    if (ollamaResult) {
+      return { text: ollamaResult, engine: 'ollama' };
+    }
+  } catch (e) {}
+
+  return { text: null, engine: 'none' };
+}
+

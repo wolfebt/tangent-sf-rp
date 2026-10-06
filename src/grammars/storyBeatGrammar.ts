@@ -60,3 +60,47 @@ export const TANGENT_STORY_BEAT_JSON_SCHEMA = {
   },
   required: ["narrative", "gate"]
 };
+
+/**
+ * Strict GBNF Action Request Grammar for llama.cpp logit-constrained decoding.
+ * Constrains the model to emit only valid action requests without arbitrary state mutations.
+ */
+export const TANGENT_ACTION_REQUEST_GBNF = `# Tangent SFF RPG Action Request Grammar
+root ::= "{" ws "\\"requestId\\":" ws string "," ws "\\"action\\":" ws string ("," ws "\\"actorId\\":" ws string)? ("," ws "\\"targetId\\":" ws string)? ("," ws "\\"proposedDelta\\":" ws delta_object)? ("," ws "\\"sensoryNarration\\":" ws string)? ws "}"
+delta_object ::= "{" ws "\\"action\\":" ws string ("," ws "\\"target\\":" ws string)? ("," ws "\\"entityId\\":" ws string)? ("," ws "\\"value\\":" ws value)? ("," ws "\\"explanation\\":" ws string)? ws "}"
+value ::= string | number | boolean
+string ::= "\\"" ([^"\\\\\\x00-\\x1F] | "\\\\" (["\\\\/bfnrt] | "u" [0-9a-fA-F]{4}))* "\\""
+number ::= ("-"? [0-9]+ ("." [0-9]+)?)
+boolean ::= ("true" | "false")
+ws ::= [ \\t\\n\\r]*
+`;
+
+/**
+ * Strict JSON Schema for cloud models (Gemini responseSchema)
+ */
+export const TANGENT_ACTION_REQUEST_JSON_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    requestId: { type: "STRING", description: "Unique action request ID" },
+    action: { type: "STRING", description: "Declared action being attempted" },
+    actorId: { type: "STRING", description: "Initiator operative ID" },
+    targetId: { type: "STRING", description: "Target entity or system ID" },
+    proposedDelta: {
+      type: "OBJECT",
+      properties: {
+        action: { type: "STRING", description: "Proposed state change action type" },
+        target: { type: "STRING" },
+        entityId: { type: "STRING" },
+        value: { type: "STRING" },
+        explanation: { type: "STRING" }
+      },
+      required: ["action"]
+    },
+    sensoryNarration: {
+      type: "STRING",
+      description: "Atmospheric sensory depiction"
+    }
+  },
+  required: ["requestId", "action"]
+};
+

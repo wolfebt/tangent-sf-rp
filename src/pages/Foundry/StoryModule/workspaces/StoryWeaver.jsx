@@ -28,6 +28,8 @@ import AimeGuidanceButton from '../../../../components/StoryFoundry/AimeGuidance
 import AimeGuidanceFlyout from '../../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { parseAimeAssetFile } from '../../../../services/aimeAssetFileService';
 import AimeCanvasSculptor from './AimeCanvasSculptor';
+import ArchitectIdeationModal from './ArchitectIdeationModal';
+import EpistemicPlayPanel from './EpistemicPlayPanel';
 import { 
   Feather, 
   UserCheck, 
@@ -144,6 +146,11 @@ export default function StoryWeaver({
   // Creative Genesis & Premise State
   const [premisePrompt, setPremisePrompt] = useState('');
   const [isBrainstorming, setIsBrainstorming] = useState(false);
+
+  // Architect Ideation & Epistemic Interaction State
+  const [isIdeationModalOpen, setIsIdeationModalOpen] = useState(false);
+  const [selectedIdeationType, setSelectedIdeationType] = useState('Climax');
+  const [isEpistemicPanelOpen, setIsEpistemicPanelOpen] = useState(false);
 
   // Real-time collaborative CRDT state
   const [collabStatus, setCollabStatus] = useState(() => crdtCollabService.getCollabStatus());
@@ -693,6 +700,40 @@ Format each beat on its own line:
     }
   };
 
+  // ── ARCHITECT GUIDED IDEATION & EPISTEMIC HANDLERS ──
+  const handleOpenIdeationModal = (type = 'Climax') => {
+    setSelectedIdeationType(type);
+    setIsIdeationModalOpen(true);
+    AudioService.playTerminalBeep(1300, 0.03);
+  };
+
+  const handleCommitArchitectNode = (nodeData) => {
+    const formattedBeat = `\n\n### [${nodeData.nodeType.toUpperCase()}] ${nodeData.title}\n` +
+      `• Intent: ${nodeData.intent}\n` +
+      (nodeData.objective ? `• Objective: ${nodeData.objective}\n` : '') +
+      (nodeData.opposingForce ? `• Opposing Force: ${nodeData.opposingForce}\n` : '') +
+      `• Mechanical DC: ${nodeData.targetDC}\n` +
+      `• Atmosphere: ${nodeData.weatherPreset}\n` +
+      `• Narrative Sensory Layer:\n${nodeData.sensoryFlavor}\n`;
+
+    const updatedBeats = (sceneBeats ? sceneBeats.trim() : '') + formattedBeat;
+    setSceneBeats(updatedBeats);
+    if (activeNode?.id) {
+      updateStory(activeNode.id, {
+        fields: { ...(activeNode.fields || {}), sceneBeats: updatedBeats }
+      });
+    }
+    showToast(`✓ Committed Architect ${nodeData.nodeType} node to Scene Beats`);
+    setIsIdeationModalOpen(false);
+  };
+
+  const handleInsertEpistemicToProse = (proseText) => {
+    const formatted = `<div class="epistemic-log-entry bg-slate-950/60 p-3 my-2 border-l-2 border-emerald-500 rounded font-mono text-xs text-emerald-300">${proseText.replace(/\n\n/g, '<br/><br/>').replace(/\n/g, '<br/>')}</div>`;
+    handleContentChange((content ? content + '<br/>' : '') + formatted);
+    showToast('✓ Epistemic transcript inserted into Manuscript Canvas');
+    AudioService.playTerminalBeep(1200, 0.02);
+  };
+
   // ── CREATIVE GENESIS BRAINSTORMING ──
   const handleBrainstormPremise = async () => {
     if (!premisePrompt.trim()) return;
@@ -1061,6 +1102,20 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                 {referencedElements.length}
               </span>
             )}
+          </button>
+
+          {/* Epistemic Play: Terminal Hacking & NPC Interrogation */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsEpistemicPanelOpen(true);
+              AudioService.playTerminalBeep(1400, 0.03);
+            }}
+            className="px-2.5 py-1 bg-gradient-to-r from-emerald-950 to-teal-950 hover:from-emerald-900 hover:to-teal-900 border border-emerald-500/50 text-emerald-200 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+            title="Open Epistemic Play: Open-Ended Terminal Hacking & Free-Form NPC Interrogation"
+          >
+            <Terminal size={11} className="text-emerald-400" />
+            <span className="hidden sm:inline">Epistemic Play</span>
           </button>
 
           {/* AI Authoring Dropdown */}
@@ -1563,6 +1618,58 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
       {weaverTab === 'outline' && (
         <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0e17] space-y-6 scrollbar-thin">
           <div className="max-w-4xl mx-auto space-y-6">
+            {/* Architect Ideation Studio (Preserving Human Intentionality) */}
+            <div className="bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-indigo-950/40 border border-purple-500/40 rounded-2xl p-4 md:p-5 space-y-3 shadow-xl backdrop-blur-md">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-purple-500/20 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 rounded-xl bg-purple-500/20 border border-purple-400/40 text-purple-300">
+                    <Sparkles size={18} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white tracking-wide flex items-center gap-2">
+                      Architect Ideation Studio
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-900/70 border border-purple-400/40 text-purple-300 uppercase font-bold">
+                        Human Authority
+                      </span>
+                    </h3>
+                    <p className="text-xs text-slate-400 max-w-xl">
+                      Preserve creative control: Author pivotal narrative nodes with stepped human ideation. Restricts AI from unsolicited generation; calls AIME solely as a responsive flavor layer reacting to Folio vitals and atmospheric weather.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenIdeationModal('Climax')}
+                    className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    title="Human-guided Climax node ideation"
+                  >
+                    <span>⚡</span>
+                    <span>Ideate Climax</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenIdeationModal('Resolution')}
+                    className="px-3 py-1.5 bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-500 hover:to-cyan-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    title="Human-guided Resolution node ideation"
+                  >
+                    <span>🎯</span>
+                    <span>Ideate Resolution</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenIdeationModal('Crisis')}
+                    className="px-3 py-1.5 bg-purple-900/80 hover:bg-purple-800 border border-purple-500/50 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    title="Human-guided Crisis / Beat ideation"
+                  >
+                    <span>🛡️</span>
+                    <span>Ideate Crisis Beat</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Story Outline Card */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3 shadow-lg">
               <div className="flex items-center justify-between">
@@ -2017,6 +2124,28 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
           element={editingWikiElement}
           onSave={handleSaveWikiElement}
           onDelete={handleDeleteWikiElement}
+        />
+      )}
+
+      {/* Architect Ideation Modal (Human-Guided Climax/Resolution & Sensory Flavor Layer) */}
+      {isIdeationModalOpen && (
+        <ArchitectIdeationModal
+          isOpen={isIdeationModalOpen}
+          onClose={() => setIsIdeationModalOpen(false)}
+          activeNode={activeNode}
+          initialNodeType={selectedIdeationType}
+          folioCharacter={characterData}
+          onCommitNode={handleCommitArchitectNode}
+        />
+      )}
+
+      {/* Epistemic Play Panel (Terminal Hacking & Free-Form Interrogation) */}
+      {isEpistemicPanelOpen && (
+        <EpistemicPlayPanel
+          isOpen={isEpistemicPanelOpen}
+          onClose={() => setIsEpistemicPanelOpen(false)}
+          activeOperative={characterData}
+          onInsertToProse={handleInsertEpistemicToProse}
         />
       )}
     </div>

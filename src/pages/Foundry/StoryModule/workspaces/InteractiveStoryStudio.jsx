@@ -1035,8 +1035,11 @@ Respond in 2-3 concise in-character sentences.`;
               <option value="tier2_tactical" className="bg-slate-900 text-slate-100">LOD-2: 3B Q4_K_M (Tactical)</option>
               <option value="tier3_ambient" className="bg-slate-900 text-slate-100">LOD-3: 1B Q4_K_M (Ambient)</option>
             </select>
-            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300 font-mono hidden xl:inline">
-              {calculateVramTelemetry(selectedLodTier).badge} • {calculateVramTelemetry(selectedLodTier).fits8GbVram ? '✓ Fits 8GB' : 'High VRAM'}
+            <span 
+              className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300 font-mono hidden xl:inline" 
+              title="Automated Cascade: llama.cpp -> Ollama -> Cloud Fallback | 75% GQA KV Cache Reduction"
+            >
+              {calculateVramTelemetry(selectedLodTier).badge} • {calculateVramTelemetry(selectedLodTier).fits8GbVram ? '✓ Fits 8GB' : 'High VRAM'} • GQA ~{calculateVramTelemetry(selectedLodTier).gqaSavingsMb}MB saved
             </span>
           </div>
 
