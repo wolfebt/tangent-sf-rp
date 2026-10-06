@@ -37,6 +37,7 @@ import {
   Play, 
   RotateCcw, 
   BookOpen, 
+  Bookmark,
   Send, 
   Dices, 
   User, 
@@ -82,6 +83,11 @@ import {
   createInteractiveSession,
   exportSessionMarkdown
 } from '../interactivePlayService';
+import InteractiveBookView from './InteractiveBookView';
+import LorebookDossierModal from '../panels/LorebookDossierModal';
+import EditElementModal from '../../ElementForge/EditElementModal';
+import { scanDynamicLorebook } from '../../../../services/lorebookScanner.ts';
+import { getTypePillStyle } from '../../ElementForge/elementSchemas';
 
 export const InteractiveStoryStudio = ({ 
   activeNode: propActiveNode, 
@@ -101,7 +107,9 @@ export const InteractiveStoryStudio = ({
     mapsCatalog = [],
     addMap,
     handleCreateNewMapForElement,
-    getActiveGemsText 
+    getActiveGemsText,
+    updateSavedElement,
+    deleteSavedElement
   } = campaign;
 
   // Folio Context
@@ -201,9 +209,65 @@ export const InteractiveStoryStudio = ({
     });
   }, [dbData.modifiers, universeState?.galleryModifiers, characterData]);
 
-  // ── PRESENTATION MODES: FULLSCREEN PLAY, SPLIT VIEW, FULLSCREEN STAGE ──
+  // ── PRESENTATION MODES: FULLSCREEN PLAY, SPLIT VIEW, FULLSCREEN STAGE, BOOK MODE ──
   const [layoutMode, setLayoutMode] = useState('split');
   const [splitRatio, setSplitRatio] = useState('50_50');
+  const [selectedLoreEntry, setSelectedLoreEntry] = useState(null);
+  const [editingElement, setEditingElement] = useState(null);
+
+  // ── IN-SITU LOREBOOK & ELEMENT FORGE LINKING ──
+  const handleOpenLorebookDossier = useCallback((entry) => {
+    if (!entry) return;
+    if (entry.rawElement || (entry.fields && entry.id)) {
+      setSelectedLoreEntry(entry.rawElement ? entry : { ...entry, rawElement: entry });
+      return;
+    }
+    const targetId = entry.id;
+    const targetTitle = (entry.title || entry.name || '').trim().toLowerCase();
+    const catalog = elementsCatalog || [];
+    const found = catalog.find(el => (el.id && el.id === targetId) || (el.title && el.title.trim().toLowerCase() === targetTitle));
+    if (found) {
+      setSelectedLoreEntry({
+        id: found.id,
+        title: found.title,
+        type: found.type || 'Element',
+        snippet: found.fields?.description || found.content || found.fields?.oneLinePitch || '',
+        triggerMatched: `[[${found.title}]]`,
+        rawElement: found
+      });
+    } else {
+      setSelectedLoreEntry(entry);
+    }
+  }, [elementsCatalog]);
+
+  const handleOpenElementEditor = useCallback((entry) => {
+    if (!entry) return;
+    if (entry.id && entry.fields) {
+      setEditingElement(entry);
+      return;
+    }
+    if (entry.rawElement) {
+      setEditingElement(entry.rawElement);
+      return;
+    }
+    const targetId = entry.id;
+    const targetTitle = (entry.title || entry.name || '').trim().toLowerCase();
+    const catalog = elementsCatalog || [];
+    const found = catalog.find(el => (el.id && el.id === targetId) || (el.title && el.title.trim().toLowerCase() === targetTitle));
+    if (found) {
+      setEditingElement(found);
+    } else {
+      setEditingElement({
+        id: entry.id || `elem_${Date.now()}`,
+        title: entry.title || entry.name || 'New Element',
+        type: entry.type || 'Element',
+        fields: {
+          description: entry.snippet || '',
+          oneLinePitch: entry.triggerMatched || ''
+        }
+      });
+    }
+  }, [elementsCatalog]);
 
   const splitSizes = useMemo(() => {
     if (splitRatio === 'story_bias') return [65, 35];
@@ -543,13 +607,33 @@ Guidance: ${typeof getActiveGemsText === 'function' ? getActiveGemsText() : 'Sci
 
     const recentBeatsText = updatedBeats.slice(-3).map(b => `[Beat #${b.beatIndex} - ${b.protagonistName}]: ${b.text}`).join('\n\n');
 
+    // 1.5 DYNAMIC LOREBOOK SCANNER: Match scene context, action & narrative against Elements & Custom Codices
+    let injectedLoreEntries = [];
+    let lorebookPromptContext = '';
+    try {
+      const loreScanInput = `${chosenAction} ${recentBeatsText} ${activeScenario?.title || ''} ${activeScenario?.content || ''}`;
+      const loreResult = scanDynamicLorebook({
+        input: loreScanInput,
+        activeScenario,
+        catalog: elementsCatalog || [],
+        storyFlags: useAdeStore.getState().storyFlags || {},
+        config: { maxTokens: 800, maxRecursionPasses: 2 }
+      });
+      if (loreResult && loreResult.injectedEntries?.length > 0) {
+        injectedLoreEntries = loreResult.injectedEntries;
+        lorebookPromptContext = `\n=== [CANONICAL LOREBOOK & COMPENDIUM DOSSIER] ===\n${loreResult.formattedPromptContext}\nCRITICAL DIRECTIVE: Faithfully depict and incorporate the active lore elements above (factions, Tech Levels, species traits, custom codices) into your sensory narrative description.\n`;
+      }
+    } catch (loreErr) {
+      console.warn('Lorebook scanning error:', loreErr);
+    }
+
     // Structural mandate prompt formatting ensures 100% subordination of the LLM
     const mandatePromptText = formatMandateForPrompt(mandate);
 
     const prompt = `You are AIME, the Creative AI Overseer running an interactive Tangent SFF RPG tactical encounter.
 ${scenarioContext}
 ${protagonistContext}
-
+${lorebookPromptContext}
 Story history so far:
 ${recentBeatsText || 'Scene commencement.'}
 
@@ -613,6 +697,7 @@ FORMAT YOUR OUTPUT AS VALID JSON:
         text: parsed.narrative || accumulated,
         gate: parsed.gate || null,
         mandate: mandate,
+        injectedLore: injectedLoreEntries,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
@@ -794,8 +879,21 @@ Respond in 2-3 concise in-character sentences.`;
             ))}
           </select>
 
-          {/* Presentation Mode Selector: Fullscreen Play vs Split View vs Fullscreen Stage */}
+          {/* Presentation Mode Selector: Book Mode vs Fullscreen Play vs Split View vs Fullscreen Stage */}
           <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 text-xs ml-1">
+            <button
+              type="button"
+              onClick={() => setLayoutMode('book_mode')}
+              className={`px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-all cursor-pointer ${
+                layoutMode === 'book_mode'
+                  ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Interactive Book Mode (Granular narrative with Lorebook margin dossiers)"
+            >
+              <BookOpen size={11} />
+              <span className="hidden sm:inline">Book</span>
+            </button>
             <button
               type="button"
               onClick={() => setLayoutMode('fullscreen_play')}
@@ -1175,6 +1273,30 @@ Respond in 2-3 concise in-character sentences.`;
                     </div>
                   )}
 
+                  {/* Granular Injected Lorebook References */}
+                  {beat.injectedLore && beat.injectedLore.length > 0 && (
+                    <div className="p-2.5 rounded-xl bg-slate-950/80 border border-cyan-500/30 space-y-1.5 text-xs font-mono">
+                      <div className="flex items-center gap-1.5 text-[10px] uppercase font-bold text-cyan-400">
+                        <Bookmark size={11} className="text-cyan-400" />
+                        <span>Lorebook Elements Injected:</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {beat.injectedLore.map(entry => (
+                          <button
+                            key={entry.id}
+                            type="button"
+                            onClick={() => setSelectedLoreEntry(entry)}
+                            className={`px-2 py-0.5 rounded-lg border text-[10px] font-bold flex items-center gap-1 cursor-pointer hover:scale-105 transition-all shadow-xs ${getTypePillStyle(entry.type)}`}
+                            title={`Inspect ${entry.title} (${entry.triggerMatched || 'Matched Lore'})`}
+                          >
+                            <span>🏷️ {entry.title}</span>
+                            <span className="text-[8px] opacity-75">({entry.type})</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {beat.gate?.chosenOption && (
                     <div className="p-2.5 rounded-xl bg-slate-950/80 border border-cyan-900/50 flex flex-col gap-1 text-xs">
                       <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
@@ -1473,6 +1595,26 @@ Respond in 2-3 concise in-character sentences.`;
                       </div>
                     )}
 
+                    {/* Injected Lorebook Pills in Split View */}
+                    {beat.injectedLore && beat.injectedLore.length > 0 && (
+                      <div className="flex items-center gap-1.5 flex-wrap pt-0.5 text-[10px]">
+                        <span className="text-cyan-400 font-bold flex items-center gap-1">
+                          <Bookmark size={9} />
+                          <span>Lore:</span>
+                        </span>
+                        {beat.injectedLore.map(entry => (
+                          <button
+                            key={entry.id}
+                            type="button"
+                            onClick={() => handleOpenLorebookDossier(entry)}
+                            className={`px-1.5 py-0.2 rounded border text-[9px] font-bold cursor-pointer hover:scale-105 transition-all shadow-xs ${getTypePillStyle(entry.type)}`}
+                          >
+                            🏷️ {entry.title}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
                     {beat.gate?.chosenOption && (
                       <div className="p-2 rounded-lg bg-slate-950/80 border border-cyan-900/40 text-[11px] text-cyan-300 font-bold flex items-center gap-1.5">
                         <ArrowRight size={11} className="text-cyan-400 shrink-0" />
@@ -1633,7 +1775,69 @@ Respond in 2-3 concise in-character sentences.`;
             </div>
           </Split>
         )}
+
+        {/* PRESENTATION 4: INTERACTIVE BOOK MODE */}
+        {layoutMode === 'book_mode' && (
+          <InteractiveBookView
+            activeScenario={activeScenario}
+            beats={beats}
+            activeStreamingText={activeStreamingText}
+            isGenerating={isGenerating}
+            activeOperative={activeOperative}
+            skillCheckRoll={skillCheckRoll}
+            onAdvanceBeat={handleAdvanceBeat}
+            onRollCheck={handleRollCheck}
+            onSpeakBeat={handleSpeakBeat}
+            isSpeakingBeatId={isSpeakingBeatId}
+            onOpenLorebookDossier={handleOpenLorebookDossier}
+            customActionInput={customActionInput}
+            setCustomActionInput={setCustomActionInput}
+            preAuthoredBranches={preAuthoredBranches}
+            isEpistemicConsoleOpen={isEpistemicConsoleOpen}
+            setIsEpistemicConsoleOpen={setIsEpistemicConsoleOpen}
+            epistemicTargetType={epistemicTargetType}
+            setEpistemicTargetType={setEpistemicTargetType}
+            epistemicTargetName={epistemicTargetName}
+            setEpistemicTargetName={setEpistemicTargetName}
+            epistemicQuery={epistemicQuery}
+            setEpistemicQuery={setEpistemicQuery}
+            epistemicFeed={epistemicFeed}
+            isEpistemicSubmitting={isEpistemicSubmitting}
+            handleExecuteEpistemicInterrogation={handleExecuteEpistemicInterrogation}
+          />
+        )}
       </div>
+
+      {/* Lorebook Dossier Inspector Modal */}
+      <LorebookDossierModal
+        isOpen={!!selectedLoreEntry}
+        onClose={() => setSelectedLoreEntry(null)}
+        entry={selectedLoreEntry}
+        onEditElement={handleOpenElementEditor}
+      />
+
+      {/* In-Situ Element Forge Editor Modal */}
+      {editingElement && (
+        <EditElementModal
+          isOpen={!!editingElement}
+          element={editingElement}
+          onClose={() => setEditingElement(null)}
+          onSave={(saved) => {
+            if (typeof updateSavedElement === 'function' && saved?.id) {
+              updateSavedElement(saved.id, saved);
+              showToast(`✓ Saved "${saved.title}"`);
+            }
+            setEditingElement(null);
+          }}
+          onDelete={(id) => {
+            if (typeof deleteSavedElement === 'function' && id) {
+              deleteSavedElement(id);
+              showToast('✓ Deleted element');
+            }
+            setEditingElement(null);
+          }}
+        />
+      )}
     </div>
   );
 };

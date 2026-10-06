@@ -348,30 +348,34 @@ export default function ScenarioPane({
       />
 
       {/* ── ZONE 1: DUAL-MODE OUTLINER RAIL (Left Column: Scenarios & World Elements) ── */}
-      <ScenarioOutlinerRail
-        isTreeExpanded={isTreeExpanded}
-        outlinerTab={outlinerTab}
-        setOutlinerTab={setOutlinerTab}
-        elementsCatalog={elementsCatalog}
-        activeScenarioId={activeScenarioId}
-        setActiveScenarioId={setActiveScenarioId}
-        handleOpenAddModal={handleOpenAddModal}
-        setEditingModalElement={setEditingModalElement}
-        setIsEditElementModalOpen={setIsEditElementModalOpen}
-        outlinerElementTypeFilter={outlinerElementTypeFilter}
-        setOutlinerElementTypeFilter={setOutlinerElementTypeFilter}
-        searchFilter={searchFilter}
-        setSearchFilter={setSearchFilter}
-        scenarios={universeState.scenarios}
-        handleDeleteElement={handleDeleteElement}
-        moveStory={moveStory}
-        reorderRelativeScenario={reorderRelativeScenario}
-        filteredOutlinerElements={filteredOutlinerElements}
-        activeNode={activeNode}
-        handleInsertMention={handleInsertMention}
-        handleToggleLinkElement={handleToggleLinkElement}
-        onSwitchView={onSwitchView}
-      />
+      {scenarioWorkspaceTab !== 'stage' && (
+        <ScenarioOutlinerRail
+          isTreeExpanded={isTreeExpanded}
+          outlinerTab={outlinerTab}
+          setOutlinerTab={setOutlinerTab}
+          elementsCatalog={elementsCatalog}
+          activeScenarioId={activeScenarioId}
+          setActiveScenarioId={setActiveScenarioId}
+          handleOpenAddModal={handleOpenAddModal}
+          setEditingModalElement={setEditingModalElement}
+          setIsEditElementModalOpen={setIsEditElementModalOpen}
+          outlinerElementTypeFilter={outlinerElementTypeFilter}
+          setOutlinerElementTypeFilter={setOutlinerElementTypeFilter}
+          searchFilter={searchFilter}
+          setSearchFilter={setSearchFilter}
+          scenarios={universeState.scenarios}
+          handleDeleteElement={handleDeleteElement}
+          moveStory={moveStory}
+          reorderRelativeScenario={reorderRelativeScenario}
+          filteredOutlinerElements={filteredOutlinerElements}
+          activeNode={activeNode}
+          handleInsertMention={handleInsertMention}
+          handleToggleLinkElement={handleToggleLinkElement}
+          onSwitchView={onSwitchView}
+          updateSavedElement={updateSavedElement}
+          addStory={addStory}
+        />
+      )}
 
       {/* ── ZONE 2: PRIMARY CREATIVE STAGE (Center Column) ── */}
       <ScenarioCanvasSwitch
@@ -402,32 +406,36 @@ export default function ScenarioPane({
       />
 
       {/* ── ZONE 3: MASTER COCKPIT DOCK (Right Column) ── */}
-      <ScenarioCockpitDockPanel
-        isRightDockOpen={isRightDockOpen}
-        onToggleRightDock={onToggleRightDock}
-        dockTab={dockTab}
-        setDockTab={setDockTab}
-        activeNode={activeNode}
-        updateStory={updateStory}
-        elementsCatalog={elementsCatalog}
-        handleToggleLinkElement={handleToggleLinkElement}
-        linkedMap={linkedMap}
-        allAvailableMaps={allAvailableMaps}
-        setActiveMapId={setActiveMapId}
-        setScenarioWorkspaceTab={setScenarioWorkspaceTab}
-        mapFileInputRef={mapFileInputRef}
-        handleCreateNewMapForElement={handleCreateNewMapForElement}
-        elementSearch={elementSearch}
-        setElementSearch={setElementSearch}
-        selectedElementTypeFilter={selectedElementTypeFilter}
-        setSelectedElementTypeFilter={setSelectedElementTypeFilter}
-        filteredCatalog={filteredCatalog}
-        handleInsertMention={handleInsertMention}
-        setEditingModalElement={setEditingModalElement}
-        setIsEditElementModalOpen={setIsEditElementModalOpen}
-        onSwitchView={onSwitchView}
-        universeState={universeState}
-      />
+      {scenarioWorkspaceTab !== 'stage' && (
+        <ScenarioCockpitDockPanel
+          isRightDockOpen={isRightDockOpen}
+          onToggleRightDock={onToggleRightDock}
+          dockTab={dockTab}
+          setDockTab={setDockTab}
+          activeNode={activeNode}
+          updateStory={updateStory}
+          handleDeleteElement={handleDeleteElement}
+          deleteSavedElement={deleteSavedElement}
+          elementsCatalog={elementsCatalog}
+          handleToggleLinkElement={handleToggleLinkElement}
+          linkedMap={linkedMap}
+          allAvailableMaps={allAvailableMaps}
+          setActiveMapId={setActiveMapId}
+          setScenarioWorkspaceTab={setScenarioWorkspaceTab}
+          mapFileInputRef={mapFileInputRef}
+          handleCreateNewMapForElement={handleCreateNewMapForElement}
+          elementSearch={elementSearch}
+          setElementSearch={setElementSearch}
+          selectedElementTypeFilter={selectedElementTypeFilter}
+          setSelectedElementTypeFilter={setSelectedElementTypeFilter}
+          filteredCatalog={filteredCatalog}
+          handleInsertMention={handleInsertMention}
+          setEditingModalElement={setEditingModalElement}
+          setIsEditElementModalOpen={setIsEditElementModalOpen}
+          onSwitchView={onSwitchView}
+          universeState={universeState}
+        />
+      )}
 
       {/* Full Element Forge Modal inside Story Module */}
       {isEditElementModalOpen && (

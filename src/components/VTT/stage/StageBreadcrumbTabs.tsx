@@ -8,36 +8,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   Map, 
-  ChevronRight, 
-  Users, 
-  Swords, 
-  Layers, 
-  Settings, 
   Plus, 
-  X, 
-  Columns, 
   Box, 
   Maximize2, 
   Minimize2, 
-  PanelLeftClose, 
-  PanelLeftOpen, 
-  PanelRightClose, 
-  PanelRightOpen, 
   Grid, 
-  Sun, 
-  Radio, 
   Sparkles, 
   ChevronDown, 
-  Check,
-  FolderOpen,
-  Save,
-  Download,
-  Upload,
-  FilePlus,
-  Trash2,
-  Camera,
-  ImageIcon,
-  Cpu
+  Check, 
+  FolderOpen, 
+  Save, 
+  Download, 
+  Upload, 
+  FilePlus, 
+  Trash2, 
+  Camera, 
+  ImageIcon, 
+  Cpu,
+  FolderTree,
+  Hammer,
+  ArrowLeft
 } from 'lucide-react';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { showToast } from '../../../context/ToastContext';
@@ -65,28 +55,25 @@ export interface StageBreadcrumbTabsProps {
   onToggleSplit?: () => void;
   is3DActive?: boolean;
   onToggle3D?: () => void;
+  activeStageTab?: 'map' | 'tree' | 'architect' | 'gems';
+  onSelectStageTab?: (tab: 'map' | 'tree' | 'architect' | 'gems') => void;
+  onSwitchToWeaver?: () => void;
 }
 
 export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   currentMapId,
   onSelectMap,
-  onOpenMapMaker,
-  onOpenUnderlayModal,
-  onOpenStageOptions,
-  isSplitOpen = false,
-  onToggleSplit,
   is3DActive = false,
-  onToggle3D
+  onToggle3D,
+  activeStageTab = 'map',
+  onSelectStageTab,
+  onSwitchToWeaver
 }) => {
   const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
   const confirm = useConfirm();
   const {
     isZenMode,
     toggleZenMode,
-    isLeftCollapsed,
-    toggleLeftCollapse,
-    isRightCollapsed,
-    toggleRightCollapse,
     isRightPanelOpen,
     setIsRightPanelOpen,
     activeCockpitTab,
@@ -99,21 +86,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
     setGridType,
     scaleTier,
     setScaleTier,
-    isDynamicLightingEnabled,
-    toggleDynamicLighting,
-    isMultiplayerSimActive,
-    toggleMultiplayerSim,
-    isSplitOpen: storeIsSplitOpen,
-    toggleSplitOpen,
     is3DActive: storeIs3DActive,
     toggle3DActive
   } = useUILayoutStore();
-
-  const effectiveIsSplitOpen = onToggleSplit ? isSplitOpen : storeIsSplitOpen;
-  const handleToggleSplit = onToggleSplit || (() => {
-    toggleSplitOpen();
-    AudioService.playTerminalBeep(!storeIsSplitOpen ? 1100 : 700, 0.04);
-  });
 
   const effectiveIs3DActive = onToggle3D ? is3DActive : storeIs3DActive;
   const handleToggle3D = onToggle3D || (() => {
@@ -121,14 +96,14 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
     AudioService.playTerminalBeep(!storeIs3DActive ? 880 : 440, 0.05);
   });
 
-  const [editingTabId, setEditingTabId] = useState<string | null>(null);
-  const [editingTitle, setEditingTitle] = useState('');
   const [isGridMenuOpen, setIsGridMenuOpen] = useState(false);
   const [isProjectMenuOpen, setIsProjectMenuOpen] = useState(false);
+  const [isMapListOpen, setIsMapListOpen] = useState(false);
   const [isNewMapModalOpen, setIsNewMapModalOpen] = useState(false);
 
   const gridMenuRef = useRef<HTMLDivElement | null>(null);
   const projectMenuRef = useRef<HTMLDivElement | null>(null);
+  const mapListRef = useRef<HTMLDivElement | null>(null);
   const jsonFileInputRef = useRef<HTMLInputElement | null>(null);
   const imageFileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -141,60 +116,66 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
       if (projectMenuRef.current && !projectMenuRef.current.contains(e.target as Node)) {
         setIsProjectMenuOpen(false);
       }
+      if (mapListRef.current && !mapListRef.current.contains(e.target as Node)) {
+        setIsMapListOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const availableMaps = universeState?.maps || [];
-  const campaignName = universeState?.projectName || 'Tangent Universe';
   const activeMap = availableMaps.find((m: any) => m.id === currentMapId) || availableMaps[0] || null;
 
-  // Handle Double-Click Inline Rename
-  const handleStartRename = (map: any, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setEditingTabId(map.id);
-    setEditingTitle(map.name || map.title || 'Untitled Sector');
-  };
-
-  const handleCommitRename = (mapId: string) => {
-    if (!editingTitle.trim() || !updateMap) {
-      setEditingTabId(null);
-      return;
-    }
-    updateMap(mapId, { name: editingTitle.trim(), title: editingTitle.trim() });
-    setEditingTabId(null);
-  };
-
-  const handleKeyDownRename = (e: React.KeyboardEvent, mapId: string) => {
-    if (e.key === 'Enter') {
-      handleCommitRename(mapId);
-    } else if (e.key === 'Escape') {
-      setEditingTabId(null);
-    }
-  };
-
-  // Handle Tab Close
-  const handleCloseTab = async (mapId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
+  // Handle Delete Active Map with Confirmation
+  const handleDeleteActiveMap = async () => {
+    if (!activeMap) return;
     if (availableMaps.length <= 1) {
-      showToast({ type: 'warn', title: 'Cannot Close Scene', text: 'Cannot close the last remaining scene in the module.' });
+      showToast({ type: 'warn', title: 'Cannot Delete Map', text: 'Cannot delete the only remaining map on the stage.' });
       return;
     }
     const ok = await confirm({
-      title: 'Remove Scene Tab',
-      message: 'Remove this tactical scene from the active campaign tabs?',
-      confirmLabel: 'Remove Scene',
+      title: 'Delete Tactical Map',
+      message: `Are you sure you want to permanently delete "${activeMap.title || activeMap.name || 'Current Scene'}"? This action cannot be undone.`,
+      confirmLabel: 'Delete Map',
       danger: true
     });
     if (!ok) return;
 
-    if (deleteMap) deleteMap(mapId);
-    const remaining = availableMaps.filter((m: any) => m.id !== mapId);
-    if (remaining.length > 0 && mapId === currentMapId) {
+    if (deleteMap) deleteMap(activeMap.id);
+    const remaining = availableMaps.filter((m: any) => m.id !== activeMap.id);
+    if (remaining.length > 0) {
       onSelectMap(remaining[0].id);
       if (setActiveMapId) setActiveMapId(remaining[0].id);
     }
+    showToast({ type: 'info', title: 'Map Deleted', text: 'Tactical map deleted.' });
+  };
+
+  // Handle Delete Specific Map from Dropdown with Confirmation
+  const handleDeleteSpecificMap = async (mapToDelete: any, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!mapToDelete) return;
+    if (availableMaps.length <= 1) {
+      showToast({ type: 'warn', title: 'Cannot Delete Map', text: 'Cannot delete the only remaining map on the stage.' });
+      return;
+    }
+    const ok = await confirm({
+      title: 'Delete Tactical Map',
+      message: `Are you sure you want to permanently delete "${mapToDelete.title || mapToDelete.name || 'Untitled Map'}"? This action cannot be undone.`,
+      confirmLabel: 'Delete Map',
+      danger: true
+    });
+    if (!ok) return;
+
+    if (deleteMap) deleteMap(mapToDelete.id);
+    if (mapToDelete.id === currentMapId) {
+      const remaining = availableMaps.filter((m: any) => m.id !== mapToDelete.id);
+      if (remaining.length > 0) {
+        onSelectMap(remaining[0].id);
+        if (setActiveMapId) setActiveMapId(remaining[0].id);
+      }
+    }
+    showToast({ type: 'info', title: 'Map Deleted', text: `Tactical map "${mapToDelete.name || mapToDelete.title || 'Untitled'}" deleted.` });
   };
 
   // Handle Save Map JSON
@@ -329,22 +310,25 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   }, [addMap, onSelectMap, setActiveMapId]);
 
   return (
-    <div className="w-full h-10 px-2 flex items-center justify-between gap-1.5 bg-[#080c13] border-b border-slate-800/90 select-none font-sans shrink-0">
-      {/* Left & Center: Consolidated Breadcrumbs + Micro Scene Tabs */}
-      <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
-        {/* Macro Campaign Breadcrumbs - only on large unobstructed screens */}
-        <div className="hidden 2xl:flex items-center gap-1.5 shrink-0 text-xs font-mono text-slate-400">
-          <span className="text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            UNIVERSE
-          </span>
-          <ChevronRight size={11} className="text-slate-600 shrink-0" />
-          <span className="text-slate-300 font-bold hover:text-cyan-300 transition-colors cursor-pointer truncate max-w-[110px] sm:max-w-[160px]">
-            {campaignName}
-          </span>
-        </div>
+    <div className="w-full h-11 px-3 flex items-center justify-between gap-2 bg-[#080c13] border-b border-slate-800/90 select-none font-sans shrink-0">
+      {/* LEFT: Weaver back button + Single FILE Pulldown + Scene Selector Pill */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        {onSwitchToWeaver && (
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(900, 0.02);
+              onSwitchToWeaver();
+            }}
+            className="px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-cyan-400 hover:text-cyan-300 text-[11px] font-mono font-bold transition-all flex items-center gap-1 cursor-pointer"
+            title="Return to Story Weaver Book"
+          >
+            <ArrowLeft size={12} />
+            <span className="hidden sm:inline">WEAVER</span>
+          </button>
+        )}
 
-        {/* PROJECT & MAP MANAGEMENT HUB DROPDOWN */}
+        {/* SINGLE FILE PULLDOWN */}
         <div className="relative shrink-0 z-20" ref={projectMenuRef}>
           <button
             type="button"
@@ -352,25 +336,26 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
               AudioService.playTerminalBeep(1000, 0.02);
               setIsProjectMenuOpen(prev => !prev);
               setIsGridMenuOpen(false);
+              setIsMapListOpen(false);
             }}
             className={`px-2 py-1 rounded border text-[11px] font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm ${
               isProjectMenuOpen
                 ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
                 : 'bg-slate-900/90 border-slate-700/80 text-slate-200 hover:bg-slate-800 hover:text-cyan-300'
             }`}
-            title="Stage Map & Project Operations (New, Load, Save, Presets)"
+            title="Single File Menu (New, Save, Load, Import, Export, Delete)"
           >
             <FolderOpen size={12} className="text-cyan-400" />
-            <span>MAP HUB</span>
+            <span>FILE</span>
             <ChevronDown size={11} className={`text-slate-400 transition-transform ${isProjectMenuOpen ? 'rotate-180' : ''}`} />
           </button>
 
           {isProjectMenuOpen && (
             <div className="absolute left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-2 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
-              {/* Group 1: New & Presets */}
+              {/* Create & Templates */}
               <div className="py-1">
                 <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider">
-                  Create & Templates
+                  Create & Presets
                 </div>
                 <button
                   type="button"
@@ -382,14 +367,14 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                   className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 transition-colors cursor-pointer"
                 >
                   <FilePlus size={13} className="text-cyan-400" />
-                  <span className="font-bold">New Scene / Blank Canvas...</span>
+                  <span className="font-bold">New Canvas / Scene...</span>
                 </button>
               </div>
 
-              {/* Group 2: File I/O & Export */}
+              {/* File I/O & Storage */}
               <div className="py-1">
                 <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                  File I/O & Storage
+                  File Storage & I/O
                 </div>
                 <button
                   type="button"
@@ -437,14 +422,14 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                   className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
                 >
                   <Camera size={13} className="text-amber-400" />
-                  <span>Export Viewport Snapshot (PNG)</span>
+                  <span>Export Snapshot (PNG)</span>
                 </button>
               </div>
 
-              {/* Group 3: Procedural & VTT Formats */}
+              {/* Generators & Ingestion */}
               <div className="py-1">
                 <div className="px-3 py-1 text-[10px] uppercase font-bold text-emerald-400/80 tracking-wider">
-                  Generators & VTT
+                  VTT Formats & Ingestion
                 </div>
                 <button
                   type="button"
@@ -484,19 +469,19 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                 </button>
               </div>
 
-              {/* Group 4: Scene Actions */}
+              {/* Delete Option */}
               {activeMap && (
                 <div className="py-1">
                   <button
                     type="button"
                     onClick={() => {
                       setIsProjectMenuOpen(false);
-                      handleCloseTab(activeMap.id, { stopPropagation: () => {} } as any);
+                      handleDeleteActiveMap();
                     }}
-                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-slate-400 hover:text-red-400 flex items-center gap-2 transition-colors cursor-pointer"
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors cursor-pointer"
                   >
                     <Trash2 size={13} className="text-red-400" />
-                    <span>Delete Current Sector</span>
+                    <span className="font-bold">Delete Current Map...</span>
                   </button>
                 </div>
               )}
@@ -524,128 +509,155 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           className="hidden"
         />
 
-        {/* Separator Divider */}
-        <div className="w-px h-4 bg-slate-800 shrink-0 mx-0.5" />
+        {/* SCENE PICKER PILL */}
+        <div className="relative shrink-0" ref={mapListRef}>
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              setIsMapListOpen(prev => !prev);
+              setIsProjectMenuOpen(false);
+              setIsGridMenuOpen(false);
+            }}
+            className={`h-7 px-2 rounded border text-xs font-mono font-semibold transition-all flex items-center gap-1.5 cursor-pointer max-w-[160px] md:max-w-[200px] truncate ${
+              isMapListOpen
+                ? 'bg-slate-900 border-cyan-400 text-cyan-200'
+                : 'bg-slate-900/70 border-slate-700/70 text-slate-300 hover:text-cyan-300'
+            }`}
+            title="Select Active Scene / Sector"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+            <span className="truncate">{activeMap?.name || activeMap?.title || 'Sector'}</span>
+            <ChevronDown size={11} className={`text-slate-400 shrink-0 transition-transform ${isMapListOpen ? 'rotate-180' : ''}`} />
+          </button>
 
-        {/* Micro Scene Tabs Inline */}
-        <div className="flex items-center gap-1 overflow-x-auto scrollbar-none flex-1 min-w-0 py-0.5">
-          {availableMaps.length === 0 ? (
-            <div className="text-[11px] font-mono text-slate-500 px-2 flex items-center gap-2">
-              <span>NO ACTIVE SCENES.</span>
-              <button
-                type="button"
-                onClick={() => setIsNewMapModalOpen(true)}
-                className="text-cyan-400 hover:underline font-bold cursor-pointer flex items-center gap-1"
-              >
-                <Plus size={11} />
-                <span>Create Scene / Blank Canvas</span>
-              </button>
-            </div>
-          ) : (
-            <>
-              {availableMaps.map((map: any, idx: number) => {
-                const isCurrent = map.id === currentMapId;
-                const hasParty = isCurrent || idx === 0;
-                const isCombat = !!map.isCombatActive;
-                const isEditing = editingTabId === map.id;
-
+          {isMapListOpen && (
+            <div className="absolute left-0 mt-1.5 w-60 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-2xl text-xs font-mono max-h-64 overflow-y-auto divide-y divide-slate-800">
+              <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
+                <span>Sectors / Maps ({availableMaps.length})</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMapListOpen(false);
+                    setIsNewMapModalOpen(true);
+                  }}
+                  className="text-cyan-400 hover:text-cyan-300 flex items-center gap-0.5 cursor-pointer"
+                >
+                  <Plus size={10} />
+                  <span>New</span>
+                </button>
+              </div>
+              {availableMaps.map((m: any) => {
+                const isSelected = m.id === currentMapId;
                 return (
                   <div
-                    key={map.id || idx}
+                    key={m.id}
                     onClick={() => {
-                      onSelectMap(map.id);
-                      if (setActiveMapId) setActiveMapId(map.id);
-                      const isSquare = map.gridType === 'square' || map.gridMode === 'square';
+                      onSelectMap(m.id);
+                      if (setActiveMapId) setActiveMapId(m.id);
+                      const isSquare = m.gridType === 'square' || m.gridMode === 'square';
                       setGridType(isSquare ? GridType.Square : GridType.HexFlatTop);
+                      setIsMapListOpen(false);
                     }}
-                    onDoubleClick={(e) => handleStartRename(map, e)}
-                    className={`group relative h-7 px-2 rounded border text-xs font-mono font-semibold transition-all duration-150 flex items-center gap-1.5 cursor-pointer shrink-0 max-w-[200px] ${
-                      isCurrent
-                        ? 'bg-[#131b26] border-cyan-500/50 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)] z-10'
-                        : 'bg-slate-900/60 hover:bg-slate-800/80 border-slate-800/80 text-slate-400 hover:text-slate-200'
+                    className={`px-3 py-1.5 flex items-center justify-between gap-2 cursor-pointer transition-colors group ${
+                      isSelected ? 'bg-cyan-950/70 text-cyan-200 font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                     }`}
-                    title="Double-click to rename tab"
                   >
-                    {/* Active Accent Indicator */}
-                    {isCurrent && (
-                      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-400 to-amber-400 rounded-t-sm" />
-                    )}
-
-                    {/* Preload Ready Dot */}
-                    <span 
-                      className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 shrink-0" 
-                      title="WebGL GPU Texture Preloaded" 
-                    />
-
-                    <Map size={11} className={isCurrent ? 'text-cyan-400 shrink-0' : 'text-slate-500 group-hover:text-slate-400 shrink-0'} />
-
-                    {/* Title / Inline Rename Input */}
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={editingTitle}
-                        autoFocus
-                        onChange={(e) => setEditingTitle(e.target.value)}
-                        onBlur={() => handleCommitRename(map.id)}
-                        onKeyDown={(e) => handleKeyDownRename(e, map.id)}
-                        onClick={(e) => e.stopPropagation()}
-                        className="bg-slate-950 border border-cyan-400 text-cyan-200 px-1 py-0.5 rounded text-[11px] font-mono outline-none w-24"
-                      />
-                    ) : (
-                      <span className="truncate max-w-[100px]">
-                        {map.name || map.title || `Sector ${idx + 1}`}
-                      </span>
-                    )}
-
-                    {/* Badges: Party Pin & Combat Pulse */}
-                    <div className="flex items-center gap-1 ml-auto shrink-0">
-                      {hasParty && (
-                        <span 
-                          className="p-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/40"
-                          title="Player Party Present"
+                    <span className="truncate flex-1">{m.name || m.title || 'Untitled Map'}</span>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {isSelected && <span className="text-[10px] text-cyan-400">ACTIVE</span>}
+                      {availableMaps.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteSpecificMap(m, e)}
+                          className="p-1 rounded text-slate-500 hover:text-rose-400 hover:bg-rose-950/40 opacity-70 group-hover:opacity-100 transition-all cursor-pointer"
+                          title="Delete this map"
                         >
-                          <Users size={9} />
-                        </span>
+                          <Trash2 size={12} />
+                        </button>
                       )}
-                      {isCombat && (
-                        <span 
-                          className="p-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/50 animate-pulse"
-                          title="Tactical Combat Active"
-                        >
-                          <Swords size={9} />
-                        </span>
-                      )}
-
-                      {/* Close Tab Button (Hover) */}
-                      <button
-                        type="button"
-                        onClick={(e) => handleCloseTab(map.id, e)}
-                        className="p-0.5 rounded hover:bg-slate-800 text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                        title="Close Scene Tab"
-                      >
-                        <X size={10} />
-                      </button>
                     </div>
                   </div>
                 );
               })}
-
-              {/* Quick Add New Scene Tab Button */}
-              <button
-                type="button"
-                onClick={() => setIsNewMapModalOpen(true)}
-                className="h-6 px-1.5 rounded bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 transition-colors flex items-center justify-center shrink-0 ml-0.5 cursor-pointer"
-                title="Add New Tactical Scene / Blank Canvas"
-              >
-                <Plus size={12} />
-              </button>
-            </>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Right: Tactical Stage Actions & Consolidated Layout Controls */}
-      <div className="flex items-center gap-1.5 shrink-0 pl-1">
+      {/* CENTER: Top Horizontal Tabs: Map, Module Tree (Elements), Architect, Gems */}
+      <nav aria-label="Stage Navigation Tabs" className="flex items-center bg-[#070b12] border border-cyan-500/30 rounded-xl p-0.5 shadow-md shrink-0">
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.02);
+            if (onSelectStageTab) onSelectStageTab('map');
+          }}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
+            activeStageTab === 'map'
+              ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-500/30'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
+          }`}
+          title="Tactical Map Viewport (Pristine WebGPU Canvas)"
+        >
+          <Map size={13} className={activeStageTab === 'map' ? 'text-white' : 'text-slate-400'} />
+          <span>Map</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.02);
+            if (onSelectStageTab) onSelectStageTab('tree');
+          }}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
+            activeStageTab === 'tree'
+              ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-500/30'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
+          }`}
+          title="Module Tree & Elements Outliner"
+        >
+          <FolderTree size={13} className={activeStageTab === 'tree' ? 'text-white' : 'text-slate-400'} />
+          <span>Module Tree <span className="opacity-80 text-[11px] font-normal">(Elements)</span></span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.02);
+            if (onSelectStageTab) onSelectStageTab('architect');
+          }}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
+            activeStageTab === 'architect'
+              ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md shadow-amber-500/30'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
+          }`}
+          title="Architect Builder & Map Tools"
+        >
+          <Hammer size={13} className={activeStageTab === 'architect' ? 'text-white' : 'text-slate-400'} />
+          <span>Architect</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.02);
+            if (onSelectStageTab) onSelectStageTab('gems');
+          }}
+          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
+            activeStageTab === 'gems'
+              ? 'bg-gradient-to-r from-rose-600 to-pink-600 text-white shadow-md shadow-rose-500/30'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
+          }`}
+          title="Guidance Gems (Prompts & Directives)"
+        >
+          <Sparkles size={13} className={activeStageTab === 'gems' ? 'text-white' : 'text-slate-400'} />
+          <span>Gems</span>
+        </button>
+      </nav>
+
+      {/* RIGHT: Grid Menu, 3D Holo, AIME, Zen Fullscreen */}
+      <div className="flex items-center gap-1.5 shrink-0">
         {/* Tactical Grid & Scale Popover */}
         <div className="relative" ref={gridMenuRef}>
           <button
@@ -653,6 +665,8 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             onClick={() => {
               AudioService.playTerminalBeep(1000, 0.02);
               setIsGridMenuOpen(prev => !prev);
+              setIsProjectMenuOpen(false);
+              setIsMapListOpen(false);
             }}
             className={`px-2 py-1 border rounded text-[10.5px] font-mono font-bold transition-all flex items-center gap-1 cursor-pointer ${
               isGridVisible || isGridMenuOpen
@@ -673,7 +687,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           </button>
 
           {isGridMenuOpen && (
-            <div className="absolute left-0 mt-1.5 w-60 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl p-3 z-50 backdrop-blur-2xl text-xs font-mono space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
+            <div className="absolute right-0 mt-1.5 w-60 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl p-3 z-50 backdrop-blur-2xl text-xs font-mono space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
               <div className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex justify-between items-center border-b border-slate-800 pb-1.5">
                 <span>Coordinate Grid & Scale</span>
                 <span className="text-slate-500 text-[9px]">Shortcut: [G]</span>
@@ -782,92 +796,7 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           )}
         </div>
 
-        {/* Dynamic Lighting Toggle */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            toggleDynamicLighting();
-          }}
-          className={`p-1.5 rounded border text-xs transition-all cursor-pointer ${
-            isDynamicLightingEnabled
-              ? 'bg-amber-950/70 border-amber-500/80 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-              : 'bg-slate-900/90 border-slate-800 text-slate-500 hover:text-slate-300'
-          }`}
-          title={isDynamicLightingEnabled ? 'Dynamic Lighting & Shadows: ACTIVE' : 'Dynamic Lighting: DISABLED'}
-        >
-          <Sun size={12} />
-        </button>
-
-        {/* Multiplayer Telemetry Toggle / Indicator */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            toggleMultiplayerSim();
-          }}
-          className={`px-1.5 py-1 rounded border text-[10.5px] font-mono transition-all cursor-pointer flex items-center gap-1 ${
-            isMultiplayerSimActive
-              ? 'bg-emerald-950/70 border-emerald-500/80 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-              : 'bg-slate-900/90 border-slate-800 text-slate-500 hover:text-slate-300'
-          }`}
-          title={isMultiplayerSimActive ? 'LiveKit Telemetry: 3 PEERS CONNECTED' : 'Standalone Simulation Mode'}
-        >
-          <Radio size={11} className={isMultiplayerSimActive ? 'text-emerald-400' : 'text-slate-500'} />
-          <span className="text-[9.5px] hidden xl:inline">
-            {isMultiplayerSimActive ? 'PEERS' : 'LOCAL'}
-          </span>
-        </button>
-
-        {/* AIME Tactical Co-Pilot Launcher */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1400, 0.03);
-            setIsRightPanelOpen(true);
-            setActiveCockpitTab('aime');
-          }}
-          className={`px-2 py-1 rounded border text-[10.5px] font-mono transition-all cursor-pointer flex items-center gap-1 ${
-            isRightPanelOpen && activeCockpitTab === 'aime'
-              ? 'bg-amber-950/80 border-amber-500/80 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
-              : 'bg-slate-900/90 border-slate-800 text-amber-400 hover:bg-slate-800'
-          }`}
-          title="Toggle AIME Tactical Co-Pilot"
-        >
-          <Sparkles size={11} className="text-amber-400 animate-pulse" />
-          <span className="hidden md:inline font-bold">AIME</span>
-        </button>
-
-        {/* Separator Divider */}
-        <div className="w-px h-4 bg-slate-800 shrink-0 mx-0.5" />
-
-        {onOpenUnderlayModal && (
-          <button
-            type="button"
-            onClick={onOpenUnderlayModal}
-            className="px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-800 text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono"
-            title="Calibrate Map Underlay Image & Grid Scale"
-          >
-            <Settings size={11} />
-            <span className="hidden md:inline">Underlay</span>
-          </button>
-        )}
-
-        {/* Stage & VTT Operations Settings */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1200, 0.03);
-            if (onOpenStageOptions) onOpenStageOptions();
-            else VttEventBus.emit('open-stage-options');
-          }}
-          className="px-2 py-1 rounded bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-800 text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono"
-          title="VTT Stage Options & Settings (Spectator Broadcast, Grid, Tokens, Audio)"
-        >
-          <Settings size={11} className="text-cyan-400" />
-          <span className="hidden md:inline">Options</span>
-        </button>
-
+        {/* 3D Holo Stage Toggle */}
         <button
           type="button"
           onClick={handleToggle3D}
@@ -882,77 +811,38 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           <span>{effectiveIs3DActive ? '3D HOLO' : '2D PLAN'}</span>
         </button>
 
-        {/* Studio (Map Maker Launcher) */}
-        <a
-          href={`/foundry/map-maker?mapId=${currentMapId || ''}`}
-          onClick={(e) => {
-            if (onOpenMapMaker) {
-              e.preventDefault();
-              onOpenMapMaker();
-            }
-          }}
-          className="px-2 py-1 rounded bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono"
-          title="Open Map in 2D Map Maker (Architect Suite)"
-        >
-          <Layers size={11} />
-          <span className="hidden md:inline">Studio</span>
-        </a>
-
+        {/* AIME Tactical Co-Pilot Launcher */}
         <button
           type="button"
-          onClick={handleToggleSplit}
-          className={`px-2 py-1 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
-            effectiveIsSplitOpen
-              ? 'bg-amber-950/90 text-amber-300 border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
-              : 'bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+          onClick={() => {
+            AudioService.playTerminalBeep(1400, 0.03);
+            setIsRightPanelOpen(true);
+            setActiveCockpitTab('aime');
+          }}
+          className={`px-2.5 py-1 rounded-xl border text-[10.5px] font-mono transition-all cursor-pointer flex items-center gap-1.5 shadow-sm ${
+            isRightPanelOpen && activeCockpitTab === 'aime'
+              ? 'bg-amber-950 border-amber-500 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
+              : 'bg-slate-900/90 border-slate-800 text-amber-400 hover:bg-slate-800'
           }`}
-          title="Toggle Split Workspace (Folio, Roster, Bestiary)"
+          title="Launch AIME Tactical Co-Pilot"
         >
-          <Columns size={11} />
-          <span className="hidden lg:inline">Split</span>
+          <Sparkles size={12} className="text-amber-400 animate-pulse" />
+          <span className="font-bold">AIME</span>
         </button>
 
-        {/* Separator Divider */}
-        <div className="w-px h-4 bg-slate-800 shrink-0 mx-0.5" />
-
-        {/* Integrated Layout & Zen Toggles (Replaces the floating overlay pill) */}
-        <div className="flex items-center gap-1 bg-slate-950/70 border border-slate-800/80 rounded-md p-0.5">
-          <button
-            type="button"
-            onClick={toggleZenMode}
-            className={`px-1.5 py-0.5 rounded text-[10px] font-mono transition-all flex items-center gap-1 cursor-pointer ${
-              isZenMode
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800'
-            }`}
-            title={isZenMode ? "Exit Zen (F)" : "Enter Zen Mode (F)"}
-          >
-            {isZenMode ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
-            <span className="hidden xl:inline">{isZenMode ? 'EXIT ZEN' : 'ZEN (F)'}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={toggleLeftCollapse}
-            className={`p-1 rounded text-xs transition-colors cursor-pointer ${
-              !isLeftCollapsed ? 'text-cyan-400 bg-cyan-950/50' : 'text-slate-500 hover:text-slate-300'
-            }`}
-            title="Toggle Left Catalog ([)"
-          >
-            {!isLeftCollapsed ? <PanelLeftClose size={12} /> : <PanelLeftOpen size={12} />}
-          </button>
-
-          <button
-            type="button"
-            onClick={toggleRightCollapse}
-            className={`p-1 rounded text-xs transition-colors cursor-pointer ${
-              !isRightCollapsed ? 'text-amber-400 bg-amber-950/50' : 'text-slate-500 hover:text-slate-300'
-            }`}
-            title="Toggle Right Cockpit (])"
-          >
-            {!isRightCollapsed ? <PanelRightClose size={12} /> : <PanelRightOpen size={12} />}
-          </button>
-        </div>
+        {/* Zen Mode Toggle */}
+        <button
+          type="button"
+          onClick={toggleZenMode}
+          className={`p-1.5 rounded-lg border text-xs font-mono transition-all flex items-center gap-1 cursor-pointer ${
+            isZenMode
+              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+              : 'bg-slate-900/90 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+          }`}
+          title={isZenMode ? "Exit Zen Fullscreen (F)" : "Enter Zen Fullscreen (F)"}
+        >
+          {isZenMode ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
+        </button>
       </div>
 
       {/* New Scene / Blank Canvas / Import Modal */}

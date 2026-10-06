@@ -144,15 +144,19 @@ export default function ScenarioCanvasSwitch({
     ? [75, 25] 
     : [50, 50];
 
+  const isFullStage = scenarioWorkspaceTab === 'stage' && !isSplitView;
+  const isWeaverView = scenarioWorkspaceTab === 'weaver' || isSplitView;
+
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] relative min-w-0 font-mono">
-      {/* Top Stage Control Header */}
-      <div className="p-2.5 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-3 shrink-0 flex-wrap">
-        <div className="flex items-center gap-2.5 min-w-0 flex-1">
-          <span className={`text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md border shrink-0 ${getTypePillStyle(activeNode.type)}`}>
-            {activeNode.type}
-          </span>
-          <input 
+      {/* Top Stage Control Header (Suppressed when full-screen stage or Story Weaver is active) */}
+      {!isFullStage && !isWeaverView && (
+        <div className="p-2.5 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-3 shrink-0 flex-wrap">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <span className={`text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md border shrink-0 ${getTypePillStyle(activeNode.type)}`}>
+              {activeNode.type}
+            </span>
+            <input 
             type="text" 
             value={activeNode.title || ''}
             onChange={handleTitleChange}
@@ -336,9 +340,10 @@ export default function ScenarioCanvasSwitch({
           )}
         </div>
       </div>
+      )}
 
-      {/* ── LIVE SESSION COCKPIT HUD (Shown only in studioMode === 'live_session') ── */}
-      {studioMode === 'live_session' && (
+      {/* ── LIVE SESSION COCKPIT HUD (Shown only in studioMode === 'live_session' when not in full stage) ── */}
+      {!isFullStage && studioMode === 'live_session' && (
         <div className="bg-gradient-to-r from-rose-950/40 via-slate-950 to-purple-950/40 border-b border-rose-500/40 p-2.5 px-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shrink-0 text-xs shadow-lg">
           {/* Left: GM Read-Aloud Prompt */}
           <div className="flex-1 min-w-0 flex items-start gap-2.5">
@@ -414,8 +419,15 @@ export default function ScenarioCanvasSwitch({
             <StoryWeaver
               activeNode={activeNode}
               updateStory={updateStory}
-              guidanceGems={universeState?.creativeState?.gems?.join(', ') || ''}
+              guidanceGems={universeState?.creativeState?.gems?.map(g => g.name || g.label).join(', ') || ''}
               onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+              isSplitView={isSplitView}
+              setIsSplitView={setIsSplitView}
+              viewportSplit={viewportSplit}
+              setViewportSplit={setViewportSplit}
+              handleOpenAddModal={handleOpenAddModal}
+              handleDeleteElement={handleDeleteElement}
+              locationPath={locationPath}
             />
           </div>
 
@@ -434,6 +446,7 @@ export default function ScenarioCanvasSwitch({
               waypointPromptData={waypointPromptData}
               executeWaypointTrigger={executeWaypointTrigger}
               setWaypointPromptData={setWaypointPromptData}
+              onSwitchToWeaver={() => setScenarioWorkspaceTab('weaver')}
             />
           </div>
         </Split>
@@ -445,8 +458,15 @@ export default function ScenarioCanvasSwitch({
               <StoryWeaver
                 activeNode={activeNode}
                 updateStory={updateStory}
-                guidanceGems={universeState?.creativeState?.gems?.join(', ') || ''}
+                guidanceGems={universeState?.creativeState?.gems?.map(g => g.name || g.label).join(', ') || ''}
                 onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+                isSplitView={isSplitView}
+                setIsSplitView={setIsSplitView}
+                viewportSplit={viewportSplit}
+                setViewportSplit={setViewportSplit}
+                handleOpenAddModal={handleOpenAddModal}
+                handleDeleteElement={handleDeleteElement}
+                locationPath={locationPath}
               />
             </div>
           )}
@@ -467,6 +487,7 @@ export default function ScenarioCanvasSwitch({
                 waypointPromptData={waypointPromptData}
                 executeWaypointTrigger={executeWaypointTrigger}
                 setWaypointPromptData={setWaypointPromptData}
+                onSwitchToWeaver={() => setScenarioWorkspaceTab('weaver')}
               />
             </div>
           )}

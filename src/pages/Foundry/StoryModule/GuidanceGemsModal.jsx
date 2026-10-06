@@ -4,6 +4,7 @@ import { GUIDANCE_GEMS, getMergedGems } from './guidanceGemsConfig';
 import { useStory } from '../../../context/CampaignContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
+import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
 
 export default function GuidanceGemsModal({ isOpen, onClose }) {
   const { universeState, updateGems, updateCreativeState } = useStory();
@@ -16,6 +17,15 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
   const [selectedCategory, setSelectedCategory] = useState('Theme');
   const [customInputText, setCustomInputText] = useState('');
   const [customInputCategory, setCustomInputCategory] = useState('Mood');
+
+  const isDirty = customInputText.trim() !== '';
+
+  const { handleBackdropClick, handleGuardedClose } = useDirtyModalClose({
+    isOpen,
+    isDirty,
+    onClose,
+    confirmMessage: 'You have an unadded custom gem entered. Discard changes?'
+  });
 
   const mergedGems = useMemo(() => {
     return getMergedGems(customGems);
@@ -91,8 +101,14 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150">
-      <div className="bg-[#0e131f] border border-cyan-500/40 w-full max-w-4xl h-[92vh] sm:h-[85vh] max-h-[94vh] rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100 font-sans">
+    <div 
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150"
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-[#0e131f] border border-cyan-500/40 w-full max-w-4xl h-[92vh] sm:h-[85vh] max-h-[94vh] rounded-2xl shadow-[0_0_40px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100 font-sans"
+      >
         
         {/* Modal Header */}
         <div className="p-3.5 sm:p-4 px-4 sm:px-6 bg-[#0a0d15] border-b border-slate-800 flex items-center justify-between shrink-0">
@@ -127,7 +143,7 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
             )}
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleGuardedClose}
               className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
             >
               <X size={18} />
@@ -301,7 +317,7 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
 
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleGuardedClose}
             className="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-black font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
           >
             Done

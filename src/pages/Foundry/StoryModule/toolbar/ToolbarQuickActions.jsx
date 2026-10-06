@@ -4,7 +4,8 @@ import {
   Printer, 
   Sliders, 
   PanelRightClose, 
-  PanelRight 
+  PanelRight,
+  Sparkles 
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 
@@ -30,7 +31,9 @@ export default function ToolbarQuickActions({
   isPrintModalOpen,
   onTogglePrintModal,
   isRightDockOpen,
-  onToggleRightDock
+  onToggleRightDock,
+  activeCockpitDeck,
+  onSelectCockpitDeck
 }) {
   const navigate = useNavigate();
 
@@ -111,20 +114,23 @@ export default function ToolbarQuickActions({
         <span className="xl:hidden">PREP VTT</span>
       </button>
 
-      {/* Consolidated ADE LIVE STUDIO */}
+      {/* AIME Co-Pilot Access Button */}
       <button
         type="button"
         onClick={() => {
-          AudioService.playTerminalBeep(1400, 0.05);
-          const mapId = targetMapId || universeState?.maps?.[0]?.id || '';
-          navigate(`/foundry/live?scenarioId=${activeNode?.id || ''}&mapId=${mapId}`);
+          AudioService.playTerminalBeep(1400, 0.03);
+          if (onSelectCockpitDeck) onSelectCockpitDeck('aime');
+          if (onToggleRightDock) onToggleRightDock(true);
         }}
-        className="px-2.5 py-1 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 border border-cyan-400 text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(34,211,238,0.4)] cursor-pointer"
-        title="Open consolidated ADE Live Studio (Split View with live WebGPU Stage & Story Weaver)"
+        className={`px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
+          isRightDockOpen && activeCockpitDeck === 'aime'
+            ? 'bg-amber-950 text-amber-200 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]'
+            : 'bg-slate-900/90 text-amber-400 hover:text-amber-200 border-amber-500/50 hover:border-amber-400'
+        }`}
+        title="Launch AIME Narrative Co-Pilot"
       >
-        <span>✨</span>
-        <span className="hidden xl:inline">LIVE STUDIO</span>
-        <span className="xl:hidden">STUDIO</span>
+        <Sparkles size={13} className="text-amber-400 animate-pulse" />
+        <span>AIME</span>
       </button>
 
       {/* Deploy to STAGE VTT */}

@@ -110,7 +110,7 @@ function testKeywordTriggers(triggerListStr: string = '', textToScan: string): s
 /**
  * Extracts a concise, high-density lore snippet from an element based on its type and fields.
  */
-function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippet: string; tokens: number } {
+export function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippet: string; tokens: number } {
   const fields = elem.fields || {};
   const parts: string[] = [];
 
@@ -124,6 +124,20 @@ function extractLoreSnippet(elem: any, maxTokens: number = 250): { snippet: stri
   if (fields.sensoryDetails) parts.push(`Sensory: ${fields.sensoryDetails}`);
   if (fields.strengthsFlaws) parts.push(`Dynamics: ${fields.strengthsFlaws}`);
   if (fields.historyTimeline) parts.push(`Lore: ${fields.historyTimeline.slice(0, 180)}`);
+  if (fields.category) parts.push(`Category: ${fields.category}`);
+  if (fields.summary) parts.push(`Summary: ${fields.summary}`);
+  if (fields.description) parts.push(`Details: ${sanitizeText(fields.description).slice(0, 200)}`);
+  if (fields.tags) parts.push(`Tags: ${fields.tags}`);
+
+  // Dynamic user-defined custom fields from EditElementModal
+  if (Array.isArray(elem.customFields) && elem.customFields.length > 0) {
+    const customSummary = elem.customFields
+      .filter((cf: any) => cf && cf.label && cf.value)
+      .map((cf: any) => `${cf.label}: ${cf.value}`)
+      .slice(0, 3)
+      .join(', ');
+    if (customSummary) parts.push(`User Fields: [${customSummary}]`);
+  }
 
   let text = parts.join(' | ');
 

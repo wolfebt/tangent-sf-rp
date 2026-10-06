@@ -23,7 +23,8 @@ const TYPE_DETECTION_PATTERNS = [
   { type: 'Adventure', regex: /Adventure Module|Hook|Stakes/i },
   { type: 'Story Arc', regex: /Story Arc|Key Antagonist/i },
   { type: 'Clue', regex: /Clue|Information Revealed/i },
-  { type: 'Handout', regex: /Handout/i }
+  { type: 'Handout', regex: /Handout/i },
+  { type: 'Custom', regex: /Custom Development Fields|Custom Element|Custom Codex|User Defined Info|Codex Entry/i }
 ];
 
 // Title field keys across canonical types
@@ -192,6 +193,7 @@ export function parseElementMarkdown(markdownContent, fileName = '') {
   const element = {
     id: metadata.id || `elem_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
     name: extractedName || `Untitled ${detectedType}`,
+    title: extractedName || metadata.title || `Untitled ${detectedType}`,
     type: detectedType,
     description: extractedSummary || extractedFields.summary || extractedFields.coreIdentity || extractedFields.description || '',
     fields: extractedFields,
@@ -309,6 +311,13 @@ function mapSchemaAliases(type, lowerLabel, val, fields) {
     if (lowerLabel.includes('pantheons') || lowerLabel.includes('gods')) fields.pantheons = val;
     if (lowerLabel.includes('themes')) fields.themes = val;
     if (lowerLabel.includes('inspirations')) fields.inspirations = val;
+  }
+
+  if (type === 'Custom') {
+    if (lowerLabel.includes('category') || lowerLabel.includes('domain')) fields.category = val;
+    if (lowerLabel.includes('summary') || lowerLabel.includes('pitch')) fields.summary = val;
+    if (lowerLabel.includes('description') || lowerLabel.includes('details')) fields.description = val;
+    if (lowerLabel.includes('tags') || lowerLabel.includes('keywords')) fields.tags = val;
   }
 }
 

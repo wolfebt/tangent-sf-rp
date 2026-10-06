@@ -30,12 +30,14 @@ import {
 } from 'lucide-react';
 import ElementForge from '../../ElementForge/ElementForge';
 import { useStory } from '../../../../context/CampaignContext';
+import { useConfirm } from '../../../../context/ConfirmContext';
 import { AudioService } from '../../../../services/audioService';
 import { ModifierService, MODIFIER_PRESETS } from '../../../../services/modifierService';
 import { useNavigate } from 'react-router-dom';
 
 export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { 
     universeState, 
     elementsCatalog, 
@@ -45,7 +47,9 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
     updateGalleryModifier,
     deleteGalleryModifier,
     toggleGalleryModifier,
-    setActiveMapId
+    setActiveMapId,
+    deleteMap,
+    deleteSavedMap
   } = useStory();
 
   const [activeTab, setActiveTab] = useState('elements'); // 'elements' | 'maps' | 'modifiers'
@@ -94,6 +98,21 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
     if (modifierFilterCategory === 'all') return galleryModifiers;
     return galleryModifiers.filter(m => m.category === modifierFilterCategory);
   }, [galleryModifiers, modifierFilterCategory]);
+
+  const handleDeleteMap = async (e, map) => {
+    e.stopPropagation();
+    const ok = await confirm({
+      title: 'Delete Tactical Map',
+      message: `Are you sure you want to delete "${map.title || map.name || 'Untitled Sector'}"?`,
+      danger: true,
+      confirmLabel: 'Delete Map'
+    });
+    if (ok) {
+      AudioService.playTerminalBeep(500, 0.08);
+      if (deleteMap) deleteMap(map.id);
+      if (deleteSavedMap) deleteSavedMap(map.id);
+    }
+  };
 
   const handleApplyPreset = (preset) => {
     AudioService.playTerminalBeep(1200, 0.03);
@@ -395,18 +414,28 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler }) => {
                     </div>
 
                     <div className="flex items-center justify-between gap-2 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          AudioService.playTerminalBeep(1200, 0.02);
-                          setActiveMapId(map.id);
-                          navigate(`/foundry/map-maker?mapId=${map.id}`);
-                        }}
-                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 hover:text-white rounded-lg transition-colors flex items-center gap-1 cursor-pointer text-[11px]"
-                      >
-                        <ExternalLink size={11} />
-                        <span>Edit Cartography</span>
-                      </button>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1200, 0.02);
+                            setActiveMapId(map.id);
+                            navigate(`/foundry/map-maker?mapId=${map.id}`);
+                          }}
+                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 hover:text-white rounded-lg transition-colors flex items-center gap-1 cursor-pointer text-[11px]"
+                        >
+                          <ExternalLink size={11} />
+                          <span>Edit</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => handleDeleteMap(e, map)}
+                          className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/40 rounded border border-transparent hover:border-red-500/40 transition-colors cursor-pointer"
+                          title="Delete Tactical Map"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                      </div>
 
                       <button
                         type="button"

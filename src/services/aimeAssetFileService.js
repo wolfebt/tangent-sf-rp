@@ -33,7 +33,8 @@ export const EXTENSION_TO_TYPE_MAP = {
   '.faction': 'Faction',
   '.encounter': 'Encounter',
   '.item': 'Item',
-  '.universe': 'Universe'
+  '.universe': 'Universe',
+  '.custom': 'Custom'
 };
 
 /**
@@ -106,6 +107,7 @@ export function serializeAimeAsset(element) {
     fileExtension,
     guidance,
     traits,
+    customFields: element.customFields || [],
     assetHub,
     rpgExtensions,
     content: element.content || '',
@@ -154,6 +156,7 @@ export function parseAimeAssetFile(fileContent, fileName = '') {
             ...traits,
             ...(data.rpgExtensions || {})
           },
+          customFields: data.customFields || traits.customFields || [],
           assetHub,
           linkedElements: assetHub.map(h => (typeof h === 'string' ? h : h.assetId)).filter(Boolean),
           rpgExtensions: data.rpgExtensions || {},

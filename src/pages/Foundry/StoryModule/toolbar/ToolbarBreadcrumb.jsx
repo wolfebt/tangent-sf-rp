@@ -1,26 +1,12 @@
 import React from 'react';
 import { BookOpen, GitBranch, Target, Box } from 'lucide-react';
-import { AudioService } from '../../../../services/audioService';
 
 export default function ToolbarBreadcrumb({
   activeView,
-  onSwitchView,
   activeNode
 }) {
   return (
     <div className="flex items-center gap-2 px-3 py-1 bg-slate-900/80 border border-slate-800 rounded-xl font-mono text-xs shadow-inner">
-      <button
-        type="button"
-        onClick={() => {
-          AudioService.playTerminalBeep(1100, 0.02);
-          onSwitchView?.('mission_control');
-        }}
-        className="text-[10px] uppercase tracking-widest text-cyan-400 hover:text-cyan-200 font-bold hidden sm:inline flex items-center gap-1 cursor-pointer transition-colors"
-        title="Return to ADE Hub (Mission Control)"
-      >
-        <span>⤺</span> HUB
-      </button>
-      <span className="text-slate-700 hidden sm:inline">/</span>
       <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-slate-200">
         {activeView === 'scenarios' && (
           <>

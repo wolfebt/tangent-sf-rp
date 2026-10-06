@@ -29,12 +29,14 @@ export interface StageViewportWrapperProps extends StageViewProps {
   onOpenMapMaker?: () => void;
   onOpenUnderlayModal?: () => void;
   sceneId?: string;
+  showFloatingBar?: boolean;
 }
 
 export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
   onOpenMapMaker,
   onOpenUnderlayModal,
   sceneId,
+  showFloatingBar = false,
   ...stageProps
 }) => {
   const navigate = useNavigate();
@@ -310,115 +312,117 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
       className="relative w-full h-full flex flex-col bg-[#050811] overflow-hidden select-none"
       onContextMenu={(e) => e.preventDefault()}
     >
-      {/* ── OVERHEAD FLOATING STAGE ACTION & ARCHITECT BAR ── */}
-      <div className="absolute top-2.5 left-2.5 right-2.5 z-30 flex items-center justify-between gap-2 pointer-events-none select-none font-mono">
-        {/* Left: Active Sector Pill & Grid Scale */}
-        <div className="flex items-center gap-2 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl px-2.5 py-1.5 shadow-lg">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-200">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="truncate max-w-[150px]">{currentMap?.title || currentMap?.name || 'Sector Canvas'}</span>
+      {/* ── OVERHEAD FLOATING STAGE ACTION & ARCHITECT BAR (Only shown when showFloatingBar is explicitly true) ── */}
+      {showFloatingBar && (
+        <div className="absolute top-2.5 left-2.5 right-2.5 z-30 flex items-center justify-between gap-2 pointer-events-none select-none font-mono">
+          {/* Left: Active Sector Pill & Grid Scale */}
+          <div className="flex items-center gap-2 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl px-2.5 py-1.5 shadow-lg">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-200">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span className="truncate max-w-[150px]">{currentMap?.title || currentMap?.name || 'Sector Canvas'}</span>
+            </div>
+            <span className="text-[10px] text-slate-500 uppercase px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800">
+              {currentMap?.gridType || currentMap?.gridMode || 'Hex'} {currentMap?.gridSize || 70}px
+            </span>
+            <span className="text-[10px] text-slate-400">
+              {currentMap?.tokens?.length || 0} tokens • {currentMap?.objects?.length || 0} objects
+            </span>
           </div>
-          <span className="text-[10px] text-slate-500 uppercase px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800">
-            {currentMap?.gridType || currentMap?.gridMode || 'Hex'} {currentMap?.gridSize || 70}px
-          </span>
-          <span className="text-[10px] text-slate-400">
-            {currentMap?.tokens?.length || 0} tokens • {currentMap?.objects?.length || 0} objects
-          </span>
+
+          {/* Center: In-Situ Architect & Map Studio Controls */}
+          <div className="flex items-center gap-1.5 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl p-1 shadow-lg">
+            <button
+              type="button"
+              onClick={handleToggleArchitectMode}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                isArchitectActive
+                  ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)]'
+                  : 'bg-slate-900/80 hover:bg-slate-800 text-amber-300 border border-amber-500/40'
+              }`}
+              title="Toggle In-Situ Architect Mode: Draw walls, doors, terrains, and lights directly on this stage"
+            >
+              <Hammer size={12} />
+              <span>{isArchitectActive ? 'ARCHITECT ACTIVE' : 'MAP ARCHITECT'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const targetId = currentMap?.id || activeMapId;
+                navigate(targetId ? `/foundry/map-maker?mapId=${targetId}` : '/foundry/map-maker');
+              }}
+              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-950/70 hover:bg-purple-900/80 text-purple-200 border border-purple-500/40 transition-colors flex items-center gap-1.5 cursor-pointer"
+              title="Launch Full Map Maker Studio in dedicated workspace"
+            >
+              <ExternalLink size={11} />
+              <span className="hidden sm:inline">FULL STUDIO</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                toggle3DActive();
+                AudioService.playTerminalBeep(!is3DActive ? 880 : 440, 0.05);
+              }}
+              className={`px-2 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 ${
+                is3DActive
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
+                  : 'text-slate-400 hover:text-slate-200 bg-slate-900'
+              }`}
+              title="Toggle 2D / 3D Stage (Hotkey: V)"
+            >
+              <span>{is3DActive ? '3D' : '2D'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setSplitOpen(!isSplitOpen)}
+              className={`px-2 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 ${
+                isSplitOpen
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
+                  : 'text-slate-400 hover:text-slate-200 bg-slate-900'
+              }`}
+              title="Toggle Split View Inspector"
+            >
+              <Columns size={12} />
+            </button>
+          </div>
+
+          {/* Right: Map Switcher & Quick New Canvas */}
+          <div className="flex items-center gap-1.5 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl px-2 py-1 shadow-lg">
+            <select
+              value={currentMap?.id || activeMapId || ''}
+              onChange={(e) => {
+                if (setActiveMapId) setActiveMapId(e.target.value);
+                AudioService.playTerminalBeep(1100, 0.02);
+              }}
+              className="bg-transparent text-slate-200 text-xs outline-none cursor-pointer max-w-[120px] truncate"
+            >
+              {availableMaps.map((m: any) => (
+                <option key={m.id} value={m.id} className="bg-slate-900 text-slate-200">
+                  {m.title || 'Untitled Map'}
+                </option>
+              ))}
+            </select>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (addMap) {
+                  const newMap = createBlankCanvas({ title: `Tactical Sector ${availableMaps.length + 1}` });
+                  addMap(newMap);
+                  if (setActiveMapId) setActiveMapId(newMap.id);
+                  AudioService.playCriticalChime(true);
+                }
+              }}
+              className="p-1 rounded bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cursor-pointer"
+              title="Spawn fresh blank tactical canvas"
+            >
+              <Plus size={12} />
+            </button>
+          </div>
         </div>
-
-        {/* Center: In-Situ Architect & Map Studio Controls */}
-        <div className="flex items-center gap-1.5 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl p-1 shadow-lg">
-          <button
-            type="button"
-            onClick={handleToggleArchitectMode}
-            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              isArchitectActive
-                ? 'bg-amber-500 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-amber-300 border border-amber-500/40'
-            }`}
-            title="Toggle In-Situ Architect Mode: Draw walls, doors, terrains, and lights directly on this stage"
-          >
-            <Hammer size={12} />
-            <span>{isArchitectActive ? 'ARCHITECT ACTIVE' : 'MAP ARCHITECT'}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              const targetId = currentMap?.id || activeMapId;
-              navigate(targetId ? `/foundry/map-maker?mapId=${targetId}` : '/foundry/map-maker');
-            }}
-            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-950/70 hover:bg-purple-900/80 text-purple-200 border border-purple-500/40 transition-colors flex items-center gap-1.5 cursor-pointer"
-            title="Launch Full Map Maker Studio in dedicated workspace"
-          >
-            <ExternalLink size={11} />
-            <span className="hidden sm:inline">FULL STUDIO</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              toggle3DActive();
-              AudioService.playTerminalBeep(!is3DActive ? 880 : 440, 0.05);
-            }}
-            className={`px-2 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 ${
-              is3DActive
-                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
-                : 'text-slate-400 hover:text-slate-200 bg-slate-900'
-            }`}
-            title="Toggle 2D / 3D Stage (Hotkey: V)"
-          >
-            <span>{is3DActive ? '3D' : '2D'}</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSplitOpen(!isSplitOpen)}
-            className={`px-2 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 ${
-              isSplitOpen
-                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
-                : 'text-slate-400 hover:text-slate-200 bg-slate-900'
-            }`}
-            title="Toggle Split View Inspector"
-          >
-            <Columns size={12} />
-          </button>
-        </div>
-
-        {/* Right: Map Switcher & Quick New Canvas */}
-        <div className="flex items-center gap-1.5 pointer-events-auto bg-slate-950/85 backdrop-blur-md border border-slate-800 rounded-xl px-2 py-1 shadow-lg">
-          <select
-            value={currentMap?.id || activeMapId || ''}
-            onChange={(e) => {
-              if (setActiveMapId) setActiveMapId(e.target.value);
-              AudioService.playTerminalBeep(1100, 0.02);
-            }}
-            className="bg-transparent text-slate-200 text-xs outline-none cursor-pointer max-w-[120px] truncate"
-          >
-            {availableMaps.map((m: any) => (
-              <option key={m.id} value={m.id} className="bg-slate-900 text-slate-200">
-                {m.title || 'Untitled Map'}
-              </option>
-            ))}
-          </select>
-
-          <button
-            type="button"
-            onClick={() => {
-              if (addMap) {
-                const newMap = createBlankCanvas({ title: `Tactical Sector ${availableMaps.length + 1}` });
-                addMap(newMap);
-                if (setActiveMapId) setActiveMapId(newMap.id);
-                AudioService.playCriticalChime(true);
-              }
-            }}
-            className="p-1 rounded bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cursor-pointer"
-            title="Spawn fresh blank tactical canvas"
-          >
-            <Plus size={12} />
-          </button>
-        </div>
-      </div>
+      )}
 
       {/* Center WebGPU / Pixi 2D or Three.js 3D Viewport Dropzone inside Split View */}
       <StageSplitView

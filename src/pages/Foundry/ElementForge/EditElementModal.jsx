@@ -14,6 +14,15 @@ import { NpcScriptBuilder } from './components/NpcScriptBuilder';
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { AimeGuidanceButton } from '../../../components/StoryFoundry/AimeGuidanceButton';
 import AimeThreeTierStack from './components/AimeThreeTierStack';
+import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
+import { 
+  FolderOpen, 
+  ChevronDown, 
+  Save, 
+  Download, 
+  Copy, 
+  Trash2 
+} from 'lucide-react';
 
 const AutoExpandingElementTextarea = ({ value, onChange, placeholder, className }) => {
   const textareaRef = useRef(null);
@@ -65,7 +74,72 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   const [urlInputValue, setUrlInputValue] = useState('');
   const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
   const [isAimeGuidanceOpen, setIsAimeGuidanceOpen] = useState(false);
+  const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
+  const fileMenuRef = useRef(null);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (fileMenuRef.current && !fileMenuRef.current.contains(e.target)) {
+        setIsFileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleExportElement = () => {
+    downloadAimeAssetFile({
+      ...element,
+      title: title.trim() || 'Untitled',
+      type,
+      fields,
+      content,
+      guidance,
+      assetHub,
+      customFields
+    });
+    showToast({ type: 'success', text: `Exported ${title || 'element'} as portable ${getElementFileExtension(type)} asset!` });
+    setIsFileMenuOpen(false);
+  };
+
+  const handleDuplicateElement = () => {
+    const cloned = {
+      ...element,
+      id: uuidv4(),
+      title: `${title || element.title || 'Untitled'} (Copy)`,
+      type,
+      fields: { ...fields },
+      content,
+      customFields: [...customFields],
+      guidance: { ...guidance },
+      assetHub: [...assetHub],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    const withCreator = attachCreatorTag(cloned, localStorage.getItem('userHandle'));
+    if (onSave) {
+      onSave(withCreator);
+    }
+    showToast({ type: 'success', text: `Duplicated "${cloned.title}"!` });
+    setIsFileMenuOpen(false);
+    onClose();
+  };
+
+  const handleDeleteElement = async () => {
+    setIsFileMenuOpen(false);
+    const targetName = title || element.title || 'Untitled Element';
+    const itemDescriptor = type ? type.toLowerCase() : 'element';
+    if (await confirmTypedDeletion(targetName, itemDescriptor)) {
+      if (onDelete) {
+        onDelete(element.id);
+      } else if (deleteSavedElement) {
+        deleteSavedElement(element.id);
+      }
+      showToast({ type: 'info', text: `Deleted ${targetName}.` });
+      onClose();
+    }
+  };
 
   useEffect(() => {
     if (element) {
@@ -82,6 +156,26 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
       setShowTypeConfirm(false);
     }
   }, [element, isOpen]);
+
+  const isDirty = React.useMemo(() => {
+    if (!element) return false;
+    return (
+      (title || '') !== (element.title || '') ||
+      (type || 'Scenario') !== (element.type || 'Scenario') ||
+      (content || '') !== (element.content || '') ||
+      (imageUrl || '') !== (element.imageUrl || '') ||
+      JSON.stringify(fields || {}) !== JSON.stringify(element.fields || {}) ||
+      JSON.stringify(customFields || []) !== JSON.stringify(element.customFields || [])
+    );
+  }, [element, title, type, content, imageUrl, fields, customFields]);
+
+  const { handleRequestClose, handleBackdropClick } = useDirtyModalClose({
+    isOpen,
+    isDirty,
+    onClose,
+    title: 'Discard Element Edits?',
+    message: `You have unsaved changes in "${title || element?.title || 'this element'}". Discard changes and close?`
+  });
 
   if (!isOpen || !element) return null;
 
@@ -185,8 +279,14 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans text-slate-200">
-      <div className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col shadow-2xl overflow-hidden relative">
+    <div 
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans text-slate-200"
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col shadow-2xl overflow-hidden relative"
+      >
         
         {/* Header */}
         <div className="px-6 py-4 bg-[#0d1117] border-b border-[#0D5C63]/60 flex items-center justify-between">
@@ -203,7 +303,67 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 relative">
+            {/* Consolidated Single FILE Pulldown */}
+            <div className="relative" ref={fileMenuRef}>
+              <button
+                type="button"
+                onClick={() => setIsFileMenuOpen(prev => !prev)}
+                className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 rounded-xl text-xs font-mono font-bold tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title="Element File Actions (Save, Export, Duplicate, Delete)"
+              >
+                <FolderOpen size={13} className="text-cyan-400" />
+                <span>FILE</span>
+                <ChevronDown size={11} className={`text-slate-400 transition-transform ${isFileMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isFileMenuOpen && (
+                <div className="absolute right-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1.5 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="py-1">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        setIsFileMenuOpen(false);
+                        handleSubmit(e);
+                      }}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <Save size={13} />
+                      <span>Save Changes</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleExportElement}
+                      className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <Download size={13} />
+                      <span>Export {getElementFileExtension(type)} Asset</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleDuplicateElement}
+                      className="w-full text-left px-3 py-1.5 hover:bg-purple-950/60 text-purple-300 hover:text-purple-200 flex items-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <Copy size={13} />
+                      <span>Duplicate Element</span>
+                    </button>
+                  </div>
+                  {element && (element.id || element.title) && (
+                    <div className="py-1">
+                      <button
+                        type="button"
+                        onClick={handleDeleteElement}
+                        className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer"
+                      >
+                        <Trash2 size={13} />
+                        <span>Delete Element</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
             <AimeGuidanceButton 
               onClick={() => setIsAimeGuidanceOpen(true)} 
               label="AIME Guidance" 
@@ -211,7 +371,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
             />
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleRequestClose}
               className="text-slate-400 hover:text-white text-2xl font-bold px-2 py-1 rounded hover:bg-slate-800 transition-colors cursor-pointer"
             >
               &times;
@@ -469,60 +629,22 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
 
           {/* Footer Actions */}
           <div className="p-4 bg-[#0d1117] border-t border-[#0D5C63]/60 flex items-center justify-between gap-3">
-            <div>
-              {element && (element.id || element.title) && (
-                <button
-                  type="button"
-                  onClick={async () => {
-                    const targetName = title || element.title || 'Untitled Element';
-                    const itemDescriptor = type ? type.toLowerCase() : 'element';
-                    if (await confirmTypedDeletion(targetName, itemDescriptor)) {
-                      if (onDelete) {
-                        onDelete(element.id);
-                      } else if (deleteSavedElement) {
-                        deleteSavedElement(element.id);
-                      }
-                      onClose();
-                    }
-                  }}
-                  className="px-4 py-2 bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-300 rounded-lg text-xs font-bold uppercase transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
-                >
-                  <span>🗑️</span> Delete Entry
-                </button>
-              )}
+            <div className="text-xs text-slate-500 font-mono flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 inline-block" />
+              <span>Type: <strong className="text-slate-300">{type}</strong></span>
+              {isDirty && <span className="text-amber-400 font-bold">• Unsaved Changes</span>}
             </div>
             <div className="flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => {
-                  downloadAimeAssetFile({
-                    ...element,
-                    title: title.trim() || 'Untitled',
-                    type,
-                    fields,
-                    content,
-                    guidance,
-                    assetHub,
-                    customFields
-                  });
-                  showToast({ type: 'success', text: `Exported ${title || 'element'} as portable ${getElementFileExtension(type)} asset!` });
-                }}
-                className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-                title={`Export this element as a self-contained ${getElementFileExtension(type)} file`}
-              >
-                <span>📦</span>
-                <span>Export {getElementFileExtension(type)}</span>
-              </button>
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase rounded-lg transition-colors"
+                onClick={handleRequestClose}
+                className="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase rounded-lg transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-[0_0_12px_rgba(34,211,238,0.25)]"
+                className="px-5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-[0_0_12px_rgba(34,211,238,0.25)] cursor-pointer"
               >
                 💾 Save Element Changes
               </button>

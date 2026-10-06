@@ -15,9 +15,11 @@ import {
   Settings, 
   ChevronDown, 
   ChevronRight, 
+  ChevronUp,
   Activity,
   ExternalLink,
-  Sparkles
+  Sparkles,
+  Crown
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useVoiceChat } from '../../context/VoiceChatContext';
@@ -55,7 +57,9 @@ export const ChannelSidebar = ({
     selectChannel, 
     unreadCounts = {},
     deleteChannel,
-    pendingCharacterNotes = []
+    pendingCharacterNotes = [],
+    userDirectory = [],
+    startDirectMessage
   } = useChat();
 
   const { 
@@ -65,13 +69,25 @@ export const ChannelSidebar = ({
     disconnectVoiceRoom 
   } = useVoiceChat();
   const { currentUser, isAdmin } = useAuth();
-  const { groups = [] } = useGroup() || {};
+  const { groups = [], selectGroup } = useGroup() || {};
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [settingsChannel, setSettingsChannel] = useState(null);
   const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
   const [selectedInviteGroupId, setSelectedInviteGroupId] = useState(null);
+
+  // Per-team roster collapse tracking (default is expanded / visible)
+  const [collapsedRosters, setCollapsedRosters] = useState({});
+
+  const toggleTeamRoster = (channelId, e) => {
+    e?.stopPropagation();
+    AudioService.playTerminalBeep(1100, 0.02);
+    setCollapsedRosters(prev => ({
+      ...prev,
+      [channelId]: !prev[channelId]
+    }));
+  };
 
   // Flat 3-Section collapse state
   const [collapsedSections, setCollapsedSections] = useState({
@@ -119,13 +135,26 @@ export const ChannelSidebar = ({
   const filterList = (list) => {
     if (!searchQuery.trim()) return list;
     const q = searchQuery.toLowerCase().trim();
-    return list.filter(c => 
-      (c.name && c.name.toLowerCase().includes(q)) ||
-      (c.displayName && c.displayName.toLowerCase().includes(q)) ||
-      (c.topic && c.topic.toLowerCase().includes(q)) ||
-      (c.targetPersona?.name && c.targetPersona.name.toLowerCase().includes(q)) ||
-      (c.targetPlayer?.handle && c.targetPlayer.handle.toLowerCase().includes(q))
-    );
+    return list.filter(c => {
+      const matchBasic = 
+        (c.name && c.name.toLowerCase().includes(q)) ||
+        (c.displayName && c.displayName.toLowerCase().includes(q)) ||
+        (c.topic && c.topic.toLowerCase().includes(q)) ||
+        (c.targetPersona?.name && c.targetPersona.name.toLowerCase().includes(q)) ||
+        (c.targetPlayer?.handle && c.targetPlayer.handle.toLowerCase().includes(q));
+      if (matchBasic) return true;
+
+      // Also search characterMembers / enrolled personas
+      if (Array.isArray(c.characterMembers) && c.characterMembers.some(cm => 
+        (cm?.name && cm.name.toLowerCase().includes(q)) ||
+        (cm?.role && cm.role.toLowerCase().includes(q)) ||
+        (cm?.species && cm.species.toLowerCase().includes(q)) ||
+        (cm?.ownerHandle && cm.ownerHandle.toLowerCase().includes(q))
+      )) {
+        return true;
+      }
+      return false;
+    });
   };
 
   const filteredDirect = filterList(allDirectChannels);
@@ -301,6 +330,499 @@ export const ChannelSidebar = ({
     );
   };
 
+  // Resolve comprehensive roster for tactical teams
+  const resolveTeamData = (channel) => {
+    const matchedGroup = groups.find(g => 
+      (g.id && channel.groupId && g.id === channel.groupId) || 
+      (g.channelId && g.channelId === channel.id) ||
+      (g.name && channel.name && g.name.toLowerCase().replace(/[^a-z0-9_-]/g, '-') === channel.name.toLowerCase()) ||
+      (g.name && channel.displayName && channel.displayName.toLowerCase().includes(g.name.toLowerCase()))
+    );
+
+    const membersList = [];
+    const seenKeys = new Set();
+
+    // 1. Matched group member details (from GroupService / Firestore game_groups)
+    if (matchedGroup?.memberDetails) {
+      Object.keys(matchedGroup.memberDetails).forEach(uid => {
+        const detail = matchedGroup.memberDetails[uid];
+        if (!detail) return;
+        const memberUid = detail.userId || detail.uid || uid;
+        const userDoc = userDirectory.find(u => u.uid === memberUid);
+        const isSelf = memberUid === currentUser?.uid;
+        const isOnline = Boolean(userDoc?.isOnline || isSelf);
+        const handle = detail.handle || detail.userHandle || userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
+        const role = detail.role || (memberUid === matchedGroup.creatorId ? 'GM' : 'Operator');
+        const persona = detail.persona;
+
+        const personaId = persona?.id || persona?.['character-doc-id'] || null;
+        const personaName = persona?.name || persona?.['char-name'] || null;
+        const key = personaId ? `persona-${personaId}` : `op-${memberUid}`;
+
+        if (!seenKeys.has(key)) {
+          seenKeys.add(key);
+          membersList.push({
+            id: key,
+            memberUid,
+            personaId,
+            name: personaName || handle,
+            personaName,
+            operatorHandle: handle,
+            species: persona?.species || persona?.['char-species'] || null,
+            concept: persona?.role || persona?.['char-concept'] || persona?.['char-occu'] || null,
+            avatar: persona?.avatar || null,
+            teamRole: role,
+            isOnline,
+            isSelf,
+            hasPersona: Boolean(personaName)
+          });
+        }
+      });
+    }
+
+    // 2. Channel characterMembers (from CreateChannelModal or chatService)
+    if (Array.isArray(channel.characterMembers)) {
+      channel.characterMembers.forEach(cm => {
+        if (!cm) return;
+        const personaId = cm.id || cm['character-doc-id'] || cm.name;
+        const key = `persona-${personaId}`;
+        if (!seenKeys.has(key)) {
+          seenKeys.add(key);
+          const ownerUid = cm.ownerUid;
+          const userDoc = ownerUid ? userDirectory.find(u => u.uid === ownerUid) : null;
+          const isSelf = ownerUid === currentUser?.uid;
+          const isOnline = Boolean(userDoc?.isOnline || isSelf);
+          const handle = cm.ownerHandle || userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
+          const pName = cm.name || cm['char-name'] || 'Persona';
+
+          membersList.push({
+            id: key,
+            memberUid: ownerUid,
+            personaId,
+            name: pName,
+            personaName: pName,
+            operatorHandle: handle,
+            species: cm.species || cm['char-species'] || null,
+            concept: cm.role || cm['char-concept'] || cm['char-occu'] || null,
+            avatar: cm.avatar || null,
+            teamRole: cm.teamRole || (ownerUid === channel.createdById ? 'Leader' : 'Operator'),
+            isOnline,
+            isSelf,
+            hasPersona: true
+          });
+        }
+      });
+    }
+
+    // 3. Fallback for UIDs in channel.members or matchedGroup.members
+    const allUids = new Set([
+      ...(Array.isArray(channel.members) ? channel.members : []),
+      ...(matchedGroup && Array.isArray(matchedGroup.members) ? matchedGroup.members : [])
+    ]);
+    if (channel.createdById) allUids.add(channel.createdById);
+    if (matchedGroup?.creatorId) allUids.add(matchedGroup.creatorId);
+
+    allUids.forEach(uid => {
+      const alreadyHasEntry = membersList.some(m => m.memberUid === uid);
+      if (!alreadyHasEntry) {
+        const userDoc = userDirectory.find(u => u.uid === uid);
+        const isSelf = uid === currentUser?.uid;
+        const isOnline = Boolean(userDoc?.isOnline || isSelf);
+        const handle = userDoc?.userHandle || userDoc?.displayName || (isSelf ? (currentUser?.displayName || currentUser?.email?.split('@')[0]) : 'Operator');
+        const role = (matchedGroup && uid === matchedGroup.creatorId) || uid === channel.createdById ? 'GM' : 'Operator';
+
+        const userChars = Array.isArray(userDoc?.characters) ? userDoc.characters : [];
+        if (userChars.length > 0) {
+          userChars.forEach(uc => {
+            const cId = uc.id || uc['character-doc-id'] || uc.name;
+            const key = `persona-${cId}`;
+            if (!seenKeys.has(key)) {
+              seenKeys.add(key);
+              const pName = uc.name || uc['char-name'] || 'Persona';
+              membersList.push({
+                id: key,
+                memberUid: uid,
+                personaId: cId,
+                name: pName,
+                personaName: pName,
+                operatorHandle: handle,
+                species: uc.species || uc['char-species'] || null,
+                concept: uc.role || uc['char-concept'] || uc['char-occu'] || null,
+                avatar: uc.avatar || null,
+                teamRole: role,
+                isOnline,
+                isSelf,
+                hasPersona: true
+              });
+            }
+          });
+        } else {
+          const key = `op-${uid}`;
+          if (!seenKeys.has(key)) {
+            seenKeys.add(key);
+            membersList.push({
+              id: key,
+              memberUid: uid,
+              personaId: null,
+              name: handle,
+              personaName: null,
+              operatorHandle: handle,
+              species: null,
+              concept: null,
+              avatar: null,
+              teamRole: role,
+              isOnline,
+              isSelf,
+              hasPersona: false
+            });
+          }
+        }
+      }
+    });
+
+    return { matchedGroup, membersList };
+  };
+
+  // Dedicated Tactical Team Card with Member Roster
+  const renderTeamCard = (channel) => {
+    const isActive = activeChannelId === channel.id;
+    const unread = unreadCounts[channel.id] || 0;
+    const canDelete = channel.createdById === currentUser?.uid || isAdmin;
+    const { matchedGroup, membersList } = resolveTeamData(channel);
+    const isRosterCollapsed = Boolean(collapsedRosters[channel.id]);
+
+    return (
+      <div
+        key={channel.id}
+        onClick={() => {
+          selectChannel(channel.id);
+          if (matchedGroup?.id && selectGroup) {
+            selectGroup(matchedGroup.id);
+          }
+        }}
+        className={`group relative rounded-xl transition-all cursor-pointer border ${
+          isActive
+            ? 'bg-gradient-to-br from-emerald-950/50 via-slate-900/80 to-[#081714] border-emerald-500/70 shadow-[0_0_15px_rgba(16,185,129,0.25)] text-emerald-100'
+            : 'bg-slate-950/60 border-slate-800/90 hover:border-emerald-500/40 hover:bg-slate-900/70 text-slate-300'
+        } p-2.5 space-y-2 mb-2`}
+      >
+        {/* Top Header Row */}
+        <div className="flex items-center justify-between gap-1.5">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <div className={`p-1.5 rounded-lg shrink-0 border ${
+              isActive 
+                ? 'bg-emerald-500/25 text-emerald-300 border-emerald-500/50 shadow-sm animate-pulse' 
+                : 'bg-emerald-950/80 text-emerald-400 border-emerald-500/30'
+            }`}>
+              <Shield size={13} />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-xs truncate font-mono font-bold text-white tracking-wide">
+                  {channel.displayName || `#${channel.name}`}
+                </span>
+
+                <span className="px-1 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                  🎭 PERSONAS
+                </span>
+
+                {matchedGroup?.status && (
+                  <span className={`px-1 py-0.2 text-[8px] rounded font-mono font-bold border ${
+                    matchedGroup.status === 'Recruiting'
+                      ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                      : 'bg-slate-800 text-slate-400 border-slate-700'
+                  }`}>
+                    {matchedGroup.status}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Action buttons on right */}
+          <div className="flex items-center gap-1 shrink-0">
+            {unread > 0 && (
+              <span className="px-1.5 py-0.2 bg-emerald-400 text-black text-[9px] font-mono font-black rounded-full shadow-sm animate-pulse">
+                {unread}
+              </span>
+            )}
+
+            {/* Voice Frequency Action */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                const targetRoom = `tangent_freq_${channel.id}`;
+                if (isVoiceConnected && currentRoomName === targetRoom) {
+                  disconnectVoiceRoom();
+                } else {
+                  connectToVoiceRoom(targetRoom, channel.displayName || channel.name);
+                }
+              }}
+              className={`p-1 rounded transition-all cursor-pointer ${
+                isVoiceConnected && currentRoomName === `tangent_freq_${channel.id}`
+                  ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/60 shadow-sm animate-pulse'
+                  : 'opacity-0 group-hover:opacity-100 hover:bg-slate-800 text-slate-400 hover:text-emerald-300'
+              }`}
+              title="Voice Comms"
+            >
+              <Radio size={11} className={isVoiceConnected && currentRoomName === `tangent_freq_${channel.id}` ? 'animate-spin' : ''} />
+            </button>
+
+            {/* Quick Dispatch Invite */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedInviteGroupId(matchedGroup?.id || channel.groupId || channel.id);
+                setIsQuickInviteOpen(true);
+              }}
+              className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-emerald-300 transition-all cursor-pointer"
+              title="Invite to Squad"
+            >
+              <UserPlus size={11} />
+            </button>
+
+            {/* Frequency Settings */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                AudioService.playTerminalBeep(1100, 0.02);
+                setSettingsChannel(channel);
+              }}
+              className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer"
+              title="Frequency Settings"
+            >
+              <Settings size={11} />
+            </button>
+
+            {/* Delete / Leave */}
+            {canDelete && (
+              <button
+                type="button"
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  const ok = await confirm({
+                    title: 'Delete Team Frequency',
+                    message: `Are you sure you want to delete "${channel.displayName || channel.name}"? This action cannot be undone.`,
+                    danger: true,
+                    confirmLabel: 'Delete Frequency'
+                  });
+                  if (ok) {
+                    deleteChannel(channel.id);
+                  }
+                }}
+                className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-rose-500/20 text-slate-500 hover:text-rose-400 transition-all cursor-pointer"
+                title="Delete Frequency"
+              >
+                <Trash2 size={11} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Recent Message / Topic Snippet */}
+        {channel.lastMessage?.text ? (
+          <div className="px-1 text-[10px] text-slate-400 font-mono truncate flex items-center gap-1.5">
+            <span className="text-slate-500 shrink-0 font-bold">Comms:</span>
+            <span className="text-slate-300 truncate">{channel.lastMessage.text}</span>
+          </div>
+        ) : channel.topic ? (
+          <div className="px-1 text-[10px] text-slate-500 font-mono truncate">
+            {channel.topic}
+          </div>
+        ) : null}
+
+        {/* ── MEMBERS ROSTER IN TEAM CARD ── */}
+        <div className="pt-1.5 border-t border-slate-800/80 space-y-1.5">
+          <div className="flex items-center justify-between text-[10px] font-mono px-0.5">
+            <span className="text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+              <Users size={11} className="text-emerald-400" />
+              <span>MEMBERS ROSTER</span>
+              <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8.5px] font-bold">
+                {membersList.length}
+              </span>
+            </span>
+
+            <button
+              type="button"
+              onClick={(e) => toggleTeamRoster(channel.id, e)}
+              className="text-slate-400 hover:text-emerald-300 px-1 py-0.5 rounded transition-colors cursor-pointer flex items-center gap-1 text-[9px] font-bold"
+              title={isRosterCollapsed ? "Expand Roster" : "Collapse Roster"}
+            >
+              <span>{isRosterCollapsed ? 'EXPAND' : 'COLLAPSE'}</span>
+              {isRosterCollapsed ? <ChevronRight size={10} /> : <ChevronDown size={10} />}
+            </button>
+          </div>
+
+          {!isRosterCollapsed && (
+            <div className="space-y-1">
+              {membersList.length === 0 ? (
+                <div className="p-2 rounded-lg bg-slate-950/70 border border-slate-900 text-center space-y-1">
+                  <p className="text-[9.5px] text-slate-500 font-mono italic">
+                    No personas enrolled in squad yet.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedInviteGroupId(matchedGroup?.id || channel.groupId || channel.id);
+                      setIsQuickInviteOpen(true);
+                    }}
+                    className="px-2 py-0.5 rounded bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/40 text-[9px] font-mono font-bold cursor-pointer inline-flex items-center gap-1"
+                  >
+                    <UserPlus size={10} />
+                    <span>INVITE PERSONA</span>
+                  </button>
+                </div>
+              ) : (
+                membersList.map((member) => (
+                  <div
+                    key={member.id}
+                    className={`p-1.5 rounded-lg border transition-all flex items-center justify-between text-xs ${
+                      member.isSelf
+                        ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-100 shadow-sm'
+                        : 'bg-slate-950/80 border-slate-800/90 hover:border-emerald-500/30 text-slate-200'
+                    }`}
+                  >
+                    {/* Left: Persona / Operator Identity */}
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                      {/* Avatar / Token with Online Status Dot */}
+                      <div className="relative shrink-0">
+                        {member.avatar ? (
+                          <img
+                            src={member.avatar}
+                            alt={member.name}
+                            className="w-6 h-6 rounded-md object-cover border border-slate-700"
+                          />
+                        ) : (
+                          <div className="w-6 h-6 rounded-md bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 border border-emerald-500/40 flex items-center justify-center text-[9.5px] font-bold text-emerald-300 font-mono">
+                            {member.name ? member.name.substring(0, 2).toUpperCase() : 'OP'}
+                          </div>
+                        )}
+                        <span
+                          className={`absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 rounded-full border border-black ${
+                            member.isOnline ? 'bg-emerald-400 shadow-[0_0_4px_#10b981]' : 'bg-slate-600'
+                          }`}
+                          title={member.isOnline ? 'Online' : 'Offline'}
+                        />
+                      </div>
+
+                      {/* Name, Species, Concept & Operator Handle */}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-mono font-bold text-[11px] text-white truncate">
+                            {member.name}
+                          </span>
+                          {member.isSelf && (
+                            <span className="text-[7.5px] px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono font-bold">
+                              YOU
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-1 text-[9px] font-mono text-slate-400 truncate">
+                          {member.species && (
+                            <span className="text-slate-300">{member.species}</span>
+                          )}
+                          {member.species && member.concept && <span>•</span>}
+                          {member.concept && (
+                            <span className="text-emerald-400/90 font-medium">{member.concept}</span>
+                          )}
+                          {member.operatorHandle && (
+                            <span className="text-slate-500 truncate">
+                              (@{member.operatorHandle})
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Team Role badge & Whisper */}
+                    <div className="flex items-center gap-1 shrink-0 ml-1.5">
+                      {member.teamRole === 'GM' || member.teamRole === 'Leader' ? (
+                        <span className="px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8px] font-mono font-bold flex items-center gap-0.5">
+                          <Crown size={8} />
+                          <span>{member.teamRole}</span>
+                        </span>
+                      ) : member.teamRole && member.teamRole !== 'Operator' ? (
+                        <span className="px-1 py-0.2 rounded bg-slate-800 text-slate-300 text-[8px] font-mono">
+                          {member.teamRole}
+                        </span>
+                      ) : null}
+
+                      {/* Direct Whisper Action */}
+                      {!member.isSelf && (
+                        <button
+                          type="button"
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            try {
+                              AudioService.playTerminalBeep(1200, 0.02);
+                              const targetUser = userDirectory.find(u => u.uid === member.memberUid) || {
+                                uid: member.memberUid,
+                                userHandle: member.operatorHandle,
+                                displayName: member.operatorHandle
+                              };
+                              const targetPersona = member.personaId ? {
+                                id: member.personaId,
+                                'character-doc-id': member.personaId,
+                                name: member.personaName || member.name,
+                                species: member.species,
+                                role: member.concept,
+                                avatar: member.avatar
+                              } : null;
+                              if (startDirectMessage) {
+                                await startDirectMessage(targetUser, targetPersona);
+                              }
+                            } catch (err) {
+                              console.warn('Failed to start whisper:', err);
+                            }
+                          }}
+                          className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
+                          title={`Direct Whisper to ${member.name}`}
+                        >
+                          <MessageSquare size={10} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Card Footer: Fast Links */}
+        <div className="pt-1 border-t border-slate-800/60 flex items-center justify-between text-[9px] font-mono text-slate-500">
+          <span className="truncate">Tuned: {channel.name}</span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              AudioService.playTerminalBeep(1150, 0.02);
+              if (matchedGroup?.id && selectGroup) {
+                selectGroup(matchedGroup.id);
+              }
+              if (onSwitchToTeams) {
+                onSwitchToTeams();
+              } else {
+                navigate('/network?view=teams&tab=roster');
+              }
+            }}
+            className="text-emerald-400 hover:text-emerald-300 hover:underline flex items-center gap-1 cursor-pointer font-bold"
+            title="Open Full Squad Dossier in Teams"
+          >
+            <span>FULL DOSSIER</span>
+            <ExternalLink size={9} />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="h-full flex flex-col bg-[#080c14] border-r border-slate-800 text-slate-200 select-none">
       {/* ── Top Header & Fast Search ── */}
@@ -425,7 +947,7 @@ export const ChannelSidebar = ({
                   </button>
                 </div>
               ) : (
-                filteredTeams.map(renderChannelItem)
+                filteredTeams.map(renderTeamCard)
               )}
             </div>
           )}

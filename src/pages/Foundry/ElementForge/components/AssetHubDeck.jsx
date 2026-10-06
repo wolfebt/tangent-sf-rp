@@ -10,6 +10,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { getTypePillStyle, AIME_CORE_MODULES } from '../elementSchemas';
+import { normalizeLinkedAssets } from './assetHubUtils.js';
 import { 
   Network, 
   Plus, 
@@ -53,7 +54,7 @@ export const IMPORTANCE_TIERS = [
   }
 ];
 
-export { normalizeLinkedAssets } from './assetHubUtils.js';
+export { normalizeLinkedAssets };
 
 export default function AssetHubDeck({
   assetHub = [],

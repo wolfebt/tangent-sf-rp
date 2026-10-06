@@ -12,7 +12,6 @@ import {
   Compass, 
   Globe, 
   Cloud, 
-  Settings, 
   PanelLeftClose, 
   PanelLeft,
   Package,
@@ -47,7 +46,8 @@ export default function ToolbarProjectMenu({
   onToggleSettings,
   onOpenNewStoryModal,
   onOpenModuleExport,
-  onOpenModuleImport
+  onOpenModuleImport,
+  onOpenCompiler
 }) {
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -204,7 +204,29 @@ export default function ToolbarProjectMenu({
           title="File I/O, Project Roster, and Cloud Sync"
         >
           <FolderOpen size={12} className="text-cyan-400" />
-          <span className="hidden md:inline">PROJECT</span>
+          <span className="hidden md:inline">FILE</span>
+          {currentUser && (
+            <span
+              className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                cloudSyncStatus === 'syncing'
+                  ? 'bg-amber-400 animate-ping'
+                  : cloudSyncStatus === 'synced'
+                  ? 'bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]'
+                  : cloudSyncStatus === 'error'
+                  ? 'bg-red-500 animate-pulse'
+                  : 'bg-slate-500'
+              }`}
+              title={
+                cloudSyncStatus === 'syncing'
+                  ? 'Syncing Cloud...'
+                  : cloudSyncStatus === 'synced'
+                  ? lastCloudSavedAt ? `Cloud Synced at ${lastCloudSavedAt}` : 'Cloud Synced'
+                  : cloudSyncStatus === 'error'
+                  ? 'Cloud Sync Error'
+                  : 'Local Mode'
+              }
+            />
+          )}
           <ChevronDown size={11} className={`text-slate-400 transition-transform ${isFileMenuOpen ? 'rotate-180' : ''}`} />
         </button>
 
@@ -291,6 +313,19 @@ export default function ToolbarProjectMenu({
                 <Printer size={13} className="text-cyan-300" />
                 <span>Print & Publish (PDF)</span>
               </button>
+              {onOpenCompiler && (
+                <button
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsFileMenuOpen(false);
+                    onOpenCompiler();
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Package size={13} className="text-cyan-400" />
+                  <span>Compile & Prep VTT Module</span>
+                </button>
+              )}
             </div>
 
             {/* Catalogs & Help */}
@@ -367,43 +402,6 @@ export default function ToolbarProjectMenu({
           </div>
         )}
       </div>
-
-      {/* Cloud Sync Status Indicator */}
-      {currentUser && (
-        <div className="hidden lg:flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 rounded-xl px-2 py-1 text-xs">
-          <span
-            className={`w-2 h-2 rounded-full shrink-0 ${
-              cloudSyncStatus === 'syncing'
-                ? 'bg-amber-400 animate-ping'
-                : cloudSyncStatus === 'synced'
-                ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                : cloudSyncStatus === 'error'
-                ? 'bg-red-500 animate-pulse'
-                : 'bg-slate-500'
-            }`}
-            title={
-              cloudSyncStatus === 'syncing'
-                ? 'Syncing Cloud...'
-                : cloudSyncStatus === 'synced'
-                ? lastCloudSavedAt ? `Cloud Synced at ${lastCloudSavedAt}` : 'Cloud Synced'
-                : cloudSyncStatus === 'error'
-                ? 'Cloud Sync Error'
-                : 'Local Mode'
-            }
-          />
-          <span className="text-[10px] text-cyan-300 font-mono font-bold truncate max-w-[90px]">
-            {userHandle ? `@${userHandle}` : 'Architect'}
-          </span>
-          <button
-            type="button"
-            onClick={() => onToggleSettings?.(true)}
-            className="text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer"
-            title="Settings"
-          >
-            <Settings size={11} />
-          </button>
-        </div>
-      )}
     </div>
   );
 }

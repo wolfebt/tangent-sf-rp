@@ -294,8 +294,8 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
         />
       )}
 
-      {/* ── Floating Tactical Action Bar (Bottom Center - Tactical Play Only) ── */}
-      {!isDesignModeActive && (
+      {/* ── Floating Tactical Action Bar (Bottom Center - Tactical Play Only, Standalone Only) ── */}
+      {!isDesignModeActive && !isEmbeddedInTripartite && (
         <footer 
           className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-2.5 p-2.5 bg-slate-900/95 backdrop-blur-xl border border-cyan-500/40 rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(34,211,238,0.2)] pointer-events-auto"
         >

@@ -29,7 +29,11 @@ import {
   Plus, 
   ExternalLink, 
   PanelRightClose,
-  Download
+  Download,
+  FolderOpen,
+  ChevronDown,
+  Trash2,
+  Edit3
 } from 'lucide-react';
 
 // ── AUTO-RESIZING TEXTAREA ──
@@ -393,6 +397,8 @@ export const ScenarioCockpitDockPanel = ({
   setDockTab,
   activeNode,
   updateStory,
+  handleDeleteElement,
+  deleteSavedElement,
   elementsCatalog = [],
   handleToggleLinkElement,
   linkedMap,
@@ -412,6 +418,39 @@ export const ScenarioCockpitDockPanel = ({
   onSwitchView,
   universeState
 }) => {
+  const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
+  const fileMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (fileMenuRef.current && !fileMenuRef.current.contains(e.target)) {
+        setIsFileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleExportActive = () => {
+    if (!activeNode) return;
+    downloadAimeAssetFile(activeNode);
+    showToast({ 
+      type: 'success', 
+      text: `Exported ${activeNode.title || 'element'} as portable ${getElementFileExtension(activeNode.type || 'Scenario')}!` 
+    });
+    setIsFileMenuOpen(false);
+  };
+
+  const handleDeleteActive = async () => {
+    if (!activeNode) return;
+    setIsFileMenuOpen(false);
+    if (handleDeleteElement) {
+      handleDeleteElement(activeNode.id, activeNode.title);
+    } else if (deleteSavedElement) {
+      deleteSavedElement(activeNode.id);
+    }
+  };
+
   if (!isRightDockOpen) return null;
 
   return (
@@ -446,19 +485,59 @@ export const ScenarioCockpitDockPanel = ({
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 relative">
             {activeNode && (
-              <button
-                type="button"
-                onClick={() => {
-                  downloadAimeAssetFile(activeNode);
-                  showToast({ type: 'success', text: `Exported ${activeNode.title || 'element'} as portable ${getElementFileExtension(activeNode.type || 'Scenario')}!` });
-                }}
-                className="p-1 text-slate-400 hover:text-amber-400 hover:bg-slate-850 rounded transition-colors cursor-pointer"
-                title={`Export as portable ${getElementFileExtension(activeNode.type || 'Scenario')} asset`}
-              >
-                <Download size={13} />
-              </button>
+              <div className="relative" ref={fileMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsFileMenuOpen(prev => !prev)}
+                  className="px-2 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/80 rounded-lg text-[11px] font-mono font-bold tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
+                  title="Element File Actions (Export, Edit, Delete)"
+                >
+                  <FolderOpen size={11} className="text-cyan-400" />
+                  <span>FILE</span>
+                  <ChevronDown size={10} className={`text-slate-400 transition-transform ${isFileMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isFileMenuOpen && (
+                  <div className="absolute right-0 mt-1 w-52 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="py-1">
+                      <button
+                        type="button"
+                        onClick={handleExportActive}
+                        className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 transition-colors cursor-pointer"
+                      >
+                        <Download size={12} />
+                        <span>Export {getElementFileExtension(activeNode.type || 'Scenario')}</span>
+                      </button>
+                      {setIsEditElementModalOpen && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsFileMenuOpen(false);
+                            setEditingModalElement?.(activeNode);
+                            setIsEditElementModalOpen(true);
+                          }}
+                          className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
+                        >
+                          <Edit3 size={12} />
+                          <span>Edit in Element Forge</span>
+                        </button>
+                      )}
+                    </div>
+                    <div className="py-1">
+                      <button
+                        type="button"
+                        onClick={handleDeleteActive}
+                        className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer"
+                      >
+                        <Trash2 size={12} />
+                        <span>Delete Element...</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
             {onToggleRightDock && (
               <button
@@ -737,24 +816,56 @@ export const ScenarioCockpitDockPanel = ({
                       )}
 
                       <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-850 text-[10px]">
-                        <button
-                          type="button"
-                          onClick={() => handleInsertMention(elem)}
-                          className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
-                          title="Insert @Mention into active story prose"
-                        >
-                          @Mention
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleInsertMention(elem)}
+                            className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
+                            title="Insert @Mention into active story prose"
+                          >
+                            @Mention
+                          </button>
 
-                        <button
-                          type="button"
-                          onClick={() => handleToggleLinkElement(elem.id)}
-                          className={`font-bold transition-colors cursor-pointer ${
-                            isLinked ? 'text-amber-400 hover:text-amber-300' : 'text-slate-400 hover:text-white'
-                          }`}
-                        >
-                          {isLinked ? '✓ Linked' : '+ Link'}
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleLinkElement(elem.id)}
+                            className={`font-bold transition-colors cursor-pointer ${
+                              isLinked ? 'text-amber-400 hover:text-amber-300' : 'text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            {isLinked ? '✓ Linked' : '+ Link'}
+                          </button>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          {setIsEditElementModalOpen && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setEditingModalElement?.(elem);
+                                setIsEditElementModalOpen(true);
+                              }}
+                              className="text-slate-400 hover:text-cyan-300 p-0.5 rounded transition-colors cursor-pointer"
+                              title="Edit in Element Forge"
+                            >
+                              <Edit3 size={11} />
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (handleDeleteElement) {
+                                handleDeleteElement(elem.id, elem.title);
+                              } else if (deleteSavedElement) {
+                                deleteSavedElement(elem.id);
+                              }
+                            }}
+                            className="text-slate-500 hover:text-rose-400 p-0.5 rounded transition-colors cursor-pointer"
+                            title="Delete element"
+                          >
+                            <Trash2 size={11} />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   );

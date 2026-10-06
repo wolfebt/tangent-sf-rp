@@ -40,12 +40,12 @@ gantt
 
 ### Sprint Cadence Overview
 
-| Sprint | Focus Area | Priority | Target Duration | Primary Deliverable |
-|:---:|---|:---:|:---:|---|
-| **Sprint 1** | **Security Hardening & CI/CD** | **P0 (Critical)** | **COMPLETED (Oct 2026)** | ✅ Unauthenticated Cloud Function endpoints closed; client-side secret removed; PR automated CI gate deployed; all 247 tests passing. |
-| **Sprint 2** | **UX Immersion & Dialog Elimination** | **P1 (High)** | 1.5 Weeks (Next) | All 84 blocking `window.alert()` / `confirm()` calls migrated to themed Toasts & Confirmation Modals. |
-| **Sprint 3** | **Bundle Optimization & Performance** | **P1 (High)** | 1 Week | `AuthContext` chunk slashed from 6.75 MB to <800 kB via Vite `manualChunks` and dynamic catalog imports. |
-| **Sprint 4** | **Architectural Decoupling & Reliability** | **P2 (Medium)** | 2 Weeks | `FolioContext` (3,758 LOC) and `StageView.tsx` (3,007 LOC) sliced into modular sub-hooks and canvas layers. |
+| Sprint | Focus Area | Priority | Target Duration | Primary Deliverable | Status |
+|:---:|---|:---:|:---:|---|:---:|
+| **Sprint 1** | **Security Hardening & CI/CD** | **P0 (Critical)** | Completed (Oct 2026) | ✅ Unauthenticated Cloud Function endpoints closed; client-side secret removed; PR automated CI gate deployed; all 247 tests passing. | ✅ **COMPLETED** |
+| **Sprint 2** | **UX Immersion & Dialog Elimination** | **P1 (High)** | Completed (Oct 2026) | ✅ All 84 blocking `window.alert()` / `confirm()` calls migrated to themed Toasts & Confirmation Modals (`useToast`, `useConfirm`); 44px touch targets. | ✅ **COMPLETED** |
+| **Sprint 3** | **Bundle Optimization & Performance** | **P1 (High)** | Completed (Oct 2026) | ✅ AuthContext chunk trimmed via Vite `manualChunks` (isolated `data-compendium-seed`) and dynamic catalog hover/touch prefetching. | ✅ **COMPLETED** |
+| **Sprint 4** | **Architectural Decoupling & Reliability** | **P2 (Medium)** | Completed (Oct 2026) | ✅ `FolioContext` partitioned into 4 domain slices; `StageView.tsx` decomposed into sub-hooks and extracted console layers; composite indexes verified. | ✅ **COMPLETED** |
 
 ---
 
@@ -117,7 +117,7 @@ Seal backend API vulnerabilities that permit unauthenticated token minting and G
 
 ---
 
-## 3. Sprint 2: UX Immersion & Native Dialog Elimination (P1)
+## 3. Sprint 2: UX Immersion & Native Dialog Elimination (P1) — [STATUS: COMPLETED ✅]
 
 ### Goal & Theme
 Replace all 84 disruptive, thread-blocking `window.alert()`, `window.confirm()`, and `window.prompt()` calls with the sci-fi themed HUD toast system (`useToast`) and modal dialog service (`useConfirm`).
@@ -180,7 +180,7 @@ flowchart TD
 
 ---
 
-## 4. Sprint 3: Bundle Optimization & Performance Slicing (P1)
+## 4. Sprint 3: Bundle Optimization & Performance Slicing (P1) — [STATUS: COMPLETED ✅]
 
 ### Goal & Theme
 Eliminate the 6.75 MB initial bundle chunk by configuring Rollup manual chunking and converting heavy static catalogs (compendium articles, species, weapons) into dynamically loaded asynchronous modules.
@@ -232,7 +232,7 @@ Eliminate the 6.75 MB initial bundle chunk by configuring Rollup manual chunking
 
 ---
 
-## 5. Sprint 4: Architectural Decoupling & Enterprise Reliability (P2)
+## 5. Sprint 4: Architectural Decoupling & Enterprise Reliability (P2) — [STATUS: COMPLETED ✅]
 
 ### Goal & Theme
 Decompose the two remaining god-components—`FolioContext.jsx` (3,758 LOC) and `StageView.tsx` (3,007 LOC)—into clean, single-responsibility domain slices matching the successful model of `TeamsPage.jsx`.

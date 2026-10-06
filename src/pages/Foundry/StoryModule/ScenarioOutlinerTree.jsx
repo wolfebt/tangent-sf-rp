@@ -6,10 +6,31 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Plus, Search, Layers, Box, Undo2, Redo2 } from 'lucide-react';
+import { 
+  Plus, 
+  Search, 
+  Layers, 
+  Box, 
+  Undo2, 
+  Redo2, 
+  Upload, 
+  GripVertical, 
+  ChevronRight, 
+  ChevronDown, 
+  Eye, 
+  EyeOff, 
+  FolderTree, 
+  List, 
+  Link2, 
+  Edit3, 
+  Trash2 
+} from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import { getTypePillStyle, ELEMENT_TYPES } from '../ElementForge/elementSchemas';
 import { useStory } from '../../../context/CampaignContext';
+import { showToast } from '../../../context/ToastContext';
+import { parseAimeAssetFile } from '../../../services/aimeAssetFileService';
+import { batchIngestElementFiles } from '../../../services/elementIngestionService';
 import { AudioService } from '../../../services/audioService';
 import { getBreadcrumbPath } from '../../../utils/scenarioTreeEngine.js';
 
@@ -56,7 +77,14 @@ export const TreeNode = ({
   const handleDragStart = (e) => {
     e.stopPropagation();
     e.dataTransfer.setData('text/plain', node.id);
-    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('tangent-scenario-id', node.id);
+    e.dataTransfer.setData('application/x-tangent-scenario', JSON.stringify({
+      id: node.id,
+      title: node.title,
+      type: node.type,
+      content: node.content
+    }));
+    e.dataTransfer.effectAllowed = 'copyMove';
   };
 
   const handleDragOver = (e) => {
@@ -87,7 +115,7 @@ export const TreeNode = ({
     e.stopPropagation();
     const pos = dropPosition;
     setDropPosition(null);
-    const draggedId = e.dataTransfer.getData('text/plain');
+    const draggedId = e.dataTransfer.getData('tangent-scenario-id') || e.dataTransfer.getData('text/plain');
     if (draggedId && draggedId !== node.id) {
       if (onReorderRelative && (pos === 'above' || pos === 'below')) {
         onReorderRelative(draggedId, node.id, pos);
@@ -343,6 +371,18 @@ export const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId, onImp
   );
 };
 
+/// ── CANONICAL WIKI CATEGORIES ──
+const WIKI_CATEGORIES = [
+  { id: 'Persona', label: 'Personas & NPCs', icon: '👤', types: ['Persona'] },
+  { id: 'Location', label: 'Locations & Worlds', icon: '🏰', types: ['Location', 'Setting', 'World'] },
+  { id: 'Faction', label: 'Factions & Orgs', icon: '⚔️', types: ['Faction'] },
+  { id: 'Item', label: 'Items & Artifacts', icon: '🔮', types: ['Item'] },
+  { id: 'Lore', label: 'Lore & Philosophy', icon: '📜', types: ['Lore', 'Philosophy', 'Clue', 'Handout'] },
+  { id: 'Tech', label: 'Technology & Cyber', icon: '🚀', types: ['Tech', 'Technology'] },
+  { id: 'Species', label: 'Species & Xenology', icon: '🌿', types: ['Species'] },
+  { id: 'Custom', label: 'Custom Elements', icon: '🧩', types: ['Custom', 'Scene', 'Encounter', 'Adventure', 'Story Arc'] }
+];
+
 // ── ZONE 1: DUAL-MODE OUTLINER RAIL (Left Column: Scenarios & World Elements) ──
 export const ScenarioOutlinerRail = ({
   isTreeExpanded,
@@ -366,9 +406,50 @@ export const ScenarioOutlinerRail = ({
   activeNode,
   handleInsertMention,
   handleToggleLinkElement,
-  onSwitchView
+  onSwitchView,
+  updateSavedElement: propUpdateSavedElement,
+  addStory: propAddStory
 }) => {
-  const { undoScenarioTree, redoScenarioTree } = useStory();
+  const { undoScenarioTree, redoScenarioTree, deleteSavedElement, updateSavedElement: contextUpdateSavedElement, addStory: contextAddStory } = useStory();
+  const updateSavedElement = propUpdateSavedElement || contextUpdateSavedElement;
+  const addStory = propAddStory || contextAddStory;
+
+  const [elementsViewMode, setElementsViewMode] = useState(() => {
+    try {
+      return localStorage.getItem('tangent_ade_elements_view_mode') || 'wiki_tree';
+    } catch (_) {
+      return 'wiki_tree';
+    }
+  });
+
+  const [expandedCategories, setExpandedCategories] = useState(() => ({
+    Persona: true,
+    Location: true,
+    Faction: true,
+    Item: true,
+    Lore: true,
+    Tech: true,
+    Species: true,
+    Custom: true
+  }));
+
+  const [previewElementId, setPreviewElementId] = useState(null);
+  const [isDraggingFilesOverRail, setIsDraggingFilesOverRail] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const toggleCategory = (catId) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [catId]: !prev[catId]
+    }));
+  };
+
+  const handleViewModeChange = (mode) => {
+    setElementsViewMode(mode);
+    try {
+      localStorage.setItem('tangent_ade_elements_view_mode', mode);
+    } catch (_) {}
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -393,10 +474,263 @@ export const ScenarioOutlinerRail = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [undoScenarioTree, redoScenarioTree]);
 
+  // File import processor for .aime, .json, .md files
+  const processImportFiles = async (files) => {
+    if (!files || files.length === 0) return;
+    let elementCount = 0;
+    let scenarioCount = 0;
+
+    for (const file of Array.from(files)) {
+      try {
+        const text = await file.text();
+        const parsed = parseAimeAssetFile(text, file.name);
+        if (parsed) {
+          if (parsed.type === 'Scenario' || parsed.type === 'Adventure') {
+            if (typeof addStory === 'function') {
+              addStory(parsed);
+              scenarioCount++;
+            }
+          } else {
+            if (typeof updateSavedElement === 'function') {
+              updateSavedElement(parsed.id, parsed);
+              elementCount++;
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Direct file parse failed for', file.name, err);
+        try {
+          const batch = await batchIngestElementFiles([file]);
+          if (batch[0]?.success && batch[0]?.element) {
+            if (typeof updateSavedElement === 'function') {
+              updateSavedElement(batch[0].element.id, batch[0].element);
+              elementCount++;
+            }
+          }
+        } catch (e2) {
+          console.error('Batch ingest fallback failed:', e2);
+        }
+      }
+    }
+
+    if (elementCount > 0 || scenarioCount > 0) {
+      AudioService.playCriticalChime(true);
+      showToast({
+        type: 'success',
+        text: `✓ Imported ${elementCount} element(s)${scenarioCount > 0 ? ` and ${scenarioCount} scenario(s)` : ''} into Story Module!`
+      });
+    } else {
+      showToast({
+        type: 'warning',
+        text: 'No compatible elements or scenarios were found in the selected files.'
+      });
+    }
+  };
+
+  const handleRailDragOver = (e) => {
+    if (e.dataTransfer.types.includes('Files')) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      setIsDraggingFilesOverRail(true);
+    }
+  };
+
+  const handleRailDragLeave = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsDraggingFilesOverRail(false);
+    }
+  };
+
+  const handleRailDrop = (e) => {
+    if (e.dataTransfer.files?.length > 0) {
+      e.preventDefault();
+      setIsDraggingFilesOverRail(false);
+      processImportFiles(e.dataTransfer.files);
+    }
+  };
+
+  const handleElementDragStart = (e, elem) => {
+    e.stopPropagation();
+    const payload = {
+      id: elem.id,
+      title: elem.title || 'Untitled',
+      type: elem.type || 'Custom',
+      content: elem.content || '',
+      fields: elem.fields || {},
+      customFields: elem.customFields || [],
+      tags: elem.tags || []
+    };
+    e.dataTransfer.setData('text/plain', `[[${elem.title || 'Element'}]]`);
+    e.dataTransfer.setData('application/x-tangent-wiki-element', JSON.stringify(payload));
+    e.dataTransfer.setData('application/json', JSON.stringify(payload));
+    e.dataTransfer.setData('text/html', `<span class="tangent-wiki-chip font-bold text-cyan-300" data-element-id="${elem.id}" data-element-type="${elem.type}">[[${elem.title || 'Element'}]]</span>`);
+    e.dataTransfer.effectAllowed = 'copyMove';
+  };
+
+  // Reusable Element Card Renderer
+  const renderElementCard = (elem) => {
+    const isLinked = (activeNode?.linkedElements || []).includes(elem.id);
+    const isPreviewing = previewElementId === elem.id;
+
+    return (
+      <div
+        key={elem.id}
+        draggable
+        onDragStart={(e) => handleElementDragStart(e, elem)}
+        className={`p-2 rounded-xl border transition-all space-y-1.5 group select-none ${
+          isLinked 
+            ? 'bg-cyan-950/40 border-cyan-500/50 shadow-sm' 
+            : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60'
+        }`}
+      >
+        <div className="flex items-center justify-between gap-1">
+          <div className="flex items-center gap-1.5 min-w-0 flex-1">
+            <span className="text-slate-600 hover:text-cyan-400 cursor-grab active:cursor-grabbing text-xs shrink-0" title="Drag onto Story Canvas to link">
+              <GripVertical size={13} />
+            </span>
+            <span className={`text-[8px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded border shrink-0 ${getTypePillStyle(elem.type)}`}>
+              {elem.type || 'Custom'}
+            </span>
+            <span 
+              className="text-xs font-bold text-slate-200 truncate cursor-pointer hover:text-cyan-300 flex-1"
+              title="Click to edit element details in-situ"
+              onClick={() => {
+                setEditingModalElement(elem);
+                setIsEditElementModalOpen(true);
+              }}
+            >
+              {elem.title || 'Untitled'}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+            <button
+              type="button"
+              onClick={() => setPreviewElementId(prev => prev === elem.id ? null : elem.id)}
+              className="p-1 text-[10px] text-slate-400 hover:text-amber-300 transition-colors cursor-pointer"
+              title={isPreviewing ? "Hide preview" : "Quick peek preview"}
+            >
+              {isPreviewing ? <EyeOff size={11} /> : <Eye size={11} />}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEditingModalElement(elem);
+                setIsEditElementModalOpen(true);
+              }}
+              className="p-1 text-[10px] text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
+              title="Edit Element In-Situ"
+            >
+              <Edit3 size={11} />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (handleDeleteElement) {
+                  handleDeleteElement(elem.id, elem.title);
+                } else if (deleteSavedElement) {
+                  deleteSavedElement(elem.id);
+                }
+              }}
+              className="p-1 text-[10px] text-slate-500 hover:text-rose-400 transition-colors cursor-pointer"
+              title="Delete Element"
+            >
+              <Trash2 size={11} />
+            </button>
+          </div>
+        </div>
+
+        {/* Inline Quick Peek Preview */}
+        {isPreviewing && (
+          <div className="p-2 rounded-lg bg-slate-900 border border-slate-750 text-[10px] space-y-1 font-sans animate-in fade-in duration-150">
+            {elem.fields?.oneLinePitch && (
+              <p className="font-semibold text-cyan-300 italic">{elem.fields.oneLinePitch}</p>
+            )}
+            <p className="text-slate-300 line-clamp-4 leading-relaxed">
+              {elem.fields?.description || elem.content?.replace(/<[^>]+>/g, ' ') || 'No description recorded.'}
+            </p>
+            {elem.tags && elem.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1 pt-1">
+                {elem.tags.map(tag => (
+                  <span key={tag} className="px-1 py-0.2 rounded bg-slate-800 text-slate-400 text-[8px] font-mono">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {!isPreviewing && (elem.fields?.oneLinePitch || elem.content) && (
+          <p className="text-[10px] text-slate-400 line-clamp-2 leading-snug pl-4">
+            {elem.fields?.oneLinePitch || elem.content.replace(/<[^>]+>/g, '')}
+          </p>
+        )}
+
+        {/* Footer Actions */}
+        <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-800/80 text-[10px] pl-4">
+          <button
+            type="button"
+            onClick={() => handleInsertMention(elem)}
+            className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer text-[9px] flex items-center gap-1"
+            title="Insert @Mention / [[Wiki Link]] into active scenario prose"
+          >
+            <Link2 size={10} />
+            <span>@Mention</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleToggleLinkElement(elem.id)}
+            className={`font-bold transition-colors cursor-pointer text-[9px] ${
+              isLinked ? 'text-amber-400 hover:text-amber-300' : 'text-slate-400 hover:text-white'
+            }`}
+            title={isLinked ? 'Unlink from active scenario node' : 'Link to active scenario node'}
+          >
+            {isLinked ? '✓ Linked' : '+ Link'}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   if (!isTreeExpanded) return null;
 
   return (
-    <div className="h-full flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 z-10 shrink-0 w-64 xl:w-72">
+    <div 
+      onDragOver={handleRailDragOver}
+      onDragLeave={handleRailDragLeave}
+      onDrop={handleRailDrop}
+      className="h-full flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 z-10 shrink-0 w-64 xl:w-72 relative"
+    >
+      {/* Hidden File Input for Element & Scenario Imports */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        multiple
+        accept=".aime,.json,.world,.persona,.setting,.species,.tech,.philosophy,.scene,.faction,.item,.lore,.md,.txt"
+        className="hidden"
+        onChange={(e) => {
+          if (e.target.files?.length) {
+            processImportFiles(e.target.files);
+            e.target.value = '';
+          }
+        }}
+      />
+
+      {/* Drag & Drop File Hover Overlay */}
+      {isDraggingFilesOverRail && (
+        <div className="absolute inset-0 z-50 bg-cyan-950/95 border-2 border-dashed border-cyan-400 rounded-lg flex flex-col items-center justify-center p-4 text-center backdrop-blur-sm animate-in fade-in duration-150 select-none">
+          <Upload size={32} className="text-cyan-400 mb-2 animate-bounce" />
+          <span className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+            Drop Files to Import
+          </span>
+          <span className="text-[10px] text-cyan-300 mt-1 font-mono">
+            .aime, .json, .md elements &amp; scenarios
+          </span>
+        </div>
+      )}
+
       {/* Outliner Dual-Tab Header */}
       <div className="p-2 border-b border-slate-800 flex justify-between items-center bg-slate-950/90 shrink-0 gap-1 font-mono">
         <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5">
@@ -436,6 +770,17 @@ export const ScenarioOutlinerRail = ({
             </span>
           </button>
         </div>
+
+        {/* Global Import Action */}
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          className="p-1 px-1.5 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer shrink-0"
+          title="Import Elements or Scenarios (.aime, .json, .md files)"
+        >
+          <Upload size={10} className="text-cyan-400" />
+          <span className="hidden sm:inline">Import</span>
+        </button>
 
         {outlinerTab === 'scenarios' ? (
           <div className="flex items-center gap-1">
@@ -487,7 +832,7 @@ export const ScenarioOutlinerRail = ({
         )}
       </div>
 
-      {/* Filter Input & Element Type Pills */}
+      {/* Filter & Wiki Structure Controls */}
       <div className="px-2 py-1.5 border-b border-slate-800 bg-slate-950/40 shrink-0 space-y-1.5 font-mono">
         <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs">
           <Search size={12} className="text-slate-500 shrink-0" />
@@ -506,6 +851,41 @@ export const ScenarioOutlinerRail = ({
         </div>
 
         {outlinerTab === 'elements' && (
+          <div className="flex items-center justify-between gap-1 pt-0.5">
+            {/* Wiki Tree vs List Toggle */}
+            <div className="flex items-center bg-slate-900 border border-slate-800 rounded-md p-0.5 text-[9px] font-bold">
+              <button
+                type="button"
+                onClick={() => handleViewModeChange('wiki_tree')}
+                className={`px-1.5 py-0.5 rounded cursor-pointer transition-colors flex items-center gap-1 ${
+                  elementsViewMode === 'wiki_tree' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'
+                }`}
+                title="Wiki Category Folders View"
+              >
+                <FolderTree size={10} />
+                <span>Wiki Tree</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleViewModeChange('flat_list')}
+                className={`px-1.5 py-0.5 rounded cursor-pointer transition-colors flex items-center gap-1 ${
+                  elementsViewMode === 'flat_list' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'
+                }`}
+                title="Filterable Flat List View"
+              >
+                <List size={10} />
+                <span>List</span>
+              </button>
+            </div>
+
+            <span className="text-[9px] text-slate-500 truncate">
+              {filteredOutlinerElements.length} element(s)
+            </span>
+          </div>
+        )}
+
+        {/* Flat List Filter Pills */}
+        {outlinerTab === 'elements' && elementsViewMode === 'flat_list' && (
           <div className="flex gap-1 overflow-x-auto scrollbar-none pb-0.5">
             {['All', 'Persona', 'Faction', 'Location', 'Item', 'Lore', 'Clue', 'Tech', 'Species'].map(t => (
               <button
@@ -531,7 +911,7 @@ export const ScenarioOutlinerRail = ({
         <div className="flex-1 overflow-auto py-2 px-1.5 scrollbar-thin">
           {(!scenarios || scenarios.length === 0) ? (
             <div className="text-slate-500 text-xs text-center italic mt-10 p-4 font-mono">
-              No scenarios yet.<br/>Click "+ Add" to begin your campaign outline.
+              No scenarios yet.<br/>Click "+ Add" or "Import" to begin your campaign outline.
             </div>
           ) : (
             <>
@@ -554,7 +934,7 @@ export const ScenarioOutlinerRail = ({
                 onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }}
                 onDrop={(e) => {
                   e.preventDefault();
-                  const draggedId = e.dataTransfer.getData('text/plain');
+                  const draggedId = e.dataTransfer.getData('tangent-scenario-id') || e.dataTransfer.getData('text/plain');
                   if (draggedId) moveStory(draggedId, null);
                 }}
                 className="mt-6 p-2.5 border border-dashed border-slate-800/80 hover:border-cyan-500/60 rounded-xl text-center text-[10px] text-slate-500 uppercase tracking-wider hover:text-cyan-400 transition-colors font-mono"
@@ -565,82 +945,76 @@ export const ScenarioOutlinerRail = ({
           )}
         </div>
       ) : (
-        /* World Elements Feed */
-        <div className="flex-1 overflow-y-auto p-2 space-y-1.5 scrollbar-thin flex flex-col font-mono">
+        /* World Elements Feed (Wiki Categories Tree or Flat List) */
+        <div className="flex-1 overflow-y-auto p-2 space-y-2 scrollbar-thin flex flex-col font-mono">
           {(!filteredOutlinerElements || filteredOutlinerElements.length === 0) ? (
             <div className="text-slate-500 text-xs text-center italic mt-10 p-4">
-              No world elements found.<br/>Click "+ New" to forge one.
+              No world elements found.<br/>Click "+ New" or "Import" to add elements.
             </div>
-          ) : (
-            filteredOutlinerElements.map(elem => {
-              const isLinked = (activeNode?.linkedElements || []).includes(elem.id);
+          ) : elementsViewMode === 'wiki_tree' ? (
+            /* WIKI CATEGORIES TREE VIEW */
+            WIKI_CATEGORIES.map(cat => {
+              const catElements = filteredOutlinerElements.filter(elem => 
+                cat.types.some(t => t.toLowerCase() === (elem.type || 'Custom').toLowerCase())
+              );
+
+              if (catElements.length === 0 && searchFilter) return null;
 
               return (
-                <div
-                  key={elem.id}
-                  className={`p-2 rounded-xl border transition-all space-y-1 group ${
-                    isLinked 
-                      ? 'bg-cyan-950/40 border-cyan-500/50' 
-                      : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-1">
-                    <span className={`text-[8px] font-extrabold uppercase tracking-wider px-1.5 py-0.2 rounded border shrink-0 ${getTypePillStyle(elem.type)}`}>
-                      {elem.type || 'Custom'}
-                    </span>
-                    <span 
-                      className="text-xs font-bold text-slate-200 truncate flex-1 ml-1 cursor-pointer hover:text-cyan-300"
-                      title="Click to edit element details"
-                      onClick={() => {
-                        setEditingModalElement(elem);
-                        setIsEditElementModalOpen(true);
-                      }}
-                    >
-                      {elem.title || 'Untitled'}
-                    </span>
+                <div key={cat.id} className="border border-slate-800/80 rounded-xl overflow-hidden bg-slate-950/40">
+                  {/* Category Header */}
+                  <div 
+                    onClick={() => toggleCategory(cat.id)}
+                    className="px-2.5 py-1.5 flex items-center justify-between bg-slate-900/80 hover:bg-slate-850 cursor-pointer transition-colors text-xs select-none"
+                  >
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-slate-400 text-[10px]">
+                        {expandedCategories[cat.id] ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                      </span>
+                      <span className="text-xs">{cat.icon}</span>
+                      <span className="font-bold text-slate-200 text-[11px] truncate">{cat.label}</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-400 font-mono">
+                        {catElements.length}
+                      </span>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => {
-                        setEditingModalElement(elem);
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingModalElement({
+                          id: uuidv4(),
+                          type: cat.types[0],
+                          title: `New ${cat.label.split('&')[0].trim()}`,
+                          fields: {},
+                          content: ''
+                        });
                         setIsEditElementModalOpen(true);
                       }}
-                      className="opacity-0 group-hover:opacity-100 p-0.5 text-[9px] text-slate-400 hover:text-cyan-300 transition-opacity cursor-pointer shrink-0"
-                      title="Edit Element"
+                      className="p-1 text-slate-400 hover:text-emerald-300 hover:bg-slate-800 rounded text-[10px] transition-colors"
+                      title={`Add new ${cat.label.split('&')[0].trim()}`}
                     >
-                      ✏️
+                      <Plus size={11} />
                     </button>
                   </div>
 
-                  {elem.content && (
-                    <p className="text-[10px] text-slate-400 line-clamp-2 leading-snug">
-                      {elem.content.replace(/<[^>]+>/g, '')}
-                    </p>
+                  {/* Category Elements Body */}
+                  {expandedCategories[cat.id] && (
+                    <div className="p-1.5 space-y-1.5 bg-slate-950/20">
+                      {catElements.length === 0 ? (
+                        <div className="text-[10px] text-slate-600 italic px-2 py-1">
+                          No elements in this category.
+                        </div>
+                      ) : (
+                        catElements.map(elem => renderElementCard(elem))
+                      )}
+                    </div>
                   )}
-
-                  <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-850 text-[10px]">
-                    <button
-                      type="button"
-                      onClick={() => handleInsertMention(elem)}
-                      className="text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer text-[9px]"
-                      title="Insert @Mention chip into active scenario prose"
-                    >
-                      @Mention
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleToggleLinkElement(elem.id)}
-                      className={`font-bold transition-colors cursor-pointer text-[9px] ${
-                        isLinked ? 'text-amber-400 hover:text-amber-300' : 'text-slate-400 hover:text-white'
-                      }`}
-                      title={isLinked ? 'Unlink from active scenario node' : 'Link to active scenario node'}
-                    >
-                      {isLinked ? '✓ Linked' : '+ Link'}
-                    </button>
-                  </div>
                 </div>
               );
             })
+          ) : (
+            /* FLAT LIST VIEW */
+            filteredOutlinerElements.map(elem => renderElementCard(elem))
           )}
 
           {/* Bottom Open Full Forge Launcher */}

@@ -22,8 +22,11 @@ import { extractNarrativeDeltas } from '../../../../services/cronicleService';
 import crdtCollabService from '../../../../services/crdtCollabService';
 import { GUIDANCE_GEMS } from '../guidanceGemsConfig';
 import StoryElementExtractorModal from '../StoryElementExtractorModal';
+import EditElementModal from '../../ElementForge/EditElementModal';
+import { getTypePillStyle } from '../../ElementForge/elementSchemas';
 import AimeGuidanceButton from '../../../../components/StoryFoundry/AimeGuidanceButton';
 import AimeGuidanceFlyout from '../../../../components/StoryFoundry/AimeGuidanceFlyout';
+import { parseAimeAssetFile } from '../../../../services/aimeAssetFileService';
 import AimeCanvasSculptor from './AimeCanvasSculptor';
 import { 
   Feather, 
@@ -54,10 +57,30 @@ import {
   Zap,
   Terminal,
   ShieldAlert,
-  Box
+  Box,
+  Edit3,
+  Search,
+  Link2,
+  Tag,
+  X,
+  Bookmark,
+  Columns,
+  MoreHorizontal,
+  Trash2
 } from 'lucide-react';
 
-export default function StoryWeaver({ activeNode, updateStory, guidanceGems = '', onSelectScenarioWorkspaceTab }) {
+export default function StoryWeaver({ 
+  activeNode, 
+  updateStory, 
+  guidanceGems = '', 
+  onSelectScenarioWorkspaceTab,
+  isSplitView,
+  setIsSplitView,
+  viewportSplit,
+  setViewportSplit,
+  handleOpenAddModal,
+  handleDeleteElement
+}) {
   const { 
     universeState, 
     updateCreativeState,
@@ -65,6 +88,8 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
     updateSceneBeats,
     updateDraft,
     elementsCatalog,
+    updateSavedElement,
+    deleteSavedElement,
     mapsCatalog,
     setActiveMapId,
     addMap,
@@ -122,6 +147,266 @@ export default function StoryWeaver({ activeNode, updateStory, guidanceGems = ''
 
   // Real-time collaborative CRDT state
   const [collabStatus, setCollabStatus] = useState(() => crdtCollabService.getCollabStatus());
+
+  // Story Wiki & In-Book Element Editor State
+  const [isWikiDrawerOpen, setIsWikiDrawerOpen] = useState(false);
+  const [wikiSearch, setWikiSearch] = useState('');
+  const [wikiTypeFilter, setWikiTypeFilter] = useState('All');
+  const [editingWikiElement, setEditingWikiElement] = useState(null);
+  const [isDragOverCanvas, setIsDragOverCanvas] = useState(false);
+  const [recentlyDroppedElement, setRecentlyDroppedElement] = useState(null);
+
+  // Compute referenced elements from manuscript, outline, beats
+  const referencedElements = useMemo(() => {
+    const catalog = elementsCatalog || [];
+    if (catalog.length === 0) return [];
+    const allText = `${content || ''} ${outline || ''} ${sceneBeats || ''}`.toLowerCase();
+    
+    // Explicit [[wiki links]]
+    const wikiTags = new Set();
+    const regex = /\[\[(.*?)\]\]/g;
+    let match;
+    while ((match = regex.exec(allText)) !== null) {
+      if (match[1]?.trim()) {
+        wikiTags.add(match[1].trim().toLowerCase());
+      }
+    }
+
+    return catalog.filter(el => {
+      const titleLower = el.title?.toLowerCase() || '';
+      return wikiTags.has(titleLower) || (titleLower.length >= 4 && allText.includes(titleLower));
+    });
+  }, [content, outline, sceneBeats, elementsCatalog]);
+
+  const filteredWikiElements = useMemo(() => {
+    const catalog = elementsCatalog || [];
+    return catalog.filter(el => {
+      const matchesSearch = !wikiSearch.trim() || 
+        el.title?.toLowerCase().includes(wikiSearch.toLowerCase()) ||
+        el.fields?.description?.toLowerCase().includes(wikiSearch.toLowerCase()) ||
+        el.fields?.oneLinePitch?.toLowerCase().includes(wikiSearch.toLowerCase());
+      
+      if (!matchesSearch) return false;
+      if (wikiTypeFilter === 'All') return true;
+      if (wikiTypeFilter === 'Referenced') return referencedElements.some(r => r.id === el.id);
+      return el.type?.toLowerCase() === wikiTypeFilter.toLowerCase();
+    });
+  }, [elementsCatalog, wikiSearch, wikiTypeFilter, referencedElements]);
+
+  // Insert [[Wiki Link]] into active manuscript cursor
+  const handleInsertWikiLink = (elementTitle) => {
+    const linkText = `[[${elementTitle}]] `;
+    const quill = quillRef.current?.getEditor();
+    if (quill) {
+      const range = quill.getSelection(true);
+      const index = range ? range.index : quill.getLength() - 1;
+      quill.insertText(index, linkText);
+      quill.setSelection(index + linkText.length);
+    } else {
+      handleContentChange((content || '') + ` ${linkText}`);
+    }
+    showToast(`✓ Inserted [[${elementTitle}]] into Canvas`);
+    AudioService.playTerminalBeep(1200, 0.02);
+  };
+
+  // Create new element right from within the book
+  const handleCreateNewElement = (type = 'Persona') => {
+    const newElem = {
+      id: uuidv4(),
+      title: 'New Element',
+      type: type,
+      fields: {
+        description: '',
+        oneLinePitch: ''
+      }
+    };
+    setEditingWikiElement(newElem);
+  };
+
+  const handleSaveWikiElement = (saved) => {
+    if (typeof updateSavedElement === 'function' && saved?.id) {
+      updateSavedElement(saved.id, saved);
+      showToast(`✓ Saved "${saved.title}"`);
+    }
+    setEditingWikiElement(null);
+  };
+
+  const handleDeleteWikiElement = (id) => {
+    if (typeof deleteSavedElement === 'function' && id) {
+      deleteSavedElement(id);
+      showToast('✓ Deleted element');
+    }
+    setEditingWikiElement(null);
+  };
+
+  // Canvas Drag & Drop Ingestion Handler
+  const handleCanvasDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOverCanvas(false);
+
+    // 1. Check for dragged element from Left Outliner Rail or Story Wiki
+    const wikiElementData = e.dataTransfer.getData('application/x-tangent-wiki-element');
+    const scenarioData = e.dataTransfer.getData('application/x-tangent-scenario');
+    const plainText = e.dataTransfer.getData('text/plain');
+
+    if (wikiElementData) {
+      try {
+        const elem = JSON.parse(wikiElementData);
+        if (elem?.title) {
+          const wikiTag = `[[${elem.title}]] `;
+          const quill = quillRef.current?.getEditor();
+          if (quill) {
+            const range = quill.getSelection() || { index: quill.getLength() - 1 };
+            quill.insertText(range.index, wikiTag);
+            quill.setSelection(range.index + wikiTag.length);
+          } else {
+            handleContentChange((content || '') + ` ${wikiTag}`);
+          }
+          setRecentlyDroppedElement(elem);
+          showToast(`✓ Inserted [[${elem.title}]] into Story Canvas`);
+          AudioService.playTerminalBeep(1200, 0.03);
+          return;
+        }
+      } catch (err) {
+        console.warn('Failed to parse dropped element data:', err);
+      }
+    }
+
+    // 2. Check for dragged scenario node (chapter link)
+    if (scenarioData) {
+      try {
+        const sc = JSON.parse(scenarioData);
+        if (sc?.title) {
+          const link = `[[Chapter: ${sc.title}]] `;
+          const quill = quillRef.current?.getEditor();
+          if (quill) {
+            const range = quill.getSelection() || { index: quill.getLength() - 1 };
+            quill.insertText(range.index, link);
+            quill.setSelection(range.index + link.length);
+          } else {
+            handleContentChange((content || '') + ` ${link}`);
+          }
+          showToast(`✓ Linked [[Chapter: ${sc.title}]] into Canvas`);
+          AudioService.playTerminalBeep(1200, 0.03);
+          return;
+        }
+      } catch (err) {
+        console.warn('Failed to parse dropped scenario data:', err);
+      }
+    }
+
+    // 3. Check for dropped external file(s)
+    if (e.dataTransfer.files?.length > 0) {
+      const file = e.dataTransfer.files[0];
+      file.text().then(text => {
+        try {
+          const parsed = parseAimeAssetFile(text, file.name);
+          if (parsed?.title) {
+            if (typeof updateSavedElement === 'function') {
+              updateSavedElement(parsed.id, parsed);
+            }
+            const wikiTag = `[[${parsed.title}]] `;
+            const quill = quillRef.current?.getEditor();
+            if (quill) {
+              const range = quill.getSelection() || { index: quill.getLength() - 1 };
+              quill.insertText(range.index, wikiTag);
+              quill.setSelection(range.index + wikiTag.length);
+            } else {
+              handleContentChange((content || '') + ` ${wikiTag}`);
+            }
+            setRecentlyDroppedElement(parsed);
+            showToast(`✓ Imported & inserted [[${parsed.title}]] into Canvas`);
+            AudioService.playCriticalChime(true);
+          }
+        } catch (err) {
+          console.warn('Canvas file drop parse failed:', err);
+        }
+      });
+      return;
+    }
+
+    // 4. Fallback plain text [[Wiki]]
+    if (plainText && plainText.startsWith('[[') && plainText.endsWith(']]')) {
+      const quill = quillRef.current?.getEditor();
+      if (quill) {
+        const range = quill.getSelection() || { index: quill.getLength() - 1 };
+        quill.insertText(range.index, `${plainText} `);
+        quill.setSelection(range.index + plainText.length + 1);
+      } else {
+        handleContentChange((content || '') + ` ${plainText} `);
+      }
+      showToast(`✓ Inserted ${plainText}`);
+    }
+  };
+
+  // Embed full element description, pitch & attributes directly into story prose
+  const handleEmbedElementContent = (elem) => {
+    if (!elem) return;
+    const desc = elem.fields?.description || elem.fields?.oneLinePitch || elem.content?.replace(/<[^>]+>/g, ' ') || 'No description recorded.';
+    const pitch = elem.fields?.oneLinePitch ? `<p><em>${elem.fields.oneLinePitch}</em></p>` : '';
+    const formattedHtml = `<blockquote style="border-left: 3px solid #06b6d4; padding-left: 12px; margin: 12px 0; color: #a5f3fc; background: rgba(8, 51, 68, 0.3); border-radius: 4px; padding-top: 6px; padding-bottom: 6px;"><strong style="color: #38bdf8; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">📖 ${elem.type || 'Element'}: ${elem.title}</strong>${pitch}<p>${desc}</p></blockquote><p></p>`;
+
+    const quill = quillRef.current?.getEditor();
+    if (quill) {
+      const range = quill.getSelection() || { index: quill.getLength() - 1 };
+      quill.clipboard.dangerouslyPasteHTML(range.index, formattedHtml);
+    } else {
+      handleContentChange((content || '') + formattedHtml);
+    }
+    showToast(`✓ Embedded content for "${elem.title}" into Manuscript`);
+    AudioService.playTerminalBeep(1100, 0.02);
+  };
+
+  // Detect clicks on [[Wiki Links]] and @Mention chips to open in-situ element editor
+  useEffect(() => {
+    const editorEl = quillRef.current?.getEditor()?.root;
+    if (!editorEl) return;
+
+    const handleEditorClick = (e) => {
+      // 1. Entity chip element click
+      const chip = e.target.closest('.tangent-entity-chip') || e.target.closest('[data-entity-id]') || e.target.closest('[data-element-id]');
+      if (chip) {
+        const id = chip.getAttribute('data-entity-id') || chip.getAttribute('data-element-id');
+        const found = (elementsCatalog || []).find(el => el.id === id);
+        if (found) {
+          e.preventDefault();
+          e.stopPropagation();
+          setEditingWikiElement(found);
+          AudioService.playTerminalBeep(1100, 0.02);
+          return;
+        }
+      }
+
+      // 2. Click within or on [[Wiki Link]]
+      const sel = window.getSelection();
+      if (sel && sel.anchorNode) {
+        const text = sel.anchorNode.textContent || '';
+        const offset = sel.anchorOffset;
+        const before = text.slice(0, offset);
+        const after = text.slice(offset);
+        const openIdx = before.lastIndexOf('[[');
+        const closeIdx = after.indexOf(']]');
+        if (openIdx !== -1 && closeIdx !== -1 && !before.slice(openIdx).includes(']]')) {
+          const fullInner = text.slice(openIdx + 2, offset + closeIdx).trim();
+          const [targetName] = fullInner.split('|').map(s => s.trim());
+          const found = (elementsCatalog || []).find(el => 
+            (el.title && el.title.toLowerCase() === targetName.toLowerCase()) ||
+            (el.name && el.name.toLowerCase() === targetName.toLowerCase())
+          );
+          if (found) {
+            e.preventDefault();
+            e.stopPropagation();
+            setEditingWikiElement(found);
+            AudioService.playTerminalBeep(1100, 0.02);
+          }
+        }
+      }
+    };
+
+    editorEl.addEventListener('click', handleEditorClick);
+    return () => editorEl.removeEventListener('click', handleEditorClick);
+  }, [elementsCatalog]);
 
   useEffect(() => {
     const unsub = crdtCollabService.onCollabStatusChange(setCollabStatus);
@@ -597,234 +882,316 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] font-mono select-none">
-      {/* ── TOP WEAVER CONTROL BAR (Clean, Single Line) ── */}
-      <div className="px-3 py-2 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-3 shrink-0 flex-wrap">
-        {/* Left: Scenario Title & Mode Indicator */}
+      {/* ── UNIFIED SCENARIO CONTEXT BAR (Single Clean Line) ── */}
+      <div className="px-3 py-1.5 border-b border-slate-800 bg-slate-950/95 flex items-center justify-between gap-2.5 shrink-0 flex-wrap text-xs font-mono">
+        {/* Left: Type Pill + Editable Title + CRDT Status */}
         <div className="flex items-center gap-2 min-w-0">
-          <Feather size={14} className="text-cyan-400 shrink-0" />
-          <span className="font-bold text-slate-100 text-xs truncate max-w-[220px]">
-            {activeNode?.title || 'Manuscript Draft'}
-          </span>
           {activeNode?.type && (
-            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-bold uppercase shrink-0">
+            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 font-bold uppercase shrink-0">
               {activeNode.type}
             </span>
           )}
+          <input
+            type="text"
+            value={activeNode?.title || ''}
+            onChange={(e) => {
+              if (activeNode?.id) {
+                updateStory(activeNode.id, { title: e.target.value });
+              }
+            }}
+            placeholder="Scenario Title..."
+            className="text-xs font-bold text-slate-100 bg-transparent border-none outline-none focus:bg-slate-900/80 rounded px-1 max-w-[160px] sm:max-w-[220px] truncate"
+            title="Click to rename scenario"
+          />
           {/* Real-time CRDT Co-Authoring Indicator */}
           <div 
-            className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono tracking-tight bg-slate-900 border border-slate-800 text-slate-300 shrink-0"
+            className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9.5px] font-mono tracking-tight bg-slate-900 border border-slate-800 text-slate-300 shrink-0"
             title="CRDT Yjs P2P Prose Synchronization Active"
           >
             <span className={`w-1.5 h-1.5 rounded-full ${collabStatus.isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
-            <span className="text-[9.5px]">CRDT {collabStatus.isConnected ? 'LIVE' : 'READY'}</span>
+            <span>CRDT {collabStatus.isConnected ? 'LIVE' : 'READY'}</span>
           </div>
         </div>
 
-        {/* Right: Telemetry & Actions */}
-        <div className="flex items-center gap-2.5 text-xs flex-wrap">
-            {/* Word Count */}
-            <div className="flex items-center gap-1 text-slate-400">
-              <Hash size={12} className="text-cyan-400" />
-              <span className="font-bold text-slate-200">{words}</span> words
-            </div>
-
-            {/* Reading Time */}
-            <div className="flex items-center gap-1 text-slate-400 hidden sm:flex">
-              <Clock size={12} className="text-amber-400" />
-              <span className="font-bold text-slate-200">~{readingTimeMinutes}</span> min read
-            </div>
-
-            {/* POV Lock */}
-            <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded-lg text-[11px]">
-              <UserCheck size={12} className="text-purple-400 shrink-0" />
-              <select
-                value={activePov}
-                onChange={e => handlePovChange(e.target.value)}
-                className="bg-transparent text-purple-300 font-bold outline-none text-[10px] cursor-pointer max-w-[140px] truncate"
-                title="Active Character Point of View (Folio Operatives & Story Personas)"
-              >
-                <option value="" className="bg-slate-950 text-slate-400">POV: 3rd Person Omniscient</option>
-                {povOptions.filter(o => o.type === 'folio').length > 0 && (
-                  <optgroup label="Folio Heroes" className="bg-slate-950 text-purple-300">
-                    {povOptions.filter(o => o.type === 'folio').map(op => (
-                      <option key={op.id} value={op.name} className="bg-slate-950 text-purple-200">
-                        👤 {op.label}
-                      </option>
-                    ))}
-                  </optgroup>
-                )}
-                {povOptions.filter(o => o.type === 'story_persona').length > 0 && (
-                  <optgroup label="Story Personas" className="bg-slate-950 text-emerald-300">
-                    {povOptions.filter(o => o.type === 'story_persona').map(p => (
-                      <option key={p.id} value={p.name} className="bg-slate-950 text-emerald-200">
-                        🎭 {p.label}
-                      </option>
-                    ))}
-                  </optgroup>
-                )}
-              </select>
-            </div>
-
-            {/* Create Story Component / Element Extractor */}
+        {/* Center: Mode Switcher Pills (Canvas / Outline / Split Map) + Telemetry */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl p-0.5 text-xs font-mono">
+            {/* Canvas */}
             <button
               type="button"
-              onClick={() => {
-                const sel = window.getSelection()?.toString() || '';
-                setExtractInitialText(sel || (content ? content.replace(/<[^>]+>/g, ' ').slice(0, 300) : ''));
-                setIsExtractorModalOpen(true);
-                AudioService.playTerminalBeep(1200, 0.03);
-              }}
-              className="px-2.5 py-1 bg-gradient-to-r from-purple-950 to-indigo-950 hover:from-purple-900 hover:to-indigo-900 border border-purple-500/50 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
-              title="Extract or create game component (Persona, Item, Smart Prop, Hazard) from story"
+              onClick={() => setWeaverTab('manuscript')}
+              className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                weaverTab === 'manuscript'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Manuscript Canvas (Prose Drafting)"
             >
-              <Box size={12} className="text-purple-400" />
-              <span>Create Component</span>
+              <span>✍️</span>
+              <span>Canvas</span>
             </button>
 
-            {/* AIME Guidance Co-Pilot Button */}
-            <AimeGuidanceButton
-              onClick={() => setIsAimeGuidanceOpen(true)}
-              label="AIME Guidance"
-              size="sm"
-            />
+            {/* Outline */}
+            <button
+              type="button"
+              onClick={() => setWeaverTab('outline')}
+              className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                weaverTab === 'outline'
+                  ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Story Outline & Tactical Beats"
+            >
+              <span>📋</span>
+              <span>Outline</span>
+            </button>
 
-            {/* Dual-Track Narrative Intent Badge */}
-            <div className="hidden xl:flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-700/80 text-[10px] font-mono text-emerald-400" title="Dual-Track Narrative Architecture: Human prose is canonical; AI provides reactive flavor overlays only.">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>GM Canonical Track</span>
-            </div>
-
-            {/* AI Authoring Dropdown */}
-            <div className="relative group">
+            {/* Split Map Toggle */}
+            {setIsSplitView && (
               <button
                 type="button"
-                disabled={isAiWorking}
-                className="px-2.5 py-1 bg-gradient-to-r from-cyan-950 to-purple-950 hover:from-cyan-900 hover:to-purple-900 border border-cyan-500/50 text-cyan-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 shadow-sm cursor-pointer disabled:opacity-50"
+                onClick={() => setIsSplitView(prev => !prev)}
+                className={`px-2.5 py-1 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                  isSplitView
+                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+                title="Split Stage: Side-by-side Manuscript + Tactical Stage"
               >
-                <Wand2 size={12} className="text-cyan-400" />
-                <span>AI Assist</span>
-                <ChevronDown size={11} className="text-slate-400" />
+                <Columns size={12} />
+                <span className="hidden sm:inline">Split Map</span>
               </button>
+            )}
 
-              <div className="absolute right-0 mt-1 w-52 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs divide-y divide-slate-800 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity">
+            {/* Split Ratio (When Split View is active) */}
+            {isSplitView && setViewportSplit && (
+              <div className="flex items-center gap-0.5 bg-slate-950 px-1 py-0.5 rounded-lg border border-emerald-500/40 text-[9px] font-bold ml-1">
                 <button
-                  onClick={() => handleAiPairAuthor('continue')}
-                  className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
+                  type="button"
+                  onClick={() => setViewportSplit('story_only')}
+                  className={`px-1.5 py-0.5 rounded ${viewportSplit === 'story_only' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
                 >
-                  <span>⚡</span> Continue Narrative
+                  Story
                 </button>
                 <button
-                  onClick={() => handleAiPairAuthor('expand')}
-                  className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
+                  type="button"
+                  onClick={() => setViewportSplit('side_by_side')}
+                  className={`px-1.5 py-0.5 rounded ${viewportSplit === 'side_by_side' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
                 >
-                  <span>✨</span> Expand Sensory Details
+                  50/50
                 </button>
                 <button
-                  onClick={() => handleAiPairAuthor('polish')}
-                  className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
+                  type="button"
+                  onClick={() => setViewportSplit('canvas_only')}
+                  className={`px-1.5 py-0.5 rounded ${viewportSplit === 'canvas_only' ? 'bg-emerald-500/30 text-emerald-300 font-extrabold' : 'text-slate-400'}`}
                 >
-                  <span>🪄</span> Polish &amp; Stylize
-                </button>
-                <button
-                  onClick={() => handleAiPairAuthor('reactive_flavor')}
-                  className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 cursor-pointer"
-                  title="Generate dynamic sensory flavor text reacting to Folio status conditions without altering GM prose"
-                >
-                  <span>⚡</span> Dynamic Reactive Flavor
-                </button>
-                <button
-                  onClick={handleExtractDeltas}
-                  className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 cursor-pointer"
-                  title="Extract state transitions into Cronicle"
-                >
-                  <span>📜</span> Deduce State Deltas
+                  Stage
                 </button>
               </div>
-            </div>
-
-            {/* Copy / Export */}
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer"
-              title="Copy prose"
-            >
-              {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-            </button>
-            <button
-              type="button"
-              onClick={handleExportMarkdown}
-              className="p-1 text-slate-400 hover:text-amber-400 rounded hover:bg-slate-800 transition-colors cursor-pointer"
-              title="Export Markdown"
-            >
-              <Download size={13} />
-            </button>
+            )}
           </div>
-      </div>
 
-      {/* ── WEAVER SUB-MODE SELECTOR BAR ── */}
-      <div className="px-3 py-1.5 border-b border-slate-800 bg-slate-950/70 flex items-center justify-between gap-2 shrink-0 flex-wrap">
-        <div className="flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => setWeaverTab('manuscript')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'manuscript'
-                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-          >
-            <span>✍️</span>
-            <span>The Canvas</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setWeaverTab('outline')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'outline'
-                ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-          >
-            <span>📋</span>
-            <span>Outline &amp; Beats</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setWeaverTab('tactical')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'tactical'
-                ? 'bg-blue-950 text-blue-300 border border-blue-500/50 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-          >
-            <span>🗺️</span>
-            <span>Tactical Stage Link</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setWeaverTab('genesis')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-              weaverTab === 'genesis'
-                ? 'bg-amber-950 text-amber-300 border border-amber-500/50 shadow-sm'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-          >
-            <span>✨</span>
-            <span>Creative Genesis</span>
-          </button>
+          {/* Words & Reading Time */}
+          <div className="hidden lg:flex items-center gap-2 text-[11px] text-slate-400">
+            <span><strong className="text-slate-200">{words}</strong> words</span>
+            <span>•</span>
+            <span>~<strong className="text-slate-200">{readingTimeMinutes}</strong> min</span>
+          </div>
         </div>
 
-        {weaverTab === 'manuscript' && (
-          <div className="text-[10px] text-slate-500 font-mono hidden md:flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-            <span>Highlight text on The Canvas for AIME Surgical Sculpting tools</span>
+        {/* Right: POV + + Component + Wiki + AI Assist + Actions */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* POV Lock */}
+          <div className="flex items-center gap-1 bg-slate-900 border border-slate-800 px-2 py-1 rounded-lg text-[10px]">
+            <UserCheck size={11} className="text-purple-400 shrink-0" />
+            <select
+              value={activePov}
+              onChange={e => handlePovChange(e.target.value)}
+              className="bg-transparent text-purple-300 font-bold outline-none cursor-pointer max-w-[120px] truncate"
+              title="Active Character Point of View"
+            >
+              <option value="" className="bg-slate-950 text-slate-400">POV: 3rd Person</option>
+              {povOptions.filter(o => o.type === 'folio').map(op => (
+                <option key={op.id} value={op.name} className="bg-slate-950 text-purple-200">
+                  👤 {op.label}
+                </option>
+              ))}
+              {povOptions.filter(o => o.type === 'story_persona').map(p => (
+                <option key={p.id} value={p.name} className="bg-slate-950 text-emerald-200">
+                  🎭 {p.label}
+                </option>
+              ))}
+            </select>
           </div>
-        )}
+
+          {/* Create Story Component / Element Extractor */}
+          <button
+            type="button"
+            onClick={() => {
+              const sel = window.getSelection()?.toString() || '';
+              setExtractInitialText(sel || (content ? content.replace(/<[^>]+>/g, ' ').slice(0, 300) : ''));
+              setIsExtractorModalOpen(true);
+              AudioService.playTerminalBeep(1200, 0.03);
+            }}
+            className="px-2.5 py-1 bg-gradient-to-r from-purple-950 to-indigo-950 hover:from-purple-900 hover:to-indigo-900 border border-purple-500/50 text-purple-200 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+            title="Extract or create game component (Persona, Item, Smart Prop, Hazard) from story"
+          >
+            <Box size={11} className="text-purple-400" />
+            <span className="hidden sm:inline">+ Component</span>
+          </button>
+
+          {/* In-Book Story Wiki Button */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsWikiDrawerOpen(prev => !prev);
+              AudioService.playTerminalBeep(1100, 0.02);
+            }}
+            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer border ${
+              isWikiDrawerOpen
+                ? 'bg-amber-950/80 border-amber-400 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                : 'bg-slate-900 border-slate-800 text-slate-300 hover:text-amber-300 hover:border-amber-500/50'
+            }`}
+            title="Open In-Book Story Wiki & World Elements"
+          >
+            <span>📖</span>
+            <span className="hidden sm:inline">Wiki</span>
+            {referencedElements.length > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-amber-500/30 text-amber-300 text-[9px] font-bold">
+                {referencedElements.length}
+              </span>
+            )}
+          </button>
+
+          {/* AI Authoring Dropdown */}
+          <div className="relative group">
+            <button
+              type="button"
+              disabled={isAiWorking}
+              className="px-2.5 py-1 bg-gradient-to-r from-cyan-950 to-purple-950 hover:from-cyan-900 hover:to-purple-900 border border-cyan-500/50 text-cyan-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 shadow-sm cursor-pointer disabled:opacity-50"
+            >
+              <Wand2 size={11} className="text-cyan-400" />
+              <span>AI Assist</span>
+              <ChevronDown size={10} className="text-slate-400" />
+            </button>
+
+            <div className="absolute right-0 mt-1 w-48 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs divide-y divide-slate-800 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity">
+              <button
+                onClick={() => handleAiPairAuthor('continue')}
+                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
+              >
+                <span>⚡</span> Continue Narrative
+              </button>
+              <button
+                onClick={() => handleAiPairAuthor('expand')}
+                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
+              >
+                <span>✨</span> Expand Details
+              </button>
+              <button
+                onClick={() => handleAiPairAuthor('polish')}
+                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
+              >
+                <span>🪄</span> Polish Prose
+              </button>
+              <button
+                onClick={() => handleAiPairAuthor('reactive_flavor')}
+                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 cursor-pointer"
+              >
+                <span>⚡</span> Reactive Flavor
+              </button>
+              <button
+                onClick={handleExtractDeltas}
+                className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 cursor-pointer"
+              >
+                <span>📜</span> Deduce Deltas
+              </button>
+            </div>
+          </div>
+
+          {/* Consolidated Actions Pulldown (Copy, Export, Sub-Scenario, Delete) */}
+          <div className="relative group">
+            <button
+              type="button"
+              className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer border border-transparent hover:border-slate-700"
+              title="Scenario Actions (Copy, Export, Sub-Elements, Delete)"
+            >
+              <MoreHorizontal size={14} />
+            </button>
+            <div className="absolute right-0 mt-1 w-48 bg-slate-900/98 border border-slate-700 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs divide-y divide-slate-800 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity">
+              <div className="py-1">
+                <button
+                  type="button"
+                  onClick={handleCopy}
+                  className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 flex items-center gap-2 cursor-pointer"
+                >
+                  <Copy size={12} className="text-cyan-400" />
+                  <span>{copied ? 'Copied!' : 'Copy Prose'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleExportMarkdown}
+                  className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 flex items-center gap-2 cursor-pointer"
+                >
+                  <Download size={12} className="text-amber-400" />
+                  <span>Export Markdown (.md)</span>
+                </button>
+              </div>
+              {(handleOpenAddModal || handleDeleteElement) && (
+                <div className="py-1">
+                  {handleOpenAddModal && (
+                    <button
+                      type="button"
+                      onClick={() => handleOpenAddModal(activeNode?.id)}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 flex items-center gap-2 cursor-pointer"
+                    >
+                      <Plus size={12} />
+                      <span>+ Sub-Scenario</span>
+                    </button>
+                  )}
+                  {handleDeleteElement && (
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteElement(activeNode?.id, activeNode?.title)}
+                      className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-300 flex items-center gap-2 cursor-pointer"
+                    >
+                      <Trash2 size={12} />
+                      <span>Delete Scenario...</span>
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* ── REFERENCED STORY ELEMENTS HORIZONTAL QUICK STRIP ── */}
+      {referencedElements.length > 0 && weaverTab === 'manuscript' && (
+        <div className="px-3 py-1 bg-slate-950/90 border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs font-mono scrollbar-none z-10 shrink-0">
+          <span className="text-[10px] uppercase font-bold text-amber-400/90 flex items-center gap-1 shrink-0 pr-1.5 border-r border-slate-800">
+            <span>🔗</span> Referenced ({referencedElements.length}):
+          </span>
+          {referencedElements.map(el => (
+            <button
+              key={el.id}
+              type="button"
+              onClick={() => {
+                setEditingWikiElement(el);
+                AudioService.playTerminalBeep(1100, 0.02);
+              }}
+              className="px-2 py-0.5 rounded-md bg-slate-900/90 hover:bg-slate-850 border border-slate-700/80 hover:border-amber-400/60 text-slate-200 hover:text-amber-300 flex items-center gap-1.5 text-[11px] shrink-0 transition-colors cursor-pointer"
+              title={`Click to edit ${el.title} in-situ without leaving the book`}
+            >
+              <span className={`text-[8px] font-extrabold uppercase px-1 py-0.2 rounded border ${getTypePillStyle(el.type)}`}>
+                {el.type}
+              </span>
+              <span className="font-bold">{el.title}</span>
+              <Edit3 size={10} className="text-slate-400 hover:text-amber-300" />
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* AI Working Banner */}
       {isAiWorking && (
@@ -943,25 +1310,252 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
           </div>
         </div>
       ) : weaverTab === 'manuscript' ? (
-        <div className="flex-1 flex flex-col min-h-0 bg-[#090d16] relative z-10 quill-dark-wrapper overflow-hidden">
-          <ReactQuill 
-            ref={quillRef}
-            theme="snow"
-            value={content}
-            onChange={handleContentChange}
-            modules={quillModules}
-            className="h-full flex flex-col"
-            placeholder="Draft story prose, chapter narrative, sensory atmosphere, or dialogue..."
-          />
-          <AimeCanvasSculptor
-            quillRef={quillRef}
-            activeNode={activeNode}
-            elementsCatalog={elementsCatalog}
-            guidanceGems={guidanceGems}
-            activePov={activePov}
-            onApplySculpt={handleContentChange}
-            onShowToast={showToast}
-          />
+        <div className="flex-1 flex flex-row min-h-0 bg-[#090d16] relative z-10 overflow-hidden">
+          {/* Main Canvas Editor with Drop Zone */}
+          <div 
+            onDragOver={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              e.dataTransfer.dropEffect = 'copy';
+              if (!isDragOverCanvas) setIsDragOverCanvas(true);
+            }}
+            onDragEnter={(e) => {
+              e.preventDefault();
+              setIsDragOverCanvas(true);
+            }}
+            onDragLeave={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget)) {
+                setIsDragOverCanvas(false);
+              }
+            }}
+            onDrop={handleCanvasDrop}
+            className="flex-1 flex flex-col min-h-0 relative quill-dark-wrapper overflow-hidden"
+          >
+            {/* Visual Drag Over Indicator */}
+            {isDragOverCanvas && (
+              <div className="absolute inset-0 z-40 bg-cyan-950/85 border-2 border-dashed border-cyan-400 rounded-xl flex flex-col items-center justify-center p-6 text-center backdrop-blur-xs pointer-events-none animate-in fade-in duration-100 select-none font-mono">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-900/80 border border-cyan-400/60 flex items-center justify-center text-cyan-300 shadow-xl mb-2 animate-bounce">
+                  <Link2 size={24} />
+                </div>
+                <span className="text-sm font-bold text-white uppercase tracking-wider">
+                  Drop Element to Link into Story Canvas
+                </span>
+                <span className="text-xs text-cyan-300 mt-1">
+                  Inserts [[Wiki Link]] &amp; provides instant in-situ element editing
+                </span>
+              </div>
+            )}
+
+            {/* Recently Dropped Element Floating Action Bar */}
+            {recentlyDroppedElement && (
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 bg-slate-900/98 border border-cyan-500/60 rounded-xl px-3 py-1.5 shadow-2xl flex items-center gap-2.5 backdrop-blur-md animate-in fade-in slide-in-from-top-2 text-xs font-mono select-none">
+                <span className="text-cyan-300 font-bold flex items-center gap-1.5">
+                  <Sparkles size={12} className="text-cyan-400" />
+                  <span>Linked: <strong className="text-white">{recentlyDroppedElement.title}</strong></span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleEmbedElementContent(recentlyDroppedElement);
+                    setRecentlyDroppedElement(null);
+                  }}
+                  className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
+                  title="Embed element description directly into prose"
+                >
+                  Embed Prose
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingWikiElement(recentlyDroppedElement);
+                    setRecentlyDroppedElement(null);
+                  }}
+                  className="px-2 py-0.5 rounded bg-amber-950 hover:bg-amber-900 border border-amber-500/50 text-amber-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
+                  title="Edit element details in-situ"
+                >
+                  Edit Element
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRecentlyDroppedElement(null)}
+                  className="text-slate-500 hover:text-white text-xs cursor-pointer ml-1"
+                  title="Dismiss"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
+
+            <ReactQuill 
+              ref={quillRef}
+              theme="snow"
+              value={content}
+              onChange={handleContentChange}
+              modules={quillModules}
+              className="h-full flex flex-col"
+              placeholder="Draft story prose, chapter narrative, sensory atmosphere, or dialogue... Tip: Drag elements from the left rail or type [[Element Name]] for instant wiki links!"
+            />
+            <AimeCanvasSculptor
+              quillRef={quillRef}
+              activeNode={activeNode}
+              elementsCatalog={elementsCatalog}
+              guidanceGems={guidanceGems}
+              activePov={activePov}
+              onApplySculpt={handleContentChange}
+              onShowToast={showToast}
+            />
+          </div>
+
+          {/* IN-BOOK STORY WIKI & WORLD ELEMENTS DRAWER */}
+          {isWikiDrawerOpen && (
+            <div className="w-80 md:w-96 border-l border-slate-800 bg-[#0a0e18] flex flex-col shrink-0 h-full overflow-hidden shadow-2xl animate-in slide-in-from-right duration-200 z-20 font-mono">
+              {/* Drawer Header */}
+              <div className="p-3 border-b border-slate-800/80 bg-slate-950/90 flex items-center justify-between gap-2 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-amber-400 text-sm">📖</span>
+                  <span className="text-xs font-bold text-slate-100 tracking-wide">Story Wiki & Elements</span>
+                  <span className="text-[10px] text-slate-500">({elementsCatalog?.length || 0})</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => handleCreateNewElement('Persona')}
+                    className="p-1 px-2 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors"
+                    title="Create a new world element directly inside this book"
+                  >
+                    <Plus size={11} />
+                    <span>New</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsWikiDrawerOpen(false)}
+                    className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 cursor-pointer"
+                    title="Close Wiki Drawer"
+                  >
+                    <X size={13} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Search & Category Filter */}
+              <div className="p-2.5 border-b border-slate-800 space-y-2 bg-slate-950/40 shrink-0">
+                <div className="relative">
+                  <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="text"
+                    value={wikiSearch}
+                    onChange={(e) => setWikiSearch(e.target.value)}
+                    placeholder="Search world elements..."
+                    className="w-full pl-7 pr-2.5 py-1 bg-slate-900 border border-slate-700/80 rounded-lg text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-amber-400/60 font-sans"
+                  />
+                  {wikiSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setWikiSearch('')}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                    >
+                      <X size={11} />
+                    </button>
+                  )}
+                </div>
+
+                {/* Filter Pills */}
+                <div className="flex items-center gap-1 overflow-x-auto scrollbar-none pb-0.5 text-[10px]">
+                  {['All', 'Referenced', 'Persona', 'Faction', 'Location', 'Item', 'Lore'].map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setWikiTypeFilter(t)}
+                      className={`px-2 py-0.5 rounded-full font-bold cursor-pointer transition-colors shrink-0 ${
+                        wikiTypeFilter === t
+                          ? 'bg-amber-400 text-black font-extrabold shadow-xs'
+                          : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Elements List */}
+              <div className="flex-1 overflow-y-auto p-2.5 space-y-2 scrollbar-thin">
+                {filteredWikiElements.length === 0 ? (
+                  <div className="p-6 text-center text-slate-500 text-xs font-mono space-y-2">
+                    <p>No world elements match criteria.</p>
+                    <button
+                      type="button"
+                      onClick={() => handleCreateNewElement('Persona')}
+                      className="text-amber-400 hover:underline cursor-pointer text-[11px] font-bold"
+                    >
+                      + Create new element
+                    </button>
+                  </div>
+                ) : (
+                  filteredWikiElements.map((elem) => {
+                    const isRef = referencedElements.some(r => r.id === elem.id);
+                    return (
+                      <div
+                        key={elem.id}
+                        className={`p-2.5 rounded-xl border transition-all ${
+                          isRef
+                            ? 'bg-amber-950/20 border-amber-500/40 shadow-sm'
+                            : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-1.5">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className={`text-[8.5px] font-extrabold uppercase px-1.5 py-0.2 rounded border ${getTypePillStyle(elem.type)}`}>
+                                {elem.type}
+                              </span>
+                              <span className="font-bold text-slate-200 text-xs truncate max-w-[150px]">
+                                {elem.title}
+                              </span>
+                              {isRef && (
+                                <span className="text-[8px] px-1 py-0.2 rounded bg-amber-400/20 text-amber-300 font-bold border border-amber-500/30">
+                                  IN STORY
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-slate-400 line-clamp-2 mt-1 font-sans">
+                              {elem.fields?.oneLinePitch || elem.fields?.description || elem.content?.replace(/<[^>]+>/g, ' ').slice(0, 100) || 'No description recorded.'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Card Action Buttons */}
+                        <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-slate-800/60 text-[10px]">
+                          <button
+                            type="button"
+                            onClick={() => handleInsertWikiLink(elem.title)}
+                            className="px-2 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 flex items-center gap-1 cursor-pointer font-bold transition-colors"
+                            title={`Insert [[${elem.title}]] link into your prose`}
+                          >
+                            <Link2 size={10} />
+                            <span>+ [[Link]]</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingWikiElement(elem);
+                              AudioService.playTerminalBeep(1100, 0.02);
+                            }}
+                            className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 flex items-center gap-1 cursor-pointer font-bold transition-colors"
+                            title={`Edit ${elem.title} in-situ`}
+                          >
+                            <Edit3 size={10} className="text-amber-400" />
+                            <span>Edit</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          )}
         </div>
       ) : null}
 
@@ -1412,6 +2006,17 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
             handleContentChange((content ? content + '<br/><br/>' : '') + `<p>${suggestion.replace(/\n\n/g, '</p><p>')}</p>`);
             showToast('✓ AIME guidance appended to Manuscript');
           }}
+        />
+      )}
+
+      {/* In-Situ Element Forge Modal within Story Weaver Book */}
+      {editingWikiElement && (
+        <EditElementModal
+          isOpen={!!editingWikiElement}
+          onClose={() => setEditingWikiElement(null)}
+          element={editingWikiElement}
+          onSave={handleSaveWikiElement}
+          onDelete={handleDeleteWikiElement}
         />
       )}
     </div>

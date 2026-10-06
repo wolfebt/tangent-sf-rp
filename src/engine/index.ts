@@ -80,7 +80,7 @@ export { MechaFoundryWidget } from './ui/widgets/MechaFoundryWidget.tsx';
 export { DiceASTParser } from './math/DiceASTParser.ts';
 export type { ASTNode } from './math/DiceASTParser.ts';
 export { QuickJSSandbox } from './scripting/QuickJSSandbox.ts';
-export type { SandboxRequest, SandboxResponse } from './scripting/QuickJSSandbox.ts';
+export type { SandboxRequest, SandboxResponse, SandboxStandardContext } from './scripting/QuickJSSandbox.ts';
 export { EssenceTracker } from './rules/EssenceTracker.ts';
 export type { OngoingSpellEffect } from './rules/EssenceTracker.ts';
 

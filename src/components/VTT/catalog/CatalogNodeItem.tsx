@@ -10,7 +10,8 @@ import {
   GripVertical, 
   Eye, 
   EyeOff, 
-  Plus
+  Plus,
+  Trash2
 } from 'lucide-react';
 
 export interface CatalogNodeItemProps {
@@ -26,6 +27,7 @@ export interface CatalogNodeItemProps {
   onClick?: () => void;
   onToggleVisibility?: () => void;
   onSpawn?: () => void;
+  onDelete?: () => void;
 }
 
 export const CatalogNodeItem: React.FC<CatalogNodeItemProps> = ({
@@ -39,7 +41,8 @@ export const CatalogNodeItem: React.FC<CatalogNodeItemProps> = ({
   dragPayload,
   onClick,
   onToggleVisibility,
-  onSpawn
+  onSpawn,
+  onDelete
 }) => {
   const handleDragStart = (e: React.DragEvent) => {
     if (dragPayload) {
@@ -130,6 +133,21 @@ export const CatalogNodeItem: React.FC<CatalogNodeItemProps> = ({
             title="Deploy entity directly to viewport center"
           >
             <Plus size={11} />
+          </button>
+        )}
+
+        {/* Quick Delete Button */}
+        {onDelete && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            className="p-1 rounded hover:bg-red-950/40 text-slate-500 hover:text-red-400 border border-transparent hover:border-red-500/40 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
+            title="Delete Item"
+          >
+            <Trash2 size={11} />
           </button>
         )}
 

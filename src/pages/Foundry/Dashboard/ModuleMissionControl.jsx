@@ -43,7 +43,6 @@ import {
   FilePlus,
   Trash2,
   Save,
-  Settings,
   Globe,
   Cloud,
   ExternalLink,
@@ -616,7 +615,29 @@ export default function ModuleMissionControl({
               title="Story Module Project Operations (Save, Load, Export, Sync)"
             >
               <FolderOpen size={13} className="text-cyan-400" />
-              <span>PROJECT</span>
+              <span>FILE</span>
+              {currentUser && (
+                <span
+                  className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                    cloudSyncStatus === 'syncing'
+                      ? 'bg-amber-400 animate-spin'
+                      : cloudSyncStatus === 'synced'
+                      ? 'bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]'
+                      : cloudSyncStatus === 'error'
+                      ? 'bg-red-500 animate-pulse'
+                      : 'bg-slate-500'
+                  }`}
+                  title={
+                    cloudSyncStatus === 'syncing'
+                      ? 'Syncing Cloud...'
+                      : cloudSyncStatus === 'synced'
+                      ? lastCloudSavedAt ? `Cloud Synced at ${lastCloudSavedAt}` : 'Cloud Synced'
+                      : cloudSyncStatus === 'error'
+                      ? 'Cloud Sync Error'
+                      : 'Local Mode'
+                  }
+                />
+              )}
               <ChevronDown size={11} className={`transition-transform duration-200 ${isFileMenuOpen ? 'rotate-180' : ''}`} />
             </button>
 
@@ -754,41 +775,6 @@ export default function ModuleMissionControl({
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Cloud Sync Status & Identity Badge */}
-          <div className="flex items-center gap-1.5 px-2 py-1 bg-slate-900 border border-slate-800 rounded-xl">
-            <span
-              className={`w-2 h-2 rounded-full ${
-                cloudSyncStatus === 'syncing'
-                  ? 'bg-amber-400 animate-spin'
-                  : cloudSyncStatus === 'synced'
-                  ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                  : cloudSyncStatus === 'error'
-                  ? 'bg-red-500 animate-pulse'
-                  : 'bg-slate-500'
-              }`}
-              title={
-                cloudSyncStatus === 'syncing'
-                  ? 'Syncing Cloud...'
-                  : cloudSyncStatus === 'synced'
-                  ? lastCloudSavedAt ? `Cloud Synced at ${lastCloudSavedAt}` : 'Cloud Synced'
-                  : cloudSyncStatus === 'error'
-                  ? 'Cloud Sync Error'
-                  : 'Local Mode'
-              }
-            />
-            <span className="text-[10px] text-cyan-300 font-mono font-bold truncate max-w-[90px]">
-              {userHandle ? `@${userHandle}` : 'Architect'}
-            </span>
-            <button
-              type="button"
-              onClick={() => onOpenSettings?.()}
-              className="text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer ml-0.5"
-              title="User Settings"
-            >
-              <Settings size={11} />
-            </button>
           </div>
         </div>
 

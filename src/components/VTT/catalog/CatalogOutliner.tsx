@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { CatalogNodeItem } from './CatalogNodeItem';
 import { useCampaign } from '../../../context/CampaignContext';
+import { useConfirm } from '../../../context/ConfirmContext';
 import { useFolio } from '../../../context/FolioContext';
 import { useDBM } from '../../../context/DBMContext';
 import { useEngineStore } from '../../../engine/index';
@@ -49,12 +50,17 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   activeFilterTag,
   onSelectMap
 }) => {
+  const confirm = useConfirm();
   const { activeCategory } = useUILayoutStore();
   const { 
     universeState, 
     activeMapId, 
     setActiveMapId, 
     updateMap, 
+    deleteMap,
+    deleteSavedMap,
+    deleteStory,
+    deleteSavedElement,
     elementsCatalog, 
     storyCatalog,
     toggleGalleryModifier,
@@ -153,6 +159,52 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
         name: currentMap.name || assetName
       });
       AudioService.playCriticalChime(true);
+    }
+  };
+
+  const handleDeleteMap = async (map: any) => {
+    const ok = await confirm({
+      title: 'Delete Tactical Map',
+      message: `Are you sure you want to permanently delete "${map.name || map.title || 'Untitled Map'}"?`,
+      danger: true,
+      confirmLabel: 'Delete Map'
+    });
+    if (ok) {
+      AudioService.playTerminalBeep(500, 0.08);
+      if (deleteMap) deleteMap(map.id);
+      if (deleteSavedMap) deleteSavedMap(map.id);
+    }
+  };
+
+  const handleDeleteAdeElement = async (elem: any) => {
+    const ok = await confirm({
+      title: `Delete ${elem.type || 'Element'}`,
+      message: `Are you sure you want to permanently delete "${elem.title || elem.name || 'Untitled'}"?`,
+      danger: true,
+      confirmLabel: 'Delete'
+    });
+    if (ok) {
+      AudioService.playTerminalBeep(500, 0.08);
+      if (deleteSavedElement) {
+        deleteSavedElement(elem.id);
+      }
+      showToast({ type: 'info', title: 'Element Deleted', text: `Deleted "${elem.title || elem.name || 'element'}".` });
+    }
+  };
+
+  const handleDeleteScenario = async (sc: any) => {
+    const ok = await confirm({
+      title: 'Delete Scenario',
+      message: `Are you sure you want to permanently delete "${sc.title || 'Untitled Scenario'}"?`,
+      danger: true,
+      confirmLabel: 'Delete Scenario'
+    });
+    if (ok) {
+      AudioService.playTerminalBeep(500, 0.08);
+      if (deleteStory) {
+        deleteStory(sc.id);
+      }
+      showToast({ type: 'info', title: 'Scenario Deleted', text: `Deleted "${sc.title || 'Untitled Scenario'}".` });
     }
   };
 
@@ -468,6 +520,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       }
                     }}
                     isVisibleToPlayers={map.isVisibleToPlayers !== false}
+                    onDelete={() => handleDeleteMap(map)}
                   />
                 );
               })
@@ -506,6 +559,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                     title: sc.title
                   }}
                   isVisibleToPlayers={true}
+                  onDelete={() => handleDeleteScenario(sc)}
                 />
               ))
           )}
@@ -650,6 +704,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                         isPersona: true
                       })}
                       isVisibleToPlayers={true}
+                      onDelete={() => handleDeleteAdeElement(p)}
                     />
                   );
                 })}
@@ -808,6 +863,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                     image: img
                   }}
                   isVisibleToPlayers={true}
+                  onDelete={() => handleDeleteAdeElement(f)}
                 />
               );
             })}
@@ -867,6 +923,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                     image: img
                   }}
                   isVisibleToPlayers={lore.revealed !== false}
+                  onDelete={() => handleDeleteAdeElement(lore)}
                 />
               );
             })}
@@ -1053,6 +1110,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                     image: img
                   })}
                   isVisibleToPlayers={true}
+                  onDelete={() => handleDeleteAdeElement(item)}
                 />
               );
             })}

@@ -1,4 +1,4 @@
-import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures';
+import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures.js';
 
 export const MAP_TYPES = [
   'Sector',

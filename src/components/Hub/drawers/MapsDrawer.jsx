@@ -3,15 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { useGroup } from '../../../context/GroupContext';
 import { AudioService } from '../../../services/audioService';
-import { Map, X, Plus, Search, Eye, Check, Trash2, ChevronRight, ArrowUpRight, Play, MapPin, Users, Radio, Copy } from 'lucide-react';
+import { Map, X, Plus, Search, Eye, Check, Trash2, ChevronRight, ArrowUpRight, Play, MapPin, Users, Radio, Copy, DownloadCloud } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { showToast } from '../../../context/ToastContext';
+import { getStarterMapsCollection } from '../../VTT/stage/defaultMaps';
 
 export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
   const navigate = useNavigate();
   const confirm = useConfirm();
-  const { universeState, mapsCatalog, deleteSavedMap, activeMapId, setActiveMapId } = useStory();
+  const { universeState, mapsCatalog, deleteSavedMap, activeMapId, setActiveMapId, addMap } = useStory();
   const { activeGroup } = useGroup();
 
   const [mapSearch, setMapSearch] = useState('');
@@ -74,6 +75,32 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
     AudioService.playTerminalBeep(1100, 0.03);
     if (setActiveMapId && mapId) setActiveMapId(mapId);
     navigate(`/foundry/map-maker${mapId ? `?mapId=${mapId}` : ''}`);
+  };
+
+  const handleDeployStarterMaps = () => {
+    AudioService.playTerminalBeep(1300, 0.04);
+    const starters = getStarterMapsCollection();
+    let countAdded = 0;
+    starters.forEach(sm => {
+      const alreadyExists = allMaps.some(m => m.id === sm.id || m.title === sm.title || m.name === sm.name);
+      if (!alreadyExists && addMap) {
+        addMap(sm);
+        countAdded++;
+      }
+    });
+    if (countAdded > 0) {
+      showToast({
+        type: 'success',
+        title: 'Starter Maps Deployed',
+        text: `Successfully imported ${countAdded} tactical sector battlemap(s).`
+      });
+    } else {
+      showToast({
+        type: 'info',
+        title: 'Maps Already Present',
+        text: 'All starter tactical battlemaps are already present in your library.'
+      });
+    }
   };
 
   return (
@@ -205,6 +232,15 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
 
         <div className="flex items-center gap-2">
           <button
+            onClick={handleDeployStarterMaps}
+            className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 hover:border-cyan-500/50 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5"
+            title="Deploy Starter Tactical Battlemaps into Library"
+          >
+            <DownloadCloud size={13} />
+            <span className="hidden sm:inline">Starters</span>
+          </button>
+
+          <button
             onClick={() => {
               AudioService.playTerminalBeep(1300, 0.03);
               if (onOpenDrawer) onOpenDrawer('foundry-maps-workspace');
@@ -256,16 +292,24 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
           <div className="p-8 text-center border border-dashed border-slate-800 rounded-xl bg-slate-950/40">
             <Map size={28} className="mx-auto text-slate-600 mb-2" />
             <h4 className="text-sm font-mono font-bold text-slate-300 uppercase">No Battlemaps Found</h4>
-            <p className="text-xs text-slate-500 font-mono mt-1 mb-4">Create tactical battlemaps with tokens and fog of war.</p>
-            <button
-              onClick={() => {
-                if (onOpenDrawer) onOpenDrawer('foundry-maps-workspace');
-                else navigate('/foundry/map-maker');
-              }}
-              className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-mono text-xs font-bold uppercase rounded-lg shadow inline-flex items-center gap-1.5"
-            >
-              <Plus size={13} /> Create Map
-            </button>
+            <p className="text-xs text-slate-500 font-mono mt-1 mb-4">Create tactical battlemaps with tokens and fog of war, or deploy canonical starter sectors.</p>
+            <div className="flex items-center justify-center gap-2">
+              <button
+                onClick={handleDeployStarterMaps}
+                className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 font-mono text-xs font-bold uppercase rounded-lg shadow inline-flex items-center gap-1.5"
+              >
+                <DownloadCloud size={13} /> Deploy Starter Maps
+              </button>
+              <button
+                onClick={() => {
+                  if (onOpenDrawer) onOpenDrawer('foundry-maps-workspace');
+                  else navigate('/foundry/map-maker');
+                }}
+                className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-mono text-xs font-bold uppercase rounded-lg shadow inline-flex items-center gap-1.5"
+              >
+                <Plus size={13} /> Create Map
+              </button>
+            </div>
           </div>
         ) : (
           <div className="space-y-1.5">

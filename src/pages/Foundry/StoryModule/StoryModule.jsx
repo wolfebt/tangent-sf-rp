@@ -80,7 +80,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     cronicleInitialMode,
     setCronicleInitialMode,
     editingModalElement,
-    setEditingModalElement
+    setEditingModalElement,
+    isSplitView
   } = useAdeStore(
     useShallow((state) => ({
       activeView: state.activeView,
@@ -99,6 +100,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       setCronicleInitialMode: state.setCronicleInitialMode,
       editingModalElement: state.editingElement,
       setEditingModalElement: state.setEditingElement,
+      isSplitView: state.isSplitView
     }))
   );
 
@@ -286,11 +288,13 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
 
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative select-none">
-      {/* ── UNIFIED 3-ZONE GLASS-COCKPIT ADE TOOLBAR (Only shown in sub-studios, functions shifted to Hub page) ── */}
+      {/* ── UNIFIED 3-ZONE GLASS-COCKPIT ADE TOOLBAR ── */}
       {activeView !== 'mission_control' && (
         <ADETopToolbar
           activeView={activeView}
+          scenarioWorkspaceTab={scenarioWorkspaceTab}
           onSwitchView={handleSwitchView}
+          onSelectScenarioWorkspaceTab={handleSelectScenarioWorkspaceTab}
           isGemsOpen={isGemsOpen}
           onToggleGems={setIsGemsOpen}
           isPrintModalOpen={isPrintModalOpen}
@@ -330,7 +334,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
 
       {/* ── MAIN WORKSPACE VIEWPORT ── */}
       <div className="flex-1 flex flex-row overflow-hidden relative">
-        {/* Dedicated ADE Studio Navigation Rail */}
+        {/* Dedicated ADE Studio Guidance Navigation Rail */}
         <ADENavRail
           activeView={activeView}
           onSwitchView={handleSwitchView}

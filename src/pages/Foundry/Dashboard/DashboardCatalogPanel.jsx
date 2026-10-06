@@ -51,7 +51,10 @@ export const DashboardCatalogPanel = () => {
     mapsCatalog, 
     elementsCatalog, 
     openStory, 
-    createNewStory 
+    createNewStory,
+    deleteStoryProject,
+    deleteSavedMap,
+    deleteMap
   } = useStory();
   
   const folio = useFolio() || {};
@@ -247,6 +250,37 @@ export const DashboardCatalogPanel = () => {
       AudioService.playTerminalBeep(1300, 0.03);
       const newProj = createNewStory(title.trim());
       navigate(`/foundry/story?storyId=${newProj.id}`);
+    }
+  };
+
+  const handleDeleteStory = async (e, story) => {
+    e.stopPropagation();
+    const ok = await confirm({
+      title: 'Delete Story Project',
+      message: `Are you sure you want to permanently delete "${story.projectName || 'Untitled Story'}"? All contained scenarios and data will be removed.`,
+      danger: true,
+      confirmLabel: 'Delete Story'
+    });
+    if (ok) {
+      AudioService.playTerminalBeep(500, 0.08);
+      if (deleteStoryProject) {
+        deleteStoryProject(story.id);
+      }
+    }
+  };
+
+  const handleDeleteMap = async (e, map) => {
+    e.stopPropagation();
+    const ok = await confirm({
+      title: 'Delete Tactical Map',
+      message: `Are you sure you want to permanently delete "${map.name || map.title || 'Untitled Map'}"?`,
+      danger: true,
+      confirmLabel: 'Delete Map'
+    });
+    if (ok) {
+      AudioService.playTerminalBeep(500, 0.08);
+      if (deleteSavedMap) deleteSavedMap(map.id);
+      if (deleteMap) deleteMap(map.id);
     }
   };
 
@@ -498,16 +532,25 @@ export const DashboardCatalogPanel = () => {
                         </div>
                       </div>
 
-                      {/* Right Action: Open Link + Folder Picker */}
+                      {/* Right Action: Open Link + Folder Picker + Delete */}
                       <div className="flex flex-col items-end gap-1.5 shrink-0">
-                        <button
-                          onClick={() => handleOpenStory(story.id)}
-                          className="px-2 py-1 bg-purple-950/70 hover:bg-purple-900 text-purple-300 border border-purple-500/40 rounded-lg text-[10px] font-mono font-bold uppercase flex items-center gap-1 transition-colors cursor-pointer"
-                          title="Open Story in ADE Editor"
-                        >
-                          <span>Open</span>
-                          <ExternalLink size={10} />
-                        </button>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => handleOpenStory(story.id)}
+                            className="px-2 py-1 bg-purple-950/70 hover:bg-purple-900 text-purple-300 border border-purple-500/40 rounded-lg text-[10px] font-mono font-bold uppercase flex items-center gap-1 transition-colors cursor-pointer"
+                            title="Open Story in ADE Editor"
+                          >
+                            <span>Open</span>
+                            <ExternalLink size={10} />
+                          </button>
+                          <button
+                            onClick={(e) => handleDeleteStory(e, story)}
+                            className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/40 rounded border border-transparent hover:border-red-500/40 transition-colors cursor-pointer"
+                            title="Delete Story Module"
+                          >
+                            <Trash2 size={11} />
+                          </button>
+                        </div>
 
                         {/* Reorder Buttons (When Custom Sort selected) */}
                         {sortBy === 'custom' && (
@@ -596,7 +639,7 @@ export const DashboardCatalogPanel = () => {
                       </div>
                     </div>
 
-                    {/* Actions: Open in Map Maker & Launch Stage VTT */}
+                    {/* Actions: Open in Map Maker & Launch Stage VTT & Delete */}
                     <div className="flex items-center gap-1.5 shrink-0">
                       <button
                         onClick={() => handleOpenMap(map.id)}
@@ -611,6 +654,13 @@ export const DashboardCatalogPanel = () => {
                         title="Launch in WebGPU Stage VTT"
                       >
                         <Play size={10} fill="currentColor" /> VTT
+                      </button>
+                      <button
+                        onClick={(e) => handleDeleteMap(e, map)}
+                        className="p-1 text-slate-500 hover:text-red-400 hover:bg-red-950/40 rounded border border-transparent hover:border-red-500/40 transition-colors cursor-pointer"
+                        title="Delete Tactical Map"
+                      >
+                        <Trash2 size={12} />
                       </button>
                     </div>
                   </div>

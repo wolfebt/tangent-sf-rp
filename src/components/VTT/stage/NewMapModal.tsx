@@ -18,6 +18,7 @@ import {
   Sun
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
+import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
 import { 
   createBlankCanvas, 
   createDerelictStarshipMap, 
@@ -51,6 +52,20 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
 
   const fileInputJsonRef = useRef<HTMLInputElement | null>(null);
   const fileInputImageRef = useRef<HTMLInputElement | null>(null);
+
+  const isDirty = (
+    mapTitle.trim() !== 'Tactical Sector' ||
+    gridMode !== 'hex' ||
+    dimensionPreset !== 'standard' ||
+    scaleTier !== 'Encounter'
+  );
+
+  const { handleBackdropClick, handleGuardedClose } = useDirtyModalClose({
+    isOpen,
+    isDirty,
+    onClose,
+    message: 'You have unsaved changes in the map creator. Discard them?'
+  });
 
   if (!isOpen) return null;
 
@@ -134,8 +149,14 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto select-none animate-in fade-in duration-150">
-      <div className="relative w-full max-w-2xl bg-[#090d16] border border-cyan-500/50 rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]">
+    <div 
+      onClick={(e) => handleBackdropClick(e)}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto select-none animate-in fade-in duration-150"
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-2xl bg-[#090d16] border border-cyan-500/50 rounded-2xl shadow-[0_0_50px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col max-h-[92vh] sm:max-h-[90vh]"
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-800 bg-[#0c121d] shrink-0">
           <div className="flex items-center gap-2 font-mono min-w-0">
@@ -146,8 +167,8 @@ export const NewMapModal: React.FC<NewMapModalProps> = ({
           </div>
           <button
             type="button"
-            onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors shrink-0"
+            onClick={() => handleGuardedClose()}
+            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors shrink-0 cursor-pointer"
           >
             <X size={18} />
           </button>

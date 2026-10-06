@@ -1,62 +1,37 @@
 import React from 'react';
-import { Compass, BookOpen, Sparkles } from 'lucide-react';
+import { Sparkles, Brain } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
-import { ROUTES, isAdeLiveStudioRoute, isAdeHubRoute, isStoryFoundryRoute } from '../../../constants/routes';
 
 export const ADEHUDBar = ({
   location,
-  navigate,
-  isStage
+  navigate
 }) => {
   const pathname = location?.pathname || '';
-  const search = location?.search || '';
-  const isLiveStudio = isAdeLiveStudioRoute(pathname, search);
-  const isHub = isAdeHubRoute(pathname, isStage, search);
-  const isStoryFoundry = isStoryFoundryRoute(pathname, isStage, search);
+  const isAimeActive = pathname.includes('/aime');
 
   return (
-    <div className="flex items-center gap-1 sm:gap-1.5 font-mono select-none">
+    <div className="flex items-center gap-1.5 font-mono select-none">
       <button
         type="button"
-        onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate(ROUTES.FOUNDRY); }}
-        className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer ${
-          isHub
-            ? 'bg-cyan-600 text-white shadow-[0_0_12px_rgba(34,211,238,0.5)] border border-cyan-400'
-            : 'bg-slate-900/80 text-cyan-300 hover:text-white hover:bg-slate-800 border border-cyan-500/50'
+        onClick={() => {
+          AudioService.playTerminalBeep(1200, 0.03);
+          navigate('/foundry/aime');
+        }}
+        className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm ${
+          isAimeActive
+            ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-[0_0_14px_rgba(168,85,247,0.5)] border border-cyan-300'
+            : 'bg-gradient-to-r from-purple-950/70 via-slate-900 to-cyan-950/70 hover:from-purple-900/90 hover:to-cyan-900/90 text-purple-200 hover:text-white border border-purple-500/50 hover:border-cyan-400 shadow-[0_0_10px_rgba(168,85,247,0.25)]'
         }`}
-        title="ADE Hub (Mission Control, Module Roster & Configuration)"
+        title="AIME Creative Engine (AI Prose Weaver, World Architect & Co-Pilot)"
       >
-        <Compass size={13} className="text-cyan-400" />
-        <span>ADE HUB</span>
-      </button>
-
-      <button
-        type="button"
-        onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate(`${ROUTES.FOUNDRY}?view=scenarios`); }}
-        className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer ${
-          isStoryFoundry
-            ? 'bg-purple-600 text-white shadow-[0_0_10px_rgba(168,85,247,0.4)] border border-purple-400'
-            : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
-        }`}
-        title="Story Weaver ADE (Manuscript Drafting, Beats & Outlines)"
-      >
-        <BookOpen size={13} className="text-purple-400" />
-        <span className="hidden md:inline">WEAVER</span>
-      </button>
-
-      <button
-        type="button"
-        onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate(`${ROUTES.FOUNDRY}?view=scenarios&tab=stage`); }}
-        className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer ${
-          isLiveStudio
-            ? 'bg-gradient-to-r from-purple-600 to-cyan-600 text-white shadow-[0_0_12px_rgba(34,211,238,0.5)] border border-cyan-400'
-            : 'bg-slate-900/80 text-cyan-300 hover:text-white hover:bg-slate-800 border border-cyan-500/50'
-        }`}
-        title="Consolidated ADE Live Studio (Unified Live Story & Tactical Stage Platform)"
-      >
-        <Sparkles size={13} className="text-cyan-400" />
-        <span className="hidden sm:inline">LIVE STUDIO</span>
+        <Sparkles size={14} className={isAimeActive ? 'text-cyan-200 animate-spin' : 'text-purple-400'} />
+        <span className="font-extrabold tracking-widest">AIME</span>
+        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-black/50 text-cyan-300 border border-cyan-500/40 font-mono hidden sm:inline">
+          AI ENGINE
+        </span>
       </button>
     </div>
   );
 };
+
+export default ADEHUDBar;

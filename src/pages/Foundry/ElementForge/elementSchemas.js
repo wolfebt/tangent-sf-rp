@@ -87,6 +87,7 @@ export const getElementFileExtension = (type = '') => {
   if (norm.includes('tech') || norm.includes('forge')) return '.tech';
   if (norm.includes('philosophy') || norm.includes('scribe')) return '.philosophy';
   if (norm.includes('scene') || norm.includes('builder')) return '.scene';
+  if (norm.includes('custom') || norm.includes('codex')) return '.custom';
   return '.element';
 };
 
@@ -95,6 +96,10 @@ export const getTypePillStyle = (type) => {
   if (mod) return mod.pillStyle;
 
   switch (type) {
+    case 'Custom':
+    case 'Custom Element':
+    case 'Custom Codex':
+      return 'bg-teal-500/20 text-teal-300 border-teal-500/40';
     case 'Story Arc':
     case 'Adventure':
       return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
@@ -261,8 +266,26 @@ const SCENE_BUILDER_SCHEMA = [
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
 ];
 
+export const CUSTOM_ELEMENT_SCHEMA = [
+  // Canonical User-Defined Traits
+  { tab: 'Core Traits', key: 'name', aliasKeys: ['title', 'customTitle'], label: 'Element Name / Title', type: 'text', placeholder: 'Custom element or lorebook identifier...' },
+  { tab: 'Core Traits', key: 'category', aliasKeys: ['domain', 'typeTag', 'classification'], label: 'Category / Domain', type: 'text', placeholder: 'e.g. Lorebook Dossier, Secret Intel, Historical Log, Custom Mechanics...' },
+  { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'brief', 'concept'], label: 'One-Line Pitch / Summary', type: 'text', placeholder: 'One sentence overview capturing this element\'s essence...' },
+  { tab: 'Core Traits', key: 'description', aliasKeys: ['content', 'details', 'body'], label: 'Detailed Information & Lore', type: 'textarea', placeholder: 'Full user-defined text, specifications, background, or narrative notes...' },
+  { tab: 'Core Traits', key: 'tags', aliasKeys: ['classification', 'keywords'], label: 'Keywords & Classification Tags', type: 'text', placeholder: 'Comma-separated tags (e.g. classified, sector-4, precursor, secret)...' },
+
+  // User-Defined Custom Metadata & Mechanics
+  { tab: 'User Data & Mechanics', key: 'customDataType', label: 'Data Type / Format', type: 'text', placeholder: 'Note / Rule / Lore / Mechanic / Handout / System' },
+  { tab: 'User Data & Mechanics', key: 'sourceOrAuthor', label: 'Source / Author / In-Universe Origin', type: 'text', placeholder: 'e.g. Intercepted Comms, Dr. Vane\'s Journal, Architect Docket' },
+  { tab: 'User Data & Mechanics', key: 'customProperties', label: 'Custom Properties / Key-Values (JSON)', type: 'textarea', placeholder: '{"customStat": 42, "clearance": "Top Secret"}' },
+  { tab: 'User Data & Mechanics', key: 'gmNotes', label: 'GM / Architect Confidential Notes', type: 'textarea', placeholder: 'Private GM-only notes hidden from players...' },
+
+  // Dynamic Lorebook & Trigger Scanning
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+];
+
 export const ELEMENT_SCHEMAS = {
-  // 7 Core AIME Modules (Mapped to both Title and Single-word alias)
+  // Core AIME Modules (Mapped to both Title and Single-word alias)
   'World Anvil': WORLD_ANVIL_SCHEMA,
   'World': WORLD_ANVIL_SCHEMA,
 
@@ -284,8 +307,10 @@ export const ELEMENT_SCHEMAS = {
   'Scene Builder': SCENE_BUILDER_SCHEMA,
   'Scene': SCENE_BUILDER_SCHEMA,
 
-  // Legacy RPG Types (Preserved for compatibility)
-  'Custom': [],
+  // User-Defined Custom Element & Lorebook Codex
+  'Custom Codex': CUSTOM_ELEMENT_SCHEMA,
+  'Custom': CUSTOM_ELEMENT_SCHEMA,
+  'Custom Element': CUSTOM_ELEMENT_SCHEMA,
   'Story Arc': [
     { tab: 'Overview', key: 'summary', label: 'Summary', type: 'textarea', placeholder: 'Brief overview of the arc...' },
     { tab: 'Overview', key: 'goal', label: 'Goal', type: 'text', placeholder: 'Ultimate objective of this story arc...' },
@@ -416,5 +441,13 @@ export const SCENARIO_GUIDE_MODULES = [
     elementType: 'Map',
     icon: '🗺️',
     promptTemplate: 'Generate a Tactical Map Layout Specification for "{title}". Include grid dimensions, terrain biomes, elevation levels, cover positions, and dynamic lighting zones.'
+  },
+  {
+    id: 'sg_custom',
+    name: 'Custom Lore & Codex Entry',
+    category: 'Lorebook',
+    elementType: 'Custom',
+    icon: '📑',
+    promptTemplate: 'Generate a detailed Custom Lorebook / Codex Entry for "{title}". Include in-universe background, classification, key facts, sensory aesthetics, and story hooks.'
   }
 ];

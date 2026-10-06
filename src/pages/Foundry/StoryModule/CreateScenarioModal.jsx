@@ -21,11 +21,25 @@ import {
   X,
   Target,
   Terminal,
-  Search
+  Search,
+  Skull,
+  Truck,
+  Building2,
+  KeyRound,
+  Gem
 } from 'lucide-react';
 import { useStory } from '../../../context/CampaignContext';
 import { AudioService } from '../../../services/audioService';
-import { createBlankCanvas, createDerelictStarshipMap, createResearchOutpostMap } from '../../../components/VTT/stage/defaultMaps';
+import { 
+  createBlankCanvas, 
+  createDerelictStarshipMap, 
+  createResearchOutpostMap,
+  createOrbitalBridgeMap,
+  createXenobiologyCavernMap,
+  createNeonBlackMarketMap,
+  createMagLevDepotMap
+} from '../../../components/VTT/stage/defaultMaps';
+import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
 
 export const SCENARIO_TYPES = [
   { id: 'Act', label: 'Act', icon: Compass, color: 'text-amber-400', desc: 'Major narrative milestone or chapter phase' },
@@ -71,6 +85,41 @@ export const SCENARIO_TEMPLATES = [
     icon: Terminal,
     desc: 'ICE firewall penetration, subnet navigation, data vault extraction, countermeasure evasion.',
     content: `<h2>SUBNET RECONNAISSANCE</h2><p><strong>Network Architecture:</strong> Tier 3 Corporate Network with encrypted subnet layers.</p><p><strong>Firewall ICE:</strong> Intrusion Countermeasure Electronics monitoring ports.</p><h2>VAULT ACCESS</h2><p><strong>Core System:</strong> Central Data Vault encrypted with AES-4096 quantum keys.</p><p><strong>Payload:</strong> Classified R&D blueprints ready for download.</p><h2>TRACE EVASION</h2><p><strong>Active Trace:</strong> Black ICE program active. Operatives have limited actions before physical location is compromised.</p>`
+  },
+  {
+    id: 'derelict_survival',
+    name: 'Derelict Hulk Survival Horror',
+    icon: Skull,
+    desc: 'Vacuum decompression countdown, bio-quarantine protocols, corrupted logs, and xeno ambush.',
+    content: `<h2>HULL BREACH & EMERGENCY PROTOCOLS</h2><p><strong>Atmospheric Status:</strong> Decompression countdown active. Life-support reserve: 6 rounds.</p><p><strong>Sensory Atmosphere:</strong> Flickering amber strobes, dripping condensation, metal groaning under vacuum shear.</p><h2>BIO-HAZARD QUARANTINE</h2><p><strong>Airlock Scrub:</strong> Disinfect contaminated airlock before sealing bulkhead (DC 14 Biotech check).</p><p><strong>Hostile Incursion:</strong> Chitinous brood hunters stalking the ventilation corridors.</p><h2>AUXILIARY REACTOR IGNITION</h2><p><strong>Core Restore:</strong> Reroute emergency power conduits to unseal evacuation pods.</p>`
+  },
+  {
+    id: 'convoy_ambush',
+    name: 'Overland Convoy Escort',
+    icon: Truck,
+    desc: 'Heavy transport crawler defense, raider hovercraft flankers, EMP minefield, bridge choke-point.',
+    content: `<h2>CONVOY ROLLING ENCOUNTER</h2><p><strong>Mission Mandate:</strong> Escort Goliath-class heavy crawler across scorched salt flats.</p><p><strong>Transport Integrity:</strong> Crawler shields absorb 40 damage before direct locomotive failure.</p><h2>RAIDER FLANK ATTACK</h2><p><strong>Raider Incursion:</strong> Fast hovercraft skirmishers attempting to deploy magnetic harpoons.</p><p><strong>Hazard Grid:</strong> EMP proximity mines planted across the canyon narrows.</p><h2>OUTPOST ARRIVAL</h2><p><strong>Choke-Point Defense:</strong> Repel final heavy boss rig before perimeter gates seal.</p>`
+  },
+  {
+    id: 'diplomatic_summit',
+    name: 'Diplomatic Station Intrigue',
+    icon: Building2,
+    desc: 'Multi-faction treaty summit, concealed poison vectors, bodyguard extraction, blackmail slice.',
+    content: `<h2>THE NEUTRAL SUMMIT</h2><p><strong>Setting:</strong> Sovereign Orbital Citadel. Entari Combine and Dynasty delegates convened.</p><p><strong>Tension Index:</strong> Armed security forbidden past security scanners (concealed holdout weapons DC 16).</p><h2>CONCEALED THREATS</h2><p><strong>Subtle Poison:</strong> Neurotoxin detected in banquet filtration matrix.</p><p><strong>Epistemic Clues:</strong> Corrupted datapad implicating a rogue ambassador in coup plot.</p><h2>EXTRACTION & DE-ESCALATION</h2><p><strong>Crisis Protocol:</strong> Shield the ambassador from sniper vantage while disarming station security lock.</p>`
+  },
+  {
+    id: 'prison_break',
+    name: 'Black-Site Prison Break',
+    icon: KeyRound,
+    desc: 'Laser grid sabotage, cryogenic cell release, security drone patrols, armed shuttle hijack.',
+    content: `<h2>INFILTRATION & POWER DRAIN</h2><p><strong>Target:</strong> Deep-orbit black site detention facility.</p><p><strong>Main Breaker:</strong> Slicing terminal 4 disables primary laser fences for 3 combat rounds.</p><h2>CELL-BLOCK EXTRACTION</h2><p><strong>High-Value Asset:</strong> Operative held in stasis block C-9 requiring thawing bypass.</p><p><strong>Inmate Riot:</strong> Divert guard automated sentries by triggering cell overrides.</p><h2>HANGAR BAY EXFILTRATION</h2><p><strong>Shuttle Seizure:</strong> Clear defensive sentry turrets and pilot transport shuttle through blast doors.</p>`
+  },
+  {
+    id: 'progenitor_vault',
+    name: 'Progenitor Vault Delve',
+    icon: Gem,
+    desc: 'Ancient glyph translation, shifting gravity traps, crystalline sentinel boss, singularity core.',
+    content: `<h2>PROGENITOR ATRIUM</h2><p><strong>Archeological Enigma:</strong> Ancient hyper-alloy monolith covered in glowing runic glyphs.</p><p><strong>Gravitational Hazard:</strong> Inverted gravity plates requiring acrobatics/jetpack maneuvers.</p><h2>THE CRYSTALLINE GUARDIAN</h2><p><strong>Boss Encounter:</strong> Autonomous crystalline sentinel wielding hard-light energy blades.</p><p><strong>Weak Point:</strong> Resonating tuning fork terminals expose core vulnerability.</p><h2>SINGULARITY RETRIEVAL</h2><p><strong>Relic Container:</strong> Extract the unstable quantum singularity core before temple collapse.</p>`
   }
 ];
 
@@ -89,8 +138,6 @@ export const CreateScenarioModal = ({
   const [mapOption, setMapOption] = useState('new_blank'); // 'none' | 'new_blank' | 'new_starship' | 'new_outpost' | 'existing'
   const [selectedExistingMapId, setSelectedExistingMapId] = useState('');
   const [sceneBeats, setSceneBeats] = useState('');
-
-  if (!isOpen) return null;
 
   // Flatten scenarios tree for parent selector
   const flatScenarioOptions = [];
@@ -131,6 +178,26 @@ export const CreateScenarioModal = ({
       newMap.title = `${finalTitle} - Outpost Sector`;
       if (addMap) addMap(newMap);
       finalMapId = newMap.id;
+    } else if (mapOption === 'new_orbital_bridge') {
+      const newMap = createOrbitalBridgeMap();
+      newMap.title = `${finalTitle} - CIC Bridge`;
+      if (addMap) addMap(newMap);
+      finalMapId = newMap.id;
+    } else if (mapOption === 'new_xeno_cavern') {
+      const newMap = createXenobiologyCavernMap();
+      newMap.title = `${finalTitle} - Xeno Caverns`;
+      if (addMap) addMap(newMap);
+      finalMapId = newMap.id;
+    } else if (mapOption === 'new_black_market') {
+      const newMap = createNeonBlackMarketMap();
+      newMap.title = `${finalTitle} - Black Market Alley`;
+      if (addMap) addMap(newMap);
+      finalMapId = newMap.id;
+    } else if (mapOption === 'new_maglev_depot') {
+      const newMap = createMagLevDepotMap();
+      newMap.title = `${finalTitle} - Mag-Lev Depot`;
+      if (addMap) addMap(newMap);
+      finalMapId = newMap.id;
     }
 
     const newScenarioNode = {
@@ -158,13 +225,32 @@ export const CreateScenarioModal = ({
     if (onScenarioCreated) {
       onScenarioCreated(newScenarioNode);
     }
-
-    onClose();
+    if (onClose) {
+      onClose();
+    }
   };
 
+  const isDirty = Boolean(title.trim() || sceneBeats.trim() || type !== 'Scene' || selectedTemplate !== 'blank');
+
+  const { handleRequestClose, handleBackdropClick } = useDirtyModalClose({
+    isOpen,
+    isDirty,
+    onClose,
+    title: 'Discard New Scenario?',
+    message: 'You have entered details for this new scenario. Discard and exit?'
+  });
+
+  if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 overflow-y-auto font-mono">
-      <div className="bg-[#0b101d] border border-cyan-500/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.25)] overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200">
+    <div 
+      onClick={handleBackdropClick}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 overflow-y-auto font-mono"
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-[#0b101d] border border-cyan-500/40 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.25)] overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-slate-200"
+      >
         
         {/* Modal Header */}
         <div className="px-5 py-3.5 bg-gradient-to-r from-cyan-950/80 via-slate-900 to-slate-900 border-b border-cyan-500/30 flex items-center justify-between shrink-0">
@@ -183,7 +269,7 @@ export const CreateScenarioModal = ({
           </div>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleRequestClose}
             className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
           >
             <X size={16} />
@@ -348,6 +434,58 @@ export const CreateScenarioModal = ({
 
               <button
                 type="button"
+                onClick={() => setMapOption('new_orbital_bridge')}
+                className={`p-2 rounded-xl border text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                  mapOption === 'new_orbital_bridge'
+                    ? 'bg-amber-950/60 border-amber-400 text-amber-200'
+                    : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                }`}
+              >
+                <span>🛰️ Orbital CIC Bridge</span>
+                <span className="text-[9px] text-slate-500 font-normal">Command dais &amp; holotable</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setMapOption('new_xeno_cavern')}
+                className={`p-2 rounded-xl border text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                  mapOption === 'new_xeno_cavern'
+                    ? 'bg-amber-950/60 border-amber-400 text-amber-200'
+                    : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                }`}
+              >
+                <span>🌿 Xenobiology Cavern</span>
+                <span className="text-[9px] text-slate-500 font-normal">Bioluminescent hex zone</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setMapOption('new_black_market')}
+                className={`p-2 rounded-xl border text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                  mapOption === 'new_black_market'
+                    ? 'bg-amber-950/60 border-amber-400 text-amber-200'
+                    : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                }`}
+              >
+                <span>🏙️ Neon Black Market</span>
+                <span className="text-[9px] text-slate-500 font-normal">Cyberpunk alley &amp; clinic</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setMapOption('new_maglev_depot')}
+                className={`p-2 rounded-xl border text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                  mapOption === 'new_maglev_depot'
+                    ? 'bg-amber-950/60 border-amber-400 text-amber-200'
+                    : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                }`}
+              >
+                <span>🚆 Mag-Lev Cargo Depot</span>
+                <span className="text-[9px] text-slate-500 font-normal">Industrial rail &amp; sentries</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setMapOption('existing')}
                 className={`p-2 rounded-xl border text-xs font-bold transition-all cursor-pointer flex flex-col items-center gap-1 ${
                   mapOption === 'existing'
@@ -410,7 +548,7 @@ export const CreateScenarioModal = ({
           <div className="pt-3 border-t border-slate-800/80 flex items-center justify-end gap-2.5">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleRequestClose}
               className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-bold transition-colors cursor-pointer"
             >
               Cancel
