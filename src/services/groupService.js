@@ -23,8 +23,14 @@ import { ChatService } from './chatService';
 const generateInviteCode = () => {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let result = 'GRP-';
+  const cryptoAPI = (typeof window !== 'undefined' && window.crypto) ? window.crypto : globalThis.crypto;
+  const randomArray = new Uint8Array(6);
+  cryptoAPI.getRandomValues(randomArray);
+
   for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+    // We can use modulo here because chars.length is 32 (a power of 2).
+    // This avoids modulo bias completely.
+    result += chars.charAt(randomArray[i] % chars.length);
   }
   return result;
 };
