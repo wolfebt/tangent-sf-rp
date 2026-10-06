@@ -51,23 +51,25 @@ const FoundryAppInner = () => {
           <Route path="mission-control" element={<FoundryRouteRedirect view="mission_control" />} />
           <Route path="dashboard" element={<FoundryRouteRedirect view="mission_control" />} />
           <Route path="hub" element={<FoundryRouteRedirect view="mission_control" />} />
-          <Route path="live" element={<FoundryRouteRedirect view="scenarios" tab="stage" />} />
-          <Route path="live-studio" element={<FoundryRouteRedirect view="scenarios" tab="stage" />} />
-          <Route path="ade-stage" element={<FoundryRouteRedirect view="scenarios" tab="stage" />} />
+          <Route path="live" element={<FoundryRouteRedirect view="stage" tab="run" />} />
+          <Route path="live-studio" element={<FoundryRouteRedirect view="stage" tab="run" />} />
+          <Route path="ade-stage" element={<FoundryRouteRedirect view="stage" tab="run" />} />
           <Route path="live-studio-standalone" element={<SearchPreservingRedirect to="/foundry/live" />} />
           <Route path="stage" element={<ADEStage />} />
           <Route path="ade" element={<StoryModule />} />
           <Route path="story" element={<StoryModule />} />
-          <Route path="interactive" element={<FoundryRouteRedirect view="interactive" />} />
-          <Route path="narrative" element={<FoundryRouteRedirect view="scenarios" />} />
-          <Route path="scripts" element={<FoundryRouteRedirect view="scripts" />} />
-          <Route path="presets" element={<FoundryRouteRedirect view="scripts" />} />
-          <Route path="automation" element={<FoundryRouteRedirect view="scripts" />} />
+          <Route path="interactive" element={<FoundryRouteRedirect view="scenarios" tab="play" />} />
+          <Route path="gems" element={<FoundryRouteRedirect view="scenarios" tab="gems" />} />
+          <Route path="narrative" element={<FoundryRouteRedirect view="scenarios" tab="write" />} />
+          <Route path="scripts" element={<FoundryRouteRedirect view="stage" tab="scripts" />} />
+          <Route path="presets" element={<FoundryRouteRedirect view="stage" tab="scripts" />} />
+          <Route path="automation" element={<FoundryRouteRedirect view="stage" tab="scripts" />} />
           <Route path="assets" element={<FoundryRouteRedirect view="elements" />} />
           <Route path="elements" element={<FoundryRouteRedirect view="elements" />} />
           <Route path="gallery" element={<FoundryRouteRedirect view="elements" />} />
-          <Route path="graph" element={<FoundryRouteRedirect view="graph" />} />
-          <Route path="tactical" element={<FoundryRouteRedirect view="control-panel" />} />
+          <Route path="graph" element={<FoundryRouteRedirect view="scenarios" tab="graph" />} />
+          <Route path="tactical" element={<FoundryRouteRedirect view="stage" tab="encounters" />} />
+          <Route path="control-panel" element={<FoundryRouteRedirect view="stage" tab="encounters" />} />
           <Route path="catalog" element={<Dashboard />} />
           <Route path="map" element={<MapMaker />} />
           <Route path="map-maker" element={<MapMaker />} />

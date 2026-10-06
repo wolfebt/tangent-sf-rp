@@ -55,8 +55,8 @@ export interface StageBreadcrumbTabsProps {
   onToggleSplit?: () => void;
   is3DActive?: boolean;
   onToggle3D?: () => void;
-  activeStageTab?: 'map' | 'tree' | 'architect' | 'gems';
-  onSelectStageTab?: (tab: 'map' | 'tree' | 'architect' | 'gems') => void;
+  activeStageTab?: 'map' | 'tree' | 'architect';
+  onSelectStageTab?: (tab: 'map' | 'tree' | 'architect') => void;
   onSwitchToWeaver?: () => void;
 }
 
@@ -638,22 +638,6 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
           <span>Architect</span>
         </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            if (onSelectStageTab) onSelectStageTab('gems');
-          }}
-          className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold tracking-wide transition-all cursor-pointer flex items-center gap-1.5 ${
-            activeStageTab === 'gems'
-              ? 'bg-gradient-to-r from-rose-600 to-pink-600 text-white shadow-md shadow-rose-500/30'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850'
-          }`}
-          title="Guidance Gems (Prompts & Directives)"
-        >
-          <Sparkles size={13} className={activeStageTab === 'gems' ? 'text-white' : 'text-slate-400'} />
-          <span>Gems</span>
-        </button>
       </nav>
 
       {/* RIGHT: Grid Menu, 3D Holo, AIME, Zen Fullscreen */}

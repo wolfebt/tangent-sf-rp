@@ -32,8 +32,6 @@ export default function ADETopToolbar({
   onSwitchView,
   onSelectScenarioWorkspaceTab,
   // Modals & Panels
-  isGemsOpen,
-  onToggleGems,
   isScratchbookOpen,
   onToggleScratchbook,
   isPrintModalOpen,
@@ -87,11 +85,10 @@ export default function ADETopToolbar({
     }))
   );
 
-  const gemsCount = (universeState?.creativeState?.gems || []).length;
-
-  const isMapTabActive = (activeView === 'scenarios' && scenarioWorkspaceTab === 'stage') || activeView === 'stage';
-  const isTreeTabActive = (activeView === 'scenarios' && scenarioWorkspaceTab !== 'stage') || activeView === 'elements';
-  const isArchitectTabActive = activeView === 'map' || activeView === 'map-maker';
+  const isWeaverTabActive = activeView === 'scenarios' && scenarioWorkspaceTab !== 'stage';
+  const isStageTabActive = activeView === 'stage' || (activeView === 'scenarios' && scenarioWorkspaceTab === 'stage');
+  const isMapTabActive = activeView === 'map' || activeView === 'map-maker';
+  const isElementsTabActive = activeView === 'elements' || activeView === 'gallery';
 
   return (
     <>
@@ -129,45 +126,45 @@ export default function ADETopToolbar({
 
         {/* ── ZONE 2: TOP HORIZONTAL TABS (Center) ── */}
         <nav aria-label="ADE Studio Top Tabs" className="flex items-center bg-slate-900/90 border border-slate-800 rounded-2xl p-1 shadow-inner font-mono text-xs shrink-0">
-          {/* Tab 1: Map */}
+          {/* Tab 1: Weaver */}
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1100, 0.02);
-              if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
-              else if (onSwitchView) onSwitchView('scenarios', 'stage');
+              if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('write');
+              else if (onSwitchView) onSwitchView('scenarios', 'write');
             }}
             className={`px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-              isMapTabActive
-                ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
-            }`}
-            title="Tactical Map & Battlemap Stage"
-          >
-            <MapIcon size={13} className={isMapTabActive ? 'text-purple-300' : 'text-purple-400'} />
-            <span>Map</span>
-          </button>
-
-          {/* Tab 2: Module Tree */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('weaver');
-              else if (onSwitchView) onSwitchView('scenarios', 'weaver');
-            }}
-            className={`px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-              isTreeTabActive
+              isWeaverTabActive
                 ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_12px_rgba(6,182,212,0.35)]'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
             }`}
-            title="Module Tree, Wiki Elements & Manuscript Canvas"
+            title="Story Weaver Narrative Canvas & Prose Studio"
           >
-            <FolderTree size={13} className={isTreeTabActive ? 'text-cyan-300' : 'text-cyan-400'} />
-            <span>Module Tree <span className="opacity-75 text-[10px] hidden md:inline">(Elements)</span></span>
+            <FolderTree size={13} className={isWeaverTabActive ? 'text-cyan-300' : 'text-cyan-400'} />
+            <span>Weaver</span>
           </button>
 
-          {/* Tab 3: Architect */}
+          {/* Tab 2: Stage */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              if (onSwitchView) onSwitchView('stage', 'setup');
+              else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
+            }}
+            className={`px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              isStageTabActive
+                ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
+            }`}
+            title="Stage Compiler, Map Anchors, Triggers & Live Simulation"
+          >
+            <Sparkles size={13} className={isStageTabActive ? 'text-purple-300' : 'text-purple-400'} />
+            <span>Stage</span>
+          </button>
+
+          {/* Tab 3: Map */}
           <button
             type="button"
             onClick={() => {
@@ -175,37 +172,32 @@ export default function ADETopToolbar({
               if (onSwitchView) onSwitchView('map');
             }}
             className={`px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-              isArchitectTabActive
+              isMapTabActive
                 ? 'bg-indigo-950 text-indigo-300 border border-indigo-500/60 shadow-[0_0_12px_rgba(99,102,241,0.35)]'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
             }`}
             title="Map Architect & Cartographic Blueprint Studio"
           >
-            <Hammer size={13} className={isArchitectTabActive ? 'text-indigo-300' : 'text-indigo-400'} />
-            <span>Architect</span>
+            <MapIcon size={13} className={isMapTabActive ? 'text-indigo-300' : 'text-indigo-400'} />
+            <span>Map</span>
           </button>
 
-          {/* Tab 4: Gems */}
+          {/* Tab 4: Elements */}
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1100, 0.02);
-              if (onToggleGems) onToggleGems(true);
+              if (onSwitchView) onSwitchView('elements');
             }}
             className={`px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-              isGemsOpen
-                ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-                : 'text-slate-400 hover:text-amber-300 hover:bg-slate-800/60 border border-transparent'
+              isElementsTabActive
+                ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
             }`}
-            title="Guidance Gems (Genre, Tone, POV, Conflict tags)"
+            title="Story Elements Repository & Asset Forge"
           >
-            <span>💎</span>
-            <span>Gems</span>
-            {gemsCount > 0 && (
-              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-bold">
-                {gemsCount}
-              </span>
-            )}
+            <Hammer size={13} className={isElementsTabActive ? 'text-emerald-300' : 'text-emerald-400'} />
+            <span>Elements</span>
           </button>
         </nav>
 

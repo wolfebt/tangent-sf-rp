@@ -33,7 +33,6 @@ import { getStarterMapsCollection } from './stage/defaultMaps';
 
 const OperativeCockpit = OperativeCockpitRail as unknown as React.ComponentType<any>;
 const ArchitectConsole = ArchitectConsoleRail as unknown as React.ComponentType<any>;
-import GuidanceGemsPanel from '../../pages/Foundry/StoryModule/panels/GuidanceGemsPanel';
 import type { StageViewProps } from './StageView';
 import { useCampaign } from '../../context/CampaignContext';
 import { useEngineStore, selectAllFusedTokens } from '../../engine/index';
@@ -98,9 +97,9 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operative');
   const [isModuleIngestionOpen, setIsModuleIngestionOpen] = useState(false);
   const [isStageSettingsOpen, setIsStageSettingsOpen] = useState(false);
-  const [activeStageTab, setActiveStageTab] = useState<'map' | 'tree' | 'architect' | 'gems'>('map');
+  const [activeStageTab, setActiveStageTab] = useState<'map' | 'tree' | 'architect'>('map');
 
-  const handleSelectStageTab = (tab: 'map' | 'tree' | 'architect' | 'gems') => {
+  const handleSelectStageTab = (tab: 'map' | 'tree' | 'architect') => {
     setActiveStageTab(tab);
     if (tab === 'map') {
       setLeftCollapsed(true);
@@ -116,10 +115,6 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
       setRightCollapsed(false);
       setLeftCollapsed(true);
       VttEventBus.emit('toggle-stage-design-mode', { active: true });
-    } else if (tab === 'gems') {
-      setLeftCollapsed(true);
-      setRightCollapsed(true);
-      VttEventBus.emit('toggle-stage-design-mode', { active: false });
     }
   };
 
@@ -536,13 +531,6 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         rightPanel={renderRightPanel()}
         className="w-full h-full"
       />
-
-      {/* In-Situ Guidance Gems Slide-Over Panel (WebGPU canvas stays alive underneath) */}
-      {activeStageTab === 'gems' && (
-        <div className="absolute top-10 right-0 bottom-0 w-96 max-w-[90vw] z-40 bg-[#0c1017]/98 border-l border-rose-500/40 backdrop-blur-xl shadow-2xl animate-in slide-in-from-right duration-200">
-          <GuidanceGemsPanel onClose={() => setActiveStageTab('map')} />
-        </div>
-      )}
 
       {/* Active Situational & Temporary Modifiers HUD Strip */}
       {universeState?.galleryModifiers && universeState.galleryModifiers.filter((m: any) => m.isActive).length > 0 && (

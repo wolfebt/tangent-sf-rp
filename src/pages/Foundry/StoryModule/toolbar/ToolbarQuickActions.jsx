@@ -20,9 +20,6 @@ export default function ToolbarQuickActions({
   targetMapId,
   universeState,
   activeNode,
-  gemsCount,
-  isGemsOpen,
-  onToggleGems,
   pendingCronicleCount,
   isCronicleOpen,
   onToggleCronicle,
@@ -151,23 +148,6 @@ export default function ToolbarQuickActions({
 
       {/* Fast-Access Modals Cluster */}
       <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl p-0.5 gap-0.5 shadow-sm">
-        {/* Gems */}
-        <button
-          type="button"
-          onClick={() => onToggleGems?.(true)}
-          className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-            isGemsOpen
-              ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-              : 'text-amber-400 hover:text-amber-200 hover:bg-slate-800/80 border border-transparent'
-          }`}
-          title="Guidance Gems (Genre, Tone, POV, Conflict tags)"
-        >
-          <span>💎</span>
-          <span className="text-[10px] px-1 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono">
-            {gemsCount}
-          </span>
-        </button>
-
         {/* Cronicle */}
         <button
           type="button"

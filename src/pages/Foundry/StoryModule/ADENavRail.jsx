@@ -36,9 +36,7 @@ export const ADENavRail = ({
   elementsCount = 0,
   mapsCount = 0,
   modifiersCount = 0,
-  gemsCount = 0,
   pendingCronicleCount = 0,
-  onOpenGems,
   onOpenCronicle,
   onOpenScratchbook,
   onOpenPrintModal,
@@ -51,7 +49,7 @@ export const ADENavRail = ({
 
   const totalGalleryCount = elementsCount + mapsCount + modifiersCount;
 
-  const workspaceItems = [
+  const coreWorkspaceItems = [
     {
       id: 'mission_control',
       aliasIds: ['dashboard', 'mission-control', 'hub'],
@@ -66,29 +64,33 @@ export const ADENavRail = ({
     },
     {
       id: 'scenarios',
+      aliasIds: ['weaver', 'narrative', 'story'],
       label: 'WEAVER',
       sublabel: 'Story Weaver',
-      description: 'Manuscript Drafting, Story Beats & Genesis',
+      description: 'Manuscript Drafting, Inline AI Assistant, Elements & Narrative Genesis',
       icon: BookOpen,
       colorTheme: 'cyan',
       onClick: () => {
-        if (onSwitchView) onSwitchView('scenarios', 'weaver');
-        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('weaver');
+        if (onSwitchView) onSwitchView('scenarios', 'write');
+        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('write');
       }
     },
     {
-      id: 'elements',
-      aliasIds: ['gallery', 'elements'],
-      label: 'ELEMENTS',
-      sublabel: 'Story Elements',
-      description: 'Story Asset & Elements Repository (Personas, Places, Items & Modifiers)',
-      icon: Box,
-      colorTheme: 'emerald',
-      badge: elementsCount > 0 ? `${elementsCount}` : (totalGalleryCount > 0 ? `${totalGalleryCount}` : null),
+      id: 'stage',
+      aliasIds: ['live-studio', 'ade-stage'],
+      label: 'STAGE',
+      sublabel: 'Tactical Stage & Compiler',
+      description: 'Stage Compiler, Map Anchors, Triggers, Flow, Encounters & Live VTT Staging',
+      icon: Sparkles,
+      colorTheme: 'purple',
       onClick: () => {
-        if (onSwitchView) onSwitchView('elements');
+        if (onSwitchView) onSwitchView('stage', 'setup');
+        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
       }
-    },
+    }
+  ];
+
+  const assetWorkspaceItems = [
     {
       id: 'map',
       aliasIds: ['map-maker', 'mapmaker'],
@@ -103,78 +105,21 @@ export const ADENavRail = ({
       }
     },
     {
-      id: 'stage',
-      aliasIds: ['live-studio', 'stage'],
-      label: 'STAGE',
-      sublabel: 'Tactical Stage',
-      description: 'Integrated WebGPU Tactical Battlemap & Live Simulation',
-      icon: Sparkles,
-      colorTheme: 'purple',
+      id: 'elements',
+      aliasIds: ['gallery', 'elements'],
+      label: 'ELEMENTS',
+      sublabel: 'Story Elements',
+      description: 'Story Asset & Elements Repository (Personas, Places, Items & Modifiers)',
+      icon: Box,
+      colorTheme: 'emerald',
+      badge: elementsCount > 0 ? `${elementsCount}` : (totalGalleryCount > 0 ? `${totalGalleryCount}` : null),
       onClick: () => {
-        if (onSwitchView) onSwitchView('scenarios', 'stage');
-        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
-      }
-    },
-    {
-      id: 'interactive',
-      label: 'PLAY',
-      sublabel: 'Interactive Play',
-      description: 'Branching Story Sequences & Decision Gates',
-      icon: Play,
-      colorTheme: 'purple',
-      onClick: () => {
-        if (onSwitchView) onSwitchView('interactive', 'interactive');
-      }
-    },
-    {
-      id: 'graph',
-      label: 'GRAPH',
-      sublabel: 'Story Graph',
-      description: 'Visual Node Graph Flowchart, Decision Branches & Map Vectors',
-      icon: GitBranch,
-      colorTheme: 'purple',
-      onClick: () => {
-        if (onSwitchView) onSwitchView('graph', 'graph');
-      }
-    },
-    {
-      id: 'control-panel',
-      aliasIds: ['tactical'],
-      label: 'TACTICAL',
-      sublabel: 'Tactical Spread',
-      description: 'OSR 2-Page Control Spread (Read-Aloud, DCs, Secrets)',
-      icon: Target,
-      colorTheme: 'amber',
-      onClick: () => {
-        if (onSwitchView) onSwitchView('control-panel', 'tactical');
-      }
-    },
-    {
-      id: 'scripts',
-      aliasIds: ['presets', 'automation'],
-      label: 'SCRIPTS',
-      sublabel: 'Presets & Scripts',
-      description: 'NPC Behavioral Routines, Reactive Traps, Atmospherics & Combat Modifiers',
-      icon: Cpu,
-      colorTheme: 'purple',
-      badge: modifiersCount > 0 ? `${modifiersCount}` : null,
-      onClick: () => {
-        if (onSwitchView) onSwitchView('scripts');
+        if (onSwitchView) onSwitchView('elements');
       }
     }
   ];
 
   const utilityItems = [
-    {
-      id: 'gems',
-      label: 'GEMS',
-      sublabel: 'Guidance Gems',
-      description: 'Select narrative style, mood & worldbuilding modifiers',
-      icon: '💎',
-      badge: gemsCount > 0 ? `${gemsCount}` : null,
-      colorTheme: 'amber',
-      onClick: onOpenGems
-    },
     {
       id: 'cronicle',
       label: 'CRONICLE',
@@ -237,26 +182,81 @@ export const ADENavRail = ({
           <div className="w-6 h-px bg-purple-500/30 mt-1" />
         </div>
 
-        {/* 1. Primary Studio Workspaces */}
-        {workspaceItems.map((item) => {
+        {/* 1. Core Studio Workspaces (HUB, WEAVER, STAGE) */}
+        {coreWorkspaceItems.map((item) => {
           const isActive = (() => {
             if (item.id === 'stage') {
-              return activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage';
+              return activeView === 'stage' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage');
             }
             if (item.id === 'scenarios') {
-              return activeView === 'scenarios' && (activeScenarioWorkspaceTab === 'weaver' || !activeScenarioWorkspaceTab);
-            }
-            if (item.id === 'control-panel') {
-              return activeView === 'control-panel' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'tactical');
-            }
-            if (item.id === 'interactive') {
-              return activeView === 'interactive' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'interactive');
-            }
-            if (item.id === 'graph') {
-              return activeView === 'graph' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'graph');
+              return activeView === 'scenarios' && activeScenarioWorkspaceTab !== 'stage';
             }
             return activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
           })();
+          const theme = THEMES[item.colorTheme] || THEMES.cyan;
+          const Icon = item.icon;
+
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => handleSelectWorkspace(item)}
+              onMouseEnter={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                setHoveredItem({ item, theme, rect });
+              }}
+              onMouseLeave={() => setHoveredItem(null)}
+              className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer border ${
+                isActive
+                  ? theme.activeBtn
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+              }`}
+            >
+              {/* Active Left Indicator Bar */}
+              {isActive && (
+                <span className={`absolute -left-1 top-2 bottom-2 w-1 rounded-r-full ${theme.bar}`} />
+              )}
+
+              {/* Icon Container */}
+              <div
+                className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                  isActive ? theme.activeBox : theme.iconBox
+                }`}
+              >
+                {typeof Icon === 'string' ? (
+                  <span className="text-sm">{Icon}</span>
+                ) : (
+                  <Icon size={16} />
+                )}
+
+                {/* Badge */}
+                {item.badge && (
+                  <span
+                    className={`absolute -top-1.5 -right-1.5 px-1 py-0.2 min-w-[15px] h-[15px] rounded-full font-mono text-[8.5px] font-bold flex items-center justify-center shadow-md ${theme.badge}`}
+                  >
+                    {item.badge}
+                  </span>
+                )}
+              </div>
+
+              {/* Monospace Label */}
+              <span
+                className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight transition-colors ${
+                  isActive ? theme.activeLabel : theme.idleLabel
+                }`}
+              >
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
+
+        {/* Subtle Divider separating Core Workspaces and Foundational Asset Modules */}
+        <div className="w-6 h-px bg-slate-800/60 my-1" />
+
+        {/* 2. Foundational Asset Modules (MAP, ELEMENTS) */}
+        {assetWorkspaceItems.map((item) => {
+          const isActive = activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
           const theme = THEMES[item.colorTheme] || THEMES.cyan;
           const Icon = item.icon;
 

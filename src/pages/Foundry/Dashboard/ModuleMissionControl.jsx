@@ -73,7 +73,6 @@ export default function ModuleMissionControl({
   onSelectPillar,
   onSwitchView,
   activeNode,
-  onOpenGems,
   onOpenCronicle,
   onOpenScratchbook,
   onOpenPrintModal,
@@ -859,17 +858,6 @@ export default function ModuleMissionControl({
 
           {/* Tactical Utilities Cluster */}
           <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5 gap-0.5 shadow-sm">
-            {/* Guidance Gems */}
-            <button
-              type="button"
-              onClick={() => onOpenGems?.()}
-              className="px-2 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer text-amber-400 hover:text-amber-200 hover:bg-slate-800/80"
-              title="Open Guidance Gems AI Direction Engine"
-            >
-              <span>💎</span>
-              <span className="hidden 2xl:inline text-[10px]">GEMS</span>
-            </button>
-
             {/* Cronicle Living Memory */}
             <button
               type="button"

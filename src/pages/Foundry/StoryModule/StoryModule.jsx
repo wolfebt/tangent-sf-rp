@@ -20,11 +20,11 @@ import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFo
 import { UserSettingsModal } from '../../../components/UserSettingsModal';
 import AIMEChatBox from '../AIME/AIMEChatBox';
 import EditElementModal from '../ElementForge/EditElementModal';
-import GuidanceGemsModal from './GuidanceGemsModal';
 import ADETopToolbar from './ADETopToolbar';
 import ADENavRail from './ADENavRail';
 import ModuleMissionControl from '../Dashboard/ModuleMissionControl';
 import PresetsAndScriptsDashboard from '../PresetsAndScripts/PresetsAndScriptsDashboard';
+import StageWorkspace from '../Stage/StageWorkspace';
 import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
 import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
 import ModulePackageModal from '../../../components/StoryFoundry/ModulePackageModal';
@@ -75,6 +75,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     setActiveCockpitDeck,
     scenarioWorkspaceTab,
     setScenarioWorkspaceTab,
+    stageWorkspaceTab,
+    setStageWorkspaceTab,
     modals,
     setModal,
     cronicleInitialMode,
@@ -94,6 +96,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       setActiveCockpitDeck: state.setActiveCockpitDeck,
       scenarioWorkspaceTab: state.storyWorkspaceTab,
       setScenarioWorkspaceTab: state.setStoryWorkspaceTab,
+      stageWorkspaceTab: state.stageWorkspaceTab,
+      setStageWorkspaceTab: state.setStageWorkspaceTab,
       modals: state.modals,
       setModal: state.setModal,
       cronicleInitialMode: state.cronicleInitialMode,
@@ -109,8 +113,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   const setIsCatalogOpen = (val) => setModal('catalog', val);
   const isPrintModalOpen = modals.print;
   const setIsPrintModalOpen = (val) => setModal('print', val);
-  const isGemsOpen = modals.gems;
-  const setIsGemsOpen = (val) => setModal('gems', val);
   const isGuideOpen = modals.guide;
   const setIsGuideOpen = (val) => setModal('guide', val);
   const isSettingsOpen = modals.settings;
@@ -152,20 +154,46 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     if (v) {
       if (v === 'mission_control' || v === 'dashboard' || v === 'mission-control' || v === 'hub') resolvedView = 'mission_control';
       else if (v === 'map' || v === 'map-maker' || v === 'mapmaker') resolvedView = 'map';
-      else if (v === 'scripts' || v === 'presets') resolvedView = 'scripts';
-      else if (v === 'elements' || v === 'gallery') resolvedView = 'elements';
-      else if (v === 'graph') resolvedView = 'graph';
-      else if (v === 'interactive') resolvedView = 'interactive';
-      else if (v === 'control-panel' || v === 'tactical') resolvedView = 'control-panel';
-      else if (v === 'scenarios' || v === 'weaver' || v === 'story' || v === 'narrative' || v === 'stage' || v === 'live' || v === 'live-studio') resolvedView = 'scenarios';
+      else if (v === 'elements' || v === 'gallery' || v === 'assets') resolvedView = 'elements';
+      else if (v === 'stage' || v === 'live' || v === 'live-studio' || v === 'ade-stage') {
+        resolvedView = 'stage';
+        if (tabParam) setStageWorkspaceTab(tabParam);
+      }
+      else if (v === 'scripts' || v === 'presets' || v === 'automation') {
+        resolvedView = 'stage';
+        setStageWorkspaceTab('scripts');
+      }
+      else if (v === 'control-panel' || v === 'tactical') {
+        resolvedView = 'stage';
+        setStageWorkspaceTab('encounters');
+      }
+      else if (v === 'interactive') {
+        resolvedView = 'scenarios';
+        setScenarioWorkspaceTab('play');
+      }
+      else if (v === 'gems') {
+        resolvedView = 'scenarios';
+        setScenarioWorkspaceTab('gems');
+      }
+      else if (v === 'graph') {
+        resolvedView = 'scenarios';
+        setScenarioWorkspaceTab('graph');
+      }
+      else if (v === 'scenarios' || v === 'weaver' || v === 'story' || v === 'narrative') {
+        resolvedView = 'scenarios';
+        if (tabParam) {
+          const resolvedTab = (tabParam === 'canvas' || tabParam === 'manuscript' || tabParam === 'weaver') ? 'write' : tabParam;
+          setScenarioWorkspaceTab(resolvedTab);
+        }
+      }
     }
     setActiveView(resolvedView);
-  }, [viewParam, defaultView, setActiveView]);
+  }, [viewParam, tabParam, defaultView, setActiveView, setStageWorkspaceTab, setScenarioWorkspaceTab]);
 
   // Workspace tab synchronization: update tab from URL param if present, or initial defaultWorkspaceTab
   useEffect(() => {
     if (tabParam) {
-      const resolvedTab = (tabParam === 'canvas' || tabParam === 'manuscript') ? 'weaver' : tabParam;
+      const resolvedTab = (tabParam === 'canvas' || tabParam === 'manuscript') ? 'write' : tabParam;
       setScenarioWorkspaceTab(resolvedTab);
     } else if (defaultWorkspaceTab && defaultWorkspaceTab !== 'weaver') {
       setScenarioWorkspaceTab(defaultWorkspaceTab);
@@ -190,13 +218,13 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   }, []);
 
   const handleSelectScenarioWorkspaceTab = (tab) => {
-    const resolvedTab = (tab === 'canvas' || tab === 'manuscript') ? 'weaver' : tab;
+    const resolvedTab = (tab === 'canvas' || tab === 'manuscript' || tab === 'weaver') ? 'write' : tab;
     setScenarioWorkspaceTab(resolvedTab);
     setActiveView('scenarios');
 
     const newParams = new URLSearchParams(searchParams);
     newParams.set('view', 'scenarios');
-    if (resolvedTab === 'weaver') {
+    if (resolvedTab === 'write') {
       newParams.delete('tab');
       newParams.delete('workspaceTab');
     } else {
@@ -210,27 +238,35 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     let resolvedView = newView;
     let resolvedTargetTab = targetTab;
 
-    if (newView === 'stage' || newView === 'live-studio') {
-      resolvedView = 'scenarios';
-      resolvedTargetTab = 'stage';
+    if (newView === 'stage' || newView === 'live' || newView === 'live-studio' || newView === 'ade-stage') {
+      resolvedView = 'stage';
+      resolvedTargetTab = targetTab || 'setup';
+    } else if (newView === 'scripts' || newView === 'presets' || newView === 'automation') {
+      resolvedView = 'stage';
+      resolvedTargetTab = 'scripts';
     } else if (newView === 'control-panel' || newView === 'tactical') {
-      resolvedView = 'control-panel';
-      resolvedTargetTab = 'tactical';
+      resolvedView = 'stage';
+      resolvedTargetTab = 'encounters';
     } else if (newView === 'interactive') {
-      resolvedView = 'interactive';
-      resolvedTargetTab = 'interactive';
+      resolvedView = 'scenarios';
+      resolvedTargetTab = 'play';
+    } else if (newView === 'gems') {
+      resolvedView = 'scenarios';
+      resolvedTargetTab = 'gems';
     } else if (newView === 'graph') {
-      resolvedView = 'graph';
+      resolvedView = 'scenarios';
       resolvedTargetTab = 'graph';
-    } else if (newView === 'elements' || newView === 'gallery') {
+    } else if (newView === 'elements' || newView === 'gallery' || newView === 'assets') {
       resolvedView = 'elements';
     } else if (newView === 'scenarios' || newView === 'weaver' || newView === 'manuscript' || newView === 'aime') {
       resolvedView = 'scenarios';
-      resolvedTargetTab = targetTab || 'weaver';
+      resolvedTargetTab = targetTab || 'write';
     }
 
     setActiveView(resolvedView);
-    if (resolvedTargetTab) {
+    if (resolvedView === 'stage' && resolvedTargetTab) {
+      setStageWorkspaceTab(resolvedTargetTab);
+    } else if (resolvedView === 'scenarios' && resolvedTargetTab) {
       setScenarioWorkspaceTab(resolvedTargetTab);
     }
 
@@ -241,13 +277,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       newParams.delete('workspaceTab');
     } else {
       newParams.set('view', resolvedView);
-      if (resolvedView === 'scenarios') {
-        if (resolvedTargetTab && resolvedTargetTab !== 'weaver') {
-          newParams.set('tab', resolvedTargetTab);
-        } else {
-          newParams.delete('tab');
-          newParams.delete('workspaceTab');
-        }
+      if (resolvedTargetTab && resolvedTargetTab !== 'write' && resolvedTargetTab !== 'setup') {
+        newParams.set('tab', resolvedTargetTab);
       } else {
         newParams.delete('tab');
         newParams.delete('workspaceTab');
@@ -295,8 +326,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           scenarioWorkspaceTab={scenarioWorkspaceTab}
           onSwitchView={handleSwitchView}
           onSelectScenarioWorkspaceTab={handleSelectScenarioWorkspaceTab}
-          isGemsOpen={isGemsOpen}
-          onToggleGems={setIsGemsOpen}
           isPrintModalOpen={isPrintModalOpen}
           onTogglePrintModal={setIsPrintModalOpen}
           isCatalogOpen={isCatalogOpen}
@@ -343,9 +372,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           elementsCount={elementsCatalog?.length || 0}
           mapsCount={universeState?.maps?.length || 0}
           modifiersCount={universeState?.galleryModifiers?.length || 0}
-          gemsCount={universeState?.creativeState?.gems?.length || 0}
           pendingCronicleCount={cronicle?.history?.length || 0}
-          onOpenGems={() => setIsGemsOpen(true)}
           onOpenCronicle={() => {
             setCronicleInitialMode('living_memory');
             setIsCronicleOpen(true);
@@ -379,7 +406,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               }}
               onSwitchView={handleSwitchView}
               activeNode={activeNode}
-              onOpenGems={() => setIsGemsOpen(true)}
               onOpenCronicle={() => {
                 setCronicleInitialMode('living_memory');
                 setIsCronicleOpen(true);
@@ -407,7 +433,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               onSwitchView={handleSwitchView}
               onSwitchTab={(tab) => {
                 if (tab === 'map' || tab === 'stage') {
-                  handleSelectScenarioWorkspaceTab('stage');
+                  handleSwitchView('stage', 'setup');
                 }
               }}
               scenarioWorkspaceTab={scenarioWorkspaceTab}
@@ -418,8 +444,19 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               onToggleRightDock={() => setIsRightDockOpen(prev => !prev)}
               activeCockpitDeck={activeCockpitDeck}
               onSelectCockpitDeck={setActiveCockpitDeck}
-              onOpenGems={() => setIsGemsOpen(true)}
               onOpenPrintModal={() => setIsPrintModalOpen(true)}
+            />
+          </div>
+        )}
+
+        {/* VIEW 1.5: STAGE WORKSPACE (Compiler & Live VTT Runtime) */}
+        {activeView === 'stage' && (
+          <div className="flex-1 min-w-0 h-full overflow-hidden">
+            <StageWorkspace
+              initialTab={stageWorkspaceTab || 'setup'}
+              onSwitchView={handleSwitchView}
+              boundMapId={activeMap?.id || activeMapId}
+              boundStoryId={activeNode?.id || activeScenarioId}
             />
           </div>
         )}
@@ -580,15 +617,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         activeScenario={activeNode}
         activeMap={activeMap}
       />
-
-      {/* Guidance Gems Configuration Modal */}
-      {isGemsOpen && (
-        <GuidanceGemsModal
-          isOpen={isGemsOpen}
-          onClose={() => setIsGemsOpen(false)}
-        />
-      )}
-
 
       {/* ADE Master User Guide Modal */}
       {isGuideOpen && (
