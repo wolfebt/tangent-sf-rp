@@ -1259,6 +1259,8 @@ export const UniversalCatalogModal = ({
             <button
               type="button"
               onClick={onClose}
+              aria-label="Close catalog"
+              title="Close catalog"
               className="w-8 h-8 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
@@ -1284,6 +1286,8 @@ export const UniversalCatalogModal = ({
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
+                  aria-label="Clear search"
+                  title="Clear search"
                   className="absolute right-2.5 top-2.5 text-slate-500 hover:text-slate-300 cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
