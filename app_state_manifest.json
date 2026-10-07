@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T02:54:40.587Z",
+  "generatedAt": "2026-10-06T15:44:52.163Z",
   "diagnostics": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "nodeVersion": "v24.18.0",
@@ -68,12 +68,12 @@
     "git": {
       "isRepo": true,
       "branch": "main",
-      "lastCommit": "588e53a - Refine Chat messaging flow, ChannelSidebar, MessageView, SquadCommsTab, and ChatContext integration (2026-10-02 15:07:52 -0500)",
-      "hasUncommittedChanges": true
+      "lastCommit": "ab5b18b - feat(foundry): consolidate Stage compiler workspace and elevate Weaver narrative suite (2026-10-06 10:38:08 -0500)",
+      "hasUncommittedChanges": false
     },
     "memoryUsageMB": {
-      "rss": "77.60",
-      "heapUsed": "21.72"
+      "rss": "75.82",
+      "heapUsed": "21.77"
     }
   },
   "routes": {
@@ -84,6 +84,14 @@
       },
       {
         "path": "/dashboard",
+        "element": "unspecified"
+      },
+      {
+        "path": "/network",
+        "element": "unspecified"
+      },
+      {
+        "path": "/network/*",
         "element": "unspecified"
       },
       {
@@ -120,6 +128,14 @@
       },
       {
         "path": "/compendium/*",
+        "element": "unspecified"
+      },
+      {
+        "path": "/rules",
+        "element": "unspecified"
+      },
+      {
+        "path": "/rules/*",
         "element": "unspecified"
       },
       {
@@ -245,6 +261,10 @@
         "element": "unspecified"
       },
       {
+        "path": "gems",
+        "element": "unspecified"
+      },
+      {
         "path": "narrative",
         "element": "unspecified"
       },
@@ -281,6 +301,10 @@
         "element": "unspecified"
       },
       {
+        "path": "control-panel",
+        "element": "unspecified"
+      },
+      {
         "path": "catalog",
         "element": "unspecified"
       },
@@ -313,7 +337,7 @@
         "element": "unspecified"
       }
     ],
-    "totalPageModules": 139,
+    "totalPageModules": 189,
     "pageModulesSample": [
       "src/pages/Codex/CodexAiSynthesizerModal.jsx",
       "src/pages/Codex/CodexApp.jsx",
@@ -333,12 +357,12 @@
     ]
   },
   "schemas": {
-    "totalSchemasDetected": 20,
+    "totalSchemasDetected": 22,
     "summary": [
       {
         "file": "src/pages/Foundry/ElementForge/elementSchemas.js",
         "priority": "canonical",
-        "bytes": 38274
+        "bytes": 33544
       },
       {
         "file": "firestore.rules",
@@ -353,12 +377,17 @@
       {
         "file": "src/components/Folio/shared/IdentityPoolPulldown.jsx",
         "priority": "detected",
-        "bytes": 95387
+        "bytes": 95785
       },
       {
         "file": "src/components/Folio/tabs/IdentityTab.jsx",
         "priority": "detected",
-        "bytes": 186064
+        "bytes": 186620
+      },
+      {
+        "file": "src/context/folio/FolioIdentityContext.jsx",
+        "priority": "detected",
+        "bytes": 27995
       },
       {
         "file": "src/data/archetypesData.js",
@@ -398,7 +427,7 @@
       {
         "file": "src/engines/tangentIdentityEngine.js",
         "priority": "detected",
-        "bytes": 52282
+        "bytes": 52594
       },
       {
         "file": "src/engines/__tests__/tangentEntityEngines.test.js",
@@ -409,6 +438,11 @@
         "file": "src/engines/__tests__/tangentIdentityEngine.test.js",
         "priority": "detected",
         "bytes": 19698
+      },
+      {
+        "file": "src/pages/Foundry/Stage/stageTypes.ts",
+        "priority": "detected",
+        "bytes": 2731
       },
       {
         "file": "src/schemas/sharedSchemas.js",
@@ -428,7 +462,7 @@
       {
         "file": "src/services/entityHydrator.js",
         "priority": "detected",
-        "bytes": 8827
+        "bytes": 8906
       },
       {
         "file": "src/utils/tangentSchemaAdapters.js",
@@ -440,7 +474,6 @@
   "gitDiff": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "stagedOnly": false,
-    "statusOrDiff": " M src/context/ChatContext.jsx\n M src/main.jsx\n M src/pages/Home.jsx\n",
-    "diffStat": " src/context/ChatContext.jsx | 28 ++++++++++++++--------------\n src/main.jsx                | 21 ++++++++++++---------\n src/pages/Home.jsx          | 10 +++++-----\n 3 files changed, 31 insertions(+), 28 deletions(-)\n"
+    "statusOrDiff": ""
   }
 }
