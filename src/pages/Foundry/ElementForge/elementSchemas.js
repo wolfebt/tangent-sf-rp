@@ -76,6 +76,14 @@ export const ELEMENT_TYPES = [
 ];
 
 /**
+ * ELEMENT_SCHEMAS keys that are intentionally NOT user-selectable ELEMENT_TYPES.
+ * - 'Custom Codex' / 'Custom Element': legacy/alternate labels resolving to CUSTOM_ELEMENT_SCHEMA.
+ * - 'Map': maps are authored in MapMaker (story_maps); the schema only supports tagging imported map elements.
+ * Enforced by tests/engine/elementSchemaRegistry.test.mjs.
+ */
+export const ELEMENT_SCHEMA_ALIASES = ['Custom Codex', 'Custom Element', 'Map'];
+
+/**
  * Returns canonical file extension for an element type.
  */
 export const getElementFileExtension = (type = '') => {
