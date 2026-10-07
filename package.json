@@ -13,12 +13,13 @@
     "sync:species-disadvantages": "node scripts/syncSpeciesDisadvantages.mjs",
     "build:data": "node scripts/buildAllBundles.mjs",
     "test:data": "node scripts/validateDataIntegrity.mjs",
-    "test:engine": "node --test tests/engine/*.test.mjs src/engines/__tests__/*.test.js src/schemas/*.test.mjs src/services/*.test.mjs",
-    "test": "npm run test:engine && npm run test:data"
+    "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\"",
+    "test": "npm run test:engine && node scripts/validateDataIntegrity.mjs"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/react-dom": "^19.2.5",
+    "@types/three": "^0.185.4",
     "@vitejs/plugin-react": "^6.0.3",
     "firebase-admin": "^14.2.0",
     "tailwindcss": "^4.3.3",
@@ -35,7 +36,6 @@
     "@google/genai": "^2.25.0",
     "@modelcontextprotocol/sdk": "^1.31.0",
     "@sqlite.org/sqlite-wasm": "^3.53.0-build1",
-    "@types/three": "^0.185.4",
     "dompurify": "^3.4.13",
     "firebase": "^12.16.0",
     "glob": "^13.0.6",

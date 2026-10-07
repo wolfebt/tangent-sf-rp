@@ -72,16 +72,8 @@ export const ELEMENT_TYPES = [
   'Technology Forge', 'Philosophy Scribe', 'Scene Builder',
   // Canonical Single-Word Aliases & RPG Extensions
   'Persona', 'Scene', 'Setting', 'World', 'Species', 'Technology', 'Philosophy',
-  'Story Arc', 'Adventure', 'Faction', 'Encounter', 'Item', 'Clue', 'Handout', 'Custom', 'Universe'
+  'Story Arc', 'Adventure', 'Faction', 'Encounter', 'Item', 'Clue', 'Handout', 'Map', 'Custom', 'Universe'
 ];
-
-/**
- * ELEMENT_SCHEMAS keys that are intentionally NOT user-selectable ELEMENT_TYPES.
- * - 'Custom Codex' / 'Custom Element': legacy/alternate labels resolving to CUSTOM_ELEMENT_SCHEMA.
- * - 'Map': maps are authored in MapMaker (story_maps); the schema only supports tagging imported map elements.
- * Enforced by tests/engine/elementSchemaRegistry.test.mjs.
- */
-export const ELEMENT_SCHEMA_ALIASES = ['Custom Codex', 'Custom Element', 'Map'];
 
 /**
  * Returns canonical file extension for an element type.
@@ -95,6 +87,7 @@ export const getElementFileExtension = (type = '') => {
   if (norm.includes('tech') || norm.includes('forge')) return '.tech';
   if (norm.includes('philosophy') || norm.includes('scribe')) return '.philosophy';
   if (norm.includes('scene') || norm.includes('builder')) return '.scene';
+  if (norm.includes('map')) return '.map';
   if (norm.includes('custom') || norm.includes('codex')) return '.custom';
   return '.element';
 };

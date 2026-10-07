@@ -150,7 +150,9 @@ async function runApplicationExtraction() {
   }
 }
 
-runApplicationExtraction().catch((err) => {
-  console.error("Extraction error:", err);
-  process.exit(1);
-});
+runApplicationExtraction()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("Extraction error:", err);
+    process.exit(1);
+  });

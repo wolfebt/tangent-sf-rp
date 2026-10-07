@@ -17,7 +17,7 @@
 | Runtime | Node `v24.18.0`, `win32 x64`, ESM | `tangent-sfr` v1.0.0 |
 | Git | `main` @ `ab5b18b`, ahead 2, **dirty** | 15 modified, 0 staged, 0 untracked |
 | Uncommitted diff | **+2,493 / −1,569** across 15 files | In-progress Folio identity refactor |
-| Top-level routes (`App.jsx`) | **33** | 13 render components, 20 redirect *(corrected from 34 — see §9)* |
+| Top-level routes (`App.jsx`) | **34** | 14 render components, 20 redirect |
 | Foundry sub-routes (`FoundryApp.jsx`) | **31** | 11 render components, 20 redirect |
 | Page modules (`src/pages/**`) | **189** | |
 | Schema / model files detected | **22** | 2 canonical, 20 heuristic (several false positives, see §7) |
@@ -304,36 +304,6 @@ There are two `tangentSchemaAdapters.js` files, in `src/utils/` (19 KB) and `src
 4. Reconcile `ELEMENT_TYPES` with `ELEMENT_SCHEMAS` (`Map`, custom aliases) (§7.4).
 5. Collapse the double-hop redirects and retire the `map-maker-legacy` alias (§7.5).
 6. Add `.gitattributes`, push the 2 local commits, and regenerate or retire the stale state report (§7.9).
-
----
-
-## 9. Post-Fix Status (2026-10-06 23:05)
-
-All of §8 is done except pushing and the dependency move. The changes are **uncommitted** and sit on top of the in-progress Folio work.
-
-| # | Fix | Files |
-| :--- | :--- | :--- |
-| 1 | Fixed stale tests. The trait-count check no longer depends on the exact count. Adjudicator tests now match `3.00 COMBAT.md` (Point Blank +5, Medium −5). All 33 co-located suites are in `npm test`. CI now uses Node 24. | `tangentEntityEngines.test.js`, `tangentRulesAdjudicatorService.test.js`, `package.json`, `.github/workflows/ci.yml` |
-| 2 | `applyIdentityFieldTransition` only blanks legacy secondary keys that already exist. New test added. | `tangentIdentityEngine.js`, `tangentIdentityEngine.test.js` |
-| 3 | Inspector: brace-aware route parser (outputs `element` + `props`), staged mode uses `--cached`, whole-word filename heuristics, safe to import, root falls back to the script's folder. New test added. | `scripts/mcp-app-inspector.mjs`, `tests/engine/appInspector.test.mjs` |
-| 4 | `ELEMENT_SCHEMA_ALIASES` (`Custom Codex`, `Custom Element`, `Map`) plus a consistency test (types ↔ schemas ↔ `firestore.rules`). | `elementSchemas.js`, `tests/engine/elementSchemaRegistry.test.mjs` |
-| 5 | Shared `SearchPreservingRedirect` / `FoundryRouteRedirect` (duplicates removed). `/live-studio`, `/ade-stage`, and `/foundry/live-studio-standalone` now redirect in one hop. `map-maker-legacy` now redirects to `/foundry/map`. Route tests use the real implementation. | `src/components/routing/{RouteRedirects.jsx,redirectTargets.js}`, `App.jsx`, `FoundryApp.jsx`, `routeRedirectsAndDeepLinks.test.mjs` |
-| 6 | Added `.gitattributes` (LF, no renormalization needed because the index has 0 CRLF files). Renamed `engine/migration/tangentSchemaAdapters.js` → `legacyElementAdapters.js` (via `git mv`). | `.gitattributes`, `legacyElementAdapters.js`, `migrate_omnicortex_schema.mjs`, `engine/index.ts` |
-
-**Verification**
-- `npm test`: ✅ **609 / 609** (58 suites) + ✅ **32 / 32** data integrity.
-- `npm run build`: ✅ `tsc` + `vite build` (11.1 s) + PWA service worker generated. There's a chunk-size warning (`data-compendium-seed` is 4.38 MB) that was already there before.
-- `node scripts/mcp-app-inspector.mjs --test`: ✅ exit 0.
-- Inspector re-run: 33 + 31 routes, **0 `unspecified`** elements; 41 redirects (+1 for `map-maker-legacy`); no route-file false positives; 15 schema files, down from 22. 6 false positives are gone (5 `*Identity*` files and `archetypesData.js`). The migration adapter no longer matches because it was renamed to `legacyElementAdapters.js`.
-
-**Corrections to this report**
-- `App.jsx` has **33** routes, not 34. The fixed parser and a plain regex both count 33, so 34 was a miscount carried over from the old report. The total is 64 routes, not 65.
-
-**Still open**
-- Push the 2 local commits. Moving `@types/three` and `@modelcontextprotocol/sdk` to `devDependencies` needs `npm install` (network access).
-- `docs/APP_INSPECTOR_STATE_REPORT.md` is left as-is because it has uncommitted edits of its own.
-- **New finding:** `getSpeciesComponentDataset().basicTraits` (45 entries, engine-level list) and `SPECIES_TRAITS_BASIC` in `src/data/speciesTraitsData.js` (57 entries, full records) are different lists. Worth deciding which one is canonical.
-- After `.gitattributes`, Git warns "CRLF will be replaced by LF" for files with CRLF working copies. This is a one-time warning and goes away after the next commit or checkout.
 
 ---
 

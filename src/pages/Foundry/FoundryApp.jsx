@@ -3,7 +3,6 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import AppShell from '../../components/Layout/AppShell';
 import { CampaignProvider, useCampaign } from '../../context/CampaignContext';
 import SyncConflictModal from '../../components/StoryFoundry/SyncConflictModal';
-import { SearchPreservingRedirect, FoundryRouteRedirect } from '../../components/routing/RouteRedirects';
 
 import Dashboard from './Dashboard/Dashboard';
 import MapMaker from './MapMaker/MapMaker';
@@ -17,6 +16,28 @@ const VttOptionsRedirect = () => {
   const search = location.search;
   const target = `/foundry/stage${search ? (search.includes('options=') ? search : `${search}&options=true`) : '?options=true'}`;
   return <Navigate to={target} replace />;
+};
+
+const SearchPreservingRedirect = ({ to }) => {
+  const location = useLocation();
+  return <Navigate to={`${to}${location.search}`} replace />;
+};
+
+const FoundryRouteRedirect = ({ view, tab }) => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  if (view && !params.has('view')) {
+    if (view === 'mission_control') {
+      params.delete('view');
+    } else {
+      params.set('view', view);
+    }
+  }
+  if (tab && !params.has('tab')) {
+    params.set('tab', tab);
+  }
+  const search = params.toString();
+  return <Navigate to={`/foundry${search ? `?${search}` : ''}`} replace />;
 };
 
 const FoundryAppInner = () => {
@@ -52,7 +73,7 @@ const FoundryAppInner = () => {
           <Route path="catalog" element={<Dashboard />} />
           <Route path="map" element={<MapMaker />} />
           <Route path="map-maker" element={<MapMaker />} />
-          <Route path="map-maker-legacy" element={<SearchPreservingRedirect to="/foundry/map" />} />
+          <Route path="map-maker-legacy" element={<MapMaker />} />
           <Route path="vtt-options" element={<VttOptionsRedirect />} />
           <Route path="aime" element={<AIME />} />
           <Route path="view/:mapId" element={<PlayerSpectatorView />} />

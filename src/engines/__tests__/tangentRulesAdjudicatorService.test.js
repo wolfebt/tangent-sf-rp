@@ -14,7 +14,7 @@ test('Tangent SFF RP — Tactical Trait & Modifiers Adjudicator Engine', async (
     assert.equal(LIGHTING_OBSCUREMENT.length, 4);
 
     const pointBlank = RANGE_BRACKETS.find(r => r.id === 'point_blank');
-    assert.equal(pointBlank.attackMod, 5); // 3.00 COMBAT.md: Point Blank +5
+    assert.equal(pointBlank.attackMod, 5);
 
     const heavyCover = COVER_TYPES.find(c => c.id === 'heavy');
     assert.equal(heavyCover.defenseMod, 4);
@@ -34,13 +34,13 @@ test('Tangent SFF RP — Tactical Trait & Modifiers Adjudicator Engine', async (
 
   await t.test('computeTacticalAttackModifiers applies high ground and heavy cover correctly', () => {
     const adj = computeTacticalAttackModifiers({
-      rangeBracketId: 'medium', // -5 ATK (3.00 COMBAT.md)
+      rangeBracketId: 'medium',
       coverTypeId: 'heavy', // +4 DEF
       hasHighGround: true, // +2 ATK
       isAimed: true // +2 ATK
     });
 
-    assert.equal(adj.netAttackMod, -1); // Medium (-5) + High ground (+2) + Aim (+2)
+    assert.equal(adj.netAttackMod, -1); // Medium range (-5) + High ground (+2) + Aim (+2)
     assert.equal(adj.netDefenseMod, 4); // Heavy cover (+4)
     assert.ok(adj.breakdown.length >= 3);
   });

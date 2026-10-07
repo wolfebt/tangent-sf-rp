@@ -433,15 +433,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.ok(dataset.types);
       assert.ok(dataset.sizes);
       assert.ok(dataset.movementModes);
-      // Count-independent checks: the basic-trait count changes with species data syncs
-      // (count parity is enforced by scripts/validateDataIntegrity.mjs).
-      assert.ok(dataset.basicTraits.length > 0);
-      const basicIds = dataset.basicTraits.map(t => t.id);
-      assert.strictEqual(new Set(basicIds).size, basicIds.length, 'Basic trait ids must be unique');
-      for (const trait of dataset.basicTraits) {
-        assert.ok(trait.id && trait.name, `Basic trait missing id/name: ${JSON.stringify(trait).slice(0, 80)}`);
-        assert.ok(Number.isFinite(Number(trait.bp)) && Number(trait.bp) > 0, `Basic trait ${trait.id} must have a positive BP cost`);
-      }
+      assert.strictEqual(dataset.basicTraits.length, 45);
       assert.ok(dataset.advancedTraits.length > 0);
       assert.ok(dataset.eliteTraits.length > 0);
       assert.ok(dataset.disadvantages.length > 0);

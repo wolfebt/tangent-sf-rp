@@ -1238,20 +1238,25 @@ export const applyIdentityFieldTransition = (characterData, fieldKey, newValue, 
     case 'char-occu':
       return applyOccupationTransition(characterData, newValue, dbData);
     case 'char-secondary-occu': {
-      const updated = { ...characterData, 'char-secondary-occu': newValue ? String(newValue) : '' };
+      const updated = { 
+        ...characterData, 
+        'char-secondary-occu': newValue ? String(newValue) : ''
+      };
       if (!newValue) {
-        // Only blank legacy alias keys that already exist; never introduce them on new characters.
-        if ('char-background-occu' in updated) updated['char-background-occu'] = '';
-        if ('char-occu-secondary' in updated) updated['char-occu-secondary'] = '';
+        if ('char-background-occu' in characterData) updated['char-background-occu'] = '';
+        if ('char-occu-secondary' in characterData) updated['char-occu-secondary'] = '';
       }
       return updated;
     }
     case 'char-origin':
       return applyOriginTransition(characterData, newValue, dbData);
     case 'char-secondary-origin': {
-      const updated = { ...characterData, 'char-secondary-origin': newValue ? String(newValue) : '' };
-      if (!newValue && 'char-origin-secondary' in updated) {
-        updated['char-origin-secondary'] = '';
+      const updated = { 
+        ...characterData, 
+        'char-secondary-origin': newValue ? String(newValue) : ''
+      };
+      if (!newValue) {
+        if ('char-origin-secondary' in characterData) updated['char-origin-secondary'] = '';
       }
       return updated;
     }

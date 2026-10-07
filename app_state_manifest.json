@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T15:44:52.163Z",
+  "generatedAt": "2026-10-07T05:48:39.866Z",
   "diagnostics": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "nodeVersion": "v24.18.0",
@@ -68,273 +68,273 @@
     "git": {
       "isRepo": true,
       "branch": "main",
-      "lastCommit": "ab5b18b - feat(foundry): consolidate Stage compiler workspace and elevate Weaver narrative suite (2026-10-06 10:38:08 -0500)",
-      "hasUncommittedChanges": false
+      "lastCommit": "ea7a91e - docs: app inspector report 2026-10-06 and refreshed app state manifest (2026-10-06 23:58:44 -0500)",
+      "hasUncommittedChanges": true
     },
     "memoryUsageMB": {
-      "rss": "75.82",
-      "heapUsed": "21.77"
+      "rss": "80.52",
+      "heapUsed": "21.79"
     }
   },
   "routes": {
     "reactAppRoutes": [
       {
         "path": "/",
-        "element": "unspecified"
+        "element": "<Dashboard />"
       },
       {
         "path": "/dashboard",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/\" />"
       },
       {
         "path": "/network",
-        "element": "unspecified"
+        "element": "<NetworkPage />"
       },
       {
         "path": "/network/*",
-        "element": "unspecified"
+        "element": "<NetworkPage />"
       },
       {
         "path": "/comms",
-        "element": "unspecified"
+        "element": "<NetworkRedirect defaultView=\"comms\" />"
       },
       {
         "path": "/chat",
-        "element": "unspecified"
+        "element": "<NetworkRedirect defaultView=\"comms\" />"
       },
       {
         "path": "/teams",
-        "element": "unspecified"
+        "element": "<NetworkRedirect defaultView=\"teams\" />"
       },
       {
         "path": "/groups",
-        "element": "unspecified"
+        "element": "<NetworkRedirect defaultView=\"teams\" />"
       },
       {
         "path": "/squads",
-        "element": "unspecified"
+        "element": "<NetworkRedirect defaultView=\"teams\" />"
       },
       {
         "path": "/codex",
-        "element": "unspecified"
+        "element": "<CodexApp />"
       },
       {
         "path": "/codex/*",
-        "element": "unspecified"
+        "element": "<CodexApp />"
       },
       {
         "path": "/compendium",
-        "element": "unspecified"
+        "element": "<Compendium />"
       },
       {
         "path": "/compendium/*",
-        "element": "unspecified"
+        "element": "<Compendium />"
       },
       {
         "path": "/rules",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/compendium\" />"
       },
       {
         "path": "/rules/*",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/compendium\" />"
       },
       {
         "path": "/dbm",
-        "element": "unspecified"
+        "element": "<DBM />"
       },
       {
         "path": "/folio",
-        "element": "unspecified"
+        "element": "<Folio />"
       },
       {
         "path": "/roster",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/folio\" />"
       },
       {
         "path": "/live-studio",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry/live\" />"
       },
       {
         "path": "/ade-stage",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry/live\" />"
       },
       {
         "path": "/map-maker",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry/map\" />"
       },
       {
         "path": "/mapmaker",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry/map\" />"
       },
       {
         "path": "/vtt-ops",
-        "element": "unspecified"
+        "element": "<VttOpsRedirect />"
       },
       {
         "path": "/stage",
-        "element": "unspecified"
+        "element": "<StageView defaultRole=\"architect\" />"
       },
       {
         "path": "/vtt",
-        "element": "unspecified"
+        "element": "<StageView defaultRole=\"operative\" />"
       },
       {
         "path": "/spectator/:mapId",
-        "element": "unspecified"
+        "element": "<PlayerSpectatorView />"
       },
       {
         "path": "/foundry/*",
-        "element": "unspecified"
+        "element": "<FoundryApp />"
       },
       {
         "path": "/ade/*",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
       },
       {
         "path": "/ade",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
       },
       {
         "path": "/ade-studio/*",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
       },
       {
         "path": "/ade-studio",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
       },
       {
         "path": "/story-foundry",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
       },
       {
         "path": "/campaign-builder",
-        "element": "unspecified"
+        "element": "<SearchPreservingRedirect to=\"/foundry\" />"
       }
     ],
     "foundryRoutes": [
       {
         "path": "/",
-        "element": "unspecified"
+        "element": "<StoryModule />"
       },
       {
         "path": "mission-control",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"mission_control\" />"
       },
       {
         "path": "dashboard",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"mission_control\" />"
       },
       {
         "path": "hub",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"mission_control\" />"
       },
       {
         "path": "live",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
       },
       {
         "path": "live-studio",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
       },
       {
         "path": "ade-stage",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
       },
       {
         "path": "live-studio-standalone",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"run\" />"
       },
       {
         "path": "stage",
-        "element": "unspecified"
+        "element": "<ADEStage />"
       },
       {
         "path": "ade",
-        "element": "unspecified"
+        "element": "<StoryModule />"
       },
       {
         "path": "story",
-        "element": "unspecified"
+        "element": "<StoryModule />"
       },
       {
         "path": "interactive",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"play\" />"
       },
       {
         "path": "gems",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"gems\" />"
       },
       {
         "path": "narrative",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"write\" />"
       },
       {
         "path": "scripts",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"scripts\" />"
       },
       {
         "path": "presets",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"scripts\" />"
       },
       {
         "path": "automation",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"scripts\" />"
       },
       {
         "path": "assets",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"elements\" />"
       },
       {
         "path": "elements",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"elements\" />"
       },
       {
         "path": "gallery",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"elements\" />"
       },
       {
         "path": "graph",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"scenarios\" tab=\"graph\" />"
       },
       {
         "path": "tactical",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"encounters\" />"
       },
       {
         "path": "control-panel",
-        "element": "unspecified"
+        "element": "<FoundryRouteRedirect view=\"stage\" tab=\"encounters\" />"
       },
       {
         "path": "catalog",
-        "element": "unspecified"
+        "element": "<Dashboard />"
       },
       {
         "path": "map",
-        "element": "unspecified"
+        "element": "<MapMaker />"
       },
       {
         "path": "map-maker",
-        "element": "unspecified"
+        "element": "<MapMaker />"
       },
       {
         "path": "map-maker-legacy",
-        "element": "unspecified"
+        "element": "<MapMaker />"
       },
       {
         "path": "vtt-options",
-        "element": "unspecified"
+        "element": "<VttOptionsRedirect />"
       },
       {
         "path": "aime",
-        "element": "unspecified"
+        "element": "<AIME />"
       },
       {
         "path": "view/:mapId",
-        "element": "unspecified"
+        "element": "<PlayerSpectatorView />"
       },
       {
         "path": "spectator/:mapId",
-        "element": "unspecified"
+        "element": "<PlayerSpectatorView />"
       }
     ],
     "totalPageModules": 189,
@@ -357,12 +357,12 @@
     ]
   },
   "schemas": {
-    "totalSchemasDetected": 22,
+    "totalSchemasDetected": 21,
     "summary": [
       {
         "file": "src/pages/Foundry/ElementForge/elementSchemas.js",
         "priority": "canonical",
-        "bytes": 33544
+        "bytes": 33594
       },
       {
         "file": "firestore.rules",
@@ -377,17 +377,17 @@
       {
         "file": "src/components/Folio/shared/IdentityPoolPulldown.jsx",
         "priority": "detected",
-        "bytes": 95785
+        "bytes": 96231
       },
       {
         "file": "src/components/Folio/tabs/IdentityTab.jsx",
         "priority": "detected",
-        "bytes": 186620
+        "bytes": 215426
       },
       {
         "file": "src/context/folio/FolioIdentityContext.jsx",
         "priority": "detected",
-        "bytes": 27995
+        "bytes": 28555
       },
       {
         "file": "src/data/archetypesData.js",
@@ -415,11 +415,6 @@
         "bytes": 4821
       },
       {
-        "file": "src/engine/migration/tangentSchemaAdapters.js",
-        "priority": "detected",
-        "bytes": 4892
-      },
-      {
         "file": "src/engines/tangentEntityEngines.js",
         "priority": "detected",
         "bytes": 123247
@@ -427,7 +422,7 @@
       {
         "file": "src/engines/tangentIdentityEngine.js",
         "priority": "detected",
-        "bytes": 52594
+        "bytes": 56324
       },
       {
         "file": "src/engines/__tests__/tangentEntityEngines.test.js",
@@ -437,7 +432,7 @@
       {
         "file": "src/engines/__tests__/tangentIdentityEngine.test.js",
         "priority": "detected",
-        "bytes": 19698
+        "bytes": 20594
       },
       {
         "file": "src/pages/Foundry/Stage/stageTypes.ts",
@@ -474,6 +469,7 @@
   "gitDiff": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "stagedOnly": false,
-    "statusOrDiff": ""
+    "statusOrDiff": " M .gitattributes\n M .github/workflows/ci.yml\n M app_state_manifest.json\n M app_state_summary.md\n M docs/APP_INSPECTOR_REPORT_2026-10-06.md\n M package.json\n M scripts/extract-app-context.mjs\n M scripts/mcp-app-inspector.mjs\n M src/App.jsx\n D src/components/routing/RouteRedirects.jsx\n D src/components/routing/redirectTargets.js\n M src/engine/index.ts\n M src/engine/migration/legacyElementAdapters.js\n M src/engine/migration/migrate_omnicortex_schema.mjs\n M src/engines/__tests__/tangentEntityEngines.test.js\n M src/engines/__tests__/tangentIdentityEngine.test.js\n M src/engines/__tests__/tangentRulesAdjudicatorService.test.js\n M src/engines/tangentIdentityEngine.js\n M src/pages/Foundry/ElementForge/elementSchemas.js\n M src/pages/Foundry/FoundryApp.jsx\n D tests/engine/appInspector.test.mjs\n D tests/engine/elementSchemaRegistry.test.mjs\n M tests/engine/routeRedirectsAndDeepLinks.test.mjs\n?? docs/ade_comprehensive_review.md\n",
+    "diffStat": " .gitattributes                                     |  27 +---\n .github/workflows/ci.yml                           |   4 +-\n app_state_manifest.json                            | 160 +++++++++----------\n app_state_summary.md                               |  29 +++-\n docs/APP_INSPECTOR_REPORT_2026-10-06.md            |  32 +---\n package.json                                       |   4 +-\n scripts/extract-app-context.mjs                    |  10 +-\n scripts/mcp-app-inspector.mjs                      | 175 +++++++++------------\n src/App.jsx                                        |  10 +-\n src/components/routing/RouteRedirects.jsx          |  20 ---\n src/components/routing/redirectTargets.js          |  35 -----\n src/engine/index.ts                                |   2 +-\n src/engine/migration/legacyElementAdapters.js      |   2 +-\n src/engine/migration/migrate_omnicortex_schema.mjs |   2 +-\n src/engines/__tests__/tangentEntityEngines.test.js |  10 +-\n .../__tests__/tangentIdentityEngine.test.js        |  24 ---\n .../tangentRulesAdjudicatorService.test.js         |   6 +-\n src/engines/tangentIdentityEngine.js               |  19 ++-\n src/pages/Foundry/ElementForge/elementSchemas.js   |  11 +-\n src/pages/Foundry/FoundryApp.jsx                   |  25 ++-\n tests/engine/appInspector.test.mjs                 |  84 ----------\n tests/engine/elementSchemaRegistry.test.mjs        |  46 ------\n tests/engine/routeRedirectsAndDeepLinks.test.mjs   |  64 +++-----\n 23 files changed, 268 insertions(+), 533 deletions(-)\n"
   }
 }

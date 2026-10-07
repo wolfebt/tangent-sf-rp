@@ -20,13 +20,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run automated test suite (engine, co-located & data integrity)
+      - name: Run automated test suite (247 tests)
         run: npm test
 
       - name: Verify production build & PWA packaging

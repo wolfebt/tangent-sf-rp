@@ -1,5 +1,5 @@
 /**
- * @file legacyElementAdapters.js (formerly migration/tangentSchemaAdapters.js; renamed to avoid clashing with src/utils/tangentSchemaAdapters.js)
+ * @file tangentSchemaAdapters.js
  * @description Stage 8 Data Ingestion & Schema Normalization Adapters.
  * Enforces strict integer typing (Attributes, TL0-5, ML0-6, HP, DR),
  * sanitizes legacy rich text / HTML tags, and maps legacy Folio/DBM structures
