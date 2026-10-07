@@ -959,7 +959,7 @@ export const OperativeCockpitRail = ({
 
         {/* Mode Content: Folio Tactical Sheet vs Streamlined Deck */}
         {cockpitViewMode === 'folio' || activeAccordion === 'profile' ? (
-          <div className="flex-1 overflow-y-auto overflow-x-hidden bg-[#0a0e14] scrollbar-thin scrollbar-thumb-purple-950 p-1">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden bg-[#0a0e14] scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] p-1">
             <TacticalPlayView
               characterOverride={activePersona}
               isModal={false}

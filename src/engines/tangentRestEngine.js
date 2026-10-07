@@ -1,4 +1,4 @@
-﻿// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // TANGENT SF RP — REST & RECOVERY CALCULATION ENGINE
 // Pure calculation helpers for Full Rest, Light Rest tiers,
 // species physiology profiles, and strenuous activity degradation.

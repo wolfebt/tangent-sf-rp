@@ -43,8 +43,8 @@ export const TacticalPlayModal = ({
           </button>
         </div>
 
-        {/* Scrollable Cockpit Content */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-5 scrollbar-thin scrollbar-thumb-cyan-900 scrollbar-track-slate-950">
+        {/* Scrollable Cockpit Content without scrollbar */}
+        <div className="flex-1 overflow-y-auto p-3 sm:p-5 scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <TacticalPlayView
             characterOverride={character}
             isModal={true}

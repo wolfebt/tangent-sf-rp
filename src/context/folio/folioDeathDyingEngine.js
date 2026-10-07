@@ -40,16 +40,32 @@ export const useFolioDeathDying = ({
   updateCharacterVitality,
   updateCharacterHealth
 }) => {
-  const applyCharacterDamage = useCallback(async (heroId, {
-    incomingDamage = 0,
-    isNonLethal = false,
-    isCritical = false,
-    isConcussive = false,
-    attemptedReduction = true,
-    armorDR = 0
-  } = {}) => {
-    const targetId = heroId || characterData['character-doc-id'] || characterData.id;
-    const target = (personaRoster || []).find(c => targetId && (c['character-doc-id'] === targetId || c.id === targetId)) || characterData;
+  const applyCharacterDamage = useCallback(async (heroIdOrOptions, maybeOptions = {}) => {
+    let heroId = typeof heroIdOrOptions === 'string' ? heroIdOrOptions : null;
+    let options = (typeof heroIdOrOptions === 'object' && heroIdOrOptions !== null) ? heroIdOrOptions : maybeOptions;
+
+    const {
+      incomingDamage = 0,
+      isNonLethal = false,
+      isCritical = false,
+      isConcussive = false,
+      isDirectHealth = false,
+      isDirectVitality = false,
+      attemptedReduction = false,
+      armorDR = 0
+    } = options || {};
+
+    const targetId = heroId || options?.heroId || options?.characterId || options?.id || characterData?.['character-doc-id'] || characterData?.id;
+    const matchesTarget = (c) => {
+      if (!c) return false;
+      if (!targetId || targetId === 'active') return true;
+      const cDocId = c['character-doc-id'] || c.id;
+      if (cDocId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cDocId && targetId.startsWith(cDocId + '-')) return true;
+      return false;
+    };
+
+    const target = (personaRoster || []).find(matchesTarget) || (matchesTarget(characterData) ? characterData : null) || characterData;
     if (!target) return null;
 
     const staTotal = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
@@ -65,22 +81,62 @@ export const useFolioDeathDying = ({
     const isAtDeathsDoor = Boolean(target.is_at_deaths_door || (currentHealth <= 0 && currentVitality <= 0));
     const deathClockCurrent = target.death_clock !== undefined ? target.death_clock : undefined;
 
-    const result = applyDamageToEntity({
-      currentVitality,
-      currentHealth,
-      currentStructure,
-      isSynthetic,
-      incomingDamage,
-      isNonLethal,
-      isCritical,
-      isConcussive,
-      attemptedReduction,
-      toughness,
-      armorDR,
-      staminaScore: staTotal,
-      isAtDeathsDoor,
-      deathClockCurrent
-    });
+    let result;
+    if (isDirectHealth && !isSynthetic) {
+      const netDamage = Math.max(0, Number(incomingDamage) || 0);
+      const newHealth = Math.max(0, currentHealth - netDamage);
+      const atDeathsDoor = newHealth <= 0 && currentVitality <= 0;
+      const dead = atDeathsDoor && (target.death_clock !== undefined && target.death_clock !== null && Number(target.death_clock) <= 0);
+      result = {
+        newVitality: currentVitality,
+        newHealth,
+        newStructure: 0,
+        damageSoaked: 0,
+        netDamage,
+        vitalityDamage: 0,
+        healthDamage: currentHealth - newHealth,
+        damageAbsorbed: 0,
+        atDeathsDoor,
+        dead,
+        comatose: atDeathsDoor,
+        deathClock: atDeathsDoor ? (target.death_clock || Math.max(1, staTotal || 1)) : null
+      };
+    } else if (isDirectVitality && !isSynthetic) {
+      const netDamage = Math.max(0, Number(incomingDamage) || 0);
+      const newVitality = Math.max(0, currentVitality - netDamage);
+      const atDeathsDoor = currentHealth <= 0 && newVitality <= 0;
+      result = {
+        newVitality,
+        newHealth: currentHealth,
+        newStructure: 0,
+        damageSoaked: 0,
+        netDamage,
+        vitalityDamage: currentVitality - newVitality,
+        healthDamage: 0,
+        damageAbsorbed: 0,
+        atDeathsDoor,
+        dead: false,
+        comatose: atDeathsDoor,
+        deathClock: atDeathsDoor ? (target.death_clock || Math.max(1, staTotal || 1)) : null
+      };
+    } else {
+      result = applyDamageToEntity({
+        currentVitality,
+        currentHealth,
+        currentStructure,
+        isSynthetic,
+        incomingDamage,
+        isNonLethal,
+        isCritical,
+        isConcussive,
+        attemptedReduction,
+        toughness: attemptedReduction ? toughness : 0,
+        armorDR: attemptedReduction ? armorDR : 0,
+        staminaScore: staTotal,
+        isAtDeathsDoor,
+        deathClockCurrent
+      });
+    }
 
     const updates = {
       is_at_deaths_door: result.atDeathsDoor,
@@ -93,47 +149,70 @@ export const useFolioDeathDying = ({
     if (isSynthetic) {
       updates.current_structure = result.newStructure;
       if (updateCharacterStructure) {
-        await updateCharacterStructure(heroId, result.newStructure);
+        await updateCharacterStructure(targetId, result.newStructure);
       }
     } else {
-      if (result.newVitality !== currentVitality && updateCharacterVitality) {
-        updates.current_vitality = result.newVitality;
-        await updateCharacterVitality(heroId, result.newVitality);
+      updates.current_vitality = result.newVitality;
+      updates.current_health = result.newHealth;
+      if (updateCharacterVitality) {
+        await updateCharacterVitality(targetId, result.newVitality);
       }
-      if (result.newHealth !== currentHealth && updateCharacterHealth) {
-        updates.current_health = result.newHealth;
-        await updateCharacterHealth(heroId, result.newHealth);
+      if (updateCharacterHealth) {
+        await updateCharacterHealth(targetId, result.newHealth);
       }
     }
 
     setPersonaRoster(prev => {
-      const updated = prev.map(c => {
-        if (c['character-doc-id'] === heroId || c.id === heroId) {
-          return { ...c, ...updates, updatedAt: new Date().toISOString() };
-        }
-        return c;
-      });
+      const updated = prev.map(c => matchesTarget(c) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
       StorageService.setItem('personaRoster', updated);
       return updated;
     });
 
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+    if (matchesTarget(characterData) || !targetId || targetId === 'active') {
       setCharacterData(prev => ({ ...prev, ...updates }));
     }
 
-    if (heroId) {
-      await syncPersonaToFirestore(heroId, updates);
+    const effectiveSyncId = target['character-doc-id'] || target.id || targetId;
+    if (effectiveSyncId && effectiveSyncId !== 'active') {
+      await syncPersonaToFirestore(effectiveSyncId, updates);
     }
 
     return result;
   }, [personaRoster, characterData, derivedStats?.isSynthetic, updateCharacterStructure, updateCharacterVitality, updateCharacterHealth, setPersonaRoster, setCharacterData]);
 
-  const stabilizeCharacter = useCallback(async (heroId, { medicineCheckRoll = 0, isMedicineSuccess = false, hasHealingEffect = false } = {}) => {
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === heroId || c.id === heroId) ||
-      (characterData['character-doc-id'] === heroId || characterData.id === heroId ? characterData : null);
+  const stabilizeCharacter = useCallback(async (heroIdOrOptions, maybeOptions = {}) => {
+    let heroId = typeof heroIdOrOptions === 'string' ? heroIdOrOptions : null;
+    let options = (typeof heroIdOrOptions === 'object' && heroIdOrOptions !== null) ? heroIdOrOptions : maybeOptions;
+
+    const targetId = heroId || options?.heroId || options?.characterId || options?.id || characterData?.['character-doc-id'] || characterData?.id;
+    const matchesTarget = (c) => {
+      if (!c) return false;
+      if (!targetId || targetId === 'active') return true;
+      const cDocId = c['character-doc-id'] || c.id;
+      if (cDocId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cDocId && targetId.startsWith(cDocId + '-')) return true;
+      return false;
+    };
+
+    const target = (personaRoster || []).find(matchesTarget) || (matchesTarget(characterData) ? characterData : null) || characterData;
     if (!target) return null;
 
-    const result = stabilizeEntity({ medicineCheckRoll, isMedicineSuccess, hasHealingEffect });
+    const {
+      medicineCheckRoll = 0,
+      isMedicineSuccess = false,
+      hasHealingEffect = false,
+      force = false
+    } = options || {};
+
+    // If caller triggered direct stabilization without check roll, or explicit force/healing flag
+    const effectiveSuccess = force || isMedicineSuccess || hasHealingEffect || (medicineCheckRoll === 0 && !isMedicineSuccess && !hasHealingEffect);
+
+    const result = stabilizeEntity({
+      medicineCheckRoll,
+      isMedicineSuccess: effectiveSuccess || isMedicineSuccess,
+      hasHealingEffect: effectiveSuccess || hasHealingEffect
+    });
+
     if (result.stabilized) {
       const updates = {
         is_stabilized: true,
@@ -143,29 +222,46 @@ export const useFolioDeathDying = ({
       };
 
       setPersonaRoster(prev => {
-        const updated = prev.map(c => (c['character-doc-id'] === heroId || c.id === heroId) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
+        const updated = prev.map(c => matchesTarget(c) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
         StorageService.setItem('personaRoster', updated);
         return updated;
       });
 
-      if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+      if (matchesTarget(characterData) || !targetId || targetId === 'active') {
         setCharacterData(prev => ({ ...prev, ...updates }));
       }
 
-      if (heroId) {
-        await syncPersonaToFirestore(heroId, updates);
+      const effectiveSyncId = target['character-doc-id'] || target.id || targetId;
+      if (effectiveSyncId && effectiveSyncId !== 'active') {
+        await syncPersonaToFirestore(effectiveSyncId, updates);
       }
     }
     return result;
   }, [personaRoster, characterData, setPersonaRoster, setCharacterData]);
 
-  const advanceCharacterDeathTurn = useCallback(async (heroId) => {
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === heroId || c.id === heroId) ||
-      (characterData['character-doc-id'] === heroId || characterData.id === heroId ? characterData : null);
+  const advanceCharacterDeathTurn = useCallback(async (heroIdOrOptions, maybeOptions = {}) => {
+    let heroId = typeof heroIdOrOptions === 'string' ? heroIdOrOptions : null;
+    let options = (typeof heroIdOrOptions === 'object' && heroIdOrOptions !== null) ? heroIdOrOptions : maybeOptions;
+
+    const targetId = heroId || options?.heroId || options?.characterId || options?.id || characterData?.['character-doc-id'] || characterData?.id;
+    const matchesTarget = (c) => {
+      if (!c) return false;
+      if (!targetId || targetId === 'active') return true;
+      const cDocId = c['character-doc-id'] || c.id;
+      if (cDocId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cDocId && targetId.startsWith(cDocId + '-')) return true;
+      return false;
+    };
+
+    const target = (personaRoster || []).find(matchesTarget) || (matchesTarget(characterData) ? characterData : null) || characterData;
     if (!target) return null;
 
-    const currentClock = target.death_clock !== undefined ? target.death_clock : calculateDeathClock(target['attr-stamina']);
-    const result = advanceDeathClock({ currentClock, isStabilized: target.is_stabilized });
+    const staScore = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
+    const currentClock = target.death_clock !== undefined && target.death_clock !== null
+      ? Number(target.death_clock)
+      : calculateDeathClock(staScore);
+
+    const result = advanceDeathClock({ currentClock, isStabilized: Boolean(target.is_stabilized) });
 
     const updates = {
       death_clock: result.currentClock,
@@ -174,53 +270,79 @@ export const useFolioDeathDying = ({
     };
 
     setPersonaRoster(prev => {
-      const updated = prev.map(c => (c['character-doc-id'] === heroId || c.id === heroId) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
+      const updated = prev.map(c => matchesTarget(c) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
       StorageService.setItem('personaRoster', updated);
       return updated;
     });
 
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+    if (matchesTarget(characterData) || !targetId || targetId === 'active') {
       setCharacterData(prev => ({ ...prev, ...updates }));
     }
 
-    if (heroId) {
-      await syncPersonaToFirestore(heroId, updates);
+    const effectiveSyncId = target['character-doc-id'] || target.id || targetId;
+    if (effectiveSyncId && effectiveSyncId !== 'active') {
+      await syncPersonaToFirestore(effectiveSyncId, updates);
     }
     return result;
   }, [personaRoster, characterData, setPersonaRoster, setCharacterData]);
 
-  const revivifyCharacter = useCallback(async (heroId, { revivedHealth = 1 } = {}) => {
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === heroId || c.id === heroId) ||
-      (characterData['character-doc-id'] === heroId || characterData.id === heroId ? characterData : null);
+  const revivifyCharacter = useCallback(async (heroIdOrOptions, maybeOptions = {}) => {
+    let heroId = typeof heroIdOrOptions === 'string' ? heroIdOrOptions : null;
+    let options = (typeof heroIdOrOptions === 'object' && heroIdOrOptions !== null) ? heroIdOrOptions : maybeOptions;
+    const { revivedHealth = 1 } = options || {};
+
+    const targetId = heroId || options?.heroId || options?.characterId || options?.id || characterData?.['character-doc-id'] || characterData?.id;
+    const matchesTarget = (c) => {
+      if (!c) return false;
+      if (!targetId || targetId === 'active') return true;
+      const cDocId = c['character-doc-id'] || c.id;
+      if (cDocId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cDocId && targetId.startsWith(cDocId + '-')) return true;
+      return false;
+    };
+
+    const target = (personaRoster || []).find(matchesTarget) || (matchesTarget(characterData) ? characterData : null) || characterData;
     if (!target) return null;
 
     const result = revivifyEntity({ characterData: target, revivedHealth });
+    const isSynthetic = target.isSynthetic || 
+      String(target['char-species'] || '').toLowerCase().includes('synthetic') ||
+      String(target['char-species'] || '').toLowerCase().includes('mekan');
+
     const updates = {
-      current_health: Math.max(1, Number(revivedHealth) || 1),
+      current_health: isSynthetic ? 0 : Math.max(1, Number(revivedHealth) || 1),
+      current_structure: isSynthetic ? Math.max(1, Number(revivedHealth) || 1) : target.current_structure,
       is_dead: false,
       is_at_deaths_door: false,
       death_clock: null,
       is_stabilized: true,
       is_comatose: false,
       karma: 0,
-      experience_debt: result.penalties?.totalExperienceDebt || 0
+      experience_debt: (target.experience_debt || 0) + (result.penalties?.totalExperienceDebt || 5)
     };
 
+    if (isSynthetic && updateCharacterStructure) {
+      await updateCharacterStructure(targetId, updates.current_structure);
+    } else if (!isSynthetic && updateCharacterHealth) {
+      await updateCharacterHealth(targetId, updates.current_health);
+    }
+
     setPersonaRoster(prev => {
-      const updated = prev.map(c => (c['character-doc-id'] === heroId || c.id === heroId) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
+      const updated = prev.map(c => matchesTarget(c) ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c);
       StorageService.setItem('personaRoster', updated);
       return updated;
     });
 
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+    if (matchesTarget(characterData) || !targetId || targetId === 'active') {
       setCharacterData(prev => ({ ...prev, ...updates }));
     }
 
-    if (heroId) {
-      await syncPersonaToFirestore(heroId, updates);
+    const effectiveSyncId = target['character-doc-id'] || target.id || targetId;
+    if (effectiveSyncId && effectiveSyncId !== 'active') {
+      await syncPersonaToFirestore(effectiveSyncId, updates);
     }
     return result;
-  }, [personaRoster, characterData, setPersonaRoster, setCharacterData]);
+  }, [personaRoster, characterData, setPersonaRoster, setCharacterData, updateCharacterStructure, updateCharacterHealth]);
 
   return {
     applyCharacterDamage,
