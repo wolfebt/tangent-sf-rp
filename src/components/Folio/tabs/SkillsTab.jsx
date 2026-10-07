@@ -141,7 +141,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   const { openDiceRoller } = useDice();
   const [activePane, setActivePane] = useState('skills'); // 'skills' | 'granted' | 'modifiers'
   const [expandedCategories, setExpandedCategories] = useState({}); // ALL CATEGORIES COLLAPSED BY DEFAULT
-  const [searchQuery, setSearchQuery] = useState('');
+  const searchQuery = '';
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
   const [showTrainedOnly, setShowTrainedOnly] = useState(false);
   const [showIdentitySummary, setShowIdentitySummary] = useState(true);
@@ -152,6 +152,26 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
       [catKey]: !prev[catKey]
     }));
   }, []);
+
+  const ALL_CATEGORY_KEYS = useMemo(() => ['physical', 'mental', 'social', 'combat', 'meta'], []);
+
+  const areAllCategoriesExpanded = useMemo(() => {
+    return ALL_CATEGORY_KEYS.every(catKey => Boolean(expandedCategories[catKey]));
+  }, [ALL_CATEGORY_KEYS, expandedCategories]);
+
+  const toggleAllCategories = useCallback(() => {
+    if (areAllCategoriesExpanded) {
+      setExpandedCategories({});
+    } else {
+      setExpandedCategories({
+        physical: true,
+        mental: true,
+        social: true,
+        combat: true,
+        meta: true
+      });
+    }
+  }, [areAllCategoriesExpanded]);
 
   const expandAllCategories = useCallback(() => {
     setExpandedCategories({
@@ -2093,27 +2113,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-              {/* Search Filter Input */}
-              <div className="relative flex-1 sm:w-52">
-                <input
-                  type="text"
-                  placeholder="Filter skills..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-900/90 border border-cyan-900/70 focus:border-cyan-400 rounded px-3 py-1.5 text-xs text-slate-100 placeholder-slate-500 outline-none transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs font-bold"
-                  >
-                    &times;
-                  </button>
-                )}
-              </div>
-
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
               {/* Trained Only Filter Toggle */}
               <button
                 type="button"
@@ -2130,25 +2130,25 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 <span className="sm:hidden">{showTrainedOnly ? 'Trained' : 'All'}</span>
               </button>
 
-              {/* Expand All / Collapse All Accordion Controls */}
-              <div className="flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={expandAllCategories}
-                  className="px-2 py-1.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white cursor-pointer transition-colors"
-                  title="Expand all skill categories"
-                >
-                  Expand All
-                </button>
-                <button
-                  type="button"
-                  onClick={collapseAllCategories}
-                  className="px-2 py-1.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white cursor-pointer transition-colors"
-                  title="Collapse all skill categories"
-                >
-                  Collapse All
-                </button>
-              </div>
+              {/* Consolidated Expand / Collapse All Trigger */}
+              <button
+                type="button"
+                onClick={toggleAllCategories}
+                className="px-3 py-1.5 rounded text-xs font-mono font-bold uppercase bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white cursor-pointer transition-all flex items-center gap-1.5 shrink-0"
+                title={areAllCategoriesExpanded ? 'Collapse all skill categories' : 'Expand all skill categories'}
+              >
+                {areAllCategoriesExpanded ? (
+                  <>
+                    <ChevronUp className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Collapse All</span>
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Expand All</span>
+                  </>
+                )}
+              </button>
 
               {/* Add Skill Button */}
               <button
@@ -2181,10 +2181,6 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 {showTrainedOnly ? (
                   <>
                     No trained skills (&gt; 0 rank) found.
-                  </>
-                ) : searchQuery ? (
-                  <>
-                    No skills matching <span className="text-cyan-300">"{searchQuery}"</span> found.
                   </>
                 ) : (
                   'No skills found.'

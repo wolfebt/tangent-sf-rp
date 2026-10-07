@@ -825,7 +825,7 @@ const FolioContainer = () => {
         )}
 
         {/* Tab Content Display with ample padding to prevent viewport cutoff */}
-        <div className="flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20" onBlur={triggerSave}>
+        <div className="flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20" onBlur={() => triggerSave()}>
           {activeTab === 'catalog' ? (
             <RosterCatalogView
               personaRoster={personaRoster}

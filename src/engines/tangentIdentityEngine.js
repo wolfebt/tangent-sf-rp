@@ -448,13 +448,17 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
       }
     };
 
-    if (Array.isArray(newSpeciesObj.inherent_features)) {
-      newSpeciesObj.inherent_features.forEach(f => {
-        const name = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
-        const desc = typeof f === 'object' ? (f.description || f.mechanic || '') : '';
-        addInherentFeat(name, desc);
-      });
-    }
+    const inherentPool = [
+      ...(Array.isArray(newSpeciesObj.inherent_features) ? newSpeciesObj.inherent_features : []),
+      ...(Array.isArray(newSpeciesObj.inherent_traits) ? newSpeciesObj.inherent_traits : []),
+      ...(Array.isArray(newSpeciesObj.species_traits) ? newSpeciesObj.species_traits : []),
+      ...(Array.isArray(newSpeciesObj.traits) ? newSpeciesObj.traits : [])
+    ];
+    inherentPool.forEach(f => {
+      const name = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
+      const desc = typeof f === 'object' ? (f.description || f.mechanic || '') : '';
+      addInherentFeat(name, desc);
+    });
 
     if (Array.isArray(newSpeciesObj.modifiers)) {
       newSpeciesObj.modifiers.forEach(m => {
@@ -789,6 +793,17 @@ export const applyOccupationTransition = (characterData, newOccupationInput, dbD
   let updated = { ...characterData, 'char-occu': newOccuName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
 
+  // If primary occupation is removed, automatically remove any secondary occupation choices
+  if (!newOccupationInput) {
+    updated['char-secondary-occu'] = '';
+    if ('char-background-occu' in updated) updated['char-background-occu'] = '';
+    if ('char-occu-secondary' in updated) updated['char-occu-secondary'] = '';
+  } else if (newOccuName && (updated['char-secondary-occu'] === newOccuName || updated['char-background-occu'] === newOccuName || updated['char-occu-secondary'] === newOccuName)) {
+    updated['char-secondary-occu'] = '';
+    if ('char-background-occu' in updated) updated['char-background-occu'] = '';
+    if ('char-occu-secondary' in updated) updated['char-occu-secondary'] = '';
+  }
+
   // 1. Revert previous occupation allocated skills
   if (characterData.occuAllocations?.skills) {
     Object.entries(characterData.occuAllocations.skills).forEach(([skName, rank]) => {
@@ -819,6 +834,22 @@ export const applyOccupationTransition = (characterData, newOccupationInput, dbD
         oldOccuTraitNames.add(name.toLowerCase());
       }
     });
+  }
+  if (!newOccupationInput) {
+    const prevSecOccuName = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'] || '';
+    if (prevSecOccuName) {
+      const prevSecOccuObj = resolveCatalogItem('occupations', prevSecOccuName, dbData);
+      if (prevSecOccuObj) {
+        const rawSecTraits = prevSecOccuObj.traits || prevSecOccuObj.trait || [];
+        rawSecTraits.forEach(t => {
+          const name = typeof t === 'object' ? (t.name || t.title || t.id) : String(t);
+          if (name) {
+            oldOccuTraitNames.add(normalizeTraitString(name).toLowerCase());
+            oldOccuTraitNames.add(name.toLowerCase());
+          }
+        });
+      }
+    }
   }
 
   // 3. Clean features and traits arrays
@@ -878,6 +909,15 @@ export const applyOriginTransition = (characterData, newOriginInput, dbData = {}
   let updated = { ...characterData, 'char-origin': newOriginName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
 
+  // If primary origin is removed, automatically remove any secondary origin choices
+  if (!newOriginInput) {
+    updated['char-secondary-origin'] = '';
+    if ('char-origin-secondary' in updated) updated['char-origin-secondary'] = '';
+  } else if (newOriginName && (updated['char-secondary-origin'] === newOriginName || updated['char-origin-secondary'] === newOriginName)) {
+    updated['char-secondary-origin'] = '';
+    if ('char-origin-secondary' in updated) updated['char-origin-secondary'] = '';
+  }
+
   // 1. Revert previous origin allocated skills
   if (characterData.originAllocations?.skills) {
     Object.entries(characterData.originAllocations.skills).forEach(([skName, rank]) => {
@@ -908,6 +948,30 @@ export const applyOriginTransition = (characterData, newOriginInput, dbData = {}
         oldOriginTraitNames.add(name.toLowerCase());
       }
     });
+  }
+  if (!newOriginInput) {
+    const prevSecOriginName = characterData['char-secondary-origin'] || characterData['char-origin-secondary'] || '';
+    if (prevSecOriginName) {
+      const prevSecOriginObj = resolveCatalogItem('origins', prevSecOriginName, dbData);
+      if (prevSecOriginObj) {
+        const rawSecTraits = prevSecOriginObj.traits || prevSecOriginObj.trait || [];
+        rawSecTraits.forEach(t => {
+          const name = typeof t === 'object' ? (t.name || t.title || t.id) : String(t);
+          if (name) {
+            oldOriginTraitNames.add(normalizeTraitString(name).toLowerCase());
+            oldOriginTraitNames.add(name.toLowerCase());
+          }
+        });
+        const rawSecFeats = prevSecOriginObj.features || prevSecOriginObj.bonus_features || [];
+        rawSecFeats.forEach(f => {
+          const name = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
+          if (name) {
+            oldOriginTraitNames.add(normalizeTraitString(name).toLowerCase());
+            oldOriginTraitNames.add(name.toLowerCase());
+          }
+        });
+      }
+    }
   }
 
   // 3. Clean features and traits arrays
@@ -1175,12 +1239,20 @@ export const applyIdentityFieldTransition = (characterData, fieldKey, newValue, 
       return applyOccupationTransition(characterData, newValue, dbData);
     case 'char-secondary-occu': {
       const updated = { ...characterData, 'char-secondary-occu': newValue ? String(newValue) : '' };
+      if (!newValue) {
+        // Only blank legacy alias keys that already exist; never introduce them on new characters.
+        if ('char-background-occu' in updated) updated['char-background-occu'] = '';
+        if ('char-occu-secondary' in updated) updated['char-occu-secondary'] = '';
+      }
       return updated;
     }
     case 'char-origin':
       return applyOriginTransition(characterData, newValue, dbData);
     case 'char-secondary-origin': {
       const updated = { ...characterData, 'char-secondary-origin': newValue ? String(newValue) : '' };
+      if (!newValue && 'char-origin-secondary' in updated) {
+        updated['char-origin-secondary'] = '';
+      }
       return updated;
     }
     case 'char-faction':

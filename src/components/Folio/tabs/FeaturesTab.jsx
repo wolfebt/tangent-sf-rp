@@ -1210,7 +1210,7 @@ export const FeaturesTab = ({
                   onBackToHub();
                 }}
                 className="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer bg-slate-950 hover:bg-cyan-950 border border-cyan-500/40 text-cyan-300 hover:border-cyan-400 shadow-sm"
-                title="Return to Features Selection Hub"
+                title="Return to Aspect Hub"
               >
                 <span>◀</span>
                 <span>Hub</span>

@@ -320,7 +320,15 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     assert.strictEqual(cleared.features.length, 1, 'Custom features preserved');
     assert.deepStrictEqual(cleared.occuAllocations, { skills: {}, traits: [], features: [] });
 
-    // Also verify secondary occupation transition
+    // Also verify secondary occupation transition and automatic removal when primary is removed
+    const charWithBothOccu = {
+      ...charWithOccu,
+      'char-secondary-occu': 'Bounty Hunter'
+    };
+    const clearedPrimaryOccu = applyOccupationTransition(charWithBothOccu, '');
+    assert.strictEqual(clearedPrimaryOccu['char-occu'], '');
+    assert.strictEqual(clearedPrimaryOccu['char-secondary-occu'], '', 'Removing primary occupation must automatically remove secondary occupation');
+
     const withSecOccu = applyIdentityFieldTransition(charWithOccu, 'char-secondary-occu', '');
     assert.strictEqual(withSecOccu['char-secondary-occu'], '');
   });
@@ -348,7 +356,15 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     assert.strictEqual(cleared.traits.length, 0, 'Origin homeworld traits must be removed');
     assert.deepStrictEqual(cleared.originAllocations, { skills: {}, traits: [], features: [] });
 
-    // Also verify secondary origin transition
+    // Also verify secondary origin transition and automatic removal when primary is removed
+    const charWithBothOrigins = {
+      ...charWithOrigin,
+      'char-secondary-origin': 'Frontier Colony'
+    };
+    const clearedPrimaryOrigin = applyOriginTransition(charWithBothOrigins, '');
+    assert.strictEqual(clearedPrimaryOrigin['char-origin'], '');
+    assert.strictEqual(clearedPrimaryOrigin['char-secondary-origin'], '', 'Removing primary origin must automatically remove secondary origin');
+
     const withSecOrigin = applyIdentityFieldTransition(charWithOrigin, 'char-secondary-origin', '');
     assert.strictEqual(withSecOrigin['char-secondary-origin'], '');
   });
@@ -381,5 +397,29 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     assert.strictEqual(cleared.disadvantages.length, 1, 'Only custom disadvantages remain');
     assert.strictEqual(cleared.disadvantages[0].name, 'Phobia (Spiders)');
     assert.deepStrictEqual(cleared.factionAllocations, { skills: {}, traits: [], features: [] });
+  });
+
+  it('clears secondary identity fields without introducing legacy alias keys', () => {
+    const fresh = { ...sampleBaseCharacter, 'char-secondary-occu': 'Bounty Hunter', 'char-secondary-origin': 'Frontier Colony' };
+    const clearedOccu = applyIdentityFieldTransition(fresh, 'char-secondary-occu', '');
+    assert.strictEqual(clearedOccu['char-secondary-occu'], '');
+    assert.ok(!('char-background-occu' in clearedOccu), 'Must not introduce char-background-occu');
+    assert.ok(!('char-occu-secondary' in clearedOccu), 'Must not introduce char-occu-secondary');
+
+    const clearedOrigin = applyIdentityFieldTransition(fresh, 'char-secondary-origin', '');
+    assert.strictEqual(clearedOrigin['char-secondary-origin'], '');
+    assert.ok(!('char-origin-secondary' in clearedOrigin), 'Must not introduce char-origin-secondary');
+
+    const legacy = {
+      ...fresh,
+      'char-background-occu': 'Bounty Hunter',
+      'char-occu-secondary': 'Bounty Hunter',
+      'char-origin-secondary': 'Frontier Colony'
+    };
+    const clearedLegacyOccu = applyIdentityFieldTransition(legacy, 'char-secondary-occu', '');
+    assert.strictEqual(clearedLegacyOccu['char-background-occu'], '');
+    assert.strictEqual(clearedLegacyOccu['char-occu-secondary'], '');
+    const clearedLegacyOrigin = applyIdentityFieldTransition(legacy, 'char-secondary-origin', '');
+    assert.strictEqual(clearedLegacyOrigin['char-origin-secondary'], '');
   });
 });

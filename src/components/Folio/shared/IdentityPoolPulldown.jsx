@@ -162,12 +162,22 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
 
     // 1. Direct Skill Match (Only if not explicitly a category group pattern)
     if (!isCategoryPattern) {
-      let directSkill = nameToSkillMap.get(lower);
+      const strippedStr = cleanStr
+        .replace(/\s*\([+-]?\d+[^)]*\)/g, '')
+        .replace(/:\s*\+?\d+.*/, '')
+        .replace(/:\s*[A-Za-z0-9\s/'-]+$/, '')
+        .trim();
+      const strippedLower = strippedStr.toLowerCase();
+
+      let directSkill = nameToSkillMap.get(lower) || nameToSkillMap.get(strippedLower);
       if (!directSkill) {
-        const match = cleanStr.match(/^([^(]+)\(([^)]+)\)$/);
+        const match = strippedStr.match(/^([^(]+)\(([^)]+)\)$/);
         if (match) {
+          const outer = match[1].trim().toLowerCase();
           const inner = match[2].trim().toLowerCase();
-          if (nameToSkillMap.has(inner)) {
+          if (nameToSkillMap.has(outer)) {
+            directSkill = nameToSkillMap.get(outer);
+          } else if (nameToSkillMap.has(inner)) {
             directSkill = nameToSkillMap.get(inner);
           }
         }

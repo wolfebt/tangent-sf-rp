@@ -35,8 +35,8 @@ const NAVIGATION_ITEMS = [
   { id: 'skills', label: 'Skills', railLabel: 'SKILLS', icon: Award },
   { 
     id: 'features', 
-    label: 'Features & Traits', 
-    railLabel: 'FEATURES',
+    label: 'Aspects', 
+    railLabel: 'ASPECTS',
     icon: Sparkles,
     children: [
       { id: 'features-standard', label: 'Standard Features', subLabel: 'STD FEAT', icon: Sparkles, section: 'features' },

@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import FolioInput from '../shared/FolioInput';
 import { useFolio } from '../../../context/FolioContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useDBM } from '../../../context/DBMContext';
+import { showConfirm } from '../../../context/ConfirmContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { db } from '../../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -195,10 +196,136 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const [inspectItem, setInspectItem] = useState(null);
   const [activePillarModal, setActivePillarModal] = useState(null); // 'archetype' | 'species' | 'occupation' | 'origin' | 'faction'
 
-  const openPillarModal = (pillarKey) => {
+  const getFieldIdForPillar = (pillarKey) => {
+    switch (pillarKey) {
+      case 'archetype': return 'char-archetype';
+      case 'species': return 'char-species';
+      case 'occupation': return 'char-occu';
+      case 'origin': return 'char-origin';
+      case 'faction': return 'char-faction';
+      default: return '';
+    }
+  };
+
+  const [pillarSubTabs, setPillarSubTabs] = useState({
+    archetype: 'allocations',
+    species: 'allocations',
+    occupation: 'allocations',
+    origin: 'allocations',
+    faction: 'allocations'
+  });
+
+  const getActiveSubTab = (pillarKey) => {
+    const fieldId = getFieldIdForPillar(pillarKey);
+    const val = characterData[fieldId];
+    if (!val) return 'catalog';
+    return pillarSubTabs[pillarKey] || 'allocations';
+  };
+
+  const setSubTab = (pillarKey, tabId) => {
+    setPillarSubTabs(prev => ({ ...prev, [pillarKey]: tabId }));
+  };
+
+  const modalInitialSnapshotRef = useRef(null);
+  const backdropMouseDownRef = useRef(false);
+  const characterDataRef = useRef(characterData);
+
+  useEffect(() => {
+    characterDataRef.current = characterData;
+  }, [characterData]);
+
+  const getIdentitySnapshot = (data) => {
+    if (!data) return '';
+    return JSON.stringify({
+      archetype: data['char-archetype'] || '',
+      archetypeAlloc: data.archetypeAllocations || {},
+      species: data['char-species'] || '',
+      speciesAlloc: data.speciesAllocations || {},
+      occu: data['char-occu'] || '',
+      secOccu: data['char-secondary-occu'] || data['char-background-occu'] || data['char-occu-secondary'] || '',
+      occuAlloc: data.occuAllocations || {},
+      origin: data['char-origin'] || '',
+      secOrigin: data['char-secondary-origin'] || data['char-origin-secondary'] || '',
+      originAlloc: data.originAllocations || {},
+      faction: data['char-faction'] || '',
+      factionAlloc: data.factionAllocations || {}
+    });
+  };
+
+  const openPillarModal = (pillarKey, targetSubTab = null) => {
+    if (!activePillarModal) {
+      modalInitialSnapshotRef.current = getIdentitySnapshot(characterDataRef.current || characterData);
+    }
     setActivePillarModal(pillarKey);
     setExpandedCards(prev => ({ ...prev, [pillarKey]: true }));
+    if (targetSubTab) {
+      setPillarSubTabs(prev => ({ ...prev, [pillarKey]: targetSubTab }));
+    }
   };
+
+  const handleConfirmAndClose = () => {
+    modalInitialSnapshotRef.current = null;
+    backdropMouseDownRef.current = false;
+    setActivePillarModal(null);
+  };
+
+  const handleRequestCloseModal = async () => {
+    const currentData = characterDataRef.current || characterData;
+    const isDirty = Boolean(
+      modalInitialSnapshotRef.current &&
+      modalInitialSnapshotRef.current !== getIdentitySnapshot(currentData)
+    );
+
+    if (isDirty) {
+      const pillarTitle = activePillarModal
+        ? activePillarModal.charAt(0).toUpperCase() + activePillarModal.slice(1)
+        : 'Pillar';
+      const ok = await showConfirm({
+        title: `Close ${pillarTitle} Configurator?`,
+        message: 'You have modified your identity choices or point allocations. Are you sure you want to close without saving / confirming?',
+        confirmLabel: 'Discard / Close',
+        cancelLabel: 'Keep Editing',
+        danger: false
+      });
+      if (ok) {
+        modalInitialSnapshotRef.current = null;
+        backdropMouseDownRef.current = false;
+        setActivePillarModal(null);
+      }
+    } else {
+      modalInitialSnapshotRef.current = null;
+      backdropMouseDownRef.current = false;
+      setActivePillarModal(null);
+    }
+  };
+
+  const handleBackdropMouseDown = (e) => {
+    if (e.target === e.currentTarget) {
+      backdropMouseDownRef.current = true;
+    }
+  };
+
+  const handleBackdropClick = async (e) => {
+    if (e.target === e.currentTarget && backdropMouseDownRef.current) {
+      backdropMouseDownRef.current = false;
+      await handleRequestCloseModal();
+    }
+    backdropMouseDownRef.current = false;
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (inspectItem) {
+          setInspectItem(null);
+        } else if (activePillarModal) {
+          handleRequestCloseModal();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activePillarModal, inspectItem]);
 
   const toggleCard = (key) => setExpandedCards(prev => ({ ...prev, [key]: !prev[key] }));
 
@@ -253,10 +380,18 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   const toggleCatalog = (pillarKey) => {
     setShowCatalog(prev => ({ ...prev, [pillarKey]: !prev[pillarKey] }));
+    setPillarSubTabs(prev => ({
+      ...prev,
+      [pillarKey]: getActiveSubTab(pillarKey) === 'catalog' ? 'allocations' : 'catalog'
+    }));
   };
 
   const toggleDossier = (pillarKey) => {
     setShowDossier(prev => ({ ...prev, [pillarKey]: !prev[pillarKey] }));
+    setPillarSubTabs(prev => ({
+      ...prev,
+      [pillarKey]: getActiveSubTab(pillarKey) === 'dossier' ? 'allocations' : 'dossier'
+    }));
   };
 
   const handleInspectItem = (item, categoryKey, title) => {
@@ -308,7 +443,6 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           }
         };
 
-        checkField('char-archetype', 'archetypes');
         checkField('char-species', 'species');
         checkField('char-occu', 'occupations');
         checkField('char-origin', 'origins');
@@ -595,12 +729,32 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   }, [selectedOrigin, characterData.originAllocations]);
 
   const factionAllocationMetrics = useMemo(() => {
-    if (!selectedFaction) return null;
+    const rawVal = characterData['char-faction'];
+    if (!rawVal) return null;
+
+    if (!selectedFaction) {
+      // Independent or custom text faction with no formal catalog allocation pools
+      return {
+        facSP: 0,
+        allocatedSPCount: 0,
+        maxFeats: 0,
+        allocatedFeaturesCount: 0,
+        maxTraits: 0,
+        allocatedTraitsCount: 0,
+        isComplete: true,
+        hasPending: false
+      };
+    }
+
     const pkgSkills = extractNameList(selectedFaction.skill_package || selectedFaction.skills);
-    const facSP = parseInt(selectedFaction.skill_points || (pkgSkills.length > 0 ? 20 : 0), 10);
-    const maxFeats = parseInt(selectedFaction.bonus_features || (factionBenefits.length > 0 ? 1 : 0), 10);
+    const facSP = parseInt(selectedFaction.skill_points || (pkgSkills.length > 0 ? 20 : 0), 10) || 0;
+    const maxFeats = typeof selectedFaction.bonus_features === 'number'
+      ? selectedFaction.bonus_features
+      : (parseInt(selectedFaction.bonus_feature_choices || 0, 10) || 0);
     const factionTraits = extractNameList(selectedFaction.traits || selectedFaction.trait);
-    const maxTraits = parseInt(selectedFaction.bonus_traits || (factionTraits.length > 0 ? 1 : 0), 10);
+    const maxTraits = typeof selectedFaction.bonus_traits === 'number'
+      ? selectedFaction.bonus_traits
+      : (parseInt(selectedFaction.bonus_traits || 0, 10) || 0);
 
     const allocatedSPCount = Object.values(characterData.factionAllocations?.skills || {}).reduce((acc, v) => acc + (Number(v) || 0), 0);
     const allocatedFeaturesCount = (characterData.factionAllocations?.features || []).length;
@@ -622,25 +776,149 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       isComplete,
       hasPending: !isComplete
     };
-  }, [selectedFaction, characterData.factionAllocations, factionBenefits]);
+  }, [selectedFaction, characterData['char-faction'], characterData.factionAllocations, factionBenefits]);
 
-  const handleSpeciesChange = (value) => {
+  const handleRemovePillarChoice = async (pillarKey) => {
+    if (isSheetLocked) return;
+
+    if (pillarKey === 'archetype') {
+      const name = characterData['char-archetype'];
+      if (!name) return;
+      const ok = await showConfirm({
+        title: 'Remove Archetype',
+        message: `Are you sure you want to remove Archetype "${name}"? This will reset archetype attribute bonuses, signature features, and allocated skills.`,
+        danger: true,
+        confirmLabel: 'Remove'
+      });
+      if (ok) {
+        updateField('char-archetype', '');
+      }
+    } else if (pillarKey === 'species') {
+      const name = characterData['char-species'];
+      if (!name) return;
+      const ok = await showConfirm({
+        title: 'Remove Species',
+        message: `Are you sure you want to remove Species "${name}"? This will reset species attribute adjustments, inherent traits, and species point allocations.`,
+        danger: true,
+        confirmLabel: 'Remove'
+      });
+      if (ok) {
+        updateField('char-species', '');
+      }
+    } else if (pillarKey === 'occupation') {
+      const name = characterData['char-occu'];
+      const secName = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'];
+      if (!name) return;
+      const secNotice = secName
+        ? ` Removing your primary occupation will also automatically remove your background occupation ("${secName}") and reset occupational allocations.`
+        : ' This will reset all occupational skill and trait allocations.';
+      const ok = await showConfirm({
+        title: 'Remove Occupation',
+        message: `Are you sure you want to remove Occupation "${name}"?${secNotice}`,
+        danger: true,
+        confirmLabel: 'Remove'
+      });
+      if (ok) {
+        updateField('char-occu', '');
+        if (secName) {
+          updateField('char-secondary-occu', '');
+        }
+      }
+    } else if (pillarKey === 'secondary-occupation') {
+      const secName = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'];
+      if (!secName) return;
+      const ok = await showConfirm({
+        title: 'Remove Background Occupation',
+        message: `Are you sure you want to remove Background Occupation "${secName}"?`,
+        danger: true,
+        confirmLabel: 'Remove'
+      });
+      if (ok) {
+        updateField('char-secondary-occu', '');
+      }
+    } else if (pillarKey === 'origin') {
+      const name = characterData['char-origin'];
+      const secName = characterData['char-secondary-origin'] || characterData['char-origin-secondary'];
+      if (!name) return;
+      const secNotice = secName
+        ? ` Removing your primary origin will also automatically remove your secondary origin ("${secName}") and reset society skill allocations.`
+        : ' This will reset all society skill and origin trait allocations.';
+      const ok = await showConfirm({
+        title: 'Remove Origin',
+        message: `Are you sure you want to remove Origin "${name}"?${secNotice}`,
+        danger: true,
+        confirmLabel: 'Remove'
+      });
+      if (ok) {
+        updateField('char-origin', '');
+        if (secName) {
+          updateField('char-secondary-origin', '');
+        }
+      }
+    } else if (pillarKey === 'secondary-origin') {
+      const secName = characterData['char-secondary-origin'] || characterData['char-origin-secondary'];
+      if (!secName) return;
+      const ok = await showConfirm({
+        title: 'Remove Secondary Origin',
+        message: `Are you sure you want to remove Secondary Origin "${secName}"?`,
+        danger: true,
+        confirmLabel: 'Remove'
+      });
+      if (ok) {
+        updateField('char-secondary-origin', '');
+      }
+    } else if (pillarKey === 'faction') {
+      const name = characterData['char-faction'];
+      if (!name) return;
+      const ok = await showConfirm({
+        title: 'Remove Faction Allegiance',
+        message: `Are you sure you want to remove Faction Allegiance "${name}"? This will reset faction skill package allocations and faction benefits.`,
+        danger: true,
+        confirmLabel: 'Remove'
+      });
+      if (ok) {
+        updateField('char-faction', '');
+      }
+    }
+  };
+
+  const handleSpeciesChange = async (value) => {
+    if (!value && characterData['char-species']) {
+      await handleRemovePillarChoice('species');
+      return;
+    }
     updateField('char-species', value);
   };
 
-  const handleArchetypeChange = (value) => {
+  const handleArchetypeChange = async (value) => {
+    if (!value && characterData['char-archetype']) {
+      await handleRemovePillarChoice('archetype');
+      return;
+    }
     updateField('char-archetype', value);
   };
 
-  const handleOccupationChange = (value) => {
+  const handleOccupationChange = async (value) => {
+    if (!value && characterData['char-occu']) {
+      await handleRemovePillarChoice('occupation');
+      return;
+    }
     updateField('char-occu', value);
   };
 
-  const handleOriginChange = (value) => {
+  const handleOriginChange = async (value) => {
+    if (!value && characterData['char-origin']) {
+      await handleRemovePillarChoice('origin');
+      return;
+    }
     updateField('char-origin', value);
   };
 
-  const handleFactionChange = (value) => {
+  const handleFactionChange = async (value) => {
+    if (!value && characterData['char-faction']) {
+      await handleRemovePillarChoice('faction');
+      return;
+    }
     updateField('char-faction', value);
   };
 
@@ -657,7 +935,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       textAccent: 'text-amber-400',
       btnBg: 'bg-amber-600 hover:bg-amber-500 text-slate-950',
       cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
-      cardActive: 'border-amber-400 bg-amber-950/30'
+      cardActive: 'border-amber-400 bg-amber-950/30',
+      subTabActive: 'bg-amber-950/90 text-amber-200 border-amber-500/70 shadow-sm ring-1 ring-amber-500/30'
     },
     cyan: {
       border: 'border-cyan-500/40',
@@ -668,7 +947,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       textAccent: 'text-cyan-400',
       btnBg: 'bg-cyan-600 hover:bg-cyan-500 text-slate-950',
       cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
-      cardActive: 'border-cyan-400 bg-cyan-950/30'
+      cardActive: 'border-cyan-400 bg-cyan-950/30',
+      subTabActive: 'bg-cyan-950/90 text-cyan-200 border-cyan-500/70 shadow-sm ring-1 ring-cyan-500/30'
     },
     sky: {
       border: 'border-sky-500/40',
@@ -679,7 +959,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       textAccent: 'text-sky-400',
       btnBg: 'bg-sky-600 hover:bg-sky-500 text-slate-950',
       cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
-      cardActive: 'border-sky-400 bg-sky-950/30'
+      cardActive: 'border-sky-400 bg-sky-950/30',
+      subTabActive: 'bg-sky-950/90 text-sky-200 border-sky-500/70 shadow-sm ring-1 ring-sky-500/30'
     },
     emerald: {
       border: 'border-emerald-500/40',
@@ -690,7 +971,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       textAccent: 'text-emerald-400',
       btnBg: 'bg-emerald-600 hover:bg-emerald-500 text-slate-950',
       cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
-      cardActive: 'border-emerald-400 bg-emerald-950/30'
+      cardActive: 'border-emerald-400 bg-emerald-950/30',
+      subTabActive: 'bg-emerald-950/90 text-emerald-200 border-emerald-500/70 shadow-sm ring-1 ring-emerald-500/30'
     },
     purple: {
       border: 'border-purple-500/40',
@@ -701,7 +983,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       textAccent: 'text-purple-400',
       btnBg: 'bg-purple-600 hover:bg-purple-500 text-slate-950',
       cardBg: 'bg-slate-900/60 hover:bg-slate-900/90',
-      cardActive: 'border-purple-400 bg-purple-950/30'
+      cardActive: 'border-purple-400 bg-purple-950/30',
+      subTabActive: 'bg-purple-950/90 text-purple-200 border-purple-500/70 shadow-sm ring-1 ring-purple-500/30'
     }
   };
 
@@ -887,8 +1170,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     );
   };
 
-  const renderConsolidatedDossier = (pillarKey, label, children, item, browsePath) => {
-    const isOpen = Boolean(showDossier[pillarKey]);
+  const renderConsolidatedDossier = (pillarKey, label, children, item, browsePath, forceOpen = false) => {
+    const isOpen = forceOpen || Boolean(showDossier[pillarKey]);
     return (
       <div className="bg-slate-900/40 rounded-xl border border-slate-800/80 overflow-hidden">
         <div
@@ -898,7 +1181,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           <div className="flex items-center gap-2">
             <BookOpen className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300">
-              Reference Dossier & Lore Specifications
+              {label} Reference Dossier & Specifications
             </span>
             <span className="text-[10px] font-mono text-slate-500 hidden sm:inline">
               (Lore, Inherent Traits & System Specs)
@@ -910,21 +1193,23 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               <button
                 type="button"
                 onClick={() => handleInspectItem(item, browsePath, `${label}: ${item.name || item.title || item.id}`)}
-                className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[10px] font-mono flex items-center gap-1 transition-colors cursor-pointer"
+                className="px-2.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[10px] font-mono flex items-center gap-1.5 transition-colors cursor-pointer border border-slate-700"
                 title="Open full database record in inspector"
               >
-                <Eye className="w-3 h-3 text-cyan-400" />
-                <span>Inspect Record</span>
+                <Eye className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Inspect Database Record</span>
               </button>
             )}
 
-            <button
-              type="button"
-              onClick={() => toggleDossier(pillarKey)}
-              className="p-1 rounded text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
-            >
-              {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
+            {!forceOpen && (
+              <button
+                type="button"
+                onClick={() => toggleDossier(pillarKey)}
+                className="p-1 rounded text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+              >
+                {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+            )}
           </div>
         </div>
 
@@ -937,6 +1222,74 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     );
   };
 
+  const renderPillarSubTabBar = ({
+    pillarKey,
+    themeColor,
+    allocationsLabel = 'Point Allocations',
+    allocationsIcon = '⚡',
+    catalogCount = 0,
+    isComplete = false
+  }) => {
+    const activeSubTab = getActiveSubTab(pillarKey);
+    const theme = THEME_CLASSES[themeColor] || THEME_CLASSES.cyan;
+    const fieldId = getFieldIdForPillar(pillarKey);
+    const hasSelection = Boolean(characterData[fieldId]);
+
+    const tabs = [
+      {
+        id: 'allocations',
+        label: allocationsLabel,
+        icon: allocationsIcon,
+        badge: isComplete ? '✓ Ready' : (hasSelection ? 'Pending' : null),
+        badgeClass: isComplete ? 'bg-emerald-950 border-emerald-500/60 text-emerald-300' : 'bg-amber-950 border-amber-500/60 text-amber-300'
+      },
+      {
+        id: 'catalog',
+        label: 'Catalog Browser',
+        icon: '✨',
+        count: catalogCount
+      },
+      {
+        id: 'dossier',
+        label: 'Dossier & Specs',
+        icon: '📖'
+      }
+    ];
+
+    return (
+      <div className="flex flex-wrap items-center justify-between gap-2 p-1.5 bg-slate-900/90 rounded-xl border border-slate-800 shrink-0">
+        <div className="flex items-center gap-1.5 overflow-x-auto max-w-full">
+          {tabs.map(tab => {
+            const isActive = activeSubTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setSubTab(pillarKey, tab.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer border shrink-0 ${
+                  isActive
+                    ? `${theme.subTabActive || theme.bgBadge + ' ' + theme.textBadge + ' ' + theme.borderBadge} shadow-sm`
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/80 border-transparent'
+                }`}
+              >
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
+                {tab.count !== undefined && (
+                  <span className="text-[10px] opacity-75 font-normal">({tab.count})</span>
+                )}
+                {tab.badge && (
+                  <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono border ${tab.badgeClass}`}>
+                    {tab.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   // ----------------------------------------------------------------------------------
   // RENDER: ARCHETYPE CARD / WORKBENCH
   // ----------------------------------------------------------------------------------
@@ -945,9 +1298,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const label = 'Archetype';
     const browsePath = 'archetypes';
     const val = characterData[fieldId] || '';
-    const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = Boolean(expandedCards['archetype']);
-    const isCatalogOpen = Boolean(showCatalog['archetype'] || !val);
+    const activeSubTab = getActiveSubTab('archetype');
     const essentialSkills = extractNameList(selectedArchetype?.essential_skills);
     const signatureFeatures = extractNameList(selectedArchetype?.signature_features);
     const recOccs = extractNameList(selectedArchetype?.recommended_occupations);
@@ -955,14 +1306,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const recFactions = extractNameList(selectedArchetype?.recommended_factions);
 
     return (
-      <div className="bg-slate-950/90 border border-amber-500/40 rounded-xl overflow-hidden transition-all shadow-none">
+      <div className="bg-slate-950/90 border border-amber-500/40 rounded-xl overflow-hidden transition-all shadow-none space-y-3 p-3">
         {/* Header Bar */}
-        <div
-          onClick={() => toggleCard('archetype')}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
-            val ? 'bg-amber-950/20 hover:bg-amber-950/30' : 'bg-slate-900/50 hover:bg-slate-900/70'
-          }`}
-        >
+        <div className="flex flex-wrap items-center justify-between p-3 select-none transition-colors bg-slate-900/60 rounded-xl border border-slate-800 gap-2">
           <div className="flex items-center gap-2 min-w-0 pr-2">
             <span className="text-lg shrink-0">🛡️</span>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-amber-950/80 border border-amber-500/50 text-amber-300 shrink-0">
@@ -984,13 +1330,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 ml-auto mt-1 sm:mt-0" onClick={e => e.stopPropagation()}>
+          <div className="flex items-center gap-1.5 shrink-0 ml-auto" onClick={e => e.stopPropagation()}>
             {/* Inline Quick Selector Dropdown */}
-            {!isSheetLocked && !isManual && (
+            {!isSheetLocked && (
               <div className="relative">
                 <select
                   value={val}
-                  onChange={(e) => handleArchetypeChange(e.target.value)}
+                  onChange={(e) => {
+                    handleArchetypeChange(e.target.value);
+                    if (e.target.value) setSubTab('archetype', 'allocations');
+                  }}
                   className="bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-200 text-xs rounded px-2.5 py-1 font-mono outline-none cursor-pointer focus:border-amber-400"
                   title="Quick select archetype from list"
                 >
@@ -998,15 +1347,15 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   {(() => {
                     const groups = {};
                     archetypesCatalog.forEach(a => {
-                      const sp = a.sphere || a.category || 'General';
-                      if (!groups[sp]) groups[sp] = [];
-                      groups[sp].push(a);
+                      const sphere = a.sphere || a.category || 'General';
+                      if (!groups[sphere]) groups[sphere] = [];
+                      groups[sphere].push(a);
                     });
-                    return Object.entries(groups).map(([grp, list]) => (
-                      <optgroup key={grp} label={grp} className="bg-slate-950 text-slate-200">
+                    return Object.entries(groups).map(([sphere, list]) => (
+                      <optgroup key={sphere} label={sphere} className="bg-slate-950 text-slate-200">
                         {list.map(item => (
                           <option key={item.name || item.id} value={item.name || item.id}>
-                            {item.name || item.id} {item.primary_attribute ? `(${item.primary_attribute}/${item.secondary_attribute})` : ''}
+                            {item.name || item.id}
                           </option>
                         ))}
                       </optgroup>
@@ -1016,120 +1365,77 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && (
-              <button
-                type="button"
-                onClick={() => toggleCatalog('archetype')}
-                className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer shadow-none ${
-                  showCatalog.archetype
-                    ? 'bg-amber-950/80 border-amber-500 text-amber-200'
-                    : val
-                    ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-amber-300 hover:text-amber-100 hover:border-amber-400'
-                    : 'bg-amber-500/20 hover:bg-amber-500/30 border-amber-500/60 text-amber-200 hover:text-white'
-                }`}
-                title="Toggle visual catalog cards browser"
-              >
-                <Sparkles className="w-3 h-3 text-amber-400" />
-                <span>{showCatalog.archetype ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
-              </button>
-            )}
-
             {!isSheetLocked && val && (
               <button
                 type="button"
-                onClick={() => updateField(fieldId, '')}
+                onClick={() => handleRemovePillarChoice('archetype')}
                 className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 border border-transparent hover:border-red-800/60 transition-colors cursor-pointer"
-                title="Clear selection"
+                title="Remove Archetype"
               >
                 <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-
-            {!isSheetLocked && (
-              <button
-                type="button"
-                onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
-                className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
-                  isManual ? 'bg-slate-800 border-amber-500 text-amber-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
-                }`}
-                title="Toggle custom text input"
-              >
-                {isManual ? 'Custom' : 'Text'}
               </button>
             )}
 
             {selectedArchetype && (
               <button
                 type="button"
-                onClick={() => handleInspectItem(selectedArchetype, browsePath, `Archetype: ${selectedArchetype.name}`)}
+                onClick={() => handleInspectItem(selectedArchetype, browsePath, `Archetype: ${selectedArchetype.name || selectedArchetype.title}`)}
                 className="p-1 rounded text-slate-400 hover:text-amber-300 transition-colors cursor-pointer"
                 title="View entire archetype database entry"
               >
                 <Eye className="w-3.5 h-3.5" />
               </button>
             )}
-
-            <button
-              type="button"
-              onClick={() => toggleCard('archetype')}
-              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-              title={isExpanded ? "Collapse card" : "Expand card"}
-            >
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
           </div>
         </div>
 
-        {/* Manual Text Edit Field */}
-        {!isSheetLocked && isManual && (
-          <div className="p-2.5 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
-            <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Archetype:</span>
-            <input
-              type="text"
-              value={val}
-              onChange={(e) => handleArchetypeChange(e.target.value)}
-              placeholder="Enter custom archetype concept..."
-              className="flex-1 bg-slate-950 border border-slate-700 focus:border-amber-400 rounded px-2.5 py-1 text-xs text-slate-100 outline-none font-mono"
-            />
-          </div>
-        )}
+        {/* Sub-Tab Navigation Bar */}
+        {renderPillarSubTabBar({
+          pillarKey: 'archetype',
+          themeColor: 'amber',
+          allocationsLabel: 'Blueprint & Pre-build',
+          allocationsIcon: '🛡️',
+          catalogCount: archetypesCatalog.length,
+          isComplete: Boolean(val)
+        })}
 
-        {/* Body Content */}
-        {isExpanded && (
-          <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Visual Catalog Cards Picker */}
-            {isCatalogOpen && (
-              renderPillarCatalogPicker({
-                pillarKey: 'archetype',
-                title: 'Archetype',
-                catalog: archetypesCatalog,
-                selectedValue: val,
-                browsePath,
-                colorTheme: 'amber',
-                categoryExtractor: (item) => item.sphere || item.category || 'General',
-                renderCardBadges: (item) => (
-                  <>
-                    {item.sphere && (
-                      <span className="px-1.5 py-0.5 rounded bg-amber-950 border border-amber-600/40 text-amber-300 font-bold">
-                        {item.sphere}
-                      </span>
-                    )}
-                    {item.primary_attribute && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
-                        {item.primary_attribute} (+3) / {item.secondary_attribute} (+2)
-                      </span>
-                    )}
-                  </>
-                ),
-                onSelect: (item) => {
-                  handleArchetypeChange(item.name || item.id);
-                  setShowCatalog(prev => ({ ...prev, archetype: false }));
-                }
-              })
-            )}
+        {/* Body Content by Sub-Tab */}
+        <div className="space-y-4">
+          {/* Sub-Tab 1: Catalog Browser */}
+          {activeSubTab === 'catalog' && (
+            renderPillarCatalogPicker({
+              pillarKey: 'archetype',
+              title: 'Archetype',
+              catalog: archetypesCatalog,
+              selectedValue: val,
+              browsePath,
+              colorTheme: 'amber',
+              categoryExtractor: (item) => item.sphere || item.category || 'General',
+              renderCardBadges: (item) => (
+                <>
+                  {item.sphere && (
+                    <span className="px-1.5 py-0.5 rounded bg-amber-950 border border-amber-600/40 text-amber-300 font-bold">
+                      {item.sphere}
+                    </span>
+                  )}
+                  {item.primary_attribute && (
+                    <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                      {item.primary_attribute} (+3) / {item.secondary_attribute} (+2)
+                    </span>
+                  )}
+                </>
+              ),
+              onSelect: (item) => {
+                handleArchetypeChange(item.name || item.id);
+                setSubTab('archetype', 'allocations');
+              }
+            })
+          )}
 
-            {selectedArchetype && (
-              <>
+          {/* Sub-Tab 2: Allocations / Blueprint Workbench */}
+          {activeSubTab === 'allocations' && (
+            selectedArchetype ? (
+              <div className="space-y-3">
                 {/* Top Blueprint Banner & 80 CP Pre-build Button */}
                 <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-gradient-to-r from-amber-950/30 to-slate-900/60 border border-amber-500/30 rounded-lg">
                   <div className="space-y-0.5">
@@ -1166,155 +1472,191 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   </div>
                 </div>
 
-                {/* Consolidated Reference Dossier */}
-                {renderConsolidatedDossier('archetype', 'Archetype', (
-                  <div className="space-y-3">
-                    {/* Archetype Recommended Pathways Dossier */}
-                    {(recOccs.length > 0 || recOrigins.length > 0 || recFactions.length > 0) && (
-                      <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 space-y-2.5">
-                        <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">
-                          <span>★</span> Recommended Pathways & Synergies
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
-                          {recOccs.length > 0 && (
-                            <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
-                              <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
-                              <div className="flex flex-wrap gap-1">
-                                {recOccs.map(occName => {
-                                  const rawOcc = characterData['char-occu'];
-                                  const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
-                                  const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
-                                  return (
-                                    <span
-                                      key={occName}
-                                      className={`px-2 py-0.5 rounded text-[10px] border ${
-                                        isCurrent
-                                          ? 'bg-sky-950 border-sky-500 text-sky-200 font-bold'
-                                          : 'bg-slate-900 border-slate-800 text-slate-400'
-                                      }`}
-                                    >
-                                      {occName} {isCurrent ? '✓' : ''}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          )}
-                          {recOrigins.length > 0 && (
-                            <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
-                              <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
-                              <div className="flex flex-wrap gap-1">
-                                {recOrigins.map(origName => {
-                                  const rawOrig = characterData['char-origin'];
-                                  const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
-                                  const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
-                                  return (
-                                    <span
-                                      key={origName}
-                                      className={`px-2 py-0.5 rounded text-[10px] border ${
-                                        isCurrent
-                                          ? 'bg-emerald-950 border-emerald-500 text-emerald-200 font-bold'
-                                          : 'bg-slate-900 border-slate-800 text-slate-400'
-                                      }`}
-                                    >
-                                      {origName} {isCurrent ? '✓' : ''}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          )}
-                          {recFactions.length > 0 && (
-                            <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
-                              <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
-                              <div className="flex flex-wrap gap-1">
-                                {recFactions.map(facName => {
-                                  const rawFac = characterData['char-faction'];
-                                  const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
-                                  const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
-                                  return (
-                                    <span
-                                      key={facName}
-                                      className={`px-2 py-0.5 rounded text-[10px] border ${
-                                        isCurrent
-                                          ? 'bg-purple-950 border-purple-500 text-purple-200 font-bold'
-                                          : 'bg-slate-900 border-slate-800 text-slate-400'
-                                      }`}
-                                    >
-                                      {facName} {isCurrent ? '✓' : ''}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Essential Skills */}
-                    {essentialSkills.length > 0 && (
-                      <div className="space-y-1.5">
-                        <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
-                          Essential Skills (Rank 6 Blueprint Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {essentialSkills.map(skName => {
-                            const status = getSkillTrainingStatus(skName, characterData);
-                            return (
-                              <span
-                                key={skName}
-                                className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                                  status.isTrained
-                                    ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Signature Features */}
-                    {signatureFeatures.length > 0 && (
-                      <div className="space-y-1.5">
-                        <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
-                          Signature Features (Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {signatureFeatures.map(fName => {
-                            const acquired = getFeatureAcquiredStatus(fName, characterData);
-                            return (
-                              <span
-                                key={fName}
-                                className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                                  acquired
-                                    ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {fName} {acquired ? '✓' : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {selectedArchetype.description && (
-                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                        {selectedArchetype.description}
-                      </p>
-                    )}
+                {/* Essential Skills */}
+                {essentialSkills.length > 0 && (
+                  <div className="p-3 bg-slate-900/60 rounded-xl border border-amber-500/30 space-y-2">
+                    <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
+                      Essential Skills (Rank 6 Blueprint Options & Selections):
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {essentialSkills.map(skName => {
+                        const status = getSkillTrainingStatus(skName, characterData);
+                        return (
+                          <span
+                            key={skName}
+                            className={`px-2.5 py-1 rounded text-xs font-mono border ${
+                              status.isTrained
+                                ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
+                                : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                            }`}
+                          >
+                            {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
+                          </span>
+                        );
+                      })}
+                    </div>
                   </div>
-                ), selectedArchetype, browsePath)}
-              </>
-            )}
-          </div>
-        )}
+                )}
+
+                {/* Signature Features */}
+                {signatureFeatures.length > 0 && (
+                  <div className="p-3 bg-slate-900/60 rounded-xl border border-amber-500/30 space-y-2">
+                    <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
+                      Signature Features (Options & Selections):
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {signatureFeatures.map(fName => {
+                        const acquired = getFeatureAcquiredStatus(fName, characterData);
+                        return (
+                          <span
+                            key={fName}
+                            className={`px-2.5 py-1 rounded text-xs font-mono border ${
+                              acquired
+                                ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
+                                : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                            }`}
+                          >
+                            {fName} {acquired ? '✓' : ''}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="p-8 border border-dashed border-amber-500/30 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <span className="text-3xl block">🛡️</span>
+                <h4 className="text-sm font-mono font-bold uppercase text-amber-300">No Archetype Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Archetypes provide an optional 80 CP core chassis blueprint, primary and secondary attribute allocations, essential skills, and signature features.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('archetype', 'catalog')}
+                  className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Browse Archetypes Catalog</span>
+                </button>
+              </div>
+            )
+          )}
+
+          {/* Sub-Tab 3: Dossier & Specifications */}
+          {activeSubTab === 'dossier' && (
+            selectedArchetype ? (
+              renderConsolidatedDossier('archetype', 'Archetype', (
+                <div className="space-y-3">
+                  {/* Archetype Recommended Pathways Dossier */}
+                  {(recOccs.length > 0 || recOrigins.length > 0 || recFactions.length > 0) && (
+                    <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 space-y-2.5">
+                      <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-amber-400 tracking-wider">
+                        <span>★</span> Recommended Pathways & Synergies
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+                        {recOccs.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
+                            <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOccs.map(occName => {
+                                const rawOcc = characterData['char-occu'];
+                                const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
+                                const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
+                                return (
+                                  <span
+                                    key={occName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-sky-950 border-sky-500 text-sky-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {occName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recOrigins.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
+                            <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOrigins.map(origName => {
+                                const rawOrig = characterData['char-origin'];
+                                const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
+                                const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
+                                return (
+                                  <span
+                                    key={origName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-emerald-950 border-emerald-500 text-emerald-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {origName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recFactions.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-amber-900/40 space-y-1.5">
+                            <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recFactions.map(facName => {
+                                const rawFac = characterData['char-faction'];
+                                const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
+                                const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
+                                return (
+                                  <span
+                                    key={facName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-purple-950 border-purple-500 text-purple-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {facName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedArchetype.description && (
+                    <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                      {selectedArchetype.description}
+                    </p>
+                  )}
+                </div>
+              ), selectedArchetype, browsePath, true)
+            ) : (
+              <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
+                <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Archetype Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Select an archetype to view recommended synergies, essential skills options, and tactical lore.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('archetype', 'catalog')}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 rounded-lg text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Open Archetype Catalog</span>
+                </button>
+              </div>
+            )
+          )}
+        </div>
       </div>
     );
   };
@@ -1328,8 +1670,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const browsePath = 'species';
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = Boolean(expandedCards['species']);
-    const isCatalogOpen = Boolean(showCatalog['species'] || !val);
+    const activeSubTab = getActiveSubTab('species');
     const inherentTraitsList = getInherentSpeciesTraits(selectedSpecies);
     const inherentFeatures = extractNameList(selectedSpecies?.inherent_features);
     const bonusFeatureChoices = extractNameList(selectedSpecies?.bonus_feature_choices || selectedSpecies?.recommended_features);
@@ -1343,18 +1684,13 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const speciesSkillSP = parseInt(selectedSpecies?.bonus_skills || selectedSpecies?.bonus_skill_points || 0, 10);
 
     return (
-      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all ${
+      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all space-y-3 p-3 ${
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-cyan-500/40 shadow-[0_0_10px_rgba(34,211,238,0.08)]'
       }`}>
         {/* Header Bar */}
-        <div
-          onClick={() => toggleCard('species')}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
-            val ? 'bg-cyan-950/20 hover:bg-cyan-950/30' : 'bg-slate-900/50 hover:bg-slate-900/70'
-          }`}
-        >
+        <div className="flex flex-wrap items-center justify-between p-3 select-none transition-colors bg-slate-900/60 rounded-xl border border-slate-800 gap-2">
           <div className="flex items-center gap-2 min-w-0 pr-2">
             <span className="text-lg shrink-0">🧬</span>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 shrink-0">
@@ -1392,13 +1728,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 ml-auto mt-1 sm:mt-0" onClick={e => e.stopPropagation()}>
+          <div className="flex items-center gap-1.5 shrink-0 ml-auto" onClick={e => e.stopPropagation()}>
             {/* Inline Quick Selector Dropdown */}
             {!isSheetLocked && !isManual && (
               <div className="relative">
                 <select
                   value={val}
-                  onChange={(e) => handleSpeciesChange(e.target.value)}
+                  onChange={(e) => {
+                    handleSpeciesChange(e.target.value);
+                    if (e.target.value) setSubTab('species', 'allocations');
+                  }}
                   className="bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-200 text-xs rounded px-2.5 py-1 font-mono outline-none cursor-pointer focus:border-cyan-400"
                   title="Quick select species from list"
                 >
@@ -1424,30 +1763,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && (
-              <button
-                type="button"
-                onClick={() => toggleCatalog('species')}
-                className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  showCatalog.species
-                    ? 'bg-cyan-950/80 border-cyan-500 text-cyan-200'
-                    : val
-                    ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-cyan-300 hover:text-cyan-100 hover:border-cyan-400'
-                    : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
-                }`}
-                title="Toggle visual species catalog cards browser"
-              >
-                <Sparkles className="w-3 h-3 text-cyan-400" />
-                <span>{showCatalog.species ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
-              </button>
-            )}
-
             {!isSheetLocked && val && (
               <button
                 type="button"
-                onClick={() => updateField(fieldId, '')}
+                onClick={() => handleRemovePillarChoice('species')}
                 className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 border border-transparent hover:border-red-800/60 transition-colors cursor-pointer"
-                title="Clear selection"
+                title="Remove Species"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -1476,21 +1797,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 <Eye className="w-3.5 h-3.5" />
               </button>
             )}
-
-            <button
-              type="button"
-              onClick={() => toggleCard('species')}
-              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-              title={isExpanded ? "Collapse card" : "Expand card"}
-            >
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
           </div>
         </div>
 
         {/* Manual Text Edit Field */}
         {!isSheetLocked && isManual && (
-          <div className="p-2.5 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
+          <div className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl flex items-center gap-2">
             <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Species:</span>
             <input
               type="text"
@@ -1502,47 +1814,58 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Body Content */}
-        {isExpanded && (
-          <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Visual Species Catalog Cards Picker */}
-            {isCatalogOpen && (
-              renderPillarCatalogPicker({
-                pillarKey: 'species',
-                title: 'Species',
-                catalog: speciesCatalog,
-                selectedValue: val,
-                browsePath,
-                colorTheme: 'cyan',
-                categoryExtractor: (item) => item.parent_species || item.lineage || 'Independent Xenotypes',
-                renderCardBadges: (item) => (
-                  <>
-                    {item.parent_species && (
-                      <span className="px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-600/40 text-cyan-300 font-bold">
-                        {item.parent_species}
-                      </span>
-                    )}
-                    {item.type && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
-                        {formatSpeciesType(item.type).label}
-                      </span>
-                    )}
-                    {item.size && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">
-                        Size {formatSpeciesSize(item.size).label}
-                      </span>
-                    )}
-                  </>
-                ),
-                onSelect: (item) => {
-                  handleSpeciesChange(item.name || item.id);
-                  setShowCatalog(prev => ({ ...prev, species: false }));
-                }
-              })
-            )}
+        {/* Sub-Tab Navigation Bar */}
+        {renderPillarSubTabBar({
+          pillarKey: 'species',
+          themeColor: 'cyan',
+          allocationsLabel: 'Point Allocations',
+          allocationsIcon: '⚡',
+          catalogCount: speciesCatalog.length,
+          isComplete: Boolean(speciesAllocationMetrics?.isComplete)
+        })}
 
-            {selectedSpecies && (
-              <>
+        {/* Body Content by Sub-Tab */}
+        <div className="space-y-4">
+          {/* Sub-Tab 1: Visual Species Catalog Cards Picker */}
+          {activeSubTab === 'catalog' && (
+            renderPillarCatalogPicker({
+              pillarKey: 'species',
+              title: 'Species',
+              catalog: speciesCatalog,
+              selectedValue: val,
+              browsePath,
+              colorTheme: 'cyan',
+              categoryExtractor: (item) => item.parent_species || item.lineage || 'Independent Xenotypes',
+              renderCardBadges: (item) => (
+                <>
+                  {item.parent_species && (
+                    <span className="px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-600/40 text-cyan-300 font-bold">
+                      {item.parent_species}
+                    </span>
+                  )}
+                  {item.type && (
+                    <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                      {formatSpeciesType(item.type).label}
+                    </span>
+                  )}
+                  {item.size && (
+                    <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">
+                      Size {formatSpeciesSize(item.size).label}
+                    </span>
+                  )}
+                </>
+              ),
+              onSelect: (item) => {
+                handleSpeciesChange(item.name || item.id);
+                setSubTab('species', 'allocations');
+              }
+            })
+          )}
+
+          {/* Sub-Tab 2: Point Allocations Suite Workbench */}
+          {activeSubTab === 'allocations' && (
+            selectedSpecies ? (
+              <div className="space-y-4">
                 {/* Real-time Allocation Overview Bar */}
                 {speciesAllocationMetrics?.hasAllocations && (
                   <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-lg bg-slate-900/90 border border-cyan-500/30 font-mono text-xs">
@@ -1597,7 +1920,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 )}
 
                 {/* Interactive Species Allocation Suite Workbench */}
-                {speciesAllocationMetrics?.hasAllocations && (
+                {speciesAllocationMetrics?.hasAllocations ? (
                   <div className="space-y-4">
                     {/* Interactive Species Skill Choices Rank Pulldown */}
                     {speciesSkillSP > 0 && (
@@ -1664,188 +1987,242 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </div>
                     )}
                   </div>
+                ) : (
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-cyan-500/30 text-xs font-mono text-slate-300 space-y-2">
+                    <div className="flex items-center gap-2 text-cyan-300 font-bold uppercase">
+                      <Check className="w-4 h-4 text-emerald-400" />
+                      <span>All traits and features for {val} are inherent</span>
+                    </div>
+                    <p className="text-slate-400 font-sans">
+                      This species profile does not require supplemental point allocation. All racial traits, size, movement modes, and attribute adjustments apply automatically.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setSubTab('species', 'dossier')}
+                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer border border-slate-700"
+                    >
+                      <BookOpen className="w-3.5 h-3.5" />
+                      <span>View Species Dossier & Specs</span>
+                    </button>
+                  </div>
                 )}
+              </div>
+            ) : (
+              <div className="p-8 border border-dashed border-cyan-500/30 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <span className="text-3xl block">🧬</span>
+                <h4 className="text-sm font-mono font-bold uppercase text-cyan-300">No Species Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  A biological or synthetic species xenotype is required to establish your physical chassis, attribute baselines, and inherent abilities.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('species', 'catalog')}
+                  className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Browse Species Catalog</span>
+                </button>
+              </div>
+            )
+          )}
 
-                {/* Consolidated Reference Dossier */}
-                {renderConsolidatedDossier('species', 'Species', (
-                  <div className="space-y-3">
-                    {/* Cost Breakdown */}
-                    {speciesCost && (
-                      <div className="bg-slate-900/80 p-3 rounded-lg border border-purple-500/30 text-[11px] font-mono space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-purple-300 font-bold uppercase flex items-center gap-1">
-                            <span>🧬</span> Component Breakdown:
-                          </span>
-                          <span className="text-purple-200 font-bold px-2 py-0.5 rounded bg-purple-950/90 border border-purple-500/60">
-                            Total: {speciesCost.totalCost} CP
-                          </span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 text-slate-300">
-                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Type: <strong className="text-purple-300">{speciesCost.breakdown.typeBP} CP</strong>
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Size: <strong className="text-purple-300">{speciesCost.breakdown.sizeBP} CP</strong>
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Movement: <strong className="text-purple-300">{speciesCost.breakdown.movementBP} CP</strong>
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Attributes: <strong className="text-purple-300">{speciesCost.breakdown.attributeBP >= 0 ? `+${speciesCost.breakdown.attributeBP}` : speciesCost.breakdown.attributeBP} CP</strong>
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Skills: <strong className="text-purple-300">{speciesCost.breakdown.skillsBP} CP</strong>
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} CP</strong>
-                          </span>
-                          {speciesCost.breakdown.disadvantagesRefund > 0 && (
-                            <span className="px-2 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
-                              Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} CP</strong>
-                            </span>
-                          )}
-                        </div>
+          {/* Sub-Tab 3: Consolidated Reference Dossier */}
+          {activeSubTab === 'dossier' && (
+            selectedSpecies ? (
+              renderConsolidatedDossier('species', 'Species', (
+                <div className="space-y-3">
+                  {/* Cost Breakdown */}
+                  {speciesCost && (
+                    <div className="bg-slate-900/80 p-3 rounded-lg border border-purple-500/30 text-[11px] font-mono space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-purple-300 font-bold uppercase flex items-center gap-1">
+                          <span>🧬</span> Component Breakdown:
+                        </span>
+                        <span className="text-purple-200 font-bold px-2 py-0.5 rounded bg-purple-950/90 border border-purple-500/60">
+                          Total: {speciesCost.totalCost} CP
+                        </span>
                       </div>
-                    )}
+                      <div className="flex flex-wrap gap-1.5 text-slate-300">
+                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                          Type: <strong className="text-purple-300">{speciesCost.breakdown.typeBP} CP</strong>
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                          Size: <strong className="text-purple-300">{speciesCost.breakdown.sizeBP} CP</strong>
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                          Movement: <strong className="text-purple-300">{speciesCost.breakdown.movementBP} CP</strong>
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                          Attributes: <strong className="text-purple-300">{speciesCost.breakdown.attributeBP >= 0 ? `+${speciesCost.breakdown.attributeBP}` : speciesCost.breakdown.attributeBP} CP</strong>
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                          Skills: <strong className="text-purple-300">{speciesCost.breakdown.skillsBP} CP</strong>
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                          Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} CP</strong>
+                        </span>
+                        {speciesCost.breakdown.disadvantagesRefund > 0 && (
+                          <span className="px-2 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
+                            Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} CP</strong>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
-                    {/* Physiology Specs */}
-                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Lineage</span>
-                        <strong className="text-cyan-300">{selectedSpecies.parent_species || 'Species'}</strong>
+                  {/* Physiology Specs */}
+                  <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                    <div>
+                      <span className="text-slate-500 block text-[10px]">Lineage</span>
+                      <strong className="text-cyan-300">{selectedSpecies.parent_species || 'Species'}</strong>
+                    </div>
+                    {selectedSpecies.type && (() => {
+                      const info = formatSpeciesType(selectedSpecies.type);
+                      return (
+                        <div>
+                          <span className="text-slate-500 block text-[10px]">Type</span>
+                          <FolioTooltip
+                            title={info.tooltip.title}
+                            badge={info.tooltip.badge}
+                            badgeColor="cyan"
+                            description={info.tooltip.description}
+                            rules={info.tooltip.rules}
+                            cost={info.tooltip.cost}
+                          >
+                            <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                              {info.label}
+                            </strong>
+                          </FolioTooltip>
+                        </div>
+                      );
+                    })()}
+                    {selectedSpecies.size && (() => {
+                      const info = formatSpeciesSize(selectedSpecies.size);
+                      return (
+                        <div>
+                          <span className="text-slate-500 block text-[10px]">Size</span>
+                          <FolioTooltip
+                            title={info.tooltip.title}
+                            badge={info.tooltip.badge}
+                            badgeColor="purple"
+                            description={info.tooltip.description}
+                            rules={info.tooltip.rules}
+                          >
+                            <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                              {info.label}
+                            </strong>
+                          </FolioTooltip>
+                        </div>
+                      );
+                    })()}
+                    {selectedSpecies.movement && (() => {
+                      const info = formatSpeciesMovement(selectedSpecies.movement);
+                      return (
+                        <div>
+                          <span className="text-slate-500 block text-[10px]">Movement</span>
+                          <FolioTooltip
+                            title={info.tooltip.title}
+                            badge={info.tooltip.badge}
+                            badgeColor="amber"
+                            description={info.tooltip.description}
+                            rules={info.tooltip.rules}
+                          >
+                            <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
+                              {info.label}
+                            </strong>
+                          </FolioTooltip>
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                  {/* Inherent Attributes */}
+                  {attrMods.length > 0 && (
+                    <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
+                      <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Attribute Adjustments:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {attrMods.map((m, idx) => (
+                          <span key={idx} className="px-2.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 font-bold">
+                            {m.attribute}: {Number(m.bonus) > 0 ? `+${m.bonus}` : m.bonus}
+                          </span>
+                        ))}
                       </div>
-                      {selectedSpecies.type && (() => {
-                        const info = formatSpeciesType(selectedSpecies.type);
-                        return (
-                          <div>
-                            <span className="text-slate-500 block text-[10px]">Type</span>
+                    </div>
+                  )}
+
+                  {/* Guaranteed Inherent Traits */}
+                  {inherentTraitsList.length > 0 && (
+                    <div className="text-xs font-mono space-y-1.5 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
+                      <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Guaranteed Traits:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {inherentTraitsList.map((traitItem, idx) => {
+                          const info = formatSpeciesTrait(traitItem, selectedSpecies);
+                          const badgeColor = info.category === 'Humanoid Special Ability'
+                            ? 'purple'
+                            : info.category === 'Special Ability'
+                            ? 'amber'
+                            : 'cyan';
+                          return (
                             <FolioTooltip
+                              key={idx}
                               title={info.tooltip.title}
                               badge={info.tooltip.badge}
-                              badgeColor="cyan"
+                              badgeColor={badgeColor}
                               description={info.tooltip.description}
                               rules={info.tooltip.rules}
                               cost={info.tooltip.cost}
                             >
-                              <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
-                                {info.label}
-                              </strong>
+                              <span className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/60 text-cyan-100 font-semibold flex items-center gap-1.5 cursor-help hover:border-cyan-300 hover:bg-cyan-900/70 transition-all select-none">
+                                <span>🧬</span>
+                                <span>{info.label} ✓</span>
+                              </span>
                             </FolioTooltip>
-                          </div>
-                        );
-                      })()}
-                      {selectedSpecies.size && (() => {
-                        const info = formatSpeciesSize(selectedSpecies.size);
-                        return (
-                          <div>
-                            <span className="text-slate-500 block text-[10px]">Size</span>
-                            <FolioTooltip
-                              title={info.tooltip.title}
-                              badge={info.tooltip.badge}
-                              badgeColor="purple"
-                              description={info.tooltip.description}
-                              rules={info.tooltip.rules}
-                            >
-                              <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
-                                {info.label}
-                              </strong>
-                            </FolioTooltip>
-                          </div>
-                        );
-                      })()}
-                      {selectedSpecies.movement && (() => {
-                        const info = formatSpeciesMovement(selectedSpecies.movement);
-                        return (
-                          <div>
-                            <span className="text-slate-500 block text-[10px]">Movement</span>
-                            <FolioTooltip
-                              title={info.tooltip.title}
-                              badge={info.tooltip.badge}
-                              badgeColor="amber"
-                              description={info.tooltip.description}
-                              rules={info.tooltip.rules}
-                            >
-                              <strong className="text-cyan-300 cursor-help hover:text-cyan-100 transition-colors">
-                                {info.label}
-                              </strong>
-                            </FolioTooltip>
-                          </div>
-                        );
-                      })()}
+                          );
+                        })}
+                      </div>
                     </div>
+                  )}
 
-                    {/* Inherent Attributes */}
-                    {attrMods.length > 0 && (
-                      <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
-                        <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Attribute Adjustments:</span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {attrMods.map((m, idx) => (
-                            <span key={idx} className="px-2.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 font-bold">
-                              {m.attribute}: {Number(m.bonus) > 0 ? `+${m.bonus}` : m.bonus}
-                            </span>
-                          ))}
-                        </div>
+                  {/* Skill Bonuses */}
+                  {skillBonuses.length > 0 && (
+                    <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
+                      <span className="text-cyan-400 font-bold uppercase block text-[10px]">Specific Skill Bonuses:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {skillBonuses.map((sb, idx) => (
+                          <span key={idx} className="px-2.5 py-0.5 rounded bg-slate-900 border border-cyan-900/60 text-cyan-300">
+                            {sb.skill}: +{sb.bonus}
+                          </span>
+                        ))}
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                    {/* Guaranteed Inherent Traits */}
-                    {inherentTraitsList.length > 0 && (
-                      <div className="text-xs font-mono space-y-1.5 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
-                        <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Guaranteed Traits:</span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {inherentTraitsList.map((traitItem, idx) => {
-                            const info = formatSpeciesTrait(traitItem, selectedSpecies);
-                            const badgeColor = info.category === 'Humanoid Special Ability'
-                              ? 'purple'
-                              : info.category === 'Special Ability'
-                              ? 'amber'
-                              : 'cyan';
-                            return (
-                              <FolioTooltip
-                                key={idx}
-                                title={info.tooltip.title}
-                                badge={info.tooltip.badge}
-                                badgeColor={badgeColor}
-                                description={info.tooltip.description}
-                                rules={info.tooltip.rules}
-                                cost={info.tooltip.cost}
-                              >
-                                <span className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/60 text-cyan-100 font-semibold flex items-center gap-1.5 cursor-help hover:border-cyan-300 hover:bg-cyan-900/70 transition-all select-none">
-                                  <span>🧬</span>
-                                  <span>{info.label} ✓</span>
-                                </span>
-                              </FolioTooltip>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Skill Bonuses */}
-                    {skillBonuses.length > 0 && (
-                      <div className="text-xs font-mono space-y-1 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
-                        <span className="text-cyan-400 font-bold uppercase block text-[10px]">Specific Skill Bonuses:</span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {skillBonuses.map((sb, idx) => (
-                            <span key={idx} className="px-2.5 py-0.5 rounded bg-slate-900 border border-cyan-900/60 text-cyan-300">
-                              {sb.skill}: +{sb.bonus}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {selectedSpecies.description && (
-                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                        {selectedSpecies.description}
-                      </p>
-                    )}
-                  </div>
-                ), selectedSpecies, browsePath)}
-              </>
-            )}
-          </div>
-        )}
+                  {selectedSpecies.description && (
+                    <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                      {selectedSpecies.description}
+                    </p>
+                  )}
+                </div>
+              ), selectedSpecies, browsePath, true)
+            ) : (
+              <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
+                <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Species Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Select a species to view its physiological dossier, inherent traits, and component cost breakdown.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('species', 'catalog')}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded-lg text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Open Species Catalog</span>
+                </button>
+              </div>
+            )
+          )}
+        </div>
       </div>
     );
   };
@@ -1860,8 +2237,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const val = characterData[fieldId] || '';
     const secOccVal = characterData['char-secondary-occu'] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = Boolean(expandedCards['occupation']);
-    const isCatalogOpen = Boolean(showCatalog['occupation'] || !val);
+    const activeSubTab = getActiveSubTab('occupation');
     const profSkills = extractNameList(selectedOccupation?.professional_skills || selectedOccupation?.skills);
 
     const commonTraitNames = COMMON_OCCUPATIONAL_TRAITS.map(t => t.name);
@@ -1874,18 +2250,13 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const occMaxTraits = parseInt(selectedOccupation?.bonus_traits || selectedOccupation?.bonus_features || 2, 10);
 
     return (
-      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all ${
+      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all space-y-3 p-3 ${
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-sky-500/40 shadow-[0_0_10px_rgba(14,165,233,0.08)]'
       }`}>
         {/* Header Bar */}
-        <div
-          onClick={() => toggleCard('occupation')}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
-            val ? 'bg-sky-950/20 hover:bg-sky-950/30' : 'bg-slate-900/50 hover:bg-slate-900/70'
-          }`}
-        >
+        <div className="flex flex-wrap items-center justify-between p-3 select-none transition-colors bg-slate-900/60 rounded-xl border border-slate-800 gap-2">
           <div className="flex items-center gap-2 min-w-0 pr-2">
             <span className="text-lg shrink-0">🛠️</span>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-sky-950/80 border border-sky-500/50 text-sky-300 shrink-0">
@@ -1897,8 +2268,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   {val}
                 </span>
                 {secOccVal && (
-                  <span className="text-xs font-mono text-sky-300/80 truncate">
-                    (+ {secOccVal})
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono text-sky-400/80 bg-sky-950/40 px-1.5 py-0.5 rounded border border-sky-800/40">
+                    <span>(+ {secOccVal})</span>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemovePillarChoice('secondary-occupation');
+                        }}
+                        className="hover:text-red-400 p-0.5 rounded transition-colors cursor-pointer"
+                        title="Remove Background Occupation"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    )}
                   </span>
                 )}
               </div>
@@ -1926,13 +2310,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 ml-auto mt-1 sm:mt-0" onClick={e => e.stopPropagation()}>
+          <div className="flex items-center gap-1.5 shrink-0 ml-auto" onClick={e => e.stopPropagation()}>
             {/* Inline Quick Selector Dropdown */}
             {!isSheetLocked && !isManual && (
               <div className="relative">
                 <select
                   value={val}
-                  onChange={(e) => handleOccupationChange(e.target.value)}
+                  onChange={(e) => {
+                    handleOccupationChange(e.target.value);
+                    if (e.target.value) setSubTab('occupation', 'allocations');
+                  }}
                   className="bg-slate-900 hover:bg-slate-800 border border-sky-500/40 text-sky-200 text-xs rounded px-2.5 py-1 font-mono outline-none cursor-pointer focus:border-sky-400"
                   title="Quick select occupation from list"
                 >
@@ -1958,30 +2345,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && (
-              <button
-                type="button"
-                onClick={() => toggleCatalog('occupation')}
-                className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  showCatalog.occupation
-                    ? 'bg-sky-950/80 border-sky-500 text-sky-200'
-                    : val
-                    ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-sky-300 hover:text-sky-100 hover:border-sky-400'
-                    : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
-                }`}
-                title="Toggle visual occupation catalog cards browser"
-              >
-                <Sparkles className="w-3 h-3 text-sky-400" />
-                <span>{showCatalog.occupation ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
-              </button>
-            )}
-
             {!isSheetLocked && val && (
               <button
                 type="button"
-                onClick={() => updateField(fieldId, '')}
+                onClick={() => handleRemovePillarChoice('occupation')}
                 className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 border border-transparent hover:border-red-800/60 transition-colors cursor-pointer"
-                title="Clear selection"
+                title="Remove Occupation"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -2010,21 +2379,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 <Eye className="w-3.5 h-3.5" />
               </button>
             )}
-
-            <button
-              type="button"
-              onClick={() => toggleCard('occupation')}
-              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-              title={isExpanded ? "Collapse card" : "Expand card"}
-            >
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
           </div>
         </div>
 
         {/* Manual Text Edit Field */}
         {!isSheetLocked && isManual && (
-          <div className="p-2.5 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
+          <div className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl flex items-center gap-2">
             <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Occupation:</span>
             <input
               type="text"
@@ -2036,47 +2396,58 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Body Content */}
-        {isExpanded && (
-          <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Visual Occupation Catalog Cards Picker */}
-            {isCatalogOpen && (
-              renderPillarCatalogPicker({
-                pillarKey: 'occupation',
-                title: 'Occupation',
-                catalog: occupationsCatalog,
-                selectedValue: val,
-                browsePath,
-                colorTheme: 'sky',
-                categoryExtractor: (item) => item.field || item.category_type || (item.tech_level !== undefined ? `Tech Level ${item.tech_level}` : 'General Careers'),
-                renderCardBadges: (item) => (
-                  <>
-                    {item.field && (
-                      <span className="px-1.5 py-0.5 rounded bg-sky-950 border border-sky-600/40 text-sky-300 font-bold">
-                        {item.field}
-                      </span>
-                    )}
-                    {item.tech_level !== undefined && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
-                        TL {item.tech_level}
-                      </span>
-                    )}
-                    {item.skill_points && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-sky-300">
-                        {item.skill_points} SP
-                      </span>
-                    )}
-                  </>
-                ),
-                onSelect: (item) => {
-                  handleOccupationChange(item.name || item.id);
-                  setShowCatalog(prev => ({ ...prev, occupation: false }));
-                }
-              })
-            )}
+        {/* Sub-Tab Navigation Bar */}
+        {renderPillarSubTabBar({
+          pillarKey: 'occupation',
+          themeColor: 'sky',
+          allocationsLabel: 'Career & Skills',
+          allocationsIcon: '🛠️',
+          catalogCount: occupationsCatalog.length,
+          isComplete: Boolean(occuAllocationMetrics?.isComplete)
+        })}
 
-            {selectedOccupation && (
-              <>
+        {/* Body Content by Sub-Tab */}
+        <div className="space-y-4">
+          {/* Sub-Tab 1: Visual Occupation Catalog Cards Picker */}
+          {activeSubTab === 'catalog' && (
+            renderPillarCatalogPicker({
+              pillarKey: 'occupation',
+              title: 'Occupation',
+              catalog: occupationsCatalog,
+              selectedValue: val,
+              browsePath,
+              colorTheme: 'sky',
+              categoryExtractor: (item) => item.field || item.category_type || (item.tech_level !== undefined ? `Tech Level ${item.tech_level}` : 'General Careers'),
+              renderCardBadges: (item) => (
+                <>
+                  {item.field && (
+                    <span className="px-1.5 py-0.5 rounded bg-sky-950 border border-sky-600/40 text-sky-300 font-bold">
+                      {item.field}
+                    </span>
+                  )}
+                  {item.tech_level !== undefined && (
+                    <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                      TL {item.tech_level}
+                    </span>
+                  )}
+                  {item.skill_points && (
+                    <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-sky-300">
+                      {item.skill_points} SP
+                    </span>
+                  )}
+                </>
+              ),
+              onSelect: (item) => {
+                handleOccupationChange(item.name || item.id);
+                setSubTab('occupation', 'allocations');
+              }
+            })
+          )}
+
+          {/* Sub-Tab 2: Point Allocations Suite Workbench */}
+          {activeSubTab === 'allocations' && (
+            selectedOccupation ? (
+              <div className="space-y-4">
                 {/* Background Occupation Sub-Bar */}
                 <div className="p-3 rounded-lg bg-sky-950/30 border border-sky-500/30 flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2 min-w-0">
@@ -2106,9 +2477,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     {!isSheetLocked && secOccVal && (
                       <button
                         type="button"
-                        onClick={() => updateField('char-secondary-occu', '')}
-                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                        title="Remove background occupation"
+                        onClick={() => handleRemovePillarChoice('secondary-occupation')}
+                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 border border-transparent hover:border-red-800/60 transition-colors cursor-pointer"
+                        title="Remove Background Occupation"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -2165,40 +2536,76 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     />
                   </div>
                 )}
+              </div>
+            ) : (
+              <div className="p-8 border border-dashed border-sky-500/30 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <span className="text-3xl block">🛠️</span>
+                <h4 className="text-sm font-mono font-bold uppercase text-sky-300">No Occupation Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Choose a primary career to establish your professional skills package, specialized training, and career traits.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('occupation', 'catalog')}
+                  className="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Browse Occupations Catalog</span>
+                </button>
+              </div>
+            )
+          )}
 
-                {/* Consolidated Reference Dossier */}
-                {renderConsolidatedDossier('occupation', 'Occupation', (
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Skill Points Pool</span>
-                        <strong className="text-sky-300">{selectedOccupation.skill_points || 20} SP</strong>
-                      </div>
-                      {selectedOccupation.tech_level !== undefined && (
-                        <div>
-                          <span className="text-slate-500 block text-[10px]">Tech Level</span>
-                          <strong className="text-sky-300">TL {selectedOccupation.tech_level}</strong>
-                        </div>
-                      )}
-                      {selectedOccupation.field && (
-                        <div className="col-span-2">
-                          <span className="text-slate-500 block text-[10px]">Professional Field</span>
-                          <strong className="text-slate-200">{selectedOccupation.field}</strong>
-                        </div>
-                      )}
+          {/* Sub-Tab 3: Consolidated Reference Dossier */}
+          {activeSubTab === 'dossier' && (
+            selectedOccupation ? (
+              renderConsolidatedDossier('occupation', 'Occupation', (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                    <div>
+                      <span className="text-slate-500 block text-[10px]">Skill Points Pool</span>
+                      <strong className="text-sky-300">{selectedOccupation.skill_points || 20} SP</strong>
                     </div>
-
-                    {selectedOccupation.description && (
-                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                        {selectedOccupation.description}
-                      </p>
+                    {selectedOccupation.tech_level !== undefined && (
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Tech Level</span>
+                        <strong className="text-sky-300">TL {selectedOccupation.tech_level}</strong>
+                      </div>
+                    )}
+                    {selectedOccupation.field && (
+                      <div className="col-span-2">
+                        <span className="text-slate-500 block text-[10px]">Professional Field</span>
+                        <strong className="text-slate-200">{selectedOccupation.field}</strong>
+                      </div>
                     )}
                   </div>
-                ), selectedOccupation, browsePath)}
-              </>
-            )}
-          </div>
-        )}
+
+                  {selectedOccupation.description && (
+                    <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                      {selectedOccupation.description}
+                    </p>
+                  )}
+                </div>
+              ), selectedOccupation, browsePath, true)
+            ) : (
+              <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
+                <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Occupation Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Select an occupation to view professional specs, duties, and skill package details.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('occupation', 'catalog')}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 rounded-lg text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+                  <span>Open Occupation Catalog</span>
+                </button>
+              </div>
+            )
+          )}
+        </div>
       </div>
     );
   };
@@ -2213,8 +2620,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const val = characterData[fieldId] || '';
     const secVal = characterData['char-secondary-origin'] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = Boolean(expandedCards['origin']);
-    const isCatalogOpen = Boolean(showCatalog['origin'] || !val);
+    const activeSubTab = getActiveSubTab('origin');
 
     const socSkills = Array.from(new Set([
       ...extractNameList(selectedOrigin?.society_skills),
@@ -2236,18 +2642,13 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const origMaxFeats = parseInt(selectedOrigin?.bonus_features || 0, 10);
 
     return (
-      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all ${
+      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all space-y-3 p-3 ${
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.08)]'
       }`}>
         {/* Header Bar */}
-        <div
-          onClick={() => toggleCard('origin')}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
-            val ? 'hover:bg-emerald-950/30 bg-emerald-950/20' : 'hover:bg-slate-900/80 bg-slate-900/50'
-          }`}
-        >
+        <div className="flex flex-wrap items-center justify-between p-3 select-none transition-colors bg-slate-900/60 rounded-xl border border-slate-800 gap-2">
           <div className="flex items-center gap-2 min-w-0 pr-2">
             <span className="text-lg shrink-0">🌍</span>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0">
@@ -2259,8 +2660,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   {val}
                 </span>
                 {secVal && (
-                  <span className="text-xs font-mono text-emerald-300/80 truncate">
-                    (+ {secVal})
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400/80 bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-800/40">
+                    <span>(+ {secVal})</span>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemovePillarChoice('secondary-origin');
+                        }}
+                        className="hover:text-red-400 p-0.5 rounded transition-colors cursor-pointer"
+                        title="Remove Secondary Origin"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    )}
                   </span>
                 )}
               </div>
@@ -2283,17 +2697,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             {val && (
               <span className="text-xs font-mono text-slate-400 truncate hidden md:inline">
                 • {selectedOrigin?.skill_points ? `${selectedOrigin.skill_points} SP Society Pool` : 'Homeworld'}
+                {selectedOrigin?.environment_type ? ` (${selectedOrigin.environment_type})` : ''}
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 ml-auto mt-1 sm:mt-0" onClick={e => e.stopPropagation()}>
+          <div className="flex items-center gap-1.5 shrink-0 ml-auto" onClick={e => e.stopPropagation()}>
             {/* Inline Quick Selector Dropdown */}
             {!isSheetLocked && !isManual && (
               <div className="relative">
                 <select
                   value={val}
-                  onChange={(e) => handleOriginChange(e.target.value)}
+                  onChange={(e) => {
+                    handleOriginChange(e.target.value);
+                    if (e.target.value) setSubTab('origin', 'allocations');
+                  }}
                   className="bg-slate-900 hover:bg-slate-800 border border-emerald-500/40 text-emerald-200 text-xs rounded px-2.5 py-1 font-mono outline-none cursor-pointer focus:border-emerald-400"
                   title="Quick select origin from list"
                 >
@@ -2301,7 +2719,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   {(() => {
                     const groups = {};
                     originsCatalog.forEach(o => {
-                      const hab = o.habitat || o.origin_type || 'Homeworlds';
+                      const hab = o.habitat || o.origin_type || o.environment_type || 'Homeworlds';
                       if (!groups[hab]) groups[hab] = [];
                       groups[hab].push(o);
                     });
@@ -2319,30 +2737,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {!isSheetLocked && (
-              <button
-                type="button"
-                onClick={() => toggleCatalog('origin')}
-                className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  showCatalog.origin
-                    ? 'bg-emerald-950/80 border-emerald-500 text-emerald-200'
-                    : val
-                    ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-emerald-300 hover:text-emerald-100 hover:border-emerald-400'
-                    : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
-                }`}
-                title="Toggle visual origin catalog cards browser"
-              >
-                <Sparkles className="w-3 h-3 text-emerald-400" />
-                <span>{showCatalog.origin ? 'Hide Catalog' : val ? 'Browse Catalog' : 'Catalog'}</span>
-              </button>
-            )}
-
             {!isSheetLocked && val && (
               <button
                 type="button"
-                onClick={() => updateField(fieldId, '')}
+                onClick={() => handleRemovePillarChoice('origin')}
                 className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 border border-transparent hover:border-red-800/60 transition-colors cursor-pointer"
-                title="Clear selection"
+                title="Remove Origin"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -2371,21 +2771,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 <Eye className="w-3.5 h-3.5" />
               </button>
             )}
-
-            <button
-              type="button"
-              onClick={() => toggleCard('origin')}
-              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-              title={isExpanded ? "Collapse card" : "Expand card"}
-            >
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
           </div>
         </div>
 
         {/* Manual Text Edit Field */}
         {!isSheetLocked && isManual && (
-          <div className="p-2.5 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
+          <div className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl flex items-center gap-2">
             <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Origin:</span>
             <input
               type="text"
@@ -2397,47 +2788,58 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Body Content */}
-        {isExpanded && (
-          <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Visual Origin Catalog Cards Picker */}
-            {isCatalogOpen && (
-              renderPillarCatalogPicker({
-                pillarKey: 'origin',
-                title: 'Origin',
-                catalog: originsCatalog,
-                selectedValue: val,
-                browsePath,
-                colorTheme: 'emerald',
-                categoryExtractor: (item) => item.environment_type || item.habitat || item.origin_type || 'Homeworlds',
-                renderCardBadges: (item) => (
-                  <>
-                    {(item.environment_type || item.habitat) && (
-                      <span className="px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-600/40 text-emerald-300 font-bold">
-                        {item.environment_type || item.habitat}
-                      </span>
-                    )}
-                    {item.gravity_baseline && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
-                        {item.gravity_baseline}
-                      </span>
-                    )}
-                    {item.skill_points && (
-                      <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-300">
-                        {item.skill_points} SP
-                      </span>
-                    )}
-                  </>
-                ),
-                onSelect: (item) => {
-                  handleOriginChange(item.name || item.id);
-                  setShowCatalog(prev => ({ ...prev, origin: false }));
-                }
-              })
-            )}
+        {/* Sub-Tab Navigation Bar */}
+        {renderPillarSubTabBar({
+          pillarKey: 'origin',
+          themeColor: 'emerald',
+          allocationsLabel: 'Homeworld & Society',
+          allocationsIcon: '🌍',
+          catalogCount: originsCatalog.length,
+          isComplete: Boolean(originAllocationMetrics?.isComplete)
+        })}
 
-            {selectedOrigin && (
-              <>
+        {/* Body Content by Sub-Tab */}
+        <div className="space-y-4">
+          {/* Sub-Tab 1: Visual Origin Catalog Cards Picker */}
+          {activeSubTab === 'catalog' && (
+            renderPillarCatalogPicker({
+              pillarKey: 'origin',
+              title: 'Origin',
+              catalog: originsCatalog,
+              selectedValue: val,
+              browsePath,
+              colorTheme: 'emerald',
+              categoryExtractor: (item) => item.environment_type || item.habitat || item.origin_type || 'Homeworlds',
+              renderCardBadges: (item) => (
+                <>
+                  {(item.environment_type || item.habitat) && (
+                    <span className="px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-600/40 text-emerald-300 font-bold">
+                      {item.environment_type || item.habitat}
+                    </span>
+                  )}
+                  {item.gravity_baseline && (
+                    <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                      {item.gravity_baseline}
+                    </span>
+                  )}
+                  {item.skill_points && (
+                    <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-emerald-300">
+                      {item.skill_points} SP
+                    </span>
+                  )}
+                </>
+              ),
+              onSelect: (item) => {
+                handleOriginChange(item.name || item.id);
+                setSubTab('origin', 'allocations');
+              }
+            })
+          )}
+
+          {/* Sub-Tab 2: Point Allocations Suite Workbench */}
+          {activeSubTab === 'allocations' && (
+            selectedOrigin ? (
+              <div className="space-y-4">
                 {/* Secondary Origin Sub-Bar */}
                 <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/30 flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2 min-w-0">
@@ -2467,9 +2869,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     {!isSheetLocked && secVal && (
                       <button
                         type="button"
-                        onClick={() => updateField('char-secondary-origin', '')}
-                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
-                        title="Remove secondary origin"
+                        onClick={() => handleRemovePillarChoice('secondary-origin')}
+                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 border border-transparent hover:border-red-800/60 transition-colors cursor-pointer"
+                        title="Remove Secondary Origin"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -2528,34 +2930,82 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     />
                   </div>
                 )}
+              </div>
+            ) : (
+              <div className="p-8 border border-dashed border-emerald-500/30 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <span className="text-3xl block">🌍</span>
+                <h4 className="text-sm font-mono font-bold uppercase text-emerald-300">No Origin Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Select your character's homeworld or environment to configure society skills, cultural traits, and gravity adaptation.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('origin', 'catalog')}
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Browse Origins Catalog</span>
+                </button>
+              </div>
+            )
+          )}
 
-                {/* Consolidated Reference Dossier */}
-                {renderConsolidatedDossier('origin', 'Origin', (
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Society Skill Points</span>
-                        <strong className="text-emerald-300">{selectedOrigin.skill_points || 20} SP</strong>
-                      </div>
-                      {selectedOrigin.habitat && (
-                        <div>
-                          <span className="text-slate-500 block text-[10px]">Habitat</span>
-                          <strong className="text-emerald-300">{selectedOrigin.habitat}</strong>
-                        </div>
-                      )}
+          {/* Sub-Tab 3: Consolidated Reference Dossier */}
+          {activeSubTab === 'dossier' && (
+            selectedOrigin ? (
+              renderConsolidatedDossier('origin', 'Origin', (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
+                    <div>
+                      <span className="text-slate-500 block text-[10px]">Society Skill Points</span>
+                      <strong className="text-emerald-300">{selectedOrigin.skill_points || 20} SP</strong>
                     </div>
-
-                    {selectedOrigin.description && (
-                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                        {selectedOrigin.description}
-                      </p>
+                    {selectedOrigin.habitat && (
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Habitat</span>
+                        <strong className="text-emerald-300">{selectedOrigin.habitat}</strong>
+                      </div>
+                    )}
+                    {selectedOrigin.environment_type && (
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Environment</span>
+                        <strong className="text-slate-200">{selectedOrigin.environment_type}</strong>
+                      </div>
+                    )}
+                    {selectedOrigin.gravity_baseline && (
+                      <div>
+                        <span className="text-slate-500 block text-[10px]">Gravity Baseline</span>
+                        <strong className="text-slate-200">{selectedOrigin.gravity_baseline}</strong>
+                      </div>
                     )}
                   </div>
-                ), selectedOrigin, browsePath)}
-              </>
-            )}
-          </div>
-        )}
+
+                  {selectedOrigin.description && (
+                    <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                      {selectedOrigin.description}
+                    </p>
+                  )}
+                </div>
+              ), selectedOrigin, browsePath, true)
+            ) : (
+              <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
+                <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Origin Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Select an origin to view environmental parameters, cultural lore, and society skill details.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('origin', 'catalog')}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 rounded-lg text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Open Origin Catalog</span>
+                </button>
+              </div>
+            )
+          )}
+        </div>
       </div>
     );
   };
@@ -2569,27 +3019,58 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const browsePath = 'factions';
     const val = characterData[fieldId] || '';
     const isManual = Boolean(manualMode[fieldId]);
-    const isExpanded = Boolean(expandedCards['faction']);
-    const isCatalogOpen = Boolean(showCatalog['faction'] || !val);
+    const activeSubTab = getActiveSubTab('faction');
     const pkgSkills = extractNameList(selectedFaction?.skill_package || selectedFaction?.skills);
     const factionTraits = extractNameList(selectedFaction?.traits || selectedFaction?.trait);
-    const maxTraits = parseInt(selectedFaction?.bonus_traits || (factionTraits.length > 0 ? 1 : 0), 10);
-    const facSP = parseInt(selectedFaction?.skill_points || (pkgSkills.length > 0 ? 20 : 0), 10);
-    const facMaxFeats = parseInt(selectedFaction?.bonus_features || (factionBenefits.length > 0 ? 1 : 0), 10);
+    const maxTraits = typeof selectedFaction?.bonus_traits === 'number'
+      ? selectedFaction.bonus_traits
+      : (parseInt(selectedFaction?.bonus_traits || 0, 10) || 0);
+    const facSP = parseInt(selectedFaction?.skill_points || (pkgSkills.length > 0 ? 20 : 0), 10) || 0;
+    const facMaxFeats = typeof selectedFaction?.bonus_features === 'number'
+      ? selectedFaction.bonus_features
+      : (parseInt(selectedFaction?.bonus_feature_choices || 0, 10) || 0);
+
+    const autoApplyFactionSkillPackage = () => {
+      if (!selectedFaction || !allocatePoolSkillRank) return;
+      const skillsRaw = selectedFaction.skill_package || selectedFaction.skills || [];
+      if (!Array.isArray(skillsRaw) || skillsRaw.length === 0) return;
+
+      skillsRaw.forEach(rawStr => {
+        let str = String(rawStr).trim();
+        let rank = 0;
+        const parenRank = str.match(/\(\s*\+?(\d+)\s*\)/);
+        if (parenRank) {
+          rank = parseInt(parenRank[1], 10);
+          str = str.replace(/\(\s*\+?\d+\s*\).*/, '').trim();
+        } else {
+          const colonRank = str.match(/:\s*\+?(\d+)/);
+          if (colonRank) {
+            rank = parseInt(colonRank[1], 10);
+            str = str.replace(/:\s*\+?\d+.*/, '').trim();
+          } else {
+            const remainMatch = str.match(/Remaining\s+(\d+)\s+allocated\s+to\s+(.+)/i);
+            if (remainMatch) {
+              rank = parseInt(remainMatch[1], 10);
+              str = 'Combat';
+            }
+          }
+        }
+        str = str.replace(/\s*\(\s*\d+\s+or\s+\d+\s+skills?\s*\)/i, '').trim();
+        const skillName = str;
+        if (skillName && rank > 0) {
+          allocatePoolSkillRank('factionAllocations', skillName, rank, rank, facSP);
+        }
+      });
+    };
 
     return (
-      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all ${
+      <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all space-y-3 p-3 ${
         !val
           ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
           : 'border border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.08)]'
       }`}>
         {/* Header Bar */}
-        <div
-          onClick={() => toggleCard('faction')}
-          className={`flex flex-wrap items-center justify-between p-3 select-none transition-colors cursor-pointer ${
-            val ? 'hover:bg-purple-950/30 bg-purple-950/20' : 'hover:bg-slate-900/80 bg-slate-900/50'
-          }`}
-        >
+        <div className="flex flex-wrap items-center justify-between p-3 select-none transition-colors bg-slate-900/60 rounded-xl border border-slate-800 gap-2">
           <div className="flex items-center gap-2 min-w-0 pr-2">
             <span className="text-lg shrink-0">🏛️</span>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-purple-950/80 border border-purple-500/50 text-purple-300 shrink-0">
@@ -2601,7 +3082,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </span>
             ) : (
               <span className="text-xs font-mono text-slate-400/80 italic truncate">
-                None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
+                None Selected <span className="text-purple-400 font-semibold hidden sm:inline">(Optional)</span>
               </span>
             )}
             {val && (
@@ -2623,13 +3104,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             )}
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 ml-auto mt-1 sm:mt-0" onClick={e => e.stopPropagation()}>
+          <div className="flex items-center gap-1.5 shrink-0 ml-auto" onClick={e => e.stopPropagation()}>
             {/* Inline Quick Selector Dropdown */}
             {!isSheetLocked && !isManual && (
               <div className="relative">
                 <select
                   value={val}
-                  onChange={(e) => handleFactionChange(e.target.value)}
+                  onChange={(e) => {
+                    handleFactionChange(e.target.value);
+                    if (e.target.value) setSubTab('faction', 'allocations');
+                  }}
                   className="bg-slate-900 hover:bg-slate-800 border border-purple-500/40 text-purple-200 text-xs rounded px-2.5 py-1 font-mono outline-none cursor-pointer focus:border-purple-400"
                   title="Quick select faction from list"
                 >
@@ -2655,22 +3139,6 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             )}
 
-            {/* Toggle Embedded Visual Catalog Picker */}
-            {!isSheetLocked && !isManual && (
-              <button
-                type="button"
-                onClick={() => toggleCatalog('faction')}
-                className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
-                  isCatalogOpen
-                    ? 'bg-purple-950/80 border-purple-500/70 text-purple-200'
-                    : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-300 hover:text-white'
-                }`}
-                title={isCatalogOpen ? "Hide catalog selection grid" : "Show visual catalog selection grid"}
-              >
-                <span>{isCatalogOpen ? 'Close Catalog' : 'Catalog'}</span>
-              </button>
-            )}
-
             {!isSheetLocked && onOpenSelectorModal && (
               <button
                 type="button"
@@ -2686,9 +3154,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             {!isSheetLocked && val && (
               <button
                 type="button"
-                onClick={() => updateField(fieldId, '')}
+                onClick={() => handleRemovePillarChoice('faction')}
                 className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 border border-transparent hover:border-red-800/60 transition-colors cursor-pointer"
-                title="Clear selection"
+                title="Remove Faction"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -2717,21 +3185,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 <Eye className="w-3.5 h-3.5" />
               </button>
             )}
-
-            <button
-              type="button"
-              onClick={() => toggleCard('faction')}
-              className="p-1 rounded text-slate-400 hover:text-white transition-colors cursor-pointer"
-              title={isExpanded ? "Collapse card" : "Expand card"}
-            >
-              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
           </div>
         </div>
 
         {/* Manual Text Edit Field */}
         {!isSheetLocked && isManual && (
-          <div className="p-2.5 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
+          <div className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl flex items-center gap-2">
             <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Faction:</span>
             <input
               type="text"
@@ -2743,11 +3202,21 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           </div>
         )}
 
-        {/* Body Content */}
-        {isExpanded && (
-          <div className="p-4 border-t border-slate-800/80 space-y-4 text-xs bg-slate-950/60">
-            {/* Visual Catalog Picker */}
-            {isCatalogOpen && !isManual && renderPillarCatalogPicker({
+        {/* Sub-Tab Navigation Bar */}
+        {renderPillarSubTabBar({
+          pillarKey: 'faction',
+          themeColor: 'purple',
+          allocationsLabel: 'Mandate & Allegiance',
+          allocationsIcon: '🏛️',
+          catalogCount: factionsCatalog.length,
+          isComplete: Boolean(factionAllocationMetrics?.isComplete)
+        })}
+
+        {/* Body Content by Sub-Tab */}
+        <div className="space-y-4">
+          {/* Sub-Tab 1: Visual Faction Catalog Cards Picker */}
+          {activeSubTab === 'catalog' && (
+            renderPillarCatalogPicker({
               pillarKey: 'faction',
               title: 'Faction',
               catalog: factionsCatalog,
@@ -2776,27 +3245,15 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               ),
               onSelect: (item) => {
                 handleFactionChange(item.name || item.id);
-                setShowCatalog(prev => ({ ...prev, faction: false }));
+                setSubTab('faction', 'allocations');
               }
-            })}
+            })
+          )}
 
-            {/* Empty State when Expanded without Faction Selected and Catalog Closed */}
-            {!selectedFaction && !isCatalogOpen && (
-              <div className="p-3.5 border border-slate-800/80 rounded-lg text-xs font-mono text-slate-400 bg-slate-900/40 flex items-center justify-between gap-2">
-                <span>No Faction allegiance selected yet.</span>
-                <button
-                  type="button"
-                  onClick={() => toggleCatalog('faction')}
-                  className="px-2.5 py-1 rounded text-[10px] font-bold uppercase bg-purple-950/80 border border-purple-500/50 text-purple-300 hover:text-white"
-                >
-                  Open Catalog
-                </button>
-              </div>
-            )}
-
-            {/* Faction Configuration Suite */}
-            {selectedFaction && (
-              <>
+          {/* Sub-Tab 2: Point Allocations Suite Workbench */}
+          {activeSubTab === 'allocations' && (
+            selectedFaction ? (
+              <div className="space-y-4">
                 {/* Driving Mandate Banner */}
                 {(selectedFaction.driving_mandate || selectedFaction.mandate) && (
                   <div className="text-xs text-slate-200 italic font-serif bg-purple-950/30 p-3 rounded-lg border border-purple-500/40">
@@ -2809,7 +3266,24 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
                 {/* Skill Package Pool */}
                 {pkgSkills.length > 0 && facSP > 0 && (
-                  <div className="bg-slate-900/60 p-3 rounded-xl border border-purple-500/30">
+                  <div className="bg-slate-900/60 p-3 rounded-xl border border-purple-500/30 space-y-2">
+                    {/* Quick-Apply Faction Package Button */}
+                    {factionAllocationMetrics?.allocatedSPCount < facSP && (
+                      <div className="flex items-center justify-between p-2 rounded-lg bg-purple-950/40 border border-purple-500/30 text-xs">
+                        <span className="text-slate-300 font-mono text-[11px]">
+                          Canonical Skill Package ({facSP} SP):
+                        </span>
+                        <button
+                          type="button"
+                          onClick={autoApplyFactionSkillPackage}
+                          className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase bg-purple-600 hover:bg-purple-500 text-slate-950 flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+                          title="Instantly distribute canonical skill ranks for this faction"
+                        >
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Quick-Apply Package</span>
+                        </button>
+                      </div>
+                    )}
                     <SkillPoolRankPulldown
                       title="Faction Skill Package Pool"
                       categoryLabel="Faction Skill"
@@ -2858,65 +3332,128 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   </div>
                 )}
 
-                {/* Consolidated Reference Dossier */}
-                {renderConsolidatedDossier('faction', 'Faction Allegiance & Strategic Dossier', (
-                  <div className="space-y-3">
-                    {/* Sociological profile */}
-                    {(selectedFaction.core_beliefs || selectedFaction.social_structure) && (
-                      <div className="space-y-2 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
-                        {selectedFaction.core_beliefs && (
-                          <div>
-                            <span className="text-slate-400 text-[10px] font-mono uppercase block">Core Beliefs:</span>
-                            <p className="text-slate-300">{selectedFaction.core_beliefs}</p>
-                          </div>
-                        )}
-                        {selectedFaction.social_structure && (
-                          <div className="pt-2 border-t border-slate-800/60">
-                            <span className="text-slate-400 text-[10px] font-mono uppercase block">Social Structure:</span>
-                            <p className="text-slate-300">{selectedFaction.social_structure}</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Hindrances & Restrictions */}
-                    {factionHindrances.length > 0 && (
-                      <div className="text-xs font-mono space-y-1.5 bg-rose-950/20 p-3 rounded-lg border border-rose-900/40">
-                        <span className="text-rose-400 font-bold uppercase block text-[10px] flex items-center gap-1">
-                          <AlertTriangle className="w-3.5 h-3.5" />
-                          <span>Hindrances & Restrictions:</span>
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {factionHindrances.map((hind, idx) => {
-                            const active = hind.startsWith('[Gained]') || getDisadvantageActiveStatus(hind, characterData);
-                            return (
-                              <span
-                                key={idx}
-                                className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                                  active
-                                    ? 'bg-rose-950/90 border-rose-400 text-rose-100 font-bold shadow-[0_0_8px_rgba(244,63,94,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {hind} {active ? '⚠' : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {selectedFaction.description && (
-                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
-                        {selectedFaction.description}
-                      </p>
-                    )}
+                {/* Hindrances & Restrictions Banner */}
+                {factionHindrances.length > 0 && (
+                  <div className="text-xs font-mono space-y-1.5 bg-rose-950/20 p-3 rounded-lg border border-rose-900/40">
+                    <span className="text-rose-400 font-bold uppercase block text-[10px] flex items-center gap-1">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      <span>Hindrances & Restrictions:</span>
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {factionHindrances.map((hind, idx) => {
+                        const active = hind.startsWith('[Gained]') || getDisadvantageActiveStatus(hind, characterData);
+                        return (
+                          <span
+                            key={idx}
+                            className={`px-2.5 py-1 rounded text-xs font-mono border ${
+                              active
+                                ? 'bg-rose-950/90 border-rose-400 text-rose-100 font-bold shadow-[0_0_8px_rgba(244,63,94,0.2)]'
+                                : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                            }`}
+                          >
+                            {hind} {active ? '⚠' : ''}
+                          </span>
+                        );
+                      })}
+                    </div>
                   </div>
-                ), selectedFaction, browsePath)}
-              </>
-            )}
-          </div>
-        )}
+                )}
+              </div>
+            ) : (
+              <div className="p-8 border border-dashed border-purple-500/30 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <span className="text-3xl block">🏛️</span>
+                <h4 className="text-sm font-mono font-bold uppercase text-purple-300">No Faction Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Choose a faction allegiance or organization to configure your mandate, specialized skill package, and corporate/military perks.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('faction', 'catalog')}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer inline-flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Browse Factions Catalog</span>
+                </button>
+              </div>
+            )
+          )}
+
+          {/* Sub-Tab 3: Consolidated Reference Dossier */}
+          {activeSubTab === 'dossier' && (
+            selectedFaction ? (
+              renderConsolidatedDossier('faction', 'Faction Allegiance & Strategic Dossier', (
+                <div className="space-y-3">
+                  {/* Sociological profile */}
+                  {(selectedFaction.core_beliefs || selectedFaction.social_structure) && (
+                    <div className="space-y-2 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                      {selectedFaction.core_beliefs && (
+                        <div>
+                          <span className="text-slate-400 text-[10px] font-mono uppercase block">Core Beliefs:</span>
+                          <p className="text-slate-300">{selectedFaction.core_beliefs}</p>
+                        </div>
+                      )}
+                      {selectedFaction.social_structure && (
+                        <div className="pt-2 border-t border-slate-800/60">
+                          <span className="text-slate-400 text-[10px] font-mono uppercase block">Social Structure:</span>
+                          <p className="text-slate-300">{selectedFaction.social_structure}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Hindrances & Restrictions */}
+                  {factionHindrances.length > 0 && (
+                    <div className="text-xs font-mono space-y-1.5 bg-rose-950/20 p-3 rounded-lg border border-rose-900/40">
+                      <span className="text-rose-400 font-bold uppercase block text-[10px] flex items-center gap-1">
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                        <span>Hindrances & Restrictions:</span>
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {factionHindrances.map((hind, idx) => {
+                          const active = hind.startsWith('[Gained]') || getDisadvantageActiveStatus(hind, characterData);
+                          return (
+                            <span
+                              key={idx}
+                              className={`px-2.5 py-1 rounded text-xs font-mono border ${
+                                active
+                                  ? 'bg-rose-950/90 border-rose-400 text-rose-100 font-bold shadow-[0_0_8px_rgba(244,63,94,0.2)]'
+                                  : 'bg-slate-900/80 border-slate-800 text-slate-400'
+                              }`}
+                            >
+                              {hind} {active ? '⚠' : ''}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedFaction.description && (
+                    <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
+                      {selectedFaction.description}
+                    </p>
+                  )}
+                </div>
+              ), selectedFaction, browsePath, true)
+            ) : (
+              <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
+                <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
+                <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Faction Selected</h4>
+                <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
+                  Select a faction to view ideological mandates, sociological profile, and strategic doctrine.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSubTab('faction', 'catalog')}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-purple-300 border border-slate-700 rounded-lg text-xs font-mono font-bold uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                  <span>Open Faction Catalog</span>
+                </button>
+              </div>
+            )
+          )}
+        </div>
       </div>
     );
   };
@@ -3043,6 +3580,41 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     );
   };
 
+  const getPillarStatus = (pillarId) => {
+    switch (pillarId) {
+      case 'archetype':
+        return characterData['char-archetype']
+          ? { label: 'Ready', isReady: true, badgeClass: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60' }
+          : { label: 'Optional', isReady: false, badgeClass: 'bg-slate-900 text-slate-400 border-slate-700' };
+      case 'species':
+        return speciesAllocationMetrics?.isComplete
+          ? { label: 'Ready', isReady: true, badgeClass: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60' }
+          : characterData['char-species']
+          ? { label: 'Pending', isReady: false, badgeClass: 'bg-amber-950/90 text-amber-300 border-amber-500/60' }
+          : { label: 'Required', isReady: false, badgeClass: 'bg-cyan-950/90 text-cyan-300 border-cyan-500/60 font-bold' };
+      case 'occupation':
+        return occuAllocationMetrics?.isComplete
+          ? { label: 'Ready', isReady: true, badgeClass: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60' }
+          : characterData['char-occu']
+          ? { label: 'Pending', isReady: false, badgeClass: 'bg-amber-950/90 text-amber-300 border-amber-500/60' }
+          : { label: 'Required', isReady: false, badgeClass: 'bg-sky-950/90 text-sky-300 border-sky-500/60 font-bold' };
+      case 'origin':
+        return originAllocationMetrics?.isComplete
+          ? { label: 'Ready', isReady: true, badgeClass: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60' }
+          : characterData['char-origin']
+          ? { label: 'Pending', isReady: false, badgeClass: 'bg-amber-950/90 text-amber-300 border-amber-500/60' }
+          : { label: 'Required', isReady: false, badgeClass: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60 font-bold' };
+      case 'faction':
+        return factionAllocationMetrics?.isComplete
+          ? { label: 'Ready', isReady: true, badgeClass: 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60' }
+          : characterData['char-faction']
+          ? { label: 'Pending', isReady: false, badgeClass: 'bg-amber-950/90 text-amber-300 border-amber-500/60' }
+          : { label: 'Optional', isReady: false, badgeClass: 'bg-slate-900 text-slate-400 border-slate-700' };
+      default:
+        return { label: '', isReady: false, badgeClass: '' };
+    }
+  };
+
   const renderExecutiveDossier = () => {
     return (
       <div className="space-y-4">
@@ -3152,22 +3724,29 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 : 'border-sky-500/30 hover:border-sky-500/70'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-base">🛠️</span>
-                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider bg-sky-950/80 border border-sky-500/50 text-sky-300">
-                  Occupation
-                </span>
-                <span className="text-xs font-bold font-mono uppercase text-sky-300">
-                  {characterData['char-occu'] || 'Required — Not Selected'}
-                </span>
-                {characterData['char-secondary-occu'] && (
-                  <span className="text-[10px] font-mono text-sky-400/80">
-                    (+ {characterData['char-secondary-occu']})
-                  </span>
-                )}
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start gap-2 min-w-0">
+                <span className="text-base shrink-0 mt-0.5">🛠️</span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider bg-sky-950/80 border border-sky-500/50 text-sky-300 shrink-0">
+                      Occupation
+                    </span>
+                    <span className="text-xs font-bold font-mono uppercase text-sky-300 truncate">
+                      {characterData['char-occu'] || 'Required — Not Selected'}
+                    </span>
+                  </div>
+                  {characterData['char-secondary-occu'] && (
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-sky-400/90 bg-sky-950/50 px-1.5 py-0.5 rounded border border-sky-800/40">
+                        <span className="text-slate-400 text-[9px] uppercase tracking-wider">Secondary:</span>
+                        <span className="text-sky-300 font-bold">+{characterData['char-secondary-occu']}</span>
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-sky-300 text-xs font-mono">
+              <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-sky-300 text-xs font-mono shrink-0 mt-0.5">
                 {occuAllocationMetrics?.isComplete ? (
                   <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1 font-mono">
                     <Check className="w-3 h-3" /> Ready
@@ -3198,22 +3777,29 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 : 'border-emerald-500/30 hover:border-emerald-500/70'
             }`}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-base">🌍</span>
-                <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider bg-emerald-950/80 border border-emerald-500/50 text-emerald-300">
-                  Origin
-                </span>
-                <span className="text-xs font-bold font-mono uppercase text-emerald-300">
-                  {characterData['char-origin'] || 'Required — Not Selected'}
-                </span>
-                {characterData['char-secondary-origin'] && (
-                  <span className="text-[10px] font-mono text-emerald-400/80">
-                    (+ {characterData['char-secondary-origin']})
-                  </span>
-                )}
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start gap-2 min-w-0">
+                <span className="text-base shrink-0 mt-0.5">🌍</span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0">
+                      Origin
+                    </span>
+                    <span className="text-xs font-bold font-mono uppercase text-emerald-300 truncate">
+                      {characterData['char-origin'] || 'Required — Not Selected'}
+                    </span>
+                  </div>
+                  {characterData['char-secondary-origin'] && (
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400/90 bg-emerald-950/50 px-1.5 py-0.5 rounded border border-emerald-800/40">
+                        <span className="text-slate-400 text-[9px] uppercase tracking-wider">Secondary:</span>
+                        <span className="text-emerald-300 font-bold">+{characterData['char-secondary-origin']}</span>
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-emerald-300 text-xs font-mono">
+              <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-emerald-300 text-xs font-mono shrink-0 mt-0.5">
                 {originAllocationMetrics?.isComplete ? (
                   <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1 font-mono">
                     <Check className="w-3 h-3" /> Ready
@@ -3255,6 +3841,15 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 </span>
               </div>
               <div className="flex items-center gap-1.5 text-slate-400 group-hover:text-purple-300 text-xs font-mono">
+                {factionAllocationMetrics?.isComplete ? (
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 text-[10px] flex items-center gap-1 font-mono">
+                    <Check className="w-3 h-3" /> Ready
+                  </span>
+                ) : characterData['char-faction'] ? (
+                  <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500 text-amber-300 text-[10px] font-mono">
+                    Pending Allocation
+                  </span>
+                ) : null}
                 <span>Configure</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </div>
@@ -3294,10 +3889,15 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       {activePillarModal && (
         <div 
           className="fixed inset-0 z-[220] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none"
-          onClick={() => setActivePillarModal(null)}
+          onMouseDown={handleBackdropMouseDown}
+          onClick={handleBackdropClick}
         >
           <div 
             className="bg-slate-900 border border-cyan-500/50 rounded-2xl max-w-4xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[88vh] text-slate-100 animate-in fade-in zoom-in-95 duration-150"
+            onMouseDown={e => {
+              backdropMouseDownRef.current = false;
+              e.stopPropagation();
+            }}
             onClick={e => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -3323,38 +3923,38 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
 
               {/* Pillar Switcher Quick Tabs in Modal Header */}
-              <div className="hidden sm:flex items-center gap-1 bg-slate-950/80 p-1 rounded-lg border border-slate-800">
+              <div className="flex items-center gap-1 bg-slate-950/90 p-1 rounded-xl border border-slate-800 overflow-x-auto no-scrollbar max-w-full">
                 {[
-                  { id: 'archetype', label: 'Archetype', icon: '🛡️' },
-                  { id: 'species', label: 'Species', icon: '🧬' },
-                  { id: 'occupation', label: 'Occupation', icon: '🛠️' },
-                  { id: 'origin', label: 'Origin', icon: '🌍' },
-                  { id: 'faction', label: 'Faction', icon: '🏛️' }
-                ].map(p => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onClick={() => openPillarModal(p.id)}
-                    className={`px-2.5 py-1 rounded text-xs font-mono font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                      activePillarModal === p.id
-                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-sm'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-                    }`}
-                  >
-                    <span>{p.icon}</span>
-                    <span>{p.label}</span>
-                  </button>
-                ))}
+                  { id: 'archetype', label: 'Archetype', icon: '🛡️', themeColor: 'amber' },
+                  { id: 'species', label: 'Species', icon: '🧬', themeColor: 'cyan' },
+                  { id: 'occupation', label: 'Occupation', icon: '🛠️', themeColor: 'sky' },
+                  { id: 'origin', label: 'Origin', icon: '🌍', themeColor: 'emerald' },
+                  { id: 'faction', label: 'Faction', icon: '🏛️', themeColor: 'purple' }
+                ].map(p => {
+                  const st = getPillarStatus(p.id);
+                  const isActive = activePillarModal === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => openPillarModal(p.id)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shrink-0 border ${
+                        isActive
+                          ? 'bg-slate-800 text-white border-cyan-400/80 shadow-sm ring-1 ring-cyan-500/30'
+                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border-transparent'
+                      }`}
+                    >
+                      <span>{p.icon}</span>
+                      <span className="hidden md:inline">{p.label}</span>
+                      {st.label && (
+                        <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono border ${st.badgeClass}`}>
+                          {st.isReady ? '✓' : st.label}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
-
-              <button 
-                type="button"
-                onClick={() => setActivePillarModal(null)} 
-                className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-100 cursor-pointer transition-colors"
-                title="Close Configurator"
-              >
-                <X className="w-5 h-5" />
-              </button>
             </div>
 
             {/* Modal Body: Scrollable Section */}
@@ -3373,7 +3973,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </span>
               <button
                 type="button"
-                onClick={() => setActivePillarModal(null)}
+                onClick={handleConfirmAndClose}
                 className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer shadow-sm"
               >
                 Confirm & Close
@@ -3422,7 +4022,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
 
               <div className="flex items-center gap-2">
-                {onOpenAssetModal && (
+                {onOpenAssetModal && !inspectItem.categoryKey?.toLowerCase().includes('archetype') && !inspectItem.title?.toLowerCase().includes('archetype') && (
                   <button
                     type="button"
                     onClick={() => {

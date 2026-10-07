@@ -249,7 +249,19 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   }, []);
 
   const triggerSave = useCallback((overrideData = null) => {
-    const target = overrideData || characterData;
+    // Guard against DOM / React Events (e.g. onBlur={triggerSave}) being passed as overrideData
+    const isEvent = Boolean(
+      overrideData && (
+        typeof overrideData.preventDefault === 'function' ||
+        typeof overrideData.stopPropagation === 'function' ||
+        overrideData.nativeEvent !== undefined ||
+        overrideData.target !== undefined ||
+        overrideData._reactName !== undefined
+      )
+    );
+    const target = (!isEvent && overrideData && typeof overrideData === 'object') ? overrideData : characterData;
+    if (!target || typeof target !== 'object' || isEvent) return;
+
     try {
       StorageService.setItem('personaFolioData', target);
       localStorage.setItem('personaFolioData', JSON.stringify(target));

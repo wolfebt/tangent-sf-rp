@@ -337,26 +337,26 @@ const CoreStatsTab = () => {
   const unenabledModes = allPossibleMoveModes.filter(m => !activeMoveModes.includes(m.id));
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="space-y-3">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         
         {/* Column 1: Core Attributes & Perception / Essence */}
-        <div className="space-y-6">
+        <div className="space-y-3">
           {/* Attributes & Checks Block */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-2 gap-2">
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2.5 space-y-2">
+            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1.5 gap-2">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                   Attributes &amp; Checks
                 </h3>
-                <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
+                <span className="text-[9.5px] text-slate-400 font-mono hidden sm:inline">
                   (Base = 2 + Attr × 2)
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => openRulesModal('attributes')}
-                className="px-2.5 py-1 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[10px] font-bold text-cyan-300 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer ml-auto"
+                className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer ml-auto"
                 title="Open Attribute Checks & Saves Guide"
               >
                 <span>🛡️</span> Checks &amp; Saves Guide
@@ -366,12 +366,11 @@ const CoreStatsTab = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-800 text-[10px] uppercase tracking-wider text-slate-400 bg-slate-950/40">
-                    <th className="py-1.5 px-2 font-bold">Attribute / Check</th>
-                    <th className="py-1.5 px-1.5 text-center font-bold">Base</th>
-                    <th className="py-1.5 px-1.5 text-center font-bold">Mod</th>
-                    <th className="py-1.5 px-1.5 text-center font-bold text-cyan-300">Total</th>
-                    <th className="py-1.5 px-2 text-slate-400 hidden sm:table-cell">Usage</th>
+                  <tr className="border-b border-slate-800 text-[9.5px] uppercase tracking-wider text-slate-400 bg-slate-950/40">
+                    <th className="py-1 px-2 font-bold">Attribute / Check</th>
+                    <th className="py-1 px-1.5 text-center font-bold">Base</th>
+                    <th className="py-1 px-1.5 text-center font-bold">Mod</th>
+                    <th className="py-1 px-1.5 text-center font-bold text-cyan-300">Total</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/40 font-mono">
@@ -437,7 +436,7 @@ const CoreStatsTab = () => {
                         key={attr.id} 
                         className={`transition-colors ${isSub ? 'bg-slate-950/30 text-slate-300' : 'bg-slate-900/40 font-semibold text-slate-100 hover:bg-slate-850'}`}
                       >
-                        <td className="py-1 px-2">
+                        <td className="py-0.5 px-2">
                           <FolioTooltip
                             title={attr.code ? `${attr.name} (${attr.code})` : attr.name}
                             badge={attr.badge}
@@ -455,7 +454,7 @@ const CoreStatsTab = () => {
                                 {attr.name}
                               </span>
                               {!isSub && (
-                                <span className="text-[9px] font-mono text-slate-500 font-normal">
+                                <span className="text-[8.5px] font-mono text-slate-500 font-normal">
                                   {rawBase > 4 ? (
                                     <span className="text-amber-400 font-bold" title="Exceeds standard creation cap (+4); requires species or augmentation modifiers">
                                       (+{rawBase} &gt; +4 Cap)
@@ -480,7 +479,7 @@ const CoreStatsTab = () => {
                               onChange={(e) => isSub ? handleSubAttrChange(attr.id, e.target.value) : handlePrimaryChange(attr.id, e.target.value)}
                               disabled={isStatsLocked}
                               title={isStatsLocked ? 'Attribute locked during active game session. Request GM update.' : ''}
-                              className={`w-11 text-center bg-slate-900 border rounded px-1 py-0.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 ${
+                              className={`w-10 text-center bg-slate-900 border rounded px-1 py-0.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 ${
                                 isStatsLocked
                                   ? 'opacity-60 cursor-not-allowed border-slate-800 text-slate-400'
                                   : isSub ? 'border-slate-800 text-slate-300' : 'border-slate-700 font-bold'
@@ -510,7 +509,7 @@ const CoreStatsTab = () => {
                                   personaId: characterData['character-doc-id'] || characterData.id,
                                   autoRoll: true
                                 })}
-                                className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-0.5 shrink-0"
+                                className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[9.5px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-0.5 shrink-0"
                                 title={`Roll ${attr.name} Check (2d10 + ${total})`}
                               >
                                 <Dices size={11} className="text-amber-400" />
@@ -528,16 +527,13 @@ const CoreStatsTab = () => {
                                   personaId: characterData['character-doc-id'] || characterData.id,
                                   autoRoll: true
                                 })}
-                                className="p-1 rounded bg-slate-900/60 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"
+                                className="p-0.5 rounded bg-slate-900/60 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"
                                 title={`Roll ${attr.name} Check (2d10 + ${total})`}
                               >
                                 <Dices size={10} />
                               </button>
                             )}
                           </div>
-                        </td>
-                        <td className="py-1 px-2 text-[10px] text-slate-400 font-sans hidden sm:table-cell max-w-[180px] truncate" title={attr.desc}>
-                          {attr.desc}
                         </td>
                       </tr>
                     );
@@ -548,8 +544,8 @@ const CoreStatsTab = () => {
           </div>
 
           {/* Perception Block */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-2 gap-2">
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2.5 space-y-2">
+            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1.5 gap-2">
               <div className="flex flex-wrap items-center gap-2">
                 <FolioTooltip
                   title="Perception Sub-Ability"
@@ -560,7 +556,7 @@ const CoreStatsTab = () => {
                   tags={['Intellect', 'Wisdom', 'Detection']}
                   showInfoIcon={true}
                 >
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
                     Perception
                   </h3>
                 </FolioTooltip>
@@ -573,7 +569,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => setIsPerceptionRulesOpen(true)}
-                  className="px-2.5 py-1 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[10px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open Perception Rules & Detection Codex"
                 >
                   <span>👁️</span> Perception Rules
@@ -581,7 +577,7 @@ const CoreStatsTab = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
               <FolioTooltip
                 title="Base Perception"
                 badge="Innate Acuity"
@@ -590,10 +586,13 @@ const CoreStatsTab = () => {
                 formula="Base = Intellect + Wisdom"
                 tags={['INT', 'WIS']}
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center w-full hover:border-cyan-500/50 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Base</span>
-                  <span className="text-sm font-bold font-mono text-cyan-300">{basePerception}</span>
-                  <span className="text-[8.5px] text-slate-500 font-mono">INT+WIS</span>
+                <div className="flex flex-col justify-between bg-slate-800/50 p-1.5 rounded border border-slate-700 text-center w-full hover:border-cyan-500/50 transition-colors">
+                  <div>
+                    <span className="text-[9.5px] uppercase font-bold text-slate-400 block leading-tight">Base</span>
+                    <span className="text-sm font-bold font-mono text-cyan-300 block leading-tight">{basePerception}</span>
+                    <span className="text-[8px] text-slate-500 font-mono block leading-tight">INT+WIS</span>
+                  </div>
+                  <span className="text-[8px] text-slate-600 font-mono py-0.5 mt-0.5 block opacity-0 select-none pointer-events-none">—</span>
                 </div>
               </FolioTooltip>
 
@@ -605,10 +604,12 @@ const CoreStatsTab = () => {
                 formula="Detection = Base Perception + Alertness (Rank + Mod)"
                 tags={['Alertness', 'Hazards', 'Stealth Contests']}
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-cyan-700/60 text-center w-full hover:border-cyan-400 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-cyan-300">Default</span>
-                  <span className="text-sm font-bold font-mono text-cyan-200">{alertPerception}</span>
-                  <span className="text-[8.5px] text-cyan-400/80 font-mono">+{alertnessRank + alertnessMod} Alert</span>
+                <div className="flex flex-col justify-between bg-slate-800/50 p-1.5 rounded border border-cyan-700/60 text-center w-full hover:border-cyan-400 transition-colors">
+                  <div>
+                    <span className="text-[9.5px] uppercase font-bold text-cyan-300 block leading-tight">Default</span>
+                    <span className="text-sm font-bold font-mono text-cyan-200 block leading-tight">{alertPerception}</span>
+                    <span className="text-[8px] text-cyan-400/80 font-mono block leading-tight">+{alertnessRank + alertnessMod} Alert</span>
+                  </div>
                   <button
                     type="button"
                     onClick={(e) => {
@@ -622,10 +623,10 @@ const CoreStatsTab = () => {
                         autoRoll: true
                       });
                     }}
-                    className="mt-1 py-0.5 px-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    className="mt-0.5 py-0.5 px-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
                     title={`Roll Default Perception Check (2d10 + ${alertPerception})`}
                   >
-                    <Dices size={10} /> Roll
+                    <Dices size={9} /> Roll
                   </button>
                 </div>
               </FolioTooltip>
@@ -638,10 +639,12 @@ const CoreStatsTab = () => {
                 formula="Meta = Base Perception + Attune (Rank + Mod)"
                 tags={['Attune', 'Psionics', 'Magic']}
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-amber-400">Meta</span>
-                  <span className="text-sm font-bold font-mono text-amber-300">{metaPerception}</span>
-                  <span className="text-[8.5px] text-amber-400/80 font-mono">+{attuneRank + attuneMod} Attune</span>
+                <div className="flex flex-col justify-between bg-slate-800/50 p-1.5 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
+                  <div>
+                    <span className="text-[9.5px] uppercase font-bold text-amber-400 block leading-tight">Meta</span>
+                    <span className="text-sm font-bold font-mono text-amber-300 block leading-tight">{metaPerception}</span>
+                    <span className="text-[8px] text-amber-400/80 font-mono block leading-tight">+{attuneRank + attuneMod} Attune</span>
+                  </div>
                   <button
                     type="button"
                     onClick={(e) => {
@@ -655,10 +658,10 @@ const CoreStatsTab = () => {
                         autoRoll: true
                       });
                     }}
-                    className="mt-1 py-0.5 px-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    className="mt-0.5 py-0.5 px-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
                     title={`Roll Metaphysical Perception Check (2d10 + ${metaPerception})`}
                   >
-                    <Dices size={10} /> Roll
+                    <Dices size={9} /> Roll
                   </button>
                 </div>
               </FolioTooltip>
@@ -671,10 +674,12 @@ const CoreStatsTab = () => {
                 formula="Social = Base Perception + Insight (Rank + Mod)"
                 tags={['Insight', 'Deception', 'Empathy']}
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-emerald-700/60 text-center w-full hover:border-emerald-400 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-emerald-400">Social</span>
-                  <span className="text-sm font-bold font-mono text-emerald-300">{socialPerception}</span>
-                  <span className="text-[8.5px] text-emerald-400/80 font-mono">+{insightRank + insightMod} Insight</span>
+                <div className="flex flex-col justify-between bg-slate-800/50 p-1.5 rounded border border-emerald-700/60 text-center w-full hover:border-emerald-400 transition-colors">
+                  <div>
+                    <span className="text-[9.5px] uppercase font-bold text-emerald-400 block leading-tight">Social</span>
+                    <span className="text-sm font-bold font-mono text-emerald-300 block leading-tight">{socialPerception}</span>
+                    <span className="text-[8px] text-emerald-400/80 font-mono block leading-tight">+{insightRank + insightMod} Insight</span>
+                  </div>
                   <button
                     type="button"
                     onClick={(e) => {
@@ -688,10 +693,10 @@ const CoreStatsTab = () => {
                         autoRoll: true
                       });
                     }}
-                    className="mt-1 py-0.5 px-1 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    className="mt-0.5 py-0.5 px-1 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
                     title={`Roll Social Perception Check (2d10 + ${socialPerception})`}
                   >
-                    <Dices size={10} /> Roll
+                    <Dices size={9} /> Roll
                   </button>
                 </div>
               </FolioTooltip>
@@ -704,10 +709,12 @@ const CoreStatsTab = () => {
                 formula="Tech = Base Perception + Technology (Rank + Mod)"
                 tags={['Technology', 'Sensors', 'Scanners']}
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-blue-700/60 text-center col-span-2 sm:col-span-1 w-full hover:border-blue-400 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-blue-400">Tech</span>
-                  <span className="text-sm font-bold font-mono text-blue-300">{techPerception}</span>
-                  <span className="text-[8.5px] text-blue-400/80 font-mono">+{techRank + techMod} Tech</span>
+                <div className="flex flex-col justify-between bg-slate-800/50 p-1.5 rounded border border-blue-700/60 text-center col-span-2 sm:col-span-1 w-full hover:border-blue-400 transition-colors">
+                  <div>
+                    <span className="text-[9.5px] uppercase font-bold text-blue-400 block leading-tight">Tech</span>
+                    <span className="text-sm font-bold font-mono text-blue-300 block leading-tight">{techPerception}</span>
+                    <span className="text-[8px] text-blue-400/80 font-mono block leading-tight">+{techRank + techMod} Tech</span>
+                  </div>
                   <button
                     type="button"
                     onClick={(e) => {
@@ -721,10 +728,10 @@ const CoreStatsTab = () => {
                         autoRoll: true
                       });
                     }}
-                    className="mt-1 py-0.5 px-1 bg-blue-950/90 hover:bg-blue-900 border border-blue-500/50 text-blue-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    className="mt-0.5 py-0.5 px-1 bg-blue-950/90 hover:bg-blue-900 border border-blue-500/50 text-blue-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
                     title={`Roll Technical Perception Check (2d10 + ${techPerception})`}
                   >
-                    <Dices size={10} /> Roll
+                    <Dices size={9} /> Roll
                   </button>
                 </div>
               </FolioTooltip>
@@ -732,10 +739,10 @@ const CoreStatsTab = () => {
           </div>
 
           {/* Fate Block */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-2 gap-2">
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2.5 space-y-2">
+            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1.5 gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-base">✨</span>
+                <span className="text-sm">✨</span>
                 <FolioTooltip
                   title="Fate Reserve (Karma & Plot Points)"
                   badge="Heroic Destiny"
@@ -744,7 +751,7 @@ const CoreStatsTab = () => {
                   tags={['Karma', 'Plot Points', 'Advantage']}
                   showInfoIcon={true}
                 >
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 hover:text-cyan-300 transition-colors">
                     Fate
                   </h3>
                 </FolioTooltip>
@@ -757,7 +764,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => setIsKarmaCodexOpen(true)}
-                  className="px-2.5 py-1 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[10px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[9.5px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open Karma Codex & Ledger"
                 >
                   <span>☸️</span> Karma Codex
@@ -766,7 +773,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => openRulesModal('karma')}
-                  className="px-2.5 py-1 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[10px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open canonical Karma & Fate Rules Codex"
                 >
                   <span>📖</span> Rules
@@ -775,7 +782,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => setIsFateOverrideOpen(true)}
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500/60 text-[10px] font-bold text-slate-300 hover:text-cyan-200 transition-colors flex items-center gap-1 cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500/60 text-[9.5px] font-bold text-slate-300 hover:text-cyan-200 transition-colors flex items-center gap-1 cursor-pointer"
                   title="Open discreet override modal for Karma, Plot Points, and Advancement Points"
                 >
                   <span>⚙️</span> Overrides
@@ -784,7 +791,7 @@ const CoreStatsTab = () => {
             </div>
 
             {/* Fate Items Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-center font-mono">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-center font-mono">
               {/* Karma Pool Card */}
               {(() => {
                 const currentKarma = getNum('karma', derivedStats?.maxKarma ?? 3);
@@ -799,58 +806,60 @@ const CoreStatsTab = () => {
                     formula={`Current: ${currentKarma} / Max: ${maxKarma}`}
                     tags={['Reroll', 'Advantage', 'Survival']}
                   >
-                    <div className={`p-2.5 rounded border flex flex-col justify-between w-full ${
+                    <div className={`p-1.5 py-1 rounded border flex flex-col justify-between w-full ${
                       isDebt 
                         ? 'bg-rose-950/40 border-rose-500/60 text-rose-300' 
                         : 'bg-slate-800/50 border-cyan-700/60 text-cyan-300 hover:border-cyan-400 transition-colors'
                     }`}>
                       <div className="flex justify-between items-center">
-                        <span className="text-[10px] uppercase font-bold text-slate-400">Karma Pool</span>
-                        <span className="text-[9px] text-slate-500 font-mono">Max: {maxKarma}{isDebt ? ' (Debt)' : ''}</span>
+                        <span className="text-[9.5px] uppercase font-bold text-slate-400">Karma Pool</span>
+                        <span className="text-[8.5px] text-slate-500 font-mono">Max: {maxKarma}{isDebt ? ' (Debt)' : ''}</span>
                       </div>
-                      <div className="flex items-center justify-center gap-2 my-1">
-                        {!isSheetLocked && (
-                          <button
-                            type="button"
-                            onClick={() => spendKarma(1)}
-                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                            title="Spend 1 Karma"
-                          >
-                            -
-                          </button>
-                        )}
-                        <span className={`text-lg font-black ${isDebt ? 'text-rose-400' : 'text-cyan-200'}`}>
-                          {currentKarma}
-                        </span>
-                        {!isSheetLocked && (
-                          <button
-                            type="button"
-                            onClick={() => gainKarma(1)}
-                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                            title="Gain 1 Karma"
-                          >
-                            +
-                          </button>
-                        )}
+                      <div className="flex items-center justify-between gap-2 my-0.5">
+                        <div className="flex items-center gap-1.5">
+                          {!isSheetLocked && (
+                            <button
+                              type="button"
+                              onClick={() => spendKarma(1)}
+                              className="w-5 h-5 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 cursor-pointer"
+                              title="Spend 1 Karma"
+                            >
+                              -
+                            </button>
+                          )}
+                          <span className={`text-base font-black ${isDebt ? 'text-rose-400' : 'text-cyan-200'}`}>
+                            {currentKarma}
+                          </span>
+                          {!isSheetLocked && (
+                            <button
+                              type="button"
+                              onClick={() => gainKarma(1)}
+                              className="w-5 h-5 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 cursor-pointer"
+                              title="Gain 1 Karma"
+                            >
+                              +
+                            </button>
+                          )}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (currentKarma <= 0) return;
+                            spendKarma(1);
+                            const maxVit = parseInt(characterData.vitality || 30, 10);
+                            const curVit = parseInt(characterData.current_vitality ?? characterData.vitality ?? 30, 10);
+                            const restoreAmount = Math.round(maxVit * 0.5);
+                            const nextVit = Math.min(maxVit, curVit + restoreAmount);
+                            updateCharacterVitality(characterData['character-doc-id'] || characterData.id, nextVit);
+                          }}
+                          disabled={currentKarma <= 0}
+                          className="py-0.5 px-2 bg-cyan-950/90 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/50 text-cyan-200 rounded text-[9px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors shadow-sm"
+                          title="Spend 1 Karma to invoke Second Wind: Instantly restore 50% max Vitality"
+                        >
+                          <span>💨</span> Second Wind (+50% Vit)
+                        </button>
                       </div>
-                      <span className="text-[9px] text-slate-400 font-sans">d20 Advantage / Reroll Reserve</span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (currentKarma <= 0) return;
-                          spendKarma(1);
-                          const maxVit = parseInt(characterData.vitality || 30, 10);
-                          const curVit = parseInt(characterData.current_vitality ?? characterData.vitality ?? 30, 10);
-                          const restoreAmount = Math.round(maxVit * 0.5);
-                          const nextVit = Math.min(maxVit, curVit + restoreAmount);
-                          updateCharacterVitality(characterData['character-doc-id'] || characterData.id, nextVit);
-                        }}
-                        disabled={currentKarma <= 0}
-                        className="mt-1 py-0.5 px-1.5 bg-cyan-950/90 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/50 text-cyan-200 rounded text-[9.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors shadow-sm"
-                        title="Spend 1 Karma to invoke Second Wind: Instantly restore 50% max Vitality"
-                      >
-                        <span>💨</span> Second Wind (+50% Vit)
-                      </button>
+                      <span className="text-[8.5px] text-slate-400 font-sans text-left truncate">d20 Advantage / Reroll Reserve</span>
                     </div>
                   </FolioTooltip>
                 );
@@ -868,35 +877,38 @@ const CoreStatsTab = () => {
                     formula={`Tokens: ${plotPoints}`}
                     tags={['Narrative', 'Twists', 'Story']}
                   >
-                    <div className="p-2.5 rounded border bg-slate-800/50 border-fuchsia-700/60 text-fuchsia-300 flex flex-col justify-between w-full hover:border-fuchsia-400 transition-colors">
+                    <div className="p-1.5 py-1 rounded border bg-slate-800/50 border-fuchsia-700/60 text-fuchsia-300 flex flex-col justify-between w-full hover:border-fuchsia-400 transition-colors">
                       <div className="flex justify-between items-center">
-                        <span className="text-[10px] uppercase font-bold text-fuchsia-400">Plot Points</span>
-                        <span className="text-[9px] text-fuchsia-400/70 font-mono">Narrative Tokens</span>
+                        <span className="text-[9.5px] uppercase font-bold text-fuchsia-400">Plot Points</span>
+                        <span className="text-[8.5px] text-fuchsia-400/70 font-mono">Tokens: {plotPoints}</span>
                       </div>
-                      <div className="flex items-center justify-center gap-2 my-1">
-                        {!isSheetLocked && (
-                          <button
-                            type="button"
-                            onClick={() => spendPlotPoint(1)}
-                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                            title="Spend 1 Plot Point"
-                          >
-                            -
-                          </button>
-                        )}
-                        <span className="text-lg font-black text-fuchsia-200">{plotPoints}</span>
-                        {!isSheetLocked && (
-                          <button
-                            type="button"
-                            onClick={() => gainPlotPoint(1)}
-                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                            title="Gain 1 Plot Point"
-                          >
-                            +
-                          </button>
-                        )}
+                      <div className="flex items-center justify-between gap-2 my-0.5">
+                        <div className="flex items-center gap-1.5">
+                          {!isSheetLocked && (
+                            <button
+                              type="button"
+                              onClick={() => spendPlotPoint(1)}
+                              className="w-5 h-5 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 cursor-pointer"
+                              title="Spend 1 Plot Point"
+                            >
+                              -
+                            </button>
+                          )}
+                          <span className="text-base font-black text-fuchsia-200">{plotPoints}</span>
+                          {!isSheetLocked && (
+                            <button
+                              type="button"
+                              onClick={() => gainPlotPoint(1)}
+                              className="w-5 h-5 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 cursor-pointer"
+                              title="Gain 1 Plot Point"
+                            >
+                              +
+                            </button>
+                          )}
+                        </div>
+                        <span className="text-[9px] font-mono text-fuchsia-300/80 px-1.5 py-0.5 bg-fuchsia-950/40 rounded border border-fuchsia-800/40">Narrative Token</span>
                       </div>
-                      <span className="text-[9px] text-slate-400 font-sans">Story Complications &amp; Creative Twists</span>
+                      <span className="text-[8.5px] text-slate-400 font-sans text-left truncate">Story Complications &amp; Creative Twists</span>
                     </div>
                   </FolioTooltip>
                 );
@@ -905,8 +917,8 @@ const CoreStatsTab = () => {
           </div>
 
           {/* Essence Block (Positioned Under Fate) */}
-          <div className="bg-slate-900/60 border border-purple-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-purple-900/60 pb-2 gap-2">
+          <div className="bg-slate-900/60 border border-purple-900/50 rounded-lg p-2.5 space-y-2">
+            <div className="flex flex-wrap justify-between items-center border-b border-purple-900/60 pb-1.5 gap-2">
               <div className="flex flex-wrap items-center gap-2">
                 <FolioTooltip
                   title="Essence Capacity"
@@ -917,15 +929,15 @@ const CoreStatsTab = () => {
                   tags={['Metaphysics', 'Mana', 'Energy']}
                   showInfoIcon={true}
                 >
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-colors">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-purple-400 hover:text-purple-300 transition-colors">
                     Essence
                   </h3>
                 </FolioTooltip>
                 <span className="text-[10px] font-mono text-slate-400">
                   (Attrs: {primaryAttrsTotal} + Meta: {metaSkillsTotal} = {essenceTotal})
                 </span>
-                <div className="flex items-center gap-1.5 bg-slate-800 px-2 py-0.5 rounded border border-purple-500/40">
-                  <span className="text-[10px] font-bold text-purple-300 uppercase">Capacity:</span>
+                <div className="flex items-center gap-1.5 bg-slate-800 px-1.5 py-0.5 rounded border border-purple-500/40">
+                  <span className="text-[9px] font-bold text-purple-300 uppercase">Capacity:</span>
                   <span className="text-xs font-mono font-bold text-purple-200">{essenceTotal}</span>
                 </div>
               </div>
@@ -934,7 +946,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => openRulesModal('essence')}
-                  className="px-2.5 py-1 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[10px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[9.5px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open Essence Pool & Metaphysical Strain Rules Codex"
                 >
                   <span>🔮</span> Essence Rules
@@ -942,7 +954,7 @@ const CoreStatsTab = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
               <FolioTooltip
                 title="Total Essence Capacity"
                 badge="Total Pool"
@@ -950,10 +962,10 @@ const CoreStatsTab = () => {
                 description="Total metaphysical energy reserve of the character."
                 formula="Essence = Primary Attributes + Meta Skills Total"
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-purple-700/60 text-center w-full hover:border-purple-400 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-purple-300">Total Essence</span>
-                  <span className="text-sm font-bold font-mono text-purple-200">{essenceTotal}</span>
-                  <span className="text-[8.5px] text-purple-400/80 font-mono">Pool Capacity</span>
+                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-purple-700/60 text-center w-full hover:border-purple-400 transition-colors">
+                  <span className="text-[9.5px] uppercase font-bold text-purple-300 leading-tight">Total Essence</span>
+                  <span className="text-sm font-bold font-mono text-purple-200 leading-tight my-0.5">{essenceTotal}</span>
+                  <span className="text-[8px] text-purple-400/80 font-mono leading-tight">Pool Capacity</span>
                 </div>
               </FolioTooltip>
 
@@ -964,10 +976,10 @@ const CoreStatsTab = () => {
                 description="The physiological and cognitive vessel housing metaphysical Code. Formed by the sum of all 6 core attributes."
                 formula="Substrate = STR + AGI + STA + INT + WIS + CHA"
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center w-full hover:border-cyan-500/50 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Substrate</span>
-                  <span className="text-sm font-bold font-mono text-cyan-300">+{primaryAttrsTotal}</span>
-                  <span className="text-[8.5px] text-slate-500 font-mono">6 Primary Attrs</span>
+                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-slate-700 text-center w-full hover:border-cyan-500/50 transition-colors">
+                  <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Substrate</span>
+                  <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{primaryAttrsTotal}</span>
+                  <span className="text-[8px] text-slate-500 font-mono leading-tight">6 Primary Attrs</span>
                 </div>
               </FolioTooltip>
 
@@ -978,10 +990,10 @@ const CoreStatsTab = () => {
                 description="Your operational resonance with the Void. Determines bandwidth for channeling metaphysical code safely."
                 formula="Conduit = Attune Rank + Attune Mod"
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-amber-400">Conduit</span>
-                  <span className="text-sm font-bold font-mono text-amber-300">+{attuneRank + attuneMod}</span>
-                  <span className="text-[8.5px] text-amber-400/80 font-mono">Attune Skill</span>
+                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
+                  <span className="text-[9.5px] uppercase font-bold text-amber-400 leading-tight">Conduit</span>
+                  <span className="text-sm font-bold font-mono text-amber-300 leading-tight my-0.5">+{attuneRank + attuneMod}</span>
+                  <span className="text-[8px] text-amber-400/80 font-mono leading-tight">Attune Skill</span>
                 </div>
               </FolioTooltip>
 
@@ -992,10 +1004,10 @@ const CoreStatsTab = () => {
                 description="Total ranks and modifiers across Dimension, Energy, Entropy, Illusion, Matter, and Mental skills."
                 formula="Breadth = Sum of all Discipline Skills"
               >
-                <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center w-full hover:border-purple-400 transition-colors">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Disciplines</span>
-                  <span className="text-sm font-bold font-mono text-cyan-300">+{Math.max(0, metaSkillsTotal - (attuneRank + attuneMod))}</span>
-                  <span className="text-[8.5px] text-slate-500 font-mono">Meta Skills</span>
+                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-slate-700 text-center w-full hover:border-purple-400 transition-colors">
+                  <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Disciplines</span>
+                  <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{Math.max(0, metaSkillsTotal - (attuneRank + attuneMod))}</span>
+                  <span className="text-[8px] text-slate-500 font-mono leading-tight">Meta Skills</span>
                 </div>
               </FolioTooltip>
             </div>
@@ -1003,13 +1015,13 @@ const CoreStatsTab = () => {
         </div>
 
         {/* Column 2: Setting Tiers, Combat & Vitals Status, Movement, Experience */}
-        <div className="space-y-6">
+        <div className="space-y-3">
           
           {/* Tech & Meta Level Block */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2.5 space-y-2">
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2 space-y-1.5">
             <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1 gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-sm">⚙️</span>
+                <span className="text-xs">⚙️</span>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                   Tech Level &amp; Meta Level
                 </h3>
@@ -1025,7 +1037,7 @@ const CoreStatsTab = () => {
                   const mlCP = (curML - 3) * 10;
                   const totalLevelCP = tlCP + mlCP;
                   return (
-                    <span className={`px-2 py-0.5 rounded font-bold border ${totalLevelCP > 0 ? 'bg-amber-950/60 border-amber-500/50 text-amber-300' : totalLevelCP < 0 ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' : 'bg-slate-800 border-slate-700 text-slate-300'}`}>
+                    <span className={`px-1.5 py-0.5 rounded font-bold border text-[9px] ${totalLevelCP > 0 ? 'bg-amber-950/60 border-amber-500/50 text-amber-300' : totalLevelCP < 0 ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' : 'bg-slate-800 border-slate-700 text-slate-300'}`}>
                       Level CP: {totalLevelCP >= 0 ? `+${totalLevelCP}` : totalLevelCP} CP
                     </span>
                   );
@@ -1033,7 +1045,7 @@ const CoreStatsTab = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1.5">
               {/* Tech Level (0-5) */}
               {(() => {
                 const curTL = Math.min(5, Math.max(0, getNum('tech-level', 3)));
@@ -1048,20 +1060,20 @@ const CoreStatsTab = () => {
                     cost={tlCP === 0 ? '0 CP (Baseline)' : (tlCP > 0 ? `+${tlCP} CP Cost` : `${tlCP} CP Refund`)}
                     tags={['TL 0-5', '10 CP / Level diff', 'Non-stacking']}
                   >
-                    <div className="flex items-center justify-between bg-slate-800/40 px-2.5 py-1.5 rounded border border-slate-700/80 gap-2 hover:border-cyan-500/40 transition-colors">
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-cyan-500/40 transition-colors">
                       <div className="flex flex-col min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <label htmlFor="tech-level" className="text-xs font-bold uppercase tracking-wider text-cyan-300 cursor-pointer shrink-0">
+                          <label htmlFor="tech-level" className="text-[11px] font-bold uppercase tracking-wider text-cyan-300 cursor-pointer shrink-0 leading-tight">
                             Tech Level
                           </label>
-                          <span className="text-[9px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
+                          <span className="text-[8.5px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
                         </div>
-                        <span className={`text-[9px] font-mono ${tlCP > 0 ? 'text-amber-400' : tlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                        <span className={`text-[8.5px] font-mono leading-none ${tlCP > 0 ? 'text-amber-400' : tlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
                           {tlCP === 0 ? '0 CP (TL3 Base)' : (tlCP > 0 ? `+${tlCP} CP` : `${tlCP} CP`)}
                         </span>
                       </div>
                       {isSheetLocked ? (
-                        <span className="text-xs font-mono font-bold text-cyan-200 px-1.5 py-0.5">
+                        <span className="text-xs font-mono font-bold text-cyan-200 px-1 py-0.5">
                           {curTL}
                         </span>
                       ) : (
@@ -1072,7 +1084,7 @@ const CoreStatsTab = () => {
                           max="5"
                           value={curTL}
                           onChange={(e) => updateField('tech-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
-                          className="w-12 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                          className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
                         />
                       )}
                     </div>
@@ -1094,20 +1106,20 @@ const CoreStatsTab = () => {
                     cost={mlCP === 0 ? '0 CP (Baseline)' : (mlCP > 0 ? `+${mlCP} CP Cost` : `${mlCP} CP Refund`)}
                     tags={['ML 0-5', '10 CP / Level diff', 'Non-stacking']}
                   >
-                    <div className="flex items-center justify-between bg-slate-800/40 px-2.5 py-1.5 rounded border border-slate-700/80 gap-2 hover:border-purple-500/40 transition-colors">
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-purple-500/40 transition-colors">
                       <div className="flex flex-col min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <label htmlFor="magic-level" className="text-xs font-bold uppercase tracking-wider text-purple-300 cursor-pointer shrink-0">
+                          <label htmlFor="magic-level" className="text-[11px] font-bold uppercase tracking-wider text-purple-300 cursor-pointer shrink-0 leading-tight">
                             Meta Level
                           </label>
-                          <span className="text-[9px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
+                          <span className="text-[8.5px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
                         </div>
-                        <span className={`text-[9px] font-mono ${mlCP > 0 ? 'text-amber-400' : mlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                        <span className={`text-[8.5px] font-mono leading-none ${mlCP > 0 ? 'text-amber-400' : mlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
                           {mlCP === 0 ? '0 CP (ML3 Base)' : (mlCP > 0 ? `+${mlCP} CP` : `${mlCP} CP`)}
                         </span>
                       </div>
                       {isSheetLocked ? (
-                        <span className="text-xs font-mono font-bold text-purple-200 px-1.5 py-0.5">
+                        <span className="text-xs font-mono font-bold text-purple-200 px-1 py-0.5">
                           {curML}
                         </span>
                       ) : (
@@ -1118,7 +1130,7 @@ const CoreStatsTab = () => {
                           max="5"
                           value={curML}
                           onChange={(e) => updateField('magic-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
-                          className="w-12 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                          className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
                         />
                       )}
                     </div>
@@ -1129,17 +1141,17 @@ const CoreStatsTab = () => {
           </div>
 
           {/* Initiative & Status Block */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-2 gap-2">
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2.5 space-y-2">
+            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1.5 gap-2">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                   Combat &amp; Vitals Status
                 </h3>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-bold hidden sm:inline" title="Toughness reduces incoming wound damage point-for-point">
+                <span className="text-[9.5px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 font-bold hidden sm:inline" title="Toughness reduces incoming wound damage point-for-point">
                   🛡️ Toughness: {derivedStats?.toughness ?? 0}
                 </span>
                 {derivedStats?.isSynthetic && (
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 font-bold hidden sm:inline" title="Non-standard physiology: Vitality and Health combined into Structure">
+                  <span className="text-[9.5px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 font-bold hidden sm:inline" title="Non-standard physiology: Vitality and Health combined into Structure">
                     ⚙️ Structure: {derivedStats?.structure ?? 60} SP
                   </span>
                 )}
@@ -1148,7 +1160,7 @@ const CoreStatsTab = () => {
               <button
                 type="button"
                 onClick={() => openRulesModal('vitals')}
-                className="px-2.5 py-1 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[10px] font-bold text-cyan-300 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer ml-auto"
+                className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer ml-auto"
                 title="Open Vitality, Health, Structure & Dying Rules Codex"
               >
                 <span>⚡</span> Vitals &amp; Dying Rules
@@ -1156,9 +1168,9 @@ const CoreStatsTab = () => {
             </div>
 
             {/* Row 1: Combat Readiness & Vitals (2 Columns: Initiative/Toughness and Vitality/Health) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {/* Left Column: Initiative over Toughness */}
-              <div className="space-y-2.5">
+              <div className="space-y-1.5">
                 <FolioTooltip
                   title="Initiative"
                   badge="Turn Priority"
@@ -1168,12 +1180,12 @@ const CoreStatsTab = () => {
                   tags={['Reflex', 'Combat Round', 'Turn Order']}
                   className="w-full block"
                 >
-                  <div className="flex items-center justify-between bg-slate-800/60 px-3.5 py-2.5 rounded border border-cyan-900/40 min-h-[52px] w-full hover:border-cyan-400 transition-colors gap-3">
-                    <label className="text-xs font-bold uppercase tracking-wider text-cyan-400 shrink-0">
+                  <div className="flex items-center justify-between bg-slate-800/60 px-2.5 py-1 rounded border border-cyan-900/40 w-full hover:border-cyan-400 transition-colors gap-2 min-h-[34px]">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 shrink-0">
                       Initiative
                     </label>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-lg font-bold text-amber-400 font-mono px-1">{initiativeTotal}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-base font-bold text-amber-400 font-mono px-1">{initiativeTotal}</span>
                       <button
                         type="button"
                         onClick={(e) => {
@@ -1187,10 +1199,10 @@ const CoreStatsTab = () => {
                             autoRoll: true
                           });
                         }}
-                        className="px-2.5 py-1 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1.5 shrink-0"
+                        className="px-2 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[9.5px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1 shrink-0"
                         title={`Roll Initiative Check (2d10 + ${initiativeTotal})`}
                       >
-                        <Dices size={12} className="text-amber-400" />
+                        <Dices size={10} className="text-amber-400" />
                         <span>Roll</span>
                       </button>
                     </div>
@@ -1206,17 +1218,17 @@ const CoreStatsTab = () => {
                   tags={['Stamina', 'Natural DR', 'Min 1 Point']}
                   className="w-full block"
                 >
-                  <div className="flex items-center justify-between bg-slate-800/60 px-3.5 py-2.5 rounded border border-emerald-900/40 min-h-[52px] w-full hover:border-emerald-400 transition-colors gap-3" title="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
-                    <label className="text-xs font-bold uppercase tracking-wider text-emerald-400 shrink-0">
+                  <div className="flex items-center justify-between bg-slate-800/60 px-2.5 py-1 rounded border border-emerald-900/40 w-full hover:border-emerald-400 transition-colors gap-2 min-h-[34px]" title="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 shrink-0">
                       Natural DR (STA)
                     </label>
-                    <span className="text-lg font-bold text-emerald-300 font-mono shrink-0 px-1">+{derivedStats?.stamina ?? derivedStats?.toughness ?? 0}</span>
+                    <span className="text-base font-bold text-emerald-300 font-mono shrink-0 px-1">+{derivedStats?.stamina ?? derivedStats?.toughness ?? 0}</span>
                   </div>
                 </FolioTooltip>
               </div>
 
               {/* Right Column: Vitality over Health */}
-              <div className="space-y-2.5">
+              <div className="space-y-1.5">
                 <FolioTooltip
                   title="Vitality (Non-Lethal)"
                   badge="Non-Lethal Capacity"
@@ -1235,11 +1247,12 @@ const CoreStatsTab = () => {
                       value={getNum('vitality', derivedStats?.vitality || 30)}
                       onChange={handleStatChange}
                       labelColor="text-slate-300"
-                      inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats?.purchasedVitality > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
+                      labelSize="text-[10.5px]"
+                      inputClassName={`px-2 py-0.5 text-xs font-mono border ${derivedStats?.purchasedVitality > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
                     />
                     {derivedStats?.purchasedVitality > 0 && (
-                      <div className="absolute top-0 right-0 text-[9px] font-bold text-indigo-300 bg-indigo-900/80 px-1.5 py-0.5 rounded-bl">
-                        +{derivedStats.purchasedVitality} (Purchased)
+                      <div className="absolute top-0 right-0 text-[8px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.2 rounded-bl">
+                        +{derivedStats.purchasedVitality}
                       </div>
                     )}
                   </div>
@@ -1263,11 +1276,12 @@ const CoreStatsTab = () => {
                       value={getNum('health', derivedStats?.health || 30)}
                       onChange={handleStatChange}
                       labelColor="text-slate-300"
-                      inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats?.purchasedHealth > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
+                      labelSize="text-[10.5px]"
+                      inputClassName={`px-2 py-0.5 text-xs font-mono border ${derivedStats?.purchasedHealth > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
                     />
                     {derivedStats?.purchasedHealth > 0 && (
-                      <div className="absolute top-0 right-0 text-[9px] font-bold text-indigo-300 bg-indigo-900/80 px-1.5 py-0.5 rounded-bl">
-                        +{derivedStats.purchasedHealth} (Purchased)
+                      <div className="absolute top-0 right-0 text-[8px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.2 rounded-bl">
+                        +{derivedStats.purchasedHealth}
                       </div>
                     )}
                   </div>
@@ -1287,34 +1301,34 @@ const CoreStatsTab = () => {
                 tags={['Synthetic', 'Structure 60 SP', '1 CP / 2 pts']}
                 className="w-full block"
               >
-                <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">⚙️</span>
+                <div className="p-2 rounded bg-amber-950/40 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sm">⚙️</span>
                     <div>
-                      <div className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-                        <span>Synthetic Structure Pool</span>
-                        <span className="text-[10px] font-normal text-amber-400 font-mono">(60 SP Base)</span>
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1">
+                        <span>Synthetic Structure</span>
+                        <span className="text-[9px] font-normal text-amber-400 font-mono">(60 SP Base)</span>
                       </div>
-                      <div className="text-[10px] text-amber-200/70 font-sans">
+                      <div className="text-[9px] text-amber-200/70 font-sans leading-none">
                         Replaces separate Vitality &amp; Health. 1 CP = +2 Structure.
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {isSheetLocked ? (
-                      <span className="text-sm font-bold text-amber-200 bg-amber-900/60 px-2.5 py-1 rounded border border-amber-600/40">
+                      <span className="text-xs font-bold text-amber-200 bg-amber-900/60 px-2 py-0.5 rounded border border-amber-600/40">
                         {derivedStats.structure} SP
                       </span>
                     ) : (
-                      <div className="flex items-center gap-1.5">
-                        <label htmlFor="structure" className="text-[10px] text-slate-400 uppercase font-sans">Structure SP:</label>
+                      <div className="flex items-center gap-1">
+                        <label htmlFor="structure" className="text-[9.5px] text-slate-400 uppercase font-sans">Structure SP:</label>
                         <input
                           id="structure"
                           type="number"
                           min="60"
                           value={getNum('structure', derivedStats?.structure || 60)}
                           onChange={(e) => handleStatChange('structure', e.target.value)}
-                          className="w-16 bg-slate-950 border border-amber-600/50 focus:border-amber-400 rounded px-2 py-1 text-xs font-mono text-center font-bold text-amber-200 outline-none"
+                          className="w-14 bg-slate-950 border border-amber-600/50 focus:border-amber-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-amber-200 outline-none"
                         />
                       </div>
                     )}
@@ -1335,14 +1349,14 @@ const CoreStatsTab = () => {
 
               if (isDead) {
                 return (
-                  <div className="p-3 rounded-lg bg-slate-950/95 border border-red-800 shadow-[0_0_15px_rgba(239,68,68,0.2)] flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl">⚰️</span>
+                  <div className="p-2 rounded bg-slate-950/95 border border-red-800 shadow-[0_0_15px_rgba(239,68,68,0.2)] flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-lg">⚰️</span>
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-red-400">
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-red-400">
                           Status: Permanently Deceased
                         </div>
-                        <div className="text-[10px] text-slate-400">
+                        <div className="text-[9px] text-slate-400">
                           Character has succumbed to death. May be revived via high-level Metaphysics or TL5 Tech.
                         </div>
                       </div>
@@ -1361,10 +1375,10 @@ const CoreStatsTab = () => {
                           revivifyCharacter();
                         }
                       }}
-                      className="px-3 py-1.5 bg-red-900 hover:bg-red-800 text-red-100 border border-red-500 rounded text-xs font-bold tracking-wide uppercase transition-colors shadow flex items-center gap-1.5 cursor-pointer"
+                      className="px-2.5 py-1 bg-red-900 hover:bg-red-800 text-red-100 border border-red-500 rounded text-[10px] font-bold tracking-wide uppercase transition-colors shadow flex items-center gap-1 cursor-pointer"
                       title="Revivify character (High Cost of Dying: -All Karma, -5 Experience Debt)"
                     >
-                      <span>⚡</span> Revivify Character (-5 XP Debt)
+                      <span>⚡</span> Revivify (-5 XP Debt)
                     </button>
                   </div>
                 );
@@ -1372,42 +1386,42 @@ const CoreStatsTab = () => {
 
               if (atDeathsDoor) {
                 return (
-                  <div className="p-3 rounded-lg bg-rose-950/90 border border-rose-600 shadow-[0_0_15px_rgba(244,63,94,0.25)] flex flex-wrap items-center justify-between gap-3 animate-pulse">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl">💀</span>
+                  <div className="p-2 rounded bg-rose-950/90 border border-rose-600 shadow-[0_0_15px_rgba(244,63,94,0.25)] flex flex-wrap items-center justify-between gap-2 animate-pulse">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-lg">💀</span>
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-rose-200 flex items-center gap-2">
+                        <div className="text-[11px] font-bold uppercase tracking-wider text-rose-200 flex items-center gap-2">
                           <span>DEATH'S DOOR</span>
-                          <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded bg-rose-900 border border-rose-500 text-rose-100">
-                            {isStabilized ? 'STABILIZED (Clock Stopped)' : `Clock: ${deathClock} Round${deathClock === 1 ? '' : 's'} Remaining`}
+                          <span className="text-[9.5px] font-mono font-black px-1.5 py-0.5 rounded bg-rose-900 border border-rose-500 text-rose-100">
+                            {isStabilized ? 'STABILIZED' : `Clock: ${deathClock} Round${deathClock === 1 ? '' : 's'}`}
                           </span>
                         </div>
-                        <div className="text-[10px] text-rose-300/80">
+                        <div className="text-[9px] text-rose-300/80">
                           {isStabilized
                             ? 'Character is unconscious and severely wounded, but no longer actively dying.'
-                            : 'Character is Comatose. Medical aid (Medicine CR 15) or healing tech/magic must be applied before the clock expires!'}
+                            : 'Character is Comatose. Medical aid (Medicine CR 15) must be applied before clock expires!'}
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       {!isStabilized && (
                         <>
                           <button
                             type="button"
                             onClick={() => stabilizeCharacter({ hasHealingEffect: true })}
-                            className="px-2.5 py-1 bg-emerald-700 hover:bg-emerald-600 text-white rounded text-[11px] font-bold uppercase tracking-wider border border-emerald-400 shadow-sm transition-colors cursor-pointer"
+                            className="px-2 py-0.5 bg-emerald-700 hover:bg-emerald-600 text-white rounded text-[10px] font-bold uppercase tracking-wider border border-emerald-400 shadow-sm transition-colors cursor-pointer"
                             title="Apply Medicine (CR 15) or healing to stop the death clock"
                           >
-                            🩹 Stabilize (CR 15)
+                            🩹 Stabilize
                           </button>
                           <button
                             type="button"
                             onClick={() => advanceCharacterDeathTurn()}
-                            className="px-2.5 py-1 bg-rose-900 hover:bg-rose-800 text-rose-200 rounded text-[11px] font-mono font-bold uppercase tracking-wider border border-rose-700 transition-colors cursor-pointer"
+                            className="px-2 py-0.5 bg-rose-900 hover:bg-rose-800 text-rose-200 rounded text-[10px] font-mono font-bold uppercase tracking-wider border border-rose-700 transition-colors cursor-pointer"
                             title="Advance combat round without medical aid (-1 round from death clock)"
                           >
-                            ⏳ -1 Round
+                            ⏳ -1 Rnd
                           </button>
                         </>
                       )}
@@ -1418,12 +1432,12 @@ const CoreStatsTab = () => {
 
               if (isIncapacitated) {
                 return (
-                  <div className="p-2.5 rounded-lg bg-amber-950/80 border border-amber-600/70 flex items-center justify-between text-xs text-amber-200">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">🛌</span>
+                  <div className="p-2 rounded bg-amber-950/80 border border-amber-600/70 flex items-center justify-between text-xs text-amber-200">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-base">🛌</span>
                       <div>
-                        <strong className="uppercase tracking-wide font-bold">Incapacitated (0 Health):</strong>
-                        <span className="text-slate-300 text-[11px] ml-1.5">Unconscious and Prone. Drops held items. Still has Vitality buffer ({curV} Vit).</span>
+                        <strong className="uppercase tracking-wide font-bold text-[11px]">Incapacitated (0 Health):</strong>
+                        <span className="text-slate-300 text-[10px] ml-1.5">Unconscious and Prone. Drops held items. ({curV} Vit left).</span>
                       </div>
                     </div>
                   </div>
@@ -1434,9 +1448,9 @@ const CoreStatsTab = () => {
             })()}
 
             {/* Rest & Recovery Bar */}
-            <div className="bg-slate-950/60 border border-cyan-900/50 rounded-lg px-3 py-2 flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <span className="text-base">☕</span>
+            <div className="bg-slate-950/60 border border-cyan-900/50 rounded px-2 py-1 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm">☕</span>
                 <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
                   Rest &amp; Recovery
                 </span>
@@ -1445,7 +1459,7 @@ const CoreStatsTab = () => {
               <button
                 type="button"
                 onClick={() => openRulesModal('rest')}
-                className="px-2.5 py-1 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[10px] font-bold text-cyan-300 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
+                className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                 title="Open Rest & Recovery Manager (Full Rest & Light Rest Tiers)"
               >
                 <span>☕</span> Take Rest / Rules
@@ -1455,10 +1469,10 @@ const CoreStatsTab = () => {
           </div>
 
           {/* Movement Block (Displays only enabled modes with quick add option) */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-2 gap-2">
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2.5 space-y-2">
+            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1.5 gap-2">
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                   Movement Modes
                 </h3>
                 <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
@@ -1470,7 +1484,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => setIsMovementRulesOpen(true)}
-                  className="px-2.5 py-1 rounded bg-amber-950 hover:bg-amber-900 border border-amber-500/50 text-[10px] font-bold text-amber-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-amber-950 hover:bg-amber-900 border border-amber-500/50 text-[9.5px] font-bold text-amber-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open Movement Paces & Fatigue Rules Codex"
                 >
                   <span>🏃</span> Movement Rules
@@ -1486,7 +1500,7 @@ const CoreStatsTab = () => {
                         }
                       }}
                       defaultValue=""
-                      className="bg-slate-800 border border-slate-700 hover:border-cyan-400 rounded px-2 py-0.5 text-[10px] text-cyan-300 font-bold uppercase outline-none cursor-pointer"
+                      className="bg-slate-800 border border-slate-700 hover:border-cyan-400 rounded px-1.5 py-0.5 text-[9.5px] text-cyan-300 font-bold uppercase outline-none cursor-pointer"
                     >
                       <option value="" disabled>+ Enable Mode...</option>
                       {unenabledModes.map(m => (
@@ -1498,7 +1512,7 @@ const CoreStatsTab = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
               {activeMoveModes.map((mode) => {
                 const config = allPossibleMoveModes.find(m => m.id === mode) || { id: mode, label: mode, defaultSpeed: 30 };
                 const speedVal = getNum(`move-${mode}`, config.defaultSpeed);
@@ -1566,29 +1580,41 @@ const CoreStatsTab = () => {
                     formula={toolData.formula}
                     tags={['Movement', config.label]}
                   >
-                    <div className="flex flex-col bg-slate-800/40 p-2.5 rounded border border-slate-700/80 relative group w-full hover:border-cyan-500/50 transition-colors">
-                      <FolioInput
-                        id={`move-${mode}`}
-                        label={`${config.label} (ft)`}
-                        type="number"
-                        value={speedVal}
-                        onChange={updateField}
-                        labelColor="text-cyan-400"
-                        labelSize="text-[10px]"
-                        containerClassName="flex flex-col"
-                        inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
-                      />
-                      <div className="flex justify-between items-center text-[9px] font-mono text-slate-500 mt-1">
-                        <span>{Math.round(speedVal * 0.3)} m/turn</span>
-                        {mode !== 'walk' && !isSheetLocked && (
-                          <button
-                            type="button"
-                            onClick={() => updateField(`move-${mode}`, 0)}
-                            className="text-slate-600 hover:text-red-400 transition-colors cursor-pointer"
-                            title="Disable movement mode"
-                          >
-                            ✕
-                          </button>
+                    <div className="flex flex-col bg-slate-800/40 px-2 py-1.5 rounded border border-slate-700/80 relative group w-full hover:border-cyan-500/50 transition-colors">
+                      <div className="flex items-center justify-between mb-1">
+                        <label htmlFor={`move-${mode}`} className="text-[10px] font-bold uppercase tracking-wider text-cyan-400 truncate cursor-pointer leading-tight">
+                          {config.label}
+                        </label>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <span className="text-[8.5px] font-mono text-slate-500 leading-none">{Math.round(speedVal * 0.3)}m</span>
+                          {mode !== 'walk' && !isSheetLocked && (
+                            <button
+                              type="button"
+                              onClick={() => updateField(`move-${mode}`, 0)}
+                              className="text-slate-500 hover:text-red-400 text-[10px] transition-colors cursor-pointer leading-none px-0.5"
+                              title="Disable movement mode"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        {isSheetLocked ? (
+                          <span className="text-xs font-mono font-bold text-cyan-200 px-1 py-0.5 w-full text-center bg-slate-900 rounded border border-slate-800">
+                            {speedVal} ft
+                          </span>
+                        ) : (
+                          <div className="relative w-full flex items-center">
+                            <input
+                              id={`move-${mode}`}
+                              type="number"
+                              value={speedVal}
+                              onChange={(e) => updateField(`move-${mode}`, parseInt(e.target.value, 10) || 0)}
+                              className="w-full bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors"
+                            />
+                            <span className="absolute right-2 text-[9px] font-mono text-slate-500 pointer-events-none">ft</span>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -1599,10 +1625,10 @@ const CoreStatsTab = () => {
           </div>
 
           {/* Advancement Points (AP) Block */}
-          <div className="bg-slate-900/60 border border-emerald-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-emerald-900/60 pb-2 gap-2">
+          <div className="bg-slate-900/60 border border-emerald-900/50 rounded-lg p-2.5 space-y-2">
+            <div className="flex flex-wrap justify-between items-center border-b border-emerald-900/60 pb-1.5 gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-base">🎖️</span>
+                <span className="text-sm">🎖️</span>
                 <FolioTooltip
                   title="Advancement Points (AP)"
                   badge="Heroic Advancement"
@@ -1612,7 +1638,7 @@ const CoreStatsTab = () => {
                   tags={['Advancement', 'AP', 'CP']}
                   showInfoIcon={true}
                 >
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 transition-colors">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 transition-colors">
                     Advancement Points
                   </h3>
                 </FolioTooltip>
@@ -1625,7 +1651,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => setIsExperienceCodexOpen(true)}
-                  className="px-2.5 py-1 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-[10px] font-bold text-emerald-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-[9.5px] font-bold text-emerald-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open Advancement Points (AP) Codex & Progression Ledger"
                 >
                   <span>✨</span> AP Codex
@@ -1634,7 +1660,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => openRulesModal('experience')}
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/60 text-[10px] font-bold text-slate-300 hover:text-emerald-200 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/60 text-[9.5px] font-bold text-slate-300 hover:text-emerald-200 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open canonical Advancement Rules Codex"
                 >
                   <span>📖</span> Rules
@@ -1643,7 +1669,7 @@ const CoreStatsTab = () => {
                 <button
                   type="button"
                   onClick={() => setIsFateOverrideOpen(true)}
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/60 text-[10px] font-bold text-slate-300 hover:text-emerald-200 transition-colors flex items-center gap-1 cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/60 text-[9.5px] font-bold text-slate-300 hover:text-emerald-200 transition-colors flex items-center gap-1 cursor-pointer"
                   title="Open discreet override modal for Karma, Plot Points, and Advancement Points"
                 >
                   <span>⚙️</span> Overrides
@@ -1652,7 +1678,7 @@ const CoreStatsTab = () => {
             </div>
 
             {/* Advancement Telemetry Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-center font-mono">
               {(() => {
                 const earnedAP = Number(characterData?.earned_ap || 0);
                 const availableAP = economyBreakdown?.availableAP ?? earnedAP;
@@ -1668,10 +1694,10 @@ const CoreStatsTab = () => {
                       description="Total career Advancement Points awarded by the GM for session attendance, roleplay, and mission completions."
                       formula={`Total: +${earnedAP} AP`}
                     >
-                      <div className="p-2 rounded border bg-slate-800/50 border-emerald-700/60 text-center flex flex-col justify-between w-full hover:border-emerald-400 transition-colors">
-                        <span className="text-[10px] uppercase font-bold text-emerald-400">Earned AP</span>
-                        <span className="text-base font-black text-emerald-300">+{earnedAP}</span>
-                        <span className="text-[8.5px] text-slate-500">Lifetime Total</span>
+                      <div className="p-1.5 py-1 rounded border bg-slate-800/50 border-emerald-700/60 text-center flex flex-col justify-between w-full hover:border-emerald-400 transition-colors">
+                        <span className="text-[9.5px] uppercase font-bold text-emerald-400 leading-tight">Earned AP</span>
+                        <span className="text-sm font-black text-emerald-300 leading-tight my-0.5">+{earnedAP}</span>
+                        <span className="text-[8px] text-slate-500 leading-tight">Lifetime Total</span>
                       </div>
                     </FolioTooltip>
 
@@ -1682,10 +1708,10 @@ const CoreStatsTab = () => {
                       description="Unspent Advancement Points ready to be invested into attributes (5 AP), skills (1 AP), or features (3 AP)."
                       formula={`Available: ${availableAP} AP`}
                     >
-                      <div className="p-2 rounded border bg-slate-800/50 border-cyan-700/60 text-center flex flex-col justify-between w-full hover:border-cyan-400 transition-colors">
-                        <span className="text-[10px] uppercase font-bold text-cyan-300">Available</span>
-                        <span className="text-base font-black text-cyan-200">{availableAP}</span>
-                        <span className="text-[8.5px] text-slate-500">Unspent AP</span>
+                      <div className="p-1.5 py-1 rounded border bg-slate-800/50 border-cyan-700/60 text-center flex flex-col justify-between w-full hover:border-cyan-400 transition-colors">
+                        <span className="text-[9.5px] uppercase font-bold text-cyan-300 leading-tight">Available</span>
+                        <span className="text-sm font-black text-cyan-200 leading-tight my-0.5">{availableAP}</span>
+                        <span className="text-[8px] text-slate-500 leading-tight">Unspent AP</span>
                       </div>
                     </FolioTooltip>
 
@@ -1696,10 +1722,10 @@ const CoreStatsTab = () => {
                       description="Total Advancement Points allocated towards character growth across attributes, skills, and traits."
                       formula={`Invested: ${spentAP} AP`}
                     >
-                      <div className="p-2 rounded border bg-slate-800/50 border-slate-700 text-center flex flex-col justify-between w-full hover:border-slate-500 transition-colors">
-                        <span className="text-[10px] uppercase font-bold text-slate-400">Spent AP</span>
-                        <span className="text-base font-bold text-slate-200">{spentAP}</span>
-                        <span className="text-[8.5px] text-slate-500">Invested AP</span>
+                      <div className="p-1.5 py-1 rounded border bg-slate-800/50 border-slate-700 text-center flex flex-col justify-between w-full hover:border-slate-500 transition-colors">
+                        <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Spent AP</span>
+                        <span className="text-sm font-bold text-slate-200 leading-tight my-0.5">{spentAP}</span>
+                        <span className="text-[8px] text-slate-500 leading-tight">Invested AP</span>
                       </div>
                     </FolioTooltip>
 
@@ -1710,17 +1736,17 @@ const CoreStatsTab = () => {
                       description="Debt incurred when an operative undergoes emergency Revivification from death. Future earned AP will automatically repay debt first."
                       formula={debt > 0 ? `Debt: -${debt} AP` : 'Clear (No Debt)'}
                     >
-                      <div className={`p-2 rounded border text-center flex flex-col justify-between w-full transition-colors ${
+                      <div className={`p-1.5 py-1 rounded border text-center flex flex-col justify-between w-full transition-colors ${
                         debt > 0 
                           ? 'bg-rose-950/40 border-rose-500/60 text-rose-300 hover:border-rose-400' 
                           : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500'
                       }`}>
-                        <span className="text-[10px] uppercase font-bold text-slate-400">AP Debt</span>
-                        <span className={`text-base font-black ${debt > 0 ? 'text-rose-400' : 'text-slate-500'}`}>
+                        <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">AP Debt</span>
+                        <span className={`text-sm font-black leading-tight my-0.5 ${debt > 0 ? 'text-rose-400' : 'text-slate-500'}`}>
                           {debt > 0 ? `-${debt}` : '0'}
                         </span>
-                        <span className="text-[8.5px] text-slate-500">
-                          {debt > 0 ? 'High Cost of Dying' : 'Clear'}
+                        <span className="text-[8px] text-slate-500 leading-tight">
+                          {debt > 0 ? 'High Cost' : 'Clear'}
                         </span>
                       </div>
                     </FolioTooltip>
@@ -1731,15 +1757,15 @@ const CoreStatsTab = () => {
 
             {/* Advancement Debt Action Banner if Debt > 0 */}
             {(characterData?.experience_debt || 0) > 0 && (
-              <div className="p-2 rounded bg-rose-950/30 border border-rose-800/40 flex items-center justify-between gap-2 text-xs">
-                <span className="text-rose-300 text-[11px]">
-                  ⚠️ <strong>AP Debt Active (-{characterData.experience_debt}):</strong> Future earned AP automatically settles debt before converting to available AP.
+              <div className="p-1.5 rounded bg-rose-950/30 border border-rose-800/40 flex items-center justify-between gap-2 text-xs">
+                <span className="text-rose-300 text-[10.5px]">
+                  ⚠️ <strong>AP Debt Active (-{characterData.experience_debt}):</strong> Future earned AP automatically settles debt.
                 </span>
                 {(economyBreakdown?.availableAP ?? characterData?.earned_ap ?? 0) > 0 && (
                   <button
                     type="button"
                     onClick={() => payExperienceDebt(1)}
-                    className="px-2 py-0.5 bg-rose-900 hover:bg-rose-800 text-rose-100 rounded text-[10px] font-bold border border-rose-600 transition-colors shrink-0 cursor-pointer"
+                    className="px-2 py-0.5 bg-rose-900 hover:bg-rose-800 text-rose-100 rounded text-[9.5px] font-bold border border-rose-600 transition-colors shrink-0 cursor-pointer"
                     title="Pay 1 AP towards AP Debt"
                   >
                     Pay 1 AP
