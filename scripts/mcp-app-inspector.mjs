@@ -7,15 +7,92 @@ import {
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // 1. Resolve Application Root Directory
-let rootDir = process.env.APP_ROOT ? path.resolve(process.env.APP_ROOT) : process.cwd();
-if (!fs.existsSync(path.join(rootDir, "package.json"))) {
-  const candidate = path.join(rootDir, "TANGENT SF RP react project");
-  if (fs.existsSync(path.join(candidate, "package.json"))) {
-    rootDir = candidate;
+// Order: APP_ROOT (or its "TANGENT SF RP react project" child) -> cwd -> folder above this script.
+const hasPackageJson = (dir) => fs.existsSync(path.join(dir, "package.json"));
+const resolveRootDir = () => {
+  const candidates = [];
+  const base = process.env.APP_ROOT ? path.resolve(process.env.APP_ROOT) : process.cwd();
+  candidates.push(base, path.join(base, "TANGENT SF RP react project"));
+  candidates.push(path.resolve(__dirname, ".."));
+  return candidates.find(hasPackageJson) || base;
+};
+let rootDir = resolveRootDir();
+
+// Split a filename into lowercase word tokens on camelCase and separator boundaries.
+// e.g. "useMapIngestion.ts" -> ["use", "map", "ingestion"], "speciesTypesData.js" -> ["species", "types", "data"]
+const CODE_EXTENSIONS = new Set([".js", ".mjs", ".cjs", ".ts", ".tsx", ".jsx"]);
+export const tokenizeFileName = (fileName) => {
+  const stem = fileName.replace(/\.d\.ts$/i, "").replace(/\.[^.]+$/, "");
+  return stem
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .split(/[\s._-]+/)
+    .filter(Boolean)
+    .map((t) => t.toLowerCase());
+};
+const ROUTE_TOKENS = new Set(["route", "routes", "router", "routing", "controller", "controllers", "api"]);
+const SCHEMA_TOKENS = new Set(["schema", "schemas", "model", "models", "types", "entity", "entities"]);
+
+// Brace/quote-aware scan of <Route .../> tags. Handles nested JSX inside element={<Foo bar="x" />}.
+export const parseRouteSource = (content) => {
+  const routes = [];
+  const openRe = /<Route(?=[\s/>])/g;
+  let m;
+  while ((m = openRe.exec(content)) !== null) {
+    let i = m.index + m[0].length;
+    let depth = 0;
+    let quote = null;
+    const start = i;
+    let end = -1;
+    for (; i < content.length; i++) {
+      const ch = content[i];
+      if (quote) {
+        if (ch === quote && content[i - 1] !== "\\") quote = null;
+        continue;
+      }
+      if (ch === '"' || ch === "'" || ch === "`") { quote = ch; continue; }
+      if (ch === "{") depth++;
+      else if (ch === "}") depth--;
+      else if (depth === 0 && ch === ">") { end = i; break; }
+    }
+    if (end === -1) break;
+    const attrs = content.slice(start, end).replace(/\/\s*$/, "");
+    openRe.lastIndex = end + 1;
+
+    const pathMatch = /\bpath=["']([^"']+)["']/.exec(attrs);
+    if (!pathMatch) continue;
+
+    // Extract the balanced element={...} expression
+    let element = "unspecified";
+    let props = "";
+    const elIdx = attrs.search(/\belement=\{/);
+    if (elIdx !== -1) {
+      let j = attrs.indexOf("{", elIdx);
+      let d = 0;
+      const exprStart = j + 1;
+      for (; j < attrs.length; j++) {
+        if (attrs[j] === "{") d++;
+        else if (attrs[j] === "}" && --d === 0) break;
+      }
+      const expr = attrs.slice(exprStart, j).trim();
+      const jsx = /^<\s*([A-Za-z_$][\w.$]*)([\s\S]*?)\/?>$/.exec(expr);
+      if (jsx) {
+        element = jsx[1];
+        props = jsx[2].trim();
+      } else if (expr) {
+        element = expr;
+      }
+    }
+    routes.push(props ? { path: pathMatch[1], element, props } : { path: pathMatch[1], element });
   }
-}
+  return routes;
+};
 
 // 2. Define Tool Handlers
 export const toolHandlers = {
@@ -34,22 +111,7 @@ export const toolHandlers = {
     // Helper: Parse React Router JSX routes from a file
     const parseRouteFile = (filePath) => {
       if (!fs.existsSync(filePath)) return [];
-      const content = fs.readFileSync(filePath, "utf-8");
-      const routes = [];
-      const tagRegex = /<Route\b([^>]+)\/?>/g;
-      let tagMatch;
-      while ((tagMatch = tagRegex.exec(content)) !== null) {
-        const attrs = tagMatch[1];
-        const pathMatch = /path=["']([^"']+)["']/.exec(attrs);
-        const elementMatch = /element=\{([^}]+)\}/.exec(attrs);
-        if (pathMatch) {
-          routes.push({
-            path: pathMatch[1],
-            element: elementMatch ? elementMatch[1].trim() : "unspecified",
-          });
-        }
-      }
-      return routes;
+      return parseRouteSource(fs.readFileSync(filePath, "utf-8"));
     };
 
     // A. Parse src/App.jsx
@@ -81,7 +143,7 @@ export const toolHandlers = {
       scanPages(pagesDir);
     }
 
-    // D. Scan for files with route, controller, api in name
+    // D. Scan code files whose name contains a whole-word route/controller/api token
     if (fs.existsSync(targetDir)) {
       const scanGenericRoutes = (dir) => {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -89,9 +151,8 @@ export const toolHandlers = {
           const fullPath = path.join(dir, entry.name);
           if (entry.isDirectory() && entry.name !== "node_modules" && entry.name !== ".git") {
             scanGenericRoutes(fullPath);
-          } else if (entry.isFile()) {
-            const lower = entry.name.toLowerCase();
-            if (lower.includes("route") || lower.includes("controller") || lower.includes("api")) {
+          } else if (entry.isFile() && CODE_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) {
+            if (tokenizeFileName(entry.name).some((t) => ROUTE_TOKENS.has(t))) {
               results.detectedRouteFiles.push(path.relative(rootDir, fullPath).replace(/\\/g, "/"));
             }
           }
@@ -163,12 +224,11 @@ export const toolHandlers = {
           const relPath = path.relative(rootDir, fullPath).replace(/\\/g, "/");
           if (schemaFiles.some((s) => s.file === relPath)) continue;
 
+          const tokens = tokenizeFileName(entry.name);
+          const joined = tokens.join("");
           if (
-            base.includes("schema") ||
-            base.includes("model") ||
-            base.includes("types") ||
-            base.includes("entity") ||
-            base.includes("traitsdata") ||
+            tokens.some((t) => SCHEMA_TOKENS.has(t)) ||
+            joined.includes("traitsdata") ||
             base.endsWith(".proto") ||
             base.endsWith(".d.ts")
           ) {
@@ -279,9 +339,10 @@ export const toolHandlers = {
         const cmd = isStaged ? `git diff --cached${targetFile}` : `git diff${targetFile}`;
         output = execSync(cmd, { cwd: rootDir, encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"] });
       } else {
-        const cmd = isStaged ? "git diff --cached --stat" : "git status --short";
+        const cmd = isStaged ? "git diff --cached --name-status" : "git status --short";
         output = execSync(cmd, { cwd: rootDir, encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"] });
-        statOutput = execSync("git diff --stat", { cwd: rootDir, encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"] });
+        const statCmd = isStaged ? "git diff --cached --stat" : "git diff --stat";
+        statOutput = execSync(statCmd, { cwd: rootDir, encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"] });
       }
     } catch (err) {
       output = "Git inspection failed or not inside a valid repository: " + err.message;
@@ -425,7 +486,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 });
 
 // 6. Execution Lifecycle / Standalone Self-Test Mode
-const isTestMode = process.argv.includes("--test") || process.argv.includes("-t");
+// Only boot when executed as the entry point (directly, or via the workspace-root wrapper of the same name).
+// Importing this module (e.g. from tests) exposes toolHandlers without starting stdio.
+const isDirectRun = path.basename(process.argv[1] || "") === "mcp-app-inspector.mjs";
+const isTestMode = isDirectRun && (process.argv.includes("--test") || process.argv.includes("-t"));
 
 if (isTestMode) {
   console.log("=== Running Antigravity App Inspector Standalone Self-Test ===\n");
@@ -468,7 +532,7 @@ if (isTestMode) {
     console.error("❌ Self-test failed:", err);
     process.exit(1);
   }
-} else {
+} else if (isDirectRun) {
   // Production Stdio Transport Boot
   const transport = new StdioServerTransport();
   await server.connect(transport);
