@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { CampaignProvider } from './context/CampaignContext';
 import { DBMProvider } from './context/DBMContext';
 import { FolioProvider } from './context/FolioContext';
-import { GroupProvider } from './context/GroupContext';
+import { SquadProvider, GroupProvider } from './context/SquadContext';
 import { ChatProvider } from './context/ChatContext';
 import { VoiceChatProvider } from './context/VoiceChatContext';
 import { VoiceCommsBar } from './components/Chat/VoiceCommsBar';
 import { DiceProvider } from './context/DiceContext';
+import { ContextMenuProvider } from './context/ContextMenuContext';
 import { GlobalHUD } from './components/Layout/GlobalHUD';
 import { GlobalSideRail } from './components/Layout/GlobalSideRail';
 import { MobileBottomNav } from './components/Layout/MobileBottomNav';
@@ -27,7 +28,8 @@ const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
 const NetworkPage = lazy(() => import('./pages/NetworkPage'));
 const CommsPage = lazy(() => import('./pages/CommsPage'));
-const TeamsPage = lazy(() => import('./pages/TeamsPage'));
+const SquadsPage = lazy(() => import('./pages/SquadsPage'));
+const TeamsPage = SquadsPage;
 const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
 
 const VttOpsRedirect = () => {
@@ -108,7 +110,8 @@ export function App() {
               <ChatProvider>
                 <VoiceChatProvider>
                   <DiceProvider>
-                    <div className="h-screen h-dvh w-screen bg-black flex flex-col font-sans overflow-hidden text-slate-100 select-none">
+                    <ContextMenuProvider>
+                      <div className="h-screen h-dvh w-screen bg-black flex flex-col font-sans overflow-hidden text-slate-100 select-none">
                       {/* Persistent Global HUD (Height: 52px on sub-routes) */}
                       <GlobalHUD
                         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
@@ -133,9 +136,9 @@ export function App() {
                                 <Route path="/network/*" element={<NetworkPage />} />
                                 <Route path="/comms" element={<NetworkRedirect defaultView="comms" />} />
                                 <Route path="/chat" element={<NetworkRedirect defaultView="comms" />} />
-                                <Route path="/teams" element={<NetworkRedirect defaultView="teams" />} />
-                                <Route path="/groups" element={<NetworkRedirect defaultView="teams" />} />
-                                <Route path="/squads" element={<NetworkRedirect defaultView="teams" />} />
+                                <Route path="/teams" element={<NetworkRedirect defaultView="squads" />} />
+                                <Route path="/groups" element={<NetworkRedirect defaultView="squads" />} />
+                                <Route path="/squads" element={<NetworkRedirect defaultView="squads" />} />
                                 <Route path="/codex" element={<CodexApp />} />
                                 <Route path="/codex/*" element={<CodexApp />} />
                                 <Route path="/compendium" element={<Compendium />} />
@@ -185,7 +188,8 @@ export function App() {
                         onClose={() => setIsCommandPaletteOpen(false)}
                       />
                     </div>
-                  </DiceProvider>
+                  </ContextMenuProvider>
+                </DiceProvider>
                 </VoiceChatProvider>
               </ChatProvider>
             </GroupProvider>

@@ -200,7 +200,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
       if (view === 'roster') return 'NETWORK • OPERATOR DIRECTORY';
       return 'NETWORK • COMMLINK RELAY';
     }
-    if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'GAME TEAMS & SQUADS';
+    if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'GAME SQUADS & FIRETEAMS';
     if (path.startsWith('/comms')) return 'COMMLINK RELAY';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'PERSONA FOLIO';
     if (path.startsWith('/dbm')) return 'OMNICORTEX';

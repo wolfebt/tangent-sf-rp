@@ -2,23 +2,26 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   VTT_ROLES,
+  CANONICAL_SQUADS,
   CANONICAL_TEAMS,
+  createDefaultSquadRoster,
   createDefaultTeamRoster,
   isUserArchitect,
   canUserControlToken,
   bindCharactersToUser,
   setUserRole
-} from '../../services/vttTeamService.js';
+} from '../../services/vttSquadService.js';
 
-test('Tangent SFF RP — VTT Team, Co-Architect & Permissions Service', async (t) => {
-  await t.test('Canonical teams and default team roster integrity', () => {
+test('Tangent SFF RP — VTT Squad & Fireteam Permissions Service', async (t) => {
+  await t.test('Canonical squads and default roster integrity', () => {
+    assert.equal(CANONICAL_SQUADS.length, 4);
     assert.equal(CANONICAL_TEAMS.length, 4);
-    const alpha = CANONICAL_TEAMS.find(t => t.id === 'team_alpha');
+    const alpha = CANONICAL_SQUADS.find(t => t.id === 'squad_alpha');
     assert.ok(alpha);
     assert.equal(alpha.color, '#06b6d4');
 
-    const defaultRoster = createDefaultTeamRoster();
-    assert.ok(defaultRoster.teams.length >= 4);
+    const defaultRoster = createDefaultSquadRoster();
+    assert.ok(defaultRoster.squads.length >= 4);
     assert.equal(defaultRoster.userAssignments.gm_host.role, VTT_ROLES.ARCHITECT_LEAD);
   });
 
@@ -52,7 +55,7 @@ test('Tangent SFF RP — VTT Team, Co-Architect & Permissions Service', async (t
   });
 
   await t.test('bindCharactersToUser binds multiple characters to a single player', () => {
-    const roster = createDefaultTeamRoster();
+    const roster = createDefaultSquadRoster();
     const updated = bindCharactersToUser(roster, 'player_1', ['tok_hero_1', 'tok_drone_1']);
     
     assert.deepEqual(updated.userAssignments.player_1.assignedTokenIds, ['tok_hero_1', 'tok_drone_1']);
@@ -64,7 +67,7 @@ test('Tangent SFF RP — VTT Team, Co-Architect & Permissions Service', async (t
   });
 
   await t.test('setUserRole updates role to Co-Architect', () => {
-    const roster = createDefaultTeamRoster();
+    const roster = createDefaultSquadRoster();
     const updated = setUserRole(roster, 'player_2', VTT_ROLES.CO_ARCHITECT);
     assert.equal(updated.userAssignments.player_2.role, VTT_ROLES.CO_ARCHITECT);
   });

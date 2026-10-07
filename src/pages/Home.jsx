@@ -332,7 +332,7 @@ const Home = () => {
                   onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
                 />
               ) : showWelcomeBriefing ? (
-                <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 overflow-y-auto w-full max-h-full">
+                <div className="flex-1 flex flex-col items-center justify-start p-2.5 sm:p-4 pt-1 sm:pt-2 overflow-y-auto w-full max-h-full no-scrollbar">
                   <WelcomeBriefing onDismiss={handleDismissBriefing} />
                 </div>
               ) : (
@@ -394,7 +394,7 @@ const Home = () => {
                 />
               </div>
             ) : showWelcomeBriefing ? (
-              <div className="flex-1 flex flex-col items-center justify-start p-3 sm:p-4 overflow-y-auto w-full max-h-full">
+              <div className="flex-1 flex flex-col items-center justify-start p-2 sm:p-3 pt-1 overflow-y-auto w-full max-h-full no-scrollbar">
                 <WelcomeBriefing isMobile onDismiss={handleDismissBriefing} />
               </div>
             ) : (

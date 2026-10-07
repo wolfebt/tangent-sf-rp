@@ -131,6 +131,54 @@ export const ChannelSidebar = ({
     });
   }, [playerDirectChannels, characterDirectChannels, unreadCounts]);
 
+  // Auto-collapse all channels except for current view
+  useEffect(() => {
+    if (!activeChannelId) return;
+
+    const isDirect = allDirectChannels.some(c => c.id === activeChannelId);
+    const isTeam = (teamChannels || []).some(c => c.id === activeChannelId);
+    const isPublic = (publicChannels || []).some(c => c.id === activeChannelId);
+    const isAudit = (personaLogChannels || []).some(c => c.id === activeChannelId);
+
+    if (isDirect) {
+      setCollapsedSections({
+        direct: false,
+        teams: true,
+        public: true,
+        audit: true
+      });
+    } else if (isTeam) {
+      setCollapsedSections({
+        direct: true,
+        teams: false,
+        public: true,
+        audit: true
+      });
+      // Collapse all other team rosters, expand only the current active team
+      setCollapsedRosters(prev => {
+        const next = { ...prev };
+        (teamChannels || []).forEach(tc => {
+          next[tc.id] = tc.id !== activeChannelId;
+        });
+        return next;
+      });
+    } else if (isPublic) {
+      setCollapsedSections({
+        direct: true,
+        teams: true,
+        public: false,
+        audit: true
+      });
+    } else if (isAudit) {
+      setCollapsedSections({
+        direct: true,
+        teams: true,
+        public: true,
+        audit: false
+      });
+    }
+  }, [activeChannelId, allDirectChannels, teamChannels, publicChannels, personaLogChannels]);
+
   // Filter channels based on search
   const filterList = (list) => {
     if (!searchQuery.trim()) return list;

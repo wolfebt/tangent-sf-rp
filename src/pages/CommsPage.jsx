@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Radio, 
   Hash, 
@@ -14,7 +14,8 @@ import {
   Map,
   Shield,
   Settings,
-  UserPlus
+  UserPlus,
+  BookOpen
 } from 'lucide-react';
 import { useChat } from '../context/ChatContext';
 import { useGroup } from '../context/GroupContext';
@@ -26,6 +27,7 @@ import { PersonaAuditLogSidebar } from '../components/Chat/PersonaAuditLogSideba
 import { CommsVttPanel } from '../components/Chat/CommsVttPanel';
 import { MessageView } from '../components/Chat/MessageView';
 import { MessageInput } from '../components/Chat/MessageInput';
+import { ArchitectDocketBlock } from '../components/Chat/ArchitectDocketBlock';
 import { CreateChannelModal } from '../components/Chat/CreateChannelModal';
 import { GameGroupModal } from '../components/Groups/GameGroupModal';
 import { TeamInviteConfirmationModal } from '../components/Groups/TeamInviteConfirmationModal';
@@ -47,6 +49,7 @@ export const CommsPage = ({
   } = useChat();
 
   const {
+    groups = [],
     pendingInvites = [],
     reviewingInvite,
     openInviteConfirmation,
@@ -54,8 +57,18 @@ export const CommsPage = ({
     declineInvite
   } = useGroup() || {};
 
+  const matchedGroup = useMemo(() => {
+    return (groups || []).find(g => 
+      (g.id && activeChannel?.groupId && g.id === activeChannel.groupId) || 
+      (g.channelId && g.channelId === activeChannel?.id) ||
+      (g.name && activeChannel?.name && g.name.toLowerCase().replace(/[^a-z0-9_-]/g, '-') === activeChannel.name.toLowerCase()) ||
+      (g.name && activeChannel?.displayName && activeChannel.displayName.toLowerCase().includes(g.name.toLowerCase()))
+    );
+  }, [groups, activeChannel]);
+
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const [showDocket, setShowDocket] = useState(true);
   const [internalMobileView, setInternalMobileView] = useState('chat'); // 'sidebar' | 'chat'
   const mobileView = mobileViewOverride !== undefined ? mobileViewOverride : internalMobileView;
   const setMobileView = setMobileViewOverride || setInternalMobileView;
@@ -237,10 +250,42 @@ export const CommsPage = ({
           )}
         </div>
 
-        {/* 3. Center & Right Message Thread & Composer */}
+        {/* 3. Center Message Thread & Composer */}
         <div className={`flex-1 flex flex-col h-full min-w-0 bg-[#0a0e17] ${
           mobileView === 'chat' ? 'flex' : 'hidden md:flex'
         }`}>
+          {/* Top Bar with Docket Toggle Button */}
+          <div className="px-3.5 py-1.5 bg-slate-950/70 border-b border-slate-800/80 flex items-center justify-between text-xs font-mono shrink-0">
+            <div className="flex items-center gap-2 text-slate-400 min-w-0">
+              <span className="text-[11px] font-bold text-cyan-400 uppercase tracking-wide truncate">
+                {activeChannel?.displayName || `#${activeChannel?.name || 'holonet'}`}
+              </span>
+              {activeChannel?.topic && (
+                <span className="text-[10px] text-slate-500 truncate hidden lg:inline">
+                  • {activeChannel.topic}
+                </span>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setShowDocket(prev => !prev);
+              }}
+              className={`px-2.5 py-1 rounded-lg text-[10.5px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                showDocket
+                  ? 'bg-cyan-950/80 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+                  : 'bg-slate-900/90 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 border border-cyan-500/40 hover:border-cyan-400'
+              }`}
+              title={showDocket ? "Hide Architect Tactical Docket" : "Open Architect Tactical Docket"}
+            >
+              <BookOpen size={12} className={showDocket ? "text-cyan-300" : "text-cyan-400"} />
+              <span className="hidden sm:inline">{showDocket ? 'HIDE DOCKET' : 'TACTICAL DOCKET'}</span>
+              <span className="sm:hidden">DOCKET</span>
+            </button>
+          </div>
+
           <MessageView
             messages={messages}
             loading={loadingMessages}
@@ -248,6 +293,17 @@ export const CommsPage = ({
           />
           <MessageInput />
         </div>
+
+        {/* 4. Architect Tactical Docket Block (Beside Main Chat Area) */}
+        {showDocket && (
+          <div className="fixed inset-y-0 right-0 z-40 lg:static flex h-full shrink-0 shadow-2xl lg:shadow-none animate-in slide-in-from-right duration-200">
+            <ArchitectDocketBlock
+              channel={activeChannel}
+              group={matchedGroup}
+              onClose={() => setShowDocket(false)}
+            />
+          </div>
+        )}
       </div>
 
       {/* Creation & DM Modal */}

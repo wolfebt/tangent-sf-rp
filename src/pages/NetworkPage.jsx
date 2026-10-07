@@ -13,27 +13,29 @@ import {
   HelpCircle,
   ExternalLink,
   ChevronRight,
-  MessageSquare
+  MessageSquare,
+  Globe
 } from 'lucide-react';
 import { useChat } from '../context/ChatContext';
-import { useGroup } from '../context/GroupContext';
+import { useSquad } from '../context/SquadContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { useConfirm } from '../context/ConfirmContext';
 import { AudioService } from '../services/audioService';
 
 import { CommsPage } from './CommsPage';
-import { TeamsPage } from './TeamsPage';
+import { SquadsPage } from './SquadsPage';
 import { NetworkRosterView } from '../components/Chat/NetworkRosterView';
+import { CommunityNetworkingView } from '../components/Community/CommunityNetworkingView';
 import { CreateChannelModal } from '../components/Chat/CreateChannelModal';
-import { CreateGroupModal } from '../components/Groups/CreateGroupModal';
-import { TeamInviteConfirmationModal } from '../components/Groups/TeamInviteConfirmationModal';
+import { CreateSquadModal } from '../components/Squads/CreateSquadModal';
+import { SquadInviteConfirmationModal } from '../components/Squads/SquadInviteConfirmationModal';
 import { ComprehensiveUserGuideModal } from '../components/UI/ComprehensiveUserGuideModal';
 
 /**
  * @file NetworkPage.jsx
  * @description Consolidated primary workstation for Terran Data Network:
- * Unifies Tactical Squads/Teams, CommLink Frequency Channels, and Operator Roster Presence.
+ * Unifies Tactical Squads/Teams, CommLink Frequency Channels, Community Networking, and Operator Roster Presence.
  */
 export const NetworkPage = () => {
   const navigate = useNavigate();
@@ -46,13 +48,13 @@ export const NetworkPage = () => {
   const hasJoinParam = !!searchParams.get('join');
   const hasSquadTabParam = !!searchParams.get('tab') && ['roster', 'directory', 'invites', 'tactical', 'settings'].includes(searchParams.get('tab'));
   
-  const defaultView = (hasJoinParam || hasSquadTabParam || initialViewParam === 'teams' || initialViewParam === 'squads')
-    ? 'teams'
-    : (initialViewParam === 'roster' ? 'roster' : 'comms');
+  const defaultView = (hasJoinParam || hasSquadTabParam || initialViewParam === 'squads' || initialViewParam === 'teams')
+    ? 'squads'
+    : (initialViewParam === 'community' || initialViewParam === 'networking' ? 'community' : (initialViewParam === 'roster' ? 'roster' : 'comms'));
 
   const [activeView, setActiveView] = useState(defaultView);
   const [isCreateChannelModalOpen, setIsCreateChannelModalOpen] = useState(false);
-  const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
+  const [isCreateSquadModalOpen, setIsCreateSquadModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
   const [commsMobileView, setCommsMobileView] = useState('chat'); // 'sidebar' | 'chat'
   const [copiedLink, setCopiedLink] = useState(false);
@@ -60,8 +62,10 @@ export const NetworkPage = () => {
   // Synchronize view state if URL query param changes
   useEffect(() => {
     const viewParam = searchParams.get('view');
-    if (viewParam === 'teams' || viewParam === 'squads') {
-      setActiveView('teams');
+    if (viewParam === 'squads' || viewParam === 'teams') {
+      setActiveView('squads');
+    } else if (viewParam === 'community' || viewParam === 'networking') {
+      setActiveView('community');
     } else if (viewParam === 'roster') {
       setActiveView('roster');
     } else if (viewParam === 'comms' || viewParam === 'chat') {
@@ -80,15 +84,21 @@ export const NetworkPage = () => {
   } = useChat() || {};
 
   const {
+    squads = [],
     groups = [],
+    activeSquad,
     activeGroup,
+    selectSquad,
     selectGroup,
     pendingInvites = [],
     reviewingInvite,
     openInviteConfirmation,
     closeInviteConfirmation,
     declineInvite
-  } = useGroup() || {};
+  } = useSquad() || {};
+
+  const effectiveSquads = squads.length > 0 ? squads : groups;
+  const effectiveActiveSquad = activeSquad || activeGroup;
 
   const { currentUser } = useAuth() || {};
 
@@ -97,18 +107,19 @@ export const NetworkPage = () => {
     if (viewKey === 'roster' && hasNewOperatorLogins) {
       clearNewOperatorLogins?.();
     }
-    setActiveView(viewKey);
+    const targetKey = viewKey === 'teams' ? 'squads' : viewKey;
+    setActiveView(targetKey);
     setSearchParams(prev => {
       const next = new URLSearchParams(prev);
-      next.set('view', viewKey);
+      next.set('view', targetKey);
       return next;
     });
   };
 
   const handleCopySquadLink = () => {
-    if (!activeGroup?.inviteCode) return;
+    if (!effectiveActiveSquad?.inviteCode) return;
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    const shareUrl = `${origin}/network?view=teams&join=${activeGroup.inviteCode}`;
+    const shareUrl = `${origin}/network?view=squads&join=${effectiveActiveSquad.inviteCode}`;
     navigator.clipboard.writeText(shareUrl);
     AudioService.playTerminalBeep(1250, 0.03);
     setCopiedLink(true);
@@ -156,22 +167,22 @@ export const NetworkPage = () => {
 
             <button
               type="button"
-              onClick={() => handleSelectView('teams')}
+              onClick={() => handleSelectView('squads')}
               className={`px-2.5 sm:px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                activeView === 'teams'
+                activeView === 'squads' || activeView === 'teams'
                   ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
               }`}
             >
-              <Shield size={12} className={activeView === 'teams' ? 'text-emerald-400' : 'text-slate-400'} />
+              <Shield size={12} className={activeView === 'squads' || activeView === 'teams' ? 'text-emerald-400' : 'text-slate-400'} />
               <span>SQUADS</span>
               {pendingInvites.length > 0 ? (
                 <span className="px-1.5 py-0.2 rounded bg-amber-400 text-black font-extrabold text-[9px] animate-pulse">
                   {pendingInvites.length}!
                 </span>
-              ) : groups.length > 0 ? (
+              ) : effectiveSquads.length > 0 ? (
                 <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 text-[9px] font-mono">
-                  {groups.length}
+                  {effectiveSquads.length}
                 </span>
               ) : null}
             </button>
@@ -193,6 +204,19 @@ export const NetworkPage = () => {
                   {onlineOperators.length}
                 </span>
               )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSelectView('community')}
+              className={`px-2.5 sm:px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                activeView === 'community'
+                  ? 'bg-purple-950/80 text-purple-300 border border-purple-500/50 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+              }`}
+            >
+              <Globe size={12} className={activeView === 'community' ? 'text-purple-400' : 'text-slate-400'} />
+              <span>COMMUNITY</span>
             </button>
           </div>
         </div>
@@ -256,10 +280,10 @@ export const NetworkPage = () => {
             </button>
           )}
 
-          {activeView === 'teams' && (
+          {(activeView === 'squads' || activeView === 'teams') && (
             <button
               type="button"
-              onClick={() => setIsCreateGroupModalOpen(true)}
+              onClick={() => setIsCreateSquadModalOpen(true)}
               className="px-2.5 py-1 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
             >
               <Plus size={12} />
@@ -295,7 +319,7 @@ export const NetworkPage = () => {
                   TACTICAL SQUAD COMMISSION:
                 </span>
                 <span className="text-white font-bold truncate">
-                  "{pendingInvites[0].groupName}"
+                  "{pendingInvites[0].groupName || pendingInvites[0].squadName}"
                 </span>
                 <span className="text-slate-400 text-[10.5px]">
                   from @{pendingInvites[0].fromUserHandle || 'Operator'}
@@ -330,17 +354,17 @@ export const NetworkPage = () => {
           <div className="flex-1 flex min-h-0 h-full overflow-hidden">
             <CommsPage
               hideHeader={true}
-              onSwitchToTeams={() => handleSelectView('teams')}
+              onSwitchToTeams={() => handleSelectView('squads')}
               mobileViewOverride={commsMobileView}
               setMobileViewOverride={setCommsMobileView}
             />
           </div>
         )}
 
-        {/* VIEW 2: TACTICAL SQUADS & TEAMS */}
-        {activeView === 'teams' && (
+        {/* VIEW 2: TACTICAL SQUADS & FIRETEAMS */}
+        {(activeView === 'squads' || activeView === 'teams') && (
           <div className="flex-1 flex min-h-0 h-full overflow-hidden">
-            <TeamsPage
+            <SquadsPage
               hideHeader={true}
               onSwitchToComms={() => handleSelectView('comms')}
             />
@@ -353,6 +377,18 @@ export const NetworkPage = () => {
             <NetworkRosterView />
           </div>
         )}
+
+        {/* VIEW 4: COMMUNITY NETWORKING (LFS & LFP) */}
+        {activeView === 'community' && (
+          <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#070b13]">
+            <CommunityNetworkingView
+              onNavigateToSquad={(squadId) => {
+                (selectSquad || selectGroup)?.(squadId);
+                handleSelectView('squads');
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* ── Modals & Overlays ── */}
@@ -361,13 +397,13 @@ export const NetworkPage = () => {
         onClose={() => setIsCreateChannelModalOpen(false)}
       />
 
-      <CreateGroupModal
-        isOpen={isCreateGroupModalOpen}
-        onClose={() => setIsCreateGroupModalOpen(false)}
+      <CreateSquadModal
+        isOpen={isCreateSquadModalOpen}
+        onClose={() => setIsCreateSquadModalOpen(false)}
       />
 
       {reviewingInvite && (
-        <TeamInviteConfirmationModal
+        <SquadInviteConfirmationModal
           isOpen={!!reviewingInvite}
           onClose={closeInviteConfirmation}
           invite={reviewingInvite}
@@ -377,7 +413,7 @@ export const NetworkPage = () => {
       <ComprehensiveUserGuideModal
         isOpen={isGuideModalOpen}
         onClose={() => setIsGuideModalOpen(false)}
-        initialTab={activeView === 'teams' ? 'squads' : 'comms'}
+        initialTab={(activeView === 'squads' || activeView === 'teams') ? 'squads' : 'comms'}
       />
     </div>
   );
