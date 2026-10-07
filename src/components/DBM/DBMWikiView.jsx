@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useItemInteractions } from '../../utils/interactionUtils';
@@ -244,6 +244,11 @@ export const DBMWikiView = ({
   const confirm = useConfirm();
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // ⚡ Bolt Performance Optimization:
+  // Defers the search query to prevent main thread blocking during rapid typing when filtering massive rulebook structures.
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+
   const [perspectiveFilter, setPerspectiveFilter] = useState('operator'); // 'operator' | 'architect' | 'all'
   const [expandedSections, setExpandedSections] = useState({});
   const [isSyncing, setIsSyncing] = useState(false);
@@ -414,8 +419,8 @@ export const DBMWikiView = ({
 
   // Filtered sections for search (recursive search matching)
   const filteredSections = useMemo(() => {
-    if (!searchQuery.trim()) return sections;
-    const q = searchQuery.toLowerCase().trim();
+    if (!deferredSearchQuery.trim()) return sections;
+    const q = deferredSearchQuery.toLowerCase().trim();
 
     const filterNode = (node) => {
       const matchingItems = (node.items || []).filter(item => {
@@ -449,7 +454,7 @@ export const DBMWikiView = ({
     };
 
     return sections.map(sec => filterNode(sec)).filter(Boolean);
-  }, [sections, searchQuery]);
+  }, [sections, deferredSearchQuery]);
 
   // Handle article selection and auto-expansion of ancestor sections
   const handleSelectArticle = (item) => {
