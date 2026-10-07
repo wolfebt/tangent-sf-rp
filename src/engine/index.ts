@@ -97,7 +97,7 @@ export { MapWallingProcessor } from './ai/MapWallingProcessor.ts';
 export type { AutoWallRequest, DetectedWall, AutoWallResponse } from './ai/MapWallingProcessor.ts';
 
 // Stage 8: Schema Normalization & Migration Adapters
-export { sanitizeRichText, enforceInteger, adaptLegacyElement, validateAdaptedElement } from './migration/tangentSchemaAdapters.js';
+export { sanitizeRichText, enforceInteger, adaptLegacyElement, validateAdaptedElement } from './migration/legacyElementAdapters.js';
 export { HIERARCHY_TIERS, TIER_DEFINITIONS, getFieldTier, sortFieldsByHierarchy } from './migration/categoryConfig.js';
 export { runMigration } from './migration/migrate_omnicortex_schema.mjs';
 

@@ -5,7 +5,7 @@
  * dry-run validation, and detailed telemetry logging.
  */
 
-import { adaptLegacyElement, validateAdaptedElement } from './tangentSchemaAdapters.js';
+import { adaptLegacyElement, validateAdaptedElement } from './legacyElementAdapters.js';
 
 const BATCH_SIZE_LIMIT = 500;
 const MAX_RETRIES = 3;
