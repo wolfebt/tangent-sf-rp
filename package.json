@@ -13,8 +13,8 @@
     "sync:species-disadvantages": "node scripts/syncSpeciesDisadvantages.mjs",
     "build:data": "node scripts/buildAllBundles.mjs",
     "test:data": "node scripts/validateDataIntegrity.mjs",
-    "test:engine": "node --test tests/engine/*.test.mjs",
-    "test": "node --test tests/engine/*.test.mjs && node scripts/validateDataIntegrity.mjs"
+    "test:engine": "node --test tests/engine/*.test.mjs src/engines/__tests__/*.test.js src/schemas/*.test.mjs src/services/*.test.mjs",
+    "test": "npm run test:engine && npm run test:data"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

@@ -14,7 +14,7 @@ test('Tangent SFF RP — Tactical Trait & Modifiers Adjudicator Engine', async (
     assert.equal(LIGHTING_OBSCUREMENT.length, 4);
 
     const pointBlank = RANGE_BRACKETS.find(r => r.id === 'point_blank');
-    assert.equal(pointBlank.attackMod, 2);
+    assert.equal(pointBlank.attackMod, 5); // 3.00 COMBAT.md: Point Blank +5
 
     const heavyCover = COVER_TYPES.find(c => c.id === 'heavy');
     assert.equal(heavyCover.defenseMod, 4);
@@ -34,13 +34,13 @@ test('Tangent SFF RP — Tactical Trait & Modifiers Adjudicator Engine', async (
 
   await t.test('computeTacticalAttackModifiers applies high ground and heavy cover correctly', () => {
     const adj = computeTacticalAttackModifiers({
-      rangeBracketId: 'medium',
+      rangeBracketId: 'medium', // -5 ATK (3.00 COMBAT.md)
       coverTypeId: 'heavy', // +4 DEF
       hasHighGround: true, // +2 ATK
       isAimed: true // +2 ATK
     });
 
-    assert.equal(adj.netAttackMod, 4); // High ground (+2) + Aim (+2)
+    assert.equal(adj.netAttackMod, -1); // Medium (-5) + High ground (+2) + Aim (+2)
     assert.equal(adj.netDefenseMod, 4); // Heavy cover (+4)
     assert.ok(adj.breakdown.length >= 3);
   });
@@ -51,7 +51,7 @@ test('Tangent SFF RP — Tactical Trait & Modifiers Adjudicator Engine', async (
       rangeBracketId: 'point_blank',
       isTargetProne: true
     });
-    assert.equal(meleeAdj.netAttackMod, 2); // Point blank +2
+    assert.equal(meleeAdj.netAttackMod, 5); // Point blank +5
     assert.equal(meleeAdj.netDefenseMod, -4); // Prone in melee -4 DEF
 
     // 2. Prone at range -> +2 DEF (Harder to hit)
