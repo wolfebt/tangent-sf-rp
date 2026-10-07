@@ -9,15 +9,15 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {
+  buildSearchPreservingTarget,
+  buildFoundryRedirectTarget
+} from '../../src/components/routing/redirectTargets.js';
 
 /**
- * Pure model of the SearchPreservingRedirect target resolution algorithm
+ * SearchPreservingRedirect target resolution (shared implementation in src/components/routing/redirectTargets.js)
  */
-function resolveSearchPreservingTarget(to, search = '') {
-  if (!search) return to;
-  const cleanSearch = search.startsWith('?') ? search : `?${search}`;
-  return `${to}${cleanSearch}`;
-}
+const resolveSearchPreservingTarget = buildSearchPreservingTarget;
 
 test('Route Normalization: Search preservation retains single parameter', () => {
   const result = resolveSearchPreservingTarget('/foundry/map', '?mapId=sector-omega-9');
@@ -32,25 +32,50 @@ test('Route Normalization: Search preservation retains multiple parameters and f
 
 test('Route Normalization: Empty search returns clean canonical path without trailing question mark', () => {
   assert.equal(resolveSearchPreservingTarget('/foundry/map', ''), '/foundry/map');
-  assert.equal(resolveSearchPreservingTarget('/foundry/live', null), '/foundry/live');
+  assert.equal(resolveSearchPreservingTarget('/foundry/map', null), '/foundry/map');
+  assert.equal(resolveSearchPreservingTarget('/foundry/map', '?'), '/foundry/map');
 });
 
 test('Route Normalization: Canonical mapping table coverage', () => {
   const routes = [
     { from: '/map-maker', to: '/foundry/map', param: '?mapId=sec_1' },
     { from: '/mapmaker', to: '/foundry/map', param: '?mapId=sec_2' },
-    { from: '/live-studio', to: '/foundry/live', param: '?scenarioId=sc_3' },
-    { from: '/ade-stage', to: '/foundry/live', param: '?tab=stage' },
+    { from: '/foundry/map-maker-legacy', to: '/foundry/map', param: '?mapId=sec_3' },
     { from: '/roster', to: '/folio', param: '?char=jax' },
-    { from: '/chat', to: '/comms', param: '?channel=squad' },
-    { from: '/groups', to: '/teams', param: '?teamId=t1' },
-    { from: '/squads', to: '/teams', param: '?teamId=t2' },
   ];
 
   for (const r of routes) {
     const resolved = resolveSearchPreservingTarget(r.to, r.param);
     assert.equal(resolved, `${r.to}${r.param}`);
   }
+});
+
+test('Route Normalization: live-studio aliases resolve to Stage Run in a single hop', () => {
+  // /live-studio, /ade-stage, /foundry/live, /foundry/live-studio-standalone all use FoundryRouteRedirect(stage, run)
+  const stageRun = { view: 'stage', tab: 'run' };
+  assert.equal(buildFoundryRedirectTarget(stageRun, ''), '/foundry?view=stage&tab=run');
+  assert.equal(
+    buildFoundryRedirectTarget(stageRun, '?scenarioId=sc_3'),
+    '/foundry?scenarioId=sc_3&view=stage&tab=run'
+  );
+});
+
+test('Route Normalization: FoundryRouteRedirect never overwrites existing view/tab deep-link params', () => {
+  // Matches the previous two-hop behaviour of /ade-stage?tab=stage -> /foundry/live?tab=stage -> /foundry?tab=stage&view=stage
+  assert.equal(
+    buildFoundryRedirectTarget({ view: 'stage', tab: 'run' }, '?tab=stage'),
+    '/foundry?tab=stage&view=stage'
+  );
+  assert.equal(
+    buildFoundryRedirectTarget({ view: 'stage', tab: 'run' }, '?view=scenarios&tab=graph'),
+    '/foundry?view=scenarios&tab=graph'
+  );
+});
+
+test('Route Normalization: mission_control is the Foundry default and omits the view param', () => {
+  assert.equal(buildFoundryRedirectTarget({ view: 'mission_control' }, ''), '/foundry');
+  assert.equal(buildFoundryRedirectTarget({ view: 'mission_control' }, '?scenarioId=a'), '/foundry?scenarioId=a');
+  assert.equal(buildFoundryRedirectTarget({ view: 'elements' }, ''), '/foundry?view=elements');
 });
 
 import fs from 'node:fs';
@@ -66,20 +91,9 @@ test('Module Relocation: useWaypointEngine exists in canonical hooks directory a
 
 import { isAdeLiveStudioRoute, isAdeHubRoute, isStoryFoundryRoute } from '../../src/constants/routes.js';
 
+// Adapter over the shared implementation used by <FoundryRouteRedirect /> (src/components/routing/redirectTargets.js)
 function resolveFoundryRouteRedirect(view, tab, search = '') {
-  const params = new URLSearchParams(search);
-  if (view && !params.has('view')) {
-    if (view === 'mission_control') {
-      params.delete('view');
-    } else {
-      params.set('view', view);
-    }
-  }
-  if (tab && !params.has('tab')) {
-    params.set('tab', tab);
-  }
-  const searchStr = params.toString();
-  return `/foundry${searchStr ? `?${searchStr}` : ''}`;
+  return buildFoundryRedirectTarget({ view, tab }, search);
 }
 
 test('FoundryRouteRedirect: correctly normalizes sub-routes into canonical /foundry URLs', () => {

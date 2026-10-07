@@ -15,6 +15,7 @@ import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
 import { CommandPalette } from './components/UI/CommandPalette';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
+import { SearchPreservingRedirect, FoundryRouteRedirect } from './components/routing/RouteRedirects';
 
 // Lazy Loaded Top-Level Routes for Optimal Bundle Performance
 const Dashboard = lazy(() => import('./pages/Home'));
@@ -35,11 +36,6 @@ const VttOpsRedirect = () => {
   const search = location.search;
   const target = `/stage${search ? (search.includes('options=') ? search : `${search}&options=true`) : '?options=true'}`;
   return <Navigate to={target} replace />;
-};
-
-const SearchPreservingRedirect = ({ to }) => {
-  const location = useLocation();
-  return <Navigate to={`${to}${location.search}`} replace />;
 };
 
 const NetworkRedirect = ({ defaultView = 'comms' }) => {
@@ -145,8 +141,8 @@ export function App() {
                                 <Route path="/dbm" element={<DBM />} />
                                 <Route path="/folio" element={<Folio />} />
                                 <Route path="/roster" element={<SearchPreservingRedirect to="/folio" />} />
-                                <Route path="/live-studio" element={<SearchPreservingRedirect to="/foundry/live" />} />
-                                <Route path="/ade-stage" element={<SearchPreservingRedirect to="/foundry/live" />} />
+                                <Route path="/live-studio" element={<FoundryRouteRedirect view="stage" tab="run" />} />
+                                <Route path="/ade-stage" element={<FoundryRouteRedirect view="stage" tab="run" />} />
                                 <Route path="/map-maker" element={<SearchPreservingRedirect to="/foundry/map" />} />
                                 <Route path="/mapmaker" element={<SearchPreservingRedirect to="/foundry/map" />} />
                                 <Route path="/vtt-ops" element={<VttOpsRedirect />} />
