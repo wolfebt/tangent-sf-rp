@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   test:
-    name: 1. Automated Test Suite (665 Engine & Data Tests)
+    name: 1. Automated Test Suite (668 Engine & Data Tests)
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Execute Full Test Suite (665 tests)
+      - name: Execute Full Test Suite (668 tests)
         run: npm test
 
   build:
@@ -70,9 +70,39 @@ jobs:
           path: dist
           retention-days: 7
 
+  e2e-smoke:
+    name: 3. Playwright WebGL Smoke Suite
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-artifacts
+          path: dist
+
+      - name: Install Playwright Chromium with system dependencies
+        run: npx playwright install --with-deps chromium
+
+      - name: Execute E2E WebGL Smoke Suite
+        run: npm run test:e2e:smoke
+
   deploy:
-    name: 3. Gated Deployment to Firebase Hosting
-    needs: [test, build]
+    name: 4. Gated Deployment to Firebase Hosting
+    needs: [test, build, e2e-smoke]
     runs-on: ubuntu-latest
 
     steps:

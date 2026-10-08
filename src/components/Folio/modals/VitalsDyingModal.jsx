@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AccessibleModal } from '../../UI/AccessibleModal';
 import { useFolio } from '../../../context/FolioContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { VITALITY_HEALTH_STRUCTURE_RULES, DEATH_AND_DYING_RULES } from '../../../engines/tangentConstants';
@@ -114,32 +115,14 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
   });
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0e1422] border border-cyan-500/40 rounded-2xl max-w-4xl w-full p-5 sm:p-7 shadow-[0_0_40px_rgba(6,182,212,0.15)] text-slate-100 space-y-6">
-        
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-cyan-900/60 pb-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">⚡</span>
-              <h2 className="text-lg sm:text-xl font-black uppercase tracking-wider text-cyan-300">
-                Vitality, Health, Structure &amp; Dying Rules
-              </h2>
-            </div>
-            <p className="text-xs text-slate-400">
-              Canonical Tangent Science Fantasy Roleplay Health Architecture &amp; Mortality Engine
-            </p>
-          </div>
-          
-          <button
-            type="button"
-            onClick={onClose}
-            className="self-end sm:self-center px-3 py-1 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-sm font-bold border border-slate-700 transition-colors cursor-pointer"
-          >
-            ✕ Close
-          </button>
-        </div>
-
+    <AccessibleModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Vitality, Health, Structure & Dying Rules"
+      description="Canonical Tangent Science Fantasy Roleplay Health Architecture & Mortality Engine"
+      maxWidthClass="max-w-4xl"
+    >
+      <div className="space-y-6 text-slate-100">
         {/* Live Hero Vitals Status Bar */}
         <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5">
           <div className="flex flex-wrap justify-between items-center text-[10px] uppercase font-bold text-slate-400 tracking-wider">
@@ -492,9 +475,8 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
             Done
           </button>
         </div>
-
       </div>
-    </div>
+    </AccessibleModal>
   );
 };
 
