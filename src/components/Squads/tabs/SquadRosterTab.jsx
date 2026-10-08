@@ -111,6 +111,7 @@ export const SquadRosterTab = ({
             onClick={() => setShowEnlargedQr(prev => !prev)}
             className="p-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald-500/50 text-slate-200 hover:text-emerald-300 transition-all cursor-pointer"
             title="Display Squad QR Code"
+            aria-label="Display Squad QR Code"
           >
             <QrCode size={16} />
           </button>
