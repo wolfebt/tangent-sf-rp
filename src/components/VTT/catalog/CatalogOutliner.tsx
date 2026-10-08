@@ -1225,6 +1225,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                         onClick={() => handleDeleteAsset(asset.id)}
                         className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
                         title="Delete asset"
+                        aria-label="Delete asset"
                       >
                         <Trash2 size={11} />
                       </button>
