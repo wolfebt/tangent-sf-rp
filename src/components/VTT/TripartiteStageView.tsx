@@ -481,7 +481,11 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             onToggleLayerVisibility={handleToggleLayerVisibility}
             onToggleLayerLock={handleToggleLayerLock}
             customAssets={universeState?.customAssets || { terrains: [], objects: [] }}
-            onOpenLandmassGenerator={() => VttEventBus.emit('open-landmass-modal')}
+            onOpenLandmassGenerator={() => VttEventBus.emit('open-pcg-modal')}
+            onOpenPcgStudio={() => VttEventBus.emit('open-pcg-modal')}
+            onOpenAssetStudio={() => VttEventBus.emit('open-asset-studio')}
+            onOpenAssetIngestion={() => VttEventBus.emit('open-asset-ingestion')}
+            onOpenSpriteSheetCutter={() => VttEventBus.emit('open-sprite-cutter')}
             onOpenUvttImport={() => VttEventBus.emit('open-uvtt-modal')}
             onOpenAssetManager={() => VttEventBus.emit('open-asset-manager')}
             onOpenHeroDrawer={() => VttEventBus.emit('open-hero-drawer')}

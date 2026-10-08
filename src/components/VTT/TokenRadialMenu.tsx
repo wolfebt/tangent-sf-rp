@@ -20,7 +20,8 @@ import {
   Terminal, 
   FileText, 
   X,
-  Target
+  Target,
+  Rocket
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 
@@ -34,6 +35,7 @@ export interface TokenRadialMenuProps {
   mortalityAllyName?: string;
   isAdjacentToInteractiveObj?: boolean;
   interactiveObjName?: string;
+  nearbyVehicle?: any;
   isPointBlankRange?: boolean;
   onSelectAction: (actionId: string, payload?: any) => void;
 }
@@ -48,6 +50,7 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
   mortalityAllyName = 'Allied Operative',
   isAdjacentToInteractiveObj = false,
   interactiveObjName = 'Bulkhead / Console',
+  nearbyVehicle,
   isPointBlankRange = false,
   onSelectAction
 }) => {
@@ -121,7 +124,22 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
       icon: FileText,
       activeColor: 'border-slate-700 bg-slate-900/90 text-slate-300 hover:bg-slate-800',
       badge: null
-    }
+    },
+    ...(token.parent_vehicle_id ? [{
+      id: 'vehicle_dismount',
+      label: 'Dismount Vehicle',
+      sub: 'Exit seat / station',
+      icon: Rocket,
+      activeColor: 'border-yellow-400 bg-yellow-950/90 text-yellow-300 shadow-[0_0_15px_rgba(234,179,8,0.5)]',
+      badge: 'EXIT'
+    }] : nearbyVehicle ? [{
+      id: 'vehicle_board',
+      label: 'Board Vehicle',
+      sub: `Enter ${nearbyVehicle.name || 'Vehicle'}`,
+      icon: Rocket,
+      activeColor: 'border-amber-400 bg-amber-950/90 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.5)] animate-pulse',
+      badge: 'BOARD'
+    }] : [])
   ];
 
   const radius = 95;

@@ -31,7 +31,6 @@ import { sortInitiativeOrder } from '../../../services/initiativeService';
 import MapMetadataPanel from './map/MapMetadataPanel';
 import MapKeyPanel from './map/MapKeyPanel';
 import StatusGemsModal from './map/StatusGemsModal';
-import LandmassGeneratorModal from './map/LandmassGeneratorModal';
 import MapAssetManagerModal from './map/MapAssetManagerModal';
 import FolioHeroTokenDrawer from './map/FolioHeroTokenDrawer';
 import OmnicortexAssetDrawer from './map/OmnicortexAssetDrawer';
@@ -60,6 +59,10 @@ import {
 import { getBiomeTextureUrl } from './map/landmassGenerator';
 import { getTextureUrlFromColor } from './map/MapTextures';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { MapMakerTabBar } from './components/MapMakerTabBar';
+import { AssetStudioTab } from './components/AssetStudioTab';
+import { PcgAiStudioTab } from './components/PcgAiStudioTab';
+import { VttExportTab } from './components/VttExportTab';
 
 const TerrainImageNode = ({ t, isEraser, isLocked, onErase }) => {
   const [imageObj, setImageObj] = useState(null);
@@ -295,11 +298,80 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   const [gridSize, setGridSize] = useState(40);
   const [measurementUnit, setMeasurementUnit] = useState('meters');
 
-  // Dual Navigation Rails (Left Operative Cockpit & Right Architect Console)
+  // Dual Navigation Rails & Tabbed Mode (Left Operative Cockpit & Right Architect Console in Canvas)
+  const [activeStudioTab, setActiveStudioTab] = useState('canvas'); // 'canvas' | 'assets' | 'pcg' | 'export'
   const [isLeftRailCollapsed, setIsLeftRailCollapsed] = useState(false);
   const [isLeftRailPinned, setIsLeftRailPinned] = useState(false);
   const [isRightRailCollapsed, setIsRightRailCollapsed] = useState(false);
   const [isRightRailPinned, setIsRightRailPinned] = useState(false);
+
+  const handleStampAssetOnMap = (unit) => {
+    if (!currentMap) return;
+    recordHistory();
+    const newObj = {
+      id: `obj-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      name: unit.name,
+      label: unit.name,
+      unit_id: unit.unit_id,
+      x: Math.round((stageSize.width || 800) / (2 * (currentMap.scale || 1)) / gridSize) * gridSize,
+      y: Math.round((stageSize.height || 600) / (2 * (currentMap.scale || 1)) / gridSize) * gridSize,
+      width: ((Array.isArray(unit.dimensions) ? unit.dimensions[0] : unit.dimensions?.width) || 1) * gridSize,
+      height: ((Array.isArray(unit.dimensions) ? unit.dimensions[1] : unit.dimensions?.height) || 1) * gridSize,
+      imageUrl: unit.visuals?.baseTexture || unit.visuals?.thumbnail,
+      category: unit.category,
+      type: unit.category === 'token' ? 'npc' : 'doodad'
+    };
+    updateMap(activeMapId, { objects: [...(currentMap.objects || []), newObj] });
+    setSelectedId(newObj.id);
+    showToast({ type: 'success', text: `Stamped "${unit.name}" on Tactical Canvas!` });
+    setActiveStudioTab('canvas');
+  };
+
+  const handleApplyPcgTerrain = (grid, biomeKey) => {
+    if (!currentMap || !grid) return;
+    recordHistory();
+    const newTerrains = [];
+    for (let r = 0; r < grid.length; r++) {
+      for (let c = 0; c < grid[r].length; c++) {
+        if (grid[r][c]) {
+          newTerrains.push({
+            id: `pcg-ter-${Date.now()}-${r}-${c}`,
+            x: c * gridSize,
+            y: r * gridSize,
+            width: gridSize,
+            height: gridSize,
+            biomeType: biomeKey || 'rock_cavern',
+            color: '#334155'
+          });
+        }
+      }
+    }
+    updateMap(activeMapId, { terrains: [...(currentMap.terrains || []), ...newTerrains] });
+    showToast({ type: 'success', text: `Generated ${newTerrains.length} procedural terrain tiles!` });
+    setActiveStudioTab('canvas');
+  };
+
+  const handleApplyDecorations = (entities) => {
+    if (!currentMap || !entities) return;
+    recordHistory();
+    const newObjects = entities.map(e => ({
+      id: e.id || `entity-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      name: e.unit_name,
+      label: e.unit_name,
+      unit_id: e.unit_id,
+      x: e.col * gridSize,
+      y: e.row * gridSize,
+      width: (e.width || 1) * gridSize,
+      height: (e.height || 1) * gridSize,
+      category: e.category,
+      type: e.category === 'token' ? 'npc' : 'doodad',
+      isHazard: e.isHazard,
+      hazardDamage: e.hazardDamage
+    }));
+    updateMap(activeMapId, { objects: [...(currentMap.objects || []), ...newObjects] });
+    showToast({ type: 'success', text: `Spatial Decorator placed ${newObjects.length} tactical entities!` });
+    setActiveStudioTab('canvas');
+  };
 
   // Sync defaultRole prop
   useEffect(() => {
@@ -311,10 +383,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   // Synchronize rails with VTT role
   useEffect(() => {
     if (vttRole === 'operative') {
-      setIsLeftRailCollapsed(false);
       setIsRightRailCollapsed(true);
-    } else {
-      setIsRightRailCollapsed(false);
     }
   }, [vttRole]);
 
@@ -385,9 +454,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
   };
 
-  // Map Creation Modal, Landmass Generator Modal, Asset Manager Modal & Shortcuts Modal State
+  // Map Creation Modal, Asset Manager Modal & Shortcuts Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLandmassModalOpen, setIsLandmassModalOpen] = useState(false);
   const [isAssetManagerOpen, setIsAssetManagerOpen] = useState(false);
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
@@ -1203,23 +1271,55 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     };
   }, [activeMapId, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts, activeTool, zoomBy, panBy, recordHistory, updateMap]);
 
-  const handleCommitLandmass = ({ terrains: generatedTerrains, objects: generatedObjects, replaceExisting }) => {
+  const handleCommitPcgSector = ({
+    terrains: generatedTerrains = [],
+    objects: generatedObjects = [],
+    lines: generatedLines = [],
+    lights: generatedLights = [],
+    replaceExisting = true
+  }) => {
     let targetId = activeMapId;
     if (!targetId || universeState.maps.length === 0) {
       targetId = uuidv4();
       addMap({
         id: targetId,
-        type: 'Planetary',
-        title: 'Generated World',
-        lines: [], tokens: [], terrains: generatedTerrains, objects: generatedObjects, texts: [], fog: [], layers: DEFAULT_LAYERS
+        type: 'Standard',
+        title: 'Generated Sector',
+        lines: generatedLines,
+        tokens: [],
+        terrains: generatedTerrains,
+        objects: generatedObjects,
+        texts: [],
+        fog: [],
+        lights: generatedLights,
+        layers: DEFAULT_LAYERS
       });
       setActiveMapId(targetId);
+      showToast({ type: 'success', text: 'Created new Sector from PCG Studio!' });
+      setActiveStudioTab('canvas');
       return;
     }
     recordHistory();
     const nextTerrains = replaceExisting ? generatedTerrains : [...terrains, ...generatedTerrains];
-    const nextObjects = [...objects, ...generatedObjects];
-    updateMap(targetId, { terrains: nextTerrains, objects: nextObjects });
+    const nextObjects = replaceExisting ? generatedObjects : [...objects, ...generatedObjects];
+    const nextLines = replaceExisting ? generatedLines : [...lines, ...generatedLines];
+    const nextLights = replaceExisting ? generatedLights : [...(currentMap?.lights || []), ...generatedLights];
+
+    updateMap(targetId, {
+      terrains: nextTerrains,
+      objects: nextObjects,
+      lines: nextLines,
+      lights: nextLights
+    });
+    showToast({
+      type: 'success',
+      text: `Deployed PCG Sector: ${generatedTerrains.length} terrains, ${generatedObjects.length} objects, ${generatedLines.length} walls!`
+    });
+    setActiveStudioTab('canvas');
+  };
+
+  const handleCommitLandmass = ({ terrains: generatedTerrains, objects: generatedObjects, replaceExisting }) => {
+    handleCommitPcgSector({ terrains: generatedTerrains, objects: generatedObjects, replaceExisting });
   };
 
 
@@ -1685,7 +1785,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         onClearMap={handleClearMap}
         onResetView={() => { setScale(1); setPosition({x:0, y:0}); }}
         onExportPNG={handleExportPNG}
-        onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
+        onOpenLandmassGenerator={() => setActiveStudioTab('pcg')}
         onOpenAssetManager={() => setIsAssetManagerOpen(true)}
         onOpenUvttImport={() => setIsUvttModalOpen(true)}
         onSaveMapToFile={handleSaveMapToFile}
@@ -1716,13 +1816,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         showAdventureLog={isAdventureLogOpen}
         setShowAdventureLog={setIsAdventureLogOpen}
         onOpenInitiativeManager={() => setIsInitiativeModalOpen(true)}
-      />
-
-      <LandmassGeneratorModal
-        isOpen={isLandmassModalOpen}
-        onClose={() => setIsLandmassModalOpen(false)}
-        onCommitLandmass={handleCommitLandmass}
-        defaultRenderMode={terrainRenderMode}
       />
 
       <MapMaker3DPreviewModal
@@ -1985,8 +2078,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         );
       })()}
 
-      {/* Studio Work Area: Dual Rails (Left Operative Cockpit + Center Canvas + Right Architect Console) */}
-      <div className="flex-1 flex overflow-hidden relative">
+      {/* Primary Workspace Tab Bar: Tabs in place of split windows */}
+      <MapMakerTabBar activeTab={activeStudioTab} onSelectTab={setActiveStudioTab} />
+
+      {/* Studio Work Area: Tabbed Mode */}
+      {activeStudioTab === 'canvas' && (
+        <div className="flex-1 flex overflow-hidden relative">
 
         {/* Primary Left Nav Rail: Operative & Architect Cockpit */}
         <OperativeCockpitRail
@@ -2713,11 +2810,45 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
             onOpenAssetManager={() => setIsAssetManagerOpen(true)}
             onOpenHeroDrawer={() => setShowHeroDrawer(true)}
             onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
-            onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
+            onOpenLandmassGenerator={() => setActiveStudioTab('pcg')}
+            onOpenPcgStudio={() => setActiveStudioTab('pcg')}
+            onOpenAssetStudio={() => setActiveStudioTab('assets')}
+            onOpenAssetIngestion={() => setIsAssetManagerOpen(true)}
             onOpenUvttImport={() => setIsUvttModalOpen(true)}
           />
         )}
       </div>
+      )}
+
+      {/* Tab: Asset Studio & Property Forge */}
+      {activeStudioTab === 'assets' && (
+        <AssetStudioTab onStampAssetOnMap={handleStampAssetOnMap} />
+      )}
+
+      {/* Tab: PCG & AI Co-Pilot */}
+      {activeStudioTab === 'pcg' && (
+        <PcgAiStudioTab
+          currentMap={currentMap}
+          mapWidthCells={currentMap?.gridWidth || 40}
+          mapHeightCells={currentMap?.gridHeight || 30}
+          gridSize={gridSize || 50}
+          stageWidth={currentMap?.gridWidth ? currentMap.gridWidth * gridSize : 4000}
+          stageHeight={currentMap?.gridHeight ? currentMap.gridHeight * gridSize : 3000}
+          terrainRenderMode={terrainRenderMode}
+          onCommitPcgSector={handleCommitPcgSector}
+          onApplyPcgTerrain={handleApplyPcgTerrain}
+          onApplyDecorations={handleApplyDecorations}
+          onDeployToCanvas={() => setActiveStudioTab('canvas')}
+        />
+      )}
+
+      {/* Tab: Universal VTT (.dd2vtt) & Foundry Compendium Export */}
+      {activeStudioTab === 'export' && (
+        <VttExportTab
+          currentMap={currentMap}
+          onExportPNG={handleExportPNG}
+        />
+      )}
 
       {/* Contextual Radial Action Wheel */}
       <TokenRadialActionWheel

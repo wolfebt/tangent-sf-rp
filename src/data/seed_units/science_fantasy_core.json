@@ -1,0 +1,426 @@
+[
+  {
+    "unit_id": "ter_martian_regolith",
+    "name": "Martian Regolith",
+    "category": "terrain_brush",
+    "tree_path": ["Environments", "Xeno-Biomes", "Desert", "Martian Surface"],
+    "tags": ["desert", "sand", "oxide", "difficult_terrain"],
+    "dimensions": [1, 1],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/textures/ter_martian_regolith_thumb.webp",
+      "baseTexture": "/assets/textures/ter_martian_regolith.webp",
+      "variants": [
+        "/assets/textures/ter_martian_regolith_var_a.webp",
+        "/assets/textures/ter_martian_regolith_var_b.webp"
+      ],
+      "auto_tile": "marching_squares_4bit"
+    },
+    "vtt_properties": {
+      "blocks_movement": false,
+      "blocks_vision": false,
+      "z_index_layer": "background_map",
+      "terrain": {
+        "material": "sand_loose",
+        "movementCost": 2,
+        "slipperyFriction": 0.8,
+        "footstepSfxCategory": "footstep_sand"
+      }
+    }
+  },
+  {
+    "unit_id": "ter_industrial_metal_deck",
+    "name": "Industrial Deck Grating",
+    "category": "terrain_brush",
+    "tree_path": ["Environments", "Constructed", "Industrial", "Steel Deck"],
+    "tags": ["metal", "scifi", "interior", "deck"],
+    "dimensions": [1, 1],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/textures/ter_metal_deck_thumb.webp",
+      "baseTexture": "/assets/textures/ter_metal_deck.webp",
+      "variants": ["/assets/textures/ter_metal_deck_var_a.webp"],
+      "auto_tile": "none"
+    },
+    "vtt_properties": {
+      "blocks_movement": false,
+      "blocks_vision": false,
+      "z_index_layer": "background_map",
+      "terrain": {
+        "material": "metal_deck",
+        "movementCost": 1,
+        "slipperyFriction": 1.0,
+        "footstepSfxCategory": "footstep_metal"
+      }
+    }
+  },
+  {
+    "unit_id": "ter_bioluminescent_moss",
+    "name": "Bioluminescent Xenomoss",
+    "category": "terrain_brush",
+    "tree_path": ["Environments", "Xeno-Biomes", "Subterranean", "Bioluminescence"],
+    "tags": ["moss", "organic", "glow", "technomagic", "alien"],
+    "dimensions": [1, 1],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/textures/ter_biolum_moss_thumb.webp",
+      "baseTexture": "/assets/textures/ter_biolum_moss.webp",
+      "variants": ["/assets/textures/ter_biolum_moss_var_a.webp"],
+      "auto_tile": "marching_squares_8bit"
+    },
+    "vtt_properties": {
+      "blocks_movement": false,
+      "blocks_vision": false,
+      "z_index_layer": "background_map",
+      "terrain": {
+        "material": "organic_flesh",
+        "movementCost": 1,
+        "slipperyFriction": 0.9,
+        "footstepSfxCategory": "footstep_foliage"
+      },
+      "dynamicLighting": {
+        "emits": true,
+        "color": "#00ffaa",
+        "intensity": 0.8,
+        "radiusBrightFt": 5,
+        "radiusDimFt": 15,
+        "castsShadows": false,
+        "animation": "pulse"
+      }
+    }
+  },
+  {
+    "unit_id": "prop_holo_tactical_table",
+    "name": "Holographic War Table",
+    "category": "doodad",
+    "tree_path": ["Props", "Sci-Fi", "Command & Control", "Holotables"],
+    "tags": ["console", "command", "hologram", "cover_half", "illuminated"],
+    "dimensions": [2, 2],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/props/holo_table_thumb.webp",
+      "baseTexture": "/assets/props/holo_table.webp",
+      "variants": [],
+      "auto_tile": "none"
+    },
+    "vtt_properties": {
+      "blocks_movement": true,
+      "blocks_vision": false,
+      "z_index_layer": "interactive_objects",
+      "doodad": {
+        "cover": "half_cover",
+        "isDestructible": true,
+        "structureHp": 40,
+        "armorDr": { "kinetic": 8, "energy": 12 },
+        "isContainer": false,
+        "interactionTrigger": {
+          "type": "terminal",
+          "dcCheck": 14,
+          "actionEvent": "HACK_TACTICAL_MAINFRAME",
+          "gmSecretNotes": "DC 14 Tech check reveals encrypted orbital bombardment coordinates."
+        }
+      },
+      "dynamicLighting": {
+        "emits": true,
+        "color": "#00d8ff",
+        "intensity": 1.2,
+        "radiusBrightFt": 10,
+        "radiusDimFt": 20,
+        "castsShadows": true,
+        "animation": "fluorescent_flicker"
+      }
+    },
+    "scatter_rules": {
+      "allow_rotation": true,
+      "scale_variance": [1.0, 1.0],
+      "avoid_center": false,
+      "cluster_affinity": false,
+      "clearance_radius_cells": 1
+    }
+  },
+  {
+    "unit_id": "prop_plastisteel_cargo_crate",
+    "name": "Plastisteel Cargo Crate",
+    "category": "doodad",
+    "tree_path": ["Props", "Industrial", "Logistics", "Crates"],
+    "tags": ["crate", "container", "cover_full", "scatter", "industrial"],
+    "dimensions": [1, 1],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/props/cargo_crate_thumb.webp",
+      "baseTexture": "/assets/props/cargo_crate.webp",
+      "variants": [
+        "/assets/props/cargo_crate_rust.webp",
+        "/assets/props/cargo_crate_yellow.webp"
+      ],
+      "auto_tile": "none"
+    },
+    "vtt_properties": {
+      "blocks_movement": true,
+      "blocks_vision": true,
+      "z_index_layer": "interactive_objects",
+      "doodad": {
+        "cover": "full_cover",
+        "isDestructible": true,
+        "structureHp": 60,
+        "armorDr": { "kinetic": 15, "energy": 10 },
+        "isContainer": true,
+        "containerDetails": {
+          "isLocked": true,
+          "lockType": "electronic",
+          "hackDc": 12,
+          "lootTableId": "loot_industrial_gear_tl3"
+        }
+      }
+    },
+    "scatter_rules": {
+      "allow_rotation": true,
+      "scale_variance": [0.9, 1.1],
+      "avoid_center": true,
+      "cluster_affinity": true,
+      "clearance_radius_cells": 0
+    }
+  },
+  {
+    "unit_id": "prop_cyber_lich_mainframe",
+    "name": "Cyber-Lich Phylactery Server",
+    "category": "doodad",
+    "tree_path": ["Props", "Technomagic", "Necrotechnology", "Phylacteries"],
+    "tags": ["lich", "phylactery", "necromancy", "server", "eldritch", "boss"],
+    "dimensions": [2, 2],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/props/lich_server_thumb.webp",
+      "baseTexture": "/assets/props/lich_server.webp",
+      "variants": [],
+      "auto_tile": "none"
+    },
+    "vtt_properties": {
+      "blocks_movement": true,
+      "blocks_vision": true,
+      "z_index_layer": "interactive_objects",
+      "doodad": {
+        "cover": "full_cover",
+        "isDestructible": true,
+        "structureHp": 150,
+        "armorDr": { "kinetic": 20, "energy": 25 },
+        "breakDc": 22,
+        "isContainer": false,
+        "interactionTrigger": {
+          "type": "lore_station",
+          "dcCheck": 18,
+          "actionEvent": "DISPEL_DIGITAL_SOUL_BIND",
+          "gmSecretNotes": "Disabling server requires dual Tech 16 + Metaphysics 16 check."
+        }
+      },
+      "dynamicLighting": {
+        "emits": true,
+        "color": "#9d00ff",
+        "intensity": 1.5,
+        "radiusBrightFt": 8,
+        "radiusDimFt": 25,
+        "castsShadows": true,
+        "animation": "plasma_churn"
+      }
+    }
+  },
+  {
+    "unit_id": "wall_titanium_blast_bulkhead",
+    "name": "Reinforced Blast Bulkhead",
+    "category": "wall_portal",
+    "tree_path": ["Architecture", "Portals", "Bulkheads", "Heavy Doors"],
+    "tags": ["door", "bulkhead", "impassable", "security", "airlock"],
+    "dimensions": [2, 1],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/walls/bulkhead_thumb.webp",
+      "baseTexture": "/assets/walls/bulkhead_closed.webp",
+      "variants": ["/assets/walls/bulkhead_open.webp"],
+      "auto_tile": "none"
+    },
+    "vtt_properties": {
+      "blocks_movement": true,
+      "blocks_vision": true,
+      "z_index_layer": "interactive_objects",
+      "wallPortal": {
+        "wallType": "blast_bulkhead",
+        "isDoor": true,
+        "doorType": "sliding",
+        "doorState": "closed",
+        "blocksLight": true,
+        "blocksSensors": true,
+        "blocksMovement": true,
+        "soundMuffleFactor": 0.95
+      }
+    }
+  },
+  {
+    "unit_id": "hazard_superheated_plasma_leak",
+    "name": "Superheated Plasma Breach",
+    "category": "hazard",
+    "tree_path": ["Hazards", "Technological", "Thermal", "Plasma"],
+    "tags": ["hazard", "plasma", "fire", "deadly", "energy"],
+    "dimensions": [1, 1],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/hazards/plasma_leak_thumb.webp",
+      "baseTexture": "/assets/hazards/plasma_leak.webp",
+      "variants": ["/assets/hazards/plasma_leak_var_a.webp"],
+      "auto_tile": "marching_squares_4bit"
+    },
+    "vtt_properties": {
+      "blocks_movement": false,
+      "blocks_vision": false,
+      "z_index_layer": "underlay_debris",
+      "hazard": {
+        "hazardType": "plasma_leak",
+        "damageFormula": "3d10+6 plasma",
+        "triggerTiming": "on_enter",
+        "saveDc": { "attribute": "agility", "target": 15 },
+        "particlePreset": "plasma_sparks"
+      },
+      "dynamicLighting": {
+        "emits": true,
+        "color": "#00ffff",
+        "intensity": 1.4,
+        "radiusBrightFt": 10,
+        "radiusDimFt": 25,
+        "castsShadows": false,
+        "animation": "torch_flicker"
+      }
+    }
+  },
+  {
+    "unit_id": "veh_bipedal_titan_mech",
+    "name": "Titan Heavy Assault Mech",
+    "category": "vehicle",
+    "tree_path": ["Vehicles", "Combat Mecha", "Bipedal", "Heavy Assault"],
+    "tags": ["vehicle", "mech", "combat", "heavy", "hardpoints", "walker"],
+    "dimensions": [3, 3],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/vehicles/titan_mech_thumb.webp",
+      "baseTexture": "/assets/vehicles/titan_mech.webp",
+      "variants": [],
+      "auto_tile": "none"
+    },
+    "vtt_properties": {
+      "blocks_movement": true,
+      "blocks_vision": true,
+      "z_index_layer": "tokens",
+      "vehicleHull": {
+        "hullDr": { "kinetic": 30, "energy": 25 },
+        "structureMaxHp": 400,
+        "speedMph": 35,
+        "handlingModifier": -3,
+        "passengerNodes": [
+          { "id": "cockpit_pilot", "role": "pilot", "cellOffset": [1, 1], "zOverride": "roof_canopy" },
+          { "id": "rear_gunner", "role": "gunner", "cellOffset": [1, 2], "zOverride": "roof_canopy" }
+        ],
+        "hardpointSockets": [
+          { "slotId": "right_arm_railgun", "tier": "mount", "relativeCoords": [2, 1], "arcFacingDegrees": 90 },
+          { "slotId": "left_arm_shield", "tier": "mount", "relativeCoords": [0, 1], "arcFacingDegrees": 270 }
+        ]
+      }
+    }
+  },
+  {
+    "unit_id": "creature_cyber_lich_avatar",
+    "name": "Cyber-Lich Grand Patriarch",
+    "category": "creature",
+    "tree_path": ["Entities", "Bosses", "Technomagic", "Cyber-Undead"],
+    "tags": ["lich", "undead", "boss", "cybernetic", "adversary", "spellcaster"],
+    "dimensions": [2, 2],
+    "anchorPoint": [0.5, 0.5],
+    "provenance": {
+      "source": "preset",
+      "author": "Tangent SF Core",
+      "license": "CC-BY-4.0",
+      "dateAdded": "2026-10-07T00:00:00.000Z"
+    },
+    "visuals": {
+      "thumbnail": "/assets/tokens/cyber_lich_thumb.webp",
+      "baseTexture": "/assets/tokens/cyber_lich.webp",
+      "variants": [],
+      "auto_tile": "none"
+    },
+    "vtt_properties": {
+      "blocks_movement": true,
+      "blocks_vision": false,
+      "z_index_layer": "tokens",
+      "tokenEntity": {
+        "sizeCategory": "Large",
+        "visionCone": {
+          "type": "thermal",
+          "rangeFt": 120,
+          "arcDegrees": 360
+        },
+        "disposition": "hostile",
+        "standeeElevationHeight3d": 1.8
+      },
+      "dynamicLighting": {
+        "emits": true,
+        "color": "#bf00ff",
+        "intensity": 1.2,
+        "radiusBrightFt": 12,
+        "radiusDimFt": 30,
+        "castsShadows": true,
+        "animation": "pulse"
+      }
+    }
+  }
+]

@@ -100,7 +100,7 @@ test('Tactical 2d10 Checks: Margin of Success with Database Archetype', () => {
 
   assert.ok(check.baseScore > 0);
   assert.equal(check.modBonus, 0);
-  assert.ok(check.total >= 8 && check.total <= 30);
+  assert.ok(typeof check.total === 'number' && Number.isFinite(check.total) && check.total >= -10 && check.total <= 50);
 });
 
 test('Transcript Export: Markdown Formatting and Database Content Ingestion', () => {

@@ -5,6 +5,10 @@
 
 export interface VttEventMap {
   'open-landmass-modal': void;
+  'open-pcg-modal': void;
+  'open-asset-studio': void;
+  'open-asset-ingestion': void;
+  'open-sprite-cutter': void;
   'open-uvtt-modal': void;
   'open-asset-manager': void;
   'open-hero-drawer': void;

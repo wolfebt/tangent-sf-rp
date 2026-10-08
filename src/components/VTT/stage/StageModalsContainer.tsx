@@ -1,5 +1,5 @@
 import React from 'react';
-import LandmassGeneratorModal from '../../../pages/Foundry/MapMaker/map/LandmassGeneratorModal.jsx';
+import { PcgAiStudioTab } from '../../../pages/Foundry/MapMaker/components/PcgAiStudioTab';
 import { UvttImportModal } from '../../../pages/Foundry/MapMaker/map/UvttImportModal.jsx';
 import MapAssetManagerModal from '../../../pages/Foundry/MapMaker/map/MapAssetManagerModal.jsx';
 import MapUnderlayCalibrationModal from '../../../pages/Foundry/MapMaker/map/MapUnderlayCalibrationModal.jsx';
@@ -9,6 +9,10 @@ import InteractiveObjectModal from '../../../pages/Foundry/MapMaker/map/Interact
 import HazmatVolumeManagerModal from '../../../pages/Foundry/MapMaker/map/HazmatVolumeManagerModal.jsx';
 import MapLayersPanel from '../../../pages/Foundry/MapMaker/map/MapLayersPanel.jsx';
 import { DEFAULT_LAYERS } from '../../../pages/Foundry/MapMaker/map/MapConstants';
+import { AssetStudioModal } from '../studio/AssetStudioModal';
+import { AssetIngestionModal } from '../ingestion/AssetIngestionModal';
+import { SpriteSheetCutterModal } from '../ingestion/SpriteSheetCutterModal';
+import type { AssetUnit } from '../../../schemas/assetUnitSchema';
 
 export interface StageModalsContainerProps {
   isLandmassModalOpen: boolean;
@@ -61,6 +65,18 @@ export interface StageModalsContainerProps {
   setIsUnderlayModalOpen: (open: boolean) => void;
   underlayConfig: any;
   setUnderlayConfig: (cfg: any) => void;
+
+  isAssetStudioOpen?: boolean;
+  setIsAssetStudioOpen?: (open: boolean) => void;
+  selectedStudioAsset?: AssetUnit | null;
+  onSaveStudioAsset?: (asset: AssetUnit) => void;
+
+  isAssetIngestionOpen?: boolean;
+  setIsAssetIngestionOpen?: (open: boolean) => void;
+  onAssetIngested?: (asset: AssetUnit) => void;
+
+  isSpriteSheetCutterOpen?: boolean;
+  setIsSpriteSheetCutterOpen?: (open: boolean) => void;
 }
 
 export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
@@ -113,17 +129,38 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
   isUnderlayModalOpen,
   setIsUnderlayModalOpen,
   underlayConfig,
-  setUnderlayConfig
+  setUnderlayConfig,
+
+  isAssetStudioOpen = false,
+  setIsAssetStudioOpen,
+  selectedStudioAsset = null,
+  onSaveStudioAsset,
+
+  isAssetIngestionOpen = false,
+  setIsAssetIngestionOpen,
+  onAssetIngested,
+
+  isSpriteSheetCutterOpen = false,
+  setIsSpriteSheetCutterOpen
 }) => {
   return (
     <>
-      {/* 1. Procedural Landmass Generator Modal */}
-      <LandmassGeneratorModal
-        isOpen={isLandmassModalOpen}
-        onClose={() => setIsLandmassModalOpen(false)}
-        onCommitLandmass={handleCommitLandmass}
-        defaultRenderMode={terrainRenderMode}
-      />
+      {/* 1. Procedural Content Generation (PCG) Modal */}
+      {isLandmassModalOpen && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4">
+          <div className="bg-slate-950 border border-cyan-800 rounded-2xl w-full max-w-6xl h-[92vh] flex flex-col overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.3)]">
+            <PcgAiStudioTab
+              isModal={true}
+              onCloseModal={() => setIsLandmassModalOpen(false)}
+              terrainRenderMode={terrainRenderMode}
+              onCommitPcgSector={(payload) => {
+                handleCommitLandmass(payload);
+                setIsLandmassModalOpen(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* 2. Universal VTT (.uvtt) Importer Modal */}
       <UvttImportModal
@@ -242,6 +279,43 @@ export const StageModalsContainer: React.FC<StageModalsContainerProps> = ({
           }
         }}
       />
+
+      {/* 10. Asset Studio & Property Forge Modal */}
+      {isAssetStudioOpen && selectedStudioAsset && (
+        <AssetStudioModal
+          isOpen={isAssetStudioOpen}
+          asset={selectedStudioAsset}
+          onClose={() => setIsAssetStudioOpen?.(false)}
+          onSaveAsset={(updated) => {
+            onSaveStudioAsset?.(updated);
+            setIsAssetStudioOpen?.(false);
+          }}
+        />
+      )}
+
+      {/* 11. External Asset Ingestion Modal */}
+      {isAssetIngestionOpen && (
+        <AssetIngestionModal
+          isOpen={isAssetIngestionOpen}
+          onClose={() => setIsAssetIngestionOpen?.(false)}
+          onAssetIngested={(asset) => {
+            onAssetIngested?.(asset);
+            setIsAssetIngestionOpen?.(false);
+          }}
+        />
+      )}
+
+      {/* 12. Sprite Sheet & Tile Slicer Modal */}
+      {isSpriteSheetCutterOpen && (
+        <SpriteSheetCutterModal
+          isOpen={isSpriteSheetCutterOpen}
+          onClose={() => setIsSpriteSheetCutterOpen?.(false)}
+          onBatchIngested={(assets: AssetUnit[]) => {
+            assets.forEach((s: AssetUnit) => onAssetIngested?.(s));
+            setIsSpriteSheetCutterOpen?.(false);
+          }}
+        />
+      )}
     </>
   );
 };

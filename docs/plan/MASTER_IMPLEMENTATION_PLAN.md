@@ -29,29 +29,30 @@
 
 The **Adventure Development Environment (ADE)** within Tangent SF RP unites narrative authoring, Omnicortex database entities, and tactical Virtual Tabletop (VTT) map creation into a unified "Glass-Cockpit" workspace. 
 
-Earlier drafts of this plan assumed a greenfield `/tangent-ade` project using generic frameworks (Next.js/Vue, OpenAI/Anthropic SDKs). This revision grounds the plan in the **actual live production codebase** (`tangent-sfr` v1.0.0) where substantial foundational infrastructure is already operational and verified across 635 automated test assertions.
+Earlier drafts of this plan assumed a greenfield `/tangent-ade` project using generic frameworks (Next.js/Vue, OpenAI/Anthropic SDKs). This revision grounds the plan in the **actual live production codebase** (`tangent-sfr` v1.0.0) where substantial foundational infrastructure is already operational and verified across 665+ automated test assertions.
 
 ### 1.1 Capability Audit: Built vs In-Progress
 
-| Domain / Subsystem | Current Codebase Status | Key Source Files | Gap / Remaining Work |
+| Domain / Subsystem | Current Codebase Status | Key Source Files | Verification / Notes |
 | :--- | :--- | :--- | :--- |
-| **Stage 2D Canvas** | ✅ **Operational (PixiJS v8)** | `src/components/VTT/StageView.tsx`<br>`src/engine/canvas/RendererContext.ts`<br>`src/engine/canvas/LayerCompositor.ts` | Complete migration of legacy Konva tools; finalize auto-tile shaders |
-| **Z-Layer Compositing** | ✅ **Operational (9 Z-Layers)** | `src/engine/canvas/LayerCompositor.ts` (`ZLayer`) | Ensure decal/underlay flattening pipeline for export |
-| **Grid & Transforms** | ✅ **Operational** | `src/engine/math/CoordinateEngine.ts`<br>`src/components/VTT/hooks/useStageGestures.ts` | Connect world-to-grid change throttles to semantic zone brushes |
-| **Line-of-Sight & BVH** | ✅ **Operational** | `src/engine/vision/BVHBuilder.ts`<br>`src/schemas/vttWallSchema.ts`<br>`src/services/raycastVisionService.ts` | Collinear segment reduction for VTT export optimization |
-| **Dynamic Lighting** | ✅ **Operational** | `src/engine/vision/LightSourceManager.ts`<br>`src/engine/3d/lighting/Lighting3DManager.ts` | Multi-source emission compiler for Universal VTT (.dd2vtt) |
-| **External Ingestion & Sourcing** | 🔄 **Partially Built** | `src/pages/Foundry/MapMaker/map/MapAssetManagerModal.jsx`<br>`src/engine/assets/FoundryIngestion.ts`<br>`src/engine/assets/OPFSCacheWorker.ts` | Universal batch importer, sprite sheet slicer, alpha cleaner & OPFS local storage |
-| **Asset & Tile Studio ("Forge")** | 🔄 **Partially Built** | `src/pages/Foundry/MapMaker/map/AssetDrawingStudio.jsx`<br>`src/pages/Foundry/ElementForge/` | In-situ polygon collision editor, light/seat placer, and PixiJS tint customizer |
-| **Units Data Schema** | 🔄 **Partially Built** | `src/pages/Foundry/ElementForge/elementSchemas.js`<br>`src/components/VTT/ArchitectDesignPalette.tsx` | Formalize polymorphic `AssetUnit` schema + dynamic `tree_path` parser |
-| **PCG: BSP Deckplans** | ✅ **Operational** | `src/engine/cartography/BSPDeckplanGenerator.ts` | Expose BSP room/corridor parameters to LLM script executor |
-| **PCG: Noise & Tectonics** | ✅ **Operational** | `src/pages/Foundry/MapMaker/map/landmassGenerator.js` | Extract Simplex noise & Cellular Automata into pure engine module (`src/engine/pcg/`) |
-| **PCG: WFC & Walk** | ⏳ **Planned** | *None* | Implement Wave Function Collapse (WFC) & Drunkard's Walk modules |
-| **PCG: Node Graphing** | ⏳ **Planned** | *None* | Implement functional node flowchart solver (Airlock → Medbay → Core) |
-| **LLM Gateway** | ✅ **Operational (Gemini)** | `src/engine/ai/VertexAIGateway.ts`<br>`src/engine/ai/AimeAgent.ts`<br>`src/engine/ai/MapWallingProcessor.ts` | Build `MapContextAggregator` & map-decoration prompt pipeline |
-| **Script Execution** | ✅ **Operational (QuickJS)** | `src/engine/scripting/QuickJSSandbox.ts` | Build `PCGExecutor` connecting LLM JSON actions to canvas state |
-| **Vehicle Logistics** | 🔄 **Partially Built** | `src/engine/rules/MechaSocketManager.ts` | Live token coordinate childing to moving multi-tile vehicle hulls |
-| **VTT Export** | 🔄 **Partially Built** | `src/engine/compilers/FoundryVttJsonExporter.ts`<br>`src/utils/deployVttPackage.ts` | Full Universal VTT (`.dd2vtt`) packager with WebP image compilation |
-| **Legacy MapMaker** | ⚠️ **Legacy Technical Debt** | `src/pages/Foundry/MapMaker/` (52 files, Konva) | Planned phase-out; converge all cartography tools into `StageView.tsx` |
+| **Stage 2D Canvas** | ✅ **Operational (PixiJS v8)** | `src/components/VTT/StageView.tsx`<br>`src/engine/canvas/RendererContext.ts`<br>`src/engine/canvas/LayerCompositor.ts` | 60 FPS WebGPU/WebGL accelerated renderer with viewport culling |
+| **Z-Layer Compositing** | ✅ **Operational (9 Z-Layers)** | `src/engine/canvas/LayerCompositor.ts` (`ZLayer`) | Strict layer hierarchy: Background (0) to ForegroundUI (70) |
+| **Grid & Transforms** | ✅ **Operational** | `src/engine/math/CoordinateEngine.ts`<br>`src/components/VTT/hooks/useStageGestures.ts` | Hex, Square & Isometric grids with coordinate snapping |
+| **Line-of-Sight & BVH** | ✅ **Operational** | `src/engine/vision/BVHBuilder.ts`<br>`src/schemas/vttWallSchema.ts`<br>`src/services/raycastVisionService.ts` | Dynamic door toggles and automated raycast LoS computation |
+| **Dynamic Lighting** | ✅ **Operational** | `src/engine/vision/LightSourceManager.ts`<br>`src/engine/3d/lighting/Lighting3DManager.ts` | Point, spot, and animated dynamic light sources |
+| **External Ingestion & Sourcing** | ✅ **Operational** | `src/engine/assets/AssetIngestionPipeline.ts`<br>`src/engine/assets/SpriteSheetSlicer.ts`<br>`src/engine/assets/TangentPackager.ts`<br>`src/components/VTT/ingestion/` | Batch file/folder/zip importer, visual sprite slicer, chroma key alpha cleaner, OPFS storage |
+| **Asset & Tile Studio ("Forge")** | ✅ **Operational** | `src/components/VTT/studio/`<br>`src/pages/Foundry/MapMaker/components/AssetStudioTab.tsx`<br>`src/engine/canvas/AssetCustomizerShader.ts` | Polygon collision editor, light emitter placer, passenger node placer, live HSL/RGB shader tinting |
+| **Units Data Schema & Catalog** | ✅ **Operational** | `src/schemas/assetUnitSchema.ts`<br>`src/components/VTT/tree/UniversalAssetTree.tsx`<br>`src/data/seed_units/science_fantasy_core.json` | Polymorphic 7-category schema, tree_path parser, instant tag/category filter |
+| **PCG: BSP Deckplans** | ✅ **Operational** | `src/engine/cartography/BSPDeckplanGenerator.ts` | Recursive space partitioning with corridors, hulls, and theme palettes |
+| **PCG: Noise & Tectonics** | ✅ **Operational** | `src/pages/Foundry/MapMaker/map/landmassGenerator.js`<br>`src/pages/Foundry/MapMaker/components/PcgAiStudioTab.tsx` | Simplex HD, Cellular Island, Voronoi Plates, biomes, rivers, and hydraulic erosion |
+| **PCG: WFC & Walk** | ✅ **Operational** | `src/engine/pcg/WaveFunctionCollapse.ts`<br>`src/engine/pcg/DrunkardsWalkTunnel.ts`<br>`src/engine/pcg/CellularAutomataCaverns.ts` | 4-sided socket entropy solver, directional drunkard's walk, 4-5 rule cave smoothing |
+| **PCG: Node Graphing** | ✅ **Operational** | `src/engine/pcg/NodeGraphLayoutSolver.ts` | High-level narrative flowchart solver with A* corridor routing |
+| **PCG Studio & AI Co-Pilot** | ✅ **Operational** | `src/pages/Foundry/MapMaker/components/PcgAiStudioTab.tsx` | All 7 procedural modes, tactile brush painting, freeze region-locking, 5 post-processing passes; legacy Landmass Generator modal sunsetted |
+| **LLM Gateway & Scripting** | ✅ **Operational (Gemini)** | `src/engine/ai/VertexAIGateway.ts`<br>`src/engine/ai/MapContextAggregator.ts`<br>`src/engine/executor/PCGExecutor.ts` | Map context aggregation into Gemini structured JSON schema + deterministic spatial executor |
+| **Vehicle Logistics** | ✅ **Operational** | `src/engine/rules/MechaSocketManager.ts`<br>`src/engine/state/VolatileSharder.ts`<br>`src/components/VTT/StageView.tsx` | Multi-seat vehicle hulls, childed passenger tokens, synchronous translation, and radial boarding/dismounting |
+| **Marching Squares Auto-Tiling** | ✅ **Operational** | `src/engine/canvas/MarchingSquaresAutoTiler.ts`<br>`src/components/VTT/hooks/useStageRenderers.ts`<br>`src/engine/compilers/MapGraphicsCompiler.ts` | 4-bit/8-bit bitmask calculation, edge line generation, full grid matrix solver, and Pixi/canvas rendering |
+| **VTT Export** | ✅ **Operational** | `src/engine/compilers/UniversalVttPackager.ts`<br>`src/engine/compilers/FoundryVttJsonExporter.ts`<br>`src/pages/Foundry/MapMaker/components/VttExportTab.tsx` | Universal VTT (`.dd2vtt`) packager with collinear wall reduction and Foundry v11/v12 compendium exporter |
+| **Legacy MapMaker Convergence** | ✅ **Operational (Unified Studio)** | `src/pages/Foundry/MapMaker/MapMaker.jsx`<br>`src/components/VTT/TripartiteStageView.tsx`<br>`src/components/VTT/StageView.tsx` | Full top-level tabbed studio in MapMaker; direct rail & breadcrumb studio integration in StageView and TripartiteStageView; legacy Landmass Generator modal sunsetted |
 
 ---
 
@@ -463,12 +464,13 @@ export interface AssetUnit {
 * **Critical Optimization:** Check if `[col, row]` matches the last painted cell. If identical, abort immediately. Only dispatch updates to `engineStore` when the cursor crosses into a new grid cell.
 * Commit continuous brush strokes as single atomic transactions on `pointerUp` for the Undo/Redo history stack.
 
-### 7.3 Auto-Tiling Bitmask Engine (Marching Squares)
-* Create `src/engine/canvas/MarchingSquaresAutoTiler.ts`.
-* For biomes configured with `auto_tile: "marching_squares_4bit"` or `"marching_squares_8bit"`:
-  * Evaluate the 4 cardinal (or 8 surrounding) neighbors of a painted cell.
-  * Calculate the standard bitmask index: `index = N*1 + E*2 + S*4 + W*8`.
-  * Select the appropriate transitional edge/corner sprite from `AssetUnit.visuals.variants` to seamlessly blend biomes (e.g., acid swamp bleeding into industrial steel deck).
+### 7.3 Auto-Tiling Bitmask Engine (Marching Squares) — ✅ Operational
+* **Implementation Source:** `src/engine/canvas/MarchingSquaresAutoTiler.ts`, `src/components/VTT/hooks/useStageRenderers.ts`, `src/engine/compilers/MapGraphicsCompiler.ts`, `src/pages/Foundry/MapMaker/components/PcgAiStudioTab.tsx`.
+* 4-bit cardinal neighbor bitmask (`N*1 + E*2 + S*4 + W*8`) resolving 16 transition combinations.
+* 8-bit diagonal-aware bitmask (`0..255`) for complex corner and edge transitions.
+* `getEdgeLines(x, y, width, height, bitmask4Bit)` dynamically extracts exterior boundary coordinates for seamless biome blend strokes.
+* `calculateGridBitmasks(cols, rows, getCellMaterial)` computes grid matrices in a single high-performance pass.
+* Automated Unit Test: `tests/engine/marchingSquaresAutoTiler.test.mjs` verifies 4-bit, 8-bit, edge lines, full grid matrix calculations, and MapGraphicsCompiler integration.
 
 ### 7.4 Semantic Zone Mask (`SemanticZoneMask.ts`)
 * Maintain a parallel 2D byte-array mask representing the functional semantics of the map:
@@ -582,22 +584,24 @@ export interface AssetUnit {
 
 **Objective:** Implement multi-tile entities, vehicle logistics, and region-locking mechanics.
 
-### 10.1 Multi-Tile Vehicle Hulls & Passenger Geometry
-* Integrate with `MechaSocketManager.ts`.
-* Vehicles occupy multi-cell bounding footprints (e.g. 2x2, 4x6).
-* When a Token is dragged onto a vehicle's `passenger_nodes` coordinate:
-  * Child the token's coordinate matrix to the vehicle.
-  * When the vehicle is translated or rotated on the Stage, all child passenger tokens move synchronously.
+### 10.1 Multi-Tile Vehicle Hulls & Passenger Geometry — ✅ Operational
+* **Implementation Source:** `src/engine/rules/MechaSocketManager.ts`, `src/engine/state/VolatileSharder.ts`, `src/components/VTT/StageView.tsx`, `src/components/VTT/TokenRadialMenu.tsx`.
+* Vehicles occupy multi-cell bounding footprints (e.g. 2x2, 2x3, 4x6) with customizable `passengerNodes` (pilot, copilot, gunner, passenger, cargo).
+* Childing & Synchronous Translation:
+  * When an operative is mounted via `mountPassenger()` or the contextual Radial Action menu (`vehicle_board`), its coordinate matrix is childed to the vehicle.
+  * When the vehicle is translated (via `translateVehicle()` or moving its token on canvas), all seated passenger tokens update their `(x, y)` coordinates synchronously without lag.
+  * Dismounting (`vehicle_dismount` or `dismountPassenger()`) detaches the token and unseats them cleanly.
+* Automated Unit Test: `tests/engine/stage5.test.mjs` validates multi-seat mounting, double-mount prevention, synchronous translation, and dismount lifecycle.
 
-### 10.2 Strict Z-Axis Enforcement (`LayerCompositor.ts`)
-* Enforce rigid rendering order:
+### 10.2 Strict Z-Axis Enforcement (`LayerCompositor.ts`) — ✅ Operational
+* Enforces rigid 9-tier rendering order across hardware-accelerated PixiJS v8 render groups:
   `BackgroundMap (0) < UnderlayDebris (10) < InteractiveObjects (15) < Tokens (20) < RoofCanopy (30) < DynamicFX (40) < LightingDarkness (50) < FogOfWar (60) < ForegroundUI (70)`
-* Prevent decals (e.g., blood splatter) from rendering on top of elevated props (e.g., tactical consoles).
+* Eliminates visual artifacting and prevents decals (e.g., blood splatter) from rendering on top of elevated props (e.g., tactical consoles, bulkheads).
 
-### 10.3 Iterative Freezing (Lasso Tool)
-* Add a **Freeze / Lock Tool** to the Stage design palette.
-* GM can draw a bounding polygon or select rooms to mark them as `isFrozen: true`.
-* During subsequent PCG re-rolls or LLM decoration passes, frozen cells are mathematically protected and skipped by the executor.
+### 10.3 Iterative Freezing & Region Protection — ✅ Operational
+* **Implementation Source:** `src/engine/executor/SemanticZoneMask.ts` (`SemanticFlag.FROZEN = 0x20`), `src/engine/executor/CollisionClearanceTester.ts`, `src/pages/Foundry/MapMaker/components/PcgAiStudioTab.tsx`.
+* Tactical brush includes a **Freeze / Lock Tool** (cyan grid overlay).
+* Cells marked as `isFrozen` are skipped during subsequent PCG re-rolls, noise iterations, and LLM decoration passes, mathematically safeguarding user-designed zones.
 
 ---
 
@@ -605,12 +609,16 @@ export interface AssetUnit {
 
 **Objective:** Package the live tactical map into production-ready VTT formats with complete line-of-sight and dynamic lighting metadata.
 
-### 11.1 Map Graphics Compiler (`MapGraphicsCompiler.ts`)
-* Uses an offscreen PixiJS render-texture to flatten Z-Layers 0 (Terrain) and 10 (Underlay/Decals) into a single optimized WebP base image.
-* Props, Tokens, and Doors remain discrete, movable objects.
+### 11.1 Map Graphics Compiler (`MapGraphicsCompiler.ts`) — ✅ Operational
+* **Implementation Source:** `src/engine/compilers/MapGraphicsCompiler.ts`.
+* Flattens Z-Layers 0 (Terrain, Hex/Poly Biome Cells) and 10 (Underlay, Decals, Splatter, Debris) onto an offscreen HTML5 canvas or headless WebP buffer.
+* Produces high-efficiency WebP/PNG data URIs and raw base64 payloads specifically formatted for `.dd2vtt` files and image exports.
+* Keeps props (crates, terminals), tokens, bulkheads/doors, and dynamic lights discrete and interactive.
+* Automated Unit Test: `tests/engine/mapGraphicsCompiler.test.mjs` verifies canvas rendering, decal positioning, WebP compilation, and Universal VTT packaging integration.
 
-### 11.2 Universal VTT (.dd2vtt) Packager (`UniversalVttPackager.ts`)
-* Compiles the standard `.dd2vtt` JSON structure:
+### 11.2 Universal VTT (.dd2vtt) Packager (`UniversalVttPackager.ts`) — ✅ Operational
+* **Implementation Source:** `src/engine/compilers/UniversalVttPackager.ts`, `src/pages/Foundry/MapMaker/components/VttExportTab.tsx`.
+* Compiles the standard `.dd2vtt` JSON structure (format 0.2):
   ```json
   {
     "format": 0.2,
@@ -628,10 +636,11 @@ export interface AssetUnit {
     ]
   }
   ```
-* Implements collinear segment reduction: merges adjacent collinear wall segments into continuous single vectors to minimize VTT rendering overhead.
+* Collinear Segment Reduction: Merges contiguous collinear wall segments into continuous single vectors, reducing wall vertex count by up to 60-80% to eliminate VTT rendering overhead.
+* Automated Unit Test: `tests/engine/universalVttPackager.test.mjs` verifies .dd2vtt JSON schema validity, portal rotation, and collinear reduction.
 
-### 11.3 Foundry VTT Compendium Exporter (`FoundryVttJsonExporter.ts`)
-* **Existing Foundation:** `src/engine/compilers/FoundryVttJsonExporter.ts`.
+### 11.3 Foundry VTT Compendium Exporter (`FoundryVttJsonExporter.ts`) — ✅ Operational
+* **Implementation Source:** `src/engine/compilers/FoundryVttJsonExporter.ts`, `src/pages/Foundry/MapMaker/components/VttExportTab.tsx`.
 * Exports complete Foundry v11/v12 compendium packs containing:
   * Scenes (with grid alignment, walls, and ambient lights).
   * Actors (operatives and adversaries with canonical stats and armor DR).
@@ -640,14 +649,19 @@ export interface AssetUnit {
 
 ---
 
-## 🔄 12. Phase 8: Legacy MapMaker Convergence & Sunsetting Plan
+## 🔄 12. Phase 8: Legacy MapMaker Convergence & Sunsetting Plan — ✅ Operational (Unified Studio)
 
-**Current Reality:** The codebase currently contains a legacy, 52-file `MapMaker` module (`src/pages/Foundry/MapMaker/`) built on `react-konva`. In parallel, `src/components/VTT/StageView.tsx` implements the next-generation PixiJS v8 / WebGPU engine.
+**Status:** Successfully converged legacy split views into an integrated 4-tab studio architecture with direct event-driven cross-launchers across both `MapMaker.jsx` and `StageView.tsx` / `TripartiteStageView.tsx`.
 
-### Convergence Strategy:
-1. **Feature Extraction:** All high-value domain logic in `MapMaker/` (e.g. `landmassGenerator.js`, `MapConstants.js`, `UvttImportModal.jsx`, `CombatTracker.jsx`, and custom asset upload hooks) is being ported to the engine and Stage.
-2. **Route Canonicalization:** Update `FoundryApp.jsx` so `/foundry/map` routes to the integrated Stage Cartography Studio (`StageView.tsx` with `mode="architect"`), maintaining backwards compatibility.
-3. **Safe Archival:** Once the Universal Tree, Ingestion Suite, and Marching Squares auto-tiler are operational in `StageView.tsx`, relocate legacy Konva components to `src/pages/Foundry/_archive/MapMaker.legacy/` to reduce bundle weight and maintenance surface area.
+### Convergence Accomplishments:
+1. **Top-Level Tab Navigation:** Replaced cumbersome split-window layout in `MapMaker.jsx` with full top-level tabs:
+   - **Tactical Canvas:** Live interactive canvas with retained left Operative Cockpit rail and right Compositor / Architect rails.
+   - **Asset Studio & Forge (`AssetStudioTab`):** Comprehensive asset property matrix editor, dynamic metadata inspector, collision hull drawer, and shader tint customizer.
+   - **PCG & AI Co-Pilot (`PcgAiStudioTab`):** Complete procedural generator across all 7 map paradigms (Planetary, Starship, Cavern, Mining Shaft, Modular Outpost, Node Graph, Gemini Spatial Decorator) with tactile brush painting, freeze region-locking, and 5 post-processing passes.
+   - **Universal VTT Export (`VttExportTab`):** One-click `.dd2vtt` Universal VTT and Foundry v11/v12 compendium packaging.
+2. **Dock Separation Enforced:** Operative Cockpit on the left and Compositor & Layers panel on the right remain exclusively docked in the canvas navigation rails, maintaining clean viewport ergonomics.
+3. **Legacy Landmass Generator Sunsetted:** Deleted monolithic `LandmassGeneratorModal.jsx` (421 lines) and fully migrated all mathematical procedural generation into pure TypeScript classes in `src/engine/pcg/`.
+4. **Universal Event Bus & Unified Quick-Launchers:** `vttEventBus.ts`, `StageBreadcrumbTabs.tsx`, and `ArchitectConsoleRail.jsx` now route `open-pcg-modal`, `open-asset-studio`, `open-asset-ingestion`, and `open-sprite-cutter` uniformly across the entire application.
 
 ---
 
@@ -667,7 +681,7 @@ export interface AssetUnit {
    * Run the full engine test suite: `npm.cmd test` (includes `test:engine` and `test:data`).
    * Run co-located engine tests: `node --test src/engines/__tests__/*.test.js`.
    * Run production build typecheck: `npm.cmd run build`.
-   * All 635+ automated tests must pass with 0 regressions before committing.
+   * All 665+ automated test assertions (633 engine tests + 32 data integrity tests) must pass with 0 regressions before committing.
 
 ---
 *End of Master Implementation Plan — Tangent SF ADE*

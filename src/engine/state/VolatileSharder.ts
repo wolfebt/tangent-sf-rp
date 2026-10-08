@@ -7,6 +7,11 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { 
+  MechaSocketManager, 
+  type VehicleEntity, 
+  type ChildedPassengerPosition 
+} from '../rules/MechaSocketManager.ts';
 
 // --- DOMAIN MODELS ---
 
@@ -47,6 +52,8 @@ export interface EphemeralState {
   elevation_ft?: number;
   facing_degrees?: number;
   is_hidden?: boolean;
+  parent_vehicle_id?: string;
+  vehicle_node_id?: string;
 }
 
 // The unified object passed to the WebGPU Stage Renderer
@@ -64,6 +71,7 @@ export interface EngineState {
   // Sharded state containers
   staticData: Record<string, StaticEntity>;
   ephemeralData: Record<string, EphemeralState>;
+  vehicles: Record<string, VehicleEntity>;
   
   // Actions
   loadStaticEntity: (entity: StaticEntity) => void;
@@ -82,6 +90,13 @@ export interface EngineState {
   clearSelection: () => void;
   removeEntity: (id: string) => void;
   clearAllEntities: () => void;
+
+  // Vehicle & Passenger Logistics
+  registerVehicle: (vehicle: VehicleEntity) => void;
+  removeVehicle: (vehicleId: string) => void;
+  mountPassenger: (vehicleId: string, nodeId: string, tokenId: string, cellSizePx?: number) => boolean;
+  dismountPassenger: (vehicleId: string, tokenId: string) => boolean;
+  translateVehicle: (vehicleId: string, deltaCols: number, deltaRows: number, cellSizePx?: number) => ChildedPassengerPosition[];
 }
 
 export const useEngineStore = create<EngineState>()(
@@ -89,6 +104,7 @@ export const useEngineStore = create<EngineState>()(
     immer((set) => ({
       staticData: {},
       ephemeralData: {},
+      vehicles: {},
 
       // --- ACTIONS ---
       loadStaticEntity: (entity) => set((draft) => {
@@ -192,6 +208,26 @@ export const useEngineStore = create<EngineState>()(
           draft.ephemeralData[id].x = x;
           draft.ephemeralData[id].y = y;
           draft.ephemeralData[id].z = z;
+        }
+
+        // If updated entity is a registered vehicle, translate childed passengers synchronously
+        const veh = draft.vehicles[id];
+        if (veh) {
+          const cellSizePx = 50;
+          const targetCol = Math.round((x - (veh.gridFootprint[0] * cellSizePx) / 2) / cellSizePx);
+          const targetRow = Math.round((y - (veh.gridFootprint[1] * cellSizePx) / 2) / cellSizePx);
+          const deltaCols = targetCol - veh.col;
+          const deltaRows = targetRow - veh.row;
+          if (deltaCols !== 0 || deltaRows !== 0) {
+            const socketMgr = new MechaSocketManager();
+            const positions = socketMgr.translateVehicle(veh, deltaCols, deltaRows, cellSizePx);
+            for (const p of positions) {
+              if (draft.ephemeralData[p.tokenId]) {
+                draft.ephemeralData[p.tokenId].x = p.x;
+                draft.ephemeralData[p.tokenId].y = p.y;
+              }
+            }
+          }
         }
       }),
 
@@ -375,12 +411,116 @@ export const useEngineStore = create<EngineState>()(
       removeEntity: (id) => set((draft) => {
         delete draft.staticData[id];
         delete draft.ephemeralData[id];
+
+        // Clean up vehicle if id was a vehicle
+        const veh = draft.vehicles[id];
+        if (veh) {
+          for (const node of veh.passengerNodes) {
+            if (node.seatedTokenId && draft.ephemeralData[node.seatedTokenId]) {
+              draft.ephemeralData[node.seatedTokenId].parent_vehicle_id = undefined;
+              draft.ephemeralData[node.seatedTokenId].vehicle_node_id = undefined;
+            }
+          }
+          delete draft.vehicles[id];
+        }
+
+        // If id was a seated passenger in any vehicle, unseat it
+        for (const vId of Object.keys(draft.vehicles)) {
+          const v = draft.vehicles[vId];
+          for (const node of v.passengerNodes) {
+            if (node.seatedTokenId === id) {
+              node.seatedTokenId = undefined;
+            }
+          }
+        }
       }),
 
       clearAllEntities: () => set((draft) => {
         draft.staticData = {};
         draft.ephemeralData = {};
-      })
+        draft.vehicles = {};
+      }),
+
+      // --- VEHICLE & PASSENGER ACTIONS ---
+      registerVehicle: (vehicle) => set((draft) => {
+        draft.vehicles[vehicle.id] = vehicle;
+        for (const node of vehicle.passengerNodes) {
+          if (node.seatedTokenId && draft.ephemeralData[node.seatedTokenId]) {
+            draft.ephemeralData[node.seatedTokenId].parent_vehicle_id = vehicle.id;
+            draft.ephemeralData[node.seatedTokenId].vehicle_node_id = node.id;
+          }
+        }
+      }),
+
+      removeVehicle: (vehicleId) => set((draft) => {
+        const veh = draft.vehicles[vehicleId];
+        if (veh) {
+          for (const node of veh.passengerNodes) {
+            if (node.seatedTokenId && draft.ephemeralData[node.seatedTokenId]) {
+              draft.ephemeralData[node.seatedTokenId].parent_vehicle_id = undefined;
+              draft.ephemeralData[node.seatedTokenId].vehicle_node_id = undefined;
+            }
+          }
+          delete draft.vehicles[vehicleId];
+        }
+      }),
+
+      mountPassenger: (vehicleId, nodeId, tokenId, cellSizePx = 50) => {
+        let success = false;
+        set((draft) => {
+          const veh = draft.vehicles[vehicleId];
+          if (!veh) return;
+          const socketMgr = new MechaSocketManager();
+          success = socketMgr.mountPassenger(veh, nodeId, tokenId);
+          if (success && draft.ephemeralData[tokenId]) {
+            draft.ephemeralData[tokenId].parent_vehicle_id = vehicleId;
+            draft.ephemeralData[tokenId].vehicle_node_id = nodeId;
+            const positions = socketMgr.calculatePassengerPositions(veh, cellSizePx);
+            const pPos = positions.find(p => p.tokenId === tokenId);
+            if (pPos) {
+              draft.ephemeralData[tokenId].x = pPos.x;
+              draft.ephemeralData[tokenId].y = pPos.y;
+            }
+          }
+        });
+        return success;
+      },
+
+      dismountPassenger: (vehicleId, tokenId) => {
+        let success = false;
+        set((draft) => {
+          const veh = draft.vehicles[vehicleId];
+          if (!veh) return;
+          const socketMgr = new MechaSocketManager();
+          success = socketMgr.dismountPassenger(veh, tokenId);
+          if (success && draft.ephemeralData[tokenId]) {
+            draft.ephemeralData[tokenId].parent_vehicle_id = undefined;
+            draft.ephemeralData[tokenId].vehicle_node_id = undefined;
+          }
+        });
+        return success;
+      },
+
+      translateVehicle: (vehicleId, deltaCols, deltaRows, cellSizePx = 50) => {
+        let positions: ChildedPassengerPosition[] = [];
+        set((draft) => {
+          const veh = draft.vehicles[vehicleId];
+          if (!veh) return;
+          const socketMgr = new MechaSocketManager();
+          positions = socketMgr.translateVehicle(veh, deltaCols, deltaRows, cellSizePx);
+          for (const p of positions) {
+            if (draft.ephemeralData[p.tokenId]) {
+              draft.ephemeralData[p.tokenId].x = p.x;
+              draft.ephemeralData[p.tokenId].y = p.y;
+            }
+          }
+          if (draft.ephemeralData[vehicleId]) {
+            draft.ephemeralData[vehicleId].x = veh.col * cellSizePx + (veh.gridFootprint[0] * cellSizePx) / 2;
+            draft.ephemeralData[vehicleId].y = veh.row * cellSizePx + (veh.gridFootprint[1] * cellSizePx) / 2;
+          }
+        });
+        return positions;
+      }
     }))
   )
 );
@@ -437,4 +577,12 @@ export const selectAllFusedTokens = (state: EngineState): FusedToken[] => {
   }
   cachedAllFusedTokens = result;
   return result;
+};
+
+export const selectVehicle = (state: EngineState, id: string): VehicleEntity | null => {
+  return state.vehicles[id] || null;
+};
+
+export const selectAllVehicles = (state: EngineState): VehicleEntity[] => {
+  return Object.values(state.vehicles);
 };

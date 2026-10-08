@@ -4,7 +4,7 @@
  */
 
 // Stage 1: Core State, Relational OPFS & Network Sync
-export { useEngineStore, selectFusedToken, selectAllFusedTokens } from './state/VolatileSharder.ts';
+export { useEngineStore, selectFusedToken, selectAllFusedTokens, selectVehicle, selectAllVehicles } from './state/VolatileSharder.ts';
 export type { StaticEntity, EphemeralState, FusedToken, EngineState } from './state/VolatileSharder.ts';
 export { DBMBridge } from './state/DBMBridge.ts';
 export type { OPFSWorkerAPI } from './state/DBMBridge.ts';
@@ -20,6 +20,8 @@ export { FirestoreDebouncer } from './network/FirestoreDebouncer.ts';
 export { RendererContext } from './canvas/RendererContext.ts';
 export { LayerCompositor, ZLayer } from './canvas/LayerCompositor.ts';
 export { FrustumChunkManager, CHUNK_SIZE } from './canvas/FrustumChunkManager.ts';
+export { MarchingSquaresAutoTiler } from './canvas/MarchingSquaresAutoTiler.ts';
+export type { GridCell, NeighborPredicate, CardinalNeighbors } from './canvas/MarchingSquaresAutoTiler.ts';
 export { 
   CoordinateEngine, 
   GridType, 
@@ -46,6 +48,9 @@ export type { SceneManifest, SceneInteractiveObject } from './assets/FoundryInge
 export { InteractiveObjectManager } from './assets/InteractiveObjectManager.ts';
 export type { InteractiveObjectState } from './assets/InteractiveObjectManager.ts';
 export { cacheAssetInOPFS, getAssetFromOPFS, getMimeType } from './assets/OPFSCacheWorker.ts';
+export { AssetIngestionPipeline } from './assets/AssetIngestionPipeline.ts';
+export { SpriteSheetSlicer } from './assets/SpriteSheetSlicer.ts';
+export { TangentPackager } from './assets/TangentPackager.ts';
 export { SpatialAudioGraph } from './audio/SpatialAudioGraph.ts';
 export { NVectorCalculator, DEFAULT_PLANETARY_RADIUS_KM } from './cartography/NVectorCalculator.ts';
 export type { LatLon, NVector } from './cartography/NVectorCalculator.ts';
@@ -53,6 +58,14 @@ export { AstrogationGenerator } from './cartography/AstrogationGenerator.ts';
 export type { StarSystem, Hyperlane } from './cartography/AstrogationGenerator.ts';
 export { BSPDeckplanGenerator, BSPNode } from './cartography/BSPDeckplanGenerator.ts';
 export type { Rect } from './cartography/BSPDeckplanGenerator.ts';
+export { CellularAutomataCaverns } from './pcg/CellularAutomataCaverns.ts';
+export { DrunkardsWalkTunnel } from './pcg/DrunkardsWalkTunnel.ts';
+export { WaveFunctionCollapse } from './pcg/WaveFunctionCollapse.ts';
+export { NodeGraphLayoutSolver } from './pcg/NodeGraphLayoutSolver.ts';
+export { SemanticZoneMask, SemanticFlag } from './executor/SemanticZoneMask.ts';
+export { CollisionClearanceTester } from './executor/CollisionClearanceTester.ts';
+export { PCGExecutor } from './executor/PCGExecutor.ts';
+export { MapContextAggregator } from './ai/MapContextAggregator.ts';
 
 // Stage 5: Tangent SF RP Rules Execution & Damage Pipelines
 export { CharacterBuilder, MECHANICS_DB } from './rules/CharacterBuilder.ts';
@@ -61,8 +74,8 @@ export { CombatArbitrator, SkillRank, SizeCategory, RangeCategory } from './rule
 export type { ActionEconomyTier, RangeConfig } from './rules/CombatArbitrator.ts';
 export { DamagePipeline } from './rules/DamagePipeline.ts';
 export type { DamagePayload, DamageResult } from './rules/DamagePipeline.ts';
-export { MechaSocketManager, TechLevel } from './rules/MechaSocketManager.ts';
-export type { MechaChassis, Augmentation } from './rules/MechaSocketManager.ts';
+export { MechaSocketManager, TechLevel, UDUTier } from './rules/MechaSocketManager.ts';
+export type { MechaChassis, Augmentation, HardpointSlot, VehicleEntity, PassengerNode, ChildedPassengerPosition } from './rules/MechaSocketManager.ts';
 
 // Stage 6: UI Glass-Cockpit HUD, Dice AST & Scripting
 export { DashboardOverlay } from './ui/DashboardOverlay.tsx';
@@ -101,11 +114,15 @@ export { sanitizeRichText, enforceInteger, adaptLegacyElement, validateAdaptedEl
 export { HIERARCHY_TIERS, TIER_DEFINITIONS, getFieldTier, sortFieldsByHierarchy } from './migration/categoryConfig.js';
 export { runMigration } from './migration/migrate_omnicortex_schema.mjs';
 
-// Stage 9: Publishing Compilers & Foundry VTT Exporter
+// Stage 9: Publishing Compilers, VTT Packagers & Exporters
 export { PagedPdfCompiler } from './compilers/PagedPdfCompiler.ts';
 export type { ScenarioExportNode, CompileOptions } from './compilers/PagedPdfCompiler.ts';
 export { FoundryVttJsonExporter } from './compilers/FoundryVttJsonExporter.ts';
 export type { FoundryExportPayload, FoundryCompendiumPack } from './compilers/FoundryVttJsonExporter.ts';
+export { UniversalVttPackager } from './compilers/UniversalVttPackager.ts';
+export type { UniversalVttFile, UvttPackageRequest, RawWallSegment, RawPortalInput, RawLightInput } from './compilers/UniversalVttPackager.ts';
+export { MapGraphicsCompiler } from './compilers/MapGraphicsCompiler.ts';
+export type { FlattenOptions, TerrainTile, UnderlayDecal } from './compilers/MapGraphicsCompiler.ts';
 
 // Stage 10: 3D Holographic Tactical Stage & Spatial Tabletop
 export * from './3d/index.ts';

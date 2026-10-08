@@ -18,6 +18,9 @@ export interface UseCanvasEventListenersOptions {
   setIsHeroDrawerOpen: (v: boolean) => void;
   setIsOmnicortexDrawerOpen: (v: boolean) => void;
   setIsLayersPanelOpen?: (v: boolean) => void;
+  setIsAssetStudioOpen?: (v: boolean) => void;
+  setIsAssetIngestionOpen?: (v: boolean) => void;
+  setIsSpriteSheetCutterOpen?: (v: boolean) => void;
   selectedTokenId: string | null;
   setSelectedTokenId: (id: string | null) => void;
   setCombatLog: React.Dispatch<React.SetStateAction<string[]>>;
@@ -30,6 +33,9 @@ export function useCanvasEventListeners({
   setIsHeroDrawerOpen,
   setIsOmnicortexDrawerOpen,
   setIsLayersPanelOpen,
+  setIsAssetStudioOpen,
+  setIsAssetIngestionOpen,
+  setIsSpriteSheetCutterOpen,
   selectedTokenId,
   setSelectedTokenId,
   setCombatLog
@@ -93,6 +99,10 @@ export function useCanvasEventListeners({
   // Cartography & studio modal listeners
   useEffect(() => {
     const offLandmass = VttEventBus.on('open-landmass-modal', () => setIsLandmassModalOpen(true));
+    const offPcg = VttEventBus.on('open-pcg-modal', () => setIsLandmassModalOpen(true));
+    const offAssetStudio = setIsAssetStudioOpen ? VttEventBus.on('open-asset-studio', () => setIsAssetStudioOpen(true)) : () => {};
+    const offAssetIngest = setIsAssetIngestionOpen ? VttEventBus.on('open-asset-ingestion', () => setIsAssetIngestionOpen(true)) : () => {};
+    const offSpriteCutter = setIsSpriteSheetCutterOpen ? VttEventBus.on('open-sprite-cutter', () => setIsSpriteSheetCutterOpen(true)) : () => {};
     const offUvtt = VttEventBus.on('open-uvtt-modal', () => setIsUvttModalOpen(true));
     const offAsset = VttEventBus.on('open-asset-manager', () => setIsAssetManagerOpen(true));
     const offHero = VttEventBus.on('open-hero-drawer', () => setIsHeroDrawerOpen(true));
@@ -101,6 +111,10 @@ export function useCanvasEventListeners({
 
     return () => {
       offLandmass();
+      offPcg();
+      offAssetStudio();
+      offAssetIngest();
+      offSpriteCutter();
       offUvtt();
       offAsset();
       offHero();
@@ -109,6 +123,9 @@ export function useCanvasEventListeners({
     };
   }, [
     setIsLandmassModalOpen,
+    setIsAssetStudioOpen,
+    setIsAssetIngestionOpen,
+    setIsSpriteSheetCutterOpen,
     setIsUvttModalOpen,
     setIsAssetManagerOpen,
     setIsHeroDrawerOpen,

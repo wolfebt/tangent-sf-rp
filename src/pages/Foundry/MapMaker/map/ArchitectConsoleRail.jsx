@@ -43,7 +43,9 @@ import {
   Unlock,
   Radio,
   Sliders,
-  Moon
+  Moon,
+  Scissors,
+  Cpu
 } from 'lucide-react';
 import AudioService from '../../../../services/audioService';
 import { VttEventBus } from '../../../../utils/vttEventBus';
@@ -123,6 +125,10 @@ export const ArchitectConsoleRail = ({
   onOpenHeroDrawer,
   onOpenOmnicortexDrawer,
   onOpenLandmassGenerator,
+  onOpenPcgStudio,
+  onOpenAssetStudio,
+  onOpenAssetIngestion,
+  onOpenSpriteSheetCutter,
   onOpenUvttImport
 }) => {
   const [selectedCatalogScale, setSelectedCatalogScale] = useState(currentMapScale);
@@ -1000,14 +1006,47 @@ export const ArchitectConsoleRail = ({
             </button>
           )}
 
-          {onOpenLandmassGenerator && (
+          {(onOpenPcgStudio || onOpenLandmassGenerator) && (
             <button
               type="button"
-              onClick={onOpenLandmassGenerator}
+              onClick={onOpenPcgStudio || onOpenLandmassGenerator}
               className="w-9 h-9 rounded-lg flex items-center justify-center text-emerald-400 hover:bg-emerald-950/40 hover:text-emerald-300 border border-transparent hover:border-emerald-500/40 transition-all cursor-pointer"
-              title="Procedural Landmass Gen"
+              title="PCG & AI Co-Pilot Studio"
             >
-              <Globe size={17} />
+              <Cpu size={17} />
+            </button>
+          )}
+
+          {onOpenAssetStudio && (
+            <button
+              type="button"
+              onClick={onOpenAssetStudio}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-amber-400 hover:bg-amber-950/40 hover:text-amber-300 border border-transparent hover:border-amber-500/40 transition-all cursor-pointer"
+              title="Asset Studio & Property Forge"
+            >
+              <Sliders size={17} />
+            </button>
+          )}
+
+          {onOpenAssetIngestion && (
+            <button
+              type="button"
+              onClick={onOpenAssetIngestion}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-blue-400 hover:bg-blue-950/40 hover:text-blue-300 border border-transparent hover:border-blue-500/40 transition-all cursor-pointer"
+              title="External Asset Ingestion"
+            >
+              <FolderOpen size={17} />
+            </button>
+          )}
+
+          {onOpenSpriteSheetCutter && (
+            <button
+              type="button"
+              onClick={onOpenSpriteSheetCutter}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-teal-400 hover:bg-teal-950/40 hover:text-teal-300 border border-transparent hover:border-teal-500/40 transition-all cursor-pointer"
+              title="Sprite Sheet & Tile Slicer"
+            >
+              <Scissors size={17} />
             </button>
           )}
 

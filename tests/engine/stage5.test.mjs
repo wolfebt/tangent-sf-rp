@@ -10,6 +10,7 @@ import { CharacterBuilder } from '../../src/engine/rules/CharacterBuilder.ts';
 import { CombatArbitrator, SkillRank, SizeCategory, RangeCategory } from '../../src/engine/rules/CombatArbitrator.ts';
 import { DamagePipeline } from '../../src/engine/rules/DamagePipeline.ts';
 import { MechaSocketManager, TechLevel } from '../../src/engine/rules/MechaSocketManager.ts';
+import { useEngineStore, selectVehicle } from '../../src/engine/state/VolatileSharder.ts';
 
 test('Stage 5.3: CharacterBuilder 150 BP Persona DAG & Parity Caps', () => {
   const builder = new CharacterBuilder();
@@ -237,4 +238,136 @@ test('Stage 5.6: MechaSocketManager Cellular Rejection & EMP Immunity', () => {
   assert.ok(empDisabled.includes('neural-link'));
   assert.ok(empDisabled.includes('servo-booster'));
   assert.ok(!empDisabled.includes('bioware-dermal'), 'TL4 Bioware must be immune to EMP');
+});
+
+test('Stage 5.6: MechaSocketManager Vehicle Passenger Geometry & Synchronous Translation', () => {
+  const socketMgr = new MechaSocketManager();
+
+  const apcVehicle = {
+    id: 'veh-apc-01',
+    name: 'Grizzly APC',
+    gridFootprint: [2, 4],
+    col: 10,
+    row: 10,
+    facingDegrees: 0,
+    passengerNodes: [
+      { id: 'node-driver', role: 'pilot', cellOffset: [0, 0] },
+      { id: 'node-gunner', role: 'gunner', cellOffset: [1, 0] },
+      { id: 'node-seat-1', role: 'passenger', cellOffset: [0, 2] },
+      { id: 'node-seat-2', role: 'passenger', cellOffset: [1, 2] }
+    ]
+  };
+
+  // Mount operative tokens to seats
+  assert.equal(socketMgr.mountPassenger(apcVehicle, 'node-driver', 'token-operative-jax'), true);
+  assert.equal(socketMgr.mountPassenger(apcVehicle, 'node-gunner', 'token-operative-val'), true);
+  // Cannot double-mount same seat
+  assert.equal(socketMgr.mountPassenger(apcVehicle, 'node-driver', 'token-intruder'), false);
+
+  // Initial childed coordinates
+  const initialPositions = socketMgr.calculatePassengerPositions(apcVehicle, 50);
+  assert.equal(initialPositions.length, 2);
+
+  const driverPos = initialPositions.find(p => p.nodeId === 'node-driver');
+  assert.equal(driverPos.col, 10);
+  assert.equal(driverPos.row, 10);
+  assert.equal(driverPos.x, 10 * 50 + 25);
+  assert.equal(driverPos.y, 10 * 50 + 25);
+
+  const gunnerPos = initialPositions.find(p => p.nodeId === 'node-gunner');
+  assert.equal(gunnerPos.col, 11);
+  assert.equal(gunnerPos.row, 10);
+
+  // Synchronous translation: Vehicle moves 3 cells East and 2 cells South
+  const translatedPositions = socketMgr.translateVehicle(apcVehicle, 3, 2, 50);
+  assert.equal(apcVehicle.col, 13);
+  assert.equal(apcVehicle.row, 12);
+
+  const newDriverPos = translatedPositions.find(p => p.nodeId === 'node-driver');
+  assert.equal(newDriverPos.col, 13);
+  assert.equal(newDriverPos.row, 12);
+
+  const newGunnerPos = translatedPositions.find(p => p.nodeId === 'node-gunner');
+  assert.equal(newGunnerPos.col, 14);
+  assert.equal(newGunnerPos.row, 12);
+
+  // Dismount
+  assert.equal(socketMgr.dismountPassenger(apcVehicle, 'token-operative-jax'), true);
+  const afterDismount = socketMgr.calculatePassengerPositions(apcVehicle, 50);
+  assert.equal(afterDismount.length, 1);
+  assert.equal(afterDismount[0].nodeId, 'node-gunner');
+});
+
+test('Stage 5.6: useEngineStore Vehicle & Childed Passenger Translation Lifecycle', () => {
+  const store = useEngineStore.getState();
+  store.clearAllEntities();
+
+  // 1. Load Operative Token
+  store.loadStaticEntity({
+    id: 'tok-operative-val',
+    name: 'Operative Val',
+    base_hp: 30,
+    tech_level: 2,
+    armor_dr: 3,
+    size_modifier: 0
+  });
+
+  store.updatePosition('tok-operative-val', 100, 100);
+  assert.equal(useEngineStore.getState().ephemeralData['tok-operative-val'].x, 100);
+
+  // 2. Register Vehicle Entity
+  const vehicle = {
+    id: 'veh-tank-01',
+    name: 'Manticore Hovertank',
+    gridFootprint: [2, 3],
+    col: 4,
+    row: 4,
+    facingDegrees: 90,
+    passengerNodes: [
+      { id: 'node-pilot', role: 'pilot', cellOffset: [0, 0] },
+      { id: 'node-turret', role: 'gunner', cellOffset: [1, 1] }
+    ]
+  };
+
+  store.registerVehicle(vehicle);
+  assert.ok(selectVehicle(useEngineStore.getState(), 'veh-tank-01'));
+
+  // 3. Mount operative into pilot seat
+  const mountSuccess = store.mountPassenger('veh-tank-01', 'node-pilot', 'tok-operative-val', 50);
+  assert.equal(mountSuccess, true);
+
+  // Operative position snaps to node: col 4 * 50 + 25 = 225, row 4 * 50 + 25 = 225
+  const mountedEph = useEngineStore.getState().ephemeralData['tok-operative-val'];
+  assert.equal(mountedEph.parent_vehicle_id, 'veh-tank-01');
+  assert.equal(mountedEph.vehicle_node_id, 'node-pilot');
+  assert.equal(mountedEph.x, 225);
+  assert.equal(mountedEph.y, 225);
+
+  // 4. Translate Vehicle via translateVehicle
+  store.translateVehicle('veh-tank-01', 2, 3, 50);
+  const translatedEph = useEngineStore.getState().ephemeralData['tok-operative-val'];
+  // col was 4 + 2 = 6 -> 6 * 50 + 25 = 325
+  // row was 4 + 3 = 7 -> 7 * 50 + 25 = 375
+  assert.equal(translatedEph.x, 325);
+  assert.equal(translatedEph.y, 375);
+
+  // 5. Translate Vehicle via updatePosition on vehicle token
+  // Current vehicle center: col 6 * 50 + (2 * 50) / 2 = 350, row 7 * 50 + (3 * 50) / 2 = 425
+  // Move vehicle to center x=450 (col 8), y=525 (row 9) -> deltaCols = +2, deltaRows = +2
+  store.updatePosition('veh-tank-01', 450, 525);
+  const updatedEph = useEngineStore.getState().ephemeralData['tok-operative-val'];
+  // New col = 8, x = 8 * 50 + 25 = 425
+  // New row = 9, y = 9 * 50 + 25 = 475
+  assert.equal(updatedEph.x, 425);
+  assert.equal(updatedEph.y, 475);
+
+  // 6. Dismount
+  const dismountSuccess = store.dismountPassenger('veh-tank-01', 'tok-operative-val');
+  assert.equal(dismountSuccess, true);
+  assert.equal(useEngineStore.getState().ephemeralData['tok-operative-val'].parent_vehicle_id, undefined);
+
+  // Moving vehicle now leaves operative at previous coordinate
+  store.translateVehicle('veh-tank-01', 5, 5, 50);
+  assert.equal(useEngineStore.getState().ephemeralData['tok-operative-val'].x, 425);
+  assert.equal(useEngineStore.getState().ephemeralData['tok-operative-val'].y, 475);
 });

@@ -14,7 +14,8 @@ import { Graphics, Container, Text as PixiText, TextStyle } from 'pixi.js';
 import { 
   type LayerCompositor, 
   ZLayer, 
-  type WallSegment 
+  type WallSegment,
+  MarchingSquaresAutoTiler
 } from '../../../engine/index';
 
 export interface UseStageRenderersOptions {
@@ -148,6 +149,23 @@ export function useStageRenderers({
             g.lineTo(t.points[i], t.points[i+1]);
           }
           g.stroke({ width: t.strokeWidth || 30, color: colorHex, cap: 'round', join: 'round', alpha: 0.85 });
+        }
+      } else if (t.renderType === 'rect' || (t.width !== undefined && t.height !== undefined && t.x !== undefined && t.y !== undefined)) {
+        const x = t.x ?? 0;
+        const y = t.y ?? 0;
+        const w = t.width ?? 50;
+        const h = t.height ?? 50;
+        g.rect(x, y, w, h);
+        g.fill({ color: colorHex, alpha: t.opacity ?? 0.88 });
+
+        // Auto-tile edge lines from Marching Squares bitmasks
+        const edges = t.edgeLines || (t.bitmask4Bit !== undefined ? MarchingSquaresAutoTiler.getEdgeLines(x, y, w, h, t.bitmask4Bit) : null);
+        if (edges && edges.length > 0) {
+          edges.forEach((edge: [number, number, number, number]) => {
+            g.moveTo(edge[0], edge[1]);
+            g.lineTo(edge[2], edge[3]);
+          });
+          g.stroke({ width: 2, color: t.isLiquid ? 0x38bdf8 : 0x0ea5e9, alpha: 0.8 });
         }
       }
     });

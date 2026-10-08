@@ -136,4 +136,94 @@ export class MechaSocketManager {
       totalCapacitySockets
     };
   }
+
+  /**
+   * Mounts a passenger token into a designated vehicle passenger node.
+   */
+  public mountPassenger(vehicle: VehicleEntity, nodeId: string, tokenId: string): boolean {
+    const node = vehicle.passengerNodes.find(n => n.id === nodeId);
+    if (!node || node.seatedTokenId) return false;
+    node.seatedTokenId = tokenId;
+    return true;
+  }
+
+  /**
+   * Dismounts a passenger token from a vehicle.
+   */
+  public dismountPassenger(vehicle: VehicleEntity, tokenId: string): boolean {
+    const node = vehicle.passengerNodes.find(n => n.seatedTokenId === tokenId);
+    if (!node) return false;
+    node.seatedTokenId = undefined;
+    return true;
+  }
+
+  /**
+   * Calculates world and cell positions for all mounted passenger tokens childed to a vehicle.
+   * Ensures tokens move synchronously whenever the vehicle moves or turns.
+   */
+  public calculatePassengerPositions(vehicle: VehicleEntity, cellSizePx: number = 50): ChildedPassengerPosition[] {
+    const positions: ChildedPassengerPosition[] = [];
+
+    for (const node of vehicle.passengerNodes) {
+      if (!node.seatedTokenId) continue;
+
+      const [offCol, offRow] = node.cellOffset;
+      const passengerCol = vehicle.col + offCol;
+      const passengerRow = vehicle.row + offRow;
+
+      positions.push({
+        tokenId: node.seatedTokenId,
+        nodeId: node.id,
+        role: node.role,
+        col: passengerCol,
+        row: passengerRow,
+        x: passengerCol * cellSizePx + cellSizePx / 2,
+        y: passengerRow * cellSizePx + cellSizePx / 2
+      });
+    }
+
+    return positions;
+  }
+
+  /**
+   * Translates a vehicle by [deltaCols, deltaRows] and returns updated childed passenger positions.
+   */
+  public translateVehicle(
+    vehicle: VehicleEntity,
+    deltaCols: number,
+    deltaRows: number,
+    cellSizePx: number = 50
+  ): ChildedPassengerPosition[] {
+    vehicle.col += deltaCols;
+    vehicle.row += deltaRows;
+    return this.calculatePassengerPositions(vehicle, cellSizePx);
+  }
+}
+
+export interface PassengerNode {
+  id: string;
+  role: 'pilot' | 'copilot' | 'gunner' | 'passenger' | 'cargo';
+  cellOffset: [number, number]; // [col, row] relative to vehicle top-left
+  seatedTokenId?: string;       // ID of childed passenger token
+  zOverride?: string;
+}
+
+export interface VehicleEntity {
+  id: string;
+  name: string;
+  gridFootprint: [number, number]; // [widthCells, heightCells], e.g. [2, 4]
+  col: number;
+  row: number;
+  facingDegrees: number;
+  passengerNodes: PassengerNode[];
+}
+
+export interface ChildedPassengerPosition {
+  tokenId: string;
+  nodeId: string;
+  role: string;
+  col: number;
+  row: number;
+  x: number;
+  y: number;
 }

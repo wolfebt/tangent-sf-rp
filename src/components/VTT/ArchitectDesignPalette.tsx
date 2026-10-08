@@ -43,7 +43,9 @@ import {
   ImageIcon,
   Flag,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  Scissors,
+  Sliders
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { 
@@ -387,6 +389,9 @@ export interface ArchitectDesignPaletteProps {
   onOpenHazmatModal: () => void;
   onOpenLayersPanel: () => void;
   onOpenUnderlayModal?: () => void;
+  onOpenAssetStudio?: () => void;
+  onOpenAssetIngestion?: () => void;
+  onOpenSpriteSheetCutter?: () => void;
 }
 
 export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
@@ -454,7 +459,10 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
   onOpenOmnicortexDrawer,
   onOpenHazmatModal,
   onOpenLayersPanel,
-  onOpenUnderlayModal
+  onOpenUnderlayModal,
+  onOpenAssetStudio,
+  onOpenAssetIngestion,
+  onOpenSpriteSheetCutter
 }) => {
   const storeSelectedPace = useUILayoutStore((state) => state.rulerSelectedPace);
   const storeSetSelectedPace = useUILayoutStore((state) => state.setRulerSelectedPace);
@@ -1302,9 +1310,48 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
               }}
               className="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-800 border border-emerald-500/40 text-emerald-300 rounded-lg font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
-              <Sparkles size={13} />
-              <span>Landmass Gen</span>
+              <Cpu size={13} />
+              <span>PCG & AI Co-Pilot</span>
             </button>
+
+            {onOpenAssetStudio && (
+              <button
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  onOpenAssetStudio();
+                }}
+                className="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Sliders size={13} />
+                <span>Asset Studio & Forge</span>
+              </button>
+            )}
+
+            {onOpenAssetIngestion && (
+              <button
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  onOpenAssetIngestion();
+                }}
+                className="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-800 border border-blue-500/40 text-blue-300 rounded-lg font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <FolderOpen size={13} />
+                <span>Asset Ingestion</span>
+              </button>
+            )}
+
+            {onOpenSpriteSheetCutter && (
+              <button
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  onOpenSpriteSheetCutter();
+                }}
+                className="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-800 border border-teal-500/40 text-teal-300 rounded-lg font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Scissors size={13} />
+                <span>Sprite Slicer</span>
+              </button>
+            )}
 
             <button
               onClick={() => {

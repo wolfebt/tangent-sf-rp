@@ -23,6 +23,7 @@ import {
   GRID_SCALE_CONFIGS,
   useEngineStore,
   selectAllFusedTokens,
+  selectAllVehicles,
   InteractiveObjectManager,
   type SceneInteractiveObject,
   type FusedToken,
@@ -277,6 +278,46 @@ export const StageView: React.FC<StageViewProps> = ({
   const [isLayersPanelOpen, setIsLayersPanelOpen] = useState<boolean>(false);
   const [inspectingInteractiveObj, setInspectingInteractiveObj] = useState<any | null>(null);
 
+  // Asset Studio & Ingestion Suite Modal States
+  const [isAssetStudioOpen, setIsAssetStudioOpen] = useState<boolean>(false);
+  const [isAssetIngestionOpen, setIsAssetIngestionOpen] = useState<boolean>(false);
+  const [isSpriteSheetCutterOpen, setIsSpriteSheetCutterOpen] = useState<boolean>(false);
+  const [selectedStudioAsset, setSelectedStudioAsset] = useState<any | null>(null);
+
+  const handleOpenAssetStudio = () => {
+    if (!selectedStudioAsset) {
+      setSelectedStudioAsset({
+        id: `unit-${Date.now()}`,
+        name: 'Custom Tactical Unit',
+        tree_path: 'Custom / Studio',
+        category: 'doodad',
+        tags: ['custom', 'tactical'],
+        dimensions: { width: 1, height: 1 },
+        visuals: {
+          primary_sprite: '',
+          scale: 1,
+          anchor: { x: 0.5, y: 0.5 },
+          rotation: 0
+        },
+        tactical: {
+          blocks_movement: true,
+          blocks_vision: false,
+          cover_rating: 'half',
+          flammable: false
+        }
+      });
+    }
+    setIsAssetStudioOpen(true);
+  };
+
+  const handleAssetIngested = (asset: any) => {
+    setCombatLog(prev => [
+      `[ASSET FORGE] Ingested "${asset.name}" (${asset.category}) to ${asset.tree_path}.`,
+      ...prev.slice(0, 8)
+    ]);
+    AudioService.playTerminalBeep(1400, 0.04);
+  };
+
   // Tactical Radar Pings
   const [activePings, setActivePings] = useState<any[]>([]);
 
@@ -459,6 +500,9 @@ export const StageView: React.FC<StageViewProps> = ({
     setIsHeroDrawerOpen,
     setIsOmnicortexDrawerOpen,
     setIsLayersPanelOpen,
+    setIsAssetStudioOpen: () => handleOpenAssetStudio(),
+    setIsAssetIngestionOpen,
+    setIsSpriteSheetCutterOpen,
     selectedTokenId,
     setSelectedTokenId,
     setCombatLog
@@ -1666,7 +1710,8 @@ export const StageView: React.FC<StageViewProps> = ({
       const vitHealthText = isSynthetic
         ? `${token.current_structure ?? 60} SP`
         : `${token.current_vitality ?? 30} VP | ${token.current_health ?? token.current_hp ?? 30} HP`;
-      const label = new Text({ text: `${token.name} (${vitHealthText})`, style });
+      const seatSuffix = token.vehicle_node_id ? ` [${token.vehicle_node_id.replace('node-', '').toUpperCase()}]` : '';
+      const label = new Text({ text: `${token.name}${seatSuffix} (${vitHealthText})`, style });
       label.anchor.set(0.5, -1.8);
       container.addChild(label);
 
@@ -2627,6 +2672,16 @@ export const StageView: React.FC<StageViewProps> = ({
     ) || null;
   }, [selectedToken]);
 
+  const nearbyVehicle = useMemo(() => {
+    if (!selectedToken) return null;
+    const allVehicles = selectAllVehicles(useEngineStore.getState());
+    return allVehicles.find(v => {
+      const vCenterX = v.col * 50 + (v.gridFootprint[0] * 50) / 2;
+      const vCenterY = v.row * 50 + (v.gridFootprint[1] * 50) / 2;
+      return Math.hypot(vCenterX - selectedToken.x, vCenterY - selectedToken.y) <= 120;
+    }) || null;
+  }, [selectedToken]);
+
   const isPointBlankTarget = useMemo(() => {
     if (!selectedToken || !targetToken) return false;
     const distPx = Math.hypot(targetToken.x - selectedToken.x, targetToken.y - selectedToken.y);
@@ -2671,6 +2726,25 @@ export const StageView: React.FC<StageViewProps> = ({
     } else if (actionId === 'interact') {
       if (nearbyInteractiveObj) {
         handleToggleBulkhead(nearbyInteractiveObj.id);
+      }
+    } else if (actionId === 'vehicle_dismount') {
+      if (selectedToken?.parent_vehicle_id) {
+        useEngineStore.getState().dismountPassenger(selectedToken.parent_vehicle_id, selectedToken.id);
+        setCombatLog(prev => [
+          `[VEHICLE] ${selectedToken.name} dismounted from vehicle.`,
+          ...prev.slice(0, 8)
+        ]);
+      }
+    } else if (actionId === 'vehicle_board') {
+      if (nearbyVehicle) {
+        const availableNode = nearbyVehicle.passengerNodes.find(n => !n.seatedTokenId);
+        if (availableNode) {
+          useEngineStore.getState().mountPassenger(nearbyVehicle.id, availableNode.id, selectedToken.id, 50);
+          setCombatLog(prev => [
+            `[VEHICLE] ${selectedToken.name} boarded ${nearbyVehicle.name} (${availableNode.role.toUpperCase()}).`,
+            ...prev.slice(0, 8)
+          ]);
+        }
       }
     } else if (actionId === 'folio') {
       setActiveTab('spawner');
@@ -2846,6 +2920,7 @@ export const StageView: React.FC<StageViewProps> = ({
           targetToken={targetToken}
           downedAllyNearby={downedAllyNearby}
           nearbyInteractiveObj={nearbyInteractiveObj}
+          nearbyVehicle={nearbyVehicle}
           isPointBlankTarget={isPointBlankTarget}
           onSelectAction={handleRadialSelectAction}
         />
@@ -2924,6 +2999,9 @@ export const StageView: React.FC<StageViewProps> = ({
             onOpenHazmatModal={() => setIsHazmatModalOpen(true)}
             onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
             onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
+            onOpenAssetStudio={handleOpenAssetStudio}
+            onOpenAssetIngestion={() => setIsAssetIngestionOpen(true)}
+            onOpenSpriteSheetCutter={() => setIsSpriteSheetCutterOpen(true)}
           />
       </div>
 
@@ -2979,6 +3057,22 @@ export const StageView: React.FC<StageViewProps> = ({
         setIsUnderlayModalOpen={setIsUnderlayModalOpen}
         underlayConfig={underlayConfig}
         setUnderlayConfig={setUnderlayConfig}
+
+        isAssetStudioOpen={isAssetStudioOpen}
+        setIsAssetStudioOpen={setIsAssetStudioOpen}
+        selectedStudioAsset={selectedStudioAsset}
+        onSaveStudioAsset={(updated) => {
+          setSelectedStudioAsset(updated);
+          setCombatLog(prev => [
+            `[ASSET FORGE] Saved "${updated.name}" metadata.`,
+            ...prev.slice(0, 8)
+          ]);
+        }}
+        isAssetIngestionOpen={isAssetIngestionOpen}
+        setIsAssetIngestionOpen={setIsAssetIngestionOpen}
+        onAssetIngested={handleAssetIngested}
+        isSpriteSheetCutterOpen={isSpriteSheetCutterOpen}
+        setIsSpriteSheetCutterOpen={setIsSpriteSheetCutterOpen}
       />
     </div>
   );

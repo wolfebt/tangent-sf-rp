@@ -27,7 +27,9 @@ import {
   Cpu,
   FolderTree,
   Hammer,
-  ArrowLeft
+  ArrowLeft,
+  Sliders,
+  Scissors
 } from 'lucide-react';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { showToast } from '../../../context/ToastContext';
@@ -448,12 +450,48 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
                   onClick={() => {
                     AudioService.playTerminalBeep(1200, 0.03);
                     setIsProjectMenuOpen(false);
-                    VttEventBus.emit('open-landmass-modal');
+                    VttEventBus.emit('open-pcg-modal');
                   }}
                   className="w-full text-left px-3.5 py-1.5 hover:bg-emerald-950/60 text-emerald-300 hover:text-emerald-200 flex items-center gap-2 transition-colors cursor-pointer"
                 >
                   <Sparkles size={13} className="text-emerald-400" />
-                  <span>Procedural Landmass Gen</span>
+                  <span>PCG & AI Co-Pilot Studio</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    VttEventBus.emit('open-asset-studio');
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Sliders size={13} className="text-amber-400" />
+                  <span>Asset Studio & Property Forge</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    VttEventBus.emit('open-asset-ingestion');
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-blue-950/60 text-blue-300 hover:text-blue-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <FolderOpen size={13} className="text-blue-400" />
+                  <span>External Asset Ingestion</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsProjectMenuOpen(false);
+                    VttEventBus.emit('open-sprite-cutter');
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-teal-950/60 text-teal-300 hover:text-teal-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Scissors size={13} className="text-teal-400" />
+                  <span>Sprite Sheet & Tile Slicer</span>
                 </button>
                 <button
                   type="button"
