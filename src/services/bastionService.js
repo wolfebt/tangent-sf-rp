@@ -1,6 +1,6 @@
 import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPromptRegistry.js';
 import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
-import { queryOmnicortexRAG, formatRagContextForBastion } from './omnicortexVectorRag.ts';
+import { queryOmnicortexRAG, formatRagContextForBastion, loadCompendiumSeedDataset } from './omnicortexVectorRag.ts';
 import {
   synthesizeCharacterWithBastion,
   getArchetypeRecommendations,
@@ -170,6 +170,7 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
  */
 export const sendBastionChatMessage = async ({ prompt, history = [], contextData = null }) => {
   const apiKey = getGeminiApiKey();
+  await loadCompendiumSeedDataset().catch(() => {});
   const ragResults = queryOmnicortexRAG(prompt, 2);
   const ragContext = formatRagContextForBastion(ragResults);
 

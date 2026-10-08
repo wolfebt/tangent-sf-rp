@@ -27,19 +27,11 @@ const MapToolbar = ({
   setShowSettingsPanel,
   showLayersPanel,
   setShowLayersPanel,
-  showHeroDrawer,
-  setShowHeroDrawer,
   showOmnicortexDrawer,
   setShowOmnicortexDrawer,
   showStoryDrawer,
   setShowStoryDrawer,
-  showAutomationConsole,
-  setShowAutomationConsole,
-  showCombatTracker,
-  setShowCombatTracker,
-  showAdventureLog,
-  setShowAdventureLog,
-  onOpenInitiativeManager,
+  onOpenInStage,
   showMetadataPanel,
   setShowMetadataPanel,
   showKeyPanel,
@@ -417,8 +409,6 @@ const MapToolbar = ({
                 { id: 'tools', label: 'Design Palette', active: showToolsPanel, toggle: () => setShowToolsPanel(prev => !prev), icon: '🛠️' },
                 { id: 'settings', label: 'Tool Options', active: showSettingsPanel, toggle: () => setShowSettingsPanel(prev => !prev), icon: '⚙️' },
                 { id: 'layers', label: 'Compositor Layers', active: showLayersPanel, toggle: () => setShowLayersPanel(prev => !prev), icon: '🥞' },
-                { id: 'combat', label: 'Combat Tracker', active: showCombatTracker, toggle: () => setShowCombatTracker?.(prev => !prev), icon: '⚔️' },
-                { id: 'adventure_log', label: 'Adventure Log', active: showAdventureLog, toggle: () => setShowAdventureLog?.(prev => !prev), icon: '📜' },
                 { id: 'key', label: 'Map Key & Index', active: showKeyPanel, toggle: () => setShowKeyPanel?.(prev => !prev), icon: '🗺️' },
                 { id: 'metadata', label: 'Scale Properties', active: showMetadataPanel, toggle: () => setShowMetadataPanel?.(prev => !prev), icon: '🌐' }
               ].map((item) => (
@@ -464,21 +454,6 @@ const MapToolbar = ({
             <span className="hidden xl:inline">ADE</span>
           </button>
 
-          {/* Folio Hero Spawner */}
-          <button
-            type="button"
-            onClick={() => setShowHeroDrawer?.(prev => !prev)}
-            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-              showHeroDrawer
-                ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
-                : 'text-amber-400 hover:text-amber-200 hover:bg-slate-800/80 border border-transparent'
-            }`}
-            title="Open Folio Hero & Team Spawner Drawer"
-          >
-            <span>📜</span>
-            <span className="hidden xl:inline">Heroes</span>
-          </button>
-
           {/* Omnicortex Compendium */}
           <button
             type="button"
@@ -492,21 +467,6 @@ const MapToolbar = ({
           >
             <span>🧠</span>
             <span className="hidden xl:inline">Omnicortex</span>
-          </button>
-
-          {/* Autonomous Reactive VTT Cockpit */}
-          <button
-            type="button"
-            onClick={() => setShowAutomationConsole?.(prev => !prev)}
-            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-              showAutomationConsole
-                ? 'bg-orange-950 text-orange-200 border border-orange-500/60 shadow-[0_0_10px_rgba(249,115,22,0.3)]'
-                : 'text-orange-400 hover:text-orange-200 hover:bg-slate-800/80 border border-transparent'
-            }`}
-            title="Open Reactive Automation & Script Cockpit (Traps, Patrols, Sentries)"
-          >
-            <span>🤖</span>
-            <span className="hidden xl:inline">Automation</span>
           </button>
 
           {/* Unified VTT Tactical Console Drawer */}
@@ -524,20 +484,18 @@ const MapToolbar = ({
             <span className="hidden xl:inline">VTT Console</span>
           </button>
 
-          {/* Tactical Adventure Log Blackbox */}
-          <button
-            type="button"
-            onClick={() => setShowAdventureLog?.(prev => !prev)}
-            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-              showAdventureLog
-                ? 'bg-cyan-950 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                : 'text-cyan-400 hover:text-cyan-200 hover:bg-slate-800/80 border border-transparent'
-            }`}
-            title="Open Tactical Adventure Log (Telemetry, Combat Strikes, Hazards, GM Notes)"
-          >
-            <span>📜</span>
-            <span className="hidden xl:inline">Log</span>
-          </button>
+          {/* Stage Compiler Bridge */}
+          {onOpenInStage && (
+            <button
+              type="button"
+              onClick={onOpenInStage}
+              className="px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer bg-purple-950/80 hover:bg-purple-900 border border-purple-500/60 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.3)]"
+              title="Open active map in STAGE Compiler (Scenarios, Triggers, Encounters & VTT)"
+            >
+              <span>✨</span>
+              <span className="hidden xl:inline">Stage</span>
+            </button>
+          )}
 
           {/* 3D Holographic Live Preview Toggle */}
           {onToggle3DPreview && (

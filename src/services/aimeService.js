@@ -1,6 +1,6 @@
 import { getGeminiApiKey, fetchGeminiContent, parseRollCommand } from './bastionService.js';
 import { hydrateElementEntities } from './entityHydrator.js';
-import { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag.ts';
+import { queryOmnicortexRAG, formatRagContextForAIME, loadCompendiumSeedDataset } from './omnicortexVectorRag.ts';
 import { formatCronicleContextForAIME, extractNarrativeDeltas } from './cronicleService.js';
 import { synthesizeSuperPrompt, buildStaticRulesPrefix } from './superPromptSynthesizer.js';
 import { scanDynamicLorebook } from './lorebookScanner.ts';

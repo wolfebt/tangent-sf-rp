@@ -3,7 +3,9 @@ import {
   Map, 
   FolderTree, 
   Cpu, 
-  Download
+  Download,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 
 export const MAP_STUDIO_TABS = [
@@ -13,7 +15,7 @@ export const MAP_STUDIO_TABS = [
   { id: 'export', label: 'Universal VTT Export', icon: Download, badge: '.dd2vtt' }
 ];
 
-export const MapMakerTabBar = ({ activeTab, onSelectTab }) => {
+export const MapMakerTabBar = ({ activeTab, onSelectTab, onOpenInStage }) => {
   return (
     <div className="flex items-center justify-between px-3 py-1.5 bg-slate-950 border-b border-cyan-900/50 shadow-inner select-none overflow-x-auto">
       <div className="flex items-center space-x-1.5 min-w-max">
@@ -50,9 +52,21 @@ export const MapMakerTabBar = ({ activeTab, onSelectTab }) => {
         })}
       </div>
 
-      <div className="flex items-center space-x-2 text-[10px] font-mono text-cyan-400/80 px-2">
-        <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span className="hidden sm:inline">WORKSPACE // TABBED MODE</span>
+      <div className="flex items-center space-x-2 text-[10px] font-mono text-cyan-400/80 px-2 shrink-0">
+        {onOpenInStage && (
+          <button
+            type="button"
+            onClick={onOpenInStage}
+            className="px-2.5 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-sm transition-all"
+            title="Open active map in STAGE Compiler (Scenarios, Triggers, Encounters & VTT)"
+          >
+            <Sparkles size={12} className="text-purple-400" />
+            <span>Stage Compiler</span>
+            <ArrowRight size={11} className="text-purple-400" />
+          </button>
+        )}
+        <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span className="hidden sm:inline">CARTOGRAPHY STUDIO</span>
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckC
 import { Toast } from '../UI/Toast';
 import { useToast, showToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
-import { TrackedModificationsModal } from './modals/TrackedModificationsModal';
 import FolioSidebar from './FolioSidebar';
 import IdentityTab from './tabs/IdentityTab';
 import CoreStatsTab from './tabs/CoreStatsTab';
@@ -19,30 +18,31 @@ import CompanionsTab from './tabs/CompanionsTab';
 import PropertyTab from './tabs/PropertyTab';
 import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
-import EconomyModal from './modals/EconomyModal';
 import AddSkillModal from './modals/AddSkillModal';
-import CustomSelectorModal from './modals/CustomSelectorModal';
-import AssetModal from './modals/AssetModal';
 import ConfirmationModal from './modals/ConfirmationModal';
-import PreviewModal from './modals/PreviewModal';
-import RosterModal from './modals/RosterModal';
-import BastionDrawer from './BastionDrawer';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { resolveMetaSkillForInvocation } from '../../utils/metaphysicsUtils';
 import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
-import { FolioGuideModal } from './FolioGuideModal';
-import { UserSettingsModal } from '../UserSettingsModal';
 import { AudioService } from '../../services/audioService';
 import RosterCatalogView from './views/RosterCatalogView';
 import FeaturesHubView from './views/FeaturesHubView';
+import PropertyHubView from './views/PropertyHubView';
+import TacticalPlayView from './views/TacticalPlayView';
 
-// Lazy Loaded Heavy Modals & Print Component
+// Lazy Loaded Heavy Modals & Drawers (Optimized Cold-Load Code Splitting)
+const CustomSelectorModal = React.lazy(() => import('./modals/CustomSelectorModal'));
+const AssetModal = React.lazy(() => import('./modals/AssetModal'));
 const MetaphysicsModal = React.lazy(() => import('./modals/MetaphysicsModal'));
 const GuidedCreatorModal = React.lazy(() => import('./modals/GuidedCreatorModal'));
 const PrintFolio = React.lazy(() => import('./print/PrintFolio'));
-import PropertyHubView from './views/PropertyHubView';
-import TacticalPlayView from './views/TacticalPlayView';
+const EconomyModal = React.lazy(() => import('./modals/EconomyModal'));
+const RosterModal = React.lazy(() => import('./modals/RosterModal'));
+const BastionDrawer = React.lazy(() => import('./BastionDrawer'));
+const FolioGuideModal = React.lazy(() => import('./FolioGuideModal'));
+const UserSettingsModal = React.lazy(() => import('../UserSettingsModal'));
+const TrackedModificationsModal = React.lazy(() => import('./modals/TrackedModificationsModal'));
+const PreviewModal = React.lazy(() => import('./modals/PreviewModal'));
 
 const FolioContainer = () => {
   const navigate = useNavigate();
@@ -948,13 +948,6 @@ const FolioContainer = () => {
       </div>
 
       {/* Modals & Drawers */}
-      <EconomyModal
-        isOpen={isEconomyOpen}
-        onClose={() => setIsEconomyOpen(false)}
-        characterData={characterData}
-        updateField={updateField}
-        economyBreakdown={economyBreakdown}
-      />
       <AddSkillModal
         isOpen={isAddSkillOpen}
         onClose={() => setIsAddSkillOpen(false)}
@@ -963,20 +956,28 @@ const FolioContainer = () => {
         availableSkills={availableSkillsForModal}
         initialMode={addSkillModalMode}
       />
-      <CustomSelectorModal
-        isOpen={isSelectorOpen}
-        onClose={() => setIsSelectorOpen(false)}
-        modalConfig={selectorConfig}
-        onSelectItem={handleSelectItem}
-        onOpenAssetModal={handleOpenAssetModal}
-      />
-      <AssetModal
-        isOpen={isAssetModalOpen}
-        onClose={() => setIsAssetModalOpen(false)}
-        modalConfig={assetModalConfig}
-        onSaveAsset={handleSaveAssetItem}
-        onDeleteAsset={handleDeleteAssetItem}
-      />
+      {isSelectorOpen && (
+        <React.Suspense fallback={null}>
+          <CustomSelectorModal
+            isOpen={isSelectorOpen}
+            onClose={() => setIsSelectorOpen(false)}
+            modalConfig={selectorConfig}
+            onSelectItem={handleSelectItem}
+            onOpenAssetModal={handleOpenAssetModal}
+          />
+        </React.Suspense>
+      )}
+      {isAssetModalOpen && (
+        <React.Suspense fallback={null}>
+          <AssetModal
+            isOpen={isAssetModalOpen}
+            onClose={() => setIsAssetModalOpen(false)}
+            modalConfig={assetModalConfig}
+            onSaveAsset={handleSaveAssetItem}
+            onDeleteAsset={handleDeleteAssetItem}
+          />
+        </React.Suspense>
+      )}
       <ConfirmationModal
         isOpen={isConfirmOpen}
         onClose={() => setIsConfirmOpen(false)}
@@ -991,56 +992,75 @@ const FolioContainer = () => {
         title="Delete Operative Persona"
         message={`Are you sure you want to permanently delete character "${characterData['char-name'] || 'Unnamed Operative'}" from your roster and clear this sheet?`}
       />
-      <PreviewModal
-        isOpen={isPreviewOpen}
-        onClose={() => setIsPreviewOpen(false)}
-        characterData={characterData}
-      />
-      <RosterModal
-        isOpen={isRosterOpen}
-        onClose={() => setIsRosterOpen(false)}
-        personaRoster={personaRoster}
-        activeDocId={characterData['character-doc-id']}
-        onSelectCharacter={(docId) => {
-          switchRosterCharacter(docId);
-          setActiveTab('identity');
-          setIsRosterOpen(false);
-        }}
-        onNewCharacter={() => {
-          handleNewCharacter();
-          setActiveTab('identity');
-          setIsRosterOpen(false);
-        }}
-        onGuidedCreator={() => {
-          setIsGuidedCreatorOpen(true);
-        }}
-        onDuplicateCharacter={duplicateRosterCharacter}
-        onDeleteCharacter={deleteRosterCharacter}
-        onUpdateNote={updateRosterCharacterNote}
-        onToggleVisibility={togglePersonaVisibility}
-        onToggleNetworkEngaged={togglePersonaNetworkEngaged}
-        onLoadPublicGallery={loadPublicPersonas}
-        publicCatalog={publicCatalog}
-        onSelectPublicPersona={(char) => {
-          handleLoadCloud(char.id);
-          setActiveTab('identity');
-          setIsRosterOpen(false);
-        }}
-        onClonePublicPersona={(char) => {
-          clonePublicPersona(char);
-          setActiveTab('identity');
-          setIsRosterOpen(false);
-        }}
-      />
-      <BastionDrawer
-        isOpen={isBastionOpen}
-        onClose={() => setIsBastionOpen(false)}
-      />
-      <FolioGuideModal
-        isOpen={isGuideOpen}
-        onClose={() => setIsGuideOpen(false)}
-      />
+
+      {/* Code-Split Heavy Modals & Drawers */}
       <React.Suspense fallback={null}>
+        {isEconomyOpen && (
+          <EconomyModal
+            isOpen={isEconomyOpen}
+            onClose={() => setIsEconomyOpen(false)}
+            characterData={characterData}
+            updateField={updateField}
+            economyBreakdown={economyBreakdown}
+          />
+        )}
+        {isPreviewOpen && (
+          <PreviewModal
+            isOpen={isPreviewOpen}
+            onClose={() => setIsPreviewOpen(false)}
+            characterData={characterData}
+          />
+        )}
+        {isRosterOpen && (
+          <RosterModal
+            isOpen={isRosterOpen}
+            onClose={() => setIsRosterOpen(false)}
+            personaRoster={personaRoster}
+            activeDocId={characterData['character-doc-id']}
+            onSelectCharacter={(docId) => {
+              switchRosterCharacter(docId);
+              setActiveTab('identity');
+              setIsRosterOpen(false);
+            }}
+            onNewCharacter={() => {
+              handleNewCharacter();
+              setActiveTab('identity');
+              setIsRosterOpen(false);
+            }}
+            onGuidedCreator={() => {
+              setIsGuidedCreatorOpen(true);
+            }}
+            onDuplicateCharacter={duplicateRosterCharacter}
+            onDeleteCharacter={deleteRosterCharacter}
+            onUpdateNote={updateRosterCharacterNote}
+            onToggleVisibility={togglePersonaVisibility}
+            onToggleNetworkEngaged={togglePersonaNetworkEngaged}
+            onLoadPublicGallery={loadPublicPersonas}
+            publicCatalog={publicCatalog}
+            onSelectPublicPersona={(char) => {
+              handleLoadCloud(char.id);
+              setActiveTab('identity');
+              setIsRosterOpen(false);
+            }}
+            onClonePublicPersona={(char) => {
+              clonePublicPersona(char);
+              setActiveTab('identity');
+              setIsRosterOpen(false);
+            }}
+          />
+        )}
+        {isBastionOpen && (
+          <BastionDrawer
+            isOpen={isBastionOpen}
+            onClose={() => setIsBastionOpen(false)}
+          />
+        )}
+        {isGuideOpen && (
+          <FolioGuideModal
+            isOpen={isGuideOpen}
+            onClose={() => setIsGuideOpen(false)}
+          />
+        )}
         {isGuidedCreatorOpen && (
           <GuidedCreatorModal
             isOpen={isGuidedCreatorOpen}
@@ -1050,27 +1070,27 @@ const FolioContainer = () => {
             }}
           />
         )}
-      </React.Suspense>
-      <UserSettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-      />
-      <React.Suspense fallback={null}>
+        {isSettingsOpen && (
+          <UserSettingsModal
+            isOpen={isSettingsOpen}
+            onClose={() => setIsSettingsOpen(false)}
+          />
+        )}
         {isMetaphysicsOpen && (
           <MetaphysicsModal
             isOpen={isMetaphysicsOpen}
             onClose={() => setIsMetaphysicsOpen(false)}
           />
         )}
-      </React.Suspense>
-      <TrackedModificationsModal
-        isOpen={isTrackedModsOpen}
-        onClose={() => setIsTrackedModsOpen(false)}
-        modifications={trackedModifications}
-        onRevert={(modId) => revertTrackedModification(modId)}
-      />
-      {/* Print-only Folio Output */}
-      <React.Suspense fallback={null}>
+        {isTrackedModsOpen && (
+          <TrackedModificationsModal
+            isOpen={isTrackedModsOpen}
+            onClose={() => setIsTrackedModsOpen(false)}
+            modifications={trackedModifications}
+            onRevert={(modId) => revertTrackedModification(modId)}
+          />
+        )}
+        {/* Print-only Folio Output */}
         <div className="hidden print:block">
           <PrintFolio characterData={characterData} />
         </div>

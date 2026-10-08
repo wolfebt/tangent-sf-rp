@@ -5,7 +5,6 @@
  * keyword/tag boosting, and canonical rules/lore context injection for BASTION and AIME.
  */
 
-import compendiumSeed from '../data/compendiumSeed.json' with { type: 'json' };
 import { BASTION_MECHANICS_DATASET } from '../data/mechanicsData.js';
 import specializedRules from '../data/omnicortexSpecializedRules.json' with { type: 'json' };
 import catalogChunks from '../data/bastionCatalogChunks.json' with { type: 'json' };
@@ -198,12 +197,12 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 ];
 
 /**
- * Builds dynamic compendium chunks from compendiumSeed.json
+ * Builds dynamic compendium chunks from seed array
  */
-function buildCompendiumChunks(): RuleChunk[] {
-  if (!Array.isArray(compendiumSeed)) return [];
+function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
+  if (!Array.isArray(seedList)) return [];
 
-  return compendiumSeed.map((item: any) => {
+  return seedList.map((item: any) => {
     let cat: RuleChunk['category'] = 'lore';
     const p = (item.parent || '').toLowerCase();
     const t = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
@@ -291,13 +290,12 @@ function buildCatalogChunks(): RuleChunk[] {
   }));
 }
 
-// Combine Foundational Rules, Mechanics Dataset, Catalog Chunks, Specialized Rules, and Compendium Articles
+// Combine Foundational Rules, Mechanics Dataset, Catalog Chunks, and Specialized Rules
 export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
   ...buildMechanicsChunks(),
   ...buildCatalogChunks(),
   ...CANONICAL_FOUNDATIONAL_CHUNKS,
-  ...buildSpecializedRuleChunks(),
-  ...buildCompendiumChunks()
+  ...buildSpecializedRuleChunks()
 ];
 
 /**
@@ -343,15 +341,48 @@ function cosineSimilarity(vecA: number[], vecB: number[]): number {
 }
 
 // Build Global Vocabulary across all chunks
-const ALL_TEXT = CANONICAL_RULES_COMPENDIUM.map(c => `${c.title} ${c.tags.join(' ')} ${c.text}`).join(' ');
-const VOCABULARY = Array.from(new Set(
-  ALL_TEXT.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(w => w.length > 2)
-));
+let VOCABULARY: string[] = [];
 
-// Pre-embed all chunks on startup
-for (const chunk of CANONICAL_RULES_COMPENDIUM) {
-  const fullText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`;
-  chunk.embedding = computeTermVector(fullText, VOCABULARY);
+function recomputeEmbeddings() {
+  const ALL_TEXT = CANONICAL_RULES_COMPENDIUM.map(c => `${c.title} ${c.tags.join(' ')} ${c.text}`).join(' ');
+  VOCABULARY = Array.from(new Set(
+    ALL_TEXT.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(w => w.length > 2)
+  ));
+
+  for (const chunk of CANONICAL_RULES_COMPENDIUM) {
+    if (!chunk.embedding) {
+      const fullText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`;
+      chunk.embedding = computeTermVector(fullText, VOCABULARY);
+    }
+  }
+}
+
+// Pre-embed initial canonical rules
+recomputeEmbeddings();
+
+// Dynamic Compendium Seed Loader (fine-grained async code-splitting)
+let compendiumSeedPromise: Promise<void> | null = null;
+let isCompendiumSeedLoaded = false;
+
+export async function loadCompendiumSeedDataset(): Promise<void> {
+  if (isCompendiumSeedLoaded) return;
+  if (!compendiumSeedPromise) {
+    compendiumSeedPromise = import('../data/compendiumSeed.json')
+      .then((mod) => {
+        const seedData = (mod.default || mod) as any[];
+        const chunks = buildCompendiumChunks(seedData);
+        for (const chunk of chunks) {
+          CANONICAL_RULES_COMPENDIUM.push(chunk);
+        }
+        recomputeEmbeddings();
+        isCompendiumSeedLoaded = true;
+      })
+      .catch((err) => {
+        console.warn('[OmnicortexVectorRAG] Dynamic compendium seed load error:', err);
+        compendiumSeedPromise = null;
+      });
+  }
+  return compendiumSeedPromise;
 }
 
 export interface RagSearchResult {
@@ -404,6 +435,11 @@ function detectIntentCategories(query: string): string[] {
 export function queryOmnicortexRAG(query: string, topK: number = 4, categoryFilter?: string): RagSearchResult[] {
   if (!query || !query.trim()) {
     return [];
+  }
+
+  // Trigger lazy loading of compendium seed in background if not yet loaded
+  if (!isCompendiumSeedLoaded && !compendiumSeedPromise) {
+    loadCompendiumSeedDataset().catch(() => {});
   }
 
   const queryVector = computeTermVector(query, VOCABULARY);
@@ -494,6 +530,7 @@ export function formatRagContextForAIME(ragResults: RagSearchResult[]): string {
 
 export default {
   CANONICAL_RULES_COMPENDIUM,
+  loadCompendiumSeedDataset,
   queryOmnicortexRAG,
   formatRagContextForBastion,
   formatRagContextForAIME

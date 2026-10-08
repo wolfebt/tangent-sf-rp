@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Stage, Layer, Rect, Circle, Text as KonvaText, Line, RegularPolygon, Image as KonvaImage, Group } from 'react-konva';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,7 +7,6 @@ import { produce } from 'immer';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { showToast } from '../../../context/ToastContext';
 import VttCommandDrawer from './map/VttCommandDrawer';
-import OperativeCockpitRail from './map/OperativeCockpitRail';
 import { createTacticalPing, filterExpiredPings } from '../../../services/mapPingService';
 import { createDefaultTeamRoster, canUserControlToken, isUserArchitect, VTT_ROLES } from '../../../services/vttTeamService';
 
@@ -15,7 +14,6 @@ import { MAP_TYPES, DEFAULT_LAYERS, MASTER_TERRAINS, MASTER_OBJECTS, PENCIL_COLO
 import { MapObjectNode, TokenNode, TextLabelNode } from './map/MapObjectNode';
 import MapWallNode from './map/MapWallNode';
 import WaypointRulerOverlay from './map/WaypointRulerOverlay';
-import TokenRadialActionWheel from './map/TokenRadialActionWheel';
 import UvttImportModal from './map/UvttImportModal';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
 import { toggleDoorState, damageWallSegment } from '../../../schemas/vttWallSchema';
@@ -24,28 +22,17 @@ import MapToolbar from './map/MapToolbar';
 import ArchitectConsoleRail from './map/ArchitectConsoleRail';
 import MapToolsPanel from './map/MapToolsPanel';
 import MapLayersPanel from './map/MapLayersPanel';
-import MapCombatTracker from './map/MapCombatTracker';
-import AdventureLogDrawer from './map/AdventureLogDrawer';
-import InitiativeManagerModal from './map/InitiativeManagerModal';
-import { sortInitiativeOrder } from '../../../services/initiativeService';
 import MapMetadataPanel from './map/MapMetadataPanel';
 import MapKeyPanel from './map/MapKeyPanel';
-import StatusGemsModal from './map/StatusGemsModal';
 import MapAssetManagerModal from './map/MapAssetManagerModal';
-import FolioHeroTokenDrawer from './map/FolioHeroTokenDrawer';
 import OmnicortexAssetDrawer from './map/OmnicortexAssetDrawer';
 import StoryElementsDrawer from './map/StoryElementsDrawer';
 import StoryElementModal from './map/StoryElementModal';
-import ReactiveAutomationConsole from './map/ReactiveAutomationConsole';
-import { evaluateTrapTriggers } from '../../../services/reactiveVttService';
 import { DBMItemModal } from '../../../components/DBM/DBMItemModal';
-import FloatingCombatText from './map/FloatingCombatText';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
 import MapMaker3DPreviewModal from './components/MapMaker3DPreviewModal';
-import { TacticalPlayModal } from '../../../components/Folio/modals/TacticalPlayModal';
-import { tokenToFolioCharacter } from '../../../schemas/sharedSchemas';
 
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
@@ -189,7 +176,8 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
   );
 };
 
-const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
+const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, onSwitchView }) => {
+  const navigate = useNavigate();
   const containerRef = useRef(null);
   const stageRef = useRef(null);
   const [stageSize, setStageSize] = useState({ width: 800, height: 600 });
@@ -198,23 +186,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   const [showToolsPanel, setShowToolsPanel] = useState(true);
   const [showSettingsPanel, setShowSettingsPanel] = useState(true);
   const [showLayersPanel, setShowLayersPanel] = useState(true);
-  const [showHeroDrawer, setShowHeroDrawer] = useState(false);
   const [showOmnicortexDrawer, setShowOmnicortexDrawer] = useState(false);
   const [showStoryDrawer, setShowStoryDrawer] = useState(false);
-  const [showAutomationConsole, setShowAutomationConsole] = useState(false);
   const [inspectingStoryElement, setInspectingStoryElement] = useState(null);
-  const [isAutomationActive, setIsAutomationActive] = useState(true);
   const [inspectingOmnicortexItem, setInspectingOmnicortexItem] = useState(null);
-  const [showCombatTracker, setShowCombatTracker] = useState(false);
-  const [isAdventureLogOpen, setIsAdventureLogOpen] = useState(false);
-  const [isInitiativeModalOpen, setIsInitiativeModalOpen] = useState(false);
-  const [environmentCombatants, setEnvironmentCombatants] = useState([]);
-  const [combatRound, setCombatRound] = useState(1);
   const [showMetadataPanel, setShowMetadataPanel] = useState(false);
   const [showKeyPanel, setShowKeyPanel] = useState(true);
-  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
-  const [activeTurnTokenId, setActiveTurnTokenId] = useState(null);
-  const [activeFloats, setActiveFloats] = useState([]);
 
   // Tools & UI State
   const [activeTool, setActiveTool] = useState('select');
@@ -246,7 +223,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   const [selectedLightAnimation, setSelectedLightAnimation] = useState('flicker');
   const [isUvttModalOpen, setIsUvttModalOpen] = useState(false);
   const [is3DPreviewOpen, setIs3DPreviewOpen] = useState(false);
-  const [radialMenuState, setRadialMenuState] = useState({ isOpen: false, position: { x: 0, y: 0 }, token: null });
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -287,7 +263,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   }, [activeMapId]);
 
   const [selectedId, setSelectedId] = useState(null);
-  const [tacticalModalToken, setTacticalModalToken] = useState(null);
 
   // VTT Tactical Role, Teams, System Options & Ping State
   const [vttRole, setVttRole] = useState(defaultRole); // 'architect' | 'co_architect' | 'operative' | 'spectator'
@@ -298,12 +273,20 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   const [gridSize, setGridSize] = useState(40);
   const [measurementUnit, setMeasurementUnit] = useState('meters');
 
-  // Dual Navigation Rails & Tabbed Mode (Left Operative Cockpit & Right Architect Console in Canvas)
+  // Studio Tabbed Mode & Right Architect Console Rail
   const [activeStudioTab, setActiveStudioTab] = useState('canvas'); // 'canvas' | 'assets' | 'pcg' | 'export'
-  const [isLeftRailCollapsed, setIsLeftRailCollapsed] = useState(false);
-  const [isLeftRailPinned, setIsLeftRailPinned] = useState(false);
   const [isRightRailCollapsed, setIsRightRailCollapsed] = useState(false);
   const [isRightRailPinned, setIsRightRailPinned] = useState(false);
+
+  const handleOpenInStage = () => {
+    AudioService.playTerminalBeep(1200, 0.03);
+    const targetMapId = activeMapId || currentMap?.id;
+    if (onSwitchView) {
+      onSwitchView('stage', 'setup');
+    } else {
+      navigate(targetMapId ? `/foundry/story?view=stage&tab=setup&mapId=${targetMapId}` : '/foundry/story?view=stage&tab=setup');
+    }
+  };
 
   const handleStampAssetOnMap = (unit) => {
     if (!currentMap) return;
@@ -431,9 +414,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
 
   const handleSelectToken = (tokenId) => {
     setSelectedId(tokenId);
-    if (tokenId && vttRole === 'architect') {
-      setIsLeftRailCollapsed(false);
-    }
   };
 
   // Ping Auto-Decay Timer
@@ -575,7 +555,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
   });
 
   // Calculate dynamic Line-of-Sight visibility polygon for the active / selected token
-  const activeVisionToken = tokens.find(t => t.id === activeTurnTokenId) || tokens.find(t => t.id === selectedId) || tokens[0];
+  const activeVisionToken = tokens.find(t => t.id === selectedId) || tokens[0];
   const visibilityPolygon = React.useMemo(() => {
     if (!activeVisionToken || !currentMap || walls.length === 0) return null;
     return computeVisibilityPolygon(
@@ -606,206 +586,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     updateMap(activeMapId, { walls: nextWalls });
   };
 
-  const handleRadialActionSelect = (actionId, token) => {
-    if (actionId === 'omnicortex') {
-      setInspectingOmnicortexItem(token.linkedOmnicortexItem || { id: token.omnicortexId, name: token.label, category: token.omnicortexCategory || 'compendium' });
-      setRadialMenuState({ isOpen: false, position: { x: 0, y: 0 }, token: null });
-      return;
-    } else if (actionId === 'attack') {
-      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: 2d10 ENGAGED`, 'damage');
-    } else if (actionId === 'defend') {
-      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: DEFENSE STANCE (+2 DEF)`, 'karma');
-    } else if (actionId === 'move') {
-      setActiveTool('ruler');
-      setShowSettingsPanel(true);
-    } else if (actionId === 'stim') {
-      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: STIM APPLIED (+15 HP)`, 'heal');
-    } else if (actionId === 'cyber') {
-      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: CYBER SLICE INITIATED`, 'vitality_damage');
-    } else if (actionId === 'sensor') {
-      const modes = ['standard_optical', 'thermal_ir', 'cyber_radar', 'meta_attunement'];
-      const nextIdx = (modes.indexOf(activeSensorMode) + 1) % modes.length;
-      setActiveSensorMode(modes[nextIdx]);
-      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `SENSOR: ${modes[nextIdx].toUpperCase()}`, 'karma');
-    }
-  };
-
-  const { roster, personaRoster, updateCharacterHealth, updateCharacterVitality, updateCharacterStructure, updateCharacterHp } = useFolio();
-
-  // Resolve tactical character data from token or linked Folio hero
-  const resolveTacticalCharacter = (tok) => {
-    if (!tok) return null;
-    const heroRoster = roster || personaRoster || [];
-    const linked = tok.linkedHeroId ? heroRoster.find(h => (h.id || h['character-doc-id']) === tok.linkedHeroId) : null;
-    if (linked) {
-      return {
-        ...linked,
-        current_health: tok.health?.current ?? linked.current_health,
-        current_vitality: tok.vitality?.current ?? linked.current_vitality,
-        current_structure: tok.structure?.current ?? linked.current_structure,
-        health: tok.health ? { ...tok.health } : linked.health,
-        vitality: tok.vitality ? { ...tok.vitality } : linked.vitality,
-        structure: tok.structure ? { ...tok.structure } : linked.structure
-      };
-    }
-    return tokenToFolioCharacter(tok);
-  };
-
-  // Global listener for opening tactical play modal from any VTT subcomponent (e.g. TokenContextualPill)
-  useEffect(() => {
-    const handleOpenTacticalPlay = (e) => {
-      const token = e.detail?.token || tokens.find(t => t.id === selectedId) || tokens[0];
-      if (token) {
-        setTacticalModalToken(token);
-      }
-    };
-    window.addEventListener('open-tactical-play-modal', handleOpenTacticalPlay);
-    return () => window.removeEventListener('open-tactical-play-modal', handleOpenTacticalPlay);
-  }, [tokens, selectedId]);
-
-  // Global listener for triggering floating combat text on battlemap canvas (from tactical play, rolls, etc.)
-  useEffect(() => {
-    const handleTriggerFloatingText = (e) => {
-      if (!e.detail?.text) return;
-      const { text, type = 'damage', x, y } = e.detail;
-
-      let screenX = x;
-      let screenY = y;
-
-      if (screenX === undefined || screenY === undefined) {
-        const token = tokens.find(t => t.id === selectedId) || tokens[0];
-        if (token) {
-          const tX = token.x !== undefined ? token.x : (token.col !== undefined ? token.col * gridSize : 0);
-          const tY = token.y !== undefined ? token.y : (token.row !== undefined ? token.row * gridSize : 0);
-          screenX = tX * scale + position.x;
-          screenY = (tY * scale + position.y) - 30;
-        } else {
-          screenX = stageSize.width / 2;
-          screenY = stageSize.height / 2 - 100;
-        }
-      }
-
-      triggerFloatingCombatText(screenX, screenY, text, type);
-    };
-
-    window.addEventListener('vtt-trigger-floating-text', handleTriggerFloatingText);
-    return () => window.removeEventListener('vtt-trigger-floating-text', handleTriggerFloatingText);
-  }, [tokens, selectedId, scale, position, gridSize, stageSize]);
-
-  const triggerFloatingCombatText = (screenX, screenY, text, type = 'damage') => {
-    const newFloat = {
-      id: `float_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-      screenX,
-      screenY,
-      text,
-      type
-    };
-    setActiveFloats(prev => [...prev, newFloat]);
-    setTimeout(() => {
-      setActiveFloats(prev => prev.filter(f => f.id !== newFloat.id));
-    }, 1200);
-  };
-
-  const handleUpdateTokenHealth = (tokenId, newHealth, isDamage = true, deltaAmount = 1) => {
-    const token = tokens.find(t => t.id === tokenId);
-    if (!token) return;
-
-    recordHistory();
-    const nextTokens = produce(tokens, draft => {
-      const target = draft.find(t => t.id === tokenId);
-      if (target) {
-        if (!target.health) target.health = { current: 30, max: 30 };
-        target.health.current = newHealth;
-        if (target.hp) target.hp.current = newHealth; // sync legacy field
-      }
-    });
-    updateMap(activeMapId, { tokens: nextTokens });
-
-    // Play tactical combat hit audio
-    AudioService.playCombatHit(deltaAmount >= 15);
-
-    // Trigger floating combat text at token position
-    const screenX = (token.x || 0) * scale + position.x;
-    const screenY = (token.y || 0) * scale + position.y;
-    triggerFloatingCombatText(
-      screenX,
-      screenY,
-      isDamage ? `-${deltaAmount} HEALTH` : `+${deltaAmount} HEALTH`,
-      isDamage ? 'damage' : 'heal'
-    );
-
-    // Sync to Folio roster if linked to a character
-    if (token.linkedHeroId) {
-      if (updateCharacterHealth) updateCharacterHealth(token.linkedHeroId, newHealth);
-      else if (updateCharacterHp) updateCharacterHp(token.linkedHeroId, newHealth);
-    }
-  };
-
-  const handleUpdateTokenVitality = (tokenId, newVitality, isDamage = true, deltaAmount = 1) => {
-    const token = tokens.find(t => t.id === tokenId);
-    if (!token) return;
-
-    recordHistory();
-    const nextTokens = produce(tokens, draft => {
-      const target = draft.find(t => t.id === tokenId);
-      if (target) {
-        if (!target.vitality) target.vitality = { current: 30, max: 30 };
-        target.vitality.current = newVitality;
-      }
-    });
-    updateMap(activeMapId, { tokens: nextTokens });
-
-    // Play tactical combat audio
-    AudioService.playCombatHit(false);
-
-    // Trigger floating combat text at token position
-    const screenX = (token.x || 0) * scale + position.x;
-    const screenY = (token.y || 0) * scale + position.y;
-    triggerFloatingCombatText(
-      screenX,
-      screenY,
-      isDamage ? `-${deltaAmount} VIT` : `+${deltaAmount} VIT`,
-      isDamage ? 'vitality_damage' : 'vitality_heal'
-    );
-
-    // Sync to Folio roster if linked to a character
-    if (token.linkedHeroId && updateCharacterVitality) {
-      updateCharacterVitality(token.linkedHeroId, newVitality);
-    }
-  };
-
-  const handleUpdateTokenStructure = (tokenId, newStructure, isDamage = true, deltaAmount = 1) => {
-    const token = tokens.find(t => t.id === tokenId);
-    if (!token) return;
-
-    recordHistory();
-    const nextTokens = produce(tokens, draft => {
-      const target = draft.find(t => t.id === tokenId);
-      if (target) {
-        if (!target.structure) target.structure = { current: 60, max: 60 };
-        target.structure.current = newStructure;
-      }
-    });
-    updateMap(activeMapId, { tokens: nextTokens });
-
-    AudioService.playCombatHit(deltaAmount >= 15);
-
-    const screenX = (token.x || 0) * scale + position.x;
-    const screenY = (token.y || 0) * scale + position.y;
-    triggerFloatingCombatText(
-      screenX,
-      screenY,
-      isDamage ? `-${deltaAmount} STRUCT` : `+${deltaAmount} STRUCT`,
-      isDamage ? 'structure_damage' : 'structure_heal'
-    );
-
-    if (token.linkedHeroId && updateCharacterStructure) {
-      updateCharacterStructure(token.linkedHeroId, newStructure);
-    }
-  };
-
-  const handleUpdateTokenHp = handleUpdateTokenHealth;
-
   const handleUpdateToken = (tokenId, updates = {}) => {
     const token = tokens.find(t => t.id === tokenId);
     if (!token) return;
@@ -815,10 +595,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
       if (target) Object.assign(target, updates);
     });
     updateMap(activeMapId, { tokens: nextTokens });
-  };
-
-  const handleUpdateTokenConditions = (tokenId, nextConditions) => {
-    handleUpdateToken(tokenId, { conditions: nextConditions });
   };
 
   const handleSummonOmnicortexAsset = (item, category, targetPos = null) => {
@@ -835,14 +611,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     recordHistory();
 
     if (isUnit || isVehicle) {
-      const curHealth = parseInt(item.health || item.vitality || item.hp || item.derived_max_hp || 30, 10);
-      const maxHealth = parseInt(item.maxHealth || curHealth, 10);
-      const curVitality = parseInt(item.vitality || 20, 10);
-      const maxVitality = parseInt(item.maxVitality || curVitality, 10);
-      const curStructure = parseInt(item.structure || curHealth + curVitality, 10);
-      const maxStructure = parseInt(item.maxStructure || curStructure, 10);
-      const derivedInit = item.agility ? parseInt(item.agility, 10) : (item.initiative || 10);
-
       const newUnitToken = {
         id: `token_omnicortex_${item.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
         type: isVehicle ? 'vehicle' : 'hostile',
@@ -855,21 +623,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         y: posY,
         radius: isVehicle ? 45 : 35,
         fill: isVehicle ? '#eab308' : '#ef4444',
-        layerId: 'layer_tokens',
-        health: { current: curHealth, max: maxHealth },
-        vitality: { current: curVitality, max: maxVitality },
-        structure: { current: curStructure, max: maxStructure },
-        toughness: parseInt(item.toughness || item.armor || 0, 10),
-        defense: parseInt(item.defense || 12, 10),
-        actionPoints: parseInt(item.actionPoints || item.ap || 3, 10),
-        initiative: derivedInit,
-        conditions: [],
-        attacks: item.attacks || item.weaponry || []
+        layerId: 'layer_tokens'
       };
 
       updateMap(activeMapId, { tokens: [...tokens, newUnitToken] });
-      AudioService.playCombatHit(false);
-      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${item.name || 'Adversary'}`, 'crit_fail');
+      AudioService.playTerminalBeep(1100, 0.03);
+      showToast(`Added ${newUnitToken.label} to map`, 'success');
     } else {
       // Weapon / Armor / Gear / Loot or Hazard Placeable Object
       const newObject = {
@@ -888,14 +647,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         omnicortexCategory: category || item.category || item._categoryKey,
         linkedOmnicortexItem: item,
         isInteractive: true,
-        hazard: isHazard,
-        damageDice: item.damage || item.damageDice || '2d10',
-        saveDc: item.saveDc || item.dc || 14
+        hazard: isHazard
       };
 
       updateMap(activeMapId, { objects: [...objects, newObject] });
       AudioService.playTerminalBeep(950, 0.05);
-      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${item.name || 'Asset'}`, 'heal');
+      showToast(`Added ${newObject.label} to map`, 'success');
     }
   };
 
@@ -910,10 +667,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
 
     if (type === 'Persona') {
       const pFields = element.fields || element;
-      const tier = parseInt(pFields.mcmTier || '1', 10) || 1;
-      const curHealth = parseInt(pFields['health'] || element.health || String(30 + tier * 8), 10);
-      const curVitality = parseInt(pFields['vitality'] || element.vitality || String(30 + tier * 5), 10);
-      const curDefense = parseInt(pFields['defense'] || element.defense || String(12 + Math.floor(tier / 2)), 10);
 
       // Ingest authored autonomous script if present
       let parsedScript = null;
@@ -966,16 +719,9 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         radius: 35,
         fill: tokenFill,
         layerId: 'layer_tokens',
-        health: { current: curHealth, max: curHealth },
-        vitality: { current: curVitality, max: curVitality },
-        defense: curDefense,
-        actionPoints: 3,
-        initiative: 11,
-        conditions: [],
         designation,
         role: pFields.mcmRole || 'Tactical',
         behaviorProfile: parsedScript.behaviorProfile || pFields.mcmRole?.toLowerCase() || 'tactical',
-        moraleThreshold: parsedScript.moraleThreshold ?? 0.25,
         weapon: pFields.weapon || 'Plasma Carbine',
         armor: pFields.armor || 'Standard Armor',
         script: parsedScript,
@@ -987,7 +733,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
       };
       updateMap(activeMapId, { tokens: [...tokens, newNpcToken] });
       AudioService.playTerminalBeep(1100, 0.1);
-      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${newNpcToken.label}`, 'heal');
+      showToast({ type: 'success', text: `Placed NPC: ${newNpcToken.label}` });
     } else if (type === 'Hazard' || type === 'Trap' || type === 'hazard') {
       const newTrap = {
         id: `obj_trap_${element.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
@@ -1013,8 +759,8 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         layerId: 'layer_objects'
       };
       updateMap(activeMapId, { objects: [...objects, newTrap] });
-      AudioService.playCombatHit(false);
-      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ Trap: ${newTrap.label}`, 'crit_fail');
+      AudioService.playTerminalBeep(880, 0.08);
+      showToast({ type: 'info', text: `Placed Trap: ${newTrap.label}` });
     } else {
       const glyphColors = {
         Scene: '#f43f5e',
@@ -1047,7 +793,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
       };
       updateMap(activeMapId, { objects: [...objects, newStoryObject] });
       AudioService.playTerminalBeep(920, 0.08);
-      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${newStoryObject.label}`, 'heal');
+      showToast({ type: 'success', text: `Placed Story Node: ${newStoryObject.label}` });
     }
   };
 
@@ -1068,69 +814,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         handleSummonStoryElement(data.element, { x: Math.round(canvasX), y: Math.round(canvasY) });
       } else if (data.type === 'folio_hero_token') {
         if (!currentMap) return;
-
         const rect = containerRef.current.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-
-        // Transform window/client coordinates to Stage canvas space
         const canvasX = (mouseX - position.x) / scale;
         const canvasY = (mouseY - position.y) / scale;
-
-        const derivedInitiative = data.agility ? parseInt(data.agility, 10) : 10;
-        const curHealth = data.currentHealth !== undefined ? data.currentHealth : (data.maxHealth || data.currentHp || 30);
-        const maxHealth = data.maxHealth || data.maxHp || 30;
-        const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
-        const maxVitality = data.maxVitality || 30;
-        const curStructure = data.currentStructure !== undefined ? data.currentStructure : (data.maxStructure || curHealth + curVitality);
-        const maxStructure = data.maxStructure || (maxHealth + maxVitality);
-        const isSynthetic = data.isSynthetic || false;
-        const toughness = data.toughness !== undefined ? data.toughness : 0;
-
-        const newHeroToken = {
-          id: `token_hero_${data.heroId}_${Date.now()}`,
-          type: 'hero',
-          linkedHeroId: data.heroId,
-          label: data.name || 'Hero',
-          avatarUrl: data.avatarUrl || null,
-          x: Math.round(canvasX),
-          y: Math.round(canvasY),
-          radius: 35,
-          fill: '#0284c7',
-          layerId: 'layer_tokens',
-          health: {
-            current: curHealth,
-            max: maxHealth
-          },
-          vitality: {
-            current: curVitality,
-            max: maxVitality
-          },
-          structure: {
-            current: curStructure,
-            max: maxStructure
-          },
-          isSynthetic,
-          toughness,
-          hp: {
-            current: curHealth,
-            max: maxHealth
-          },
-          defense: data.defense || 12,
-          actionPoints: data.actionPoints || 3,
-          initiative: derivedInitiative,
-          conditions: [],
-          karma: data.karma !== undefined ? data.karma : 3,
-          maxKarma: data.maxKarma || 3,
-          charisma: data.charisma || 10,
-          earned_ap: data.earned_ap || 0,
-          available_ap: data.available_ap || 0
-        };
-
-        recordHistory();
-        updateMap(activeMapId, { tokens: [...tokens, newHeroToken] });
-        AudioService.playTerminalBeep(880, 0.08);
-        triggerFloatingCombatText(mouseX, mouseY, `+ ${data.name}`, 'heal');
+        handleSummonHeroToken(data, { x: Math.round(canvasX), y: Math.round(canvasY) });
       } else if (data.type === 'omnicortex_asset') {
         if (!currentMap) return;
         const rect = containerRef.current.getBoundingClientRect();
@@ -1145,65 +834,30 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
     }
   };
 
-  const handleSummonHeroToken = (data) => {
+  const handleSummonHeroToken = (data, targetPos = null) => {
     if (!currentMap) return;
 
-    const centerX = (-position.x + stageSize.width / 2) / scale;
-    const centerY = (-position.y + stageSize.height / 2) / scale;
-    const derivedInitiative = data.agility ? parseInt(data.agility, 10) : 10;
-    const curHealth = data.currentHealth !== undefined ? data.currentHealth : (data.maxHealth || data.currentHp || 30);
-    const maxHealth = data.maxHealth || data.maxHp || 30;
-    const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
-    const maxVitality = data.maxVitality || 30;
-    const curStructure = data.currentStructure !== undefined ? data.currentStructure : (data.maxStructure || curHealth + curVitality);
-    const maxStructure = data.maxStructure || (maxHealth + maxVitality);
-    const isSynthetic = data.isSynthetic || false;
-    const toughness = data.toughness !== undefined ? data.toughness : 0;
+    const posX = targetPos ? targetPos.x : Math.round((-position.x + stageSize.width / 2) / scale);
+    const posY = targetPos ? targetPos.y : Math.round((-position.y + stageSize.height / 2) / scale);
 
     const newHeroToken = {
-      id: `token_hero_${data.heroId}_${Date.now()}`,
+      id: `token_hero_${data.heroId || Date.now()}_${Math.floor(Math.random() * 1000)}`,
       type: 'hero',
       linkedHeroId: data.heroId,
       label: data.name || 'Hero',
+      name: data.name || 'Hero',
       avatarUrl: data.avatarUrl || null,
-      x: Math.round(centerX),
-      y: Math.round(centerY),
+      x: posX,
+      y: posY,
       radius: 35,
       fill: '#0284c7',
-      layerId: 'layer_tokens',
-      health: {
-        current: curHealth,
-        max: maxHealth
-      },
-      vitality: {
-        current: curVitality,
-        max: maxVitality
-      },
-      structure: {
-        current: curStructure,
-        max: maxStructure
-      },
-      isSynthetic,
-      toughness,
-      hp: {
-        current: curHealth,
-        max: maxHealth
-      },
-      defense: data.defense || 12,
-      actionPoints: data.actionPoints || 3,
-      initiative: derivedInitiative,
-      conditions: [],
-      karma: data.karma !== undefined ? data.karma : 3,
-      maxKarma: data.maxKarma || 3,
-      charisma: data.charisma || 10,
-      earned_ap: data.earned_ap || 0,
-      available_ap: data.available_ap || 0
+      layerId: 'layer_tokens'
     };
 
     recordHistory();
     updateMap(activeMapId, { tokens: [...tokens, newHeroToken] });
     AudioService.playTerminalBeep(880, 0.08);
-    triggerFloatingCombatText(stageSize.width / 2, stageSize.height / 2, `+ ${data.name}`, 'heal');
+    showToast({ type: 'success', text: `Placed Hero: ${newHeroToken.label}` });
   };
 
   // Keyboard Shortcuts Hotkeys Manager Listener Element
@@ -1439,18 +1093,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
       mapExportPngRef.current = handleExportPNG;
     }
   });
-
-  const handleNextTurn = () => {
-    const combined = sortInitiativeOrder([
-      ...tokens.filter(t => t.type !== 'link'),
-      ...(environmentCombatants || [])
-    ]);
-
-    if (combined.length === 0) return;
-    const currentIndex = combined.findIndex(t => t.id === activeTurnTokenId);
-    const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % combined.length : 0;
-    setActiveTurnTokenId(combined[nextIndex].id);
-  };
 
   /**
    * Traverse to Child Scale Map on Node Double Click
@@ -1770,12 +1412,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         setShowSettingsPanel={setShowSettingsPanel}
         showLayersPanel={showLayersPanel}
         setShowLayersPanel={setShowLayersPanel}
-        showHeroDrawer={showHeroDrawer}
-        setShowHeroDrawer={setShowHeroDrawer}
         showOmnicortexDrawer={showOmnicortexDrawer}
         setShowOmnicortexDrawer={setShowOmnicortexDrawer}
-        showCombatTracker={showCombatTracker}
-        setShowCombatTracker={setShowCombatTracker}
+        showStoryDrawer={showStoryDrawer}
+        setShowStoryDrawer={setShowStoryDrawer}
+        onOpenInStage={handleOpenInStage}
         showMetadataPanel={showMetadataPanel}
         setShowMetadataPanel={setShowMetadataPanel}
         showKeyPanel={showKeyPanel}
@@ -1813,9 +1454,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         onToggleVttDrawer={() => setIsVttDrawerOpen(prev => !prev)}
         is3DPreviewOpen={is3DPreviewOpen}
         onToggle3DPreview={() => setIs3DPreviewOpen(prev => !prev)}
-        showAdventureLog={isAdventureLogOpen}
-        setShowAdventureLog={setIsAdventureLogOpen}
-        onOpenInitiativeManager={() => setIsInitiativeModalOpen(true)}
       />
 
       <MapMaker3DPreviewModal
@@ -1861,21 +1499,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
             updateMap(activeMapId, { objects: nextObjects });
           }
         };
-
-        const isSynthetic = Boolean(
-          item.isSynthetic || 
-          item.is_synthetic || 
-          (item.structure && !item.health && !item.hp) ||
-          ['Synthetic', 'Construct', 'Mecha', 'Robot', 'Android', 'Mekan'].includes(item.species || item['char-species'])
-        );
-        const currentStructure = item.structure?.current ?? (item.currentStructure ?? 60);
-        const maxStructure = item.structure?.max ?? (item.maxStructure ?? 60);
-        const currentHealth = item.health?.current ?? (item.hp?.current ?? 30);
-        const maxHealth = item.health?.max ?? (item.hp?.max ?? 30);
-        const currentVitality = item.vitality?.current ?? 30;
-        const maxVitality = item.vitality?.max ?? 30;
-        const currentInit = item.initiative !== undefined && item.initiative !== null ? item.initiative : 10;
-        const currentConditions = item.conditions || [];
 
         return (
           <div className="relative z-[80] bg-[#161b22]/95 p-2 border-b border-[#0D5C63]/60 flex items-center justify-between text-xs gap-3 flex-wrap text-slate-200 backdrop-blur-md">
@@ -1948,93 +1571,53 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
                 </div>
               </div>
 
-              {/* Unit Controls: Health, Vitality, Initiative & Conditions */}
+              {/* Unit Controls: Faction, Role & Size */}
               {isUnit && (
                 <>
-                  {/* Tactical Cockpit Launcher */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1100, 0.05);
-                      setTacticalModalToken(selectedToken || item);
-                    }}
-                    className="px-2.5 py-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 rounded text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_8px_rgba(6,182,212,0.3)] hover:shadow-[0_0_12px_rgba(34,211,238,0.5)] cursor-pointer"
-                    title="Launch Tactical Play Cockpit (Weapons, Defenses, Rolls)"
-                  >
-                    <span>⚔️</span> Tactical Cockpit
-                  </button>
-
-                  {isSynthetic ? (
-                    /* Structure Controls (Synthetic Only) */
-                    <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                      <span className="text-[10px] font-bold text-amber-400 uppercase">SP:</span>
-                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.max(0, currentStructure - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
-                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.max(0, currentStructure - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
-                      <span className="font-mono text-amber-300 font-bold px-1">{currentStructure} / {maxStructure}</span>
-                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.min(maxStructure, currentStructure + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
-                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.min(maxStructure, currentStructure + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
-                    </div>
-                  ) : (
-                    /* Health & Vitality Controls (Biological Only) */
-                    <>
-                      {/* Health Controls (Physical) */}
-                      <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                        <span className="text-[10px] font-bold text-emerald-400 uppercase">HLTH:</span>
-                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
-                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
-                        <span className="font-mono text-emerald-300 font-bold px-1">{currentHealth} / {maxHealth}</span>
-                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
-                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
-                      </div>
-
-                      {/* Vitality Controls (Mental / Energy) */}
-                      <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                        <span className="text-[10px] font-bold text-cyan-400 uppercase">VIT:</span>
-                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 5), true, 5)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-5</button>
-                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 1), true, 1)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-1</button>
-                        <span className="font-mono text-cyan-300 font-bold px-1">{currentVitality} / {maxVitality}</span>
-                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 1), false, 1)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+1</button>
-                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 5), false, 5)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+5</button>
-                      </div>
-                    </>
-                  )}
-
+                  {/* Unit Designation / Faction */}
                   <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                    <span className="text-[10px] font-bold text-amber-400 uppercase">Init:</span>
-                    <input
-                      type="number"
-                      value={currentInit}
-                      onChange={(e) => updateItem({ initiative: parseInt(e.target.value || 0, 10) })}
-                      className="w-10 bg-[#161b22] border border-[#0D5C63]/60 text-amber-300 font-mono text-center font-bold rounded text-xs outline-none"
-                    />
-                    <button
-                      onClick={() => updateItem({ initiative: Math.floor(Math.random() * 20) + 1 })}
-                      className="px-1.5 py-0.5 bg-amber-950 hover:bg-amber-900 border border-amber-600 text-amber-300 rounded text-[10px] font-bold"
+                    <span className="text-[10px] font-bold text-amber-400 uppercase">Faction:</span>
+                    <select
+                      className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs font-semibold outline-none focus:border-amber-400"
+                      value={item.designation || 'Adversary'}
+                      onChange={(e) => {
+                        const des = e.target.value;
+                        const fill = des === 'Ally' ? '#10b981' : (des === 'Adversary' ? '#ef4444' : (des === 'Player' ? '#0284c7' : '#a855f7'));
+                        updateItem({ designation: des, fill });
+                      }}
                     >
-                      🎲
-                    </button>
+                      <option value="Player">Player</option>
+                      <option value="Ally">Ally</option>
+                      <option value="Adversary">Adversary</option>
+                      <option value="Neutral">Neutral</option>
+                    </select>
                   </div>
 
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    {currentConditions.map(cond => (
-                      <button
-                        key={cond}
-                        onClick={() => {
-                          const next = currentConditions.filter(c => c !== cond);
-                          updateItem({ conditions: next });
-                        }}
-                        className="px-2 py-0.5 bg-cyan-950 text-cyan-200 border border-cyan-400/80 rounded text-[10px] font-bold flex items-center gap-1 hover:bg-red-950 hover:text-red-300 transition-colors group"
-                      >
-                        <span>{cond}</span>
-                        <span className="text-[9px] opacity-60 group-hover:opacity-100">×</span>
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => setIsStatusModalOpen(true)}
-                      className="px-2.5 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 border border-[#22d3ee]/60 text-[#22d3ee] rounded text-[10px] font-bold tracking-wider uppercase transition-all shadow-[0_0_6px_rgba(34,211,238,0.3)] flex items-center gap-1"
+                  {/* Unit Role / Profile */}
+                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
+                    <span className="text-[10px] font-bold text-cyan-400 uppercase">Role:</span>
+                    <input
+                      type="text"
+                      value={item.role || ''}
+                      onChange={(e) => updateItem({ role: e.target.value })}
+                      placeholder="Role (e.g. Tactical)..."
+                      className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs outline-none focus:border-[#22d3ee] w-24 font-semibold"
+                    />
+                  </div>
+
+                  {/* Token Radius / Scale */}
+                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase">Size:</span>
+                    <select
+                      className="bg-[#161b22] border border-[#0D5C63]/60 text-white px-2 py-0.5 rounded text-xs font-semibold outline-none focus:border-cyan-400"
+                      value={item.radius || 35}
+                      onChange={(e) => updateItem({ radius: parseInt(e.target.value, 10) })}
                     >
-                      <span>CONDITIONS...</span>
-                    </button>
+                      <option value="25">Small (25px)</option>
+                      <option value="35">Medium (35px)</option>
+                      <option value="50">Large (50px)</option>
+                      <option value="70">Huge (70px)</option>
+                    </select>
                   </div>
                 </>
               )}
@@ -2079,111 +1662,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
       })()}
 
       {/* Primary Workspace Tab Bar: Tabs in place of split windows */}
-      <MapMakerTabBar activeTab={activeStudioTab} onSelectTab={setActiveStudioTab} />
+      <MapMakerTabBar activeTab={activeStudioTab} onSelectTab={setActiveStudioTab} onOpenInStage={handleOpenInStage} />
 
       {/* Studio Work Area: Tabbed Mode */}
       {activeStudioTab === 'canvas' && (
         <div className="flex-1 flex overflow-hidden relative">
-
-        {/* Primary Left Nav Rail: Operative & Architect Cockpit */}
-        <OperativeCockpitRail
-          tokens={tokens}
-          activeTokenId={selectedId || tokens[0]?.id}
-          onSelectActiveToken={handleSelectToken}
-          vttRole={vttRole}
-          isPinned={isLeftRailPinned}
-          onTogglePin={() => setIsLeftRailPinned(prev => !prev)}
-          isCollapsed={isLeftRailCollapsed}
-          onToggleCollapse={() => setIsLeftRailCollapsed(prev => !prev)}
-          targetToken={tokens.find(t => t.id !== (selectedId || tokens[0]?.id) && (t.type === 'hostile' || t.type === 'adversary' || t.type === 'npc'))}
-          onTriggerAttack={(attId, tgtId, netDmg) => {
-            triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `TARGET ENGAGED: 2d10 ATTACK (-${netDmg} DMG)`, 'damage');
-          }}
-          onDropPing={(pingType) => handleDropTacticalPing(pingType)}
-          onTriggerFloatingText={triggerFloatingCombatText}
-          onBroadcastMessage={(msg) => {
-            triggerFloatingCombatText(window.innerWidth / 2, 80, msg, 'karma');
-          }}
-          activeSensorMode={activeSensorMode}
-          onChangeSensorMode={setActiveSensorMode}
-          onUpdateTokenHealth={handleUpdateTokenHealth}
-          onUpdateTokenVitality={handleUpdateTokenVitality}
-          onUpdateTokenStructure={handleUpdateTokenStructure}
-          objects={objects}
-          currentMap={currentMap}
-          onUpdateToken={handleUpdateToken}
-          onUpdateObject={(objId, updates) => {
-            recordHistory();
-            const nextObjs = objects.map(o => o.id === objId ? { ...o, ...updates } : o);
-            updateMap(activeMapId, { objects: nextObjs });
-          }}
-          onDeleteToken={(tokenId) => {
-            recordHistory();
-            const nextTokens = tokens.filter(t => t.id !== tokenId);
-            updateMap(activeMapId, { tokens: nextTokens });
-            if (selectedId === tokenId) setSelectedId(null);
-          }}
-          onDeleteObject={(objId) => {
-            recordHistory();
-            const nextObjs = objects.filter(o => o.id !== objId);
-            updateMap(activeMapId, { objects: nextObjs });
-            if (selectedId === objId) setSelectedId(null);
-          }}
-          onDuplicateToken={(tokenId) => {
-            const tok = tokens.find(t => t.id === tokenId);
-            if (!tok) return;
-            recordHistory();
-            const clone = {
-              ...tok,
-              id: `token-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-              name: `${tok.name || tok.label || 'Unit'} (Copy)`,
-              label: `${tok.label || tok.name || 'Unit'} (Copy)`,
-              x: (tok.x || 300) + 40,
-              y: (tok.y || 300) + 40
-            };
-            updateMap(activeMapId, { tokens: [...tokens, clone] });
-            setSelectedId(clone.id);
-          }}
-          onDuplicateObject={(objId) => {
-            const obj = objects.find(o => o.id === objId);
-            if (!obj) return;
-            recordHistory();
-            const clone = {
-              ...obj,
-              id: `obj-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-              name: `${obj.name || obj.label || 'Object'} (Copy)`,
-              label: `${obj.label || obj.name || 'Object'} (Copy)`,
-              x: (obj.x || 300) + 40,
-              y: (obj.y || 300) + 40
-            };
-            updateMap(activeMapId, { objects: [...objects, clone] });
-            setSelectedId(clone.id);
-          }}
-          onDeployAsset={(asset, pos) => {
-            if (asset._sourceType === 'story_element') {
-              handleSummonStoryElement(asset, pos);
-            } else if (asset._sourceType === 'omnicortex') {
-              handleSummonOmnicortexAsset(asset, asset.category || asset._categoryKey, pos);
-            } else if (asset._sourceType === 'persona') {
-              handleSummonHeroToken(asset, pos);
-            }
-          }}
-          onOpenTacticalModal={(token) => setTacticalModalToken(token)}
-        />
-
-        <FolioHeroTokenDrawer
-          showDrawer={showHeroDrawer}
-          setShowDrawer={setShowHeroDrawer}
-          onSummonToken={handleSummonHeroToken}
-        />
-
-        {tacticalModalToken && (
-          <TacticalPlayModal
-            isOpen={Boolean(tacticalModalToken)}
-            onClose={() => setTacticalModalToken(null)}
-            character={resolveTacticalCharacter(tacticalModalToken)}
-          />
-        )}
 
         <OmnicortexAssetDrawer
           showDrawer={showOmnicortexDrawer}
@@ -2198,24 +1681,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
           onInspectElement={(element) => setInspectingStoryElement(element)}
         />
 
-        <ReactiveAutomationConsole
-          isOpen={showAutomationConsole}
-          onClose={() => setShowAutomationConsole(false)}
-          tokens={tokens}
-          objects={objects}
-          onUpdateTokens={(next) => {
-            recordHistory();
-            updateMap(activeMapId, { tokens: next });
-          }}
-          onUpdateObjects={(next) => {
-            recordHistory();
-            updateMap(activeMapId, { objects: next });
-          }}
-          onTriggerFloatingText={triggerFloatingCombatText}
-          isAutomationActive={isAutomationActive}
-          onToggleAutomation={() => setIsAutomationActive(prev => !prev)}
-        />
-
         {inspectingStoryElement && (
           <StoryElementModal
             isOpen={!!inspectingStoryElement}
@@ -2227,37 +1692,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
               const nextObjs = objects.map(o => o.id === objId ? { ...o, ...updates } : o);
               updateMap(activeMapId, { objects: nextObjs });
             }}
-            onTriggerFloatingText={triggerFloatingCombatText}
+            onTriggerFloatingText={(x, y, msg) => showToast(msg)}
             scale={scale}
             position={position}
           />
         )}
-
-        <MapCombatTracker
-          tokens={tokens}
-          activeTurnTokenId={activeTurnTokenId}
-          setActiveTurnTokenId={setActiveTurnTokenId}
-          onNextTurn={handleNextTurn}
-          showTracker={showCombatTracker}
-          setShowTracker={setShowCombatTracker}
-          onSelectToken={(id) => setSelectedId(id)}
-          onUpdateTokenHealth={handleUpdateTokenHealth}
-          onUpdateTokenVitality={handleUpdateTokenVitality}
-          onUpdateTokenStructure={handleUpdateTokenStructure}
-          onUpdateTokenHp={handleUpdateTokenHealth}
-          onUpdateToken={handleUpdateToken}
-          onUpdateTokenConditions={handleUpdateTokenConditions}
-          onTriggerFloatingText={triggerFloatingCombatText}
-          environmentCombatants={environmentCombatants}
-          onUpdateEnvironmentCombatants={setEnvironmentCombatants}
-          combatRound={combatRound}
-          setCombatRound={setCombatRound}
-          onOpenInitiativeManager={() => setIsInitiativeModalOpen(true)}
-          onOpenAdventureLog={() => setIsAdventureLogOpen(true)}
-          objects={objects}
-          scale={scale}
-          position={position}
-        />
 
         <MapMetadataPanel
           showPanel={showMetadataPanel}
@@ -2266,26 +1705,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
           updateMap={updateMap}
           universeState={universeState}
           setActiveMapId={setActiveMapId}
-        />
-
-        <StatusGemsModal
-          isOpen={isStatusModalOpen}
-          onClose={() => setIsStatusModalOpen(false)}
-          selectedToken={tokens.find(t => t.id === selectedId)}
-          activeConditions={tokens.find(t => t.id === selectedId)?.conditions || []}
-          onToggleCondition={(cond) => {
-            const token = tokens.find(t => t.id === selectedId);
-            if (!token) return;
-            const currentConditions = token.conditions || [];
-            const hasCond = currentConditions.includes(cond);
-            const nextConds = hasCond ? currentConditions.filter(c => c !== cond) : [...currentConditions, cond];
-            recordHistory();
-            const nextTokens = produce(tokens, draft => {
-              const item = draft.find(t => t.id === selectedId);
-              if (item) item.conditions = nextConds;
-            });
-            updateMap(activeMapId, { tokens: nextTokens });
-          }}
         />
 
         <MapAssetManagerModal
@@ -2314,7 +1733,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
           }}
           className={`flex-1 h-full min-w-0 relative ${activeTool === 'select' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}
         >
-          <FloatingCombatText activeFloats={activeFloats} />
 
           {/* Map Key Panel (Docked safely inside Canvas area to avoid overlapping rails) */}
           <MapKeyPanel
@@ -2435,9 +1853,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
                 const clickedOnEmpty = e.target === e.target.getStage() || e.target.name() === 'bgRect';
                 if (clickedOnEmpty && activeTool === 'select') {
                   setSelectedId(null);
-                  if (!isLeftRailPinned && vttRole === 'architect') {
-                    setIsLeftRailCollapsed(true);
-                  }
                 }
                 handleMouseDown(e);
               }}
@@ -2638,19 +2053,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
                         key={token.id}
                         onContextMenu={(e) => {
                           e.evt.preventDefault();
-                          const stage = e.target.getStage();
-                          const mousePos = stage.getPointerPosition();
-                          setRadialMenuState({
-                            isOpen: true,
-                            position: { x: e.evt.clientX, y: e.evt.clientY },
-                            token: token
-                          });
                         }}
                       >
                         <TokenNode
                           shapeProps={token}
                           isSelected={token.id === selectedId}
-                          isActiveTurn={token.id === activeTurnTokenId}
+                          isActiveTurn={false}
                           isEraser={activeTool === 'eraser'}
                           isLocked={isLayerLocked('layer_tokens')}
                           onErase={eraseElement}
@@ -2662,22 +2070,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
                               if (index !== -1) draft[index] = newAttrs;
                             });
                             updateMap(activeMapId, { tokens: nextTokens });
-
-                            // Autonomous Reactive Traps & Hazards Detection
-                            if (isAutomationActive && (token.x !== newAttrs.x || token.y !== newAttrs.y)) {
-                              const triggered = evaluateTrapTriggers(newAttrs, objects, tokens);
-                              triggered.forEach(evt => {
-                                triggerFloatingCombatText(
-                                  (newAttrs.x || 0) * scale + position.x,
-                                  (newAttrs.y || 0) * scale + position.y,
-                                  evt.isAlarm ? '🚨 ALARM TRIPPED!' : `💥 -${evt.damage} DAMAGE (TRAP)`,
-                                  evt.isAlarm ? 'crit_fail' : 'damage'
-                                );
-                                if (evt.damage > 0) {
-                                  handleUpdateTokenHealth(newAttrs.id, Math.max(0, (newAttrs.health?.current || 30) - evt.damage), true, evt.damage);
-                                }
-                              });
-                            }
                           }}
                         />
                       </Group>
@@ -2799,16 +2191,16 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
             setNewLayerNameInput={setNewLayerNameInput}
             onAddCustomLayer={addCustomLayer}
             onApplyEnvironmentPreset={(envId) => {
-              triggerFloatingCombatText(window.innerWidth / 2, 100, `ENVIRONMENT: ${envId.toUpperCase()}`, 'karma');
+              showToast({ type: 'info', text: `ENVIRONMENT: ${envId.toUpperCase()}` });
             }}
             onBatchTokenAction={(action) => {
-              triggerFloatingCombatText(window.innerWidth / 2, 100, `BATCH ACTION: ${action.toUpperCase()}`, 'heal');
+              showToast({ type: 'info', text: `BATCH ACTION: ${action.toUpperCase()}` });
             }}
             onBroadcastMessage={(msg) => {
-              triggerFloatingCombatText(window.innerWidth / 2, 80, msg, 'karma');
+              showToast({ type: 'info', text: msg });
             }}
             onOpenAssetManager={() => setIsAssetManagerOpen(true)}
-            onOpenHeroDrawer={() => setShowHeroDrawer(true)}
+            onOpenStoryDrawer={() => setShowStoryDrawer(true)}
             onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
             onOpenLandmassGenerator={() => setActiveStudioTab('pcg')}
             onOpenPcgStudio={() => setActiveStudioTab('pcg')}
@@ -2850,15 +2242,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         />
       )}
 
-      {/* Contextual Radial Action Wheel */}
-      <TokenRadialActionWheel
-        isOpen={radialMenuState.isOpen}
-        onClose={() => setRadialMenuState({ isOpen: false, position: { x: 0, y: 0 }, token: null })}
-        position={radialMenuState.position}
-        token={radialMenuState.token}
-        onActionSelect={handleRadialActionSelect}
-      />
-
       {/* Universal VTT (.dd2vtt) Importer Modal */}
       <UvttImportModal
         isOpen={isUvttModalOpen}
@@ -2866,7 +2249,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         onImportComplete={(importedMap) => {
           addMap(importedMap);
           setActiveMapId(importedMap.id);
-          triggerFloatingCombatText(window.innerWidth / 2, 100, `UNIVERSAL VTT IMPORTED: ${importedMap.title}`, 'heal');
+          showToast({ type: 'success', text: `Universal VTT Imported: ${importedMap.title}` });
         }}
       />
 
@@ -2893,10 +2276,10 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
         onToggleFog={() => setFogEnabled(prev => !prev)}
         onDropPing={(pingType) => handleDropTacticalPing(pingType)}
         onApplyEnvironmentPreset={(envId) => {
-          triggerFloatingCombatText(window.innerWidth / 2, 100, `ENVIRONMENT: ${envId.toUpperCase()}`, 'karma');
+          showToast({ type: 'info', text: `ENVIRONMENT: ${envId.toUpperCase()}` });
         }}
         onBatchTokenAction={(action) => {
-          triggerFloatingCombatText(window.innerWidth / 2, 100, `BATCH ACTION: ${action.toUpperCase()}`, 'heal');
+          showToast({ type: 'info', text: `BATCH ACTION: ${action.toUpperCase()}` });
         }}
       />
 
@@ -2927,41 +2310,6 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect' }) => {
           initialItem={inspectingOmnicortexItem}
         />
       )}
-
-      {/* Tactical Play Cockpit Modal */}
-      {tacticalModalToken && (
-        <TacticalPlayModal
-          isOpen={!!tacticalModalToken}
-          onClose={() => setTacticalModalToken(null)}
-          characterData={resolveTacticalCharacter(tacticalModalToken)}
-          isLocked={true}
-        />
-      )}
-
-      {/* Tactical Adventure Event Log Drawer */}
-      <AdventureLogDrawer
-        isOpen={isAdventureLogOpen}
-        onClose={() => setIsAdventureLogOpen(false)}
-        activeMapId={activeMapId}
-        currentRound={combatRound}
-      />
-
-      {/* Integrated PC / NPC / Environment Initiative Manager Modal */}
-      <InitiativeManagerModal
-        isOpen={isInitiativeModalOpen}
-        onClose={() => setIsInitiativeModalOpen(false)}
-        tokens={tokens}
-        environmentCombatants={environmentCombatants}
-        onUpdateTokens={(nextTokens) => {
-          recordHistory();
-          updateMap(activeMapId, { tokens: nextTokens });
-        }}
-        onUpdateEnvironmentCombatants={setEnvironmentCombatants}
-        personaRoster={roster || personaRoster || []}
-        currentRound={combatRound}
-        onSetRound={setCombatRound}
-        onSetActiveTurnTokenId={setActiveTurnTokenId}
-      />
     </div>
   );
 };

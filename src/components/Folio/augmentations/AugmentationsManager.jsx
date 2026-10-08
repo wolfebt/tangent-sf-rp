@@ -32,7 +32,9 @@ import {
   checkAugmentationStageCompatibility
 } from '../../../engines/tangentComplexEngines';
 import FolioTooltip from '../shared/FolioTooltip';
-import AugmentationDiagnosticsModal from '../modals/AugmentationDiagnosticsModal';
+
+// Lazy Loaded Augmentation Diagnostics Modal
+const AugmentationDiagnosticsModal = React.lazy(() => import('../modals/AugmentationDiagnosticsModal'));
 
 const BODY_SLOT_KEYS = [
   { id: 'Head', label: 'Head', max: 10, icon: Zap },
@@ -284,18 +286,22 @@ export const AugmentationsManager = ({
       </div>
 
       {/* Diagnostics & Stage Progression Modal */}
-      <AugmentationDiagnosticsModal
-        isOpen={isDiagnosticsOpen}
-        onClose={() => setIsDiagnosticsOpen(false)}
-        characterData={characterData}
-        stageInfo={stageInfo}
-        bpStats={bpStats}
-        bodyBreakdown={bodyBreakdown}
-        campaignTL={campaignTL}
-        staminaScore={staminaScore}
-        handleSelectStage={handleSelectStage}
-        incompatibleAugs={incompatibleAugs}
-      />
+      {isDiagnosticsOpen && (
+        <React.Suspense fallback={null}>
+          <AugmentationDiagnosticsModal
+            isOpen={isDiagnosticsOpen}
+            onClose={() => setIsDiagnosticsOpen(false)}
+            characterData={characterData}
+            stageInfo={stageInfo}
+            bpStats={bpStats}
+            bodyBreakdown={bodyBreakdown}
+            campaignTL={campaignTL}
+            staminaScore={staminaScore}
+            handleSelectStage={handleSelectStage}
+            incompatibleAugs={incompatibleAugs}
+          />
+        </React.Suspense>
+      )}
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* STAGE PREREQUISITE COMPATIBILITY WARNING BANNER */}

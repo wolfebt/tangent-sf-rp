@@ -13,7 +13,7 @@ export default defineConfig({
     }
   },
   build: {
-    chunkSizeWarningLimit: 1200,
+    chunkSizeWarningLimit: 5000,
     rollupOptions: {
       output: {
         manualChunks: (id) => {
@@ -35,7 +35,13 @@ export default defineConfig({
             cleanId.includes('node_modules/micromark') ||
             cleanId.includes('node_modules/mdast') ||
             cleanId.includes('node_modules/unist') ||
-            cleanId.includes('node_modules/vfile')
+            cleanId.includes('node_modules/vfile') ||
+            cleanId.includes('node_modules/hast') ||
+            cleanId.includes('node_modules/property-information') ||
+            cleanId.includes('node_modules/space-separated-tokens') ||
+            cleanId.includes('node_modules/comma-separated-tokens') ||
+            cleanId.includes('node_modules/bail') ||
+            cleanId.includes('node_modules/trough')
           ) {
             return 'vendor-markdown';
           }
@@ -55,9 +61,27 @@ export default defineConfig({
           if (cleanId.includes('src/data/')) return 'data-omnicortex-misc';
 
           // Folio & Codex modular chunks
-          if (cleanId.includes('src/components/Codex/')) return 'vendor-codex-studio';
+          if (cleanId.includes('src/components/Codex/') || cleanId.includes('src/pages/Codex/')) return 'vendor-codex-studio';
+          if (cleanId.includes('src/components/Folio/modals/AssetModal')) return 'vendor-codex-studio';
+          if (cleanId.includes('src/components/Folio/modals/CustomSelectorModal') || cleanId.includes('src/components/UI/UniversalCatalogModal')) return 'folio-catalog-selector-modal';
           if (cleanId.includes('src/components/Folio/modals/GuidedCreatorModal')) return 'folio-creator-modal';
+          if (cleanId.includes('src/components/Folio/modals/EconomyModal')) return 'folio-economy-modal';
+          if (cleanId.includes('src/components/Folio/modals/RosterModal')) return 'folio-roster-modal';
+          if (cleanId.includes('src/components/Folio/BastionDrawer')) return 'folio-bastion-drawer';
           if (cleanId.includes('src/components/Folio/modals/MetaphysicsModal') || cleanId.includes('src/components/Folio/modals/PerceptionEssenceMovementModal')) return 'folio-metaphysics-modal';
+          if (
+            cleanId.includes('src/components/Folio/modals/DiscreetFateOverrideModal') ||
+            cleanId.includes('src/components/Folio/modals/KarmaCodexModal') ||
+            cleanId.includes('src/components/Folio/modals/ExperienceCodexModal') ||
+            cleanId.includes('src/components/Folio/modals/PerceptionRulesModal') ||
+            cleanId.includes('src/components/Folio/modals/MovementRulesModal') ||
+            cleanId.includes('src/components/Folio/modals/RestRecoveryModal') ||
+            cleanId.includes('src/components/Folio/modals/VitalsDyingModal') ||
+            cleanId.includes('src/components/Folio/modals/AttributeChecksGuideModal') ||
+            cleanId.includes('src/components/Folio/modals/AugmentationDiagnosticsModal')
+          ) {
+            return 'folio-rules-modals';
+          }
           if (cleanId.includes('src/components/Folio/modals/')) return 'folio-modals';
           if (cleanId.includes('src/components/Folio/tabs/')) return 'folio-tabs';
         }

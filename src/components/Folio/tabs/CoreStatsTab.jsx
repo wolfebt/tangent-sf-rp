@@ -5,12 +5,13 @@ import { useFolio } from '../../../context/FolioContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { useDice } from '../../../context/DiceContext';
 import { Dices } from 'lucide-react';
-import DiscreetFateOverrideModal from '../modals/DiscreetFateOverrideModal';
-import KarmaCodexModal from '../modals/KarmaCodexModal';
-import ExperienceCodexModal from '../modals/ExperienceCodexModal';
-import PerceptionEssenceMovementModal from '../modals/PerceptionEssenceMovementModal';
-import PerceptionRulesModal from '../modals/PerceptionRulesModal';
-import MovementRulesModal from '../modals/MovementRulesModal';
+
+// Lazy Loaded Rules & Codex Modals
+const DiscreetFateOverrideModal = React.lazy(() => import('../modals/DiscreetFateOverrideModal'));
+const KarmaCodexModal = React.lazy(() => import('../modals/KarmaCodexModal'));
+const ExperienceCodexModal = React.lazy(() => import('../modals/ExperienceCodexModal'));
+const PerceptionEssenceMovementModal = React.lazy(() => import('../modals/PerceptionEssenceMovementModal'));
+const PerceptionRulesModal = React.lazy(() => import('../modals/PerceptionRulesModal'));
 
 const ATTRIBUTES = [
   {
@@ -1779,53 +1780,73 @@ const CoreStatsTab = () => {
 
       </div>
       {/* Discreet Fate & Experience Override Modal */}
-      <DiscreetFateOverrideModal
-        isOpen={isFateOverrideOpen}
-        onClose={() => setIsFateOverrideOpen(false)}
-        characterData={characterData}
-        updateField={updateField}
-        economyBreakdown={economyBreakdown}
-        derivedStats={derivedStats}
-        charismaScore={getAttrTotal('attr-charisma')}
-      />
+      {isFateOverrideOpen && (
+        <React.Suspense fallback={null}>
+          <DiscreetFateOverrideModal
+            isOpen={isFateOverrideOpen}
+            onClose={() => setIsFateOverrideOpen(false)}
+            characterData={characterData}
+            updateField={updateField}
+            economyBreakdown={economyBreakdown}
+            derivedStats={derivedStats}
+            charismaScore={getAttrTotal('attr-charisma')}
+          />
+        </React.Suspense>
+      )}
 
       {/* Consolidated Core Stats Rules Codex Modal */}
-      <PerceptionEssenceMovementModal
-        isOpen={isCoreRulesModalOpen}
-        onClose={() => setIsCoreRulesModalOpen(false)}
-        initialTab={coreRulesInitialTab}
-        characterData={characterData}
-        getAttrTotal={getAttrTotal}
-        derivedStats={derivedStats}
-      />
+      {isCoreRulesModalOpen && (
+        <React.Suspense fallback={null}>
+          <PerceptionEssenceMovementModal
+            isOpen={isCoreRulesModalOpen}
+            onClose={() => setIsCoreRulesModalOpen(false)}
+            initialTab={coreRulesInitialTab}
+            characterData={characterData}
+            getAttrTotal={getAttrTotal}
+            derivedStats={derivedStats}
+          />
+        </React.Suspense>
+      )}
 
       {/* Dedicated Perception Rules Modal */}
-      <PerceptionRulesModal
-        isOpen={isPerceptionRulesOpen}
-        onClose={() => setIsPerceptionRulesOpen(false)}
-        characterData={characterData}
-        getAttrTotal={getAttrTotal}
-        derivedStats={derivedStats}
-      />
+      {isPerceptionRulesOpen && (
+        <React.Suspense fallback={null}>
+          <PerceptionRulesModal
+            isOpen={isPerceptionRulesOpen}
+            onClose={() => setIsPerceptionRulesOpen(false)}
+            characterData={characterData}
+            getAttrTotal={getAttrTotal}
+            derivedStats={derivedStats}
+          />
+        </React.Suspense>
+      )}
 
       {/* Consolidated Karma Codex Modal */}
-      <KarmaCodexModal
-        isOpen={isKarmaCodexOpen}
-        onClose={() => setIsKarmaCodexOpen(false)}
-        charismaScore={getAttrTotal('attr-charisma')}
-        currentKarma={getNum('karma', derivedStats?.maxKarma ?? 3)}
-        maxKarma={derivedStats?.maxKarma ?? 3}
-        plotPoints={getNum('plot-points', 0)}
-      />
+      {isKarmaCodexOpen && (
+        <React.Suspense fallback={null}>
+          <KarmaCodexModal
+            isOpen={isKarmaCodexOpen}
+            onClose={() => setIsKarmaCodexOpen(false)}
+            charismaScore={getAttrTotal('attr-charisma')}
+            currentKarma={getNum('karma', derivedStats?.maxKarma ?? 3)}
+            maxKarma={derivedStats?.maxKarma ?? 3}
+            plotPoints={getNum('plot-points', 0)}
+          />
+        </React.Suspense>
+      )}
 
       {/* Consolidated Advancement Points (AP) Codex Modal */}
-      <ExperienceCodexModal
-        isOpen={isExperienceCodexOpen}
-        onClose={() => setIsExperienceCodexOpen(false)}
-        earnedAP={Number(characterData?.earned_ap || 0)}
-        availableAP={economyBreakdown?.availableAP ?? Number(characterData?.earned_ap || 0)}
-        experienceDebt={Number(characterData?.experience_debt || 0)}
-      />
+      {isExperienceCodexOpen && (
+        <React.Suspense fallback={null}>
+          <ExperienceCodexModal
+            isOpen={isExperienceCodexOpen}
+            onClose={() => setIsExperienceCodexOpen(false)}
+            earnedAP={Number(characterData?.earned_ap || 0)}
+            availableAP={economyBreakdown?.availableAP ?? Number(characterData?.earned_ap || 0)}
+            experienceDebt={Number(characterData?.experience_debt || 0)}
+          />
+        </React.Suspense>
+      )}
 
     </div>
   );
