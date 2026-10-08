@@ -19,6 +19,12 @@ import {
   callLocalOllama,
   callAutomatedInferencePipeline
 } from './aimeTierRouter.ts';
+import {
+  generateAimePersonaSchema,
+  generateAimeSceneSchema,
+  convertPersonaToVttToken,
+  convertSceneToVttMap
+} from './aimeVttSchemaService.ts';
 
 export { 
   parseRollCommand, 
@@ -37,7 +43,11 @@ export {
   calculateVramTelemetry,
   callLocalLlama,
   callLocalOllama,
-  callAutomatedInferencePipeline
+  callAutomatedInferencePipeline,
+  generateAimePersonaSchema,
+  generateAimeSceneSchema,
+  convertPersonaToVttToken,
+  convertSceneToVttMap
 };
 
 export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) ADE Studio.

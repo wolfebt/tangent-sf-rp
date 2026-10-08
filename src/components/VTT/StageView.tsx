@@ -75,6 +75,7 @@ import { StageTacticalConsole } from './cockpit/StageTacticalConsole';
 import { useMultiplayerCursors } from './hooks/useMultiplayerCursors';
 import { createRoomWalls, snapPointToAngle, findNearestWallVertex } from '../../schemas/vttWallSchema.js';
 import { v4 as uuidv4 } from 'uuid';
+import { getVttMultiplayerSync } from '../../services/vttMultiplayerSyncService';
 
 export interface StageViewProps {
   campaignId?: string;
@@ -258,6 +259,11 @@ export const StageView: React.FC<StageViewProps> = ({
     toggleDynamicLighting,
     updateMap
   });
+
+  // Initialize VTT Multiplayer Synchronization (CRDT + LiveKit + Multi-Window Mesh)
+  useEffect(() => {
+    getVttMultiplayerSync().init();
+  }, []);
 
   // Map Maker Modal Launcher States
   const [isLandmassModalOpen, setIsLandmassModalOpen] = useState<boolean>(false);
@@ -2231,6 +2237,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
     const engineStore = useEngineStore.getState();
     engineStore.updatePosition(selectedTokenId, snapped.x, snapped.y);
+    getVttMultiplayerSync().broadcastTokenMove(selectedTokenId, snapped.x, snapped.y);
     AudioService.playTerminalBeep(1100, 0.02);
 
     if (isMoveModeActive) {

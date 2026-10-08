@@ -3,6 +3,8 @@
  * Indexes core rules across all 44 Operator and Architect rulebooks.
  */
 
+import { getOpfsWorkerManager } from './opfsWorkerManager.ts';
+
 export const RULEBOOK_CORPUS = [
   {
     id: 'combat_resolution',
@@ -206,24 +208,26 @@ export async function searchRulesFtsAsync(queryString, worker = null, limit = 10
     return RULEBOOK_CORPUS.slice(0, limit);
   }
 
-  if (worker && typeof worker.postMessage === 'function') {
+  const activeWorker = worker || getOpfsWorkerManager().getWorker();
+
+  if (activeWorker && typeof activeWorker.postMessage === 'function') {
     try {
       const results = await new Promise((resolve, reject) => {
         const queryId = `fts_q_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
         const timer = setTimeout(() => {
-          worker.removeEventListener('message', handler);
+          activeWorker.removeEventListener('message', handler);
           reject(new Error('FTS query timeout'));
         }, 1500);
 
         const handler = (e) => {
           if (e.data?.queryId === queryId) {
             clearTimeout(timer);
-            worker.removeEventListener('message', handler);
+            activeWorker.removeEventListener('message', handler);
             resolve(e.data?.rows || []);
           }
         };
-        worker.addEventListener('message', handler);
-        worker.postMessage({
+        activeWorker.addEventListener('message', handler);
+        activeWorker.postMessage({
           type: 'FTS_SEARCH',
           queryId,
           query: queryString,

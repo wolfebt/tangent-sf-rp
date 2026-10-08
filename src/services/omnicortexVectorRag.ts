@@ -8,6 +8,7 @@
 import { BASTION_MECHANICS_DATASET } from '../data/mechanicsData.js';
 import specializedRules from '../data/omnicortexSpecializedRules.json' with { type: 'json' };
 import catalogChunks from '../data/bastionCatalogChunks.json' with { type: 'json' };
+import { getOpfsWorkerManager } from './opfsWorkerManager.ts';
 
 export interface RuleChunk {
   id: string;
@@ -197,12 +198,16 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 ];
 
 /**
- * Builds dynamic compendium chunks from seed array
+ * Builds dynamic compendium chunks from seed array.
+ * Deconstructs 202 master articles into 700+ granular chunks across
+ * overview, mechanics, tactical guide, and architect notes for high-precision RAG.
  */
 function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
   if (!Array.isArray(seedList)) return [];
 
-  return seedList.map((item: any) => {
+  const chunks: RuleChunk[] = [];
+
+  for (const item of seedList) {
     let cat: RuleChunk['category'] = 'lore';
     const p = (item.parent || '').toLowerCase();
     const t = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
@@ -214,25 +219,64 @@ function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
     else if (p.includes('origin') || p.includes('occupation') || p.includes('skill') || p.includes('character')) cat = 'character_creation';
     else if (p.includes('world') || p.includes('bestiary')) cat = 'planetary';
 
-    // Strip markdown formatting for cleaner vector indexing
     const cleanDesc = (item.description || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
     const cleanMech = (item.mechanic || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+    const cleanGuide = (item.guide || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+    const cleanNote = (item.note || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
 
-    let text = `${item.name}\n`;
-    if (cleanMech) text += `Rules Mechanics: ${cleanMech}\n`;
-    if (cleanDesc) text += `Description & Lore: ${cleanDesc.slice(0, 450)}\n`;
-    if (item.tl !== undefined && item.tl !== null) text += `Tech Level: TL ${item.tl} | `;
-    if (item.ml !== undefined && item.ml !== null) text += `Meta Level: ML ${item.ml}`;
+    // 1. Primary Overview Chunk
+    let overviewText = `${item.name}\n`;
+    if (cleanDesc) overviewText += `Description: ${cleanDesc.slice(0, 500)}\n`;
+    if (item.tl !== undefined && item.tl !== null) overviewText += `Tech Level: TL ${item.tl} | `;
+    if (item.ml !== undefined && item.ml !== null) overviewText += `Meta Level: ML ${item.ml}`;
 
-    return {
+    chunks.push({
       id: `compendium-${item.id || item.name}`,
       category: cat,
       title: item.name || 'Untitled Article',
       citation: item.parent || 'Omnicortex Compendium',
-      text: text.trim(),
+      text: overviewText.trim(),
       tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, item.parent || '', cat].filter(Boolean)
-    };
-  });
+    });
+
+    // 2. Specialized Mechanics Chunk
+    if (cleanMech) {
+      chunks.push({
+        id: `compendium-${item.id || item.name}-mech`,
+        category: cat === 'lore' ? 'combat' : cat,
+        title: `${item.name} [Rules Mechanics]`,
+        citation: `${item.parent || 'Omnicortex'} > Mechanics`,
+        text: `Canonical Mechanics for ${item.name}:\n${cleanMech}`,
+        tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, 'mechanics', 'formula', cat].filter(Boolean)
+      });
+    }
+
+    // 3. Tactical Player/Operator Guide Chunk
+    if (cleanGuide) {
+      chunks.push({
+        id: `compendium-${item.id || item.name}-guide`,
+        category: cat,
+        title: `${item.name} [Tactical Guide]`,
+        citation: `${item.parent || 'Omnicortex'} > Tactical Guide`,
+        text: `Operational Tactical Guide for ${item.name}:\n${cleanGuide}`,
+        tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, 'guide', 'tactics', cat].filter(Boolean)
+      });
+    }
+
+    // 4. Architect Confidential Notes Chunk
+    if (cleanNote) {
+      chunks.push({
+        id: `compendium-${item.id || item.name}-note`,
+        category: cat,
+        title: `${item.name} [Architect Notes]`,
+        citation: `${item.parent || 'Omnicortex'} > Architect Notes`,
+        text: `Architect Worldbuilding & Adjudication Notes for ${item.name}:\n${cleanNote}`,
+        tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, 'architect', 'notes', cat].filter(Boolean)
+      });
+    }
+  }
+
+  return chunks;
 }
 
 /**
@@ -367,14 +411,29 @@ let isCompendiumSeedLoaded = false;
 export async function loadCompendiumSeedDataset(): Promise<void> {
   if (isCompendiumSeedLoaded) return;
   if (!compendiumSeedPromise) {
-    compendiumSeedPromise = import('../data/compendiumSeed.json')
-      .then((mod) => {
+    compendiumSeedPromise = import('../data/compendiumSeed.json', { with: { type: 'json' } })
+      .then(async (mod) => {
         const seedData = (mod.default || mod) as any[];
         const chunks = buildCompendiumChunks(seedData);
         for (const chunk of chunks) {
           CANONICAL_RULES_COMPENDIUM.push(chunk);
         }
-        recomputeEmbeddings();
+
+        // Offload insertion and SQLite WASM FTS5 indexing of 700+ articles to the Web Worker
+        const workerChunks = chunks.map(c => ({
+          id: c.id,
+          title: c.title,
+          category: c.category,
+          content: `${c.citation}\n${c.text}`
+        }));
+
+        try {
+          const workerManager = getOpfsWorkerManager();
+          await workerManager.indexCompendiumChunks(workerChunks);
+        } catch (workerErr) {
+          console.warn('[OmnicortexVectorRAG] Worker compendium indexing fallback:', workerErr);
+        }
+
         isCompendiumSeedLoaded = true;
       })
       .catch((err) => {

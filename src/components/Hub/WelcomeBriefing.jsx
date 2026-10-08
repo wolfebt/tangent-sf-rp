@@ -170,7 +170,7 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
 
   return (
     <div 
-      className="w-full max-w-6xl xl:max-w-7xl mx-auto p-3 sm:p-3.5 bg-[#0b1019]/95 backdrop-blur-xl border border-cyan-500/40 rounded-2xl shadow-[0_0_35px_rgba(0,0,0,0.85),0_0_15px_rgba(34,211,238,0.1)] flex flex-col gap-2.5 sm:gap-3 animate-in fade-in zoom-in-95 duration-200 font-sans text-slate-200 select-none relative overflow-hidden"
+      className="w-full max-w-6xl xl:max-w-7xl mx-auto p-3 sm:p-3.5 bg-[#0b1019]/95 backdrop-blur-xl border border-cyan-500/40 rounded-2xl shadow-[0_0_35px_rgba(0,0,0,0.85),0_0_15px_rgba(34,211,238,0.1)] flex flex-col gap-2.5 sm:gap-3 animate-in fade-in zoom-in-95 duration-200 font-sans text-slate-200 select-none relative overflow-hidden shrink-0"
     >
       {/* Top subtle cyan energy scan line */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400/80 to-transparent pointer-events-none" />

@@ -121,15 +121,6 @@ const Home = () => {
       className="h-full w-full relative bg-[#060a12] bg-cover bg-center bg-no-repeat text-slate-100 font-sans flex flex-col overflow-hidden select-none"
       style={{ backgroundImage: "url('/assets/images/background.png')" }}
     >
-      {/* ── Creator Tag — Top Right View Area ── */}
-      <div className="absolute top-2 sm:top-3 right-3 sm:right-5 z-20 pointer-events-none select-none text-right">
-        <div className="flex items-center gap-1.5 justify-end">
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
-          <span className="font-mono text-[9px] sm:text-[10.5px] font-bold tracking-wider text-cyan-300/90 uppercase [text-shadow:0_0_8px_rgba(0,0,0,0.95),0_0_16px_rgba(34,211,238,0.4)]">
-            TANGENT SCIENCE FANTASY ROLE PLAY ENGINE BY WOLFE.BT@TANGENTLLC
-          </span>
-        </div>
-      </div>
 
       {/* ── Mobile Slide-Out Backdrop ── */}
       {isMobile && isMobileDrawerOpen && (
@@ -281,6 +272,9 @@ const Home = () => {
       <div className="flex-1 min-h-0 flex flex-row overflow-hidden no-scrollbar relative z-10">
         {/* Center Workspace Area */}
         <div className="flex-1 min-h-0 w-full p-2.5 sm:p-4 lg:p-5 flex flex-col gap-2 sm:gap-3 overflow-hidden">
+          {/* ── Top Admin Broadcast Banner ── */}
+          <HomeMessageBanner className="shrink-0" />
+
           {/* Mobile: top action bar */}
           {isMobile && (
             <div className="flex items-center justify-between gap-2 bg-slate-900/90 backdrop-blur-md p-2.5 rounded-xl border border-slate-800 shadow-lg shrink-0 z-30">
@@ -332,7 +326,7 @@ const Home = () => {
                   onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
                 />
               ) : showWelcomeBriefing ? (
-                <div className="flex-1 flex flex-col items-center justify-start p-2.5 sm:p-4 pt-1 sm:pt-2 overflow-y-auto w-full max-h-full no-scrollbar">
+                <div className="flex-1 min-h-0 flex flex-col items-center justify-start p-2 sm:p-4 pt-1 sm:pt-2 pb-6 sm:pb-8 overflow-y-auto w-full max-h-full">
                   <WelcomeBriefing onDismiss={handleDismissBriefing} />
                 </div>
               ) : (
@@ -394,7 +388,7 @@ const Home = () => {
                 />
               </div>
             ) : showWelcomeBriefing ? (
-              <div className="flex-1 flex flex-col items-center justify-start p-2 sm:p-3 pt-1 overflow-y-auto w-full max-h-full no-scrollbar">
+              <div className="flex-1 min-h-0 flex flex-col items-center justify-start p-2 sm:p-3 pt-1 pb-6 overflow-y-auto w-full max-h-full">
                 <WelcomeBriefing isMobile onDismiss={handleDismissBriefing} />
               </div>
             ) : (
@@ -444,12 +438,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ── Ambient Background Layer Broadcast Banner ── */}
-      {/* Placed at the bottom of the page, just off the background layer (z-[1]) to sit under any other content, pages or modals */}
-      <div className="absolute bottom-8 sm:bottom-9 left-0 right-0 z-[1] pointer-events-auto">
-        <HomeMessageBanner />
-      </div>
-
       {/* Global Settings Modal */}
       <UserSettingsModal
         isOpen={isSettingsOpen}
@@ -457,8 +445,11 @@ const Home = () => {
       />
 
       {/* Footer */}
-      <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4 relative z-10">
-        <span>CYBERNETIC INTERFACE INITIALIZED</span>
+      <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-between text-[10px] font-mono text-slate-500 gap-2 px-4 relative z-10">
+        <span className="font-light text-[10px] sm:text-[11px] text-cyan-400 tracking-wider select-none shrink-0">
+          Wolfe.BT@TangentLLC
+        </span>
+        <span className="shrink-0">CYBERNETIC INTERFACE INITIALIZED</span>
       </footer>
     </div>
   );

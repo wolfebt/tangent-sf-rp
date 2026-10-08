@@ -18,6 +18,7 @@ export class YjsProviderBridge {
   // High-level CRDT structures mapped to Tangent mechanics
   public personaSheets: Y.Map<any>;
   public tacticalBoard: Y.Array<any>;
+  public tacticalTokensMap: Y.Map<any>;
   public interactiveObjects: Y.Map<any>;
   public campaignWiki: Y.Text;
   public scenarioManuscripts: Y.Map<any>;
@@ -32,6 +33,7 @@ export class YjsProviderBridge {
     // Map the CRDT structures
     this.personaSheets = this.doc.getMap('personas');
     this.tacticalBoard = this.doc.getArray('tactical_board');
+    this.tacticalTokensMap = this.doc.getMap('tactical_tokens');
     this.interactiveObjects = this.doc.getMap('interactive_objects');
     this.campaignWiki = this.doc.getText('campaign_wiki');
     this.scenarioManuscripts = this.doc.getMap('scenario_manuscripts');
@@ -106,6 +108,29 @@ export class YjsProviderBridge {
         console.error('[Yjs Bridge] CRDT Merge Conflict / Decryption Error:', error);
       }
     }
+  }
+
+  public setTokenPosition(tokenId: string, pos: { x: number; y: number; z?: number; updatedBy?: string }): void {
+    this.tacticalTokensMap.set(tokenId, {
+      ...pos,
+      timestamp: Date.now()
+    });
+  }
+
+  public getTokenPosition(tokenId: string): any {
+    return this.tacticalTokensMap.get(tokenId);
+  }
+
+  public observeTacticalTokens(callback: (tokenId: string, pos: any, origin: any) => void): () => void {
+    const observer = (event: Y.YMapEvent<any>, transaction: Y.Transaction) => {
+      event.changes.keys.forEach((change, key) => {
+        if (change.action === 'add' || change.action === 'update') {
+          callback(key, this.tacticalTokensMap.get(key), transaction.origin);
+        }
+      });
+    };
+    this.tacticalTokensMap.observe(observer);
+    return () => this.tacticalTokensMap.unobserve(observer);
   }
 
   public getDocument(): Y.Doc {

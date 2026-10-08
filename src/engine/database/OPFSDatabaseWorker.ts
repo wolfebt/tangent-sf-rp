@@ -13,6 +13,7 @@ export type DbRequest =
   | { type: 'BULK_INSERT'; table: string; data: any[]; queryId: string }
   | { type: 'INIT_FTS'; queryId: string }
   | { type: 'FTS_INDEX_RULES'; rules: Array<{ id: string; title: string; category: string; content: string }>; queryId: string }
+  | { type: 'INDEX_COMPENDIUM'; chunks: Array<{ id: string; title: string; category: string; content: string }>; queryId: string }
   | { type: 'FTS_SEARCH'; query: string; limit?: number; queryId: string };
 
 export type DbResponse = 
@@ -186,6 +187,15 @@ self.onmessage = async (event: MessageEvent<DbRequest>) => {
       try {
         engine.indexRulesFts(req.rules);
         self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [{ count: req.rules.length, status: 'indexed' }] } as DbResponse);
+      } catch (e: any) {
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [], error: e.message } as DbResponse);
+      }
+      break;
+
+    case 'INDEX_COMPENDIUM':
+      try {
+        engine.indexRulesFts(req.chunks);
+        self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [{ count: req.chunks.length, status: 'indexed' }] } as DbResponse);
       } catch (e: any) {
         self.postMessage({ type: 'RESULT', queryId: req.queryId, rows: [], error: e.message } as DbResponse);
       }

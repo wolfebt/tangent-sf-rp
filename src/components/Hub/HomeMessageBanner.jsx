@@ -8,8 +8,7 @@ import {
   Terminal, 
   Bell, 
   ExternalLink, 
-  ChevronRight,
-  X
+  ChevronRight
 } from 'lucide-react';
 import { 
   BANNER_COLOR_THEMES, 
@@ -81,12 +80,12 @@ export const HomeMessageBanner = ({ className = '' }) => {
   return (
     <>
       <div 
-        className={`z-[1] w-full px-2 sm:px-4 lg:px-6 pointer-events-auto transition-all duration-300 flex justify-center ${className}`}
+        className={`z-20 w-full px-2 sm:px-4 lg:px-6 pointer-events-auto transition-all duration-300 flex justify-center ${className}`}
       >
         <div
           className={`group relative overflow-hidden rounded-lg sm:rounded-xl border ${currentTheme.border} ${currentTheme.borderGlow} ${currentTheme.bg} ${currentTheme.boxGlow} bg-[#060a14]/90 backdrop-blur-2xl px-3 sm:px-4 flex items-center justify-between gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.65)] select-none transition-all duration-300 ${
             isStatic 
-              ? 'w-full sm:w-1/2 min-h-[36px] py-2 sm:py-2.5' 
+              ? 'w-full sm:w-auto sm:max-w-2xl lg:max-w-4xl min-h-[36px] py-2 sm:py-2.5' 
               : 'w-full h-9 sm:h-10'
           }`}
         >
@@ -128,7 +127,7 @@ export const HomeMessageBanner = ({ className = '' }) => {
             )}
           </div>
 
-          {/* Right: Optional Action CTA + Admin Edit Cog + Dismiss */}
+          {/* Right: Optional Action CTA + Matched Indicator Beacon Dot */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 z-10">
             {banner.linkUrl && banner.linkLabel && (
               <button
@@ -141,21 +140,13 @@ export const HomeMessageBanner = ({ className = '' }) => {
               </button>
             )}
 
-            {/* Optional Dismiss button for users */}
-            {banner.allowDismiss && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  AudioService.playTerminalBeep(850, 0.02);
-                  setIsDismissed(true);
-                }}
-                className="p-1 rounded-md text-slate-500 hover:text-slate-300 hover:bg-slate-800/60 transition-colors cursor-pointer shrink-0"
-                title="Dismiss Banner"
-              >
-                <X size={13} />
-              </button>
-            )}
+            {/* Right: Matched Indicator Beacon Dot */}
+            <div className="flex items-center justify-center w-5 sm:w-6 shrink-0">
+              <div className="relative flex items-center justify-center">
+                <span className={`w-2 h-2 rounded-full ${currentTheme.beacon}`} />
+                <span className={`absolute w-3.5 h-3.5 rounded-full ${currentTheme.beacon} opacity-75 animate-ping`} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
