@@ -16,6 +16,7 @@
     "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\"",
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts",
+    "test:e2e:journeys": "playwright test tests/e2e/user-journeys.spec.ts",
     "test": "npm run test:engine && node scripts/validateDataIntegrity.mjs"
   },
   "devDependencies": {

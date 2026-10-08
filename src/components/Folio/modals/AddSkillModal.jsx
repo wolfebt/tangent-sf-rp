@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AccessibleModal } from '../../UI/AccessibleModal';
 
 const AddSkillModal = ({
   isOpen,
@@ -76,22 +77,19 @@ const AddSkillModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
-      <div className="bg-[#121824] border border-cyan-500/60 rounded-xl max-w-md w-full p-6 shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 space-y-4">
-        {/* Header */}
-        <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
-            {mode === 'custom' ? 'Add Custom Skill' : 'Add Specialization / Evocation'}
-          </h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-white text-xl font-bold leading-none">
-            &times;
-          </button>
-        </div>
-
+    <AccessibleModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={mode === 'custom' ? 'Add Custom Skill' : 'Add Specialization / Evocation'}
+      maxWidthClass="max-w-md"
+    >
+      <div className="space-y-4 text-slate-100">
         {/* Mode Selector Tabs */}
-        <div className="flex border-b border-slate-800 pb-1 gap-1.5">
+        <div role="tablist" aria-label="Skill creation modes" className="flex border-b border-slate-800 pb-1 gap-1.5">
           <button
             type="button"
+            role="tab"
+            aria-selected={mode === 'custom'}
             onClick={() => setMode('custom')}
             className={`flex-1 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded transition-all ${
               mode === 'custom'
@@ -288,7 +286,7 @@ const AddSkillModal = ({
           </div>
         </form>
       </div>
-    </div>
+    </AccessibleModal>
   );
 };
 
