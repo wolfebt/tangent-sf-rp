@@ -1,0 +1,3 @@
+## 2024-05-18 - Deferring Search Queries in Large Catalogs
+**Learning:** Filtering large arrays (e.g., hundreds or thousands of assets/species/weapons) on every keystroke during client-side search directly blocks the main thread in React, causing noticeable input lag and UI stutter for the user.
+**Action:** When implementing client-side filtering over large arrays/catalogs where a text input is bound to state, wrap the search query state with React's `useDeferredValue` and use the deferred value within the expensive `useMemo` computation. This keeps the input highly responsive while deferring the heavy filtering logic.

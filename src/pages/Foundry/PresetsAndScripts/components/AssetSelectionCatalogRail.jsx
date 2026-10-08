@@ -5,7 +5,7 @@
  * and adjacent asset feed with instant search and status filters.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue } from 'react';
 import { 
   Search, 
   X, 
@@ -34,6 +34,7 @@ export const AssetSelectionCatalogRail = ({
   onNavigateToForge
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearchQuery = useDeferredValue(searchQuery); // BOLT: Defer search to prevent main thread blocking
   const [statusFilter, setStatusFilter] = useState('all'); // 'all' | 'scripted' | 'unassigned'
 
   // Category counts computation
@@ -72,8 +73,8 @@ export const AssetSelectionCatalogRail = ({
       if (statusFilter === 'unassigned' && asset.isScripted) return false;
 
       // Text search
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase();
+      if (deferredSearchQuery.trim()) {
+        const query = deferredSearchQuery.toLowerCase();
         const matchesTitle = asset.title.toLowerCase().includes(query);
         const matchesRole = (asset.role || '').toLowerCase().includes(query);
         const matchesDesc = (asset.description || '').toLowerCase().includes(query);
@@ -82,7 +83,7 @@ export const AssetSelectionCatalogRail = ({
       }
       return true;
     });
-  }, [assets, activeCategory, statusFilter, searchQuery]);
+  }, [assets, activeCategory, statusFilter, deferredSearchQuery]);
 
   const handleCategoryClick = (catId) => {
     AudioService.playTerminalBeep(1100, 0.02);
