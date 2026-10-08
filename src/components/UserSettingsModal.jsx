@@ -28,6 +28,7 @@ import {
 import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
 import { AudioService } from '../services/audioService';
+import { TelemetryService } from '../services/telemetryService';
 import { useConfirm } from '../context/ConfirmContext';
 import { useToast } from '../context/ToastContext';
 import { 
@@ -79,6 +80,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   // Tactical Home Marquee Broadcast (Admin / Developer Controls)
   const [bannerForm, setBannerForm] = useState(getCachedHomeBanner);
   const [isBannerSaving, setIsBannerSaving] = useState(false);
+
+  // Hardware Profile & Graphics Telemetry
+  const [gpuProfile, setGpuProfile] = useState(() => TelemetryService.getGPUHardwareProfile());
+  const [telemetryCopied, setTelemetryCopied] = useState(false);
 
   useEffect(() => {
     let unsubBanner = null;
@@ -732,6 +737,36 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         <Trash2 size={13} />
                         <span>Clear Cache</span>
                       </button>
+                    </div>
+                  </div>
+
+                  {/* Live GPU Hardware & Graphics Telemetry */}
+                  <div className="p-3.5 rounded-xl bg-slate-950/80 border border-cyan-900/50 space-y-2">
+                    <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+                      <div className="font-mono text-xs font-bold text-cyan-300 uppercase flex items-center gap-1.5">
+                        <Cpu size={14} className="text-cyan-400" />
+                        <span>Hardware &amp; Graphics Telemetry</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const profileText = JSON.stringify(gpuProfile, null, 2);
+                          navigator.clipboard.writeText(profileText);
+                          setTelemetryCopied(true);
+                          setTimeout(() => setTelemetryCopied(false), 2000);
+                        }}
+                        className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-cyan-400 border border-cyan-800/60 rounded text-[10.5px] font-mono font-bold transition-colors cursor-pointer"
+                      >
+                        {telemetryCopied ? '✓ Copied' : 'Copy Telemetry'}
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-[10.5px] font-mono text-slate-300">
+                      <div><span className="text-slate-500">GPU:</span> {gpuProfile.renderer}</div>
+                      <div><span className="text-slate-500">Vendor:</span> {gpuProfile.vendor}</div>
+                      <div><span className="text-slate-500">WebGL:</span> {gpuProfile.webglVersion}</div>
+                      <div><span className="text-slate-500">Max Texture:</span> {gpuProfile.maxTextureSize}px</div>
+                      <div><span className="text-slate-500">Pixel Ratio:</span> {gpuProfile.devicePixelRatio}x</div>
+                      <div><span className="text-slate-500">Screen:</span> {gpuProfile.screenResolution}</div>
                     </div>
                   </div>
 

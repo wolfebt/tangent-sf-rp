@@ -20,6 +20,7 @@
     "test": "npm run test:engine && node scripts/validateDataIntegrity.mjs"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react-dom": "^19.2.5",
     "@types/three": "^0.185.4",
