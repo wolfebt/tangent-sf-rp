@@ -14,6 +14,8 @@
     "build:data": "node scripts/buildAllBundles.mjs",
     "test:data": "node scripts/validateDataIntegrity.mjs",
     "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\"",
+    "test:e2e": "playwright test",
+    "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts",
     "test": "npm run test:engine && node scripts/validateDataIntegrity.mjs"
   },
   "devDependencies": {

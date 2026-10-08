@@ -283,6 +283,9 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
     <>
       <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
         <div 
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="settings-dialog-title"
           className="bg-[#0d1117] border-2 border-cyan-500/50 rounded-2xl w-[94vw] max-w-4xl max-h-[94vh] sm:max-h-[95dvh] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col font-sans select-none animate-fadeIn"
           onClick={(e) => e.stopPropagation()}
         >
@@ -290,10 +293,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           <div className="p-4 sm:px-6 bg-slate-950/90 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.2)]">
-                <Settings size={16} />
+                <Settings size={16} aria-hidden="true" />
               </div>
               <div>
-                <h3 className="text-xs sm:text-sm font-mono font-bold uppercase tracking-widest text-cyan-300">
+                <h3 id="settings-dialog-title" className="text-xs sm:text-sm font-mono font-bold uppercase tracking-widest text-cyan-300">
                   SYSTEM SETTINGS &amp; CONTROLS
                 </h3>
                 <span className="text-[10px] font-mono text-slate-400">
@@ -306,9 +309,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                 AudioService.playTerminalBeep(900, 0.02);
                 onClose();
               }}
+              aria-label="Close settings dialog"
               className="text-slate-400 hover:text-white text-xl font-bold leading-none p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
             >
-              &times;
+              <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
@@ -316,13 +320,21 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           <div className="flex-1 min-h-0 flex flex-col sm:flex-row overflow-hidden">
             
             {/* Left Tab Navigation Rail */}
-            <div className="w-full sm:w-52 bg-slate-950/70 border-b sm:border-b-0 sm:border-r border-slate-800 p-2 sm:p-3 flex sm:flex-col gap-1.5 shrink-0 overflow-x-auto sm:overflow-x-visible">
+            <div 
+              role="tablist"
+              aria-label="Settings categories"
+              className="w-full sm:w-52 bg-slate-950/70 border-b sm:border-b-0 sm:border-r border-slate-800 p-2 sm:p-3 flex sm:flex-col gap-1.5 shrink-0 overflow-x-auto sm:overflow-x-visible"
+            >
               {TABS.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = activeTab === tab.id;
                 return (
                   <button
                     key={tab.id}
+                    role="tab"
+                    id={`settings-tab-${tab.id}`}
+                    aria-selected={isActive}
+                    aria-controls={`settings-tab-panel-${tab.id}`}
                     type="button"
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);

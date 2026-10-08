@@ -6,6 +6,7 @@
  */
 
 import * as THREE from 'three';
+import { TelemetryService } from '../../services/telemetryService';
 
 export interface Renderer3DOptions {
   antialias?: boolean;
@@ -21,6 +22,8 @@ export class Stage3DRendererContext {
   private resizeObserver: ResizeObserver | null = null;
   private renderCallbacks: Array<(delta: number, elapsed: number) => void> = [];
   private clock: THREE.Clock = new THREE.Clock();
+  private handleContextLost: ((e: Event) => void) | null = null;
+  private handleContextRestored: (() => void) | null = null;
 
   /**
    * Initializes the Three.js renderer mounted to the target canvas.
@@ -66,11 +69,26 @@ export class Stage3DRendererContext {
         this.resizeObserver.observe(canvas.parentElement);
       }
 
+      // Enterprise Telemetry & WebGL Crash Sentinel
+      this.handleContextLost = (e: Event) => {
+        e.preventDefault();
+        TelemetryService.reportWebGLCrash(canvas, 'Stage3DRendererContext:webglcontextlost');
+        this.stopLoop();
+      };
+      this.handleContextRestored = () => {
+        TelemetryService.addBreadcrumb('graphics', 'WebGL context restored on Stage 3D Canvas', 'info');
+        this.startLoop();
+      };
+      canvas.addEventListener('webglcontextlost', this.handleContextLost, false);
+      canvas.addEventListener('webglcontextrestored', this.handleContextRestored, false);
+
       this.isInitialized = true;
       this.startLoop();
+      TelemetryService.addBreadcrumb('graphics', 'Stage 3D WebGL renderer initialized successfully', 'info');
       console.log('[Stage3DRendererContext] 3D Holographic Stage Graphics initialized successfully.');
       return true;
     } catch (err) {
+      TelemetryService.addBreadcrumb('graphics', `Failed to initialize 3D renderer: ${err}`, 'error');
       console.error('[Stage3DRendererContext] Failed to initialize 3D renderer:', err);
       return false;
     }
@@ -141,6 +159,16 @@ export class Stage3DRendererContext {
   public destroy() {
     this.stopLoop();
     this.renderCallbacks = [];
+    if (this.canvas) {
+      if (this.handleContextLost) {
+        this.canvas.removeEventListener('webglcontextlost', this.handleContextLost);
+      }
+      if (this.handleContextRestored) {
+        this.canvas.removeEventListener('webglcontextrestored', this.handleContextRestored);
+      }
+    }
+    this.handleContextLost = null;
+    this.handleContextRestored = null;
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
       this.resizeObserver = null;

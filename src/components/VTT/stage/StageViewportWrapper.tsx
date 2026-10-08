@@ -12,6 +12,7 @@ import { StageSplitView } from './StageSplitView';
 import StageView from '../StageView';
 import type { StageViewProps } from '../StageView';
 import { Stage3DViewport } from './Stage3DViewport';
+import { A11yStageFeed } from '../A11yStageFeed';
 import { useCampaign } from '../../../context/CampaignContext';
 import { useEngineStore } from '../../../engine/index';
 import { useUILayoutStore } from '../store/uiLayoutStore';
@@ -450,6 +451,9 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
               isEmbeddedInTripartite={stageProps.isEmbeddedInTripartite ?? true}
             />
           )}
+
+          {/* Screen Reader Accessible Companion Feed */}
+          <A11yStageFeed mapName={currentMap?.title || currentMap?.name} />
 
           {/* Drop Target HUD Banner */}
           {isDraggingOver && (

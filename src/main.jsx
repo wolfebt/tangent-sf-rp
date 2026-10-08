@@ -8,7 +8,10 @@ import { ToastProvider } from './context/ToastContext.jsx'
 import { ConfirmProvider } from './context/ConfirmContext.jsx'
 import { AudioProvider } from './context/AudioContext.jsx'
 import { ErrorBoundary } from './components/UI/ErrorBoundary.jsx'
+import { TelemetryService } from './services/telemetryService'
 import { registerSW } from 'virtual:pwa-register'
+
+TelemetryService.initialize();
 
 if (import.meta.env.PROD) {
   registerSW({ immediate: true })
