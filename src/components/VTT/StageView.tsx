@@ -1172,33 +1172,35 @@ export const StageView: React.FC<StageViewProps> = ({
       }
 
       // PixiJS Ticker Animation Loop for Particle Fields & Dynamic Lighting
-      app.ticker.add((ticker) => {
-        const timeSec = performance.now() / 1000;
-        const currentTokens = selectAllFusedTokens(useEngineStore.getState());
-        const lightEmitters = currentTokens.map((t: FusedToken) => ({
-          x: t.x,
-          y: t.y,
-          radius: 180,
-          color: t.is_persona ? 0x22d3ee : 0xa855f7,
-          intensity: 1.0
-        }));
+      if (app?.ticker) {
+        app.ticker.add((ticker) => {
+          const timeSec = performance.now() / 1000;
+          const currentTokens = selectAllFusedTokens(useEngineStore.getState());
+          const lightEmitters = currentTokens.map((t: FusedToken) => ({
+            x: t.x,
+            y: t.y,
+            radius: 180,
+            color: t.is_persona ? 0x22d3ee : 0xa855f7,
+            intensity: 1.0
+          }));
 
-        // Include placed point lights
-        const sceneLights = lightSourceMgrRef.current.getAllLights();
-        sceneLights.forEach(sl => {
-          const animIntensity = lightSourceMgrRef.current.getAnimatedIntensity(sl, timeSec);
-          const colorHex = typeof sl.color === 'string' ? parseInt(sl.color.replace('#', '0x'), 16) || 0xf59e0b : sl.color;
-          lightEmitters.push({
-            x: sl.x,
-            y: sl.y,
-            radius: sl.radius,
-            color: colorHex,
-            intensity: animIntensity
+          // Include placed point lights
+          const sceneLights = lightSourceMgrRef.current.getAllLights();
+          sceneLights.forEach(sl => {
+            const animIntensity = lightSourceMgrRef.current.getAnimatedIntensity(sl, timeSec);
+            const colorHex = typeof sl.color === 'string' ? parseInt(sl.color.replace('#', '0x'), 16) || 0xf59e0b : sl.color;
+            lightEmitters.push({
+              x: sl.x,
+              y: sl.y,
+              radius: sl.radius,
+              color: colorHex,
+              intensity: animIntensity
+            });
           });
-        });
 
-        hazardSimulatorRef.current?.update(ticker.deltaTime, lightEmitters);
-      });
+          hazardSimulatorRef.current?.update(ticker.deltaTime, lightEmitters);
+        });
+      }
 
       setIsCanvasReady(true);
     };

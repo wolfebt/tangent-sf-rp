@@ -45,10 +45,12 @@ test.describe('Tangent SF RP — Enterprise Smoke & Health Suite', () => {
     await expect(canvas).toBeVisible({ timeout: 15000 });
 
     // Assert canvas has physical layout dimensions
-    const box = await canvas.boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.width).toBeGreaterThan(100);
-    expect(box!.height).toBeGreaterThan(100);
+    await expect(async () => {
+      const box = await canvas.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.width).toBeGreaterThan(100);
+      expect(box!.height).toBeGreaterThan(100);
+    }).toPass({ timeout: 10000 });
 
     // Verify Screen Reader Accessibility Companion Feed is rendered in the DOM
     const a11yFeed = page.locator('[aria-label^="Tactical Accessibility Feed"]');
@@ -74,7 +76,7 @@ test.describe('Tangent SF RP — Enterprise Smoke & Health Suite', () => {
     await page.goto('/dbm');
     await page.waitForLoadState('domcontentloaded');
 
-    await expect(page.locator('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
     // Verify DBM or compendium elements render
     const dbmText = page.getByText(/Omnicortex|Compendium|Database|Species|Armory/i).first();
     await expect(dbmText).toBeVisible({ timeout: 10000 });

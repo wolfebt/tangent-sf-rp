@@ -537,7 +537,7 @@ export const DBMContainer = () => {
         />
 
         {/* Right Main Content Panel */}
-        <main className="flex-1 flex flex-col overflow-hidden relative min-w-0 p-3 sm:p-4 pb-4 sm:pb-5">
+        <section className="flex-1 flex flex-col overflow-hidden relative min-w-0 p-3 sm:p-4 pb-4 sm:pb-5">
 
           {/* Subcategory Pills Bar (Handles both Canonical Parent Categories AND Developer Field Groups) */}
           {(() => {
@@ -699,7 +699,7 @@ export const DBMContainer = () => {
               handleDuplicateEntry={handleDuplicateEntry}
             />
           )}
-        </main>
+        </section>
       </div>
 
       {/* Modals */}
