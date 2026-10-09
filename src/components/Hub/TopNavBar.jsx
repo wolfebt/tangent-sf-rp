@@ -172,7 +172,7 @@ export const TopNavBar = ({
       <NavCard
         title="FOLIO"
         subtitle="Hero Builder & Roster"
-        badge={`${heroCount} ${heroCount === 1 ? 'Operative' : 'Operatives'}`}
+        badge={`${heroCount} ${heroCount === 1 ? 'Persona' : 'Personas'}`}
         icon={Users}
         theme="cyan"
         isActive={folioActive}

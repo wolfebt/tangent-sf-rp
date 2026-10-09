@@ -84,7 +84,7 @@ export const MovementRulesModal = ({
           <div className="flex flex-wrap justify-between items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
               <Activity size={14} className="text-amber-400" />
-              Operative Mobility Telemetry
+              Persona Mobility Telemetry
             </span>
             <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-amber-950 border border-amber-600/50 text-amber-300 font-bold">
               1 Turn = 6 Seconds • Fortitude Save: {fortitudeTotal >= 0 ? `+${fortitudeTotal}` : fortitudeTotal}
@@ -357,7 +357,7 @@ export const MovementRulesModal = ({
                   <span>Holding Breath</span>
                   <span className="font-mono text-amber-300">{Math.max(1, staminaTotal)} min</span>
                 </div>
-                <p className="text-[11px] text-slate-400">Operatives hold breath for 1 full minute per Stamina Ability Score (minimum 1 minute) during mild exertion.</p>
+                <p className="text-[11px] text-slate-400">Personas hold breath for 1 full minute per Stamina Ability Score (minimum 1 minute) during mild exertion.</p>
               </div>
 
               <div className="bg-slate-900/80 p-3 rounded-lg border border-slate-800 space-y-1">

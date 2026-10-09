@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useDice } from '../../context/DiceContext';
@@ -46,6 +46,7 @@ const PreviewModal = React.lazy(() => import('./modals/PreviewModal'));
 
 const FolioContainer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
   const confirm = useConfirm();
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
@@ -155,10 +156,23 @@ const FolioContainer = () => {
     return () => window.removeEventListener('set-folio-view-mode', handleSetViewMode);
   }, []);
 
+  // Synchronize activeTab with URL query parameter (e.g., /folio?tab=catalog from Briefing)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get('tab');
+    if (tabParam) {
+      if (tabParam === 'catalog') {
+        setActiveTab?.('catalog');
+      } else if (['identity', 'core-stats', 'stats', 'skills', 'features', 'abilities', 'combat', 'companions', 'property', 'narrative', 'other'].includes(tabParam)) {
+        setActiveTab?.(tabParam === 'stats' ? 'core-stats' : tabParam);
+      }
+    }
+  }, [location.search, setActiveTab]);
+
   const handleManualSave = useCallback(async () => {
     if (saveCurrentToRoster) {
       const res = await saveCurrentToRoster();
-      const charName = res?.name || characterData['char-name'] || 'Operative';
+      const charName = res?.name || characterData['char-name'] || 'Persona';
       setToast({
         type: 'success',
         title: 'Persona Folio Saved',
@@ -168,8 +182,8 @@ const FolioContainer = () => {
   }, [saveCurrentToRoster, characterData]);
 
   const handleDeleteCurrentCharacter = useCallback(async () => {
-    const charName = characterData['char-name'] || 'Unnamed Operative';
-    if (!(await confirmTypedDeletion(charName, 'operative persona sheet'))) return;
+    const charName = characterData['char-name'] || 'Unnamed Persona';
+    if (!(await confirmTypedDeletion(charName, 'persona sheet'))) return;
     const activeDocId = characterData['character-doc-id'];
     deleteRosterCharacter(activeDocId);
     setIsDeleteConfirmOpen(false);
@@ -383,7 +397,7 @@ const FolioContainer = () => {
       const currentInvs = Array.isArray(characterData.invocations) ? characterData.invocations : [];
       const exists = currentInvs.some(i => (typeof i === 'object' ? (i.name || i.title) : i).toLowerCase() === newInv.name.toLowerCase());
       if (exists) {
-        showToast({ type: 'warn', title: 'Invocation Already Known', text: `Invocation "${newInv.name}" is already known by this operative.` });
+        showToast({ type: 'warn', title: 'Invocation Already Known', text: `Invocation "${newInv.name}" is already known by this persona.` });
       } else {
         handleAddItem('invocations', itemObj);
       }
@@ -603,17 +617,17 @@ const FolioContainer = () => {
                   if (isDiceOpen) {
                     closeDiceRoller();
                   } else {
-                    openDiceRoller({ label: `${characterData['char-name'] || 'Operative'} Check`, characterName: characterData['char-name'] || 'Operative', autoRoll: false });
+                    openDiceRoller({ label: `${characterData['char-name'] || 'Persona'} Check`, characterName: characterData['char-name'] || 'Persona', autoRoll: false });
                   }
                 }}
                 className={`p-1 px-1.5 border rounded text-[10.5px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
                   isDiceOpen
-                    ? 'bg-amber-950 border-amber-500/80 text-amber-300'
-                    : 'bg-cyan-950/80 hover:bg-cyan-900 border-cyan-500/50 text-cyan-300'
+                    ? 'bg-rose-950 border-rose-500/80 text-rose-300'
+                    : 'bg-rose-950/40 hover:bg-rose-900/60 border-rose-500/50 text-rose-300'
                 }`}
                 title="Toggle Dice Tray"
               >
-                <Dices size={12} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
+                <Dices size={12} className="text-rose-400" />
               </button>
 
               {!isLocked ? (
@@ -674,7 +688,7 @@ const FolioContainer = () => {
               </span>
             </button>
             <span className="text-xs font-mono font-bold text-cyan-300 uppercase">
-              Operative Catalog
+              Persona Catalog
             </span>
           </div>
         ) : null}
@@ -685,7 +699,7 @@ const FolioContainer = () => {
             <div className="flex items-center gap-2">
               <span className="text-base animate-pulse">🌐</span>
               <span>
-                <strong>PUBLIC READ-ONLY VIEW:</strong> Operative Sheet by <strong className="text-amber-400">{characterData.authorHandle || characterData['char-name'] || 'Community Creator'}</strong>.
+                <strong>PUBLIC READ-ONLY VIEW:</strong> Persona Sheet by <strong className="text-amber-400">{characterData.authorHandle || characterData['char-name'] || 'Community Creator'}</strong>.
               </span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -748,7 +762,7 @@ const FolioContainer = () => {
                   setActiveTab('catalog');
                 }}
                 className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-cyan-300 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 transition-all flex items-center gap-1 cursor-pointer"
-                title="Return to Operative Catalog / Dossiers"
+                title="Return to Persona Catalog / Dossiers"
               >
                 <span>&larr;</span>
                 <span className="hidden sm:inline">Catalog</span>
@@ -1020,8 +1034,8 @@ const FolioContainer = () => {
         isOpen={isDeleteConfirmOpen}
         onClose={() => setIsDeleteConfirmOpen(false)}
         onConfirm={handleDeleteCurrentCharacter}
-        title="Delete Operative Persona"
-        message={`Are you sure you want to permanently delete character "${characterData['char-name'] || 'Unnamed Operative'}" from your roster and clear this sheet?`}
+        title="Delete Persona"
+        message={`Are you sure you want to permanently delete character "${characterData['char-name'] || 'Unnamed Persona'}" from your roster and clear this sheet?`}
       />
 
       {/* Code-Split Heavy Modals & Drawers */}

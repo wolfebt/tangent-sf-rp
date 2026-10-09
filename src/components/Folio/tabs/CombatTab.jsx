@@ -301,17 +301,17 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                 baseModifier: initiativeTotal,
                 expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
                 rollMode: 'normal',
-                characterName: characterData['char-name'] || 'Operative',
+                characterName: characterData['char-name'] || 'Persona',
                 personaId: characterData['character-doc-id'] || characterData.id,
                 autoRoll: e?.shiftKey || false
               });
             }}
-            className="bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-lg border border-cyan-900 hover:border-cyan-500/60 flex items-center gap-1.5 transition-colors cursor-pointer group shadow-sm"
+            className="bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-lg border border-rose-900 hover:border-rose-500/60 flex items-center gap-1.5 transition-colors cursor-pointer group shadow-sm"
             title={`Check Initiative (2d10 + ${initiativeTotal}). Shift-click to quick-roll.`}
           >
-            <span className="text-slate-400 text-[10px] uppercase font-bold group-hover:text-cyan-300">Initiative:</span>
-            <span className="text-amber-400 font-bold text-sm">+{initiativeTotal}</span>
-            <Dices size={13} className="text-cyan-400 opacity-70 group-hover:opacity-100" />
+            <span className="text-slate-400 text-[10px] uppercase font-bold group-hover:text-rose-300">Initiative:</span>
+            <span className="text-rose-400 font-bold text-sm">+{initiativeTotal}</span>
+            <Dices size={13} className="text-rose-400 opacity-70 group-hover:opacity-100" />
           </button>
 
           {/* Toughness Telemetry Badge */}
@@ -319,7 +319,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
             title="Toughness Rating"
             badge="Damage Mitigation"
             badgeColor="emerald"
-            description="Direct damage reduction applied against physical wounds point-for-point. Derived from operative Stamina."
+            description="Direct damage reduction applied against physical wounds point-for-point. Derived from persona Stamina."
             formula="Toughness = Stamina Base + Stamina Modifiers"
             asWrapper={false}
           >
@@ -454,7 +454,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   title="Offensive Capabilities"
                   badge="Combat Actions"
                   badgeColor="amber"
-                  description="Configured weaponry, ballistic firearms, melee blades, and tactical strike options available to your operative."
+                  description="Configured weaponry, ballistic firearms, melee blades, and tactical strike options available to your persona."
                   formula="Hit Check vs Defense • Damage dice rolled on hit"
                   tags={['Weapons', 'Damage Rolls', 'Critical Hits']}
                   showInfoIcon={true}
@@ -641,12 +641,12 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                         baseModifier: scoreVal,
                         expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
                         rollMode: 'normal',
-                        characterName: characterData['char-name'] || 'Operative',
+                        characterName: characterData['char-name'] || 'Persona',
                         personaId: characterData['character-doc-id'] || characterData.id,
                         autoRoll: e?.shiftKey || false
                       });
                     }}
-                    className="p-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 rounded transition-all shrink-0 cursor-pointer"
+                    className="p-1 bg-rose-950/90 hover:bg-rose-900 border border-rose-500/50 hover:border-rose-400 text-rose-300 rounded transition-all shrink-0 cursor-pointer"
                     title={`Check Attack (2d10 + ${att.score || 0}). Shift-click to quick-roll.`}
                   >
                     <Dices size={13} />
@@ -676,7 +676,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                           expression: att.damage,
                           baseModifier: 0,
                           rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative',
+                          characterName: characterData['char-name'] || 'Persona',
                           personaId: characterData['character-doc-id'] || characterData.id,
                           autoRoll: e?.shiftKey || false
                         });
@@ -725,15 +725,15 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                         baseModifier: scoreVal,
                         expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
                         rollMode: 'normal',
-                        characterName: characterData['char-name'] || 'Operative',
+                        characterName: characterData['char-name'] || 'Persona',
                         personaId: characterData['character-doc-id'] || characterData.id,
                         autoRoll: e?.shiftKey || false
                       });
                     }}
-                    className="px-1.5 py-1 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-0.5"
+                    className="px-1.5 py-1 bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-300 rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-0.5"
                     title={`Check Attack (2d10 + ${att.score || 0}). Shift-click to quick-roll.`}
                   >
-                    <Dices size={10} className="text-cyan-400" />
+                    <Dices size={10} className="text-rose-400" />
                     <span>Check</span>
                   </button>
                   {att.damage && (
@@ -745,7 +745,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                           expression: att.damage,
                           baseModifier: 0,
                           rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative',
+                          characterName: characterData['char-name'] || 'Persona',
                           personaId: characterData['character-doc-id'] || characterData.id,
                           autoRoll: e?.shiftKey || false
                         });

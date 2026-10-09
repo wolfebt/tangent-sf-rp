@@ -254,7 +254,7 @@ export const ElementSelectorModal = ({
 
             {/* Type Filter Pills */}
             {typePills.length > 2 && (
-              <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+              <div className="flex flex-wrap items-center gap-1.5">
                 {typePills.map(type => (
                   <button
                     key={type}

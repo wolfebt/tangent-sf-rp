@@ -20,14 +20,12 @@ import {
   ChevronDown, 
   ChevronRight,
   ChevronLeft,
-  Dices,
   Lock,
   PanelLeftClose,
   PanelLeftOpen,
   X
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
-import { useDice } from '../../context/DiceContext';
 import { useFolio } from '../../context/FolioContext';
 
 const NAVIGATION_ITEMS = [
@@ -80,7 +78,6 @@ export const FolioSidebar = ({
   setViewMode,
   onClose
 }) => {
-  const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
   const { isLocked, isPlayerOverride } = useFolio() || {};
   
   // Support toggle between compact Guidance Rail and Expanded Sidebar
@@ -272,34 +269,6 @@ export const FolioSidebar = ({
               })}
             </nav>
           </div>
-
-          {/* Bottom Actions: Dice Tray Quick Launch */}
-          <div className="flex flex-col items-center gap-1.5 w-full pt-2 border-t border-slate-800/80 mt-auto">
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1400, 0.03);
-                if (isDiceOpen) {
-                  closeDiceRoller();
-                } else {
-                  openDiceRoller({ label: `${charName || 'Operative'} Check`, characterName: charName || 'Operative', autoRoll: false });
-                }
-              }}
-              className={`group relative w-full py-1 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer ${
-                isDiceOpen
-                  ? 'bg-amber-950/80 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-                  : 'bg-cyan-950/40 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40'
-              }`}
-              title={isDiceOpen ? "Close Dice Tray" : "Open Dice Tray"}
-            >
-              <div className="w-7 h-7 flex items-center justify-center shrink-0">
-                <Dices size={16} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
-              </div>
-              <span className="font-mono text-[8.5px] uppercase tracking-wider font-bold truncate mt-0.5">
-                DICE
-              </span>
-            </button>
-          </div>
         </aside>
 
         {/* Companion Secondary Sub-Rail for Sections with Children */}
@@ -420,7 +389,21 @@ export const FolioSidebar = ({
   // ── 2. EXPANDED SIDEBAR MODE ──
   return (
     <aside className="w-64 sm:w-72 bg-[#12161f]/95 backdrop-blur-xl border-r border-cyan-500/30 p-3 flex flex-col h-full shrink-0 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
-      {/* Operative Dossier Header Banner */}
+      {/* Persona Name Banner */}
+      <div className="px-2 shrink-0 min-w-0">
+        <h2
+          className="m-0 text-[1.3rem] sm:text-[1.6rem] font-black leading-tight tracking-tight uppercase text-[#22d3ee] break-words"
+          style={{
+            WebkitTextStroke: '1px #c0c0c0',
+            paintOrder: 'stroke fill'
+          }}
+          title={charName || 'Unnamed Persona'}
+        >
+          {charName || 'Unnamed Persona'}
+        </h2>
+      </div>
+
+      {/* Persona Dossier Header Banner */}
       <div className="px-2 py-1.5 border-b border-cyan-500/30 shrink-0 flex items-center justify-between">
         <span className="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
           <Layers size={13} className="text-cyan-400" />
@@ -579,37 +562,8 @@ export const FolioSidebar = ({
         })}
       </nav>
 
-      {/* Quick Launch Buttons: Dice Roller */}
-      <div className="pt-2 border-t border-slate-800/80 shrink-0 space-y-1.5">
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1400, 0.03);
-            if (isDiceOpen) {
-              closeDiceRoller();
-            } else {
-              openDiceRoller({ label: `${charName || 'Operative'} Check`, characterName: charName || 'Operative', autoRoll: false });
-            }
-          }}
-          className={`w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between cursor-pointer ${
-            isDiceOpen
-              ? 'bg-amber-950/60 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
-              : 'bg-cyan-950/40 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 shadow-sm'
-          }`}
-          title={isDiceOpen ? "Close Dice Tray" : "Open Tangent Dice Tray"}
-        >
-          <div className="flex items-center gap-2">
-            <Dices size={14} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
-            <span>Dice Tray</span>
-          </div>
-          <span className={`text-[10px] font-mono font-bold ${isDiceOpen ? 'text-amber-400' : 'text-cyan-400'}`}>
-            {isDiceOpen ? 'ACTIVE' : '2d10'}
-          </span>
-        </button>
-      </div>
-
       {/* Footer System Status */}
-      <div className="pt-1.5 text-[10px] text-slate-500 font-mono flex items-center justify-between shrink-0">
+      <div className="pt-2 border-t border-slate-800/80 text-[10px] text-slate-500 font-mono flex items-center justify-between shrink-0">
         <span className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
           FOLIO CORE

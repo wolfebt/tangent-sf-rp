@@ -29,7 +29,7 @@ export function buildStaticRulesPrefix({ campaignName = '', folioCharacter = nul
   }
 
   if (folioCharacter) {
-    prefixParts.push(`Active Operative Folio Baseline: ${folioCharacter.name || 'Operative'} (${folioCharacter.species || 'Species'} ${folioCharacter.archetype || 'Archetype'}) | Attributes: Might=${folioCharacter.attributes?.might ?? 0}, Reflex=${folioCharacter.attributes?.reflex ?? 0}, Logic=${folioCharacter.attributes?.logic ?? 0}, Fortitude=${folioCharacter.attributes?.fortitude ?? 0}, Will=${folioCharacter.attributes?.will ?? 0}, Etiquette=${folioCharacter.attributes?.etiquette ?? 0}`);
+    prefixParts.push(`Active Persona Folio Baseline: ${folioCharacter.name || 'Persona'} (${folioCharacter.species || 'Species'} ${folioCharacter.archetype || 'Archetype'}) | Attributes: Might=${folioCharacter.attributes?.might ?? 0}, Reflex=${folioCharacter.attributes?.reflex ?? 0}, Logic=${folioCharacter.attributes?.logic ?? 0}, Fortitude=${folioCharacter.attributes?.fortitude ?? 0}, Will=${folioCharacter.attributes?.will ?? 0}, Etiquette=${folioCharacter.attributes?.etiquette ?? 0}`);
   }
 
   return prefixParts.join('\n');

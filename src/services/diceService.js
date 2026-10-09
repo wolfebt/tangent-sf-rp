@@ -246,74 +246,160 @@ export function rollDice(expression = '2d10', options = {}) {
     };
   }
 
-  // 2. Generic Polyhedral Expressions Fallback (e.g. 4d6k3, 3d8 damage rolls)
+  // 2. Generic Polyhedral & Custom Rolls Engine
+  // Fully integrates dice pool modifiers (advantage/disadvantage), flat modifiers,
+  // threat ranges (crit & fumble), and target DC resolution.
   const parsed = parseDiceExpression(expression);
-  const rolls = [];
-  let rawValues = [];
 
-  for (let i = 0; i < parsed.count; i++) {
-    let r = Math.floor(Math.random() * parsed.sides) + 1;
+  // Resolve advantage dice (-5 to +5)
+  let advDice = 0;
+  if (options.advantageDice !== undefined) {
+    advDice = Number(options.advantageDice) || 0;
+  } else if (options.advantage || options.isAdvantage) {
+    advDice = 1;
+  } else if (options.disadvantage || options.isDisadvantage) {
+    advDice = -1;
+  }
+  const clampedAdv = Math.max(-5, Math.min(5, advDice));
+
+  // Resolve flat modifier (-50 to +50)
+  let flatMod = 0;
+  if (options.flatModifier !== undefined && options.flatModifier !== 0) {
+    flatMod = Number(options.flatModifier) || 0;
+  } else if (options.modifier !== undefined && options.modifier !== 0) {
+    flatMod = Number(options.modifier) || 0;
+  } else {
+    flatMod = parsed.modifier || 0;
+  }
+  const clampedModifier = Math.max(-50, Math.min(50, flatMod));
+
+  // Resolve threat range sizes (1 to 5)
+  const critSize = Math.max(1, Math.min(5, Number(options.critRangeSize) || 1));
+  const fumbleSize = Math.max(1, Math.min(5, Number(options.fumbleRangeSize) || 1));
+
+  // Target DC
+  const dcInput = options.targetDC !== undefined && options.targetDC !== '' && options.targetDC !== null
+    ? options.targetDC
+    : (options.targetNumber !== undefined && options.targetNumber !== '' && options.targetNumber !== null ? options.targetNumber : null);
+
+  const baseCount = Math.max(1, parsed.count || 1);
+  const sides = Math.max(2, parsed.sides || 6);
+
+  // When rolling a single die (count === 1):
+  // At advantage: roll 1 + |advDice| dice, keep 1 highest ("best single rolled is used").
+  // At disadvantage: roll 1 + |advDice| dice, keep 1 lowest ("worse single rolled is used").
+  // When rolling multi-dice (count > 1):
+  // Roll count + |advDice| dice, keep count highest (adv) or count lowest (disadv).
+  const keepCount = baseCount === 1 ? 1 : (parsed.keep ? Math.min(parsed.keep, baseCount) : baseCount);
+  const extraDice = Math.abs(clampedAdv);
+  const totalPoolSize = baseCount + extraDice;
+
+  const rawRolls = [];
+  const rawValues = [];
+
+  for (let i = 0; i < totalPoolSize; i++) {
+    let r = Math.floor(Math.random() * sides) + 1;
     let rollObj = { value: r, exploded: false, explodeValue: 0 };
 
-    if (parsed.exploding && r === parsed.sides) {
+    if (parsed.exploding && r === sides) {
       rollObj.exploded = true;
-      const extra = Math.floor(Math.random() * parsed.sides) + 1;
+      const extra = Math.floor(Math.random() * sides) + 1;
       rollObj.explodeValue = extra;
       r += extra;
     }
 
-    rolls.push(rollObj);
+    rawRolls.push(rollObj);
     rawValues.push(r);
   }
 
-  if (parsed.keep && parsed.keep < rawValues.length) {
-    rawValues.sort((a, b) => b - a);
-    rawValues = rawValues.slice(0, parsed.keep);
+  // Determine kept dice according to advantage / disadvantage rules:
+  // If advantage (> 0): best dice kept (sorted descending)
+  // If disadvantage (< 0): worst dice kept (sorted ascending)
+  // If standard (=== 0): keep parsed.keep or all base dice
+  const sortedIndices = rawValues.map((val, idx) => ({ val, idx }));
+  if (clampedAdv > 0) {
+    sortedIndices.sort((a, b) => b.val - a.val);
+  } else if (clampedAdv < 0) {
+    sortedIndices.sort((a, b) => a.val - b.val);
+  } else if (parsed.keep) {
+    sortedIndices.sort((a, b) => b.val - a.val);
   }
 
-  const rawSubtotal = rawValues.reduce((sum, v) => sum + v, 0);
-  const total = rawSubtotal + parsed.modifier;
+  const keptIndices = new Set(sortedIndices.slice(0, keepCount).map(item => item.idx));
+  const keptDice = rawValues.filter((_, idx) => keptIndices.has(idx));
+  const naturalTotal = keptDice.reduce((sum, v) => sum + v, 0);
+  const finalTotal = naturalTotal + clampedModifier;
 
-  let margin = null;
-  let isSuccess = null;
-  const tn = options.targetDC !== undefined ? options.targetDC : options.targetNumber;
-  if (tn !== undefined && tn !== null && tn !== '') {
-    const numDC = Number(tn) || 0;
-    margin = total - numDC;
-    isSuccess = margin >= 0;
+  // Calculate dynamic threat ranges:
+  // For keepCount dice of `sides` faces:
+  // Max possible natural = keepCount * sides
+  // Min possible natural = keepCount * 1
+  const maxNatural = keepCount * sides;
+  const minNatural = keepCount * 1;
+  const critThreshold = Math.max(minNatural + 1, maxNatural - critSize + 1);
+  const fumbleThreshold = Math.min(critThreshold - 1, minNatural + fumbleSize - 1);
+
+  const isCrit = naturalTotal >= critThreshold;
+  const isFumble = naturalTotal <= fumbleThreshold;
+
+  // Target DC resolution with critical/fumble superseding
+  let checkResolution = null;
+  if (dcInput !== null) {
+    checkResolution = resolveCheck({
+      finalTotal,
+      isCrit,
+      isFumble
+    }, dcInput);
+  }
+
+  // Rolls array with kept flag for UI rendering
+  const rollsArray = rawValues.map((val, idx) => ({
+    value: val,
+    kept: keptIndices.has(idx),
+    exploded: rawRolls[idx]?.exploded || false
+  }));
+
+  // Clean expression display
+  let returnExpr = cleanExpr;
+  if (!cleanExpr.includes('+') && !cleanExpr.includes('-') && clampedModifier !== 0) {
+    returnExpr = `${cleanExpr}${clampedModifier > 0 ? '+' : ''}${clampedModifier}`;
   }
 
   return {
     id: `roll_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-    expression,
-    count: parsed.count,
-    sides: parsed.sides,
-    rolls,
+    expression: returnExpr,
+    count: baseCount,
+    sides: sides,
+    rolls: rollsArray,
     dicePool: rawValues,
-    keptDice: rawValues,
-    naturalTotal: rawSubtotal,
-    finalTotal: total,
-    rawSubtotal,
-    subtotal: rawSubtotal,
-    total,
-    modifier: parsed.modifier,
-    appliedModifier: parsed.modifier,
-    isCrit: false,
-    isFumble: false,
-    isCritSuccess: false,
-    isCritFail: false,
-    critThreshold: 20,
-    fumbleThreshold: 2,
-    advantageDice: 0,
-    isAdvantage: false,
-    isDisadvantage: false,
-    targetNumber: tn ? Number(tn) : null,
-    targetDC: tn ? Number(tn) : null,
-    margin,
-    isSuccess,
-    outcome: isSuccess === null ? null : (isSuccess ? 'Success' : 'Failure'),
+    keptDice: keptDice,
+    naturalTotal: naturalTotal,
+    finalTotal: finalTotal,
+    total: finalTotal,
+    rawSubtotal: naturalTotal,
+    subtotal: naturalTotal,
+    modifier: clampedModifier,
+    appliedModifier: clampedModifier,
+    isCrit: isCrit,
+    isFumble: isFumble,
+    isCritSuccess: isCrit,
+    isCritFail: isFumble,
+    critThreshold: critThreshold,
+    fumbleThreshold: fumbleThreshold,
+    critRangeSize: critSize,
+    fumbleRangeSize: fumbleSize,
+    advantageDice: clampedAdv,
+    isAdvantage: clampedAdv > 0,
+    isDisadvantage: clampedAdv < 0,
+    targetNumber: checkResolution ? checkResolution.targetDC : (dcInput !== null ? Number(dcInput) || null : null),
+    targetDC: checkResolution ? checkResolution.targetDC : (dcInput !== null ? Number(dcInput) || null : null),
+    margin: checkResolution ? checkResolution.margin : null,
+    isSuccess: checkResolution 
+      ? (checkResolution.outcome === 'Critical Success' || checkResolution.outcome === 'Overwhelming Success' || checkResolution.outcome === 'Success')
+      : (isCrit ? true : isFumble ? false : null),
+    outcome: checkResolution ? checkResolution.outcome : (isCrit ? 'Critical Success' : isFumble ? 'Critical Failure' : null),
     characterName: options.characterName || 'Operative',
-    label: options.label || 'Damage Check',
+    label: options.label || (baseCount === 1 ? `d${sides} Check` : `${baseCount}d${sides} Check`),
     timestamp: new Date().toISOString()
   };
 }

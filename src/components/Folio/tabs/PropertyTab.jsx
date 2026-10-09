@@ -46,7 +46,7 @@ const PROPERTY_CONFIG = {
     altKey: 'equipment',
     dbPath: 'gear',
     color: 'cyan',
-    description: 'Field kits, surveillance gadgets, medical injectors, comms arrays & operative tools'
+    description: 'Field kits, surveillance gadgets, medical injectors, comms arrays & persona tools'
   },
   mech: {
     title: 'Mech',
@@ -135,7 +135,7 @@ export const PropertyTab = ({
       expression: damageExpr,
       baseModifier: 0,
       rollMode: 'normal',
-      characterName: characterData['char-name'] || 'Operative',
+      characterName: characterData['char-name'] || 'Persona',
       personaId: characterData['character-doc-id'] || characterData.id,
       autoRoll: e?.shiftKey || false
     });
@@ -429,7 +429,7 @@ export const PropertyTab = ({
         </div>
       </div>
 
-      {/* Operative Carrying Capacity & Encumbrance Status Card */}
+      {/* Persona Carrying Capacity & Encumbrance Status Card */}
       <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5 shadow-md">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">

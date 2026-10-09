@@ -81,7 +81,7 @@ export const AugmentationDiagnosticsModal = ({
                   <span>4-Tier Augmentation Stages</span>
                 </h3>
                 <p className="text-[11px] text-slate-400">
-                  Select operative stage to grant free BP allowances and unlock higher grade hardware.
+                  Select persona stage to grant free BP allowances and unlock higher grade hardware.
                 </p>
               </div>
 
@@ -266,7 +266,7 @@ export const AugmentationDiagnosticsModal = ({
                     Stage Warning: {incompatibleAugs.length} installed {incompatibleAugs.length === 1 ? 'augmentation requires' : 'augmentations require'} a higher stage!
                   </p>
                   <p className="text-[11px] text-rose-300/90 mt-0.5">
-                    Your operative stage is <strong className="text-white">{stageInfo.stage.name}</strong>. Hardware beyond your stage causes structural rejection until the prerequisite feature is acquired.
+                    Your persona stage is <strong className="text-white">{stageInfo.stage.name}</strong>. Hardware beyond your stage causes structural rejection until the prerequisite feature is acquired.
                   </p>
                 </div>
               </div>

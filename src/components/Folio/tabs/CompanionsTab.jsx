@@ -326,7 +326,7 @@ export const CompanionsTab = () => {
           <div className="space-y-1 max-w-md">
             <h4 className="text-sm font-bold text-slate-200 uppercase">NO ACTIVE COMPANIONS</h4>
             <p className="text-[11px] text-slate-400 font-sans">
-              Deploy cybernetic attack hounds, tactical hovering drones, loyal operative bodyguards, or metaphysical familiars built on the 40 CP Modular Matrix.
+              Deploy cybernetic attack hounds, tactical hovering drones, loyal persona bodyguards, or metaphysical familiars built on the 40 CP Modular Matrix.
             </p>
           </div>
           <button

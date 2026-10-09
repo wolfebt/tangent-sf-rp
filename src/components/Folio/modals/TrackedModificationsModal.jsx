@@ -74,7 +74,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
                 </span>
               </div>
               <p className="text-[11px] text-slate-400">
-                Operative: <strong className="text-white">{characterData['char-name'] || 'Unnamed Operative'}</strong> &bull; Player Override Audit Log
+                Persona: <strong className="text-white">{characterData['char-name'] || 'Unnamed Persona'}</strong> &bull; Player Override Audit Log
               </p>
             </div>
           </div>

@@ -21,7 +21,7 @@ const CONTENT = {
   overview: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-cyan-300 font-mono">Persona Folio</strong> is the official digital operative sheet manager for Tangent Science Fantasy Roleplay. 
+        The <strong className="text-cyan-300 font-mono">Persona Folio</strong> is the official digital persona sheet manager for Tangent Science Fantasy Roleplay. 
         It integrates biological lineage accounting, point-buy economy calculation, live derived vitals, combat loadout tracking, and an extensive 31-field narrative story writer.
       </p>
       <div className="bg-slate-800/60 border border-cyan-500/30 rounded-xl p-4 space-y-2">
@@ -50,14 +50,14 @@ const CONTENT = {
   creator: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-cyan-300 font-mono">Guided Creator Wizard</strong> provides a streamlined, step-by-step onboarding process to create balanced operatives in minutes:
+        The <strong className="text-cyan-300 font-mono">Guided Creator Wizard</strong> provides a streamlined, step-by-step onboarding process to create balanced personas in minutes:
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         {[
-          { step: '1. Concept & Identity', desc: 'Operative name, general archetype concept, personality style, and motivation.' },
+          { step: '1. Concept & Identity', desc: 'Persona name, general archetype concept, personality style, and motivation.' },
           { step: '2. Species Lineage', desc: 'Select biological species. Automatically applies inherent attribute modifiers and racial traits.' },
           { step: '3. Origin & Faction', desc: 'Choose your home faction or syndicate, granting thematic starting skills.' },
-          { step: '4. Occupation & Career', desc: 'Select your operative role (Commando, Hacker, Psion, Medic, Tech-Priest, Smuggler).' },
+          { step: '4. Occupation & Career', desc: 'Select your persona role (Commando, Hacker, Psion, Medic, Tech-Priest, Smuggler).' },
           { step: '5. Core Attributes', desc: 'Distribute points across STR, AGI, STA, INT, WIS, CHA with real-time CP budget deduction.' },
           { step: '6. Technology Level (TL)', desc: 'Set starting gear tier from TL3 (Modern) to TL7 (High Cybernetic / Meta-Tech).' },
           { step: '7. Skills & Features', desc: 'Allocate background proficiencies, special talents, and optional flaws for CP rebates.' },
@@ -83,7 +83,7 @@ const CONTENT = {
         <div className="bg-slate-800/60 border border-cyan-500/30 rounded-xl p-3.5 space-y-1.5">
           <div className="font-bold text-cyan-300 font-mono uppercase">1. Character Creation (150 CP)</div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            All operatives start with 150 Character Points to purchase Attributes (5 CP), Skills (1 CP), Features (3 CP), and Vitals (1 CP per 5). Flaws provide CP refunds.
+            All personas start with 150 Character Points to purchase Attributes (5 CP), Skills (1 CP), Features (3 CP), and Vitals (1 CP per 5). Flaws provide CP refunds.
           </p>
         </div>
 
@@ -135,13 +135,13 @@ const CONTENT = {
   identity: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-cyan-300 font-mono">Identity</strong> tab defines your operative's biological traits, lineage, and physical profile.
+        The <strong className="text-cyan-300 font-mono">Identity</strong> tab defines your persona's biological traits, lineage, and physical profile.
       </p>
       <div className="space-y-2.5">
         {[
-          { label: 'Character Name & Alias', desc: 'Operative handle and full name displayed across the system header and roster.' },
+          { label: 'Character Name & Alias', desc: 'Persona handle and full name displayed across the system header and roster.' },
           { label: 'Species & Lineage', desc: 'Select from canon species (Human, Synthetic, Kitin, Saurian, Eldritch, etc.). Automatically imports trait modifiers.' },
-          { label: 'Origin & Faction', desc: 'Your operative\'s cultural background, allegiance, and starting mechanical perks.' },
+          { label: 'Origin & Faction', desc: 'Your persona\'s cultural background, allegiance, and starting mechanical perks.' },
           { label: 'Augmentations & Cyberware', desc: 'Installed neural links, subdermal armor plates, and cybernetic limbs with tier accounting.' },
           { label: 'Physical Profile', desc: 'Age, gender, height, weight, body style, and portrait artwork URL/upload.' },
         ].map(f => (
@@ -271,7 +271,7 @@ const CONTENT = {
   skills: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Skills</strong> represent learned expertise. When rolling skill tests, your operative adds <code className="text-amber-300 font-mono">Linked Attribute Mod + Skill Rank Mod</code> to the 2d10 roll.
+        <strong className="text-cyan-300 font-mono">Skills</strong> represent learned expertise. When rolling skill tests, your persona adds <code className="text-amber-300 font-mono">Linked Attribute Mod + Skill Rank Mod</code> to the 2d10 roll.
       </p>
       <div className="space-y-2">
         {[
@@ -365,7 +365,7 @@ const CONTENT = {
   roster: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-cyan-300 font-mono">Roster</strong> enables operative management, cross-device cloud persistence, and public character sharing:
+        The <strong className="text-cyan-300 font-mono">Roster</strong> enables persona management, cross-device cloud persistence, and public character sharing:
       </p>
       <div className="space-y-2 text-xs">
         <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
@@ -418,7 +418,7 @@ export const FolioGuideModal = ({ isOpen, onClose }) => {
                 PERSONA FOLIO
               </div>
               <div className="text-sm font-bold text-white uppercase font-mono">
-                Operative Sheet User Guide &amp; Rules
+                Persona Sheet User Guide &amp; Rules
               </div>
             </div>
           </div>

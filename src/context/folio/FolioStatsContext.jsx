@@ -1143,9 +1143,10 @@ export const FolioStatsSliceProvider = ({ children }) => {
         });
       }
 
+      triggerSave?.(updates);
       return updates;
     });
-  }, [setCharacterData]);
+  }, [setCharacterData, triggerSave]);
 
   const togglePoolTrait = useCallback((poolKey, traitName, traitDetail = {}, maxTraits = 2) => {
     if (!traitName || !poolKey) return;
@@ -1237,7 +1238,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
         extraFields.origin_traits = updatedPoolTraits;
       }
 
-      return {
+      const updates = {
         ...prev,
         [poolKey]: {
           ...pool,
@@ -1247,8 +1248,10 @@ export const FolioStatsSliceProvider = ({ children }) => {
         features: updatedGlobalFeatures,
         ...extraFields
       };
+      triggerSave?.(updates);
+      return updates;
     });
-  }, [setCharacterData]);
+  }, [setCharacterData, triggerSave]);
 
   const removePoolTrait = useCallback((poolKey, traitName) => {
     if (!traitName || !poolKey) return;
@@ -1300,7 +1303,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
         extraFields.origin_traits = updatedPoolTraits;
       }
 
-      return {
+      const updates = {
         ...prev,
         [poolKey]: {
           ...pool,
@@ -1310,8 +1313,10 @@ export const FolioStatsSliceProvider = ({ children }) => {
         features: updatedGlobalFeatures,
         ...extraFields
       };
+      triggerSave?.(updates);
+      return updates;
     });
-  }, [setCharacterData]);
+  }, [setCharacterData, triggerSave]);
 
   const togglePoolFeature = useCallback((poolKey, featureName, featureDetail = {}, maxFeatures = 2) => {
     if (!featureName || !poolKey) return;
@@ -1357,7 +1362,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
         updatedGlobalFeats.push(newFeatObj);
       }
 
-      return {
+      const updates = {
         ...prev,
         [poolKey]: {
           ...pool,
@@ -1365,8 +1370,10 @@ export const FolioStatsSliceProvider = ({ children }) => {
         },
         features: updatedGlobalFeats
       };
+      triggerSave?.(updates);
+      return updates;
     });
-  }, [setCharacterData]);
+  }, [setCharacterData, triggerSave]);
 
   const removePoolFeature = useCallback((poolKey, featureName) => {
     if (!featureName || !poolKey) return;
@@ -1383,7 +1390,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
         return normalizeTraitName(fName).toLowerCase() !== cleanTitle.toLowerCase() && fName.toLowerCase() !== featureName.toLowerCase();
       });
 
-      return {
+      const updates = {
         ...prev,
         [poolKey]: {
           ...pool,
@@ -1391,8 +1398,10 @@ export const FolioStatsSliceProvider = ({ children }) => {
         },
         features: updatedGlobalFeats
       };
+      triggerSave?.(updates);
+      return updates;
     });
-  }, [setCharacterData]);
+  }, [setCharacterData, triggerSave]);
 
   const allocatePoolAttribute = useCallback((poolKey, attrId, delta, maxPoints = 1) => {
     if (!attrId || !poolKey) return;
@@ -1437,7 +1446,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
         if (subKey === 'attr-will') subUpdates['attr-willpower'] = newSubVal;
       }
 
-      return {
+      const updates = {
         ...prev,
         [poolKey]: {
           ...pool,
@@ -1446,8 +1455,10 @@ export const FolioStatsSliceProvider = ({ children }) => {
         [cleanAttrKey]: newGlobalVal,
         ...subUpdates
       };
+      triggerSave?.(updates);
+      return updates;
     });
-  }, [setCharacterData]);
+  }, [setCharacterData, triggerSave]);
 
   // Add Custom Skill Handler (max level 20)
   const handleAddSkill = useCallback((skill) => {

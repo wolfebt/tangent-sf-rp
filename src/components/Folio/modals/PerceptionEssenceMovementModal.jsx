@@ -207,7 +207,7 @@ const KARMA_ACTIONS = [
     timing: 'When facing an insurmountable mental or physical obstacle',
     scope: 'Narrative exertion or resisting fatal catastrophic effects',
     summary: 'Push physical/mental limits beyond mortal capacity or auto-succeed DC ≤ 15 check.',
-    description: 'Allows an operative to push their physiological or psychic boundaries to survive impossible odds or automatically succeed at an essential routine check under extreme pressure.',
+    description: 'Allows a persona to push their physiological or psychic boundaries to survive impossible odds or automatically succeed at an essential routine check under extreme pressure.',
     tag: 'Heroic Resolve',
     color: 'rose'
   }
@@ -1058,7 +1058,7 @@ const PerceptionEssenceMovementModal = ({
               <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
                 <div className="font-bold text-emerald-300">Full Rest (6-8 Hours)</div>
                 <p className="text-slate-300 text-[11px] leading-relaxed">
-                  Requires complete, secure downtime. Restores <strong>100% of maximum Vitality</strong>, clears Exhaustion conditions, and completely replenishes the operative's Essence pool. Natural health recovery occurs over consecutive full rests.
+                  Requires complete, secure downtime. Restores <strong>100% of maximum Vitality</strong>, clears Exhaustion conditions, and completely replenishes the persona's Essence pool. Natural health recovery occurs over consecutive full rests.
                 </p>
               </div>
             </div>
@@ -1141,7 +1141,7 @@ const PerceptionEssenceMovementModal = ({
               <div className="bg-rose-950/30 p-3.5 rounded-xl border border-rose-900/50 space-y-1.5">
                 <div className="font-bold text-rose-300">Karmic Debt &amp; "The Dark Turn"</div>
                 <p className="text-slate-300 text-[11px] leading-relaxed">
-                  Operatives may spend into negative Karma up to <strong className="text-rose-200">Charisma + 1</strong>. When in debt, the Architect/GM may invoke "The Dark Turn" on any dramatic check, forcing Disadvantage or triggering environmental complications.
+                  Personas may spend into negative Karma up to <strong className="text-rose-200">Charisma + 1</strong>. When in debt, the Architect/GM may invoke "The Dark Turn" on any dramatic check, forcing Disadvantage or triggering environmental complications.
                 </p>
               </div>
 
@@ -1310,7 +1310,7 @@ const PerceptionEssenceMovementModal = ({
                 <strong className="text-amber-300"> Intellect</strong> and <strong className="text-emerald-300">Wisdom</strong>.
               </p>
               <div className="p-3 rounded-lg bg-cyan-950/40 border border-cyan-800/50 text-xs text-cyan-200">
-                <strong className="text-cyan-100">Roll Formula:</strong> When an operative conducts a sensory detection check, they roll:
+                <strong className="text-cyan-100">Roll Formula:</strong> When a persona conducts a sensory detection check, they roll:
                 <div className="font-mono font-bold text-cyan-300 mt-1 bg-slate-950/80 p-2 rounded border border-cyan-700/40">
                   Result = 2d10 + Perception Base + Relevant Skill Modifiers + Circumstance Modifiers
                 </div>
@@ -1541,7 +1541,7 @@ const PerceptionEssenceMovementModal = ({
                   "The Burn" (Overchanneling Life Force)
                 </div>
                 <p className="text-slate-300 text-[11px] leading-relaxed">
-                  If an operative’s Essence Pool is completely exhausted (0), they may elect to <strong className="text-rose-300">burn their own biological/synthetic life force</strong> to fuel invocations:
+                  If a persona’s Essence Pool is completely exhausted (0), they may elect to <strong className="text-rose-300">burn their own biological/synthetic life force</strong> to fuel invocations:
                 </p>
                 <div className="bg-slate-950/90 p-2.5 rounded border border-rose-800 text-rose-200 font-mono text-[11px] space-y-1">
                   <div><strong>Damage Rate:</strong> 2 Direct Health Damage per 1 Essence needed</div>
@@ -1558,14 +1558,14 @@ const PerceptionEssenceMovementModal = ({
                   Essence Restoration &amp; Pacing
                 </div>
                 <p className="text-slate-300 text-[11px] leading-relaxed">
-                  Essence is continuously recycled from ambient reality once an operative reaches equilibrium through restful downtime:
+                  Essence is continuously recycled from ambient reality once a persona reaches equilibrium through restful downtime:
                 </p>
                 <div className="space-y-2 font-mono text-[11px]">
                   <div className="bg-slate-950/90 p-2 rounded border border-emerald-800 text-emerald-200">
-                    <strong>Light Rest (1 Hour):</strong> Recovers Essence equal to operative's <strong>Key Ability Modifier</strong> (minimum 1 Essence/hr).
+                    <strong>Light Rest (1 Hour):</strong> Recovers Essence equal to persona's <strong>Key Ability Modifier</strong> (minimum 1 Essence/hr).
                   </div>
                   <div className="bg-slate-950/90 p-2 rounded border border-emerald-800 text-cyan-200">
-                    <strong>Full Rest (6-8 Hours):</strong> Completely recharges the operative's Essence Pool to 100% maximum capacity.
+                    <strong>Full Rest (6-8 Hours):</strong> Completely recharges the persona's Essence Pool to 100% maximum capacity.
                   </div>
                 </div>
               </div>
@@ -1884,7 +1884,7 @@ const PerceptionEssenceMovementModal = ({
                 </div>
 
                 <div className="p-2.5 rounded-lg bg-blue-950/30 border border-blue-800/40 text-[10.5px] text-slate-300">
-                  <strong className="text-blue-300">Aquatic Feature Trait:</strong> Operatives with dedicated aquatic features (flippers, aquatic physiology, cyber-gills) increase swimming baseline to <strong>30 ft/rd</strong> (Glide 60 ft, Stroke 90 ft).
+                  <strong className="text-blue-300">Aquatic Feature Trait:</strong> Personas with dedicated aquatic features (flippers, aquatic physiology, cyber-gills) increase swimming baseline to <strong>30 ft/rd</strong> (Glide 60 ft, Stroke 90 ft).
                 </div>
               </div>
             )}

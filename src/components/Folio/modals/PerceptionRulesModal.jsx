@@ -146,7 +146,7 @@ export const PerceptionRulesModal = ({
           <div className="flex flex-wrap justify-between items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
               <Activity size={14} className="text-cyan-400" />
-              Operative Perception Telemetry
+              Persona Perception Telemetry
             </span>
             <span className="text-xs font-mono px-2.5 py-0.5 rounded bg-cyan-950 border border-cyan-600/50 text-cyan-300 font-bold">
               Base Formula: INT ({intellectTotal}) + WIS ({wisdomTotal}) = {basePerception}
@@ -236,7 +236,7 @@ export const PerceptionRulesModal = ({
               <strong className="text-amber-300"> Intellect</strong> and <strong className="text-emerald-300">Wisdom</strong>.
             </p>
             <div className="p-3 rounded-lg bg-cyan-950/40 border border-cyan-800/50 text-xs text-cyan-200">
-              <strong className="text-cyan-100">Canonical Roll Formula:</strong> When an operative conducts a sensory detection check, they roll:
+              <strong className="text-cyan-100">Canonical Roll Formula:</strong> When a persona conducts a sensory detection check, they roll:
               <div className="font-mono font-bold text-cyan-300 mt-1 bg-slate-950/80 p-2.5 rounded border border-cyan-700/40 text-center sm:text-left">
                 Check Result = 2d10 + Perception Base (INT + WIS) + Relevant Skill Modifier + Circumstance Modifiers
               </div>

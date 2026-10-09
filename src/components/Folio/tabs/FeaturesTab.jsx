@@ -1431,7 +1431,7 @@ export const FeaturesTab = ({
               type="text"
               value={overviewSearchQuery}
               onChange={(e) => setOverviewSearchQuery(e.target.value)}
-              placeholder="Search all operative abilities..."
+              placeholder="Search all persona abilities..."
               className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-lg pl-9 pr-8 py-1.5 text-xs text-slate-200 placeholder-slate-500 outline-none"
             />
             {overviewSearchQuery && (
@@ -1551,7 +1551,7 @@ export const FeaturesTab = ({
                               title={name}
                               badge={cat}
                               badgeColor="cyan"
-                              description={feat.description || 'Standard operative feature.'}
+                              description={feat.description || 'Standard persona feature.'}
                               formula={feat.mechanic || undefined}
                               modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
                               prerequisites={feat.prerequisites || undefined}
@@ -1655,7 +1655,7 @@ export const FeaturesTab = ({
               {standardFeatures.length === 0 ? (
                 <div className="p-8 rounded-xl border border-dashed border-slate-800 bg-slate-950/40 text-center space-y-3">
                   <p className="text-xs text-slate-400">
-                    No standard features acquired yet on this operative.
+                    No standard features acquired yet on this persona.
                   </p>
                   <div className="flex items-center justify-center gap-2">
                     <button
@@ -1678,8 +1678,9 @@ export const FeaturesTab = ({
               ) : (
                 <div className="space-y-4">
                   {/* Filter & Sort Controls for My Features */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-slate-700 w-full sm:w-auto">
+                  <div className="space-y-2.5">
+                    {/* Category Filter Pills - all options visible, wrapped, no sliders */}
+                    <div className="flex flex-wrap items-center gap-1.5 w-full">
                       {myFeaturesCategories.map((cat) => {
                         const activeCat = myFeaturesCategoryTab || myFeaturesCategories[0] || 'ALL';
                         const isActive = activeCat === cat;
@@ -1706,7 +1707,8 @@ export const FeaturesTab = ({
                       })}
                     </div>
 
-                    <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                    {/* Row down: Sort & Search Controls */}
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-0.5">
                       {/* Sort Selector */}
                       <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 shrink-0">
                         <ArrowUpDown className="w-3.5 h-3.5 text-cyan-400" />
@@ -1724,7 +1726,7 @@ export const FeaturesTab = ({
                       </div>
 
                       {/* Search Input */}
-                      <div className="relative flex-1 sm:w-56">
+                      <div className="relative w-full sm:w-64">
                         <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
                         <input
                           type="text"
@@ -1779,7 +1781,7 @@ export const FeaturesTab = ({
                                 title={name}
                                 badge={featCategory}
                                 badgeColor="cyan"
-                                description={desc || 'Operative feature.'}
+                                description={desc || 'Persona feature.'}
                                 formula={featMechanic || undefined}
                                 modifiers={featModifiers}
                                 prerequisites={item.prerequisites || undefined}
@@ -1896,8 +1898,9 @@ export const FeaturesTab = ({
               </div>
 
               {/* Filter & Sort Controls for Recommended Features */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-slate-700 w-full sm:w-auto">
+              <div className="space-y-2.5">
+                {/* Category Filter Pills - all options visible, wrapped, no sliders */}
+                <div className="flex flex-wrap items-center gap-1.5 w-full">
                   {recommendedCategories.map((cat) => {
                     const activeCat = recommendedCategoryTab || recommendedCategories[0] || 'ALL';
                     const isActive = activeCat === cat;
@@ -1924,7 +1927,8 @@ export const FeaturesTab = ({
                   })}
                 </div>
 
-                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                {/* Row down: Sort & Search Controls */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-0.5">
                   {/* Sort Selector */}
                   <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 shrink-0">
                     <ArrowUpDown className="w-3.5 h-3.5 text-amber-400" />
@@ -1943,7 +1947,7 @@ export const FeaturesTab = ({
                   </div>
 
                   {/* Search Input */}
-                  <div className="relative flex-1 sm:w-56">
+                  <div className="relative w-full sm:w-64">
                     <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
                     <input
                       type="text"
@@ -2127,8 +2131,9 @@ export const FeaturesTab = ({
           {featuresViewMode === 'catalog' && (
             <div className="space-y-4">
               {/* Filter controls */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-slate-700 w-full sm:w-auto">
+              <div className="space-y-2.5">
+                {/* Category Filter Pills - all options visible, wrapped, no sliders */}
+                <div className="flex flex-wrap items-center gap-1.5 w-full">
                   {catalogCategories.map((cat) => {
                     const activeCat = catalogCategoryTab || catalogCategories[0] || 'ALL';
                     const isActive = activeCat === cat;
@@ -2155,7 +2160,8 @@ export const FeaturesTab = ({
                   })}
                 </div>
 
-                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                {/* Row down: Sort & Search Controls */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-0.5">
                   {/* Sort Selector */}
                   <div className="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 shrink-0">
                     <ArrowUpDown className="w-3.5 h-3.5 text-cyan-400" />
@@ -2173,7 +2179,8 @@ export const FeaturesTab = ({
                     </select>
                   </div>
 
-                  <div className="relative flex-1 sm:w-56">
+                  {/* Search Input */}
+                  <div className="relative w-full sm:w-64">
                     <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
                     <input
                       type="text"
@@ -2228,7 +2235,7 @@ export const FeaturesTab = ({
                           title={feat.name}
                           badge={featCategory}
                           badgeColor={discountInfo.isDiscounted ? 'amber' : 'cyan'}
-                          description={feat.description || 'Operative feature.'}
+                          description={feat.description || 'Persona feature.'}
                           formula={feat.mechanic || undefined}
                           modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
                           prerequisites={feat.prerequisites || undefined}
@@ -2448,7 +2455,7 @@ export const FeaturesTab = ({
           )}
 
           {/* Column Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+          <div className="flex flex-wrap items-center gap-1.5">
             {[
               { id: 'species', label: `Species: ${columnsData.species.name || 'Not Chosen'}` },
               { id: 'origin', label: `Origin: ${columnsData.origin.name || 'Not Chosen'}` },

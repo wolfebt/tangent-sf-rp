@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Search } from 'lucide-react';
 import { EXPERIENCE_RULES } from '../../../engines/tangentConstants';
 
 const ADVANCEMENT_COSTS = [
@@ -166,8 +167,9 @@ export const ExperienceCodexModal = ({
         </div>
 
         {/* Navigation Tabs & Search */}
-        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
-          <div className="flex flex-wrap gap-1.5 bg-slate-950/60 p-1 rounded-xl border border-slate-800 text-xs font-medium">
+        <div className="space-y-2.5">
+          {/* Navigation Tabs (Full Width) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-950/60 p-1 rounded-xl border border-slate-800 text-xs font-medium w-full">
             {[
               { id: 'core', label: 'Core System & Increment Rule' },
               { id: 'awards', label: 'GM Award Pacing' },
@@ -176,10 +178,11 @@ export const ExperienceCodexModal = ({
             ].map(tab => (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                className={`px-3 py-2 rounded-lg transition-all cursor-pointer text-center flex items-center justify-center ${
                   activeTab === tab.id
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold shadow-sm'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                 }`}
               >
@@ -188,13 +191,27 @@ export const ExperienceCodexModal = ({
             ))}
           </div>
 
-          <input
-            type="text"
-            placeholder="Search costs & rules..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-          />
+          {/* Search Bar Under Tabs */}
+          <div className="relative w-full">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" size={14} />
+            <input
+              type="text"
+              placeholder="Search costs & rules..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-8 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-xs cursor-pointer p-0.5"
+                title="Clear Search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Tab Content */}
@@ -281,7 +298,12 @@ export const ExperienceCodexModal = ({
           {/* TAB 3: Advancement Costs Table */}
           {activeTab === 'costs' && (
             <div className="space-y-4">
-              {filteredCosts.map((cat, idx) => (
+              {filteredCosts.length === 0 ? (
+                <div className="text-xs text-slate-400 italic p-6 text-center bg-slate-950/40 rounded-xl border border-slate-800">
+                  No advancement costs match &ldquo;{searchQuery}&rdquo;.
+                </div>
+              ) : (
+                filteredCosts.map((cat, idx) => (
                 <div key={idx} className="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-2.5">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 border-b border-slate-800 pb-1.5">
                     {cat.category}
@@ -305,7 +327,7 @@ export const ExperienceCodexModal = ({
                     ))}
                   </div>
                 </div>
-              ))}
+              )))}
             </div>
           )}
 

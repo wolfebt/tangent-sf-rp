@@ -127,7 +127,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
   // Staged Generator State (User in the Loop)
   const [stagedStep, setStagedStep] = useState(0); // 0: Archetype, 1: Species, 2: Faction & Origin, 3: Occupation, 4: Rules & Stats, 5: Dossier
-  const [stagedPrompt, setStagedPrompt] = useState('Covert stealth sniper operative');
+  const [stagedPrompt, setStagedPrompt] = useState('Covert stealth sniper persona');
   const [stagedArchetype, setStagedArchetype] = useState(null);
   const [stagedSpecies, setStagedSpecies] = useState(null);
   const [stagedFaction, setStagedFaction] = useState(null);
@@ -330,8 +330,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
     // Check for /character command or character creation queries
     const lowerText = userText.toLowerCase();
-    if (lowerText.startsWith('/character') || lowerText.startsWith('/char') || lowerText.includes('create a character') || lowerText.includes('create character') || lowerText.includes('build a character') || lowerText.includes('build an operative')) {
-      const promptQuery = userText.replace(/^\/(character|char)\s*/i, '').trim() || 'Tactical operative';
+    if (lowerText.startsWith('/character') || lowerText.startsWith('/char') || lowerText.includes('create a character') || lowerText.includes('create character') || lowerText.includes('build a character') || lowerText.includes('build an operative') || lowerText.includes('build a persona')) {
+      const promptQuery = userText.replace(/^\/(character|char)\s*/i, '').trim() || 'Tactical persona';
       const synth = synthesizeCharacterWithBastion({
         prompt: promptQuery,
         techLevel: characterData?.['tech-level'] || 3
@@ -1323,7 +1323,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                               type="text"
                               value={stagedCustomName || stagedPersonaResult.character['char-name']}
                               onChange={(e) => setStagedCustomName(e.target.value)}
-                              placeholder="Operative Designation..."
+                              placeholder="Persona Designation..."
                               className="bg-transparent text-amber-300 font-bold text-sm outline-none border-b border-amber-500/40 focus:border-amber-400 w-full"
                             />
                           </div>
@@ -1484,7 +1484,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                       rows={3}
                       value={genPrompt}
                       onChange={(e) => setGenPrompt(e.target.value)}
-                      placeholder="Describe operative concept, tactical role, cybernetics, or background..."
+                      placeholder="Describe persona concept, tactical role, cybernetics, or background..."
                       className="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded text-xs outline-none font-sans"
                     />
                   </div>
@@ -1511,7 +1511,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                     <div className="bg-slate-950/90 border border-cyan-500/40 rounded-lg p-3 space-y-3">
                       <div className="flex justify-between items-start border-b border-slate-800 pb-2">
                         <div>
-                          <span className="text-[10px] text-cyan-400 uppercase font-bold block">Synthesized Operative</span>
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold block">Synthesized Persona</span>
                           <span className="font-bold text-amber-300 text-sm">{synthesizedResult.character['char-name']}</span>
                         </div>
                         <button

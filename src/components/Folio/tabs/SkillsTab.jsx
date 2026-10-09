@@ -672,7 +672,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           id: s.id,
           name: s.name,
           group: s.group,
-          description: characterData?.[`skill-${s.id}-description`] || characterData?.[`skill-${s.id}-desc`] || 'Custom operative skill.',
+          description: characterData?.[`skill-${s.id}-description`] || characterData?.[`skill-${s.id}-desc`] || 'Custom persona skill.',
           baseAttr: characterData?.[`skill-${s.id}-base`] || 'attr-intellect',
           rank: getSkillRank(s),
           total: getSkillTotal(s)
@@ -943,7 +943,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
     const groupName = skill.group ? skill.group.charAt(0).toUpperCase() + skill.group.slice(1) : 'General';
     const badgeColor = isDisciplineSkill ? 'purple' : (CATEGORY_CONFIG_MAP[skill.group]?.key === 'physical' ? 'emerald' : CATEGORY_CONFIG_MAP[skill.group]?.key === 'mental' ? 'blue' : CATEGORY_CONFIG_MAP[skill.group]?.key === 'social' ? 'cyan' : CATEGORY_CONFIG_MAP[skill.group]?.key === 'combat' ? 'amber' : 'purple');
-    const skillDesc = characterData?.[`skill-${skill.id}-description`] || characterData?.[`skill-${skill.id}-desc`] || skill.description || 'Core operative skill.';
+    const skillDesc = characterData?.[`skill-${skill.id}-description`] || characterData?.[`skill-${skill.id}-desc`] || skill.description || 'Core persona skill.';
 
     return (
       <div key={skill.id} className="space-y-1.5">
@@ -1102,7 +1102,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   baseModifier: baseSkillTotal,
                   expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                   rollMode: 'normal',
-                  characterName: characterData['char-name'] || 'Operative',
+                  characterName: characterData['char-name'] || 'Persona',
                   personaId: characterData['character-doc-id'] || characterData.id,
                   autoRoll: e?.shiftKey || false
                 });
@@ -1110,7 +1110,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
                 isDisciplineLocked
                   ? 'opacity-40 cursor-not-allowed text-slate-600'
-                  : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white shadow-sm'
+                  : 'bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 hover:border-rose-400 text-rose-300 hover:text-white shadow-sm'
               }`}
               title={isDisciplineLocked ? lockMessage : `Check ${skill.name} (2d10 + ${baseSkillTotal}). Shift-click to quick-roll.`}
             >
@@ -1183,7 +1183,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     baseModifier: baseSkillTotal,
                     expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                     rollMode: 'normal',
-                    characterName: characterData['char-name'] || 'Operative',
+                    characterName: characterData['char-name'] || 'Persona',
                     personaId: characterData['character-doc-id'] || characterData.id,
                     autoRoll: e?.shiftKey || false
                   });
@@ -1191,7 +1191,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
                   isDisciplineLocked
                     ? 'opacity-40 cursor-not-allowed bg-slate-900 border border-slate-800 text-slate-600'
-                    : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300'
+                    : 'bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-300'
                 }`}
                 title={isDisciplineLocked ? lockMessage : `Check ${skill.name} (2d10 + ${baseSkillTotal}). Shift-click to quick-roll.`}
               >
@@ -1423,7 +1423,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                           baseModifier: specTotal,
                           expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
                           rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative',
+                          characterName: characterData['char-name'] || 'Persona',
                           personaId: characterData['character-doc-id'] || characterData.id,
                           autoRoll: e?.shiftKey || false
                         });
@@ -1433,10 +1433,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                         isSpecLocked
                           ? 'bg-slate-800 text-slate-600 border border-slate-700 cursor-not-allowed'
                           : isSpecAbility
-                          ? 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white shadow-sm'
+                          ? 'bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 hover:border-rose-400 text-rose-300 hover:text-white shadow-sm'
                           : isInvocation
                           ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white shadow-sm'
-                          : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white shadow-sm'
+                          : 'bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 hover:border-rose-400 text-rose-300 hover:text-white shadow-sm'
                       }`}
                       title={isSpecLocked ? lockMessage : `Check ${spec.name} (2d10 + ${specTotal}). Shift-click to quick-roll.`}
                     >
@@ -1536,7 +1536,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                           baseModifier: specTotal,
                           expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
                           rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative',
+                          characterName: characterData['char-name'] || 'Persona',
                           personaId: characterData['character-doc-id'] || characterData.id,
                           autoRoll: e?.shiftKey || false
                         });
@@ -1545,10 +1545,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                         isSpecLocked
                           ? 'opacity-40 cursor-not-allowed bg-slate-900 border border-slate-800 text-slate-600'
                           : isSpecAbility
-                          ? 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300'
+                          ? 'bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-300'
                           : isMetaSkill || isInvocation
                           ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300'
-                          : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300'
+                          : 'bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-300'
                       }`}
                       title={isSpecLocked ? lockMessage : `Check ${spec.name} (2d10 + ${specTotal}). Shift-click to quick-roll.`}
                     >
@@ -1878,7 +1878,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             </h4>
           </div>
           <p className="text-[11px] text-slate-400">
-            Operative skills funded and granted through your Species lineage, Occupational career, Origin environment, Faction allegiance, and active cybernetics or traits.
+            Persona skills funded and granted through your Species lineage, Occupational career, Origin environment, Faction allegiance, and active cybernetics or traits.
           </p>
         </div>
 
@@ -1931,11 +1931,11 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                                 baseModifier: totalScore,
                                 expression: `2d10${totalScore !== 0 ? (totalScore > 0 ? `+${totalScore}` : `${totalScore}`) : ''}`,
                                 rollMode: 'normal',
-                                characterName: characterData['char-name'] || 'Operative',
+                                characterName: characterData['char-name'] || 'Persona',
                                 personaId: characterData['character-doc-id'] || characterData.id,
                                 autoRoll: e?.shiftKey || false
                               })}
-                              className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
+                              className="px-2 py-0.5 rounded bg-rose-950 hover:bg-rose-900 border border-rose-500/50 text-rose-300 font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
                               title={`Check ${sName} (2d10 + ${totalScore}). Shift-click to quick-roll.`}
                             >
                               <Dices size={10} /> Check
@@ -2108,7 +2108,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-cyan-900/60 pb-3 gap-3">
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
-                Operative Skill Categories &amp; Specializations
+                Persona Skill Categories &amp; Specializations
               </h3>
               <p className="text-[11px] text-slate-400">
                 Skills max rank 20. Linked specializations max rank 10. Click any category header to expand or collapse.

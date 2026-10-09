@@ -471,8 +471,8 @@ export const MessageInput = ({ isCompact = false }) => {
                   }}
                   className={`p-1.5 px-2.5 rounded-lg border font-bold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer ${
                     isDicePopoverOpen
-                      ? 'bg-amber-500/25 text-amber-200 border-amber-500 shadow-sm'
-                      : 'bg-amber-500/15 hover:bg-amber-500/25 border-amber-500/40 text-amber-300'
+                      ? 'bg-rose-500/25 text-rose-200 border-rose-500 shadow-sm'
+                      : 'bg-rose-500/15 hover:bg-rose-500/25 border-rose-500/40 text-rose-300'
                   }`}
                   title="Launch Tactical Dice Roller"
                 >
@@ -484,9 +484,9 @@ export const MessageInput = ({ isCompact = false }) => {
                 {isDicePopoverOpen && (
                   <form 
                     onSubmit={handleQuickDiceRoll} 
-                    className="absolute right-0 bottom-full mb-1.5 w-80 bg-[#0d121c] border border-amber-500/50 rounded-xl shadow-2xl p-3 space-y-2.5 z-50 animate-in fade-in duration-150 text-xs font-mono"
+                    className="absolute right-0 bottom-full mb-1.5 w-80 bg-[#0d121c] border border-rose-500/50 rounded-xl shadow-2xl p-3 space-y-2.5 z-50 animate-in fade-in duration-150 text-xs font-mono"
                   >
-                    <div className="flex items-center justify-between pb-1.5 border-b border-slate-800 text-amber-400 font-bold">
+                    <div className="flex items-center justify-between pb-1.5 border-b border-slate-800 text-rose-400 font-bold">
                       <div className="flex items-center gap-1.5">
                         <Dices size={14} />
                         <span>TACTICAL DICE ROLLER</span>
@@ -509,7 +509,7 @@ export const MessageInput = ({ isCompact = false }) => {
                           onClick={() => setDiceExpr(preset)}
                           className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-colors cursor-pointer ${
                             diceExpr === preset 
-                              ? 'bg-amber-500/25 text-amber-300 border-amber-500/60' 
+                              ? 'bg-rose-500/25 text-rose-300 border-rose-500/60' 
                               : 'bg-slate-900 text-slate-400 border-slate-800 hover:border-slate-700'
                           }`}
                         >
@@ -527,7 +527,7 @@ export const MessageInput = ({ isCompact = false }) => {
                           value={diceExpr}
                           onChange={(e) => setDiceExpr(e.target.value)}
                           placeholder="e.g. 2d10+4, 1d20"
-                          className="w-full px-2 py-1.5 bg-slate-950 border border-slate-700 focus:border-amber-400 rounded text-xs text-amber-200 outline-none"
+                          className="w-full px-2 py-1.5 bg-slate-950 border border-slate-700 focus:border-rose-400 rounded text-xs text-rose-200 outline-none"
                         />
                       </div>
 
@@ -577,7 +577,7 @@ export const MessageInput = ({ isCompact = false }) => {
 
                       <button
                         type="submit"
-                        className="px-3 py-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold rounded-lg text-xs transition-all shadow-md cursor-pointer"
+                        className="px-3 py-1 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-400 hover:to-rose-500 text-black font-bold rounded-lg text-xs transition-all shadow-md cursor-pointer"
                       >
                         EXECUTE
                       </button>

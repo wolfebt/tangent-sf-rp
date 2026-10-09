@@ -114,8 +114,8 @@ export const RosterModal = ({
   };
 
   const promptDeleteConfirmation = async (docId, name) => {
-    const targetName = name || 'Unnamed Operative';
-    if (await confirmTypedDeletion(targetName, 'operative persona')) {
+    const targetName = name || 'Unnamed Persona';
+    if (await confirmTypedDeletion(targetName, 'persona')) {
       onDeleteCharacter(docId);
     }
   };
@@ -138,7 +138,7 @@ export const RosterModal = ({
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">ADE STUDIO</span>
               <span className="px-1.5 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-700/60 rounded text-[9px] font-mono uppercase font-bold">
-                OPERATIVE CATALOG
+                PERSONA CATALOG
               </span>
             </div>
             <h2 className="text-xl font-bold text-amber-400 uppercase tracking-wider mt-0.5">
@@ -229,7 +229,7 @@ export const RosterModal = ({
             <span className="absolute left-3 top-2.5 text-slate-500 text-xs">🔍</span>
             <input
               type="text"
-              placeholder={catalogTab === 'my-roster' ? "Search my roster..." : "Search community public operatives by name, species, author..."}
+              placeholder={catalogTab === 'my-roster' ? "Search my roster..." : "Search community public personas by name, species, author..."}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-700 rounded text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono"
@@ -249,7 +249,7 @@ export const RosterModal = ({
         <div className="flex-1 overflow-y-auto p-6">
           {personaRoster.length === 0 ? (
             <div className="text-center py-12 border-2 border-dashed border-slate-800 rounded-lg">
-              <h3 className="text-base font-bold text-slate-300 uppercase">No Saved Operatives in Catalog</h3>
+              <h3 className="text-base font-bold text-slate-300 uppercase">No Saved Personas in Catalog</h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">
                 Your character sheets automatically save as you work. Create a new sheet or switch tabs to explore community personas.
               </p>
@@ -266,7 +266,7 @@ export const RosterModal = ({
           ) : filteredRoster.length === 0 ? (
             <div className="text-center py-10 border border-slate-800 rounded-lg">
               <span className="text-2xl mb-2 block">🔍</span>
-              <h4 className="text-sm font-bold text-slate-400 uppercase">No Operatives Match Search Criteria</h4>
+              <h4 className="text-sm font-bold text-slate-400 uppercase">No Personas Match Search Criteria</h4>
               <p className="text-xs text-slate-500 mt-1">Try clearing your search query "{searchQuery}".</p>
             </div>
           ) : viewMode === 'card' ? (
@@ -275,7 +275,7 @@ export const RosterModal = ({
               {filteredRoster.map(char => {
                 const docId = char['character-doc-id'];
                 const isActive = docId === activeDocId;
-                const name = char['char-name'] || 'UNNAMED OPERATIVE';
+                const name = char['char-name'] || 'UNNAMED PERSONA';
                 const species = getFieldValue(char['char-species']);
                 const faction = getFieldValue(char['char-faction']);
                 const origin = getFieldValue(char['char-origin']);
@@ -447,7 +447,7 @@ export const RosterModal = ({
                           </div>
                         ) : (
                           <p className="text-[11px] text-slate-300 font-sans italic line-clamp-3 leading-relaxed">
-                            {noteContent || <span className="text-slate-600 not-italic">No notes logged for this operative.</span>}
+                            {noteContent || <span className="text-slate-600 not-italic">No notes logged for this persona.</span>}
                           </p>
                         )}
                       </div>
@@ -461,14 +461,14 @@ export const RosterModal = ({
                             <button
                               onClick={() => onDuplicateCharacter(docId)}
                               className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[10px] font-bold uppercase transition-colors"
-                              title="Duplicate operative persona"
+                              title="Duplicate persona"
                             >
                               Clone
                             </button>
                             <button
                               onClick={() => promptDeleteConfirmation(docId, name)}
                               className="px-2 py-1 bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-700/60 rounded text-[10px] font-bold uppercase transition-colors flex items-center gap-1"
-                              title="Delete operative persona"
+                              title="Delete persona"
                             >
                               <span>🗑️</span>
                               <span>Delete</span>
@@ -524,7 +524,7 @@ export const RosterModal = ({
                 <thead className="bg-slate-950 text-[10px] text-cyan-400 font-bold uppercase border-b border-slate-800">
                   <tr>
                     <th className="p-3">Status</th>
-                    <th className="p-3">Operative Name</th>
+                    <th className="p-3">Persona Name</th>
                     <th className="p-3">Species</th>
                     <th className="p-3">Faction</th>
                     <th className="p-3">Origin</th>
@@ -537,7 +537,7 @@ export const RosterModal = ({
                   {filteredRoster.map(char => {
                     const docId = char['character-doc-id'];
                     const isActive = docId === activeDocId;
-                    const name = char['char-name'] || 'UNNAMED OPERATIVE';
+                    const name = char['char-name'] || 'UNNAMED PERSONA';
                     const species = getFieldValue(char['char-species']);
                     const faction = getFieldValue(char['char-faction']);
                     const origin = getFieldValue(char['char-origin']);
@@ -639,7 +639,7 @@ export const RosterModal = ({
                               <button
                                 onClick={() => promptDeleteConfirmation(docId, name)}
                                 className="px-2 py-0.5 bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-700/60 rounded text-[10px] uppercase font-bold"
-                                title="Delete Operative"
+                                title="Delete Persona"
                               >
                                 Delete
                               </button>
@@ -686,7 +686,7 @@ export const RosterModal = ({
         {/* Modal Footer */}
         <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center shrink-0">
           <span className="text-xs text-slate-400 font-mono">
-            Showing {filteredRoster.length} of {personaRoster.length} Operatives
+            Showing {filteredRoster.length} of {personaRoster.length} Personas
           </span>
           <button
             onClick={onClose}
@@ -716,7 +716,7 @@ export const RosterModal = ({
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed font-sans">
-                Are you sure you want to delete operative <strong className="text-white uppercase">"{deleteConfirmName}"</strong>? This will remove the character sheet and all associated stats from your catalog.
+                Are you sure you want to delete persona <strong className="text-white uppercase">"{deleteConfirmName}"</strong>? This will remove the character sheet and all associated stats from your catalog.
               </p>
 
               <div className="bg-red-950/30 border border-red-500/30 p-2.5 rounded text-[11px] text-red-300 font-mono">

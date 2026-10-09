@@ -108,7 +108,7 @@ const resFail = resolveCheck(failMock, 15);
 assert(resFail.outcome === 'Failure', 'Margin -2 must yield Failure');
 assert(resFail.margin === -2, 'Margin must be -2');
 
-// Test 7: Unified rollDice parsing & execution
+// Test 7: Unified rollDice parsing & execution on 2d10
 const rollRes = rollDice('2d10+4', { 
   advantageDice: 2, 
   critRangeSize: 3, 
@@ -122,5 +122,107 @@ assert(rollRes.critThreshold === 18, 'Crit threshold for size 3 must be 18');
 assert(rollRes.targetDC === 10, 'Target DC challenging must be 10');
 assert(typeof rollRes.outcome === 'string', 'Outcome must be present');
 assert(typeof rollRes.isSuccess === 'boolean', 'isSuccess must be boolean');
+
+// Test 8: Single Die at Advantage (best single rolled is used)
+for (let i = 0; i < 20; i++) {
+  const d20Adv = rollDice('1d20', {
+    advantageDice: 2,
+    flatModifier: 5,
+    critRangeSize: 2,
+    fumbleRangeSize: 2,
+    targetDC: 15
+  });
+  assert(d20Adv.count === 1, 'Single die count must be 1');
+  assert(d20Adv.dicePool.length === 3, 'Pool size for 1d20 with +2 adv must be 1 + 2 = 3');
+  assert(d20Adv.keptDice.length === 1, 'Kept dice for single die must be exactly 1');
+  const maxInPool = Math.max(...d20Adv.dicePool);
+  assert(d20Adv.keptDice[0] === maxInPool, `Advantage on single die must use best single rolled (${maxInPool}), got ${d20Adv.keptDice[0]}`);
+  assert(d20Adv.appliedModifier === 5, 'Flat modifier must be 5');
+  assert(d20Adv.finalTotal === d20Adv.naturalTotal + 5, 'Final total must be natural + 5');
+  assert(d20Adv.critThreshold === 19, 'Crit threshold for size 2 on d20 must be 19 (19-20)');
+  assert(d20Adv.fumbleThreshold === 2, 'Fumble threshold for size 2 on d20 must be 2 (1-2)');
+  assert(d20Adv.targetDC === 15, 'Target DC must be 15');
+  assert(d20Adv.margin === d20Adv.finalTotal - 15, 'Margin must be finalTotal - 15');
+}
+
+// Test 9: Single Die at Disadvantage (worse single rolled is used)
+for (let i = 0; i < 20; i++) {
+  const d20Dis = rollDice('1d20', {
+    advantageDice: -2,
+    flatModifier: -3,
+    critRangeSize: 1,
+    fumbleRangeSize: 1,
+    targetDC: 10
+  });
+  assert(d20Dis.count === 1, 'Single die count must be 1');
+  assert(d20Dis.dicePool.length === 3, 'Pool size for 1d20 with -2 disadv must be 1 + 2 = 3');
+  assert(d20Dis.keptDice.length === 1, 'Kept dice for single die must be exactly 1');
+  const minInPool = Math.min(...d20Dis.dicePool);
+  assert(d20Dis.keptDice[0] === minInPool, `Disadvantage on single die must use worse single rolled (${minInPool}), got ${d20Dis.keptDice[0]}`);
+  assert(d20Dis.appliedModifier === -3, 'Flat modifier must be -3');
+  assert(d20Dis.finalTotal === d20Dis.naturalTotal - 3, 'Final total must be natural - 3');
+  assert(d20Dis.critThreshold === 20, 'Crit threshold for size 1 on d20 must be 20');
+  assert(d20Dis.fumbleThreshold === 1, 'Fumble threshold for size 1 on d20 must be 1');
+}
+
+// Test 10: Quick polyhedral presets (d6, d8, d12) with modifiers & threat ranges
+const d6Roll = rollDice('1d6', {
+  advantageDice: 1,
+  flatModifier: 2,
+  critRangeSize: 1,
+  fumbleRangeSize: 1,
+  targetDC: 5
+});
+assert(d6Roll.dicePool.length === 2, '1d6 with +1 adv must roll 2 dice');
+assert(d6Roll.keptDice.length === 1, '1d6 with +1 adv must keep 1 die');
+assert(d6Roll.keptDice[0] === Math.max(...d6Roll.dicePool), '1d6 with +1 adv must keep highest die');
+assert(d6Roll.appliedModifier === 2, 'Applied modifier must be 2');
+
+// Test 11: Saved formula presets with all adjustments noted
+const presetSnapshot = {
+  id: 'test-preset-1',
+  expr: '2d10+4',
+  label: 'Tactical Recon Check',
+  advantageDice: 2,
+  baseModifier: 4,
+  adHocModifier: -1,
+  critRangeSize: 3,
+  fumbleRangeSize: 2,
+  targetDC: '15'
+};
+
+const rolledFromPreset = rollDice(presetSnapshot.expr, {
+  advantageDice: presetSnapshot.advantageDice,
+  flatModifier: presetSnapshot.baseModifier + presetSnapshot.adHocModifier,
+  critRangeSize: presetSnapshot.critRangeSize,
+  fumbleRangeSize: presetSnapshot.fumbleRangeSize,
+  targetDC: presetSnapshot.targetDC
+});
+
+assert(rolledFromPreset.dicePool.length === 4, 'Pool size with advantageDice 2 must be 2 + 2 = 4');
+assert(rolledFromPreset.appliedModifier === 3, 'Applied modifier must be 4 - 1 = 3');
+assert(rolledFromPreset.critThreshold === 18, 'Crit threshold for size 3 must be 18');
+assert(rolledFromPreset.fumbleThreshold === 3, 'Fumble threshold for size 2 must be 3');
+assert(rolledFromPreset.targetDC === 15, 'Target DC must be 15');
+
+// Test legacy preset without explicit adjustment fields
+const legacyPreset = {
+  id: 'legacy-1',
+  expr: '1d20+2',
+  label: 'Old Saved Roll'
+};
+const legacyAdv = legacyPreset.advantageDice ?? 0;
+const legacyBase = legacyPreset.baseModifier ?? 0;
+const legacyAdHoc = legacyPreset.adHocModifier ?? 0;
+const legacyCritSize = legacyPreset.critRangeSize ?? 1;
+const legacyFumbleSize = legacyPreset.fumbleRangeSize ?? 1;
+const legacyDC = legacyPreset.targetDC ?? '';
+
+assert(legacyAdv === 0, 'Legacy advantage must default to 0');
+assert(legacyBase === 0, 'Legacy baseModifier must default to 0');
+assert(legacyAdHoc === 0, 'Legacy adHocModifier must default to 0');
+assert(legacyCritSize === 1, 'Legacy critRangeSize must default to 1');
+assert(legacyFumbleSize === 1, 'Legacy fumbleRangeSize must default to 1');
+assert(legacyDC === '', 'Legacy targetDC must default to empty string');
 
 console.log('✅ All clamped dice engine and target DC tests passed!');

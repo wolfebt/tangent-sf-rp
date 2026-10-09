@@ -229,7 +229,7 @@ export const FeaturesHubView = ({
       iconBg: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
       badgeBg: 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60',
       accentColor: 'text-cyan-400',
-      description: 'Special operative aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for feats recommended by your character\'s identity pillars.'
+      description: 'Special persona aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for feats recommended by your character\'s identity pillars.'
     },
     {
       id: 'features-traits',
@@ -294,7 +294,7 @@ export const FeaturesHubView = ({
       iconBg: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
       badgeBg: 'bg-rose-950/80 text-rose-300 border-rose-700/60',
       accentColor: 'text-rose-400',
-      description: 'Character flaws, behavioral quirks, physical handicaps, and social debts providing vital CP refunds during operative creation.'
+      description: 'Character flaws, behavioral quirks, physical handicaps, and social debts providing vital CP refunds during persona creation.'
     }
   ];
 
@@ -304,7 +304,7 @@ export const FeaturesHubView = ({
       <div className="flex flex-col items-center text-center space-y-1.5 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-[10px] font-bold uppercase tracking-wider shadow-sm">
           <Sparkles size={11} className="text-cyan-400" />
-          <span>Operative Capabilities Hub</span>
+          <span>Persona Capabilities Hub</span>
         </div>
 
         <h2 className="text-lg sm:text-xl font-black uppercase tracking-wider text-white">

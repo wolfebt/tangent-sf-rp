@@ -21,7 +21,7 @@ export const PartyStatusWidget = () => {
 
   const handleOpenFolio = () => {
     AudioService.playTerminalBeep(1000, 0.03);
-    navigate('/folio');
+    navigate('/folio?tab=catalog');
   };
 
   return (

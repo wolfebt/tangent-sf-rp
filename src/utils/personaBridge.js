@@ -44,7 +44,7 @@ const safeJsonParse = (val, defaultVal = []) => {
 export const convertFolioToPersonaElement = (folioData, options = {}) => {
   if (!folioData || typeof folioData !== 'object') return null;
 
-  const charName = folioData['char-name'] || folioData.name || folioData.title || 'Unnamed Operative';
+  const charName = folioData['char-name'] || folioData.name || folioData.title || 'Unnamed Persona';
   const elementId = options.id || `elem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
   const fields = {
@@ -193,7 +193,7 @@ export const convertPersonaElementToFolio = (element) => {
     return isNaN(parsed) ? defaultVal : parsed;
   };
 
-  const name = fields['char-name'] || rawElement.title || attachedFolio['char-name'] || 'Unnamed Operative';
+  const name = fields['char-name'] || rawElement.title || attachedFolio['char-name'] || 'Unnamed Persona';
 
   const folioResult = {
     'character-doc-id': attachedFolio['character-doc-id'] || `char_${Date.now()}`,

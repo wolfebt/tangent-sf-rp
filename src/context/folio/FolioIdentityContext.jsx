@@ -209,6 +209,9 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && !isFolioPersonaDeleted(parsed['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(parsed)) {
+          if (!parsed['character-doc-id']) {
+            parsed['character-doc-id'] = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+          }
           return sanitizeSubAttributes(sanitizeCharacterSkills(parsed));
         }
       }
@@ -225,7 +228,10 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     } catch (e) {
       console.warn('Error reading saved character, using default:', e);
     }
-    return sanitizeSubAttributes({ ...DEFAULT_CHARACTER });
+    return sanitizeSubAttributes({ 
+      ...DEFAULT_CHARACTER,
+      'character-doc-id': `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+    });
   });
 
   const [personaRoster, setPersonaRoster] = useState(() => {
@@ -272,6 +278,29 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       setLastSavedTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     } catch (e) {
       console.warn('[FolioIdentity] Local save failed:', e);
+    }
+
+    // Maintain & synchronize persona identity pillars and allocations in personaRoster
+    const docId = target['character-doc-id'] || target.id;
+    if (docId) {
+      setPersonaRoster(prev => {
+        const idx = prev.findIndex(p => (p['character-doc-id'] === docId || (p.id && p.id === docId)));
+        let next;
+        if (idx >= 0) {
+          next = [...prev];
+          next[idx] = { ...prev[idx], ...target };
+        } else {
+          const hasContent = Boolean(target['char-name'] || target['char-species'] || target['char-archetype'] || target['char-occu']);
+          if (!hasContent) return prev;
+          next = [...prev, target];
+        }
+        StorageService.setItem('personaRoster', next);
+        try {
+          localStorage.setItem('personaRoster', JSON.stringify(next));
+          localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
+        } catch (e) {}
+        return next;
+      });
     }
   }, [characterData]);
 
@@ -418,7 +447,39 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   }, [characterData]);
 
   const switchRosterCharacter = useCallback((docId) => {
-    const found = personaRoster.find(p => p['character-doc-id'] === docId || p.id === docId);
+    if (characterData && (characterData['character-doc-id'] || characterData.id)) {
+      const curDocId = characterData['character-doc-id'] || characterData.id;
+      if (curDocId === docId) {
+        setActiveTab(prev => (prev === 'catalog' ? 'identity' : prev));
+        return;
+      }
+      setPersonaRoster(prev => {
+        const idx = prev.findIndex(p => (p['character-doc-id'] === curDocId || p.id === curDocId));
+        let next;
+        if (idx >= 0) {
+          next = [...prev];
+          next[idx] = { ...prev[idx], ...characterData };
+        } else {
+          next = [...prev, characterData];
+        }
+        StorageService.setItem('personaRoster', next);
+        try {
+          localStorage.setItem('personaRoster', JSON.stringify(next));
+          localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
+        } catch (e) {}
+        return next;
+      });
+    }
+
+    let found = personaRoster.find(p => p['character-doc-id'] === docId || p.id === docId);
+    if (!found) {
+      try {
+        const saved = JSON.parse(localStorage.getItem('personaRoster') || '[]');
+        if (Array.isArray(saved)) {
+          found = saved.find(p => p['character-doc-id'] === docId || p.id === docId);
+        }
+      } catch (e) {}
+    }
     if (!found) return;
     const sanitized = sanitizeSubAttributes(sanitizeCharacterSkills(found));
     setCharacterData(sanitized);
@@ -429,7 +490,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     } catch (e) {}
     setActiveTab(prev => (prev === 'catalog' ? 'identity' : prev));
     AudioService.playTerminalBeep(1200, 0.02);
-  }, [personaRoster]);
+  }, [personaRoster, characterData]);
 
   const deleteRosterCharacter = useCallback((docId) => {
     setPersonaRoster(prev => {

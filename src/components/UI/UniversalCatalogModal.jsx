@@ -1625,7 +1625,7 @@ export const UniversalCatalogModal = ({
 
           {/* Category Filter Pills (hidden for species in favor of multiselect pulldown beside sort) */}
           {canonicalColKey !== 'species' && categoryPills.length > 2 && (
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-slate-700">
+            <div className="flex flex-wrap items-center gap-1.5">
               {categoryPills.map(cat => {
                 const isActive = activeCategoryFilter === cat;
                 const count = categoryCounts[cat];

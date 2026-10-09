@@ -221,7 +221,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
             <div className="flex items-center justify-center gap-1 mt-1.5 flex-wrap">
               {[
                 { label: '100', cp: 100, title: 'Gritty / Low-Powered (100 CP)' },
-                { label: '150', cp: 150, title: 'Standard Operative (150 CP Default)' },
+                { label: '150', cp: 150, title: 'Standard Persona (150 CP Default)' },
                 { label: '200', cp: 200, title: 'Heroic / Veteran (200 CP)' },
                 { label: '250', cp: 250, title: 'Mythic / Apex (250 CP)' }
               ].map((preset) => (

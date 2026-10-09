@@ -30,7 +30,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       expression: damageExpr,
       baseModifier: 0,
       rollMode: 'normal',
-      characterName: characterData['char-name'] || 'Operative',
+      characterName: characterData['char-name'] || 'Persona',
       personaId: characterData['character-doc-id'] || characterData.id,
       autoRoll: e?.shiftKey || false
     });

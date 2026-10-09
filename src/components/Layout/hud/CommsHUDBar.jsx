@@ -48,10 +48,10 @@ export const CommsHUDBar = ({
             window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
           }
         }}
-        className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
+        className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-rose-500/40 text-rose-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
         title="Toggle Quick Dice Roller Tray (Alt+D)"
       >
-        <TwoD10Icon size={13} className="text-amber-400" />
+        <TwoD10Icon size={13} className="text-rose-400" />
         <span className="hidden sm:inline">Dice (Alt+D)</span>
       </button>
     </div>

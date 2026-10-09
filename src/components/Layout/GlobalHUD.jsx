@@ -199,6 +199,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1150, 0.02);
+              if (folio?.activeTab === 'catalog') {
+                folio.setActiveTab?.('identity');
+              }
               navigate('/folio');
             }}
             className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
@@ -307,12 +310,12 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             onClick={handleToggleDice}
             className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
               isDiceActive
-                ? 'bg-amber-500/25 text-amber-300 border-amber-400/80 shadow-[0_0_14px_rgba(245,158,11,0.4)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
+                ? 'bg-rose-500/25 text-rose-300 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.4)]'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-300 border-slate-700/80 hover:border-rose-500/50'
             }`}
             title="Toggle Holographic Dice Tray"
           >
-            <TwoD10Icon className={`w-3.5 h-3.5 ${isDiceActive ? 'text-amber-300' : 'text-amber-400'}`} />
+            <TwoD10Icon className={`w-3.5 h-3.5 ${isDiceActive ? 'text-rose-300' : 'text-rose-400'}`} />
             <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">DICE</span>
           </button>
         </nav>
@@ -398,7 +401,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   {/* FOLIO */}
                   <button
                     type="button"
-                    onClick={() => { navigate('/folio'); setIsMobileNavOpen(false); }}
+                    onClick={() => {
+                      if (folio?.activeTab === 'catalog') {
+                        folio.setActiveTab?.('identity');
+                      }
+                      navigate('/folio');
+                      setIsMobileNavOpen(false);
+                    }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
                       isFolio ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
@@ -499,10 +508,10 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                         if (onToggleDiceDock) onToggleDiceDock();
                         else window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
                       }}
-                      className="p-2 bg-slate-900/60 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                      className="p-2 bg-slate-900/60 hover:bg-rose-950/40 border border-slate-800 hover:border-rose-500/40 rounded-lg text-left transition-colors cursor-pointer"
                     >
                       <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <Dices size={13} className="text-amber-400" /> Dice Tray
+                        <Dices size={13} className="text-rose-400" /> Dice Tray
                       </div>
                     </button>
                     <button

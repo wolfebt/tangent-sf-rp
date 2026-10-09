@@ -201,7 +201,7 @@ export const DiscreetFateOverrideModal = ({
               </h2>
             </div>
             <p className="text-[11px] text-slate-400">
-              Manual adjustments, Karmic debt tracking &amp; optional rule codex for {characterData['char-name'] || 'Operative'}
+              Manual adjustments, Karmic debt tracking &amp; optional rule codex for {characterData['char-name'] || 'Persona'}
             </p>
           </div>
           

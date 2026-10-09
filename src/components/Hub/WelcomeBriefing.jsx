@@ -73,10 +73,10 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
       id: 'folio',
       railIndex: '01',
       title: 'FOLIO',
-      subtitle: 'Operative Dossiers & Character Engine',
-      badge: heroCount > 0 ? `${heroCount} OPERATIVES` : 'OPERATIVE ENGINE',
+      subtitle: 'Persona Dossiers & Character Engine',
+      badge: heroCount > 0 ? `${heroCount} ${heroCount === 1 ? 'PERSONA' : 'PERSONAS'}` : 'PERSONA ENGINE',
       desc: '150 CP character builder, 95+ skills matrix, augmentations, and live dual 2d10 sheet resolution.',
-      primaryRoute: '/folio',
+      primaryRoute: '/folio?tab=catalog',
       icon: Users,
       colorTheme: 'cyan',
       borderColor: 'border-cyan-500/35 hover:border-cyan-400',
@@ -88,11 +88,11 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
       titleColor: 'text-cyan-300 group-hover:text-cyan-200',
       glowColor: 'hover:shadow-[0_0_22px_rgba(34,211,238,0.22)]',
       subSections: [
-        { label: 'Roster', route: '/folio' },
-        { label: '150 CP Builder', route: '/folio' },
-        { label: '95+ Skills', route: '/folio' },
-        { label: 'Dual 2d10', route: '/folio' },
-        { label: 'Cyberware', route: '/folio' }
+        { label: 'Roster', route: '/folio?tab=catalog' },
+        { label: '150 CP Builder', route: '/folio?tab=identity' },
+        { label: '95+ Skills', route: '/folio?tab=skills' },
+        { label: 'Dual 2d10', route: '/folio?tab=stats' },
+        { label: 'Cyberware', route: '/folio?tab=gear' }
       ]
     },
     {
@@ -219,15 +219,15 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
         }
       },
       icon: Dices,
-      colorTheme: 'orange',
-      borderColor: 'border-orange-500/35 hover:border-orange-400',
-      barColor: 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.8)]',
-      dotColor: 'bg-orange-400',
-      badgeColor: 'bg-orange-950/80 text-orange-300 border-orange-500/50',
-      btnColor: 'bg-orange-600 hover:bg-orange-500 text-white',
-      iconColor: 'text-orange-400',
-      titleColor: 'text-orange-300 group-hover:text-orange-200',
-      glowColor: 'hover:shadow-[0_0_22px_rgba(251,146,60,0.22)]',
+      colorTheme: 'rose',
+      borderColor: 'border-rose-500/35 hover:border-rose-400',
+      barColor: 'bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.8)]',
+      dotColor: 'bg-rose-400',
+      badgeColor: 'bg-rose-950/80 text-rose-300 border-rose-500/50',
+      btnColor: 'bg-rose-600 hover:bg-rose-500 text-white',
+      iconColor: 'text-rose-400',
+      titleColor: 'text-rose-300 group-hover:text-rose-200',
+      glowColor: 'hover:shadow-[0_0_22px_rgba(244,63,94,0.22)]',
       subSections: [
         {
           label: 'Dual 2d10',

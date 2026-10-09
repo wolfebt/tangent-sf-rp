@@ -38,11 +38,11 @@ export const isPersonaEmptyTemplate = (char) => {
   if (!char || typeof char !== 'object') return true;
 
   const name = (char['char-name'] || char.name || '').trim();
-  const isDefaultName = !name || name.toLowerCase() === 'unnamed operative';
+  const isDefaultName = !name || name.toLowerCase() === 'unnamed persona' || name.toLowerCase() === 'unnamed operative';
 
-  const hasConcept = Boolean(char['char-concept'] && char['char-concept'].trim() && char['char-concept'].trim().toLowerCase() !== 'unnamed operative');
+  const hasConcept = Boolean(char['char-concept'] && char['char-concept'].trim() && char['char-concept'].trim().toLowerCase() !== 'unnamed persona' && char['char-concept'].trim().toLowerCase() !== 'unnamed operative');
   const hasArchetype = Boolean(char['char-archetype'] && char['char-archetype'].trim());
-  const hasSpecies = Boolean(char['char-species'] && char['char-species'].trim() && char['char-species'] !== 'Human');
+  const hasSpecies = Boolean(char['char-species'] && char['char-species'].trim());
   const hasOccu = Boolean(char['char-occu'] && char['char-occu'].trim());
   const hasFaction = Boolean(char['char-faction'] && char['char-faction'].trim());
   const hasOrigin = Boolean(char['char-origin'] && char['char-origin'].trim());
@@ -56,7 +56,36 @@ export const isPersonaEmptyTemplate = (char) => {
   const hasAttacks = Array.isArray(char.attacks) && char.attacks.length > 0;
   const hasFeatures = Array.isArray(char.features) && char.features.length > 0;
 
-  if (isDefaultName && !hasConcept && !hasArchetype && !hasSpecies && !hasOccu && !hasFaction && !hasOrigin && !hasBackstory && !hasMotive && !hasAttrAlloc && !hasSkills && !hasAttacks && !hasFeatures) {
+  const hasAllocations = Boolean(
+    (char.speciesAllocations && (
+      Object.keys(char.speciesAllocations.skills || {}).length > 0 ||
+      Object.keys(char.speciesAllocations.attributes || {}).length > 0 ||
+      (char.speciesAllocations.traits || []).length > 0 ||
+      (char.speciesAllocations.features || []).length > 0
+    )) ||
+    (char.archetypeAllocations && (
+      Object.keys(char.archetypeAllocations.skills || {}).length > 0 ||
+      Object.keys(char.archetypeAllocations.attributes || {}).length > 0 ||
+      (char.archetypeAllocations.features || []).length > 0
+    )) ||
+    (char.occuAllocations && (
+      Object.keys(char.occuAllocations.skills || {}).length > 0 ||
+      (char.occuAllocations.traits || []).length > 0 ||
+      (char.occuAllocations.features || []).length > 0
+    )) ||
+    (char.originAllocations && (
+      Object.keys(char.originAllocations.skills || {}).length > 0 ||
+      (char.originAllocations.traits || []).length > 0 ||
+      (char.originAllocations.features || []).length > 0
+    )) ||
+    (char.factionAllocations && (
+      Object.keys(char.factionAllocations.skills || {}).length > 0 ||
+      (char.factionAllocations.traits || []).length > 0 ||
+      (char.factionAllocations.features || []).length > 0
+    ))
+  );
+
+  if (isDefaultName && !hasConcept && !hasArchetype && !hasSpecies && !hasOccu && !hasFaction && !hasOrigin && !hasBackstory && !hasMotive && !hasAttrAlloc && !hasSkills && !hasAttacks && !hasFeatures && !hasAllocations) {
     return true;
   }
   return false;

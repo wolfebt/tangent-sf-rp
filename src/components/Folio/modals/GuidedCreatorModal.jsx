@@ -548,7 +548,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     const payload = {
       'character-doc-id': docId,
       // Basic Identity Fields
-      'char-name': draft['char-name']?.trim() || 'Unnamed Operative',
+      'char-name': draft['char-name']?.trim() || 'Unnamed Persona',
       'char-concept': draft['char-concept']?.trim() || '',
       'char-archetype': draft['char-archetype'] || '',
       'char-species': draft['char-species'] || '',
@@ -666,7 +666,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       next['char-archetype'] = arch.name;
       if (primKey) next[primKey] = 3;
       if (secKey) next[secKey] = 2;
-      if (!next['char-concept'] || next['char-concept'] === 'Unnamed Operative') {
+      if (!next['char-concept'] || next['char-concept'] === 'Unnamed Persona') {
         next['char-concept'] = arch.core_concept || arch.name;
       }
       if (!next['char-motive']) {
@@ -701,7 +701,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const handleBastionAutoBuild = async (customPrompt) => {
     setIsSynthesizing(true);
     try {
-      const activePrompt = (customPrompt || bastionPrompt || draft['char-concept'] || 'Adventurous Space Operative').trim();
+      const activePrompt = (customPrompt || bastionPrompt || draft['char-concept'] || 'Adventurous Space Persona').trim();
       const res = synthesizeCharacterWithBastion({
         prompt: activePrompt,
         preferredArchetype: draft['char-archetype'] || null,
@@ -714,7 +714,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
         setDraft(prev => ({
           ...prev,
-          'char-name': character['char-name'] || prev['char-name'] || 'Unnamed Operative',
+          'char-name': character['char-name'] || prev['char-name'] || 'Unnamed Persona',
           'char-concept': character['char-concept'] || activePrompt,
           'char-archetype': pillars.archetype?.name || '',
           'char-species': pillars.species?.name || '',
@@ -774,7 +774,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     if (!data) return;
     setDraft(prev => ({
       ...prev,
-      'char-name': data['char-name'] || prev['char-name'] || 'Unnamed Operative',
+      'char-name': data['char-name'] || prev['char-name'] || 'Unnamed Persona',
       'char-concept': data['char-concept'] || prev['char-concept'] || '',
       'char-archetype': data['char-archetype'] || '',
       'char-species': data['char-species'] || '',
@@ -826,7 +826,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         setChassisApplied(true);
       }
     }
-    setBastionNotice(`Loaded character draft "${data['char-name'] || 'Operative'}" from BASTION Staged Persona.`);
+    setBastionNotice(`Loaded character draft "${data['char-name'] || 'Persona'}" from BASTION Staged Persona.`);
   };
 
   useEffect(() => {
@@ -988,7 +988,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       <div className="space-y-6 w-full">
         <div>
           <h3 className="text-xl font-bold text-cyan-400">Concept & Identity</h3>
-          <p className="text-sm text-slate-400">Establish the baseline identity, physical profile, narrative foundation, and optional Archetype chassis of your operative.</p>
+          <p className="text-sm text-slate-400">Establish the baseline identity, physical profile, narrative foundation, and optional Archetype chassis of your persona.</p>
         </div>
 
         {/* BASTION 5-Pillar Auto-Synthesizer Panel */}
@@ -1132,7 +1132,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">Operative Name / Callsign</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Persona Name / Callsign</label>
               <input 
                 type="text" value={draft['char-name']} onChange={e => updateDraft('char-name', e.target.value)}
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
@@ -1386,7 +1386,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     <div className="space-y-4 w-full h-full flex flex-col">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">{title}</h3>
-        <p className="text-sm text-slate-400">Select an option to define your operative's background archetype.</p>
+        <p className="text-sm text-slate-400">Select an option to define your persona's background archetype.</p>
       </div>
       
       {isLoadingData && items.length === 0 ? (
@@ -1521,7 +1521,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   BASTION Co-Pilot • Lineage Recommendations
                 </span>
                 <span className="text-[10px] text-slate-400 hidden sm:inline">
-                  (Synergized with {draft['char-archetype'] || 'Operative Concept'})
+                  (Synergized with {draft['char-archetype'] || 'Persona Concept'})
                 </span>
               </div>
               <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800 font-bold">
@@ -1940,7 +1940,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   BASTION Co-Pilot • Career Recommendations
                 </span>
                 <span className="text-[10px] text-slate-400 hidden sm:inline">
-                  (Synergized with {draft['char-archetype'] || 'Operative Concept'})
+                  (Synergized with {draft['char-archetype'] || 'Persona Concept'})
                 </span>
               </div>
               <span className="text-[10px] font-mono text-sky-400 bg-sky-950 px-2 py-0.5 rounded border border-sky-800 font-bold">
@@ -2817,14 +2817,14 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       <div className="space-y-6 max-w-3xl mx-auto h-full flex flex-col">
         <div className="text-center">
           <h3 className="text-2xl font-black text-emerald-400 uppercase tracking-widest">Initialization Matrix Complete</h3>
-          <p className="text-slate-400 mt-1 text-sm">Review your operative parameters before deploying to the Persona Folio.</p>
+          <p className="text-slate-400 mt-1 text-sm">Review your persona parameters before deploying to the Persona Folio.</p>
         </div>
         
         <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-xl space-y-5 shadow-xl flex-1 overflow-y-auto pr-2">
           <div className="grid grid-cols-2 gap-4 border-b border-slate-800 pb-4">
             <div>
-              <span className="text-xs font-bold text-slate-500 block uppercase">Operative Name</span>
-              <span className="text-lg font-bold text-white">{draft['char-name'] || 'Unnamed Operative'}</span>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Persona Name</span>
+              <span className="text-lg font-bold text-white">{draft['char-name'] || 'Unnamed Persona'}</span>
             </div>
             <div>
               <span className="text-xs font-bold text-slate-500 block uppercase">Concept</span>

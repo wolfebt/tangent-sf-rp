@@ -384,6 +384,10 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
   const newSpeciesObj = newSpeciesInput ? resolveCatalogItem('species', newSpeciesInput, dbData) : null;
   const newSpeciesName = newSpeciesObj ? (newSpeciesObj.name || newSpeciesObj.title || String(newSpeciesInput)) : '';
 
+  if (currentSpeciesName && newSpeciesName && currentSpeciesName.trim().toLowerCase() === newSpeciesName.trim().toLowerCase()) {
+    return syncIdentitySettingLevels(characterData, dbData);
+  }
+
   let updated = { ...characterData, 'char-species': newSpeciesName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
 
@@ -745,6 +749,10 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
   const newArchetypeObj = newArchetypeInput ? resolveCatalogItem('archetypes', newArchetypeInput, dbData) : null;
   const newArchetypeName = newArchetypeObj ? (newArchetypeObj.name || newArchetypeObj.title || String(newArchetypeInput)) : '';
 
+  if (currentArchetypeName && newArchetypeName && currentArchetypeName.trim().toLowerCase() === newArchetypeName.trim().toLowerCase() && !options.applyPreBuild) {
+    return syncIdentitySettingLevels(characterData, dbData);
+  }
+
   let updated = { ...characterData, 'char-archetype': newArchetypeName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
 
@@ -957,6 +965,10 @@ export const applyOccupationTransition = (characterData, newOccupationInput, dbD
   const newOccuObj = newOccupationInput ? resolveCatalogItem('occupations', newOccupationInput, dbData) : null;
   const newOccuName = newOccuObj ? (newOccuObj.name || newOccuObj.title || String(newOccupationInput)) : '';
 
+  if (currentOccuName && newOccuName && currentOccuName.trim().toLowerCase() === newOccuName.trim().toLowerCase()) {
+    return syncIdentitySettingLevels(characterData, dbData);
+  }
+
   let updated = { ...characterData, 'char-occu': newOccuName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
 
@@ -1074,6 +1086,10 @@ export const applyOriginTransition = (characterData, newOriginInput, dbData = {}
   const prevOriginObj = resolveCatalogItem('origins', currentOriginName, dbData);
   const newOriginObj = newOriginInput ? resolveCatalogItem('origins', newOriginInput, dbData) : null;
   const newOriginName = newOriginObj ? (newOriginObj.name || newOriginObj.title || String(newOriginInput)) : '';
+
+  if (currentOriginName && newOriginName && currentOriginName.trim().toLowerCase() === newOriginName.trim().toLowerCase()) {
+    return syncIdentitySettingLevels(characterData, dbData);
+  }
 
   let updated = { ...characterData, 'char-origin': newOriginName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
@@ -1199,6 +1215,10 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
   const prevFactionObj = resolveCatalogItem('factions', currentFactionName, dbData);
   const newFactionObj = newFactionInput ? resolveCatalogItem('factions', newFactionInput, dbData) : null;
   const newFactionName = newFactionObj ? (newFactionObj.name || newFactionObj.title || String(newFactionInput)) : '';
+
+  if (currentFactionName && newFactionName && currentFactionName.trim().toLowerCase() === newFactionName.trim().toLowerCase()) {
+    return syncIdentitySettingLevels(characterData, dbData);
+  }
 
   let updated = { ...characterData, 'char-faction': newFactionName };
   const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;

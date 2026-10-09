@@ -1,7 +1,7 @@
 /**
  * @file storyAssetAdapter.js
  * @description Master bidirectional adapter for ADE Story Components, The Stage VTT assets,
- * Folio Operative inventories, and canonical Omnicortex DBM collections.
+ * Folio Persona inventories, and canonical Omnicortex DBM collections.
  */
 
 import { v4 as uuidv4 } from 'uuid';
@@ -31,7 +31,7 @@ export function adeElementToStageToken(element, position = { x: 350, y: 350 }) {
   return {
     id: `token-${element.id || uuidv4()}-${Date.now()}`,
     character_doc_id: element.id,
-    name: element.title || element.name || 'Operative Asset',
+    name: element.title || element.name || 'Persona Asset',
     image_url: element.imageUrl || element.image || null,
     icon: element.icon || (element.type === 'Persona' ? '🧙‍♂️' : '👾'),
     base_hp: health,
@@ -48,7 +48,7 @@ export function adeElementToStageToken(element, position = { x: 350, y: 350 }) {
     size_modifier: 0,
     speed_ft: parseInt(fields.speed || 30, 10),
     species: fields['char-species'] || fields.species || (isSyn ? 'Synthetic' : 'Human'),
-    archetype: fields['char-concept'] || fields.archetype || 'Operative',
+    archetype: fields['char-concept'] || fields.archetype || 'Persona',
     is_persona: element.type === 'Persona',
     role: fields.role || 'Combatant',
     attacks,
@@ -120,7 +120,7 @@ export function adeElementToInteractiveObject(element, position = { x: 400, y: 3
 
 /**
  * Normalizes an ADE story component element into a Folio-compatible inventory item.
- * Used when an operative persona loots or picks up an item from the stage.
+ * Used when a persona loots or picks up an item from the stage.
  */
 export function adeElementToFolioItem(element) {
   if (!element) return null;

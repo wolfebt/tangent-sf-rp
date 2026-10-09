@@ -24,12 +24,13 @@ const NAV_ITEMS = [
   { id: 'cortex',  icon: Database,   label: 'CORTEX',  path: '/dbm',        color: 'amber'   },
   { id: 'ade',     icon: Layers,     label: 'ADE',     path: '/foundry',    color: 'purple'  },
   { id: 'rules',   icon: BookOpen,   label: 'RULES',   path: '/compendium', color: 'sky'     },
-  { id: 'dice',    icon: TwoD10Icon, label: 'DICE',    isAction: true,      color: 'amber'   },
+  { id: 'dice',    icon: TwoD10Icon, label: 'DICE',    isAction: true,      color: 'rose'    },
 ];
 
 const COLOR_ACTIVE = {
   cyan:    'text-cyan-300 bg-cyan-500/15 border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]',
   sky:     'text-sky-300 bg-sky-500/15 border-sky-400/50 shadow-[0_0_10px_rgba(56,189,248,0.2)]',
+  rose:    'text-rose-300 bg-rose-500/15 border-rose-400/50 shadow-[0_0_10px_rgba(244,63,94,0.2)]',
   amber:   'text-amber-300 bg-amber-500/15 border-amber-400/50 shadow-[0_0_10px_rgba(245,158,11,0.2)]',
   purple:  'text-purple-300 bg-purple-500/15 border-purple-400/50 shadow-[0_0_10px_rgba(168,85,247,0.2)]',
   emerald: 'text-emerald-300 bg-emerald-500/15 border-emerald-400/50 shadow-[0_0_10px_rgba(16,185,129,0.2)]',
@@ -159,6 +160,8 @@ export const MobileBottomNav = () => {
               <span className={`absolute -top-[1px] left-1.5 right-1.5 h-0.5 rounded-full ${
                 item.color === 'sky'
                   ? 'bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)]'
+                  : item.color === 'rose'
+                  ? 'bg-rose-400 shadow-[0_0_6px_rgba(244,63,94,0.8)]'
                   : item.color === 'amber'
                   ? 'bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]'
                   : item.color === 'purple'

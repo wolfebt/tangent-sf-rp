@@ -118,7 +118,7 @@ export const PropertyHubView = ({
     {
       id: 'property-gear',
       title: 'Gear',
-      tagline: 'Operative Tools, Field Kits & Gadgets',
+      tagline: 'Persona Tools, Field Kits & Gadgets',
       icon: Package,
       count: gearList.length,
       unit: gearList.length === 1 ? 'Item' : 'Items',

@@ -315,7 +315,7 @@ export const AugmentationsManager = ({
                 Stage Prerequisite Warning: {incompatibleAugs.length} installed {incompatibleAugs.length === 1 ? 'augmentation requires' : 'augmentations require'} a higher stage!
               </p>
               <p className="text-[11px] text-rose-300/90 mt-0.5">
-                Your operative stage is <strong className="text-white">{stageInfo.stage.name}</strong>. Hardware beyond your stage causes structural rejection or system malfunctions until the prerequisite feature is acquired.
+                Your persona stage is <strong className="text-white">{stageInfo.stage.name}</strong>. Hardware beyond your stage causes structural rejection or system malfunctions until the prerequisite feature is acquired.
               </p>
             </div>
           </div>

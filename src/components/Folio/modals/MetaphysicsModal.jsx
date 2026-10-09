@@ -46,7 +46,7 @@ const CANONICAL_INVOCATIONS = [
   { id: 'inv-decay', name: 'Accelerate Decay', discipline: 'Entropy', subSkill: 'Chaos', baseDC: 15, time: '1 Action', range: 'Touch', area: 'Single Target', duration: 'Instantaneous', resistance: 'Fortitude', damage: '2d6 Necrotic', description: 'Accelerates entropy and cellular degradation in living or inanimate matter, causing immediate breakdown of molecular bonds.', scaling: '+1d6 damage per Invocation level beyond 1.' },
   { id: 'inv-curse', name: 'Entropic Curse', discipline: 'Entropy', subSkill: 'Chaos', baseDC: 16, time: '1 Action', range: '60 ft', area: '1 Creature', duration: '1 Minute', resistance: 'Willpower', damage: 'Disadvantage', description: 'Weaves destabilizing entropic probability around a foe, imposing Disadvantage on all ability checks and attack rolls.', scaling: 'Affects +1 target per 3 Invocation levels.' },
   { id: 'inv-regeneration', name: 'Cellular Restoration', discipline: 'Entropy', subSkill: 'Order', baseDC: 14, time: '1 Action', range: 'Touch', area: '1 Creature', duration: 'Instantaneous', resistance: 'None (Harmless)', damage: 'Heals 2d8 Health', description: 'Restores biological integrity and accelerates rapid natural cellular repair, mending severe lacerations and trauma.', scaling: 'Heals an additional +1d8 Health per Invocation level.' },
-  { id: 'inv-stabilize-entropy', name: 'Harmonic Stasis', discipline: 'Entropy', subSkill: 'Order', baseDC: 12, time: 'Bonus Action', range: '30 ft', area: '1 Creature', duration: 'Concentration (1 min)', resistance: 'None', damage: 'Neutralize Hazard', description: 'Arrests advancing biological decay, halting hemorrhages, stabilizing dying operatives, or pausing advancing toxins.', scaling: 'Expands range by +15 ft per Invocation level.' },
+  { id: 'inv-stabilize-entropy', name: 'Harmonic Stasis', discipline: 'Entropy', subSkill: 'Order', baseDC: 12, time: 'Bonus Action', range: '30 ft', area: '1 Creature', duration: 'Concentration (1 min)', resistance: 'None', damage: 'Neutralize Hazard', description: 'Arrests advancing biological decay, halting hemorrhages, stabilizing dying personas, or pausing advancing toxins.', scaling: 'Expands range by +15 ft per Invocation level.' },
 
   // Dimension
   { id: 'inv-teleport', name: 'Dimensional Teleport', discipline: 'Dimension', subSkill: 'Teleport', baseDC: 18, time: 'Standard Action', range: 'Self + Touch', area: 'Personal + Passengers', duration: 'Instantaneous', resistance: 'Will (if unwilling)', damage: 'Relocation', description: 'Instantaneous spatial relocation without traveling through intervening space. Requires familiarity with destination coordinates.', scaling: 'Carries +1 passenger per Invocation level; reduces familiarity DC by 2 per level.' },
@@ -64,7 +64,7 @@ const CANONICAL_INVOCATIONS = [
   { id: 'inv-phantasm-hologram', name: 'Tactical Holo-Weave', discipline: 'Illusion', subSkill: 'Phantasm', baseDC: 14, time: '1 Action', range: '60 ft', area: '20 ft Cube', duration: 'Concentration (10 min)', resistance: 'Reason (Inspect)', damage: 'Sensory Deception', description: 'Creates an intricately detailed multi-sensory illusion complete with sight, sound, thermal signature, and radar returns.', scaling: 'Illusion volume doubles per 2 Invocation levels.' },
   { id: 'inv-invisibility', name: 'Refractive Camouflage', discipline: 'Illusion', subSkill: 'Phantasm', baseDC: 16, time: '1 Action', range: 'Touch', area: '1 Creature', duration: 'Concentration (10 min)', resistance: 'Perception opposed', damage: 'Invisibility', description: 'Bends light waves and thermal emissions around the target, rendering them entirely invisible to optical and infrared observation.', scaling: 'Allows making attacks without breaking camouflage at Invocation level 7+.' },
   { id: 'inv-shadow-weapon', name: 'Umbral Blade', discipline: 'Illusion', subSkill: 'Shadow', baseDC: 13, time: 'Bonus Action', range: 'Self', area: 'Melee Weapon', duration: '10 Minutes', resistance: 'Reflex', damage: '2d8 Shadow Damage', description: 'Condenses ambient shadows into a razor-sharp spectral blade that bypasses physical armor and strikes at vitality directly.', scaling: '+1d8 damage per 2 Invocation levels.' },
-  { id: 'inv-shadow-cloak', name: 'Umbral Shroud', discipline: 'Illusion', subSkill: 'Shadow', baseDC: 15, time: 'Reaction', range: 'Self', area: 'Personal', duration: '1 Round', resistance: 'None', damage: '+4 Evasion', description: 'Disperses the operative into living darkness, causing incoming attacks to pass harmlessly through empty space.', scaling: 'Can be used 1 additional time per rest per Invocation level.' },
+  { id: 'inv-shadow-cloak', name: 'Umbral Shroud', discipline: 'Illusion', subSkill: 'Shadow', baseDC: 15, time: 'Reaction', range: 'Self', area: 'Personal', duration: '1 Round', resistance: 'None', damage: '+4 Evasion', description: 'Disperses the persona into living darkness, causing incoming attacks to pass harmlessly through empty space.', scaling: 'Can be used 1 additional time per rest per Invocation level.' },
 
   // Matter
   { id: 'inv-reinforce-bulkhead', name: 'Molecular Hardening', discipline: 'Matter', subSkill: 'Enhancement', baseDC: 14, time: '1 Action', range: 'Touch', area: 'Object / Armor', duration: '1 Hour', resistance: 'None', damage: '+3 Armor DR', description: 'Re-aligns atomic crystal bonds in armor, shields, or bulkheads, increasing hardness and damage reduction significantly.', scaling: '+1 DR per 2 Invocation levels.' },
@@ -188,7 +188,7 @@ const CANONICAL_SPECIAL_ABILITIES = [
     duration: '10 Minutes',
     resistance: 'Perception opposed',
     damage: '+6 Stealth / Concealment',
-    description: 'Dynamic chromatophore skin or light-bending thermoptic skin weave that renders the operative nearly indistinguishable from their surroundings.',
+    description: 'Dynamic chromatophore skin or light-bending thermoptic skin weave that renders the persona nearly indistinguishable from their surroundings.',
     scaling: 'Grants full Invisibility while stationary.',
     cp: 5,
     isInherent: true
@@ -508,7 +508,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       targetDC: inv.baseDC || 15,
       targetNumber: inv.baseDC || 15,
       rollMode: 'normal',
-      characterName: characterData['char-name'] || 'Operative',
+      characterName: characterData['char-name'] || 'Persona',
       personaId: characterData['character-doc-id'] || characterData.id,
       autoRoll: e?.shiftKey || false
     });
@@ -521,7 +521,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       showToast({
         type: 'info',
         title: 'Already Known',
-        text: `Invocation "${inv.name}" is already known by this operative.`
+        text: `Invocation "${inv.name}" is already known by this persona.`
       });
       return;
     }
@@ -547,7 +547,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       showToast({
         type: 'info',
         title: 'Already Possessed',
-        text: `Special Ability "${abil.name}" is already possessed by this operative.`
+        text: `Special Ability "${abil.name}" is already possessed by this persona.`
       });
       return;
     }
@@ -1253,7 +1253,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                   <span>📋</span> Character Powers Catalog
                 </h3>
                 <p className="text-[11px] text-slate-400">
-                  Comprehensive manifest of this operative's active reality invocations and inherent special traits.
+                  Comprehensive manifest of this persona's active reality invocations and inherent special traits.
                 </p>
               </div>
 
@@ -1517,7 +1517,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                               type="button"
                               onClick={(e) => handleRollInvocation(power, e)}
                               className={`px-2.5 py-1 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95 ${
-                                isSpecial ? 'bg-cyan-600 hover:bg-cyan-500' : 'bg-purple-600 hover:bg-purple-500'
+                                isSpecial ? 'bg-rose-600 hover:bg-rose-500' : 'bg-purple-600 hover:bg-purple-500'
                               }`}
                               title={`Check 2d10 + ${calc.totalScore} vs Base CR ${calc.baseDC}${isSpecial ? ` (${calc.foundationAttributeName} Foundation)` : ''}. Shift-click to quick-roll.`}
                             >
@@ -1535,7 +1535,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                                     expression: power.damage,
                                     baseModifier: 0,
                                     rollMode: 'normal',
-                                    characterName: characterData['char-name'] || 'Operative',
+                                    characterName: characterData['char-name'] || 'Persona',
                                     personaId: characterData['character-doc-id'] || characterData.id,
                                     autoRoll: e?.shiftKey || false
                                   });

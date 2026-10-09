@@ -1172,7 +1172,7 @@ export const TacticalPlayView = ({
     toast({
       type: 'success',
       title: 'Healing Applied',
-      message: `${details.join(' & ') || '0 healed'}. Operative vitals updated.`
+      message: `${details.join(' & ') || '0 healed'}. Persona vitals updated.`
     });
   };
 
@@ -1260,7 +1260,7 @@ export const TacticalPlayView = ({
     AudioService.playPointSpendSound();
   };
 
-  const handleStabilizeOperative = async () => {
+  const handleStabilizePersona = async () => {
     const charId = characterData['character-doc-id'] || characterData.id;
 
     // Instant optimistic UI update
@@ -1279,10 +1279,10 @@ export const TacticalPlayView = ({
     AudioService.playCriticalChime(true);
     toast({
       type: 'success',
-      title: isSynthetic ? 'Unit Stabilized' : 'Operative Stabilized',
+      title: isSynthetic ? 'Unit Stabilized' : 'Persona Stabilized',
       message: isSynthetic 
         ? 'Emergency stabilization successful. Chassis shutdown stabilized.' 
-        : 'Operative successfully stabilized. Death clock halted.'
+        : 'Persona successfully stabilized. Death clock halted.'
     });
   };
 
@@ -1310,8 +1310,8 @@ export const TacticalPlayView = ({
       AudioService.playCriticalChime(false);
       toast({
         type: 'danger',
-        title: isSynthetic ? 'Unit Destroyed' : 'Operative Perished',
-        message: 'Death clock reached 0 rounds. Operative has succumbed to trauma.'
+        title: isSynthetic ? 'Unit Destroyed' : 'Persona Perished',
+        message: 'Death clock reached 0 rounds. Persona has succumbed to trauma.'
       });
     } else {
       AudioService.playDiceRollSound();
@@ -1323,7 +1323,7 @@ export const TacticalPlayView = ({
     }
   };
 
-  const handleRevivifyOperative = async () => {
+  const handleRevivifyPersona = async () => {
     const charId = characterData['character-doc-id'] || characterData.id;
 
     // Instant optimistic UI update
@@ -1344,15 +1344,15 @@ export const TacticalPlayView = ({
     AudioService.playCriticalChime(true);
     toast({
       type: 'success',
-      title: isSynthetic ? 'Chassis Reconstructed' : 'Operative Revivified',
-      message: 'Operative revived with 1 HP. Note: The High Cost of Dying rules apply (-5 AP Debt).'
+      title: isSynthetic ? 'Chassis Reconstructed' : 'Persona Revivified',
+      message: 'Persona revived with 1 HP. Note: The High Cost of Dying rules apply (-5 AP Debt).'
     });
   };
 
   const handleExecuteRest = async (type = 'light') => {
     const charId = characterData['character-doc-id'] || characterData.id;
     if (type === 'light' && lightRestsToday >= maxLightRests) {
-      toast({ type: 'warning', text: "Exceeded maximum Light Rests (4/day). Operative requires a Full Rest to recharge." });
+      toast({ type: 'warning', text: "Exceeded maximum Light Rests (4/day). Persona requires a Full Rest to recharge." });
       return;
     }
 
@@ -1417,7 +1417,7 @@ export const TacticalPlayView = ({
 
   // Unified Interactive Dice Rolling Pipeline
   const handleExecuteTacticalRoll = useCallback((label, modifier, customExpression = null) => {
-    const charName = characterData['char-name'] || characterData.name || 'Operative';
+    const charName = characterData['char-name'] || characterData.name || 'Persona';
     const modNum = parseInt(modifier, 10) || 0;
     const expr = customExpression || `2d10${modNum !== 0 ? (modNum > 0 ? `+${modNum}` : `${modNum}`) : ''}`;
 
@@ -1500,7 +1500,7 @@ export const TacticalPlayView = ({
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-base sm:text-lg font-bold font-mono uppercase text-white tracking-wide truncate">
-                {characterData['char-name'] || 'UNNAMED OPERATIVE'}
+                {characterData['char-name'] || 'UNNAMED PERSONA'}
               </h2>
               {isSynthetic ? (
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-950/80 border border-amber-500/60 text-amber-300 flex items-center gap-1">
@@ -1543,7 +1543,7 @@ export const TacticalPlayView = ({
             </div>
             <div className="flex items-center gap-2 flex-wrap mt-0.5">
               <p className="text-xs text-slate-400 font-mono truncate">
-                {characterData['char-species'] || 'Human'} • {characterData['char-archetype'] || 'Operative'} • {characterData['char-occu'] || 'Freelancer'}
+                {characterData['char-species'] || 'Human'} • {characterData['char-archetype'] || 'Persona'} • {characterData['char-occu'] || 'Freelancer'}
               </p>
               {isPreview && (
                 <span className="hidden sm:inline text-[10.5px] font-mono text-cyan-400/80">
@@ -1690,12 +1690,12 @@ export const TacticalPlayView = ({
               <ShieldCheck size={28} className="text-emerald-400 shrink-0" />
               <div>
                 <div className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-emerald-300">
-                  LIFE STATUS: {isSynthetic ? 'CHASSIS STABILIZED (SHUTDOWN)' : 'OPERATIVE STABILIZED (COMATOSE)'}
+                  LIFE STATUS: {isSynthetic ? 'CHASSIS STABILIZED (SHUTDOWN)' : 'PERSONA STABILIZED (COMATOSE)'}
                 </div>
                 <p className="text-xs text-emerald-300/80">
                   {isSynthetic 
                     ? 'Emergency repairs secured chassis integrity. Death clock halted. Apply repairs to restore online operations.' 
-                    : 'Death clock has been halted. Operative remains unconscious at 0 HP. Apply medical healing or Rest to restore consciousness.'}
+                    : 'Death clock has been halted. Persona remains unconscious at 0 HP. Apply medical healing or Rest to restore consciousness.'}
                 </p>
               </div>
             </div>
@@ -1715,12 +1715,12 @@ export const TacticalPlayView = ({
               <Skull size={28} className="text-red-400 shrink-0" />
               <div>
                 <div className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-red-300">
-                  CRITICAL LIFE STATUS: {isDead ? (isSynthetic ? 'CHASSIS DESTROYED' : 'OPERATIVE PERISHED') : (isSynthetic ? 'CATASTROPHIC STRUCTURAL FAILURE' : `DEATH CLOCK RUNNING (${deathClockRounds} ROUNDS)`)}
+                  CRITICAL LIFE STATUS: {isDead ? (isSynthetic ? 'CHASSIS DESTROYED' : 'PERSONA PERISHED') : (isSynthetic ? 'CATASTROPHIC STRUCTURAL FAILURE' : `DEATH CLOCK RUNNING (${deathClockRounds} ROUNDS)`)}
                 </div>
                 <p className="text-xs text-red-300/80">
                   {isDead 
-                    ? (isSynthetic ? 'Chassis suffered total mechanical failure. Requires shipyard reconstruction.' : 'Operative has succumbed to trauma. Requires high-tier medical resuscitation.')
-                    : (isSynthetic ? 'Structural Integrity at 0. Unit requires immediate emergency repairs.' : 'Health and Vitality are both at 0. Operative must be stabilized before death clock expires.')}
+                    ? (isSynthetic ? 'Chassis suffered total mechanical failure. Requires shipyard reconstruction.' : 'Persona has succumbed to trauma. Requires high-tier medical resuscitation.')
+                    : (isSynthetic ? 'Structural Integrity at 0. Unit requires immediate emergency repairs.' : 'Health and Vitality are both at 0. Persona must be stabilized before death clock expires.')}
                 </p>
               </div>
             </div>
@@ -1729,10 +1729,10 @@ export const TacticalPlayView = ({
                 <>
                   <button
                     type="button"
-                    onClick={handleStabilizeOperative}
+                    onClick={handleStabilizePersona}
                     className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white font-mono text-xs font-bold rounded uppercase cursor-pointer transition-colors shadow flex items-center gap-1.5"
                   >
-                    <span>{isSynthetic ? '🔧 Emergency Stabilize' : '🩹 Stabilize Operative'}</span>
+                    <span>{isSynthetic ? '🔧 Emergency Stabilize' : '🩹 Stabilize Persona'}</span>
                   </button>
                   <button
                     type="button"
@@ -1745,10 +1745,10 @@ export const TacticalPlayView = ({
               ) : (
                 <button
                   type="button"
-                  onClick={handleRevivifyOperative}
+                  onClick={handleRevivifyPersona}
                   className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-mono text-xs font-bold rounded uppercase cursor-pointer transition-colors shadow flex items-center gap-1.5"
                 >
-                  <span>⚡ {isSynthetic ? 'Reconstruct Unit' : 'Revivify Operative'}</span>
+                  <span>⚡ {isSynthetic ? 'Reconstruct Unit' : 'Revivify Persona'}</span>
                 </button>
               )}
             </div>
@@ -1809,7 +1809,7 @@ export const TacticalPlayView = ({
                 <div className="bg-slate-900/70 border border-slate-800 rounded-xl p-3 sm:p-4 space-y-3 backdrop-blur-sm shadow-lg">
                   <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                     <div className="flex items-center gap-1.5">
-                      <Dices size={15} className="text-cyan-400" />
+                      <Dices size={15} className="text-rose-400" />
                       <h3 className="text-xs font-mono font-bold uppercase text-slate-200 tracking-wider">
                         Core Attributes &amp; Secondary Checks
                       </h3>
@@ -1863,10 +1863,10 @@ export const TacticalPlayView = ({
                           <button
                             type="button"
                             onClick={() => handleExecuteTacticalRoll(`${pair.subName} (${pair.subCode}) Save/Check`, pair.subScore)}
-                            className="px-2.5 py-1 rounded bg-amber-950/90 hover:bg-amber-800 border border-amber-500/70 hover:border-amber-400 text-amber-200 text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 shadow-md hover:shadow-amber-500/20 active:scale-95"
+                            className="px-2.5 py-1 rounded bg-rose-950/90 hover:bg-rose-800 border border-rose-500/70 hover:border-rose-400 text-rose-200 text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 shadow-md hover:shadow-rose-500/20 active:scale-95"
                             title={`Roll Secondary Check: 2d10 + ${pair.subScore}`}
                           >
-                            <Dices size={12} className="text-amber-400" />
+                            <Dices size={12} className="text-rose-400" />
                             <span>+{pair.subScore}</span>
                           </button>
                         </div>
@@ -2855,10 +2855,10 @@ export const TacticalPlayView = ({
                           <button
                             type="button"
                             onClick={() => handleExecuteTacticalRoll('Active Dodge Reaction', dodgeBonus)}
-                            className="w-full py-1 bg-cyan-950/70 hover:bg-cyan-900 border border-cyan-700/60 hover:border-cyan-400 text-cyan-200 rounded font-mono font-bold text-[10px] cursor-pointer transition-colors shadow flex items-center justify-center gap-1"
+                            className="w-full py-1 bg-rose-950/70 hover:bg-rose-900 border border-rose-700/60 hover:border-rose-400 text-rose-200 rounded font-mono font-bold text-[10px] cursor-pointer transition-colors shadow flex items-center justify-center gap-1"
                             title="Roll Active Dodge: 2d10 + Agility + Defense Rank + Acrobatics Synergy"
                           >
-                            <Zap size={10} className="text-cyan-400" />
+                            <Zap size={10} className="text-rose-400" />
                             <span>Roll Dodge (2d10{dodgeBonus >= 0 ? `+${dodgeBonus}` : dodgeBonus})</span>
                           </button>
                         </div>
@@ -2881,10 +2881,10 @@ export const TacticalPlayView = ({
                           <button
                             type="button"
                             onClick={() => handleExecuteTacticalRoll('Active Parry Reaction', parryBonus)}
-                            className="w-full py-1 bg-amber-950/70 hover:bg-amber-900 border border-amber-700/60 hover:border-amber-400 text-amber-200 rounded font-mono font-bold text-[10px] cursor-pointer transition-colors shadow flex items-center justify-center gap-1"
+                            className="w-full py-1 bg-rose-950/70 hover:bg-rose-900 border border-rose-700/60 hover:border-rose-400 text-rose-200 rounded font-mono font-bold text-[10px] cursor-pointer transition-colors shadow flex items-center justify-center gap-1"
                             title="Roll Active Parry: 2d10 + Agility/Strength + Defense Rank + Melee Synergy"
                           >
-                            <Zap size={10} className="text-amber-400" />
+                            <Zap size={10} className="text-rose-400" />
                             <span>Roll Parry (2d10{parryBonus >= 0 ? `+${parryBonus}` : parryBonus})</span>
                           </button>
                         </div>
@@ -2928,9 +2928,9 @@ export const TacticalPlayView = ({
                       <button
                         type="button"
                         onClick={() => handleExecuteTacticalRoll('Base Opposed Defense Check', baseDefenseCheckMod)}
-                        className="px-2 py-0.5 rounded bg-slate-900 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-500 text-cyan-200 font-mono font-bold text-[10px] cursor-pointer transition-colors shadow flex items-center gap-1 shrink-0"
+                        className="px-2 py-0.5 rounded bg-slate-900 hover:bg-rose-950 border border-slate-700 hover:border-rose-500 text-rose-200 font-mono font-bold text-[10px] cursor-pointer transition-colors shadow flex items-center gap-1 shrink-0"
                       >
-                        <Zap size={10} className="text-cyan-400" />
+                        <Zap size={10} className="text-rose-400" />
                         <span>Roll Base Defense</span>
                       </button>
                     </div>
@@ -2942,14 +2942,14 @@ export const TacticalPlayView = ({
                           key={save.name}
                           type="button"
                           onClick={() => handleRollCheck(save.name, save.bonus)}
-                          className="p-2 rounded-lg bg-slate-950/80 hover:bg-cyan-950/60 border border-slate-800 hover:border-cyan-500/60 transition-all flex flex-col justify-between text-left cursor-pointer group shadow-sm"
+                          className="p-2 rounded-lg bg-slate-950/80 hover:bg-rose-950/60 border border-slate-800 hover:border-rose-500/60 transition-all flex flex-col justify-between text-left cursor-pointer group shadow-sm"
                           title={save.desc}
                         >
                           <div className="flex items-center justify-between w-full">
-                            <span className="text-xs font-mono font-bold text-slate-200 group-hover:text-cyan-300">
+                            <span className="text-xs font-mono font-bold text-slate-200 group-hover:text-rose-300">
                               {save.name}
                             </span>
-                            <span className="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
+                            <span className="text-xs font-mono font-bold px-1.5 py-0.5 rounded bg-rose-950 border border-rose-800 text-rose-300">
                               {save.bonus >= 0 ? `+${save.bonus}` : save.bonus}
                             </span>
                           </div>
@@ -3116,7 +3116,7 @@ export const TacticalPlayView = ({
                                   <button
                                     type="button"
                                     onClick={() => handleRollCheck(`${weapon.name} Attack`, weapon.attackMod)}
-                                    className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-800 border border-cyan-600/60 text-cyan-200 rounded font-mono font-bold text-xs cursor-pointer transition-colors shadow flex items-center gap-1"
+                                    className="px-2.5 py-1 bg-rose-950 hover:bg-rose-800 border border-rose-600/60 text-rose-200 rounded font-mono font-bold text-xs cursor-pointer transition-colors shadow flex items-center gap-1"
                                     title="Roll 2d10 + Attack Modifier"
                                   >
                                     <Dices size={12} />
@@ -3161,14 +3161,14 @@ export const TacticalPlayView = ({
                   <h3 className="text-xs font-mono font-bold uppercase text-slate-300 tracking-wider flex items-center justify-between border-b border-slate-800 pb-2">
                     <span className="flex items-center gap-1.5">
                       <Crosshair size={14} className="text-emerald-400" />
-                      Trained Operative Skills
+                      Trained Persona Skills
                     </span>
                     <span className="text-[10px] text-slate-500 font-normal">Rank &gt; 0 Only</span>
                   </h3>
 
                   {trainedSkillsByGroup.length === 0 ? (
                     <div className="p-4 text-center text-xs font-mono text-slate-500 bg-slate-950/40 rounded-lg border border-slate-800/50">
-                      No trained skill ranks allocated on this operative sheet.
+                      No trained skill ranks allocated on this persona sheet.
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -3184,18 +3184,18 @@ export const TacticalPlayView = ({
                                 key={skill.id}
                                 type="button"
                                 onClick={() => handleRollCheck(`${skill.name} Check`, skill.total)}
-                                className="p-2 rounded-lg bg-slate-950/80 hover:bg-cyan-950/50 border border-slate-800/80 hover:border-cyan-500/60 transition-all flex items-center justify-between cursor-pointer group shadow-sm text-left"
+                                className="p-2 rounded-lg bg-slate-950/80 hover:bg-rose-950/50 border border-slate-800/80 hover:border-rose-500/60 transition-all flex items-center justify-between cursor-pointer group shadow-sm text-left"
                                 title={`${skill.name}: Rank ${skill.rank} + ${skill.attrKey} (${skill.attrScore}) = Total ${skill.total}\n${skill.description}`}
                               >
                                 <div className="truncate pr-1">
-                                  <span className="text-xs font-mono font-semibold text-slate-200 group-hover:text-cyan-300 block truncate">
+                                  <span className="text-xs font-mono font-semibold text-slate-200 group-hover:text-rose-300 block truncate">
                                     {skill.name}
                                   </span>
                                   <span className="text-[9px] font-mono text-slate-500">
                                     Rank {skill.rank} • {skill.attrKey} {skill.attrScore >= 0 ? `+${skill.attrScore}` : skill.attrScore}
                                   </span>
                                 </div>
-                                <span className="px-2 py-0.5 rounded bg-cyan-950/90 border border-cyan-800 text-cyan-300 font-mono font-bold text-xs shrink-0">
+                                <span className="px-2 py-0.5 rounded bg-rose-950/90 border border-rose-800 text-rose-300 font-mono font-bold text-xs shrink-0">
                                   +{skill.total}
                                 </span>
                               </button>
@@ -3302,7 +3302,7 @@ export const TacticalPlayView = ({
                       if (propertyCatalog.categories.length === 0) {
                         return (
                           <div className="p-4 text-center text-xs font-mono text-slate-500 bg-slate-950/40 rounded-lg border border-slate-800/50">
-                            No property or equipment currently recorded on this operative sheet.
+                            No property or equipment currently recorded on this persona sheet.
                           </div>
                         );
                       }
@@ -3424,7 +3424,7 @@ export const TacticalPlayView = ({
                                           <button
                                             type="button"
                                             onClick={() => handleRollCheck(`${item.name} Attack`, item.attackMod)}
-                                            className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-700/60 text-cyan-300 text-[10px] font-mono font-bold cursor-pointer transition-colors flex items-center gap-1"
+                                            className="px-2 py-0.5 rounded bg-rose-950 hover:bg-rose-900 border border-rose-700/60 text-rose-300 text-[10px] font-mono font-bold cursor-pointer transition-colors flex items-center gap-1"
                                             title={`Roll 2d10 + ${item.attackMod}`}
                                           >
                                             <Dices size={10} />

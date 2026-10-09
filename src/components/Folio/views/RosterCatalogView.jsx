@@ -98,13 +98,13 @@ export const RosterCatalogView = ({
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl font-mono font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
-                <span>OPERATIVE CATALOG</span>
+                <span>PERSONA CATALOG</span>
                 <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-normal">
                   {filteredRoster.length} Dossiers
                 </span>
               </h1>
               <p className="text-xs text-slate-400 font-mono">
-                Select an operative to inspect or edit their dossier, create a new persona, or explore the public gallery.
+                Select a persona to inspect or edit their dossier, create a new persona, or explore the public gallery.
               </p>
             </div>
           </div>
@@ -154,7 +154,7 @@ export const RosterCatalogView = ({
             }`}
           >
             <Users size={13} />
-            <span>My Operatives</span>
+            <span>My Personas</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-800 text-slate-300">
               {personaRoster.length}
             </span>
@@ -222,9 +222,9 @@ export const RosterCatalogView = ({
             <div className="w-14 h-14 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center justify-center text-slate-600 mb-3">
               <Users size={28} />
             </div>
-            <p className="text-sm font-bold text-slate-400">NO OPERATIVES FOUND</p>
+            <p className="text-sm font-bold text-slate-400">NO PERSONAS FOUND</p>
             <p className="text-xs text-slate-600 mt-1 max-w-sm">
-              {searchQuery ? `No dossiers match "${searchQuery}".` : catalogTab === 'my-roster' ? 'Your operative roster is currently empty. Click Guided Creator or New Blank Sheet to begin.' : 'No public dossiers loaded yet.'}
+              {searchQuery ? `No dossiers match "${searchQuery}".` : catalogTab === 'my-roster' ? 'Your persona roster is currently empty. Click Guided Creator or New Blank Sheet to begin.' : 'No public dossiers loaded yet.'}
             </p>
             {catalogTab === 'my-roster' && (
               <button
@@ -232,7 +232,7 @@ export const RosterCatalogView = ({
                 onClick={onNewCharacter}
                 className="mt-4 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-mono font-bold uppercase transition-colors"
               >
-                Create First Operative
+                Create First Persona
               </button>
             )}
           </div>
@@ -242,7 +242,7 @@ export const RosterCatalogView = ({
             {filteredRoster.map((char) => {
               const docId = char['character-doc-id'] || char.id;
               const isActive = docId === activeDocId;
-              const charName = char['char-name'] || 'Unnamed Operative';
+              const charName = char['char-name'] || 'Unnamed Persona';
               const species = getFieldValue(char['char-species']);
               const faction = getFieldValue(char['char-faction']);
               const origin = getFieldValue(char['char-origin']);
@@ -272,7 +272,7 @@ export const RosterCatalogView = ({
                           </span>
                         )}
                         <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-[9.5px] font-mono text-slate-300 uppercase">
-                          {archetype !== 'Unspecified' ? archetype : 'Operative'}
+                          {archetype !== 'Unspecified' ? archetype : 'Persona'}
                         </span>
                         {isLocked && (
                           <span 
@@ -328,7 +328,7 @@ export const RosterCatalogView = ({
                       )}
                     </div>
 
-                    {/* Operative Name */}
+                    {/* Persona Name */}
                     <h3 className="text-base font-mono font-bold text-slate-100 uppercase tracking-wide group-hover:text-cyan-300 transition-colors line-clamp-1 mb-2">
                       {charName}
                     </h3>
@@ -390,7 +390,7 @@ export const RosterCatalogView = ({
                             type="button"
                             onClick={() => onDuplicateCharacter && onDuplicateCharacter(docId)}
                             className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
-                            title="Clone Operative"
+                            title="Clone Persona"
                           >
                             <Copy size={13} />
                           </button>
@@ -398,12 +398,12 @@ export const RosterCatalogView = ({
                           <button
                             type="button"
                             onClick={async () => {
-                              if (await confirmTypedDeletion(charName, 'operative dossier')) {
+                              if (await confirmTypedDeletion(charName, 'persona dossier')) {
                                 onDeleteCharacter(docId);
                               }
                             }}
                             className="p-1.5 rounded-lg bg-slate-900 hover:bg-red-950/80 border border-slate-700 hover:border-red-500 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
-                            title="Delete Operative"
+                            title="Delete Persona"
                           >
                             <Trash2 size={13} />
                           </button>
@@ -424,7 +424,7 @@ export const RosterCatalogView = ({
                           type="button"
                           onClick={() => onClonePublicPersona && onClonePublicPersona(char)}
                           className="py-1.5 px-3 rounded-xl text-xs font-mono font-bold uppercase tracking-wider bg-cyan-600 hover:bg-cyan-500 text-white transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
-                          title="Clone to My Operatives"
+                          title="Clone to My Personas"
                         >
                           <Copy size={12} />
                           <span>Clone</span>
@@ -443,7 +443,7 @@ export const RosterCatalogView = ({
               <table className="w-full text-left font-mono text-xs text-slate-300">
                 <thead className="bg-slate-950/80 border-b border-slate-800 text-[10px] uppercase text-slate-400 tracking-wider">
                   <tr>
-                    <th className="py-3 px-4">Operative Name</th>
+                    <th className="py-3 px-4">Persona Name</th>
                     <th className="py-3 px-3">Species</th>
                     <th className="py-3 px-3">Faction</th>
                     <th className="py-3 px-3">Archetype</th>
@@ -455,7 +455,7 @@ export const RosterCatalogView = ({
                   {filteredRoster.map((char) => {
                     const docId = char['character-doc-id'] || char.id;
                     const isActive = docId === activeDocId;
-                    const charName = char['char-name'] || 'Unnamed Operative';
+                    const charName = char['char-name'] || 'Unnamed Persona';
                     const species = getFieldValue(char['char-species']);
                     const faction = getFieldValue(char['char-faction']);
                     const archetype = getFieldValue(char['char-archetype']);
@@ -537,7 +537,7 @@ export const RosterCatalogView = ({
                                 <button
                                   type="button"
                                   onClick={async () => {
-                                    if (await confirmTypedDeletion(charName, 'operative dossier')) {
+                                    if (await confirmTypedDeletion(charName, 'persona dossier')) {
                                       onDeleteCharacter(docId);
                                     }
                                   }}

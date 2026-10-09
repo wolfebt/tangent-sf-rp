@@ -37,9 +37,9 @@ const KARMA_ACTIONS = [
   {
     id: 'second-wind',
     name: '"Second Wind"',
-    cost: '1 Karma + 1 Full Minute of Focus',
+    cost: '1 Karma + 1 Full Minute Focus',
     timing: '1 minute out of immediate combat / quiet focus',
-    scope: 'Refreshes limited-use daily abilities, traits, or features without taking a Light Rest',
+    scope: 'Refreshes limited-use daily abilities, traits, or features without a Light Rest',
     summary: 'Bypasses the need for a Light Rest; instantly refreshes spent daily powers.',
     description: 'This Karma Point expenditure option allows a character to quickly refresh their abilities and resources, bypassing the need for a Light Rest. A Light Rest is a downtime period to recover spent abilities. "Second Wind" allows a character to achieve the same benefits without needing to take a Light Rest. Requires spending 1 full minute focusing on inner reserves and willpower to push through fatigue.',
     tag: 'Instant Recovery',
@@ -49,7 +49,7 @@ const KARMA_ACTIONS = [
     id: 'so-mote-it-be',
     name: '"So Mote it Be"',
     cost: '1 Karma',
-    timing: 'Declare SIMULTANEOUSLY with metaphysical skill or feat',
+    timing: 'Declare SIMULTANEOUSLY with metaphysical check',
     scope: 'Metaphysics users (Arcane, Psi, Supernatural forces)',
     summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feat.',
     description: 'This Karma Point expenditure option interacts with a character\'s metaphysical abilities, enhancing their power or enabling special feats. Available to characters with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feat or boost the effectiveness/range/duration of a metaphysical skill check. The expenditure must be declared along with the use of the skill or feat, not after the roll is made.',
@@ -59,7 +59,7 @@ const KARMA_ACTIONS = [
   {
     id: 'by-will-alone',
     name: '"By Will Alone"',
-    cost: '1 Karma (spent regardless of success/failure)',
+    cost: '1 Karma (spent win/fail)',
     timing: 'Action declaration; requires GM judgment & approval',
     scope: 'Pushing boundaries, rule nudges, emulating basic features for a scene',
     summary: 'Attempt extraordinary or theoretically possible actions beyond normal capabilities.',
@@ -88,62 +88,62 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
   });
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0e1422] border border-cyan-500/40 rounded-2xl max-w-4xl w-full p-5 sm:p-7 shadow-[0_0_40px_rgba(6,182,212,0.15)] text-slate-100 space-y-6">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0e1422] border border-cyan-500/40 rounded-xl max-w-3xl w-full p-3.5 sm:p-4 shadow-[0_0_35px_rgba(6,182,212,0.15)] text-slate-100 space-y-2.5 my-auto max-h-[92vh] flex flex-col">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-cyan-900/60 pb-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">✨</span>
-              <h2 className="text-lg sm:text-xl font-black uppercase tracking-wider text-cyan-300">
+        <div className="flex justify-between items-center gap-2 border-b border-cyan-900/60 pb-2 shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">✨</span>
+            <div>
+              <h2 className="text-sm sm:text-base font-black uppercase tracking-wider text-cyan-300">
                 Karma, Plot Points &amp; Karmic Debt Codex
               </h2>
+              <p className="text-[10px] text-slate-400">
+                Canonical Tangent Science Fantasy Roleplay Narrative Fate Engine
+              </p>
             </div>
-            <p className="text-xs text-slate-400">
-              Canonical Tangent Science Fantasy Roleplay Narrative Fate Engine
-            </p>
           </div>
           
           <button
             onClick={onClose}
-            className="self-end sm:self-center px-3 py-1 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-sm font-bold border border-slate-700 transition-colors"
+            className="px-2.5 py-1 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md text-xs font-bold border border-slate-700 transition-colors cursor-pointer"
           >
             ✕ Close
           </button>
         </div>
 
         {/* Live Vitals Tracker Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 text-xs font-mono">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-900/80 border border-slate-800/90 rounded-lg p-2 text-xs font-mono shrink-0">
           <div className="space-y-0.5">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400">Current Karma</span>
-            <div className={`text-base font-bold ${isDebt ? 'text-rose-400' : 'text-cyan-300'}`}>
+            <span className="text-[9px] uppercase tracking-wider text-slate-400">Current Karma</span>
+            <div className={`text-sm font-bold ${isDebt ? 'text-rose-400' : 'text-cyan-300'}`}>
               {currentKarma} / {maxKarma}
             </div>
           </div>
           <div className="space-y-0.5">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400">Max Karmic Debt</span>
-            <div className="text-base font-bold text-amber-400">
-              -{maxDebt} <span className="text-[10px] text-slate-500">(CHA {charismaScore} + 1)</span>
+            <span className="text-[9px] uppercase tracking-wider text-slate-400">Max Karmic Debt</span>
+            <div className="text-sm font-bold text-amber-400">
+              -{maxDebt} <span className="text-[9px] text-slate-500 font-normal">(CHA {charismaScore} + 1)</span>
             </div>
           </div>
           <div className="space-y-0.5">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400">Plot Points</span>
-            <div className="text-base font-bold text-fuchsia-300">
+            <span className="text-[9px] uppercase tracking-wider text-slate-400">Plot Points</span>
+            <div className="text-sm font-bold text-fuchsia-300">
               {plotPoints}
             </div>
           </div>
           <div className="space-y-0.5">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400">Restoration Rule</span>
-            <div className="text-[11px] text-emerald-400 font-sans font-medium">
-              Start of Session Reset <span className="text-slate-500 font-mono text-[9px]">(No Rest Regen)</span>
+            <span className="text-[9px] uppercase tracking-wider text-slate-400">Restoration Rule</span>
+            <div className="text-[10.5px] text-emerald-400 font-sans font-medium">
+              Session Reset <span className="text-slate-500 font-mono text-[9px]">(No Rest Regen)</span>
             </div>
           </div>
         </div>
 
         {/* Navigation Tabs & Search */}
-        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
-          <div className="flex flex-wrap gap-1.5 bg-slate-950/60 p-1 rounded-xl border border-slate-800 text-xs font-medium">
+        <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 shrink-0">
+          <div className="flex flex-wrap gap-1 bg-slate-950/70 p-0.5 rounded-lg border border-slate-800 text-[11px] font-medium">
             {[
               { id: 'all', label: 'All Rules' },
               { id: 'actions', label: '6 Karma Actions' },
@@ -153,7 +153,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-3 py-1.5 rounded-lg transition-all ${
+                className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                   activeTab === tab.id
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
@@ -169,35 +169,35 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
             placeholder="Filter actions or mechanics..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+            className="bg-slate-900/90 border border-slate-700/80 rounded-md px-2.5 py-1 text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500"
           />
         </div>
 
         {/* Content Area */}
-        <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-1">
+        <div className="space-y-2.5 overflow-y-auto pr-1 flex-1 max-h-[58vh]">
 
           {/* Section: Pool Basics */}
-          {(activeTab === 'all') && (
-            <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+          {activeTab === 'all' && (
+            <div className="bg-slate-900/50 border border-cyan-900/40 rounded-lg p-2.5 space-y-2">
+              <h3 className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
                 <span>💠</span> Karma Pool Basics &amp; Economy
               </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300 leading-relaxed">
-                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-300 leading-snug">
+                <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-cyan-300">Default &amp; Starting Pool</div>
-                  <p>Characters have <strong>3 Karma Points</strong> by default. It serves as a tactical pool to bend fate, protect allies, or alter rolls.</p>
+                  <p className="text-[10.5px] text-slate-400">Characters have <strong>3 Karma Points</strong> by default as a tactical pool to bend fate, protect allies, or alter rolls.</p>
                 </div>
-                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 space-y-1.5">
+                <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-emerald-300">Session Reset (No Rest Recovery)</div>
-                  <p>Karma fully resets to max at the start of each session, or through major chapter milestones. <strong>Karma does not recover via rest.</strong></p>
+                  <p className="text-[10.5px] text-slate-400">Resets to max at start of each session or chapter milestone. <strong>Karma does not recover via rest.</strong></p>
                 </div>
-                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 space-y-1.5">
+                <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-amber-300">Heroic Gain (+1 Immediate)</div>
-                  <p>The Architect / GM may award 1 Karma Point immediately during play for exceptional roleplay, teamwork, or "Heroic/Awesome" actions.</p>
+                  <p className="text-[10.5px] text-slate-400">The GM may award +1 Karma Point during play for exceptional roleplay, teamwork, or heroic feats.</p>
                 </div>
-                <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 space-y-1.5">
+                <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-purple-300">Increasing Maximum Pool</div>
-                  <p>The <em>Karmic Blessing</em> feature increases maximum Karma Pool by <strong>+1 point per rank</strong>. Otherwise, increases come from GM story awards.</p>
+                  <p className="text-[10.5px] text-slate-400">The <em>Karmic Blessing</em> feature increases max Karma by <strong>+1 per rank</strong>. Other increases come from story awards.</p>
                 </div>
               </div>
             </div>
@@ -205,45 +205,47 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
 
           {/* Section: 6 Karma Actions */}
           {(activeTab === 'all' || activeTab === 'actions') && (
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
                   <span>⚡</span> The 6 Core Karma Expenditures
                 </h3>
-                <span className="text-[10px] text-slate-500 font-mono">
-                  Stack with all other modifiers; do not guarantee automatic success
+                <span className="text-[9px] text-slate-500 font-mono">
+                  Stack with all modifiers; no auto-success
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {filteredActions.map(action => (
                   <div
                     key={action.id}
-                    className="bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 rounded-xl p-4 space-y-2.5 transition-all shadow-sm"
+                    className="bg-slate-900/70 border border-slate-800 hover:border-cyan-500/40 rounded-lg p-2.5 space-y-1.5 transition-all shadow-sm flex flex-col justify-between"
                   >
-                    <div className="flex justify-between items-start gap-2">
-                      <h4 className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
-                        <span className="text-cyan-400">❖</span> {action.name}
-                      </h4>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-800">
-                        {action.cost}
-                      </span>
+                    <div className="space-y-1">
+                      <div className="flex justify-between items-start gap-1.5">
+                        <h4 className="text-xs font-bold text-slate-100 flex items-center gap-1">
+                          <span className="text-cyan-400">❖</span> {action.name}
+                        </h4>
+                        <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-800/80 shrink-0">
+                          {action.cost}
+                        </span>
+                      </div>
+
+                      <p className="text-[11px] font-semibold text-cyan-200/90 leading-tight">
+                        {action.summary}
+                      </p>
+
+                      <div className="space-y-0.5 text-[9.5px] text-slate-400 font-mono border-t border-slate-800/60 pt-1 leading-tight">
+                        <div>
+                          <strong className="text-slate-300 font-sans">⏱ Timing:</strong> {action.timing}
+                        </div>
+                        <div>
+                          <strong className="text-slate-300 font-sans">🎯 Scope:</strong> {action.scope}
+                        </div>
+                      </div>
                     </div>
 
-                    <p className="text-xs font-semibold text-cyan-200/90 leading-snug">
-                      {action.summary}
-                    </p>
-
-                    <div className="space-y-1 text-[11px] text-slate-400 border-t border-slate-800/60 pt-2 font-mono">
-                      <div>
-                        <strong className="text-slate-300 font-sans">⏱ Timing:</strong> {action.timing}
-                      </div>
-                      <div>
-                        <strong className="text-slate-300 font-sans">🎯 Scope:</strong> {action.scope}
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-slate-300/80 leading-relaxed pt-1 border-t border-slate-800/40">
+                    <p className="text-[10px] text-slate-400 leading-snug pt-1 border-t border-slate-800/40">
                       {action.description}
                     </p>
                   </div>
@@ -254,37 +256,37 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
 
           {/* Section: Plot Points */}
           {(activeTab === 'all' || activeTab === 'plot-points') && (
-            <div className="bg-slate-900/60 border border-fuchsia-500/30 rounded-xl p-4 sm:p-5 space-y-3.5">
-              <div className="flex justify-between items-center border-b border-fuchsia-900/40 pb-2">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-fuchsia-300 flex items-center gap-2">
+            <div className="bg-slate-900/60 border border-fuchsia-500/30 rounded-lg p-2.5 space-y-2">
+              <div className="flex justify-between items-center border-b border-fuchsia-900/40 pb-1.5">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-fuchsia-300 flex items-center gap-1.5">
                   <span>🎭</span> Plot Points: Narrative Agency Resource
                 </h3>
-                <span className="text-[10px] font-mono font-bold bg-fuchsia-950/80 text-fuchsia-300 border border-fuchsia-800 px-2 py-0.5 rounded">
+                <span className="text-[9.5px] font-mono font-bold bg-fuchsia-950/80 text-fuchsia-300 border border-fuchsia-800 px-1.5 py-0.5 rounded">
                   Current: {plotPoints}
                 </span>
               </div>
 
-              <p className="text-xs text-slate-300 leading-relaxed">
-                <strong>Plot Points</strong> are a special resource in Tangent RPG, awarded by the GM to players who actively engage with the story and its dramatic challenges.
+              <p className="text-[10.5px] text-slate-300 leading-snug">
+                <strong>Plot Points</strong> are special narrative tokens awarded by the GM for active engagement, heroic sacrifices, and dramatic roleplay.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300">
-                <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800 space-y-1">
-                  <div className="font-bold text-fuchsia-300">Separate from Karma Pool</div>
-                  <p className="text-[11px] text-slate-400">
-                    Plot Points function similarly to Karma Points to influence rolls and actions, but exist in an independent pool and do not count toward your maximum Karma cap.
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">
+                  <div className="font-bold text-fuchsia-300 text-[11px]">Separate from Karma</div>
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    Independent pool that doesn't count against your Karma cap. Used to influence rolls or alter narrative circumstances.
                   </p>
                 </div>
-                <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800 space-y-1">
-                  <div className="font-bold text-fuchsia-300">Temporary &amp; Specific</div>
-                  <p className="text-[11px] text-slate-400">
-                    Plot Points must be used within the specific scenario or story arc they were awarded in. They cannot be hoarded across long campaign campaigns.
+                <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">
+                  <div className="font-bold text-fuchsia-300 text-[11px]">Temporary &amp; Specific</div>
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    Must be used within the specific scenario or story arc awarded. Cannot be hoarded indefinitely.
                   </p>
                 </div>
-                <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800 space-y-1">
-                  <div className="font-bold text-fuchsia-300">Compensation &amp; Balance</div>
-                  <p className="text-[11px] text-slate-400">
-                    Often granted to characters who suffer severe setbacks beyond their control, balancing challenges and ensuring all players have a meaningful impact on the story.
+                <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">
+                  <div className="font-bold text-fuchsia-300 text-[11px]">Compensation &amp; Balance</div>
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    Often granted after severe setbacks beyond player control to rebalance story agency.
                   </p>
                 </div>
               </div>
@@ -293,50 +295,50 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
 
           {/* Section: Negative Karma (Karmic Debt) */}
           {(activeTab === 'all' || activeTab === 'debt') && (
-            <div className="bg-slate-900/60 border border-rose-500/30 rounded-xl p-4 sm:p-5 space-y-3.5">
-              <div className="flex justify-between items-center border-b border-rose-900/40 pb-2">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-2">
+            <div className="bg-slate-900/60 border border-rose-500/30 rounded-lg p-2.5 space-y-2">
+              <div className="flex justify-between items-center border-b border-rose-900/40 pb-1.5">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
                   <span>⚖️</span> Negative Karma &amp; Karmic Debt
                 </h3>
-                <span className="text-[10px] font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-800 px-2 py-0.5 rounded">
+                <span className="text-[9.5px] font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-800 px-1.5 py-0.5 rounded">
                   Max Debt Limit: -{maxDebt}
                 </span>
               </div>
 
-              <div className="bg-rose-950/30 border border-rose-900/50 rounded-lg p-3 text-xs text-rose-200/90 leading-relaxed">
-                Negative Karma allows characters to push their luck when out of points, going into <strong>"Karmic Debt"</strong>. Incurring debt is the player's choice, but allowing it and applying its consequences is entirely at the GM's discretion.
+              <div className="bg-rose-950/30 border border-rose-900/50 rounded-md p-2 text-[10.5px] text-rose-200/90 leading-snug">
+                Negative Karma allows characters to push luck past 0 into <strong>"Karmic Debt"</strong>. Incurring debt is the player's choice, but applying consequences is at the GM's discretion.
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800 space-y-1.5">
-                  <div className="font-bold text-rose-300 flex items-center gap-1.5">
-                    <span>📉</span> Disadvantage on Rolls
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">
+                  <div className="font-bold text-rose-300 text-[11px] flex items-center gap-1">
+                    <span>📉</span> Disadvantage
                   </div>
-                  <p className="text-[11px] text-slate-400">
-                    A common Karmic effect is the GM imposing Disadvantage (Roll 2d10 with Advantage, take lower result) on dramatic rolls to reflect misfortune balancing cosmic scales.
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    GM may impose Disadvantage on dramatic rolls as cosmic misfortune balances out.
                   </p>
                 </div>
-                <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800 space-y-1.5">
-                  <div className="font-bold text-amber-300 flex items-center gap-1.5">
+                <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">
+                  <div className="font-bold text-amber-300 text-[11px] flex items-center gap-1">
                     <span>🔄</span> Forced Rerolls
                   </div>
-                  <p className="text-[11px] text-slate-400">
-                    The GM might force the character to reroll a successful roll at a critical moment, introducing sudden uncertainty or unexpected mechanical failures.
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    GM can force a reroll on a success at a critical juncture, triggering sudden complications.
                   </p>
                 </div>
-                <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800 space-y-1.5">
-                  <div className="font-bold text-emerald-300 flex items-center gap-1.5">
-                    <span>👾</span> NPC Tactical Benefits
+                <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">
+                  <div className="font-bold text-emerald-300 text-[11px] flex items-center gap-1">
+                    <span>👾</span> NPC Advantage
                   </div>
-                  <p className="text-[11px] text-slate-400">
-                    Negative Karma can positively empower NPCs directly opposing the character, granting enemies sudden luck, boosted skills, or surprising tactical advantages.
+                  <p className="text-[10px] text-slate-400 leading-snug">
+                    Negative Karma can empower opposing NPCs with sudden luck or tactical edge.
                   </p>
                 </div>
               </div>
 
-              <div className="p-2.5 rounded bg-slate-950 border border-slate-800 flex justify-between items-center text-xs font-mono">
+              <div className="p-1.5 px-2.5 rounded-md bg-slate-950 border border-slate-800 flex justify-between items-center text-[10.5px] font-mono">
                 <span className="text-slate-400">Debt Boundary Formula:</span>
-                <span className="text-rose-300 font-bold">Charisma Score ({charismaScore}) + 1 = Maximum -{maxDebt} Points</span>
+                <span className="text-rose-300 font-bold">CHA ({charismaScore}) + 1 = Maximum -{maxDebt} Points</span>
               </div>
             </div>
           )}
@@ -344,11 +346,11 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
         </div>
 
         {/* Footer */}
-        <div className="flex justify-between items-center border-t border-slate-800 pt-3 text-xs text-slate-500">
+        <div className="flex justify-between items-center border-t border-slate-800 pt-2 text-[10.5px] text-slate-500 shrink-0">
           <span>Tangent SF RP • Operator Fate System</span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-600/50 text-cyan-300 font-bold rounded-lg transition-colors"
+            className="px-3 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-600/50 text-cyan-300 font-bold rounded-md transition-colors text-xs cursor-pointer"
           >
             Done
           </button>
