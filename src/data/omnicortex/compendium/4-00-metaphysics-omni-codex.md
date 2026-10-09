@@ -8,11 +8,29 @@ perspective: "both"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","core-rule"]
-updatedAt: "2026-09-14T16:40:07.839Z"
+updatedAt: "2026-10-09T07:59:56.599Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **METAPHYSICS**
@@ -99,7 +117,7 @@ The potency of an effect is calculated as follows:
 1. ## **Free-Casting (Spontaneous):**
 
    * Involves a narrative of the effect within the confines of the Discipline’s level.  
-   * Process: Make an Attune check to draw/channel energy (sets DC/Attack), followed by a Discipline Skill check for severity.  
+   * Process: Make an Attune check to draw/channel energy (sets CR/Attack), followed by a Discipline Skill check for severity.  
    * Risks: High volatility.
 
 2. ## **Invocations (Codified):**
@@ -112,7 +130,7 @@ The potency of an effect is calculated as follows:
 
 ### **Metaphysic Checks & Difficulty**
 
-Base DC for activating a Metafocus Discipline or Invocation:
+Base CR for activating a Metafocus Discipline or Invocation:
 
 * Very Easy (CR 5): Safe Quiet Area, Sanctum, Laboratory, Library.  
 * Easy (CR 10): Casual, Non-Hostile Environment, Walking, Passenger in Vehicle.  
@@ -253,7 +271,7 @@ Codified Invocations represent rote muscle memory where a user can effectively *
 
 As characters develop their training and skills, their Essence Pool grows, allowing them to absorb the higher costs of Master and Pinnacle tier effects.
 
-* **Extreme Range/Area:** Large area effects (Cones/Lines) or Extended ranges often push the DC into the 25–30+ range. A character must have a substantial pool to manifest these legendary feats frequently.
+* **Extreme Range/Area:** Large area effects (Cones/Lines) or Extended ranges often push the CR into the 25–30+ range. A character must have a substantial pool to manifest these legendary feats frequently.
 
 ### 
 
@@ -499,7 +517,7 @@ Divine power is not about figuring out the universe (Arcane) or bending it (Psyc
 
 # **Entropy Invocations**
 
-The following Invocations belong to the **Entropy Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Entropy: Chaos or Entropy: Order) for shaping, intensity, and effect resolution.
+The following Invocations belong to the **Entropy Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Entropy: Chaos or Entropy: Order) for shaping, intensity, and effect resolution.
 
 ## 
 
@@ -636,7 +654,7 @@ Afflicts a creature with a metaphysical burden that hinders their actions.
 **Scaling Function:**
 
 * **Severity:** Penalty to Rolls \= \-1 per Stage.  
-* **Integrity:** Remove Curse DC \= Base \+ (2 per Stage).
+* **Integrity:** Remove Curse CR \= Base \+ (2 per Stage).
 
 ### 
 
@@ -979,7 +997,7 @@ Parameters:
 * **Range:** Short  
 * **Area:** Single Creature/Object  
 * **Duration:** Instantaneous  
-* **Resistance:** Opposed Check (vs Curse DC)
+* **Resistance:** Opposed Check (vs Curse CR)
 
 Effect Description:
 
@@ -1121,7 +1139,7 @@ Drives out possessing spirits, demons, or entities.
 
 # **Dimension Invocations**
 
-The following Invocations belong to the **Dimension Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Dimension: Summoning or Dimension: Teleport) for shaping, duration, and effect resolution.
+The following Invocations belong to the **Dimension Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Dimension: Summoning or Dimension: Teleport) for shaping, duration, and effect resolution.
 
 ## 
 
@@ -1545,7 +1563,7 @@ Opens a stable, two-way wormhole connecting to another location.
 
 # **Energy Invocations**
 
-The following Invocations belong to the **Energy Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Energy: Elemental or Energy: Force) for shaping, intensity, and effect resolution.
+The following Invocations belong to the **Energy Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Energy: Elemental or Energy: Force) for shaping, intensity, and effect resolution.
 
 ## 
 
@@ -2199,7 +2217,7 @@ Creates a shimmering outer bubble of force that excludes physical matter.
 
 # **Illusion Invocations**
 
-The following Invocations belong to the **Illusion Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Illusion: Phantasm or Illusion: Shadow) for shaping, complexity, and believability.
+The following Invocations belong to the **Illusion Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Illusion: Phantasm or Illusion: Shadow) for shaping, complexity, and believability.
 
 ## 
 
@@ -2623,7 +2641,7 @@ Evokes a blast of roiling shadow energy that mimics a physical attack.
 
 # **Matter Invocations**
 
-The following Invocations belong to the **Matter Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Matter: Enhancement or Matter: Transmutation) for shaping, complexity, and effect resolution.
+The following Invocations belong to the **Matter Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Matter: Enhancement or Matter: Transmutation) for shaping, complexity, and effect resolution.
 
 ## 
 
@@ -2695,7 +2713,7 @@ Parameters:
 * **Range:** Touch  
 * **Area:** Door, Chest, or Portal  
 * **Duration:** Permanent (until dispelled/broken)  
-* **Resistance:** None (DC to break)
+* **Resistance:** None (CR to break)
 
 Effect Description:
 
@@ -2703,7 +2721,7 @@ Magically secures an object, fusing the materials at the molecular level.
 
 **Scaling Function:**
 
-* **Security:** Break/Lockpick DC increases by \+5 per Stage.  
+* **Security:** Break/Lockpick CR increases by \+5 per Stage.  
 * **Integrity:** Object gains \+10 Hardness per Stage.
 
 ### 
@@ -3175,7 +3193,7 @@ Alters the physical form to produce a specific biological enhancement (gills, cl
 
 # **Mental Invocations**
 
-The following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.
+The following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.
 
 ## 
 
@@ -3696,7 +3714,7 @@ Creates an invisible psychic sensor to see/hear a distant location.
 
 **Scaling Function:**
 
-* **Clarity:** Sensor visibility reduces (DC to spot increases by \+2 per Stage).  
+* **Clarity:** Sensor visibility reduces (CR to spot increases by \+2 per Stage).  
 * **Senses:** At Stage 3+, can use Darkvision/Special Senses through the sensor.
 
 ### 
@@ -3821,25 +3839,6 @@ Grants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).
 &nbsp;
 
 &nbsp;
-
-
-
-## Canonical Mechanics
-Triad: Attune (Accuracy/Resistance CR), Discipline (Severity/Damage), Invocation (Specialization technique).
-Metafocus Levels: ML 0 (Null), ML 1 (Rare), ML 2 (Selective), ML 3 (Cultured), ML 4 (Standardized), ML 5 (Advanced), ML 6 (Deific).
-Key Ability Sources: INT (Psychic, Arcane, Akashic); WIS (Divine, Nature, Cosmic); CHA (Bardic, Hereditary, Granted).
-Potency Calculation: [Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10)].
-Free-Casting (Spontaneous roll) vs Codified Invocations (Takes 10 by default).
-Essence Pool Formula: Sum of ALL Attributes (STR+AGI+STA+INT+WIS+CHA) + Attune Rank.
-6 Disciplines: Dimension, Energy, Entropy, Illusion, Matter, Mental.
-
-
-## Tactical Guide
-Requires Awakened feature. Invocations scale across Novice, Trained, Expert, Master, and Pinnacle stages.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/4.00 METAPHYSICS.md
 
 ## Game Mechanics Rules
 ```

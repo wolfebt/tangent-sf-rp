@@ -8,11 +8,29 @@ perspective: "operator"
 entry_type: "Features Codex"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","features-codex"]
-updatedAt: "2026-09-14T16:40:07.827Z"
+updatedAt: "2026-10-09T07:59:56.593Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **FEATURES**
@@ -386,7 +404,7 @@ Enhancements to base attributes, saving throws, and resistance.
 
 &nbsp;
 
-Ability Features represent a character's raw talent, extensive conditioning, or innate resilience. They directly modify the Core Mechanic (d20 \+ Modifiers) by enhancing **Resistance Checks** (Saves) and **Ability Checks**.
+Ability Features represent a character's raw talent, extensive conditioning, or innate resilience. They directly modify the Core Mechanic (2d10 \+ Modifiers) by enhancing **Resistance Checks** (Saves) and **Ability Checks**.
 
 &nbsp;
 
@@ -407,7 +425,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Great Fortitude, Stamina 2  
 * **Benefit:** You may roll all **Fortitude Checks** with **Advantage**.  
-  * *Usage:* Roll 2d10 with Advantage and keep the highest result when making a Fortitude save.  
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when making a Fortitude save.  
 * **Special:** This does not replace the bonus from Great Fortitude; you add the bonus to the highest die result.
 
 ### 
@@ -429,7 +447,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Lightning Reflexes, Agility 2  
 * **Benefit:** You may roll all **Reflex Checks** with **Advantage**.  
-  * *Usage:* Roll 2d10 with Advantage and keep the highest result when making a Reflex save.
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when making a Reflex save.
 
 ### 
 
@@ -450,7 +468,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Potent Might, Strength 2  
 * **Benefit:** You may roll all **Might Checks** with **Advantage**.  
-  * *Usage:* Roll 2d10 with Advantage and keep the highest result when testing Strength against an obstacle or opponent.
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when testing Strength against an obstacle or opponent.
 
 ### 
 
@@ -471,7 +489,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Inspiring Personality, Charisma 2  
 * **Benefit:** You may roll all **Etiquette Checks** with **Advantage**.  
-  * *Usage:* Roll 2d10 with Advantage and keep the highest result during social maneuvering and protocol checks.
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) during social maneuvering and protocol checks.
 
 ### 
 
@@ -492,7 +510,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Iron Will, Wisdom 2  
 * **Benefit:** You may roll all **Will Checks** with **Advantage**.  
-  * *Usage:* Roll 2d10 with Advantage and keep the highest result when making a Will save.
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when making a Will save.
 
 ### 
 
@@ -513,7 +531,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Insightful Reason, Intellect 2  
 * **Benefit:** You may roll all **Logic Checks** with **Advantage**.  
-  * *Usage:* Roll 2d10 with Advantage and keep the highest result when performing tasks requiring deduction or complex reasoning.
+  * *Usage:* Roll 2d10 with Advantage (roll twice and keep the highest result) when performing tasks requiring deduction or complex reasoning.
 
 ### 
 
@@ -811,7 +829,7 @@ Combat Features represent specialized martial training, tactical awareness, and 
 **Description:** The character can knock aside projectiles with a weapon or free hand.
 
 * **Prerequisite:** Agility 2, Unarmed 1  
-* **Benefit:** Once per round, when you would normally be hit by a ranged weapon attack, you may make a Reflex Save (DC equal to the Attack Roll). If successful, you deflect the projectile and take **no damage**. You must be aware of the attack and not flat-footed.
+* **Benefit:** Once per round, when you would normally be hit by a ranged weapon attack, you may make a Reflex Save (CR equal to the Attack Roll). If successful, you deflect the projectile and take **no damage**. You must be aware of the attack and not flat-footed.
 
 ### 
 
@@ -987,7 +1005,7 @@ Combat Features represent specialized martial training, tactical awareness, and 
 * **Secondary Effect:** You also gain a specialized perk based on the weapon's damage type:  
   * **Piercing:** \+1 Penetration (ignores 1 DR).  
   * **Slashing:** \+1 Bleed damage.  
-  * **Bludgeoning:** \+1 to Stun DC.  
+  * **Bludgeoning:** \+1 to Stun CR.  
 * **Special:** \[Multiple\] May be taken for different weapons.
 
 ### 
@@ -1188,7 +1206,7 @@ Discipline Features represent a character's connection to the metaphysical force
   **Description:** The character exists in a state of flow with the universe. Power responds to their will instantly and perfectly.  
 * **Prerequisite:** Centering Master, Discipline Mastery (in all currently used Disciplines)  
 * **Benefit:** You roll **ALL** Metafocus Checks (Attune and Discipline) with **Advantage**.  
-* **Mechanics:** Roll 2d10 with Advantage and keep the highest for both your Accuracy/DC (Attune) and your Power/Severity (Discipline).
+* **Mechanics:** Roll 2d10 with Advantage for both your Accuracy/CR (Attune) and your Power/Severity (Discipline).
 
   ### 
 
@@ -2128,7 +2146,7 @@ Bonuses and specialized uses for skills.
 **Description:** The character creates items of superior quality and durability.
 
 * **Prerequisite:** Crafting 6  
-* **Benefit:** Gain a **\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\+2** to the DC limit of what you can create (allowing for more complex modifications).
+* **Benefit:** Gain a **\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\+2** to the CR limit of what you can create (allowing for more complex modifications).
 
 ### 
 
@@ -2229,7 +2247,7 @@ Bonuses and specialized uses for skills.
   **Description:** The character's charm is disarming and risky, but often rewarding.
 
 * **Prerequisite:** Silver Tongue, Charisma 2, Bluff 6, Diplomacy 6  
-* **Benefit:** You may choose to **Take 10** on Bluff and Diplomacy checks, OR you may roll **1d10** and add it to the 2d10 result (instead of a static modifier), allowing for potentially higher highs but lower lows.
+* **Benefit:** You may choose to **Take 10** on Bluff and Diplomacy checks, OR you may roll **2d10 with Advantage**, allowing for potentially higher highs but lower lows.
 
   ### 
 
@@ -2773,23 +2791,6 @@ Special Features are often restricted by Species, Origin, or Technology Level. T
 &nbsp;
 
 &nbsp;
-
-
-
-## Canonical Mechanics
-Base Cost: 3 BP. Recommended Features cost 2 BP (1 BP discount, minimum 1 BP).
-Ranked Features: Effects stack (limited by Ability Score or Skill Tier: Novice 1+, Trained 6+, Expert 11+, Master 16+, Pinnacle 20).
-Multiple Features: Can be purchased multiple times for different options/skills.
-Special Features: Require GM approval and storyline justification.
-Master tables for Ability, Combat, Meta/Psionic, Social/General/Karma, and Technologist Features.
-
-
-## Tactical Guide
-Select features that synergize with your archetype chassis and occupational specialties.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.08 FEATURES.md
 
 ## Game Mechanics Rules
 ```

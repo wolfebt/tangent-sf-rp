@@ -128,7 +128,7 @@ export const PropertyTab = ({
   const isOverburdened = carriedWeight > maxCapacity;
   const isEncumbered = carriedWeight > lightCapacity && !isOverburdened;
 
-  const handleRollDamage = (damageExpr, weaponName) => {
+  const handleRollDamage = (damageExpr, weaponName, e = null) => {
     if (!damageExpr) return;
     openDiceRoller({
       label: `${weaponName || 'Weapon'} Damage`,
@@ -136,7 +136,8 @@ export const PropertyTab = ({
       baseModifier: 0,
       rollMode: 'normal',
       characterName: characterData['char-name'] || 'Operative',
-      autoRoll: true
+      personaId: characterData['character-doc-id'] || characterData.id,
+      autoRoll: e?.shiftKey || false
     });
   };
 
@@ -281,7 +282,7 @@ export const PropertyTab = ({
                     {damage && (
                       <button
                         type="button"
-                        onClick={() => handleRollDamage(damage, name)}
+                        onClick={(e) => handleRollDamage(damage, name, e)}
                         className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-mono font-bold flex items-center gap-1 shadow-sm shrink-0 cursor-pointer"
                         title={`Roll weapon damage (${damage})`}
                       >

@@ -8,11 +8,29 @@ perspective: "both"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","core-rule"]
-updatedAt: "2026-09-14T16:40:07.834Z"
+updatedAt: "2026-10-09T07:59:56.599Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **COMBAT**
@@ -45,7 +63,7 @@ modifiers: []
 
 The combat system uses a 2d10 dice system that factors in character skills, abilities, and other modifiers. Combat actions are determined by Skill Rank, with higher Ranks unlocking additional actions per turn.
 
-**The Attack Roll:** 2d10 \+ Skill Rank \+ Attribute Mod \+ Situational Modifiers vs. Target Defense (DC).
+**The Attack Roll:** 2d10 \+ Skill Rank \+ Attribute Mod \+ Situational Modifiers vs. Target Defense (CR).
 
 ## 
 
@@ -189,7 +207,7 @@ Automatic weaponry functions similarly to other weapons but with special conside
 
 * **Burst Fire (Short):** 3-round burst. Expends more ammo but grants **\+1 Strike**.  
 * **Full Auto (Long):** 10+ rounds. **\-1 Recoil Penalty** per 10 rounds fired.  
-  * *Effect:* For every point the Attack Roll exceeds the Defense DC, an **additional bullet hits** (up to total fired).  
+  * *Effect:* For every point the Attack Roll exceeds the Defense CR, an **additional bullet hits** (up to total fired).  
   * *Damage:* Initial hit deals normal damage. Each extra hit deals **\+1d Damage** (only if the initial hit penetrated DR).  
 * **Area Suppression (Blasting):**  
   * **General Area:** Targets take **\+2 Damage Dice** for every 5 points over CR 10\.  
@@ -1555,35 +1573,6 @@ When a vehicle takes a Critical Hit or reaches 50% SP:
 &nbsp;
 
 &nbsp;
-
-
-
-## Canonical Mechanics
-Core Resolution: 2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs Target Defense.
-Action Economy by Skill Tier:
-- Rank 0: Full Round action
-- Rank 1-5: 1st action at base score (+2 focus bonus)
-- Rank 6-10: 2nd action at base score -5 (+3 focus bonus)
-- Rank 11-15: 3rd action at base score -10 (+4 focus bonus)
-- Rank 16-20: 4th action at base score -15 (+5 focus bonus)
-- Rank 21-25: 5th action at base score -20 (+6 focus bonus)
-- Rank 26-30: 6th action at base score -25 (+7 focus bonus)
-Initiative: Reflex Check (2d10 + Reflex Save + AGI mod).
-Opposed Roll: Defender wins all ties.
-Unopposed Roll: Base CR 15 (Average medium target at short range).
-Range Brackets: Point Blank (+5 Strike, Advantage on damage dice), Short (0), Medium (-5), Long (-10), Extreme (-15).
-Movement Defenses: Moving 20+ ft = +2 DEF; 40+ ft = +4 DEF; Total Defense/Dodge = +4 DEF.
-Automatic Weapons: Burst (+1 Strike); Full Auto (-1 recoil/10 rounds; hits = points over DEF; +1d damage per extra hit); Suppression blasting.
-Damage: (Weapon Dice + Ability + Precision) - (Armor DR + CON/STA Mod).
-Critical: Nat 20 (Double 10s) = x2 Damage Dice; Critical Failure = Double 1s.
-
-
-## Tactical Guide
-Consult this master combat reference for initiative, range penalties, multi-actions, called shots, and burst fire.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/3.00 COMBAT.md
 
 ## Game Mechanics Rules
 ```

@@ -27,6 +27,7 @@ import { DEFAULT_FEATURES } from '../data/featuresData.js';
 import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
 import { DEFAULT_ARMORING } from '../data/armoringData.js';
+import { syncIdentitySettingLevels } from '../engines/tangentIdentityEngine.js';
 
 /**
  * Standard string normalization for token comparisons
@@ -1124,13 +1125,10 @@ export const calculateRulesLedger = ({
     }
   }
 
-  // BP Costs according to compendium 1.00 / 1.01
+  // BP Costs according to compendium 1.00 / 1.01: TL3 is baseline (0 CP); 10 CP/BP per level difference
   const attrBPCost = totalRawAttrPoints * 5;
   const speciesBPCost = Number(species?.cp ?? species?.costs?.bp ?? 0) || 0;
-  let tlBPCost = 0;
-  if (tl === 4) tlBPCost = 10;
-  else if (tl === 5) tlBPCost = 20;
-  else if (tl < 3) tlBPCost = -10;
+  const tlBPCost = (tl - 3) * 10;
 
   const totalSpent = attrBPCost + speciesBPCost + tlBPCost;
   const bpRemaining = 150 - totalSpent;
@@ -1343,8 +1341,11 @@ export const synthesizeCharacterWithBastion = ({
   const characterPayload = {
     'character-doc-id': docId,
     'starting-cp': 150,
+    'base-tech-level': 3,
+    'base-meta-level': 3,
     'tech-level': techLevel || 3,
-    'magic-level': 0,
+    'magic-level': 3,
+    'meta-level': 3,
     health: 30 + ((finalAttrs['attr-stamina'] || 0) * 2),
     vitality: 30 + ((finalAttrs['attr-stamina'] || 0) * 2),
     structure: 60,
@@ -1375,9 +1376,11 @@ export const synthesizeCharacterWithBastion = ({
     notes: [{ text: `[BASTION SYNTHESIS PROTOCOL]\nGenerated via 5 Canonical Pillars:\n- Archetype: ${archetype.name}\n- Species: ${species.name}\n- Faction: ${faction.name}\n- Origin: ${origin.name}\n- Occupation: ${occupation.name}\n\n${narrativeData.backstory}` }]
   };
 
+  const syncedCharacterPayload = syncIdentitySettingLevels(characterPayload, dbData);
+
   return {
     success: true,
-    character: characterPayload,
+    character: syncedCharacterPayload,
     rawAttributes: activeRawAttrs,
     rulesLedger,
     pillars: {

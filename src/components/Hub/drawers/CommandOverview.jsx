@@ -27,7 +27,7 @@ export const CommandOverview = ({ onOpenDrawer, onClose }) => {
               TACTICAL COMMAND OVERVIEW
             </h2>
             <p className="text-xs text-slate-400 font-mono mt-0.5">
-              Select a module or sub-catalog on the left navigation to inspect operatives, campaign trees, or battlemaps in-place.
+              Select a module or sub-catalog to inspect operatives, campaign trees, or battlemaps in-place.
             </p>
           </div>
           <div className="flex items-center gap-2">

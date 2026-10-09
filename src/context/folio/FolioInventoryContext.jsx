@@ -41,24 +41,55 @@ export const FolioInventorySliceProvider = ({ children }) => {
       ? enrichItemWithModifiers(item)
       : item;
 
+    // Check for property wealth financing payload (Liquid Payment or Credit Debt Override)
+    const financing = (finalItem && typeof finalItem === 'object') ? finalItem.__financing : null;
+    const cleanItem = { ...finalItem };
+    if (financing) {
+      delete cleanItem.__financing;
+    }
+
     setCharacterData((prev) => {
       const currentList = Array.isArray(prev[key]) ? prev[key] : [];
       const updates = {
-        [key]: [...currentList, finalItem]
+        [key]: [...currentList, cleanItem]
       };
+
+      // Property Wealth Acquisition Settlement (Credits Deduction or Debt Addition)
+      if (financing) {
+        if (financing.method === 'credits') {
+          const currentCreds = Number(prev['credits'] ?? prev['wealth-credits'] ?? 0);
+          const payAmt = Number(financing.amount) || 0;
+          const newCreds = Math.max(0, currentCreds - payAmt);
+          updates.credits = newCreds;
+          updates['wealth-credits'] = newCreds;
+        } else if (financing.method === 'debt') {
+          const rawDebits = prev['debits'] ?? prev['wealth-debits'];
+          const currentDebits = Array.isArray(rawDebits) ? [...rawDebits] : [];
+          const debtAmt = Number(financing.amount) || 0;
+          const newDebit = {
+            id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+            amount: debtAmt,
+            debtor: financing.debtor || 'Credit Guild / Bastion Bank',
+            notes: financing.notes || `Financing for ${cleanItem.name || 'property'}`
+          };
+          const updatedDebits = [...currentDebits, newDebit];
+          updates.debits = updatedDebits;
+          updates['wealth-debits'] = updatedDebits;
+        }
+      }
 
       // 1. Weaponry to Active Offensive Attacks synchronization
       if (['weapons', 'weaponry', 'guns', 'melee'].includes(key)) {
         const currentAttacks = Array.isArray(prev.attacks) ? [...prev.attacks] : [];
-        const itemName = (typeof item === 'object' ? (item.name || item.title) : String(item || '')).trim().toLowerCase();
-        const itemId = typeof item === 'object' ? item.id : null;
+        const itemName = (typeof cleanItem === 'object' ? (cleanItem.name || cleanItem.title) : String(cleanItem || '')).trim().toLowerCase();
+        const itemId = typeof cleanItem === 'object' ? cleanItem.id : null;
         const alreadyInAttacks = currentAttacks.some(a => {
           if (itemId && (a.weaponId === itemId || a.id === itemId || a.id === `atk_${itemId}`)) return true;
           return itemName && (a.name || '').trim().toLowerCase() === itemName;
         });
 
         if (!alreadyInAttacks) {
-          const newAttack = createAttackFromWeapon(item, prev, getAttrTotal || (() => 0));
+          const newAttack = createAttackFromWeapon(cleanItem, prev, getAttrTotal || (() => 0));
           updates.attacks = [...currentAttacks, newAttack];
         }
       }
@@ -66,15 +97,15 @@ export const FolioInventorySliceProvider = ({ children }) => {
       // 2. Armoring to Active Defensive Armor synchronization
       if (['armoring', 'armor', 'defenses', 'shields'].includes(key)) {
         const currentArmors = Array.isArray(prev.armor) ? [...prev.armor] : [];
-        const itemName = (typeof item === 'object' ? (item.name || item.title) : String(item || '')).trim().toLowerCase();
-        const itemId = typeof item === 'object' ? item.id : null;
+        const itemName = (typeof cleanItem === 'object' ? (cleanItem.name || cleanItem.title) : String(cleanItem || '')).trim().toLowerCase();
+        const itemId = typeof cleanItem === 'object' ? cleanItem.id : null;
         const alreadyInArmor = currentArmors.some(a => {
           if (itemId && (a.armorId === itemId || a.id === itemId || a.id === `armor_${itemId}`)) return true;
           return itemName && (a.name || '').trim().toLowerCase() === itemName;
         });
 
         if (!alreadyInArmor) {
-          const newArmor = createArmorFromItem(item);
+          const newArmor = createArmorFromItem(cleanItem);
           updates.armor = [...currentArmors, newArmor];
         }
       }
@@ -82,18 +113,18 @@ export const FolioInventorySliceProvider = ({ children }) => {
       // 3. Attacks to Weaponry reverse synchronization
       if (key === 'attacks') {
         const currentWeapons = Array.isArray(prev.weapons) ? [...prev.weapons] : [];
-        const itemName = (typeof item === 'object' ? (item.name || item.title) : String(item || '')).trim().toLowerCase();
+        const itemName = (typeof cleanItem === 'object' ? (cleanItem.name || cleanItem.title) : String(cleanItem || '')).trim().toLowerCase();
         const alreadyInWeapons = currentWeapons.some(w => (w.name || w.title || '').trim().toLowerCase() === itemName);
         if (!alreadyInWeapons && itemName) {
           const newWeapon = {
-            id: (typeof item === 'object' && item.weaponId) ? item.weaponId : `weapon_${Date.now()}`,
-            name: typeof item === 'object' ? (item.name || 'Weapon') : String(item),
+            id: (typeof cleanItem === 'object' && cleanItem.weaponId) ? cleanItem.weaponId : `weapon_${Date.now()}`,
+            name: typeof cleanItem === 'object' ? (cleanItem.name || 'Weapon') : String(cleanItem),
             category: 'weaponry',
-            damage: typeof item === 'object' ? (item.damage || '') : '',
-            damage_type: typeof item === 'object' ? (item.type || '') : '',
-            score: typeof item === 'object' ? (item.score || '') : '',
-            notes: typeof item === 'object' ? (item.notes || '') : '',
-            cp: typeof item === 'object' ? (item.cp || 0) : 0,
+            damage: typeof cleanItem === 'object' ? (cleanItem.damage || '') : '',
+            damage_type: typeof cleanItem === 'object' ? (cleanItem.type || '') : '',
+            score: typeof cleanItem === 'object' ? (cleanItem.score || '') : '',
+            notes: typeof cleanItem === 'object' ? (cleanItem.notes || '') : '',
+            cp: typeof cleanItem === 'object' ? (cleanItem.cp || 0) : 0,
             qty: 1
           };
           updates.weapons = [...currentWeapons, newWeapon];
@@ -106,6 +137,25 @@ export const FolioInventorySliceProvider = ({ children }) => {
       };
     });
     triggerSave();
+
+    if (financing) {
+      if (financing.method === 'credits') {
+        const payAmt = Number(financing.amount) || 0;
+        showToast({
+          type: 'success',
+          title: 'Liquid Credits Paid',
+          text: `Paid ${payAmt.toLocaleString()} Cr for "${cleanItem.name || 'Property'}".`
+        });
+      } else if (financing.method === 'debt') {
+        const debtAmt = Number(financing.amount) || 0;
+        const debtor = financing.debtor || 'Credit Guild / Bastion Bank';
+        showToast({
+          type: 'info',
+          title: 'Credit Debt Incurred',
+          text: `Credit Debt Incurred: Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" for "${cleanItem.name || 'Property'}".`
+        });
+      }
+    }
   }, [getAttrTotal, setCharacterData, triggerSave]);
 
   // Omnicortex DBM Cross-Module Item Importer: Add Item to Inventory
@@ -126,29 +176,60 @@ export const FolioInventorySliceProvider = ({ children }) => {
       targetKey = 'gear';
     }
 
-    const cpCost = parseInt(item.cpCost ?? item.cp ?? item.cost_cp ?? 0, 10) || 0;
+    const financing = (item && typeof item === 'object') ? item.__financing : null;
+    const cleanItem = { ...item };
+    if (financing) {
+      delete cleanItem.__financing;
+    }
+
+    const cpCost = parseInt(cleanItem.cpCost ?? cleanItem.cp ?? cleanItem.cost_cp ?? 0, 10) || 0;
     const normalizedItem = {
-      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-      name: item.name,
+      id: cleanItem.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      name: cleanItem.name,
       category: targetKey,
-      damage: item.damage || '',
-      score: item.score || item.attack || '',
-      armor: item.armor || item.resistance || 0,
-      resistance: item.resistance || item.armor || '',
-      weight: item.weight || item.wt || 1,
-      techLevel: item.techLevel || item.tl || 1,
+      damage: cleanItem.damage || '',
+      score: cleanItem.score || cleanItem.attack || '',
+      armor: cleanItem.armor || cleanItem.resistance || 0,
+      resistance: cleanItem.resistance || cleanItem.armor || '',
+      weight: cleanItem.weight || cleanItem.wt || 1,
+      techLevel: cleanItem.techLevel || cleanItem.tl || 1,
       cp: cpCost,
       cost: cpCost,
-      description: item.description || item.notes || '',
-      notes: item.notes || item.description || '',
-      ...item
+      description: cleanItem.description || cleanItem.notes || '',
+      notes: cleanItem.notes || cleanItem.description || '',
+      ...cleanItem
     };
+    delete normalizedItem.__financing;
 
     setCharacterData(prev => {
       const currentList = Array.isArray(prev[targetKey]) ? [...prev[targetKey]] : [];
       currentList.push(normalizedItem);
 
       const updates = { [targetKey]: currentList };
+
+      // Property Wealth Acquisition Settlement (Credits Deduction or Debt Addition)
+      if (financing) {
+        if (financing.method === 'credits') {
+          const currentCreds = Number(prev['credits'] ?? prev['wealth-credits'] ?? 0);
+          const payAmt = Number(financing.amount) || 0;
+          const newCreds = Math.max(0, currentCreds - payAmt);
+          updates.credits = newCreds;
+          updates['wealth-credits'] = newCreds;
+        } else if (financing.method === 'debt') {
+          const rawDebits = prev['debits'] ?? prev['wealth-debits'];
+          const currentDebits = Array.isArray(rawDebits) ? [...rawDebits] : [];
+          const debtAmt = Number(financing.amount) || 0;
+          const newDebit = {
+            id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+            amount: debtAmt,
+            debtor: financing.debtor || 'Credit Guild / Bastion Bank',
+            notes: financing.notes || `Financing for ${normalizedItem.name || 'property'}`
+          };
+          const updatedDebits = [...currentDebits, newDebit];
+          updates.debits = updatedDebits;
+          updates['wealth-debits'] = updatedDebits;
+        }
+      }
 
       if (targetKey === 'weapons' || normalizedItem.damage) {
         const currentAttacks = Array.isArray(prev.attacks) ? [...prev.attacks] : [];
@@ -186,6 +267,25 @@ export const FolioInventorySliceProvider = ({ children }) => {
       };
     });
     triggerSave();
+
+    if (financing) {
+      if (financing.method === 'credits') {
+        const payAmt = Number(financing.amount) || 0;
+        showToast({
+          type: 'success',
+          title: 'Liquid Credits Paid',
+          text: `Paid ${payAmt.toLocaleString()} Cr for "${normalizedItem.name || 'Property'}".`
+        });
+      } else if (financing.method === 'debt') {
+        const debtAmt = Number(financing.amount) || 0;
+        const debtor = financing.debtor || 'Credit Guild / Bastion Bank';
+        showToast({
+          type: 'info',
+          title: 'Credit Debt Incurred',
+          text: `Credit Debt Incurred: Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" for "${normalizedItem.name || 'Property'}".`
+        });
+      }
+    }
   }, [setCharacterData, triggerSave]);
 
   // Omnicortex DBM Cross-Module Power Importer: Add Ability / Power

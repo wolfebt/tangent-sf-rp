@@ -8,11 +8,29 @@ perspective: "both"
 entry_type: "Skills Codex"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","skills-codex"]
-updatedAt: "2026-09-14T16:40:07.824Z"
+updatedAt: "2026-10-09T07:59:56.592Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **SKILLS**
@@ -446,7 +464,7 @@ These skills rely on the character's bodily fitness, coordination, and agility.
 * **Description:** Athletics is the skill of a character's general physical capabilities – running, jumping, climbing, swimming, and other broadly physical activities. It reflects a character's overall fitness and physical prowess. Athletics is used whenever a character attempts to perform a physical feat that requires strength and endurance. A measure of general physical prowess. It encompasses running, jumping, climbing, swimming, and lifting heavy objects.  
 * **Mechanics:**  
   * *Climb:* CR 10 (rope with knots) to CR 25 (sheer surface). Speed is usually half base speed.  
-  * *Jump:* DC equals the distance in feet (running start).  
+  * *Jump:* CR equals the distance in feet (running start).  
   * *Swim:* CR 10 (calm water) to CR 20 (stormy water). Failure by 5 or more risks drowning.  
 * **Specialties:**   
   * **Sprinting:** Short-burst explosive acceleration over open terrain.  
@@ -468,7 +486,7 @@ These skills rely on the character's bodily fitness, coordination, and agility.
 * **Description:** Piloting is the skill of operating mecha, vehicles of various types, such as aircraft, spacecraft, or boats. It reflects a character's ability to navigate, steer, and control various vehicles. Piloting is used whenever a character attempts to pilot a vehicle, whether in combat or during a peaceful journey. This can include things like flying a spaceship through an asteroid field, navigating a boat through a storm, or driving a car through a high-speed chase.   
 * **Mechanics:**  
   * *Normal Operation:* No roll required for standard travel.  
-  * *Stunts/Combat:* DC depends on maneuver difficulty (CR 15 for sharp turns at speed, CR 25 for "threading the needle").  
+  * *Stunts/Combat:* CR depends on maneuver difficulty (CR 15 for sharp turns at speed, CR 25 for "threading the needle").  
 * **Specialties:**   
   * **Wheeled & Tracked Vehicles:** Driving rovers, combat buggies, tanks, and mobile command platforms.  
   * **Hovercraft & Grav-Speeders:** Operating repulsorlift bikes, grav-skimmers, and low-altitude platforms.  
@@ -488,7 +506,7 @@ These skills rely on the character's bodily fitness, coordination, and agility.
 * **Ability:** Agility  
 * **Description:** Stealth is the skill of moving quietly and remaining hidden from view. It reflects a character's ability to avoid detection and move silently. Stealth is used whenever a character attempts to sneak past guards, hide from enemies, or remain undetected while spying. This can include things like sneaking through a dark alley, hiding behind a tree, or crawling through a ventilation shaft. The ability to move silently and remain unseen. This is an opposed check against an observer's *Alertness*.  
 * **Mechanics:**  
-  * *Hide:* Your check becomes the DC for the enemy's Perception/Alertness check. Requires cover or concealment.  
+  * *Hide:* Your check becomes the CR for the enemy's Perception/Alertness check. Requires cover or concealment.  
   * *Move Silently:* Move at half speed without penalty. Moving faster imposes penalties (-5 for full speed).  
 * **Specialties:**   
   * **Silent Movement:** Walking, running, and shifting weight across creaky, dry, or metal grating without noise.  
@@ -610,7 +628,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis.  
 * **Mechanics:**  
   * **Operate Remote System:** CR 10 to CR 25 depending on security.  
-  * **Hacking:** DC is determined by the target system's firewall/security rating (Security Level \+ 10).  
+  * **Hacking:** CR is determined by the target system's firewall/security rating (Security Level \+ 10).  
   * **Programming:** CR 15 (Simple Script) to CR 30+ (AI architecture).  
 * **Specialties:**   
   * **Network Intrusion (Hacking):** Cracking firewalls, breaching intrusion detection systems, and gaining administrative root.  
@@ -750,7 +768,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Mechanics:**  
   * **First Aid:** CR 15 to stabilize a dying character.  
   * **Long-term Care:** CR 15 to double natural healing rates for a patient.  
-  * **Surgery/Treat Disease:** DC varies by severity (CR 15 to CR 30).  
+  * **Surgery/Treat Disease:** CR varies by severity (CR 15 to CR 30).  
 * **Specialties:**   
   * **Combat Trauma & Triage:** Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests.  
     * **Field Surgery:** Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions.  
@@ -812,7 +830,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Navigation is the skill of understanding and using navigational tools. It reflects a character's ability to navigate through different environments, whether it's on land, sea, or air. Navigation is used whenever a character needs to travel to a specific location, whether it's to explore a new area or to deliver a package. This can include things like using a map and compass, piloting a ship, or flying a plane.  
 * **Mechanics:**  
   * **Plot Course:** CR 10 (Familiar) to CR 25 (Uncharted/Hazardous).  
-  * **Astrogation:** Calculating FTL jumps (DC varies by distance and route stability).  
+  * **Astrogation:** Calculating FTL jumps (CR varies by distance and route stability).  
 * **Specialties:**   
   * **Astrogation & FTL Calculations:** Plotting jump-vectors through hyperspace, avoiding gravity wells and stars.  
     * **Planetary Orienteering:** Traversing wilderness using compasses, star arrays, natural landmarks, and elevation maps.  
@@ -916,8 +934,8 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Wisdom  
 * **Description:** Survival is the skill of surviving in extreme environments. It reflects a character's ability to find food, water, and shelter in the wilderness, and to avoid danger. Survival is used whenever a character needs to survive in the wilderness, whether it's to explore a new area or to escape from danger. This can include things like finding food and water, building shelter, and avoiding predators.   
 * **Mechanics:**  
-  * **Track:** DC varies by surface (Soft ground CR 10, Hard floor CR 20+).  
-  * **Survival:** CR 15 to provide food/water for self; \+2 DC per additional person.  
+  * **Track:** CR varies by surface (Soft ground CR 10, Hard floor CR 20+).  
+  * **Survival:** CR 15 to provide food/water for self; \+2 CR per additional person.  
   * **Endure Elements:** Grants bonuses to Fortitude saves against weather.  
 * **Specialties:**   
   * **Foraging:** Sourcing edible roots, insects, fruits, and clean sustenance in untamed wilderness.  
@@ -960,7 +978,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Technology is the skill of understanding and using advanced technology. It reflects a character's ability to understand the underlying principles of technology and general concept of its usage.   
 * **Mechanics:**  
   * **Repair:** CR 15 (Simple fix) to CR 30 (Rebuild from scrap).  
-  * **Disable Device:** DC depends on device complexity/security rating.  
+  * **Disable Device:** CR depends on device complexity/security rating.  
   * **Identify Tech:** CR 10 \+ Tech Level difference.  
 * **Specialties:**   
   * **Archaic Technology:** Restoring and fabricating muscle-powered, spring, and clockwork mechanical systems.  
@@ -1000,10 +1018,31 @@ These skills utilize the character's mind, education, and sensory acuity.
 ## **VOCATION (Category)**
 
 * **Ability:** Varies (Usually Int, Wis, or Agi depending on the job)  
-* **Description:** Professional skills used to earn a living or perform complex crafting/technical tasks.  
-* **Mechanics:** Checks determine the quality of work created or the success of a professional task.  
-  * *Earn Income:* Check result determines weekly wealth generation.  
-  * *Craft/Repair:* DC determines complexity of the item.  
+* **Description:** Professional skills used to earn a living, operate commercial enterprises, or perform complex manufacturing and technical fabrication.  
+* **Starting Wealth Integration:**  
+  Characters with dedicated vocational, commercial, trade, or specialized professional training receive a permanent bonus to their starting **Wealth Score (WS)**. The character applies the bonus from their single highest qualifying skill (e.g., Vocation, Trade, Performance, Medicine, or Discipline):
+  * **Novice (Ranks 1–2):** +1 Wealth Score (Apprentice / Journeyman wages)
+  * **Practiced (Ranks 3–5):** +2 Wealth Score (Certified tradesperson, steady income)
+  * **Expert (Ranks 6–8):** +3 Wealth Score (Senior specialist, consulting rates)
+  * **Master (Ranks 9–10):** +4 Wealth Score (Renowned authority, master artisan)
+  * **Grandmaster (Ranks 11–12):** +5 Wealth Score (Guildmaster, sector-wide fame)
+
+* **Economic Unified Field Theory (EUFT) & Productivity Engine:**
+  * **The Golden Rule:** $\text{Crafting DC} = \text{Purchase DC}$. An item's intrinsic value, market price, and fabrication difficulty exist in absolute parity: $\text{Credit Value (Cr)} = 10 \times 4^{(\text{DC}/5)}$.
+  * **Raw Material Cost:** Crafting an item requires raw materials equal to **50% of the finished market value** in credits or salvaged components.
+  * **Daily Production Points (PP):** Progress per standard 8-hour workday is calculated as:
+    $$\text{Daily PP} = (\text{Crafting / Vocation Check} - 10) \times \text{Tool Multiplier}$$
+  * **Completion Target:** An item is completed when accumulated Productivity Points equal or exceed its market credit value ($\text{Target PP} = \text{Credit Value}$).
+  * **Tool Multipliers:**
+    * *Tier 0 (Improvised / Primitive):* $\times 1$
+    * *Tier 1 (Basic / Hand Tools):* $\times 10$
+    * *Tier 2 (Advanced / Professional Shop):* $\times 50$
+    * *Tier 3 (Industrial Facility / Automated Line):* $\times 200$
+    * *Tier 4 (Nanoforge / Molecular Assembly):* $\times 1,000$
+    * *Bio Cultivation (Vats / Tissue Culture):* $\times 1,000$
+    * *Tier 5 (Genesis Facility / Macro Orbital Fabricator):* $\times 5,000$
+  * **Downtime Income Generation:** For salaried work or client commissions where materials are provided by employers, a character generates daily wealth output equal to $(\text{Check} - 10) \times \text{Tool Multiplier}$ Credits, or maintains their standard lifestyle tier under their Wealth Score auto-buy limit without expenditure checks.
+
 * **Skill List & Specialties (Examples):**
 
 ### 
@@ -1035,7 +1074,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Alchemist is the skill of understanding and creating potions and other magical substances. It reflects a character's ability to mix and manipulate chemicals and magical ingredients. Alchemist is used whenever a character needs to create a potion or other magical substance, whether it's to heal an injury or to create a powerful spell. This can include things like mixing ingredients, analyzing substances, and creating magical effects.   
 * **Mechanics:**  
   * *Identify Substance:* CR 15 to identify a chemical or potion.  
-  * *Craft Compound:* DC varies (Acid CR 15, Panacea CR 25). Failure by 5 or more may cause an explosion or exposure.  
+  * *Craft Compound:* CR varies (Acid CR 15, Panacea CR 25). Failure by 5 or more may cause an explosion or exposure.  
 * **Specialties:**   
   * **Combat Stimulants:** Synthesizing adrenal boosters, coagulants, and reflex-accelerating injections.  
     * **Panaceas & Antitoxins:** Compounding broad-spectrum antivenoms and toxin-neutralizing serums.  
@@ -1288,7 +1327,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Demolitionist is the skill of creating and using explosives. It reflects a character's ability to create bombs, set charges, and detonate explosives for various purposes. Demolitionist is used whenever a character needs to ensure that explosives are used safely and effectively. This can include things like creating bombs, disarming bombs, setting charges, and detonating explosives for various purposes.   
 * **Mechanics:**  
   * *Set Charge:* CR 15 for simple breach, CR 25 to collapse a structure without damaging surroundings.  
-  * *Defuse:* DC depends on the bomb's complexity (usually CR 20+). Failure by 5+ triggers the device.  
+  * *Defuse:* CR depends on the bomb's complexity (usually CR 20+). Failure by 5+ triggers the device.  
 * **Specialties:**   
   * **Structural Controlled Implosion:** Calculating load points to drop high-rise buildings and towers within their footprints.  
     * **Combat Breaching Charges:** Setting linear shaped charges to blow open reinforced steel doors without killing the stack.  
@@ -1562,7 +1601,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Weaponsmith is the skill of creating and repairing weapons, such as swords, guns, or bows. It reflects a character's ability to create weapons that are functional and effective. Weaponsmiths are responsible for ensuring that weapons are made from high-quality materials and are designed to be effective in combat. This can include things like forging metal, sharpening blades, and repairing damaged weapons.  
 * **Mechanics:**  
   * *Repair Weapon:* CR 15 to fix a jammed or broken weapon.  
-  * *Craft Weapon:* DC varies by complexity (Sword CR 15, Laser Rifle CR 25).  
+  * *Craft Weapon:* CR varies by complexity (Sword CR 15, Laser Rifle CR 25).  
   * *Modify:* CR 20 to add a scope, silencer, or increased capacity.  
 * **Specialties:**   
   * **Bladed Weapon Forging:** Folding, quenching, grinding, and heat-treating high-carbon steel and monomolecular edges.  
@@ -1586,7 +1625,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 
 ## **EXPRESSION SKILLS**
 
-**Core Mechanic:** **d20 \+ Skill Rank \+ Charisma Mod vs. Challenge Rating (CR)**
+**Core Mechanic:** **2d10 \+ Skill Rank \+ Charisma Mod vs. Challenge Rating (CR)**
 
 * **Performance/Busking:** The result determines the quality of the show and potential tips/wealth earned.  
   * *CR 10:* Amateur performance (Standard success).  
@@ -1665,7 +1704,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Ability:** Charisma (Acting the part) or Intellect (Creating the prop)  
 * **Description:** Disguise is the skill of changing one's appearance to look like someone else. It reflects a character's ability to use makeup, costumes, and other techniques to alter their appearance. Disguise is used whenever a character needs to deceive or impersonate someone else, or to hide their true identity. The application of props, makeup, prosthetics, and costumes to change one's physical appearance. While Acting covers behavior, Disguise covers the visual fabrication.  
 * **Mechanics:**  
-  * *Create Disguise:* The result of your check becomes the **DC** for anyone trying to see through it using **Alertness** or **Investigation**.  
+  * *Create Disguise:* The result of your check becomes the **CR** for anyone trying to see through it using **Alertness** or **Investigation**.  
   * *Speed Disguise:* Rushing a disguise (-5 penalty) takes 1d4 rounds. Proper application takes 10-30 minutes.  
 * **Specialties:**   
   * **Prosthetic & Latex Application:** Applying false noses, cheekbones, brow ridges, and synthetic skin appliances.  
@@ -1730,7 +1769,7 @@ These skills utilize the character's mind, education, and sensory acuity.
 * **Description:** Oratory is the skill of public speaking. It reflects a character's ability to use language and tone of voice to persuade and inspire others. Oratory is used whenever a character needs to convince a group to take a certain course of action, or to deliver a speech or other public address. The art of public speaking. Used to inspire crowds, deliver sermons, debate in court/senate, or give orders on a battlefield.  
 * **Mechanics:**  
   * *Inspire:* CR 15 to grant allies a \+1 morale bonus to Willpower saves for 1 hour.  
-  * *Persuade Crowd:* Shift the attitude of a group (opposed by the group's collective Will or a set DC).  
+  * *Persuade Crowd:* Shift the attitude of a group (opposed by the group's collective Will or a set CR).  
 * **Specialties:**   
   * **Political Rally Speeches:** Delivering fiery, populist orations that sweep elections and energize masses of voters.  
     * **Military Pre-Battle Speeches:** Delivering inspiring addresses that harden resolve and banish fear before bloody assaults.  
@@ -1919,7 +1958,7 @@ These skills are used to influence others, hide intentions, or read social situa
 * **Ability:** Charisma  
 * **Description:** Diplomacy is the skill of negotiating and persuading others. It reflects a character's ability to communicate effectively and build relationships with others. Diplomacy is used whenever a character needs to convince someone of something that is true, whether it's to gain support or to resolve a conflict. This can include things like negotiating a peace treaty, convincing a king to support a cause, or persuading a merchant to lower their prices. The art of negotiation, persuasion, and maintaining positive relations. It is used to convince others of the truth, gain support, resolve conflicts peacefully, and navigate complex social hierarchies.  
 * **Mechanics:**  
-  * **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). DC depends on the starting attitude (CR 15 for Indifferent, CR 25+ for Hostile).  
+  * **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). CR depends on the starting attitude (CR 15 for Indifferent, CR 25+ for Hostile).  
   * **Negotiation:** Opposed check vs. the target's **Diplomacy** or **Insight**.  
   * **Gather Information (Formal):** CR 15+ to find information through official channels or high society.  
 * **Specialties:**  
@@ -2005,7 +2044,7 @@ These skills are used to influence others, hide intentions, or read social situa
 
 ## **ARCHAIC COMBAT SKILLS**
 
-Game Mechanic for Attacks: d20 \+ Skill Rank \+ Ability Modifier vs. Target’s Defense  
+Game Mechanic for Attacks: 2d10 \+ Skill Rank \+ Ability Modifier vs. Target’s Defense  
 Game Mechanic for Defense: Defense Skill Rank is added to the character's Static Defense Score (10 \+ Agility \+ Defense Skill \+ Armor/Size Mods).
 
 ### 
@@ -2036,7 +2075,7 @@ Game Mechanic for Defense: Defense Skill Rank is added to the character's Static
 * **Ability:** Strength (standard) or Agility (with specific Features like *Weapon Finesse*)  
 * **Description:** This skill covers proficiency with hand-held weaponry designed for close-quarters combat. It encompasses everything from simple clubs to elegant rapiers. It reflects a character’s ability to strike accurately and forcefully with extended reach or heavy implements.  
 * **Game Mechanics:**  
-  * **Attack Roll:** d20 \+ Melee Rank \+ Strength Mod vs. Target Defense.  
+  * **Attack Roll:** 2d10 \+ Melee Rank \+ Strength Mod vs. Target Defense.  
   * **Damage:** Weapon Damage Dice \+ Strength Mod.  
   * **Reach:** Some melee weapons (Polearms) allow attacks from 10ft away.  
 * **Specialties:**  
@@ -2058,7 +2097,7 @@ Game Mechanic for Defense: Defense Skill Rank is added to the character's Static
 * **Ability:** Agility  
 * **Description:** The skill of using muscle-powered projectile weapons or thrown objects to strike targets at a distance. This differs from *Ballistic* (guns) as it relies more on the user's physical trajectory calculation and force (for thrown items) or mechanical tension (bows).  
 * **Game Mechanics:**  
-  * **Attack Roll:** d20 \+ Ranged Rank \+ Agility Mod vs. Target Defense.  
+  * **Attack Roll:** 2d10 \+ Ranged Rank \+ Agility Mod vs. Target Defense.  
   * **Damage:** Weapon Damage Dice (Strength mod is usually added to *Thrown* weapons, but not standard Bows unless they are composite/specialized).  
   * **Range Increment:** Each weapon has a range increment; attacking beyond this imposes a cumulative \-2 penalty per increment.  
 * **Specialties:**  
@@ -2080,7 +2119,7 @@ Game Mechanic for Defense: Defense Skill Rank is added to the character's Static
 * **Ability:** Strength (for power/grappling) or Agility (for striking speed/precision)  
 * **Description:** The ability to fight without artificial weapons, using only the body. This includes brawling, martial arts, wrestling, and the use of natural weaponry for non-human species.  
 * **Game Mechanics:**  
-  * **Attack Roll:** d20 \+ Unarmed Rank \+ Str/Agi Mod vs. Target Defense.  
+  * **Attack Roll:** 2d10 \+ Unarmed Rank \+ Str/Agi Mod vs. Target Defense.  
   * **Damage:** Typically lower than weapons (1d4 or varies by size/species) \+ Strength Mod.  
   * **Non-Lethal:** Unarmed attacks can often be chosen to deal Stun/Non-Lethal damage without penalty.  
   * **Grapple:** Unarmed skill is used to initiate and maintain holds (Grapple checks).  
@@ -2112,7 +2151,7 @@ These skills govern the use of technologically advanced projectile weaponry, fro
 * **Description:** The operation of firearms and other handheld projectile weapons. This skill covers maintaining, reloading, and firing weapons that use combustion or magnetic acceleration to launch solid slugs at high velocity.
 
 * **Mechanics:**  
-  * **Standard Attack:** **d20 \+ Skill Rank \+ Agility Mod vs. Target Defense**.  
+  * **Standard Attack:** **2d10 \+ Skill Rank \+ Agility Mod vs. Target Defense**.  
   * **Burst Fire (Short):** Firing a controlled 3-round burst grants a **\+1 Bonus to Strike**2.
 
   * **Auto-Fire (Long Burst):** Firing longer bursts (10+ rounds) imposes a **\-1 Recoil Penalty** for every 10 rounds fired. However, for every point the attack roll exceeds the target's Defense, one additional round hits (up to the total shots fired). Each extra hit deals **\+1d damage** (if the initial hit penetrated DR)3.
@@ -2164,7 +2203,7 @@ These skills govern the use of technologically advanced projectile weaponry, fro
 
 These skills govern the use of high-technology weaponry that utilizes directed energy rather than solid projectiles.
 
-* **Mechanic:** **d20 \+ Skill Rank \+ Agility Modifier vs. Target's Defense**
+* **Mechanic:** **2d10 \+ Skill Rank \+ Agility Modifier vs. Target's Defense**
 
 ### 
 
@@ -2239,9 +2278,9 @@ Attribute: Varies (Intellect for Mages/Tech, Wisdom for Priests/Psychics, Charis
 Type: Meta Skill  
 Attune represents the character's ability to open a conduit to their power source and shape it safely. It is the "Accuracy" and "Control" stat of the meta system.
 
-* **Setting the Save CR:** When you cast an Invocation that allows a Resistance Check (Reflex, Fortitude, or Will), the DC is determined by your Attune check.  
-  * *DC Formula:* d20 \+ Attune Rank \+ Ability Mod  
-  * *Passive DC:* 10 \+ Attune Rank \+ Ability Mod (Used when taking 10\)  
+* **Setting the Save CR:** When you cast an Invocation that allows a Resistance Check (Reflex, Fortitude, or Will), the CR is determined by your Attune check.  
+  * *CR Formula:* 2d10 \+ Attune Rank \+ Ability Mod  
+  * *Passive CR:* 10 \+ Attune Rank \+ Ability Mod (Used when taking 10\)  
 * **Overcoming Resistance:** If a target has Spell Resistance (SR) or Psionic Dampening, the Attune check must exceed the target's SR.  
 * **Maintaining Focus:** Attune is used for Concentration checks when taking damage while sustaining an effect.  
 * **Specialties:**  
@@ -2322,7 +2361,7 @@ Calling forth creatures or objects from other coordinates or planes.
 Relocation without traversing the intervening space.
 
 * **Mechanic:** Difficulty is based on the Familiarity of the target location.  
-* **Familiarity DC:** Very Familiar (5), Seen Once (15), Description Only (25), Blind (30).
+* **Familiarity CR:** Very Familiar (5), Seen Once (15), Description Only (25), Blind (30).
 
 **Invocations:**
 
@@ -2968,9 +3007,9 @@ Using a different but related skill to aid in a check.
 
 Some characters might have special abilities or features that grant them bonuses or impose penalties on specific skill checks.
 
-## **rolling 2d10**
+## **Rolling 2d10**
 
-The core mechanic of a Skill Check involves rolling a 20-sided die (d20). This introduces an element of chance, reflecting the unpredictability of real-world actions and the possibility of unexpected successes or failures.
+The core mechanic of a Skill Check involves rolling two 10-sided dice (2d10). This introduces an element of chance, reflecting the unpredictability of real-world actions and the possibility of unexpected successes or failures.
 
 ### **ARBITRATION OF REALITY (SETTING DIFFICULTY)**
 
@@ -3003,10 +3042,10 @@ Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rat
 
   ### **Comparing to the Target Number**
 
-  The final sum of the 2d10 roll, Skill Rank, Ability Score modifier, and any other modifiers is then compared to a target number set by the Game Master (GM). This target number, often referred to as the Challenge Rating (CR) or Challenge Rating (CR), represents the difficulty of the task being attempted. If the character's total equals or exceeds the target number, they succeed in the action. If their total falls below the target number, they fail.
+  The final sum of the 2d10 roll, Skill Rank, Ability Score modifier, and any other modifiers is then compared to a target number set by the Game Master (GM). This target number, designated canonically as the Challenge Rating (CR), represents the difficulty of the task being attempted. If the character's total equals or exceeds the target number, they succeed in the action. If their total falls below the target number, they fail.
 
 
-  *Example: A character with a Stealth skill of 12 and a Dexterity modifier of \+3 attempts to sneak past a group of guards. The GM sets the DC for this Stealth check at 15, considering the alertness of the guards and the environmental conditions. The character rolls a 10 on 2d10, adds their Stealth rank (+12) and their Dexterity modifier (+3), resulting in a total of 25\. Since 25 exceeds the DC of 15, the character successfully sneaks past the guards undetected.*
+  *Example: A character with a Stealth skill of 12 and a Dexterity modifier of \+3 attempts to sneak past a group of guards. The GM sets the CR for this Stealth check at 15, considering the alertness of the guards and the environmental conditions. The character rolls a 10 on their 2d10, adds their Stealth rank (+12) and their Dexterity modifier (+3), resulting in a total of 25\. Since 25 exceeds the CR of 15, the character successfully sneaks past the guards undetected.*
 
 ***Skill Checks are a fundamental mechanic in Tangent, used to resolve a wide range of actions and challenges throughout the game. They provide a structured and transparent way to determine success or failure, while also allowing for flexibility and customization based on the character's abilities, the difficulty of the task, and the GM's discretion. This system ensures that skill checks are both engaging and fair, reflecting the character's capabilities and the inherent risks and rewards of their actions.***
 
@@ -3132,15 +3171,15 @@ Rolling with Advantage is a valuable tool that can help you overcome difficult c
 
 ### **Multiple Rolls**
 
-When rolling with Advantage, you roll the d20 die twice (or more, depending on the number of Advantage effects) and select the highest result. This effectively increases the probability of rolling a high number, improving your chances of meeting or exceeding the Challenge Rating (CR) for the task or check.
+When rolling with Advantage, you roll 2d10 twice (or more, depending on the number of Advantage effects) and select the highest result. This effectively increases the probability of rolling a high number, improving your chances of meeting or exceeding the Challenge Rating (CR) for the task or check.
 
 ### **Stacking Effects**
 
-Multiple sources of Advantage generally stack, meaning you get to roll an additional set of 2d10 for each Advantage effect. For example, if you have two Advantage effects, you would roll 2d10 three times and choose the best result.
+Multiple sources of Advantage generally stack, meaning you get to roll an additional set of 2d10 (or roll an additional d10 keep highest 2) for each Advantage effect.
 
 ### **Countering Disadvantage**
 
-Advantage directly counters Disadvantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a single standard 2d10 as normal.
+Advantage directly counters Disadvantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a standard 2d10 as normal.
 
 ### **Karma Point**
 
@@ -3186,15 +3225,15 @@ Overall, rolling with disadvantage is a significant hurdle for players in Tangen
 
 ### **Multiple Rolls**
 
-When rolling with Disadvantage, you roll the d20 die twice (or more, depending on the number of Disadvantage effects) and select the lowest result. This effectively increases the probability of rolling a low number, hindering your chances of meeting or exceeding the Challenge Rating (CR) for the task or check.
+When rolling with Disadvantage, you roll 2d10 twice (or more, depending on the number of Disadvantage effects) and select the lowest result. This effectively increases the probability of rolling a low number, hindering your chances of meeting or exceeding the Challenge Rating (CR) for the task or check.
 
 ### **Stacking Effects**
 
-Multiple sources of Disadvantage generally stack, meaning you get an additional 2d10 roll for each Disadvantage effect. For example, if you have two Disadvantage effects, you would roll 2d10 three times and choose the worst result.
+Multiple sources of Disadvantage generally stack, granting an additional roll taking the worst result.
 
 ### **Countering Advantage**
 
-Disadvantage directly counters Advantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a single standard 2d10 as normal.
+Disadvantage directly counters Advantage. If you have both Advantage and Disadvantage on a roll, they cancel each other out, and you roll a standard 2d10 as normal.
 
 ### **Karma Point**
 
@@ -3354,20 +3393,6 @@ Clear communication between the player and GM is essential to ensure that the tr
 Transposed Skill Bases should align with the character's overall concept and make sense within the context of the game world and its rules.
 
 
-
-## Canonical Mechanics
-All skills cost 1 BP per rank.
-Skill Tiers: 0 Untrained, 1-5 Novice, 6-10 Professional/Trained, 11-15 Expert, 16-20 Master, 21-25 Grand Master, 26-30 Pinnacle.
-Categories: Physical, Mental (Knowledges & Vocations), Social (Manipulation & Expression), Metafocus (Attune & Disciplines), Combat (Archaic, Modern, Advanced).
-Full DC benchmarks, synergistic bonuses, and specialization rules.
-
-
-## Tactical Guide
-Consult specific skill entries for Challenge Ratinges, roll mechanics, and required tools.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.07 SKILLS.md
 
 ## Game Mechanics Rules
 ```

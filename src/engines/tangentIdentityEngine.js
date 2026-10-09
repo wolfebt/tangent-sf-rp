@@ -56,11 +56,20 @@ export const mapToAttrKey = (name) => {
 export const parseSettingLevel = (val, defaultVal = null) => {
   if (val === undefined || val === null || val === '') return defaultVal;
   if (typeof val === 'number') return Math.min(5, Math.max(0, Math.round(val)));
-  const match = String(val).match(/\d+/);
-  if (!match) return defaultVal;
-  const num = parseInt(match[0], 10);
-  if (isNaN(num)) return defaultVal;
-  return Math.min(5, Math.max(0, num));
+  if (typeof val === 'object') {
+    const candidate = val.tech_level ?? val.techLevel ?? val.tl ?? val.meta_level ?? val.metaLevel ?? val.ml ?? val.magic_level ?? val.magicLevel ?? val.level ?? val.value;
+    if (candidate !== undefined) return parseSettingLevel(candidate, defaultVal);
+  }
+  const str = String(val).trim();
+  const match = str.match(/\d+/);
+  if (match) {
+    const num = parseInt(match[0], 10);
+    if (!isNaN(num)) return Math.min(5, Math.max(0, num));
+  }
+  if (/^(null|mundane|none)$/i.test(str)) {
+    return 0;
+  }
+  return defaultVal;
 };
 
 
@@ -77,8 +86,8 @@ export const removeOrDecrementSkill = (characterData, skillNameOrId, rankToDeduc
   } else {
     innerName = rawStr.replace(/^(knowledge|vocation|discipline|metafocus)\s*[-:]?\s*/i, '').trim();
   }
-  const cleanId = rawStr.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  const innerCleanId = innerName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const cleanId = rawStr.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const innerCleanId = innerName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   const innerNameLower = innerName.toLowerCase();
 
   const canonSkill = canonicalSkillsList.find(s => {
@@ -221,6 +230,150 @@ export const resolveCatalogItem = (colKey, itemInput, dbData = {}) => {
 };
 
 /**
+ * Resolves base Tech Level and Meta Level established by the persona's identity pillars.
+ * 
+ * Rules:
+ * 1. Identity pillars (Species, Faction, Archetype, Occupation, Origin, and extensible future pillars)
+ *    establish the persona's base tech level and meta level.
+ * 2. If a source establishes a tech/meta level and there is a conflict, the highest value will be used.
+ * 3. The standard baseline is TL3 and ML3 (0 CP).
+ * 4. Scores under 3 will be awarded 10 CP per level difference (TL2/ML2 = +10 CP, TL1/ML1 = +20 CP, TL0/ML0 = +30 CP).
+ * 5. Increases over 3 cost 10 CP per level difference (TL4/ML4 = 10 CP, TL5/ML5 = 20 CP).
+ * 6. Lowered scores may be increased during base purchase or later with advancement at 10 CP per level.
+ * 
+ * @param {object} characterData - Current persona sheet data
+ * @param {object} [dbData={}] - Ingested database cache
+ * @returns {object} { baseTechLevel, baseMetaLevel, tlSources, mlSources, highestTLSource, highestMLSource }
+ */
+export const resolveIdentityPillarsSettingLevels = (characterData = {}, dbData = {}) => {
+  const tlSources = [];
+  const mlSources = [];
+
+  // Inspect standard identity pillars
+  const pillarDefs = [
+    { type: 'species', key: 'char-species', label: 'Species' },
+    { type: 'factions', key: 'char-faction', label: 'Faction' },
+    { type: 'archetypes', key: 'char-archetype', label: 'Archetype' },
+    { type: 'occupations', key: 'char-occu', label: 'Occupation' },
+    { type: 'occupations', key: 'char-secondary-occu', label: 'Secondary Occupation', alias: 'char-background-occu' },
+    { type: 'origins', key: 'char-origin', label: 'Origin' },
+    { type: 'origins', key: 'char-secondary-origin', label: 'Secondary Origin', alias: 'char-origin-secondary' }
+  ];
+
+  pillarDefs.forEach(({ type, key, label, alias }) => {
+    const rawVal = characterData[key] || (alias ? characterData[alias] : null);
+    if (!rawVal) return;
+    const itemObj = resolveCatalogItem(type, rawVal, dbData);
+    if (!itemObj || typeof itemObj !== 'object') return;
+
+    const tl = parseSettingLevel(itemObj.tech_level ?? itemObj.techLevel, null);
+    if (tl !== null) {
+      tlSources.push({
+        pillar: label,
+        source: label,
+        name: itemObj.name || itemObj.title || String(rawVal),
+        value: tl
+      });
+    }
+
+    const ml = parseSettingLevel(itemObj.meta_level ?? itemObj.metaLevel, null);
+    if (ml !== null) {
+      mlSources.push({
+        pillar: label,
+        source: label,
+        name: itemObj.name || itemObj.title || String(rawVal),
+        value: ml
+      });
+    }
+  });
+
+  // Support future or dynamic extensible identity pillars
+  if (Array.isArray(characterData.identityPillars)) {
+    characterData.identityPillars.forEach((p, idx) => {
+      if (!p || typeof p !== 'object') return;
+      const pLabel = p.label || p.type || `Custom Pillar ${idx + 1}`;
+      const tl = parseSettingLevel(p.tech_level ?? p.techLevel, null);
+      if (tl !== null) {
+        tlSources.push({ pillar: pLabel, source: pLabel, name: p.name || pLabel, value: tl });
+      }
+      const ml = parseSettingLevel(p.meta_level ?? p.metaLevel, null);
+      if (ml !== null) {
+        mlSources.push({ pillar: pLabel, source: pLabel, name: p.name || pLabel, value: ml });
+      }
+    });
+  }
+
+  // Conflict resolution: highest value is used. Standard baseline is TL3 and ML3.
+  let baseTechLevel = 3;
+  let highestTLSource = null;
+  if (tlSources.length > 0) {
+    const maxTL = Math.max(...tlSources.map(s => s.value));
+    baseTechLevel = Math.min(5, Math.max(0, maxTL));
+    highestTLSource = tlSources.find(s => s.value === maxTL) || null;
+  }
+
+  let baseMetaLevel = 3;
+  let highestMLSource = null;
+  if (mlSources.length > 0) {
+    const maxML = Math.max(...mlSources.map(s => s.value));
+    baseMetaLevel = Math.min(5, Math.max(0, maxML));
+    highestMLSource = mlSources.find(s => s.value === maxML) || null;
+  }
+
+  return {
+    baseTechLevel,
+    baseMetaLevel,
+    tlSources,
+    mlSources,
+    techSources: tlSources,
+    metaSources: mlSources,
+    highestTLSource,
+    highestMLSource
+  };
+};
+
+/**
+ * Synchronizes character tech-level and magic-level/meta-level against the
+ * base established by active identity pillars, preserving any manual purchased increases.
+ * 
+ * @param {object} characterData - Current character sheet data
+ * @param {object} [dbData={}] - Ingested database cache
+ * @returns {object} Updated character sheet data with synchronized setting tiers
+ */
+export const syncIdentitySettingLevels = (characterData = {}, dbData = {}) => {
+  const settingLevels = resolveIdentityPillarsSettingLevels(characterData, dbData);
+
+  const prevBaseTL = characterData['base-tech-level'] !== undefined && characterData['base-tech-level'] !== null
+    ? parseSettingLevel(characterData['base-tech-level'], 3)
+    : parseSettingLevel(characterData['tech-level'], 3);
+  const currentTL = parseSettingLevel(characterData['tech-level'], settingLevels.baseTechLevel);
+  const purchasedTLDelta = Math.max(0, currentTL - prevBaseTL);
+
+  const prevBaseML = characterData['base-meta-level'] !== undefined && characterData['base-meta-level'] !== null
+    ? parseSettingLevel(characterData['base-meta-level'], 3)
+    : parseSettingLevel(characterData['magic-level'] ?? characterData['meta-level'], 3);
+  const currentML = parseSettingLevel(characterData['magic-level'] ?? characterData['meta-level'], settingLevels.baseMetaLevel);
+  const purchasedMLDelta = Math.max(0, currentML - prevBaseML);
+
+  const nextTL = purchasedTLDelta > 0
+    ? Math.min(5, Math.max(settingLevels.baseTechLevel, settingLevels.baseTechLevel + purchasedTLDelta))
+    : settingLevels.baseTechLevel;
+
+  const nextML = purchasedMLDelta > 0
+    ? Math.min(5, Math.max(settingLevels.baseMetaLevel, settingLevels.baseMetaLevel + purchasedMLDelta))
+    : settingLevels.baseMetaLevel;
+
+  return {
+    ...characterData,
+    'base-tech-level': settingLevels.baseTechLevel,
+    'base-meta-level': settingLevels.baseMetaLevel,
+    'tech-level': nextTL,
+    'magic-level': nextML,
+    'meta-level': nextML
+  };
+};
+
+/**
  * Applies a Species transition to character data.
  * Removes previous species traits, restores/adjusts movement modes, removes old skill mods,
  * and attaches new species inherent features, movement, and specific bonuses.
@@ -294,6 +447,24 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
         }
       });
     }
+    if (Array.isArray(prevSpeciesObj.disadvantages)) {
+      prevSpeciesObj.disadvantages.forEach(d => {
+        const name = typeof d === 'object' ? (d.name || d.title || d.id) : String(d);
+        if (name) {
+          oldSpeciesTraitNames.add(normalizeTraitString(name).toLowerCase());
+          oldSpeciesTraitNames.add(name.toLowerCase());
+        }
+      });
+    }
+    if (Array.isArray(prevSpeciesObj.hindrances)) {
+      prevSpeciesObj.hindrances.forEach(h => {
+        const name = typeof h === 'object' ? (h.name || h.title || h.id) : String(h);
+        if (name) {
+          oldSpeciesTraitNames.add(normalizeTraitString(name).toLowerCase());
+          oldSpeciesTraitNames.add(name.toLowerCase());
+        }
+      });
+    }
     if (Array.isArray(prevSpeciesObj.modifiers)) {
       prevSpeciesObj.modifiers.forEach(m => {
         if (m.type === 'feature' && m.target) {
@@ -348,7 +519,13 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
     if (!d) return false;
     const dCat = typeof d === 'object' ? (d.category || d.source || '') : '';
     const dSource = typeof d === 'object' ? (d.source || '') : '';
+    const dName = typeof d === 'object' ? (d.name || d.title || d.id || '') : String(d);
+    const normName = normalizeTraitString(dName).toLowerCase();
+    const rawName = dName.toLowerCase();
     if (dSource === 'species' || dCat === 'Species Disadvantage' || dCat === 'Species') {
+      return false;
+    }
+    if (oldSpeciesTraitNames.has(normName) || oldSpeciesTraitNames.has(rawName)) {
       return false;
     }
     return true;
@@ -359,7 +536,13 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
     if (!h) return false;
     const hCat = typeof h === 'object' ? (h.category || h.source || '') : '';
     const hSource = typeof h === 'object' ? (h.source || '') : '';
+    const hName = typeof h === 'object' ? (h.name || h.title || h.id || '') : String(h);
+    const normName = normalizeTraitString(hName).toLowerCase();
+    const rawName = hName.toLowerCase();
     if (hSource === 'species' || hCat === 'Species Disadvantage' || hCat === 'Species') {
+      return false;
+    }
+    if (oldSpeciesTraitNames.has(normName) || oldSpeciesTraitNames.has(rawName)) {
       return false;
     }
     return true;
@@ -533,19 +716,6 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
       });
     }
 
-    // Setting Tiers: Tech Level & Meta Level (0-5, non-stacking highest from species and faction)
-    const factionObj = resolveCatalogItem('factions', updated['char-faction'], dbData);
-    const speciesTL = parseSettingLevel(newSpeciesObj.tech_level ?? newSpeciesObj.techLevel, null);
-    const speciesML = parseSettingLevel(newSpeciesObj.meta_level ?? newSpeciesObj.metaLevel, null);
-    const factionTL = parseSettingLevel(factionObj?.tech_level ?? factionObj?.techLevel, null);
-    const factionML = parseSettingLevel(factionObj?.meta_level ?? factionObj?.metaLevel, null);
-
-    if (speciesTL !== null || factionTL !== null) {
-      updated['tech-level'] = Math.min(5, Math.max(0, Math.max(speciesTL ?? 3, factionTL ?? 3)));
-    }
-    if (speciesML !== null || factionML !== null) {
-      updated['magic-level'] = Math.min(5, Math.max(0, Math.max(speciesML ?? 0, factionML ?? 0)));
-    }
   } else {
     // Clearing species
     updated.features = filteredFeatures;
@@ -556,17 +726,10 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
     updated['move-fly'] = 0;
     updated['move-burrow'] = 0;
     updated['move-flicker'] = 0;
-
-    const factionObj = resolveCatalogItem('factions', updated['char-faction'], dbData);
-    const factionTL = parseSettingLevel(factionObj?.tech_level ?? factionObj?.techLevel, null);
-    const factionML = parseSettingLevel(factionObj?.meta_level ?? factionObj?.metaLevel, null);
-    if (factionTL !== null) {
-      updated['tech-level'] = factionTL;
-    }
-    if (factionML !== null) {
-      updated['magic-level'] = factionML;
-    }
   }
+
+  // Setting Tiers: Tech Level & Meta Level resolved across all active pillars (Species, Factions, etc.)
+  updated = syncIdentitySettingLevels(updated, dbData);
 
   return updated;
 };
@@ -587,7 +750,8 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
 
   // 1. Revert previous Archetype skills
   const prevArchAlloc = characterData.archetypeAllocations;
-  if (prevArchAlloc?.skills) {
+  const hasAllocSkills = prevArchAlloc?.skills && Object.keys(prevArchAlloc.skills).length > 0;
+  if (hasAllocSkills) {
     Object.entries(prevArchAlloc.skills).forEach(([skName, rank]) => {
       updated = removeOrDecrementSkill(updated, skName, rank, allSkillsList);
     });
@@ -599,7 +763,8 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
   }
 
   // 2. Revert previous Archetype attribute points
-  if (prevArchAlloc?.attributes) {
+  const hasAllocAttrs = prevArchAlloc?.attributes && Object.keys(prevArchAlloc.attributes).length > 0;
+  if (hasAllocAttrs) {
     Object.entries(prevArchAlloc.attributes).forEach(([attrKey, pts]) => {
       updated = removeOrDecrementAttribute(updated, attrKey, pts);
     });
@@ -731,7 +896,7 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
         });
 
         const finalSkillName = skObj?.name || rawStr;
-        const cleanId = (skObj?.id || `skill-${finalSkillName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`).replace(/^skill-/, '');
+        const cleanId = (skObj?.id || `skill-${finalSkillName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}`).replace(/^skill-/, '');
         const rank = idx < 4 ? 6 : 3;
         const baseAttr = skObj?.baseAttr || primKey;
 
@@ -776,6 +941,8 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
     updated.features = [...filteredFeatures, ...newFeaturesToAdd];
     updated.archetypeAllocations = newArchAlloc;
   }
+
+  updated = syncIdentitySettingLevels(updated, dbData);
 
   return updated;
 };
@@ -892,6 +1059,8 @@ export const applyOccupationTransition = (characterData, newOccupationInput, dbD
   updated['char-occu-traits'] = [];
   updated.occu_traits = [];
   updated.occuAllocations = { skills: {}, traits: [], features: [] };
+
+  updated = syncIdentitySettingLevels(updated, dbData);
 
   return updated;
 };
@@ -1014,6 +1183,8 @@ export const applyOriginTransition = (characterData, newOriginInput, dbData = {}
   updated['char-origin-traits'] = [];
   updated.origin_traits = [];
   updated.originAllocations = { skills: {}, traits: [], features: [] };
+
+  updated = syncIdentitySettingLevels(updated, dbData);
 
   return updated;
 };
@@ -1204,24 +1375,8 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
   updated.disadvantages = [...updated.disadvantages, ...newDisadvantagesToAdd];
   updated.factionAllocations = { skills: {}, traits: [], features: [] };
 
-  // Setting Tiers: Tech Level & Meta Level (0-5, non-stacking highest from species and faction)
-  const speciesObj = resolveCatalogItem('species', updated['char-species'], dbData);
-  const factionTL = parseSettingLevel(newFactionObj?.tech_level ?? newFactionObj?.techLevel, null);
-  const factionML = parseSettingLevel(newFactionObj?.meta_level ?? newFactionObj?.metaLevel, null);
-  const speciesTL = parseSettingLevel(speciesObj?.tech_level ?? speciesObj?.techLevel, null);
-  const speciesML = parseSettingLevel(speciesObj?.meta_level ?? speciesObj?.metaLevel, null);
-
-  if (factionTL !== null || speciesTL !== null) {
-    updated['tech-level'] = Math.min(5, Math.max(0, Math.max(factionTL ?? 3, speciesTL ?? 3)));
-  } else if (!newFactionObj) {
-    updated['tech-level'] = speciesTL ?? 3;
-  }
-
-  if (factionML !== null || speciesML !== null) {
-    updated['magic-level'] = Math.min(5, Math.max(0, Math.max(factionML ?? 0, speciesML ?? 0)));
-  } else if (!newFactionObj) {
-    updated['magic-level'] = speciesML ?? 1;
-  }
+  // Setting Tiers: Tech Level & Meta Level resolved across all active pillars (Species, Factions, etc.)
+  updated = syncIdentitySettingLevels(updated, dbData);
 
   return updated;
 };
@@ -1238,31 +1393,90 @@ export const applyIdentityFieldTransition = (characterData, fieldKey, newValue, 
     case 'char-occu':
       return applyOccupationTransition(characterData, newValue, dbData);
     case 'char-secondary-occu': {
-      const updated = { 
+      const prevSecName = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'] || '';
+      let updated = { 
         ...characterData, 
         'char-secondary-occu': newValue ? String(newValue) : ''
       };
       if (!newValue) {
         if ('char-background-occu' in characterData) updated['char-background-occu'] = '';
         if ('char-occu-secondary' in characterData) updated['char-occu-secondary'] = '';
+        if (prevSecName) {
+          const prevSecOccuObj = resolveCatalogItem('occupations', prevSecName, dbData);
+          if (prevSecOccuObj) {
+            const rawSecTraits = prevSecOccuObj.traits || prevSecOccuObj.trait || [];
+            const secTraitNames = new Set();
+            rawSecTraits.forEach(t => {
+              const name = typeof t === 'object' ? (t.name || t.title || t.id) : String(t);
+              if (name) {
+                secTraitNames.add(normalizeTraitString(name).toLowerCase());
+                secTraitNames.add(name.toLowerCase());
+              }
+            });
+            if (secTraitNames.size > 0) {
+              if (Array.isArray(updated.features)) {
+                updated.features = updated.features.filter(f => {
+                  const fName = typeof f === 'object' ? (f.name || f.title || f.id || '') : String(f);
+                  return !secTraitNames.has(normalizeTraitString(fName).toLowerCase()) && !secTraitNames.has(fName.toLowerCase());
+                });
+              }
+              if (Array.isArray(updated.traits)) {
+                updated.traits = updated.traits.filter(t => {
+                  const tName = typeof t === 'object' ? (t.name || t.title || t.id || '') : String(t);
+                  return !secTraitNames.has(normalizeTraitString(tName).toLowerCase()) && !secTraitNames.has(tName.toLowerCase());
+                });
+              }
+            }
+          }
+        }
       }
-      return updated;
+      return syncIdentitySettingLevels(updated, dbData);
     }
     case 'char-origin':
       return applyOriginTransition(characterData, newValue, dbData);
     case 'char-secondary-origin': {
-      const updated = { 
+      const prevSecName = characterData['char-secondary-origin'] || characterData['char-origin-secondary'] || '';
+      let updated = { 
         ...characterData, 
         'char-secondary-origin': newValue ? String(newValue) : ''
       };
       if (!newValue) {
         if ('char-origin-secondary' in characterData) updated['char-origin-secondary'] = '';
+        if (prevSecName) {
+          const prevSecOriginObj = resolveCatalogItem('origins', prevSecName, dbData);
+          if (prevSecOriginObj) {
+            const rawSecTraits = prevSecOriginObj.traits || prevSecOriginObj.trait || [];
+            const rawSecFeats = prevSecOriginObj.features || prevSecOriginObj.bonus_features || [];
+            const secTraitNames = new Set();
+            [...rawSecTraits, ...rawSecFeats].forEach(item => {
+              const name = typeof item === 'object' ? (item.name || item.title || item.id) : String(item);
+              if (name) {
+                secTraitNames.add(normalizeTraitString(name).toLowerCase());
+                secTraitNames.add(name.toLowerCase());
+              }
+            });
+            if (secTraitNames.size > 0) {
+              if (Array.isArray(updated.features)) {
+                updated.features = updated.features.filter(f => {
+                  const fName = typeof f === 'object' ? (f.name || f.title || f.id || '') : String(f);
+                  return !secTraitNames.has(normalizeTraitString(fName).toLowerCase()) && !secTraitNames.has(fName.toLowerCase());
+                });
+              }
+              if (Array.isArray(updated.traits)) {
+                updated.traits = updated.traits.filter(t => {
+                  const tName = typeof t === 'object' ? (t.name || t.title || t.id || '') : String(t);
+                  return !secTraitNames.has(normalizeTraitString(tName).toLowerCase()) && !secTraitNames.has(tName.toLowerCase());
+                });
+              }
+            }
+          }
+        }
       }
-      return updated;
+      return syncIdentitySettingLevels(updated, dbData);
     }
     case 'char-faction':
       return applyFactionTransition(characterData, newValue, dbData);
     default:
-      return { ...characterData, [fieldKey]: newValue };
+      return syncIdentitySettingLevels({ ...characterData, [fieldKey]: newValue }, dbData);
   }
 };

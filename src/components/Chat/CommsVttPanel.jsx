@@ -191,7 +191,7 @@ export const CommsVttPanel = () => {
         {/* 2. Broadcast Comms to Stage Toggle */}
         <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 min-w-0">
-            <Radio size={16} className={broadcastToVtt ? 'text-amber-400 animate-pulse' : 'text-slate-500'} />
+            <Radio size={16} className={broadcastToVtt ? 'text-amber-400 animate-soft-back-glow' : 'text-slate-500'} />
             <div>
               <span className="font-bold text-slate-200 block text-xs">
                 BROADCAST ROLLS TO VTT STAGE
@@ -277,7 +277,7 @@ export const CommsVttPanel = () => {
       {/* Bottom Status bar */}
       <div className="p-2.5 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-[10px] font-mono text-slate-500 shrink-0">
         <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b]" />
           <span className="text-slate-400 font-bold">VTT ENGINE READY</span>
         </span>
         <button

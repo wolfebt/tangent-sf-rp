@@ -1,18 +1,36 @@
 ---
 id: "doc-architect-99-metaphysics"
-name: "99. METAPHYSICS FRAMEWORK & TRANSCENDENCE"
-category: "compendium"
-parent: "99.00 ARCHITECT MATRICES & WORLDBUILDING"
-order: 2
+name: "99. METAPHYSICS (1) — METAPHYSICS FRAMEWORK"
+category: "architect_matrix"
+parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
+order: 1
 perspective: "architect"
-entry_type: "Metaphysics Matrix"
+entry_type: "Architect Matrix"
 tl: 3
 ml: 0
-tags: ["compendium","metaphysics-matrix"]
-updatedAt: "2026-09-14T16:40:07.844Z"
+cost: 0
+tags: ["architect","core-rules","source-of-truth","99. metaphysics (1)","matrix"]
+updatedAt: "2026-10-09T07:59:56.581Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **METAPHYSICS FRAMEWORK**
@@ -111,26 +129,13 @@ While this Codex defines the purity of Metaphysics, the Tangent Galaxy often ope
 
 &nbsp;
 
-
-
-## Canonical Mechanics
-Classification of Metafocus Levels (ML 0-6), societal integration, and metaphysical independence from technology.
-
-
-## Tactical Guide
-Consult this Architect matrix when designing game assets, calculating build budgets, adjudicating scale, or world-building.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/architect/99. METAPHYSICS (1).md
-
 ## Game Mechanics Rules
 ```
-Governing canonical rules for 99. METAPHYSICS FRAMEWORK & TRANSCENDENCE.
+See full canonical text in 99. METAPHYSICS (1).md
 ```
 
 ## Gameplay Instructions
-
+Refer to 99. METAPHYSICS (1).md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-
+Canonical Tangent SF RP rulebook reference from 99. METAPHYSICS (1).md. Complete, unabridged source of truth.

@@ -131,7 +131,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
         {/* Modal Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
           <div className="flex items-center gap-2">
-            <Radio className="text-cyan-400 animate-pulse" size={18} />
+            <Radio className="text-cyan-400 animate-soft-back-glow" size={18} />
             <div>
               <h2 className="text-sm font-mono font-bold tracking-wider text-slate-100 uppercase">
                 OPEN COMMLINK FREQUENCY

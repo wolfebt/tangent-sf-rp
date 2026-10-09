@@ -9,6 +9,7 @@ import {
   calculateSellPrice,
   getFinancialStatus,
   calculateStartingWealth,
+  calculateCharacterWealth,
   calculateTradeProfit,
   calculateCooperativeCrafting,
   calculateWealthGrowthCost
@@ -57,6 +58,102 @@ describe('Tangent SF RP — Phase 5 Economatrix & Technology Dashboards Engine (
       assert.equal(charA.computedWS, 18);
       assert.equal(charA.status.name, 'Affluent');
       assert.equal(charA.status.autoBuyCr, 2500);
+    });
+
+    it('derives live Character Wealth Score (WS) and breakdown from character sheet data', () => {
+      // Scenario 1: Merchant from Leisure world, Syndicate faction, TL 4, Trade Rank 7
+      // Merchant (base 5) + Leisure (+3) + Syndicate (+4) + TL4 (+4) + Trade R7 (Expert +3) = WS 19 (Affluent)
+      const heroA = calculateCharacterWealth({
+        'char-occu': 'Merchant',
+        'char-origin': 'Leisure',
+        'char-faction': 'Syndicate',
+        'tech-level': 4,
+        'skill-mental-trade-rank': 7
+      });
+
+      assert.equal(heroA.computedWS, 19);
+      assert.equal(heroA.statusName, 'Affluent');
+      assert.equal(heroA.autoBuyCr, 2500);
+      assert.equal(heroA.breakdown.occupationBase, 5);
+      assert.equal(heroA.breakdown.originMod, 3);
+      assert.equal(heroA.breakdown.factionMod, 4);
+      assert.equal(heroA.breakdown.tlMod, 4);
+      assert.equal(heroA.breakdown.skillBonus, 3);
+      assert.equal(heroA.breakdown.skillStage, 'Expert');
+
+      // Scenario 2: Baseline Citizen on Colony world, Coalition faction, TL 3, no trade skills
+      // Citizen (base 2) + Colony (+0) + Coalition (+0) + TL3 (+2) = WS 4 (Impoverished, 30 Cr auto-buy)
+      const heroB = calculateCharacterWealth({
+        'char-occu': 'Citizen',
+        'char-origin': 'Colony',
+        'char-faction': 'Coalition',
+        'tech-level': 3
+      });
+
+      assert.equal(heroB.computedWS, 4);
+      assert.equal(heroB.statusName, 'Impoverished');
+      assert.equal(heroB.autoBuyCr, 30);
+
+      // Scenario 3: Mekan Sovereign Representative on Industrial world, TL 5 with Master Vocation
+      // Representative (base 6) + Industrial (+2) + Mekan (+6) + TL5 (+8) + Vocation R9 (+4) = WS 26 (Wealthy)
+      const heroC = calculateCharacterWealth({
+        'char-occu': 'Representative',
+        'char-origin': 'Industrial',
+        'char-faction': 'Mekan Sovereign Dominion',
+        'tech-level': 5,
+        'skill-vocation-rank': 9
+      });
+
+      assert.equal(heroC.computedWS, 26);
+      assert.equal(heroC.statusName, 'Wealthy');
+      assert.equal(heroC.autoBuyCr, 40000);
+      assert.equal(heroC.breakdown.skillBonus, 4);
+      assert.equal(heroC.breakdown.skillStage, 'Master');
+
+      // Scenario 4: Manual explicit override takes absolute precedence
+      const heroD = calculateCharacterWealth({
+        'char-occu': 'Drifter',
+        'tech-level': 0,
+        'wealth-score-override': 50
+      });
+
+      assert.equal(heroD.computedWS, 50);
+      assert.equal(heroD.statusName, 'Dynastic');
+      assert.equal(heroD.autoBuyCr, 167000000);
+
+      // Scenario 5: Ascendancy faction character receives +4 wealth modifier
+      // Representative (base 6) + Enlightened world (2) + The Ascendancy (4) + TL4 (4) + Trade R2 (+1) = WS 17 (Affluent)
+      const heroE = calculateCharacterWealth({
+        'char-occu': 'Representative',
+        'char-origin': 'Enlightened',
+        'char-faction': 'The Ascendancy',
+        'tech-level': 4,
+        'skill-mental-trade-rank': 2
+      });
+
+      assert.equal(heroE.breakdown.factionMod, 4);
+      assert.equal(heroE.computedWS, 17);
+      assert.equal(heroE.statusName, 'Affluent');
+    });
+
+    it('aggregates liquid credits, trade goods, debits, and net liquidity position', () => {
+      const hero = calculateCharacterWealth({
+        'char-occu': 'Merchant',
+        'credits': 12000,
+        'trade-goods': [
+          { goods: 'material', name: 'Refined Titanium', amount: 5, creditValue: 3000 },
+          { goods: 'currency', name: 'Imperial Sovereigns', amount: 10, creditValue: 2000 }
+        ],
+        'debits': [
+          { amount: 4000, debtor: 'Syndicate Banking Combine', notes: 'Loan for cargo ship fuel' }
+        ]
+      });
+
+      assert.equal(hero.liquidCredits, 12000);
+      assert.equal(hero.totalTradeGoodsCr, 5000);
+      assert.equal(hero.totalLiquidCr, 17000);
+      assert.equal(hero.totalDebtCr, 4000);
+      assert.equal(hero.netLiquidPosition, 13000);
     });
 
     it('computes Liquidity Gap and Auto-Buy eligibility', () => {

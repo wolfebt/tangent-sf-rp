@@ -1016,25 +1016,25 @@ export default function ModuleMissionControl({
             </div>
           </div>
 
-          {/* Pillar 3: Presets & Scripts Studio */}
+          {/* Pillar 3: Tactical Stage */}
           <div 
             onClick={() => {
-              if (onSwitchView) onSwitchView('scripts');
-              else handleLaunchPillar('scripts', '/foundry/scripts');
+              if (onSwitchView) onSwitchView('stage');
+              else handleLaunchPillar('stage', '/foundry/stage');
             }}
-            className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-amber-500/30 hover:border-amber-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
+            className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-purple-500/30 hover:border-purple-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
           >
             <div>
-              <div className="w-10 h-10 rounded-xl bg-amber-950/60 border border-amber-500/40 text-amber-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Cpu size={20} />
+              <div className="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-500/40 text-purple-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                <Sparkles size={20} />
               </div>
-              <h3 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">3. Presets & Scripts</h3>
+              <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">3. Tactical Stage</h3>
               <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                Configure NPC AI patrol loops, sentry vision cones, reactive traps & atmospheric weather profiles.
+                Compile stage manifests, map anchors, trigger flow, encounters & live staging.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-amber-500/20 flex items-center justify-between text-[11px] font-mono text-amber-400 font-bold">
-              <span>Enter Scripts ↗</span>
+            <div className="mt-4 pt-3 border-t border-purple-500/20 flex items-center justify-between text-[11px] font-mono text-purple-400 font-bold">
+              <span>Enter Stage ↗</span>
               <span className="text-[10px] text-slate-500">⌘3</span>
             </div>
           </div>

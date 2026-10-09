@@ -60,7 +60,7 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
       sublabel: 'Channels Matrix',
       icon: Radio,
       badge: totalUnreadCount > 0 ? totalUnreadCount : null,
-      badgeColor: 'bg-cyan-500 text-black animate-pulse',
+      badgeColor: 'bg-amber-400 text-black font-extrabold shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow',
       pulse: totalUnreadCount > 0,
       pulseClass: 'animate-nav-pulse-amber'
     },
@@ -72,7 +72,7 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
       badge: effectiveHasNewLogins 
         ? (effectiveNewLogins.length > 0 ? `+${effectiveNewLogins.length}` : 'NEW')
         : (onlineOperators.length > 0 ? `${onlineOperators.length}` : null),
-      badgeColor: effectiveHasNewLogins ? 'bg-emerald-400 text-black animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-emerald-500 text-black',
+      badgeColor: effectiveHasNewLogins ? 'bg-emerald-400 text-black animate-soft-badge-glow shadow-[0_0_8px_rgba(16,185,129,0.7)]' : 'bg-emerald-500 text-black',
       badgeDot: true,
       pulse: effectiveHasNewLogins,
       pulseClass: 'animate-nav-pulse-emerald'
@@ -86,7 +86,7 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
         ? `${pendingInvites.length} NEW` 
         : (teamChannels.length > 0 ? teamChannels.length : null),
       badgeColor: pendingInvites.length > 0
-        ? 'bg-amber-400 text-black font-bold animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.8)]'
+        ? 'bg-amber-400 text-black font-bold animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.7)]'
         : 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/50',
       pulse: pendingInvites.length > 0,
       pulseClass: 'animate-nav-pulse-amber'
@@ -139,7 +139,7 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
           }
         >
           <Radio size={19} className={`${totalUnreadCount > 0 || effectiveHasNewLogins ? 'text-current' : 'text-cyan-400'} group-hover:animate-spin`} />
-          <span className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-black animate-pulse ${
+          <span className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-black animate-soft-badge-glow ${
             effectiveHasNewLogins ? 'bg-emerald-400 shadow-[0_0_6px_#10b981]' : 'bg-cyan-400 shadow-[0_0_6px_#22d3ee]'
           }`} />
         </div>
@@ -172,7 +172,9 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
                 )}
 
                 {/* Icon Container with Badge */}
-                <div className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                <div className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${
+                  item.pulse ? 'transition-none' : 'transition-all'
+                } ${
                   item.pulse
                     ? `${item.pulseClass} ${isActive ? 'bg-slate-900/60' : ''}`
                     : isActive
@@ -232,9 +234,9 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
           }}
           className={`group relative w-full py-1 px-1 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer ${
             isVoiceConnected
-              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)] border border-emerald-400 animate-pulse'
+              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)] border border-emerald-400 animate-soft-back-glow'
               : isVoiceConnecting
-              ? 'bg-amber-600 text-white border border-amber-400 animate-pulse'
+              ? 'bg-amber-600 text-white border border-amber-400 animate-soft-back-glow'
               : 'bg-slate-900/90 text-slate-400 hover:text-emerald-300 hover:bg-slate-800 border border-slate-700/80'
           }`}
           title={
@@ -252,7 +254,7 @@ export const CommsNavRail = ({ onOpenCreateModal, onOpenSquadModal, onOpenTeamMo
               <Radio size={16} />
             )}
             {isVoiceConnected && (
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black animate-ping" />
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black animate-soft-badge-glow" />
             )}
           </div>
           {!isCompact && (

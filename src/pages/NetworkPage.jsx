@@ -130,13 +130,13 @@ export const NetworkPage = () => {
   return (
     <div className="h-full w-full flex flex-col bg-[#070b13] text-slate-100 font-sans overflow-hidden select-none">
       {/* ── Master Unified Station Header ── */}
-      <header className="px-3 sm:px-4 py-2 bg-slate-950 border-b border-slate-800/90 flex flex-wrap items-center justify-between gap-2.5 text-xs font-mono shrink-0 shadow-md z-20">
+      <header className="px-2.5 sm:px-4 py-1.5 sm:py-2 bg-slate-950 border-b border-slate-800/90 flex items-center justify-between gap-1.5 sm:gap-2.5 text-xs font-mono shrink-0 shadow-md z-20">
         {/* Left: Station Identity & Mode Switcher */}
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="flex items-center gap-1.5 shrink-0">
             <div className="relative flex items-center justify-center">
-              <Radio size={15} className="text-emerald-400" />
-              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <Radio size={14} className="text-emerald-400" />
+              <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-soft-badge-glow" />
             </div>
             <span className="text-white font-bold tracking-wider hidden lg:inline">
               TERRAN DATA NETWORK
@@ -146,20 +146,21 @@ export const NetworkPage = () => {
           <div className="hidden lg:block h-4 w-px bg-slate-800" />
 
           {/* Segmented View Mode Switcher */}
-          <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 shrink-0">
+          <div className="flex items-center gap-0.5 sm:gap-1 bg-slate-900/90 p-0.5 sm:p-1 rounded-xl border border-slate-800 shrink-0">
             <button
               type="button"
               onClick={() => handleSelectView('comms')}
-              className={`px-2.5 sm:px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
                 activeView === 'comms'
                   ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
               }`}
             >
-              <Radio size={12} className={activeView === 'comms' ? 'text-amber-400' : 'text-slate-400'} />
-              <span>COMMLINK</span>
+              <Radio size={11} className={activeView === 'comms' ? 'text-amber-400' : 'text-slate-400'} />
+              <span className="hidden xs:inline">COMMLINK</span>
+              <span className="xs:hidden">COMMS</span>
               {totalUnreadCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded bg-amber-500 text-black font-extrabold text-[9px] animate-pulse">
+                <span className="px-1.5 py-0.2 rounded bg-amber-500 text-black font-extrabold text-[8.5px] sm:text-[9px] animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.6)]">
                   {totalUnreadCount}
                 </span>
               )}
@@ -168,20 +169,20 @@ export const NetworkPage = () => {
             <button
               type="button"
               onClick={() => handleSelectView('squads')}
-              className={`px-2.5 sm:px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
                 activeView === 'squads' || activeView === 'teams'
                   ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
               }`}
             >
-              <Shield size={12} className={activeView === 'squads' || activeView === 'teams' ? 'text-emerald-400' : 'text-slate-400'} />
+              <Shield size={11} className={activeView === 'squads' || activeView === 'teams' ? 'text-emerald-400' : 'text-slate-400'} />
               <span>SQUADS</span>
               {pendingInvites.length > 0 ? (
-                <span className="px-1.5 py-0.2 rounded bg-amber-400 text-black font-extrabold text-[9px] animate-pulse">
+                <span className="px-1.5 py-0.2 rounded bg-amber-400 text-black font-extrabold text-[8.5px] sm:text-[9px] animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.6)]">
                   {pendingInvites.length}!
                 </span>
               ) : effectiveSquads.length > 0 ? (
-                <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 text-[9px] font-mono">
+                <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 text-[8.5px] sm:text-[9px] font-mono">
                   {effectiveSquads.length}
                 </span>
               ) : null}
@@ -190,17 +191,17 @@ export const NetworkPage = () => {
             <button
               type="button"
               onClick={() => handleSelectView('roster')}
-              className={`px-2.5 sm:px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
                 activeView === 'roster'
                   ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/50 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
               }`}
             >
-              <Users size={12} className={activeView === 'roster' ? 'text-cyan-400' : 'text-slate-400'} />
+              <Users size={11} className={activeView === 'roster' ? 'text-cyan-400' : 'text-slate-400'} />
               <span className="hidden sm:inline">OPERATORS</span>
               <span className="sm:hidden">ROSTER</span>
               {onlineOperators.length > 0 && (
-                <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 text-[9px] font-mono">
+                <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 text-[8.5px] sm:text-[9px] font-mono">
                   {onlineOperators.length}
                 </span>
               )}
@@ -209,25 +210,26 @@ export const NetworkPage = () => {
             <button
               type="button"
               onClick={() => handleSelectView('community')}
-              className={`px-2.5 sm:px-3 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer ${
                 activeView === 'community'
                   ? 'bg-purple-950/80 text-purple-300 border border-purple-500/50 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
               }`}
             >
-              <Globe size={12} className={activeView === 'community' ? 'text-purple-400' : 'text-slate-400'} />
-              <span>COMMUNITY</span>
+              <Globe size={11} className={activeView === 'community' ? 'text-purple-400' : 'text-slate-400'} />
+              <span className="hidden xs:inline">COMMUNITY</span>
+              <span className="xs:hidden">NET</span>
             </button>
           </div>
         </div>
 
         {/* Right: Contextual Controls & Quick Actions */}
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Active Context Label */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Active Context Label (large screens only) */}
           {activeView === 'comms' && activeChannel && (
-            <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
               <span className="text-slate-500">FREQ:</span>
-              <span className="text-amber-300 font-bold truncate max-w-[140px]">
+              <span className="text-amber-300 font-bold truncate max-w-[130px]">
                 {activeChannel.displayName || `#${activeChannel.name}`}
               </span>
               {activeChannel.isPublic === false && (
@@ -237,9 +239,9 @@ export const NetworkPage = () => {
           )}
 
           {activeView === 'teams' && activeGroup && (
-            <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-[11px]">
               <span className="text-slate-500">SQUAD:</span>
-              <span className="text-emerald-300 font-bold truncate max-w-[140px]">
+              <span className="text-emerald-300 font-bold truncate max-w-[130px]">
                 {activeGroup.name}
               </span>
               <button
@@ -261,10 +263,11 @@ export const NetworkPage = () => {
                 AudioService.playTerminalBeep(1000, 0.02);
                 setCommsMobileView(prev => prev === 'sidebar' ? 'chat' : 'sidebar');
               }}
-              className="md:hidden px-2 py-1 rounded-lg bg-slate-900 border border-slate-700 text-amber-300 font-bold text-[10.5px] flex items-center gap-1"
+              className="md:hidden px-2 py-1 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-500/50 text-amber-300 font-bold text-[10px] sm:text-[10.5px] flex items-center gap-1 transition-colors cursor-pointer"
+              title="Toggle between channels directory and message thread"
             >
               <Radio size={11} />
-              <span>{commsMobileView === 'sidebar' ? 'VIEW CHAT' : 'FREQS'}</span>
+              <span>{commsMobileView === 'sidebar' ? 'CHAT' : 'FREQS'}</span>
             </button>
           )}
 
@@ -273,9 +276,10 @@ export const NetworkPage = () => {
             <button
               type="button"
               onClick={() => setIsCreateChannelModalOpen(true)}
-              className="px-2.5 py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/60 border border-amber-500/40 text-amber-300 font-bold text-[11px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
+              className="p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/60 border border-amber-500/40 text-amber-300 font-bold text-[11px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
+              title="Create New Channel"
             >
-              <Plus size={12} />
+              <Plus size={13} />
               <span className="hidden sm:inline">NEW CHANNEL</span>
             </button>
           )}
@@ -284,9 +288,10 @@ export const NetworkPage = () => {
             <button
               type="button"
               onClick={() => setIsCreateSquadModalOpen(true)}
-              className="px-2.5 py-1 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
+              className="p-1.5 sm:px-2.5 sm:py-1 rounded-lg bg-emerald-950/60 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center gap-1 shadow-sm transition-all cursor-pointer"
+              title="Create New Squad"
             >
-              <Plus size={12} />
+              <Plus size={13} />
               <span className="hidden sm:inline">NEW SQUAD</span>
             </button>
           )}
@@ -308,38 +313,38 @@ export const NetworkPage = () => {
 
       {/* ── High-Visibility Pending Squad Commission Alert Banner ── */}
       {pendingInvites && pendingInvites.length > 0 && (
-        <div className="px-3.5 sm:px-4 py-2 bg-gradient-to-r from-emerald-950 via-[#0a1820] to-slate-950 border-b border-emerald-500/50 flex items-center justify-between gap-3 text-xs font-mono shrink-0 shadow-lg z-10 animate-in slide-in-from-top duration-200">
-          <div className="flex items-center gap-2.5 min-w-0">
+        <div className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-emerald-950 via-[#0a1820] to-slate-950 border-b border-emerald-500/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono shrink-0 shadow-lg z-10 animate-in slide-in-from-top duration-200">
+          <div className="flex items-center gap-2 min-w-0">
             <div className="p-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shrink-0">
               <Shield size={14} className="animate-pulse" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="font-bold text-emerald-300 uppercase tracking-wide text-[11px]">
-                  TACTICAL SQUAD COMMISSION:
+                <span className="font-bold text-emerald-300 uppercase tracking-wide text-[10.5px] sm:text-[11px]">
+                  COMMISSION:
                 </span>
-                <span className="text-white font-bold truncate">
+                <span className="text-white font-bold truncate max-w-[160px] sm:max-w-none">
                   "{pendingInvites[0].groupName || pendingInvites[0].squadName}"
                 </span>
-                <span className="text-slate-400 text-[10.5px]">
+                <span className="text-slate-400 text-[10px] hidden xs:inline">
                   from @{pendingInvites[0].fromUserHandle || 'Operator'}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
             <button
               type="button"
               onClick={() => openInviteConfirmation(pendingInvites[0])}
-              className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-xs shadow-sm cursor-pointer transition-colors"
+              className="px-2.5 sm:px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold text-[11px] sm:text-xs shadow-sm cursor-pointer transition-colors"
             >
-              REVIEW & ACCEPT
+              REVIEW
             </button>
             <button
               type="button"
               onClick={() => declineInvite(pendingInvites[0].id)}
-              className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700 rounded-lg text-xs cursor-pointer transition-colors"
+              className="px-2 sm:px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700 rounded-lg text-[11px] sm:text-xs cursor-pointer transition-colors"
             >
               DECLINE
             </button>

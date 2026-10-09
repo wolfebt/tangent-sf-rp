@@ -498,16 +498,19 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   };
 
   // Roll Invocation check
-  const handleRollInvocation = (inv) => {
+  const handleRollInvocation = (inv, e = null) => {
     const calc = calculateInvocationScore(inv);
+    const scoreVal = calc.totalScore;
     openDiceRoller({
-      label: `${inv.name} Metaphysics Check`,
-      baseModifier: calc.totalScore,
-      expression: `2d10${calc.totalScore !== 0 ? (calc.totalScore > 0 ? `+${calc.totalScore}` : `${calc.totalScore}`) : ''}`,
+      label: `${inv.name} Metaphysics ${scoreVal >= 0 ? `+${scoreVal}` : scoreVal}`,
+      baseModifier: scoreVal,
+      expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
+      targetDC: inv.baseDC || 15,
       targetNumber: inv.baseDC || 15,
       rollMode: 'normal',
       characterName: characterData['char-name'] || 'Operative',
-      autoRoll: true
+      personaId: characterData['character-doc-id'] || characterData.id,
+      autoRoll: e?.shiftKey || false
     });
   };
 
@@ -1512,11 +1515,11 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                             {/* Primary Check Roll Button */}
                             <button
                               type="button"
-                              onClick={() => handleRollInvocation(power)}
+                              onClick={(e) => handleRollInvocation(power, e)}
                               className={`px-2.5 py-1 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95 ${
                                 isSpecial ? 'bg-cyan-600 hover:bg-cyan-500' : 'bg-purple-600 hover:bg-purple-500'
                               }`}
-                              title={`Roll 2d10 + ${calc.totalScore} vs Base CR ${calc.baseDC}${isSpecial ? ` (${calc.foundationAttributeName} Foundation)` : ''}`}
+                              title={`Check 2d10 + ${calc.totalScore} vs Base CR ${calc.baseDC}${isSpecial ? ` (${calc.foundationAttributeName} Foundation)` : ''}. Shift-click to quick-roll.`}
                             >
                               <span>🎲</span>
                               <span>+{calc.totalScore}</span>
@@ -1526,14 +1529,15 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                             {power.damage && (
                               <button
                                 type="button"
-                                onClick={() => {
+                                onClick={(e) => {
                                   openDiceRoller({
                                     label: `${power.name} Damage / Activation`,
                                     expression: power.damage,
                                     baseModifier: 0,
                                     rollMode: 'normal',
                                     characterName: characterData['char-name'] || 'Operative',
-                                    autoRoll: true
+                                    personaId: characterData['character-doc-id'] || characterData.id,
+                                    autoRoll: e?.shiftKey || false
                                   });
                                 }}
                                 className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"

@@ -167,12 +167,15 @@ export const SquadProvider = ({ children }) => {
     await SquadService.kickMember({ groupId, userId });
   }, []);
 
-  // Update member role (GM action)
-  const updateMemberRole = useCallback(async ({ groupId, userId, role }) => {
-    if (!groupId || !userId || !role) return;
+  // Update member role (Architect action)
+  const updateMemberRole = useCallback(async (groupIdOrParams, maybeUserId, maybeRole) => {
+    const payload = (typeof groupIdOrParams === 'object' && groupIdOrParams !== null)
+      ? groupIdOrParams
+      : { groupId: groupIdOrParams, userId: maybeUserId, role: maybeRole };
+    if (!payload.groupId || !payload.userId || !payload.role) return;
     AudioService.playTerminalBeep(1200, 0.02);
-    await SquadService.updateMemberRole({ groupId, userId, role });
-  }, []);
+    await SquadService.updateMemberRole({ ...payload, currentUser });
+  }, [currentUser]);
 
   // Accept Invite with explicit selected persona
   const acceptInvite = useCallback(async (inviteId, groupId, persona, isLockedForPlay = false) => {

@@ -8,11 +8,29 @@ perspective: "both"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","volume-2","tech-levels","core-rule"]
-updatedAt: "2026-09-15T07:48:15.249Z"
+updatedAt: "2026-10-09T07:59:56.120Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # 2.01 Tech Levels (TL 0–5) & Manufacturing DC Hierarchy
@@ -30,8 +48,16 @@ Technology across the galaxy is categorized into 6 distinct Tech Levels:
 
 ## Game Mechanics Rules
 ```
+Setting Tiers & Persona Foundation:
+- Base Tech Level (TL) and Meta Level (ML) are established by Identity Pillars (Species, Faction, Origin, Occupation, Archetype).
+- In case of conflicting pillar sources, the HIGHEST value establishes the character's base tier.
+- Universal Standard Baseline: TL3 and ML3 (0 CP).
+- Lowered Tiers (< 3): Award +10 CP per level difference (TL2/ML2 = +10 CP, TL1/ML1 = +20 CP, TL0/ML0 = +30 CP).
+- Advanced Tiers (> 3): Cost 10 CP per level difference (TL4/ML4 = 10 CP, TL5/ML5 = 20 CP).
+- Upgrades & Advancement: Lowered scores may be upgraded during character creation or through gameplay advancement at 10 CP (2 AP) per level.
+
 Tech Level Compatibility:
-- Equipment above campaign TL incurs +5 DC to repair, modify, or reload.
+- Equipment above persona/campaign TL incurs +5 DC to repair, modify, or reload.
 - Cross-TL modifications require specialized adapter sockets.
 ```
 

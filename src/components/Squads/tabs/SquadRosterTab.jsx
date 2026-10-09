@@ -31,8 +31,25 @@ export const SquadRosterTab = ({
   setIsCreateModalOpen,
   setActiveTab
 }) => {
-  const { characterData, togglePersonaNetworkEngaged } = useFolio() || {};
-  const { togglePersonaPlayLock } = useGroup() || {};
+  const { 
+    characterData = {}, 
+    togglePersonaNetworkEngaged 
+  } = useFolio() || {};
+
+  const { 
+    togglePersonaPlayLock,
+    transferArchitectRole,
+    setCoArchitect,
+    isUserArchitect
+  } = useGroup() || {};
+
+  const isCurrentUserLeadArchitect = Boolean(
+    activeGroup && currentUser && (
+      activeGroup.creatorId === currentUser.uid ||
+      isUserArchitect ||
+      isUserGM
+    )
+  );
 
   if (!activeGroup) {
     return (
@@ -177,8 +194,8 @@ export const SquadRosterTab = ({
             const isSelf = memberId === currentUser?.uid;
             const persona = details.persona || null;
             const isLeadArchitect = memberId === activeGroup.creatorId || memberRole === 'Architect' || memberRole === 'GM' || memberRole === 'Leader';
-            const isCoArchitect = (Array.isArray(activeGroup.coArchitects) && activeGroup.coArchitects.includes(memberId)) || memberRole === 'Co-Architect' || memberRole === 'Co-GM';
-            const displayRole = isLeadArchitect ? 'Lead Architect' : isCoArchitect ? 'Co-Architect' : (memberRole === 'Spectator' || memberRole === 'Observer' ? 'Observer' : 'Operator');
+            const isCoArchitect = !isLeadArchitect && ((Array.isArray(activeGroup.coArchitects) && activeGroup.coArchitects.includes(memberId)) || memberRole === 'Co-Architect' || memberRole === 'Co-GM');
+            const displayRole = isLeadArchitect ? 'Lead Architect' : isCoArchitect ? 'Co-Architect' : 'Operator';
 
             return (
               <div
@@ -221,7 +238,7 @@ export const SquadRosterTab = ({
                   </div>
 
                   {/* Leader Actions */}
-                  {isUserGM && !isSelf && (
+                  {isCurrentUserLeadArchitect && !isSelf && (
                     <button
                       type="button"
                       onClick={async () => {
@@ -324,14 +341,14 @@ export const SquadRosterTab = ({
                             }
                           }}
                           className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono font-bold uppercase border transition-colors flex items-center gap-1 cursor-pointer ${
-                            (characterData?.networkEngaged || characterData?.isNetworkEngaged)
+                            (persona?.networkEngaged || persona?.isNetworkEngaged || characterData?.networkEngaged || characterData?.isNetworkEngaged)
                               ? 'bg-emerald-950 text-emerald-300 border-emerald-500/70 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
                               : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-emerald-300'
                           }`}
                           title="Toggle network broadcast engagement for this persona"
                         >
-                          <Radio size={8} className={(characterData?.networkEngaged || characterData?.isNetworkEngaged) ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
-                          <span>{(characterData?.networkEngaged || characterData?.isNetworkEngaged) ? 'ENGAGED' : 'STANDBY'}</span>
+                          <Radio size={8} className={(persona?.networkEngaged || persona?.isNetworkEngaged || characterData?.networkEngaged || characterData?.isNetworkEngaged) ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                          <span>{(persona?.networkEngaged || persona?.isNetworkEngaged || characterData?.networkEngaged || characterData?.isNetworkEngaged) ? 'ENGAGED' : 'STANDBY'}</span>
                         </button>
                       </div>
                     )}
@@ -369,19 +386,62 @@ export const SquadRosterTab = ({
                   </div>
                 )}
 
-                {/* Role Assignment Switcher (GM / Lead Architect Only) */}
-                {isUserGM && (
-                  <div className="pt-1 flex items-center justify-between text-[10px] font-mono border-t border-slate-800/80">
-                    <span className="text-slate-500">TACTICAL ROLE:</span>
+                {/* Role Assignment & Handoff Switcher (Lead Architect Only) */}
+                {isCurrentUserLeadArchitect && !isSelf && (
+                  <div className="pt-2 flex items-center justify-between text-[10px] font-mono border-t border-slate-800/80 gap-2">
+                    <span className="text-slate-400 font-bold shrink-0">TACTICAL ROLE:</span>
                     <select
-                      value={isLeadArchitect ? 'Architect' : isCoArchitect ? 'Co-Architect' : (memberRole || 'Operator')}
-                      onChange={(e) => updateMemberRole(activeGroup.id, memberId, e.target.value)}
-                      className="bg-slate-950 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-[10px] focus:outline-none focus:border-emerald-400 cursor-pointer"
+                      value={isCoArchitect ? 'Co-Architect' : 'Operator'}
+                      onChange={async (e) => {
+                        const newRole = e.target.value;
+                        if (newRole === 'Architect') {
+                          const ok = await confirm({
+                            title: 'Hand Off Lead Architect Role',
+                            message: `Are you sure you want to hand off primary squad leadership to ${memberHandle}? You will step down to Co-Architect, and ${memberHandle} will take over as the Lead Architect of ${activeGroup.name}.`,
+                            confirmLabel: 'Hand Off Role',
+                            danger: true
+                          });
+                          if (ok) {
+                            try {
+                              if (transferArchitectRole) {
+                                await transferArchitectRole(memberId);
+                              } else {
+                                await updateMemberRole(activeGroup.id, memberId, 'Architect');
+                              }
+                              toast?.({ type: 'success', text: `Lead Architect role handed off to ${memberHandle}.` });
+                            } catch (err) {
+                              toast?.({ type: 'error', text: err.message || 'Failed to transfer role.' });
+                            }
+                          }
+                        } else if (newRole === 'Co-Architect') {
+                          try {
+                            if (setCoArchitect) {
+                              await setCoArchitect(memberId, true);
+                            } else {
+                              await updateMemberRole(activeGroup.id, memberId, 'Co-Architect');
+                            }
+                            toast?.({ type: 'success', text: `${memberHandle} promoted to Co-Architect.` });
+                          } catch (err) {
+                            toast?.({ type: 'error', text: err.message || 'Failed to promote member.' });
+                          }
+                        } else if (newRole === 'Operator') {
+                          try {
+                            if (setCoArchitect) {
+                              await setCoArchitect(memberId, false);
+                            } else {
+                              await updateMemberRole(activeGroup.id, memberId, 'Operator');
+                            }
+                            toast?.({ type: 'info', text: `${memberHandle} assigned as Operator.` });
+                          } catch (err) {
+                            toast?.({ type: 'error', text: err.message || 'Failed to update role.' });
+                          }
+                        }
+                      }}
+                      className="bg-slate-950 border border-slate-700 hover:border-emerald-500/60 text-slate-200 rounded px-1.5 py-0.5 text-[10px] font-bold focus:outline-none focus:border-emerald-400 cursor-pointer transition-colors"
                     >
-                      <option value="Architect">Lead Architect</option>
-                      <option value="Co-Architect">Co-Architect</option>
                       <option value="Operator">Operator</option>
-                      <option value="Observer">Observer</option>
+                      <option value="Co-Architect">Co-Architect</option>
+                      <option value="Architect">★ Hand Off Lead Architect</option>
                     </select>
                   </div>
                 )}

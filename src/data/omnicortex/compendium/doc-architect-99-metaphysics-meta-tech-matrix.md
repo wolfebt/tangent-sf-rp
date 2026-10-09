@@ -1,18 +1,36 @@
 ---
 id: "doc-architect-99-metaphysics-meta-tech-matrix"
-name: "99. META-TECH MATRIX (CONVERSION & CAPACITY)"
-category: "compendium"
-parent: "99.00 ARCHITECT MATRICES & WORLDBUILDING"
-order: 4
+name: "99. METAPHYSICS, META-TECH MATRIX (1) — META-TECH FRAMEWORK"
+category: "architect_matrix"
+parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
+order: 1
 perspective: "architect"
-entry_type: "Game Mechanic"
+entry_type: "Architect Matrix"
 tl: 3
 ml: 0
-tags: ["compendium","meta-tech-matrix"]
-updatedAt: "2026-09-14T16:40:07.844Z"
+cost: 0
+tags: ["architect","core-rules","source-of-truth","99. metaphysics, meta-tech matrix (1)","matrix"]
+updatedAt: "2026-10-09T07:59:56.581Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **META-TECH FRAMEWORK**
@@ -79,7 +97,7 @@ These effects are "Always On" or reactive. They do not require an Action to acti
 
 #### **3.1 Weapon Enhancement Examples**
 
-*Cost: Adds to Base CR (+5 DC per Socket).*
+*Cost: Adds to Base CR (\+5 CR per Socket).*
 
 | Enhancement&nbsp; | Discipline Base | Sockets | Effect |
 | :---- | :---- | :---- | :---- |
@@ -93,7 +111,7 @@ These effects are "Always On" or reactive. They do not require an Action to acti
 
 #### **3.2 Protective Enhancement Examples**
 
-*Cost: Adds to Base CR (+5 DC per Socket).*
+*Cost: Adds to Base CR (\+5 CR per Socket).*
 
 | Enhancement&nbsp; | Discipline Base | Sockets | Effect |
 | :---- | :---- | :---- | :---- |
@@ -144,7 +162,7 @@ When an Invocation is built into an item, its variable stats become **Fixed Cons
 * **Installed Invocation:** *Matter: Transmutation (Petrify/Weaken)*.  
 * **Rank:** **Rank 12** (Expert).  
 * **Capacity Cost:** 2 Sockets (Rank 11-20 requires 2).  
-* **Craft DC:** **27** (Base 15 \+ Rank 12).  
+* **Craft CR:** **27** (Base 15 \+ Rank 12).  
 * **Market Value:** \~13,000 Credits.  
 * **Effect:** Deals damage/weakens structure as a Rank 12 Caster.
 
@@ -157,7 +175,7 @@ When an Invocation is built into an item, its variable stats become **Fixed Cons
 * **Installed Invocation:** *Dimension: Teleport (Gate), limited 3 uses per day*.  
 * **Rank:** **Rank 10** (Trained), half cost due to limit.  
 * **Capacity Cost:** 1 Socket (Rank 1-10 requires 1).  
-* **Craft DC:** **27** (Base 15 \+ Rank 10/2 daily use limit).  
+* **Craft CR:** **27** (Base 15 \+ Rank 10/2 daily use limit).  
 * Market Value: \~2,560 Credits.  
 * **Effect:** Teleport range calculated at Rank 8\. 3 Charges/Day.
 
@@ -170,9 +188,9 @@ When an Invocation is built into an item, its variable stats become **Fixed Cons
 * **Installed Invocation:** *Mental: Projection (Fear)*.  
 * **Rank:** **Rank 15** (Expert).  
 * **Capacity Cost:** 1 Socket (Consumable/Destroyed on use).  
-* **Craft DC:** **20** (Base 15 \+ Rank 15 \- 10 Consumable Discount).  
+* **Craft CR:** **20** (Base 15 \+ Rank 15 \- 10 Consumable Discount).  
 * **Market Value:** \~2,560 Credits.  
-* **Effect:** 30ft Radius burst. Targets must Save vs Will (DC based on Rank 15).
+* **Effect:** 30ft Radius burst. Targets must Save vs Will (CR based on Rank 15).
 
 ### 
 
@@ -337,7 +355,7 @@ How do characters interact with Meta-Tech?
 
 * *Requirement:* **Awakened** Feature or **Technologist (Meta-Sciences)**.  
 * *Mechanic:* The user bonds with the item (Short Rest).  
-* *Benefit:* The user can add their **Attune** bonus to the item's DC or Attack Roll.  
+* *Benefit:* The user can add their **Attune** bonus to the item's CR or Attack Roll.  
 * *Synergy:* The user can spend **Karma** to temporarily boost the Item's **Rank** by \+2 for a single action.
 
 &nbsp;
@@ -364,18 +382,18 @@ To determine the Crafting CR (and thus the Market Value) of any Meta-Tech device
 
 &nbsp;
 
-Passive Enhancement DC:
+Passive Enhancement CR:
 
-DC \= Base Item CR \+ (Sockets Used x 5\)
+CR \= Base Item CR \+ (Sockets Used x 5\)
 
-* *Explanation:* Every Socket used for an enhancement increases the complexity by \+5 DC, effectively quadrupling the item's value (shifting it one Wealth Tier).  
+* *Explanation:* Every Socket used for an enhancement increases the complexity by \+5 CR, effectively quadrupling the item's value (shifting it one Wealth Tier).  
 * *Example:* A Rifle (CR 15\) with an Energy Sheath (1 Socket) becomes CR 20 (Expert). Value jumps from 640 Cr to 2,560 Cr.
 
 &nbsp;
 
-Active Imbuement DC:
+Active Imbuement CR:
 
-DC \= 15 \+ (Invocation Rank) \+ (TL Modifier)
+CR \= 15 \+ (Invocation Rank) \+ (TL Modifier)
 
 * *Base Constant:* 15 (The complexity of containment fields).  
 * *TL Modifiers:* TL3 (+0), TL4 (+2), TL5 (+5).  
@@ -385,7 +403,7 @@ DC \= 15 \+ (Invocation Rank) \+ (TL Modifier)
 
 Consumable Modifier (Single Use):
 
-DC \= Standard Formula \- 10
+CR \= Standard Formula \- 10
 
 * *Explanation:* Creating a device that burns out after one use requires far less stabilization than a permanent relic.  
 * *Example:* A Rank 10 Healing Potion \= (15 \+ 10\) \- 10 \= **CR 15**. (Market Value \~640 Cr).
@@ -404,26 +422,13 @@ Meta-Tech cannot be built from scrap steel. It requires **Conductive Materials**
 
 &nbsp;
 
-
-
-## Canonical Mechanics
-Integration of magic and tech: Enhancement (Passive), Imbuement (Active), Interface (Symbiotic). UDU capacity: 1 Socket = Rank 10, Mount = Rank 20/30, Module = Rank 30.
-
-
-## Tactical Guide
-Consult this Architect matrix when designing game assets, calculating build budgets, adjudicating scale, or world-building.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/architect/99. METAPHYSICS, META-TECH MATRIX (1).md
-
 ## Game Mechanics Rules
 ```
-Governing canonical rules for 99. META-TECH MATRIX (CONVERSION & CAPACITY).
+See full canonical text in 99. METAPHYSICS, META-TECH MATRIX (1).md
 ```
 
 ## Gameplay Instructions
-
+Refer to 99. METAPHYSICS, META-TECH MATRIX (1).md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-
+Canonical Tangent SF RP rulebook reference from 99. METAPHYSICS, META-TECH MATRIX (1).md. Complete, unabridged source of truth.

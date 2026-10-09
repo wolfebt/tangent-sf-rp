@@ -1,6 +1,6 @@
 /**
- * Semantic Rulebook Engine & RAG Index for Tangent SFF RP
- * Indexes core rules across all 44 Operator and Architect rulebooks.
+ * Semantic Rulebook Engine & RAG Index for Tangent SF RP
+ * Indexes canonical core rules across all Operator and Architect rulebooks.
  */
 
 import { getOpfsWorkerManager } from './opfsWorkerManager.ts';
@@ -10,138 +10,172 @@ export const RULEBOOK_CORPUS = [
     id: 'combat_resolution',
     topic: '2d10 Dual-Resolution & Critical Rolls',
     category: 'Combat & Resolution',
-    source: 'Operator’s Handbook',
-    page: 24,
-    keywords: ['2d10', 'roll', 'check', 'critical', 'fumble', 'triumph', 'double', 'skill check', 'resolution'],
-    summary: 'Roll 2d10 + Skill Level + Linked Attribute + Situational Modifiers vs. Target Defense DC.',
+    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    page: 27,
+    keywords: ['2d10', 'dual', 'resolution', 'roll', 'check', 'critical', 'fumble', 'triumph', 'double', 'skill check', 'combat'],
+    summary: 'Roll 2d10 + Skill Rank + Linked Attribute Modifier + Modifiers vs. Target Defense or Challenge Rating (CR). Defender wins all ties.',
     content: `All checks in Tangent SF RP utilize the 2d10 Dual-Resolution System.
-- **Roll Formula:** 2d10 + Skill Rank + Linked Attribute Modifier + Modifiers vs CR.
-- **Critical Triumph (Natural Double 10s):** Counts as an automatic 30 on the dice plus modifiers. Triggers exceptional narrative breakthrough or max weapon damage.
-- **Critical Fumble (Natural Double 1s):** Counts as an automatic -10 on the dice plus modifiers. Triggers weapon malfunction, accidental slip, or adverse complication.
-- **Margin of Success (MoS):** If Roll exceeds DC by 10 or more (MoS ≥ 10), the strike achieves a Critical Hit (+50% bonus damage).`
+- **Roll Formula:** 2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Target Defense / CR.
+- **Opposed Rolls:** Attacker's Check vs. Defender's Defense Check (Agility + Defense Skill). Attacker wins on higher roll. DEFENDER WINS ALL TIES.
+- **Unopposed Baseline:** Standard static difficulty baseline is CR 15 (Average difficulty for a typical medium target at short range, modified for target's Size, Range, and Movement).
+- **Critical Triumph (Natural Double 10s):** Automatic success / triumph, achieving exceptional narrative breakthrough, maximum weapon damage dice, or maximum effect.
+- **Critical Fumble (Natural Double 1s):** Automatic failure / setback, triggering weapon malfunction, accidental slip, or adverse narrative complication.
+- **Margin of Success (MoS):** Exceeding the Target Defense by significant margins triggers amplified effects (e.g. automatic weapon hit accumulation, called shot direct penetration).`
   },
   {
     id: 'damage_pools',
     topic: 'Damage Classification: Vitality, Health & Synthetic Structure',
     category: 'Health & Damage',
-    source: 'Operator’s Survival Guide',
-    page: 38,
-    keywords: ['vitality', 'health', 'structure', 'synthetic', 'damage', 'lethal', 'non-lethal', 'nonlethal', 'fatigue', 'stress', 'cuts', 'burns'],
-    summary: 'Vitality tracks non-lethal stress/fatigue; Health tracks lethal trauma; Synthetics use Structure and are immune to non-lethal damage.',
+    source: 'docs/game rules/operator/1.00 INTRODUCTION.md & 3.00 COMBAT.md',
+    page: 83,
+    keywords: ['vitality', 'health', 'structure', 'synthetic', 'damage', 'lethal', 'non-lethal', 'nonlethal', 'fatigue', 'stamina', 'cuts', 'burns'],
+    summary: 'Vitality absorbs non-lethal fatigue; Health tracks lethal trauma; Synthetics use a unified Structure Pool and are immune to non-lethal damage.',
     content: `Tangent SF RP strictly differentiates non-lethal wear from lethal trauma:
-- **🔵 Vitality Pool (Base 30 + 5/CP, max +5×STA):** Measures non-lethal damage capacity, environmental stress, sensory shock, and physical/mental fatigue (not modified by Willpower). Overflow beyond 0 spills into Health as lethal damage.
-- **🔴 Health Pool (Base 30 + 5/CP, max +5×STA):** Measures lethal trauma capacity (bullet wounds, cuts, burns, shrapnel, and penetrating injuries) (not modified by Fortitude). Reducing Health to 0 initiates the Death Clock.
-- **🤖 Structure Pool (Synthetics & Mecha):** Synthetics, androids, constructs, and vehicles possess a unified Structure Pool (equal to Vitality + Health combined) and are **completely IMMUNE to non-lethal damage** as well as biological toxins and suffocation.
-- **🛡️ Stamina Natural DR:** All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, down to a minimum of 1 point.
-- **⚡ Critical Hits & Non-Lethal:** Critical hits amplify damage dealt, but do not convert a non-lethal attack into a lethal one.
-- **📊 Skill & Trait Caps:** Most skills have a maximum rank of 20; specializations and invocations max at rank 10.`
+- **🔵 Vitality Pool (Base 30 + 5/BP, max +5×STA):** Physical resilience, luck, and stamina. Absorbs non-lethal damage, fatigue, sensory shock, and initial combat strain. Recovers quickly. Overflow beyond 0 spills directly into Health as lethal damage.
+- **🔴 Health Pool (Base 30 + 5/BP):** Structural biological integrity and life force. Damage here is lethal trauma (bullet wounds, cuts, burns, penetrating injuries). Recovers slowly. Reducing Health to 0 enters the Mortality State.
+- **🤖 Structure Pool (Synthetics & Mecha):** Synthetics, androids, vehicles, and mecha possess a unified Structure Pool (replacing Vitality and Health). Synthetics are completely IMMUNE to non-lethal damage, biological toxins, vacuum, and suffocation. Synthetic limbs possess 50% more durability/damage threshold before being Disabled or Destroyed.
+- **🛡️ Armor DR & Constitution:** Incoming damage is reduced by Target Armor DR + Target Constitution (CON) Modifier before penetrating into Vitality or Structure.
+- **⚡ Damage Types:** Kinetic (Blunt, Slashing, Piercing; Force ignores 1/2 DR), Energy (Fire, Cold, Sonic, Voltic, Corrosive, Disruptor), Radiation (Ra-D), and Mental (ignores physical armor).`
   },
   {
     id: 'massive_damage_death_clock',
-    topic: 'Massive Damage & Death Clock Rules',
+    topic: 'The Mortality State, Bleeding Out & Stabilization',
     category: 'Health & Damage',
-    source: 'Architect’s Field Manual',
-    page: 52,
-    keywords: ['massive damage', 'death clock', 'death', 'stabilize', 'dying', 'incapacitated', 'stamina', 'unconscious'],
-    summary: 'Lethal hits >= Stamina force a CR 15 Fortitude save; Health at 0 begins a Stamina-round death clock.',
-    content: `Wound trauma and mortality mechanics:
-- **Massive Damage Rule:** If a single lethal strike to Health equals or exceeds the target's Stamina (STA) score, the target must immediately make a **CR 15 Fortitude Save** or suffer instant heart failure/fatal shock (Death's Door).
-- **Death Clock:** When an operative's Health drops to 0, they fall unconscious and prone. A countdown begins equal to their **Stamina score in combat rounds**. If not stabilized via Medicine (CR 15) or trauma tech before the clock reaches 0, the operative dies.
-- **Revivification Debt:** If resuscitated from death, the operative carries a **-5 AP Experience Debt** until repaid.`
+    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    page: 255,
+    keywords: ['mortality state', 'death clock', 'bleeding out', 'stability', 'stabilize', 'dying', 'incapacitated', 'constitution', 'unconscious', 'massive damage'],
+    summary: 'When Health reaches 0, the operative enters the Mortality State: prone, incapacitated, bleeding out 1 Stability/turn until stabilized (CR 15 Medicine).',
+    content: `Wound trauma and mortality mechanics in Tangent SF RP:
+- **The Mortality State (0 Health):** When a character's Health Points reach 0, they immediately collapse:
+  - **Prone & Incapacitated:** The operative falls prone and cannot take actions.
+  - **Bleeding Out:** At the beginning of each of the character's turns, they suffer 1 point of Stability Damage.
+  - **Stability Threshold:** A character possesses Stability Points equal to Constitution (CON) Score + 5.
+  - **Death:** If Stability Points are reduced to 0, the character is permanently dead.
+- **Stabilization & Recovery:** The character stops Bleeding Out and stabilizes if they receive metaphysical healing or a successful Medicine Check (CR 15) is made to aid them.
+- **Limb Damage & Critical Injuries:** Called shots (-2 to -5 Strike) apply direct trauma to specific limbs. Biological limbs become Disabled or Destroyed; Synthetic limbs have 50% higher damage thresholds.`
   },
   {
     id: 'action_economy',
-    topic: 'Action Economy (Turn Action Budget)',
+    topic: 'Skill Tier Action Economy & Combat Turn Budget',
     category: 'Combat & Tactics',
-    source: 'Operator’s Handbook',
-    page: 30,
-    keywords: ['action', 'economy', 'turn', 'round', 'standard', 'move', 'reaction', 'free action', 'pace'],
-    summary: 'Each operative receives 1 Standard Action, 1 Move Action, 1 Reaction, and Free Actions per round.',
-    content: `Turn budget in tactical combat:
-- **1 Standard Action:** Weapon strike, casting a metaphysical invocation, heavy technical repair, complex item deployment.
-- **1 Move Action:** Moving up to Pace, drawing or stowing weapons, reloading magazines/cells, taking cover.
-- **1 Reaction (1 / Round):** Active parry, evasive dodge, opportunity attack against exiting enemy, emergency kinetic barrier.
-- **Free Actions:** Brief tactical radio call, dropping an item, toggling cybernetic HUD modes.`
+    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    page: 41,
+    keywords: ['action', 'economy', 'turn', 'round', 'skill tier', 'standard', 'movement', 'reaction', 'active defense', 'focus'],
+    summary: 'Turn actions are unlocked by Skill Tier (Rank 0: Full Round, 1–5: 1 action, 6–10: 2nd at -5, 11–15: 3rd at -10...). Active Defense has cumulative -5 subsequent penalties.',
+    content: `Combat capability and action budget are determined by Skill Tier:
+- **Skill Tier Actions:**
+  - **Rank 0 (Untrained):** Full Round Action required for a single check.
+  - **Rank 1–5 (Novice / Studied):** 1st action at base score (+2 Focus Bonus).
+  - **Rank 6–10 (Professional / Trained):** 2nd action at base score -5 (+3 Focus Bonus).
+  - **Rank 11–15 (Expert):** 3rd action at base score -10 (+4 Focus Bonus).
+  - **Rank 16–20 (Master):** 4th action at base score -15 (+5 Focus Bonus).
+  - **Rank 21–25 (Grand Master):** 5th action at base score -20 (+6 Focus Bonus).
+  - **Rank 26–30 (Pinnacle):** 6th action at base score -25 (+7 Focus Bonus).
+- **Active Defense Reactions:** An operative may make as many Active Defense checks as allowed by their Defense Skill Rank, with a cumulative -5 penalty after the first reaction.
+- **Standard Actions:** Attack, Active Defense, Aiming (+2 Strike per round, up to 1/2 Skill Rank), Called Shot (-5 Strike penalty), Feint (Bluff vs Insight).
+- **Movement Actions:** Evasive Movement (+1 base Defense, +1 per 10ft speed used), Subtle movement (stealth), Bracing (negates heavy recoil, advantage vs trip/shove).`
   },
   {
     id: 'cover_evasion',
-    topic: 'Cover, Evasion & Defense DC Modifiers',
+    topic: 'Cover, Evasion, EDGE & Defense Modifiers',
     category: 'Combat & Tactics',
-    source: 'Tactical Combat Codex',
-    page: 18,
-    keywords: ['cover', 'evasion', 'defense', 'dc', 'half cover', 'full cover', 'dodge', 'aim'],
-    summary: 'Base Defense DC is 10 + Agility + Defense skill. Half Cover grants +2 DC; Full Cover grants +4 DC.',
-    content: `Target Defense calculation:
-- **Base Defense DC:** 10 + Agility modifier + Defense/Acrobatics Skill rank.
-- **Half Cover:** +2 bonus to Defense DC (low walls, crates, debris).
-- **Full Cover:** +4 bonus to Defense DC or total line-of-sight blockage.
-- **Evasive Stance:** Spending a Move Action to weave grants +2 Defense DC against ranged attacks until next turn.
-- **Aim Action:** Spending a Move Action to steady aim grants +2 on the next Standard attack roll.`
+    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    page: 75,
+    keywords: ['cover', 'evasion', 'defense', 'dc', 'cr', 'edge', 'half cover', 'full cover', 'aiming', 'flanking'],
+    summary: 'Base Defense DC is 10 + Agility + Defense Skill. Half Cover grants +2; Full Cover grants +4; Aiming grants +2/round.',
+    content: `Target Defense and tactical EDGE modifiers:
+- **Passive Defense DC:** 10 + Agility modifier + Defense Skill Rank + Situational Modifiers.
+- **Cover Modifiers:**
+  - **Half Cover:** +2 bonus to Defense DC (low walls, crates, dense foliage).
+  - **Full Cover:** +4 bonus to Defense DC or total line-of-sight blockage.
+- **Moving Target Modifiers:**
+  - Running: -2 attack penalty for ranged fire.
+  - Moving 20+ ft in a round: +2 Defense DC.
+  - Moving 40+ ft in a round: +4 Defense DC.
+  - Total Defense / Dodge: +4 Defense DC (spends action to focus on evasion).
+- **Tactical EDGE Modifiers:**
+  - **Aiming:** +2 Strike per round of steadying aim (up to 1/2 Skill Rank).
+  - **Flanking:** +2 Strike bonus when allies position on opposing sides of target.
+  - **Advancing Target:** Target approaching without cover grants extra attack at -5 Strike.
+  - **Retreating Target:** Target fleeing area without evasion grants extra attack at -5 Strike.`
   },
   {
     id: 'essence_burn',
-    topic: 'Metaphysical Essence, Channeling & Fatigue Stages',
+    topic: 'Metaphysics Triad, Essence Pool, Surge & Strain',
     category: 'Metaphysics & Psionics',
-    source: 'Metaphysical Grimoire',
-    page: 64,
-    keywords: ['essence', 'burn', 'fatigue', 'psionics', 'magic', 'invocations', 'channeling', 'overburn'],
-    summary: 'Channeling past 0 Essence triggers progressive Fatigue Stages and drains Health directly.',
-    content: `Channeling metaphysical energies:
-- **Essence Pool:** Derived from Intellect + Willpower or Meta Level (ML).
-- **Fatigue Stage 1 (Fatigued):** -1 check penalty to all physical actions.
-- **Fatigue Stage 2 (Exhausted):** -2 check penalty to all actions; Pace is reduced by 50%.
-- **Fatigue Stage 3 (Essence Overburn):** Any essence points spent past 0 inflict direct lethal Health/Vitality trauma per point spent.`
+    source: 'docs/game rules/operator/4.00 METAPHYSICS.md',
+    page: 1,
+    keywords: ['essence', 'burn', 'strain', 'surge', 'triad', 'attune', 'discipline', 'invocation', 'metaphysics', 'potency'],
+    summary: 'The Triad governs casting: Attune (Accuracy), Discipline (Domain), Invocation (Form). Overspending causes Strain and direct damage.',
+    content: `The Metaphysics framework operates on the Triad system:
+- **The Triad:**
+  - **Attune (Accuracy/Channeling):** Governing attribute/skill for channeling metaphysical energy.
+  - **Discipline (Domain):** The 6 metaphysical disciplines: Dimension, Energy, Entropy, Illusion, Matter, and Mental.
+  - **Invocation (Expression):** The specific geometric form, ray, blast, aura, construct, or weave manifested.
+- **Free Casting vs. Codified Invocations:** Free casting calculates Potency from ML and Discipline rank; codified invocations provide stable, reliable parameters.
+- **Essence Pool, Surge & Strain:**
+  - Essence points fuel invocations.
+  - Channeling past safe limits incurs Strain penalties to physical and mental checks.
+  - Severe essence overburn inflicts unmitigated direct trauma to Health and Vitality.
+- **Metafocus Level (ML):** Scales from ML 0 (Null/Mundane) to ML 6 (Deific Ascendant).`
   },
   {
     id: 'karma_system',
-    topic: 'Karma Actions & Replenishment',
+    topic: 'Karma System, Heroic Luck & Karmic Debt',
     category: 'Karma & Fate',
-    source: 'Architect’s Master Codex',
-    page: 88,
-    keywords: ['karma', 'fate', 'luck', 'reroll', 'defy death', 'soak', 'replenish', 'triumph'],
-    summary: 'Spend Karma for Advantage, Maximum Damage, Extra Action, or Defying Death; replenished on Critical Triumphs or Rest.',
-    content: `Karma is the measure of narrative heroic luck:
+    source: 'docs/game rules/operator/1.00 INTRODUCTION.md & 1.09 HINDRANCES.md',
+    page: 58,
+    keywords: ['karma', 'fate', 'luck', 'reroll', 'defy death', 'soak', 'replenish', 'triumph', 'debt', 'hindrance'],
+    summary: 'Operatives start with Base 3 Karma points, refreshing per session. 6 canonical actions. Karmic Debt allows emergency draws.',
+    content: `Karma represents the flow of destiny and heroic luck in Tangent SF RP:
+- **Pool Size:** Base 3 Karma points for all operatives. Refreshes each game session (not per rest).
 - **6 Canonical Karma Actions:**
-  1. *Heroic Edge:* Roll with Advantage on any check.
-  2. *Maximum Output:* Maximize all weapon damage dice.
-  3. *Second Wind:* Take an immediate extra Move or Standard action.
+  1. *Heroic Edge:* Roll with Advantage on any check (roll 3d10, take highest two).
+  2. *Maximum Output:* Maximize all weapon damage dice for an attack.
+  3. *Second Wind:* Take an immediate extra action on your turn.
   4. *Fate Soak:* Negate all damage from a single lethal attack.
-  5. *Defy Death:* Automatically stabilize and reset Death Clock to max Stamina.
-  6. *Plot Surge:* Introduce a favorable narrative complication or escape route.
-- **Replenishment:** Karma recharges upon rolling a Critical Triumph (Double 10s) or completing an extended rest.`
+  5. *Defy Death:* Automatically stabilize when entering the Mortality State.
+  6. *Plot Surge:* Introduce a favorable narrative twist, escape route, or serendipitous contact.
+- **Critical Triumph Replenishment:** Rolling a natural Critical Triumph (Double 10s) awards +1 Karma (up to maximum pool).
+- **Karmic Debt:** In desperate moments, an operative can spend past 0 Karma into Karmic Debt (up to Charisma + 1). The Architect triggers compensatory complications equal to the debt accrued.`
   },
   {
     id: 'economatrix_pricing',
-    topic: 'Economatrix TSC Valuation Equation & Trade Codes',
+    topic: 'Economatrix TSC Valuation Equation & Wealth Mechanics',
     category: 'Economy & Equipment',
-    source: 'Economatrix Trade Matrix',
-    page: 12,
-    keywords: ['economy', 'price', 'credits', 'tsc', 'dc', 'valuation', 'trade', 'margin', 'cost'],
-    summary: 'Item base cost follows V = 10 * 4^(CR / 5) with planetary trade code multipliers.',
-    content: `Canonical market pricing in the TSC (Terran Standard Credit) system:
-- **Core Formula:** Value V = 10 * 4^(CR / 5).
-- **Examples:**
-  - CR 5 Item = 40 TSC (Basic tool, simple blade)
-  - CR 10 Item = 160 TSC (Standard sidearm, light armor)
-  - CR 15 Item = 640 TSC (Plasma carbine, cybernetic oculars)
-  - CR 20 Item = 2,560 TSC (Military assault mecha hardpoint, starfighter sub-engine)
-  - CR 25 Item = 10,240 TSC (Heavy battleship spinal accelerator)
-- **Trade Codes:** Agricultural worlds discount food/bioware by 25%; Industrial worlds discount tech/weapons by 20%.`
+    source: 'docs/game rules/operator/2.00 ECONOMATRIX.md & architect/02 ECONOMY AND WEALTH.md',
+    page: 1,
+    keywords: ['economy', 'price', 'credits', 'tsc', 'dc', 'valuation', 'wealth score', 'liquidity gap', 'financial status'],
+    summary: 'Valuation equation V = 10 * 4^(DC/5). Golden Rule: Purchase DC <= Wealth Score. 12-Tier Status Hierarchy.',
+    content: `Canonical Economatrix and Wealth System:
+- **TSC Valuation Equation:** Value V = 10 * 4^(DC / 5) Terran Standard Credits (TSC).
+  - DC 0 = 10 TSC (Pauper ration, basic battery)
+  - DC 5 = 40 TSC (Basic tool, simple blade)
+  - DC 10 = 160 TSC (Standard sidearm, light ballistic armor)
+  - DC 15 = 640 TSC (Plasma carbine, cybernetic oculars)
+  - DC 20 = 2,560 TSC (Assault mecha hardpoint, starfighter thruster)
+  - DC 25 = 10,240 TSC (Heavy combat vehicle, planetary sensor)
+  - DC 30 = 40,960 TSC (Light starship hull, industrial refinery module)
+- **The Golden Rule:** Any requisition with Purchase DC ≤ operative's Wealth Score (WS) succeeds automatically without rolling or reducing WS.
+- **Liquidity Gap & Friction:** Purchasing above WS requires Wealth checks or burning liquidity. Illiquid assets liquidated in haste suffer Liquidity Drag (selling at 25%–50% book value).
+- **12-Tier Financial Status Hierarchy:** From Tier 0 (Indebted, WS 0) to Tier 11 (Faction Ruler, WS 50+).`
   },
   {
     id: 'starship_bridge',
-    topic: 'Starship Bridge Stations & Subsystem Damage',
+    topic: 'Starship Bridge Stations, Subsystem Targeting & 14-Tier Scaling',
     category: 'Vehicles & Starships',
-    source: 'Voidfarer’s Operations Manual',
-    page: 48,
-    keywords: ['starship', 'bridge', 'vehicle', 'helm', 'tactical', 'engineering', 'ewar', 'subsystems', 'shields', 'reactor'],
-    summary: '4 bridge stations (Helm, Tactical, Engineering, EWAR) govern shipboard actions with 6 targeted subsystems.',
-    content: `Capital and vehicle combat bridge operations:
-- **Helm Station:** Evasive maneuvers (+2 Defense DC), Vector Boost (Double Pace), Intercept vectors.
-- **Tactical Station:** Spinal weapons volleys, Point-Defense Flak grids, Targeted subsystem strikes.
-- **Engineering Station:** Power Unit (PU) routing (Shields +15 SP, Weapons +4 Dmg, Thruster Overcharge) and damage control.
-- **Science / EWAR Station:** Active ECM sensor jammers (-2 hostile lock check), Cyber-breach firewall hacks.
-- **Subsystem Degradation:** Bridge, Thrusters, Shields, Weapons, Reactor Core, and Life Support degrade across Operational -> Damaged (-2 / 50% capacity) -> Destroyed (Offline).`
+    source: 'docs/game rules/operator/1.10 SCALING.md & 3.00 COMBAT.md',
+    page: 1,
+    keywords: ['starship', 'bridge', 'vehicle', 'helm', 'tactical', 'engineering', 'ewar', 'subsystems', 'shields', 'scaling'],
+    summary: '14-Tier Scaling matrix (Tier 0 to 13). 4 Bridge Stations (Helm, Tactical, Engineering, Science/EWAR) manage shipboard operations.',
+    content: `Vehicle and capital starship combat operations in Tangent SF RP:
+- **14-Tier Scaling Matrix:** Ranges from Tier 0 (Miniscule / Micro-Drone) to Tier 5 (Medium / Operative) up to Tier 13 (Cosmic Mega-Structure). Scale multipliers apply to weapon damage dice and structural integrity.
+- **Bridge Stations:**
+  - **Helm Station:** Evasive maneuvers (+Defense DC), vector propulsion, intercept courses.
+  - **Tactical Station:** Primary energy volleys, point-defense interceptors, called subsystem targeting.
+  - **Engineering Station:** Power routing between Shields, Thrusters, and Weapons; emergency damage control.
+  - **Science / EWAR Station:** Electronic counter-measures (ECM), sensor locks, cyber-warfare firewall intrusion.
+- **Subsystem Degradation:** Bridge, Thrusters, Shields, Weapons, Reactor Core, and Life Support degrade from Operational -> Damaged (-2 check penalty, 50% capacity) -> Destroyed (Offline).`
   }
 ];
 
@@ -246,4 +280,3 @@ export async function searchRulesFtsAsync(queryString, worker = null, limit = 10
   // Fallback to in-memory queryRulebook
   return queryRulebook(queryString).slice(0, limit);
 }
-

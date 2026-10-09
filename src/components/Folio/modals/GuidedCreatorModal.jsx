@@ -19,6 +19,10 @@ import {
   calculateRulesLedger
 } from '../../../services/bastionCharacterEngine';
 import {
+  resolveIdentityPillarsSettingLevels,
+  syncIdentitySettingLevels
+} from '../../../engines/tangentIdentityEngine';
+import {
   AttributePoolPulldown,
   FeatureMultiselectPulldown,
   TraitMultiselectPulldown,
@@ -73,7 +77,7 @@ const STEPS = [
   { id: 'origin', title: 'Origin & Faction', desc: 'Background & Affiliation' },
   { id: 'occupation', title: 'Occupation', desc: 'Career & Training' },
   { id: 'attributes', title: 'Core Stats', desc: 'Physical & Mental Aptitude' },
-  { id: 'tech', title: 'Tech Level', desc: 'Advancement & Wealth' },
+  { id: 'tech', title: 'Setting Tiers', desc: 'Tech Level & Meta Level' },
   { id: 'skills', title: 'Skills & Features', desc: 'Background & General Allocations' },
   { id: 'review', title: 'Review', desc: 'Final Check' }
 ];
@@ -103,7 +107,10 @@ const INITIAL_DRAFT = {
   intellect: 0,
   wisdom: 0,
   charisma: 0,
-  technologyLevel: 3, // Default is 3 (0 BP)
+  technologyLevel: 3, // Default is TL3 (0 CP)
+  metaLevel: 3, // Default is ML3 (0 CP)
+  baseTechLevel: 3,
+  baseMetaLevel: 3,
   skills: [],
   traits: [],
   features: [],
@@ -216,6 +223,42 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     return (dbData.occupations || []).find(oc => (oc.name || oc.title || oc.id) === draft['char-secondary-occu']);
   }, [dbData.occupations, draft['char-secondary-occu']]);
 
+  const pillarSettingLevels = useMemo(() => {
+    return resolveIdentityPillarsSettingLevels(draft, dbData);
+  }, [
+    draft['char-species'],
+    draft['char-faction'],
+    draft['char-archetype'],
+    draft['char-origin'],
+    draft['char-secondary-origin'],
+    draft['char-occu'],
+    draft['char-secondary-occu'],
+    dbData
+  ]);
+
+  // Synchronize draft setting levels with pillar bases if established
+  useEffect(() => {
+    setDraft(prev => {
+      let changed = false;
+      const next = { ...prev };
+      if (prev.baseTechLevel !== pillarSettingLevels.baseTechLevel) {
+        next.baseTechLevel = pillarSettingLevels.baseTechLevel;
+        if (prev.technologyLevel === undefined || prev.technologyLevel === null || prev.technologyLevel === (prev.baseTechLevel ?? 3)) {
+          next.technologyLevel = pillarSettingLevels.baseTechLevel;
+        }
+        changed = true;
+      }
+      if (prev.baseMetaLevel !== pillarSettingLevels.baseMetaLevel) {
+        next.baseMetaLevel = pillarSettingLevels.baseMetaLevel;
+        if (prev.metaLevel === undefined || prev.metaLevel === null || prev.metaLevel === (prev.baseMetaLevel ?? 3)) {
+          next.metaLevel = pillarSettingLevels.baseMetaLevel;
+        }
+        changed = true;
+      }
+      return changed ? next : prev;
+    });
+  }, [pillarSettingLevels.baseTechLevel, pillarSettingLevels.baseMetaLevel]);
+
   useEffect(() => {
     if (isOpen) {
       setIsLoadingData(true);
@@ -300,10 +343,13 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       spent += parseInt(selectedSpeciesObj.cp ?? selectedSpeciesObj.costs?.bp, 10) || 0;
     }
 
-    // Technology Level Cost
-    if (draft.technologyLevel === 4) spent += 10;
-    else if (draft.technologyLevel === 5) spent += 20;
-    else if (draft.technologyLevel < 3) spent -= 10; // Primitive TL refund
+    // Technology Level (TL 0-5; TL3 standard baseline; 10 CP per diff from 3)
+    const tlVal = Math.min(5, Math.max(0, parseInt(draft.technologyLevel ?? 3, 10) || 3));
+    spent += (tlVal - 3) * 10;
+
+    // Meta Level (ML 0-5; ML3 standard baseline; 10 CP per diff from 3)
+    const mlVal = Math.min(5, Math.max(0, parseInt(draft.metaLevel ?? 3, 10) || 3));
+    spent += (mlVal - 3) * 10;
 
     // General allocated skills (1 CP per rank beyond background pools)
     if (draft.generalAllocations?.skills) {
@@ -516,8 +562,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       'char-height': draft['char-height'] || '',
       'char-weight': draft['char-weight'] || '',
       'char-style': draft['char-style'] || '',
-      'char-motive': draft['char-motive'] || '',
-      'tech-level': draft.technologyLevel || 3,
+      'base-tech-level': draft.baseTechLevel ?? pillarSettingLevels.baseTechLevel ?? 3,
+      'base-meta-level': draft.baseMetaLevel ?? pillarSettingLevels.baseMetaLevel ?? 3,
+      'tech-level': draft.technologyLevel ?? 3,
+      'magic-level': draft.metaLevel ?? 3,
+      'meta-level': draft.metaLevel ?? 3,
       'starting-cp': 150,
 
       // Narrative & StoryFoundry Fields
@@ -585,7 +634,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       payload[`skill-${cleanId}-name`] = sName;
     });
 
-    const success = await applyGuidedCharacter(payload);
+    const syncedPayload = syncIdentitySettingLevels(payload, dbData);
+    const success = await applyGuidedCharacter(syncedPayload);
     if (success) {
       onClose();
       if (onCharacterCreated) {
@@ -687,8 +737,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           stamina: rawAttributes?.['attr-stamina'] ?? 0,
           intellect: rawAttributes?.['attr-intellect'] ?? 0,
           wisdom: rawAttributes?.['attr-wisdom'] ?? 0,
-          charisma: rawAttributes?.['attr-charisma'] ?? 0,
           technologyLevel: character['tech-level'] || 3,
+          metaLevel: character['magic-level'] ?? character['meta-level'] ?? 3,
+          baseTechLevel: character['base-tech-level'] || 3,
+          baseMetaLevel: character['base-meta-level'] || 3,
           speciesAllocations: character.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },
           originAllocations: character.originAllocations || { skills: {}, traits: [], features: [] },
           factionAllocations: character.factionAllocations || { skills: {}, traits: [], features: [] },
@@ -745,8 +797,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       stamina: data.stamina ?? data.rawAttributes?.['attr-stamina'] ?? 0,
       intellect: data.intellect ?? data.rawAttributes?.['attr-intellect'] ?? 0,
       wisdom: data.wisdom ?? data.rawAttributes?.['attr-wisdom'] ?? 0,
-      charisma: data.charisma ?? data.rawAttributes?.['attr-charisma'] ?? 0,
       technologyLevel: data.technologyLevel ?? data['tech-level'] ?? 3,
+      metaLevel: data.metaLevel ?? data['magic-level'] ?? data['meta-level'] ?? 3,
+      baseTechLevel: data.baseTechLevel ?? data['base-tech-level'] ?? 3,
+      baseMetaLevel: data.baseMetaLevel ?? data['base-meta-level'] ?? 3,
       speciesAllocations: data.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },
       originAllocations: data.originAllocations || { skills: {}, traits: [], features: [] },
       factionAllocations: data.factionAllocations || { skills: {}, traits: [], features: [] },
@@ -2059,41 +2113,190 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     </div>
   );
 
-  const renderTechLevel = () => (
-    <div className="space-y-6 max-w-2xl mx-auto">
-      <div>
-        <h3 className="text-xl font-bold text-cyan-400">Technology Level</h3>
-        <p className="text-sm text-slate-400">Determine your access to advanced tech. Default is TL3 (0 CP).</p>
-      </div>
-      <div className="grid grid-cols-1 gap-3">
-        {[
-          { level: 1, label: 'TL1 - Primitive', desc: 'Pre-industrial societies. Grants +10 CP refund.', cost: -10 },
-          { level: 2, label: 'TL2 - Industrial', desc: 'Combustion engines & early electrical grids. Grants +10 CP refund.', cost: -10 },
-          { level: 3, label: 'TL3 - Spacefaring (Standard)', desc: 'Interstellar baseline: grav-drives, standard blasters, kinetic shields. Costs 0 CP.', cost: 0 },
-          { level: 4, label: 'TL4 - Advanced', desc: 'Subspace relays, plasma lattice armor, quantum AI. Costs 10 CP.', cost: 10 },
-          { level: 5, label: 'TL5 - Theoretical', desc: 'Post-scarcity matter transmuters, exotic dark-matter drives. Costs 20 CP.', cost: 20 },
-        ].map(tl => (
-          <div 
-            key={tl.level}
-            onClick={() => updateDraft('technologyLevel', tl.level)}
-            className={`p-4 rounded-lg border cursor-pointer flex justify-between items-center transition-all ${
-              draft.technologyLevel === tl.level 
-                ? 'bg-cyan-950/40 border-cyan-500 shadow-[0_0_10px_rgba(34,211,238,0.2)]' 
-                : 'bg-slate-900 border-slate-800 hover:border-slate-600'
-            }`}
-          >
-            <div>
-              <div className={`font-bold ${draft.technologyLevel === tl.level ? 'text-cyan-300' : 'text-slate-200'}`}>{tl.label}</div>
-              <div className="text-xs text-slate-500">{tl.desc}</div>
-            </div>
-            <div className={`font-mono text-sm font-bold ${tl.cost > 0 ? 'text-red-400' : tl.cost < 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
-              {tl.cost > 0 ? `-${tl.cost} CP` : tl.cost < 0 ? `+${Math.abs(tl.cost)} CP` : '0 CP'}
+  const renderTechLevel = () => {
+    const currentTL = Math.min(5, Math.max(0, parseInt(draft.technologyLevel ?? 3, 10) || 3));
+    const currentML = Math.min(5, Math.max(0, parseInt(draft.metaLevel ?? 3, 10) || 3));
+    const baseTL = pillarSettingLevels.baseTechLevel ?? 3;
+    const baseML = pillarSettingLevels.baseMetaLevel ?? 3;
+    const tlDelta = (currentTL - 3) * 10;
+    const mlDelta = (currentML - 3) * 10;
+
+    const tlOptions = [
+      { level: 0, label: 'TL0 - Stone Age', desc: 'Pre-metal stone tool cultures. Grants +30 CP award.', cost: -30 },
+      { level: 1, label: 'TL1 - Primitive', desc: 'Pre-industrial bronze/iron & agrarian societies. Grants +20 CP award.', cost: -20 },
+      { level: 2, label: 'TL2 - Industrial', desc: 'Combustion engines, steam, & early electrical grids. Grants +10 CP award.', cost: -10 },
+      { level: 3, label: 'TL3 - Spacefaring (Standard)', desc: 'Interstellar baseline: grav-drives, blasters, kinetic shields. 0 CP Baseline.', cost: 0 },
+      { level: 4, label: 'TL4 - Advanced', desc: 'Subspace relays, plasma lattice armor, quantum AI. Costs 10 CP.', cost: 10 },
+      { level: 5, label: 'TL5 - Theoretical', desc: 'Post-scarcity matter transmuters, exotic dark-matter drives. Costs 20 CP.', cost: 20 },
+    ];
+
+    const mlOptions = [
+      { level: 0, label: 'ML0 - Mundane / Null', desc: 'Null etheric presence; complete metaphysics absence. Grants +30 CP award.', cost: -30 },
+      { level: 1, label: 'ML1 - Latent / Low Magic', desc: 'Subtle psychic intuition & raw metaphysical latency. Grants +20 CP award.', cost: -20 },
+      { level: 2, label: 'ML2 - Practiced', desc: 'Structured ritualism, meditation, & basic channeling. Grants +10 CP award.', cost: -10 },
+      { level: 3, label: 'ML3 - Standard Metaphysics', desc: 'Galactic baseline: awakened disciples, etheric shielding, psionic telemetry. 0 CP Baseline.', cost: 0 },
+      { level: 4, label: 'ML4 - High Magic / Adept', desc: 'Master psionics, dimensional warping, reality shaping. Costs 10 CP.', cost: 10 },
+      { level: 5, label: 'ML5 - Archon / Mythic', desc: 'Cosmic scale metaphysics, spontaneous materialization, void transcendence. Costs 20 CP.', cost: 20 },
+    ];
+
+    return (
+      <div className="space-y-6 max-w-5xl mx-auto h-full flex flex-col">
+        <div>
+          <div className="flex flex-wrap justify-between items-center gap-2">
+            <h3 className="text-xl font-bold text-cyan-400">Setting Tiers: Technology Level &amp; Meta Level</h3>
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className={`px-2 py-0.5 rounded font-bold border ${tlDelta + mlDelta > 0 ? 'bg-amber-950/60 border-amber-500/50 text-amber-300' : tlDelta + mlDelta < 0 ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' : 'bg-slate-900 border-slate-700 text-slate-300'}`}>
+                Tier Net CP: {tlDelta + mlDelta > 0 ? `-${tlDelta + mlDelta} CP Cost` : tlDelta + mlDelta < 0 ? `+${Math.abs(tlDelta + mlDelta)} CP Awarded` : '0 CP (Baseline)'}
+              </span>
             </div>
           </div>
-        ))}
+          <p className="text-sm text-slate-400 mt-1">
+            Identity pillars establish your base technology and metaphysics level (Standard is TL3 and ML3). Scores under 3 award <strong className="text-emerald-400">+10 CP per level difference</strong>. Increases over 3 cost <strong className="text-amber-400">10 CP per level</strong>. Lowered scores may be upgraded during creation or later with advancement.
+          </p>
+
+          {/* Pillars Setting Tiers Summary Banner */}
+          <div className="mt-3 p-3 bg-slate-900/80 border border-cyan-500/30 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="text-base">🏛️</span>
+              <div>
+                <span className="font-bold text-cyan-300 uppercase tracking-wide block">
+                  Pillar Established Setting Tiers (Highest Value Used)
+                </span>
+                <span className="text-[11px] text-slate-400 font-mono">
+                  Base TL: <strong className="text-cyan-200">TL{baseTL}</strong> {pillarSettingLevels.highestTLSource ? `(via ${pillarSettingLevels.highestTLSource.pillar}: ${pillarSettingLevels.highestTLSource.name})` : '(Galactic Standard)'} • Base ML: <strong className="text-purple-200">ML{baseML}</strong> {pillarSettingLevels.highestMLSource ? `(via ${pillarSettingLevels.highestMLSource.pillar}: ${pillarSettingLevels.highestMLSource.name})` : '(Galactic Standard)'}
+                </span>
+              </div>
+            </div>
+            {(currentTL !== baseTL || currentML !== baseML) && (
+              <button
+                type="button"
+                onClick={() => {
+                  updateDraft('technologyLevel', baseTL);
+                  updateDraft('metaLevel', baseML);
+                }}
+                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 rounded text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
+                title="Reset Tech & Meta Levels to Pillar Established Bases"
+              >
+                Reset to Pillar Base (TL{baseTL} / ML{baseML})
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
+          {/* Column 1: Technology Level */}
+          <div className="space-y-3">
+            <div className="flex justify-between items-center border-b border-cyan-900/50 pb-1.5">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">⚙️</span>
+                <h4 className="font-bold text-sm uppercase tracking-wider text-cyan-300">
+                  Technology Level (TL 0–5)
+                </h4>
+              </div>
+              <span className={`text-xs font-mono font-bold ${tlDelta > 0 ? 'text-amber-400' : tlDelta < 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                {tlDelta > 0 ? `-${tlDelta} CP Cost` : tlDelta < 0 ? `+${Math.abs(tlDelta)} CP Award` : '0 CP (Baseline)'}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-2.5">
+              {tlOptions.map(tl => {
+                const isSelected = currentTL === tl.level;
+                const isBase = baseTL === tl.level;
+                return (
+                  <div
+                    key={tl.level}
+                    onClick={() => updateDraft('technologyLevel', tl.level)}
+                    className={`p-3 rounded-lg border cursor-pointer flex justify-between items-center transition-all ${
+                      isSelected
+                        ? 'bg-cyan-950/50 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.25)] ring-1 ring-cyan-400/40'
+                        : 'bg-slate-900/80 border-slate-800 hover:border-slate-600'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className={`font-bold text-xs ${isSelected ? 'text-cyan-300' : 'text-slate-200'}`}>
+                          {tl.label}
+                        </span>
+                        {isBase && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-900/80 text-cyan-200 border border-cyan-500/40">
+                            Pillar Base
+                          </span>
+                        )}
+                        {isSelected && currentTL > baseTL && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-500/40">
+                            +{currentTL - baseTL} Upgraded
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] text-slate-400">{tl.desc}</div>
+                    </div>
+                    <div className={`font-mono text-xs font-bold shrink-0 ml-3 ${tl.cost > 0 ? 'text-amber-400' : tl.cost < 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                      {tl.cost > 0 ? `-${tl.cost} CP` : tl.cost < 0 ? `+${Math.abs(tl.cost)} CP` : '0 CP'}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Column 2: Meta Level */}
+          <div className="space-y-3">
+            <div className="flex justify-between items-center border-b border-purple-900/50 pb-1.5">
+              <div className="flex items-center gap-2">
+                <span className="text-sm">🔮</span>
+                <h4 className="font-bold text-sm uppercase tracking-wider text-purple-300">
+                  Meta Level (ML 0–5)
+                </h4>
+              </div>
+              <span className={`text-xs font-mono font-bold ${mlDelta > 0 ? 'text-amber-400' : mlDelta < 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                {mlDelta > 0 ? `-${mlDelta} CP Cost` : mlDelta < 0 ? `+${Math.abs(mlDelta)} CP Award` : '0 CP (Baseline)'}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-2.5">
+              {mlOptions.map(ml => {
+                const isSelected = currentML === ml.level;
+                const isBase = baseML === ml.level;
+                return (
+                  <div
+                    key={ml.level}
+                    onClick={() => updateDraft('metaLevel', ml.level)}
+                    className={`p-3 rounded-lg border cursor-pointer flex justify-between items-center transition-all ${
+                      isSelected
+                        ? 'bg-purple-950/50 border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.25)] ring-1 ring-purple-400/40'
+                        : 'bg-slate-900/80 border-slate-800 hover:border-slate-600'
+                    }`}
+                  >
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className={`font-bold text-xs ${isSelected ? 'text-purple-300' : 'text-slate-200'}`}>
+                          {ml.label}
+                        </span>
+                        {isBase && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-900/80 text-purple-200 border border-purple-500/40">
+                            Pillar Base
+                          </span>
+                        )}
+                        {isSelected && currentML > baseML && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-950/80 text-amber-300 border border-amber-500/40">
+                            +{currentML - baseML} Upgraded
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] text-slate-400">{ml.desc}</div>
+                    </div>
+                    <div className={`font-mono text-xs font-bold shrink-0 ml-3 ${ml.cost > 0 ? 'text-amber-400' : ml.cost < 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
+                      {ml.cost > 0 ? `-${ml.cost} CP` : ml.cost < 0 ? `+${Math.abs(ml.cost)} CP` : '0 CP'}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderFinalizeSkillsFeatures = () => {
     const primaryOrigTraits = selectedOriginObj ? extractNameList(selectedOriginObj.traits || selectedOriginObj.trait) : [];
@@ -2629,7 +2832,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-4 border-b border-slate-800 pb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 border-b border-slate-800 pb-4">
             <div>
               <span className="text-xs font-bold text-slate-500 block uppercase">Archetype</span>
               <span className="font-bold text-emerald-400">{draft['char-archetype'] || 'Custom'}</span>
@@ -2655,6 +2858,47 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   + {draft['char-secondary-occu']}
                 </span>
               )}
+            </div>
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Faction</span>
+              <span className="font-bold text-blue-300 block">{draft['char-faction'] || 'Independent'}</span>
+            </div>
+          </div>
+
+          {/* Setting Tiers (Tech Level & Meta Level) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-slate-800 pb-4 bg-slate-950/40 p-3 rounded-lg border border-slate-800/80">
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Tech Level (TL)</span>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="font-mono font-bold text-cyan-400 text-base">TL{draft.technologyLevel ?? 3}</span>
+                <span className="text-[11px] text-slate-400 font-mono">
+                  (Base {draft.baseTechLevel ?? pillarSettingLevels.baseTechLevel ?? 3}
+                  {(draft.technologyLevel ?? 3) > (draft.baseTechLevel ?? pillarSettingLevels.baseTechLevel ?? 3) ? ` +${(draft.technologyLevel ?? 3) - (draft.baseTechLevel ?? pillarSettingLevels.baseTechLevel ?? 3)} Upgraded` : ''})
+                </span>
+              </div>
+            </div>
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Meta Level (ML)</span>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="font-mono font-bold text-purple-400 text-base">ML{draft.metaLevel ?? 3}</span>
+                <span className="text-[11px] text-slate-400 font-mono">
+                  (Base {draft.baseMetaLevel ?? pillarSettingLevels.baseMetaLevel ?? 3}
+                  {(draft.metaLevel ?? 3) > (draft.baseMetaLevel ?? pillarSettingLevels.baseMetaLevel ?? 3) ? ` +${(draft.metaLevel ?? 3) - (draft.baseMetaLevel ?? pillarSettingLevels.baseMetaLevel ?? 3)} Upgraded` : ''})
+                </span>
+              </div>
+            </div>
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Tier CP Impact</span>
+              <div className="font-mono font-bold text-xs mt-1">
+                {(() => {
+                  const tlCost = ((draft.technologyLevel ?? 3) - 3) * 10;
+                  const mlCost = ((draft.metaLevel ?? 3) - 3) * 10;
+                  const total = tlCost + mlCost;
+                  if (total === 0) return <span className="text-slate-400">0 CP (Standard Baseline)</span>;
+                  if (total < 0) return <span className="text-emerald-400">+{Math.abs(total)} CP Awarded</span>;
+                  return <span className="text-amber-400">{total} CP Cost</span>;
+                })()}
+              </div>
             </div>
           </div>
 

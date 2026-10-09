@@ -6,7 +6,7 @@
  * and VttEventBus so tokens on the Tactical Stage and characters in Folio stay in lockstep.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Plus, X, ShieldAlert, Sparkles, Shield, Zap, AlertTriangle } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 import { VttEventBus } from '../../../../utils/vttEventBus';
@@ -23,6 +23,18 @@ export const ActiveModifiersPillBar = ({
   const [customValue, setCustomValue] = useState(1);
   const [customTarget, setCustomTarget] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const addMenuRef = useRef(null);
+
+  useEffect(() => {
+    if (!isAddMenuOpen) return;
+    const handleOutsideClick = (e) => {
+      if (addMenuRef.current && !addMenuRef.current.contains(e.target)) {
+        setIsAddMenuOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handleOutsideClick, true);
+    return () => window.removeEventListener('pointerdown', handleOutsideClick, true);
+  }, [isAddMenuOpen]);
 
   const filteredDbModifiers = availableDatabaseModifiers.filter(m => {
     if (!searchQuery.trim()) return true;
@@ -123,7 +135,7 @@ export const ActiveModifiersPillBar = ({
       </div>
 
       {/* Right: Add Modifier Popover Button */}
-      <div className="relative shrink-0">
+      <div className="relative shrink-0" ref={addMenuRef}>
         <button
           type="button"
           onClick={() => setIsAddMenuOpen(prev => !prev)}

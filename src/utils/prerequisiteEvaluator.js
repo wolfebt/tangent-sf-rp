@@ -9,6 +9,29 @@ import {
   getAugmentationStage,
   checkAugmentationStageCompatibility
 } from '../engines/tangentComplexEngines.js';
+import {
+  calculateCreditValue,
+  calculateLiquidityGap,
+  calculateCharacterWealth,
+  getFinancialStatus
+} from '../engines/tangentEconEngine.js';
+
+export const PROPERTY_COLLECTIONS = new Set([
+  'weaponry',
+  'weapons',
+  'armoring',
+  'armor',
+  'gear',
+  'equipment',
+  'items',
+  'mecha',
+  'mech',
+  'architecture',
+  'structures',
+  'other',
+  'misc',
+  'property'
+]);
 
 // Helper to normalize strings for comparison
 const normalize = (str) => {
@@ -184,11 +207,134 @@ export const isDisciplineAwakened = (characterData, disciplineName) => {
 };
 
 /**
+ * Resolves the operational/complexity Cost DC (Crafting DC / Purchase DC) for an item.
+ * Follows the Golden Rule of Tangent Wealth: Purchase DC = Crafting DC = Cost DC.
+ * Uses explicit DC fields, or calculates from credit cost via TSC inverse formula:
+ * DC = round(2.5 * log2(max(10, Credits) / 10))
+ * @param {object} item - Catalog or inventory item
+ * @returns {number} Cost DC (integer >= 0)
+ */
+export function resolveItemCostDC(item) {
+  if (!item || typeof item !== 'object') return 10;
+  if (item.craft_dc !== undefined && item.craft_dc !== null && item.craft_dc !== '') {
+    return Math.max(0, parseInt(item.craft_dc, 10) || 0);
+  }
+  if (item.craftDc !== undefined && item.craftDc !== null && item.craftDc !== '') {
+    return Math.max(0, parseInt(item.craftDc, 10) || 0);
+  }
+  if (item.cost_dc !== undefined && item.cost_dc !== null && item.cost_dc !== '') {
+    return Math.max(0, parseInt(item.cost_dc, 10) || 0);
+  }
+  if (item.purchase_dc !== undefined && item.purchase_dc !== null && item.purchase_dc !== '') {
+    return Math.max(0, parseInt(item.purchase_dc, 10) || 0);
+  }
+  if (item.dc !== undefined && item.dc !== null && item.dc !== '') {
+    return Math.max(0, parseInt(item.dc, 10) || 0);
+  }
+  const cr = item.costs?.credits ?? item.creditCost ?? item.credit_cost ?? item.credits ?? item.cost ?? item.price;
+  if (cr !== undefined && cr !== null && cr !== '') {
+    const numCr = Math.max(0, Number(cr) || 0);
+    return Math.max(0, Math.round(2.5 * Math.log2(Math.max(10, numCr) / 10)));
+  }
+  if (item.cp !== undefined && item.cp !== null && item.cp !== '') {
+    return Math.max(0, Math.round((Number(item.cp) || 0) * 2));
+  }
+  return 10; // Default baseline DC 10 (160 Cr) for standard equipment
+}
+
+/**
+ * Resolves a character's Wealth Score (WS) from live Folio character data or derived stats.
+ * Falls back to calculateCharacterWealth(characterData).computedWS.
+ * @param {object} characterData - Folio character data
+ * @returns {number} Wealth Score
+ */
+export function getCharacterWealthScore(characterData) {
+  if (!characterData) return 10;
+  if (characterData['wealth-score-override'] !== undefined && characterData['wealth-score-override'] !== null && characterData['wealth-score-override'] !== '') {
+    return Math.max(0, parseInt(characterData['wealth-score-override'], 10) || 0);
+  }
+  if (characterData.wealthScoreOverride !== undefined && characterData.wealthScoreOverride !== null && characterData.wealthScoreOverride !== '') {
+    return Math.max(0, parseInt(characterData.wealthScoreOverride, 10) || 0);
+  }
+  if (characterData.wealthScore !== undefined && characterData.wealthScore !== null && characterData.wealthScore !== '') {
+    return Math.max(0, parseInt(characterData.wealthScore, 10) || 0);
+  }
+  if (characterData['wealth-score'] !== undefined && characterData['wealth-score'] !== null && characterData['wealth-score'] !== '') {
+    return Math.max(0, parseInt(characterData['wealth-score'], 10) || 0);
+  }
+  const calc = calculateCharacterWealth(characterData);
+  return calc.computedWS ?? 10;
+}
+
+/**
+ * Evaluates the Wealth Score prerequisite for property assets (weaponry, armoring, gear, mecha, architecture, other).
+ * Adheres to The Golden Rule of Tangent Wealth:
+ * - If Item Cost DC <= Wealth Score: Prerequisite is MET (Auto-Buy).
+ * - If Item Cost DC > Wealth Score: Prerequisite is UNMET (Liquidity Gap).
+ * Returns full gap analytics and flags canOverrideWithDebt: true for credit debt financing override.
+ * @param {object} item - Catalog or inventory item
+ * @param {object} characterData - Folio character data
+ * @returns {{
+ *   hasPrerequisite: boolean,
+ *   isPossessed: boolean,
+ *   isAutoBuy: boolean,
+ *   itemDC: number,
+ *   playerWS: number,
+ *   gapCost: number,
+ *   itemCreditValue: number,
+ *   autoBuyLimit: number,
+ *   prerequisiteText: string,
+ *   unmetReasons: string[],
+ *   canOverrideWithDebt: boolean
+ * }}
+ */
+export function checkPropertyWealthPrerequisite(item, characterData) {
+  const itemDC = resolveItemCostDC(item);
+  const playerWS = getCharacterWealthScore(characterData);
+  const gapInfo = calculateLiquidityGap(itemDC, playerWS);
+  const isAutoBuy = itemDC <= playerWS;
+  const unmetReasons = [];
+
+  if (!isAutoBuy) {
+    unmetReasons.push(
+      `Item Cost DC ${itemDC} exceeds Wealth Score ${playerWS} (Liquidity Gap: ${gapInfo.liquidGapCost.toLocaleString()} Cr; Auto-Buy Limit: ${gapInfo.playerWSValue.toLocaleString()} Cr)`
+    );
+  }
+
+  // Also evaluate any explicit textual prerequisites specified by the item (e.g. "Proficiency", "Stamina 2", etc.)
+  const rawPrereq = typeof item === 'object' ? (item.prerequisites || item.prereq || '') : '';
+  if (rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—') {
+    const explicitEval = evaluatePrerequisiteString(rawPrereq, characterData);
+    if (!explicitEval.isPossessed) {
+      unmetReasons.push(...explicitEval.unmetReasons);
+    }
+  }
+
+  const prereqText = isAutoBuy
+    ? `Cost DC ${itemDC} ≤ WS ${playerWS} (Auto-Buy)`
+    : `Cost DC ${itemDC} > WS ${playerWS} (Liquidity Gap: ${gapInfo.liquidGapCost.toLocaleString()} Cr)`;
+
+  return {
+    hasPrerequisite: true,
+    isPossessed: isAutoBuy && unmetReasons.length === 0,
+    isAutoBuy,
+    itemDC,
+    playerWS,
+    gapCost: gapInfo.liquidGapCost,
+    itemCreditValue: gapInfo.itemValue,
+    autoBuyLimit: gapInfo.playerWSValue,
+    prerequisiteText: rawPrereq ? `${prereqText}, ${rawPrereq}` : prereqText,
+    unmetReasons,
+    canOverrideWithDebt: true
+  };
+}
+
+/**
  * Main Prerequisite Checker
  * 
  * @param {Object|string} item - The feature, invocation, special ability, or specialization
  * @param {Object} characterData - The active persona character data
- * @param {string} itemType - 'features' | 'invocations' | 'special_abilities' | 'specializations' | 'skills'
+ * @param {string} itemType - 'features' | 'invocations' | 'special_abilities' | 'specializations' | 'skills' | property collections
  * @param {Object} [options] - Additional context (e.g. baseSkillId for specializations)
  * @returns {Object} { hasPrerequisite, isPossessed, prerequisiteText, unmetReasons }
  */
@@ -218,6 +364,33 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
       prerequisiteText: '',
       unmetReasons: []
     };
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // PROPERTY ASSETS: WEAPONRY, ARMORING, GEAR, MECHA, ARCHITECTURE, OTHER
+  // ══════════════════════════════════════════════════════════════════════════
+  const isProperty = PROPERTY_COLLECTIONS.has(typeKey) ||
+    Boolean(rawItem.isProperty || rawItem.isWeapon || rawItem.isArmor ||
+      PROPERTY_COLLECTIONS.has(String(rawItem.category || '').toLowerCase()));
+
+  if (isProperty) {
+    if (!characterData) {
+      const itemDC = resolveItemCostDC(rawItem);
+      return {
+        hasPrerequisite: true,
+        isPossessed: true,
+        isAutoBuy: true,
+        itemDC,
+        playerWS: 10,
+        gapCost: 0,
+        itemCreditValue: calculateCreditValue(itemDC),
+        autoBuyLimit: calculateCreditValue(10),
+        prerequisiteText: `Cost DC ${itemDC} (Auto-Buy Baseline)`,
+        unmetReasons: [],
+        canOverrideWithDebt: true
+      };
+    }
+    return checkPropertyWealthPrerequisite(rawItem, characterData);
   }
 
   const isAugmentation = typeKey.includes('aug') || rawItem.category === 'augmentations' || rawItem.isAugmentation;
@@ -623,5 +796,9 @@ export default {
   getCharacterAttrScore,
   getCharacterSkillRank,
   characterHasFeature,
-  isDisciplineAwakened
+  isDisciplineAwakened,
+  resolveItemCostDC,
+  getCharacterWealthScore,
+  checkPropertyWealthPrerequisite,
+  PROPERTY_COLLECTIONS
 };

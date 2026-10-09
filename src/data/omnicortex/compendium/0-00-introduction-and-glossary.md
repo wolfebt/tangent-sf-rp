@@ -8,11 +8,29 @@ perspective: "both"
 entry_type: "System Overview"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","system-overview"]
-updatedAt: "2026-09-14T16:40:07.804Z"
+updatedAt: "2026-10-09T07:59:56.586Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **TANGENT**&nbsp;
@@ -72,7 +90,6 @@ These terms define the fundamental mathematics of the system.
 | BP | Creation | **Build Points**. The currency used for Character Creation. | Standard: 150 BP |
 | AP | Progression | **Award Points**. Experience points spent 1-for-1 like BP. | 1 to ∞ |
 | CR | Mechanics | **Challenge Rating**. The target number a check must meet or exceed. | 0 (Simple) to 40+ (Godlike) |
-| CR | Mechanics | **Challenge Rating**. Often used interchangeably with DC for tasks. | Standardize to DC for tasks, CR for Enemy Threat? |
 | Karma | Resources | A meta-currency pool used to reroll dice or activate special feats. | Base 3\. Refreshes per Session. |
 | Tier | Scale | Broad category of power for Items, Enemies, or Scale. | Tier 0 (Civilian) to Tier 5 (Cosmic) |
 
@@ -131,7 +148,7 @@ Bridging abstract Wealth Scores and liquid Credits.
 | Wealth | Economy | Wealth Score (WS). An abstract rating of lifestyle and purchasing power. | 0 (Indebted) to 80+ (Emperor) |
 | Credits | Economy | Liquid Credits (Cr). Physical/Digital currency for transactions beyond WS limits. | 1 Cr to Billions. |
 | MCr | Economy | Mega-Credit. Used for Starship/Station economics. | 1 MCr \= 1,000,000 Credits |
-| CR | Crafting | Crafting CR. The "Prime Mover" of value. Determining the cost/time to build. | Value \= $10 \\times 4^{(DC/5)}$ |
+| CR | Crafting | Crafting CR. The "Prime Mover" of value. Determining the cost/time to build. | Value \= $10 \\times 4^{(CR/5)}$ |
 
 ## 
 
@@ -182,22 +199,6 @@ Bridging abstract Wealth Scores and liquid Credits.
 # 
 
 &nbsp;
-
-
-
-## Canonical Mechanics
-UDU Hierarchy: 1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes.
-Standard 150 BP starting pool, 1-for-1 AP progression.
-Economic Curve: Value = 10 * 4^(CR / 5).
-Survival: Base 30 Vitality, Base 30 Health, Structure = Vitality + Health.
-
-
-## Tactical Guide
-Read this first to understand the core physics, capacity metrics, and mathematical philosophy of Tangent.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.00 INTRODUCTION.md
 
 ## Game Mechanics Rules
 ```

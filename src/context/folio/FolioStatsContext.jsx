@@ -17,6 +17,7 @@ import {
   computeEconomyBreakdown
 } from '../../engines/tangentEntityEngines';
 import { getSpeciesRestProfile } from '../../engines/tangentRestEngine';
+import { calculateCharacterWealth } from '../../engines/tangentEconEngine';
 import { showToast } from '../ToastContext';
 
 export const ATTR_NAME_TO_ID = {
@@ -872,6 +873,9 @@ export const FolioStatsSliceProvider = ({ children }) => {
     const speciesRestProfile = getSpeciesRestProfile(characterData);
     const lightRestsToday = parseInt(characterData.light_rests_today || 0, 10);
 
+    // Tangent Economic Unified Field Theory (EUFT) & Wealth Score Determination
+    const wealthData = calculateCharacterWealth(characterData);
+
     return {
       health: isSynthetic ? 0 : baseHealth,
       vitality: isSynthetic ? 0 : baseVitality,
@@ -896,7 +900,21 @@ export const FolioStatsSliceProvider = ({ children }) => {
       purchasedStructure,
       speciesRestProfile,
       lightRestsToday,
-      maxLightRests: 4
+      maxLightRests: 4,
+      // Wealth & Financial Status
+      wealthScore: wealthData.computedWS,
+      wealthStatus: wealthData.status,
+      wealthStatusName: wealthData.statusName,
+      wealthAutoBuyCr: wealthData.autoBuyCr,
+      wealthCreditValue: wealthData.creditValue,
+      wealthBreakdown: wealthData.breakdown,
+      wealthLiquidCredits: wealthData.liquidCredits,
+      wealthTradeGoods: wealthData.tradeGoods,
+      wealthTotalTradeGoodsCr: wealthData.totalTradeGoodsCr,
+      wealthTotalLiquidCr: wealthData.totalLiquidCr,
+      wealthDebits: wealthData.debits,
+      wealthTotalDebtCr: wealthData.totalDebtCr,
+      wealthNetLiquidPosition: wealthData.netLiquidPosition
     };
   }, [
     characterData['attr-stamina'],
@@ -906,11 +924,24 @@ export const FolioStatsSliceProvider = ({ children }) => {
     characterData['attr-charisma'],
     characterData['char-species'],
     characterData['char-archetype'],
+    characterData['char-occu'],
+    characterData['char-origin'],
+    characterData['char-faction'],
+    characterData['tech-level'],
+    characterData['wealth-score-mod'],
+    characterData['wealth-score-override'],
+    characterData['credits'],
+    characterData['wealth-credits'],
+    characterData['trade-goods'],
+    characterData['wealth-trade-goods'],
+    characterData['debits'],
+    characterData['wealth-debits'],
     characterData['health'],
     characterData['vitality'],
     characterData['structure'],
     characterData.features,
     characterData.disadvantages,
+    characterData.skills,
     getAttrMod
   ]);
 
@@ -1033,8 +1064,8 @@ export const FolioStatsSliceProvider = ({ children }) => {
     } else {
       innerName = skillName.replace(/^(knowledge|vocation|discipline|metafocus)\s*[-:]?\s*/i, '').trim();
     }
-    const cleanId = skillName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const innerCleanId = innerName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const cleanId = skillName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    const innerCleanId = innerName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     const innerNameLower = innerName.toLowerCase();
     
     const canonSkill = ALL_CANONICAL_SKILLS.find(s => {
@@ -1075,21 +1106,41 @@ export const FolioStatsSliceProvider = ({ children }) => {
         [poolKey]: {
           ...pool,
           skills: currentSkills
-        },
-        [canonRankKey]: newGlobalRank,
-        [canonNameKey]: canonSkill?.name || prev[canonNameKey] || innerName || skillName,
-        [legacyRankKey]: newGlobalRank,
-        [legacyNameKey]: canonSkill?.name || prev[legacyNameKey] || innerName || skillName
+        }
       };
 
-      if (canonSkill?.baseAttr && !prev[canonBaseKey]) {
-        updates[canonBaseKey] = canonSkill.baseAttr;
-      }
-      if (canonSkill?.group && !prev[canonGroupKey]) {
-        updates[canonGroupKey] = canonSkill.group;
-      }
-      if (canonSkill?.subcategory && !prev[canonSubKey]) {
-        updates[canonSubKey] = canonSkill.subcategory;
+      if (newGlobalRank > 0) {
+        updates[canonRankKey] = newGlobalRank;
+        updates[canonNameKey] = canonSkill?.name || prev[canonNameKey] || innerName || skillName;
+        updates[legacyRankKey] = newGlobalRank;
+        updates[legacyNameKey] = canonSkill?.name || prev[legacyNameKey] || innerName || skillName;
+
+        if (canonSkill?.baseAttr && !prev[canonBaseKey]) {
+          updates[canonBaseKey] = canonSkill.baseAttr;
+        }
+        if (canonSkill?.group && !prev[canonGroupKey]) {
+          updates[canonGroupKey] = canonSkill.group;
+        }
+        if (canonSkill?.subcategory && !prev[canonSubKey]) {
+          updates[canonSubKey] = canonSkill.subcategory;
+        }
+      } else {
+        const idCandidates = new Set([
+          canonicalId,
+          cleanId,
+          canonicalId.replace(/^[a-z]+-/, ''),
+          cleanId.replace(/^[a-z]+-/, ''),
+          innerCleanId
+        ].filter(Boolean));
+
+        idCandidates.forEach(cid => {
+          delete updates[`skill-${cid}-rank`];
+          delete updates[`skill-${cid}-base`];
+          delete updates[`skill-${cid}-mod`];
+          delete updates[`skill-${cid}-name`];
+          delete updates[`skill-${cid}-group`];
+          delete updates[`skill-${cid}-subcategory`];
+        });
       }
 
       return updates;

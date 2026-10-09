@@ -8,11 +8,29 @@ perspective: "operator"
 entry_type: "Origin Codex"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","origin-codex"]
-updatedAt: "2026-09-14T16:40:07.821Z"
+updatedAt: "2026-10-09T07:59:56.590Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **ORIGIN**
@@ -21,11 +39,31 @@ modifiers: []
 
 **A character's origin in Tangent represents the type of environment they come from, shaping their skills, traits, and worldview. This origin can be an entire world dedicated to a specific environment, or a particular area or habitat within a more diverse world. For example, a character with an Agricultural origin might come from a planet primarily focused on farming, or from a specific farming community within a larger, more varied world.**
 
-**Choosing an origin grants characters *20 POINTS FOR SKILLS* listed for that origin, allowing them to develop expertise relevant to their background.**&nbsp;
+**Choosing an origin grants characters *20 POINTS FOR SKILLS* listed for that origin, allowing them to develop expertise relevant to their background.** 
 
-**Additionally, players can *SELECT TWO TRAITS* from a list associated with their chosen origin, gaining appropriate bonuses. These traits reflect the character's upbringing and experiences in their native environment.**&nbsp;
+**Additionally, players can *SELECT TWO TRAITS* from a list associated with their chosen origin, gaining appropriate bonuses. These traits reflect the character's upbringing and experiences in their native environment.** 
 
 **For further customization, players can choose a secondary origin, expanding the available options for skills and traits without gaining additional points. This allows for more nuanced and complex character backgrounds.**
+
+&nbsp;
+
+### **ORIGIN WEALTH MODIFIERS**
+
+In the Tangent Economic Unified Field Theory (EUFT), a character's native origin modifies their baseline Wealth Score, reflecting planetary living standards, capital accumulation, and resource availability:
+
+| Origin Environment | WS Modifier | Economic Context |
+| :--- | :---: | :--- |
+| **Leisure** | **+3** | Resort / luxury worlds; high disposable capital, service wealth & tourism. |
+| **Enlightened** | **+2** | Cultural / academic enclaves; robust institutional stipends & archives. |
+| **Industrial** | **+2** | Manufacturing powerhouses; high demand for specialized technical labor. |
+| **Research** | **+2** | High-tech laboratories & testing worlds; lucrative corporate research grants. |
+| **Aquatic** | **+1** | Specialized oceanic biosphere; pharmaceutical & hydrogen export dividends. |
+| **Spacer** | **+1** | Orbital station or asteroid habitat; independent merchant trade exposure. |
+| **Urban** | **+1** | Metropolis or arcology hub; dense consumer markets & financial services. |
+| **Agricultural** | **+0** | Agri-world baseline; high food volume with stable agrarian commodity prices. |
+| **Colony** | **+0** | Developing frontier settlement; self-reliant barter and pioneer infrastructure. |
+| **Militaristic** | **+0** | Garrison or fortress world; strictly controlled military logistics and stipends. |
+| **Others / Custom** | **+0 to +3** | Tailored to unique planetary economies and local development tiers. |
 
 &nbsp;
 
@@ -2084,22 +2122,6 @@ Append the appropriate **FORM tokens** to the end of your RENDERING section depe
 &nbsp;
 
 &nbsp;
-
-
-
-## Canonical Mechanics
-Origin Stage grants 20 Origin Skill Points and 2 Origin Traits.
-Additional traits cost 1 BP each.
-Secondary Origin may be selected to expand available trait/skill choices without granting extra points.
-Habitats include Agri-Worlds, Arcologies/Megacities, Asteroid Belts, Death Worlds, High/Low-G, Toxic Wastelands, Colony, Spacer, Enlightened, Leisure, Militant.
-
-
-## Tactical Guide
-Origins reflect environmental upbringing and early life survival skills.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.05 ORIGINS.md
 
 ## Game Mechanics Rules
 ```

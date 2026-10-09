@@ -37,6 +37,8 @@ import EncountersTab from './tabs/EncountersTab';
 import ScriptsTab from './tabs/ScriptsTab';
 import RunTab from './tabs/RunTab';
 import { AudioService } from '../../../services/audioService';
+import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 export default function StageWorkspace({
   initialTab = 'setup',
@@ -44,6 +46,12 @@ export default function StageWorkspace({
   boundMapId,
   boundStoryId
 }) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileTacticalBlocker operation="stage" onBack={() => onSwitchView?.('scenarios')} />;
+  }
+
   const { 
     activeStageTab, 
     setActiveStageTab, 

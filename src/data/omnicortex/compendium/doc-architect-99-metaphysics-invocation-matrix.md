@@ -1,18 +1,36 @@
 ---
 id: "doc-architect-99-metaphysics-invocation-matrix"
-name: "99. INVOCATION MATRIX & DATA BLOCK ARCHITECTURE"
-category: "compendium"
-parent: "99.00 ARCHITECT MATRICES & WORLDBUILDING"
-order: 3
+name: "99. METAPHYSICS, INVOCATION MATRIX (1) — INVOCATIONS FRAMEWORK"
+category: "architect_matrix"
+parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
+order: 1
 perspective: "architect"
-entry_type: "Game Mechanic"
+entry_type: "Architect Matrix"
 tl: 3
 ml: 0
-tags: ["compendium","invocation-matrix"]
-updatedAt: "2026-09-14T16:40:07.844Z"
+cost: 0
+tags: ["architect","core-rules","source-of-truth","99. metaphysics, invocation matrix (1)","matrix"]
+updatedAt: "2026-10-09T07:59:56.581Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **INVOCATIONS FRAMEWORK**
@@ -32,7 +50,7 @@ This framework defines the **Invocation Stat Block**—the rigid data structure 
 Every Invocation is built upon four pillars:
 
 1. **The Root:** The Parent Discipline and Skill (e.g., Energy \> Elemental).  
-2. **The Threshold:** The base complexity required to manifest the effect (Base Difficulty/DC).  
+2. **The Threshold:** The base complexity required to manifest the effect (Base Difficulty/CR).  
 3. **The Parameters:** The physical limits of the effect (Range, Duration, Area).  
 4. **The Scaling Function:** How the effect evolves based on the user's Skill Rank (Stages).
 
@@ -61,7 +79,7 @@ INVOCATION NAME
 
 | PARAMETERS |  |  |  |
 | :---- | :---- | :---- | :---- |
-| **BASE DIFFICULTY** | Static DC or Opposed Attribute | **TIME** | Action Cost |
+| **BASE DIFFICULTY** | Static CR or Opposed Attribute | **TIME** | Action Cost |
 | **RANGE** | Distance Metric | **AREA** | Shape & Size |
 | **DURATION** | Time Metric | **RESISTANCE** | Save Type or None |
 
@@ -91,7 +109,7 @@ This defines the complexity of the "shape" the caster must form. It sets the tar
 
 &nbsp;
 
-* **Static DC:** Used for environmental or self-targeted effects.  
+* **Static CR:** Used for environmental or self-targeted effects.  
   * **Simple (CR 10):** Minor sensory effects, cleaning, lighting a candle.  
   * **Standard (CR 15):** Most Tier 1 combat effects, basic defenses.  
   * **Difficult (CR 20):** Complex illusions, transmutation, teleportation.  
@@ -106,26 +124,26 @@ This defines the complexity of the "shape" the caster must form. It sets the tar
 
 ### 
 
-### **3.2 DC Adjustments (Time, Range, Area, Duration)**
+### **3.2 CR Adjustments (Time, Range, Area, Duration)**
 
-Designing an Invocation involves balancing power against difficulty. The **Base CR** is modified by the specific parameters of the effect. Use the following tables to adjust the DC required to cast the Invocation.
+Designing an Invocation involves balancing power against difficulty. The **Base CR** is modified by the specific parameters of the effect. Use the following tables to adjust the CR required to cast the Invocation.
 
 &nbsp;
 
 #### **Activation Time (Action Economy)**
 
-Faster invocations require sharper mental reflexes, increasing the DC. Slower invocations allow for more stability, decreasing the DC.
+Faster invocations require sharper mental reflexes, increasing the CR. Slower invocations allow for more stability, decreasing the CR.
 
 &nbsp;
 
-| Casting Time | DC Modifier | Description |
+| Casting Time | CR Modifier | Description |
 | :---- | :---- | :---- |
-| **Reaction** | \+10 DC | Instantaneous defense or trigger. Extremely taxing. |
-| **Free Action** | \+5 DC | Part of movement or speech. |
-| **Move Action** | \+2 DC | Faster than standard, allows an attack in the same turn. |
-| **Standard Action** | \+0 DC | The baseline for most combat invocations. |
-| **Full Round** | \-2 DC | Takes the entire turn; no movement allowed. |
-| **Ritual (1 Min+)** | \-5 DC | Complex casting time; usually non-combat utility. |
+| **Reaction** | \+10 CR | Instantaneous defense or trigger. Extremely taxing. |
+| **Free Action** | \+5 CR | Part of movement or speech. |
+| **Move Action** | \+2 CR | Faster than standard, allows an attack in the same turn. |
+| **Standard Action** | \+0 CR | The baseline for most combat invocations. |
+| **Full Round** | \-2 CR | Takes the entire turn; no movement allowed. |
+| **Ritual (1 Min+)** | \-5 CR | Complex casting time; usually non-combat utility. |
 
 &nbsp;
 
@@ -133,14 +151,14 @@ Faster invocations require sharper mental reflexes, increasing the DC. Slower in
 
 Projecting power over distance destabilizes the pattern, requiring greater skill.
 
-| Range | DC Modifier | Metric |
+| Range | CR Modifier | Metric |
 | :---- | :---- | :---- |
-| **Self / Touch** | \-2 DC | Contact required or internal effect. |
-| **Close** | \+0 DC | 25 ft \+ (5 ft per 2 Ranks). |
-| **Medium** | \+2 DC | 100 ft \+ (10 ft per Rank). |
-| **Long** | \+5 DC | 400 ft \+ (40 ft per Rank). |
-| **Sight** | \+10 DC | Line of sight required (Extreme Range). |
-| **Unlimited** | \+15 DC | Anywhere on the same plane (Scrying/Teleport). |
+| **Self / Touch** | \-2 CR | Contact required or internal effect. |
+| **Close** | \+0 CR | 25 ft \+ (5 ft per 2 Ranks). |
+| **Medium** | \+2 CR | 100 ft \+ (10 ft per Rank). |
+| **Long** | \+5 CR | 400 ft \+ (40 ft per Rank). |
+| **Sight** | \+10 CR | Line of sight required (Extreme Range). |
+| **Unlimited** | \+15 CR | Anywhere on the same plane (Scrying/Teleport). |
 
 &nbsp;
 
@@ -148,15 +166,15 @@ Projecting power over distance destabilizes the pattern, requiring greater skill
 
 Expanding a pattern from a single point to a massive volume increases complexity significantly.
 
-| Area Shape | DC Modifier | Description |
+| Area Shape | CR Modifier | Description |
 | :---- | :---- | :---- |
-| **Single Target** | \+0 DC | One creature or object. |
-| **Line / Ray** | \+0 DC | Narrow projection (5ft wide). |
-| **Small Burst** | \+2 DC | 10ft Radius (Room). |
-| **Medium Burst** | \+5 DC | 20ft Radius (Hall). |
-| **Cone** | \+5 DC | Emanation from caster (Length \= Range). |
-| **Large Burst** | \+10 DC | 50ft+ Radius (Battlefield). |
-| **Selective** | \+5 DC | Excludes allies from the AoE (Shape Control). |
+| **Single Target** | \+0 CR | One creature or object. |
+| **Line / Ray** | \+0 CR | Narrow projection (5ft wide). |
+| **Small Burst** | \+2 CR | 10ft Radius (Room). |
+| **Medium Burst** | \+5 CR | 20ft Radius (Hall). |
+| **Cone** | \+5 CR | Emanation from caster (Length \= Range). |
+| **Large Burst** | \+10 CR | 50ft+ Radius (Battlefield). |
+| **Selective** | \+5 CR | Excludes allies from the AoE (Shape Control). |
 
 &nbsp;
 
@@ -164,14 +182,14 @@ Expanding a pattern from a single point to a massive volume increases complexity
 
 Holding a pattern in existence fights against entropy.
 
-| Duration | DC Modifier | Description |
+| Duration | CR Modifier | Description |
 | :---- | :---- | :---- |
-| **Instant** | \+0 DC | Effect happens and ends immediately (Damage). |
-| **Concentration** | \+0 DC | Lasts as long as caster spends Standard Actions. |
-| **Rounds/Level** | \+2 DC | Persists without focus for a short combat duration. |
-| **Minutes/Level** | \+5 DC | Persists for an entire scene/encounter. |
-| **Hours/Level** | \+10 DC | Long-term buffs or environmental changes. |
-| **Permanent** | \+20 DC | Until dispelled. Usually requires Ritual time. |
+| **Instant** | \+0 CR | Effect happens and ends immediately (Damage). |
+| **Concentration** | \+0 CR | Lasts as long as caster spends Standard Actions. |
+| **Rounds/Level** | \+2 CR | Persists without focus for a short combat duration. |
+| **Minutes/Level** | \+5 CR | Persists for an entire scene/encounter. |
+| **Hours/Level** | \+10 CR | Long-term buffs or environmental changes. |
+| **Permanent** | \+20 CR | Until dispelled. Usually requires Ritual time. |
 
 &nbsp;
 
@@ -179,12 +197,12 @@ Holding a pattern in existence fights against entropy.
 
 Additional factors that influence the difficulty of the Invocation.
 
-| Factor | DC Modifier | Description |
+| Factor | CR Modifier | Description |
 | :---- | :---- | :---- |
-| **Subtle/Silent** | \+5 DC | Cast without visual or auditory displays. |
-| **Material Comp** | \-2 DC | Requires a consumed physical reagent (Catalyst). |
-| **Backlash** | \-5 DC | Failure causes direct Health damage (Dangerous). |
-| **Tech Integration** | \-2 DC | Requires a specific technological focus tool. |
+| **Subtle/Silent** | \+5 CR | Cast without visual or auditory displays. |
+| **Material Comp** | \-2 CR | Requires a consumed physical reagent (Catalyst). |
+| **Backlash** | \-5 CR | Failure causes direct Health damage (Dangerous). |
+| **Tech Integration** | \-2 CR | Requires a specific technological focus tool. |
 
 ## 
 
@@ -365,26 +383,13 @@ This table demonstrates how a standard Rank 10 Fire Invocation (Base: 5d6 Damage
 
 * **Math Check:** A Titanic Ship (6,000 Structure Points) would take \~4-5 hits from a Titanic Scale Meta-Weapon to be destroyed. This feels tactically appropriate for capital ship combat.
 
-
-
-## Canonical Mechanics
-The 4 pillars (Root, Threshold, Parameters, Scaling Function) and standardized Invocation Stat Block schema.
-
-
-## Tactical Guide
-Consult this Architect matrix when designing game assets, calculating build budgets, adjudicating scale, or world-building.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/architect/99. METAPHYSICS, INVOCATION MATRIX (1).md
-
 ## Game Mechanics Rules
 ```
-Governing canonical rules for 99. INVOCATION MATRIX & DATA BLOCK ARCHITECTURE.
+See full canonical text in 99. METAPHYSICS, INVOCATION MATRIX (1).md
 ```
 
 ## Gameplay Instructions
-
+Refer to 99. METAPHYSICS, INVOCATION MATRIX (1).md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-
+Canonical Tangent SF RP rulebook reference from 99. METAPHYSICS, INVOCATION MATRIX (1).md. Complete, unabridged source of truth.

@@ -17,8 +17,13 @@ export const DiceProvider = ({ children }) => {
     expression: '2d10',
     baseModifier: 0,
     adHocModifier: 0,
+    flatModifier: 0,      // Clamped [-20, 20]
+    advantageDice: 0,     // Clamped [-5, 5]
+    critRangeSize: 1,     // Clamped [1, 5]
+    fumbleRangeSize: 1,   // Clamped [1, 5]
     targetNumber: '',
-    rollMode: 'normal', // 'normal', 'advantage', 'disadvantage'
+    targetDC: '',
+    rollMode: 'normal',   // 'normal', 'advantage', 'disadvantage'
     characterName: '',
     targetChannelId: null
   });
@@ -28,13 +33,30 @@ export const DiceProvider = ({ children }) => {
     setDiceConfig(prev => {
       const baseMod = config.baseModifier !== undefined ? Number(config.baseModifier) || 0 : (config.modifier !== undefined ? Number(config.modifier) || 0 : 0);
       const adHocMod = config.adHocModifier !== undefined ? Number(config.adHocModifier) || 0 : 0;
+      const rawFlatMod = config.flatModifier !== undefined ? Number(config.flatModifier) || 0 : (baseMod + adHocMod);
+      const clampedFlatModifier = Math.max(-20, Math.min(20, rawFlatMod));
+
+      // Separate advantageDice (-5 to 5)
+      let advDice = 0;
+      if (config.advantageDice !== undefined) {
+        advDice = Number(config.advantageDice) || 0;
+      } else if (config.rollMode === 'advantage' || config.advantage) {
+        advDice = 1;
+      } else if (config.rollMode === 'disadvantage' || config.disadvantage) {
+        advDice = -1;
+      }
+      const clampedAdvantage = Math.max(-5, Math.min(5, advDice));
+
+      const clampedCritSize = Math.max(1, Math.min(5, Number(config.critRangeSize) || 1));
+      const clampedFumbleSize = Math.max(1, Math.min(5, Number(config.fumbleRangeSize) || 1));
       
       // If expression is provided, use it; otherwise compute 2d10 + totalMod
       let expr = config.expression;
       if (!expr) {
-        const totalMod = baseMod + adHocMod;
-        expr = totalMod !== 0 ? `2d10${totalMod > 0 ? '+' : ''}${totalMod}` : '2d10';
+        expr = clampedFlatModifier !== 0 ? `2d10${clampedFlatModifier > 0 ? '+' : ''}${clampedFlatModifier}` : '2d10';
       }
+
+      const rMode = config.rollMode || (clampedAdvantage > 0 ? 'advantage' : clampedAdvantage < 0 ? 'disadvantage' : 'normal');
 
       return {
         ...prev,
@@ -42,8 +64,13 @@ export const DiceProvider = ({ children }) => {
         expression: expr,
         baseModifier: baseMod,
         adHocModifier: adHocMod,
-        targetNumber: config.targetNumber !== undefined ? config.targetNumber : '',
-        rollMode: config.rollMode || 'normal',
+        flatModifier: clampedFlatModifier,
+        advantageDice: clampedAdvantage,
+        critRangeSize: clampedCritSize,
+        fumbleRangeSize: clampedFumbleSize,
+        targetNumber: config.targetNumber !== undefined ? config.targetNumber : (config.targetDC !== undefined ? config.targetDC : ''),
+        targetDC: config.targetDC !== undefined ? config.targetDC : (config.targetNumber !== undefined ? config.targetNumber : ''),
+        rollMode: rMode,
         characterName: config.characterName || prev.characterName || 'Operative',
         targetChannelId: config.targetChannelId || null,
         autoRoll: config.autoRoll !== undefined ? !!config.autoRoll : false,

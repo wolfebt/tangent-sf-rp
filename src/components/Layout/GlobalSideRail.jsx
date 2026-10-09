@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GuidanceRail } from '../UI/GuidanceRail';
 import { useFolio } from '../../context/FolioContext';
@@ -6,20 +6,12 @@ import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { useStory } from '../../context/CampaignContext';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
-import { useAudio } from '../../context/AudioContext';
 import { AudioService } from '../../services/audioService';
-import { UserSettingsModal } from '../UserSettingsModal';
 import {
-  Compass,
   Users,
   Database,
   Layers,
-  MapPin,
-  Shield,
-  Radio,
-  Volume2,
-  VolumeX,
-  Settings
+  Radio
 } from 'lucide-react';
 
 /**
@@ -57,9 +49,7 @@ export const GlobalSideRail = () => {
   const teamCount = groups?.length || 0;
   const inviteCount = pendingInvites?.length || 0;
 
-  // Audio mute state from shared AudioContext
-  const { isMuted: isAudioMuted, toggleMute: toggleAudio } = useAudio();
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
 
   // Do not render side rail on pure spectator / projector displays
   if (
@@ -145,8 +135,8 @@ export const GlobalSideRail = () => {
             ? (newOperatorLogins.length > 0 ? `+${newOperatorLogins.length}` : 'NEW') 
             : (teamCount > 0 ? `${teamCount}` : null))),
       badgeColor: (totalUnreadCount > 0 || inviteCount > 0)
-        ? 'bg-amber-500 text-black font-extrabold animate-pulse'
-        : (hasNewOperatorLogins ? 'bg-emerald-400 text-black animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]' : undefined),
+        ? 'bg-amber-500 text-black font-extrabold animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.7)]'
+        : (hasNewOperatorLogins ? 'bg-emerald-400 text-black animate-soft-badge-glow shadow-[0_0_8px_rgba(16,185,129,0.7)]' : undefined),
       pulse: totalUnreadCount > 0 || inviteCount > 0 || hasNewOperatorLogins,
       pulseClass: (totalUnreadCount > 0 || inviteCount > 0)
         ? 'animate-nav-pulse-amber'
@@ -162,78 +152,11 @@ export const GlobalSideRail = () => {
   ];
 
   return (
-    <>
-      <div className="hidden sm:flex h-full shrink-0 z-30 select-none">
-        <GuidanceRail
-          items={globalNavItems}
-          activeId={activeId}
-          headerSlot={
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.03);
-                navigate('/');
-              }}
-              className={`w-9 h-9 sm:w-10 sm:h-10 min-w-[44px] min-h-[44px] touch-manipulation rounded-xl flex items-center justify-center cursor-pointer transition-all group ${
-                isHubActive
-                  ? 'bg-cyan-950 border-2 border-cyan-400 text-cyan-200 shadow-[0_0_16px_rgba(34,211,238,0.5)]'
-                  : 'bg-gradient-to-br from-cyan-950/80 via-slate-900 to-blue-950/80 border border-cyan-500/40 text-cyan-400 hover:border-cyan-400 hover:scale-105 shadow-[0_0_10px_rgba(6,182,212,0.25)]'
-              }`}
-              title="Return to Operations Hub"
-            >
-              <Compass size={19} className={`transition-transform duration-300 ${isHubActive ? 'text-cyan-300' : 'group-hover:rotate-45'}`} />
-            </button>
-          }
-          footerSlot={
-            <div className="flex flex-col items-center gap-1 w-full">
-              {/* Audio Mute / Unmute Toggle */}
-              <button
-                type="button"
-                onClick={toggleAudio}
-                className={`group relative w-full py-1 px-1 min-h-[44px] touch-manipulation rounded-xl flex flex-col items-center justify-center transition-colors cursor-pointer ${
-                  isAudioMuted
-                    ? 'text-rose-400 hover:text-rose-300 hover:bg-slate-900'
-                    : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-900'
-                }`}
-                title={isAudioMuted ? "Unmute Global Audio" : "Mute Global Audio"}
-              >
-                <div className="w-7 h-7 flex items-center justify-center shrink-0">
-                  {isAudioMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-                </div>
-                <span className="font-mono text-[8.5px] uppercase tracking-wider font-bold truncate mt-0.5">
-                  {isAudioMuted ? 'MUTED' : 'AUDIO'}
-                </span>
-              </button>
-
-              {/* User Settings & Configuration */}
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1000, 0.02);
-                  setIsSettingsOpen(true);
-                }}
-                className="group relative w-full py-1 px-1 min-h-[44px] touch-manipulation rounded-xl flex flex-col items-center justify-center text-slate-400 hover:text-cyan-300 hover:bg-slate-900 transition-colors cursor-pointer"
-                title="System Configuration & Preferences"
-              >
-                <div className="w-7 h-7 flex items-center justify-center shrink-0">
-                  <Settings size={16} className="group-hover:rotate-45 transition-transform duration-300" />
-                </div>
-                <span className="font-mono text-[8.5px] uppercase tracking-wider font-bold truncate mt-0.5">
-                  CONFIG
-                </span>
-              </button>
-            </div>
-          }
-        />
-      </div>
-
-      {/* User Settings Modal */}
-      {isSettingsOpen && (
-        <UserSettingsModal
-          isOpen={isSettingsOpen}
-          onClose={() => setIsSettingsOpen(false)}
-        />
-      )}
-    </>
+    <div className="hidden sm:flex h-full shrink-0 z-30 select-none">
+      <GuidanceRail
+        items={globalNavItems}
+        activeId={activeId}
+      />
+    </div>
   );
 };

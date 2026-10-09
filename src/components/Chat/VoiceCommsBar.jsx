@@ -79,12 +79,12 @@ export const VoiceCommsBar = ({ className = '' }) => {
             }`}>
               <div className="relative">
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] text-white border ${
-                  isSpeaking ? 'bg-emerald-600 border-emerald-400 animate-pulse' : 'bg-slate-700 border-slate-600'
+                  isSpeaking ? 'bg-emerald-600 border-emerald-400 animate-soft-back-glow' : 'bg-slate-700 border-slate-600'
                 }`}>
                   YOU
                 </div>
                 {isSpeaking && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow" />
                 )}
               </div>
               <div className="flex flex-col min-w-0 flex-1">
@@ -111,12 +111,12 @@ export const VoiceCommsBar = ({ className = '' }) => {
                 >
                   <div className="relative">
                     <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-[11px] text-white border ${
-                      speaking ? 'bg-cyan-600 border-cyan-400 animate-pulse' : 'bg-slate-800 border-slate-700'
+                      speaking ? 'bg-cyan-600 border-cyan-400 animate-soft-back-glow' : 'bg-slate-800 border-slate-700'
                     }`}>
                       {p.name?.substring(0, 2).toUpperCase() || 'OP'}
                     </div>
                     {speaking && (
-                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-cyan-400 animate-soft-badge-glow" />
                     )}
                   </div>
                   <div className="flex flex-col min-w-0 flex-1">
@@ -139,7 +139,7 @@ export const VoiceCommsBar = ({ className = '' }) => {
           <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-400 shrink-0">
             <Radio size={16} className={isConnecting ? 'animate-spin' : isSpeaking ? 'animate-bounce' : ''} />
             <span className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-black ${
-              isConnecting ? 'bg-amber-400 animate-ping' : 'bg-emerald-400 animate-pulse'
+              isConnecting ? 'bg-amber-400 animate-soft-badge-glow' : 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]'
             }`} />
           </div>
 
@@ -157,7 +157,7 @@ export const VoiceCommsBar = ({ className = '' }) => {
             <div className="flex items-center gap-1.5 text-[10.5px] font-mono text-slate-400">
               {isPushToTalk && (
                 <span className={`font-bold transition-colors ${
-                  isPttPressed ? 'text-amber-400 animate-pulse' : 'text-slate-500'
+                  isPttPressed ? 'text-amber-400 animate-soft-back-glow' : 'text-slate-500'
                 }`}>
                   [{isPttPressed ? 'TRANSMITTING' : `HOLD ${pttKey.replace('Key', '')} TO TALK`}]
                 </span>

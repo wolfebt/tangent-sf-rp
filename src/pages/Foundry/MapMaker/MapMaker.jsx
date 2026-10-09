@@ -50,6 +50,8 @@ import { MapMakerTabBar } from './components/MapMakerTabBar';
 import { AssetStudioTab } from './components/AssetStudioTab';
 import { PcgAiStudioTab } from './components/PcgAiStudioTab';
 import { VttExportTab } from './components/VttExportTab';
+import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const TerrainImageNode = ({ t, isEraser, isLocked, onErase }) => {
   const [imageObj, setImageObj] = useState(null);
@@ -177,7 +179,13 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
 };
 
 const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, onSwitchView }) => {
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
+
+  if (isMobile) {
+    return <MobileTacticalBlocker operation="map" onBack={onBackToStory} />;
+  }
+
   const containerRef = useRef(null);
   const stageRef = useRef(null);
   const [stageSize, setStageSize] = useState({ width: 800, height: 600 });

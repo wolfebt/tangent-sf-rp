@@ -56,6 +56,18 @@ export const NetworkRosterView = ({ isCompact = false }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState('all'); // 'all' | 'operators' | 'personas'
   const [expandedOperators, setExpandedOperators] = useState({});
+  const [collapsedSections, setCollapsedSections] = useState({
+    online: false,
+    offline: true
+  });
+
+  const toggleSection = (key) => {
+    AudioService.playTerminalBeep(1050, 0.02);
+    setCollapsedSections(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
 
   const toggleOperatorExpand = (uid) => {
     AudioService.playTerminalBeep(1050, 0.02);
@@ -129,7 +141,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
   const renderOperatorCard = (user, isOnline) => {
     const isSelf = currentUser && currentUser.uid === user.uid;
     const handle = getEffectiveUserHandle(user);
-    const isExpanded = expandedOperators[user.uid] ?? true; // default open
+    const isExpanded = expandedOperators[user.uid] ?? false; // default collapsed
     const charList = isSelf 
       ? (allUserPersonas.length > 0 ? allUserPersonas : (Array.isArray(user.characters) ? user.characters : []))
       : (Array.isArray(user.characters) ? user.characters : []);
@@ -168,7 +180,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
               </div>
               <span 
                 className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${
-                  isOnline ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'
+                  isOnline ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]' : 'bg-slate-600'
                 }`}
                 title={isOnline ? 'Online' : 'Offline'}
               />
@@ -283,7 +295,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                               : "Standby: Private to you. Click to engage and broadcast to the network."
                           }
                         >
-                          <Radio size={10} className={isEngaged ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+                          <Radio size={10} className={isEngaged ? "text-emerald-400 animate-soft-back-glow" : "text-slate-500"} />
                           <span>{isEngaged ? 'ENGAGED' : 'STANDBY'}</span>
                         </button>
                       ) : (
@@ -328,7 +340,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
             </div>
             <span 
               className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${
-                isOnline ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'
+                isOnline ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]' : 'bg-slate-600'
               }`}
             />
           </div>
@@ -364,7 +376,7 @@ export const NetworkRosterView = ({ isCompact = false }) => {
               className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer border bg-emerald-950/80 hover:bg-emerald-900 border-emerald-500/70 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.25)]"
               title="Network Engaged. Click to disengage."
             >
-              <Radio size={10} className="text-emerald-400 animate-pulse" />
+              <Radio size={10} className="text-emerald-400 animate-soft-back-glow" />
               <span>ENGAGED</span>
             </button>
           </div>
@@ -423,9 +435,9 @@ export const NetworkRosterView = ({ isCompact = false }) => {
 
         {/* New Operator Login Alert Banner */}
         {hasNewOperatorLogins && newOperatorLogins.length > 0 && (
-          <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[10.5px] font-mono animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.25)]">
+          <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-[10.5px] font-mono animate-soft-back-glow shadow-[0_0_12px_rgba(16,185,129,0.25)]">
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981] shrink-0" />
               <span className="font-bold truncate">
                 OPERATOR CHECK-IN: {newOperatorLogins.map(o => `@${o.userHandle}`).join(', ')}
               </span>
@@ -455,9 +467,9 @@ export const NetworkRosterView = ({ isCompact = false }) => {
         {/* Filter Tabs */}
         <div className="flex items-center gap-1.5 text-[9.5px] font-mono">
           {[
-            { id: 'all', label: `ALL (${userDirectory.length})` },
-            { id: 'operators', label: `OPERATORS (${userDirectory.length})` },
-            { id: 'personas', label: `PERSONAS (${allNetworkPersonas.length})` }
+            { id: 'all', label: `ALL (${userDirectory.length})`, shortLabel: `ALL (${userDirectory.length})` },
+            { id: 'operators', label: `OPERATORS (${userDirectory.length})`, shortLabel: `OPS (${userDirectory.length})` },
+            { id: 'personas', label: `PERSONAS (${allNetworkPersonas.length})`, shortLabel: `FOLIO (${allNetworkPersonas.length})` }
           ].map(tab => (
             <button
               key={tab.id}
@@ -466,13 +478,14 @@ export const NetworkRosterView = ({ isCompact = false }) => {
                 AudioService.playTerminalBeep(1100, 0.02);
                 setFilterMode(tab.id);
               }}
-              className={`flex-1 py-1 rounded-md font-bold transition-all cursor-pointer ${
+              className={`flex-1 py-1 px-1 rounded-md font-bold transition-all cursor-pointer truncate text-center ${
                 filterMode === tab.id
                   ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-500/50 shadow-sm'
                   : 'bg-slate-900/60 text-slate-400 border border-slate-800 hover:text-slate-200'
               }`}
             >
-              {tab.label}
+              <span className="hidden sm:inline">{tab.label}</span>
+              <span className="sm:hidden">{tab.shortLabel}</span>
             </button>
           ))}
         </div>
@@ -482,75 +495,99 @@ export const NetworkRosterView = ({ isCompact = false }) => {
       <div className="flex-1 overflow-y-auto p-2.5 space-y-4 no-scrollbar">
         {/* ── SECTION 1: ONLINE OPERATORS & PERSONAS (TOP OF LIST) ── */}
         <div className="space-y-2">
-          <div className="flex items-center justify-between px-1.5 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-950/30 border border-emerald-500/30 rounded-lg">
+          <button
+            type="button"
+            onClick={() => toggleSection('online')}
+            className="w-full flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-950/30 hover:bg-emerald-950/50 border border-emerald-500/30 rounded-lg transition-colors cursor-pointer text-left"
+          >
             <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
               <span>ONLINE NETWORK ENTITIES</span>
             </span>
-            <span className="text-[9px] text-emerald-400/90 font-bold">
-              {filterMode === 'personas' ? filteredOnlinePersonas.length : filteredOnlineOperators.length} ACTIVE
+            <span className="flex items-center gap-1.5">
+              <span className="text-[9px] text-emerald-400/90 font-bold">
+                {filterMode === 'personas' ? filteredOnlinePersonas.length : filteredOnlineOperators.length} ACTIVE
+              </span>
+              <ChevronDown 
+                size={12} 
+                className={`transition-transform duration-200 text-emerald-400 ${collapsedSections.online ? '-rotate-90' : ''}`} 
+              />
             </span>
-          </div>
+          </button>
 
-          <div className="space-y-2">
-            {filterMode === 'personas' ? (
-              filteredOnlinePersonas.length === 0 ? (
-                <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                  No personas online right now.
-                </div>
+          {!collapsedSections.online && (
+            <div className="space-y-2">
+              {filterMode === 'personas' ? (
+                filteredOnlinePersonas.length === 0 ? (
+                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                    No personas online right now.
+                  </div>
+                ) : (
+                  filteredOnlinePersonas.map(renderPersonaCard)
+                )
               ) : (
-                filteredOnlinePersonas.map(renderPersonaCard)
-              )
-            ) : (
-              filteredOnlineOperators.length === 0 ? (
-                <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                  No other operators online right now.
-                </div>
-              ) : (
-                filteredOnlineOperators.map(u => renderOperatorCard(u, true))
-              )
-            )}
-          </div>
+                filteredOnlineOperators.length === 0 ? (
+                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                    No other operators online right now.
+                  </div>
+                ) : (
+                  filteredOnlineOperators.map(u => renderOperatorCard(u, true))
+                )
+              )}
+            </div>
+          )}
         </div>
 
         {/* ── SECTION 2: OFFLINE OPERATORS & PERSONAS (BELOW) ── */}
         <div className="space-y-2 pt-2 border-t border-slate-800/80">
-          <div className="flex items-center justify-between px-1.5 py-1 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider bg-slate-900/40 border border-slate-800 rounded-lg">
+          <button
+            type="button"
+            onClick={() => toggleSection('offline')}
+            className="w-full flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-slate-400 hover:text-slate-300 uppercase tracking-wider bg-slate-900/40 hover:bg-slate-900/70 border border-slate-800 rounded-lg transition-colors cursor-pointer text-left"
+          >
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-slate-600" />
               <span>OFFLINE NETWORK ENTITIES</span>
             </span>
-            <span className="text-[9px] text-slate-500 font-bold">
-              {filterMode === 'personas' ? filteredOfflinePersonas.length : filteredOfflineOperators.length} REGISTERED
+            <span className="flex items-center gap-1.5">
+              <span className="text-[9px] text-slate-500 font-bold">
+                {filterMode === 'personas' ? filteredOfflinePersonas.length : filteredOfflineOperators.length} REGISTERED
+              </span>
+              <ChevronDown 
+                size={12} 
+                className={`transition-transform duration-200 text-slate-500 ${collapsedSections.offline ? '-rotate-90' : ''}`} 
+              />
             </span>
-          </div>
+          </button>
 
-          <div className="space-y-2">
-            {filterMode === 'personas' ? (
-              filteredOfflinePersonas.length === 0 ? (
-                <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                  No offline personas found.
-                </div>
+          {!collapsedSections.offline && (
+            <div className="space-y-2">
+              {filterMode === 'personas' ? (
+                filteredOfflinePersonas.length === 0 ? (
+                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                    No offline personas found.
+                  </div>
+                ) : (
+                  filteredOfflinePersonas.map(renderPersonaCard)
+                )
               ) : (
-                filteredOfflinePersonas.map(renderPersonaCard)
-              )
-            ) : (
-              filteredOfflineOperators.length === 0 ? (
-                <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
-                  No offline operators registered.
-                </div>
-              ) : (
-                filteredOfflineOperators.map(u => renderOperatorCard(u, false))
-              )
-            )}
-          </div>
+                filteredOfflineOperators.length === 0 ? (
+                  <div className="p-3 rounded-lg bg-slate-950/40 border border-slate-800 text-[10.5px] font-mono text-slate-500 italic text-center">
+                    No offline operators registered.
+                  </div>
+                ) : (
+                  filteredOfflineOperators.map(u => renderOperatorCard(u, false))
+                )
+              )}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Bottom Status bar */}
       <div className="p-2 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-[10px] font-mono text-slate-500 shrink-0">
         <span className="flex items-center gap-1">
-          <Radio size={11} className="text-emerald-400 animate-pulse" />
+          <Radio size={11} className="text-emerald-400 animate-soft-back-glow" />
           <span>REAL-TIME PRESENCE SYNC</span>
         </span>
         <span className="text-cyan-400 font-bold">DIRECT LINK READY</span>

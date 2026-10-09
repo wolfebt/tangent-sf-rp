@@ -8,11 +8,29 @@ perspective: "operator"
 entry_type: "Hindrance Codex"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","hindrance-codex"]
-updatedAt: "2026-09-14T16:40:07.828Z"
+updatedAt: "2026-10-09T07:59:56.596Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **HINDRANCES**
@@ -106,7 +124,7 @@ In the Tangent Role-Playing System, **Hindrances** are negative traits, flaws, o
 
 **Important:** Do not confuse **Hindrances (Character Flaws)** with the **Rolling with Hindrance** mechanic.  
 **Hindrances (Capital D):** Permanent or semi-permanent character traits chosen at creation (e.g., "Blindness," "Debt").  
-**Rolling with Hindrance (lowercase d):** A situational mechanic where a player must roll two d20s and take the **lowest** result.  
+**Rolling with Hindrance (lowercase d):** A situational mechanic where a player must roll 2d10 twice and take the **lowest** result (Disadvantage).  
 *Note:* Some Character Hindrances (like *Impaired Sense*) may cause a player to *Roll with Hindrance* on specific checks.
 
 ## 
@@ -444,19 +462,6 @@ The universe conspires against the character.
 *Note:* This can reduce a Karma Pool to 0 or negative (Karmic Debt), meaning the character starts every session owing the GM bad luck.
 
 
-
-## Canonical Mechanics
-Hindrances grant bonus BP during character creation (Minor 3 BP, Moderate 6 BP, Major 9 BP; Disability 3/6/9/18 BP; Age 5/10 BP; Tech Impairment 10/20/30 BP).
-Recommended Cap: 15 BP maximum from Hindrances.
-Distinction: Hindrances (Character Flaws) grant BP; Rolling with Hindrance is the situational mechanic (Roll 2d10 with Advantage, take lowest).
-
-
-## Tactical Guide
-Use hindrances to add narrative depth and character flaws while funding advanced skills and features.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.09 HINDRANCES.md
 
 ## Game Mechanics Rules
 ```

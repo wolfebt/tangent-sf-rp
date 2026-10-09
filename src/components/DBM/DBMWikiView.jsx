@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
 import { useConfirm } from '../../context/ConfirmContext';
 import { showToast } from '../../context/ToastContext';
-import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, Copy, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu } from 'lucide-react';
+import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, Copy, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu, ArrowLeft, ArrowRight } from 'lucide-react';
 
 const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
   const interactions = useItemInteractions({
@@ -16,6 +16,7 @@ const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit
 
   const isPrimaryFaction = item.entry_type?.toLowerCase().includes('primary');
   const isGenericTemplate = item.entry_type?.toLowerCase().includes('generic');
+  const isFullMaster = (item.description?.length > 15000) || item.tags?.includes('source-of-truth') || item.id?.startsWith('doc-') || item.id?.endsWith('-master');
 
   return (
     <button
@@ -28,6 +29,11 @@ const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit
         <span className="truncate">{item.name}</span>
       </div>
       <div className="flex items-center gap-1 shrink-0">
+        {isFullMaster && (
+          <span className="text-[8px] px-1 py-0.2 bg-cyan-950 text-cyan-300 border border-cyan-500/50 rounded font-mono font-bold tracking-tight">
+            FULL
+          </span>
+        )}
         {isPrimaryFaction && (
           <span className="text-[8px] px-1 py-0.2 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 rounded font-mono font-bold tracking-tight">
             PRIMARY
@@ -50,6 +56,8 @@ const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit
 
 const getSectionIcon = (sectionName = '') => {
   const s = sectionName.toUpperCase();
+  if (s.includes('SOURCE OF TRUTH') || s.includes('OPERATOR CORE')) return '📘';
+  if (s.includes('ARCHITECT & MODULAR') || s.includes('ARCHITECT MATRICES')) return '🏛️';
   if (s.includes('SYSTEM') || s.includes('MANUAL')) return '⚙️';
   if (s.includes('CHARACTER CREATION')) return '👤';
   if (s.includes('SECONDARY FACTION') || s.includes('GENERIC') || s.includes('25 TEMPLATES')) return '🏛️';
@@ -76,14 +84,7 @@ const CANONICAL_SECTION_ALIASES = {
 };
 
 const SUBSECTION_PARENT_MAP = {
-  '1.04.10 SECONDARY FACTIONS (25 TEMPLATES)': '1.04 FACTIONS & GALACTIC POLITIES',
-  '1.04 FACTIONS & GALACTIC POLITIES': '1.00 CHARACTER CREATION & PROFILES',
-  '1.04 PRIMARY FACTIONS (MAJOR POLITIES)': '1.00 CHARACTER CREATION & PROFILES',
-  '1.05 ORIGINS & HABITATS': '1.00 CHARACTER CREATION & PROFILES',
-  '1.06 OCCUPATIONS & CAREERS': '1.00 CHARACTER CREATION & PROFILES',
-  '1.07 MASTER SKILLS CODEX': '1.00 CHARACTER CREATION & PROFILES',
-  '1.08 FEATURES & PERKS CODEX': '1.00 CHARACTER CREATION & PROFILES',
-  '1.09 HINDRANCES & FLAWS CODEX': '1.00 CHARACTER CREATION & PROFILES'
+  '1.04.10 SECONDARY FACTIONS (25 TEMPLATES)': '1.04 FACTIONS & GALACTIC POLITIES'
 };
 
 const CollapsibleSectionNode = ({
@@ -105,10 +106,13 @@ const CollapsibleSectionNode = ({
 
   const isRoot = level === 0;
   const isSub = level === 1;
+  const isTruthSec = section.name?.toUpperCase().includes('SOURCE OF TRUTH') || section.name?.toUpperCase().includes('OPERATOR CORE') || section.name?.toUpperCase().includes('ARCHITECT & MODULAR');
 
   return (
     <div className={`overflow-hidden transition-all ${
-      isRoot
+      isTruthSec
+        ? 'bg-sky-950/30 rounded-lg border border-sky-500/60 mb-2 shadow-[0_0_12px_rgba(56,189,248,0.15)]'
+        : isRoot
         ? 'bg-slate-900/40 rounded-lg border border-slate-800/80 mb-1.5'
         : isSub
         ? 'ml-2 my-1 rounded-md border border-slate-800/70 bg-slate-950/70'
@@ -119,7 +123,9 @@ const CollapsibleSectionNode = ({
         type="button"
         onClick={() => toggleSection(section.id)}
         className={`w-full text-left transition-colors flex items-center justify-between border-b group cursor-pointer ${
-          isRoot
+          isTruthSec
+            ? 'px-2.5 py-1.5 bg-sky-950/80 hover:bg-sky-900/80 border-sky-500/50'
+            : isRoot
             ? 'px-2.5 py-1.5 bg-slate-900/90 hover:bg-slate-800/80 border-slate-800/60'
             : isSub
             ? 'px-2 py-1.5 bg-slate-950/90 hover:bg-slate-900 border-slate-800/50'
@@ -128,13 +134,15 @@ const CollapsibleSectionNode = ({
       >
         <div className="flex items-center gap-1.5 min-w-0 pr-1">
           <span className={`transition-colors ${
-            isRoot ? 'text-slate-400 group-hover:text-cyan-400' : 'text-slate-400 group-hover:text-amber-400'
+            isTruthSec ? 'text-sky-300 group-hover:text-white' : isRoot ? 'text-slate-400 group-hover:text-cyan-400' : 'text-slate-400 group-hover:text-amber-400'
           }`}>
             {isExpanded ? <ChevronDown size={isRoot ? 13 : 12} /> : <ChevronRight size={isRoot ? 13 : 12} />}
           </span>
           <span className={`${isRoot ? 'text-sm' : 'text-xs'} shrink-0`}>{secIcon}</span>
           <span className={`truncate font-mono font-bold uppercase tracking-wider ${
-            isRoot
+            isTruthSec
+              ? 'text-xs text-sky-200 group-hover:text-white font-extrabold'
+              : isRoot
               ? 'text-xs text-cyan-300 group-hover:text-cyan-200'
               : isSub
               ? 'text-[11px] text-amber-300/90 group-hover:text-amber-200'
@@ -142,11 +150,18 @@ const CollapsibleSectionNode = ({
           }`}>
             {section.name}
           </span>
+          {isTruthSec && (
+            <span className="text-[8px] px-1 py-0.2 rounded bg-sky-900 text-sky-300 border border-sky-400/60 font-mono font-bold tracking-tight shrink-0 hidden sm:inline">
+              SOURCE OF TRUTH
+            </span>
+          )}
         </div>
 
         <span
           className={`font-mono font-bold shrink-0 ${
-            isRoot
+            isTruthSec
+              ? 'text-[10px] px-1.5 py-0.2 rounded bg-sky-900/90 text-sky-200 border border-sky-400/50'
+              : isRoot
               ? 'text-[10px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 group-hover:text-cyan-300'
               : isSub
               ? 'text-[9px] px-1 py-0.2 rounded bg-amber-950/60 text-amber-300/90 border border-amber-500/30'
@@ -244,7 +259,7 @@ export const DBMWikiView = ({
   const confirm = useConfirm();
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [perspectiveFilter, setPerspectiveFilter] = useState('operator'); // 'operator' | 'architect' | 'all'
+  const [perspectiveFilter, setPerspectiveFilter] = useState('all'); // 'operator' | 'architect' | 'all'
   const [expandedSections, setExpandedSections] = useState({});
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -368,7 +383,13 @@ export const DBMWikiView = ({
       node.count = node.totalCount;
     }
 
-    rootSections.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+    rootSections.sort((a, b) => {
+      const aIsTruth = a.name.includes('SOURCE OF TRUTH') || a.name.includes('OPERATOR CORE') || a.name.includes('ARCHITECT & MODULAR');
+      const bIsTruth = b.name.includes('SOURCE OF TRUTH') || b.name.includes('OPERATOR CORE') || b.name.includes('ARCHITECT & MODULAR');
+      if (aIsTruth && !bIsTruth) return -1;
+      if (!aIsTruth && bIsTruth) return 1;
+      return a.name.localeCompare(b.name, undefined, { numeric: true });
+    });
     rootSections.forEach(finalizeNode);
 
     if (standalone.length > 0) {
@@ -451,8 +472,15 @@ export const DBMWikiView = ({
     return sections.map(sec => filterNode(sec)).filter(Boolean);
   }, [sections, searchQuery]);
 
+  const desktopContentRef = useRef(null);
+  const mobileContentRef = useRef(null);
+
   // Handle article selection and auto-expansion of ancestor sections
-  const handleSelectArticle = (item) => {
+  const handleSelectArticle = (itemOrId) => {
+    if (!itemOrId) return;
+    const item = typeof itemOrId === 'string'
+      ? (allArticlesFlat || []).find(a => a.id === itemOrId || a.name === itemOrId)
+      : itemOrId;
     if (!item) return;
     setSelectedArticleId(item.id);
     const ancestors = articleAncestorsMap[item.id] || (item.name && articleAncestorsMap[item.name.toLowerCase()]) || [];
@@ -508,6 +536,128 @@ export const DBMWikiView = ({
     };
     return findFirstArticle(sections) || allArticlesFlat[0];
   }, [allArticlesFlat, selectedArticleId, sections]);
+
+  // Flatten articles in exact sequential reading order according to the section hierarchy
+  const orderedArticles = useMemo(() => {
+    const list = [];
+    const visited = new Set();
+    const activeTree = searchQuery.trim() ? filteredSections : sections;
+
+    const traverse = (nodeList) => {
+      for (const node of nodeList) {
+        if (node.items && node.items.length > 0) {
+          for (const item of node.items) {
+            if (!visited.has(item.id)) {
+              visited.add(item.id);
+              list.push(item);
+            }
+            const subChildren = childMap[item.id] || (item.name && childMap[item.name.toLowerCase()]) || [];
+            for (const child of subChildren) {
+              if (!visited.has(child.id)) {
+                visited.add(child.id);
+                list.push(child);
+              }
+            }
+          }
+        }
+        if (node.subsections && node.subsections.length > 0) {
+          traverse(node.subsections);
+        }
+      }
+    };
+
+    traverse(activeTree);
+
+    // If not searching, ensure any remaining articles from allArticlesFlat are included
+    if (!searchQuery.trim()) {
+      for (const item of allArticlesFlat) {
+        if (!visited.has(item.id)) {
+          visited.add(item.id);
+          list.push(item);
+        }
+      }
+    }
+
+    return list;
+  }, [sections, filteredSections, searchQuery, childMap, allArticlesFlat]);
+
+  const currentIndex = useMemo(() => {
+    if (!activeArticle || !orderedArticles.length) return -1;
+    return orderedArticles.findIndex(a => a.id === activeArticle.id);
+  }, [activeArticle, orderedArticles]);
+
+  const prevArticle = currentIndex > 0 ? orderedArticles[currentIndex - 1] : null;
+  const nextArticle = currentIndex >= 0 && currentIndex < orderedArticles.length - 1 ? orderedArticles[currentIndex + 1] : null;
+
+  const handleNavigateArticle = (targetArticle) => {
+    if (!targetArticle) return;
+    handleSelectArticle(targetArticle);
+    if (desktopContentRef.current) {
+      desktopContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    if (mobileContentRef.current) {
+      mobileContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  // Keyboard navigation shortcuts (Alt+ArrowLeft / Alt+ArrowRight)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) {
+        return;
+      }
+      if (e.altKey && e.key === 'ArrowLeft' && prevArticle) {
+        e.preventDefault();
+        handleNavigateArticle(prevArticle);
+      } else if (e.altKey && e.key === 'ArrowRight' && nextArticle) {
+        e.preventDefault();
+        handleNavigateArticle(nextArticle);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [prevArticle, nextArticle]);
+
+  const isFullRulebook = useMemo(() => {
+    if (!activeArticle) return false;
+    const len = (activeArticle.description || activeArticle.body || '').length;
+    return len > 15000 ||
+      activeArticle.tags?.includes('source-of-truth') ||
+      activeArticle.id?.startsWith('doc-') ||
+      activeArticle.id?.endsWith('-master') ||
+      activeArticle.id?.endsWith('-codex');
+  }, [activeArticle]);
+
+  const matchingMasterDoc = useMemo(() => {
+    if (!activeArticle || !allArticlesFlat || isFullRulebook) return null;
+
+    const id = activeArticle.id || '';
+    const parent = (activeArticle.parent || '').toLowerCase();
+
+    let targetDocId = null;
+    if (id.startsWith('3-') || parent.includes('combat')) targetDocId = 'doc-operator-3-00-combat';
+    else if (id.startsWith('1-04') || parent.includes('faction')) targetDocId = 'doc-operator-1-04-factions';
+    else if (id.startsWith('1-05') || parent.includes('origin')) targetDocId = 'doc-operator-1-05-origins';
+    else if (id.startsWith('1-06') || parent.includes('occupation')) targetDocId = 'doc-operator-1-06-occupations';
+    else if (id.startsWith('1-07') || parent.includes('skill')) targetDocId = 'doc-operator-1-07-skills';
+    else if (id.startsWith('1-08') || parent.includes('feature')) targetDocId = 'doc-operator-1-08-features';
+    else if (id.startsWith('1-09') || parent.includes('hindrance')) targetDocId = 'doc-operator-1-09-hindrances';
+    else if (id.startsWith('1-10') || parent.includes('scaling')) targetDocId = 'doc-operator-1-10-scaling';
+    else if (id.startsWith('2-') || parent.includes('economatrix') || parent.includes('wealth')) targetDocId = 'doc-operator-2-00-economatrix';
+    else if (id.startsWith('4-') || parent.includes('metaphysic')) targetDocId = 'doc-operator-4-00-metaphysics';
+    else if (id.startsWith('1-01') || parent.includes('character creation')) targetDocId = 'doc-operator-1-01-character-creation';
+    else if (id.startsWith('1-02') || parent.includes('archetype')) targetDocId = 'doc-operator-1-02-archetypes';
+    else if (id.startsWith('1-03') || parent.includes('species')) targetDocId = 'doc-operator-1-03-species-work';
+    else if (id.startsWith('0-') || parent.includes('manual') || parent.includes('system')) targetDocId = 'doc-operator-1-00-introduction';
+    else if (id.startsWith('5-') || parent.includes('architect') || parent.includes('worldbuilding')) targetDocId = 'doc-architect-99-technology';
+
+    if (targetDocId && targetDocId !== activeArticle.id) {
+      return allArticlesFlat.find(a => a.id === targetDocId) || null;
+    }
+    return null;
+  }, [activeArticle, allArticlesFlat, isFullRulebook]);
 
   // Pre-process inter-wiki links [[Article Name]]
   const preProcessWikiText = (text) => {
@@ -635,6 +785,11 @@ export const DBMWikiView = ({
                       {activeArticle.entry_type}
                     </span>
                   )}
+                  {isFullRulebook && (
+                    <span className="text-[9px] px-1.5 py-0.5 rounded font-mono uppercase font-bold bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-sm animate-pulse">
+                      📘 FULL RULEBOOK ({Math.round(articleBodyText.length / 1000)}k chars)
+                    </span>
+                  )}
                 </div>
                 <h2 className="text-sm sm:text-base font-bold text-cyan-300 uppercase tracking-wide truncate">
                   {activeArticle.name}
@@ -667,7 +822,26 @@ export const DBMWikiView = ({
             </div>
 
             {/* Mobile Main Content Body */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-900 space-y-4 text-xs sm:text-sm text-slate-200">
+            <div ref={mobileContentRef} className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-900 space-y-4 text-xs sm:text-sm text-slate-200">
+              {matchingMasterDoc && (
+                <div className="bg-gradient-to-r from-cyan-950/90 via-slate-900 to-indigo-950/80 border border-cyan-500/60 p-3 sm:p-4 rounded-lg flex items-center justify-between gap-3 shadow-md">
+                  <div className="min-w-0">
+                    <div className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider flex items-center gap-1 font-bold">
+                      <span>📖</span> Quick Reference Snippet
+                    </div>
+                    <div className="text-xs text-slate-200 truncate mt-0.5">
+                      Full complete rulebook: <strong className="text-cyan-300">{matchingMasterDoc.name}</strong>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleSelectArticle(matchingMasterDoc.id)}
+                    className="shrink-0 px-2.5 py-1 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-200 border border-cyan-400/60 rounded text-xs font-mono uppercase font-bold tracking-wider transition-colors cursor-pointer"
+                  >
+                    Open Rulebook ➔
+                  </button>
+                </div>
+              )}
+
               <div className="bg-slate-950 border border-slate-800 p-4 sm:p-5 rounded-lg space-y-3 shadow-inner">
                 <div className="text-slate-300 font-sans leading-relaxed">
                   {articleBodyText ? (
@@ -702,16 +876,79 @@ export const DBMWikiView = ({
                   {renderWikiContent(activeArticle.note)}
                 </div>
               )}
+
+              {/* In-flow Mobile Pagination Links */}
+              <div className="pt-4 border-t border-slate-800 flex items-center justify-between gap-2">
+                {prevArticle ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNavigateArticle(prevArticle)}
+                    className="flex-1 flex items-center gap-2 p-2.5 bg-slate-950 hover:bg-slate-900 border border-cyan-900/60 hover:border-cyan-500/50 rounded-lg text-left transition-colors cursor-pointer"
+                  >
+                    <ArrowLeft size={14} className="text-cyan-400 shrink-0" />
+                    <div className="min-w-0">
+                      <div className="text-[9px] font-mono text-slate-400 uppercase">Previous</div>
+                      <div className="text-[11px] font-bold text-white truncate">{prevArticle.name}</div>
+                    </div>
+                  </button>
+                ) : <div className="flex-1" />}
+
+                {nextArticle ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNavigateArticle(nextArticle)}
+                    className="flex-1 flex items-center justify-end gap-2 p-2.5 bg-slate-950 hover:bg-slate-900 border border-cyan-900/60 hover:border-cyan-500/50 rounded-lg text-right transition-colors cursor-pointer"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-[9px] font-mono text-slate-400 uppercase">Next</div>
+                      <div className="text-[11px] font-bold text-white truncate">{nextArticle.name}</div>
+                    </div>
+                    <ArrowRight size={14} className="text-cyan-400 shrink-0" />
+                  </button>
+                ) : <div className="flex-1" />}
+              </div>
             </div>
 
-            {/* Close Button at Bottom */}
-            <div className="sticky bottom-0 bg-slate-950 border-t border-cyan-900/60 p-2.5 flex items-center justify-center shrink-0 shadow-lg">
+            {/* Mobile Modal Footer Navigation Bar: Previous (bottom left), Close (center), Next (bottom right) */}
+            <div className="sticky bottom-0 bg-slate-950 border-t border-cyan-900/60 p-2.5 flex items-center justify-between gap-2 shrink-0 shadow-lg">
+              {/* Bottom Left: Previous Arrow */}
+              {prevArticle ? (
+                <button
+                  type="button"
+                  onClick={() => handleNavigateArticle(prevArticle)}
+                  className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/50 rounded-lg text-xs font-bold font-mono transition-colors active:scale-95 shadow-sm cursor-pointer"
+                  title={`Previous: ${prevArticle.name}`}
+                >
+                  <ArrowLeft size={14} />
+                  <span className="hidden xs:inline truncate max-w-[70px]">Prev</span>
+                </button>
+              ) : (
+                <div className="w-9 xs:w-16" />
+              )}
+
+              {/* Center: Close Article */}
               <button
+                type="button"
                 onClick={() => setSelectedArticleId(null)}
-                className="w-full max-w-xs py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all flex items-center justify-center gap-2"
+                className="flex-1 max-w-[140px] py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg shadow-[0_0_10px_rgba(34,211,238,0.2)] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <span>✕</span> Close Article
+                <span>✕</span> Close
               </button>
+
+              {/* Bottom Right: Next Arrow */}
+              {nextArticle ? (
+                <button
+                  type="button"
+                  onClick={() => handleNavigateArticle(nextArticle)}
+                  className="flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/50 rounded-lg text-xs font-bold font-mono transition-colors active:scale-95 shadow-sm cursor-pointer"
+                  title={`Next: ${nextArticle.name}`}
+                >
+                  <span className="hidden xs:inline truncate max-w-[70px]">Next</span>
+                  <ArrowRight size={14} />
+                </button>
+              ) : (
+                <div className="w-9 xs:w-16" />
+              )}
             </div>
           </div>
         </div>
@@ -874,144 +1111,269 @@ export const DBMWikiView = ({
       </aside>
 
       {/* RIGHT PANEL: Article Viewer / Content Display (Desktop Side-by-Side) */}
-      <main className="flex flex-col flex-1 max-md:hidden overflow-y-auto p-6 lg:p-8 pb-12 bg-slate-900/95">
-        {activeArticle ? (
-          <div className="w-full space-y-6">
-            {/* Header & Controls */}
-            <div className="flex justify-between items-start border-b border-slate-800 pb-4 gap-4">
-              <div className="space-y-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">
-                    {currentConfig?.label || 'Compendium'}
-                  </span>
-                  {activeArticle.parent && (
-                    <span className="text-xs font-mono text-amber-400">
-                      / {activeArticle.parent}
+      <div className="flex flex-col flex-1 max-md:hidden relative h-full overflow-hidden">
+        <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-6 lg:p-8 pb-28 bg-slate-900/95 scroll-smooth">
+          {activeArticle ? (
+            <div className="w-full space-y-6">
+              {/* Header & Controls */}
+              <div className="flex justify-between items-start border-b border-slate-800 pb-4 gap-4">
+                <div className="space-y-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">
+                      {currentConfig?.label || 'Compendium'}
                     </span>
-                  )}
-                  {activeArticle.perspective && (
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
-                      activeArticle.perspective === 'operator'
-                        ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50'
-                        : activeArticle.perspective === 'architect'
-                        ? 'bg-amber-950/90 text-amber-300 border-amber-500/50'
-                        : 'bg-cyan-950 text-cyan-300 border-cyan-500/40'
-                    }`}>
-                      {activeArticle.perspective === 'operator' ? '👤 OPERATOR' : activeArticle.perspective === 'architect' ? '🏛️ ARCHITECT' : 'CORE (ALL)'}
-                    </span>
-                  )}
-                  {activeArticle.entry_type && (
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
-                      activeArticle.entry_type.toLowerCase().includes('primary')
-                        ? 'bg-emerald-950 text-emerald-300 border-emerald-500/60'
-                        : activeArticle.entry_type.toLowerCase().includes('generic')
-                        ? 'bg-amber-950 text-amber-300 border-amber-500/50'
-                        : 'bg-slate-900 text-slate-300 border-slate-700'
-                    }`}>
-                      {activeArticle.entry_type}
-                    </span>
-                  )}
+                    {activeArticle.parent && (
+                      <span className="text-xs font-mono text-amber-400">
+                        / {activeArticle.parent}
+                      </span>
+                    )}
+                    {activeArticle.perspective && (
+                      <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
+                        activeArticle.perspective === 'operator'
+                          ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50'
+                          : activeArticle.perspective === 'architect'
+                          ? 'bg-amber-950/90 text-amber-300 border-amber-500/50'
+                          : 'bg-cyan-950 text-cyan-300 border-cyan-500/40'
+                      }`}>
+                        {activeArticle.perspective === 'operator' ? '👤 OPERATOR' : activeArticle.perspective === 'architect' ? '🏛️ ARCHITECT' : 'CORE (ALL)'}
+                      </span>
+                    )}
+                    {activeArticle.entry_type && (
+                      <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
+                        activeArticle.entry_type.toLowerCase().includes('primary')
+                          ? 'bg-emerald-950 text-emerald-300 border-emerald-500/60'
+                          : activeArticle.entry_type.toLowerCase().includes('generic')
+                          ? 'bg-amber-950 text-amber-300 border-amber-500/50'
+                          : 'bg-slate-900 text-slate-300 border-slate-700'
+                      }`}>
+                        {activeArticle.entry_type}
+                      </span>
+                    )}
+                    {isFullRulebook && (
+                      <span className="text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold bg-cyan-950/90 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.3)]">
+                        📘 FULL UNABRIDGED SOURCE OF TRUTH ({Math.round(articleBodyText.length / 1000)}k chars)
+                      </span>
+                    )}
+                  </div>
+                  <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-wide uppercase font-sans">
+                    {activeArticle.name}
+                  </h1>
                 </div>
-                <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-wide uppercase font-sans">
-                  {activeArticle.name}
-                </h1>
+
+                {isAdmin ? (
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => handleOpenItem(activeArticle, true)}
+                      className="px-3.5 py-1.5 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded-lg text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
+                    >
+                      <Edit size={13} />
+                      <span>Edit Article</span>
+                    </button>
+                    {handleDuplicateEntry && (
+                      <button
+                        onClick={() => handleDuplicateEntry(activeArticle)}
+                        className="px-3.5 py-1.5 bg-cyan-950/50 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5"
+                        title="Duplicate Article"
+                      >
+                        <Copy size={13} />
+                        <span>Duplicate</span>
+                      </button>
+                    )}
+                    {handleDeleteEntry && (
+                      <button
+                        onClick={() => handleDeleteEntry(activeArticle)}
+                        className="px-3 py-1.5 bg-red-950/50 hover:bg-red-900/80 text-red-300 border border-red-500/40 rounded-lg text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5"
+                        title="Delete Article"
+                      >
+                        <Trash2 size={13} />
+                        <span>Delete</span>
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleOpenItem(activeArticle, false)}
+                    className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold uppercase transition-colors"
+                  >
+                    👁️ View Details
+                  </button>
+                )}
               </div>
 
-              {isAdmin ? (
-                <div className="flex items-center gap-2 shrink-0">
+              {/* Master Doc Cross-Reference Banner */}
+              {matchingMasterDoc && (
+                <div className="bg-gradient-to-r from-cyan-950/90 via-slate-900 to-indigo-950/80 border border-cyan-500/60 p-4 rounded-xl flex items-center justify-between gap-4 shadow-lg">
+                  <div className="space-y-0.5 min-w-0">
+                    <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider flex items-center gap-1.5 font-bold">
+                      <span>📘</span> Summary Excerpt / Quick Reference
+                    </div>
+                    <div className="text-sm text-slate-200">
+                      You are viewing a modular section. The complete unabridged rulebook is available in <strong className="text-cyan-300">{matchingMasterDoc.name}</strong> ({Math.round(((matchingMasterDoc.description || matchingMasterDoc.body || '').length) / 1000)}k chars).
+                    </div>
+                  </div>
                   <button
-                    onClick={() => handleOpenItem(activeArticle, true)}
-                    className="px-3.5 py-1.5 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded-lg text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
+                    onClick={() => handleSelectArticle(matchingMasterDoc.id)}
+                    className="shrink-0 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-200 border border-cyan-400/70 rounded-lg text-xs font-mono uppercase font-bold tracking-wider transition-all duration-150 cursor-pointer shadow-md hover:shadow-cyan-500/20 flex items-center gap-2"
                   >
-                    <Edit size={13} />
-                    <span>Edit Article</span>
+                    <span>Open Full Rulebook</span>
+                    <span>➔</span>
                   </button>
-                  {handleDuplicateEntry && (
-                    <button
-                      onClick={() => handleDuplicateEntry(activeArticle)}
-                      className="px-3.5 py-1.5 bg-cyan-950/50 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5"
-                      title="Duplicate Article"
-                    >
-                      <Copy size={13} />
-                      <span>Duplicate</span>
-                    </button>
-                  )}
-                  {handleDeleteEntry && (
-                    <button
-                      onClick={() => handleDeleteEntry(activeArticle)}
-                      className="px-3 py-1.5 bg-red-950/50 hover:bg-red-900/80 text-red-300 border border-red-500/40 rounded-lg text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5"
-                      title="Delete Article"
-                    >
-                      <Trash2 size={13} />
-                      <span>Delete</span>
-                    </button>
+                </div>
+              )}
+
+              {/* Main Content Body */}
+              <div className="bg-slate-950 border border-slate-800/90 p-6 lg:p-7 rounded-xl text-slate-200 text-sm leading-relaxed shadow-inner">
+                <div className="text-slate-300 font-sans">
+                  {articleBodyText ? (
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
+                      {preProcessWikiText(articleBodyText)}
+                    </ReactMarkdown>
+                  ) : (
+                    <div className="p-8 text-center text-slate-500 italic">
+                      No article body content available.
+                    </div>
                   )}
                 </div>
-              ) : (
-                <button
-                  onClick={() => handleOpenItem(activeArticle, false)}
-                  className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold uppercase transition-colors"
-                >
-                  👁️ View Details
-                </button>
-              )}
-            </div>
+              </div>
 
-            {/* Main Content Body */}
-            <div className="bg-slate-950 border border-slate-800/90 p-6 lg:p-7 rounded-xl text-slate-200 text-sm leading-relaxed shadow-inner">
-              <div className="text-slate-300 font-sans">
-                {articleBodyText ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
-                    {preProcessWikiText(articleBodyText)}
-                  </ReactMarkdown>
-                ) : (
-                  <div className="p-8 text-center text-slate-500 italic">
-                    No article body content available.
+              {/* Game Mechanics Box */}
+              {activeArticle.mechanic && (
+                <div className="bg-slate-950 border border-amber-500/40 p-5 rounded-xl text-xs space-y-2 shadow-md">
+                  <h4 className="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2 text-sm">
+                    <span>⚙️</span> Game Mechanics (BASTION Rules)
+                  </h4>
+                  <div className="text-amber-200 font-mono whitespace-pre-line bg-slate-900/90 p-4 rounded-lg border border-slate-800">
+                    {renderWikiContent(activeArticle.mechanic)}
                   </div>
+                </div>
+              )}
+
+              {/* Guide Box */}
+              {activeArticle.guide && (
+                <div className="bg-slate-950 border border-cyan-500/40 p-5 rounded-xl text-xs space-y-2 shadow-md">
+                  <h4 className="font-bold text-cyan-400 uppercase tracking-wider text-sm flex items-center gap-2">
+                    <span>📖</span> Gameplay Instructions
+                  </h4>
+                  <div className="text-cyan-200 whitespace-pre-line bg-slate-900/90 p-4 rounded-lg border border-slate-800">
+                    {renderWikiContent(activeArticle.guide)}
+                  </div>
+                </div>
+              )}
+
+              {/* Notes Box */}
+              {activeArticle.note && (
+                <div className="bg-slate-950 border border-slate-800 p-4 rounded-xl text-xs italic text-slate-400">
+                  <span className="font-bold text-slate-300 not-italic uppercase block mb-1 font-mono text-[11px]">
+                    Architect Notes:
+                  </span>
+                  {renderWikiContent(activeArticle.note)}
+                </div>
+              )}
+
+              {/* In-flow Desktop Pagination Card at Bottom of Article */}
+              <div className="pt-8 pb-4 border-t border-slate-800/80 mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                {prevArticle ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNavigateArticle(prevArticle)}
+                    className="group flex items-center gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-left max-w-sm w-full sm:w-auto shadow-md"
+                    title={`Previous: ${prevArticle.name}`}
+                  >
+                    <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
+                      <ArrowLeft size={16} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Previous Article</div>
+                      <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
+                        {prevArticle.name}
+                      </div>
+                    </div>
+                  </button>
+                ) : (
+                  <div className="opacity-0 pointer-events-none hidden sm:block w-32" />
+                )}
+
+                {/* Progress indicator */}
+                {currentIndex >= 0 && (
+                  <div className="text-[11px] font-mono text-slate-500 uppercase tracking-widest text-center">
+                    Article {currentIndex + 1} of {orderedArticles.length}
+                  </div>
+                )}
+
+                {nextArticle ? (
+                  <button
+                    type="button"
+                    onClick={() => handleNavigateArticle(nextArticle)}
+                    className="group flex items-center justify-end gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-right max-w-sm w-full sm:w-auto shadow-md"
+                    title={`Next: ${nextArticle.name}`}
+                  >
+                    <div className="min-w-0">
+                      <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Next Article</div>
+                      <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
+                        {nextArticle.name}
+                      </div>
+                    </div>
+                    <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
+                      <ArrowRight size={16} />
+                    </div>
+                  </button>
+                ) : (
+                  <div className="opacity-0 pointer-events-none hidden sm:block w-32" />
                 )}
               </div>
             </div>
+          ) : (
+            <div className="flex-1 flex flex-col items-center justify-center text-slate-500 italic p-12">
+              <p className="mb-4">Select an article from the directory tree on the left to view.</p>
+            </div>
+          )}
+        </main>
 
-            {/* Game Mechanics Box */}
-            {activeArticle.mechanic && (
-              <div className="bg-slate-950 border border-amber-500/40 p-5 rounded-xl text-xs space-y-2 shadow-md">
-                <h4 className="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2 text-sm">
-                  <span>⚙️</span> Game Mechanics (BASTION Rules)
-                </h4>
-                <div className="text-amber-200 font-mono whitespace-pre-line bg-slate-900/90 p-4 rounded-lg border border-slate-800">
-                  {renderWikiContent(activeArticle.mechanic)}
+        {/* Floating Quick Navigation Controls: Bottom Left & Bottom Right */}
+        {activeArticle && (
+          <div className="pointer-events-none absolute bottom-5 left-6 right-6 flex items-center justify-between z-20">
+            {/* Bottom Left: Previous Arrow */}
+            {prevArticle ? (
+              <button
+                type="button"
+                onClick={() => handleNavigateArticle(prevArticle)}
+                className="pointer-events-auto flex items-center gap-2.5 px-4 py-2.5 bg-slate-950/95 hover:bg-slate-900 text-cyan-300 hover:text-white border border-cyan-500/50 hover:border-cyan-400 rounded-xl shadow-[0_8px_25px_rgba(0,0,0,0.85)] backdrop-blur-md transition-all duration-200 cursor-pointer group active:scale-95"
+                title={`Previous Article: ${prevArticle.name} (Alt+Left)`}
+              >
+                <div className="p-1.5 rounded-lg bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 group-hover:bg-cyan-500/30 group-hover:-translate-x-0.5 transition-all">
+                  <ArrowLeft size={16} />
                 </div>
-              </div>
-            )}
-
-            {/* Guide Box */}
-            {activeArticle.guide && (
-              <div className="bg-slate-950 border border-cyan-500/40 p-5 rounded-xl text-xs space-y-2 shadow-md">
-                <h4 className="font-bold text-cyan-400 uppercase tracking-wider text-sm flex items-center gap-2">
-                  <span>📖</span> Gameplay Instructions
-                </h4>
-                <div className="text-cyan-200 whitespace-pre-line bg-slate-900/90 p-4 rounded-lg border border-slate-800">
-                  {renderWikiContent(activeArticle.guide)}
+                <div className="flex flex-col text-left">
+                  <span className="text-[9px] font-mono uppercase text-slate-400 tracking-wider">Previous</span>
+                  <span className="text-xs font-bold text-cyan-200 group-hover:text-white max-w-[160px] lg:max-w-[220px] truncate">
+                    {prevArticle.name}
+                  </span>
                 </div>
-              </div>
-            )}
+              </button>
+            ) : <div />}
 
-            {/* Notes Box */}
-            {activeArticle.note && (
-              <div className="bg-slate-950 border border-slate-800 p-4 rounded-xl text-xs italic text-slate-400">
-                <span className="font-bold text-slate-300 not-italic uppercase block mb-1 font-mono text-[11px]">
-                  Architect Notes:
-                </span>
-                {renderWikiContent(activeArticle.note)}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-slate-500 italic p-12">
-            <p className="mb-4">Select an article from the directory tree on the left to view.</p>
+            {/* Bottom Right: Next Arrow */}
+            {nextArticle ? (
+              <button
+                type="button"
+                onClick={() => handleNavigateArticle(nextArticle)}
+                className="pointer-events-auto flex items-center gap-2.5 px-4 py-2.5 bg-slate-950/95 hover:bg-slate-900 text-cyan-300 hover:text-white border border-cyan-500/50 hover:border-cyan-400 rounded-xl shadow-[0_8px_25px_rgba(0,0,0,0.85)] backdrop-blur-md transition-all duration-200 cursor-pointer group active:scale-95 ml-auto"
+                title={`Next Article: ${nextArticle.name} (Alt+Right)`}
+              >
+                <div className="flex flex-col text-right">
+                  <span className="text-[9px] font-mono uppercase text-slate-400 tracking-wider">Next</span>
+                  <span className="text-xs font-bold text-cyan-200 group-hover:text-white max-w-[160px] lg:max-w-[220px] truncate">
+                    {nextArticle.name}
+                  </span>
+                </div>
+                <div className="p-1.5 rounded-lg bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 group-hover:bg-cyan-500/30 group-hover:translate-x-0.5 transition-all">
+                  <ArrowRight size={16} />
+                </div>
+              </button>
+            ) : <div />}
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 };

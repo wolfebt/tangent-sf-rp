@@ -8,11 +8,29 @@ perspective: "operator"
 entry_type: "Operator Rule"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","operator-rule"]
-updatedAt: "2026-09-15T07:48:15.247Z"
+updatedAt: "2026-10-09T07:59:56.119Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # 1.01 Character Creation System & Walkthrough
@@ -283,14 +301,17 @@ The **Meta stage** of character creation in Tangent focuses on developing the me
 
 | Statistic | Calculation Formula | Description |
 | :--- | :--- | :--- |
-| **Max Hit Points (HP)** | Base (10) + (Stamina Mod * 2) + Rank Multipliers | Total physical trauma capacity |
-| **Initiative Check** | 2d10 + Reflex Save + Agility Mod | Reaction speed at start of combat |
-| **Might Check** | 2d10 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
-| **Fortitude Save** | 2d10 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
-| **Reflex Save** | 2d10 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
-| **Logic Check** | 2d10 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
-| **Will Save** | 2d10 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
-| **Etiquette Check** | 2d10 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |
+| **Vitality Pool** | Base 30 + (5 per BP, suggested max 60) | Non-lethal damage buffer, stamina, physical exhaustion |
+| **Health Pool** | Base 30 + (5 per BP, suggested max 60) | Physical trauma capacity, structural life force |
+| **Structure Pool** | Vitality + Health Combined | Unified pool for Synthetics, Mecha, and Golems |
+| **Passive Defense** | 10 + Agility + Defense Skill | Static target rating against unopposed strikes |
+| **Might Check** | 2d10 + Strength Mod | Raw physical power, breaking DC, lifting capacity |
+| **Reflex Check** | 2d10 + Agility Mod | Initiative, active dodge, fine motor evasion |
+| **Fortitude Check** | 2d10 + Stamina Mod | Toxic resistance, wound stabilization, disease |
+| **Reason Check** | 2d10 + Intellect Mod | Pure logic, hacking, technical crafting, computation |
+| **Willpower Check** | 2d10 + Wisdom Mod | Mental grit, fear resistance, psychic discipline |
+| **Etiquette Check** | 2d10 + Charisma Mod | Social diplomacy, command poise, negotiation |
+| **Karma Pool** | Base 3 Points | Resets each session (Heroic action awards +1) |
 
 ## Game Mechanics Rules
 ```

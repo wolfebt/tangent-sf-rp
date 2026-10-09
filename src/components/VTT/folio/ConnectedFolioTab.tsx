@@ -337,18 +337,18 @@ export const ConnectedFolioTab: React.FC = () => {
                         {/* Strike Roll Check */}
                         <button
                           type="button"
-                          onClick={() => {
+                          onClick={(e) => {
                             openDiceRoller({
-                              label: `${att.name || 'Weapon'} Strike Check`,
+                              label: `${att.name || 'Weapon'} Strike ${scoreVal >= 0 ? `+${scoreVal}` : scoreVal}`,
                               baseModifier: scoreVal,
                               expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
                               rollMode: 'normal',
                               characterName: charName,
-                              autoRoll: true
+                              autoRoll: (e as any)?.shiftKey || false
                             });
                           }}
                           className="px-2 py-1 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 hover:text-white font-mono font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
-                          title={`Roll Strike Check (2d10 + ${scoreVal})`}
+                          title={`Check Strike (2d10 + ${scoreVal}). Shift-click to quick-roll.`}
                         >
                           <Dices size={11} className="text-cyan-400" />
                           <span>Strike (+{scoreVal})</span>
@@ -357,13 +357,13 @@ export const ConnectedFolioTab: React.FC = () => {
                         {/* Damage Roll Check */}
                         <button
                           type="button"
-                          onClick={() => {
+                          onClick={(e) => {
                             openDiceRoller({
                               label: `${att.name || 'Weapon'} Damage`,
                               expression: dmgExpr,
                               rollMode: 'normal',
                               characterName: charName,
-                              autoRoll: true
+                              autoRoll: (e as any)?.shiftKey || false
                             });
                           }}
                           className="px-2 py-1 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 hover:text-white font-mono font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
@@ -455,18 +455,18 @@ export const ConnectedFolioTab: React.FC = () => {
                     <span className="font-mono text-cyan-300 font-bold text-xs">{s.total}</span>
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={(e) => {
                         openDiceRoller({
-                          label: `${s.name} Check`,
+                          label: `${s.name} ${s.total >= 0 ? `+${s.total}` : s.total}`,
                           baseModifier: s.total,
                           expression: `2d10${s.total !== 0 ? (s.total > 0 ? `+${s.total}` : `${s.total}`) : ''}`,
                           rollMode: 'normal',
                           characterName: charName,
-                          autoRoll: true
+                          autoRoll: (e as any)?.shiftKey || false
                         });
                       }}
                       className="p-1 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 hover:text-white transition-colors cursor-pointer"
-                      title={`Roll ${s.name} Check (2d10 + ${s.total})`}
+                      title={`Check ${s.name} (2d10 + ${s.total}). Shift-click to quick-roll.`}
                     >
                       <Dices size={12} />
                     </button>
@@ -511,14 +511,14 @@ export const ConnectedFolioTab: React.FC = () => {
                       </span>
                       <button
                         type="button"
-                        onClick={() => {
+                        onClick={(e) => {
                           openDiceRoller({
-                            label: `${attr.name} (${attr.code}) Check`,
+                            label: `${attr.name} ${total >= 0 ? `+${total}` : total}`,
                             baseModifier: total,
                             expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
                             rollMode: 'normal',
                             characterName: charName,
-                            autoRoll: true
+                            autoRoll: (e as any)?.shiftKey || false
                           });
                         }}
                         className={`p-1 rounded transition-colors cursor-pointer ${
@@ -526,7 +526,7 @@ export const ConnectedFolioTab: React.FC = () => {
                             ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300'
                             : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300'
                         }`}
-                        title={`Roll ${attr.name} Check (2d10 + ${total})`}
+                        title={`Check ${attr.name} (2d10 + ${total}). Shift-click to quick-roll.`}
                       >
                         <Dices size={11} />
                       </button>
@@ -577,18 +577,19 @@ export const ConnectedFolioTab: React.FC = () => {
 
                       <button
                         type="button"
-                        onClick={() => {
+                        onClick={(e) => {
                           openDiceRoller({
-                            label: `${invName} Invocation Check`,
+                            label: `${invName} Invocation (DC ${dc})`,
+                            targetDC: dc,
                             targetNumber: dc,
                             expression: '2d10',
                             rollMode: 'normal',
                             characterName: charName,
-                            autoRoll: true
+                            autoRoll: (e as any)?.shiftKey || false
                           });
                         }}
                         className="px-2 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300 hover:text-white font-mono font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
-                        title={`Cast ${invName} (DC ${dc})`}
+                        title={`Cast ${invName} (DC ${dc}). Shift-click to quick-roll.`}
                       >
                         <Zap size={11} className="text-purple-400" />
                         <span>Cast (DC {dc})</span>

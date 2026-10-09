@@ -1,7 +1,7 @@
 import React from 'react';
 import ReferenceTooltip from '../../components/UI/ReferenceTooltip';
 
-const ChatParser = ({ text, content }) => {
+const ChatParser = ({ text, content, className = '', style = {} }) => {
   // Support both text and content prop, gracefully handle undefined/null/non-string
   const rawText = typeof text === 'string' ? text : (typeof content === 'string' ? content : (text || content ? String(text || content) : ''));
   
@@ -13,7 +13,7 @@ const ChatParser = ({ text, content }) => {
   const parts = rawText.split(/(\[[^\]]+\])/g);
   
   return (
-    <div className="parsed-text" style={{ lineHeight: '1.6' }}>
+    <div className={`parsed-text ${className}`.trim()} style={{ lineHeight: '1.35', ...style }}>
       {parts.map((part, index) => {
         if (part.startsWith('[') && part.endsWith(']')) {
           const term = part.slice(1, -1);

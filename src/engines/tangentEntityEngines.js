@@ -60,8 +60,17 @@ import {
 
 import {
   resolveCatalogItem,
-  normalizeTraitString
+  normalizeTraitString,
+  parseSettingLevel,
+  resolveIdentityPillarsSettingLevels,
+  syncIdentitySettingLevels
 } from './tangentIdentityEngine.js';
+
+export {
+  parseSettingLevel,
+  resolveIdentityPillarsSettingLevels,
+  syncIdentitySettingLevels
+};
 
 import {
   extractPillarFeatureSets,
@@ -2334,12 +2343,12 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   const techLevelCost = (techLevel - 3) * 10;
 
   const tlLabels = {
-    0: 'TL0 - Stone Age (-30 CP Refund)',
-    1: 'TL1 - Primitive (-20 CP Refund)',
-    2: 'TL2 - Industrial (-10 CP Refund)',
+    0: 'TL0 - Stone Age (+30 CP Awarded)',
+    1: 'TL1 - Primitive (+20 CP Awarded)',
+    2: 'TL2 - Industrial (+10 CP Awarded)',
     3: 'TL3 - Spacefaring Standard (0 CP Baseline)',
-    4: 'TL4 - Advanced (+10 CP)',
-    5: 'TL5 - Theoretical (+20 CP)'
+    4: 'TL4 - Advanced (10 CP Cost)',
+    5: 'TL5 - Theoretical (20 CP Cost)'
   };
   itemizedList.push({
     category: 'Technology Level',
@@ -2357,12 +2366,12 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   const metaLevelCost = (metaLevel - 3) * 10;
 
   const mlLabels = {
-    0: 'ML0 - Mundane / Null (-30 CP Refund)',
-    1: 'ML1 - Latent / Low Magic (-20 CP Refund)',
-    2: 'ML2 - Practiced (-10 CP Refund)',
+    0: 'ML0 - Mundane / Null (+30 CP Awarded)',
+    1: 'ML1 - Latent / Low Magic (+20 CP Awarded)',
+    2: 'ML2 - Practiced (+10 CP Awarded)',
     3: 'ML3 - Standard Metaphysics (0 CP Baseline)',
-    4: 'ML4 - High Magic / Adept (+10 CP)',
-    5: 'ML5 - Archon / Mythic (+20 CP)'
+    4: 'ML4 - High Magic / Adept (10 CP Cost)',
+    5: 'ML5 - Archon / Mythic (20 CP Cost)'
   };
   itemizedList.push({
     category: 'Meta Level',

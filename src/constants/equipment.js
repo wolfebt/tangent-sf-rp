@@ -127,18 +127,18 @@ export const TOOL_TIERS = [
 // ═══════════════════════════════════════════════════════════
 
 export const FINANCIAL_STATUS_TABLE = [
-  { name: 'Indebted', wsMin: 0, wsMax: 0, bpCost: -5, autoBuyCr: 0, netWorth: 'Negative', lifestyle: 'Debt slavery / prison' },
-  { name: 'Impoverished', wsMin: 1, wsMax: 4, bpCost: 0, autoBuyCr: 30, netWorth: '<500 Cr', lifestyle: 'Homeless / squatter' },
-  { name: 'Struggling', wsMin: 5, wsMax: 9, bpCost: 2, autoBuyCr: 150, netWorth: '~2k Cr', lifestyle: 'Shared slum room' },
-  { name: 'Middle Class', wsMin: 10, wsMax: 14, bpCost: 5, autoBuyCr: 600, netWorth: '~25k Cr', lifestyle: 'Private apartment' },
-  { name: 'Affluent', wsMin: 15, wsMax: 19, bpCost: 10, autoBuyCr: 2500, netWorth: '~200k Cr', lifestyle: 'High-end condo' },
-  { name: 'Wealthy', wsMin: 20, wsMax: 29, bpCost: 20, autoBuyCr: 40000, netWorth: '~5M Cr', lifestyle: 'Large estate, servants' },
-  { name: 'Hegemon', wsMin: 30, wsMax: 39, bpCost: 35, autoBuyCr: 650000, netWorth: '~100M Cr', lifestyle: 'Penthouse, small corp' },
-  { name: 'Industrialist', wsMin: 40, wsMax: 49, bpCost: 50, autoBuyCr: 10000000, netWorth: '~2B Cr', lifestyle: 'Megacorp exec' },
-  { name: 'Dynastic', wsMin: 50, wsMax: 59, bpCost: 70, autoBuyCr: 167000000, netWorth: '~50B Cr', lifestyle: 'CEO / Nobility' },
-  { name: 'System Lord', wsMin: 60, wsMax: 69, bpCost: 95, autoBuyCr: 2600000000, netWorth: '~500B Cr', lifestyle: 'Rules solar system' },
-  { name: 'Sector Ruler', wsMin: 70, wsMax: 79, bpCost: 125, autoBuyCr: 42000000000, netWorth: '~10T Cr', lifestyle: 'Rules star cluster' },
-  { name: 'Faction Ruler', wsMin: 80, wsMax: 999, bpCost: 160, autoBuyCr: 600000000000, netWorth: '~1 Quad Cr', lifestyle: 'Emperor / god-king' }
+  { name: 'Indebted', wsMin: 0, wsMax: 0, autoBuyCr: 0, netWorth: 'Negative', lifestyle: 'Debt slavery / prison' },
+  { name: 'Impoverished', wsMin: 1, wsMax: 4, autoBuyCr: 30, netWorth: '<500 Cr', lifestyle: 'Homeless / squatter' },
+  { name: 'Struggling', wsMin: 5, wsMax: 9, autoBuyCr: 150, netWorth: '~2k Cr', lifestyle: 'Shared slum room' },
+  { name: 'Middle Class', wsMin: 10, wsMax: 14, autoBuyCr: 600, netWorth: '~25k Cr', lifestyle: 'Private apartment' },
+  { name: 'Affluent', wsMin: 15, wsMax: 19, autoBuyCr: 2500, netWorth: '~200k Cr', lifestyle: 'High-end condo' },
+  { name: 'Wealthy', wsMin: 20, wsMax: 29, autoBuyCr: 40000, netWorth: '~5M Cr', lifestyle: 'Large estate, servants' },
+  { name: 'Hegemon', wsMin: 30, wsMax: 39, autoBuyCr: 650000, netWorth: '~100M Cr', lifestyle: 'Penthouse, small corp' },
+  { name: 'Industrialist', wsMin: 40, wsMax: 49, autoBuyCr: 10000000, netWorth: '~2B Cr', lifestyle: 'Megacorp exec' },
+  { name: 'Dynastic', wsMin: 50, wsMax: 59, autoBuyCr: 167000000, netWorth: '~50B Cr', lifestyle: 'CEO / Nobility' },
+  { name: 'System Lord', wsMin: 60, wsMax: 69, autoBuyCr: 2600000000, netWorth: '~500B Cr', lifestyle: 'Rules solar system' },
+  { name: 'Sector Ruler', wsMin: 70, wsMax: 79, autoBuyCr: 42000000000, netWorth: '~10T Cr', lifestyle: 'Rules star cluster' },
+  { name: 'Faction Ruler', wsMin: 80, wsMax: 999, autoBuyCr: 600000000000, netWorth: '~1 Quad Cr', lifestyle: 'Emperor / god-king' }
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -188,21 +188,92 @@ export const COMMODITIES = [
 ];
 
 // ═══════════════════════════════════════════════════════════
+// OCCUPATION BASE WEALTH (WS 1 - 6)
+// ═══════════════════════════════════════════════════════════
+
+export const OCCUPATION_WEALTH_BASE = {
+  'Representative': 6,
+  'Merchant': 5,
+  'Entertainer': 5,
+  'Adept': 4,
+  'Criminal': 4,
+  'Builder': 3,
+  'Scholar': 3,
+  'Specialist': 3,
+  'Agent': 2,
+  'Citizen': 2,
+  'Drifter': 1,
+  'Scout': 1,
+  'Soldier': 1
+};
+
+// ═══════════════════════════════════════════════════════════
+// ORIGIN WEALTH MODIFIERS (+0 to +3)
+// ═══════════════════════════════════════════════════════════
+
+export const ORIGIN_WEALTH_MODS = {
+  'Leisure': 3,
+  'Enlightened': 2,
+  'Industrial': 2,
+  'Research': 2,
+  'Aquatic': 1,
+  'Spacer': 1,
+  'Urban': 1,
+  'Agricultural': 0,
+  'Colony': 0,
+  'Militaristic': 0
+};
+
+// ═══════════════════════════════════════════════════════════
+// SKILL RANK STAGE WEALTH BONUSES (+1 to +5)
+// Applied from the character's highest qualifying professional/vocational skill
+// ═══════════════════════════════════════════════════════════
+
+export const SKILL_STAGE_WEALTH_BONUS = [
+  { stage: 'Novice', minRank: 1, maxRank: 2, bonus: 1, description: 'Apprentice / entry wages' },
+  { stage: 'Practiced', minRank: 3, maxRank: 5, bonus: 2, description: 'Certified tradesperson' },
+  { stage: 'Expert', minRank: 6, maxRank: 8, bonus: 3, description: 'Senior specialist' },
+  { stage: 'Master', minRank: 9, maxRank: 10, bonus: 4, description: 'Renowned master artisan' },
+  { stage: 'Grandmaster', minRank: 11, maxRank: 999, bonus: 5, description: 'Sector guildmaster' }
+];
+
+export const QUALIFYING_WEALTH_SKILLS = [
+  'vocation', 'trade', 'business', 'appraisal', 'logistics',
+  'medicine', 'artificer', 'alchemist', 'armorer', 'weaponsmith',
+  'engineer', 'mechanic', 'administrator', 'broker', 'culinarian',
+  'tailor', 'demolitionist', 'electrician', 'salvager', 'farmer',
+  'performance', 'acting', 'comedy', 'dancing', 'keyboard', 'percussion',
+  'singing', 'string', 'wind', 'style', 'discipline'
+];
+
+// ═══════════════════════════════════════════════════════════
 // FACTION WEALTH MODIFIERS
 // ═══════════════════════════════════════════════════════════
 
 export const FACTION_WEALTH_MODS = {
   'Alterian Enclave': 3,
+  'Alterian': 3,
   'Auluran / Kitin': 2,
+  'Auluran': 2,
   'Ascendancy': 4,
+  'The Ascendancy': 4,
   'Coalition': 0,
+  'Terran Coalition': 0,
   'Dynasty': 2,
+  'Solarian Dynasty': 2,
   'Entari': 3,
+  'Entari Confederation': 3,
   'Impyrium': 3,
+  'The Impyrium': 3,
   'Mekan': 6,
+  'Mekan Sovereign Dominion': 6,
   'Syndicate': 4,
-  'Outworlds': 0
+  'Free Trade Syndicate': 4,
+  'The Syndicate': 4,
+  'Outworlds': 0,
+  'Outworlds Coalition': 0
 };
+
 
 // ═══════════════════════════════════════════════════════════
 // BODY SLOT NODE CAPACITIES (Augmentations)

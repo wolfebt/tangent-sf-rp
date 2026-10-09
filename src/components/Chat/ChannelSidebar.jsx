@@ -42,6 +42,7 @@ export const ChannelSidebar = ({
   onOpenSquadModal, 
   onOpenTeamModal, 
   onSwitchToTeams,
+  onSelectChannel,
   isCompact = false 
 }) => {
   const confirm = useConfirm();
@@ -131,6 +132,66 @@ export const ChannelSidebar = ({
     });
   }, [playerDirectChannels, characterDirectChannels, unreadCounts]);
 
+  // Sort tactical team channels: unread first, then recent message timestamp
+  const sortedTeamChannels = useMemo(() => {
+    const list = [...(teamChannels || [])];
+    return list.sort((a, b) => {
+      const unreadA = unreadCounts[a.id] || 0;
+      const unreadB = unreadCounts[b.id] || 0;
+      if (unreadA !== unreadB) return unreadB - unreadA;
+
+      const timeA = a.lastMessage?.timestamp ? new Date(a.lastMessage.timestamp).getTime() : 0;
+      const timeB = b.lastMessage?.timestamp ? new Date(b.lastMessage.timestamp).getTime() : 0;
+      if (timeA !== timeB) return timeB - timeA;
+
+      return (a.displayName || a.name || '').localeCompare(b.displayName || b.name || '');
+    });
+  }, [teamChannels, unreadCounts]);
+
+  // Sort public HoloNet channels: unread first, then recent message timestamp
+  const sortedPublicChannels = useMemo(() => {
+    const list = [...(publicChannels || [])];
+    return list.sort((a, b) => {
+      const unreadA = unreadCounts[a.id] || 0;
+      const unreadB = unreadCounts[b.id] || 0;
+      if (unreadA !== unreadB) return unreadB - unreadA;
+
+      const timeA = a.lastMessage?.timestamp ? new Date(a.lastMessage.timestamp).getTime() : 0;
+      const timeB = b.lastMessage?.timestamp ? new Date(b.lastMessage.timestamp).getTime() : 0;
+      if (timeA !== timeB) return timeB - timeA;
+
+      return (a.displayName || a.name || '').localeCompare(b.displayName || b.name || '');
+    });
+  }, [publicChannels, unreadCounts]);
+
+  // Sort persona audit log channels: unread first
+  const sortedPersonaLogChannels = useMemo(() => {
+    const list = [...(personaLogChannels || [])];
+    return list.sort((a, b) => {
+      const unreadA = unreadCounts[a.id] || 0;
+      const unreadB = unreadCounts[b.id] || 0;
+      if (unreadA !== unreadB) return unreadB - unreadA;
+      return (a.displayName || a.name || '').localeCompare(b.displayName || b.name || '');
+    });
+  }, [personaLogChannels, unreadCounts]);
+
+  // Section-level unread counts for prominent header badges
+  const directUnreadCount = useMemo(() => {
+    return allDirectChannels.reduce((sum, c) => sum + (unreadCounts[c.id] || 0), 0);
+  }, [allDirectChannels, unreadCounts]);
+
+  const teamsUnreadCount = useMemo(() => {
+    return (teamChannels || []).reduce((sum, c) => sum + (unreadCounts[c.id] || 0), 0);
+  }, [teamChannels, unreadCounts]);
+
+  const publicUnreadCount = useMemo(() => {
+    return (publicChannels || []).reduce((sum, c) => sum + (unreadCounts[c.id] || 0), 0);
+  }, [publicChannels, unreadCounts]);
+
+  const auditUnreadCount = useMemo(() => {
+    return (personaLogChannels || []).reduce((sum, c) => sum + (unreadCounts[c.id] || 0), 0);
+  }, [personaLogChannels, unreadCounts]);
+
   // Auto-collapse all channels except for current view
   useEffect(() => {
     if (!activeChannelId) return;
@@ -206,13 +267,14 @@ export const ChannelSidebar = ({
   };
 
   const filteredDirect = filterList(allDirectChannels);
-  const filteredTeams = filterList(teamChannels);
-  const filteredPublic = filterList(publicChannels);
-  const filteredAudit = filterList(personaLogChannels);
+  const filteredTeams = filterList(sortedTeamChannels);
+  const filteredPublic = filterList(sortedPublicChannels);
+  const filteredAudit = filterList(sortedPersonaLogChannels);
 
   const renderChannelItem = (channel) => {
     const isActive = activeChannelId === channel.id;
     const unread = unreadCounts[channel.id] || 0;
+    const isUnread = !isActive && unread > 0;
     const isCharacterDM = channel.recipientType === 'character' || Boolean(channel.targetPersona) || channel.id.startsWith('dm_char_');
     const isPlayerDM = channel.recipientType === 'player' || ((channel.type === 'direct' || channel.id.startsWith('dm_')) && !isCharacterDM);
     const isGroup = channel.type === 'group' || !!channel.groupId;
@@ -222,25 +284,44 @@ export const ChannelSidebar = ({
     const charRole = channel.targetPersona?.role || channel.targetPersona?.species;
     const playerHandle = channel.targetPlayer?.handle;
 
-    // Left border indicator for active channel
+    // Left border indicator for active channel or unread flagged channel
     const activeBorderClass = isActive 
       ? (isCharacterDM 
           ? 'bg-purple-950/40 border-l-4 border-l-purple-400 border-y border-r border-purple-500/40 text-purple-100 shadow-sm'
           : isGroup
           ? 'bg-emerald-950/40 border-l-4 border-l-emerald-400 border-y border-r border-emerald-500/40 text-emerald-100 shadow-sm'
           : 'bg-cyan-950/40 border-l-4 border-l-cyan-400 border-y border-r border-cyan-500/40 text-cyan-100 shadow-sm')
+      : isUnread
+      ? 'bg-amber-950/30 border-l-4 border-l-amber-400 border-y border-r border-amber-500/50 text-amber-100 shadow-[0_0_12px_rgba(245,158,11,0.25)] hover:bg-amber-950/45 animate-soft-back-glow'
       : 'text-slate-300 hover:bg-slate-900/70 hover:text-slate-100 border border-transparent';
 
     return (
       <div
         key={channel.id}
-        onClick={() => selectChannel(channel.id)}
+        onClick={() => {
+          selectChannel(channel.id);
+          onSelectChannel?.();
+        }}
         className={`group relative flex items-center justify-between px-2.5 py-1.5 rounded-lg cursor-pointer transition-all ${activeBorderClass}`}
       >
         <div className="flex items-center gap-2 min-w-0 flex-1">
           {/* Channel Icon */}
           <div className="shrink-0">
-            {isPersonaLog ? (
+            {isUnread ? (
+              <div className="p-1 rounded bg-amber-500/25 text-amber-300 border border-amber-500/40 shadow-[0_0_8px_rgba(245,158,11,0.3)] animate-soft-back-glow">
+                {isPersonaLog ? (
+                  <Activity size={13} />
+                ) : isCharacterDM ? (
+                  <span className="text-xs">🎭</span>
+                ) : isPlayerDM ? (
+                  <UserPlus size={13} />
+                ) : isGroup ? (
+                  <Shield size={13} />
+                ) : (
+                  <Hash size={13} />
+                )}
+              </div>
+            ) : isPersonaLog ? (
               <div className={`p-1 rounded ${isActive ? 'bg-amber-500/20 text-amber-300' : 'text-amber-400/80'}`}>
                 <Activity size={13} />
               </div>
@@ -266,9 +347,27 @@ export const ChannelSidebar = ({
           {/* Name & Snippet */}
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-xs truncate font-mono font-bold">
+              {isUnread && (
+                <span 
+                  className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b] shrink-0" 
+                  title="Unseen Transmission"
+                />
+              )}
+              <span className={`text-xs truncate font-mono ${
+                isActive 
+                  ? 'font-bold' 
+                  : isUnread 
+                  ? 'font-extrabold text-amber-200 [text-shadow:0_0_6px_rgba(245,158,11,0.4)]' 
+                  : 'font-bold'
+              }`}>
                 {channel.displayName || `#${channel.name}`}
               </span>
+
+              {isUnread && (
+                <span className="px-1 py-0.2 bg-amber-400 text-black text-[8px] rounded font-mono font-black tracking-tight shadow-[0_0_6px_rgba(245,158,11,0.6)] animate-soft-badge-glow">
+                  NEW
+                </span>
+              )}
 
               {isCharacterDM && (
                 <span className="px-1 py-0.1 bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[8px] rounded font-mono font-bold uppercase">
@@ -293,11 +392,11 @@ export const ChannelSidebar = ({
             </div>
 
             {isCharacterDM && (charRole || playerHandle) ? (
-              <p className="text-[9.5px] text-slate-400 truncate mt-0.5">
+              <p className={`text-[9.5px] truncate mt-0.5 ${isUnread ? 'text-amber-200/90 font-medium' : 'text-slate-400'}`}>
                 {charRole ? `${charRole} • ` : ''}@{playerHandle || 'operator'}
               </p>
             ) : channel.lastMessage?.text ? (
-              <p className="text-[9.5px] text-slate-500 truncate mt-0.5 max-w-[170px]">
+              <p className={`text-[9.5px] truncate mt-0.5 max-w-[170px] ${isUnread ? 'text-amber-200 font-medium' : 'text-slate-500'}`}>
                 {channel.lastMessage.text}
               </p>
             ) : null}
@@ -307,7 +406,11 @@ export const ChannelSidebar = ({
         {/* Right side: unread counter, settings, or delete */}
         <div className="flex items-center gap-1 shrink-0 ml-1.5">
           {unread > 0 && (
-            <span className="px-1.5 py-0.2 bg-cyan-400 text-black text-[9px] font-mono font-black rounded-full shadow-sm">
+            <span className={`px-1.5 py-0.2 text-[9px] font-mono font-black rounded-full shadow-sm animate-soft-badge-glow ${
+              isUnread 
+                ? 'bg-amber-400 text-black shadow-[0_0_8px_rgba(245,158,11,0.7)]' 
+                : 'bg-cyan-400 text-black'
+            }`}>
               {unread}
             </span>
           )}
@@ -327,7 +430,7 @@ export const ChannelSidebar = ({
               }}
               className={`p-1 rounded transition-all cursor-pointer ${
                 isVoiceConnected && currentRoomName === `tangent_freq_${channel.id}`
-                  ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/60 shadow-sm animate-pulse'
+                  ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/60 shadow-sm animate-soft-back-glow'
                   : 'opacity-0 group-hover:opacity-100 hover:bg-slate-800 text-slate-400 hover:text-emerald-300'
               }`}
               title="Voice Comms"
@@ -535,6 +638,7 @@ export const ChannelSidebar = ({
   const renderTeamCard = (channel) => {
     const isActive = activeChannelId === channel.id;
     const unread = unreadCounts[channel.id] || 0;
+    const isUnread = !isActive && unread > 0;
     const canDelete = channel.createdById === currentUser?.uid || isAdmin;
     const { matchedGroup, membersList } = resolveTeamData(channel);
     const isRosterCollapsed = Boolean(collapsedRosters[channel.id]);
@@ -547,10 +651,13 @@ export const ChannelSidebar = ({
           if (matchedGroup?.id && selectGroup) {
             selectGroup(matchedGroup.id);
           }
+          onSelectChannel?.();
         }}
         className={`group relative rounded-xl transition-all cursor-pointer border ${
           isActive
             ? 'bg-gradient-to-br from-emerald-950/50 via-slate-900/80 to-[#081714] border-emerald-500/70 shadow-[0_0_15px_rgba(16,185,129,0.25)] text-emerald-100'
+            : isUnread
+            ? 'bg-gradient-to-br from-amber-950/35 via-slate-900/90 to-[#140f07] border-l-4 border-l-amber-400 border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.3)] text-amber-100 animate-soft-back-glow'
             : 'bg-slate-950/60 border-slate-800/90 hover:border-emerald-500/40 hover:bg-slate-900/70 text-slate-300'
         } p-2.5 space-y-2 mb-2`}
       >
@@ -559,7 +666,9 @@ export const ChannelSidebar = ({
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <div className={`p-1.5 rounded-lg shrink-0 border ${
               isActive 
-                ? 'bg-emerald-500/25 text-emerald-300 border-emerald-500/50 shadow-sm animate-pulse' 
+                ? 'bg-emerald-500/25 text-emerald-300 border-emerald-500/50 shadow-sm animate-soft-back-glow' 
+                : isUnread
+                ? 'bg-amber-500/25 text-amber-300 border-amber-500/50 shadow-sm animate-soft-back-glow'
                 : 'bg-emerald-950/80 text-emerald-400 border-emerald-500/30'
             }`}>
               <Shield size={13} />
@@ -567,13 +676,27 @@ export const ChannelSidebar = ({
 
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-xs truncate font-mono font-bold text-white tracking-wide">
+                {isUnread && (
+                  <span 
+                    className="w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b] shrink-0" 
+                    title="Unseen Messages in Squad Frequency"
+                  />
+                )}
+                <span className={`text-xs truncate font-mono tracking-wide ${
+                  isUnread ? 'font-extrabold text-amber-200 [text-shadow:0_0_6px_rgba(245,158,11,0.4)]' : 'font-bold text-white'
+                }`}>
                   {channel.displayName || `#${channel.name}`}
                 </span>
 
-                <span className="px-1 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
-                  🎭 PERSONAS
-                </span>
+                {isUnread ? (
+                  <span className="px-1.5 py-0.2 bg-amber-400 text-black border border-amber-400 text-[8px] rounded font-mono font-black tracking-tight shadow-[0_0_6px_rgba(245,158,11,0.6)] animate-soft-badge-glow">
+                    UNSEEN
+                  </span>
+                ) : (
+                  <span className="px-1 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                    🎭 PERSONAS
+                  </span>
+                )}
 
                 {matchedGroup?.status && (
                   <span className={`px-1 py-0.2 text-[8px] rounded font-mono font-bold border ${
@@ -591,7 +714,11 @@ export const ChannelSidebar = ({
           {/* Action buttons on right */}
           <div className="flex items-center gap-1 shrink-0">
             {unread > 0 && (
-              <span className="px-1.5 py-0.2 bg-emerald-400 text-black text-[9px] font-mono font-black rounded-full shadow-sm animate-pulse">
+              <span className={`px-1.5 py-0.2 text-[9px] font-mono font-black rounded-full shadow-sm animate-soft-badge-glow ${
+                isUnread 
+                  ? 'bg-amber-400 text-black shadow-[0_0_8px_rgba(245,158,11,0.7)]' 
+                  : 'bg-emerald-400 text-black'
+              }`}>
                 {unread}
               </span>
             )}
@@ -610,7 +737,7 @@ export const ChannelSidebar = ({
               }}
               className={`p-1 rounded transition-all cursor-pointer ${
                 isVoiceConnected && currentRoomName === `tangent_freq_${channel.id}`
-                  ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/60 shadow-sm animate-pulse'
+                  ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/60 shadow-sm animate-soft-back-glow'
                   : 'opacity-0 group-hover:opacity-100 hover:bg-slate-800 text-slate-400 hover:text-emerald-300'
               }`}
               title="Voice Comms"
@@ -673,12 +800,16 @@ export const ChannelSidebar = ({
 
         {/* Recent Message / Topic Snippet */}
         {channel.lastMessage?.text ? (
-          <div className="px-1 text-[10px] text-slate-400 font-mono truncate flex items-center gap-1.5">
-            <span className="text-slate-500 shrink-0 font-bold">Comms:</span>
-            <span className="text-slate-300 truncate">{channel.lastMessage.text}</span>
+          <div className="px-1 text-[10px] font-mono truncate flex items-center gap-1.5">
+            <span className={`shrink-0 font-bold ${isUnread ? 'text-amber-300' : 'text-slate-500'}`}>
+              {isUnread ? 'New Comms:' : 'Comms:'}
+            </span>
+            <span className={`truncate ${isUnread ? 'text-amber-100 font-medium' : 'text-slate-300'}`}>
+              {channel.lastMessage.text}
+            </span>
           </div>
         ) : channel.topic ? (
-          <div className="px-1 text-[10px] text-slate-500 font-mono truncate">
+          <div className={`px-1 text-[10px] font-mono truncate ${isUnread ? 'text-amber-200/80' : 'text-slate-500'}`}>
             {channel.topic}
           </div>
         ) : null}
@@ -824,6 +955,7 @@ export const ChannelSidebar = ({
                               } : null;
                               if (startDirectMessage) {
                                 await startDirectMessage(targetUser, targetPersona);
+                                onSelectChannel?.();
                               }
                             } catch (err) {
                               console.warn('Failed to start whisper:', err);
@@ -878,7 +1010,7 @@ export const ChannelSidebar = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="p-1 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-300">
-              <Radio size={14} className="animate-pulse" />
+              <Radio size={14} className="animate-soft-back-glow" />
             </div>
             <div>
               <span className="text-xs font-mono font-bold tracking-wider text-slate-100 uppercase block">
@@ -920,12 +1052,19 @@ export const ChannelSidebar = ({
         <div className="space-y-1">
           <div 
             onClick={() => toggleSection('direct')}
-            className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
+            className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+              directUnreadCount > 0 ? 'text-amber-300' : 'text-cyan-400'
+            }`}
           >
             <span className="flex items-center gap-1.5">
               {collapsedSections.direct ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
               <MessageSquare size={12} />
               <span>DIRECT COMMS</span>
+              {directUnreadCount > 0 && (
+                <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                  {directUnreadCount} NEW
+                </span>
+              )}
             </span>
             <span className="text-slate-500 text-[10px]">{allDirectChannels.length}</span>
           </div>
@@ -947,7 +1086,9 @@ export const ChannelSidebar = ({
         <div className="space-y-1">
           <div 
             onClick={() => toggleSection('teams')}
-            className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
+            className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+              teamsUnreadCount > 0 ? 'text-amber-300' : 'text-emerald-400'
+            }`}
           >
             <span className="flex items-center gap-1.5">
               {collapsedSections.teams ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
@@ -956,6 +1097,11 @@ export const ChannelSidebar = ({
               <span className="px-1 py-0.2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
                 PERSONAS
               </span>
+              {teamsUnreadCount > 0 && (
+                <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                  {teamsUnreadCount} NEW
+                </span>
+              )}
             </span>
             <div className="flex items-center gap-1.5">
               <button
@@ -1005,15 +1151,22 @@ export const ChannelSidebar = ({
         <div className="space-y-1">
           <div 
             onClick={() => toggleSection('public')}
-            className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
+            className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+              publicUnreadCount > 0 ? 'text-amber-300' : 'text-slate-400'
+            }`}
           >
             <span className="flex items-center gap-1.5">
               {collapsedSections.public ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-              <Globe size={12} className="text-cyan-400" />
+              <Globe size={12} className={publicUnreadCount > 0 ? 'text-amber-400' : 'text-cyan-400'} />
               <span>HOLONET FREQUENCIES</span>
               <span className="px-1 py-0.2 bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
                 OPERATORS
               </span>
+              {publicUnreadCount > 0 && (
+                <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                  {publicUnreadCount} NEW
+                </span>
+              )}
             </span>
             <span className="text-slate-500 text-[10px]">{publicChannels.length}</span>
           </div>
@@ -1030,12 +1183,19 @@ export const ChannelSidebar = ({
           <div className="space-y-1 pt-1 border-t border-slate-800/80">
             <div 
               onClick={() => toggleSection('audit')}
-              className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-amber-400/80 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
+              className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+                auditUnreadCount > 0 ? 'text-amber-300' : 'text-amber-400/80'
+              }`}
             >
               <span className="flex items-center gap-1.5">
                 {collapsedSections.audit ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
                 <Activity size={12} />
                 <span>PERSONA AUDIT LOGS</span>
+                {auditUnreadCount > 0 && (
+                  <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                    {auditUnreadCount} NEW
+                  </span>
+                )}
               </span>
               <span className="text-slate-500 text-[10px]">{filteredAudit.length}</span>
             </div>
@@ -1052,7 +1212,7 @@ export const ChannelSidebar = ({
       {/* Bottom Status bar */}
       <div className="p-2.5 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-[10px] font-mono text-slate-500">
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]"></span>
           <span className="text-slate-400 font-bold">QUANTUM RELAY ACTIVE</span>
         </div>
         <span className="text-cyan-400 font-bold">AES-GCM-256</span>

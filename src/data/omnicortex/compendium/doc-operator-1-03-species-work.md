@@ -2,17 +2,35 @@
 id: "doc-operator-1-03-species-work"
 name: "1.03 SPECIES (work) — SPECIES CATALOG"
 category: "operator_rule"
-parent: "1.00 OPERATOR CORE RULES"
-order: 90
+parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
+order: 1
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
-tags: ["operator","core-rules","1.03 species (work)","mechanics"]
-updatedAt: "2026-09-15T07:48:15.256Z"
+cost: 0
+tags: ["operator","core-rules","source-of-truth","1.03 species (work)","mechanics"]
+updatedAt: "2026-10-09T07:59:56.569Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **SPECIES CATALOG**
@@ -7332,4 +7350,4 @@ See full canonical text in 1.03 SPECIES (work).md
 Refer to 1.03 SPECIES (work).md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 1.03 SPECIES (work).md.
+Canonical Tangent SF RP rulebook reference from 1.03 SPECIES (work).md. Complete, unabridged source of truth.

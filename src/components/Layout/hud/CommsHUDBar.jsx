@@ -1,5 +1,6 @@
 import React from 'react';
-import { Users, Radio, Dices } from 'lucide-react';
+import { Users, Radio } from 'lucide-react';
+import { TwoD10Icon } from '../../UI/TwoD10Icon';
 import { AudioService } from '../../../services/audioService';
 
 export const CommsHUDBar = ({
@@ -50,7 +51,7 @@ export const CommsHUDBar = ({
         className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
         title="Toggle Quick Dice Roller Tray (Alt+D)"
       >
-        <Dices size={13} className="text-amber-400" />
+        <TwoD10Icon size={13} className="text-amber-400" />
         <span className="hidden sm:inline">Dice (Alt+D)</span>
       </button>
     </div>

@@ -28,6 +28,8 @@ import StageWorkspace from '../Stage/StageWorkspace';
 import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
 import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
 import ModulePackageModal from '../../../components/StoryFoundry/ModulePackageModal';
+import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 const MapMaker = React.lazy(() => import('../MapMaker/MapMaker'));
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -62,6 +64,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     handleLoadStory
   } = useStory();
   const { currentUser, userHandle } = useAuth();
+  const isMobile = useIsMobile();
 
   // Centralized ADE Store State & Actions via a single useShallow subscription
   const {
@@ -155,6 +158,16 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       if (v === 'mission_control' || v === 'dashboard' || v === 'mission-control' || v === 'hub') resolvedView = 'mission_control';
       else if (v === 'map' || v === 'map-maker' || v === 'mapmaker') resolvedView = 'map';
       else if (v === 'elements' || v === 'gallery' || v === 'assets') resolvedView = 'elements';
+      else if (v === 'vtt' || v === 'director' || v === 'live_director') {
+        const targetMapId = activeMap?.id || activeMapId || universeState?.maps?.[0]?.id || '';
+        const targetScenarioId = activeNode?.id || activeScenarioId || '';
+        const query = new URLSearchParams();
+        if (targetMapId) query.set('mapId', targetMapId);
+        if (targetScenarioId) query.set('scenarioId', targetScenarioId);
+        const qStr = query.toString();
+        navigate(`/stage${qStr ? `?${qStr}` : ''}`, { replace: true });
+        return;
+      }
       else if (v === 'stage' || v === 'live' || v === 'live-studio' || v === 'ade-stage') {
         resolvedView = 'stage';
         if (tabParam) setStageWorkspaceTab(tabParam);
@@ -238,7 +251,16 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     let resolvedView = newView;
     let resolvedTargetTab = targetTab;
 
-    if (newView === 'stage' || newView === 'live' || newView === 'live-studio' || newView === 'ade-stage') {
+    if (newView === 'vtt' || newView === 'director' || newView === 'live_director') {
+      const targetMapId = activeMap?.id || activeMapId || universeState?.maps?.[0]?.id || '';
+      const targetScenarioId = activeNode?.id || activeScenarioId || '';
+      const query = new URLSearchParams();
+      if (targetMapId) query.set('mapId', targetMapId);
+      if (targetScenarioId) query.set('scenarioId', targetScenarioId);
+      const qStr = query.toString();
+      navigate(`/stage${qStr ? `?${qStr}` : ''}`);
+      return;
+    } else if (newView === 'stage' || newView === 'live' || newView === 'live-studio' || newView === 'ade-stage') {
       resolvedView = 'stage';
       resolvedTargetTab = targetTab || 'setup';
     } else if (newView === 'scripts' || newView === 'presets' || newView === 'automation') {
@@ -452,12 +474,16 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         {/* VIEW 1.5: STAGE WORKSPACE (Compiler & Live VTT Runtime) */}
         {activeView === 'stage' && (
           <div className="flex-1 min-w-0 h-full overflow-hidden">
-            <StageWorkspace
-              initialTab={stageWorkspaceTab || 'setup'}
-              onSwitchView={handleSwitchView}
-              boundMapId={activeMap?.id || activeMapId}
-              boundStoryId={activeNode?.id || activeScenarioId}
-            />
+            {isMobile ? (
+              <MobileTacticalBlocker operation="vtt" onBack={() => handleSwitchView('scenarios')} />
+            ) : (
+              <StageWorkspace
+                initialTab={stageWorkspaceTab || 'setup'}
+                onSwitchView={handleSwitchView}
+                boundMapId={activeMap?.id || activeMapId}
+                boundStoryId={activeNode?.id || activeScenarioId}
+              />
+            )}
           </div>
         )}
 
@@ -539,13 +565,17 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         {/* VIEW 6: MAP ARCHITECT (Pillar 2) */}
         {activeView === 'map' && (
           <div className="flex-1 min-w-0 h-full overflow-hidden">
-            <React.Suspense fallback={
-              <div className="flex items-center justify-center h-full bg-[#070b13] text-cyan-400 font-mono text-xs">
-                <span>Loading Map Architect Studio...</span>
-              </div>
-            }>
-              <MapMaker onBackToStory={() => handleSwitchView('scenarios')} />
-            </React.Suspense>
+            {isMobile ? (
+              <MobileTacticalBlocker operation="map" onBack={() => handleSwitchView('scenarios')} />
+            ) : (
+              <React.Suspense fallback={
+                <div className="flex items-center justify-center h-full bg-[#070b13] text-cyan-400 font-mono text-xs">
+                  <span>Loading Map Architect Studio...</span>
+                </div>
+              }>
+                <MapMaker onBackToStory={() => handleSwitchView('scenarios')} />
+              </React.Suspense>
+            )}
           </div>
         )}
       </div>

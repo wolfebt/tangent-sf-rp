@@ -49,7 +49,8 @@ import {
   ArrowUpRight,
   CheckCircle2,
   Search,
-  Filter
+  Filter,
+  Cpu
 } from 'lucide-react';
 import {
   formatHeightWithConversion,
@@ -57,6 +58,7 @@ import {
   formatWeightWithConversion,
   getWeightConversion
 } from '../../../engines/tangentMeasurementEngine';
+import { resolveIdentityPillarsSettingLevels } from '../../../engines/tangentIdentityEngine';
 
 const normalizeTraitName = (trait) => {
   if (!trait) return '';
@@ -567,6 +569,19 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const facName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
     return factionsCatalog.find(f => (f.name || f.title || f.id || '').toLowerCase() === facName.toLowerCase()) || null;
   }, [characterData['char-faction'], factionsCatalog]);
+
+  // Combined catalogs for identity setting levels resolution (TL/ML)
+  const dbCombinedCatalogs = useMemo(() => ({
+    species: speciesCatalog,
+    archetypes: archetypesCatalog,
+    occupations: occupationsCatalog,
+    origins: originsCatalog,
+    factions: factionsCatalog
+  }), [speciesCatalog, archetypesCatalog, occupationsCatalog, originsCatalog, factionsCatalog]);
+
+  const identitySettingLevels = useMemo(() => {
+    return resolveIdentityPillarsSettingLevels(characterData, dbCombinedCatalogs);
+  }, [characterData, dbCombinedCatalogs]);
 
   // Faction Benefits & Hindrances
   const { factionBenefits, factionHindrances } = useMemo(() => {
@@ -3859,6 +3874,105 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 {selectedFaction.driving_mandate || selectedFaction.mandate || selectedFaction.faction_classification || 'Allegiance'}
               </p>
             )}
+          </div>
+
+          {/* Setting Tiers Matrix Card (Tech Level & Meta Level) */}
+          <div className="p-3.5 bg-gradient-to-r from-slate-900/90 via-slate-950/80 to-slate-900/90 border border-cyan-500/40 rounded-xl space-y-3 shadow-sm">
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+              <div className="flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-cyan-400" />
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300">
+                  Setting Tiers Matrix
+                </span>
+                <span className="text-[10px] text-slate-400 font-mono">
+                  (Pillar-Derived Foundation)
+                </span>
+              </div>
+              <div className="text-[11px] font-mono font-bold">
+                {(() => {
+                  const currentTL = Number(characterData['tech-level'] ?? 3);
+                  const currentML = Number(characterData['meta-level'] ?? characterData['magic-level'] ?? 3);
+                  const netCP = ((currentTL - 3) * 10) + ((currentML - 3) * 10);
+                  if (netCP === 0) return <span className="text-slate-400">0 CP Net Baseline</span>;
+                  if (netCP < 0) return <span className="text-emerald-400">+{Math.abs(netCP)} CP Awarded</span>;
+                  return <span className="text-amber-400">{netCP} CP Cost</span>;
+                })()}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              {/* Tech Level Block */}
+              <div className="p-2.5 bg-slate-950/70 border border-cyan-500/30 rounded-lg space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <span>⚙️</span>
+                    <span>Technology Level</span>
+                  </span>
+                  <span className="font-mono font-black text-cyan-400 text-sm">
+                    TL{Number(characterData['tech-level'] ?? 3)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                  <span>Pillar Base: <strong className="text-slate-200">TL{identitySettingLevels.baseTechLevel}</strong></span>
+                  {Number(characterData['tech-level'] ?? 3) > identitySettingLevels.baseTechLevel && (
+                    <span className="text-cyan-300 font-bold">
+                      +{Number(characterData['tech-level'] ?? 3) - identitySettingLevels.baseTechLevel} Upgraded
+                    </span>
+                  )}
+                </div>
+                <div className="text-[10px] text-slate-500 font-mono flex items-center justify-between pt-1 border-t border-slate-800/60">
+                  <span className="truncate pr-1" title={identitySettingLevels.techSources.map(s => `${s.source}: TL${s.value}`).join(' | ')}>
+                    {identitySettingLevels.techSources.length > 0
+                      ? identitySettingLevels.techSources.map(s => `${s.source}: TL${s.value}`).join(' | ')
+                      : 'Standard Default (TL3)'}
+                  </span>
+                  <span className="shrink-0 font-bold font-mono">
+                    {(() => {
+                      const tlCost = (Number(characterData['tech-level'] ?? 3) - 3) * 10;
+                      if (tlCost === 0) return <span className="text-slate-400">0 CP</span>;
+                      if (tlCost < 0) return <span className="text-emerald-400">+{Math.abs(tlCost)} CP</span>;
+                      return <span className="text-amber-400">{tlCost} CP</span>;
+                    })()}
+                  </span>
+                </div>
+              </div>
+
+              {/* Meta Level Block */}
+              <div className="p-2.5 bg-slate-950/70 border border-purple-500/30 rounded-lg space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <span>✨</span>
+                    <span>Meta Level</span>
+                  </span>
+                  <span className="font-mono font-black text-purple-400 text-sm">
+                    ML{Number(characterData['meta-level'] ?? characterData['magic-level'] ?? 3)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                  <span>Pillar Base: <strong className="text-slate-200">ML{identitySettingLevels.baseMetaLevel}</strong></span>
+                  {Number(characterData['meta-level'] ?? characterData['magic-level'] ?? 3) > identitySettingLevels.baseMetaLevel && (
+                    <span className="text-purple-300 font-bold">
+                      +{Number(characterData['meta-level'] ?? characterData['magic-level'] ?? 3) - identitySettingLevels.baseMetaLevel} Upgraded
+                    </span>
+                  )}
+                </div>
+                <div className="text-[10px] text-slate-500 font-mono flex items-center justify-between pt-1 border-t border-slate-800/60">
+                  <span className="truncate pr-1" title={identitySettingLevels.metaSources.map(s => `${s.source}: ML${s.value}`).join(' | ')}>
+                    {identitySettingLevels.metaSources.length > 0
+                      ? identitySettingLevels.metaSources.map(s => `${s.source}: ML${s.value}`).join(' | ')
+                      : 'Standard Default (ML3)'}
+                  </span>
+                  <span className="shrink-0 font-bold font-mono">
+                    {(() => {
+                      const mlCost = (Number(characterData['meta-level'] ?? characterData['magic-level'] ?? 3) - 3) * 10;
+                      if (mlCost === 0) return <span className="text-slate-400">0 CP</span>;
+                      if (mlCost < 0) return <span className="text-emerald-400">+{Math.abs(mlCost)} CP</span>;
+                      return <span className="text-amber-400">{mlCost} CP</span>;
+                    })()}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

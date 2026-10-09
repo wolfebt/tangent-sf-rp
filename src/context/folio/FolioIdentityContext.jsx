@@ -71,8 +71,11 @@ export const DEFAULT_CHARACTER = {
   'attr-charisma': 0,
   'attr-etiquette': 2,
   'starting-cp': 150,
+  'base-tech-level': 3,
+  'base-meta-level': 3,
   'tech-level': 3,
-  'magic-level': 1,
+  'magic-level': 3,
+  'meta-level': 3,
   'health': 30,
   'vitality': 30,
   'structure': 60,
@@ -325,6 +328,23 @@ export const FolioIdentitySliceProvider = ({ children }) => {
         return sanitized;
       }
 
+      // 4. Setting Tiers (Tech Level & Meta Level / Magic Level synchronization)
+      if (field === 'magic-level' || field === 'meta-level') {
+        const valNum = Math.min(5, Math.max(0, parseInt(value, 10) || 0));
+        const updated = { ...prev, 'magic-level': valNum, 'meta-level': valNum };
+        const sanitized = sanitizeSubAttributes(updated);
+        triggerSave(sanitized);
+        return sanitized;
+      }
+
+      if (field === 'tech-level') {
+        const valNum = Math.min(5, Math.max(0, parseInt(value, 10) || 0));
+        const updated = { ...prev, 'tech-level': valNum };
+        const sanitized = sanitizeSubAttributes(updated);
+        triggerSave(sanitized);
+        return sanitized;
+      }
+
       const updated = { ...prev, [field]: value };
       const sanitized = sanitizeSubAttributes(updated);
       triggerSave(sanitized);
@@ -336,8 +356,9 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     name: characterData['char-name'] || 'Operative',
     archetype: characterData['char-archetype'] || 'Operative',
     species: characterData['char-species'] || 'Alterian',
-    techLevel: characterData['tech-level'] || 3,
-    magicLevel: characterData['magic-level'] || 1,
+    techLevel: characterData['tech-level'] ?? 3,
+    magicLevel: characterData['magic-level'] ?? characterData['meta-level'] ?? 3,
+    metaLevel: characterData['meta-level'] ?? characterData['magic-level'] ?? 3,
     character_doc_id: characterData['character-doc-id'] || characterData.id || ''
   }), [characterData]);
 
@@ -605,28 +626,52 @@ export const FolioIdentitySliceProvider = ({ children }) => {
 
   // Identity Transitions
   const applySpeciesAdjustments = useCallback((spName) => {
-    setCharacterData(prev => applySpeciesTransition(prev, spName));
-  }, []);
+    setCharacterData(prev => {
+      const transitioned = applySpeciesTransition(prev, spName, dbData);
+      triggerSave(transitioned);
+      return transitioned;
+    });
+  }, [dbData, triggerSave]);
 
   const applyArchetypeChassis = useCallback((archName) => {
-    setCharacterData(prev => applyArchetypeTransition(prev, archName));
-  }, []);
+    setCharacterData(prev => {
+      const transitioned = applyArchetypeTransition(prev, archName, dbData, { applyPreBuild: true });
+      triggerSave(transitioned);
+      return transitioned;
+    });
+  }, [dbData, triggerSave]);
 
-  const applyOccupationAdjustments = useCallback((occuName, isSecondary = false) => {
-    setCharacterData(prev => applyOccupationTransition(prev, occuName, isSecondary));
-  }, []);
+  const applyOccupationAdjustments = useCallback((occuName) => {
+    setCharacterData(prev => {
+      const transitioned = applyOccupationTransition(prev, occuName, dbData);
+      triggerSave(transitioned);
+      return transitioned;
+    });
+  }, [dbData, triggerSave]);
 
-  const applyOriginAdjustments = useCallback((origName, isSecondary = false) => {
-    setCharacterData(prev => applyOriginTransition(prev, origName, isSecondary));
-  }, []);
+  const applyOriginAdjustments = useCallback((origName) => {
+    setCharacterData(prev => {
+      const transitioned = applyOriginTransition(prev, origName, dbData);
+      triggerSave(transitioned);
+      return transitioned;
+    });
+  }, [dbData, triggerSave]);
 
   const applyFactionAdjustments = useCallback((facName) => {
-    setCharacterData(prev => applyFactionTransition(prev, facName));
-  }, []);
+    setCharacterData(prev => {
+      const transitioned = applyFactionTransition(prev, facName, dbData);
+      triggerSave(transitioned);
+      return transitioned;
+    });
+  }, [dbData, triggerSave]);
 
-  const applyIdentitySelection = useCallback((field, val) => {
-    setCharacterData(prev => applyIdentityFieldTransition(prev, field, val));
-  }, []);
+  const applyIdentitySelection = useCallback((field, val, options = {}) => {
+    setCharacterData(prev => {
+      const transitioned = applyIdentityFieldTransition(prev, field, val, dbData, options);
+      triggerSave(transitioned);
+      return transitioned;
+    });
+  }, [dbData, triggerSave]);
 
   const applyGuidedCharacter = useCallback((draft) => {
     if (!draft) return;

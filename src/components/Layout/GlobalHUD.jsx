@@ -6,7 +6,6 @@ import {
   Volume2, 
   VolumeX, 
   Settings, 
-  LogOut, 
   Key,
   MessageSquare,
   Radio,
@@ -21,18 +20,13 @@ import {
   X,
   Command
 } from 'lucide-react';
-import { 
-  FolioHUDBar, 
-  DBMHUDBar, 
-  CompendiumHUDBar, 
-  ADEHUDBar, 
-  CodexHUDBar, 
-  CommsHUDBar 
-} from './hud';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { useFolio } from '../../context/FolioContext';
+import { useStory } from '../../context/CampaignContext';
+import { useGroup } from '../../context/GroupContext';
+import { useDice } from '../../context/DiceContext';
 import { useAudio } from '../../context/AudioContext';
 import { useToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
@@ -40,57 +34,25 @@ import { AudioService } from '../../services/audioService';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
 import { GameGroupModal } from '../Groups/GameGroupModal';
+import { TwoD10Icon } from '../UI/TwoD10Icon';
 
 export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
   const confirm = useConfirm();
-  const { currentUser, userHandle, loginWithGoogle, openAuthModal, triggerBootSplash, confirmLogout, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
-  const { totalUnreadCount, toggleCommsDock, pendingCharacterNotes } = useChat();
-  const dbm = useDBM() || {};
+  const { currentUser, userHandle, openAuthModal, confirmLogout, isAdmin } = useAuth();
+  const { totalUnreadCount, toggleCommsDock } = useChat();
+  const { handleImportMasterJSON } = useDBM() || {};
   const folio = useFolio() || {};
-  const {
-    history,
-    historyIndex,
-    handleBack,
-    handleForward,
-    isSidebarOpen,
-    setIsSidebarOpen,
-    isBastionOpen,
-    setIsBastionOpen,
-    setIsArchitectModalOpen,
-    handleExportMasterJSON,
-    handleImportMasterJSON,
-    navigateToCategory,
-    activeCategory,
-    syncCanonicalCompendium,
-    syncCanonicalSpecies,
-    syncMasterSpeciesMatrix
-  } = dbm;
-
-  const {
-    isCharacterSelected,
-    characterData,
-    computeSpentCP,
-    cloudSaveStatus,
-    lastSavedTime,
-    saveCurrentToRoster,
-    handleSaveLocal,
-    handleExportAsStoryElement,
-    isLocked,
-    isPlayerOverride,
-    allowPlayerOverride,
-    lockPersona,
-    unlockPersona,
-    clonePersonaVariant,
-    isInActiveGame,
-    togglePersonaNetworkEngaged
-  } = folio;
+  const { cloudSaveStatus, lastSavedTime } = folio;
+  const { pendingInvites = [] } = useGroup() || {};
+  const { isDiceOpen, toggleDiceRoller } = useDice() || {};
 
   const isDBM = location.pathname.startsWith('/dbm');
   const isCompendium = location.pathname.startsWith('/compendium') || location.pathname.startsWith('/rules');
   const isCodex = location.pathname.startsWith('/codex');
+  const isCortex = isDBM || isCodex;
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   const isFoundry = location.pathname.startsWith('/foundry') || 
                     location.pathname.startsWith('/story-foundry') || 
@@ -104,7 +66,24 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
   const isTeams = location.pathname.startsWith('/teams') || location.pathname.startsWith('/groups') || location.pathname.startsWith('/squads');
   const isNetwork = location.pathname.startsWith('/network') || isComms || isTeams;
-  const isStage = location.pathname.startsWith('/stage') || location.pathname === '/vtt';
+  const isDiceActive = isDiceDockOpen !== undefined ? isDiceDockOpen : !!isDiceOpen;
+
+  const heroCount = Array.isArray(folio?.personaRoster) && folio.personaRoster.length > 0 
+    ? folio.personaRoster.length 
+    : (Array.isArray(folio?.roster) ? folio.roster.length : 0);
+  const networkBadge = totalUnreadCount > 0 ? `${totalUnreadCount}` : (pendingInvites.length > 0 ? `${pendingInvites.length}!` : null);
+  const hasNetworkPulse = totalUnreadCount > 0 || pendingInvites.length > 0;
+
+  const handleToggleDice = () => {
+    AudioService.playTerminalBeep(1150, 0.02);
+    if (onToggleDiceDock) {
+      onToggleDiceDock();
+    } else if (toggleDiceRoller) {
+      toggleDiceRoller();
+    } else {
+      window.dispatchEvent(new CustomEvent('toggle-dice-roller'));
+    }
+  };
   
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -190,50 +169,118 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     }
   };
 
-  const getActivePageTitle = () => {
-    const path = location.pathname;
-    if (path === '/' || path === '/dashboard') return null; // Dashboard - no user-facing label needed
-    if (path.startsWith('/network')) {
-      const search = new URLSearchParams(location.search);
-      const view = search.get('view');
-      if (view === 'teams' || view === 'squads') return 'NETWORK • TACTICAL SQUADS';
-      if (view === 'roster') return 'NETWORK • OPERATOR DIRECTORY';
-      return 'NETWORK • COMMLINK RELAY';
-    }
-    if (path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads')) return 'GAME SQUADS & FIRETEAMS';
-    if (path.startsWith('/comms')) return 'COMMLINK RELAY';
-    if (path.startsWith('/folio') || path.startsWith('/roster')) return 'PERSONA FOLIO';
-    if (path.startsWith('/dbm')) return 'OMNICORTEX';
-    if (path.startsWith('/codex')) return 'CODEX';
-    if (path.includes('/story') || path.startsWith('/story-foundry')) return 'STORY WEAVER';
-    if (path.includes('/elements')) return 'ELEMENT FORGE';
-    if (path.startsWith('/stage') || path === '/vtt') return 'THE STAGE VTT';
-    if (path.includes('/map-maker')) return 'TACTICAL MAPS & VTT';
-    if (path.includes('/aime')) return 'AIME CREATIVE ENGINE';
-    if (path.includes('/vtt-options') || path.startsWith('/vtt-ops')) return 'VTT OPERATIONS';
-    if (path.startsWith('/foundry') || path.startsWith('/campaign-builder') || path.startsWith('/ade')) return 'ADE STUDIO';
-    return null;
-  };
-
   const displayIdentity = userHandle ? `@${userHandle}` : (currentUser?.displayName || currentUser?.email || 'OPERATOR');
 
   return (
     <>
-      <header className="w-full h-[52px] min-h-[52px] bg-[#12161f]/95 backdrop-blur-md border-b border-cyan-500/30 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 sm:gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
-        {/* Left Section: Brand Logo & Primary Navigation Group */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+      <header className="w-full h-[52px] min-h-[52px] bg-[#12161f]/95 backdrop-blur-md border-b border-cyan-500/30 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 z-[100] select-none shrink-0 font-sans shadow-md relative">
+        {/* Left Section: Brand Logo & Title */}
+        <div className="flex items-center shrink-0">
           <NavLink 
             to="/" 
-            className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse select-none items-start hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-2"
+            className="flex items-center gap-1.5 sm:gap-2 uppercase text-[#22d3ee] tangent-title-pulse select-none hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-3"
             title="Return to Operations Hub"
             onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
           >
-            <span className="text-[1.1rem] sm:text-[1.55rem] font-bold leading-none">TANGENT</span>
-            <span className="hidden sm:inline text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Science-Fantasy</span>
-            <span className="hidden sm:inline text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80 mt-0.5">Role Playing Engine</span>
+            <span className="text-[1.3rem] sm:text-[1.6rem] font-black leading-none tracking-tight">
+              TANGENT
+            </span>
+            <div className="flex flex-col justify-between self-stretch py-[2px] text-[0.48rem] sm:text-[0.56rem] font-bold uppercase tracking-wider leading-none">
+              <span className="whitespace-nowrap leading-none text-cyan-300">Science-Fantasy</span>
+              <span className="whitespace-nowrap leading-none text-cyan-400/80">Role Playing Engine</span>
+            </div>
           </NavLink>
+        </div>
 
-          {/* Persistent Rules Compendium Button */}
+        {/* Center Section: Primary Navigation Suite (Persona, Network, Cortex, ADE, Rules, Dice) */}
+        <nav className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 min-w-0" aria-label="Primary Navigation">
+          {/* PERSONA */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1150, 0.02);
+              navigate('/folio');
+            }}
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+              isFolio
+                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/70 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/50'
+            }`}
+            title="Persona Folio & Roster (/folio)"
+          >
+            <Users size={14} className={isFolio ? 'text-cyan-300' : 'text-cyan-400'} />
+            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">PERSONA</span>
+            {heroCount > 0 && (
+              <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
+                isFolio ? 'bg-cyan-400/30 text-cyan-200' : 'bg-slate-800 text-slate-400'
+              }`}>
+                {heroCount}
+              </span>
+            )}
+          </button>
+
+          {/* NETWORK */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1150, 0.02);
+              navigate('/network');
+            }}
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 relative ${
+              isNetwork
+                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/70 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
+            }`}
+            title="Tactical Squads & Operator Network (/network)"
+          >
+            <Radio size={14} className={isNetwork ? 'text-emerald-300' : 'text-emerald-400'} />
+            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">NETWORK</span>
+            {networkBadge && (
+              <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
+                hasNetworkPulse ? 'bg-amber-500 text-black font-extrabold animate-pulse' : 'bg-slate-800 text-slate-300'
+              }`}>
+                {networkBadge}
+              </span>
+            )}
+          </button>
+
+          {/* CORTEX */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1150, 0.02);
+              navigate('/dbm');
+            }}
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+              isCortex
+                ? 'bg-amber-500/20 text-amber-300 border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
+            }`}
+            title="Omnicortex Master Database (/dbm)"
+          >
+            <Database size={14} className={isCortex ? 'text-amber-300' : 'text-amber-400'} />
+            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">CORTEX</span>
+          </button>
+
+          {/* ADE */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1150, 0.02);
+              navigate('/foundry');
+            }}
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+              isFoundry
+                ? 'bg-purple-500/20 text-purple-300 border-purple-400/70 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-purple-300 border-slate-700/80 hover:border-purple-500/50'
+            }`}
+            title="ADE Studio & Story Foundry (/foundry)"
+          >
+            <Layers size={14} className={isFoundry ? 'text-purple-300' : 'text-purple-400'} />
+            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">ADE</span>
+          </button>
+
+          {/* RULES */}
           <button
             type="button"
             onClick={() => {
@@ -243,7 +290,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             onMouseEnter={() => {
               loadCompendiumCatalog();
             }}
-            className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shrink-0 ${
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
               isCompendium
                 ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
                 : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
@@ -251,162 +298,62 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             title="Open Compendium & BASTION Rules Wiki (/compendium)"
           >
             <BookOpen size={14} className={isCompendium ? 'text-sky-300' : 'text-sky-400'} />
-            <span className="inline font-bold">RULES</span>
+            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">RULES</span>
           </button>
-        </div>
 
-        {/* Center Section: Dynamic Contextual Header Options for Active Page */}
-        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 min-w-0 px-2 overflow-visible relative">
-          {/* Dynamic Controls: PERSONA FOLIO */}
-          {isFolio && (
-            <FolioHUDBar
-              characterData={characterData}
-              computeSpentCP={computeSpentCP}
-              isCharacterSelected={isCharacterSelected}
-              isBastionOpen={isBastionOpen}
-              setIsBastionOpen={setIsBastionOpen}
-              cloudSaveStatus={cloudSaveStatus}
-              isLocked={isLocked}
-              isPlayerOverride={isPlayerOverride}
-              isInActiveGame={isInActiveGame}
-              allowPlayerOverride={allowPlayerOverride}
-              lockPersona={lockPersona}
-              unlockPersona={unlockPersona}
-              clonePersonaVariant={clonePersonaVariant}
-              handleSaveLocal={handleSaveLocal}
-              handleExportAsStoryElement={handleExportAsStoryElement}
-              handleOpenGuide={handleOpenGuide}
-              confirm={confirm}
-              togglePersonaNetworkEngaged={togglePersonaNetworkEngaged}
-            />
-          )}
+          {/* DICE */}
+          <button
+            type="button"
+            onClick={handleToggleDice}
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+              isDiceActive
+                ? 'bg-amber-500/25 text-amber-300 border-amber-400/80 shadow-[0_0_14px_rgba(245,158,11,0.4)]'
+                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
+            }`}
+            title="Toggle Holographic Dice Tray"
+          >
+            <TwoD10Icon className={`w-3.5 h-3.5 ${isDiceActive ? 'text-amber-300' : 'text-amber-400'}`} />
+            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">DICE</span>
+          </button>
+        </nav>
 
-          {/* Dynamic Controls: OMNICORTEX */}
-          {isDBM && (
-            <DBMHUDBar
-              setIsSidebarOpen={setIsSidebarOpen}
-              handleBack={handleBack}
-              handleForward={handleForward}
-              historyIndex={historyIndex}
-              history={history}
-              activeCategory={activeCategory}
-              adminOverride={adminOverride}
-              toggleAdminOverride={toggleAdminOverride}
-              isBastionOpen={isBastionOpen}
-              setIsBastionOpen={setIsBastionOpen}
-              handleOpenGuide={handleOpenGuide}
-              handleClearDbmCache={handleClearDbmCache}
-              syncMasterSpeciesMatrix={syncMasterSpeciesMatrix}
-              syncCanonicalCompendium={syncCanonicalCompendium}
-              handleExportMasterJSON={handleExportMasterJSON}
-              handleImportMasterJSON={handleImportMasterJSON}
-              triggerMasterImport={triggerMasterImport}
-              isAdmin={isAdmin}
-            />
-          )}
-
-          {/* Dynamic Controls: COMPENDIUM */}
-          {isCompendium && (
-            <CompendiumHUDBar
-              location={location}
-              navigate={navigate}
-              isAdmin={isAdmin}
-              syncCanonicalCompendium={syncCanonicalCompendium}
-              handleOpenGuide={handleOpenGuide}
-            />
-          )}
-
-          {/* Dynamic Controls: ADE STUDIO */}
-          {isFoundry && (
-            <ADEHUDBar
-              location={location}
-              navigate={navigate}
-              isStage={isStage}
-            />
-          )}
-
-          {/* Dynamic Controls: CODEX */}
-          {isCodex && (
-            <CodexHUDBar
-              navigate={navigate}
-            />
-          )}
-
-          {/* Dynamic Controls: COMMS */}
-          {isComms && (
-            <CommsHUDBar
-              setIsTeamModalOpen={setIsTeamModalOpen}
-              onToggleCommsDock={onToggleCommsDock}
-              toggleCommsDock={toggleCommsDock}
-              onToggleDiceDock={onToggleDiceDock}
-            />
-          )}
-
-          {/* Dynamic Controls: DASHBOARD / DEFAULT */}
-          {!isFolio && !isDBM && !isCompendium && !isFoundry && !isCodex && !isComms && (
-            <div className="hidden sm:flex items-center gap-2 text-slate-400 font-mono text-xs">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span>OPERATIONS HUB</span>
-            </div>
-          )}
-        </div>
-
-        {/* Right Section: User Account & Settings */}
+        {/* Right Section: Settings Button with User ID */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
-          {/* User Account Menu with Functional Cloud Sync Status */}
-          {currentUser ? (
-            <div className="flex items-center gap-1 sm:gap-1.5 pl-1 sm:pl-1.5">
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1000, 0.02);
-                  setIsSettingsOpen(true);
-                }}
-                className="flex items-center gap-1.5 sm:gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#161922] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group cyan-shadow-thin"
-                title={
-                  cloudSaveStatus === 'saving'
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1000, 0.02);
+              setIsSettingsOpen(true);
+            }}
+            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#181d28] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group shadow-[0_0_10px_rgba(34,211,238,0.15)]"
+            title={
+              currentUser
+                ? (cloudSaveStatus === 'saving'
                     ? 'Cloud Sync: Saving to Cloud...'
                     : cloudSaveStatus === 'saved'
                     ? lastSavedTime ? `Cloud Synced at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Synced'
                     : cloudSaveStatus === 'error'
-                    ? 'Cloud Sync Failed (Click to open Settings)'
-                    : 'Local Storage Mode (Click to open Settings)'
-                }
-              >
-                <span
-                  className={`w-2 h-2 rounded-full shrink-0 ${
-                    cloudSaveStatus === 'saving'
-                      ? 'bg-amber-400 animate-ping'
-                      : cloudSaveStatus === 'saved'
-                      ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                      : cloudSaveStatus === 'error'
-                      ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
-                      : 'bg-slate-500'
-                  }`}
-                />
-                <span className="hidden md:inline max-w-[120px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">{displayIdentity}</span>
-                <Settings size={14} className="text-slate-400 group-hover:text-slate-200" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => confirmLogout(navigate)}
-                className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors cursor-pointer cyan-shadow-thin"
-                title="Logout"
-              >
-                <LogOut size={16} />
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={openAuthModal}
-              className="px-2.5 sm:px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-1.5 font-mono cursor-pointer cyan-shadow-thin"
-              title="Access Terran Data Net"
-            >
-              <Key size={13} /> <span className="hidden xs:inline">Login</span>
-            </button>
-          )}
+                    ? 'Cloud Sync Failed (Click for Settings)'
+                    : 'Local Storage Mode (Click for Settings)')
+                : 'Application Settings'
+            }
+          >
+            <span
+              className={`w-2 h-2 rounded-full shrink-0 ${
+                cloudSaveStatus === 'saving'
+                  ? 'bg-amber-400 animate-ping'
+                  : cloudSaveStatus === 'saved'
+                  ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                  : cloudSaveStatus === 'error'
+                  ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
+                  : currentUser ? 'bg-cyan-400' : 'bg-slate-500'
+              }`}
+            />
+            <span className="max-w-[110px] sm:max-w-[150px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">
+              {displayIdentity}
+            </span>
+            <Settings size={14} className="text-slate-400 group-hover:text-cyan-300 transition-colors shrink-0" />
+          </button>
         </div>
       </header>
 
@@ -628,24 +575,21 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             {/* Drawer Footer Account Area */}
             <div className="pt-3 mt-4 border-t border-slate-800 text-xs font-mono flex items-center justify-between">
               {currentUser ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => { setIsSettingsOpen(true); setIsMobileNavOpen(false); }}
-                    className="flex items-center gap-2 text-cyan-300 hover:text-cyan-200 truncate max-w-[200px]"
-                  >
-                    <Settings size={14} />
-                    <span className="truncate">{displayIdentity}</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => confirmLogout(navigate)}
-                    className="p-1.5 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
-                    title="Logout"
-                  >
-                    <LogOut size={16} />
-                  </button>
-                </>
+                <button
+                  type="button"
+                  onClick={() => { setIsSettingsOpen(true); setIsMobileNavOpen(false); }}
+                  className="flex items-center justify-between w-full p-2 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/50 text-cyan-300 hover:text-cyan-200 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center gap-2 truncate">
+                    <span
+                      className={`w-2 h-2 rounded-full shrink-0 ${
+                        cloudSaveStatus === 'saved' ? 'bg-emerald-400' : 'bg-cyan-400'
+                      }`}
+                    />
+                    <span className="truncate font-bold">{displayIdentity}</span>
+                  </div>
+                  <Settings size={14} className="text-slate-400 shrink-0" />
+                </button>
               ) : (
                 <button
                   type="button"

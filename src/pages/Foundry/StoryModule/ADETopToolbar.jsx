@@ -16,7 +16,8 @@ import {
   Sparkles, 
   Sliders, 
   PanelRightClose, 
-  PanelRight 
+  PanelRight,
+  Tv2
 } from 'lucide-react';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -86,9 +87,10 @@ export default function ADETopToolbar({
   );
 
   const isWeaverTabActive = activeView === 'scenarios' && scenarioWorkspaceTab !== 'stage';
-  const isStageTabActive = activeView === 'stage' || (activeView === 'scenarios' && scenarioWorkspaceTab === 'stage');
   const isMapTabActive = activeView === 'map' || activeView === 'map-maker';
+  const isStageTabActive = activeView === 'stage' || (activeView === 'scenarios' && scenarioWorkspaceTab === 'stage');
   const isElementsTabActive = activeView === 'elements' || activeView === 'gallery';
+  const isVttTabActive = activeView === 'vtt' || activeView === 'live_director';
 
   return (
     <>
@@ -145,7 +147,25 @@ export default function ADETopToolbar({
             <span>Weaver</span>
           </button>
 
-          {/* Tab 2: Stage */}
+          {/* Tab 2: Map (Desktop Workstation Only) */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              if (onSwitchView) onSwitchView('map');
+            }}
+            className={`hidden md:flex px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer ${
+              isMapTabActive
+                ? 'bg-indigo-950 text-indigo-300 border border-indigo-500/60 shadow-[0_0_12px_rgba(99,102,241,0.35)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
+            }`}
+            title="Map Architect & Cartographic Blueprint Studio (Desktop Workstation Required)"
+          >
+            <MapIcon size={13} className={isMapTabActive ? 'text-indigo-300' : 'text-indigo-400'} />
+            <span>Map</span>
+          </button>
+
+          {/* Tab 3: Stage (Desktop Workstation Only) */}
           <button
             type="button"
             onClick={() => {
@@ -153,33 +173,15 @@ export default function ADETopToolbar({
               if (onSwitchView) onSwitchView('stage', 'setup');
               else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
             }}
-            className={`px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+            className={`hidden md:flex px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer ${
               isStageTabActive
                 ? 'bg-purple-950 text-purple-300 border border-purple-500/60 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
             }`}
-            title="Stage Compiler, Map Anchors, Triggers & Live Simulation"
+            title="Stage Compiler, Map Anchors, Triggers & Live Simulation (Desktop Workstation Required)"
           >
             <Sparkles size={13} className={isStageTabActive ? 'text-purple-300' : 'text-purple-400'} />
             <span>Stage</span>
-          </button>
-
-          {/* Tab 3: Map */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              if (onSwitchView) onSwitchView('map');
-            }}
-            className={`px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-              isMapTabActive
-                ? 'bg-indigo-950 text-indigo-300 border border-indigo-500/60 shadow-[0_0_12px_rgba(99,102,241,0.35)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
-            }`}
-            title="Map Architect & Cartographic Blueprint Studio"
-          >
-            <MapIcon size={13} className={isMapTabActive ? 'text-indigo-300' : 'text-indigo-400'} />
-            <span>Map</span>
           </button>
 
           {/* Tab 4: Elements */}
@@ -198,6 +200,24 @@ export default function ADETopToolbar({
           >
             <Hammer size={13} className={isElementsTabActive ? 'text-emerald-300' : 'text-emerald-400'} />
             <span>Elements</span>
+          </button>
+
+          {/* Tab 5: VTT (Desktop Workstation Only) */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              if (onSwitchView) onSwitchView('vtt');
+            }}
+            className={`hidden md:flex px-3 py-1 rounded-xl font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer ${
+              isVttTabActive
+                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_12px_rgba(6,182,212,0.35)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
+            }`}
+            title="VTT Live Director Runtime (Desktop Workstation Required)"
+          >
+            <Tv2 size={13} className={isVttTabActive ? 'text-cyan-300' : 'text-cyan-400'} />
+            <span>VTT</span>
           </button>
         </nav>
 

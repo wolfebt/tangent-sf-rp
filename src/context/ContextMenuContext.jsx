@@ -385,7 +385,15 @@ export const ContextMenuProvider = ({ children }) => {
     };
 
     // Close menu when clicking outside
-    const handleGlobalClick = (e) => {
+    const handleGlobalOutsideClick = (e) => {
+      // Do not close if clicking inside the context menu itself or an active modal/dialog
+      if (
+        e.target?.closest?.('[role="menu"]') || 
+        e.target?.closest?.('[role="dialog"]') || 
+        e.target?.closest?.('[data-ai-action-modal]')
+      ) {
+        return;
+      }
       closeContextMenu();
     };
 
@@ -425,14 +433,16 @@ export const ContextMenuProvider = ({ children }) => {
     };
 
     window.addEventListener('contextmenu', handleGlobalContextMenu);
-    window.addEventListener('click', handleGlobalClick);
+    window.addEventListener('pointerdown', handleGlobalOutsideClick, true);
+    window.addEventListener('click', handleGlobalOutsideClick, true);
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       window.removeEventListener('contextmenu', handleGlobalContextMenu);
-      window.removeEventListener('click', handleGlobalClick);
+      window.removeEventListener('pointerdown', handleGlobalOutsideClick, true);
+      window.removeEventListener('click', handleGlobalOutsideClick, true);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);

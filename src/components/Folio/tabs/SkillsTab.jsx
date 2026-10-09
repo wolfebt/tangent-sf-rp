@@ -1095,16 +1095,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             <button
               type="button"
               disabled={isDisciplineLocked}
-              onClick={() => {
+              onClick={(e) => {
                 if (isDisciplineLocked) return;
                 openDiceRoller({
-                  label: `${skill.name} Check`,
+                  label: `${skill.name} ${baseSkillTotal >= 0 ? `+${baseSkillTotal}` : baseSkillTotal}`,
                   baseModifier: baseSkillTotal,
                   expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                   rollMode: 'normal',
                   characterName: characterData['char-name'] || 'Operative',
                   personaId: characterData['character-doc-id'] || characterData.id,
-                  autoRoll: true
+                  autoRoll: e?.shiftKey || false
                 });
               }}
               className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
@@ -1112,7 +1112,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   ? 'opacity-40 cursor-not-allowed text-slate-600'
                   : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white shadow-sm'
               }`}
-              title={isDisciplineLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
+              title={isDisciplineLocked ? lockMessage : `Check ${skill.name} (2d10 + ${baseSkillTotal}). Shift-click to quick-roll.`}
             >
               <Dices size={11} />
             </button>
@@ -1176,16 +1176,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               <button
                 type="button"
                 disabled={isDisciplineLocked}
-                onClick={() => {
+                onClick={(e) => {
                   if (isDisciplineLocked) return;
                   openDiceRoller({
-                    label: `${skill.name} Check`,
+                    label: `${skill.name} ${baseSkillTotal >= 0 ? `+${baseSkillTotal}` : baseSkillTotal}`,
                     baseModifier: baseSkillTotal,
                     expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                     rollMode: 'normal',
                     characterName: characterData['char-name'] || 'Operative',
                     personaId: characterData['character-doc-id'] || characterData.id,
-                    autoRoll: true
+                    autoRoll: e?.shiftKey || false
                   });
                 }}
                 className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
@@ -1193,10 +1193,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     ? 'opacity-40 cursor-not-allowed bg-slate-900 border border-slate-800 text-slate-600'
                     : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300'
                 }`}
-                title={isDisciplineLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
+                title={isDisciplineLocked ? lockMessage : `Check ${skill.name} (2d10 + ${baseSkillTotal}). Shift-click to quick-roll.`}
               >
                 <Dices size={11} />
-                <span>Roll</span>
+                <span>Check</span>
               </button>
               {isCustom && !isDisciplineLocked && !isSheetLocked && (
                 <button
@@ -1413,18 +1413,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     </span>
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={(e) => {
                         if (isSpecLocked) return;
+                        const specLabel = isSpecAbility
+                          ? `${spec.name} ${specTotal >= 0 ? `+${specTotal}` : specTotal}`
+                          : `${skill.name} (${spec.name}) ${specTotal >= 0 ? `+${specTotal}` : specTotal}`;
                         openDiceRoller({
-                          label: isSpecAbility
-                            ? `${spec.name} (Special Ability) Check`
-                            : `${skill.name}: ${spec.name} (${isInvocation ? 'Invocation' : isMetaSkill ? 'Evocation' : 'Specialization'})`,
+                          label: specLabel,
                           baseModifier: specTotal,
                           expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
                           rollMode: 'normal',
                           characterName: characterData['char-name'] || 'Operative',
                           personaId: characterData['character-doc-id'] || characterData.id,
-                          autoRoll: true
+                          autoRoll: e?.shiftKey || false
                         });
                       }}
                       disabled={isSpecLocked}
@@ -1437,7 +1438,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                           ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white shadow-sm'
                           : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white shadow-sm'
                       }`}
-                      title={isSpecLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
+                      title={isSpecLocked ? lockMessage : `Check ${spec.name} (2d10 + ${specTotal}). Shift-click to quick-roll.`}
                     >
                       <Dices size={11} />
                     </button>
@@ -1525,18 +1526,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     <button
                       type="button"
                       disabled={isSpecLocked}
-                      onClick={() => {
+                      onClick={(e) => {
                         if (isSpecLocked) return;
+                        const specLabel = isSpecAbility
+                          ? `${spec.name} ${specTotal >= 0 ? `+${specTotal}` : specTotal}`
+                          : `${skill.name} (${spec.name}) ${specTotal >= 0 ? `+${specTotal}` : specTotal}`;
                         openDiceRoller({
-                          label: isSpecAbility
-                            ? `${spec.name} (Special Ability) Check`
-                            : `${skill.name}: ${spec.name} (${isInvocation ? 'Invocation' : isMetaSkill ? 'Evocation' : 'Specialization'})`,
+                          label: specLabel,
                           baseModifier: specTotal,
                           expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
                           rollMode: 'normal',
                           characterName: characterData['char-name'] || 'Operative',
                           personaId: characterData['character-doc-id'] || characterData.id,
-                          autoRoll: true
+                          autoRoll: e?.shiftKey || false
                         });
                       }}
                       className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
@@ -1548,10 +1550,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                           ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300'
                           : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300'
                       }`}
-                      title={isSpecLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
+                      title={isSpecLocked ? lockMessage : `Check ${spec.name} (2d10 + ${specTotal}). Shift-click to quick-roll.`}
                     >
                       <Dices size={11} />
-                      <span>Roll</span>
+                      <span>Check</span>
                     </button>
                     {!isSheetLocked && (
                       <button
@@ -1924,19 +1926,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                             </span>
                             <button
                               type="button"
-                              onClick={() => openDiceRoller({
-                                label: `${sName} (Granted Check)`,
+                              onClick={(e) => openDiceRoller({
+                                label: `${sName} ${totalScore >= 0 ? `+${totalScore}` : totalScore}`,
                                 baseModifier: totalScore,
                                 expression: `2d10${totalScore !== 0 ? (totalScore > 0 ? `+${totalScore}` : `${totalScore}`) : ''}`,
                                 rollMode: 'normal',
                                 characterName: characterData['char-name'] || 'Operative',
                                 personaId: characterData['character-doc-id'] || characterData.id,
-                                autoRoll: true
+                                autoRoll: e?.shiftKey || false
                               })}
                               className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 font-bold text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
-                              title={`Roll ${sName} Check`}
+                              title={`Check ${sName} (2d10 + ${totalScore}). Shift-click to quick-roll.`}
                             >
-                              <Dices size={10} /> Roll
+                              <Dices size={10} /> Check
                             </button>
                           </div>
                         </div>

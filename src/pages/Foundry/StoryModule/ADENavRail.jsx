@@ -23,7 +23,8 @@ import {
   Sparkles,
   GitBranch,
   Cpu,
-  Map as MapIcon
+  Map as MapIcon,
+  Tv2
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { ADE_THEMES as THEMES } from '../../../constants/adeThemes';
@@ -49,19 +50,20 @@ export const ADENavRail = ({
 
   const totalGalleryCount = elementsCount + mapsCount + modifiersCount;
 
-  const coreWorkspaceItems = [
-    {
-      id: 'mission_control',
-      aliasIds: ['dashboard', 'mission-control', 'hub'],
-      label: 'HUB',
-      sublabel: 'Mission Control',
-      description: 'Module Dashboard, Readiness Score, Package Import/Export & Telemetry',
-      icon: Compass,
-      colorTheme: 'cyan',
-      onClick: () => {
-        if (onSwitchView) onSwitchView('mission_control');
-      }
-    },
+  const hubItem = {
+    id: 'mission_control',
+    aliasIds: ['dashboard', 'mission-control', 'hub'],
+    label: 'HUB',
+    sublabel: 'Mission Control',
+    description: 'Module Dashboard, Readiness Score, Package Import/Export & Telemetry',
+    icon: Compass,
+    colorTheme: 'cyan',
+    onClick: () => {
+      if (onSwitchView) onSwitchView('mission_control');
+    }
+  };
+
+  const workspaceItems = [
     {
       id: 'scenarios',
       aliasIds: ['weaver', 'narrative', 'story'],
@@ -76,22 +78,6 @@ export const ADENavRail = ({
       }
     },
     {
-      id: 'stage',
-      aliasIds: ['live-studio', 'ade-stage'],
-      label: 'STAGE',
-      sublabel: 'Tactical Stage & Compiler',
-      description: 'Stage Compiler, Map Anchors, Triggers, Flow, Encounters & Live VTT Staging',
-      icon: Sparkles,
-      colorTheme: 'purple',
-      onClick: () => {
-        if (onSwitchView) onSwitchView('stage', 'setup');
-        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
-      }
-    }
-  ];
-
-  const assetWorkspaceItems = [
-    {
       id: 'map',
       aliasIds: ['map-maker', 'mapmaker'],
       label: 'MAP',
@@ -105,6 +91,19 @@ export const ADENavRail = ({
       }
     },
     {
+      id: 'stage',
+      aliasIds: ['live-studio', 'ade-stage'],
+      label: 'STAGE',
+      sublabel: 'Tactical Stage & Compiler',
+      description: 'Stage Compiler, Map Anchors, Triggers, Flow, Encounters & Live VTT Staging',
+      icon: Sparkles,
+      colorTheme: 'purple',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('stage', 'setup');
+        else if (onSelectScenarioWorkspaceTab) onSelectScenarioWorkspaceTab('stage');
+      }
+    },
+    {
       id: 'elements',
       aliasIds: ['gallery', 'elements'],
       label: 'ELEMENTS',
@@ -115,6 +114,19 @@ export const ADENavRail = ({
       badge: elementsCount > 0 ? `${elementsCount}` : (totalGalleryCount > 0 ? `${totalGalleryCount}` : null),
       onClick: () => {
         if (onSwitchView) onSwitchView('elements');
+      }
+    },
+    {
+      id: 'vtt',
+      aliasIds: ['live_director', 'stage_runtime', 'vtt_runtime'],
+      label: 'VTT',
+      sublabel: 'VTT Live Director',
+      description: 'Run Live VTT Session, Tactical Tokens, Line-of-Sight & Combat Grid',
+      icon: Tv2,
+      colorTheme: 'cyan',
+      onClick: () => {
+        if (onSwitchView) onSwitchView('vtt');
+        else navigate('/stage');
       }
     }
   ];
@@ -182,14 +194,63 @@ export const ADENavRail = ({
           <div className="w-6 h-px bg-purple-500/30 mt-1" />
         </div>
 
-        {/* 1. Core Studio Workspaces (HUB, WEAVER, STAGE) */}
-        {coreWorkspaceItems.map((item) => {
+        {/* Mission Control (Hub) */}
+        {(() => {
+          const isActive = activeView === hubItem.id || (hubItem.aliasIds && hubItem.aliasIds.includes(activeView));
+          const theme = THEMES[hubItem.colorTheme] || THEMES.cyan;
+          const Icon = hubItem.icon;
+          return (
+            <button
+              key={hubItem.id}
+              type="button"
+              onClick={() => handleSelectWorkspace(hubItem)}
+              onMouseEnter={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                setHoveredItem({ item: hubItem, theme, rect });
+              }}
+              onMouseLeave={() => setHoveredItem(null)}
+              className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer border ${
+                isActive
+                  ? theme.activeBtn
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+              }`}
+            >
+              {isActive && (
+                <span className={`absolute -left-1 top-2 bottom-2 w-1 rounded-r-full ${theme.bar}`} />
+              )}
+              <div
+                className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                  isActive ? theme.activeBox : theme.iconBox
+                }`}
+              >
+                <Icon size={16} />
+              </div>
+              <span
+                className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight transition-colors ${
+                  isActive ? theme.activeLabel : theme.idleLabel
+                }`}
+              >
+                {hubItem.label}
+              </span>
+            </button>
+          );
+        })()}
+
+        {/* Subtle Divider separating Hub and Module Workspaces */}
+        <div className="w-6 h-px bg-slate-800/60 my-1" />
+
+        {/* Primary Studio Workspaces aligned with Hub order (WEAVER, MAP, STAGE, ELEMENTS, VTT) */}
+        {workspaceItems.map((item) => {
+          const isDesktopOnly = item.id === 'map' || item.id === 'stage' || item.id === 'vtt';
           const isActive = (() => {
             if (item.id === 'stage') {
               return activeView === 'stage' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage');
             }
             if (item.id === 'scenarios') {
               return activeView === 'scenarios' && activeScenarioWorkspaceTab !== 'stage';
+            }
+            if (item.id === 'vtt') {
+              return activeView === 'vtt' || (item.aliasIds && item.aliasIds.includes(activeView));
             }
             return activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
           })();
@@ -207,70 +268,8 @@ export const ADENavRail = ({
               }}
               onMouseLeave={() => setHoveredItem(null)}
               className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer border ${
-                isActive
-                  ? theme.activeBtn
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
-              }`}
-            >
-              {/* Active Left Indicator Bar */}
-              {isActive && (
-                <span className={`absolute -left-1 top-2 bottom-2 w-1 rounded-r-full ${theme.bar}`} />
-              )}
-
-              {/* Icon Container */}
-              <div
-                className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                  isActive ? theme.activeBox : theme.iconBox
-                }`}
-              >
-                {typeof Icon === 'string' ? (
-                  <span className="text-sm">{Icon}</span>
-                ) : (
-                  <Icon size={16} />
-                )}
-
-                {/* Badge */}
-                {item.badge && (
-                  <span
-                    className={`absolute -top-1.5 -right-1.5 px-1 py-0.2 min-w-[15px] h-[15px] rounded-full font-mono text-[8.5px] font-bold flex items-center justify-center shadow-md ${theme.badge}`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </div>
-
-              {/* Monospace Label */}
-              <span
-                className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight transition-colors ${
-                  isActive ? theme.activeLabel : theme.idleLabel
-                }`}
-              >
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
-
-        {/* Subtle Divider separating Core Workspaces and Foundational Asset Modules */}
-        <div className="w-6 h-px bg-slate-800/60 my-1" />
-
-        {/* 2. Foundational Asset Modules (MAP, ELEMENTS) */}
-        {assetWorkspaceItems.map((item) => {
-          const isActive = activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
-          const theme = THEMES[item.colorTheme] || THEMES.cyan;
-          const Icon = item.icon;
-
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => handleSelectWorkspace(item)}
-              onMouseEnter={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                setHoveredItem({ item, theme, rect });
-              }}
-              onMouseLeave={() => setHoveredItem(null)}
-              className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer border ${
+                isDesktopOnly ? 'hidden md:flex' : ''
+              } ${
                 isActive
                   ? theme.activeBtn
                   : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'

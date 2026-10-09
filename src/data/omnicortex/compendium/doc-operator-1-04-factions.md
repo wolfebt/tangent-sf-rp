@@ -2,17 +2,35 @@
 id: "doc-operator-1-04-factions"
 name: "1.04 FACTIONS — 1.04 FACTIONS & GALACTIC POLITIES"
 category: "operator_rule"
-parent: "1.00 OPERATOR CORE RULES"
-order: 90
+parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
+order: 1
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
-tags: ["operator","core-rules","1.04 factions","mechanics"]
-updatedAt: "2026-09-15T07:48:15.487Z"
+cost: 0
+tags: ["operator","core-rules","source-of-truth","1.04 factions","mechanics"]
+updatedAt: "2026-10-09T07:59:56.570Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # 1.04 FACTIONS & GALACTIC POLITIES
@@ -23,6 +41,18 @@ Factions in Tangent represent the various organizations, groups, or affiliations
 
 * **Faction Skill Package (20 Skill Points):** Players receive **20 POINTS FOR SKILLS** associated with their chosen faction, allowing for focused development of expertise relevant to their background and training.
 * **Recommended Features (1 BP Discount):** Players can select **Recommended Features** from a curated list tailored to their faction at a **1 BP discount** (2 BP instead of 3 BP), further enhancing their capabilities.
+* **Faction Wealth Modifier:** Under the Tangent Economic Unified Field Theory (EUFT), faction alignment modifies a character's starting Wealth Score, reflecting geopolitical backing, banking access, and credit networks:
+  * **Mekan Assembly:** **+6** (Automated post-scarcity industrial fabrication networks)
+  * **Syndicate Compact:** **+4** (Interstellar black-market liquidity and corporate banking)
+  * **Ascendancy:** **+4** (Psionic technocracy and sovereign planetary wealth)
+  * **Alterian Combine:** **+3** (High-tech arcane trade networks and ancient treasuries)
+  * **Entari Sovereignty:** **+3** (Heirloom warrior estates and deep-core mining reserves)
+  * **The Impyrium:** **+3** (Centuries of aristocratic tribute and military logistics)
+  * **The Dracon Dynasty:** **+2** (Old money, feudal mercantilism, and dynastic stability)
+  * **Auluran / Kitin:** **+2** (Biological cultivation monopolies and pharmaceutical yields)
+  * **The Coalition:** **+0** (Decentralized frontier republic; balanced commoner baseline)
+  * **Outworlds / Independent:** **+0** (Frontier self-reliance without institutional backing)
+  * **Others / Custom:** **+0 to +3** (Adjusted by GM based on faction sovereignty)
 * **Sociological Standing:** Pre-established diplomatic recognition, citizenship, legal status, and faction equipment access.
 
 ---
@@ -505,7 +535,7 @@ Factions in Tangent represent the various organizations, groups, or affiliations
 
 * **Tech Level (TL):** 4 (Psi-Tech)  
 * **Meta Level (ML):** 4 (Psionic Supremacy \- The Path)  
-* **Wealth Modifier:** \+1 (Developing Post-Scarcity)  
+* **Wealth Modifier:** \+4 (Utopian Psionic Technocracy)  
 * **Primary Exports:** Scientific research, advanced medicine, Psi-Tech interfaces.  
 * **Economic Model:** Cooperative Post-Scarcity.
 
@@ -2298,4 +2328,4 @@ See full canonical text in 1.04 FACTIONS.md
 Refer to 1.04 FACTIONS.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 1.04 FACTIONS.md.
+Canonical Tangent SF RP rulebook reference from 1.04 FACTIONS.md. Complete, unabridged source of truth.

@@ -41,6 +41,7 @@ import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useGroup } from '../../context/GroupContext';
 import { useToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService';
+import { TwoD10Icon } from '../UI/TwoD10Icon';
 import { GameGroupModal } from '../Groups/GameGroupModal';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 import { QuickTeamInviteModal } from './QuickTeamInviteModal';
@@ -245,32 +246,78 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
         expression, 
         result, 
         total, 
+        finalTotal: metaFinalTotal,
+        naturalTotal,
         rolls = [], 
+        dicePool = [],
+        keptDice = [],
+        appliedModifier,
+        modifier,
+        flatModifier,
+        critThreshold,
+        fumbleThreshold,
+        advantageDice = 0,
         isCritical, 
         isFumble, 
+        isCrit,
         isAdvantage, 
         isDisadvantage, 
         label, 
         targetNumber, 
+        targetDC,
+        outcome,
         isSuccess, 
         margin 
       } = msg.metadata;
 
-      const finalTotal = total ?? result;
-      const formattedRolls = formatDiceRolls(rolls);
+      const finalTotalVal = metaFinalTotal ?? total ?? result;
+      const isCritActive = Boolean(isCritical || isCrit || (outcome && outcome.toLowerCase().includes('critical success')));
+      const isFumbleActive = Boolean(isFumble || (outcome && outcome.toLowerCase().includes('critical failure')));
+      const targetDCVal = targetDC ?? targetNumber;
+
+      // Extract full pool array: array of raw numbers
+      const rawPool = Array.isArray(dicePool) && dicePool.length > 0 
+        ? dicePool 
+        : (Array.isArray(rolls) ? rolls : []);
+      const poolValues = rawPool.map(r => typeof r === 'object' && r !== null ? (r.value ?? r.total ?? 0) : Number(r) || 0);
+
+      // Determine kept dice list
+      let keptList = Array.isArray(keptDice) && keptDice.length > 0 ? [...keptDice] : [];
+      if (keptList.length === 0 && poolValues.length >= 2) {
+        if (advantageDice > 0 || isAdvantage) {
+          keptList = [...poolValues].sort((a, b) => b - a).slice(0, 2);
+        } else if (advantageDice < 0 || isDisadvantage) {
+          keptList = [...poolValues].sort((a, b) => a - b).slice(0, 2);
+        } else {
+          keptList = poolValues.slice(0, 2);
+        }
+      }
+
+      // Track kept dice counts so duplicate values are matched correctly
+      const keptCounts = {};
+      keptList.forEach(k => { keptCounts[k] = (keptCounts[k] || 0) + 1; });
+
+      const activeAppliedMod = appliedModifier !== undefined ? appliedModifier : (flatModifier !== undefined ? flatModifier : (modifier || 0));
+      const activeCritThresh = critThreshold !== undefined ? critThreshold : 20;
+      const activeFumbleThresh = fumbleThreshold !== undefined ? fumbleThreshold : 2;
+      const activeNatTotal = naturalTotal !== undefined ? naturalTotal : (keptList[0] !== undefined && keptList[1] !== undefined ? keptList[0] + keptList[1] : null);
 
       return (
         <div className={`mt-1 p-3 rounded-lg border text-xs font-mono transition-all ${
-          isCritical 
+          isCritActive 
             ? 'bg-gradient-to-r from-amber-950/80 via-slate-950/90 to-slate-950 border-amber-500/70 shadow-[0_0_20px_rgba(245,158,11,0.2)]' 
-            : isFumble 
+            : isFumbleActive 
             ? 'bg-gradient-to-r from-rose-950/80 via-slate-950/90 to-slate-950 border-rose-500/70 shadow-[0_0_20px_rgba(244,63,94,0.2)]' 
+            : outcome === 'Overwhelming Success'
+            ? 'bg-gradient-to-r from-cyan-950/80 via-slate-950/90 to-slate-950 border-cyan-500/70 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+            : outcome === 'Catastrophic Failure'
+            ? 'bg-gradient-to-r from-red-950/80 via-slate-950/90 to-slate-950 border-red-500/70 shadow-[0_0_20px_rgba(239,68,68,0.2)]'
             : 'bg-slate-950/90 border-slate-800'
         }`}>
-          {/* Header with Label and Badges */}
+          {/* Header with Label and Status Badges */}
           <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
             <div className="flex items-center gap-1.5 font-bold">
-              <Dices size={15} className={isCritical ? 'text-amber-400' : 'text-cyan-400'} />
+              <TwoD10Icon size={15} className={isCritActive ? 'text-amber-400' : 'text-cyan-400'} />
               <span className="text-cyan-300 text-xs">{label || expression || 'Dice Check'}</span>
               {expression && label && <span className="text-slate-500 text-[10.5px]">({expression})</span>}
             </div>
@@ -281,47 +328,116 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   STAGE VTT
                 </span>
               )}
-              {isAdvantage && (
+              {advantageDice !== 0 && (
+                <span className={`px-1.5 py-0.5 rounded border text-[9px] font-bold ${
+                  advantageDice > 0 
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' 
+                    : 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                }`}>
+                  {advantageDice > 0 ? `+${advantageDice} ADV POOL` : `${advantageDice} DISADV POOL`}
+                </span>
+              )}
+              {advantageDice === 0 && isAdvantage && (
                 <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-bold">
                   ADVANTAGE
                 </span>
               )}
-              {isDisadvantage && (
+              {advantageDice === 0 && isDisadvantage && (
                 <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[9px] font-bold">
                   DISADVANTAGE
                 </span>
               )}
-              {isCritical && (
-                <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9.5px] font-bold">
-                  CRITICAL 30
+              {outcome ? (
+                <span className={`px-2 py-0.5 rounded text-[9.5px] font-bold border ${
+                  outcome === 'Critical Success'
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.4)] animate-pulse'
+                    : outcome === 'Critical Failure'
+                    ? 'bg-red-500/20 text-red-300 border-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)] animate-pulse'
+                    : outcome === 'Overwhelming Success'
+                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                    : outcome === 'Catastrophic Failure'
+                    ? 'bg-rose-500/20 text-rose-300 border-rose-400'
+                    : outcome === 'Success'
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                    : 'bg-slate-800 text-slate-300 border-slate-700'
+                }`}>
+                  {outcome.toUpperCase()}
                 </span>
-              )}
-              {isFumble && (
-                <span className="px-2 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/50 rounded text-[9.5px] font-bold">
-                  FUMBLE -10
-                </span>
+              ) : (
+                <>
+                  {isCritActive && (
+                    <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9.5px] font-bold">
+                      CRITICAL
+                    </span>
+                  )}
+                  {isFumbleActive && (
+                    <span className="px-2 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/50 rounded text-[9.5px] font-bold">
+                      FUMBLE
+                    </span>
+                  )}
+                </>
               )}
             </div>
           </div>
 
-          {/* Result and Roll breakdown */}
-          <div className="flex items-baseline justify-between gap-3 border-t border-slate-800/80 pt-2">
+          {/* Result and Dice Pool Breakdown */}
+          <div className="flex items-center justify-between gap-3 border-t border-slate-800/80 pt-2 flex-wrap">
             <div className="flex items-baseline gap-2.5">
               <span className="text-2xl font-black text-white font-mono tracking-tight">
-                {finalTotal}
+                {finalTotalVal}
               </span>
-              {targetNumber !== undefined && targetNumber !== null && (
-                <span className={`text-xs font-bold ${isSuccess ? 'text-emerald-400' : 'text-rose-400'}`}>
-                  vs DC {targetNumber} ({isSuccess ? `SUCCESS +${margin}` : `FAILED ${margin}`})
+              {targetDCVal !== undefined && targetDCVal !== null && targetDCVal !== '' && (
+                <span className={`text-xs font-bold ${
+                  (outcome ? (outcome === 'Critical Success' || outcome === 'Overwhelming Success' || outcome === 'Success') : isSuccess)
+                    ? 'text-emerald-400' 
+                    : 'text-rose-400'
+                }`}>
+                  vs DC {targetDCVal} {margin !== null && margin !== undefined ? `(${margin >= 0 ? `+${margin}` : margin})` : ''}
                 </span>
               )}
             </div>
 
-            {formattedRolls && (
-              <div className="text-[11px] text-slate-400 font-mono">
-                [{formattedRolls}]
+            {/* VTT Transparency: Full dicePool array visually distinguishing keptDice */}
+            {poolValues.length > 0 && (
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Pool:</span>
+                {poolValues.map((val, idx) => {
+                  let isKept = false;
+                  if (keptCounts[val] && keptCounts[val] > 0) {
+                    isKept = true;
+                    keptCounts[val]--;
+                  }
+                  return (
+                    <span
+                      key={idx}
+                      className={`px-1.5 py-0.5 rounded text-[11px] font-bold font-mono transition-all border ${
+                        isKept
+                          ? 'bg-amber-500/20 border-amber-400/80 text-amber-200 shadow-[0_0_6px_rgba(245,158,11,0.25)]'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-500 line-through opacity-50'
+                      }`}
+                      title={isKept ? `Kept Die (${val})` : `Dropped Die (${val})`}
+                    >
+                      {val}
+                    </span>
+                  );
+                })}
               </div>
             )}
+          </div>
+
+          {/* Telemetry Strip: Applied Modifiers and Dynamic Threat Thresholds */}
+          <div className="flex items-center justify-between gap-2 border-t border-slate-800/40 mt-2 pt-1.5 text-[10px] text-slate-400 flex-wrap">
+            <div className="flex items-center gap-2">
+              {activeNatTotal !== null && (
+                <span>Natural: <strong className="text-slate-200">{activeNatTotal}</strong></span>
+              )}
+              <span>Mod: <strong className="text-amber-300">{activeAppliedMod >= 0 ? `+${activeAppliedMod}` : activeAppliedMod}</strong></span>
+            </div>
+            <div className="flex items-center gap-2 text-[9.5px]">
+              <span className="text-amber-400/90 font-bold">Crit &ge; {activeCritThresh}</span>
+              <span className="text-slate-600">•</span>
+              <span className="text-rose-400/90 font-bold">Fumble &le; {activeFumbleThresh}</span>
+            </div>
           </div>
         </div>
       );
@@ -330,7 +446,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     // 3. Narrative RPG Action / Emote (/me, /act)
     if (msg.type === 'narrative_action') {
       return (
-        <div className="mt-1 p-2 rounded-lg bg-purple-950/25 border-l-2 border-purple-500/60 text-purple-200 text-xs sm:text-sm font-serif italic">
+        <div className="mt-0.5 px-2 py-1 rounded-lg bg-purple-950/25 border-l-2 border-purple-500/60 text-purple-200 text-xs sm:text-sm font-serif italic leading-snug">
           <span className="font-sans font-bold text-purple-300 not-italic mr-1.5 font-mono text-xs">
             * {msg.senderHandle}
           </span>
@@ -342,7 +458,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     // 4. OOC Remark (/ooc)
     if (msg.type === 'ooc_remark') {
       return (
-        <div className="mt-0.5 text-xs sm:text-sm text-slate-400 font-mono italic">
+        <div className="text-xs sm:text-sm leading-snug text-slate-400 font-mono italic">
           <span className="text-slate-500 font-bold not-italic mr-1">(( OOC:</span>
           <ChatParser text={msg.text || ''} />
           <span className="text-slate-500 font-bold not-italic ml-1">))</span>
@@ -353,8 +469,8 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
     // 5. System Notification Message
     if (msg.type === 'system') {
       return (
-        <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-xs font-mono text-cyan-300 flex items-center gap-2">
-          <Radio size={13} className="shrink-0 text-cyan-400 animate-pulse" />
+        <div className="p-1.5 rounded-lg bg-slate-900/60 border border-slate-800 text-xs font-mono text-cyan-300 flex items-center gap-2">
+          <Radio size={13} className="shrink-0 text-cyan-400 animate-soft-back-glow" />
           <span className="flex-1">{msg.text}</span>
         </div>
       );
@@ -362,7 +478,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 
     // 6. Standard Text or In-Character Dialogue (High-contrast, crisp 13.5px text)
     return (
-      <div className={`mt-0.5 text-xs sm:text-sm leading-relaxed ${
+      <div className={`text-xs sm:text-sm leading-snug ${
         msg.isIC ? 'text-slate-100 font-sans font-medium' : 'text-slate-200 font-sans'
       }`}>
         <ChatParser text={msg.text || ''} />
@@ -469,7 +585,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   }}
                   className={`px-2.5 py-1 rounded-lg text-[10.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
                     isVoiceConnected && currentRoomName === `tangent_freq_${activeChannel.id}`
-                      ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.4)] animate-pulse'
+                      ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.4)] animate-soft-back-glow'
                       : 'bg-slate-900 hover:bg-cyan-950 text-cyan-300 hover:text-cyan-200 border-slate-700 hover:border-cyan-500/40'
                   }`}
                   title={
@@ -559,7 +675,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                   : 'bg-cyan-950/90 text-cyan-300 border-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
               }`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${
-                  isTeamChannel ? 'bg-emerald-400 animate-pulse' : isDirectChannel ? 'bg-purple-400' : isPersonaLogChannel ? 'bg-amber-400' : 'bg-cyan-400 animate-pulse'
+                  isTeamChannel ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]' : isDirectChannel ? 'bg-purple-400' : isPersonaLogChannel ? 'bg-amber-400' : 'bg-cyan-400 animate-soft-badge-glow shadow-[0_0_6px_#22d3ee]'
                 }`} />
                 <span>
                   {isTeamChannel 
@@ -620,7 +736,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
         {isPersonaLogChannel && (
           <div className="px-4 py-1.5 bg-amber-950/40 border-b border-amber-500/30 text-[10.5px] font-mono text-amber-300/90 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Activity size={12} className="text-amber-400 animate-pulse" />
+              <Activity size={12} className="text-amber-400 animate-soft-back-glow" />
               <span>AUTOMATED ENGINE BLACKBOX — Read-only session telemetry for this persona.</span>
             </div>
             <span className="font-bold text-[9px] bg-amber-500/20 px-1.5 py-0.2 rounded border border-amber-500/40">
@@ -633,7 +749,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
         {pendingCharacterNotes.some(n => n.channelId !== activeChannel?.id) && (
           <div className="px-4 py-1.5 bg-slate-950 border-b border-amber-500/30 text-[10.5px] font-mono text-amber-200 flex items-center justify-between gap-2 shadow-sm">
             <div className="flex items-center gap-1.5 truncate">
-              <Radio size={12} className="text-amber-400 animate-pulse shrink-0" />
+              <Radio size={12} className="text-amber-400 animate-soft-back-glow shrink-0" />
               <span className="font-bold text-amber-300">PENDING TRANSMISSIONS:</span>
               <span className="truncate text-slate-300">
                 {pendingCharacterNotes.filter(n => n.channelId !== activeChannel?.id).map(n => `${n.name} (${n.count})`).join(' • ')}
@@ -669,7 +785,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 
           {!loading && messages.length === 0 && (
             <div className="py-24 text-center space-y-2 select-none">
-              <Radio size={28} className="mx-auto text-slate-600 animate-pulse" />
+              <Radio size={28} className="mx-auto text-slate-600 animate-soft-back-glow" />
               <p className="text-xs font-mono font-bold text-slate-400">Frequency Clear. No transmissions logged.</p>
               <p className="text-[11px] font-mono text-slate-600">Transmit a signal or execute a tactical check to begin.</p>
             </div>
@@ -708,8 +824,8 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
             return (
               <div
                 key={msg.id || idx}
-                className={`group relative rounded-r-lg border-y border-r border-slate-800/60 p-2 sm:p-2.5 transition-all hover:border-slate-700 hover:bg-slate-900/60 ${borderAccentClass} ${
-                  isGrouped ? 'mt-0.5 pt-1 border-t-transparent' : 'mt-2'
+                className={`group relative rounded-r-lg border-y border-r border-slate-800/60 px-2.5 pt-1.5 pb-1 sm:px-3 sm:pt-1.5 sm:pb-1 transition-all hover:border-slate-700 hover:bg-slate-900/60 ${borderAccentClass} ${
+                  isGrouped ? 'mt-0.5 pt-0.5 pb-1 border-t-transparent' : 'mt-1.5'
                 }`}
               >
                 {/* Floating Hover Action Bar (Clean, uncluttered, revealed on hover/focus) */}
@@ -775,7 +891,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
 
                 {/* Message Header (Shown only if NOT grouped consecutively) */}
                 {!isGrouped && (
-                  <div className="flex items-center justify-between gap-2 mb-1">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
                     <div className="flex items-center gap-2 flex-wrap min-w-0">
                       {/* Avatar Glyph */}
                       <div className={`w-5 h-5 rounded flex items-center justify-center shrink-0 font-mono font-bold text-[10px] border ${
@@ -1063,7 +1179,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between text-[10px] text-cyan-400 font-bold uppercase tracking-wider px-1">
                         <span className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
                           <span>ACTIVE OPERATORS ({filteredOnlineOps.length})</span>
                         </span>
                         <span className="text-[9px] text-slate-500">HoloNet</span>

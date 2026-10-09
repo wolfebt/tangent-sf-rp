@@ -39,6 +39,8 @@ import { useEngineStore, selectAllFusedTokens } from '../../engine/index';
 import { useUILayoutStore, type UserVttRole } from './store/uiLayoutStore';
 import { AudioService } from '../../services/audioService';
 import { VttEventBus } from '../../utils/vttEventBus';
+import { MobileTacticalBlocker } from '../StoryFoundry/MobileTacticalBlocker';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export interface TripartiteStageViewProps extends StageViewProps {
   defaultRole?: UserVttRole;
@@ -49,6 +51,12 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   defaultRole,
   ...props
 }) => {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileTacticalBlocker operation="vtt" onBack={props.onSwitchToWeaver} />;
+  }
+
   const [searchParams] = useSearchParams();
   const scenarioIdParam = searchParams.get('scenarioId') || undefined;
   const mapIdParam = searchParams.get('mapId') || undefined;

@@ -10,7 +10,6 @@ import { VoiceCommsBar } from './components/Chat/VoiceCommsBar';
 import { DiceProvider } from './context/DiceContext';
 import { ContextMenuProvider } from './context/ContextMenuContext';
 import { GlobalHUD } from './components/Layout/GlobalHUD';
-import { GlobalSideRail } from './components/Layout/GlobalSideRail';
 import { MobileBottomNav } from './components/Layout/MobileBottomNav';
 import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
@@ -120,11 +119,8 @@ export function App() {
                         isCommsDockOpen={isCommsDockOpen}
                       />
 
-                      {/* Persistent Body: Side Rail + Routed Workspace */}
+                      {/* Persistent Body: Routed Workspace */}
                       <div className="flex-1 min-h-0 w-full flex flex-row overflow-hidden relative">
-                        {/* Persistent Global Guidance Rail */}
-                        <GlobalSideRail />
-
                         {/* Main Routed Area */}
                         <main className="flex-1 min-w-0 h-full overflow-hidden relative pb-14 sm:pb-0">
                           <ErrorBoundary>

@@ -1455,14 +1455,14 @@ export const TacticalPlayView = ({
         rollMode: 'normal',
         characterName: charName,
         personaId: characterData['character-doc-id'] || characterData.id,
-        autoRoll: true
+        autoRoll: false
       });
     }
 
     window.dispatchEvent(new CustomEvent('vtt-trigger-floating-text', {
       detail: {
         text: `${charName}: ${label} [${result.total}]`,
-        type: result.isCritSuccess ? 'karma' : result.isCritFail ? 'crit_fail' : 'damage'
+        type: result.isCritSuccess ? 'critical' : result.isCritFail ? 'crit_fail' : 'damage'
       }
     }));
 
@@ -1534,10 +1534,10 @@ export const TacticalPlayView = ({
               )}
               {isPreview && (
                 <span 
-                  className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-950/80 border border-amber-500/60 text-amber-300 flex items-center gap-1 shadow-sm"
-                  title="Sheet is currently in Development Phase. You can test rolls and triage safely."
+                  className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950/80 border border-cyan-500/60 text-cyan-300 flex items-center gap-1 shadow-sm"
+                  title="Live tactical sheet for VTT engagement and action checks."
                 >
-                  <Eye size={10} className="text-amber-400" /> TACTICAL PREVIEW
+                  <Crosshair size={10} className="text-cyan-400" /> LIVE TACTICAL
                 </span>
               )}
             </div>
@@ -1546,8 +1546,8 @@ export const TacticalPlayView = ({
                 {characterData['char-species'] || 'Human'} • {characterData['char-archetype'] || 'Operative'} • {characterData['char-occu'] || 'Freelancer'}
               </p>
               {isPreview && (
-                <span className="hidden sm:inline text-[10.5px] font-mono text-amber-400/80">
-                  &bull; Development Phase (Testing Mode)
+                <span className="hidden sm:inline text-[10.5px] font-mono text-cyan-400/80">
+                  &bull; Live Tactical Sheet (VTT Ready)
                 </span>
               )}
             </div>

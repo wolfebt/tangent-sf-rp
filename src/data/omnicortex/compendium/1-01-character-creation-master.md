@@ -8,11 +8,29 @@ perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","core-rule"]
-updatedAt: "2026-09-14T16:40:07.811Z"
+updatedAt: "2026-10-09T07:59:56.587Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **CHARACTER CREATION**
@@ -87,9 +105,9 @@ Build Points (BP): Players are given **150 Build Points** at the start of charac
 
   These do not cost build points but will grant skills, features and traits. In total granting 60 skill ranks, 4 features and 4 traits to ground the character with baseline traits, these are not ‘bonus’ but are foundational traits the character will likely need or have gained from being established.
 
-* ## **Technology**
+* ## **Technology & Meta Level (Setting Tiers)**
 
-No BP cost at Tech 3, costs to be more advanced (+10 BP for TL4, \+20 BP for TL5 or \-10 per TL under 3).
+  Standard baseline is **Tech Level 3 (TL3)** and **Meta Level 3 (ML3)** at 0 CP. Identity pillars (Species, Faction, Origin, Occupation, Archetype) establish the persona's base levels; if multiple sources establish a level, the **highest value** is used. Scores under 3 award **+10 CP per level difference** (TL2/ML2 = +10 CP, TL1/ML1 = +20 CP, TL0/ML0 = +30 CP). Any increase over 3 costs **10 CP per level difference** (TL4/ML4 = 10 CP, TL5/ML5 = 20 CP). Lowered scores may be increased during character creation or later with advancement at a cost of 10 CP (2 AP) per level.
 
 * ## **Skills**
 
@@ -288,33 +306,31 @@ The **Occupation stage** of character creation in Tangent involves selecting an 
 
 # ---
 
-# **TECHNOLOGY**
+# **TECHNOLOGY & META LEVELS (SETTING TIERS)**
 
-The **Technology Level** stage of character creation in Tangent involves determining your character's access to and understanding of technology. This is influenced by their species and faction and has significant impacts on their skills, wealth, and available equipment.
+The **Setting Tiers** stage of character creation in Tangent establishes your character's foundational **Technology Level (TL)** and **Meta Level (ML)**:
 
-* ## **Skill Bonuses**
+* ## **Pillar Foundation & Conflict Resolution**
+  The persona's base Technology Level and Meta Level are established by their identity pillars—principally **Species** and **Faction**, with potential for Origin, Occupation, or Archetype pillars.
+  - If multiple identity pillars establish a Tech Level or Meta Level, **the highest value is used** to resolve the conflict.
+  - The universal galaxy baseline standard is **TL3 (Digital / Interplanetary)** and **ML3 (Standard Awakened)** at **0 CP**.
 
-  Characters gain specific bonuses to certain skills based on their technology level, reflecting the knowledge and expertise associated with that level of technological advancement.
+* ## **Point Economy (Awards and Costs)**
+  Setting Tiers dynamically adjust the character's available Character Points (CP):
+  - **Scores Under 3:** Award **+10 CP per level difference** below 3 (TL2/ML2 = +10 CP, TL1/ML1 = +20 CP, TL0/ML0 = +30 CP).
+  - **Scores Over 3:** Cost **10 CP per level difference** above 3 (TL4/ML4 = 10 CP, TL5/ML5 = 20 CP).
+  - **Upgrades & Advancement:** Lowered scores (or any score up to TL5 / ML5) may be upgraded during character creation or later during gameplay advancement at a cost of **10 CP (2 AP)** per level.
 
-* ## **Wealth Bonus**
-
-  Technology level also provides a wealth bonus, representing the increased access to resources and opportunities that come with advanced technology.
-
-* ## **Equipment and Improvements**
-
-  The availability of equipment, augmentations, and other technological enhancements is directly tied to a character's technology level. Higher technology levels unlock more advanced and powerful options.
-
-* ## **Skill Access**
-
-  The character's technology level may also limit their access to certain skills that require specific technological knowledge or training.
+* ## **Skill Bonuses, Wealth & Equipment**
+  - **Skill Proficiencies:** Reflect familiarity with tools, sciences, and metaphysics native to that tier.
+  - **Wealth Impact:** Higher tech societies confer greater baseline asset access, while lower tech tiers require specialized retrofitting.
+  - **Equipment Access:** Governs the complexity of cybernetics, weaponry, nanotech, and esoteric metaphysics an operative can operate without adaptation penalties.
 
 &nbsp;
 
 *Example:*
 
-*Being an Alterian from the Alterian Combine Xy'larra is both tech-savvy and magic-adept, seamlessly blending futuristic tools with arcane arts. Alterians are known for grace, agility, and magical talent, living in a Space Age society that values both innovation and tradition. She gains a \+25 Skills Points for skills of choice and has access to a full range of Meta training from her people due to its widespread use in Elven society.*
-
-- *Good time to pick up some other skills such as Alertness 5 and Unarmed 5, and she’ll add another 5 to Academics, Bluff and Diplomacy.*
+*Being an Alterian from the Alterian Combine, Xy'larra's species establishes TL3 and ML4, while her faction establishes TL3 and ML3. Resolving the conflict takes the highest value: Base TL3 (0 CP) and Base ML4 (10 CP cost). If she had come from an archaic TL1 world instead, she would have received +20 CP awarded to spend on other skills, attributes, or features, and could choose to upgrade her TL back toward galactic standard for 10 CP per level.*
 
 # 
 
@@ -467,16 +483,131 @@ Characters begin with simple possessions appropriate for their skills, abilities
 
 &nbsp;
 
-If a character wants additional or special equipment, weapons, armor, mecha, or mounts, there are two options:
+If a character wants additional or special equipment, weapons, armor, mecha, or mounts, there are several pathways:
 
-* Increase their Wealth score to buy the items  
-* Acquire the Benefit Feature \- This will give them access to replaceable equipment, which can range from enhanced gear to a starship.
+* **Wealth Score (Auto-Buy Leverage):** Acquire gear automatically using the character's baseline Wealth Score.
+* **Liquid Credits (Loot & Cash):** Purchase items by spending liquid currency, especially when bridging the Liquidity Gap for gear above their Wealth Score.
+* **Crafting & Productivity:** Fabricate equipment using personal or party engineering skills and tools via the Productivity Engine.
+* **Benefit Feature:** Acquire the Benefit Feature to gain institutional access to high-tier or replaceable equipment (from enhanced masterwork gear to a scout starship).
+
+&nbsp;
+
+### **DETERMINING STARTING WEALTH SCORE**
+
+A character's economic leverage is quantified by their **Wealth Score (WS)**, a composite rating reflecting credit history, social standing, salary, active investments, and extrinsic purchasing power. 
+
+$$\text{Starting Wealth Score (WS)} = \text{Occupation Base} + \text{Origin Modifier} + \text{Faction Modifier} + \text{Tech Level Modifier} + \text{Skill Ranks Bonus}$$
+
+Select the appropriate value from each category determined during character creation:
+
+#### **1. Occupation Wealth Base**
+
+| Occupation | Base WS | Occupation | Base WS |
+| :--- | :---: | :--- | :---: |
+| **Adept** | 4 | **Merchant** | 5 |
+| **Agent** | 2 | **Representative** | 6 |
+| **Builder** | 3 | **Scholar** | 3 |
+| **Citizen** | 2 | **Scout** | 1 |
+| **Criminal** | 4 | **Soldier** | 1 |
+| **Drifter** | 1 | **Specialist** | 3 |
+| **Entertainer** | 5 | | |
+
+#### **2. Origin Modifiers**
+
+| Origin | WS Modifier | Origin | WS Modifier |
+| :--- | :---: | :--- | :---: |
+| **Agricultural** | +0 | **Leisure** | +3 |
+| **Aquatic** | +1 | **Militaristic** | +0 |
+| **Colony** | +0 | **Research** | +2 |
+| **Enlightened** | +2 | **Spacer** | +1 |
+| **Industrial** | +2 | **Urban** | +1 |
+| **Others / Custom** | +0 to +3 | | |
+
+#### **3. Faction Modifiers**
+
+| Faction | WS Modifier | Faction | WS Modifier |
+| :--- | :---: | :--- | :---: |
+| **Alterian Combine** | +3 | **Entari Sovereignty** | +3 |
+| **Auluran / Kitin** | +2 | **Impyrium** | +3 |
+| **Ascendancy** | +4 | **Mekan Assembly** | +6 (Specialized) |
+| **Coalition** | +0 | **Syndicate Compact** | +4 |
+| **Dynasty** | +2 | **Outworlds / Independent** | +0 |
+| **Others / Custom** | +0 to +3 | | |
+
+#### **4. Tech Level (TL) Modifiers**
+
+| Tech Level | Era | WS Modifier |
+| :---: | :--- | :---: |
+| **TL 0** | Stone Age (Primitive) | -4 |
+| **TL 1** | Metal Age (Industrial) | -2 |
+| **TL 2** | Data Age (Digital) | +0 |
+| **TL 3** | Space Age (Stellar Baseline) | +2 |
+| **TL 4** | Stellar Age (Galactic / Warp) | +4 |
+| **TL 5** | Cosmic Age (Singularity / Genesis) | +8 |
+
+#### **5. Skill Ranks in Trade & Vocations**
+
+Characters practicing a trade, profession, or commercial enterprise earn bonuses to their Wealth Score based on their skill ranks:
+* **Primary Vocation Skill:** +1 WS per skill stage:
+  * *Novice (Rank 1–5):* +1 WS
+  * *Trained (Rank 6–10):* +2 WS
+  * *Expert (Rank 11–15):* +3 WS
+  * *Master (Rank 16–19):* +4 WS
+  * *Pinnacle (Rank 20):* +5 WS
+* **Trade Synergy:** One secondary skill at Rank 6+ aiding in commerce/trade may be counted per stage of the primary skill, granting an additional +1 WS per associated skill.
+* **Specialized Profession Multipliers:**
+  * **Performance Skills:** Double listed bonus when practiced professionally (+2 to +10 WS).
+  * **Medicine (Practicing Physician):** Double listed bonus (+2 to +10 WS; triple in medical scarcity zones).
+  * **Discipline Skills:** Metaphysical services command high demand, doubling listed bonuses (+2 to +10 WS).
+  * **Piloting & Combat Skills:** Standard to double bonus when regular commercial or mercenary employment is maintained.
+* *Untrained / Menial Workers:* Receive the baseline Middle Class pay of their society, adjusted downward for lower castes or impoverished regions.
+
+&nbsp;
+
+### **THE GOLDEN RULE OF TANGENT WEALTH**
+
+> **A character may automatically acquire any item with a Crafting DC equal to or less than their Wealth Score without depleting liquid Credits or reducing their Wealth Score.**
+
+Because an item's market value is derived directly from its operational Crafting DC via the Tangent Standard Curve ($\text{Value} = 10 \times 4^{(\text{DC}/5)}$), this aligns lifestyle abstraction with mathematical precision: **Purchase DC = Crafting DC**.
+
+### **THE LIQUIDITY GAP (THE GAP RULE)**
+
+When an operative seeks an item whose Crafting DC exceeds their Wealth Score, passive financial leverage cannot cover the full price. The operative must bridge the gap with liquid Credits (Loot/Savings):
+
+$$\text{Liquid Cash Cost} = \text{Market Value}(\text{Item DC}) - \text{Auto-Buy Limit}(\text{Character WS})$$
+
+*Example:* An Affluent operative (WS 15, Auto-Buy Limit ~640 Cr) purchasing an Advanced Stealth Suit (DC 18, Value ~1,470 Cr) applies their WS 15 leverage, requiring only $1,470 - 640 = 830\text{ Credits}$ in liquid cash.
+
+### **FINANCIAL STATUS HIERARCHY**
+
+| Wealth Score (WS) | Financial Status | Auto-Buy Limit | Est. Net Worth | Lifestyle Description |
+| :---: | :--- | :--- | :--- | :--- |
+| **0** | **Indebted** | 0 Cr | Negative | Debt slavery or prison. Survival depends on others. |
+| **1 – 4** | **Impoverished** | 10 – 30 Cr | < 500 Cr | Homeless / squatter. Scavenges for food; improvised gear. |
+| **5 – 9** | **Struggling** | 40 – 150 Cr | ~2,000 Cr | Shared room in slum. Public transit. Processed rations. |
+| **10 – 14** | **Middle Class** | 160 – 600 Cr | ~25,000 Cr | Private apartment, steady wage. Consumer vehicle. |
+| **15 – 19** | **Affluent** | 640 – 2,500 Cr | ~200,000 Cr | High-end condo. Quality personal vehicle. Professional services. |
+| **20 – 29** | **Wealthy** | 2.5K – 40K Cr | ~5 Million Cr | Large estate, servants. Minor corporate investor. |
+| **30 – 39** | **Hegemon** | 41K – 650K Cr | ~100 Million Cr | Penthouse suite. Owns small corp. Private shuttle. |
+| **40 – 49** | **Industrialist** | 650K – 10M Cr | ~2 Billion Cr | Megacorp executive. Owns starships (Corvettes). |
+| **50 – 59** | **Dynastic** | 10M – 167M Cr | ~50 Billion Cr | Nobility or megacorp CEO. Owns orbital habitats/fleets. |
+| **60 – 69** | **System Lord** | 167M – 2.6B Cr | ~500 Billion Cr | Rules a solar system. Can fund planetary colonization. |
+| **70 – 79** | **Sector Ruler** | 2.6B – 42B Cr | ~10 Trillion Cr | Rules a star cluster. Flagship is a Dreadnought. |
+| **80+** | **Faction Ruler** | 42B – 600B+ Cr | ~1 Quadrillion Cr | Galactic ruler / emperor. Post-scarcity megastructures. |
 
 &nbsp;
 
 *Example:*
 
-*As a diplomat and explorer, Xy'larra carries equipment tailored to her professional needs and nomadic lifestyle. She utilizes a secure, long-range Diplomatic Comm-Link, wears a stylish, light-weave armored garment that provides subtle protection, and carries a versatile morphic multi-device used for data analysis and field repairs (personal Wealth used for typical needs). Additionally, she has been granted access to a sleek, scout-class star yacht for her diplomatic missions and explorations (Benefit Feature).*
+*Xy'larra calculates her starting Wealth Score:*
+* *Occupation (Representative): Base WS 6*
+* *Origin (Spacer): Modifier +1*
+* *Faction (Alterian Enclave): Modifier +3*
+* *Technology Level (TL 3 Space Age): Modifier +2*
+* *Skills: Ambassador Vocation Rank 5 (Novice Stage +1) and Culture Rank 5 synergy (+1) = +2*
+* *Total Starting Wealth Score: $6 + 1 + 3 + 2 + 2 = \mathbf{14}$ (**Middle Class / Apex**, Auto-Buy Limit ~600 Cr).*
+
+*As a diplomat and explorer, Xy'larra carries equipment tailored to her professional needs and nomadic lifestyle. She utilizes a secure, long-range Diplomatic Comm-Link (DC 10, Auto-Buy), wears a stylish, light-weave armored garment that provides subtle protection (DC 10, Auto-Buy), and carries a versatile morphic multi-device used for data analysis and field repairs (DC 14, Auto-Buy). Additionally, she has been granted access to a sleek, scout-class star yacht for her diplomatic missions and explorations through her faction affiliation (Benefit Feature).*
 
 # 
 
@@ -638,7 +769,7 @@ Attribute checks add depth and versatility to the Tangent gameplay, allowing cha
 1. Determine the Relevant Attribute: Identify which Attribute Score corresponds to the action being attempted.  
 2. Calculate the Base Score: The base score for an Attribute Check is 2 \+ (Attribute Score x 2).  
 3. Apply Modifiers:  The GM may apply modifiers based on the difficulty of the task, environmental factors, or other relevant circumstances.  
-4. Roll the Die: roll 2d10 and add the result to the modified base score.  
+4. Roll the Dice: Roll 2d10 and add the result to the modified base score.  
 5. Compare to the Challenge Rating (CR): If the total equals or exceeds the CR set by the GM, the check is successful.
 
 &nbsp;
@@ -679,7 +810,7 @@ Skill Synergy can also come into play during attribute checks, offering characte
 
 &nbsp;
 
-When a character is subjected to a harmful effect that requires a saving throw, they can use a skill that is relevant to resisting or mitigating that effect. For example, a character with a high Medicine skill could use it to aid their Fortitude saving throw against a disease, or a character with a high Acrobatics skill could use it to aid their Reflex saving throw against a trap. Another example is using the Reason attribute synergizing with Linguistics to gain a bonus when deciphering ancient inscriptions. The player rolls for Linguistics (Intellect) for every 5 points scored over a CR 10 on the Linguistics check, a \+1 bonus is added to the Reason check. The final Linguistics result is then compared to the GM's DC to determine if the character successfully deciphers the inscription.&nbsp;
+When a character is subjected to a harmful effect that requires a saving throw, they can use a skill that is relevant to resisting or mitigating that effect. For example, a character with a high Medicine skill could use it to aid their Fortitude saving throw against a disease, or a character with a high Acrobatics skill could use it to aid their Reflex saving throw against a trap. Another example is using the Reason attribute synergizing with Linguistics to gain a bonus when deciphering ancient inscriptions. The player rolls for Linguistics (Intellect) for every 5 points scored over a CR 10 on the Linguistics check, a \+1 bonus is added to the Reason check. The final Linguistics result is then compared to the GM's CR to determine if the character successfully deciphers the inscription.&nbsp;
 
 The GM decides which skills are relevant and the bonus amount based on the situation. The skill chosen for synergy must have a clear and logical connection to the saving throw being attempted. This connection should be apparent and justifiable within the context of the situation.
 
@@ -929,7 +1060,7 @@ Other modifiers, such as those from gear, features, or special abilities, might 
 
 **Example**
 
-A character with a Stamina score of \+4 is exposed to a potent neurotoxin. The GM sets the CR for the Fortitude check at 18\. The character's base score for Fortitude checks is 10 (2 \+ 2 x 4). If there are no modifiers, the character needs to roll a 8 or higher on 2d10 to successfully resist the poison's effects.
+A character with a Stamina score of \+4 is exposed to a potent neurotoxin. The GM sets the CR for the Fortitude check at 18\. The character's base score for Fortitude checks is 10 (2 \+ 2 x 4). If there are no modifiers, the character needs to roll an 8 or higher on 2d10 to successfully resist the poison's effects.
 
 &nbsp;
 
@@ -1688,7 +1819,7 @@ Climbing movement in Tangent involves ascending or descending vertical surfaces,
 
 Standard pace on an Easy Climb (CR 10+), half the base walking speed, a Moderate Climb (CR 15+) would be a quarter and a Difficult Climb (CR 20+) could be a tenth. These difficulties may be modified by gear used and possible environmental conditions.
 
-Requires Athletics (Climbing) checks to avoid falling with the DC based on the surface of what is being scaled (plus any modifiers).
+Requires Athletics (Climbing) checks to avoid falling with the CR based on the surface of what is being scaled (plus any modifiers).
 
 &nbsp;
 
@@ -1990,24 +2121,6 @@ The experience system is designed to enhance the gaming experience by incentiviz
 &nbsp;
 
 &nbsp;
-
-
-
-## Canonical Mechanics
-Starting Build Points: 150 BP.
-Attributes: STR, AGI, STA, INT, WIS, CHA. Starting max +4 (paragon +5).
-Attribute Check Formula: Base = 2 + (Attribute * 2).
-Perception: INT + WIS (default Alertness; Attune for Meta; Insight for Social; Tech for Technical).
-Vitality & Health: Base 30 each, +5 per 1 BP, max 60 each.
-Karma: Base 3, reset per session.
-
-
-## Tactical Guide
-Follow step-by-step pipeline: Concept -> Ability Scores -> Species -> Faction -> Origin -> Occupation -> Technology -> Hindrances -> Features -> Skills -> Augmentations -> Property -> Derived Stats.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.01 CHARACTER CREATION.md
 
 ## Game Mechanics Rules
 ```

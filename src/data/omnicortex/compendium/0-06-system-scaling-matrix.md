@@ -8,11 +8,29 @@ perspective: "both"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","volume-0","scaling","size-categories","core-rule","1.10-scaling"]
-updatedAt: "2026-09-15T07:48:15.249Z"
+updatedAt: "2026-10-09T07:59:56.120Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # 0.06 System Scaling & 14-Tier Size Categories Matrix
@@ -35,16 +53,16 @@ This scaling system determines how a creature or object's size affects its attri
 | **Huge** | x5 | +4 | -4 | -8 | < 32 ft | < 16 tons | 15 ft |
 | **Gargantuan** | x10 | +8 | -8 | -16 | < 64 ft | < 125 tons | 20 ft |
 | **Colossal** | x20 | +16 | -16 | -32 | < 128 ft | < 1K tons | 25 ft |
-| **Enormous **** | x40 | +32 | -32 | NO | < 512 ft | < 16K tons | — |
-| **Titanic **** | x80 | +64 | -64 | NO | < 1,024 ft | < 144K tons | — |
-| **Super Gargantuan **** | x160 | +128 | -128 | NO | < 5,280 ft | < 50M tons | — |
-| **Mega Colossal **** | x320 | +256 | -256 | NO | 1 Mile+ | 50M tons+ | — |
+| **Enormous \*\*** | x40 | +32 | -32 | NO | < 512 ft | < 16K tons | — |
+| **Titanic \*\*** | x80 | +64 | -64 | NO | < 1,024 ft | < 144K tons | — |
+| **Super Gargantuan \*\*** | x160 | +128 | -128 | NO | < 5,280 ft | < 50M tons | — |
+| **Mega Colossal \*\*** | x320 | +256 | -256 | NO | 1 Mile+ | 50M tons+ | — |
 
-*** Die Steps (-1 to -5 ds):** Lowers the die side value accordingly:  
+**\* Die Steps (-1 to -5 ds):** Lowers the die side value accordingly:  
 d10 &rarr; d8, d8 &rarr; d6, d6 &rarr; d4, d4 &rarr; d3, d3 &rarr; d2, d2 &rarr; 1 point minimum.  
 Scaling Multipliers are applied to **Weapon Dice, Speed, Area, Ranges, and Carrying Capacity**.
 
-**** Starship Scale (Enormous+):** Modifiers are extreme vs. Medium targets.  
+**\*\* Starship Scale (Enormous+):** Modifiers are extreme vs. Medium targets.  
 - **Proximity Damage:** Overwhelming attacks from capital ships often simply vaporize small targets in the direct blast and **ALSO deal 1/10 Indirect Damage** (splash effect, debris, etc.) to targets not directly hit (within a radius equal to half the Strength Modifier in feet).  
 *(Example: A Titanic capital ship fires on a colony—the blast vaporizes small targets with an x80 damage multiplier and deals one-tenth of that damage to a 32-ft radius for overblast and debris).*
 

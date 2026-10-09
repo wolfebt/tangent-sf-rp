@@ -2,17 +2,35 @@
 id: "doc-architect-99-metaphysics-invocation-matrix-1"
 name: "99. METAPHYSICS, INVOCATION MATRIX (1) — INVOCATIONS FRAMEWORK"
 category: "architect_matrix"
-parent: "5.00 ARCHITECT & MODULAR MATRICES"
-order: 90
+parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
+order: 1
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
-tags: ["architect","core-rules","99. metaphysics, invocation matrix (1)","matrix"]
-updatedAt: "2026-09-15T07:48:15.262Z"
+cost: 0
+tags: ["architect","core-rules","source-of-truth","99. metaphysics, invocation matrix (1)","matrix"]
+updatedAt: "2026-10-09T07:59:56.581Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **INVOCATIONS FRAMEWORK**
@@ -374,4 +392,4 @@ See full canonical text in 99. METAPHYSICS, INVOCATION MATRIX (1).md
 Refer to 99. METAPHYSICS, INVOCATION MATRIX (1).md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 99. METAPHYSICS, INVOCATION MATRIX (1).md.
+Canonical Tangent SF RP rulebook reference from 99. METAPHYSICS, INVOCATION MATRIX (1).md. Complete, unabridged source of truth.

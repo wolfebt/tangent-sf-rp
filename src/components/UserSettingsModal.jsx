@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -23,18 +24,28 @@ import {
   AlertTriangle,
   Eye,
   Zap,
-  Save
+  Save,
+  Gauge,
+  Terminal,
+  Bell,
+  LogOut
 } from 'lucide-react';
 import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
+import { BannerMessageDisplay } from './Hub/BannerMessageDisplay';
 import { AudioService } from '../services/audioService';
 import { TelemetryService } from '../services/telemetryService';
 import { useConfirm } from '../context/ConfirmContext';
 import { useToast } from '../context/ToastContext';
 import { 
   BANNER_COLOR_THEMES, 
+  AVAILABLE_BANNER_COLORS,
   BANNER_SPEEDS, 
+  TICKER_SPEEDS,
+  BANNER_MODES,
   BANNER_PRESETS, 
+  DEFAULT_BANNER_CONFIG,
+  normalizeBannerLines,
   saveHomeBanner, 
   getCachedHomeBanner, 
   subscribeToHomeBanner 
@@ -47,10 +58,21 @@ const AI_PLATFORM_LABELS = {
   custom: 'Custom Local / Ollama'
 };
 
+const BANNER_ICON_COMPONENTS = {
+  Radio,
+  AlertTriangle,
+  Sparkles,
+  Shield,
+  Terminal,
+  Bell
+};
+
 export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
-  const { currentUser, refreshUserHandle, userRole, isAdmin, triggerBootSplash } = useAuth();
+  const navigate = useNavigate();
+  const { currentUser, refreshUserHandle, userRole, isAdmin, isGM, triggerBootSplash, confirmLogout } = useAuth() || {};
+  const canManageMarquee = Boolean(isAdmin || isGM || userRole === 'Admin' || userRole === 'GM' || !currentUser);
   const confirm = useConfirm();
-  const { showSuccessToast } = useToast();
+  const { showSuccessToast } = useToast() || {};
   
   // Navigation tab: 'identity' | 'audio' | 'ai' | 'manual' | 'system'
   const [activeTab, setActiveTab] = useState('identity');
@@ -78,7 +100,29 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   const [saveMessage, setSaveMessage] = useState('');
 
   // Tactical Home Marquee Broadcast (Admin / Developer Controls)
-  const [bannerForm, setBannerForm] = useState(getCachedHomeBanner);
+  const getInitialBannerFormState = (conf) => {
+    const normLines = normalizeBannerLines(conf);
+    return {
+      ...DEFAULT_BANNER_CONFIG,
+      ...conf,
+      line1: conf?.line1 ?? (normLines[0] || ''),
+      line2: conf?.line2 ?? (normLines[1] || ''),
+      line3: conf?.line3 ?? (normLines[2] || ''),
+      lines: normLines,
+      mode: conf?.mode || 'ticker',
+      speed: conf?.speed || 'normal',
+      tickerSpeed: conf?.tickerSpeed || 28,
+      colorTheme: conf?.colorTheme || 'cyan',
+      icon: conf?.icon || 'Radio',
+      badge: conf?.badge || 'TACTICAL BROADCAST',
+      linkLabel: conf?.linkLabel || '',
+      linkUrl: conf?.linkUrl || '',
+      allowDismiss: false
+    };
+  };
+
+  // Tactical Home Marquee Broadcast (Admin / Developer Controls)
+  const [bannerForm, setBannerForm] = useState(() => getInitialBannerFormState(getCachedHomeBanner()));
   const [isBannerSaving, setIsBannerSaving] = useState(false);
 
   // Hardware Profile & Graphics Telemetry
@@ -99,10 +143,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       setSaveMessage('');
 
       // Initialize Banner Form
-      setBannerForm(getCachedHomeBanner());
+      setBannerForm(getInitialBannerFormState(getCachedHomeBanner()));
       try {
         unsubBanner = subscribeToHomeBanner((conf) => {
-          setBannerForm(conf);
+          setBannerForm(getInitialBannerFormState(conf));
         });
       } catch (err) {
         console.warn("Banner subscription in settings modal warning:", err);
@@ -184,9 +228,31 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       localStorage.removeItem('tangent_dbm_cache');
       localStorage.removeItem('tangent_quick_notes');
       AudioService.playTerminalBeep(850, 0.05);
-      showSuccessToast("Local cache cleared successfully.");
+      showSuccessToast?.("Local cache cleared successfully.");
       setSaveMessage("Local cache cleared successfully.");
       setTimeout(() => setSaveMessage(""), 2000);
+    }
+  };
+
+  const handleExitApp = async () => {
+    AudioService.playTerminalBeep(900, 0.02);
+    if (confirmLogout) {
+      onClose();
+      await confirmLogout(navigate);
+    } else if (currentUser) {
+      onClose();
+      if (navigate) navigate('/');
+    } else {
+      const confirmed = await confirm({
+        title: 'Exit App',
+        message: 'Are you sure you want to disconnect and exit to the main terminal?',
+        confirmLabel: 'Exit App',
+        danger: false,
+      });
+      if (confirmed) {
+        onClose();
+        if (navigate) navigate('/');
+      }
     }
   };
 
@@ -223,9 +289,20 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       }
     }
 
-    if (isAdmin && bannerForm) {
+    if (canManageMarquee && bannerForm) {
       try {
-        await saveHomeBanner(bannerForm, currentUser);
+        const activeRaw = [bannerForm.line1, bannerForm.line2, bannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
+        const activeFiltered = activeRaw.filter(Boolean);
+        const payload = {
+          ...bannerForm,
+          line1: bannerForm.line1 || '',
+          line2: bannerForm.line2 || '',
+          line3: bannerForm.line3 || '',
+          lines: activeFiltered.length > 0 ? activeFiltered : [bannerForm.line1 || 'WELCOME TO TANGENT SF RP'],
+          message: activeFiltered.join(' // ') || bannerForm.line1 || 'WELCOME TO TANGENT SF RP',
+          allowDismiss: false
+        };
+        await saveHomeBanner(payload, currentUser);
       } catch (err) {
         console.warn("Failed saving banner in global settings save:", err);
       }
@@ -249,14 +326,22 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
   const handleApplyBannerPreset = (preset) => {
     AudioService.playTerminalBeep(1100, 0.02);
+    const norm = normalizeBannerLines(preset);
     setBannerForm(prev => ({
       ...prev,
-      badge: preset.badge,
-      message: preset.message,
-      colorTheme: preset.colorTheme,
-      mode: preset.mode,
-      speed: preset.speed,
-      icon: preset.icon
+      badge: preset.badge || prev.badge,
+      line1: preset.line1 ?? (norm[0] || ''),
+      line2: preset.line2 ?? (norm[1] || ''),
+      line3: preset.line3 ?? (norm[2] || ''),
+      lines: norm,
+      message: preset.message || norm.join(' // '),
+      colorTheme: preset.colorTheme || prev.colorTheme,
+      mode: preset.mode || prev.mode,
+      speed: preset.speed || prev.speed,
+      tickerSpeed: preset.tickerSpeed || prev.tickerSpeed,
+      icon: preset.icon || prev.icon,
+      linkLabel: preset.linkLabel ?? prev.linkLabel,
+      linkUrl: preset.linkUrl ?? prev.linkUrl
     }));
   };
 
@@ -264,8 +349,20 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
     AudioService.playTerminalBeep(1200, 0.04);
     setIsBannerSaving(true);
     try {
-      await saveHomeBanner(bannerForm, currentUser);
-      showSuccessToast('Broadcast marquee banner updated successfully!');
+      const activeRaw = [bannerForm.line1, bannerForm.line2, bannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
+      const activeFiltered = activeRaw.filter(Boolean);
+      const payload = {
+        ...bannerForm,
+        line1: bannerForm.line1 || '',
+        line2: bannerForm.line2 || '',
+        line3: bannerForm.line3 || '',
+        lines: activeFiltered.length > 0 ? activeFiltered : [bannerForm.line1 || 'WELCOME TO TANGENT SF RP'],
+        message: activeFiltered.join(' // ') || bannerForm.line1 || 'WELCOME TO TANGENT SF RP',
+        allowDismiss: false
+      };
+
+      await saveHomeBanner(payload, currentUser);
+      showSuccessToast?.('Broadcast marquee banner updated successfully!');
       setSaveMessage('Broadcast marquee updated successfully!');
       setTimeout(() => setSaveMessage(''), 2500);
     } catch (err) {
@@ -281,7 +378,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
     { id: 'ai', label: 'AI Neural Core', icon: Cpu, badge: aiPlatform },
     { id: 'manual', label: 'System Manual', icon: BookOpen },
     { id: 'system', label: 'System & Cache', icon: Settings },
-    ...(isAdmin ? [{ id: 'broadcast', label: 'Admin Marquee', icon: Radio, badge: 'GM/DEV' }] : [])
+    ...(canManageMarquee ? [{ id: 'broadcast', label: 'Admin Marquee', icon: Radio, badge: 'ADMIN' }] : [])
   ];
 
   return (
@@ -425,6 +522,27 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                     <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${currentUser ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-400'}`}>
                       {currentUser ? 'Cloud Synced' : 'Offline Mode'}
                     </span>
+                  </div>
+
+                  {/* Session Disconnect / Exit App Option */}
+                  <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-center justify-between">
+                    <div>
+                      <div className="font-mono text-xs font-bold text-slate-200 uppercase flex items-center gap-1.5">
+                        <LogOut size={13} className="text-red-400" />
+                        <span>Session &amp; Terminal Exit</span>
+                      </div>
+                      <div className="text-[10px] text-slate-400">
+                        {currentUser ? 'Disconnect from Terran Data Net and exit current session.' : 'Exit active session and return to main terminal.'}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleExitApp}
+                      className="px-3 py-1.5 bg-red-950/40 hover:bg-red-900/60 border border-red-500/40 hover:border-red-400 text-red-400 hover:text-red-300 rounded-xl font-mono text-xs font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(239,68,68,0.15)] shrink-0"
+                    >
+                      <LogOut size={13} />
+                      <span>Exit App</span>
+                    </button>
                   </div>
                 </div>
               )}
@@ -673,7 +791,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-                    {isAdmin && (
+                    {canManageMarquee && (
                       <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
                         <div>
                           <div className="font-mono text-xs font-bold text-cyan-300 uppercase flex items-center gap-1.5">
@@ -780,7 +898,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
               )}
 
               {/* 6. ADMIN & DEVELOPER BROADCAST MARQUEE TAB */}
-              {activeTab === 'broadcast' && isAdmin && (
+              {activeTab === 'broadcast' && canManageMarquee && (
                 <div className="space-y-4 animate-fadeIn">
                   <div className="flex items-center justify-between">
                     <div>
@@ -789,7 +907,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         <span>Tactical Broadcast Marquee</span>
                       </h4>
                       <p className="text-[11px] text-slate-400">
-                        Adjust the real-time sci-fi message banner on the Home page for all operatives.
+                        Configure up to 3 lines of text, character ticker effect with speed adjust, and 12 sci-fi color themes.
                       </p>
                     </div>
                     <span className="px-2 py-0.5 rounded text-[9.5px] font-mono font-bold bg-cyan-500/20 border border-cyan-500/50 text-cyan-300">
@@ -799,62 +917,77 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
                   {/* Live Interactive Preview Box */}
                   <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase tracking-widest font-mono">
-                      <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
-                        <Eye size={12} />
-                        LIVE PREVIEW (REAL-TIME RENDER)
-                      </span>
-                      <span>{bannerForm.mode === 'scrolling' ? `MARQUEE (${bannerForm.speed?.toUpperCase()})` : 'STATIC DISPLAY'}</span>
-                    </div>
-
                     {(() => {
                       const curTheme = BANNER_COLOR_THEMES[bannerForm.colorTheme] || BANNER_COLOR_THEMES.cyan;
-                      const IconComp = {
-                        Radio, AlertTriangle, Sparkles, Shield, Settings, Database
-                      }[bannerForm.icon] || Radio;
+                      const IconComp = BANNER_ICON_COMPONENTS[bannerForm.icon] || Radio;
+
+                      const rawLines = [bannerForm.line1, bannerForm.line2, bannerForm.line3].map(l => (typeof l === 'string' ? l : ''));
+                      const previewLines = rawLines.filter(l => l.trim().length > 0);
+                      const safePreview = previewLines.length > 0 ? previewLines : ['NO TRANSMISSION ENTERED'];
 
                       return (
-                        <div className={`relative overflow-hidden rounded-lg sm:rounded-xl border ${curTheme.border} ${curTheme.bg} ${curTheme.boxGlow} bg-[#060a14]/85 backdrop-blur-xl px-3 flex items-center transition-all duration-300 ${
-                          bannerForm.mode === 'static'
-                            ? 'w-full min-h-[36px] py-2'
-                            : 'w-full h-9 sm:h-10'
-                        }`}>
-                          <div className="flex items-center justify-center w-5 shrink-0 z-10 mr-2">
-                            <div className={`w-2 h-2 rounded-full ${curTheme.beacon} animate-pulse`} />
+                        <>
+                          <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase tracking-widest font-mono">
+                            <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
+                              <Eye size={12} />
+                              LIVE PREVIEW (REAL-TIME RENDER)
+                            </span>
+                            <span>
+                              {bannerForm.mode === 'ticker'
+                                ? `TICKER (${(bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28)}ms/char)`
+                                : bannerForm.mode === 'scrolling'
+                                  ? `MARQUEE (${bannerForm.speed?.toUpperCase()})`
+                                  : 'STATIC DISPLAY'}
+                            </span>
                           </div>
 
-                          <div className={`flex-1 overflow-hidden relative min-w-0 ${
-                            bannerForm.mode === 'static'
-                              ? 'flex items-center justify-center text-center py-0.5'
-                              : 'flex items-center whitespace-nowrap h-full'
+                          <div className={`relative overflow-hidden rounded-lg sm:rounded-xl border ${curTheme.border} ${curTheme.bg} ${curTheme.boxGlow} bg-[#060a14]/85 backdrop-blur-xl px-3 flex items-center justify-between gap-3 transition-all duration-300 w-full ${
+                            safePreview.length === 3
+                              ? 'min-h-[64px] sm:min-h-[72px] py-2'
+                              : safePreview.length === 2
+                                ? 'min-h-[48px] sm:min-h-[54px] py-1.5'
+                                : 'min-h-[38px] sm:min-h-[42px] py-1'
                           }`}>
-                            {bannerForm.mode === 'scrolling' ? (
-                              <div 
-                                className="animate-marquee-scifi text-[11px] sm:text-[12px] font-mono tracking-wide flex items-center whitespace-nowrap shrink-0"
-                                style={{ '--marquee-duration': BANNER_SPEEDS[bannerForm.speed]?.duration || '25s' }}
-                              >
-                                <span className={`mr-12 font-semibold whitespace-nowrap shrink-0 ${curTheme.text} ${curTheme.textGlow}`}>
-                                  {bannerForm.message || 'NO MESSAGE ENTERED'}
-                                </span>
-                                <span className={`mr-12 font-semibold whitespace-nowrap shrink-0 ${curTheme.text} ${curTheme.textGlow}`}>
-                                  {bannerForm.message || 'NO MESSAGE ENTERED'}
-                                </span>
-                              </div>
-                            ) : (
-                              <div className={`w-full text-center text-[11px] sm:text-[12px] font-mono whitespace-normal break-words leading-relaxed font-semibold ${curTheme.text} ${curTheme.textGlow}`}>
-                                {bannerForm.message || 'NO MESSAGE ENTERED'}
-                              </div>
-                            )}
-                          </div>
+                            {/* Top Accent Line */}
+                            <div className={`absolute top-0 left-4 right-4 h-[1px] opacity-60 ${curTheme.accentLine}`} />
 
-                          {bannerForm.linkLabel && (
-                            <div className="shrink-0 ml-3 z-10">
-                              <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${curTheme.text}`}>
-                                {bannerForm.linkLabel}
-                              </span>
+                            <div className="flex items-center gap-2 shrink-0 z-10">
+                              <div className="relative flex items-center justify-center">
+                                <span className={`w-2 h-2 rounded-full ${curTheme.beacon}`} />
+                                <span className={`absolute w-3.5 h-3.5 rounded-full ${curTheme.beacon} opacity-75 animate-ping`} />
+                              </div>
+
+                              {bannerForm.badge && (
+                                <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${curTheme.badgeBg}`}>
+                                  <IconComp size={12} className="shrink-0" />
+                                  <span className="whitespace-nowrap">{bannerForm.badge}</span>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
+
+                            <div className="flex-1 overflow-hidden relative mx-1 sm:mx-2 min-w-0">
+                              <BannerMessageDisplay
+                                lines={safePreview}
+                                mode={bannerForm.mode}
+                                speed={bannerForm.speed}
+                                tickerSpeed={bannerForm.tickerSpeed}
+                                theme={curTheme}
+                              />
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0 z-10">
+                              {bannerForm.linkLabel && (
+                                <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${curTheme.text} bg-black/40`}>
+                                  {bannerForm.linkLabel}
+                                </span>
+                              )}
+                              <div className="relative flex items-center justify-center w-4 shrink-0">
+                                <span className={`w-2 h-2 rounded-full ${curTheme.beacon}`} />
+                                <span className={`absolute w-3.5 h-3.5 rounded-full ${curTheme.beacon} opacity-75 animate-ping`} />
+                              </div>
+                            </div>
+                          </div>
+                        </>
                       );
                     })()}
                   </div>
@@ -901,80 +1034,188 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                     </button>
                   </div>
 
+                  {/* Up to 3 Lines of Text */}
+                  <div className="space-y-2 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                      <label className="text-[10.5px] font-mono text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
+                        <Layers size={13} />
+                        <span>Broadcast Transmission Lines (Up to 3 Lines)</span>
+                      </label>
+                      <span className="text-[10px] font-mono text-slate-500">
+                        {[bannerForm.line1, bannerForm.line2, bannerForm.line3].filter(l => l && l.trim()).length} Active
+                      </span>
+                    </div>
+
+                    {/* Line 1 */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                        <span className="font-bold text-slate-300">Line 1 (Primary Transmission) *</span>
+                        <span>{bannerForm.line1?.length || 0} chars</span>
+                      </div>
+                      <input
+                        type="text"
+                        value={bannerForm.line1 || ''}
+                        onChange={(e) => setBannerForm(prev => ({ ...prev, line1: e.target.value }))}
+                        placeholder="e.g. WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE"
+                        maxLength={140}
+                        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
+                      />
+                    </div>
+
+                    {/* Line 2 */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                        <span className="font-bold text-slate-300">Line 2 (Secondary Readout - Optional)</span>
+                        <span>{bannerForm.line2?.length || 0} chars</span>
+                      </div>
+                      <input
+                        type="text"
+                        value={bannerForm.line2 || ''}
+                        onChange={(e) => setBannerForm(prev => ({ ...prev, line2: e.target.value }))}
+                        placeholder="e.g. BASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED"
+                        maxLength={140}
+                        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
+                      />
+                    </div>
+
+                    {/* Line 3 */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                        <span className="font-bold text-slate-300">Line 3 (Tactical Sub-Readout - Optional)</span>
+                        <span>{bannerForm.line3?.length || 0} chars</span>
+                      </div>
+                      <input
+                        type="text"
+                        value={bannerForm.line3 || ''}
+                        onChange={(e) => setBannerForm(prev => ({ ...prev, line3: e.target.value }))}
+                        placeholder="e.g. SELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN"
+                        maxLength={140}
+                        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
+                      />
+                    </div>
+                  </div>
+
                   {/* Mode & Speed */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1.5">
                       <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
                         Display Mode
                       </label>
-                      <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-slate-950 border border-slate-800">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1000, 0.02);
-                            setBannerForm(prev => ({ ...prev, mode: 'scrolling' }));
-                          }}
-                          className={`py-1.5 rounded-lg text-center font-mono font-bold transition-all text-xs cursor-pointer ${
-                            bannerForm.mode === 'scrolling'
-                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
-                              : 'text-slate-400 hover:text-white'
-                          }`}
-                        >
-                          Scrolling Marquee
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1000, 0.02);
-                            setBannerForm(prev => ({ ...prev, mode: 'static' }));
-                          }}
-                          className={`py-1.5 rounded-lg text-center font-mono font-bold transition-all text-xs cursor-pointer ${
-                            bannerForm.mode === 'static'
-                              ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
-                              : 'text-slate-400 hover:text-white'
-                          }`}
-                        >
-                          Static Display
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
-                        Marquee Velocity
-                      </label>
-                      <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-slate-950 border border-slate-800">
-                        {Object.values(BANNER_SPEEDS).map((spd) => (
+                      <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-slate-950 border border-slate-800">
+                        {Object.values(BANNER_MODES).map((bm) => (
                           <button
-                            key={spd.id}
+                            key={bm.id}
                             type="button"
-                            disabled={bannerForm.mode !== 'scrolling'}
                             onClick={() => {
                               AudioService.playTerminalBeep(1000, 0.02);
-                              setBannerForm(prev => ({ ...prev, speed: spd.id }));
+                              setBannerForm(prev => ({ ...prev, mode: bm.id }));
                             }}
-                            className={`py-1.5 rounded-lg text-center font-mono font-bold text-xs transition-all cursor-pointer ${
-                              bannerForm.speed === spd.id && bannerForm.mode === 'scrolling'
-                                ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-                                : bannerForm.mode !== 'scrolling'
-                                  ? 'opacity-30 cursor-not-allowed text-slate-600'
-                                  : 'text-slate-400 hover:text-white'
+                            className={`py-1.5 px-1 rounded-lg text-center font-mono font-bold transition-all text-xs cursor-pointer ${
+                              bannerForm.mode === bm.id
+                                ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                                : 'text-slate-400 hover:text-white'
                             }`}
                           >
-                            {spd.label.split(' ')[0]}
+                            {bm.label.split(' ')[0]}
                           </button>
                         ))}
                       </div>
                     </div>
+
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold flex items-center gap-1">
+                          <Gauge size={12} className="text-cyan-400" />
+                          <span>{bannerForm.mode === 'ticker' ? 'Ticker Print Speed' : 'Marquee Velocity'}</span>
+                        </label>
+                        {bannerForm.mode === 'ticker' && (
+                          <span className="text-[10px] font-mono text-cyan-300">
+                            {bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28}ms / char
+                          </span>
+                        )}
+                      </div>
+
+                      {bannerForm.mode === 'static' ? (
+                        <div className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono text-slate-500 text-xs">
+                          Static Display (Velocity Inactive)
+                        </div>
+                      ) : bannerForm.mode === 'ticker' ? (
+                        <div className="space-y-2 p-1.5 rounded-xl bg-slate-950 border border-slate-800 font-mono">
+                          <div className="grid grid-cols-4 gap-1">
+                            {Object.values(TICKER_SPEEDS).map((spd) => (
+                              <button
+                                key={spd.id}
+                                type="button"
+                                onClick={() => {
+                                  AudioService.playTerminalBeep(1000, 0.02);
+                                  setBannerForm(prev => ({ ...prev, speed: spd.id, tickerSpeed: spd.interval }));
+                                }}
+                                className={`py-1 rounded text-center font-bold text-[11px] transition-all cursor-pointer ${
+                                  bannerForm.tickerSpeed === spd.interval || (bannerForm.speed === spd.id && !bannerForm.tickerSpeed)
+                                    ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                                    : 'text-slate-400 hover:text-white'
+                                }`}
+                              >
+                                {spd.label.split(' ')[0]}
+                              </button>
+                            ))}
+                          </div>
+                          {/* Slider */}
+                          <div className="px-1 flex items-center gap-2">
+                            <span className="text-[9.5px] text-slate-500">Fast</span>
+                            <input
+                              type="range"
+                              min={6}
+                              max={75}
+                              step={1}
+                              value={bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28}
+                              onChange={(e) => {
+                                const val = parseInt(e.target.value, 10);
+                                setBannerForm(prev => ({ ...prev, tickerSpeed: val }));
+                              }}
+                              className="flex-1 accent-cyan-400 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                            />
+                            <span className="text-[9.5px] text-slate-500">Slow</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-4 gap-1 p-1 rounded-xl bg-slate-950 border border-slate-800">
+                          {Object.values(BANNER_SPEEDS).map((spd) => (
+                            <button
+                              key={spd.id}
+                              type="button"
+                              onClick={() => {
+                                AudioService.playTerminalBeep(1000, 0.02);
+                                setBannerForm(prev => ({ ...prev, speed: spd.id }));
+                              }}
+                              className={`py-1.5 rounded-lg text-center font-mono font-bold text-xs transition-all cursor-pointer ${
+                                bannerForm.speed === spd.id
+                                  ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                                  : 'text-slate-400 hover:text-white'
+                              }`}
+                            >
+                              {spd.label.split(' ')[0]}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Color Palette */}
+                  {/* 12 Colors Palette */}
                   <div className="space-y-2">
-                    <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
-                      Sci-Fi Color Palette
-                    </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {Object.values(BANNER_COLOR_THEMES).map((theme) => {
+                    <div className="flex items-center justify-between">
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                        Sci-Fi Color Palette (12 Available Colors)
+                      </label>
+                      <span className="text-[10px] font-mono text-cyan-400 uppercase font-bold">
+                        {BANNER_COLOR_THEMES[bannerForm.colorTheme]?.label}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                      {AVAILABLE_BANNER_COLORS.map((colorKey) => {
+                        const theme = BANNER_COLOR_THEMES[colorKey];
+                        if (!theme) return null;
                         const isSelected = bannerForm.colorTheme === theme.id;
                         return (
                           <button
@@ -984,19 +1225,19 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                               AudioService.playTerminalBeep(1100, 0.02);
                               setBannerForm(prev => ({ ...prev, colorTheme: theme.id }));
                             }}
-                            className={`p-2.5 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
+                            className={`p-2 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
                               isSelected
-                                ? `${theme.border} ${theme.bg} ${theme.boxGlow} ring-1 ring-white/20`
+                                ? `${theme.border} ${theme.bg} ${theme.boxGlow} ring-1 ring-white/30`
                                 : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 opacity-70 hover:opacity-100'
                             }`}
                           >
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 min-w-0">
                               <span 
-                                className="w-3 h-3 rounded-full border border-white/30 shrink-0" 
+                                className="w-3.5 h-3.5 rounded-full border border-white/40 shrink-0 shadow-sm" 
                                 style={{ backgroundColor: theme.hex }}
                               />
-                              <span className={`text-[11px] font-mono font-bold ${theme.text}`}>
-                                {theme.label.split(' ')[0]}
+                              <span className={`text-[11px] font-mono font-bold truncate ${theme.text}`}>
+                                {theme.id.charAt(0).toUpperCase() + theme.id.slice(1)}
                               </span>
                             </div>
                             {isSelected && <Check size={13} className={theme.text} />}
@@ -1006,8 +1247,36 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                     </div>
                   </div>
 
-                  {/* Badge Text & Message */}
-                  <div className="space-y-3">
+                  {/* Category Icon and Badge Tag */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {/* Icon Picker */}
+                    <div className="space-y-1.5">
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                        Category Icon
+                      </label>
+                      <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-950 border border-slate-800 justify-between">
+                        {Object.entries(BANNER_ICON_COMPONENTS).map(([key, Comp]) => (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => {
+                              AudioService.playTerminalBeep(1100, 0.02);
+                              setBannerForm(prev => ({ ...prev, icon: key }));
+                            }}
+                            className={`p-2 rounded-lg transition-all cursor-pointer ${
+                              bannerForm.icon === key 
+                                ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.25)]' 
+                                : 'text-slate-400 hover:text-white'
+                            }`}
+                            title={key}
+                          >
+                            <Comp size={15} />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Badge Text */}
                     <div className="space-y-1.5">
                       <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
                         Badge Header Label
@@ -1021,20 +1290,33 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                         className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono uppercase"
                       />
                     </div>
+                  </div>
 
+                  {/* Optional Action CTA Link & Route Destination */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
-                          Broadcast Transmission Message
-                        </label>
-                        <span className="text-[10px] font-mono text-slate-500">{bannerForm.message?.length || 0} characters</span>
-                      </div>
-                      <textarea
-                        rows={2}
-                        value={bannerForm.message}
-                        onChange={(e) => setBannerForm(prev => ({ ...prev, message: e.target.value }))}
-                        placeholder="Enter message text... (Use // to separate bullet segments)"
-                        className="w-full px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono resize-none"
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                        Optional Target Route or URL
+                      </label>
+                      <input
+                        type="text"
+                        value={bannerForm.linkUrl || ''}
+                        onChange={(e) => setBannerForm(prev => ({ ...prev, linkUrl: e.target.value }))}
+                        placeholder="e.g. /comms or https://..."
+                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
+                        Button Label (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={bannerForm.linkLabel || ''}
+                        onChange={(e) => setBannerForm(prev => ({ ...prev, linkLabel: e.target.value.toUpperCase() }))}
+                        placeholder="e.g. OPEN COMMLINK"
+                        maxLength={24}
+                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono uppercase"
                       />
                     </div>
                   </div>
@@ -1065,25 +1347,38 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           )}
 
           {/* Footer Actions */}
-          <div className="p-4 sm:px-6 bg-slate-950/90 border-t border-cyan-900/60 flex justify-end gap-2.5 shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(900, 0.02);
-                onClose();
-              }}
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold uppercase transition-colors cursor-pointer"
-            >
-              Close
-            </button>
-            <button
-              type="button"
-              onClick={handleSave}
-              className="px-5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 rounded-xl text-xs font-mono font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(34,211,238,0.3)] hover:shadow-[0_0_18px_rgba(34,211,238,0.5)] transition-all cursor-pointer flex items-center gap-1.5"
-            >
-              <Check size={14} />
-              <span>Save Changes</span>
-            </button>
+          <div className="p-4 sm:px-6 bg-slate-950/90 border-t border-cyan-900/60 flex items-center justify-between gap-2.5 shrink-0">
+            <div>
+              <button
+                type="button"
+                onClick={handleExitApp}
+                className="px-3.5 py-2 bg-red-950/40 hover:bg-red-900/60 border border-red-500/50 hover:border-red-400 text-red-400 hover:text-red-300 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 shadow-[0_0_10px_rgba(239,68,68,0.2)]"
+                title="Disconnect & Exit App"
+              >
+                <LogOut size={14} />
+                <span>Exit App</span>
+              </button>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(900, 0.02);
+                  onClose();
+                }}
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold uppercase transition-colors cursor-pointer"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                className="px-5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 rounded-xl text-xs font-mono font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(34,211,238,0.3)] hover:shadow-[0_0_18px_rgba(34,211,238,0.5)] transition-all cursor-pointer flex items-center gap-1.5"
+              >
+                <Check size={14} />
+                <span>Save Changes</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

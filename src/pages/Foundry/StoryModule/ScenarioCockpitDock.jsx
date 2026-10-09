@@ -427,8 +427,8 @@ export const ScenarioCockpitDockPanel = ({
         setIsFileMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('pointerdown', handleClickOutside, true);
+    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
   }, []);
 
   const handleExportActive = () => {

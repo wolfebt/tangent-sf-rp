@@ -85,8 +85,8 @@ const MapToolbar = ({
         setIsViewMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('pointerdown', handleClickOutside, true);
+    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
   }, []);
 
   const currentMap = universeState.maps.find(m => m.id === activeMapId);

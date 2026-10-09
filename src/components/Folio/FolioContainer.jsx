@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useDice } from '../../context/DiceContext';
-import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save } from 'lucide-react';
+import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save, PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 import { Toast } from '../UI/Toast';
 import { useToast, showToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
-import FolioSidebar from './FolioSidebar';
+import { FolioSidebar } from './FolioSidebar';
 import IdentityTab from './tabs/IdentityTab';
 import CoreStatsTab from './tabs/CoreStatsTab';
 import SkillsTab from './tabs/SkillsTab';
@@ -49,7 +49,12 @@ const FolioContainer = () => {
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
   const confirm = useConfirm();
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768; // Mobile: rail is expanded by default when Folio opens
+    }
+    return false;
+  });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [viewMode, setViewMode] = useState('builder');
 
@@ -498,6 +503,7 @@ const FolioContainer = () => {
             onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
             onSave={handleManualSave}
             saveStatus={cloudSaveStatus}
+            onClose={() => setIsSidebarOpen(false)}
           />
         </div>
       )}
@@ -511,12 +517,23 @@ const FolioContainer = () => {
             <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-cyan-900/60 hover:border-cyan-500/60 rounded text-cyan-400 text-xs font-bold font-mono flex items-center gap-1 cursor-pointer transition-colors"
-                title="Toggle Sections Menu"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  setIsSidebarOpen(!isSidebarOpen);
+                }}
+                className={`w-9.5 h-9.5 min-w-[38px] min-h-[38px] aspect-square rounded-none flex flex-col items-center justify-center transition-all cursor-pointer select-none border-[3px] border-double shrink-0 ${
+                  isSidebarOpen
+                    ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_14px_rgba(34,211,238,0.55)]'
+                    : 'bg-[#090d16] hover:bg-cyan-950/80 border-cyan-400/80 hover:border-cyan-300 text-cyan-300 hover:text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+                }`}
+                style={{ borderStyle: 'double' }}
+                title={isSidebarOpen ? "Close Folio Guide Rail" : "Open Folio Guide Rail"}
+                aria-label="Toggle Folio Guide Rail"
               >
-                <span>☰</span>
-                <span className="text-[10px] uppercase">Menu</span>
+                {isSidebarOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
+                <span className="text-[7.5px] font-mono font-extrabold uppercase tracking-tight leading-none mt-0.5">
+                  RAIL
+                </span>
               </button>
               <button
                 type="button"
@@ -524,14 +541,14 @@ const FolioContainer = () => {
                   triggerSave();
                   setActiveTab('catalog');
                 }}
-                className="p-1 px-1.5 rounded text-xs font-mono font-bold uppercase text-slate-400 hover:text-cyan-300 bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-colors"
+                className="h-9.5 px-2 rounded-none text-xs font-mono font-bold uppercase text-slate-400 hover:text-cyan-300 bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-colors flex items-center justify-center"
                 title="Return to Catalog"
               >
                 &larr;
               </button>
             </div>
 
-            {/* Center: Builder vs Tactical Play Mode Switcher */}
+            {/* Center: Builder vs Tactical Mode Switcher */}
             <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 shrink-0 shadow-inner">
               <button
                 type="button"
@@ -552,8 +569,9 @@ const FolioContainer = () => {
                     ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
+                title="Switch to Live Tactical Sheet (VTT)"
               >
-                {isLocked ? '⚔️ Play' : '👁️ Test'}
+                ⚔️ Tactical
               </button>
             </div>
 
@@ -637,11 +655,23 @@ const FolioContainer = () => {
           <div className="md:hidden flex items-center justify-between px-3 py-1.5 bg-[#121824] border-b border-slate-800">
             <button
               type="button"
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="px-2.5 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setIsSidebarOpen(!isSidebarOpen);
+              }}
+              className={`w-9.5 h-9.5 min-w-[38px] min-h-[38px] aspect-square rounded-none flex flex-col items-center justify-center transition-all cursor-pointer select-none border-[3px] border-double shrink-0 ${
+                isSidebarOpen
+                  ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_14px_rgba(34,211,238,0.55)]'
+                  : 'bg-[#090d16] hover:bg-cyan-950/80 border-cyan-400/80 hover:border-cyan-300 text-cyan-300 hover:text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+              }`}
+              style={{ borderStyle: 'double' }}
+              title={isSidebarOpen ? "Close Folio Guide Rail" : "Open Folio Guide Rail"}
+              aria-label="Toggle Folio Guide Rail"
             >
-              <span>☰</span>
-              <span className="uppercase font-mono text-[10px]">Sections</span>
+              {isSidebarOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
+              <span className="text-[7.5px] font-mono font-extrabold uppercase tracking-tight leading-none mt-0.5">
+                RAIL
+              </span>
             </button>
             <span className="text-xs font-mono font-bold text-cyan-300 uppercase">
               Operative Catalog
@@ -744,8 +774,9 @@ const FolioContainer = () => {
                       ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-sm'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
+                  title="Switch to Live Tactical Sheet (VTT)"
                 >
-                  <span>{isLocked ? '⚔️ Tactical Play' : '👁️ Preview Tactical'}</span>
+                  <span>⚔️ Tactical</span>
                 </button>
               </div>
 

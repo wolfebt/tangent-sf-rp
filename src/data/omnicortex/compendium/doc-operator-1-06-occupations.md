@@ -2,17 +2,35 @@
 id: "doc-operator-1-06-occupations"
 name: "1.06 OCCUPATIONS — OCCUPATION"
 category: "operator_rule"
-parent: "1.00 OPERATOR CORE RULES"
-order: 90
+parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
+order: 1
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
-tags: ["operator","core-rules","1.06 occupations","mechanics"]
-updatedAt: "2026-09-15T07:48:15.258Z"
+cost: 0
+tags: ["operator","core-rules","source-of-truth","1.06 occupations","mechanics"]
+updatedAt: "2026-10-09T07:59:56.572Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **OCCUPATION**
@@ -68,15 +86,30 @@ Benefit of being known to do their job well.
 \# OCCUPATIONS IN TANGENT  
 Occupations represent a character’s formal training, professional history, and social role. During character creation, players select one Occupation, which provides the following structural elements:
 
-1\.  \*\*Professional Skills (20 SP Pool):\*\* Characters gain a pool of 20 Skill Points (SP) to distribute among the skills listed under their chosen Occupation's "Professional Skills" list.&nbsp;  
-    \* \*The Creation Cap:\* No skill may be raised above Rank 11 (Expert) using this pool during character creation.  
-    \* \*Recommended Creation limit:\* It is highly recommended that starting skills do not exceed Rank 6 (Trained/Professional) to ensure a balanced, versatile character sheet. A player may only raise a skill up to Rank 11 if dedication to a single, specialized discipline is a core pillar of the character's backstory and concept.  
-    \* \*Cost Note:\* 1 SP \= 1 Skill Rank.
+1.  **Professional Skills (20 SP Pool):** Characters gain a pool of 20 Skill Points (SP) to distribute among the skills listed under their chosen Occupation's "Professional Skills" list.  
+    * *The Creation Cap:* No skill may be raised above Rank 11 (Expert) using this pool during character creation.  
+    * *Recommended Creation limit:* It is highly recommended that starting skills do not exceed Rank 6 (Trained/Professional) to ensure a balanced, versatile character sheet. A player may only raise a skill up to Rank 11 if dedication to a single, specialized discipline is a core pillar of the character's backstory and concept.  
+    * *Cost Note:* 1 SP = 1 Skill Rank.
 
-2\.  \*\*Recommended Features (The Discount):\*\* Each Occupation lists specific Recommended Features. When purchasing these features during character creation or progression, their cost is reduced by 1 BP (standard cost is 3 BP; Recommended Features cost 2 BP).
+2.  **Recommended Features (The Discount):** Each Occupation lists specific Recommended Features. When purchasing these features during character creation or progression, their cost is reduced by 1 BP (standard cost is 3 BP; Recommended Features cost 2 BP).
 
-3\.  \*\*Occupational Traits:\*\* Players choose exactly two Traits from their Occupation’s trait list.&nbsp;  
-    \* \*Additional Traits:\* Characters may purchase additional traits from their own Occupation’s list for 2 BP each.
+3.  **Occupational Traits:** Players choose exactly two Traits from their Occupation’s trait list.  
+    * *Additional Traits:* Characters may purchase additional traits from their own Occupation’s list for 2 BP each.
+
+4.  **Base Wealth Score (WS):** Each Occupation anchors the character's baseline financial standing and purchasing power according to the Tangent Economic Unified Field Theory (EUFT):
+    * **Representative:** Base WS 6 (Apex political/diplomatic standing)
+    * **Merchant:** Base WS 5 (Commercial enterprise & capital leverage)
+    * **Entertainer:** Base WS 5 (Celebrity patronage & public bookings)
+    * **Adept:** Base WS 4 (Metaphysical expertise & arcane consulting)
+    * **Criminal:** Base WS 4 (Underworld liquidity & black-market fencing)
+    * **Builder:** Base WS 3 (Technical trades & manufacturing contracts)
+    * **Scholar:** Base WS 3 (Academic stipends & institutional grants)
+    * **Specialist:** Base WS 3 (Contract engineering & technical commissions)
+    * **Agent:** Base WS 2 (Operational expense accounts & field stipends)
+    * **Citizen:** Base WS 2 (Standard municipal wage & steady employment)
+    * **Drifter:** Base WS 1 (Transient gig economy & day labor)
+    * **Scout:** Base WS 1 (Frontier surveying & expedition bounties)
+    * **Soldier:** Base WS 1 (Military standard-issue ration & field pay)
 
 &nbsp;
 
@@ -2866,4 +2899,4 @@ See full canonical text in 1.06 OCCUPATIONS.md
 Refer to 1.06 OCCUPATIONS.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 1.06 OCCUPATIONS.md.
+Canonical Tangent SF RP rulebook reference from 1.06 OCCUPATIONS.md. Complete, unabridged source of truth.

@@ -6,7 +6,6 @@ import {
   Globe, 
   UserPlus, 
   Radio, 
-  Map, 
   Settings, 
   Plus,
   Volume2,
@@ -81,7 +80,7 @@ export const SquadsNavRail = ({
       sublabel: 'Join Codes & Dispatch',
       icon: UserPlus,
       badge: inviteCount > 0 ? `${inviteCount}!` : null,
-      badgeColor: 'bg-amber-500 text-black font-extrabold animate-pulse'
+      badgeColor: 'bg-amber-500 text-black font-extrabold animate-soft-badge-glow'
     },
     {
       id: 'comms',
@@ -90,16 +89,8 @@ export const SquadsNavRail = ({
       icon: Radio,
       badge: squadUnread > 0 ? `${squadUnread}` : (activeGroup?.channelId ? 'LIVE' : null),
       badgeColor: squadUnread > 0 
-        ? 'bg-amber-400 text-black font-extrabold animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.8)]' 
+        ? 'bg-amber-400 text-black font-extrabold animate-soft-badge-glow shadow-[0_0_8px_rgba(245,158,11,0.7)]' 
         : 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 text-[8px]'
-    },
-    {
-      id: 'tactical',
-      label: 'STAGE',
-      sublabel: 'Tactical VTT Deployment',
-      icon: Map,
-      badge: 'VTT',
-      badgeColor: 'bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8px]'
     },
     {
       id: 'settings',
@@ -122,8 +113,8 @@ export const SquadsNavRail = ({
           className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-950 via-slate-900 to-teal-950 border border-emerald-500/50 flex items-center justify-center cursor-pointer shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:scale-105 transition-all group"
           title={activeGroup ? `Active Squad: ${activeGroup.name}` : "Tangent Game Squads Station"}
         >
-          <Shield size={19} className="text-emerald-400 group-hover:animate-pulse" />
-          <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border-2 border-black animate-pulse" />
+          <Shield size={19} className="text-emerald-400 group-hover:animate-soft-badge-glow" />
+          <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border-2 border-black animate-soft-badge-glow" />
         </div>
 
         <div className="w-8 h-px bg-slate-800/80 my-0.5" />

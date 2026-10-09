@@ -19,9 +19,9 @@ import { AudioService } from '../../services/audioService';
 const NAV_ITEMS = [
   { id: 'hub',     icon: Compass,  label: 'HUB',     path: '/',                     color: 'cyan'    },
   { id: 'folio',   icon: Users,    label: 'FOLIO',   path: '/folio',                color: 'cyan'    },
-  { id: 'cortex',  icon: Database, label: 'CORTEX',  path: '/dbm',                  color: 'amber'   },
-  { id: 'ade',     icon: Layers,   label: 'ADE',     path: '/foundry/live-studio',  color: 'purple'  },
-  { id: 'network', icon: Radio,    label: 'NETWORK', path: '/network',              color: 'emerald' },
+  { id: 'cortex',  icon: Database, label: 'CORTEX',  path: '/dbm',      color: 'amber'   },
+  { id: 'ade',     icon: Layers,   label: 'ADE',     path: '/foundry',  color: 'purple'  },
+  { id: 'network', icon: Radio,    label: 'NETWORK', path: '/network',  color: 'emerald' },
 ];
 
 const COLOR_ACTIVE = {
@@ -146,8 +146,8 @@ export const MobileBottomNav = () => {
             )}
 
             {/* Icon + Badge */}
-            <div className={`relative flex items-center justify-center p-0.5 rounded-md transition-all ${
-              isCommsPulsing ? commsPulseClass : ''
+            <div className={`relative flex items-center justify-center p-0.5 rounded-md ${
+              isCommsPulsing ? `transition-none ${commsPulseClass}` : 'transition-all'
             }`}>
               <Icon size={16} className={`transition-transform ${isActive ? 'scale-110' : ''} ${isCommsPulsing ? 'text-current' : ''}`} />
               {badge !== null && (
@@ -155,7 +155,7 @@ export const MobileBottomNav = () => {
                   isComms && hasNewOperatorLogins && totalUnreadCount === 0
                     ? 'bg-emerald-400 text-black'
                     : 'bg-cyan-400 text-slate-950'
-                }`}>
+                } ${isCommsPulsing ? 'animate-soft-badge-glow' : ''}`}>
                   {badge > 9 ? '9+' : badge}
                 </span>
               )}

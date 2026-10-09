@@ -8,11 +8,29 @@ perspective: "both"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","volume-1","character-creation","core-rule"]
-updatedAt: "2026-09-15T07:48:15.249Z"
+updatedAt: "2026-10-09T07:59:56.120Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # 1.00 Character Creation System & 150 BP Economy
@@ -27,6 +45,7 @@ Every hero in Tangent starts with **150 Build Points (BP)** to shape their attri
 | **Ability Score** | **5 BP** per +1 Score | Max +4 (pre-species) | Base is +0. Negative scores rebate +5 BP. |
 | **Skill Rank** | **1 BP** per +1 Rank | Max Rank 6 (Max 11 with Architect approval) | Direct 1:1 rank increase. |
 | **Feature / Perk** | **3 BP** (2 BP if recommended) | Varies | 1 BP discount if on Faction, Origin, or Occupation list. |
+| **Setting Tiers (TL & ML)** | **10 CP** per level over 3 / **+10 CP Awarded** per level under 3 | TL 0–5, ML 0–5 | Baseline TL3 & ML3 (0 CP). Established by Identity Pillars (highest wins conflicts). Upgrades cost 10 CP (2 AP) per level. |
 | **Vitality Buffer** | **1 BP** per +5 Vitality | Max +20 Vitality bonus | Adds directly to base 30 Vitality. |
 | **Health Buffer** | **1 BP** per +5 Health | Max +15 Health bonus | Adds directly to base 30 Health. |
 | **Augmentation** | **1 BP** + Augmented Feature | Tech Level Dependent | Requires Augmented / Heavy / Severe feature. |
@@ -44,13 +63,18 @@ Additionally, choose **Two Origin Traits**, **Two Occupational Traits**, and **4
 
 ## Game Mechanics Rules
 ```
-Starting Budget: 150 BP
+Starting Budget: 150 BP / CP
 Foundation Packages: Faction (20 SP), Origin (20 SP), Occupation (20 SP) = 60 Free Skill Ranks + 4 Traits + 4 Features.
 Base Attributes: STR +0, AGI +0, STA +0, INT +0, WIS +0, CHA +0
+Setting Tiers Baseline: TL3 (0 CP) and ML3 (0 CP).
+Pillar Establishment: Species, Faction, Origin, Occupation, and Archetype establish base TL/ML.
+Conflict Resolution: Highest established value is used.
+Setting Tier Economy: Under 3 awards +10 CP per level difference (TL2 +10, TL1 +20, TL0 +30; ML2 +10, ML1 +20, ML0 +30). Over 3 costs 10 CP per level difference (TL4 10 CP, TL5 20 CP; ML4 10 CP, ML5 20 CP).
+Upgrades & Advancement: Lowered scores may be increased at base creation or during gameplay for 10 CP (2 AP) per level.
 ```
 
 ## Gameplay Instructions
 Follow the 6-step creation pipeline in the Persona Folio to assemble your operative.
 
 ## Designer Notes
-Attributes cost 5 BP per +1; Skills cost 1 BP per rank; Features cost 3 BP (2 BP discounted).
+Attributes cost 5 BP per +1; Skills cost 1 BP per rank; Features cost 3 BP (2 BP discounted); Setting Tiers standard baseline is TL3 / ML3 (0 CP difference), with +/- 10 CP per level delta and highest pillar priority.

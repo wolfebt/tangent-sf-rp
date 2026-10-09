@@ -113,7 +113,8 @@ export const ChatProvider = ({ children }) => {
 
   // When on comms and activeChannelId changes or on route enter, mark active channel as read
   useEffect(() => {
-    if (location.pathname.startsWith('/comms') && activeChannelId) {
+    const isCommsRoute = location.pathname.startsWith('/network') || location.pathname.startsWith('/comms');
+    if (isCommsRoute && activeChannelId) {
       markChannelAsRead(activeChannelId);
     }
   }, [location.pathname, activeChannelId, markChannelAsRead]);
@@ -256,7 +257,7 @@ export const ChatProvider = ({ children }) => {
       setUnreadCounts(prev => {
         const next = { ...prev };
         const isOnComms = typeof window !== 'undefined' && 
-          window.location.pathname.startsWith('/comms') && 
+          (window.location.pathname.startsWith('/network') || window.location.pathname.startsWith('/comms')) && 
           document.visibilityState === 'visible';
 
         combined.forEach(ch => {
@@ -355,7 +356,7 @@ export const ChatProvider = ({ children }) => {
 
         // If user is not currently viewing Comms or window is in background, track message as unseen
         const isViewing = typeof window !== 'undefined' && 
-          window.location.pathname.startsWith('/comms') && 
+          (window.location.pathname.startsWith('/network') || window.location.pathname.startsWith('/comms')) && 
           document.visibilityState === 'visible';
 
         if (!isViewing && isNotOwn) {
@@ -771,9 +772,16 @@ export const ChatProvider = ({ children }) => {
       : operatorHandle;
 
     const checkLabel = diceRollData.label ? `${diceRollData.label} ` : '';
-    const advTag = diceRollData.isAdvantage ? ' [Advantage: I Got This]' : diceRollData.isDisadvantage ? ' [Disadvantage: Negative Karma]' : '';
+    const advDiceCount = Number(diceRollData.advantageDice) || 0;
+    const advTag = advDiceCount !== 0 
+      ? ` [${advDiceCount > 0 ? `+${advDiceCount} Adv Pool` : `${advDiceCount} Disadv Pool`}]`
+      : diceRollData.isAdvantage 
+      ? ' [Advantage: I Got This]' 
+      : diceRollData.isDisadvantage 
+      ? ' [Disadvantage: Negative Karma]' 
+      : '';
     const payload = {
-      text: `${displayName} rolled ${checkLabel}(${diceRollData.expression || 'dice'})${advTag}: ${diceRollData.total ?? diceRollData.result}`,
+      text: `${displayName} rolled ${checkLabel}(${diceRollData.expression || 'dice'})${advTag}: ${diceRollData.finalTotal ?? diceRollData.total ?? diceRollData.result}${diceRollData.outcome ? ` [${diceRollData.outcome}]` : ''}`,
       type: 'dice_roll',
       senderId: currentUser?.uid || 'anon',
       senderUid: currentUser?.uid || null,
@@ -792,10 +800,24 @@ export const ChatProvider = ({ children }) => {
       } : null,
       metadata: {
         ...diceRollData,
-        result: diceRollData.total ?? diceRollData.result,
+        result: diceRollData.finalTotal ?? diceRollData.total ?? diceRollData.result,
+        finalTotal: diceRollData.finalTotal ?? diceRollData.total ?? diceRollData.result,
+        naturalTotal: diceRollData.naturalTotal,
+        dicePool: diceRollData.dicePool || diceRollData.rolls || [],
+        keptDice: diceRollData.keptDice || [],
+        appliedModifier: diceRollData.appliedModifier ?? diceRollData.modifier ?? 0,
+        critThreshold: diceRollData.critThreshold ?? 20,
+        fumbleThreshold: diceRollData.fumbleThreshold ?? 2,
+        critRangeSize: diceRollData.critRangeSize ?? 1,
+        fumbleRangeSize: diceRollData.fumbleRangeSize ?? 1,
+        advantageDice: advDiceCount,
+        flatModifier: diceRollData.flatModifier ?? diceRollData.appliedModifier ?? 0,
+        targetDC: diceRollData.targetDC ?? diceRollData.targetNumber ?? null,
+        outcome: diceRollData.outcome || null,
+        margin: diceRollData.margin ?? null,
         expression: diceRollData.expression || 'Custom Roll',
         rolls: diceRollData.rolls || [],
-        isCritical: diceRollData.isCritical || false,
+        isCritical: diceRollData.isCritical || diceRollData.isCrit || false,
         isFumble: diceRollData.isFumble || false,
         broadcastToVtt: Boolean(broadcastToVtt)
       }

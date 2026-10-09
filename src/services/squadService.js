@@ -57,7 +57,7 @@ export const SquadService = {
     const creatorMember = {
       userId: currentUser.uid,
       handle: userHandle,
-      role: 'GM', // 'GM' | 'Player' | 'Spectator'
+      role: 'Architect', // Creator is the Lead Architect
       joinedAt: new Date().toISOString(),
       persona: persona ? {
         id: persona['character-doc-id'] || persona.id,
@@ -457,7 +457,7 @@ export const SquadService = {
         const memberData = {
           userId: currentUser.uid,
           handle: userHandle,
-          role: 'Player',
+          role: 'Operator', // All other members are Operators by default
           isLockedForPlay: Boolean(isLockedForPlay),
           joinedAt: new Date().toISOString(),
           persona: persona ? {
@@ -556,7 +556,7 @@ export const SquadService = {
     const memberData = {
       userId: currentUser.uid,
       handle: userHandle,
-      role: 'Player',
+      role: 'Operator', // All other members are Operators by default
       isLockedForPlay: Boolean(isLockedForPlay),
       joinedAt: new Date().toISOString(),
       persona: persona ? {
@@ -792,15 +792,37 @@ export const SquadService = {
     }
   },
 
-  // 12. Update a member's operational role (GM, Co-GM, Player, Spectator)
-  async updateMemberRole({ groupId, userId, role }) {
+  // 12. Update a member's operational role (Architect, Co-Architect, Operator)
+  async updateMemberRole({ groupId, userId, role, currentUser }) {
     if (!groupId || !userId || !role) return;
+
+    // Normalize legacy roles
+    const normalizedRole = (role === 'GM' || role === 'Leader' || role === 'Lead Architect')
+      ? 'Architect'
+      : (role === 'Co-GM')
+      ? 'Co-Architect'
+      : (role === 'Player' || role === 'Spectator' || role === 'Observer')
+      ? 'Operator'
+      : role;
+
+    // If handing off the primary Lead Architect role
+    if (normalizedRole === 'Architect' && currentUser) {
+      return this.transferArchitectRole({ groupId, newArchitectUserId: userId, currentUser });
+    }
+
+    if (normalizedRole === 'Co-Architect') {
+      return this.setCoArchitect({ groupId, targetUserId: userId, isCoArchitect: true });
+    }
+
+    if (normalizedRole === 'Operator') {
+      await this.setCoArchitect({ groupId, targetUserId: userId, isCoArchitect: false });
+    }
 
     if (db) {
       try {
         const groupRef = doc(db, 'game_groups', groupId);
         await updateDoc(groupRef, {
-          [`memberDetails.${userId}.role`]: role,
+          [`memberDetails.${userId}.role`]: normalizedRole,
           updatedAt: new Date().toISOString()
         });
       } catch (err) {
@@ -816,7 +838,7 @@ export const SquadService = {
             ...g,
             memberDetails: {
               ...g.memberDetails,
-              [userId]: { ...g.memberDetails[userId], role }
+              [userId]: { ...g.memberDetails[userId], role: normalizedRole }
             }
           };
         }

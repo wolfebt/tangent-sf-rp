@@ -10,6 +10,8 @@ import { computeVisibilityPolygon } from '../../../services/raycastVisionService
 import { getBiomeTextureUrl } from './map/landmassGenerator';
 import { getTextureUrlFromColor } from './map/MapTextures';
 import { Maximize, Minimize, Compass, RotateCcw, Volume2, VolumeX, Shield, Swords, Eye } from 'lucide-react';
+import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
+import { useIsMobile } from '../../../hooks/useIsMobile';
 
 const SpectatorTerrainNode = ({ t }) => {
   const [patternImg, setPatternImg] = useState(null);
@@ -73,8 +75,21 @@ const SpectatorTerrainNode = ({ t }) => {
 };
 
 export const PlayerSpectatorView = () => {
+  const isMobile = useIsMobile();
   const { mapId } = useParams();
   const navigate = useNavigate();
+
+  if (isMobile) {
+    return (
+      <MobileTacticalBlocker
+        operation="vtt"
+        customTitle="Tactical Spectator Canvas"
+        customDescription="The Live VTT Spectator and Tactical Map Projector view is optimized for wide-format desktop displays and TV projections. It is currently unavailable on mobile screens."
+        onBack={() => navigate('/folio')}
+      />
+    );
+  }
+
   const { universeState } = useCampaign();
 
   const [mapData, setMapData] = useState(null);

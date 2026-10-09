@@ -295,18 +295,19 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
           {/* Interactive Initiative Check Roller */}
           <button
             type="button"
-            onClick={() => {
+            onClick={(e) => {
               openDiceRoller({
-                label: `${characterData['char-name'] || 'Operative'} Initiative Check`,
+                label: `Initiative ${initiativeTotal >= 0 ? `+${initiativeTotal}` : initiativeTotal}`,
                 baseModifier: initiativeTotal,
                 expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
                 rollMode: 'normal',
                 characterName: characterData['char-name'] || 'Operative',
-                autoRoll: true
+                personaId: characterData['character-doc-id'] || characterData.id,
+                autoRoll: e?.shiftKey || false
               });
             }}
             className="bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-lg border border-cyan-900 hover:border-cyan-500/60 flex items-center gap-1.5 transition-colors cursor-pointer group shadow-sm"
-            title="Roll Initiative Check (2d10 + Reflex)"
+            title={`Check Initiative (2d10 + ${initiativeTotal}). Shift-click to quick-roll.`}
           >
             <span className="text-slate-400 text-[10px] uppercase font-bold group-hover:text-cyan-300">Initiative:</span>
             <span className="text-amber-400 font-bold text-sm">+{initiativeTotal}</span>
@@ -633,19 +634,20 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   )}
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
                       const scoreVal = parseInt(att.score || 0, 10);
                       openDiceRoller({
-                        label: `${att.name || 'Weapon'} Attack Check`,
+                        label: `${att.name || 'Weapon'} Strike ${scoreVal >= 0 ? `+${scoreVal}` : scoreVal}`,
                         baseModifier: scoreVal,
                         expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
                         rollMode: 'normal',
                         characterName: characterData['char-name'] || 'Operative',
-                        autoRoll: true
+                        personaId: characterData['character-doc-id'] || characterData.id,
+                        autoRoll: e?.shiftKey || false
                       });
                     }}
                     className="p-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 rounded transition-all shrink-0 cursor-pointer"
-                    title={`Roll Attack Check (2d10 + ${att.score || 0})`}
+                    title={`Check Attack (2d10 + ${att.score || 0}). Shift-click to quick-roll.`}
                   >
                     <Dices size={13} />
                   </button>
@@ -668,14 +670,15 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   {att.damage && (
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={(e) => {
                         openDiceRoller({
                           label: `${att.name || 'Weapon'} Damage`,
                           expression: att.damage,
                           baseModifier: 0,
                           rollMode: 'normal',
                           characterName: characterData['char-name'] || 'Operative',
-                          autoRoll: true
+                          personaId: characterData['character-doc-id'] || characterData.id,
+                          autoRoll: e?.shiftKey || false
                         });
                       }}
                       className="p-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 rounded transition-all shrink-0 cursor-pointer"
@@ -715,19 +718,20 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                 <div className="col-span-2 flex items-center justify-end gap-1">
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
                       const scoreVal = parseInt(att.score || 0, 10);
                       openDiceRoller({
-                        label: `${att.name || 'Weapon'} Attack Check`,
+                        label: `${att.name || 'Weapon'} Strike ${scoreVal >= 0 ? `+${scoreVal}` : scoreVal}`,
                         baseModifier: scoreVal,
                         expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
                         rollMode: 'normal',
                         characterName: characterData['char-name'] || 'Operative',
-                        autoRoll: true
+                        personaId: characterData['character-doc-id'] || characterData.id,
+                        autoRoll: e?.shiftKey || false
                       });
                     }}
                     className="px-1.5 py-1 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-0.5"
-                    title={`Roll Attack Check (2d10 + ${att.score || 0})`}
+                    title={`Check Attack (2d10 + ${att.score || 0}). Shift-click to quick-roll.`}
                   >
                     <Dices size={10} className="text-cyan-400" />
                     <span>Check</span>
@@ -735,14 +739,15 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   {att.damage && (
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={(e) => {
                         openDiceRoller({
                           label: `${att.name || 'Weapon'} Damage`,
                           expression: att.damage,
                           baseModifier: 0,
                           rollMode: 'normal',
                           characterName: characterData['char-name'] || 'Operative',
-                          autoRoll: true
+                          personaId: characterData['character-doc-id'] || characterData.id,
+                          autoRoll: e?.shiftKey || false
                         });
                       }}
                       className="px-1.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-0.5"

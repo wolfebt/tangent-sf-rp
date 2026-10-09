@@ -143,9 +143,11 @@ export const GuidanceRail = ({
 
                 {/* Color-Coded Icon Container Box (Matching Top Button Badges) */}
                 <div 
-                  className={`relative w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                  className={`relative w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-lg flex items-center justify-center shrink-0 border ${
+                    item.pulse ? 'transition-none' : 'transition-all'
+                  } ${
                     item.pulse
-                      ? `${item.pulseClass || 'animate-nav-pulse-amber'} ${isActive ? theme.activeBtn : ''}`
+                      ? `${item.pulseClass || 'animate-nav-pulse-amber'} ${isActive ? 'bg-slate-900/60' : ''}`
                       : isActive 
                       ? theme.activeBox 
                       : theme.iconBox

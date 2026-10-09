@@ -16,9 +16,9 @@ export const useToast = () => {
  * Singleton toast helper that can be called from anywhere,
  * including non-React utilities or contexts without hook dependencies.
  */
-export const showToast = (options) => {
+export const showToast = (options, maybeType) => {
   if (_globalToastDispatcher) {
-    return _globalToastDispatcher(typeof options === 'string' ? { text: options } : options);
+    return _globalToastDispatcher(options, maybeType);
   }
   if (typeof options === 'string') {
     console.log(`[Toast] ${options}`);
@@ -26,6 +26,11 @@ export const showToast = (options) => {
     console.log(`[Toast ${options?.type || 'info'}] ${options?.title ? options.title + ': ' : ''}${options?.text || ''}`);
   }
 };
+
+export const showSuccessToast = (text, title) => showToast(typeof text === 'object' ? { type: 'success', ...text } : { type: 'success', text, title });
+export const showErrorToast = (text, title) => showToast(typeof text === 'object' ? { type: 'error', ...text } : { type: 'error', text, title });
+export const showWarningToast = (text, title) => showToast(typeof text === 'object' ? { type: 'warning', ...text } : { type: 'warning', text, title });
+export const showInfoToast = (text, title) => showToast(typeof text === 'object' ? { type: 'info', ...text } : { type: 'info', text, title });
 
 let _toastId = 0;
 
@@ -36,7 +41,26 @@ export const ToastProvider = ({ children }) => {
     setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
-  const toast = useCallback(({ type = 'info', title, text, autoDismissMs = 4000 }) => {
+  const toast = useCallback((options, maybeType) => {
+    let type = 'info';
+    let title = undefined;
+    let text = '';
+    let autoDismissMs = 4000;
+
+    if (typeof options === 'string') {
+      text = options;
+      if (typeof maybeType === 'string') {
+        type = maybeType;
+      }
+    } else if (options && typeof options === 'object') {
+      type = options.type || 'info';
+      title = options.title;
+      text = options.text || options.message || '';
+      if (typeof options.autoDismissMs === 'number') {
+        autoDismissMs = options.autoDismissMs;
+      }
+    }
+
     const id = ++_toastId;
     setToasts(prev => [...prev, { id, type, title, text, autoDismissMs }]);
     if (autoDismissMs > 0) {
@@ -46,6 +70,11 @@ export const ToastProvider = ({ children }) => {
     }
     return id;
   }, []);
+
+  const showSuccessToast = useCallback((msg, title) => toast(typeof msg === 'object' ? { type: 'success', ...msg } : { type: 'success', text: msg, title }), [toast]);
+  const showErrorToast = useCallback((msg, title) => toast(typeof msg === 'object' ? { type: 'error', ...msg } : { type: 'error', text: msg, title }), [toast]);
+  const showWarningToast = useCallback((msg, title) => toast(typeof msg === 'object' ? { type: 'warning', ...msg } : { type: 'warning', text: msg, title }), [toast]);
+  const showInfoToast = useCallback((msg, title) => toast(typeof msg === 'object' ? { type: 'info', ...msg } : { type: 'info', text: msg, title }), [toast]);
 
   useEffect(() => {
     _globalToastDispatcher = toast;
@@ -57,7 +86,15 @@ export const ToastProvider = ({ children }) => {
   }, [toast]);
 
   return (
-    <ToastContext.Provider value={{ toast, dismiss }}>
+    <ToastContext.Provider value={{
+      toast,
+      dismiss,
+      showToast: toast,
+      showSuccessToast,
+      showErrorToast,
+      showWarningToast,
+      showInfoToast
+    }}>
       {children}
       {typeof document !== 'undefined' && createPortal(
         <div 

@@ -11,7 +11,11 @@ import {
   FACTION_WEALTH_MODS,
   TECH_LEVELS,
   WORLD_TRADE_CODES,
-  COMMODITIES
+  COMMODITIES,
+  OCCUPATION_WEALTH_BASE,
+  ORIGIN_WEALTH_MODS,
+  SKILL_STAGE_WEALTH_BONUS,
+  QUALIFYING_WEALTH_SKILLS
 } from './tangentConstants.js';
 
 /**
@@ -227,13 +231,256 @@ export function calculateStartingWealth({
 
   return {
     computedWS: totalWS,
+    wealthScore: totalWS,
     status,
+    statusName: status?.name || 'Middle Class',
+    autoBuyCr: status?.autoBuyCr ?? calculateCreditValue(totalWS),
+    creditValue: calculateCreditValue(totalWS),
     breakdown: {
       occupationBase: baseWS,
       originMod,
       factionMod: fMod,
       tlMod: tMod,
       skillRanks
+    }
+  };
+}
+
+/**
+ * Calculate full character Wealth Score (WS), Financial Status ranking, and Credit Auto-Buy Limit
+ * from live character data (identity fields, origin, faction, tech level, skills, and manual adjustments).
+ * @param {object} characterData - Folio character data object
+ * @returns {{
+ *   computedWS: number,
+ *   wealthScore: number,
+ *   status: typeof FINANCIAL_STATUS_TABLE[0],
+ *   statusName: string,
+ *   autoBuyCr: number,
+ *   creditValue: number,
+ *   breakdown: {
+ *     occupation: string,
+ *     occupationBase: number,
+ *     origin: string,
+ *     originMod: number,
+ *     faction: string,
+ *     factionMod: number,
+ *     techLevel: number,
+ *     tlMod: number,
+ *     qualifyingSkill: string|null,
+ *     highestSkillRank: number,
+ *     skillStage: string,
+ *     skillBonus: number,
+ *     customMod: number
+ *   }
+ * }}
+ */
+export function calculateCharacterWealth(characterData = {}) {
+  // Extract liquid credits, trade goods & debits totals
+  const rawCredits = characterData['credits'] ?? characterData['wealth-credits'] ?? 0;
+  const liquidCredits = Math.max(0, parseInt(rawCredits, 10) || 0);
+
+  let tradeGoods = [];
+  const rawGoods = characterData['trade-goods'] ?? characterData['wealth-trade-goods'];
+  if (Array.isArray(rawGoods)) {
+    tradeGoods = rawGoods;
+  } else if (typeof rawGoods === 'string' && rawGoods.trim()) {
+    try {
+      const parsed = JSON.parse(rawGoods);
+      if (Array.isArray(parsed)) tradeGoods = parsed;
+    } catch {}
+  }
+  const totalTradeGoodsCr = tradeGoods.reduce((sum, item) => sum + (Number(item?.creditValue) || 0), 0);
+  const totalLiquidCr = liquidCredits + totalTradeGoodsCr;
+
+  let debits = [];
+  const rawDebits = characterData['debits'] ?? characterData['wealth-debits'];
+  if (Array.isArray(rawDebits)) {
+    debits = rawDebits;
+  } else if (typeof rawDebits === 'string' && rawDebits.trim()) {
+    try {
+      const parsed = JSON.parse(rawDebits);
+      if (Array.isArray(parsed)) debits = parsed;
+    } catch {}
+  }
+  const totalDebtCr = debits.reduce((sum, item) => sum + (Number(item?.amount) || 0), 0);
+  const netLiquidPosition = totalLiquidCr - totalDebtCr;
+
+  // If character has an explicit manual override score defined
+  const explicitWS = characterData['wealth-score-override'] ?? characterData.wealthScoreOverride;
+  if (explicitWS !== undefined && explicitWS !== null && explicitWS !== '') {
+    const forcedWS = Math.max(0, parseInt(explicitWS, 10) || 0);
+    const forcedStatus = getFinancialStatus(forcedWS);
+    return {
+      computedWS: forcedWS,
+      wealthScore: forcedWS,
+      status: forcedStatus,
+      statusName: forcedStatus?.name || 'Middle Class',
+      autoBuyCr: forcedStatus?.autoBuyCr ?? calculateCreditValue(forcedWS),
+      creditValue: calculateCreditValue(forcedWS),
+      liquidCredits,
+      tradeGoods,
+      totalTradeGoodsCr,
+      totalLiquidCr,
+      debits,
+      totalDebtCr,
+      netLiquidPosition,
+      breakdown: {
+        occupation: 'Custom Override',
+        occupationBase: forcedWS,
+        origin: 'N/A',
+        originMod: 0,
+        faction: 'N/A',
+        factionMod: 0,
+        techLevel: 3,
+        tlMod: 0,
+        qualifyingSkill: null,
+        highestSkillRank: 0,
+        skillStage: 'None',
+        skillBonus: 0,
+        customMod: 0
+      }
+    };
+  }
+
+  // 1. Occupation Base WS (WS 1 - 6)
+  const occuRaw = characterData['char-occu'] || characterData.occupation || '';
+  let occuBase = 2; // Default baseline (Citizen)
+  let occuName = 'Citizen';
+  
+  if (occuRaw) {
+    const rawClean = String(occuRaw).trim().toLowerCase();
+    for (const [key, val] of Object.entries(OCCUPATION_WEALTH_BASE)) {
+      if (rawClean.includes(key.toLowerCase()) || key.toLowerCase().includes(rawClean)) {
+        occuBase = val;
+        occuName = key;
+        break;
+      }
+    }
+  }
+
+  // 2. Origin Wealth Modifier (+0 to +3)
+  const originRaw = characterData['char-origin'] || characterData.origin || '';
+  let originMod = 0;
+  let originName = 'Standard';
+  if (originRaw) {
+    const rawClean = String(originRaw).trim().toLowerCase();
+    for (const [key, val] of Object.entries(ORIGIN_WEALTH_MODS)) {
+      if (rawClean.includes(key.toLowerCase()) || key.toLowerCase().includes(rawClean)) {
+        originMod = val;
+        originName = key;
+        break;
+      }
+    }
+  }
+
+  // 3. Faction Wealth Modifier (+0 to +6)
+  const factionRaw = characterData['char-faction'] || characterData.faction || '';
+  let factionMod = 0;
+  let factionName = 'Coalition';
+  if (factionRaw) {
+    const rawClean = String(factionRaw).trim().toLowerCase();
+    for (const [key, val] of Object.entries(FACTION_WEALTH_MODS)) {
+      if (rawClean.includes(key.toLowerCase()) || key.toLowerCase().includes(rawClean)) {
+        factionMod = val;
+        factionName = key;
+        break;
+      }
+    }
+  }
+
+  // 4. Tech Level Modifier (-4 to +8)
+  const tlRaw = characterData['tech-level'] ?? characterData.techLevel ?? 3;
+  const tl = Math.max(0, Math.min(5, parseInt(tlRaw, 10) || 0));
+  const tlMod = TECH_LEVELS[tl]?.wealthMod ?? 0;
+
+  // 5. Vocation / Commercial Skill Bonus (Highest qualifying skill rank stage)
+  let maxQualifyingRank = 0;
+  let qualifyingSkillName = null;
+
+  // Scan skill fields in characterData (e.g. skill-vocation-rank, skill-trade-rank, etc.)
+  for (const [key, val] of Object.entries(characterData)) {
+    if (key.startsWith('skill-') && key.endsWith('-rank')) {
+      const rank = parseInt(val, 10) || 0;
+      if (rank > 0) {
+        const cleanKey = key.replace(/^skill-/, '').replace(/-rank$/, '').toLowerCase();
+        const matches = QUALIFYING_WEALTH_SKILLS.some(qs => cleanKey.includes(qs));
+        if (matches && rank > maxQualifyingRank) {
+          maxQualifyingRank = rank;
+          qualifyingSkillName = cleanKey.replace(/[-_]/g, ' ');
+        }
+      }
+    }
+  }
+
+  // Also scan array of skills if present (e.g. characterData.skills)
+  if (Array.isArray(characterData.skills)) {
+    characterData.skills.forEach(s => {
+      const rank = parseInt(s?.rank || s?.value || 0, 10);
+      const name = String(s?.name || s?.id || '').toLowerCase();
+      if (rank > 0 && QUALIFYING_WEALTH_SKILLS.some(qs => name.includes(qs))) {
+        if (rank > maxQualifyingRank) {
+          maxQualifyingRank = rank;
+          qualifyingSkillName = s?.name || name;
+        }
+      }
+    });
+  }
+
+  // Check explicit skillRanks or skillBonus override if provided
+  if (characterData.skillRanks && Number(characterData.skillRanks) > maxQualifyingRank) {
+    maxQualifyingRank = Number(characterData.skillRanks);
+  }
+
+  // Map highest qualifying skill rank to Rank Stage Wealth Bonus (+1 to +5)
+  let skillBonus = 0;
+  let skillStageName = 'None';
+  for (const stage of SKILL_STAGE_WEALTH_BONUS) {
+    if (maxQualifyingRank >= stage.minRank) {
+      skillBonus = stage.bonus;
+      skillStageName = stage.stage;
+    }
+  }
+
+  // 6. Custom / Manual Wealth Modifier
+  const customMod = parseInt(
+    characterData['wealth-score-mod'] ?? characterData['wealth-mod'] ?? characterData.wealthMod ?? 0,
+    10
+  ) || 0;
+
+  // Total Wealth Score
+  const totalWS = Math.max(0, occuBase + originMod + factionMod + tlMod + skillBonus + customMod);
+  const status = getFinancialStatus(totalWS);
+  const autoBuyCr = status?.autoBuyCr ?? calculateCreditValue(totalWS);
+  const creditValue = calculateCreditValue(totalWS);
+
+  return {
+    computedWS: totalWS,
+    wealthScore: totalWS,
+    status,
+    statusName: status?.name || 'Middle Class',
+    autoBuyCr,
+    creditValue,
+    liquidCredits,
+    tradeGoods,
+    totalTradeGoodsCr,
+    totalLiquidCr,
+    debits,
+    totalDebtCr,
+    netLiquidPosition,
+    breakdown: {
+      occupation: occuName,
+      occupationBase: occuBase,
+      origin: originName,
+      originMod,
+      faction: factionName,
+      factionMod,
+      techLevel: tl,
+      tlMod,
+      qualifyingSkill: qualifyingSkillName,
+      highestSkillRank: maxQualifyingRank,
+      skillStage: skillStageName,
+      skillBonus,
+      customMod
     }
   };
 }

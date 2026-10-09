@@ -208,7 +208,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
               {allPersonas.length === 0 ? (
                 <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center space-y-1">
                   <p className="text-slate-400 text-xs">No saved character sheets found in Folio.</p>
-                  <p className="text-[10px] text-slate-500">You will join this team as an Observer / Spectator.</p>
+                  <p className="text-[10px] text-slate-500">You will join this team as an Operator.</p>
                 </div>
               ) : (
                 <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
@@ -262,7 +262,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                     );
                   })}
 
-                  {/* Option: Join as Spectator */}
+                  {/* Option: Join as Operator (Reserve) */}
                   <div
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);
@@ -276,7 +276,7 @@ export const SquadInviteConfirmationModal = ({ isOpen, onClose, invite }) => {
                   >
                     <div className="flex items-center gap-2">
                       <Eye size={14} className="text-slate-400" />
-                      <span className="text-xs">Join as Tactical Observer / Spectator (No Sheet Assigned)</span>
+                      <span className="text-xs">Join as Operator (Reserve / No Sheet Assigned)</span>
                     </div>
                     {selectedPersonaId === 'spectator' && <CheckCircle2 size={16} className="text-cyan-400" />}
                   </div>

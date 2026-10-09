@@ -11,6 +11,13 @@ const ADVANCEMENT_COSTS = [
     ]
   },
   {
+    category: 'Setting Tiers & Tech/Meta Levels',
+    items: [
+      { name: 'Tech Level (+1)', cost: '2 AP (10 CP)', increment: 'Max +1 per story milestone', desc: 'Advances the character’s personal technology tier (TL). Increases lowered base TL (TL0–2) or upgrades beyond standard TL3. Costs 10 CP / 2 AP per level.' },
+      { name: 'Meta Level (+1)', cost: '2 AP (10 CP)', increment: 'Max +1 per story milestone', desc: 'Advances the character’s metaphysical / magic tier (ML). Increases lowered base ML (ML0–2) or upgrades beyond standard ML3. Costs 10 CP / 2 AP per level.' }
+    ]
+  },
+  {
     category: 'Vitals & Survivability',
     items: [
       { name: 'Bonus Vitality (+5 Pool)', cost: '1 AP', increment: 'Max +5 per award', desc: 'Adds +5 points to the kinetic / energy Vitality shield pool.' },

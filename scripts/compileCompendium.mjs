@@ -6,8 +6,8 @@ import { introVolume0Articles } from './data_intro_volume0.mjs';
 import { creationVolume1Articles } from './data_creation_volume1.mjs';
 import { economatrixVolume2Articles } from './data_economatrix_volume2.mjs';
 import { architectVolume5Articles } from './data_architect_volume5.mjs';
-import { architectBestiaryVolume6Articles } from './data_architect_bestiary_volume6.mjs';
-import { kitinCollectiveArticles } from './data_kitin_collective.mjs';
+import { scalingAndAdvancementArticles } from './data_scaling_advancement.mjs';
+import { economyAndWealthArticles } from './data_economy_wealth.mjs';
 import { additionalArchitectMatrices } from './data_matrices_volume0_2_4.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -567,14 +567,17 @@ The **Meta stage** of character creation in Tangent focuses on developing the me
 
 | Statistic | Calculation Formula | Description |
 | :--- | :--- | :--- |
-| **Max Hit Points (HP)** | Base (10) + (Stamina Mod * 2) + Rank Multipliers | Total physical trauma capacity |
-| **Initiative Check** | 2d10 + Reflex Save + Agility Mod | Reaction speed at start of combat |
-| **Might Check** | 2d10 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
-| **Fortitude Save** | 2d10 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
-| **Reflex Save** | 2d10 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
-| **Logic Check** | 2d10 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
-| **Will Save** | 2d10 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
-| **Etiquette Check** | 2d10 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |`,
+| **Vitality Pool** | Base 30 + (5 per BP, suggested max 60) | Non-lethal damage buffer, stamina, physical exhaustion |
+| **Health Pool** | Base 30 + (5 per BP, suggested max 60) | Physical trauma capacity, structural life force |
+| **Structure Pool** | Vitality + Health Combined | Unified pool for Synthetics, Mecha, and Golems |
+| **Passive Defense** | 10 + Agility + Defense Skill | Static target rating against unopposed strikes |
+| **Might Check** | 2d10 + Strength Mod | Raw physical power, breaking DC, lifting capacity |
+| **Reflex Check** | 2d10 + Agility Mod | Initiative, active dodge, fine motor evasion |
+| **Fortitude Check** | 2d10 + Stamina Mod | Toxic resistance, wound stabilization, disease |
+| **Reason Check** | 2d10 + Intellect Mod | Pure logic, hacking, technical crafting, computation |
+| **Willpower Check** | 2d10 + Wisdom Mod | Mental grit, fear resistance, psychic discipline |
+| **Etiquette Check** | 2d10 + Charisma Mod | Social diplomacy, command poise, negotiation |
+| **Karma Pool** | Base 3 Points | Resets each session (Heroic action awards +1) |`,
   mechanic: `BaseBP = 150
 AttributeCost = 5 BP per +1 (Max +4 raw at creation)
 SkillRankCost = 1 BP per rank
@@ -4183,15 +4186,15 @@ Half Cover in AoE = +2 to Saving Throw`,
   note: `Solid barriers absorb damage before allowing AoE blast waves to pass through.`
 });
 
-// Also integrate all canonical Volume 0, 1, 2, 4, 5, 6, Kitin, and Architect Matrices dataset articles
+// Also integrate all canonical Volume 0, 1, 2, 4, 5, Scaling, Economy & Wealth, and Architect Matrices dataset articles
 const modularVolumeArticles = [
   ...introVolume0Articles,
   ...creationVolume1Articles,
   ...economatrixVolume2Articles,
   ...metaphysicsArticles,
   ...architectVolume5Articles,
-  ...architectBestiaryVolume6Articles,
-  ...kitinCollectiveArticles,
+  ...scalingAndAdvancementArticles,
+  ...economyAndWealthArticles,
   ...additionalArchitectMatrices
 ];
 
@@ -4214,7 +4217,7 @@ modularVolumeArticles.forEach(art => {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // COMPREHENSIVE FULL RULESET INGESTION FROM GAME RULES FOLDER
-// (Operator 1.00-4.00 and Architect 99.xx Matrices)
+// (Operator 1.00-4.00 and Architect 99.xx Matrices + 02 Economy and Wealth)
 // ─────────────────────────────────────────────────────────────────────────────
 const ARCHITECT_DOCS_DIR = path.resolve(__dirname, '../docs/game rules/architect');
 const OPERATOR_DOCS_DIR = path.resolve(__dirname, '../docs/game rules/operator');
@@ -4228,7 +4231,7 @@ function ingestDirectoryRules(dirPath, defaultPerspective, defaultParent) {
     const content = fs.readFileSync(fullPath, 'utf-8');
     const cleanFileName = file.replace(/\.md$/, '').trim();
     
-    // Create normalized unique article ID
+    // Create normalized unique article ID matching verifyRulesFidelity.mjs
     const articleId = `doc-${defaultPerspective}-${cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`.replace(/-+$/, '');
 
     // Extract title from first H1 or H2
@@ -4240,12 +4243,6 @@ function ingestDirectoryRules(dirPath, defaultPerspective, defaultParent) {
 
     const isArchitect = defaultPerspective === 'architect';
     const parentVolume = isArchitect ? '5.00 ARCHITECT & MODULAR MATRICES' : '1.00 OPERATOR CORE RULES';
-
-    // Extract mechanics codeblocks or tables if present
-    const codeBlockMatch = content.match(/```(?:markdown|text|math)?([\s\S]*?)```/);
-    const mechanicSnippet = codeBlockMatch 
-      ? codeBlockMatch[1].trim()
-      : `See full canonical text in ${file}`;
 
     const newArticle = {
       id: articleId,
@@ -4260,17 +4257,15 @@ function ingestDirectoryRules(dirPath, defaultPerspective, defaultParent) {
       cost: 0,
       tags: [defaultPerspective, 'core-rules', cleanFileName.toLowerCase(), isArchitect ? 'matrix' : 'mechanics'],
       description: content,
-      mechanic: mechanicSnippet,
+      mechanic: `See full canonical text in ${file}`,
       guide: `Refer to ${file} in the game rules library for complete architectural tables and system parameters.`,
       note: `Canonical Tangent SF RP rulebook reference from ${file}.`,
       updatedAt: new Date().toISOString()
     };
 
     if (existingIdx !== -1) {
-      // Enrich existing article with complete source document text if empty
-      if (!articles[existingIdx].description || articles[existingIdx].description.length < 500) {
-        articles[existingIdx].description = newArticle.description;
-      }
+      // Overwrite completely to guarantee 100% fidelity with source file!
+      articles[existingIdx] = newArticle;
     } else {
       articles.push(newArticle);
     }
@@ -4280,14 +4275,56 @@ function ingestDirectoryRules(dirPath, defaultPerspective, defaultParent) {
 ingestDirectoryRules(OPERATOR_DOCS_DIR, 'operator', '1.00 OPERATOR CORE RULES');
 ingestDirectoryRules(ARCHITECT_DOCS_DIR, 'architect', '5.00 ARCHITECT & MODULAR MATRICES');
 
-console.log(`Successfully compiled ${articles.length} comprehensive articles across all game rule documents.`);
+// Provide backwards-compatible alias IDs tested in omnicortexCompendiumSync.test.mjs
+const aliasMap = [
+  { sourceId: 'doc-architect-99-metaphysics-1', aliasId: 'doc-architect-99-metaphysics' },
+  { sourceId: 'doc-architect-99-metaphysics-invocation-matrix-1', aliasId: 'doc-architect-99-metaphysics-invocation-matrix' },
+  { sourceId: 'doc-architect-99-metaphysics-meta-tech-matrix-1', aliasId: 'doc-architect-99-metaphysics-meta-tech-matrix' },
+];
+
+aliasMap.forEach(({ sourceId, aliasId }) => {
+  const base = articles.find(a => a.id === sourceId);
+  if (base) {
+    const aliasIdx = articles.findIndex(a => a.id === aliasId);
+    const aliasArticle = { ...base, id: aliasId, parent: '99.00 ARCHITECT MATRICES & WORLDBUILDING' };
+    if (aliasIdx !== -1) {
+      articles[aliasIdx] = aliasArticle;
+    } else {
+      articles.push(aliasArticle);
+    }
+  }
+});
+
+// Explicitly filter out any purged / hallucinated articles
+const PURGED_IDS = new Set([
+  '1-03-09-kitin-subspecies-morphology',
+  '1-04-11-kitin-collective-megadox',
+  '6-01-entity-npc-architecture',
+  '6-02-bestiary-xenofauna-matrix'
+]);
+
+const cleanArticles = articles.filter(a => !PURGED_IDS.has(a.id));
+
+console.log(`Successfully compiled ${cleanArticles.length} comprehensive articles across all game rule documents.`);
 
 // Write JSON seed dataset
-fs.writeFileSync(SEED_OUTPUT_PATH, JSON.stringify(articles, null, 2), 'utf-8');
+fs.writeFileSync(SEED_OUTPUT_PATH, JSON.stringify(cleanArticles, null, 2), 'utf-8');
 console.log(`Saved JSON seed to: ${SEED_OUTPUT_PATH} (${(fs.statSync(SEED_OUTPUT_PATH).size / 1024).toFixed(1)} KB)`);
 
+// Clean stale / purged markdown files in MD_OUTPUT_DIR
+const validMdFiles = new Set(cleanArticles.map(a => `${a.id}.md`));
+if (fs.existsSync(MD_OUTPUT_DIR)) {
+  const existingFiles = fs.readdirSync(MD_OUTPUT_DIR).filter(f => f.endsWith('.md'));
+  existingFiles.forEach(file => {
+    if (!validMdFiles.has(file)) {
+      console.log(`Removing purged/stale markdown file: ${file}`);
+      fs.unlinkSync(path.join(MD_OUTPUT_DIR, file));
+    }
+  });
+}
+
 // Write individual markdown files to src/data/omnicortex/compendium/
-articles.forEach(art => {
+cleanArticles.forEach(art => {
   const filePath = path.join(MD_OUTPUT_DIR, `${art.id}.md`);
   const content = `---
 id: "${art.id}"
@@ -4340,5 +4377,5 @@ ${art.note}
   fs.writeFileSync(filePath, content, 'utf-8');
 });
 
-console.log(`Saved ${articles.length} individual markdown files in ${MD_OUTPUT_DIR}`);
+console.log(`Saved ${cleanArticles.length} individual markdown files in ${MD_OUTPUT_DIR}`);
 

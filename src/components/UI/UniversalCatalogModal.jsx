@@ -21,10 +21,24 @@ import {
   Globe,
   Building2,
   Lock,
-  AlertTriangle
+  AlertTriangle,
+  Coins,
+  CreditCard,
+  Scale
 } from 'lucide-react';
 import FolioTooltip from '../Folio/shared/FolioTooltip';
-import { checkPrerequisite } from '../../utils/prerequisiteEvaluator';
+import {
+  checkPrerequisite,
+  resolveItemCostDC,
+  checkPropertyWealthPrerequisite,
+  getCharacterWealthScore,
+  PROPERTY_COLLECTIONS
+} from '../../utils/prerequisiteEvaluator';
+import {
+  calculateCreditValue,
+  calculateLiquidityGap,
+  getFinancialStatus
+} from '../../engines/tangentEconEngine';
 import {
   extractPillarFeatureSets,
   getPillarFeatureRecommendations,
@@ -315,6 +329,12 @@ export const UniversalCatalogModal = ({
   const lineageDropdownRef = useRef(null);
   const [sortOption, setSortOption] = useState('recommended'); // 'recommended' | 'az' | 'za' | 'cost_desc' | 'cost_asc' | 'tl_desc'
 
+  // Property financing / Debt override modal state
+  const [financingItem, setFinancingItem] = useState(null);
+  const [debtAmount, setDebtAmount] = useState(0);
+  const [debtorName, setDebtorName] = useState('Merchant Syndicate Financing');
+  const [debtNotes, setDebtNotes] = useState('');
+
   // Close lineage dropdown on click outside or escape key
   useEffect(() => {
     if (!isLineageDropdownOpen) return;
@@ -351,6 +371,7 @@ export const UniversalCatalogModal = ({
   useEffect(() => {
     if (!isOpen) {
       setCurrentSelected([]);
+      setFinancingItem(null);
       return;
     }
     if (Array.isArray(selectedValues) && selectedValues.length > 0) {
@@ -416,6 +437,37 @@ export const UniversalCatalogModal = ({
     if (['disciplines', 'awakened'].includes(collectionKey)) return 'disciplines';
     return collectionKey || 'gear';
   }, [collectionKey]);
+
+  // Determine if this is a property asset domain (weapons, armor, gear, mecha, architecture, other)
+  const isPropertyCol = useMemo(() => {
+    return PROPERTY_COLLECTIONS.has(canonicalColKey);
+  }, [canonicalColKey]);
+
+  // Persona Wealth Score, Financial Status ranking & liquid positions
+  const playerWS = useMemo(() => {
+    return characterData ? getCharacterWealthScore(characterData) : 10;
+  }, [characterData]);
+
+  const playerWSStatus = useMemo(() => {
+    return getFinancialStatus(playerWS);
+  }, [playerWS]);
+
+  const playerLiquidCredits = useMemo(() => {
+    if (!characterData) return 0;
+    const raw = characterData['credits'] ?? characterData['wealth-credits'] ?? 0;
+    return Math.max(0, parseInt(raw, 10) || 0);
+  }, [characterData]);
+
+  const playerTotalDebts = useMemo(() => {
+    if (!characterData) return 0;
+    const raw = characterData['debits'] ?? characterData['wealth-debits'];
+    let list = [];
+    if (Array.isArray(raw)) list = raw;
+    else if (typeof raw === 'string' && raw.trim()) {
+      try { const p = JSON.parse(raw); if (Array.isArray(p)) list = p; } catch {}
+    }
+    return list.reduce((sum, d) => sum + (Number(d?.amount) || 0), 0);
+  }, [characterData]);
 
   // 5-Pillar Feature Recommendation Sets
   const pillarFeatureSets = useMemo(() => {
@@ -891,12 +943,67 @@ export const UniversalCatalogModal = ({
         }
       });
     } else {
+      // Check Property Wealth Prerequisite (The Golden Rule of Tangent Wealth)
+      if (isPropertyCol && characterData) {
+        const wealthPrereq = checkPropertyWealthPrerequisite(resolvedItem, characterData);
+        if (!wealthPrereq.isAutoBuy) {
+          // Item Cost DC exceeds Wealth Score -> Trigger Financing & Debt Override Dialog
+          setFinancingItem({ item: resolvedItem, prereq: wealthPrereq });
+          setDebtAmount(wealthPrereq.gapCost);
+          setDebtorName('Merchant Syndicate Financing');
+          setDebtNotes(`Financing for ${resolvedItem.name || resolvedItem.title || 'Property Asset'} (Cost DC ${wealthPrereq.itemDC} vs WS ${wealthPrereq.playerWS})`);
+          return;
+        }
+      }
+
       if (onSelectItem) {
         onSelectItem(resolvedItem);
       }
       onClose();
     }
-  }, [isMulti, onSelectItem, onClose, canonicalColKey, pillarFeatureSets, characterData]);
+  }, [isMulti, onSelectItem, onClose, canonicalColKey, pillarFeatureSets, characterData, isPropertyCol]);
+
+  // Handle confirming liquid credit payment for property acquisition
+  const handleConfirmLiquidPayment = useCallback(() => {
+    if (!financingItem) return;
+    const paymentAmount = financingItem.prereq.gapCost;
+    const itemWithFinancing = {
+      ...financingItem.item,
+      __financing: {
+        method: 'credits',
+        amount: paymentAmount,
+        itemDC: financingItem.prereq.itemDC,
+        playerWS: financingItem.prereq.playerWS
+      }
+    };
+    setFinancingItem(null);
+    if (onSelectItem) {
+      onSelectItem(itemWithFinancing);
+    }
+    onClose();
+  }, [financingItem, onSelectItem, onClose]);
+
+  // Handle confirming credit debt override for property acquisition
+  const handleConfirmDebtOverride = useCallback(() => {
+    if (!financingItem) return;
+    const confirmedDebtAmount = Math.max(1, Number(debtAmount) || financingItem.prereq.gapCost);
+    const itemWithFinancing = {
+      ...financingItem.item,
+      __financing: {
+        method: 'debt',
+        amount: confirmedDebtAmount,
+        debtor: debtorName.trim() || 'Merchant Syndicate Financing',
+        notes: debtNotes.trim() || `Financing for ${financingItem.item.name || financingItem.item.title || 'Property Asset'} (Cost DC ${financingItem.prereq.itemDC} vs WS ${financingItem.prereq.playerWS})`,
+        itemDC: financingItem.prereq.itemDC,
+        playerWS: financingItem.prereq.playerWS
+      }
+    };
+    setFinancingItem(null);
+    if (onSelectItem) {
+      onSelectItem(itemWithFinancing);
+    }
+    onClose();
+  }, [financingItem, debtAmount, debtorName, debtNotes, onSelectItem, onClose]);
 
   // Handle confirming multi-selection
   const handleConfirmMulti = useCallback(() => {
@@ -975,8 +1082,16 @@ export const UniversalCatalogModal = ({
   // Render specifications / key metrics chip
   const renderItemStats = (item) => {
     if (canonicalColKey === 'weaponry') {
+      const itemDC = resolveItemCostDC(item);
+      const creditVal = calculateCreditValue(itemDC);
       return (
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
+          <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-600/70 text-amber-300 font-bold">
+            DC {itemDC}
+          </span>
+          <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
+            {creditVal.toLocaleString()} ¢
+          </span>
           {item.damage && <span className="px-1.5 py-0.5 rounded bg-red-950/70 border border-red-800/60 text-red-300 font-bold">DMG: {item.damage}</span>}
           {item.range && <span className="px-1.5 py-0.5 rounded bg-blue-950/70 border border-blue-800/60 text-blue-300">RNG: {item.range}</span>}
           {item.ap !== undefined && <span className="px-1.5 py-0.5 rounded bg-amber-950/70 border border-amber-800/60 text-amber-300">AP: {item.ap}</span>}
@@ -985,8 +1100,16 @@ export const UniversalCatalogModal = ({
       );
     }
     if (canonicalColKey === 'armoring') {
+      const itemDC = resolveItemCostDC(item);
+      const creditVal = calculateCreditValue(itemDC);
       return (
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
+          <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-600/70 text-amber-300 font-bold">
+            DC {itemDC}
+          </span>
+          <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
+            {creditVal.toLocaleString()} ¢
+          </span>
           {item.defense !== undefined && <span className="px-1.5 py-0.5 rounded bg-emerald-950/70 border border-emerald-800/60 text-emerald-300 font-bold">DEF: +{item.defense}</span>}
           {item.dr !== undefined && <span className="px-1.5 py-0.5 rounded bg-cyan-950/70 border border-cyan-800/60 text-cyan-300 font-bold">DR: {item.dr}</span>}
           {item.coverage && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">COV: {item.coverage}</span>}
@@ -1175,10 +1298,34 @@ export const UniversalCatalogModal = ({
       );
     }
     if (canonicalColKey === 'mecha') {
+      const itemDC = resolveItemCostDC(item);
+      const creditVal = calculateCreditValue(itemDC);
       return (
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
+          <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-600/70 text-amber-300 font-bold">
+            DC {itemDC}
+          </span>
+          <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
+            {creditVal.toLocaleString()} ¢
+          </span>
           {item.class && <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300 font-bold">Class: {item.class}</span>}
           {item.armor !== undefined && <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300">Armor: {item.armor}</span>}
+          {item.tech_level !== undefined && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">TL {item.tech_level}</span>}
+        </div>
+      );
+    }
+    if (isPropertyCol) {
+      const itemDC = resolveItemCostDC(item);
+      const creditVal = calculateCreditValue(itemDC);
+      return (
+        <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
+          <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-600/70 text-amber-300 font-bold">
+            DC {itemDC}
+          </span>
+          <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/70 text-emerald-300 font-semibold">
+            {creditVal.toLocaleString()} ¢
+          </span>
+          {item.category && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700">{item.category}</span>}
           {item.tech_level !== undefined && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">TL {item.tech_level}</span>}
         </div>
       );
@@ -1594,7 +1741,9 @@ export const UniversalCatalogModal = ({
                     const prereqResult = isSpeciesCol
                       ? { hasPrerequisite: false, isPossessed: true, prerequisiteText: '', unmetReasons: [] }
                       : checkPrerequisite(item, characterData, canonicalColKey);
+                    const isPropertyItem = isPropertyCol;
                     const isPrereqUnmet = !isSpeciesCol && prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+                    const isPropertyGap = isPropertyItem && isPrereqUnmet;
                     const itemPillars = (canonicalColKey === 'features' && pillarFeatureSets)
                       ? getPillarFeatureRecommendations(item, pillarFeatureSets, characterData)
                       : [];
@@ -1606,6 +1755,8 @@ export const UniversalCatalogModal = ({
                         className={`transition-colors cursor-pointer group ${
                           isSelected
                             ? 'bg-cyan-950/60 border-l-4 border-l-cyan-400'
+                            : isPropertyGap
+                            ? 'bg-amber-950/20 hover:bg-amber-950/40'
                             : isPrereqUnmet
                             ? 'opacity-60 grayscale-[80%] hover:grayscale-0 hover:opacity-100 bg-slate-950/80 hover:bg-slate-900/50'
                             : 'hover:bg-cyan-950/30'
@@ -1637,12 +1788,28 @@ export const UniversalCatalogModal = ({
                             ]}
                           >
                             <div className="flex items-center gap-2">
-                              <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]' : isPrereqUnmet ? 'bg-amber-600/70' : 'bg-slate-600'} shrink-0`} />
+                              <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]' : isPropertyGap ? 'bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]' : isPrereqUnmet ? 'bg-rose-500' : 'bg-slate-600'} shrink-0`} />
                               <div>
-                                <div className={`font-bold flex items-center gap-1.5 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-200' : 'text-slate-100 group-hover:text-cyan-300'}`}>
+                                <div className={`font-bold flex items-center gap-1.5 transition-colors ${isPropertyGap ? 'text-amber-200 group-hover:text-amber-100' : isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-200' : 'text-slate-100 group-hover:text-cyan-300'}`}>
                                   <span>{item.name || item.title || item.id}</span>
                                   <PillarMarkerDots recommendations={itemPillars} />
-                                  {isPrereqUnmet && (
+                                  {isPropertyGap ? (
+                                    <span 
+                                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-amber-950/90 border border-amber-600/80 text-amber-300 font-bold shadow-sm" 
+                                      title={`Liquidity Gap: ${prereqResult.gapCost?.toLocaleString() || 0} Cr (Debt Override Available)`}
+                                    >
+                                      <Coins className="w-3 h-3 text-amber-400 shrink-0" />
+                                      <span>Gap: {prereqResult.gapCost?.toLocaleString() || 0} Cr</span>
+                                    </span>
+                                  ) : isPropertyItem && !isPrereqUnmet && characterData ? (
+                                    <span 
+                                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-emerald-950/90 border border-emerald-600/80 text-emerald-300 font-bold shadow-sm" 
+                                      title={`Auto-Buy: Cost DC ${prereqResult.itemDC} ≤ Wealth Score ${prereqResult.playerWS}`}
+                                    >
+                                      <Check className="w-3 h-3 text-emerald-400 shrink-0" />
+                                      <span>Auto-Buy</span>
+                                    </span>
+                                  ) : isPrereqUnmet ? (
                                     <span 
                                       className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-rose-950/90 border border-rose-600/80 text-rose-300 font-bold shadow-sm" 
                                       title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}
@@ -1650,7 +1817,7 @@ export const UniversalCatalogModal = ({
                                       <Lock className="w-3 h-3 text-rose-400 shrink-0" />
                                       <span>{prereqResult.unmetReasons[0] || 'Prereq Missing'}</span>
                                     </span>
-                                  )}
+                                  ) : null}
                                 </div>
                                 {canonicalColKey === 'species' && item.parent_species && (
                                   <div className="text-[10px] text-cyan-400/80 font-mono">
@@ -1700,11 +1867,15 @@ export const UniversalCatalogModal = ({
                                 e.stopPropagation();
                                 handleItemClick(item);
                               }}
-                              className={`px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                              className={`px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-1 ${
                                 isSelected
                                   ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_10px_rgba(34,211,238,0.5)]'
+                                  : isPropertyGap
+                                  ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/80 text-amber-300 hover:text-white shadow-[0_0_8px_rgba(245,158,11,0.2)]'
+                                  : isPropertyItem && !isPrereqUnmet
+                                  ? 'bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/80 text-emerald-300 hover:text-white shadow-[0_0_8px_rgba(16,185,129,0.2)]'
                                   : isPrereqUnmet
-                                  ? 'bg-rose-950/60 hover:bg-rose-900/80 border border-rose-700/80 text-rose-200 hover:text-white flex items-center gap-1'
+                                  ? 'bg-rose-950/60 hover:bg-rose-900/80 border border-rose-700/80 text-rose-200 hover:text-white'
                                   : isArchetype
                                   ? 'bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/60 text-amber-300 shadow-none'
                                   : isIdentityChoice
@@ -1714,6 +1885,16 @@ export const UniversalCatalogModal = ({
                             >
                               {isSelected ? (
                                 'Selected'
+                              ) : isPropertyGap ? (
+                                <>
+                                  <Scale className="w-3 h-3 text-amber-400" />
+                                  <span>Finance / Debt</span>
+                                </>
+                              ) : isPropertyItem && !isPrereqUnmet ? (
+                                <>
+                                  <Check className="w-3 h-3 text-emerald-400" />
+                                  <span>Auto-Buy</span>
+                                </>
                               ) : isPrereqUnmet ? (
                                 <>
                                   <Lock className="w-2.5 h-2.5" />
@@ -1742,7 +1923,9 @@ export const UniversalCatalogModal = ({
                 const prereqResult = isSpeciesCol
                   ? { hasPrerequisite: false, isPossessed: true, prerequisiteText: '', unmetReasons: [] }
                   : checkPrerequisite(item, characterData, canonicalColKey);
+                const isPropertyItem = isPropertyCol;
                 const isPrereqUnmet = !isSpeciesCol && prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+                const isPropertyGap = isPropertyItem && isPrereqUnmet;
                 const itemPillars = (canonicalColKey === 'features' && pillarFeatureSets)
                   ? getPillarFeatureRecommendations(item, pillarFeatureSets, characterData)
                   : [];
@@ -1754,6 +1937,8 @@ export const UniversalCatalogModal = ({
                     className={`relative rounded-xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between group overflow-hidden ${
                       isSelected
                         ? 'bg-slate-900/90 border-2 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.3)]'
+                        : isPropertyGap
+                        ? 'bg-slate-900/60 hover:bg-slate-900/90 border-amber-500/50 hover:border-amber-400 hover:shadow-[0_0_16px_rgba(245,158,11,0.2)]'
                         : isPrereqUnmet
                         ? 'opacity-65 grayscale-[70%] hover:grayscale-0 hover:opacity-100 bg-slate-950/80 border-dashed border-rose-900/60 hover:border-rose-500/70 hover:shadow-[0_0_16px_rgba(244,63,94,0.2)]'
                         : isArchetype
@@ -1777,7 +1962,25 @@ export const UniversalCatalogModal = ({
                         <span className="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-[10px] font-mono text-cyan-300 uppercase tracking-wide">
                           {getItemCategory(item, canonicalColKey)}
                         </span>
-                        {isPrereqUnmet && (
+                        {isPropertyGap ? (
+                          <span 
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-amber-950/90 border border-amber-600/80 text-amber-300 font-bold shadow-sm" 
+                            title={`Liquidity Gap: ${prereqResult.gapCost?.toLocaleString() || 0} Cr (Debt Override Available)`}
+                          >
+                            <Coins className="w-3 h-3 text-amber-400 shrink-0" />
+                            <span className="truncate max-w-[170px] sm:max-w-[210px]">
+                              Gap: {prereqResult.gapCost?.toLocaleString() || 0} Cr
+                            </span>
+                          </span>
+                        ) : isPropertyItem && !isPrereqUnmet && characterData ? (
+                          <span 
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-emerald-950/80 border border-emerald-600/60 text-emerald-300 font-bold shadow-sm" 
+                            title={`Auto-Buy: Cost DC ${prereqResult.itemDC} ≤ Wealth Score ${prereqResult.playerWS}`}
+                          >
+                            <Check className="w-3 h-3 text-emerald-400 shrink-0" />
+                            <span>Auto-Buy</span>
+                          </span>
+                        ) : isPrereqUnmet ? (
                           <span 
                             className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-rose-950/90 border border-rose-600/80 text-rose-300 font-bold shadow-sm" 
                             title={`Missing requirement: ${prereqResult.unmetReasons.join(' | ')}`}
@@ -1787,7 +1990,7 @@ export const UniversalCatalogModal = ({
                               {prereqResult.unmetReasons[0] || 'Missing Prereq'}
                             </span>
                           </span>
-                        )}
+                        ) : null}
                       </div>
 
                       {item.tech_level !== undefined ? (
@@ -1834,7 +2037,7 @@ export const UniversalCatalogModal = ({
                         ]}
                       >
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <h4 className={`font-bold text-sm line-clamp-1 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-100' : 'text-slate-100 group-hover:text-cyan-300'}`}>
+                          <h4 className={`font-bold text-sm line-clamp-1 transition-colors ${isPropertyGap ? 'text-amber-200 group-hover:text-amber-100' : isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-100' : 'text-slate-100 group-hover:text-cyan-300'}`}>
                             {item.name || item.title || item.id}
                           </h4>
                           <PillarMarkerDots recommendations={itemPillars} />
@@ -1858,7 +2061,15 @@ export const UniversalCatalogModal = ({
                     </div>
 
                     {/* Unmet Requirement Alert Box */}
-                    {isPrereqUnmet && (
+                    {isPropertyGap ? (
+                      <div className="mb-2.5 p-2 rounded-lg bg-amber-950/30 border border-amber-600/60 text-[11px] font-mono text-amber-200 flex items-start gap-1.5 shadow-inner">
+                        <Scale className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                        <div className="leading-tight">
+                          <span className="font-bold text-amber-300">Liquidity Gap: </span>
+                          <span>Cost DC {prereqResult.itemDC} &gt; WS {prereqResult.playerWS} ({prereqResult.gapCost?.toLocaleString()} Cr gap). Select to pay cash or take credit debt override.</span>
+                        </div>
+                      </div>
+                    ) : isPrereqUnmet ? (
                       <div className="mb-2.5 p-2 rounded-lg bg-rose-950/40 border border-rose-800/70 text-[11px] font-mono text-rose-300 flex items-start gap-1.5 shadow-inner">
                         <AlertTriangle className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
                         <div className="leading-tight">
@@ -1866,7 +2077,7 @@ export const UniversalCatalogModal = ({
                           <span>{prereqResult.unmetReasons.join(' • ')}</span>
                         </div>
                       </div>
-                    )}
+                    ) : null}
 
                     {/* Description Snippet */}
                     <div className="flex-1 mb-3">
@@ -1891,6 +2102,10 @@ export const UniversalCatalogModal = ({
                           className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
                             isSelected
                               ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_12px_rgba(34,211,238,0.6)]'
+                              : isPropertyGap
+                              ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/80 text-amber-300 hover:text-white shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                              : isPropertyItem && !isPrereqUnmet
+                              ? 'bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/80 text-emerald-300 hover:text-white shadow-[0_0_10px_rgba(16,185,129,0.2)]'
                               : isPrereqUnmet
                               ? 'bg-rose-950/60 hover:bg-rose-900/80 border border-rose-700/80 text-rose-200 hover:text-white'
                               : isArchetype
@@ -1904,6 +2119,16 @@ export const UniversalCatalogModal = ({
                             <>
                               <Check className="w-3.5 h-3.5" />
                               <span>Selected</span>
+                            </>
+                          ) : isPropertyGap ? (
+                            <>
+                              <Scale className="w-3.5 h-3.5 text-amber-400" />
+                              <span>Finance / Debt</span>
+                            </>
+                          ) : isPropertyItem && !isPrereqUnmet ? (
+                            <>
+                              <Check className="w-3.5 h-3.5 text-emerald-400" />
+                              <span>Auto-Buy</span>
                             </>
                           ) : isPrereqUnmet ? (
                             <>
@@ -1969,6 +2194,221 @@ export const UniversalCatalogModal = ({
             </button>
           </div>
         </div>
+
+        {/* PROPERTY FINANCING & CREDIT DEBT OVERRIDE DIALOG */}
+        {financingItem && (
+          <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
+            <div className="bg-[#0b101a] border-2 border-amber-500/60 rounded-2xl w-full max-w-2xl text-slate-100 shadow-[0_0_40px_rgba(245,158,11,0.3)] overflow-hidden flex flex-col">
+              {/* Header */}
+              <div className="px-5 py-4 bg-slate-950 border-b border-amber-900/50 flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-amber-950 border border-amber-500/60 flex items-center justify-center text-amber-300 shadow-md">
+                    <Scale className="w-5 h-5 text-amber-400" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-amber-300">
+                        Property Acquisition &amp; Financing
+                      </h3>
+                      <span className="px-2 py-0.5 rounded bg-amber-950/80 border border-amber-700/60 text-[10px] font-mono text-amber-300 font-bold">
+                        Cost DC {financingItem.prereq.itemDC}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Acquiring <span className="text-white font-semibold">{financingItem.item.name || financingItem.item.title || 'Property Asset'}</span> requires covering the Liquidity Gap.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFinancingItem(null)}
+                  className="w-7 h-7 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-5 space-y-4 overflow-y-auto max-h-[75vh]">
+                {/* Golden Rule Context Banner */}
+                <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-500/40 text-xs text-amber-200/90 leading-relaxed font-mono">
+                  <span className="font-bold text-amber-300 uppercase tracking-wide">The Golden Rule of Tangent Wealth: </span>
+                  Items with Cost DC &le; Wealth Score are Auto-Bought freely without spending credits. When Cost DC ({financingItem.prereq.itemDC}) exceeds Wealth Score ({financingItem.prereq.playerWS}), the operative must cover the Liquidity Gap using liquid credits or by securing a credit debt override.
+                </div>
+
+                {/* Valuation & Leverage Matrix */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
+                  <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Item Value</span>
+                    <span className="text-sm font-bold font-mono text-white mt-0.5 block">
+                      {financingItem.prereq.itemCreditValue.toLocaleString()} Cr
+                    </span>
+                    <span className="text-[9.5px] font-mono text-slate-500">DC {financingItem.prereq.itemDC}</span>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Auto-Buy Limit</span>
+                    <span className="text-sm font-bold font-mono text-cyan-300 mt-0.5 block">
+                      {financingItem.prereq.autoBuyLimit.toLocaleString()} Cr
+                    </span>
+                    <span className="text-[9.5px] font-mono text-cyan-500">WS {financingItem.prereq.playerWS} ({playerWSStatus?.name || 'Status'})</span>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg bg-amber-950/40 border border-amber-600/60 shadow-sm">
+                    <span className="text-[10px] font-mono text-amber-300 font-bold uppercase tracking-wider block">Liquidity Gap</span>
+                    <span className="text-sm font-bold font-mono text-amber-400 mt-0.5 block">
+                      {financingItem.prereq.gapCost.toLocaleString()} Cr
+                    </span>
+                    <span className="text-[9.5px] font-mono text-amber-400/80">To Be Covered</span>
+                  </div>
+
+                  <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Liquid Reserves</span>
+                    <span className={`text-sm font-bold font-mono mt-0.5 block ${playerLiquidCredits >= financingItem.prereq.gapCost ? 'text-emerald-400' : 'text-rose-400'}`}>
+                      {playerLiquidCredits.toLocaleString()} Cr
+                    </span>
+                    <span className="text-[9.5px] font-mono text-slate-500">Avail. Credits</span>
+                  </div>
+                </div>
+
+                {/* Acquisition Options */}
+                <div className="space-y-3 pt-1">
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-300 block">
+                    Select Acquisition Method:
+                  </span>
+
+                  {/* Option 1: Pay Liquid Credits */}
+                  <div className={`p-4 rounded-xl border transition-all ${
+                    playerLiquidCredits >= financingItem.prereq.gapCost
+                      ? 'bg-slate-900/60 border-emerald-500/40 hover:border-emerald-400'
+                      : 'bg-slate-950/50 border-slate-800 opacity-60'
+                  }`}>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <Coins className="w-4 h-4 text-emerald-400" />
+                          <span className="text-xs font-bold text-white uppercase tracking-wider">
+                            Option 1: Pay Liquid Credits
+                          </span>
+                          {playerLiquidCredits >= financingItem.prereq.gapCost ? (
+                            <span className="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-600/60 text-emerald-300 font-mono text-[9px] font-bold">
+                              Sufficient Funds
+                            </span>
+                          ) : (
+                            <span className="px-1.5 py-0.2 rounded bg-rose-950 border border-rose-600/60 text-rose-300 font-mono text-[9px] font-bold">
+                              Shortfall: {(financingItem.prereq.gapCost - playerLiquidCredits).toLocaleString()} Cr
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-slate-400">
+                          Deduct <span className="font-mono text-emerald-300 font-bold">{financingItem.prereq.gapCost.toLocaleString()} Cr</span> directly from your liquid credit reserves (remaining: {(playerLiquidCredits - financingItem.prereq.gapCost).toLocaleString()} Cr).
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        disabled={playerLiquidCredits < financingItem.prereq.gapCost}
+                        onClick={handleConfirmLiquidPayment}
+                        className={`px-3.5 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 ${
+                          playerLiquidCredits >= financingItem.prereq.gapCost
+                            ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.3)] cursor-pointer'
+                            : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
+                        }`}
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Pay Credits &amp; Acquire</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Option 2: Take Credit Debt (Override) */}
+                  <div className="p-4 rounded-xl bg-slate-900/60 border border-amber-500/50 space-y-3 shadow-md">
+                    <div className="flex items-center gap-2">
+                      <CreditCard className="w-4 h-4 text-amber-400" />
+                      <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+                        Option 2: Take Credit Debt (Prerequisite Override)
+                      </span>
+                      <span className="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-600/60 text-amber-300 font-mono text-[9px] font-bold">
+                        Financing
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      Incur a financial debt obligation to override the Wealth Score prerequisite. This will automatically record a debit entry under your character's Financial Register.
+                    </p>
+
+                    {/* Debt Input Fields */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                      <div>
+                        <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                          Debt Amount (Credits)
+                        </label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={debtAmount}
+                          onChange={(e) => setDebtAmount(Math.max(1, parseInt(e.target.value, 10) || 0))}
+                          className="w-full bg-slate-950 border border-amber-500/50 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs font-mono text-amber-300 outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                          Debtor / Creditor Syndicate
+                        </label>
+                        <input
+                          type="text"
+                          value={debtorName}
+                          onChange={(e) => setDebtorName(e.target.value)}
+                          placeholder="e.g. Merchant Syndicate Financing"
+                          className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
+                        />
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-1">
+                          Debt Terms / Memo Notes
+                        </label>
+                        <input
+                          type="text"
+                          value={debtNotes}
+                          onChange={(e) => setDebtNotes(e.target.value)}
+                          placeholder="Notes on debt terms or collateral..."
+                          className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-2 border-t border-slate-800">
+                      <span className="text-[11px] font-mono text-slate-400">
+                        Existing Debts: <span className="text-white font-bold">{playerTotalDebts.toLocaleString()} Cr</span> &rarr; New: <span className="text-amber-300 font-bold">{(playerTotalDebts + (Number(debtAmount) || 0)).toLocaleString()} Cr</span>
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={handleConfirmDebtOverride}
+                        className="w-full sm:w-auto px-4 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black rounded-lg text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.4)] cursor-pointer"
+                      >
+                        <Scale className="w-3.5 h-3.5" />
+                        <span>Confirm Debt Override &amp; Acquire</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="px-5 py-3 bg-slate-950 border-t border-slate-800 flex justify-end items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setFinancingItem(null)}
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-slate-300 hover:text-white transition-colors cursor-pointer"
+                >
+                  Cancel / Return to Catalog
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

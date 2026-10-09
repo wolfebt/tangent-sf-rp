@@ -23,7 +23,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const [propertyTab, setPropertyTab] = useState('gear'); // 'gear' | 'weapons' | 'armor' | 'mecha' | 'other'
   const [latestDamageRoll, setLatestDamageRoll] = useState(null);
 
-  const handleRollDamage = (damageExpr, weaponName) => {
+  const handleRollDamage = (damageExpr, weaponName, e = null) => {
     if (!damageExpr) return;
     openDiceRoller({
       label: `${weaponName || 'Weapon'} Damage`,
@@ -31,7 +31,8 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       baseModifier: 0,
       rollMode: 'normal',
       characterName: characterData['char-name'] || 'Operative',
-      autoRoll: true
+      personaId: characterData['character-doc-id'] || characterData.id,
+      autoRoll: e?.shiftKey || false
     });
   };
 
@@ -152,7 +153,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       {isObj && item.damage && (
                         <button
                           type="button"
-                          onClick={() => handleRollDamage(item.damage, name)}
+                          onClick={(e) => handleRollDamage(item.damage, name, e)}
                           className="px-1.5 py-0.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-mono font-bold shrink-0 transition-colors flex items-center gap-0.5 shadow-sm active:scale-95 cursor-pointer"
                           title={`Roll damage formula (${item.damage}) for ${name}`}
                         >
@@ -358,7 +359,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       {att.damage && (
                         <button
                           type="button"
-                          onClick={() => handleRollDamage(att.damage, att.name)}
+                          onClick={(e) => handleRollDamage(att.damage, att.name, e)}
                           className="px-1.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer"
                           title={`Roll damage formula (${att.damage})`}
                         >

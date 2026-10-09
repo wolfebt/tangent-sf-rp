@@ -36,7 +36,7 @@ export const SquadCommsTab = ({
       {/* Comms Feed Top Sub-Header */}
       <div className="px-4 py-2.5 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between text-xs font-mono shrink-0">
         <div className="flex items-center gap-2 min-w-0">
-          <Radio size={14} className="text-cyan-400 animate-pulse shrink-0" />
+          <Radio size={14} className="text-cyan-400 animate-soft-back-glow shrink-0" />
           <span className="font-bold text-cyan-300 uppercase tracking-wider truncate">
             {activeGroup ? `${activeGroup.name} TACTICAL FEED` : 'ENCRYPTED RELAY'}
           </span>

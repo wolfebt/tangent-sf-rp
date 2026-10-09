@@ -23,7 +23,8 @@ import {
   Dices,
   Lock,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  X
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { useDice } from '../../context/DiceContext';
@@ -76,7 +77,8 @@ export const FolioSidebar = ({
   onSave,
   saveStatus,
   viewMode = 'builder',
-  setViewMode
+  setViewMode,
+  onClose
 }) => {
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
   const { isLocked, isPlayerOverride } = useFolio() || {};
@@ -84,6 +86,9 @@ export const FolioSidebar = ({
   // Support toggle between compact Guidance Rail and Expanded Sidebar
   const [isRailMode, setIsRailMode] = useState(() => {
     if (typeof window !== 'undefined') {
+      if (window.innerWidth < 768) {
+        return false; // Mobile: rail is expanded by default when Folio opens
+      }
       return window.innerWidth < 1280;
     }
     return false;
@@ -161,6 +166,19 @@ export const FolioSidebar = ({
             >
               <PanelLeftOpen size={15} />
             </button>
+            {onClose && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(900, 0.02);
+                  onClose();
+                }}
+                className="md:hidden w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-all cursor-pointer"
+                title="Close Guide Rail"
+              >
+                <X size={14} />
+              </button>
+            )}
 
             <div className="w-8 h-px bg-slate-800/80 my-0.5" />
 
@@ -418,11 +436,24 @@ export const FolioSidebar = ({
               AudioService.playTerminalBeep(1100, 0.02);
               setIsRailMode(true);
             }}
-            className="p-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 transition-colors"
+            className="p-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
             title="Switch to Compact Guidance Rail"
           >
             <PanelLeftClose size={13} />
           </button>
+          {onClose && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(900, 0.02);
+                onClose();
+              }}
+              className="md:hidden p-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              title="Close Guide Rail"
+            >
+              <X size={13} />
+            </button>
+          )}
         </div>
       </div>
 

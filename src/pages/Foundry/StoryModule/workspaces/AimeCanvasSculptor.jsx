@@ -176,6 +176,22 @@ export default function AimeCanvasSculptor({
     };
   }, [quillRef, proposal, isWorking]);
 
+  // Close open dropdown menus on outside interaction
+  useEffect(() => {
+    if (!toneMenuOpen && !povMenuOpen && !customPromptOpen) return;
+
+    const handleOutsideClick = (e) => {
+      if (paletteRef.current && !paletteRef.current.contains(e.target)) {
+        setToneMenuOpen(false);
+        setPovMenuOpen(false);
+        setCustomPromptOpen(false);
+      }
+    };
+
+    window.addEventListener('pointerdown', handleOutsideClick, true);
+    return () => window.removeEventListener('pointerdown', handleOutsideClick, true);
+  }, [toneMenuOpen, povMenuOpen, customPromptOpen]);
+
   // Execute an AI Sculpt Action
   const executeSculpt = async (actionType, param = '') => {
     if (!selection?.text || isWorking) return;

@@ -23,6 +23,7 @@ import { useAuth } from '../../context/AuthContext';
 import { showToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService';
 import { rollDice } from '../../services/diceService';
+import { TwoD10Icon } from '../UI/TwoD10Icon';
 import { PersonaLogService, ACTION_TYPES } from '../../services/personaLogService';
 import { 
   getFolioTombstones, 
@@ -224,7 +225,7 @@ export const MessageInput = ({ isCompact = false }) => {
                 : 'bg-cyan-950/30 border-cyan-500/30 text-cyan-200'
             }`}>
               <div className="flex items-center gap-2">
-                <span className={`w-2 h-2 rounded-full ${activeChannel.targetPersona?.name ? 'bg-purple-400' : 'bg-cyan-400'} animate-pulse`} />
+                <span className={`w-2 h-2 rounded-full ${activeChannel.targetPersona?.name ? 'bg-purple-400 shadow-[0_0_6px_#c084fc]' : 'bg-cyan-400 shadow-[0_0_6px_#22d3ee]'} animate-soft-badge-glow`} />
                 <span className="text-[11px]">
                   {activeChannel.targetPersona?.name ? (
                     <>Whispering to Persona: <strong className="text-purple-300 font-bold">{activeChannel.targetPersona.name}</strong> <span className="text-[10px] text-slate-400">(@{activeChannel.displayName})</span></>
@@ -407,7 +408,7 @@ export const MessageInput = ({ isCompact = false }) => {
                 }`}
                 title="Toggle VTT Stage Sync for dice rolls"
               >
-                <Radio size={11} className={broadcastToVtt ? 'animate-pulse text-amber-400' : ''} />
+                <Radio size={11} className={broadcastToVtt ? 'animate-soft-back-glow text-amber-400' : ''} />
                 <span className="hidden sm:inline">VTT</span>
               </button>
 
@@ -475,7 +476,7 @@ export const MessageInput = ({ isCompact = false }) => {
                   }`}
                   title="Launch Tactical Dice Roller"
                 >
-                  <Dices size={13} />
+                  <TwoD10Icon size={13} />
                   <span>ROLL</span>
                 </button>
 

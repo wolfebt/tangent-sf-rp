@@ -22,13 +22,15 @@ if (missingVars.length > 0 && typeof window !== 'undefined') {
   );
 }
 
+const isNodeTestEnv = typeof window === 'undefined' && !env.VITE_FIREBASE_API_KEY;
+
 const firebaseConfig = {
-  apiKey: env.VITE_FIREBASE_API_KEY,
-  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: env.VITE_FIREBASE_APP_ID,
+  apiKey: env.VITE_FIREBASE_API_KEY || (isNodeTestEnv ? 'AIzaSyDummyKeyForTestingNodeEnv000' : undefined),
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || (isNodeTestEnv ? 'tangent-sf-rp.firebaseapp.com' : undefined),
+  projectId: env.VITE_FIREBASE_PROJECT_ID || (isNodeTestEnv ? 'tangent-sf-rp' : undefined),
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || (isNodeTestEnv ? 'tangent-sf-rp.appspot.com' : undefined),
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || (isNodeTestEnv ? '1234567890' : undefined),
+  appId: env.VITE_FIREBASE_APP_ID || (isNodeTestEnv ? '1:1234567890:web:abcdef123456' : undefined),
   measurementId: env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 

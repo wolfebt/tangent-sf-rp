@@ -33,7 +33,14 @@ const BLOCK_TAGS = [
   { label: 'Briefing', color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' }
 ];
 
-export const ArchitectDocketBlock = ({ channel, group, onClose, isCollapsed = false, onToggleCollapse }) => {
+export const ArchitectDocketBlock = ({ 
+  channel, 
+  group, 
+  onClose, 
+  blocks: externalBlocks,
+  isCollapsed = false, 
+  onToggleCollapse 
+}) => {
   const { toast } = useToast();
   const { currentUser, isAdmin } = useAuth();
   const { 
@@ -45,7 +52,8 @@ export const ArchitectDocketBlock = ({ channel, group, onClose, isCollapsed = fa
     canManageTeam 
   } = useGroup() || {};
 
-  const [blocks, setBlocks] = useState([]);
+  const [internalBlocks, setInternalBlocks] = useState([]);
+  const blocks = externalBlocks !== undefined ? externalBlocks : internalBlocks;
   const [activeModal, setActiveModal] = useState(null); // 'text' | 'image' | null
   const [lightboxImage, setLightboxImage] = useState(null);
 
@@ -80,19 +88,20 @@ export const ArchitectDocketBlock = ({ channel, group, onClose, isCollapsed = fa
 
   // Subscribe to real-time blocks for this channel / group
   useEffect(() => {
+    if (externalBlocks !== undefined) return;
     if (!channelId && !groupId) {
-      setBlocks([]);
+      setInternalBlocks([]);
       return;
     }
 
     const unsub = subscribeToArchitectBlocks?.({ channelId, groupId }, (blockList) => {
-      setBlocks(blockList || []);
+      setInternalBlocks(blockList || []);
     });
 
     return () => {
       if (typeof unsub === 'function') unsub();
     };
-  }, [channelId, groupId, subscribeToArchitectBlocks]);
+  }, [channelId, groupId, externalBlocks, subscribeToArchitectBlocks]);
 
   const handleCreateTextBlock = async (e) => {
     e.preventDefault();

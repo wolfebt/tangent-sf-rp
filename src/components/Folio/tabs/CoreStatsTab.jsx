@@ -4,7 +4,7 @@ import FolioTooltip from '../shared/FolioTooltip';
 import { useFolio } from '../../../context/FolioContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { useDice } from '../../../context/DiceContext';
-import { Dices } from 'lucide-react';
+import { Dices, ChevronDown, ChevronRight, Plus, Trash2, Coins, Receipt } from 'lucide-react';
 
 // Lazy Loaded Rules & Codex Modals
 const DiscreetFateOverrideModal = React.lazy(() => import('../modals/DiscreetFateOverrideModal'));
@@ -337,6 +337,80 @@ const CoreStatsTab = () => {
 
   const unenabledModes = allPossibleMoveModes.filter(m => !activeMoveModes.includes(m.id));
 
+  // Wealth: Credits & Debits Accordions State & Handlers
+  const [isCreditsAccordionOpen, setIsCreditsAccordionOpen] = useState(false);
+  const [isDebitsAccordionOpen, setIsDebitsAccordionOpen] = useState(false);
+
+  const getArrayFromData = (key, altKey) => {
+    let val = characterData[key];
+    if (!val && altKey) val = characterData[altKey];
+    if (Array.isArray(val)) return val;
+    if (typeof val === 'string' && val.trim()) {
+      try {
+        const parsed = JSON.parse(val);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  };
+
+  const handleAddTradeGood = () => {
+    const current = getArrayFromData('trade-goods', 'wealth-trade-goods');
+    const newItem = {
+      id: `good-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      goods: 'material',
+      name: '',
+      amount: 1,
+      creditValue: 0
+    };
+    const updated = [...current, newItem];
+    updateField('trade-goods', updated);
+    updateField('wealth-trade-goods', updated);
+  };
+
+  const handleUpdateTradeGood = (index, field, value) => {
+    const current = getArrayFromData('trade-goods', 'wealth-trade-goods');
+    const updated = current.map((item, i) => i === index ? { ...item, [field]: value } : item);
+    updateField('trade-goods', updated);
+    updateField('wealth-trade-goods', updated);
+  };
+
+  const handleDeleteTradeGood = (index) => {
+    const current = getArrayFromData('trade-goods', 'wealth-trade-goods');
+    const updated = current.filter((_, i) => i !== index);
+    updateField('trade-goods', updated);
+    updateField('wealth-trade-goods', updated);
+  };
+
+  const handleAddDebit = () => {
+    const current = getArrayFromData('debits', 'wealth-debits');
+    const newDebit = {
+      id: `debt-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      amount: 0,
+      debtor: '',
+      notes: ''
+    };
+    const updated = [...current, newDebit];
+    updateField('debits', updated);
+    updateField('wealth-debits', updated);
+  };
+
+  const handleUpdateDebit = (index, field, value) => {
+    const current = getArrayFromData('debits', 'wealth-debits');
+    const updated = current.map((item, i) => i === index ? { ...item, [field]: value } : item);
+    updateField('debits', updated);
+    updateField('wealth-debits', updated);
+  };
+
+  const handleDeleteDebit = (index) => {
+    const current = getArrayFromData('debits', 'wealth-debits');
+    const updated = current.filter((_, i) => i !== index);
+    updateField('debits', updated);
+    updateField('wealth-debits', updated);
+  };
+
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -501,35 +575,35 @@ const CoreStatsTab = () => {
                             {isSub ? (
                               <button
                                 type="button"
-                                onClick={() => openDiceRoller({
-                                  label: `${attr.name} Check (${attr.code})`,
+                                onClick={(e) => openDiceRoller({
+                                  label: `${attr.name} ${total >= 0 ? `+${total}` : total}`,
                                   baseModifier: total,
                                   expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
                                   rollMode: 'normal',
                                   characterName: characterData['char-name'] || 'Operative',
                                   personaId: characterData['character-doc-id'] || characterData.id,
-                                  autoRoll: true
+                                  autoRoll: e?.shiftKey || false
                                 })}
                                 className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[9.5px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-0.5 shrink-0"
-                                title={`Roll ${attr.name} Check (2d10 + ${total})`}
+                                title={`Check ${attr.name} (2d10 + ${total}). Shift-click to quick-roll.`}
                               >
                                 <Dices size={11} className="text-amber-400" />
-                                <span>Roll</span>
+                                <span>Check</span>
                               </button>
                             ) : (
                               <button
                                 type="button"
-                                onClick={() => openDiceRoller({
-                                  label: `${attr.name} Check (${attr.code})`,
+                                onClick={(e) => openDiceRoller({
+                                  label: `${attr.name} ${total >= 0 ? `+${total}` : total}`,
                                   baseModifier: total,
                                   expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
                                   rollMode: 'normal',
                                   characterName: characterData['char-name'] || 'Operative',
                                   personaId: characterData['character-doc-id'] || characterData.id,
-                                  autoRoll: true
+                                  autoRoll: e?.shiftKey || false
                                 })}
                                 className="p-0.5 rounded bg-slate-900/60 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"
-                                title={`Roll ${attr.name} Check (2d10 + ${total})`}
+                                title={`Check ${attr.name} (2d10 + ${total}). Shift-click to quick-roll.`}
                               >
                                 <Dices size={10} />
                               </button>
@@ -616,18 +690,18 @@ const CoreStatsTab = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       openDiceRoller({
-                        label: 'Perception Check (Alertness)',
+                        label: `Perception ${alertPerception >= 0 ? `+${alertPerception}` : alertPerception}`,
                         baseModifier: alertPerception,
                         expression: `2d10${alertPerception !== 0 ? (alertPerception > 0 ? `+${alertPerception}` : `${alertPerception}`) : ''}`,
                         rollMode: 'normal',
                         characterName: characterData['char-name'] || 'Operative',
-                        autoRoll: true
+                        autoRoll: e?.shiftKey || false
                       });
                     }}
                     className="mt-0.5 py-0.5 px-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                    title={`Roll Default Perception Check (2d10 + ${alertPerception})`}
+                    title={`Check Default Perception (2d10 + ${alertPerception}). Shift-click to quick-roll.`}
                   >
-                    <Dices size={9} /> Roll
+                    <Dices size={9} /> Check
                   </button>
                 </div>
               </FolioTooltip>
@@ -651,18 +725,18 @@ const CoreStatsTab = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       openDiceRoller({
-                        label: 'Metaphysical Perception Check (Attune)',
+                        label: `Meta Perception ${metaPerception >= 0 ? `+${metaPerception}` : metaPerception}`,
                         baseModifier: metaPerception,
                         expression: `2d10${metaPerception !== 0 ? (metaPerception > 0 ? `+${metaPerception}` : `${metaPerception}`) : ''}`,
                         rollMode: 'normal',
                         characterName: characterData['char-name'] || 'Operative',
-                        autoRoll: true
+                        autoRoll: e?.shiftKey || false
                       });
                     }}
                     className="mt-0.5 py-0.5 px-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                    title={`Roll Metaphysical Perception Check (2d10 + ${metaPerception})`}
+                    title={`Check Metaphysical Perception (2d10 + ${metaPerception}). Shift-click to quick-roll.`}
                   >
-                    <Dices size={9} /> Roll
+                    <Dices size={9} /> Check
                   </button>
                 </div>
               </FolioTooltip>
@@ -686,18 +760,18 @@ const CoreStatsTab = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       openDiceRoller({
-                        label: 'Social Perception Check (Insight)',
+                        label: `Social Perception ${socialPerception >= 0 ? `+${socialPerception}` : socialPerception}`,
                         baseModifier: socialPerception,
                         expression: `2d10${socialPerception !== 0 ? (socialPerception > 0 ? `+${socialPerception}` : `${socialPerception}`) : ''}`,
                         rollMode: 'normal',
                         characterName: characterData['char-name'] || 'Operative',
-                        autoRoll: true
+                        autoRoll: e?.shiftKey || false
                       });
                     }}
                     className="mt-0.5 py-0.5 px-1 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                    title={`Roll Social Perception Check (2d10 + ${socialPerception})`}
+                    title={`Check Social Perception (2d10 + ${socialPerception}). Shift-click to quick-roll.`}
                   >
-                    <Dices size={9} /> Roll
+                    <Dices size={9} /> Check
                   </button>
                 </div>
               </FolioTooltip>
@@ -721,18 +795,18 @@ const CoreStatsTab = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       openDiceRoller({
-                        label: 'Technical Perception Check (Technology)',
+                        label: `Tech Perception ${techPerception >= 0 ? `+${techPerception}` : techPerception}`,
                         baseModifier: techPerception,
                         expression: `2d10${techPerception !== 0 ? (techPerception > 0 ? `+${techPerception}` : `${techPerception}`) : ''}`,
                         rollMode: 'normal',
                         characterName: characterData['char-name'] || 'Operative',
-                        autoRoll: true
+                        autoRoll: e?.shiftKey || false
                       });
                     }}
                     className="mt-0.5 py-0.5 px-1 bg-blue-950/90 hover:bg-blue-900 border border-blue-500/50 text-blue-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                    title={`Roll Technical Perception Check (2d10 + ${techPerception})`}
+                    title={`Check Technical Perception (2d10 + ${techPerception}). Shift-click to quick-roll.`}
                   >
-                    <Dices size={9} /> Roll
+                    <Dices size={9} /> Check
                   </button>
                 </div>
               </FolioTooltip>
@@ -1015,133 +1089,11 @@ const CoreStatsTab = () => {
           </div>
         </div>
 
-        {/* Column 2: Setting Tiers, Combat & Vitals Status, Movement, Experience */}
+        {/* Column 2: Combat & Vitals Status, Movement, Setting Tiers, Wealth, Experience */}
         <div className="space-y-3">
-          
-          {/* Tech & Meta Level Block */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2 space-y-1.5">
-            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1 gap-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs">⚙️</span>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
-                  Tech Level &amp; Meta Level
-                </h3>
-                <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
-                  (Setting Parameters: 10 CP / diff from 3)
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-[10px] font-mono">
-                {(() => {
-                  const curTL = Math.min(5, Math.max(0, getNum('tech-level', 3)));
-                  const tlCP = (curTL - 3) * 10;
-                  const curML = Math.min(5, Math.max(0, getNum('magic-level', 1)));
-                  const mlCP = (curML - 3) * 10;
-                  const totalLevelCP = tlCP + mlCP;
-                  return (
-                    <span className={`px-1.5 py-0.5 rounded font-bold border text-[9px] ${totalLevelCP > 0 ? 'bg-amber-950/60 border-amber-500/50 text-amber-300' : totalLevelCP < 0 ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' : 'bg-slate-800 border-slate-700 text-slate-300'}`}>
-                      Level CP: {totalLevelCP >= 0 ? `+${totalLevelCP}` : totalLevelCP} CP
-                    </span>
-                  );
-                })()}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-1.5">
-              {/* Tech Level (0-5) */}
-              {(() => {
-                const curTL = Math.min(5, Math.max(0, getNum('tech-level', 3)));
-                const tlCP = (curTL - 3) * 10;
-                return (
-                  <FolioTooltip
-                    title="Technology Level (TL 0–5)"
-                    badge="Setting Tier"
-                    badgeColor="cyan"
-                    description="Standard galactic spacefaring baseline is TL3 (0 CP). Higher tech costs 10 CP per level (+10 CP at TL4, +20 CP at TL5). Lower tech grants CP refunds (-10 CP at TL2, -20 CP at TL1, -30 CP at TL0). Species and faction tech levels do not stack (highest is taken)."
-                    formula={`TL ${curTL}: ${(curTL - 3)} level difference × 10 CP = ${tlCP >= 0 ? `+${tlCP}` : tlCP} CP`}
-                    cost={tlCP === 0 ? '0 CP (Baseline)' : (tlCP > 0 ? `+${tlCP} CP Cost` : `${tlCP} CP Refund`)}
-                    tags={['TL 0-5', '10 CP / Level diff', 'Non-stacking']}
-                  >
-                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-cyan-500/40 transition-colors">
-                      <div className="flex flex-col min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <label htmlFor="tech-level" className="text-[11px] font-bold uppercase tracking-wider text-cyan-300 cursor-pointer shrink-0 leading-tight">
-                            Tech Level
-                          </label>
-                          <span className="text-[8.5px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
-                        </div>
-                        <span className={`text-[8.5px] font-mono leading-none ${tlCP > 0 ? 'text-amber-400' : tlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
-                          {tlCP === 0 ? '0 CP (TL3 Base)' : (tlCP > 0 ? `+${tlCP} CP` : `${tlCP} CP`)}
-                        </span>
-                      </div>
-                      {isSheetLocked ? (
-                        <span className="text-xs font-mono font-bold text-cyan-200 px-1 py-0.5">
-                          {curTL}
-                        </span>
-                      ) : (
-                        <input
-                          id="tech-level"
-                          type="number"
-                          min="0"
-                          max="5"
-                          value={curTL}
-                          onChange={(e) => updateField('tech-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
-                          className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
-                        />
-                      )}
-                    </div>
-                  </FolioTooltip>
-                );
-              })()}
-
-              {/* Meta Level (0-5) */}
-              {(() => {
-                const curML = Math.min(5, Math.max(0, getNum('magic-level', 1)));
-                const mlCP = (curML - 3) * 10;
-                return (
-                  <FolioTooltip
-                    title="Meta Level (ML 0–5)"
-                    badge="Metaphysics Tier"
-                    badgeColor="purple"
-                    description="Standard metaphysics baseline is ML3 (0 CP). Higher metaphysics costs 10 CP per level (+10 CP at ML4, +20 CP at ML5). Lower metaphysics grants CP refunds (-10 CP at ML2, -20 CP at ML1, -30 CP at ML0). Species and faction meta levels do not stack (highest is taken)."
-                    formula={`ML ${curML}: ${(curML - 3)} level difference × 10 CP = ${mlCP >= 0 ? `+${mlCP}` : mlCP} CP`}
-                    cost={mlCP === 0 ? '0 CP (Baseline)' : (mlCP > 0 ? `+${mlCP} CP Cost` : `${mlCP} CP Refund`)}
-                    tags={['ML 0-5', '10 CP / Level diff', 'Non-stacking']}
-                  >
-                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-purple-500/40 transition-colors">
-                      <div className="flex flex-col min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <label htmlFor="magic-level" className="text-[11px] font-bold uppercase tracking-wider text-purple-300 cursor-pointer shrink-0 leading-tight">
-                            Meta Level
-                          </label>
-                          <span className="text-[8.5px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
-                        </div>
-                        <span className={`text-[8.5px] font-mono leading-none ${mlCP > 0 ? 'text-amber-400' : mlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
-                          {mlCP === 0 ? '0 CP (ML3 Base)' : (mlCP > 0 ? `+${mlCP} CP` : `${mlCP} CP`)}
-                        </span>
-                      </div>
-                      {isSheetLocked ? (
-                        <span className="text-xs font-mono font-bold text-purple-200 px-1 py-0.5">
-                          {curML}
-                        </span>
-                      ) : (
-                        <input
-                          id="magic-level"
-                          type="number"
-                          min="0"
-                          max="5"
-                          value={curML}
-                          onChange={(e) => updateField('magic-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
-                          className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
-                        />
-                      )}
-                    </div>
-                  </FolioTooltip>
-                );
-              })()}
-            </div>
-          </div>
 
           {/* Initiative & Status Block */}
+
           <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2.5 space-y-2">
             <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1.5 gap-2">
               <div className="flex items-center gap-2">
@@ -1192,19 +1144,19 @@ const CoreStatsTab = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           openDiceRoller({
-                            label: 'Initiative Check',
+                            label: `Initiative ${initiativeTotal >= 0 ? `+${initiativeTotal}` : initiativeTotal}`,
                             baseModifier: initiativeTotal,
                             expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
                             rollMode: 'normal',
                             characterName: characterData['char-name'] || 'Operative',
-                            autoRoll: true
+                            autoRoll: e?.shiftKey || false
                           });
                         }}
                         className="px-2 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[9.5px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1 shrink-0"
-                        title={`Roll Initiative Check (2d10 + ${initiativeTotal})`}
+                        title={`Check Initiative (2d10 + ${initiativeTotal}). Shift-click to quick-roll.`}
                       >
                         <Dices size={10} className="text-amber-400" />
-                        <span>Roll</span>
+                        <span>Check</span>
                       </button>
                     </div>
                   </div>
@@ -1581,41 +1533,44 @@ const CoreStatsTab = () => {
                     formula={toolData.formula}
                     tags={['Movement', config.label]}
                   >
-                    <div className="flex flex-col bg-slate-800/40 px-2 py-1.5 rounded border border-slate-700/80 relative group w-full hover:border-cyan-500/50 transition-colors">
-                      <div className="flex items-center justify-between mb-1">
-                        <label htmlFor={`move-${mode}`} className="text-[10px] font-bold uppercase tracking-wider text-cyan-400 truncate cursor-pointer leading-tight">
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 relative group w-full hover:border-cyan-500/50 transition-colors gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <label htmlFor={`move-${mode}`} className="text-[11px] font-bold uppercase tracking-wider text-cyan-400 truncate cursor-pointer leading-tight">
                           {config.label}
                         </label>
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <span className="text-[8.5px] font-mono text-slate-500 leading-none">{Math.round(speedVal * 0.3)}m</span>
-                          {mode !== 'walk' && !isSheetLocked && (
-                            <button
-                              type="button"
-                              onClick={() => updateField(`move-${mode}`, 0)}
-                              className="text-slate-500 hover:text-red-400 text-[10px] transition-colors cursor-pointer leading-none px-0.5"
-                              title="Disable movement mode"
-                            >
-                              ✕
-                            </button>
-                          )}
-                        </div>
+                        <span className="text-[8.5px] font-mono text-slate-500 shrink-0 leading-none">
+                          {Math.round(speedVal * 0.3)}m
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1.5">
+
+                      <div className="flex items-center gap-1 shrink-0">
                         {isSheetLocked ? (
-                          <span className="text-xs font-mono font-bold text-cyan-200 px-1 py-0.5 w-full text-center bg-slate-900 rounded border border-slate-800">
+                          <span className="text-xs font-mono font-bold text-cyan-200 px-1.5 py-0.5 bg-slate-900 rounded border border-slate-800 text-center min-w-[3rem]">
                             {speedVal} ft
                           </span>
                         ) : (
-                          <div className="relative w-full flex items-center">
+                          <div className="relative flex items-center">
                             <input
                               id={`move-${mode}`}
                               type="number"
+                              min="0"
                               value={speedVal}
-                              onChange={(e) => updateField(`move-${mode}`, parseInt(e.target.value, 10) || 0)}
-                              className="w-full bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors"
+                              onChange={(e) => updateField(`move-${mode}`, Math.max(0, parseInt(e.target.value, 10) || 0))}
+                              className="w-16 h-6 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 pr-4 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors"
                             />
-                            <span className="absolute right-2 text-[9px] font-mono text-slate-500 pointer-events-none">ft</span>
+                            <span className="absolute right-1 text-[8.5px] font-mono text-slate-500 pointer-events-none">ft</span>
                           </div>
+                        )}
+
+                        {mode !== 'walk' && !isSheetLocked && (
+                          <button
+                            type="button"
+                            onClick={() => updateField(`move-${mode}`, 0)}
+                            className="text-slate-500 hover:text-red-400 text-[10px] transition-colors cursor-pointer leading-none p-0.5"
+                            title="Disable movement mode"
+                          >
+                            ✕
+                          </button>
                         )}
                       </div>
                     </div>
@@ -1624,6 +1579,661 @@ const CoreStatsTab = () => {
               })}
             </div>
           </div>
+
+          {/* Tech & Meta Level Block */}
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-2 space-y-1.5">
+            <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-1 gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs">⚙️</span>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+                  Tech Level &amp; Meta Level
+                </h3>
+                <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
+                  (Setting Parameters: 10 CP / diff from 3)
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-[10px] font-mono">
+                {(() => {
+                  const curTL = Math.min(5, Math.max(0, getNum('tech-level', 3)));
+                  const tlCP = (curTL - 3) * 10;
+                  const curML = Math.min(5, Math.max(0, getNum('magic-level', getNum('meta-level', 3))));
+                  const mlCP = (curML - 3) * 10;
+                  const totalLevelCP = tlCP + mlCP;
+                  return (
+                    <span className={`px-1.5 py-0.5 rounded font-bold border text-[9px] ${totalLevelCP > 0 ? 'bg-amber-950/60 border-amber-500/50 text-amber-300' : totalLevelCP < 0 ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' : 'bg-slate-800 border-slate-700 text-slate-300'}`}>
+                      Level CP: {totalLevelCP > 0 ? `+${totalLevelCP} Cost` : totalLevelCP < 0 ? `+${Math.abs(totalLevelCP)} Awarded` : '0 CP (Baseline)'}
+                    </span>
+                  );
+                })()}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-1.5">
+              {/* Tech Level (0-5) */}
+              {(() => {
+                const curTL = Math.min(5, Math.max(0, getNum('tech-level', 3)));
+                const baseTL = Math.min(5, Math.max(0, getNum('base-tech-level', 3)));
+                const tlCP = (curTL - 3) * 10;
+                const purchasedTL = Math.max(0, curTL - baseTL);
+                return (
+                  <FolioTooltip
+                    title="Technology Level (TL 0–5)"
+                    badge="Setting Tier"
+                    badgeColor="cyan"
+                    description="Standard galactic spacefaring baseline is TL3 (0 CP). Higher tech costs 10 CP per level (+10 CP at TL4, +20 CP at TL5). Lower tech grants +10 CP per level difference (+10 CP at TL2, +20 CP at TL1, +30 CP at TL0). Lowered scores may be increased during creation or advancement at 10 CP per level. Species and faction levels do not stack (highest is taken)."
+                    formula={`TL ${curTL}: ${(curTL - 3)} level difference × 10 CP = ${tlCP >= 0 ? `+${tlCP}` : tlCP} CP (Base TL: ${baseTL}${purchasedTL > 0 ? `, +${purchasedTL} Upgraded` : ''})`}
+                    cost={tlCP === 0 ? '0 CP (Baseline)' : (tlCP > 0 ? `+${tlCP} CP Cost` : `+${Math.abs(tlCP)} CP Awarded`)}
+                    tags={['TL 0-5', '10 CP / Level diff', 'Pillars Base']}
+                  >
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-cyan-500/40 transition-colors">
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <label htmlFor="tech-level" className="text-[11px] font-bold uppercase tracking-wider text-cyan-300 cursor-pointer shrink-0 leading-tight">
+                            Tech Level
+                          </label>
+                          <span className="text-[8.5px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
+                        </div>
+                        <span className={`text-[8.5px] font-mono leading-none ${tlCP > 0 ? 'text-amber-400' : tlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                          {tlCP === 0 ? '0 CP (TL3 Base)' : (tlCP > 0 ? `+${tlCP} CP` : `+${Math.abs(tlCP)} CP Award`)}
+                          {purchasedTL > 0 ? ` • +${purchasedTL} Upgraded` : (baseTL < 3 ? ` (Base TL${baseTL})` : '')}
+                        </span>
+                      </div>
+                      {isSheetLocked ? (
+                        <span className="text-xs font-mono font-bold text-cyan-200 px-1 py-0.5">
+                          {curTL}
+                        </span>
+                      ) : (
+                        <input
+                          id="tech-level"
+                          type="number"
+                          min="0"
+                          max="5"
+                          value={curTL}
+                          onChange={(e) => updateField('tech-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+                          className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                        />
+                      )}
+                    </div>
+                  </FolioTooltip>
+                );
+              })()}
+
+              {/* Meta Level (0-5) */}
+              {(() => {
+                const curML = Math.min(5, Math.max(0, getNum('magic-level', getNum('meta-level', 3))));
+                const baseML = Math.min(5, Math.max(0, getNum('base-meta-level', 3)));
+                const mlCP = (curML - 3) * 10;
+                const purchasedML = Math.max(0, curML - baseML);
+                return (
+                  <FolioTooltip
+                    title="Meta Level (ML 0–5)"
+                    badge="Metaphysics Tier"
+                    badgeColor="purple"
+                    description="Standard metaphysics baseline is ML3 (0 CP). Higher metaphysics costs 10 CP per level (+10 CP at ML4, +20 CP at ML5). Lower metaphysics grants +10 CP per level difference (+10 CP at ML2, +20 CP at ML1, +30 CP at ML0). Lowered scores may be increased during creation or advancement at 10 CP per level. Species and faction levels do not stack (highest is taken)."
+                    formula={`ML ${curML}: ${(curML - 3)} level difference × 10 CP = ${mlCP >= 0 ? `+${mlCP}` : mlCP} CP (Base ML: ${baseML}${purchasedML > 0 ? `, +${purchasedML} Upgraded` : ''})`}
+                    cost={mlCP === 0 ? '0 CP (Baseline)' : (mlCP > 0 ? `+${mlCP} CP Cost` : `+${Math.abs(mlCP)} CP Awarded`)}
+                    tags={['ML 0-5', '10 CP / Level diff', 'Pillars Base']}
+                  >
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-purple-500/40 transition-colors">
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <label htmlFor="magic-level" className="text-[11px] font-bold uppercase tracking-wider text-purple-300 cursor-pointer shrink-0 leading-tight">
+                            Meta Level
+                          </label>
+                          <span className="text-[8.5px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
+                        </div>
+                        <span className={`text-[8.5px] font-mono leading-none ${mlCP > 0 ? 'text-amber-400' : mlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                          {mlCP === 0 ? '0 CP (ML3 Base)' : (mlCP > 0 ? `+${mlCP} CP` : `+${Math.abs(mlCP)} CP Award`)}
+                          {purchasedML > 0 ? ` • +${purchasedML} Upgraded` : (baseML < 3 ? ` (Base ML${baseML})` : '')}
+                        </span>
+                      </div>
+                      {isSheetLocked ? (
+                        <span className="text-xs font-mono font-bold text-purple-200 px-1 py-0.5">
+                          {curML}
+                        </span>
+                      ) : (
+                        <input
+                          id="magic-level"
+                          type="number"
+                          min="0"
+                          max="5"
+                          value={curML}
+                          onChange={(e) => updateField('magic-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+                          className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                        />
+                      )}
+                    </div>
+                  </FolioTooltip>
+                );
+              })()}
+            </div>
+          </div>
+
+          {/* Wealth & Financial Status Trait Block */}
+          {(() => {
+            const wealthScore = derivedStats?.wealthScore ?? 10;
+            const wealthStatus = derivedStats?.wealthStatus;
+            const statusName = derivedStats?.wealthStatusName || wealthStatus?.name || 'Middle Class';
+            const autoBuyCr = derivedStats?.wealthAutoBuyCr ?? 600;
+            const creditValue = derivedStats?.wealthCreditValue ?? 600;
+            const breakdown = derivedStats?.wealthBreakdown || {};
+            const customWealthMod = getNum('wealth-score-mod', 0);
+
+            // Credits & Debits totals
+            const rawCredits = characterData['credits'] ?? characterData['wealth-credits'] ?? 0;
+            const liquidCredits = Math.max(0, parseInt(rawCredits, 10) || 0);
+
+            const tradeGoods = getArrayFromData('trade-goods', 'wealth-trade-goods');
+            const totalTradeGoodsCr = tradeGoods.reduce((sum, item) => sum + (Number(item?.creditValue) || 0), 0);
+            const totalLiquidCr = liquidCredits + totalTradeGoodsCr;
+
+            const debits = getArrayFromData('debits', 'wealth-debits');
+            const totalDebtCr = debits.reduce((sum, item) => sum + (Number(item?.amount) || 0), 0);
+            const netLiquidPosition = totalLiquidCr - totalDebtCr;
+
+            const getStatusBadgeStyle = (name) => {
+              switch (name) {
+                case 'Indebted':
+                case 'Impoverished':
+                  return 'bg-rose-950/80 text-rose-300 border-rose-500/50 shadow-[0_0_8px_rgba(244,63,94,0.3)]';
+                case 'Struggling':
+                  return 'bg-amber-950/80 text-amber-300 border-amber-500/50 shadow-[0_0_8px_rgba(245,158,11,0.3)]';
+                case 'Middle Class':
+                  return 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50 shadow-[0_0_8px_rgba(16,185,129,0.3)]';
+                case 'Affluent':
+                  return 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50 shadow-[0_0_8px_rgba(6,182,212,0.3)]';
+                case 'Wealthy':
+                  return 'bg-blue-950/80 text-blue-300 border-blue-500/50 shadow-[0_0_8px_rgba(59,130,246,0.3)]';
+                case 'Hegemon':
+                case 'Industrialist':
+                  return 'bg-purple-950/80 text-purple-300 border-purple-500/50 shadow-[0_0_8px_rgba(168,85,247,0.3)]';
+                case 'Dynastic':
+                case 'System Lord':
+                case 'Sector Ruler':
+                case 'Faction Ruler':
+                  return 'bg-yellow-950/80 text-yellow-300 border-yellow-500/50 shadow-[0_0_8px_rgba(234,179,8,0.3)]';
+                default:
+                  return 'bg-slate-800 text-slate-300 border-slate-700';
+              }
+            };
+
+            const formulaText = `WS ${wealthScore} = Occu Base (${breakdown.occupationBase ?? 2}) + Origin (${(breakdown.originMod ?? 0) >= 0 ? '+' : ''}${breakdown.originMod ?? 0}) + Faction (${(breakdown.factionMod ?? 0) >= 0 ? '+' : ''}${breakdown.factionMod ?? 0}) + TL (${(breakdown.tlMod ?? 0) >= 0 ? '+' : ''}${breakdown.tlMod ?? 0}) + Vocation (${(breakdown.skillBonus ?? 0) >= 0 ? '+' : ''}${breakdown.skillBonus ?? 0})${customWealthMod !== 0 ? ` + Mod (${customWealthMod >= 0 ? '+' : ''}${customWealthMod})` : ''}`;
+
+            return (
+              <div className="bg-slate-900/60 border border-amber-900/50 rounded-lg p-2 space-y-1.5 shadow-sm">
+                <div className="flex items-center justify-between border-b border-amber-900/60 pb-1 gap-2">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="text-xs shrink-0">💎</span>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 truncate">
+                      Wealth &amp; Status
+                    </h3>
+                    <span className="text-[9px] font-mono text-slate-400 hidden sm:inline shrink-0">
+                      (EUFT)
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => openRulesModal('wealth')}
+                    className="px-2 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-[9.5px] font-bold text-amber-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer shrink-0"
+                    title="Open Tangent Economic Unified Field Theory &amp; Wealth Codex"
+                  >
+                    <span>💎</span> Codex
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                  {/* Wealth Score (WS) */}
+                  <FolioTooltip
+                    title={`Wealth Score: ${wealthScore}`}
+                    badge={statusName}
+                    badgeColor="amber"
+                    description={`Represents personal economic leverage, liquid credit access, and commercial baseline. Items up to ${autoBuyCr.toLocaleString()} Cr are purchased automatically without financial rolls or lifestyle strain.`}
+                    formula={formulaText}
+                    cost={`Auto-Buy: ${autoBuyCr.toLocaleString()} Cr`}
+                    tags={['Wealth Score', statusName, `${autoBuyCr.toLocaleString()} Cr Auto-Buy`, 'EUFT Golden Rule']}
+                  >
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-amber-500/40 transition-colors">
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 leading-tight">
+                            Wealth Score
+                          </span>
+                          <span className="text-[8.5px] text-slate-400 font-mono">(WS)</span>
+                        </div>
+                        <span className="text-[8.5px] font-mono leading-none text-slate-400 truncate">
+                          Base {breakdown.occupationBase ?? 2} | {breakdown.occupation || 'Occu'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        {isSheetLocked ? (
+                          <span className="text-sm font-mono font-bold text-amber-300 px-1 py-0.5">
+                            {wealthScore}
+                          </span>
+                        ) : (
+                          <div className="flex items-center gap-1">
+                            <span className="text-sm font-mono font-bold text-amber-300">
+                              {wealthScore}
+                            </span>
+                            <input
+                              type="number"
+                              title="Custom / situational Wealth Score modifier"
+                              placeholder="±Mod"
+                              value={customWealthMod || ''}
+                              onChange={(e) => updateField('wealth-score-mod', parseInt(e.target.value, 10) || 0)}
+                              className="w-10 h-6 bg-slate-950 border border-slate-700 focus:border-amber-400 rounded px-1 py-0.5 text-[10px] font-mono text-center font-bold text-slate-100 outline-none transition-colors"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </FolioTooltip>
+
+                  {/* Financial Status Benchmark */}
+                  <FolioTooltip
+                    title={`Financial Status: ${statusName}`}
+                    badge="Benchmark Tier"
+                    badgeColor="amber"
+                    description={`Standard lifestyle: ${wealthStatus?.lifestyle || 'Stable dwelling'}. Net worth benchmark is ${wealthStatus?.netWorth || '~25k Cr'}. Single-transaction auto-buy threshold is ${autoBuyCr.toLocaleString()} Cr.`}
+                    formula={`Status Tier determined by WS range (${wealthStatus?.wsMin ?? 10}–${wealthStatus?.wsMax ?? 14})`}
+                    cost={`Net Worth: ${wealthStatus?.netWorth || '~25k Cr'}`}
+                    tags={['Financial Status', statusName, wealthStatus?.lifestyle || 'Standard']}
+                  >
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-amber-500/40 transition-colors">
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-300 leading-tight">
+                          Status Ranking
+                        </span>
+                        <span className="text-[8.5px] font-mono leading-none text-slate-400 truncate">
+                          Net: {wealthStatus?.netWorth || '~25k Cr'}
+                        </span>
+                      </div>
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border shrink-0 ${getStatusBadgeStyle(statusName)}`}>
+                        {statusName}
+                      </span>
+                    </div>
+                  </FolioTooltip>
+
+                  {/* Credit Auto-Buy Limit */}
+                  <FolioTooltip
+                    title="Auto-Buy Credit Limit"
+                    badge="Liquidity Threshold"
+                    badgeColor="cyan"
+                    description={`Under Tangent EUFT, any gear, service, or vehicle component with a market cost at or below ${autoBuyCr.toLocaleString()} Cr (Crafting DC ≤ ${wealthScore}) is auto-purchased without depletion checks or lifestyle reduction. Items exceeding this cost incur a Liquidity Gap.`}
+                    formula={`Auto-Buy Limit = ${autoBuyCr.toLocaleString()} Cr | TSC Base = ${creditValue.toLocaleString()} Cr`}
+                    cost="0 Liquidity Drag"
+                    tags={['Auto-Buy', `${autoBuyCr.toLocaleString()} Cr`, 'TSC Parity']}
+                  >
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2 py-1 rounded border border-slate-700/80 gap-2 hover:border-amber-500/40 transition-colors">
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-300 leading-tight">
+                          Auto-Buy Limit
+                        </span>
+                        <span className="text-[8.5px] font-mono leading-none text-slate-400 truncate">
+                          Single Purchase
+                        </span>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="text-xs font-mono font-bold text-cyan-300">
+                          {autoBuyCr >= 1000000 ? `${(autoBuyCr / 1000000).toFixed(1)}M Cr` : autoBuyCr >= 1000 ? `${(autoBuyCr / 1000).toFixed(1)}k Cr` : `${autoBuyCr} Cr`}
+                        </span>
+                      </div>
+                    </div>
+                  </FolioTooltip>
+                </div>
+
+                {/* ═══════════════════════════════════════════════════════════ */}
+                {/* ACCORDIONS: CREDITS (LIQUID ASSETS) & DEBITS (LIABILITIES) */}
+                {/* ═══════════════════════════════════════════════════════════ */}
+                <div className="space-y-1.5 pt-1.5 border-t border-amber-900/40">
+                  {/* 1. Credits Accordion: Liquid Assets */}
+                  <div className="border border-cyan-900/60 rounded bg-slate-950/40 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setIsCreditsAccordionOpen(prev => !prev)}
+                      className="w-full flex items-center justify-between p-2 hover:bg-slate-800/50 transition-colors text-left cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        {isCreditsAccordionOpen ? (
+                          <ChevronDown className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        ) : (
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        )}
+                        <Coins className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-300">
+                          Liquid Assets
+                        </span>
+                        <span className="text-[9px] font-mono text-slate-400 hidden sm:inline">
+                          ({tradeGoods.length} {tradeGoods.length === 1 ? 'custom asset' : 'custom assets'})
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 font-mono text-[10px]">
+                        <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-bold">
+                          {totalLiquidCr.toLocaleString()} Cr Total
+                        </span>
+                      </div>
+                    </button>
+
+                    {isCreditsAccordionOpen && (
+                      <div className="p-2 pt-0 space-y-2 border-t border-cyan-950">
+                        {/* Primary Liquid Credits Field */}
+                        <div className="bg-slate-900/70 p-2 rounded border border-slate-700/80 flex flex-wrap items-center justify-between gap-2 mt-2">
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs">🪙</span>
+                              <label htmlFor="wealth-credits-input" className="text-[11px] font-bold uppercase tracking-wider text-cyan-300 cursor-pointer">
+                                Liquid Standard Credits (Cr)
+                              </label>
+                            </div>
+                            <span className="text-[9px] font-mono text-slate-400">
+                              Direct spendable universal credit reserves
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            {isSheetLocked ? (
+                              <span className="text-sm font-mono font-bold text-cyan-300 px-2 py-0.5 bg-slate-950 rounded border border-slate-800">
+                                {liquidCredits.toLocaleString()} Cr
+                              </span>
+                            ) : (
+                              <div className="relative flex items-center">
+                                <input
+                                  id="wealth-credits-input"
+                                  type="number"
+                                  min="0"
+                                  value={liquidCredits}
+                                  onChange={(e) => {
+                                    const val = Math.max(0, parseInt(e.target.value, 10) || 0);
+                                    updateField('credits', val);
+                                    updateField('wealth-credits', val);
+                                  }}
+                                  className="w-28 h-7 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-2 text-xs font-mono text-right font-bold text-cyan-200 outline-none transition-colors"
+                                  placeholder="0"
+                                />
+                                <span className="ml-1 text-[10px] font-mono text-slate-400">Cr</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Trade Goods & Custom Currencies Table */}
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+                              Trade Goods &amp; Currencies
+                            </span>
+                            {!isSheetLocked && (
+                              <button
+                                type="button"
+                                onClick={handleAddTradeGood}
+                                className="px-2 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                              >
+                                <Plus className="w-3 h-3" /> Add Good / Currency
+                              </button>
+                            )}
+                          </div>
+
+                          {tradeGoods.length === 0 ? (
+                            <div className="p-2 rounded bg-slate-900/40 border border-dashed border-slate-800 text-center">
+                              <span className="text-[10px] text-slate-500 italic">
+                                No custom trade goods or regional currencies recorded. Click "+ Add Good / Currency" to log materials, cargo, or local specie.
+                              </span>
+                            </div>
+                          ) : (
+                            <div className="space-y-1">
+                              {tradeGoods.map((item, idx) => (
+                                <div 
+                                  key={item.id || idx}
+                                  className="bg-slate-900/80 p-1.5 rounded border border-slate-700/80 flex flex-wrap sm:flex-nowrap items-center gap-1.5 text-xs hover:border-cyan-500/40 transition-colors"
+                                >
+                                  {/* Goods Classification (Currency or Material) */}
+                                  <div className="w-24 shrink-0">
+                                    {isSheetLocked ? (
+                                      <span className="text-[10px] font-mono font-bold uppercase px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 block text-center">
+                                        {item.goods || 'material'}
+                                      </span>
+                                    ) : (
+                                      <select
+                                        value={item.goods || 'material'}
+                                        onChange={(e) => handleUpdateTradeGood(idx, 'goods', e.target.value)}
+                                        className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-1 text-[10px] font-mono text-cyan-300 outline-none cursor-pointer uppercase font-bold"
+                                        title="Goods classification (currency or material)"
+                                      >
+                                        <option value="material">Material</option>
+                                        <option value="currency">Currency</option>
+                                        <option value="commodity">Commodity</option>
+                                      </select>
+                                    )}
+                                  </div>
+
+                                  {/* Description / Name */}
+                                  <div className="flex-1 min-w-[120px]">
+                                    {isSheetLocked ? (
+                                      <span className="text-[11px] font-bold text-slate-200 px-1 truncate block">
+                                        {item.name || 'Unnamed Good'}
+                                      </span>
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        placeholder="Good or currency description..."
+                                        value={item.name || ''}
+                                        onChange={(e) => handleUpdateTradeGood(idx, 'name', e.target.value)}
+                                        className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1 text-[11px] text-slate-100 outline-none transition-colors"
+                                      />
+                                    )}
+                                  </div>
+
+                                  {/* Amount / Qty */}
+                                  <div className="w-16 shrink-0">
+                                    {isSheetLocked ? (
+                                      <span className="text-[11px] font-mono text-slate-300 block text-center">
+                                        x{item.amount || 1}
+                                      </span>
+                                    ) : (
+                                      <input
+                                        type="number"
+                                        min="0"
+                                        placeholder="Qty"
+                                        value={item.amount ?? 1}
+                                        onChange={(e) => handleUpdateTradeGood(idx, 'amount', parseInt(e.target.value, 10) || 0)}
+                                        className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-1 text-[10px] font-mono text-center text-slate-200 outline-none transition-colors"
+                                        title="Amount / Units"
+                                      />
+                                    )}
+                                  </div>
+
+                                  {/* Credit Value */}
+                                  <div className="w-24 shrink-0">
+                                    {isSheetLocked ? (
+                                      <span className="text-[11px] font-mono font-bold text-amber-300 block text-right pr-1">
+                                        {(Number(item.creditValue) || 0).toLocaleString()} Cr
+                                      </span>
+                                    ) : (
+                                      <div className="relative flex items-center">
+                                        <input
+                                          type="number"
+                                          min="0"
+                                          placeholder="Cr Value"
+                                          value={item.creditValue ?? 0}
+                                          onChange={(e) => handleUpdateTradeGood(idx, 'creditValue', parseInt(e.target.value, 10) || 0)}
+                                          className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded px-1.5 py-1 text-[10px] font-mono text-right font-bold text-amber-300 outline-none transition-colors"
+                                          title="Credit Value (Cr)"
+                                        />
+                                        <span className="ml-1 text-[9px] font-mono text-slate-400">Cr</span>
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {/* Delete action */}
+                                  {!isSheetLocked && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteTradeGood(idx)}
+                                      className="p-1 text-slate-500 hover:text-red-400 transition-colors cursor-pointer shrink-0"
+                                      title="Remove item"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  )}
+                                </div>
+                              ))}
+
+                              {/* Subtotal row */}
+                              <div className="flex justify-between items-center px-2 py-1 text-[10px] font-mono text-slate-400 border-t border-slate-800">
+                                <span>Goods Subtotal: <strong className="text-amber-300">{totalTradeGoodsCr.toLocaleString()} Cr</strong></span>
+                                <span>Total Liquid Wealth: <strong className="text-cyan-300">{totalLiquidCr.toLocaleString()} Cr</strong></span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 2. Debits Accordion: Debts */}
+                  <div className="border border-rose-900/60 rounded bg-slate-950/40 overflow-hidden">
+                    <button
+                      type="button"
+                      onClick={() => setIsDebitsAccordionOpen(prev => !prev)}
+                      className="w-full flex items-center justify-between p-2 hover:bg-slate-800/50 transition-colors text-left cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        {isDebitsAccordionOpen ? (
+                          <ChevronDown className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                        ) : (
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                        )}
+                        <Receipt className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-rose-300">
+                          Debts
+                        </span>
+                        <span className="text-[9px] font-mono text-slate-400 hidden sm:inline">
+                          ({debits.length} {debits.length === 1 ? 'liability' : 'liabilities'})
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 font-mono text-[10px]">
+                        <span className={`px-1.5 py-0.5 rounded font-bold border ${totalDebtCr > 0 ? 'bg-rose-950/80 border-rose-500/50 text-rose-300' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>
+                          {totalDebtCr > 0 ? `-${totalDebtCr.toLocaleString()} Cr Debt` : 'Debt-Free'}
+                        </span>
+                      </div>
+                    </button>
+
+                    {isDebitsAccordionOpen && (
+                      <div className="p-2 pt-0 space-y-2 border-t border-rose-950">
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+                            Outstanding Debts, Mortgages &amp; Liens
+                          </span>
+                          {!isSheetLocked && (
+                            <button
+                              type="button"
+                              onClick={handleAddDebit}
+                              className="px-2 py-0.5 rounded bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-[9.5px] font-bold text-rose-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                            >
+                              <Plus className="w-3 h-3" /> Add Debt
+                            </button>
+                          )}
+                        </div>
+
+                        {debits.length === 0 ? (
+                          <div className="p-2 rounded bg-slate-900/40 border border-dashed border-slate-800 text-center">
+                            <span className="text-[10px] text-slate-500 italic">
+                              No active debts or financial liens recorded. Operative has zero recorded debt.
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="space-y-1">
+                            {debits.map((item, idx) => (
+                              <div 
+                                key={item.id || idx}
+                                className="bg-slate-900/80 p-1.5 rounded border border-slate-700/80 flex flex-wrap sm:flex-nowrap items-center gap-1.5 text-xs hover:border-rose-500/40 transition-colors"
+                              >
+                                {/* Amount (Cr) */}
+                                <div className="w-28 shrink-0">
+                                  {isSheetLocked ? (
+                                    <span className="text-[11px] font-mono font-bold text-rose-300 block">
+                                      -{(Number(item.amount) || 0).toLocaleString()} Cr
+                                    </span>
+                                  ) : (
+                                    <div className="relative flex items-center">
+                                      <input
+                                        type="number"
+                                        min="0"
+                                        placeholder="Debt (Cr)"
+                                        value={item.amount ?? 0}
+                                        onChange={(e) => handleUpdateDebit(idx, 'amount', parseInt(e.target.value, 10) || 0)}
+                                        className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-1.5 py-1 text-[10px] font-mono text-right font-bold text-rose-300 outline-none transition-colors"
+                                        title="Amount owed in Credits"
+                                      />
+                                      <span className="ml-1 text-[9px] font-mono text-slate-400">Cr</span>
+                                    </div>
+                                  )}
+                                </div>
+
+                                {/* Debtor / Creditor */}
+                                <div className="w-36 shrink-0">
+                                  {isSheetLocked ? (
+                                    <span className="text-[11px] font-bold text-slate-200 truncate block">
+                                      {item.debtor || 'Unspecified Creditor'}
+                                    </span>
+                                  ) : (
+                                    <input
+                                      type="text"
+                                      placeholder="Debtor / Creditor..."
+                                      value={item.debtor || ''}
+                                      onChange={(e) => handleUpdateDebit(idx, 'debtor', e.target.value)}
+                                      className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-2 py-1 text-[11px] text-slate-100 outline-none transition-colors"
+                                    />
+                                  )}
+                                </div>
+
+                                {/* Notes / Terms */}
+                                <div className="flex-1 min-w-[140px]">
+                                  {isSheetLocked ? (
+                                    <span className="text-[10px] text-slate-400 truncate block italic">
+                                      {item.notes || 'No terms noted'}
+                                    </span>
+                                  ) : (
+                                    <input
+                                      type="text"
+                                      placeholder="Terms, collateral, repayment cycles, interest notes..."
+                                      value={item.notes || ''}
+                                      onChange={(e) => handleUpdateDebit(idx, 'notes', e.target.value)}
+                                      className="w-full bg-slate-950 border border-slate-700 focus:border-rose-400 rounded px-2 py-1 text-[10px] text-slate-300 outline-none transition-colors"
+                                    />
+                                  )}
+                                </div>
+
+                                {/* Delete action */}
+                                {!isSheetLocked && (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleDeleteDebit(idx)}
+                                    className="p-1 text-slate-500 hover:text-red-400 transition-colors cursor-pointer shrink-0"
+                                    title="Remove debt"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+
+                            {/* Subtotal row */}
+                            <div className="flex justify-between items-center px-2 py-1 text-[10px] font-mono text-slate-400 border-t border-slate-800">
+                              <span>Total Outstanding Debt: <strong className="text-rose-400">-{totalDebtCr.toLocaleString()} Cr</strong></span>
+                              <span>Net Liquid Position: <strong className={netLiquidPosition >= 0 ? 'text-emerald-400' : 'text-rose-400'}>{netLiquidPosition >= 0 ? `+${netLiquidPosition.toLocaleString()}` : netLiquidPosition.toLocaleString()} Cr</strong></span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Advancement Points (AP) Block */}
           <div className="bg-slate-900/60 border border-emerald-900/50 rounded-lg p-2.5 space-y-2">

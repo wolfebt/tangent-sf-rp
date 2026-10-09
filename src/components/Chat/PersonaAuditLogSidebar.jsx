@@ -143,7 +143,7 @@ export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
         </div>
 
         <div className="flex items-center gap-1 text-[9.5px] text-emerald-400 font-bold shrink-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
           <span>BLACKBOX LIVE</span>
         </div>
       </div>

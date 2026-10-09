@@ -105,8 +105,11 @@ export const convertFolioToPersonaElement = (folioData, options = {}) => {
 
     // Mechanics: Vitals & Attributes
     'starting-cp': String(folioData['starting-cp'] ?? 150),
+    'base-tech-level': String(folioData['base-tech-level'] ?? 3),
+    'base-meta-level': String(folioData['base-meta-level'] ?? 3),
     'tech-level': String(folioData['tech-level'] ?? 3),
-    'magic-level': String(folioData['magic-level'] ?? 1),
+    'magic-level': String(folioData['magic-level'] ?? folioData['meta-level'] ?? 3),
+    'meta-level': String(folioData['meta-level'] ?? folioData['magic-level'] ?? 3),
     'health': String(folioData.health ?? 30),
     'vitality': String(folioData.vitality ?? 30),
     'structure': String(folioData.structure ?? 60),
@@ -215,8 +218,11 @@ export const convertPersonaElementToFolio = (element) => {
 
     // Vitals & Core Stats
     'starting-cp': parseNum(fields['starting-cp'] ?? attachedFolio['starting-cp'], 150),
+    'base-tech-level': parseNum(fields['base-tech-level'] ?? attachedFolio['base-tech-level'], 3),
+    'base-meta-level': parseNum(fields['base-meta-level'] ?? attachedFolio['base-meta-level'], 3),
     'tech-level': parseNum(fields['tech-level'] ?? attachedFolio['tech-level'], 3),
-    'magic-level': parseNum(fields['magic-level'] ?? attachedFolio['magic-level'], 1),
+    'magic-level': parseNum(fields['magic-level'] ?? attachedFolio['magic-level'] ?? fields['meta-level'] ?? attachedFolio['meta-level'], 3),
+    'meta-level': parseNum(fields['meta-level'] ?? attachedFolio['meta-level'] ?? fields['magic-level'] ?? attachedFolio['magic-level'], 3),
     'health': parseNum(fields.health ?? attachedFolio.health, 30),
     'vitality': parseNum(fields.vitality ?? attachedFolio.vitality, 30),
     'structure': parseNum(fields.structure ?? attachedFolio.structure, 60),

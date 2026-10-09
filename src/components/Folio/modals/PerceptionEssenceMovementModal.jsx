@@ -28,14 +28,27 @@ import { useConfirm } from '../../../context/ConfirmContext';
 import { 
   CORE_ATTRIBUTES, 
   ATTRIBUTE_CHECKS, 
-  REST_SYSTEM_RULES,
-  EXPERIENCE_RULES,
+  REST_SYSTEM_RULES, 
+  EXPERIENCE_RULES, 
   PERCEPTION_RULES, 
   MOVEMENT_MODES_AND_PACES, 
   MOVEMENT_FATIGUE_SYSTEM, 
-  FLYING_COMBAT_RULES 
+  FLYING_COMBAT_RULES,
+  FINANCIAL_STATUS_TABLE,
+  TOOL_TIERS
 } from '../../../engines/tangentConstants';
 import { calculateRestDegradation, getSpeciesRestProfile } from '../../../engines/tangentRestEngine';
+import { 
+  calculateCreditValue,
+  calculateMaterialCost,
+  calculateCraftingDays,
+  formatCraftingDuration,
+  calculateAllCraftingTiers,
+  calculateLiquidityGap,
+  calculateSellPrice,
+  calculateCooperativeCrafting,
+  getFinancialStatus
+} from '../../../engines/tangentEconEngine';
 import { AudioService } from '../../../services/audioService';
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -418,6 +431,21 @@ const PerceptionEssenceMovementModal = ({
   const climbBaseSpeed = climbSpeed > 0 ? climbSpeed : Math.max(5, Math.round(walkSpeed * 0.5));
   const burrowBaseSpeed = burrowSpeed > 0 ? burrowSpeed : Math.max(2.5, Math.round(walkSpeed * 0.25 * 10) / 10);
 
+  // Wealth & Financial Status State
+  const characterWS = derivedStats?.wealthScore ?? 10;
+  const wealthStatus = derivedStats?.wealthStatus ?? FINANCIAL_STATUS_TABLE[3];
+  const wealthAutoBuyCr = derivedStats?.wealthAutoBuyCr ?? 600;
+  const wealthCreditValue = derivedStats?.wealthCreditValue ?? 600;
+  const wealthBreakdown = derivedStats?.wealthBreakdown || {};
+
+  // Interactive Wealth & EUFT Calculators State
+  const [simItemDC, setSimItemDC] = useState(20);
+  const [simCustomWS, setSimCustomWS] = useState(characterWS);
+  const [craftCheck, setCraftCheck] = useState(20);
+  const [craftToolTier, setCraftToolTier] = useState('basic');
+  const [craftTargetCredits, setCraftTargetCredits] = useState(2560);
+  const [craftWorkers, setCraftWorkers] = useState(1);
+
   // Tab definitions
   const TABS = [
     { id: 'attributes', label: 'Attributes & Checks', icon: '🛡️', badge: null },
@@ -427,7 +455,8 @@ const PerceptionEssenceMovementModal = ({
     { id: 'experience', label: 'Experience & AP', icon: '🎖️', badge: `+${earnedAP}` },
     { id: 'perception', label: 'Perception', icon: '👁️', badge: basePerception },
     { id: 'essence', label: 'Essence Pool', icon: '🔮', badge: essenceTotal },
-    { id: 'movement', label: 'Movement & Paces', icon: '🏃', badge: `${walkSpeed} ft` }
+    { id: 'movement', label: 'Movement & Paces', icon: '🏃', badge: `${walkSpeed} ft` },
+    { id: 'wealth', label: 'Wealth & EUFT', icon: '💎', badge: `WS ${characterWS}` }
   ];
 
   // Rest execution handler
@@ -496,8 +525,8 @@ const PerceptionEssenceMovementModal = ({
           </button>
         </div>
 
-        {/* 8-Tab Consolidated Navigation Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-950/90 p-2 rounded-xl border border-slate-800 shadow-inner">
+        {/* 9-Tab Consolidated Navigation Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-1.5 bg-slate-950/90 p-2 rounded-xl border border-slate-800 shadow-inner">
           {TABS.map(tab => {
             const isActive = activeTab === tab.id;
             return (
@@ -2039,12 +2068,424 @@ const PerceptionEssenceMovementModal = ({
           </div>
         )}
 
+        {/* ═══════════════════════════════════════════════════════════════════ */}
+        {/* TAB 9: WEALTH & TANGENT ECONOMIC UNIFIED FIELD THEORY (EUFT)       */}
+        {/* ═══════════════════════════════════════════════════════════════════ */}
+        {activeTab === 'wealth' && (
+          <div className="space-y-6">
+            {/* Live Hero Economic Telemetry Banner */}
+            <div className="bg-slate-950/80 border border-amber-500/40 rounded-xl p-4 space-y-4 shadow-inner">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-amber-900/60 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">💎</span>
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-amber-300">
+                      Hero Financial Status &amp; Wealth Breakdown
+                    </h3>
+                    <p className="text-[11px] text-slate-400">
+                      Live character wealth evaluation based on Occupation, Origin, Faction, Tech Level &amp; Vocation Skill Ranks
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded bg-amber-950/80 border border-amber-500/50 text-xs font-mono font-bold text-amber-300 shadow-sm">
+                    WS {characterWS} ({wealthStatus?.name || 'Middle Class'})
+                  </span>
+                  <span className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/50 text-xs font-mono font-bold text-cyan-300 shadow-sm">
+                    {wealthAutoBuyCr.toLocaleString()} Cr Auto-Buy
+                  </span>
+                </div>
+              </div>
+
+              {/* Formula Component Breakdown Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 text-xs font-mono">
+                <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex flex-col justify-between">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">1. Occupation Base</span>
+                  <div className="text-base font-bold text-amber-300 my-0.5">WS {wealthBreakdown.occupationBase ?? 2}</div>
+                  <span className="text-[9.5px] text-slate-400 truncate">{wealthBreakdown.occupation || 'Citizen'}</span>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex flex-col justify-between">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">2. Origin Mod</span>
+                  <div className="text-base font-bold text-cyan-300 my-0.5">
+                    {(wealthBreakdown.originMod ?? 0) >= 0 ? `+${wealthBreakdown.originMod ?? 0}` : wealthBreakdown.originMod}
+                  </div>
+                  <span className="text-[9.5px] text-slate-400 truncate">{wealthBreakdown.origin || 'Standard'}</span>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex flex-col justify-between">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">3. Faction Mod</span>
+                  <div className="text-base font-bold text-purple-300 my-0.5">
+                    {(wealthBreakdown.factionMod ?? 0) >= 0 ? `+${wealthBreakdown.factionMod ?? 0}` : wealthBreakdown.factionMod}
+                  </div>
+                  <span className="text-[9.5px] text-slate-400 truncate">{wealthBreakdown.faction || 'Coalition'}</span>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex flex-col justify-between">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">4. Tech Level</span>
+                  <div className="text-base font-bold text-emerald-300 my-0.5">
+                    {(wealthBreakdown.tlMod ?? 0) >= 0 ? `+${wealthBreakdown.tlMod ?? 0}` : wealthBreakdown.tlMod}
+                  </div>
+                  <span className="text-[9.5px] text-slate-400 truncate">TL {wealthBreakdown.techLevel ?? 3} Baseline</span>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex flex-col justify-between">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">5. Vocation Bonus</span>
+                  <div className="text-base font-bold text-sky-300 my-0.5">
+                    {(wealthBreakdown.skillBonus ?? 0) >= 0 ? `+${wealthBreakdown.skillBonus ?? 0}` : wealthBreakdown.skillBonus}
+                  </div>
+                  <span className="text-[9.5px] text-slate-400 truncate" title={wealthBreakdown.qualifyingSkill || 'None'}>
+                    {wealthBreakdown.skillStage || 'None'} {wealthBreakdown.highestSkillRank ? `(R${wealthBreakdown.highestSkillRank})` : ''}
+                  </span>
+                </div>
+
+                <div className="p-2.5 rounded-lg bg-slate-900/90 border border-slate-700/80 flex flex-col justify-between">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase">6. Custom Mod</span>
+                  <div className="text-base font-bold text-yellow-300 my-0.5">
+                    {(wealthBreakdown.customMod ?? 0) >= 0 ? `+${wealthBreakdown.customMod ?? 0}` : wealthBreakdown.customMod}
+                  </div>
+                  <span className="text-[9.5px] text-slate-400 truncate">Situational / GM</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 12-Tier Financial Status Hierarchy Table */}
+            <div className="space-y-3">
+              <div className="flex flex-wrap justify-between items-center gap-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                  <span>🏛️</span> Financial Status Hierarchy (12 Tiers)
+                </h4>
+                <span className="text-[11px] font-mono text-slate-400">
+                  Current Status: <strong className="text-amber-300">{wealthStatus?.name}</strong> (Lifestyle: {wealthStatus?.lifestyle})
+                </span>
+              </div>
+
+              <div className="overflow-x-auto rounded-xl border border-slate-800 shadow">
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="bg-slate-950 border-b border-slate-800 text-[10.5px] font-mono uppercase text-slate-400">
+                      <th className="py-2.5 px-3">Status Rank</th>
+                      <th className="py-2.5 px-3">Wealth Score</th>
+                      <th className="py-2.5 px-3">Auto-Buy Threshold</th>
+                      <th className="py-2.5 px-3">Net Worth Benchmark</th>
+                      <th className="py-2.5 px-3">Lifestyle &amp; Living Conditions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/60 font-mono">
+                    {FINANCIAL_STATUS_TABLE.map((tier) => {
+                      const isHeroTier = characterWS >= tier.wsMin && characterWS <= tier.wsMax;
+                      return (
+                        <tr
+                          key={tier.name}
+                          className={`transition-colors ${
+                            isHeroTier
+                              ? 'bg-cyan-950/70 border-l-4 border-cyan-400 text-cyan-100 font-bold'
+                              : 'hover:bg-slate-800/40 text-slate-300'
+                          }`}
+                        >
+                          <td className="py-2 px-3 font-sans flex items-center gap-2">
+                            <span>{tier.name}</span>
+                            {isHeroTier && (
+                              <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 text-[9px] border border-cyan-400/60 uppercase font-mono">
+                                ★ Hero Tier
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-2 px-3 text-amber-300">
+                            {tier.wsMin === tier.wsMax ? tier.wsMin : `${tier.wsMin}–${tier.wsMax >= 999 ? '80+' : tier.wsMax}`}
+                          </td>
+                          <td className="py-2 px-3 text-cyan-300">
+                            {tier.autoBuyCr > 0 ? `${tier.autoBuyCr.toLocaleString()} Cr` : '0 Cr'}
+                          </td>
+                          <td className="py-2 px-3 text-slate-300">{tier.netWorth}</td>
+                          <td className="py-2 px-3 font-sans text-slate-400 text-[11px]">{tier.lifestyle}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* The Golden Rule & Master Valuation Curve (EUFT) */}
+            <div className="bg-slate-950/60 border border-cyan-900/60 rounded-xl p-4 space-y-3">
+              <div className="flex items-center gap-2 border-b border-cyan-900/60 pb-2">
+                <span className="text-base">⚖️</span>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                    The Golden Rule of Tangent Wealth &amp; EUFT Parity
+                  </h4>
+                  <p className="text-[11px] text-slate-400">
+                    <strong>Crafting DC = Purchase DC:</strong> An item&apos;s intrinsic value, market price, and fabrication difficulty exist in absolute parity: <code className="text-cyan-300 font-mono">Value (Cr) = 10 × 4^(DC / 5)</code>.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 text-center font-mono">
+                {[
+                  { dc: 0, val: 10, mat: 5, label: 'DC 0 (Rations)' },
+                  { dc: 5, val: 40, mat: 20, label: 'DC 5 (Survival Pack)' },
+                  { dc: 10, val: 160, mat: 80, label: 'DC 10 (Kinetic Rifle)' },
+                  { dc: 15, val: 640, mat: 320, label: 'DC 15 (Plasma Pistol)' },
+                  { dc: 20, val: 2560, mat: 1280, label: 'DC 20 (Combat Armor)' },
+                  { dc: 25, val: 10240, mat: 5120, label: 'DC 25 (Hovercraft)' },
+                  { dc: 30, val: 40960, mat: 20480, label: 'DC 30 (Armored APC)' },
+                  { dc: 40, val: 655360, mat: 327680, label: 'DC 40 (Scout Ship)' },
+                  { dc: 50, val: 10485760, mat: 5242880, label: 'DC 50 (Dreadnought)' },
+                  { dc: 60, val: 167772160, mat: 83886080, label: 'DC 60 (Battleship)' },
+                  { dc: 70, val: 2684354560, mat: 1342177280, label: 'DC 70 (Star Cluster)' },
+                  { dc: 80, val: 42949672960, mat: 21474836480, label: 'DC 80 (Orbital Ring)' }
+                ].map((item) => (
+                  <div key={item.dc} className="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs">
+                    <div className="text-[10px] text-slate-400 font-bold uppercase truncate">{item.label}</div>
+                    <div className="text-cyan-300 font-bold text-sm my-0.5">
+                      {item.val >= 1000000 ? `${(item.val / 1000000).toFixed(1)}M Cr` : item.val >= 1000 ? `${(item.val / 1000).toFixed(1)}k Cr` : `${item.val} Cr`}
+                    </div>
+                    <div className="text-[9.5px] text-slate-400">Mat: {item.mat >= 1000000 ? `${(item.mat / 1000000).toFixed(1)}M` : item.mat >= 1000 ? `${(item.mat / 1000).toFixed(1)}k` : item.mat} Cr</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Interactive Calculators Section (Liquidity Gap & Crafting Productivity) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              
+              {/* Calculator 1: Liquidity Gap & Auto-Buy Simulator */}
+              <div className="bg-slate-950/90 border border-amber-500/50 rounded-xl p-4 space-y-3.5 shadow-md">
+                <div className="flex items-center gap-2 border-b border-amber-900/60 pb-2">
+                  <span className="text-base">💳</span>
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300">
+                      Interactive Liquidity Gap &amp; Auto-Buy Simulator
+                    </h4>
+                    <p className="text-[10.5px] text-slate-400">
+                      Determine if an item is Auto-Bought or calculate the credit shortfall
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-xs">
+                  <div>
+                    <label className="text-[10px] font-mono text-slate-400 uppercase font-bold block mb-1">
+                      Item Crafting DC: <strong className="text-cyan-300">{simItemDC}</strong>
+                    </label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="60"
+                      step="1"
+                      value={simItemDC}
+                      onChange={(e) => setSimItemDC(parseInt(e.target.value, 10) || 0)}
+                      className="w-full accent-cyan-400 cursor-pointer"
+                    />
+                    <div className="flex justify-between text-[9px] font-mono text-slate-400">
+                      <span>DC 0 (10 Cr)</span>
+                      <span>DC 30 (41k)</span>
+                      <span>DC 60 (167M)</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-mono text-slate-400 uppercase font-bold block mb-1">
+                      Hero Wealth Score: <strong className="text-amber-300">{simCustomWS}</strong>
+                    </label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="60"
+                      step="1"
+                      value={simCustomWS}
+                      onChange={(e) => setSimCustomWS(parseInt(e.target.value, 10) || 0)}
+                      className="w-full accent-amber-400 cursor-pointer"
+                    />
+                    <div className="flex justify-between text-[9px] font-mono text-slate-400">
+                      <span>WS 0 (0 Cr)</span>
+                      <span>WS 14 (600 Cr)</span>
+                      <span>WS 30 (650k)</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quick Presets */}
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  <span className="text-[10px] text-slate-400 font-mono py-0.5">Presets:</span>
+                  {[
+                    { label: 'Sidearm (DC 15)', dc: 15 },
+                    { label: 'Power Armor (DC 20)', dc: 20 },
+                    { label: 'Speeder (DC 25)', dc: 25 },
+                    { label: 'APC (DC 30)', dc: 30 },
+                    { label: 'Scout Ship (DC 40)', dc: 40 }
+                  ].map((p) => (
+                    <button
+                      key={p.label}
+                      type="button"
+                      onClick={() => setSimItemDC(p.dc)}
+                      className={`px-2 py-0.5 text-[9.5px] font-mono rounded border transition-colors cursor-pointer ${
+                        simItemDC === p.dc
+                          ? 'bg-cyan-900 border-cyan-400 text-cyan-200'
+                          : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500'
+                      }`}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setSimCustomWS(characterWS)}
+                    className="ml-auto px-2 py-0.5 text-[9.5px] font-mono rounded bg-amber-950/80 border border-amber-600/50 text-amber-300 hover:bg-amber-900 transition-colors cursor-pointer"
+                  >
+                    Reset to Hero WS ({characterWS})
+                  </button>
+                </div>
+
+                {/* Simulation Result Box */}
+                {(() => {
+                  const simResult = calculateLiquidityGap(simItemDC, simCustomWS);
+                  const isAuto = simResult.isAutoBuy;
+                  return (
+                    <div
+                      className={`p-3 rounded-xl border text-xs font-mono transition-all ${
+                        isAuto
+                          ? 'bg-emerald-950/60 border-emerald-500/60 text-emerald-200'
+                          : 'bg-rose-950/60 border-rose-500/60 text-rose-200'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center font-bold">
+                        <span className="flex items-center gap-1.5 uppercase text-[11px]">
+                          {isAuto ? '✅ Auto-Buy Permitted' : '⚠️ Liquidity Gap Required'}
+                        </span>
+                        <span className="text-sm">
+                          Item: {simResult.itemValue.toLocaleString()} Cr | Auto Limit: {simResult.playerWSValue.toLocaleString()} Cr
+                        </span>
+                      </div>
+                      <p className="mt-1 text-[11px] font-sans text-slate-300">
+                        {isAuto
+                          ? `The item cost is at or below the character's single-purchase threshold. It is acquired automatically without financial tests, bookkeeping, or debt.`
+                          : `The item exceeds the character's auto-buy capacity by ${simResult.liquidGapCost.toLocaleString()} Cr. The character must cover this Liquidity Gap via liquid credits, mission patrons, or asset liquidation.`}
+                      </p>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Calculator 2: Crafting Productivity Engine Simulator */}
+              <div className="bg-slate-950/90 border border-cyan-500/50 rounded-xl p-4 space-y-3.5 shadow-md">
+                <div className="flex items-center gap-2 border-b border-cyan-900/60 pb-2">
+                  <span className="text-base">🔨</span>
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300">
+                      Crafting Productivity Engine
+                    </h4>
+                    <p className="text-[10.5px] text-slate-400">
+                      Formula: <code className="text-cyan-300 font-mono">Daily PP = (Check - 10) × Tool Multiplier × Workers</code>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <label className="text-[10px] font-mono text-slate-400 uppercase font-bold block mb-1">
+                      Crafter Check: <strong className="text-amber-300">{craftCheck}</strong>
+                    </label>
+                    <input
+                      type="number"
+                      min="11"
+                      max="60"
+                      value={craftCheck}
+                      onChange={(e) => setCraftCheck(Math.max(11, parseInt(e.target.value, 10) || 11))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs font-mono text-slate-100"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-mono text-slate-400 uppercase font-bold block mb-1">
+                      Tool Tier:
+                    </label>
+                    <select
+                      value={craftToolTier}
+                      onChange={(e) => setCraftToolTier(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs font-mono text-slate-100"
+                    >
+                      {TOOL_TIERS.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.name} (×{t.multiplier})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-[10px] font-mono text-slate-400 uppercase font-bold block mb-1">
+                      Co-op Workers: <strong className="text-cyan-300">{craftWorkers}</strong>
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10000"
+                      value={craftWorkers}
+                      onChange={(e) => setCraftWorkers(Math.max(1, parseInt(e.target.value, 10) || 1))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs font-mono text-slate-100"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-mono text-slate-400 uppercase font-bold block mb-1">
+                    Target Item Market Value (Cr / PP): <strong className="text-cyan-300">{craftTargetCredits.toLocaleString()} Cr</strong>
+                  </label>
+                  <input
+                    type="range"
+                    min="10"
+                    max="100000"
+                    step="10"
+                    value={Math.min(100000, craftTargetCredits)}
+                    onChange={(e) => setCraftTargetCredits(parseInt(e.target.value, 10) || 10)}
+                    className="w-full accent-cyan-400 cursor-pointer"
+                  />
+                  <div className="flex justify-between text-[9px] font-mono text-slate-400">
+                    <span>10 Cr (DC 0)</span>
+                    <span>2,560 Cr (DC 20)</span>
+                    <span>10,240 Cr (DC 25)</span>
+                    <span>100k Cr</span>
+                  </div>
+                </div>
+
+                {/* Crafting Calculation Output */}
+                {(() => {
+                  const selectedTier = TOOL_TIERS.find((t) => t.id === craftToolTier) || TOOL_TIERS[1];
+                  const dailyPPSingle = Math.max(1, (craftCheck - 10) * selectedTier.multiplier);
+                  const totalDailyPP = dailyPPSingle * craftWorkers;
+                  const daysReq = craftTargetCredits / totalDailyPP;
+                  const materialCost = calculateMaterialCost(craftTargetCredits);
+                  const formattedDays = formatCraftingDuration(daysReq);
+
+                  return (
+                    <div className="p-3 rounded-xl bg-slate-900 border border-cyan-500/40 text-xs font-mono space-y-1.5">
+                      <div className="flex justify-between items-center font-bold">
+                        <span className="text-cyan-300">⏱️ Time: {formattedDays} ({Math.round(daysReq * 100) / 100} Workdays)</span>
+                        <span className="text-amber-300">Daily PP: {totalDailyPP.toLocaleString()} PP/day</span>
+                      </div>
+                      <div className="flex justify-between items-center text-slate-300 text-[11px]">
+                        <span>50% Material Fabrication Cost: <strong className="text-white">{materialCost.toLocaleString()} Cr</strong></span>
+                        <span>Single Worker Output: {dailyPPSingle.toLocaleString()} PP</span>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
         {/* Modal Bottom Footer */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 border-t border-cyan-900/60 pt-4 text-xs text-slate-400">
           <div className="flex items-center gap-2">
             <span className="text-cyan-400 font-mono">⚡ Tangent SFF RP Master Codex</span>
             <span>•</span>
-            <span>All 8 Core Rules Sections Integrated</span>
+            <span>All 9 Core Rules Sections Integrated</span>
           </div>
           
           <button

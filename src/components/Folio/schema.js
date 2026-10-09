@@ -145,14 +145,26 @@ export const characterSchema = z.object({
   'char-style': z.string().optional().default(''),
   'char-motive': z.string().optional().default(''),
   'starting-cp': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 150 : val).optional().default(150),
+  'base-tech-level': z.union([z.number(), z.string()]).transform(val => {
+    const num = typeof val === 'string' ? parseInt(val, 10) : val;
+    return Math.min(5, Math.max(0, isNaN(num) ? 3 : num));
+  }).optional().default(3),
+  'base-meta-level': z.union([z.number(), z.string()]).transform(val => {
+    const num = typeof val === 'string' ? parseInt(val, 10) : val;
+    return Math.min(5, Math.max(0, isNaN(num) ? 3 : num));
+  }).optional().default(3),
   'tech-level': z.union([z.number(), z.string()]).transform(val => {
     const num = typeof val === 'string' ? parseInt(val, 10) : val;
     return Math.min(5, Math.max(0, isNaN(num) ? 3 : num));
   }).optional().default(3),
   'magic-level': z.union([z.number(), z.string()]).transform(val => {
     const num = typeof val === 'string' ? parseInt(val, 10) : val;
-    return Math.min(5, Math.max(0, isNaN(num) ? 1 : num));
-  }).optional().default(1),
+    return Math.min(5, Math.max(0, isNaN(num) ? 3 : num));
+  }).optional().default(3),
+  'meta-level': z.union([z.number(), z.string()]).transform(val => {
+    const num = typeof val === 'string' ? parseInt(val, 10) : val;
+    return Math.min(5, Math.max(0, isNaN(num) ? 3 : num));
+  }).optional().default(3),
   'health': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 30 : val).optional().default(30),
   'vitality': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 30 : val).optional().default(30),
   'structure': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 60 : val).optional().default(60),

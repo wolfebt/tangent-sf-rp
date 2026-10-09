@@ -456,6 +456,138 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
       assert.strictEqual(item.costVal, -20);
       assert.strictEqual(item.cost, '-20 CP');
     });
+
+    it('refunds -30 CP for TL0 (Archaic / Stone Age)', () => {
+      const char = { 'starting-cp': 150, 'tech-level': 0 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.techLevelCost, -30);
+      assert.strictEqual(breakdown.spentCP, -30);
+      assert.strictEqual(breakdown.remainingCP, 180);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Technology Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, -30);
+      assert.strictEqual(item.cost, '-30 CP');
+    });
+  });
+
+  describe('Meta Level (ML) Economy Accounting', () => {
+    it('treats ML3 as standard baseline with 0 CP cost', () => {
+      const char = { 'starting-cp': 150, 'meta-level': 3 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.metaLevelCost, 0);
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Meta Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, 0);
+      assert.strictEqual(item.cost, '0 CP');
+    });
+
+    it('charges +10 CP for ML4 (Advanced Adept)', () => {
+      const char = { 'starting-cp': 150, 'meta-level': 4 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.metaLevelCost, 10);
+      assert.strictEqual(breakdown.spentCP, 10);
+      assert.strictEqual(breakdown.remainingCP, 140);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Meta Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, 10);
+      assert.strictEqual(item.cost, '10 CP');
+    });
+
+    it('charges +20 CP for ML5 (Ascendant / Archmage)', () => {
+      const char = { 'starting-cp': 150, 'meta-level': 5 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.metaLevelCost, 20);
+      assert.strictEqual(breakdown.spentCP, 20);
+      assert.strictEqual(breakdown.remainingCP, 130);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Meta Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, 20);
+      assert.strictEqual(item.cost, '20 CP');
+    });
+
+    it('refunds -10 CP for ML2 (Latent)', () => {
+      const char = { 'starting-cp': 150, 'meta-level': 2 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.metaLevelCost, -10);
+      assert.strictEqual(breakdown.spentCP, -10);
+      assert.strictEqual(breakdown.remainingCP, 160);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Meta Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, -10);
+      assert.strictEqual(item.cost, '-10 CP');
+    });
+
+    it('refunds -20 CP for ML1 (Dormant)', () => {
+      const char = { 'starting-cp': 150, 'meta-level': 1 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.metaLevelCost, -20);
+      assert.strictEqual(breakdown.spentCP, -20);
+      assert.strictEqual(breakdown.remainingCP, 170);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Meta Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, -20);
+      assert.strictEqual(item.cost, '-20 CP');
+    });
+
+    it('refunds -30 CP for ML0 (Null / Mundane)', () => {
+      const char = { 'starting-cp': 150, 'meta-level': 0 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.metaLevelCost, -30);
+      assert.strictEqual(breakdown.spentCP, -30);
+      assert.strictEqual(breakdown.remainingCP, 180);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Meta Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, -30);
+      assert.strictEqual(item.cost, '-30 CP');
+    });
+
+    it('supports legacy magic-level field fallback when meta-level is unset', () => {
+      const char = { 'starting-cp': 150, 'magic-level': 4 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.metaLevelCost, 10);
+      assert.strictEqual(breakdown.remainingCP, 140);
+    });
+
+    it('computes combined setting tiers economy with awards and costs', () => {
+      // Primitive TL1 (-20 CP) + Advanced ML4 (+10 CP) = -10 CP net
+      const char = {
+        'starting-cp': 150,
+        'tech-level': 1,
+        'meta-level': 4
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.techLevelCost, -20);
+      assert.strictEqual(breakdown.metaLevelCost, 10);
+      assert.strictEqual(breakdown.spentCP, -10);
+      assert.strictEqual(breakdown.remainingCP, 160);
+    });
+
+    it('allows lowered score to be upgraded to standard or higher with gameplay purchase', () => {
+      // Character's species established TL1 (which awarded +20 CP).
+      // Upgrading to TL3 brings techLevelCost to 0 CP (costing 20 CP of available pool).
+      // Upgrading further to TL4 brings techLevelCost to +10 CP.
+      const charUpgraded = {
+        'starting-cp': 150,
+        'base-tech-level': 1,
+        'tech-level': 3,
+        'base-meta-level': 3,
+        'meta-level': 3
+      };
+      const breakdown = computeEconomyBreakdown(charUpgraded);
+      assert.strictEqual(breakdown.techLevelCost, 0);
+      assert.strictEqual(breakdown.metaLevelCost, 0);
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+    });
   });
 
   describe('Augmentation Base Cost Accounting', () => {

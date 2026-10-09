@@ -206,13 +206,15 @@ export const CommCenterWidget = ({
                     className={`px-1.5 py-0.5 rounded border shrink-0 transition-all flex items-center gap-1 ${
                       isSel 
                         ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 font-bold shadow-[0_0_10px_rgba(34,211,238,0.15)]' 
+                        : unread > 0
+                        ? 'bg-amber-950/40 text-amber-200 border-amber-500/50 font-bold shadow-[0_0_8px_rgba(245,158,11,0.25)] animate-soft-back-glow'
                         : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-slate-200'
                     }`}
                   >
                     {ch.isPublic === false && <Lock size={8} className="text-amber-400" />}
                     <span>{ch.displayName || `#${ch.name}`}</span>
                     {unread > 0 && (
-                      <span className="px-1 rounded-full bg-cyan-500 text-black text-[7.5px] font-bold">
+                      <span className="px-1 rounded-full bg-amber-400 text-black text-[7.5px] font-black animate-soft-badge-glow shadow-[0_0_4px_rgba(245,158,11,0.6)]">
                         {unread}
                       </span>
                     )}

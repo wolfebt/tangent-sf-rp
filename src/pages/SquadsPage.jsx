@@ -5,7 +5,6 @@ import {
   Users, 
   Crown, 
   Radio, 
-  Map, 
   Plus, 
   Copy, 
   Check, 
@@ -45,7 +44,6 @@ import { SquadRosterTab } from '../components/Squads/tabs/SquadRosterTab';
 import { SquadDirectoryTab } from '../components/Squads/tabs/SquadDirectoryTab';
 import { SquadInvitesTab } from '../components/Squads/tabs/SquadInvitesTab';
 import { SquadCommsTab } from '../components/Squads/tabs/SquadCommsTab';
-import { SquadTacticalTab } from '../components/Squads/tabs/SquadTacticalTab';
 import { SquadSettingsTab } from '../components/Squads/tabs/SquadSettingsTab';
 import { SquadInviteConfirmationModal } from '../components/Squads/SquadInviteConfirmationModal';
 
@@ -136,7 +134,7 @@ export const SquadsPage = ({
   // Sync tab with URL search parameter
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['roster', 'directory', 'invites', 'comms', 'tactical', 'settings'].includes(tabParam)) {
+    if (tabParam && ['roster', 'directory', 'invites', 'comms', 'settings'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
   }, [searchParams]);
@@ -336,20 +334,6 @@ export const SquadsPage = ({
 
           {/* Right Station Fast Action Buttons */}
           <div className="flex items-center gap-2 text-[11px] font-mono shrink-0">
-            {/* Deploy to Stage (VTT) */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1200, 0.03);
-                navigate('/stage');
-              }}
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-600/80 to-amber-700/80 hover:from-amber-500 hover:to-amber-600 text-white font-bold shadow-sm transition-all cursor-pointer"
-              title="Deploy Squad to the Stage Tactical Viewport"
-            >
-              <Map size={13} />
-              <span>DEPLOY TO STAGE</span>
-            </button>
-
             {/* Create Squad Button */}
             <button
               type="button"
@@ -368,14 +352,75 @@ export const SquadsPage = ({
       )}
 
       {/* Main Workstation Container */}
-      <div className="flex-1 flex min-h-0 overflow-hidden relative">
-        {/* Left Navigation Rail (Width: ~60px) */}
-        <SquadsNavRail
-          activeTab={activeTab}
-          onSelectTab={handleSelectTab}
-          onOpenCreateModal={() => setIsCreateModalOpen(true)}
-          onOpenGuideModal={() => setIsGuideModalOpen(true)}
-        />
+      <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden relative">
+        {/* Left Navigation Rail (Hidden on mobile to eliminate page crunch) */}
+        <div className="hidden md:flex h-full shrink-0">
+          <SquadsNavRail
+            activeTab={activeTab}
+            onSelectTab={handleSelectTab}
+            onOpenCreateModal={() => setIsCreateModalOpen(true)}
+            onOpenGuideModal={() => setIsGuideModalOpen(true)}
+          />
+        </div>
+
+        {/* Mobile Horizontal Sub-Tab Strip (< md screens) */}
+        <div className="md:hidden bg-slate-950/95 border-b border-slate-800/90 px-2.5 py-1.5 flex items-center justify-between gap-1.5 shrink-0 z-10 font-mono text-xs">
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 min-w-0">
+            {[
+              { id: 'roster', label: 'ROSTER', icon: Users, badge: effectiveActiveSquad?.members?.length },
+              { id: 'directory', label: 'SQUADS', icon: Globe, badge: effectiveSquads.length > 0 ? effectiveSquads.length : null },
+              { id: 'invites', label: 'INVITES', icon: UserPlus, badge: pendingInvites.length > 0 ? `${pendingInvites.length}!` : null, isAlert: pendingInvites.length > 0 },
+              { id: 'comms', label: 'COMMS', icon: Radio },
+              { id: 'settings', label: 'CONFIG', icon: Settings }
+            ].map(item => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1150, 0.02);
+                    handleSelectTab(item.id);
+                  }}
+                  className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10.5px] font-bold shrink-0 transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+                  }`}
+                >
+                  <Icon size={12} className={isActive ? 'text-emerald-400' : 'text-slate-400'} />
+                  <span>{item.label}</span>
+                  {item.badge && (
+                    <span className={`px-1 py-0.2 rounded-full text-[8.5px] font-bold ${
+                      item.isAlert
+                        ? 'bg-amber-400 text-black animate-soft-badge-glow shadow-[0_0_6px_rgba(245,158,11,0.6)]'
+                        : item.badge === 'VTT'
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[7.5px]'
+                        : 'bg-emerald-500/20 text-emerald-400 font-mono'
+                    }`}>
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-1 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1300, 0.03);
+                setIsCreateModalOpen(true);
+              }}
+              className="p-1.5 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900 transition-colors cursor-pointer"
+              title="Create New Squad"
+            >
+              <Plus size={13} />
+            </button>
+          </div>
+        </div>
 
         {/* Main Routed Content Panel */}
         <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-[#090d16] relative">
@@ -452,15 +497,7 @@ export const SquadsPage = ({
             />
           )}
 
-          {/* TAB 5: TACTICAL VTT DEPLOYMENT */}
-          {activeTab === 'tactical' && (
-            <SquadTacticalTab
-              activeGroup={effectiveActiveSquad}
-              navigate={navigate}
-            />
-          )}
-
-          {/* TAB 6: SQUAD SETTINGS & POLICIES */}
+          {/* TAB 5: SQUAD SETTINGS & POLICIES */}
           {activeTab === 'settings' && (
             <SquadSettingsTab
               activeGroup={effectiveActiveSquad}

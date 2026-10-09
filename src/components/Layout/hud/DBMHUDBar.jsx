@@ -49,8 +49,8 @@ export const DBMHUDBar = ({
         setIsDbmMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('pointerdown', handleClickOutside, true);
+    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
   }, []);
 
   return (

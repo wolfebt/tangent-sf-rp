@@ -1,33 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useStory } from '../context/CampaignContext';
-import { useFolio } from '../context/FolioContext';
-import { useDBM } from '../context/DBMContext';
-import { useGroup } from '../context/GroupContext';
-import { useChat } from '../context/ChatContext';
-import { useAudio } from '../context/AudioContext';
 import { LandingDrawerArea } from '../components/Hub/LandingDrawerArea';
-import { GameSquadsWidget } from '../components/Hub/GameSquadsWidget';
-import { CommCenterWidget } from '../components/Hub/CommCenterWidget';
 import { UserSettingsModal } from '../components/UserSettingsModal';
 import { WelcomeBriefing } from '../components/Hub/WelcomeBriefing';
 import { HomeMessageBanner } from '../components/Hub/HomeMessageBanner';
 import { 
-  Menu, 
   X, 
   Globe, 
-  Users, 
-  BookOpen, 
-  Database, 
-  Boxes, 
-  Layers, 
-  Shield, 
-  Radio, 
-  Settings, 
-  Volume2, 
-  VolumeX,
-  Compass,
   HelpCircle
 } from 'lucide-react';
 import { AudioService } from '../services/audioService';
@@ -39,12 +19,6 @@ let briefingDismissedUntilRefresh = false;
 const Home = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, openAuthModal } = useAuth() || {};
-  const { universeState, mapsCatalog, elementsCatalog } = useStory() || {};
-  const { personaRoster, roster } = useFolio() || {};
-  const { groups = [], pendingInvites = [] } = useGroup() || {};
-  const { totalUnreadCount = 0 } = useChat() || {};
-  const dbContext = useDBM() || {};
-  const dbData = dbContext.dbData || {};
 
   // Viewport breakpoint detection
   const [isMobile, setIsMobile] = useState(() => {
@@ -52,9 +26,7 @@ const Home = () => {
     return false;
   });
 
-  const { isMuted: isAudioMuted, toggleMute: toggleAudio } = useAudio();
   const [activeDrawer, setActiveDrawer] = useState(null);
-  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [showWelcomeBriefing, setShowWelcomeBriefing] = useState(() => {
     return !briefingDismissedUntilRefresh;
@@ -96,23 +68,12 @@ const Home = () => {
     }
   }, []);
 
-  // Live metrics
-  const heroCount = (personaRoster || roster || []).length;
-  const teamCount = (groups || []).length;
-  const inviteCount = (pendingInvites || []).length;
-  const dbmTotalItems = Object.values(dbData).reduce((sum, categoryItems) => {
-    return sum + (Array.isArray(categoryItems) ? categoryItems.length : 0);
-  }, 0);
-  const scenarioCount = universeState?.scenarios?.length || 0;
-  const mapCount = (mapsCatalog?.length || 0) + (universeState?.maps?.length || 0);
-
   const displayIdentity = userHandle
     ? `@${userHandle}`
     : currentUser?.displayName || currentUser?.email || 'OPERATOR';
 
   const handleSelectDrawer = (drawerId) => {
     setActiveDrawer(prev => prev === drawerId ? null : drawerId);
-    if (isMobile) setIsMobileDrawerOpen(false);
   };
 
   return (
@@ -122,152 +83,6 @@ const Home = () => {
       style={{ backgroundImage: "url('/assets/images/background.png')" }}
     >
 
-      {/* ── Mobile Slide-Out Backdrop ── */}
-      {isMobile && isMobileDrawerOpen && (
-        <div
-          className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[150] transition-opacity duration-300"
-          onClick={(e) => { e.stopPropagation(); setIsMobileDrawerOpen(false); }}
-        />
-      )}
-
-      {/* ── Mobile Slide-Out Drawer Panel ── */}
-      {isMobile && (
-        <div
-          className={`fixed top-0 left-0 bottom-0 w-[90%] max-w-[360px] bg-[#0b0f17]/98 border-r border-cyan-500/30 backdrop-blur-2xl p-4 z-[150] flex flex-col justify-between shadow-[0_0_40px_rgba(0,0,0,0.9)] transition-transform duration-300 ease-out overflow-y-auto ${
-            isMobileDrawerOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="space-y-4">
-            {/* Drawer Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-cyan-500/15 border border-cyan-500/40 text-cyan-300">
-                  <Menu size={16} />
-                </div>
-                <div>
-                  <h2 className="text-xs font-mono font-bold tracking-wider text-slate-100 uppercase">SYSTEM MODULES</h2>
-                  <span className="text-[10px] font-mono text-cyan-400">Select to load view</span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => { AudioService.playTerminalBeep(900, 0.02); setIsMobileDrawerOpen(false); }}
-                className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-colors"
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            {/* Mobile nav shortcuts - Direct navigation on mobile aligned with main nav rail */}
-            <div className="space-y-1.5 text-[11px] font-mono">
-              {[
-                { 
-                  id: 'folio', 
-                  label: 'FOLIO', 
-                  sublabel: 'Persona Roster & Dossiers',
-                  icon: Users,
-                  color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400 bg-cyan-950/20', 
-                  badge: heroCount > 0 ? `${heroCount}` : null,
-                  action: () => navigate('/folio') 
-                },
-                { 
-                  id: 'rules', 
-                  label: 'RULES', 
-                  sublabel: 'Compendium & BASTION Rules Wiki',
-                  icon: BookOpen,
-                  color: 'text-sky-300 border-sky-500/40 hover:border-sky-400 bg-sky-950/20', 
-                  badge: null,
-                  action: () => navigate('/compendium') 
-                },
-                { 
-                  id: 'cortex', 
-                  label: 'CORTEX', 
-                  sublabel: 'Omnicortex Master Database',
-                  icon: Database,
-                  color: 'text-amber-300 border-amber-500/40 hover:border-amber-400 bg-amber-950/20', 
-                  badge: dbmTotalItems > 0 ? `${dbmTotalItems}` : null,
-                  action: () => navigate('/dbm') 
-                },
-                { 
-                  id: 'ade', 
-                  label: 'ADE', 
-                  sublabel: 'Consolidated Story, Maps & Stage',
-                  icon: Layers,
-                  color: 'text-purple-300 border-purple-500/40 hover:border-purple-400 bg-purple-950/20', 
-                  badge: (scenarioCount + mapCount) > 0 ? `${scenarioCount + mapCount}` : null,
-                  action: () => navigate('/foundry') 
-                },
-                { 
-                  id: 'network', 
-                  label: 'NETWORK', 
-                  sublabel: 'Tactical Squads, CommLink & Operator Relay',
-                  icon: Radio,
-                  color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400 bg-emerald-950/20', 
-                  badge: (totalUnreadCount > 0) 
-                    ? `${totalUnreadCount}` 
-                    : (inviteCount > 0 ? `${inviteCount}!` : (teamCount > 0 ? `${teamCount}` : null)),
-                  badgeColor: (totalUnreadCount > 0 || inviteCount > 0) ? 'bg-amber-500 text-black animate-pulse' : undefined,
-                  action: () => navigate('/network') 
-                },
-              ].map(item => {
-                const Icon = item.icon;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1100, 0.02);
-                      setIsMobileDrawerOpen(false);
-                      if (item.action) {
-                        item.action();
-                      } else {
-                        handleSelectDrawer(item.id);
-                      }
-                    }}
-                    className={`w-full px-3 py-2 rounded-lg border font-bold uppercase tracking-wider transition-all text-left flex items-center justify-between cursor-pointer ${item.color} ${activeDrawer === item.id ? 'bg-slate-800/80 ring-1 ring-cyan-400/50' : ''}`}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <Icon size={14} className="shrink-0 opacity-90" />
-                      <span className="font-mono">{item.label}</span>
-                      <span className="hidden xs:inline text-[9.5px] font-mono text-slate-400 font-normal lowercase tracking-normal truncate opacity-70">
-                        {item.sublabel}
-                      </span>
-                    </div>
-                    {item.badge && (
-                      <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono font-bold shrink-0 ml-1.5 ${item.badgeColor || 'bg-slate-800 text-slate-300 border border-slate-700'}`}>
-                        {item.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Mobile Comm Center quick widget */}
-            <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-              <span className="text-[9px] font-mono uppercase tracking-widest text-slate-500 block">Game Teams</span>
-              <GameSquadsWidget onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')} />
-            </div>
-
-            <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-              <span className="text-[9px] font-mono uppercase tracking-widest text-slate-500 block">Comms Relay</span>
-              <CommCenterWidget
-                onOpenCommsDrawer={() => { setIsMobileDrawerOpen(false); handleSelectDrawer('comms'); }}
-                onOpenSquadsDrawer={() => { setIsMobileDrawerOpen(false); handleSelectDrawer('game-groups'); }}
-                onOpenCampaignOps={() => { setIsMobileDrawerOpen(false); handleSelectDrawer('foundry-maps'); }}
-              />
-            </div>
-          </div>
-
-          {/* Drawer Footer */}
-          <div className="pt-3 mt-4 border-t border-slate-800/80 text-[10px] font-mono text-slate-500 flex items-center justify-between">
-            <span className="truncate max-w-[160px]">{displayIdentity}</span>
-            <span className="text-cyan-400/90 font-bold">HUB V3.0</span>
-          </div>
-        </div>
-      )}
-
       {/* ── Main Workspace Body with Center Workspace ── */}
       <div className="flex-1 min-h-0 flex flex-row overflow-hidden no-scrollbar relative z-10">
         {/* Center Workspace Area */}
@@ -275,56 +90,41 @@ const Home = () => {
           {/* ── Top Admin Broadcast Banner ── */}
           <HomeMessageBanner className="shrink-0" />
 
-          {/* Mobile: top action bar */}
-          {isMobile && (
+          {/* Mobile: active drawer dismiss bar */}
+          {isMobile && activeDrawer && (
             <div className="flex items-center justify-between gap-2 bg-slate-900/90 backdrop-blur-md p-2.5 rounded-xl border border-slate-800 shadow-lg shrink-0 z-30">
+              <span className="text-[11px] font-mono font-bold text-cyan-300 truncate uppercase">
+                {activeDrawer.replace('foundry-', '').replace('-', ' ')}
+              </span>
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  AudioService.playTerminalBeep(1100, 0.03);
-                  setIsMobileDrawerOpen(true);
+                  AudioService.playTerminalBeep(900, 0.02);
+                  setActiveDrawer(null);
                 }}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 font-mono text-xs font-bold shadow-[0_0_15px_rgba(34,211,238,0.25)] hover:bg-cyan-500/30 active:scale-95 transition-all"
+                className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-mono flex items-center gap-1 border border-slate-700 cursor-pointer"
               >
-                <Menu size={16} />
-                <span>MODULES</span>
+                <X size={13} />
+                <span>Dismiss</span>
               </button>
-
-              {activeDrawer && (
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono font-bold text-cyan-300 truncate max-w-[130px] uppercase">
-                    {activeDrawer.replace('foundry-', '').replace('-', ' ')}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      AudioService.playTerminalBeep(900, 0.02);
-                      setActiveDrawer(null);
-                    }}
-                    className="px-2 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[11px] font-mono flex items-center gap-1 border border-slate-700"
-                  >
-                    <X size={13} />
-                    <span>Dismiss</span>
-                  </button>
-                </div>
-              )}
             </div>
           )}
 
           {/* ── Center Drawer Area ── */}
           {!isMobile ? (
-            <div
-              className="flex-1 min-h-0 flex flex-col overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
               {activeDrawer ? (
-                <LandingDrawerArea
-                  activeDrawer={activeDrawer}
-                  onCloseDrawer={() => setActiveDrawer(null)}
-                  onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
-                />
+                <div
+                  className="flex-1 min-h-0 flex flex-col overflow-hidden"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <LandingDrawerArea
+                    activeDrawer={activeDrawer}
+                    onCloseDrawer={() => setActiveDrawer(null)}
+                    onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
+                  />
+                </div>
               ) : showWelcomeBriefing ? (
                 <div className="flex-1 min-h-0 flex flex-col items-center justify-start p-2 sm:p-4 pt-1 sm:pt-2 pb-6 sm:pb-8 overflow-y-auto w-full max-h-full">
                   <WelcomeBriefing onDismiss={handleDismissBriefing} />
@@ -342,7 +142,7 @@ const Home = () => {
                       UNIFIED OPERATIONS HUB READY
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto shifting-wb-text-shadow leading-relaxed">
-                      Select any module from the guidance rail on the left to launch an active workspace.
+                      Select any module from the guidance rail to launch an active workspace.
                     </p>
                     <div className="pt-2 flex items-center justify-center gap-2">
                       <button
@@ -403,7 +203,7 @@ const Home = () => {
                     UNIFIED OPERATIONS HUB READY
                   </h3>
                   <p className="text-[11px] sm:text-xs text-slate-300 shifting-wb-text-shadow leading-relaxed">
-                    Tap MODULES above to load a workspace.
+                    Select any module below to launch an active workspace.
                   </p>
                   <div className="pt-2 flex flex-col items-center gap-2">
                     <button

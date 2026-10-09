@@ -39,8 +39,24 @@ export const ContextMenu = ({
       }
     };
 
+    // Dismiss menu on outside pointerdown / click
+    // Use capture phase (true) so stopPropagation() on elements underneath cannot prevent dismissal
+    const handleOutsideInteraction = (e) => {
+      if (menuRef.current && menuRef.current.contains(e.target)) {
+        return;
+      }
+      onClose();
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('pointerdown', handleOutsideInteraction, true);
+    window.addEventListener('click', handleOutsideInteraction, true);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('pointerdown', handleOutsideInteraction, true);
+      window.removeEventListener('click', handleOutsideInteraction, true);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen || typeof document === 'undefined') return null;

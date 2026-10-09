@@ -42,6 +42,7 @@ export const SquadSummarySidebar = ({
   const { 
     selectChannel, 
     activeChannelId, 
+    unreadCounts = {},
     onlineOperators = [] 
   } = useChat() || {};
   const { currentUser } = useAuth() || {};
@@ -118,7 +119,7 @@ export const SquadSummarySidebar = ({
             <span className="font-bold text-amber-300 text-[10.5px] uppercase tracking-wider">
               {pendingInvites.length} PENDING COMMISSION{pendingInvites.length > 1 ? 'S' : ''}
             </span>
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-soft-badge-glow shadow-[0_0_6px_#f59e0b]" />
           </div>
           <p className="text-[10.5px] text-slate-300 truncate">
             "{pendingInvites[0].groupName}"
@@ -195,20 +196,31 @@ export const SquadSummarySidebar = ({
               )}
 
               {/* Direct Frequency Tuning Button */}
-              {activeGroup.channelId && (
-                <button
-                  type="button"
-                  onClick={() => handleTuneToSquadChannel(activeGroup.channelId)}
-                  className={`w-full py-1.5 px-2.5 rounded-lg text-[10.5px] font-bold font-mono flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                    isCurrentChannelTuned
-                      ? 'bg-cyan-950 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.25)]'
-                      : 'bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-cyan-300'
-                  }`}
-                >
-                  <Radio size={12} className={isCurrentChannelTuned ? 'animate-pulse text-cyan-400' : ''} />
-                  <span>{isCurrentChannelTuned ? 'SQUAD FREQUENCY TUNED' : 'TUNE TO SQUAD CHANNEL'}</span>
-                </button>
-              )}
+              {activeGroup.channelId && (() => {
+                const squadUnread = unreadCounts[activeGroup.channelId] || 0;
+                const hasUnread = !isCurrentChannelTuned && squadUnread > 0;
+                return (
+                  <button
+                    type="button"
+                    onClick={() => handleTuneToSquadChannel(activeGroup.channelId)}
+                    className={`w-full py-1.5 px-2.5 rounded-lg text-[10.5px] font-bold font-mono flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      isCurrentChannelTuned
+                        ? 'bg-cyan-950 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.25)]'
+                        : hasUnread
+                        ? 'bg-amber-950/60 border border-amber-500/60 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.3)] animate-soft-back-glow'
+                        : 'bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-cyan-300'
+                    }`}
+                  >
+                    <Radio size={12} className={isCurrentChannelTuned ? 'animate-soft-back-glow text-cyan-400' : hasUnread ? 'text-amber-400 animate-soft-back-glow' : ''} />
+                    <span>{isCurrentChannelTuned ? 'SQUAD FREQUENCY TUNED' : 'TUNE TO SQUAD CHANNEL'}</span>
+                    {hasUnread && (
+                      <span className="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[9px] font-black animate-soft-badge-glow shadow-[0_0_6px_rgba(245,158,11,0.7)]">
+                        {squadUnread} NEW
+                      </span>
+                    )}
+                  </button>
+                );
+              })()}
             </div>
 
             {/* Members Roster Mini-Feed */}

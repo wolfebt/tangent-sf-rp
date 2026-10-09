@@ -8,11 +8,29 @@ perspective: "operator"
 entry_type: "Species Codex"
 tl: 3
 ml: 0
+cost: 0
 tags: ["compendium","species-codex"]
-updatedAt: "2026-09-14T16:40:07.814Z"
+updatedAt: "2026-10-09T07:59:56.587Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **SPECIES CATALOG**
@@ -7322,23 +7340,6 @@ Quick
 &nbsp;
 
 &nbsp;
-
-
-
-## Canonical Mechanics
-Positive Ability Scores cost 5 BP per +1.
-Skill Points cost 5 BP per 5 ranks (1 BP/rank).
-Traits: Basic [1 BP], Advanced [2 BP], Elite [4 BP].
-Species Recommended Features receive 1 BP discount (min 1 BP).
-Master Breakdown covers Aeld, Asi, Aulurans, Humans, Kitin, Synthetics, Progenitors, and rare lineages with exact stigmas and stat adjustments.
-
-
-## Tactical Guide
-Consult the master table to calculate species package costs before spending remaining BP.
-
-
-## Architect Notes
-Source of Truth: docs/game rules/operator/1.03 SPECIES (work).md
 
 ## Game Mechanics Rules
 ```

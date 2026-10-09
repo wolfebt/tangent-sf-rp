@@ -2,17 +2,35 @@
 id: "doc-operator-3-00-combat"
 name: "3.00 COMBAT — COMBAT"
 category: "operator_rule"
-parent: "1.00 OPERATOR CORE RULES"
-order: 90
+parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
+order: 1
 perspective: "operator"
 entry_type: "Core Rule"
 tl: 3
 ml: 0
-tags: ["operator","core-rules","3.00 combat","mechanics"]
-updatedAt: "2026-09-15T07:48:15.261Z"
+cost: 0
+tags: ["operator","core-rules","source-of-truth","3.00 combat","mechanics"]
+updatedAt: "2026-10-09T07:59:56.577Z"
 costs:
   bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
 modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # **COMBAT**
@@ -1565,4 +1583,4 @@ See full canonical text in 3.00 COMBAT.md
 Refer to 3.00 COMBAT.md in the game rules library for complete architectural tables and system parameters.
 
 ## Designer Notes
-Canonical Tangent SF RP rulebook reference from 3.00 COMBAT.md.
+Canonical Tangent SF RP rulebook reference from 3.00 COMBAT.md. Complete, unabridged source of truth.

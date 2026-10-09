@@ -17,7 +17,8 @@ import {
   Upload, 
   FileText,
   Zap,
-  Radio
+  Radio,
+  Crosshair
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 
@@ -52,8 +53,8 @@ export const FolioHUDBar = ({
         setIsFolioMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('pointerdown', handleClickOutside, true);
+    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
   }, []);
 
   if (!isCharacterSelected) {
@@ -164,7 +165,7 @@ export const FolioHUDBar = ({
             : "Network Standby: Persona is hidden from the network. Click to engage and broadcast to comms."
         }
       >
-        <Radio size={11} className={isEngaged ? "text-emerald-400 animate-pulse" : "text-slate-500"} />
+        <Radio size={11} className={isEngaged ? "text-emerald-400 animate-soft-back-glow" : "text-slate-500"} />
         <span className="hidden md:inline">{isEngaged ? 'ENGAGED' : 'STANDBY'}</span>
       </button>
 
@@ -250,7 +251,7 @@ export const FolioHUDBar = ({
               title="Toggle broadcasting this operative to the Terran Data Network"
             >
               <span className="flex items-center gap-1.5">
-                <Radio size={13} className={isEngaged ? "text-emerald-400 animate-pulse" : "text-slate-400"} />
+                <Radio size={13} className={isEngaged ? "text-emerald-400 animate-soft-back-glow" : "text-slate-400"} />
                 <span>{isEngaged ? 'Network: Engaged' : 'Network: Standby'}</span>
               </span>
               <span className={`text-[9px] font-mono ${isEngaged ? 'text-emerald-400 font-bold' : 'text-slate-500'}`}>
@@ -269,13 +270,13 @@ export const FolioHUDBar = ({
                     }
                   }}
                   className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-300 uppercase font-bold rounded flex items-center justify-between cursor-pointer"
-                  title="Preview Tactical Play Cockpit without locking the sheet"
+                  title="Open Live Tactical Sheet (VTT Ready)"
                 >
                   <span className="flex items-center gap-1.5">
-                    <Eye size={13} className="text-cyan-400" />
-                    <span>Preview Tactical Play</span>
+                    <Crosshair size={13} className="text-cyan-400" />
+                    <span>Tactical Sheet</span>
                   </span>
-                  <span className="text-[9px] text-cyan-400 font-mono">PREVIEW</span>
+                  <span className="text-[9px] text-cyan-400 font-mono">TACTICAL</span>
                 </button>
 
                 <button

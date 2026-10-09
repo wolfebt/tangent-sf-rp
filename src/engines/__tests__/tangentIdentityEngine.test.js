@@ -7,7 +7,10 @@ import {
   applyOriginTransition,
   applyFactionTransition,
   applyIdentityFieldTransition,
-  resolveCatalogItem
+  resolveCatalogItem,
+  parseSettingLevel,
+  resolveIdentityPillarsSettingLevels,
+  syncIdentitySettingLevels
 } from '../tangentIdentityEngine.js';
 
 describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine', () => {
@@ -397,5 +400,260 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
     assert.strictEqual(cleared.disadvantages.length, 1, 'Only custom disadvantages remain');
     assert.strictEqual(cleared.disadvantages[0].name, 'Phobia (Spiders)');
     assert.deepStrictEqual(cleared.factionAllocations, { skills: {}, traits: [], features: [] });
+  });
+
+  it('resets tech-level to 3 and magic-level to 3 when Species is cleared without an active Faction', () => {
+    const charWithSpecies = {
+      ...sampleBaseCharacter,
+      'char-species': 'Celestine (Alterian)',
+      'char-faction': '',
+      'tech-level': 4,
+      'magic-level': 4
+    };
+
+    const cleared = applySpeciesTransition(charWithSpecies, '');
+    assert.strictEqual(cleared['char-species'], '');
+    assert.strictEqual(cleared['tech-level'], 3, 'Tech level should revert to default 3');
+    assert.strictEqual(cleared['magic-level'], 3, 'Magic level should revert to default 3');
+  });
+
+  it('cleans species disadvantages matching catalog names when species is cleared', () => {
+    const charWithSpeciesDis = {
+      ...sampleBaseCharacter,
+      'char-species': 'Human (Base)',
+      disadvantages: [
+        { id: 'custom-dis-1', name: 'Phobia (Spiders)', category: 'General', bp: 3 },
+        { id: 'sp-dis-1', name: 'Alien Vulnerability', category: 'General', bp: 3 }
+      ]
+    };
+    const mockDb = {
+      species: [
+        {
+          name: 'Human (Base)',
+          disadvantages: ['Alien Vulnerability']
+        }
+      ]
+    };
+
+    const cleared = applySpeciesTransition(charWithSpeciesDis, '', mockDb);
+    assert.strictEqual(cleared.disadvantages.length, 1);
+    assert.strictEqual(cleared.disadvantages[0].name, 'Phobia (Spiders)');
+  });
+
+  it('fallback archetype attribute and essential skill deduction works even when archetypeAllocations has empty objects', () => {
+    const charWithEmptyAllocations = {
+      ...sampleBaseCharacter,
+      'char-archetype': 'The Armorer',
+      'attr-intellect': 3,
+      'attr-strength': 2,
+      'skill-vocation-armorer-rank': 6,
+      archetypeAllocations: {
+        skills: {},
+        attributes: {},
+        features: []
+      }
+    };
+
+    const cleared = applyArchetypeTransition(charWithEmptyAllocations, '');
+    assert.strictEqual(cleared['char-archetype'], '');
+    assert.strictEqual(cleared['attr-intellect'], 0, 'Intellect should be reverted via catalog fallback');
+    assert.strictEqual(cleared['attr-strength'], 0, 'Strength should be reverted via catalog fallback');
+    assert.strictEqual(cleared['skill-vocation-armorer-rank'], undefined, 'Armorer essential skill should be removed');
+  });
+
+  it('independently clearing secondary occupation removes traits granted by that secondary occupation', () => {
+    const charWithSecOccu = {
+      ...sampleBaseCharacter,
+      'char-occu': 'Agent',
+      'char-secondary-occu': 'Bounty Hunter',
+      traits: [
+        { id: 'cust-1', name: 'Keen Eye', category: 'General' },
+        { id: 'sec-1', name: 'Tracker Instincts', category: 'Career Trait' }
+      ]
+    };
+    const mockDb = {
+      occupations: [
+        { name: 'Agent', traits: ['Undercover'] },
+        { name: 'Bounty Hunter', traits: ['Tracker Instincts'] }
+      ]
+    };
+
+    const cleared = applyIdentityFieldTransition(charWithSecOccu, 'char-secondary-occu', '', mockDb);
+    assert.strictEqual(cleared['char-secondary-occu'], '');
+    assert.strictEqual(cleared.traits.length, 1);
+    assert.strictEqual(cleared.traits[0].name, 'Keen Eye');
+  });
+
+  it('independently clearing secondary origin removes traits granted by that secondary origin', () => {
+    const charWithSecOrigin = {
+      ...sampleBaseCharacter,
+      'char-origin': 'Aquatic',
+      'char-secondary-origin': 'Frontier Colony',
+      traits: [
+        { id: 'cust-1', name: 'Iron Will', category: 'General' },
+        { id: 'sec-1', name: 'Frontier Hardened', category: 'Homeworld Trait' }
+      ]
+    };
+    const mockDb = {
+      origins: [
+        { name: 'Aquatic', traits: ['Swimmer'] },
+        { name: 'Frontier Colony', traits: ['Frontier Hardened'] }
+      ]
+    };
+
+    const cleared = applyIdentityFieldTransition(charWithSecOrigin, 'char-secondary-origin', '', mockDb);
+    assert.strictEqual(cleared['char-secondary-origin'], '');
+    assert.strictEqual(cleared.traits.length, 1);
+    assert.strictEqual(cleared.traits[0].name, 'Iron Will');
+  });
+
+  describe('Identity Pillars Setting Tiers (Tech Level & Meta Level)', () => {
+    it('parses setting levels flexibly from numbers, strings, or object fields', () => {
+      assert.strictEqual(parseSettingLevel(3), 3);
+      assert.strictEqual(parseSettingLevel('4'), 4);
+      assert.strictEqual(parseSettingLevel('TL2'), 2);
+      assert.strictEqual(parseSettingLevel('ML5'), 5);
+      assert.strictEqual(parseSettingLevel({ tech_level: 4 }), 4);
+      assert.strictEqual(parseSettingLevel({ ml: 2 }), 2);
+      assert.strictEqual(parseSettingLevel(undefined), null);
+    });
+
+    it('defaults to standard baseline TL3 and ML3 when no pillar specifies setting levels', () => {
+      const char = {
+        'char-species': 'Custom Unknown',
+        'char-faction': 'Independent'
+      };
+      const res = resolveIdentityPillarsSettingLevels(char, {});
+      assert.strictEqual(res.baseTechLevel, 3, 'Default base TL must be 3');
+      assert.strictEqual(res.baseMetaLevel, 3, 'Default base ML must be 3');
+      assert.strictEqual(res.techSources.length, 0);
+      assert.strictEqual(res.metaSources.length, 0);
+    });
+
+    it('resolves base TL and ML from a single pillar source (e.g. species)', () => {
+      const char = { 'char-species': 'Archaic Beastfolk' };
+      const mockDb = {
+        species: [
+          { name: 'Archaic Beastfolk', tech_level: 1, meta_level: 0 }
+        ]
+      };
+      const res = resolveIdentityPillarsSettingLevels(char, mockDb);
+      assert.strictEqual(res.baseTechLevel, 1);
+      assert.strictEqual(res.baseMetaLevel, 0);
+      assert.strictEqual(res.techSources.length, 1);
+      assert.strictEqual(res.techSources[0].source, 'Species');
+      assert.strictEqual(res.techSources[0].value, 1);
+    });
+
+    it('resolves conflicting pillars by selecting the HIGHEST value', () => {
+      // Species establishes TL1, Faction establishes TL4 -> TL4 wins
+      // Species establishes ML4, Faction establishes ML2 -> ML4 wins
+      const char = {
+        'char-species': 'Archaic Shaman',
+        'char-faction': 'Cybernetic Consortium'
+      };
+      const mockDb = {
+        species: [
+          { name: 'Archaic Shaman', tech_level: 1, meta_level: 4 }
+        ],
+        factions: [
+          { name: 'Cybernetic Consortium', tech_level: 4, meta_level: 2 }
+        ]
+      };
+      const res = resolveIdentityPillarsSettingLevels(char, mockDb);
+      assert.strictEqual(res.baseTechLevel, 4, 'Highest TL must win (TL4 vs TL1)');
+      assert.strictEqual(res.baseMetaLevel, 4, 'Highest ML must win (ML4 vs ML2)');
+      assert.strictEqual(res.techSources.length, 2);
+      assert.strictEqual(res.metaSources.length, 2);
+    });
+
+    it('syncIdentitySettingLevels synchronizes character base and current levels', () => {
+      const char = {
+        'char-species': 'LowTech Tribe',
+        'char-faction': 'Standard Guild'
+      };
+      const mockDb = {
+        species: [{ name: 'LowTech Tribe', tech_level: 1, meta_level: 2 }],
+        factions: [{ name: 'Standard Guild', tech_level: 2, meta_level: 1 }]
+      };
+      const synced = syncIdentitySettingLevels(char, mockDb);
+      // Highest TL is 2, highest ML is 2
+      assert.strictEqual(synced['base-tech-level'], 2);
+      assert.strictEqual(synced['base-meta-level'], 2);
+      assert.strictEqual(synced['tech-level'], 2);
+      assert.strictEqual(synced['meta-level'], 2);
+      assert.strictEqual(synced['magic-level'], 2);
+    });
+
+    it('preserves manual upgrade deltas when pillar base levels change', () => {
+      // Player initially has base TL1, and purchased +2 upgrade to reach TL3
+      const char = {
+        'char-species': 'LowTech Tribe',
+        'base-tech-level': 1,
+        'tech-level': 3, // purchasedDelta = 3 - 1 = 2
+        'base-meta-level': 3,
+        'meta-level': 3
+      };
+      const mockDb = {
+        species: [
+          { name: 'LowTech Tribe', tech_level: 1, meta_level: 3 },
+          { name: 'Advanced Android', tech_level: 4, meta_level: 3 }
+        ]
+      };
+
+      // Player switches species to Advanced Android (base TL4)
+      const switchedChar = {
+        ...char,
+        'char-species': 'Advanced Android'
+      };
+      const synced = syncIdentitySettingLevels(switchedChar, mockDb);
+      assert.strictEqual(synced['base-tech-level'], 4);
+      // The 2 purchased levels are preserved on top of the new base (4 + 2 = 6, clamped to 5)
+      assert.strictEqual(synced['tech-level'], 5, 'Clamped to max 5 with preserved delta');
+    });
+
+    it('applySpeciesTransition automatically updates Setting Tiers', () => {
+      const initialChar = {
+        ...sampleBaseCharacter,
+        'base-tech-level': 3,
+        'tech-level': 3
+      };
+      const mockDb = {
+        species: [
+          { name: 'HighTech Alien', tech_level: 4, meta_level: 5 }
+        ]
+      };
+      const updated = applySpeciesTransition(initialChar, 'HighTech Alien', mockDb);
+      assert.strictEqual(updated['base-tech-level'], 4);
+      assert.strictEqual(updated['tech-level'], 4);
+      assert.strictEqual(updated['base-meta-level'], 5);
+      assert.strictEqual(updated['meta-level'], 5);
+    });
+
+    it('applyFactionTransition updates Setting Tiers and respects highest conflict resolution', () => {
+      const initialChar = {
+        ...sampleBaseCharacter,
+        'char-species': 'HighTech Alien',
+        'base-tech-level': 4,
+        'tech-level': 4,
+        'base-meta-level': 5,
+        'meta-level': 5
+      };
+      const mockDb = {
+        species: [
+          { name: 'HighTech Alien', tech_level: 4, meta_level: 5 }
+        ],
+        factions: [
+          { name: 'Singularity Cult', tech_level: 5, meta_level: 2 }
+        ]
+      };
+      const updated = applyFactionTransition(initialChar, 'Singularity Cult', mockDb);
+      // Faction TL5 is higher than Species TL4 -> TL5 wins
+      assert.strictEqual(updated['base-tech-level'], 5);
+      assert.strictEqual(updated['tech-level'], 5);
+      // Species ML5 is higher than Faction ML2 -> ML5 remains highest
+      assert.strictEqual(updated['base-meta-level'], 5);
+      assert.strictEqual(updated['meta-level'], 5);
+    });
   });
 });
