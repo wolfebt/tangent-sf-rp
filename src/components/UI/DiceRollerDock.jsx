@@ -407,30 +407,13 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   const [savedDiceStrings, setSavedDiceStrings] = useState(() => {
     try {
       const stored = localStorage.getItem('tangent_saved_dice_strings');
-      return stored ? JSON.parse(stored) : [
-        { 
-          id: 'preset-1', 
-          expr: '2d10+4', 
-          label: 'Tactical Check',
-          advantageDice: 0,
-          baseModifier: 4,
-          adHocModifier: 0,
-          critRangeSize: 1,
-          fumbleRangeSize: 1,
-          targetDC: '15'
-        },
-        { 
-          id: 'preset-2', 
-          expr: '1d20+5', 
-          label: 'Polyhedral D20',
-          advantageDice: 1,
-          baseModifier: 5,
-          adHocModifier: 0,
-          critRangeSize: 2,
-          fumbleRangeSize: 1,
-          targetDC: '12'
-        }
-      ];
+      if (!stored) return [];
+      const parsed = JSON.parse(stored);
+      // Filter out legacy default mock presets ('preset-1', 'preset-2')
+      if (Array.isArray(parsed)) {
+        return parsed.filter(p => p.id !== 'preset-1' && p.id !== 'preset-2');
+      }
+      return [];
     } catch {
       return [];
     }
