@@ -293,6 +293,17 @@ export const FeaturesTab = ({
     });
   };
 
+  const getAcquiredFeature = (featName) => {
+    if (!featName) return null;
+    const normTarget = normalizeLookupName(featName);
+    const targetSyns = FEATURE_SYNONYMS?.[normTarget] || [];
+    return standardFeatures.find(item => {
+      const n = typeof item === 'object' ? (item.name || item.title || item.id || '') : String(item);
+      const normN = normalizeLookupName(n);
+      return normN === normTarget || targetSyns.includes(normN);
+    });
+  };
+
   // Group acquired standard features by category
   const groupedStandardFeatures = useMemo(() => {
     const groups = {};
@@ -577,12 +588,28 @@ export const FeaturesTab = ({
 
   // Remove Feature Item
   const handleRemoveFeature = async (item) => {
-    const itemName = typeof item === 'object' ? (item.name || item.title || 'Feature') : String(item);
+    if (!item) return;
+    const itemName = typeof item === 'object' ? (item.name || item.title || item.id || 'Feature') : String(item);
     if (!(await confirmTypedDeletion(itemName, 'feature'))) return;
 
     const listKey = item.sourceList || 'features';
     const currentList = getItemList(listKey);
-    const updated = currentList.filter((_, i) => i !== item.sourceIndex);
+    let updated;
+    if (typeof item.sourceIndex === 'number' && item.sourceIndex >= 0 && item.sourceIndex < currentList.length) {
+      updated = currentList.filter((_, i) => i !== item.sourceIndex);
+    } else {
+      const normTarget = normalizeLookupName(itemName);
+      let removed = false;
+      updated = currentList.filter((entry) => {
+        if (removed) return true;
+        const entryName = typeof entry === 'object' ? (entry.name || entry.title || entry.id || '') : String(entry);
+        if (normalizeLookupName(entryName) === normTarget) {
+          removed = true;
+          return false;
+        }
+        return true;
+      });
+    }
     updateField(listKey, updated);
   };
 
@@ -1199,9 +1226,9 @@ export const FeaturesTab = ({
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* MASTER TOP TELEMETRY & SUB-NAVIGATION BAR                          */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <div className="bg-slate-900/90 border border-cyan-900/60 rounded-2xl p-4 shadow-xl backdrop-blur-xl space-y-3.5">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
-          <div className="flex items-center gap-2.5">
+      <div className="bg-slate-900/90 border border-cyan-900/50 rounded-xl p-2.5 sm:p-3 shadow-lg backdrop-blur-xl space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2">
+          <div className="flex items-center gap-2">
             {onBackToHub && (
               <button
                 type="button"
@@ -1209,7 +1236,7 @@ export const FeaturesTab = ({
                   AudioService.playTerminalBeep(1100, 0.02);
                   onBackToHub();
                 }}
-                className="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer bg-slate-950 hover:bg-cyan-950 border border-cyan-500/40 text-cyan-300 hover:border-cyan-400 shadow-sm"
+                className="px-2 py-1 rounded-md text-xs font-mono font-bold transition-all flex items-center gap-1 cursor-pointer bg-slate-950 hover:bg-cyan-950 border border-cyan-500/40 text-cyan-300 hover:border-cyan-400 shadow-sm shrink-0"
                 title="Return to Aspect Hub"
               >
                 <span>◀</span>
@@ -1217,74 +1244,74 @@ export const FeaturesTab = ({
               </button>
             )}
 
-            <div>
-              <h2 className="text-sm font-black uppercase tracking-wider text-white flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
+            <div className="flex items-baseline gap-2">
+              <h2 className="text-xs sm:text-sm font-black uppercase tracking-wider text-white flex items-center gap-1.5 whitespace-nowrap">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Features &amp; Traits Command</span>
               </h2>
-              <p className="text-[11px] text-slate-400">
-                Standard Features (3 CP base · Pillar discounted) &bull; Traits (1 CP flat · Column-bound)
+              <p className="text-[10px] text-slate-400 hidden xl:inline">
+                (3 CP base · Pillar discounted · Traits 1 CP)
               </p>
             </div>
           </div>
 
-          {/* Aggregate Telemetry Chips */}
-          <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
-            <span className="px-2.5 py-1 bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 rounded-lg font-bold shadow-sm" title="Standard Character Features">
+          {/* Aggregate Telemetry Chips (Compact) */}
+          <div className="flex flex-wrap items-center gap-1 text-[10px] sm:text-[11px] font-mono">
+            <span className="px-2 py-0.5 bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 rounded font-bold shadow-sm" title="Standard Character Features">
               Features: {totalStandardFeaturesCP} CP
             </span>
-            <span className="px-2.5 py-1 bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 rounded-lg font-bold shadow-sm" title="Column Traits (1 CP each)">
+            <span className="px-2 py-0.5 bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 rounded font-bold shadow-sm" title="Column Traits (1 CP each)">
               Traits: {totalTraitsCP} CP
             </span>
             {totalMetaphysicsCP > 0 && (
-              <span className="px-2 py-1 bg-purple-950/80 border border-purple-700/60 text-purple-300 rounded-lg font-bold shadow-sm">
+              <span className="px-2 py-0.5 bg-purple-950/80 border border-purple-700/60 text-purple-300 rounded font-bold shadow-sm">
                 Meta: {totalMetaphysicsCP} CP
               </span>
             )}
             {totalAugmentationsCP > 0 && (
-              <span className="px-2 py-1 bg-amber-950/80 border border-amber-700/60 text-amber-300 rounded-lg font-bold shadow-sm">
+              <span className="px-2 py-0.5 bg-amber-950/80 border border-amber-700/60 text-amber-300 rounded font-bold shadow-sm">
                 Augs: {totalAugmentationsCP} CP
               </span>
             )}
             {totalHindrancesRefund > 0 && (
-              <span className="px-2 py-1 bg-rose-950/80 border border-rose-700/60 text-rose-300 rounded-lg font-bold shadow-sm">
+              <span className="px-2 py-0.5 bg-rose-950/80 border border-rose-700/60 text-rose-300 rounded font-bold shadow-sm">
                 Refund: -{totalHindrancesRefund} CP
               </span>
             )}
-            <span className="px-3 py-1 bg-cyan-900/90 border border-cyan-400 text-white rounded-lg font-black shadow-[0_0_10px_rgba(34,211,238,0.25)]">
+            <span className="px-2.5 py-0.5 bg-cyan-900/90 border border-cyan-400 text-white rounded font-black shadow-[0_0_8px_rgba(34,211,238,0.25)]">
               Net: {netCapabilitiesCP} CP
             </span>
           </div>
         </div>
 
-        {/* Subtabs Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex flex-wrap items-center gap-1.5">
+        {/* Subtabs Bar (Clean & Compact) */}
+        <div className="flex flex-wrap items-center justify-between gap-1.5">
+          <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
             <button
               type="button"
               onClick={() => setSelectedSubTab('overview')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 selectedSubTab === 'overview'
-                  ? 'bg-cyan-950 border border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
+                  ? 'bg-cyan-950 border border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
                   : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Layers className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Overview Manifest</span>
+              <Layers className="w-3 h-3 text-cyan-400" />
+              <span>Overview</span>
             </button>
 
             <button
               type="button"
               onClick={() => setSelectedSubTab('features')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 selectedSubTab === 'features'
-                  ? 'bg-cyan-950 border border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
+                  ? 'bg-cyan-950 border border-cyan-400 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
                   : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <Sparkles className="w-3 h-3 text-cyan-400" />
               <span>Standard Features</span>
-              <span className="px-1.5 py-0.2 rounded bg-slate-900 text-[10px] text-cyan-300 font-mono">
+              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-cyan-300 font-mono">
                 {standardFeatures.length}
               </span>
             </button>
@@ -1292,15 +1319,15 @@ export const FeaturesTab = ({
             <button
               type="button"
               onClick={() => setSelectedSubTab('traits')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 selectedSubTab === 'traits'
-                  ? 'bg-emerald-950 border border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
+                  ? 'bg-emerald-950 border border-emerald-400 text-emerald-200 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
                   : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Award className="w-3.5 h-3.5 text-emerald-400" />
+              <Award className="w-3 h-3 text-emerald-400" />
               <span>Traits (1 CP)</span>
-              <span className="px-1.5 py-0.2 rounded bg-slate-900 text-[10px] text-emerald-300 font-mono">
+              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-emerald-300 font-mono">
                 {characterTraits.length}
               </span>
             </button>
@@ -1308,15 +1335,15 @@ export const FeaturesTab = ({
             <button
               type="button"
               onClick={() => setSelectedSubTab('metaphysics')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 selectedSubTab === 'metaphysics'
-                  ? 'bg-purple-950 border border-purple-400 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                  ? 'bg-purple-950 border border-purple-400 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
                   : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Zap className="w-3.5 h-3.5 text-purple-400" />
+              <Zap className="w-3 h-3 text-purple-400" />
               <span>Metaphysics</span>
-              <span className="px-1.5 py-0.2 rounded bg-slate-900 text-[10px] text-purple-300 font-mono">
+              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-purple-300 font-mono">
                 {awakenedList.length}
               </span>
             </button>
@@ -1324,15 +1351,15 @@ export const FeaturesTab = ({
             <button
               type="button"
               onClick={() => setSelectedSubTab('augmentations')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 selectedSubTab === 'augmentations'
-                  ? 'bg-amber-950 border border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                  ? 'bg-amber-950 border border-amber-400 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
                   : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Cpu className="w-3.5 h-3.5 text-amber-400" />
-              <span>Augmentations</span>
-              <span className="px-1.5 py-0.2 rounded bg-slate-900 text-[10px] text-amber-300 font-mono">
+              <Cpu className="w-3 h-3 text-amber-400" />
+              <span>Augs</span>
+              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-amber-300 font-mono">
                 {augmentationsList.length}
               </span>
             </button>
@@ -1340,15 +1367,15 @@ export const FeaturesTab = ({
             <button
               type="button"
               onClick={() => setSelectedSubTab('hindrances')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 selectedSubTab === 'hindrances'
-                  ? 'bg-rose-950 border border-rose-400 text-rose-200 shadow-[0_0_12px_rgba(244,63,94,0.25)]'
+                  ? 'bg-rose-950 border border-rose-400 text-rose-200 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
                   : 'bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-slate-200'
               }`}
             >
-              <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+              <AlertTriangle className="w-3 h-3 text-rose-400" />
               <span>Hindrances</span>
-              <span className="px-1.5 py-0.2 rounded bg-slate-900 text-[10px] text-rose-300 font-mono">
+              <span className="px-1 py-0.2 rounded bg-slate-900 text-[9px] text-rose-300 font-mono">
                 {hindrancesList.length}
               </span>
             </button>
@@ -1358,10 +1385,10 @@ export const FeaturesTab = ({
             <button
               type="button"
               onClick={() => onOpenAssetModal('features', 'Custom Feature', 'create')}
-              className="px-2.5 py-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1 cursor-pointer"
+              className="px-2 py-1 bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1 cursor-pointer"
               title="Create custom feature or trait"
             >
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-3 h-3" />
               <span>Custom Asset</span>
             </button>
           )}
@@ -1470,9 +1497,19 @@ export const FeaturesTab = ({
                               </div>
                             </FolioTooltip>
                           </div>
-                          <span className="shrink-0 font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 font-bold">
-                            {costDisplay}
-                          </span>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 font-bold">
+                              {costDisplay}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveTrait(trait)}
+                              className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                              title="Remove trait"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                       );
                     })}
@@ -1533,9 +1570,19 @@ export const FeaturesTab = ({
                               </div>
                             </FolioTooltip>
                           </div>
-                          <span className="shrink-0 font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-bold">
-                            {cp} CP
-                          </span>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-bold">
+                              {cp} CP
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveFeature(feat)}
+                              className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                              title="Remove feature"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                       );
                     })}
@@ -2048,10 +2095,23 @@ export const FeaturesTab = ({
                               </button>
                             )
                           ) : (
-                            <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
-                              <Check className="w-3 h-3" />
-                              <span>In Folio</span>
-                            </span>
+                            <div className="flex items-center gap-1">
+                              <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
+                                <Check className="w-3 h-3" />
+                                <span>In Folio</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const acq = getAcquiredFeature(feat.name || feat.title || feat.id);
+                                  if (acq) handleRemoveFeature(acq);
+                                }}
+                                className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors cursor-pointer"
+                                title="Remove feature"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -2271,10 +2331,23 @@ export const FeaturesTab = ({
                               </button>
                             )
                           ) : (
-                            <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
-                              <Check className="w-3 h-3" />
-                              <span>In Folio</span>
-                            </span>
+                            <div className="flex items-center gap-1">
+                              <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
+                                <Check className="w-3 h-3" />
+                                <span>In Folio</span>
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const acq = getAcquiredFeature(feat.name || feat.title || feat.id);
+                                  if (acq) handleRemoveFeature(acq);
+                                }}
+                                className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors cursor-pointer"
+                                title="Remove feature"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -2520,10 +2593,20 @@ export const FeaturesTab = ({
                                   </button>
                                 )
                               ) : (
-                                <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60">
-                                  <Check className="w-3 h-3" />
-                                  <span>In Folio</span>
-                                </span>
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60">
+                                    <Check className="w-3 h-3" />
+                                    <span>In Folio</span>
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemoveTrait(trait)}
+                                    className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors cursor-pointer"
+                                    title="Remove trait"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -2656,10 +2739,20 @@ export const FeaturesTab = ({
                                   </button>
                                 )
                               ) : (
-                                <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60">
-                                  <Check className="w-3 h-3" />
-                                  <span>In Folio</span>
-                                </span>
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60">
+                                    <Check className="w-3 h-3" />
+                                    <span>In Folio</span>
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemoveTrait(trait)}
+                                    className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors cursor-pointer"
+                                    title="Remove trait"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -2792,10 +2885,20 @@ export const FeaturesTab = ({
                                   </button>
                                 )
                               ) : (
-                                <span className="text-[10px] font-mono text-sky-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-sky-950/60 border border-sky-800/60">
-                                  <Check className="w-3 h-3" />
-                                  <span>In Folio</span>
-                                </span>
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[10px] font-mono text-sky-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-sky-950/60 border border-sky-800/60">
+                                    <Check className="w-3 h-3" />
+                                    <span>In Folio</span>
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemoveTrait(trait)}
+                                    className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors cursor-pointer"
+                                    title="Remove trait"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -2928,10 +3031,20 @@ export const FeaturesTab = ({
                                     </button>
                                   )
                                 ) : (
-                                  <span className="text-[10px] font-mono text-purple-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-purple-950/60 border border-purple-800/60">
-                                    <Check className="w-3 h-3" />
-                                    <span>In Folio</span>
-                                  </span>
+                                  <div className="flex items-center gap-1">
+                                    <span className="text-[10px] font-mono text-purple-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-purple-950/60 border border-purple-800/60">
+                                      <Check className="w-3 h-3" />
+                                      <span>In Folio</span>
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemoveTrait(trait)}
+                                      className="p-1 rounded text-slate-400 hover:text-red-400 hover:bg-slate-900 transition-colors cursor-pointer"
+                                      title="Remove trait"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
                                 )}
                               </div>
                             </div>

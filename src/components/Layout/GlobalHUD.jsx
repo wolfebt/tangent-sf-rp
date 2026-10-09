@@ -193,7 +193,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         </div>
 
         {/* Center Section: Primary Navigation Suite (Persona, Network, Cortex, ADE, Rules, Dice) */}
-        <nav className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 min-w-0" aria-label="Primary Navigation">
+        <nav className="hidden sm:flex flex-1 items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 min-w-0" aria-label="Primary Navigation">
           {/* PERSONA */}
           <button
             type="button"

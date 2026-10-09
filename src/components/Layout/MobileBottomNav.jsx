@@ -5,23 +5,26 @@ import {
   Users, 
   Database, 
   Layers, 
-  MapPin, 
-  Shield, 
-  Radio 
+  Radio,
+  BookOpen
 } from 'lucide-react';
+import { TwoD10Icon } from '../UI/TwoD10Icon';
 import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
+import { useDice } from '../../context/DiceContext';
 import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { AudioService } from '../../services/audioService';
 
 const NAV_ITEMS = [
-  { id: 'hub',     icon: Compass,  label: 'HUB',     path: '/',                     color: 'cyan'    },
-  { id: 'folio',   icon: Users,    label: 'FOLIO',   path: '/folio',                color: 'cyan'    },
-  { id: 'cortex',  icon: Database, label: 'CORTEX',  path: '/dbm',      color: 'amber'   },
-  { id: 'ade',     icon: Layers,   label: 'ADE',     path: '/foundry',  color: 'purple'  },
-  { id: 'network', icon: Radio,    label: 'NETWORK', path: '/network',  color: 'emerald' },
+  { id: 'hub',     icon: Compass,    label: 'HUB',     path: '/',           color: 'cyan'    },
+  { id: 'folio',   icon: Users,      label: 'FOLIO',   path: '/folio',      color: 'cyan'    },
+  { id: 'network', icon: Radio,      label: 'NETWORK', path: '/network',    color: 'emerald' },
+  { id: 'cortex',  icon: Database,   label: 'CORTEX',  path: '/dbm',        color: 'amber'   },
+  { id: 'ade',     icon: Layers,     label: 'ADE',     path: '/foundry',    color: 'purple'  },
+  { id: 'rules',   icon: BookOpen,   label: 'RULES',   path: '/compendium', color: 'sky'     },
+  { id: 'dice',    icon: TwoD10Icon, label: 'DICE',    isAction: true,      color: 'amber'   },
 ];
 
 const COLOR_ACTIVE = {
@@ -35,7 +38,8 @@ const COLOR_ACTIVE = {
 /**
  * MobileBottomNav
  * Fixed bottom navigation bar visible only on < sm (mobile) screens.
- * Enables full navigation capability across all sub-workspaces without relying on browser back.
+ * Provides primary navigation (Hub, Folio, Network, Cortex, ADE, Rules)
+ * and direct action access (Dice Tray) without crowding top-level headers.
  */
 export const MobileBottomNav = () => {
   const location = useLocation();
@@ -49,23 +53,23 @@ export const MobileBottomNav = () => {
     return null;
   }
 
-  // Telemetry contexts for real-time badges
+  // Telemetry contexts for real-time badges & actions
   const { personaRoster = [], roster = [] } = useFolio() || {};
   const { universeState, mapsCatalog } = useStory() || {};
   const { 
     totalUnreadCount = 0, 
-    hasUnseenMessages = false,
     hasNewOperatorLogins = false, 
     newOperatorLogins = [], 
     clearNewOperatorLogins 
   } = useChat() || {};
   const { groups = [], pendingInvites = [] } = useGroup() || {};
+  const { isDiceOpen, toggleDiceRoller } = useDice() || {};
 
   const getActiveId = () => {
     const p = location.pathname;
     if (p === '/' || p === '/dashboard') return 'hub';
     if (p.startsWith('/folio') || p.startsWith('/roster')) return 'folio';
-    if (p.startsWith('/compendium')) return 'rules';
+    if (p.startsWith('/compendium') || p.startsWith('/rules')) return 'rules';
     if (p.startsWith('/dbm') || p.startsWith('/codex')) return 'cortex';
     if (p.startsWith('/foundry') || p.startsWith('/ade') || p.startsWith('/campaign-builder') || p.startsWith('/live-studio') || p.startsWith('/ade-stage') || p.startsWith('/stage') || p === '/vtt' || p.startsWith('/vtt-ops')) return 'ade';
     if (p.startsWith('/network') || p.startsWith('/teams') || p.startsWith('/groups') || p.startsWith('/squads') || p.startsWith('/comms') || p.startsWith('/chat')) return 'network';
@@ -101,13 +105,15 @@ export const MobileBottomNav = () => {
       className="sm:hidden fixed bottom-0 left-0 right-0 z-[90] h-14 bg-[#070a12]/95 backdrop-blur-md border-t border-cyan-500/20 flex items-center justify-around px-0.5 pb-[env(safe-area-inset-bottom,0px)] select-none shadow-[0_-4px_20px_rgba(0,0,0,0.7)]"
     >
       {NAV_ITEMS.map((item) => {
-        const isActive = activeId === item.id;
+        const isDice = item.id === 'dice';
+        const isDiceActive = isDice && !!isDiceOpen;
+        const isActive = isDice ? isDiceActive : activeId === item.id;
         const badge = getBadge(item.id);
         const Icon = item.icon;
         const activeStyle = COLOR_ACTIVE[item.color] || COLOR_ACTIVE.cyan;
-        const isComms = item.id === 'comms';
-        const isCommsPulsing = isComms && (totalUnreadCount > 0 || hasNewOperatorLogins);
-        const commsPulseClass = (totalUnreadCount > 0 && hasNewOperatorLogins)
+        const isNetworkItem = item.id === 'network';
+        const isNetworkPulsing = isNetworkItem && (totalUnreadCount > 0 || hasNewOperatorLogins);
+        const networkPulseClass = (totalUnreadCount > 0 && hasNewOperatorLogins)
           ? 'animate-nav-pulse-hybrid'
           : hasNewOperatorLogins
           ? 'animate-nav-pulse-emerald'
@@ -129,12 +135,20 @@ export const MobileBottomNav = () => {
             }}
             onClick={() => {
               AudioService.playTerminalBeep(1150, 0.02);
-              if (isComms && hasNewOperatorLogins && totalUnreadCount === 0) {
+              if (item.id === 'dice') {
+                if (toggleDiceRoller) {
+                  toggleDiceRoller();
+                } else {
+                  window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+                }
+                return;
+              }
+              if (isNetworkItem && hasNewOperatorLogins && totalUnreadCount === 0) {
                 clearNewOperatorLogins?.();
               }
               navigate(item.path);
             }}
-            className={`relative flex flex-col items-center justify-center gap-0.5 px-1 py-1 rounded-lg border transition-all flex-1 mx-0.5 min-h-[44px] min-w-[44px] touch-manipulation cursor-pointer active:scale-95 ${
+            className={`relative flex flex-col items-center justify-center gap-0.5 px-0.5 py-1 rounded-lg border transition-all flex-1 min-w-0 min-h-[44px] touch-manipulation cursor-pointer active:scale-95 ${
               isActive
                 ? `${activeStyle}`
                 : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-900/40'
@@ -142,28 +156,38 @@ export const MobileBottomNav = () => {
           >
             {/* Active top indicator accent */}
             {isActive && (
-              <span className="absolute -top-[1px] left-2 right-2 h-0.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
+              <span className={`absolute -top-[1px] left-1.5 right-1.5 h-0.5 rounded-full ${
+                item.color === 'sky'
+                  ? 'bg-sky-400 shadow-[0_0_6px_rgba(56,189,248,0.8)]'
+                  : item.color === 'amber'
+                  ? 'bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.8)]'
+                  : item.color === 'purple'
+                  ? 'bg-purple-400 shadow-[0_0_6px_rgba(168,85,247,0.8)]'
+                  : item.color === 'emerald'
+                  ? 'bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)]'
+                  : 'bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]'
+              }`} />
             )}
 
             {/* Icon + Badge */}
             <div className={`relative flex items-center justify-center p-0.5 rounded-md ${
-              isCommsPulsing ? `transition-none ${commsPulseClass}` : 'transition-all'
+              isNetworkPulsing ? `transition-none ${networkPulseClass}` : 'transition-all'
             }`}>
-              <Icon size={16} className={`transition-transform ${isActive ? 'scale-110' : ''} ${isCommsPulsing ? 'text-current' : ''}`} />
+              <Icon size={16} className={`transition-transform ${isActive ? 'scale-110' : ''} ${isNetworkPulsing ? 'text-current' : ''}`} />
               {badge !== null && (
                 <span className={`absolute -top-1.5 -right-2.5 min-w-[14px] h-[14px] px-1 rounded-full text-[8px] font-bold font-mono flex items-center justify-center shadow-[0_0_6px_rgba(34,211,238,0.6)] ${
-                  isComms && hasNewOperatorLogins && totalUnreadCount === 0
+                  isNetworkItem && hasNewOperatorLogins && totalUnreadCount === 0
                     ? 'bg-emerald-400 text-black'
                     : 'bg-cyan-400 text-slate-950'
-                } ${isCommsPulsing ? 'animate-soft-badge-glow' : ''}`}>
+                } ${isNetworkPulsing ? 'animate-soft-badge-glow' : ''}`}>
                   {badge > 9 ? '9+' : badge}
                 </span>
               )}
             </div>
 
             {/* Label */}
-            <span className={`text-[8px] font-mono font-bold uppercase tracking-wider leading-none mt-0.5 ${
-              isCommsPulsing ? 'text-cyan-300 font-extrabold' : ''
+            <span className={`text-[8px] font-mono font-bold uppercase tracking-wider leading-none mt-0.5 truncate max-w-full ${
+              isNetworkPulsing ? 'text-cyan-300 font-extrabold' : ''
             }`}>
               {item.label}
             </span>

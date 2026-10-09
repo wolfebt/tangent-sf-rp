@@ -424,7 +424,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   const currentFumbleThreshold = 1 + fumbleRangeSize;
 
   return (
-    <div className="fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-50 w-[calc(100vw-1.5rem)] max-w-[540px] sm:w-[460px] max-h-[92vh] overflow-y-auto bg-[#0d1117]/95 backdrop-blur-md border border-amber-500/60 rounded-xl shadow-[0_0_35px_rgba(0,0,0,0.85),0_0_20px_rgba(245,158,11,0.3)] p-3 sm:p-4 flex flex-col gap-2.5 font-sans select-none animate-slide-up no-scrollbar">
+    <div className="fixed bottom-16 sm:bottom-4 right-3 sm:right-4 z-[95] w-[calc(100vw-1.5rem)] max-w-[540px] sm:w-[460px] max-h-[calc(100dvh-5rem)] sm:max-h-[92vh] overflow-y-auto bg-[#0d1117]/95 backdrop-blur-md border border-amber-500/60 rounded-xl shadow-[0_0_35px_rgba(0,0,0,0.85),0_0_20px_rgba(245,158,11,0.3)] p-3 sm:p-4 flex flex-col gap-2.5 font-sans select-none animate-slide-up no-scrollbar">
       
       {/* Header */}
       <div className="flex items-center justify-between pb-2 border-b border-amber-500/30">

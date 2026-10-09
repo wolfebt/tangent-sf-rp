@@ -6,11 +6,10 @@ import {
   Terminal, 
   Dices, 
   Radio, 
-  Command, 
   Database, 
   Layers, 
   ChevronRight, 
-  HelpCircle 
+  BookOpen
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { useFolio } from '../../context/FolioContext';
@@ -18,12 +17,13 @@ import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { useStory } from '../../context/CampaignContext';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
+import { useDice } from '../../context/DiceContext';
 
 /**
  * @file WelcomeBriefing.jsx
  * @description Compact, wide tactical briefing bar top-centered justified on the landing page.
- * The 4 cards directly act as visual launch tabs corresponding to the 4 guidance rail sections
- * (FOLIO, CORTEX, ADE, NETWORK) with direct deployment and zero modal popups.
+ * The 6 cards directly act as visual launch tabs corresponding to the 6 primary operations sections
+ * (FOLIO, NETWORK, CORTEX, ADE, RULES, DICE) in 2 rows of 3 with direct deployment and zero modal popups.
  */
 export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
   const navigate = useNavigate();
@@ -35,6 +35,7 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
   const { universeState, mapsCatalog } = useStory() || {};
   const { groups = [], pendingInvites = [] } = useGroup() || {};
   const { totalUnreadCount = 0 } = useChat() || {};
+  const { openDiceRoller } = useDice() || {};
 
   const heroCount = Array.isArray(personaRoster) && personaRoster.length > 0 
     ? personaRoster.length 
@@ -45,11 +46,20 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
   const scenarioCount = universeState?.scenarios?.length || 0;
   const mapsCount = mapsCatalog?.length || universeState?.maps?.length || 0;
   const teamCount = groups?.length || 0;
+  const compendiumArticles = dbData?.compendium || [];
+  const compendiumCount = Array.isArray(compendiumArticles) ? compendiumArticles.length : 0;
 
-  const handleDeploy = (route) => {
+  const handleDeploy = (route, action) => {
     AudioService.playTerminalBeep(1150, 0.02);
-    onDismiss?.();
-    navigate(route);
+    if (typeof action === 'function') {
+      action();
+      onDismiss?.();
+      return;
+    }
+    if (route) {
+      onDismiss?.();
+      navigate(route);
+    }
   };
 
   const handleDismiss = (e) => {
@@ -86,12 +96,40 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
       ]
     },
     {
-      id: 'cortex',
+      id: 'network',
       railIndex: '02',
+      title: 'NETWORK',
+      subtitle: 'Tactical Squads, CommLink & Operator Relay',
+      badge: totalUnreadCount > 0 
+        ? `${totalUnreadCount} UNREAD` 
+        : (teamCount > 0 ? `${teamCount} SQUADS` : 'SQUAD & COMMS NET'),
+      desc: 'Assemble fireteams with QR invites, chat over encrypted subspace channels, and stream tactical voice.',
+      primaryRoute: '/network',
+      icon: Radio,
+      colorTheme: 'emerald',
+      borderColor: 'border-emerald-500/35 hover:border-emerald-400',
+      barColor: 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
+      dotColor: 'bg-emerald-400',
+      badgeColor: 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50',
+      btnColor: 'bg-emerald-600 hover:bg-emerald-500 text-white',
+      iconColor: 'text-emerald-400',
+      titleColor: 'text-emerald-300 group-hover:text-emerald-200',
+      glowColor: 'hover:shadow-[0_0_22px_rgba(16,185,129,0.22)]',
+      subSections: [
+        { label: 'Tactical Squads', route: '/network?view=teams' },
+        { label: 'QR Invites', route: '/network?view=teams' },
+        { label: 'CommLink Chat', route: '/network?view=comms' },
+        { label: 'Voice Net', route: '/network?view=comms' },
+        { label: 'Operators', route: '/network?view=roster' }
+      ]
+    },
+    {
+      id: 'cortex',
+      railIndex: '03',
       title: 'CORTEX',
-      subtitle: 'Master Rules, Database & Lore Wiki',
-      badge: dbmTotalItems > 0 ? `${dbmTotalItems} ENTRIES` : 'DATABASE & RULES',
-      desc: 'Canonical dual 2d10 rules compendium, 101 playable species, equipment catalogs, and galactic lore.',
+      subtitle: 'Master Database, Catalogs & Galactic Lore',
+      badge: dbmTotalItems > 0 ? `${dbmTotalItems} ENTRIES` : 'DATABASE & LORE',
+      desc: 'Canonical DBM catalog, 101 playable species, equipment matrix, galactic lore wiki, and homebrew.',
       primaryRoute: '/dbm',
       icon: Database,
       colorTheme: 'amber',
@@ -107,14 +145,14 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
       subSections: [
         { label: '101 Species', route: '/dbm' },
         { label: 'DBM Catalog', route: '/dbm' },
-        { label: 'Rules Wiki', route: '/compendium' },
         { label: 'Galactic Lore', route: '/codex' },
+        { label: 'Equipment', route: '/dbm' },
         { label: 'Homebrew', route: '/dbm' }
       ]
     },
     {
       id: 'ade',
-      railIndex: '03',
+      railIndex: '04',
       title: 'ADE',
       subtitle: 'Consolidated Story, Maps & Stage VTT',
       badge: (scenarioCount + mapsCount) > 0 ? `${scenarioCount + mapsCount} MODULES` : 'ARCHITECT SUITE',
@@ -139,31 +177,108 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
       ]
     },
     {
-      id: 'network',
-      railIndex: '04',
-      title: 'NETWORK',
-      subtitle: 'Tactical Squads, CommLink & Operator Relay',
-      badge: totalUnreadCount > 0 
-        ? `${totalUnreadCount} UNREAD` 
-        : (teamCount > 0 ? `${teamCount} SQUADS` : 'SQUAD & COMMS NET'),
-      desc: 'Assemble fireteams with QR invites, chat over encrypted subspace channels, and stream tactical voice.',
-      primaryRoute: '/network',
-      icon: Radio,
-      colorTheme: 'emerald',
-      borderColor: 'border-emerald-500/35 hover:border-emerald-400',
-      barColor: 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
-      dotColor: 'bg-emerald-400',
-      badgeColor: 'bg-emerald-950/80 text-emerald-300 border-emerald-500/50',
-      btnColor: 'bg-emerald-600 hover:bg-emerald-500 text-white',
-      iconColor: 'text-emerald-400',
-      titleColor: 'text-emerald-300 group-hover:text-emerald-200',
-      glowColor: 'hover:shadow-[0_0_22px_rgba(16,185,129,0.22)]',
+      id: 'rules',
+      railIndex: '05',
+      title: 'RULES',
+      subtitle: 'BASTION Compendium, Mechanics & Arbiter',
+      badge: compendiumCount > 0 ? `${compendiumCount} ARTICLES` : 'RULES COMPENDIUM',
+      desc: 'Canonical BASTION dual 2d10 system mechanics, action economy, conditions, tactical combat, and AI Arbiter.',
+      primaryRoute: '/compendium',
+      icon: BookOpen,
+      colorTheme: 'sky',
+      borderColor: 'border-sky-500/35 hover:border-sky-400',
+      barColor: 'bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]',
+      dotColor: 'bg-sky-400',
+      badgeColor: 'bg-sky-950/80 text-sky-300 border-sky-500/50',
+      btnColor: 'bg-sky-600 hover:bg-sky-500 text-white',
+      iconColor: 'text-sky-400',
+      titleColor: 'text-sky-300 group-hover:text-sky-200',
+      glowColor: 'hover:shadow-[0_0_22px_rgba(56,189,248,0.22)]',
+      onMouseEnter: () => loadCompendiumCatalog(),
       subSections: [
-        { label: 'Tactical Squads', route: '/network?view=teams' },
-        { label: 'QR Invites', route: '/network?view=teams' },
-        { label: 'CommLink Chat', route: '/network?view=comms' },
-        { label: 'Voice Net', route: '/network?view=comms' },
-        { label: 'Operators', route: '/network?view=roster' }
+        { label: 'Core Rules', route: '/compendium?tab=rules' },
+        { label: 'Combat & DCs', route: '/compendium?tab=rules' },
+        { label: 'Conditions', route: '/compendium?tab=rules' },
+        { label: 'Omnicortex', route: '/compendium?tab=omnicortex' },
+        { label: 'Bastion AI', route: '/compendium?tab=rules' }
+      ]
+    },
+    {
+      id: 'dice',
+      railIndex: '06',
+      title: 'DICE',
+      subtitle: 'Holographic Tray & Dual 2d10 Engine',
+      badge: 'DUAL 2d10 TRAY',
+      desc: 'Interactive 2d10 resolution dock with advantage pools, target DC thresholds, crits/fumbles, polyhedrals, and comms broadcast.',
+      primaryRoute: null,
+      action: () => {
+        if (openDiceRoller) {
+          openDiceRoller({ label: 'Tactical Action Check', expression: '2d10' });
+        } else {
+          window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+        }
+      },
+      icon: Dices,
+      colorTheme: 'orange',
+      borderColor: 'border-orange-500/35 hover:border-orange-400',
+      barColor: 'bg-orange-400 shadow-[0_0_8px_rgba(251,146,60,0.8)]',
+      dotColor: 'bg-orange-400',
+      badgeColor: 'bg-orange-950/80 text-orange-300 border-orange-500/50',
+      btnColor: 'bg-orange-600 hover:bg-orange-500 text-white',
+      iconColor: 'text-orange-400',
+      titleColor: 'text-orange-300 group-hover:text-orange-200',
+      glowColor: 'hover:shadow-[0_0_22px_rgba(251,146,60,0.22)]',
+      subSections: [
+        {
+          label: 'Dual 2d10',
+          action: () => {
+            if (openDiceRoller) {
+              openDiceRoller({ label: 'Dual 2d10 Check', expression: '2d10' });
+            } else {
+              window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+            }
+          }
+        },
+        {
+          label: 'Advantage',
+          action: () => {
+            if (openDiceRoller) {
+              openDiceRoller({ label: 'Advantage Check', expression: '2d10', advantageDice: 1 });
+            } else {
+              window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+            }
+          }
+        },
+        {
+          label: 'Target DCs',
+          action: () => {
+            if (openDiceRoller) {
+              openDiceRoller({ label: 'Standard DC 12 Check', expression: '2d10', targetDC: '12' });
+            } else {
+              window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+            }
+          }
+        },
+        {
+          label: 'Polyhedrals',
+          action: () => {
+            if (openDiceRoller) {
+              openDiceRoller({ label: 'Polyhedral D20', expression: '1d20' });
+            } else {
+              window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+            }
+          }
+        },
+        {
+          label: 'Dice Tray',
+          action: () => {
+            if (openDiceRoller) {
+              openDiceRoller();
+            } else {
+              window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+            }
+          }
+        }
       ]
     }
   ];
@@ -205,14 +320,14 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
         </button>
       </div>
 
-      {/* ── 4 Primary Section Cards Grid (Single Row on Desktop: Wide & Compact) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+      {/* ── 6 Primary Section Cards Grid (2 rows of 3: FOLIO, NETWORK, CORTEX, ADE, RULES, DICE) ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
         {primarySections.map((section) => {
           const Icon = section.icon;
           return (
             <div
               key={section.id}
-              onClick={() => handleDeploy(section.primaryRoute)}
+              onClick={() => handleDeploy(section.primaryRoute, section.action)}
               onMouseEnter={section.onMouseEnter}
               className={`group relative p-3 sm:p-3.5 rounded-xl bg-[#101520]/90 hover:bg-[#131b29] border ${section.borderColor} transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2 shadow-sm ${section.glowColor} overflow-hidden`}
             >
@@ -254,7 +369,7 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleDeploy(sub.route);
+                        handleDeploy(sub.route, sub.action);
                       }}
                       className="px-1.5 py-0.5 rounded bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-600 text-[9.5px] font-mono text-slate-300 hover:text-white transition-colors cursor-pointer"
                       title={`Jump directly to ${sub.label}`}
@@ -279,50 +394,6 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
             </div>
           );
         })}
-      </div>
-
-      {/* ── Compact Tactical Keys & Footer Bar ── */}
-      <div className="p-2 sm:p-2.5 rounded-xl bg-[#080c14] border border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-        <div className="flex items-center gap-2 text-slate-400 flex-wrap">
-          <span className="text-amber-400 font-bold text-[10.5px] uppercase tracking-wider">Tactical Keys:</span>
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-[9.5px] flex items-center gap-1">
-              <Dices size={10.5} className="text-amber-400" />
-              <span>Alt+D Dice</span>
-            </span>
-            <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-[9.5px] flex items-center gap-1">
-              <Radio size={10.5} className="text-rose-400" />
-              <span>Alt+C Comms</span>
-            </span>
-            <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 text-[9.5px] flex items-center gap-1">
-              <Command size={10.5} className="text-cyan-400" />
-              <span>Ctrl+K Command</span>
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new CustomEvent('open-user-guide'))}
-            className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 text-[10.5px] font-bold cursor-pointer ml-1"
-          >
-            <HelpCircle size={11} />
-            <span>Full Manual</span>
-          </button>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <span className="text-[10px] text-slate-500 hidden sm:inline">
-            You can reopen this briefing anytime from the Home page.
-          </span>
-          <button
-            type="button"
-            onClick={handleDismiss}
-            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white uppercase font-bold text-[9.5px] transition-colors cursor-pointer flex items-center gap-1"
-          >
-            <span>Got It, Close</span>
-            <X size={11} />
-          </button>
-        </div>
       </div>
     </div>
   );

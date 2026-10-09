@@ -299,46 +299,46 @@ export const FeaturesHubView = ({
   ];
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-start p-3 sm:p-5 lg:p-6 space-y-4 sm:space-y-6 w-full max-w-6xl mx-auto">
-      {/* Header Hub Section (Center-Aligned) */}
-      <div className="flex flex-col items-center text-center space-y-2 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-widest shadow-[0_0_12px_rgba(34,211,238,0.2)]">
-          <Sparkles size={12} className="text-cyan-400" />
+    <div className="flex-1 flex flex-col items-center justify-start p-2.5 sm:p-4 space-y-3 sm:space-y-4 w-full max-w-5xl mx-auto">
+      {/* Header Hub Section (Center-Aligned, Compact) */}
+      <div className="flex flex-col items-center text-center space-y-1.5 max-w-2xl mx-auto">
+        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-[10px] font-bold uppercase tracking-wider shadow-sm">
+          <Sparkles size={11} className="text-cyan-400" />
           <span>Operative Capabilities Hub</span>
         </div>
 
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-wider text-white">
+        <h2 className="text-lg sm:text-xl font-black uppercase tracking-wider text-white">
           Aspect Hub
         </h2>
 
-        <p className="text-xs text-slate-400 leading-relaxed max-w-xl">
-          Select one of the 5 feature &amp; trait capability subsystems below to inspect acquired talents, manage column traits, or explore compendium databases.
+        <p className="text-[11px] text-slate-400 leading-normal max-w-lg">
+          Select one of the 5 capability subsystems below to inspect acquired talents, manage column traits, or explore compendium databases.
         </p>
 
-        {/* Aggregate CP Status Chips (Center-Aligned) */}
-        <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-          <span className="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-700/80 text-slate-300 font-mono text-xs font-semibold flex items-center gap-1.5 shadow-inner">
+        {/* Aggregate CP Status Chips (Compact) */}
+        <div className="flex flex-wrap items-center justify-center gap-1.5 pt-0.5">
+          <span className="px-2 py-0.5 rounded-md bg-slate-900/90 border border-slate-700/80 text-slate-300 font-mono text-[11px] font-semibold flex items-center gap-1 shadow-inner">
             <span className="text-cyan-400">Total Features:</span>
             <span className="text-white font-bold">{totalFeaturesCP} CP</span>
           </span>
 
           {totalHindrancesRefund > 0 && (
-            <span className="px-2.5 py-1 rounded-lg bg-emerald-950/70 border border-emerald-700/60 text-emerald-300 font-mono text-xs font-semibold flex items-center gap-1.5 shadow-inner">
-              <ShieldCheck size={12} className="text-emerald-400" />
+            <span className="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-700/60 text-emerald-300 font-mono text-[11px] font-semibold flex items-center gap-1 shadow-inner">
+              <ShieldCheck size={11} className="text-emerald-400" />
               <span>Refund:</span>
               <span className="font-bold">-{totalHindrancesRefund} CP</span>
             </span>
           )}
 
-          <span className="px-2.5 py-1 rounded-lg bg-cyan-950/60 border border-cyan-500/50 text-cyan-200 font-mono text-xs font-bold flex items-center gap-1.5 shadow-[0_0_10px_rgba(34,211,238,0.15)]">
+          <span className="px-2 py-0.5 rounded-md bg-cyan-950/60 border border-cyan-500/50 text-cyan-200 font-mono text-[11px] font-bold flex items-center gap-1 shadow-[0_0_8px_rgba(34,211,238,0.15)]">
             <span className="text-cyan-400">Net Cost:</span>
             <span>{netFeaturesCP} CP</span>
           </span>
         </div>
       </div>
 
-      {/* 5 Feature Options Responsive Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 w-full justify-center items-stretch">
+      {/* 5 Feature Options Responsive Grid (Compact) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 w-full justify-center items-stretch">
         {FEATURE_OPTIONS.map((opt) => {
           const Icon = opt.icon;
 
@@ -346,52 +346,52 @@ export const FeaturesHubView = ({
             <div
               key={opt.id}
               onClick={() => handleCardClick(opt.id)}
-              className={`bg-slate-900/80 hover:bg-slate-900/95 backdrop-blur-xl border ${opt.borderColor} ${opt.glowColor} rounded-xl p-3.5 sm:p-4 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 flex flex-col justify-between group shadow-md text-left`}
+              className={`bg-slate-900/80 hover:bg-slate-900/95 backdrop-blur-xl border ${opt.borderColor} ${opt.glowColor} rounded-xl p-3 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 flex flex-col justify-between group shadow-sm text-left`}
             >
               {/* Card Header & Content */}
-              <div className="space-y-2">
-                <div className="flex items-start justify-between gap-2.5">
-                  <div className="flex items-start gap-2.5 min-w-0">
-                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center border shrink-0 mt-0.5 transition-transform duration-200 group-hover:scale-105 ${opt.iconBg}`}>
-                      <Icon size={17} />
+              <div className="space-y-1.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-start gap-2 min-w-0">
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 mt-0.5 transition-transform duration-200 group-hover:scale-105 ${opt.iconBg}`}>
+                      <Icon size={14} />
                     </div>
 
                     <div className="min-w-0">
                       <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-200 transition-colors uppercase tracking-wide leading-tight">
                         {opt.title}
                       </h3>
-                      <p className="text-[10px] sm:text-[11px] font-mono text-slate-400 font-medium truncate mt-0.5">
+                      <p className="text-[10px] font-mono text-slate-400 font-medium truncate mt-0.5">
                         {opt.tagline}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex flex-col items-end shrink-0 pl-1">
-                    <span className={`px-2 py-0.5 rounded font-mono text-[10px] font-bold border ${opt.badgeBg}`}>
+                    <span className={`px-1.5 py-0.5 rounded font-mono text-[9px] font-bold border ${opt.badgeBg}`}>
                       {opt.count} {opt.unit}
                     </span>
                     {opt.extraCountText && (
-                      <span className="font-mono text-[9px] text-slate-400 mt-0.5 whitespace-nowrap">
+                      <span className="font-mono text-[8.5px] text-slate-400 mt-0.5 whitespace-nowrap">
                         {opt.extraCountText}
                       </span>
                     )}
                   </div>
                 </div>
 
-                <p className="text-[11px] text-slate-400/90 leading-snug line-clamp-2 pt-0.5">
+                <p className="text-[10.5px] text-slate-400/90 leading-snug line-clamp-2">
                   {opt.description}
                 </p>
               </div>
 
               {/* Card Footer Action */}
-              <div className="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                <span className="font-mono font-bold text-slate-300 text-[11px]">
+              <div className="mt-2.5 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                <span className="font-mono font-bold text-slate-300 text-[10.5px]">
                   {opt.cpText}
                 </span>
 
-                <div className={`flex items-center gap-1 font-bold uppercase tracking-wider text-[11px] ${opt.accentColor} group-hover:translate-x-0.5 transition-transform`}>
+                <div className={`flex items-center gap-1 font-bold uppercase tracking-wider text-[10px] ${opt.accentColor} group-hover:translate-x-0.5 transition-transform`}>
                   <span>Manage</span>
-                  <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
             </div>

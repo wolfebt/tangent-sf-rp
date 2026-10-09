@@ -469,8 +469,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
 // 6. Execution Lifecycle / Standalone Self-Test Mode
 const isTestMode = process.argv.includes("--test") || process.argv.includes("-t");
+const isDumpMode = process.argv.includes("--dump") || process.argv.includes("--json");
 
-if (isTestMode) {
+if (isDumpMode) {
+  try {
+    const diagnostics = await toolHandlers.get_runtime_diagnostics();
+    const routes = await toolHandlers.inspect_routes();
+    const schemas = await toolHandlers.inspect_models_and_schemas();
+    const diff = await toolHandlers.fetch_workspace_diff();
+    console.log(JSON.stringify({ diagnostics, routes, schemas, diff }, null, 2));
+    process.exit(0);
+  } catch (err) {
+    console.error("Dump failed:", err);
+    process.exit(1);
+  }
+} else if (isTestMode) {
   console.log("=== Running Antigravity App Inspector Standalone Self-Test ===\n");
   console.log(`Resolved App Root: ${rootDir}`);
 
