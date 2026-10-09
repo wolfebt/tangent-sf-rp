@@ -14,14 +14,14 @@ import {
   onSnapshot, 
   serverTimestamp 
 } from 'firebase/firestore';
-import { db } from '../firebase';
-import { StorageService } from './storageService';
+import { auth, db } from '../firebase.js';
+import { StorageService } from './storageService.js';
 import { 
   getFolioTombstones, 
   isFolioPersonaDeleted, 
   isPersonaEmptyTemplate, 
   getEffectiveUserHandle 
-} from '../utils/personaValidationUtils';
+} from '../utils/personaValidationUtils.js';
 
 export const DEFAULT_PUBLIC_CHANNELS = [
   {
@@ -69,6 +69,7 @@ export const DEFAULT_PUBLIC_CHANNELS = [
 export const ChatService = {
   // Ensure default public channels exist in Firestore
   async initDefaultChannels() {
+    if (!db || !auth?.currentUser) return;
     try {
       for (const ch of DEFAULT_PUBLIC_CHANNELS) {
         const docRef = doc(db, 'channels', ch.id);
@@ -345,39 +346,66 @@ export const ChatService = {
 
   // Create a Custom Channel or Group Chat
   async createCustomChannel({ name, topic, isPublic = true, type = 'custom', members = [], characterMembers = [], currentUser }) {
-    if (!name) throw new Error('Channel name is required');
-    if (!currentUser) throw new Error('Must be logged in to create channel');
+    if (!name || !name.trim()) throw new Error('Channel name is required');
 
-    const cleanName = name.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+    const effectiveUser = currentUser || {
+      uid: `local_${localStorage.getItem('userHandle') || 'operator'}`,
+      displayName: localStorage.getItem('userHandle') || 'Local Operator'
+    };
+
+    const rawClean = name.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const cleanName = rawClean || `freq-${Math.random().toString(36).substring(2, 6)}`;
     const channelId = `${type === 'group' ? 'group_chat' : 'custom'}_${Date.now()}_${cleanName.substring(0, 20)}`;
 
-    const memberList = Array.from(new Set([currentUser.uid, ...members]));
-    const channelRef = doc(db, 'channels', channelId);
+    const memberList = Array.from(new Set([effectiveUser.uid, ...members]));
 
     const displayName = type === 'group' 
       ? (name.startsWith('🛡️') || name.startsWith('👥') ? name : `🛡️ ${name}`)
       : `#${cleanName}`;
 
+    const nowIso = new Date().toISOString();
     const channelData = {
       id: channelId,
       name: cleanName,
       displayName: displayName,
       topic: topic || (type === 'group' ? 'Tactical Operator Group Frequency' : 'Custom operations channel'),
       type: type, // 'custom' | 'group'
-      isPublic: isPublic,
-      createdById: currentUser.uid,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
+      isPublic: Boolean(isPublic),
+      createdById: effectiveUser.uid,
+      createdAt: nowIso,
+      updatedAt: nowIso,
       members: memberList,
       characterMembers: Array.isArray(characterMembers) ? characterMembers : [],
       lastMessage: {
         text: `Frequency opened: ${displayName}`,
-        senderHandle: currentUser.displayName || 'Architect',
-        timestamp: new Date().toISOString()
+        senderHandle: effectiveUser.displayName || 'Architect',
+        timestamp: nowIso
       }
     };
 
-    await setDoc(channelRef, channelData);
+    // Save to Firestore if available and user is authenticated
+    if (db && auth?.currentUser && !effectiveUser.uid.startsWith('local_')) {
+      try {
+        const channelRef = doc(db, 'channels', channelId);
+        await setDoc(channelRef, {
+          ...channelData,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.warn('[ChatService] Firestore channel write fallback to local cache:', err);
+      }
+    }
+
+    // Always update local IndexedDB cache so channels persist immediately and offline
+    try {
+      const cached = (await StorageService.getItem('tangent_channels_cache', [])) || [];
+      const updated = [channelData, ...cached.filter(c => c.id !== channelId)];
+      await StorageService.setItem('tangent_channels_cache', updated);
+    } catch (e) {
+      console.warn('[ChatService] Local cache save failed:', e);
+    }
+
     return channelData;
   },
 
@@ -678,12 +706,33 @@ export const ChatService = {
   // Update Channel details (rename, topic, privacy, etc.)
   async updateChannel(channelId, updates) {
     if (!channelId) throw new Error('Channel ID is required');
-    const channelRef = doc(db, 'channels', channelId);
+    const nowIso = new Date().toISOString();
     const payload = {
       ...updates,
-      updatedAt: serverTimestamp()
+      updatedAt: nowIso
     };
-    await updateDoc(channelRef, payload);
+
+    if (db && auth?.currentUser && !channelId.startsWith('local_')) {
+      try {
+        const channelRef = doc(db, 'channels', channelId);
+        await updateDoc(channelRef, {
+          ...payload,
+          updatedAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.warn('[ChatService] Firestore updateChannel fallback to local cache:', err);
+      }
+    }
+
+    try {
+      const cached = (await StorageService.getItem('tangent_channels_cache', [])) || [];
+      const updatedCache = cached.map(c => c.id === channelId ? { ...c, ...payload } : c);
+      await StorageService.setItem('tangent_channels_cache', updatedCache);
+    } catch (e) {
+      console.warn('[ChatService] Error updating channels cache on updateChannel:', e);
+    }
+
+    return payload;
   },
 
   // Specific helper to rename channel & topic
@@ -692,21 +741,43 @@ export const ChatService = {
     const trimmed = (newDisplayName || '').trim();
     if (!trimmed) throw new Error('Channel name cannot be empty');
 
-    const cleanSlug = trimmed.replace(/^[#🛡️👥\s]+/, '').toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+    const rawSlug = trimmed.replace(/^[#🛡️👥\s]+/, '').toLowerCase().replace(/[^a-z0-9_-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const cleanSlug = rawSlug || `freq-${Math.random().toString(36).substring(2, 6)}`;
     const isGroup = trimmed.startsWith('🛡️') || trimmed.startsWith('👥');
-    const displayName = isGroup ? trimmed : (trimmed.startsWith('#') || trimmed.startsWith('@') ? trimmed : `#${trimmed}`);
+    const displayName = isGroup 
+      ? trimmed 
+      : (trimmed.startsWith('#') || trimmed.startsWith('@') ? trimmed : `#${cleanSlug}`);
 
+    const nowIso = new Date().toISOString();
     const updates = {
       displayName: displayName,
       name: cleanSlug,
-      updatedAt: serverTimestamp()
+      updatedAt: nowIso
     };
     if (newTopic !== undefined) {
       updates.topic = newTopic.trim();
     }
 
-    const channelRef = doc(db, 'channels', channelId);
-    await updateDoc(channelRef, updates);
+    if (db && auth?.currentUser && !channelId.startsWith('local_')) {
+      try {
+        const channelRef = doc(db, 'channels', channelId);
+        await updateDoc(channelRef, {
+          ...updates,
+          updatedAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.warn('[ChatService] Firestore renameChannel fallback to local cache:', err);
+      }
+    }
+
+    try {
+      const cached = (await StorageService.getItem('tangent_channels_cache', [])) || [];
+      const updatedCache = cached.map(c => c.id === channelId ? { ...c, ...updates } : c);
+      await StorageService.setItem('tangent_channels_cache', updatedCache);
+    } catch (e) {
+      console.warn('[ChatService] Error updating channels cache on rename:', e);
+    }
+
     return updates;
   },
 
@@ -748,8 +819,21 @@ export const ChatService = {
     if (channelId.startsWith('public_')) {
       throw new Error('Default public channels cannot be deleted');
     }
-    const channelRef = doc(db, 'channels', channelId);
-    await deleteDoc(channelRef);
+    if (db && auth?.currentUser && !channelId.startsWith('local_')) {
+      try {
+        const channelRef = doc(db, 'channels', channelId);
+        await deleteDoc(channelRef);
+      } catch (e) {
+        console.warn('[ChatService] Firestore deleteDoc warning:', e);
+      }
+    }
+    try {
+      const cached = (await StorageService.getItem('tangent_channels_cache', [])) || [];
+      const updated = cached.filter(c => c.id !== channelId);
+      await StorageService.setItem('tangent_channels_cache', updated);
+    } catch (e) {
+      console.warn('[ChatService] Error updating channels cache on delete:', e);
+    }
   },
 
   // Clear all messages in a channel

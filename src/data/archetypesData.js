@@ -3560,7 +3560,7 @@ export const DEFAULT_ARCHETYPES = [
       "Alertness",
       "Two Disciplines (e.g",
       "Energy",
-      "Dimension)",
+      "Dimension",
       "Attune"
     ],
     "signature_features": [

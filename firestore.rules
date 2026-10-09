@@ -146,7 +146,15 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 2. USER PROFILES & USER SETTINGS
+    // 2. SYSTEM SETTINGS & BROADCAST BANNERS
+    // =========================================================================
+    match /system_settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // =========================================================================
+    // 3. USER PROFILES & USER SETTINGS
     // =========================================================================
     match /users/{userId} {
       allow read: if isAuthenticated();
@@ -154,17 +162,21 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 3. GAME GROUPS & SQUAD ROSTERS
+    // 4. GAME GROUPS & SQUAD ROSTERS
     // =========================================================================
     match /game_groups/{groupId} {
       allow read: if isAuthenticated() || resource.data.isPublic == true;
       allow create: if isAuthenticated();
-      allow update: if isAuthenticated();
+      allow update: if isAuthenticated() && (
+        resource.data.creatorId == request.auth.uid 
+        || (resource.data.members != null && request.auth.uid in resource.data.members)
+        || isAdmin()
+      );
       allow delete: if isAuthenticated() && (resource.data.creatorId == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
-    // 4. GROUP & SQUAD INVITATIONS
+    // 5. GROUP & SQUAD INVITATIONS
     // =========================================================================
     match /group_invites/{inviteId} {
       allow read: if isAuthenticated() && (
@@ -181,7 +193,20 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 5. PERSONA FOLIO DATA & CHARACTERS
+    // 6. LOOKING FOR TEAM (LFT) PERSONAS
+    // =========================================================================
+    match /lft_personas/{lftId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated() && (
+        request.resource.data.userId == request.auth.uid || isAdmin()
+      );
+      allow delete: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid || isAdmin()
+      );
+    }
+
+    // =========================================================================
+    // 7. PERSONA FOLIO DATA & CHARACTERS
     // =========================================================================
     match /users/{userId}/personas/{personaId} {
       allow read: if isOwner(userId) || resource.data.isPublic == true || isAdmin();
@@ -201,7 +226,7 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 6. STORY FOUNDRY: USER STORIES & CAMPAIGNS
+    // 8. STORY FOUNDRY: USER STORIES & CAMPAIGNS
     // =========================================================================
     match /user_stories/{storyId} {
       allow read: if resource.data.isPublic == true 
@@ -211,7 +236,7 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 7. STORY FOUNDRY: INDEPENDENT SCENARIO ELEMENTS
+    // 9. STORY FOUNDRY: INDEPENDENT SCENARIO ELEMENTS
     // =========================================================================
     match /story_elements/{elementId} {
       allow read: if resource.data.isPublic == true 
@@ -221,7 +246,7 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 8. STORY FOUNDRY: TACTICAL MAPS
+    // 10. STORY FOUNDRY: TACTICAL MAPS
     // =========================================================================
     match /story_maps/{mapId} {
       allow read: if isAuthenticated() || resource.data.isPublic == true;
@@ -230,14 +255,15 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 9. STORY FOUNDRY: SHARED UNIVERSE STATE
+    // 11. STORY FOUNDRY: SHARED UNIVERSE STATE (Read-Only to Players, Admin Write)
     // =========================================================================
     match /universe/{document=**} {
-      allow read, write: if isAuthenticated();
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
     }
 
     // =========================================================================
-    // 10. COMMLINK RELAY: CHANNELS & MESSAGES
+    // 12. COMMLINK RELAY: CHANNELS & MESSAGES
     // =========================================================================
     match /channels/{channelId} {
       // Allow read if channel is public or user is in members or is admin
@@ -250,9 +276,8 @@ service cloud.firestore {
                      ));
       allow create: if isAuthenticated() || isAdmin();
       allow update: if isAuthenticated() && (
-                       resource.data.isPublic == true
+                       resource.data.createdById == request.auth.uid 
                        || (resource.data.members != null && request.auth.uid in resource.data.members)
-                       || resource.data.createdById == request.auth.uid 
                        || isAdmin()
                      );
       allow delete: if isAuthenticated() && (
@@ -269,13 +294,21 @@ service cloud.firestore {
                          || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
                          || isAdmin()
                        ));
-        allow create: if isAuthenticated() || isAdmin();
+        allow create: if isAuthenticated() && (
+                         request.resource.data.senderId == request.auth.uid || isAdmin()
+                       ) && (
+                         get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
+                         || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
+                         || request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members
+                         || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
+                         || isAdmin()
+                       );
         allow update, delete: if isAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin());
       }
     }
 
     // =========================================================================
-    // 11. FINAL CATCH-ALL: EXPLICIT DENY
+    // 13. FINAL CATCH-ALL: EXPLICIT DENY
     // =========================================================================
     match /{document=**} {
       allow read, write: if false;

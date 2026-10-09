@@ -463,8 +463,8 @@ export const CommsPage = ({
                 hasUncheckedDocket
                   ? 'animate-nav-pulse-amber bg-amber-950/70 hover:bg-amber-900/80 text-amber-200 border-amber-500/80 shadow-[0_0_18px_rgba(245,158,11,0.45)]'
                   : showDocket
-                  ? 'bg-cyan-950/90 hover:bg-cyan-900/80 text-cyan-200 border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
-                  : 'bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-cyan-200 border-slate-700/80 hover:border-cyan-500/50 hover:shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+                  ? 'bg-rose-950/90 hover:bg-rose-900/80 text-rose-200 border-rose-400/80 shadow-[0_0_15px_rgba(244,63,94,0.35)]'
+                  : 'bg-rose-950/30 hover:bg-rose-950/60 text-rose-300 hover:text-rose-100 border-rose-500/50 hover:border-rose-400/80 hover:shadow-[0_0_12px_rgba(244,63,94,0.25)]'
               }`}
               title={
                 hasUncheckedDocket
@@ -487,8 +487,8 @@ export const CommsPage = ({
                   hasUncheckedDocket
                     ? 'text-amber-300'
                     : showDocket
-                    ? 'text-cyan-300'
-                    : 'text-cyan-400'
+                    ? 'text-rose-300'
+                    : 'text-rose-400'
                 }`}
               />
 
@@ -510,8 +510,8 @@ export const CommsPage = ({
                 <span
                   className={`px-1.5 py-0.2 rounded-md text-[10px] font-bold border shrink-0 ${
                     showDocket
-                      ? 'bg-cyan-900/80 text-cyan-300 border-cyan-500/40'
-                      : 'bg-slate-800 text-cyan-400 border-slate-700'
+                      ? 'bg-rose-900/80 text-rose-200 border-rose-500/50'
+                      : 'bg-rose-950/60 text-rose-300 border-rose-500/40'
                   }`}
                 >
                   {docketBlocks.length}
@@ -519,11 +519,11 @@ export const CommsPage = ({
               ) : null}
 
               {showDocket ? (
-                <ChevronDown size={15} className="text-cyan-300 shrink-0" />
+                <ChevronDown size={15} className="text-rose-300 shrink-0" />
               ) : (
                 <ChevronRight
                   size={15}
-                  className={`shrink-0 ${hasUncheckedDocket ? 'text-amber-300' : 'text-slate-400'}`}
+                  className={`shrink-0 ${hasUncheckedDocket ? 'text-amber-300' : 'text-rose-400'}`}
                 />
               )}
             </button>

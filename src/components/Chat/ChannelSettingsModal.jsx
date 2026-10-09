@@ -25,8 +25,8 @@ import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useConfirm } from '../../context/ConfirmContext';
 import { useToast, showToast } from '../../context/ToastContext';
-import { ChatService } from '../../services/chatService';
-import { AudioService } from '../../services/audioService';
+import { ChatService } from '../../services/chatService.js';
+import { AudioService } from '../../services/audioService.js';
 
 export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }) => {
   const { 
@@ -55,8 +55,11 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
 
   const isDefaultPublic = targetChannel?.id?.startsWith('public_');
   const isDM = targetChannel?.type === 'direct' || targetChannel?.id?.startsWith('dm_');
-  const isCreator = targetChannel?.createdById === currentUser?.uid;
-  const canEdit = !isDefaultPublic && (isCreator || isAdmin);
+  const isPersonaLog = targetChannel?.type === 'persona_log' || targetChannel?.id?.startsWith('persona_log_');
+  const isLocalCreator = targetChannel?.createdById?.startsWith('local_') && (!currentUser || targetChannel?.createdById === `local_${localStorage.getItem('userHandle') || 'operator'}`);
+  const isCreator = targetChannel?.createdById === currentUser?.uid || isLocalCreator || targetChannel?.type === 'custom';
+  const canEdit = !isDefaultPublic && !isPersonaLog && (isCreator || isAdmin);
+  const canDelete = !isDefaultPublic && !isPersonaLog && (isCreator || isAdmin);
 
   useEffect(() => {
     if (isOpen && targetChannel) {
@@ -373,7 +376,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
             <span>PRINT & LOGS</span>
           </button>
 
-          {canEdit && (
+          {canDelete && (
             <button
               type="button"
               onClick={() => setActiveTab('danger')}
@@ -646,7 +649,7 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
               )}
 
               {/* TAB 4: Danger Zone */}
-              {activeTab === 'danger' && canEdit && (
+              {activeTab === 'danger' && canDelete && (
             <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/40 space-y-3">
               <div className="flex items-center gap-2 text-red-400 font-bold">
                 <ShieldAlert size={16} />

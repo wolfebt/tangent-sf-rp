@@ -380,7 +380,11 @@ export const ChatProvider = ({ children }) => {
   }, [channels, activeChannelId]);
 
   const publicChannels = useMemo(() => {
-    return channels.filter(c => c.type === 'public' || c.id.startsWith('public_'));
+    return channels.filter(c => 
+      c.type === 'public' || 
+      c.id.startsWith('public_') || 
+      (c.isPublic === true && c.type !== 'direct' && c.type !== 'group' && !c.id.startsWith('dm_') && !c.id.startsWith('group_'))
+    );
   }, [channels]);
 
   const directChannels = useMemo(() => {
@@ -928,7 +932,11 @@ export const ChatProvider = ({ children }) => {
 
   // Create a new custom or team group channel (supports characterMembers)
   const createNewChannel = useCallback(async ({ name, topic, isPublic, type, members, characterMembers }) => {
-    if (!currentUser) throw new Error('You must be logged in to create a channel');
+    const effectiveUser = currentUser || {
+      uid: `local_${userHandle || 'operator'}`,
+      displayName: userHandle || 'Local Operator',
+      isLocal: true
+    };
     const newChan = await ChatService.createCustomChannel({
       name,
       topic,
@@ -936,15 +944,31 @@ export const ChatProvider = ({ children }) => {
       type,
       members,
       characterMembers,
-      currentUser
+      currentUser: effectiveUser
+    });
+    setChannels(prev => {
+      const exists = prev.some(c => c.id === newChan.id);
+      return exists ? prev : [newChan, ...prev];
     });
     selectChannel(newChan.id);
     return newChan;
-  }, [currentUser, selectChannel]);
+  }, [currentUser, userHandle, selectChannel]);
 
   // Rename channel
   const renameChannel = useCallback(async (channelId, newDisplayName, newTopic) => {
     const res = await ChatService.renameChannel(channelId, newDisplayName, newTopic);
+    setChannels(prev => prev.map(c => {
+      if (c.id === channelId) {
+        return {
+          ...c,
+          displayName: res.displayName || newDisplayName,
+          name: res.name || c.name,
+          topic: newTopic !== undefined ? newTopic : c.topic,
+          updatedAt: res.updatedAt || new Date().toISOString()
+        };
+      }
+      return c;
+    }));
     AudioService.playTerminalBeep(1200, 0.02);
     return res;
   }, []);
@@ -952,6 +976,16 @@ export const ChatProvider = ({ children }) => {
   // Update channel properties (privacy, topic, etc.)
   const updateChannel = useCallback(async (channelId, updates) => {
     const res = await ChatService.updateChannel(channelId, updates);
+    setChannels(prev => prev.map(c => {
+      if (c.id === channelId) {
+        return {
+          ...c,
+          ...updates,
+          updatedAt: res?.updatedAt || new Date().toISOString()
+        };
+      }
+      return c;
+    }));
     AudioService.playTerminalBeep(1200, 0.02);
     return res;
   }, []);
@@ -971,6 +1005,7 @@ export const ChatProvider = ({ children }) => {
   // Delete channel
   const deleteChannel = useCallback(async (channelId) => {
     await ChatService.deleteChannel(channelId);
+    setChannels(prev => prev.filter(c => c.id !== channelId));
     if (activeChannelId === channelId) {
       selectChannel('public_general');
     }

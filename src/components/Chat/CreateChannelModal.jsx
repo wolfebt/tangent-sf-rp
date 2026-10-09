@@ -24,7 +24,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
     userDirectory, 
     refreshUserDirectory 
   } = useChat();
-  const { currentUser } = useAuth();
+  const { currentUser, loginWithGoogle } = useAuth();
   const folio = useFolio() || {};
   const { personaRoster = [], roster = [] } = folio;
 
@@ -192,9 +192,50 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
 
         {/* Modal Body */}
         <div className="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1">
+          {!currentUser && (
+            <div className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/40 flex items-center justify-between gap-3 text-xs font-mono">
+              <div className="space-y-0.5">
+                <span className="text-cyan-300 font-bold block">OPERATIVE IN LOCAL MODE</span>
+                <span className="text-slate-400 text-[10.5px] block">
+                  Frequencies will be initialized locally. To broadcast across the cloud Terran Net, authenticate with Google.
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    setError(null);
+                    await loginWithGoogle();
+                  } catch (e) {
+                    setError(e.message || 'Authentication failed');
+                  }
+                }}
+                className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-bold text-[11px] shrink-0 transition-colors cursor-pointer shadow-sm"
+              >
+                SIGN IN
+              </button>
+            </div>
+          )}
+
           {error && (
-            <div className="p-3 rounded-lg bg-red-950/50 border border-red-500/60 text-xs font-mono text-red-300">
-              {error}
+            <div className="p-3 rounded-lg bg-red-950/50 border border-red-500/60 text-xs font-mono text-red-300 flex items-center justify-between gap-2">
+              <span>{error}</span>
+              {!currentUser && (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      setError(null);
+                      await loginWithGoogle();
+                    } catch (e) {
+                      setError(e.message || 'Authentication failed');
+                    }
+                  }}
+                  className="underline hover:text-white font-bold shrink-0 cursor-pointer"
+                >
+                  SIGN IN NOW
+                </button>
+              )}
             </div>
           )}
 
@@ -445,7 +486,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                   className="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 text-white font-mono font-bold rounded-xl shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all flex items-center justify-center gap-2"
                 >
                   <Sparkles size={15} />
-                  <span>{submitting ? 'INITIALIZING FREQUENCY...' : 'ESTABLISH RELAY CHANNEL'}</span>
+                  <span>{submitting ? 'INITIALIZING FREQUENCY...' : (!currentUser ? 'ESTABLISH LOCAL FREQUENCY' : 'ESTABLISH RELAY CHANNEL')}</span>
                 </button>
               </div>
             </form>

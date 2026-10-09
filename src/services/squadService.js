@@ -1160,11 +1160,15 @@ export const SquadService = {
     };
 
     if (db) {
-      const lftRef = doc(db, 'lft_personas', lftId);
-      if (active) {
-        await setDoc(lftRef, payload);
-      } else {
-        await deleteDoc(lftRef).catch(() => {});
+      try {
+        const lftRef = doc(db, 'lft_personas', lftId);
+        if (active) {
+          await setDoc(lftRef, payload);
+        } else {
+          await deleteDoc(lftRef).catch(() => {});
+        }
+      } catch (err) {
+        console.warn('[SquadService] Failed to persist LFT persona to Firestore (falling back to local cache):', err);
       }
     }
 

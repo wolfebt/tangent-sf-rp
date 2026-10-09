@@ -607,10 +607,11 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                 <button
                   type="button"
                   onClick={() => setIsSettingsModalOpen(true)}
-                  className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
-                  title="Frequency Settings"
+                  className="px-2 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-cyan-300 text-[10.5px] font-bold font-mono transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
+                  title="Configure / Edit Frequency Details & Name"
                 >
-                  <Settings size={13} />
+                  <Edit3 size={12} className="text-cyan-400" />
+                  <span className="hidden sm:inline">EDIT</span>
                 </button>
               )}
 

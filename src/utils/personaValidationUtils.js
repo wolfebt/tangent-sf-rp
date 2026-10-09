@@ -1,4 +1,4 @@
-import { StorageService } from '../services/storageService';
+import { StorageService } from '../services/storageService.js';
 
 export const FOLIO_TOMBSTONES_KEY = 'folio_deleted_personas';
 

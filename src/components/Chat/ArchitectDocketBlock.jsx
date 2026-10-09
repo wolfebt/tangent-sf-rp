@@ -23,7 +23,7 @@ import {
 import { useGroup } from '../../context/GroupContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
-import { AudioService } from '../../services/audioService';
+import { AudioService } from '../../services/audioService.js';
 
 const BLOCK_TAGS = [
   { label: 'Objective', color: 'bg-amber-500/20 text-amber-300 border-amber-500/40' },
@@ -202,15 +202,15 @@ export const ArchitectDocketBlock = ({
       {/* ── Docket Header ── */}
       <div className="p-3 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0">
+          <div className="p-1.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/40 shrink-0">
             <BookOpen size={14} />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-cyan-300 uppercase tracking-wider text-[11px] truncate block">
+              <span className="font-bold text-rose-300 uppercase tracking-wider text-[11px] truncate block">
                 TACTICAL DOCKET
               </span>
-              <span className="px-1.5 py-0.2 rounded-full bg-cyan-950/60 text-cyan-300 border border-cyan-500/40 text-[8.5px] font-bold">
+              <span className="px-1.5 py-0.2 rounded-full bg-rose-950/60 text-rose-300 border border-rose-500/40 text-[8.5px] font-bold">
                 {blocks.length}
               </span>
             </div>
@@ -255,7 +255,7 @@ export const ArchitectDocketBlock = ({
               AudioService.playTerminalBeep(1100, 0.02);
               setActiveModal('image');
             }}
-            className="flex-1 py-1.5 px-2 rounded-xl bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-200 text-[10.5px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
+            className="flex-1 py-1.5 px-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/40 text-rose-200 text-[10.5px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm cursor-pointer"
           >
             <ImageIcon size={12} />
             <span>+ IMAGE RECON</span>
@@ -289,7 +289,7 @@ export const ArchitectDocketBlock = ({
                 <div className="flex items-start justify-between gap-1.5">
                   <div className="flex items-center gap-2 min-w-0">
                     {isImage ? (
-                      <span className="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[8.5px] font-bold shrink-0">
+                      <span className="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[8.5px] font-bold shrink-0">
                         IMAGE RECON
                       </span>
                     ) : (
@@ -452,10 +452,10 @@ export const ArchitectDocketBlock = ({
       {/* ── MODAL: Insert Image Handout ── */}
       {activeModal === 'image' && (
         <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 select-none font-mono animate-fade-in">
-          <div className="bg-[#0b121d] border border-cyan-500/50 rounded-2xl w-full max-w-md overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col text-slate-100">
-            <div className="p-3.5 border-b border-slate-800 bg-gradient-to-r from-slate-900 to-cyan-950/40 flex items-center justify-between">
+          <div className="bg-[#0b121d] border border-rose-500/50 rounded-2xl w-full max-w-md overflow-hidden shadow-[0_0_50px_rgba(244,63,94,0.25)] flex flex-col text-slate-100">
+            <div className="p-3.5 border-b border-slate-800 bg-gradient-to-r from-slate-900 to-rose-950/40 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ImageIcon size={16} className="text-cyan-400" />
+                <ImageIcon size={16} className="text-rose-400" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-white">
                   PIN VISUAL RECON / IMAGE HANDOUT
                 </h3>

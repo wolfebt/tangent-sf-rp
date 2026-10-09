@@ -13,6 +13,7 @@ import {
   UserPlus, 
   Shield, 
   Settings, 
+  Edit3,
   ChevronDown, 
   ChevronRight, 
   ChevronUp,
@@ -25,7 +26,7 @@ import { useChat } from '../../context/ChatContext';
 import { useVoiceChat } from '../../context/VoiceChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { useGroup } from '../../context/GroupContext';
-import { AudioService } from '../../services/audioService';
+import { AudioService } from '../../services/audioService.js';
 import { useConfirm } from '../../context/ConfirmContext';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 import { QuickTeamInviteModal } from './QuickTeamInviteModal';
@@ -54,6 +55,7 @@ export const ChannelSidebar = ({
     teamChannels = [],
     groupChannels = [],
     personaLogChannels = [],
+    customChannels = [],
     activeChannelId, 
     selectChannel, 
     unreadCounts = {},
@@ -90,11 +92,12 @@ export const ChannelSidebar = ({
     }));
   };
 
-  // Flat 3-Section collapse state
+  // Directory section collapse state
   const [collapsedSections, setCollapsedSections] = useState({
     direct: false,
     teams: false,
     public: false,
+    custom: false,
     audit: true
   });
 
@@ -164,6 +167,22 @@ export const ChannelSidebar = ({
     });
   }, [publicChannels, unreadCounts]);
 
+  // Sort custom operator channels: unread first, then recent message timestamp
+  const sortedCustomChannels = useMemo(() => {
+    const list = [...(customChannels || [])];
+    return list.sort((a, b) => {
+      const unreadA = unreadCounts[a.id] || 0;
+      const unreadB = unreadCounts[b.id] || 0;
+      if (unreadA !== unreadB) return unreadB - unreadA;
+
+      const timeA = a.lastMessage?.timestamp ? new Date(a.lastMessage.timestamp).getTime() : 0;
+      const timeB = b.lastMessage?.timestamp ? new Date(b.lastMessage.timestamp).getTime() : 0;
+      if (timeA !== timeB) return timeB - timeA;
+
+      return (a.displayName || a.name || '').localeCompare(b.displayName || b.name || '');
+    });
+  }, [customChannels, unreadCounts]);
+
   // Sort persona audit log channels: unread first
   const sortedPersonaLogChannels = useMemo(() => {
     const list = [...(personaLogChannels || [])];
@@ -188,6 +207,10 @@ export const ChannelSidebar = ({
     return (publicChannels || []).reduce((sum, c) => sum + (unreadCounts[c.id] || 0), 0);
   }, [publicChannels, unreadCounts]);
 
+  const customUnreadCount = useMemo(() => {
+    return (customChannels || []).reduce((sum, c) => sum + (unreadCounts[c.id] || 0), 0);
+  }, [customChannels, unreadCounts]);
+
   const auditUnreadCount = useMemo(() => {
     return (personaLogChannels || []).reduce((sum, c) => sum + (unreadCounts[c.id] || 0), 0);
   }, [personaLogChannels, unreadCounts]);
@@ -199,22 +222,13 @@ export const ChannelSidebar = ({
     const isDirect = allDirectChannels.some(c => c.id === activeChannelId);
     const isTeam = (teamChannels || []).some(c => c.id === activeChannelId);
     const isPublic = (publicChannels || []).some(c => c.id === activeChannelId);
+    const isCustom = (customChannels || []).some(c => c.id === activeChannelId);
     const isAudit = (personaLogChannels || []).some(c => c.id === activeChannelId);
 
     if (isDirect) {
-      setCollapsedSections({
-        direct: false,
-        teams: true,
-        public: true,
-        audit: true
-      });
+      setCollapsedSections(prev => ({ ...prev, direct: false }));
     } else if (isTeam) {
-      setCollapsedSections({
-        direct: true,
-        teams: false,
-        public: true,
-        audit: true
-      });
+      setCollapsedSections(prev => ({ ...prev, teams: false }));
       // Collapse all other team rosters, expand only the current active team
       setCollapsedRosters(prev => {
         const next = { ...prev };
@@ -224,21 +238,13 @@ export const ChannelSidebar = ({
         return next;
       });
     } else if (isPublic) {
-      setCollapsedSections({
-        direct: true,
-        teams: true,
-        public: false,
-        audit: true
-      });
+      setCollapsedSections(prev => ({ ...prev, public: false }));
+    } else if (isCustom) {
+      setCollapsedSections(prev => ({ ...prev, custom: false }));
     } else if (isAudit) {
-      setCollapsedSections({
-        direct: true,
-        teams: true,
-        public: true,
-        audit: false
-      });
+      setCollapsedSections(prev => ({ ...prev, audit: false }));
     }
-  }, [activeChannelId, allDirectChannels, teamChannels, publicChannels, personaLogChannels]);
+  }, [activeChannelId, allDirectChannels, teamChannels, publicChannels, customChannels, personaLogChannels]);
 
   // Filter channels based on search
   const filterList = (list) => {
@@ -269,6 +275,7 @@ export const ChannelSidebar = ({
   const filteredDirect = filterList(allDirectChannels);
   const filteredTeams = filterList(sortedTeamChannels);
   const filteredPublic = filterList(sortedPublicChannels);
+  const filteredCustom = filterList(sortedCustomChannels);
   const filteredAudit = filterList(sortedPersonaLogChannels);
 
   const renderChannelItem = (channel) => {
@@ -279,7 +286,8 @@ export const ChannelSidebar = ({
     const isPlayerDM = channel.recipientType === 'player' || ((channel.type === 'direct' || channel.id.startsWith('dm_')) && !isCharacterDM);
     const isGroup = channel.type === 'group' || !!channel.groupId;
     const isPersonaLog = channel.type === 'persona_log' || channel.id.startsWith('persona_log_');
-    const canDelete = !channel.id.startsWith('public_') && !isPersonaLog && (channel.createdById === currentUser?.uid || isAdmin);
+    const canDelete = !channel.id.startsWith('public_') && !isPersonaLog && (channel.createdById === currentUser?.uid || isAdmin || channel.createdById?.startsWith('local_') || channel.type === 'custom');
+    const canEdit = !channel.id.startsWith('public_') && !isPersonaLog && (channel.createdById === currentUser?.uid || isAdmin || channel.createdById?.startsWith('local_') || channel.type === 'custom');
 
     const charRole = channel.targetPersona?.role || channel.targetPersona?.species;
     const playerHandle = channel.targetPlayer?.handle;
@@ -439,7 +447,7 @@ export const ChannelSidebar = ({
             </button>
           )}
 
-          {/* Settings */}
+          {/* Edit / Settings */}
           {!isPersonaLog && (
             <button
               type="button"
@@ -449,9 +457,9 @@ export const ChannelSidebar = ({
                 setSettingsChannel(channel);
               }}
               className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer"
-              title="Frequency Settings"
+              title={canEdit ? "Edit Frequency Configurations & Name" : "Frequency Settings"}
             >
-              <Settings size={11} />
+              {canEdit ? <Edit3 size={11} /> : <Settings size={11} />}
             </button>
           )}
 
@@ -639,7 +647,8 @@ export const ChannelSidebar = ({
     const isActive = activeChannelId === channel.id;
     const unread = unreadCounts[channel.id] || 0;
     const isUnread = !isActive && unread > 0;
-    const canDelete = channel.createdById === currentUser?.uid || isAdmin;
+    const canDelete = channel.createdById === currentUser?.uid || isAdmin || channel.createdById?.startsWith('local_') || Boolean(matchedGroup?.creatorId === currentUser?.uid);
+    const canEdit = canDelete;
     const { matchedGroup, membersList } = resolveTeamData(channel);
     const isRosterCollapsed = Boolean(collapsedRosters[channel.id]);
 
@@ -759,7 +768,7 @@ export const ChannelSidebar = ({
               <UserPlus size={11} />
             </button>
 
-            {/* Frequency Settings */}
+            {/* Frequency Edit / Settings */}
             <button
               type="button"
               onClick={(e) => {
@@ -768,9 +777,9 @@ export const ChannelSidebar = ({
                 setSettingsChannel(channel);
               }}
               className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer"
-              title="Frequency Settings"
+              title={canEdit ? "Edit Frequency Configurations & Team Roster" : "Frequency Settings & Team Roster"}
             >
-              <Settings size={11} />
+              {canEdit ? <Edit3 size={11} /> : <Settings size={11} />}
             </button>
 
             {/* Delete / Leave */}
@@ -1178,7 +1187,60 @@ export const ChannelSidebar = ({
           )}
         </div>
 
-        {/* 4. AUDIT TELEMETRY LOGS (Optional Collapsed) */}
+        {/* 4. CUSTOM FREQUENCIES (Operator & Encrypted Channels) */}
+        {customChannels.length > 0 && (
+          <div className="space-y-1">
+            <div 
+              onClick={() => toggleSection('custom')}
+              className={`flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors ${
+                customUnreadCount > 0 ? 'text-amber-300' : 'text-purple-400'
+              }`}
+            >
+              <span className="flex items-center gap-1.5">
+                {collapsedSections.custom ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                <Hash size={12} className={customUnreadCount > 0 ? 'text-amber-400' : 'text-purple-400'} />
+                <span>CUSTOM FREQUENCIES</span>
+                <span className="px-1 py-0.2 bg-purple-500/15 text-purple-300 border border-purple-500/30 text-[8px] rounded font-mono font-bold tracking-tight">
+                  OPERATOR
+                </span>
+                {customUnreadCount > 0 && (
+                  <span className="px-1.5 py-0.2 bg-amber-400 text-black text-[8.5px] font-mono font-black rounded-full shadow-[0_0_8px_rgba(245,158,11,0.7)] animate-soft-badge-glow">
+                    {customUnreadCount} NEW
+                  </span>
+                )}
+              </span>
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenCreateModal?.();
+                  }}
+                  className="px-1.5 py-0.2 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[9px] font-bold flex items-center gap-1 cursor-pointer"
+                  title="Create New Custom Frequency"
+                >
+                  <Plus size={10} />
+                  <span>NEW</span>
+                </button>
+                <span className="text-slate-500 text-[10px]">{customChannels.length}</span>
+              </div>
+            </div>
+
+            {!collapsedSections.custom && (
+              <div className="space-y-0.5 pl-1.5">
+                {filteredCustom.length === 0 ? (
+                  <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
+                    {searchQuery ? 'No matching custom comms.' : 'No custom channels match filter.'}
+                  </div>
+                ) : (
+                  filteredCustom.map(renderChannelItem)
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 5. AUDIT TELEMETRY LOGS (Optional Collapsed) */}
         {filteredAudit.length > 0 && (
           <div className="space-y-1 pt-1 border-t border-slate-800/80">
             <div 

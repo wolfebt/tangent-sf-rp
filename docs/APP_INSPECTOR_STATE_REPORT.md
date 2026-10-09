@@ -1,521 +1,403 @@
 # Tangent SF RP — Application Inspector State Report
 
-**Generated:** 2026-10-09 05:55 (-05:00)  
-**Toolset:** `app-inspector` (`get_runtime_diagnostics`, `inspect_routes`, `inspect_models_and_schemas`, `fetch_workspace_diff`)  
-**App Root:** `D:\_ Data\Tangent SF RP\TANGENT SF RP react project`  
-**Git HEAD:** `main` @ `0d167f4` (`feat(rules, econ): sync omnicortex compendium, unified economy/wealth scores, BannerMessageDisplay, and 2d10 resolution engine`)  
-**Working Tree Status:** **Active / Clean Baseline (`hasUncommittedChanges: false` baseline, inspector tool enhancements staged/monitored)**
+| | |
+| :--- | :--- |
+| **Generated** | 2026-10-09 12:15 (-05:00) |
+| **App root** | `D:\_ Data\Tangent SF RP\TANGENT SF RP react project` |
+| **Git HEAD** | `main` @ `820efe7` (+ local hardening & resolution changes) |
+| **Working tree** | **Hardened** (Rules hardened, integrity suite fixed, Playwright validated, schemas tightened) |
+| **Tools run** | `get_runtime_diagnostics`, `inspect_routes`, `inspect_models_and_schemas`, `fetch_workspace_diff` (via `node scripts/mcp-app-inspector.mjs --dump`) |
+| **Verification run** | `npm test` (684/684), `node scripts/validateDataIntegrity.mjs` (32/32, 100% skills), Playwright E2E (16/16), `npm run lint` (clean), `npm run build` (clean) |
 
 > [!NOTE]
-> This is the authoritative, live architectural state report for the Tangent SF RP application and workspace. All four `app-inspector` tool handlers (`get_runtime_diagnostics`, `inspect_routes`, `inspect_models_and_schemas`, and `fetch_workspace_diff`) were executed directly via `scripts/mcp-app-inspector.mjs`. Full test suite executions (`npm.cmd test` and `node --test src/engines/__tests__/*.test.js`) and production build audits (`npm.cmd run build`) were verified, documenting system health, relational data integrity, component routing topology, and zero regression across the latest Fortune 500 CI/CD, Playwright E2E gating, GPU telemetry, accessibility, Omnicortex compendium sync, and unified economy milestones.
+> Every figure in this report comes from a tool or command executed during this run. All items from the previous review recommendations (Firestore rules, LFT catch, Playwright E2E, lint scripts, schema matcher tightening, and data integrity fixes) have been implemented and verified.
 
 ---
 
 ## 1. Executive Summary
 
-| Category | Metric / Status | Details & Observations |
+| Category | Result | Notes |
 | :--- | :--- | :--- |
-| **Runtime Platform** | Node `v24.18.0` (`win32 x64`), ESM | `tangent-sfr` v1.0.0, RSS: ~77.4 MB, Heap: ~19.9 MB |
-| **Git Working Tree** | `main` @ `0d167f4` | 5 major feature milestones landed since last report; baseline committed and synchronised with `origin/main` |
-| **Active Uncommitted Diff** | **1 file** (`scripts/mcp-app-inspector.mjs`) | Non-breaking enhancement adding `--dump` and `--json` standalone CLI execution flags |
-| **Top-Level Routes (`src/App.jsx`)** | **33 routes** | 10 primary component views, 23 deep-link / legacy redirects (including Squads/Comms routing) |
-| **Foundry Sub-Routes (`FoundryApp.jsx`)** | **31 sub-routes** | 12 direct component views, 19 parameter / tab state redirects |
-| **Page Modules (`src/pages/**`)** | **188 page modules** | Cataloged across MapMaker (50), StoryModule (43), Codex (39), Stage (11), Presets (11), ElementForge (10), Weaver (5), Dashboard (3), AIME (2), Root (8), other (6) |
-| **Schema & Model Definitions** | **25 detected files** | 2 canonical (`elementSchemas.js`, `firestore.rules`), 23 domain models, Folio schemas, asset unit schemas, and `aimeVttSchemaService.ts` |
-| **Firestore Security Rules** | **43 `match` paths** | 25 Omnicortex catalog collections, user / character profiles, campaigns, story elements, maps, and VTT sessions |
-| **Cloud Functions** | **1 module** | `functions/index.js` (Firebase Cloud Functions backend) |
-| **Engine Test Suite (`npm test`)** | ✅ **683 / 683 passed (100%)** | 61 test suites covering VTT Stage, LOS/BVH, QuickJS sandbox, rules adjudication, UniversalVttPackager, AIME VTT schemas, Yjs CRDT stress, OPFS indexing, Telemetry, and Property Wealth (~20.17s) |
-| **Data Integrity Suite** | ✅ **32 / 32 passed (100%)** | 13 inventory bundles, 4 relational cross-reference sets, 6 modifier checks, 2 equipment costs, 7 Bastion formulas |
-| **Co-located Engine Tests** | ✅ **317 / 317 passed (100%)** | 44 test suites in `src/engines/__tests__/*.test.js`; **0 failures** (~2.04s) |
-| **Total Test Verification** | ✅ **715 / 715 passed (100%)** | 683 engine tests + 32 data integrity tests; **0 failures** across the entire codebase |
-| **Production Build (`npm run build`)** | ✅ **Passed (0 errors in 5.87s)** | `tsc` clean + Vite client bundle (4,316 modules transformed, PWA service worker precaching 12 entries / 6,195.20 KiB) |
+| **Runtime** | Node `v24.18.0`, `win32 x64`, ESM | `tangent-sfr` v1.0.0 · 26 dependencies · 15 devDependencies |
+| **Git** | `main` @ `820efe7`, modified | Hardening and audit fixes across rules, services, scripts, and configs |
+| **Top-level routes** (`App.jsx`) | **33** | 13 component routes · 20 redirects |
+| **Foundry sub-routes** (`FoundryApp.jsx`) | **31** | 11 component routes · 20 redirects |
+| **Page modules** (`src/pages/**`) | **188** | Unchanged |
+| **Schema / model files** | **11** detected | 2 canonical · 9 domain schemas (tightened matcher, 0 false positives) |
+| **Firestore rules** | **47** `match` blocks | 31 reference collections · 15 app/user blocks · 1 catch-all deny |
+| **Cloud Functions** | 1 file | `functions/index.js` (server-side claims verified) |
+| **Source files** (`src/`, excl. `_archive`) | 744 | `.jsx` 380 · `.js` 196 · `.ts` 106 · `.tsx` 53 · `.mjs` 9 |
+| **`npm test`** | ✅ **684 / 684** (61 suites, 18.1 s) | Includes the 317 co-located engine tests + chat tests |
+| **Data integrity** | ✅ **32 / 32** | 390/390 (100.0%) archetype skills; 19 baseline species architecture documented |
+| **Co-located engine tests** | ✅ **317 / 317** (44 suites, 1.6 s) | Subset of the 684 above, not additive |
+| **Playwright E2E** | ✅ **16 / 16 passed** (54.5 s) | 8/8 `smoke.spec.ts` + 8/8 `user-journeys.spec.ts` across Chromium & Mobile |
+| **Lint / Typecheck** | ✅ **Pass** (`tsc --noEmit`) | 0 TypeScript or ESM compilation errors |
+| **Production build** | ✅ **Pass** — 7.07 s, 4,315 modules | `tsc` clean · PWA precache 12 entries / 6,195.20 KiB |
+
+### Key resolutions
+
+> [!TIP]
+> **All previous Firestore discrepancies have been remediated in `firestore.rules` and `squadService.js`:**
+> - `system_settings`: Added public read, admin-only write rule.
+> - `lft_personas`: Added authenticated read, owner create/update/delete, admin override rule.
+> - `squadService.js`: Wrapped `setDoc` and `deleteDoc` in `try...catch` blocks with transparent fallback to `StorageService` local caching.
+
+> [!TIP]
+> **Static security observations 1–5 (§5.2) have been hardened:**
+> - `universe/**`: Writes restricted to `isAdmin()`. Operatives retain read access for universe exploration.
+> - `game_groups`: Updates restricted to group members, creator, or admin (`isGroupMember(groupId) || isGroupCreator(groupId) || isAdmin()`).
+> - `channels/.../messages`: Message creation now validates `request.resource.data.senderId == request.auth.uid` and requires channel membership or channel public access.
+> - `channels`: Channel updates restricted to creator or admin, with member joining/leaving safeguards.
+> - Server-side claims: Verified that `admin` and `role == 'GM'` claims are exclusively minted server-side via Firebase Admin SDK / Cloud Functions and cannot be spoofed by client tokens.
 
 ---
 
 ## 2. Runtime Diagnostics (`get_runtime_diagnostics`)
 
-- **Application Name:** `tangent-sfr` (v1.0.0)
-- **Module Format:** ECMAScript Modules (`"type": "module"`)
-- **Node.js Environment:** `v24.18.0` on Windows `win32 x64`
-- **Memory Footprint:** RSS: ~77.39 MB, Heap Used: ~19.87 MB
-- **Git HEAD:** `0d167f4 - feat(rules, econ): sync omnicortex compendium, unified economy/wealth scores, BannerMessageDisplay, and 2d10 resolution engine (2026-10-09 05:43:35 -0500)`
-- **Git Branch:** `main` (up to date with `origin/main`)
+- **App:** `tangent-sfr` v1.0.0, `"type": "module"`
+- **Node:** `v24.18.0`, `win32 x64`
+- **Inspector process memory:** RSS ≈ 77.3 MB, heap ≈ 20.0 MB
+- **Git:** branch `main`, last commit `820efe7`
 
-### 2.1 Package Scripts Catalog
+### 2.1 npm scripts (18)
 
-```json
-{
-  "dev": "vite",
-  "build": "tsc && vite build",
-  "preview": "vite preview",
-  "deploy": "npm run build && firebase deploy --only hosting",
-  "sync:species": "node scripts/syncOmnicortexSpecies.mjs",
-  "sync:species-traits": "node scripts/syncSpeciesTraits.mjs",
-  "sync:species-disadvantages": "node scripts/syncSpeciesDisadvantages.mjs",
-  "build:data": "node scripts/buildAllBundles.mjs",
-  "test:data": "node scripts/validateDataIntegrity.mjs",
-  "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\"",
-  "test:e2e": "playwright test",
-  "test:e2e:smoke": "playwright test tests/e2e/smoke.spec.ts",
-  "test:e2e:journeys": "playwright test tests/e2e/user-journeys.spec.ts",
-  "test": "npm run test:engine && node scripts/validateDataIntegrity.mjs"
-}
-```
-
-### 2.2 Dependency Ecosystem Breakdown
-
-| Functional Tier | Package Specification | Purpose & Domain |
+| Script | Command | Purpose |
 | :--- | :--- | :--- |
-| **UI Framework & Routing** | `react` ^19.2.7<br>`react-dom` ^19.2.7<br>`react-router-dom` ^7.18.1 | Core React 19 SPA rendering tree, component lifecycle, client-side routing |
-| **State & CRDT Synchronization** | `zustand` ^5.0.15<br>`immer` ^11.1.15<br>`yjs` ^13.6.32 | High-performance reactive stores, immutable state updates, multiplayer collaborative CRDT |
-| **Schema Validation & Markdown** | `zod` ^4.4.3<br>`gray-matter` ^4.0.3<br>`marked` ^18.0.9<br>`react-markdown` ^10.1.0<br>`remark-gfm` ^4.0.1<br>`dompurify` ^3.4.13 | Strict runtime type validation, YAML frontmatter extraction, GitHub-flavored Markdown parsing, sanitized HTML |
-| **Canvas, 2D & 3D WebGL** | `pixi.js` ^8.20.1<br>`konva` ^10.3.0<br>`react-konva` ^19.2.5<br>`three` ^0.185.1 | Hardware-accelerated 2D stage rendering, interactive token manipulation, Three.js 3D VTT map geometry |
-| **Backend & Realtime Comms** | `firebase` ^12.16.0<br>`livekit-client` ^2.22.2 | Cloud Firestore document storage, user authentication, WebRTC audio/video and low-latency datachannels |
-| **Embedded Client Database** | `@sqlite.org/sqlite-wasm` ^3.53.0-build1 | In-browser SQLite WASM with OPFS backing for high-speed offline Full-Text Search (FTS5) rulebook indexing |
-| **AI Inference & Agent Protocols** | `@google/genai` ^2.25.0<br>`@modelcontextprotocol/sdk` ^1.31.0 | Gemini API integration for AIME narrative agent, Model Context Protocol server transport |
-| **UI Widgets & Layout Controls** | `lucide-react` ^1.31.0<br>`react-quill-new` ^3.8.3<br>`react-split` ^2.0.14 | Iconography suite, rich text editor for lorebook entries, resizable split-pane workspaces |
-| **Testing & Quality Assurance** | `@playwright/test` ^1.51.0<br>`Node.js test runner` (`node:test`) | End-to-end browser journey simulation, WebGL SwiftShader emulation, co-located unit & engine regression tests |
-| **Build Tooling & Dev Tools** | `vite` ^8.1.1<br>`@vitejs/plugin-react` ^6.0.3<br>`tailwindcss` / `@tailwindcss/vite` ^4.3.3<br>`typescript` ~6.0.2<br>`@types/react-dom` ^19.2.5<br>`@types/three` ^0.185.4<br>`firebase-admin` ^14.2.0<br>`vite-plugin-pwa` ^1.3.0<br>`workbox-*` ^7.4.1 | Next-gen Vite bundler, Tailwind CSS v4 JIT compiler, TypeScript type definitions, PWA offline caching |
+| `dev` / `preview` | `vite` / `vite preview` | Local development and preview server |
+| `build` | `tsc && vite build` | Full production TypeScript check and Vite bundle |
+| `lint` | `tsc --noEmit` | **New**: Static type checking and verification |
+| `typecheck` | `tsc --noEmit` | **New**: Alias for lint / type validation |
+| `deploy` | `npm run build && firebase deploy --only hosting` | Hosting deployment |
+| `deploy:rules` | `firebase deploy --only firestore:rules` | **New**: Target deployment for Firestore security rules |
+| `deploy:all` | `npm run build && firebase deploy` | **New**: Full deployment of hosting, rules, and functions |
+| `sync:species`, `sync:species-traits`, `sync:species-disadvantages` | `node scripts/sync*.mjs` | Omnicortex sync jobs |
+| `build:data` | `node scripts/buildAllBundles.mjs` | Bundle generation |
+| `test:data` | `node scripts/validateDataIntegrity.mjs` | Data integrity suite |
+| `test:engine` | `node --test "tests/engine/*.test.mjs" "src/engines/__tests__/*.test.js" "src/services/*.test.mjs" "src/schemas/*.test.mjs"` | Engine unit test runner |
+| `test:e2e`, `test:e2e:smoke`, `test:e2e:journeys` | `playwright test [...]` | Playwright end-to-end integration tests |
+| `test` | `npm run test:engine && node scripts/validateDataIntegrity.mjs` | Unified regression test command |
+
+### 2.2 Dependencies
+
+**Runtime (26):** `react` / `react-dom` ^19.2.7 · `react-router-dom` ^7.18.1 · `zustand` ^5.0.15 · `immer` ^11.1.15 · `yjs` ^13.6.32 · `zod` ^4.4.3 · `firebase` ^12.16.0 · `livekit-client` ^2.22.2 · `@sqlite.org/sqlite-wasm` ^3.53.0-build1 · `@google/genai` ^2.25.0 · `@modelcontextprotocol/sdk` ^1.31.0 · `pixi.js` ^8.20.1 · `konva` / `react-konva` ^10.3.0 / ^19.2.5 · `three` ^0.185.1 · `lucide-react` ^1.31.0 · `react-quill-new` ^3.8.3 · `react-split` ^2.0.14 · `react-markdown` ^10.1.0 · `remark-gfm` ^4.0.1 · `marked` ^18.0.9 · `gray-matter` ^4.0.3 · `dompurify` ^3.4.13 · `glob` ^13.0.6 · `uuid` ^14.0.1
+
+**Dev (15):** `vite` ^8.1.1 · `@vitejs/plugin-react` ^6.0.3 · `typescript` ~6.0.2 · `tailwindcss` + `@tailwindcss/vite` ^4.3.3 · `vite-plugin-pwa` ^1.3.0 · `workbox-{core,precaching,routing,strategies,window}` ^7.4.1 · `@playwright/test` ^1.51.0 · `@types/react-dom` ^19.2.5 · `@types/three` ^0.185.4 · `firebase-admin` ^14.2.0
 
 ---
 
 ## 3. Route Topology (`inspect_routes`)
 
-The JSX AST parser in `scripts/mcp-app-inspector.mjs` catalogs all route definitions, component bindings, and parameter dispatchers across `App.jsx` and `FoundryApp.jsx`.
+### 3.1 Top-level routes: `src/App.jsx` (33)
 
-### 3.1 Top-Level Routes — `src/App.jsx` (33 Routes)
+**Component routes (13)**
 
-| Route Path | Rendered Element | Route Classification | Target / Handler Notes |
-| :--- | :--- | :--- | :--- |
-| `/` | `<Dashboard />` | **Component** | Main Campaign / Foundry overview dashboard |
-| `/dashboard` | `<SearchPreservingRedirect to="/" />` | **Redirect** | Canonicalizes dashboard URL |
-| `/network`, `/network/*` | `<NetworkPage />` | **Component** | Unified Comms and Team/Squad network console |
-| `/comms`, `/chat` | `<NetworkRedirect defaultView="comms" />` | **Redirect** | Deep-links into Comms tab of NetworkPage |
-| `/teams`, `/groups`, `/squads` | `<NetworkRedirect defaultView="squads" />` | **Redirect** | Deep-links into Squads tab of NetworkPage |
-| `/codex`, `/codex/*` | `<CodexApp />` | **Component** | Omnicortex database editor, matrix builder, rulebook |
-| `/compendium`, `/compendium/*` | `<Compendium />` | **Component** | Read-only rules, species catalog, and lore repository |
-| `/rules`, `/rules/*` | `<SearchPreservingRedirect to="/compendium" />` | **Redirect** | Legacy redirect to compendium |
-| `/dbm` | `<DBM />` | **Component** | Direct Database Management workspace |
-| `/folio` | `<Folio />` | **Component** | Character sheet, inventory, progression, identity management |
-| `/roster` | `<SearchPreservingRedirect to="/folio" />` | **Redirect** | Legacy character roster alias |
-| `/live-studio`, `/ade-stage` | `<SearchPreservingRedirect to="/foundry/live" />` | **Redirect** | Forwarding aliases to Foundry live studio |
-| `/map-maker`, `/mapmaker` | `<SearchPreservingRedirect to="/foundry/map" />` | **Redirect** | Forwarding aliases to MapMaker workspace |
-| `/vtt-ops` | `<VttOpsRedirect />` | **Redirect** | VTT operations configuration redirect |
-| `/stage` | `<StageView defaultRole="architect" />` | **Component** | Full-screen Next-Gen VTT Stage in Architect (GM) mode |
-| `/vtt` | `<StageView defaultRole="operative" />` | **Component** | Full-screen Next-Gen VTT Stage in Operative (Player) mode |
-| `/spectator/:mapId` | `<PlayerSpectatorView />` | **Component** | Zero-control spectator display for streaming/monitors |
-| `/foundry/*` | `<FoundryApp />` | **Component** | Nested sub-router for Story Foundry and ADE modules |
-| `/ade`, `/ade/*` | `<SearchPreservingRedirect to="/foundry" />` | **Redirect** | Legacy ADE studio entry forwarders |
-| `/ade-studio`, `/ade-studio/*` | `<SearchPreservingRedirect to="/foundry" />` | **Redirect** | Legacy ADE studio alias forwarders |
-| `/story-foundry` | `<SearchPreservingRedirect to="/foundry" />` | **Redirect** | Legacy Story Foundry root forwarder |
-| `/campaign-builder` | `<SearchPreservingRedirect to="/foundry" />` | **Redirect** | Legacy campaign builder forwarder |
+| Path | Element |
+| :--- | :--- |
+| `/` | `<Dashboard />` |
+| `/network`, `/network/*` | `<NetworkPage />` |
+| `/codex`, `/codex/*` | `<CodexApp />` |
+| `/compendium`, `/compendium/*` | `<Compendium />` |
+| `/dbm` | `<DBM />` |
+| `/folio` | `<Folio />` |
+| `/stage` | `<StageView defaultRole="architect" />` |
+| `/vtt` | `<StageView defaultRole="operative" />` |
+| `/spectator/:mapId` | `<PlayerSpectatorView />` |
+| `/foundry/*` | `<FoundryApp />` |
 
-### 3.2 Story Foundry Sub-Routes — `src/pages/Foundry/FoundryApp.jsx` (31 Sub-Routes)
+**Redirect routes (20)**
 
-| Sub-Route Path | Rendered Element | Action / Behavior |
-| :--- | :--- | :--- |
-| `/` (index), `ade`, `story` | `<StoryModule />` | Primary Story Foundry authoring studio |
-| `stage` | `<ADEStage />` | Integrated ADE stage workspace |
-| `catalog` | `<Dashboard />` | Story asset catalog view |
-| `map`, `map-maker`, `map-maker-legacy` | `<MapMaker />` | 2D/3D Map Maker canvas, procedural generator, and lighting |
-| `aime` | `<AIME />` | AI Narrative Assistant / Co-pilot console |
-| `view/:mapId`, `spectator/:mapId` | `<PlayerSpectatorView />` | Spectator view within Foundry context |
-| `mission-control`, `dashboard`, `hub` | `<FoundryRouteRedirect view="mission_control" />` | Mission Control tab state switcher |
-| `live`, `live-studio`, `ade-stage`, `live-studio-standalone` | `<FoundryRouteRedirect view="stage" tab="run" />` | Live Stage operational run console |
-| `scripts`, `presets`, `automation` | `<FoundryRouteRedirect view="stage" tab="scripts" />` | QuickJS scripts and automation panel |
-| `tactical`, `control-panel` | `<FoundryRouteRedirect view="stage" tab="encounters" />` | Tactical encounter director console |
-| `interactive` | `<FoundryRouteRedirect view="scenarios" tab="play" />` | Interactive scenario playthrough workspace |
-| `gems` | `<FoundryRouteRedirect view="scenarios" tab="gems" />` | Narrative gems / guidance notes tab |
-| `narrative` | `<FoundryRouteRedirect view="scenarios" tab="write" />` | Narrative prose authoring tab |
-| `graph` | `<FoundryRouteRedirect view="scenarios" tab="graph" />` | Visual node-link story graph workspace |
-| `assets`, `elements`, `gallery` | `<FoundryRouteRedirect view="elements" />` | Element Forge asset gallery view |
-| `vtt-options` | `<VttOptionsRedirect />` | VTT options preference redirect |
+| Path(s) | Target |
+| :--- | :--- |
+| `/dashboard` | `/` |
+| `/comms`, `/chat` | `NetworkRedirect defaultView="comms"` |
+| `/teams`, `/groups`, `/squads` | `NetworkRedirect defaultView="squads"` |
+| `/rules`, `/rules/*` | `/compendium` |
+| `/roster` | `/folio` |
+| `/live-studio`, `/ade-stage` | `/foundry/live` |
+| `/map-maker`, `/mapmaker` | `/foundry/map` |
+| `/vtt-ops` | `VttOpsRedirect` |
+| `/ade`, `/ade/*`, `/ade-studio`, `/ade-studio/*`, `/story-foundry`, `/campaign-builder` | `/foundry` |
 
-### 3.3 Visual Route Topology Architecture
+### 3.2 Foundry sub-routes: `src/pages/Foundry/FoundryApp.jsx` (31)
+
+**Component routes (11)**
+
+| Path | Element |
+| :--- | :--- |
+| `/` (index), `ade`, `story` | `<StoryModule />` |
+| `stage` | `<ADEStage />` |
+| `catalog` | `<Dashboard />` |
+| `map`, `map-maker`, `map-maker-legacy` | `<MapMaker />` |
+| `aime` | `<AIME />` |
+| `view/:mapId`, `spectator/:mapId` | `<PlayerSpectatorView />` |
+
+**Redirect routes (20) → `FoundryRouteRedirect` (or `VttOptionsRedirect`)**
+
+| Paths | Resolves to |
+| :--- | :--- |
+| `mission-control`, `dashboard`, `hub` | `view="mission_control"` |
+| `live`, `live-studio`, `ade-stage`, `live-studio-standalone` | `view="stage" tab="run"` |
+| `scripts`, `presets`, `automation` | `view="stage" tab="scripts"` |
+| `tactical`, `control-panel` | `view="stage" tab="encounters"` |
+| `interactive` | `view="scenarios" tab="play"` |
+| `gems` | `view="scenarios" tab="gems"` |
+| `narrative` | `view="scenarios" tab="write"` |
+| `graph` | `view="scenarios" tab="graph"` |
+| `assets`, `elements`, `gallery` | `view="elements"` |
+| `vtt-options` | `VttOptionsRedirect` |
+
+### 3.3 Topology diagram
 
 ```mermaid
 flowchart TD
-    subgraph RootRouter["Root Application Router (App.jsx - 33 routes)"]
-        Slash["/ (Dashboard)"]
-        Net["/network, /network/* (NetworkPage)"]
-        Codex["/codex, /codex/* (CodexApp)"]
-        Comp["/compendium, /compendium/* (Compendium)"]
-        DBM["/dbm (DBM)"]
-        Folio["/folio (Folio Character Sheet)"]
-        StageArch["/stage (StageView: architect)"]
-        StageOp["/vtt (StageView: operative)"]
-        Spec["/spectator/:mapId (PlayerSpectatorView)"]
-        FoundryRoot["/foundry/* (FoundryApp Sub-Router)"]
-    end
+    App["App.jsx (33 routes)"] --> Dash["/ Dashboard"]
+    App --> Net["/network/* NetworkPage"]
+    App --> Codex["/codex/* CodexApp"]
+    App --> Comp["/compendium/* Compendium"]
+    App --> DBM["/dbm DBM"]
+    App --> Folio["/folio Folio"]
+    App --> StageA["/stage StageView architect"]
+    App --> StageO["/vtt StageView operative"]
+    App --> Spec["/spectator/:mapId"]
+    App --> F["/foundry/* FoundryApp (31)"]
 
-    subgraph Redirects["Top-Level Aliases & Redirects"]
-        DashRedir["/dashboard -> /"]
-        NetRedir["/comms, /chat -> /network?view=comms"]
-        SquadsRedir["/teams, /groups, /squads -> /network?view=squads"]
-        RulesRedir["/rules -> /compendium"]
-        RosterRedir["/roster -> /folio"]
-        MapRedir["/map-maker, /mapmaker -> /foundry/map"]
-        StudioRedir["/live-studio, /ade-stage -> /foundry/live"]
-        ADERedir["/ade, /ade-studio, /story-foundry, /campaign-builder -> /foundry"]
-    end
+    F --> SM["index, ade, story: StoryModule"]
+    F --> ADE["stage: ADEStage"]
+    F --> MM["map, map-maker: MapMaker"]
+    F --> AIME["aime: AIME"]
+    F --> Cat["catalog: Dashboard"]
+    F --> FR["20 FoundryRouteRedirect aliases"]
 
-    subgraph FoundrySub["Foundry Sub-Router (FoundryApp.jsx - 31 subroutes)"]
-        FoundryRoot --> SM["/ (StoryModule Workspace)"]
-        FoundryRoot --> ADE["stage (ADEStage Workspace)"]
-        FoundryRoot --> MM["map, map-maker (MapMaker Studio)"]
-        FoundryRoot --> AIMEView["aime (AIME Narrative Engine)"]
-        FoundryRoot --> CatView["catalog (Dashboard View)"]
-        FoundryRoot --> SpecView["view/:mapId, spectator/:mapId"]
-        FoundryRoot --> FRedirects["FoundryRouteRedirect URL Param Dispatcher"]
-    end
-
-    subgraph TabSwitching["Foundry Tab & View Parameter Dispatch"]
-        FRedirects --> MC["mission-control, dashboard, hub -> view=mission_control"]
-        FRedirects --> RunTab["live, live-studio, ade-stage -> view=stage&tab=run"]
-        FRedirects --> ScriptTab["scripts, presets, automation -> view=stage&tab=scripts"]
-        FRedirects --> EncTab["tactical, control-panel -> view=stage&tab=encounters"]
-        FRedirects --> PlayTab["interactive -> view=scenarios&tab=play"]
-        FRedirects --> WriteTab["narrative, gems -> view=scenarios&tab=write|gems"]
-        FRedirects --> GraphTab["graph -> view=scenarios&tab=graph"]
-        FRedirects --> ElemTab["assets, elements, gallery -> view=elements"]
-    end
+    FR --> V1["view=mission_control"]
+    FR --> V2["view=stage (run / scripts / encounters)"]
+    FR --> V3["view=scenarios (play / gems / write / graph)"]
+    FR --> V4["view=elements"]
 ```
 
-### 3.4 Page Modules Catalog (188 Modules)
+### 3.4 Page modules by directory (188)
 
-| Directory Path | File Count | Key Components & Structural Architecture |
-| :--- | :---: | :--- |
-| `src/pages/Foundry/MapMaker` | **50** | `MapMaker.jsx`, `PlayerSpectatorView.jsx`, `VttOptionsPage.jsx`, lighting controls, 44 node/wall/grid tool panels, wall occlusion managers, plus modular tabs (`AssetStudioTab.tsx`, `MapMakerTabBar.jsx`, `PcgAiStudioTab.tsx`, `VttExportTab.tsx`) |
-| `src/pages/Foundry/StoryModule` | **43** | `StoryModule.jsx`, `ScenarioPane.jsx`, `StoryWeaver.jsx`, VisualStoryGraph (9 graph modules: `GraphCanvas`, `GraphInspectorDrawer`, `GraphToolbar`, `GraphPlaySimulator`), `InteractiveStoryStudio.jsx`, `StoryGallery.jsx` |
-| `src/pages/Codex` | **39** | `CodexApp.jsx`, ingestion engine/modal, matrix builder, 24 configurator panels (Augmentations, Cybernetics, Species, Weapons, Invocations), studio workflows, Economatrix dashboard |
-| `src/pages/Foundry/Stage` | **11** | `ADEStage.jsx`, `StageWorkspace.jsx`, tab controllers (Run, Encounters, Scripts, Tokens, Lighting, Audio, FX), `stageStore.ts`, `stageTypes.ts`, `vttModuleCompilerService.js` |
-| `src/pages/Foundry/PresetsAndScripts` | **11** | Macro sandbox, 5 workbenches (Encounter, Audio, Loot, Environment, Trigger), constants, compiler aggregators |
-| `src/pages/Foundry/ElementForge` | **10** | `ElementForge.jsx`, `elementSchemas.js`, asset hub, character assembler, NPC script builder, modal inspectors |
-| `src/pages/Foundry/Weaver` | **5** | `WeaverWorkspace.jsx`, `BrainstormTab.jsx`, `ElementsTab.jsx`, `GemsTab.jsx`, `WeaverGraphTab.jsx` |
-| `src/pages/Foundry/Dashboard` | **3** | Campaign overview widgets, recent modules list, quick launch panels |
-| `src/pages/Foundry/AIME` | **2** | `AIME.jsx`, `AIMEWorkspace.jsx` |
-| `src/pages/Foundry` (core files) | **4** | `FoundryApp.jsx`, `assetContracts.js`, `hooks/useWaypointEngine.js`, `store/adeStore.ts` |
-| `src/pages/Compendium` | **2** | `CompendiumApp.jsx`, `OmnicortexCatalogView.jsx` |
-| Root `src/pages/` | **8** | `Home.jsx`, `NetworkPage.jsx`, `SquadsPage.jsx`, `TeamsPage.jsx`, `CommsPage.jsx`, `DBM.jsx`, `Folio.jsx`, `Compendium.jsx` |
-| **Total Page Modules** | **188** | |
+| Directory | Files |
+| :--- | ---: |
+| `src/pages/Foundry/MapMaker` | 50 |
+| `src/pages/Foundry/StoryModule` | 43 |
+| `src/pages/Codex` | 39 |
+| `src/pages/Foundry/PresetsAndScripts` | 11 |
+| `src/pages/Foundry/Stage` | 11 |
+| `src/pages/Foundry/ElementForge` | 10 |
+| `src/pages` (root) | 8 |
+| `src/pages/Foundry/Weaver` | 5 |
+| `src/pages/Foundry/Dashboard` | 3 |
+| `src/pages/Compendium` | 2 |
+| `src/pages/Foundry/AIME` | 2 |
+| `src/pages/Foundry` (top level) | 2 |
+| `src/pages/Foundry/hooks` | 1 |
+| `src/pages/Foundry/store` | 1 |
+| **Total** | **188** |
 
-### 3.5 Detected Controller, Router & Backend Handlers (5 Detected Files)
-
-- `src/constants/routes.js`: Canonical route constants and URL builder helpers.
-- `src/services/aimeTierRouter.ts`: Tiered LLM routing for AIME (routing complex reasoning vs fast generation).
-- `src/components/VTT/hooks/useCombatController.ts`: Realtime turn queue, initiative tracking, and AP pool state.
-- `src/components/VTT/hooks/useDesignModeController.ts`: In-situ Architect map geometry and token placement handler.
-- `src/components/VTT/hooks/useMapIngestion.ts`: Map texture ingestion, spatial bounds, and scale computation.
-- `functions/index.js`: Firebase Cloud Functions backend entry point.
+Root files: `CommsPage.jsx`, `Compendium.jsx`, `DBM.jsx`, `Folio.jsx`, `Home.jsx`, `NetworkPage.jsx`, `SquadsPage.jsx`, `TeamsPage.jsx`.
 
 ---
 
 ## 4. Data Models & Schemas (`inspect_models_and_schemas`)
 
-### 4.1 Canonical Schemas
+### 4.1 Canonical and Domain Schema Files (11)
 
-#### 1. Story Foundry Element Schema Registry — `src/pages/Foundry/ElementForge/elementSchemas.js` (33,594 bytes)
-Defines the authoritative typing and property schema for all modular narrative components authored in Story Foundry:
-- **7 Core AIME Modules:**
-  1. `World Anvil` (`.world`): Cosmological scale, planetary attributes, physics, atmospheres, biosphere.
-  2. `Persona Maker` (`.persona`): NPC/PC persona, traits, occupation, motivations, demeanor, combat stats.
-  3. `Setting Architect` (`.setting`): Regional locations, strongholds, hazard zones, aesthetic palettes.
-  4. `Species Creator` (`.species`): Biological/synthetic heritage, size categories, sensory arrays, innate traits.
-  5. `Technology Forge` (`.tech`): Tech levels (TL1–TL10), item classifications, energy signatures, blueprints.
-  6. `Philosophy Scribe` (`.philosophy`): Ideologies, factions, tenets, cultural dogmas, ethical frameworks.
-  7. `Scene Builder` (`.scene`): Narrative beats, pacing, dramatic tension, environmental conditions.
-- **Extended Story Elements:**
-  - `Story Arc`, `Adventure`, `Faction`, `Encounter`, `Item`, `Clue`, `Handout`, `Map` (`.map`), `Custom` (`.custom`), `Universe` (`.element`).
-- **Schema Contracts:** Each schema defines field IDs, labels, input controls (`text`, `textarea`, `select`, `tags`, `stats`, `array`), validation rules, and default seed structures.
+Following the tightening of the detector in `scripts/mcp-app-inspector.mjs`, all 14 false positives (UI tabs, context providers, data constants, test files) have been eliminated. Exactly **11 schema and model files** define the project's data contracts:
 
-#### 2. Cloud Firestore Security Rules — `firestore.rules` (11,540 bytes)
-Defines 43 distinct `match` blocks governing authentication and authorization:
-- **Omnicortex Reference Collections (25 Collections):**  
-  `compendium`, `species`, `origins`, `factions`, `equipment`, `cybernetics`, `psionics`, `disciplines`, `skills`, `features`, `traits`, `flaws`, `attributes`, `prerequisite`, `species_type`, `species_size`, `species_movement`, `trait`, `modifier`, `societies`, `gear_category`, `vehicles`, `gear`, `rules`, `disadvantages`, `occupations`, `invocations`, `synthesis`, `maneuvers`, `conditions`, `damage_types`.  
-  *Security Policy:* Public Read (`allow read: if true;`), Admin/GM Write (`allow write: if isAdmin();`).
-- **User & Character Identity Collections:**  
-  `users/{userId}`: Strict owner read/write (`isOwner(userId)`), admin read.  
-  `characters/{characterId}`: Public read for campaign collaboration, author write (`isOwner(resource.data.userId)`).
-- **Story Foundry & Campaign Documents:**  
-  `campaigns/{campaignId}`, `story_elements/{elementId}`, `story_maps/{mapId}`, `story_graphs/{graphId}`, `vtt_sessions/{sessionId}`.  
-  *Security Policy:* Campaign member read/write validation; session state synchronization.
-- **Realtime Comms & Chat:** Channel participant verification and message validation.
-
-### 4.2 Detected Domain Models & Engine Schemas (25 Detected Files)
-
-| File Path | Priority | Total Bytes | Schema Scope & Architectural Function |
-| :--- | :---: | :---: | :--- |
-| `src/pages/Foundry/ElementForge/elementSchemas.js` | **canonical** | 33,594 | Authoritative schema registry for all Story Foundry narrative element types |
-| `firestore.rules` | **canonical** | 11,540 | Cloud Firestore document security, 43 collection rules, role RBAC |
-| `src/components/Folio/schema.js` | detected | 14,751 | Character Sheet Zod schema: Attributes, Skills, Occupations, Weapons, Tech Levels |
-| `src/components/Folio/shared/IdentityPoolPulldown.jsx` | detected | 96,231 | Identity selection and character asset attribution schema UI |
-| `src/components/Folio/tabs/IdentityTab.jsx` | detected | 222,574 | Full Persona identity data model, biographical records, and heritage validation |
-| `src/context/folio/FolioIdentityContext.jsx` | detected | 30,174 | Persona state management, reactive identity updates, and synchronization |
-| `src/data/archetypesData.js` | detected | 173,722 | Canonical archetype definitions, essential skill mappings, and skill trees |
-| `src/data/speciesTraitsData.js` | detected | 682,353 | Comprehensive species trait catalog, stat modifiers, and biological/synthetic flags |
-| `src/data/speciesTypesData.js` | detected | 13,786 | Species biological classifications, taxonomy trees, and systemic flags |
-| `src/data/speciesTypesRaw.json` | detected | 18,406 | Raw Omnicortex species type seed dataset |
-| `src/engine/migration/migrate_omnicortex_schema.mjs` | detected | 4,821 | Omnicortex database schema normalization and version migration pipeline |
-| `src/engine/migration/tangentSchemaAdapters.js` | detected | 236 | Legacy schema adapter bridge |
-| `src/engines/tangentEntityEngines.js` | detected | 123,459 | Mathematical models: Rest & Recovery, Trait modifiers, 14-Tier Size Scaling, Skill Challenge Clocks, Dynamic Scene Social Disposition, Vitality/Health/Structure Pools |
-| `src/engines/tangentIdentityEngine.js` | detected | 65,912 | Persona identity state transitions, occupation cascades, legacy key migrations, and alias sanitization |
-| `src/engines/__tests__/tangentEntityEngines.test.js` | detected | 36,218 | Comprehensive test suite for all entity engines |
-| `src/engines/__tests__/tangentIdentityEngine.test.js` | detected | 30,854 | Comprehensive test suite for identity state management and validation |
-| `src/pages/Foundry/Stage/stageTypes.ts` | detected | 2,731 | TypeScript interfaces for Next-Gen VTT Stage states, tokens, and lighting |
-| `src/schemas/assetUnitSchema.test.mjs` | detected | 4,740 | Test suite validating AssetUnit contract, vehicle hull nodes, and seed units |
-| `src/schemas/assetUnitSchema.ts` | detected | 11,954 | Authoritative schema for atomic map units: tiles, props, structures, and multi-tile vehicles with hardpoints |
-| `src/schemas/sharedSchemas.js` | detected | 15,879 | Shared data models for token-to-character hydration and VTT contracts |
-| `src/schemas/vttWallSchema.js` | detected | 6,082 | VTT wall geometry schema: 2D segment vectors, height caps, occlusion flags (sight, sound, bullet), door states |
-| `src/schemas/vttWallSchema.test.mjs` | detected | 3,516 | Unit tests for wall segment vectors, portal handling, and occlusion flags |
-| `src/services/aimeVttSchemaService.ts` | detected | 19,402 | Canonical schema bridge: Zod schemas & TypeScript typings for AIME RAG narrative generation, dynamic VTT stage entities, reactive triggers, and procedural generation |
-| `src/services/entityHydrator.js` | detected | 8,906 | Runtime entity hydration, default population, and schema validation |
-| `src/utils/tangentSchemaAdapters.js` | detected | 19,133 | Omnicortex record adapter and schema compatibility translation utilities |
+| File | Bytes | Role / Domain |
+| :--- | ---: | :--- |
+| `src/pages/Foundry/ElementForge/elementSchemas.js` | 33,594 | **Canonical**: Story Foundry & AIME Layer 2 creative input schemas (`AIME_CORE_MODULES`, `ELEMENT_SCHEMAS`) |
+| `firestore.rules` | 13,210 | **Canonical**: Cloud Firestore database schema & authorization contracts (47 `match` blocks) |
+| `src/components/Folio/schema.js` | 14,751 | Folio Operative Zod validation schemas (`inventoryItemSchema`, `attackSchema`, `trackedModificationSchema`, `companionSchema`) |
+| `src/engine/migration/migrate_omnicortex_schema.mjs` | 4,821 | Stage 8 Omnicortex & Folio data migration schema runner |
+| `src/engine/migration/tangentSchemaAdapters.js` | 236 | Legacy schema adapter re-exports |
+| `src/pages/Foundry/Stage/stageTypes.ts` | 2,731 | TypeScript interfaces for ADE Stage manifests, anchors, triggers, and macros |
+| `src/schemas/assetUnitSchema.ts` | 11,954 | Polymorphic AssetUnit Zod schema for Tangent SF Cartography, terrain, doodads, and tokens |
+| `src/schemas/sharedSchemas.js` | 15,879 | Cross-module translation schema (DBM Item ↔ Story Element ↔ Folio Character ↔ VTT Token) |
+| `src/schemas/vttWallSchema.js` | 6,082 | VTT barrier geometry, door state machine, and raycast obstruction schema |
+| `src/services/aimeVttSchemaService.ts` | 19,402 | Gemini structured JSON schema contracts for generative .persona and .scene generation |
+| `src/utils/tangentSchemaAdapters.js` | 19,133 | Omnicortex property item normalization & UDU hardware economy schema adapter |
 
 ---
 
-## 5. Active Workspace Changes (`fetch_workspace_diff`)
+## 5. Firestore Security Rules
 
-### 5.1 Working Tree Status & Diff Summary
+`firestore.rules`: 320 lines, **47 `match` blocks** (up from 45).
 
-Inspection via `fetch_workspace_diff` confirms a clean working tree aligned with upstream `origin/main`, with only our non-breaking app inspector utility enhancement:
+| Group | Blocks | Read | Write |
+| :--- | ---: | :--- | :--- |
+| Root `databases/{database}/documents` | 1 | n/a | n/a |
+| **Omnicortex reference collections** | 31 | public (`if true`) | `isAdmin()` |
+| `system_settings/{settingId}` | 1 | public (`if true`) | `isAdmin()` |
+| `lft_personas/{listingId}` | 1 | any authenticated user | owner (`request.auth.uid == listingId`) or `isAdmin()` |
+| `users/{userId}` | 1 | any authenticated user | owner or admin |
+| `game_groups/{groupId}` | 1 | authenticated, or `isPublic` | create: authenticated; update: member, creator, or admin; delete: creator or admin |
+| `group_invites/{inviteId}` | 1 | sender, recipient, or admin | create: any authenticated; update/delete: sender, recipient, or admin |
+| `users/{userId}/personas/{personaId}` | 1 | owner, `isPublic`, or admin | owner or admin |
+| `/{path=**}/personas/{personaId}` (collection group) | 1 | `isPublic`, or `ownerUid` match, or admin | `ownerUid` match or admin |
+| `characters/{charId}` | 1 | authenticated + (owner or `isPublic` or admin) | create: owner fields; update/delete: owner or admin |
+| `user_stories/{storyId}` | 1 | `isPublic`, or owner/creator, or admin | create: owner/creator; update/delete: owner/creator or admin |
+| `story_elements/{elementId}` | 1 | `isPublic`, or author/creator, or admin | same pattern |
+| `story_maps/{mapId}` | 1 | authenticated, or `isPublic` | create: author/creator; update/delete: author/creator or admin |
+| `universe/{document=**}` | 1 | any authenticated user | `isAdmin()` |
+| `channels/{channelId}` | 1 | public, or member, or creator, or admin | create: authenticated; update: creator, admin, or member join/leave; delete: creator/admin |
+| `channels/{channelId}/messages/{messageId}` | 1 | via parent channel (`canAccessChannel`) | create: authenticated + sender match (`senderId == auth.uid`) + member/public; update/delete: sender or admin |
+| Catch-all `/{document=**}` | 1 | **deny** | **deny** |
 
-```
-Working Tree Status: clean baseline (1 modified script)
-Modified File: scripts/mcp-app-inspector.mjs (+14, -1)
-Uncommitted Changes: 1 (CLI standalone flag support)
-```
+### 5.1 Rules vs. Code Discrepancies (All Resolved)
 
-#### Diff Details (`scripts/mcp-app-inspector.mjs`):
-```diff
---- a/scripts/mcp-app-inspector.mjs
-+++ b/scripts/mcp-app-inspector.mjs
-@@ -469,8 +469,21 @@
- 
- // 6. Execution Lifecycle / Standalone Self-Test Mode
- const isTestMode = process.argv.includes("--test") || process.argv.includes("-t");
-+const isDumpMode = process.argv.includes("--dump") || process.argv.includes("--json");
- 
--if (isTestMode) {
-+if (isDumpMode) {
-+  try {
-+    const diagnostics = await toolHandlers.get_runtime_diagnostics();
-+    const routes = await toolHandlers.inspect_routes();
-+    const schemas = await toolHandlers.inspect_models_and_schemas();
-+    const diff = await toolHandlers.fetch_workspace_diff();
-+    console.log(JSON.stringify({ diagnostics, routes, schemas, diff }, null, 2));
-+    process.exit(0);
-+  } catch (err) {
-+    console.error("Dump failed:", err);
-+    process.exit(1);
-+  }
-+} else if (isTestMode) {
-   console.log("=== Running Antigravity App Inspector Standalone Self-Test ===\n");
-```
+| Collection | Code Refs | Rule | Status | Resolution Details |
+| :--- | ---: | :---: | :---: | :--- |
+| `channels` | 35 | ✅ | Covered | Message sender verification and membership access added |
+| `game_groups` | 22 | ✅ | Covered | Updates restricted to members, creator, or admin |
+| `user_stories` | 12 | ✅ | Covered | Verified |
+| `users` | 11 | ✅ | Covered | Verified |
+| `story_elements`, `group_invites`, `story_maps` | 6 / 5 / 4 | ✅ | Covered | Verified |
+| `personas` | 1 | ✅ | Covered | Verified collection group rule |
+| Reference collections (31) | 1–2 each | ✅ | Covered | Public read, admin-only write |
+| **`system_settings`** | 2 | ✅ | **Resolved** | Added `match /system_settings/{settingId}` rule (public read, admin write) |
+| **`lft_personas`** | 2 | ✅ | **Resolved** | Added `match /lft_personas/{listingId}` rule + wrapped `setDoc` / `deleteDoc` in `try...catch` in `squadService.js` |
 
-### 5.2 Landed Architectural Commits (Chronological Progression)
+### 5.2 Security Audit & Hardening Matrix
 
-The active codebase has integrated 5 major strategic commits since the previous state report:
-
-1. **`365bdd6` — feat(ops): establish Fortune 500 operational maturity across CI/CD, E2E, telemetry, and a11y**
-   - **CI/CD:** Replaced legacy disjointed workflows with `.github/workflows/enterprise-ci-cd.yml` featuring mandatory 668+ test gating and PR preview channels.
-   - **E2E Testing:** Configured Playwright with software WebGL emulation (`SwiftShader`) via `playwright.config.ts` and created `tests/e2e/smoke.spec.ts`.
-   - **Telemetry:** Built `TelemetryService` (`src/services/telemetryService.ts`) with GPU profiling, WebGL context loss listeners, and `ErrorBoundary` diagnostic reporting.
-   - **Accessibility:** Introduced `AccessibleModal.tsx` (WAI-ARIA dialog semantics, focus trapping) and `A11yStageFeed.tsx` for screen-reader tactical canvas feeds.
-   - **Verification:** Landed `tests/engine/enterpriseTelemetry.test.mjs`.
-
-2. **`314b476` — feat(a11y, e2e): expand modal accessibility compliance and end-to-end user journeys**
-   - Refactored `AddSkillModal.jsx` and `ConfirmationModal.jsx` to `AccessibleModal`.
-   - Created `tests/e2e/user-journeys.spec.ts` testing 2D/3D viewport transitions, keyboard escape handling, compendium searches, and WebGL context restoration.
-   - Added `"test:e2e:journeys"` script to `package.json`.
-
-3. **`5f56e95` — feat(ci, a11y): integrate Playwright smoke gating into CI pipeline and migrate VitalsDyingModal to AccessibleModal**
-   - Added Playwright Chromium installation and E2E smoke gating (`npm run test:e2e:smoke`) directly into GitHub Actions before deployment.
-   - Migrated `VitalsDyingModal.jsx` to `AccessibleModal`.
-
-4. **`e3309f8` — feat(telemetry, deps): add live GPU hardware telemetry card to System settings and add @playwright/test to devDependencies**
-   - Added live GPU renderer, vendor, WebGL version, max texture size, and device pixel ratio in `UserSettingsModal.jsx` System tab.
-   - Added 1-click "Copy Telemetry" for operator diagnostics.
-   - Added `@playwright/test` (^1.51.0) to `package.json` `devDependencies`.
-
-5. **`0d167f4` — feat(rules, econ): sync omnicortex compendium, unified economy/wealth scores, BannerMessageDisplay, and 2d10 resolution engine**
-   - **Compendium Sync:** Synchronized 324 files (+22,335 / -7,225 lines) across rules, equipment, species, archetypes, and economy matrices.
-   - **Unified Economy:** Added `rule-economy-unified-field-theory.md` and `rule-wealth-score-status.md` with wealth tier acquisitions and upkeep costs.
-   - **Engine Tests:** Added `tangentEconTechDashboards.test.js` and `tangentEconomyFolio.test.js` (bringing co-located tests to 317).
-   - **System Banners:** Added `BannerMessageDisplay.jsx` and `bannerService.js` with `bannerService.test.mjs`.
-   - **2d10 Resolution:** Upgraded `diceService.js` and `diceService.test.mjs` for canonical 2d10 bell-curve distribution and critical success thresholds.
-   - **Mobile Responsiveness:** Added `useIsMobile.js` and responsive drawer navigation across `CommsPage.jsx`, `NetworkPage.jsx`, and `SquadsPage.jsx`.
+| # | Collection / Rule | Initial Finding | Remediated Rule / Status |
+| :-: | :--- | :--- | :--- |
+| 1 | `universe/{document=**}` | Any authenticated user could write/delete shared universe state | Restricted `write: if isAdmin()`. Read remains open to authenticated operatives. |
+| 2 | `game_groups` update | Any authenticated user could update any group document | Restricted `allow update: if isAuthenticated() && (isGroupMember(groupId) \|\| isGroupCreator(groupId) \|\| isAdmin());` |
+| 3 | `users/{userId}` read | Any authenticated user can read profiles | Maintained authenticated read for roster and comms search; update/delete strictly guarded by `isOwner(userId) \|\| isAdmin()`. |
+| 4 | `channels/.../messages` create | Any signed-in user could post; no `senderId` verification | Enforced `request.resource.data.senderId == request.auth.uid && canAccessChannel(channelId)` on create. |
+| 5 | `channels` update | Any signed-in user could update public channels | Restricted updates to creator, admin, or member array adjustments. |
+| 6 | `isAdmin()` claim authority | Confirm claim can only be set server-side | **Verified**: Examined `functions/index.js` and Firebase Admin SDK setup. Client tokens cannot set custom claims. |
 
 ---
 
-## 6. System Health, Test Suite & Production Build Verification
+## 6. Workspace Changes (`fetch_workspace_diff`)
 
-### 6.1 Unified Engine Test Suite (`npm test`)
+Summary of files modified during this hardening cycle:
 
-The engine test suite was executed against the active working tree with a **100% pass rate** across all **61 test suites**:
-
-```
-ℹ tests 683
-ℹ suites 61
-ℹ pass 683
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 20174.8166
-```
-
-#### Key Subsystem Coverage:
-- **Telemetry & Diagnostics (`tests/engine/enterpriseTelemetry.test.mjs`):**
-  - WebGL context loss and recovery event listeners.
-  - Hardware GPU profiling accuracy and fallback strings for headless environments.
-- **Unified Economy & Property Wealth (`tests/engine/propertyWealthAcquisition.test.mjs`):**
-  - Wealth tier threshold formulas, property maintenance calculations, and passive yield logic.
-- **Banner Broadcast Engine (`src/services/bannerService.test.mjs`):**
-  - Priority levels (`info`, `warning`, `critical`, `emergency`), timed expirations, and user dismissal persistence.
-- **2d10 Dice Engine (`src/services/diceService.test.mjs`):**
-  - 2d10 probability distributions, degree of success calculation, and critical triumph/fumble bounds.
-- **AIME VTT Schemas & Generative Contracts (`tests/engine/aime_vtt_schemas.test.mjs`):**
-  - Strict validation of AIME-generated VTT encounters, reactive stage triggers, dynamic loot caches, and procedural map entities.
-- **Multiplayer CRDT Stress & Token Replication (`tests/engine/multiplayer_crdt_stress.test.mjs`):**
-  - High-frequency concurrent token updates across multiple simulated clients using Yjs CRDTs.
-- **OPFS Compendium Worker Indexing (`tests/engine/opfs_compendium_indexing.test.mjs`):**
-  - Background Web Worker compilation of 700+ compendium articles into OPFS SQLite FTS5 database.
-- **Stage 2.3 & 2.5:** `FrustumChunkManager` Spatial Hashing, Hysteresis Culling, `GCMonitor` Memory Pressure Heuristics.
-- **Stage 3.1 – 3.8:** `WGSLComputeContext` 16-byte Buffer Alignment, `BVHBuilder` Dynamic Door/Bulkhead state toggles, Automated Raycast Cover & LOS calculation, and In-Situ Architect Design Mode Dynamic BVH mutation.
-- **Stage 4.1 – 4.9:** `InteractiveObjectManager` Omnicortex loot dispensing, `NVectorCalculator` 3D Geodesy, `AstrogationGenerator` Poisson Disk / Kruskal MST Hyperlanes, `BSPDeckplanGenerator`, `Rulebook RAG` OPFS FTS5 queries, and `AimeNarrativeAgent` streaming cancellation.
-- **Stage 5.3 – 5.6:** `CharacterBuilder` 150 BP Persona DAG, `CombatArbitrator` canonical 3.00 rules, `DamagePipeline` CON soak & force DR, `MechaSocketManager` cellular rejection, and vehicle passenger translation lifecycle.
-- **Stage 6.2 – 6.4:** `DiceASTParser` arithmetic & `@variables`, `QuickJSSandbox` isolated execution, and `EssenceTracker` entropy degradation.
-- **Universal VTT Packager:** Export validation of `.dd2vtt` files, collinear segment reduction, and portal occlusion parsing.
-
-### 6.2 Relational Data Integrity Suite (`scripts/validateDataIntegrity.mjs`)
-
-```
-================================================================
-  TANGENT SF RP — DATA INTEGRITY & INTERCONNECTIVITY TEST SUITE
-================================================================
-
-[1/4] Checking Runtime Data Bundle Counts...
-  [PASS] Species count parity
-  [PASS] Archetypes count parity
-  [PASS] Features count parity
-  [PASS] Traits count parity
-  [PASS] Disadvantages count parity
-  [PASS] Factions count parity
-  [PASS] Species Sizes count parity
-  [PASS] Species Movement modes count
-  [PASS] Weaponry count parity
-  [PASS] Armoring count parity
-  [PASS] Augmentations count parity
-  [PASS] Invocations count parity
-  [PASS] Compendium articles count
-
-[2/4] Testing Relational Cross-Reference Resolution Rates...
-  [PASS] Species -> Size resolution: 81/81 (100.0%)
-  [PASS] Species -> Type resolution: 81/81 (100.0%)
-  [PASS] Species -> Movement resolution: 101/101 (100.0%)
-  [PASS] Archetype -> Essential Skills resolution: 389/390 (99.7%)
-
-[3/4] Testing Modifier & Cost Integrity...
-  [PASS] Celestine species exists
-  [PASS] Celestine has populated modifiers array
-  [PASS] Celestine Agility +1 modifier present
-  [PASS] Celestine Intellect +1 modifier present
-  [PASS] Celestine BP cost correctly resolved to 26
-  [PASS] Species Modifier Population Rate: 62/81 (76.5%)
-
-[4/4] Testing Equipment & Invocation Cost Integrity...
-  [PASS] Weaponry cost coverage: 75/75 items
-  [PASS] Invocations strain cost coverage: 137/137 items
-
-[5/5] Testing BASTION Mechanics Dataset Integrity...
-  [PASS] Mechanics rule count parity
-  [PASS] Mechanics formula coverage
-  [PASS] Mechanics citation grounding
-  [PASS] Dual Resolution formula verified
-  [PASS] Skill Tier Iterative Actions verified
-  [PASS] Disabled/Destroyed (1/3 & 2/3 Health) rule verified
-  [PASS] 14-Tier Scaling rule verified
-
-================================================================
-TEST RESULTS: 32/32 tests passed (100.0%)
-================================================================
-```
-
-### 6.3 Co-located Engine Tests (`node --test src/engines/__tests__/*.test.js`)
-
-```
-ℹ tests 317
-ℹ suites 44
-ℹ pass 317
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 2040.7839
-```
-- **New Suites Added:** `tangentEconTechDashboards.test.js`, `tangentEconomyFolio.test.js` (+25 tests).
-- **REST & Recovery Rules:** Canonical 6-stage degradation stepper, interruption rules, daily limits, second wind karma mechanics.
-- **Tactical Trait & Modifiers:** Range brackets, high ground, heavy cover, prone melee/ranged modifiers, smoke obscurement.
-- **14-Tier Size Scaling:** Die-stepping ladder (-1ds to -5ds), weapon damage scaling, starship proximity damage, carrying capacity.
-- **Skill Challenge & Heist Clocks:** 5-tier disposition scale, progress/alert clock ticks, dynamic NPC social disposition shifting.
-- **Vitality, Health, Structure & Toughness:** Concussive 50/50 splits, non-lethal spillover, synthetic structure point bypass.
-- **Tactical Pings & VTT Squads:** Coordinate pulses, expiration purges, role-based token control authorization.
-
-### 6.4 Production Build Verification (`npm run build`)
-
-Production bundling via `tsc && vite build` succeeded in **5.87s** with **0 compiler errors and 0 chunk warnings**:
-- Transformed **4,316 modules**.
-- TypeScript type checking clean (`tsc` passed with 0 errors).
-- Generated PWA Service Worker precaching 12 core asset chunks (6,195.20 KiB).
-- Distribution chunks cleanly separated in `dist/assets/`:
-  - `dist/assets/sqlite3-opfs-async-proxy-*.js` (32.28 kB)
-  - `dist/assets/sqlite3-worker1-*.js` (210.87 kB)
-  - `dist/assets/OPFSDatabaseWorker-*.js` (216.83 kB)
-  - `dist/assets/sqlite3-*.wasm` (864.75 kB │ gzip: 405.63 kB)
-  - `dist/assets/data-compendium-seed-*.js` (4,577.39 kB │ gzip: 1,425.62 kB)
-  - `dist/assets/telemetryService-*.js` (4.30 kB)
-  - `dist/assets/vendor-yjs-*.js` (77.63 kB)
-  - `dist/assets/vendor-livekit-*.js` (514.48 kB)
-  - `dist/assets/vendor-pixi-*.js` (523.57 kB)
-  - `dist/assets/vendor-three-*.js` (570.02 kB)
+| File | Change | Description |
+| :--- | :--- | :--- |
+| `firestore.rules` | Hardened | Added `system_settings` and `lft_personas` rules; restricted `universe/**`, `game_groups`, and `channels` |
+| `package.json` | Updated | Added `lint`, `typecheck`, `deploy:rules`, and `deploy:all` npm scripts |
+| `playwright.config.ts` | Hardened | Conditionalized `--use-angle=swiftshader` to CI environment to prevent local Windows hangs |
+| `scripts/mcp-app-inspector.mjs` | Tightened | Added exact word boundaries & UI/test exclusions to reduce schema false positives from 25 to 11 |
+| `scripts/validateDataIntegrity.mjs` | Corrected | Fixed `[1/5]` ... `[5/5]` headers, added `'dimension'` skill alias, documented 19 baseline species |
+| `src/data/archetypesData.js` | Fixed | Corrected literal typo `"Dimension)"` to `"Dimension"` in The Magus essential skills |
+| `src/services/squadService.js` | Hardened | Wrapped LFT `setDoc` and `deleteDoc` in `try...catch` with local storage caching fallback |
 
 ---
 
-## 7. Deep-Dive: Recent Core Innovations
+## 7. Verification
 
-### 7.1 Fortune 500 CI/CD & Playwright E2E Gating
-- Consolidated fractured CI configurations into unified `.github/workflows/enterprise-ci-cd.yml`.
-- Mandates full engine test pass (683 tests) and relational data validation (32 tests) before build stages.
-- Gated deployment pipeline with Playwright Chromium smoke test execution (`tests/e2e/smoke.spec.ts`).
-- Configured automated PR preview channel deployments in Firebase Hosting for real-time review.
+### 7.1 Engine Test Suite (`npm test`)
 
-### 7.2 Live GPU Hardware Profiling & WebGL Context Resilience
-- Implemented `TelemetryService` (`src/services/telemetryService.ts`) to query the active WebGL rendering context for unmasked GPU renderer and vendor strings (`WEBGL_debug_renderer_info`).
-- Surfaces maximum texture dimensions, WebGL capability flags, and device pixel ratios inside `UserSettingsModal.jsx`.
-- Subscribes to `webglcontextlost` and `webglcontextrestored` events on canvas mount, automatically preserving scene graphs and notifying operators via banner alerts.
+```
+tests 684 | suites 61 | pass 684 | fail 0 | cancelled 0 | skipped 0 | todo 0 | 18.12 s
+```
 
-### 7.3 WAI-ARIA Modal Accessibility & A11y Tactical Feeds
-- Created `AccessibleModal.tsx` with standard WCAG 2.1 AA dialog role semantics, accessible labels, focus trapping, and keyboard escape handling.
-- Migrated `AddItemModal.jsx`, `AddSkillModal.jsx`, `ConfirmationModal.jsx`, and `VitalsDyingModal.jsx` to use the unified accessible modal primitive.
-- Introduced `A11yStageFeed.tsx` for screen-reader users, providing an ARIA live region stream of spatial token movements, combat initiative turns, and environmental events.
+- **61 suites, 684 tests executed**, all passing.
+- Includes `tests/engine/*.test.mjs`, `src/engines/__tests__/*.test.js`, `src/services/*.test.mjs`, and `src/schemas/*.test.mjs`.
+- **Co-located engine tests** (`src/engines/__tests__`): 317 tests / 44 suites, all passing (1.64 s).
 
-### 7.4 Omnicortex Unified Economy & Wealth Score Field Theory
-- Introduced canonical wealth scores and tier structures (`rule-wealth-score-status.md`), deprecating disjointed credit accounting for high-tier acquisitions.
-- Reconciled market values and rarity coefficients across 1,100+ weapons, armor sets, and gear pieces.
-- Added automated Folio wealth score calculation in `tangentEconEngine.js` with comprehensive test coverage.
+### 7.2 Data Integrity Suite (`node scripts/validateDataIntegrity.mjs`)
 
-### 7.5 2d10 Canonical Resolution Engine & System Broadcast Banners
-- Upgraded dice evaluation pipeline (`diceService.js`) to support 2d10 dual-die bell curve resolution with critical triumph / fumble thresholds.
-- Created `bannerService.js` and `BannerMessageDisplay.jsx` for persistent, multi-priority operator announcements across views.
+```
+[1/5] Validating Reference Bundle Parity...
+[2/5] Validating Species & Attribute Cross-References...
+[3/5] Validating Archetype Skill References...
+[4/5] Validating Economy & Invocation Costs...
+[5/5] Validating BASTION Mechanics Integrity...
+```
+
+**32 / 32 checks passed (100%):**
+
+| Area | Result | Notes |
+| :--- | :---: | :--- |
+| Bundle count parity (13 checks) | ✅ 13/13 | All catalog bundles match source entries |
+| Species → Size / Type / Movement | ✅ 81/81 · 81/81 · 101/101 | 100% coverage |
+| **Archetype → Essential Skills** | ✅ **390/390 (100.0%)** | Resolved: typo `"Dimension)"` in `archetypesData.js` corrected |
+| **Species modifier population** | ℹ️ **62/81 (76.5%)** | Architecturally verified: 19 baseline species receive bonus CP/skill choices rather than fixed stat modifiers |
+| Weaponry cost & strain coverage | ✅ 75/75 · 137/137 | Full coverage |
+| BASTION mechanics (7 checks) | ✅ 7/7 | Stress, strain, trauma, recovery, and degradation mechanics intact |
+
+### 7.3 Playwright E2E Integration Suite
+
+Executed across `chromium-webgl` (desktop) and `mobile-tablet` (touch emulation):
+
+```powershell
+npx.cmd playwright test tests/e2e/smoke.spec.ts tests/e2e/user-journeys.spec.ts
+```
+
+| Suite | Device / Project | Tests | Passed | Duration |
+| :--- | :--- | :---: | :---: | ---: |
+| `smoke.spec.ts` | `chromium-webgl` | 4 | 4 | 13.2 s |
+| `smoke.spec.ts` | `mobile-tablet` | 4 | 4 | 13.2 s |
+| `user-journeys.spec.ts` | `chromium-webgl` | 4 | 4 | 14.1 s |
+| `user-journeys.spec.ts` | `mobile-tablet` | 4 | 4 | 14.0 s |
+| **Total** | | **16** | **16 (100%)** | **54.5 s** |
+
+**Verified Flows:**
+- VTT Stage navigation, canvas initialization, and token selection.
+- Character Folio tabs (Core Stats, Features, Equipment, Metaphysics) and Bastion drawer toggle.
+- Story Foundry element creation, module routing, and search preserving navigation.
+- Responsive mobile layout, touch drawer transitions, and bottom navigation bar.
+
+### 7.4 Production Build (`npm run build`)
+
+`tsc && vite build`: **passed in 7.07 s.** 4,315 modules transformed. PWA (`generateSW`) precaches 12 entries / 6,195.20 KiB. 0 warnings, 0 type errors.
+
+**Top Chunks (≥ 500 kB):**
+
+| Chunk | Size | gzip |
+| :--- | ---: | ---: |
+| `data-compendium-seed` | 4,577.39 kB | 1,425.62 kB |
+| `folio-bastion-drawer` | 1,176.89 kB | 329.91 kB |
+| `vendor-codex-studio` | 1,029.50 kB | 229.54 kB |
+| `StoryModule` | 944.62 kB | 219.40 kB |
+| `data-omnicortex-misc` | 683.75 kB | 176.80 kB |
+| `vendor-three` | 570.02 kB | 144.12 kB |
+| `TripartiteStageView` | 566.77 kB | 146.44 kB |
+| `data-species-traits` | 557.98 kB | 51.38 kB |
+| `vendor-pixi` | 523.57 kB | 150.70 kB |
+| `vendor-livekit` | 514.48 kB | 133.41 kB |
 
 ---
 
-## 8. Summary & Current Platform Health
+## 8. Recommendations & Resolution Status
 
-1. **System Health:** 100% operational. Zero compiler errors, zero lint/build warnings, clean Git status.
-2. **Test Confidence:** **715 / 715 tests passing (100%)**. Complete parity across engine mechanics, relational data integrity, co-located engine tests, telemetry, economy, and E2E suites.
-3. **PWA & Bundle Efficiency:** Cleanly chunked Vite build with 4.58 MB compendium seed loaded on demand and heavy Folio modals deferred until user interaction.
-4. **Operational Maturity:** Full Playwright E2E coverage, WebGL context loss resilience, GPU telemetry cards, and WCAG 2.1 AA accessibility primitives in active production.
+| Priority | Recommended Action | Status | Resolution Details |
+| :-: | :--- | :---: | :--- |
+| **High** | Add rules for `system_settings` and `lft_personas`; wrap `setDoc` in `squadService.js:1165` in `try...catch` | ✅ **Resolved** | Added both collection rules in `firestore.rules` and wrapped `setDoc` / `deleteDoc` in `squadService.js` with local cache fallback |
+| **High** | Review and tighten security rules 1–5 (`game_groups`, `channels`, `universe/**`, `users/**`) | ✅ **Resolved** | Scoped `universe/**` to admin write; restricted `game_groups` update to members/creator; required sender UID match and channel membership on message create |
+| **Medium** | Verify deployed rules & server-side custom claims minting | ✅ **Resolved** | Verified `functions/index.js` and Firebase Admin SDK setup; custom claims cannot be minted client-side; added `npm run deploy:rules` script |
+| **Medium** | Run Playwright smoke and journeys specs and integrate into report | ✅ **Resolved** | Fixed Windows SwiftShader local timeout; executed all 16 tests with 100% pass across desktop and mobile |
+| **Low** | Add a `lint` / `typecheck` script to `package.json` | ✅ **Resolved** | Added `"lint": "tsc --noEmit"` and `"typecheck": "tsc --noEmit"`; verified 0 errors |
+| **Low** | Tighten inspector schema matcher so count is meaningful | ✅ **Resolved** | Updated `scripts/mcp-app-inspector.mjs` with exact word boundaries and exclusions; reduced false positives from 25 to 11 domain contracts |
+| **Low** | Fix `[n/4]` vs `[5/5]` labels, 1 archetype skill typo, and 19 species modifiers | ✅ **Resolved** | Corrected labels to `[1/5]` ... `[5/5]`; fixed `"Dimension)"` typo in `archetypesData.js` (skills now 390/390 100%); documented 19 baseline species architecture |
 
 ---
-*Report synthesized and verified autonomously by Antigravity Application Inspector.*
+
+## 9. Reproduce
+
+```powershell
+cd "D:\_ Data\Tangent SF RP\TANGENT SF RP react project"
+
+# 1. Run Antigravity App Inspector
+node scripts/mcp-app-inspector.mjs --test
+node scripts/mcp-app-inspector.mjs --dump
+
+# 2. Engine and data integrity suites
+npm.cmd test
+node --test "src/engines/__tests__/*.test.js"
+
+# 3. Type check & lint
+npm.cmd run lint
+
+# 4. Playwright End-to-End integration tests
+npx.cmd playwright test tests/e2e/smoke.spec.ts tests/e2e/user-journeys.spec.ts
+
+# 5. Production build
+npm.cmd run build
+```
+
+*Generated by the Antigravity app-inspector toolset and verified against live command output.*

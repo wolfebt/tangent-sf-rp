@@ -205,15 +205,34 @@ export const toolHandlers = {
           const relPath = path.relative(rootDir, fullPath).replace(/\\/g, "/");
           if (schemaFiles.some((s) => s.file === relPath)) continue;
 
+          // Exclude tests, mocks, raw markdown, UI components, and non-schema files
           if (
-            base.includes("schema") ||
-            base.includes("model") ||
-            base.includes("types") ||
-            base.includes("entity") ||
-            base.includes("traitsdata") ||
-            base.endsWith(".proto") ||
-            base.endsWith(".d.ts")
+            base.includes(".test.") ||
+            base.includes(".spec.") ||
+            relPath.includes("/__tests__/") ||
+            relPath.includes("/__mocks__/") ||
+            (ext === ".jsx" && !base.includes("schema"))
           ) {
+            continue;
+          }
+
+          const isSchemaPath = relPath.includes("/schemas/") || relPath.includes("/models/");
+          const isSchemaFile =
+            base.includes("schema") ||
+            base.endsWith(".proto") ||
+            base.endsWith(".d.ts") ||
+            base.endsWith("types.ts") ||
+            base.endsWith("model.ts") ||
+            base.endsWith("model.js") ||
+            /(?:^|[._-])(schema|schemas|model|models|types)(?:[._-]|$)/i.test(base);
+
+          const isFalsePositive =
+            base.includes("archetype") ||
+            base.includes("species") ||
+            base.includes("identity") ||
+            base.includes("traitsdata");
+
+          if ((isSchemaPath || isSchemaFile) && !isFalsePositive) {
             try {
               const fileContent = fs.readFileSync(fullPath, "utf-8");
               schemaFiles.push({

@@ -272,7 +272,7 @@ export const NetworkPage = () => {
           )}
 
           {/* Quick Creation Triggers */}
-          {activeView === 'comms' && (
+          {(activeView === 'comms' || activeView === 'roster' || activeView === 'community') && (
             <button
               type="button"
               onClick={() => setIsCreateChannelModalOpen(true)}
@@ -399,7 +399,12 @@ export const NetworkPage = () => {
       {/* ── Modals & Overlays ── */}
       <CreateChannelModal
         isOpen={isCreateChannelModalOpen}
-        onClose={() => setIsCreateChannelModalOpen(false)}
+        onClose={() => {
+          setIsCreateChannelModalOpen(false);
+          if (activeView !== 'comms') {
+            handleSelectView('comms');
+          }
+        }}
       />
 
       <CreateSquadModal
