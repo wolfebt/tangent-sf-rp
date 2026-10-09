@@ -26,7 +26,7 @@ import {
   Check
 } from 'lucide-react';
 import { TwoD10Icon } from './TwoD10Icon';
-import { rollDice, targetDCs } from '../../services/diceService';
+import { rollDice, targetDCs, parseDiceExpression } from '../../services/diceService';
 import { AudioService } from '../../services/audioService';
 import { useChat } from '../../context/ChatContext';
 import { useDice } from '../../context/DiceContext';
@@ -979,7 +979,10 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center gap-1.5 sm:gap-2 pointer-events-auto">
           <button
             type="button"
-            onClick={() => handleRoll(customExpr || '2d10')}
+            onClick={(e) => {
+              console.log('BUTTON CLICK EVENT RECEIVED!');
+              handleRoll(customExpr || '2d10');
+            }}
             className="w-32 sm:w-40 py-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-rose-500 hover:from-rose-400 hover:to-rose-300 active:scale-95 text-slate-950 font-black text-xs font-mono rounded-lg uppercase tracking-wider transition-all shadow-[0_0_18px_rgba(244,63,94,0.6)] border border-rose-300/80 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
             title="Execute Check with current modifiers & DC"
           >

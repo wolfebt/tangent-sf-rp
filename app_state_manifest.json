@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-07T05:48:39.866Z",
+  "generatedAt": "2026-10-09T18:06:12.556Z",
   "diagnostics": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "nodeVersion": "v24.18.0",
@@ -11,21 +11,27 @@
     "scripts": [
       "dev",
       "build",
+      "typecheck",
+      "lint",
       "preview",
       "deploy",
+      "deploy:rules",
+      "deploy:all",
       "sync:species",
       "sync:species-traits",
       "sync:species-disadvantages",
       "build:data",
       "test:data",
       "test:engine",
+      "test:e2e",
+      "test:e2e:smoke",
+      "test:e2e:journeys",
       "test"
     ],
     "dependencies": {
       "@google/genai": "^2.25.0",
       "@modelcontextprotocol/sdk": "^1.31.0",
       "@sqlite.org/sqlite-wasm": "^3.53.0-build1",
-      "@types/three": "^0.185.4",
       "dompurify": "^3.4.13",
       "firebase": "^12.16.0",
       "glob": "^13.0.6",
@@ -51,8 +57,10 @@
       "zustand": "^5.0.15"
     },
     "devDependencies": {
+      "@playwright/test": "^1.51.0",
       "@tailwindcss/vite": "^4.3.3",
       "@types/react-dom": "^19.2.5",
+      "@types/three": "^0.185.4",
       "@vitejs/plugin-react": "^6.0.3",
       "firebase-admin": "^14.2.0",
       "tailwindcss": "^4.3.3",
@@ -68,12 +76,27 @@
     "git": {
       "isRepo": true,
       "branch": "main",
-      "lastCommit": "ea7a91e - docs: app inspector report 2026-10-06 and refreshed app state manifest (2026-10-06 23:58:44 -0500)",
+      "lastCommit": "50db7d5 - feat(comms, tests): chat channel creation/settings, Architect docket integration, Playwright test suite, and data integrity validation (2026-10-09 12:27:44 -0500)",
       "hasUncommittedChanges": true
     },
+    "playwright": {
+      "isInstalled": true,
+      "version": "^1.51.0",
+      "configFile": "playwright.config.ts",
+      "testDir": "./tests/e2e",
+      "specFilesCount": 3,
+      "projects": [
+        "chromium-webgl",
+        "mobile-tablet"
+      ],
+      "webServer": {
+        "command": "npm run preview -- --host 127.0.0.1 --port 4173",
+        "url": "http://127.0.0.1:4173"
+      }
+    },
     "memoryUsageMB": {
-      "rss": "80.52",
-      "heapUsed": "21.79"
+      "rss": "82.09",
+      "heapUsed": "23.81"
     }
   },
   "routes": {
@@ -104,15 +127,15 @@
       },
       {
         "path": "/teams",
-        "element": "<NetworkRedirect defaultView=\"teams\" />"
+        "element": "<NetworkRedirect defaultView=\"squads\" />"
       },
       {
         "path": "/groups",
-        "element": "<NetworkRedirect defaultView=\"teams\" />"
+        "element": "<NetworkRedirect defaultView=\"squads\" />"
       },
       {
         "path": "/squads",
-        "element": "<NetworkRedirect defaultView=\"teams\" />"
+        "element": "<NetworkRedirect defaultView=\"squads\" />"
       },
       {
         "path": "/codex",
@@ -337,7 +360,7 @@
         "element": "<PlayerSpectatorView />"
       }
     ],
-    "totalPageModules": 189,
+    "totalPageModules": 188,
     "pageModulesSample": [
       "src/pages/Codex/CodexAiSynthesizerModal.jsx",
       "src/pages/Codex/CodexApp.jsx",
@@ -357,7 +380,7 @@
     ]
   },
   "schemas": {
-    "totalSchemasDetected": 21,
+    "totalSchemasDetected": 11,
     "summary": [
       {
         "file": "src/pages/Foundry/ElementForge/elementSchemas.js",
@@ -367,47 +390,12 @@
       {
         "file": "firestore.rules",
         "priority": "canonical",
-        "bytes": 11540
+        "bytes": 13210
       },
       {
         "file": "src/components/Folio/schema.js",
         "priority": "detected",
-        "bytes": 14060
-      },
-      {
-        "file": "src/components/Folio/shared/IdentityPoolPulldown.jsx",
-        "priority": "detected",
-        "bytes": 96231
-      },
-      {
-        "file": "src/components/Folio/tabs/IdentityTab.jsx",
-        "priority": "detected",
-        "bytes": 215426
-      },
-      {
-        "file": "src/context/folio/FolioIdentityContext.jsx",
-        "priority": "detected",
-        "bytes": 28555
-      },
-      {
-        "file": "src/data/archetypesData.js",
-        "priority": "detected",
-        "bytes": 173722
-      },
-      {
-        "file": "src/data/speciesTraitsData.js",
-        "priority": "detected",
-        "bytes": 682353
-      },
-      {
-        "file": "src/data/speciesTypesData.js",
-        "priority": "detected",
-        "bytes": 13786
-      },
-      {
-        "file": "src/data/speciesTypesRaw.json",
-        "priority": "detected",
-        "bytes": 18406
+        "bytes": 14751
       },
       {
         "file": "src/engine/migration/migrate_omnicortex_schema.mjs",
@@ -415,29 +403,19 @@
         "bytes": 4821
       },
       {
-        "file": "src/engines/tangentEntityEngines.js",
+        "file": "src/engine/migration/tangentSchemaAdapters.js",
         "priority": "detected",
-        "bytes": 123247
-      },
-      {
-        "file": "src/engines/tangentIdentityEngine.js",
-        "priority": "detected",
-        "bytes": 56324
-      },
-      {
-        "file": "src/engines/__tests__/tangentEntityEngines.test.js",
-        "priority": "detected",
-        "bytes": 36218
-      },
-      {
-        "file": "src/engines/__tests__/tangentIdentityEngine.test.js",
-        "priority": "detected",
-        "bytes": 20594
+        "bytes": 236
       },
       {
         "file": "src/pages/Foundry/Stage/stageTypes.ts",
         "priority": "detected",
         "bytes": 2731
+      },
+      {
+        "file": "src/schemas/assetUnitSchema.ts",
+        "priority": "detected",
+        "bytes": 11954
       },
       {
         "file": "src/schemas/sharedSchemas.js",
@@ -450,14 +428,9 @@
         "bytes": 6082
       },
       {
-        "file": "src/schemas/vttWallSchema.test.mjs",
+        "file": "src/services/aimeVttSchemaService.ts",
         "priority": "detected",
-        "bytes": 3516
-      },
-      {
-        "file": "src/services/entityHydrator.js",
-        "priority": "detected",
-        "bytes": 8906
+        "bytes": 19402
       },
       {
         "file": "src/utils/tangentSchemaAdapters.js",
@@ -466,10 +439,41 @@
       }
     ]
   },
+  "e2eTests": {
+    "totalSpecFiles": 3,
+    "totalTestsCount": 9,
+    "projects": [
+      "chromium-webgl",
+      "mobile-tablet"
+    ],
+    "specFiles": [
+      {
+        "file": "tests/e2e/dice-roller.spec.ts",
+        "testCount": 1,
+        "suites": [
+          "Dice Roller Dock E2E Verification"
+        ]
+      },
+      {
+        "file": "tests/e2e/smoke.spec.ts",
+        "testCount": 4,
+        "suites": [
+          "Tangent SF RP — Enterprise Smoke & Health Suite"
+        ]
+      },
+      {
+        "file": "tests/e2e/user-journeys.spec.ts",
+        "testCount": 4,
+        "suites": [
+          "Tangent SF RP — Fortune 500 Enterprise User Journeys"
+        ]
+      }
+    ]
+  },
   "gitDiff": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "stagedOnly": false,
-    "statusOrDiff": " M .gitattributes\n M .github/workflows/ci.yml\n M app_state_manifest.json\n M app_state_summary.md\n M docs/APP_INSPECTOR_REPORT_2026-10-06.md\n M package.json\n M scripts/extract-app-context.mjs\n M scripts/mcp-app-inspector.mjs\n M src/App.jsx\n D src/components/routing/RouteRedirects.jsx\n D src/components/routing/redirectTargets.js\n M src/engine/index.ts\n M src/engine/migration/legacyElementAdapters.js\n M src/engine/migration/migrate_omnicortex_schema.mjs\n M src/engines/__tests__/tangentEntityEngines.test.js\n M src/engines/__tests__/tangentIdentityEngine.test.js\n M src/engines/__tests__/tangentRulesAdjudicatorService.test.js\n M src/engines/tangentIdentityEngine.js\n M src/pages/Foundry/ElementForge/elementSchemas.js\n M src/pages/Foundry/FoundryApp.jsx\n D tests/engine/appInspector.test.mjs\n D tests/engine/elementSchemaRegistry.test.mjs\n M tests/engine/routeRedirectsAndDeepLinks.test.mjs\n?? docs/ade_comprehensive_review.md\n",
-    "diffStat": " .gitattributes                                     |  27 +---\n .github/workflows/ci.yml                           |   4 +-\n app_state_manifest.json                            | 160 +++++++++----------\n app_state_summary.md                               |  29 +++-\n docs/APP_INSPECTOR_REPORT_2026-10-06.md            |  32 +---\n package.json                                       |   4 +-\n scripts/extract-app-context.mjs                    |  10 +-\n scripts/mcp-app-inspector.mjs                      | 175 +++++++++------------\n src/App.jsx                                        |  10 +-\n src/components/routing/RouteRedirects.jsx          |  20 ---\n src/components/routing/redirectTargets.js          |  35 -----\n src/engine/index.ts                                |   2 +-\n src/engine/migration/legacyElementAdapters.js      |   2 +-\n src/engine/migration/migrate_omnicortex_schema.mjs |   2 +-\n src/engines/__tests__/tangentEntityEngines.test.js |  10 +-\n .../__tests__/tangentIdentityEngine.test.js        |  24 ---\n .../tangentRulesAdjudicatorService.test.js         |   6 +-\n src/engines/tangentIdentityEngine.js               |  19 ++-\n src/pages/Foundry/ElementForge/elementSchemas.js   |  11 +-\n src/pages/Foundry/FoundryApp.jsx                   |  25 ++-\n tests/engine/appInspector.test.mjs                 |  84 ----------\n tests/engine/elementSchemaRegistry.test.mjs        |  46 ------\n tests/engine/routeRedirectsAndDeepLinks.test.mjs   |  64 +++-----\n 23 files changed, 268 insertions(+), 533 deletions(-)\n"
+    "statusOrDiff": " M .agents/plugins/app-inspector/plugin.json\n M .agents/skills/app-inspector/SKILL.md\n M .agents/subagents/app-inspector.md\n M app_state_manifest.json\n M app_state_summary.md\n M scripts/extract-app-context.mjs\n M scripts/mcp-app-inspector.mjs\n M src/components/UI/DiceRollerDock.jsx\n?? tests/e2e/dice-roller.spec.ts\n",
+    "diffStat": " .agents/plugins/app-inspector/plugin.json |   2 +-\n .agents/skills/app-inspector/SKILL.md     |  26 +-\n .agents/subagents/app-inspector.md        |  10 +-\n app_state_manifest.json                   | 148 +++----\n app_state_summary.md                      |  47 +--\n scripts/extract-app-context.mjs           |  34 +-\n scripts/mcp-app-inspector.mjs             | 632 +++++++++++++++++++++++++++++-\n src/components/UI/DiceRollerDock.jsx      |   7 +-\n 8 files changed, 781 insertions(+), 125 deletions(-)\n"
   }
 }

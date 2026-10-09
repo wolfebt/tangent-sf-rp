@@ -28,17 +28,20 @@ async function runApplicationExtraction() {
   console.log("=== Extracting Live Workspace State ===");
 
   // 1. Collect live data using inspector handlers
-  console.log("[1/4] Gathering runtime diagnostics...");
+  console.log("[1/5] Gathering runtime diagnostics...");
   const diagnostics = await toolHandlers.get_runtime_diagnostics();
   const rootDir = diagnostics.appRoot;
 
-  console.log("[2/4] Inspecting route topology...");
+  console.log("[2/5] Inspecting route topology...");
   const routes = await toolHandlers.inspect_routes();
 
-  console.log("[3/4] Parsing model schemas and rules...");
+  console.log("[3/5] Parsing model schemas and rules...");
   const schemas = await toolHandlers.inspect_models_and_schemas();
 
-  console.log("[4/4] Fetching working tree diffs...");
+  console.log("[4/5] Cataloging Playwright E2E test suites...");
+  const e2e = await toolHandlers.inspect_e2e_tests();
+
+  console.log("[5/5] Fetching working tree diffs...");
   const diff = await toolHandlers.fetch_workspace_diff();
 
   const manifest = {
@@ -56,6 +59,16 @@ async function runApplicationExtraction() {
         file: s.file,
         priority: s.priority,
         bytes: s.totalBytes,
+      })),
+    },
+    e2eTests: {
+      totalSpecFiles: e2e.totalSpecFiles,
+      totalTestsCount: e2e.totalTestsCount,
+      projects: e2e.config?.projects || [],
+      specFiles: e2e.specFiles.map((s) => ({
+        file: s.file,
+        testCount: s.testCount,
+        suites: s.suites.map((st) => st.title),
       })),
     },
     gitDiff: diff,
@@ -78,6 +91,9 @@ async function runApplicationExtraction() {
     "=== Story Foundry & Database Schemas ===",
     JSON.stringify(manifest.schemas.summary.slice(0, 10), null, 2),
     "",
+    "=== Playwright E2E Test Suite & Test Coverage ===",
+    JSON.stringify(manifest.e2eTests, null, 2),
+    "",
     "=== Working Tree Changes Summary ===",
     diff.diffStat || diff.statusOrDiff.slice(0, 2000),
     "",
@@ -85,7 +101,7 @@ async function runApplicationExtraction() {
     "1. Key frameworks, UI architectures, and operational runtime requirements.",
     "2. Scope and implications of recent modifications based on modified files.",
     "3. Alignment between Story Foundry element schemas and routed application views.",
-    "4. Recommended verification checks to prevent regression before committing.",
+    "4. Recommended verification checks and E2E test executions to prevent regression before committing.",
   ].join("\n");
 
   // 3. Check for API Key
@@ -116,7 +132,13 @@ async function runApplicationExtraction() {
       `- **Firestore Rules:** \`firestore.rules\` (${schemas.detectedSchemas.find(s => s.file.includes("firestore.rules"))?.totalBytes || 0} bytes)`,
       `- **Total Model/Schema Files Detected:** ${schemas.totalSchemasDetected}`,
       "",
-      "## 4. Working Tree Status",
+      "## 4. Playwright E2E Test Suite",
+      `- **Total Spec Files:** ${e2e.totalSpecFiles}`,
+      `- **Total Tests:** ${e2e.totalTestsCount} configured across all suites`,
+      `- **Target Projects:** ${(e2e.config?.projects || []).join(", ") || "default"}`,
+      ...e2e.specFiles.map((s) => `  - \`${s.file}\` (${s.testCount} tests)`),
+      "",
+      "## 5. Working Tree Status",
       "```text",
       diff.diffStat ? diff.diffStat.slice(0, 1500) : diff.statusOrDiff.slice(0, 1500),
       "```",

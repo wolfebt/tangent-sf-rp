@@ -1,4 +1,4 @@
 {
   "name": "app-inspector",
-  "description": "Live application inspection bridge for routes, schemas, runtime diagnostics, and git diffs."
+  "description": "Live application inspection bridge for routes, schemas, Playwright E2E suites, live DOM/canvas diagnostics, runtime diagnostics, and git diffs."
 }
