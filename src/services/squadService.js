@@ -21,11 +21,27 @@ import { ChatService } from './chatService';
 
 // Helper to generate a random 6-character alphanumeric squad invite code
 const generateInviteCode = () => {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // 32 characters
   let result = 'SQD-';
-  for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+
+  // Use cryptographically secure random values
+  const crypto = typeof window !== 'undefined' && window.crypto ? window.crypto : globalThis.crypto;
+  if (!crypto || !crypto.getRandomValues) {
+    // Fallback for environments lacking crypto
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
   }
+
+  const randomBytes = new Uint8Array(6);
+  crypto.getRandomValues(randomBytes);
+
+  for (let i = 0; i < 6; i++) {
+    // 32 is a power of 2, so we can use & 31 (0x1F) to avoid modulo bias
+    result += chars.charAt(randomBytes[i] & 31);
+  }
+
   return result;
 };
 
