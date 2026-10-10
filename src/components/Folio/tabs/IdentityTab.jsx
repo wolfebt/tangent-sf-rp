@@ -197,6 +197,29 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   });
   const [inspectItem, setInspectItem] = useState(null);
   const [activePillarModal, setActivePillarModal] = useState(null); // 'archetype' | 'species' | 'occupation' | 'origin' | 'faction'
+  const [isPillarDropdownOpen, setIsPillarDropdownOpen] = useState(false);
+  const pillarDropdownRef = useRef(null);
+
+  // Close pillar switcher dropdown on outside click or Escape key
+  useEffect(() => {
+    if (!isPillarDropdownOpen) return;
+    const handleClickOutside = (e) => {
+      if (pillarDropdownRef.current && !pillarDropdownRef.current.contains(e.target)) {
+        setIsPillarDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsPillarDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isPillarDropdownOpen]);
 
   const getFieldIdForPillar = (pillarKey) => {
     switch (pillarKey) {
@@ -258,6 +281,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     if (!activePillarModal) {
       modalInitialSnapshotRef.current = getIdentitySnapshot(characterDataRef.current || characterData);
     }
+    setIsPillarDropdownOpen(false);
     setActivePillarModal(pillarKey);
     setExpandedCards(prev => ({ ...prev, [pillarKey]: true }));
     if (targetSubTab) {
@@ -271,6 +295,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     saveCurrentToRoster?.(cur);
     modalInitialSnapshotRef.current = null;
     backdropMouseDownRef.current = false;
+    setIsPillarDropdownOpen(false);
     setActivePillarModal(null);
   };
 
@@ -295,11 +320,13 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       if (ok) {
         modalInitialSnapshotRef.current = null;
         backdropMouseDownRef.current = false;
+        setIsPillarDropdownOpen(false);
         setActivePillarModal(null);
       }
     } else {
       modalInitialSnapshotRef.current = null;
       backdropMouseDownRef.current = false;
+      setIsPillarDropdownOpen(false);
       setActivePillarModal(null);
     }
   };
@@ -3915,59 +3942,126 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             onClick={e => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4 shrink-0 gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-xl shrink-0">
                   {activePillarModal === 'archetype' && '🛡️'}
                   {activePillarModal === 'species' && '🧬'}
                   {activePillarModal === 'occupation' && '🛠️'}
                   {activePillarModal === 'origin' && '🌍'}
                   {activePillarModal === 'faction' && '🏛️'}
                 </span>
-                <div>
+                <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 text-cyan-400 border border-cyan-500/40">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 text-cyan-400 border border-cyan-500/40 shrink-0">
                       Pillar Configurator
                     </span>
-                    <span className="text-xs font-mono font-bold uppercase text-slate-300">
+                    <span className="text-xs font-mono font-bold uppercase text-slate-300 truncate">
                       {activePillarModal}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Pillar Switcher Quick Tabs in Modal Header */}
-              <div className="flex items-center gap-1 bg-slate-950/90 p-1 rounded-xl border border-slate-800 overflow-x-auto no-scrollbar max-w-full">
-                {[
-                  { id: 'archetype', label: 'Archetype', icon: '🛡️', themeColor: 'amber' },
-                  { id: 'species', label: 'Species', icon: '🧬', themeColor: 'cyan' },
-                  { id: 'occupation', label: 'Occupation', icon: '🛠️', themeColor: 'sky' },
-                  { id: 'origin', label: 'Origin', icon: '🌍', themeColor: 'emerald' },
-                  { id: 'faction', label: 'Faction', icon: '🏛️', themeColor: 'purple' }
-                ].map(p => {
-                  const st = getPillarStatus(p.id);
-                  const isActive = activePillarModal === p.id;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => openPillarModal(p.id)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shrink-0 border ${
-                        isActive
-                          ? 'bg-slate-800 text-white border-cyan-400/80 shadow-sm ring-1 ring-cyan-500/30'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border-transparent'
-                      }`}
-                    >
-                      <span>{p.icon}</span>
-                      <span className="hidden md:inline">{p.label}</span>
-                      {st.label && (
-                        <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono border ${st.badgeClass}`}>
-                          {st.isReady ? '✓' : st.label}
+              {/* Pillar Switcher Pull Down & Header Close */}
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="relative" ref={pillarDropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => setIsPillarDropdownOpen(prev => !prev)}
+                    className="px-2.5 sm:px-3 py-1.5 bg-slate-950/90 hover:bg-slate-800 text-slate-200 border border-cyan-500/40 hover:border-cyan-400 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+                    title="Switch Identity Pillar Configurator"
+                    aria-expanded={isPillarDropdownOpen}
+                    aria-haspopup="true"
+                  >
+                    <span className="text-[10px] text-slate-400 font-normal uppercase hidden sm:inline">Pillar:</span>
+                    <span className="flex items-center gap-1.5">
+                      <span>
+                        {activePillarModal === 'archetype' && '🛡️'}
+                        {activePillarModal === 'species' && '🧬'}
+                        {activePillarModal === 'occupation' && '🛠️'}
+                        {activePillarModal === 'origin' && '🌍'}
+                        {activePillarModal === 'faction' && '🏛️'}
+                      </span>
+                      <span className="text-white capitalize">{activePillarModal}</span>
+                    </span>
+                    {(() => {
+                      const curSt = getPillarStatus(activePillarModal);
+                      return curSt.label ? (
+                        <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono border ${curSt.badgeClass}`}>
+                          {curSt.isReady ? '✓' : curSt.label}
                         </span>
-                      )}
-                    </button>
-                  );
-                })}
+                      ) : null;
+                    })()}
+                    <ChevronDown
+                      size={13}
+                      className={`text-cyan-400 transition-transform duration-200 ${isPillarDropdownOpen ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  {isPillarDropdownOpen && (
+                    <div className="absolute right-0 top-full mt-1.5 w-60 sm:w-64 bg-slate-950/98 border border-cyan-500/50 rounded-xl shadow-2xl p-1.5 z-50 backdrop-blur-md flex flex-col gap-1 animate-in fade-in zoom-in-95 duration-100">
+                      <div className="px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 flex items-center justify-between">
+                        <span>Identity Pillars</span>
+                        <span className="text-slate-500 font-normal">5 Pillars</span>
+                      </div>
+                      <div className="flex flex-col gap-0.5 pt-1">
+                        {[
+                          { id: 'archetype', label: 'Archetype', icon: '🛡️', themeColor: 'amber' },
+                          { id: 'species', label: 'Species', icon: '🧬', themeColor: 'cyan' },
+                          { id: 'occupation', label: 'Occupation', icon: '🛠️', themeColor: 'sky' },
+                          { id: 'origin', label: 'Origin', icon: '🌍', themeColor: 'emerald' },
+                          { id: 'faction', label: 'Faction', icon: '🏛️', themeColor: 'purple' }
+                        ].map(p => {
+                          const st = getPillarStatus(p.id);
+                          const isActive = activePillarModal === p.id;
+                          return (
+                            <button
+                              key={p.id}
+                              type="button"
+                              onClick={() => {
+                                openPillarModal(p.id);
+                                setIsPillarDropdownOpen(false);
+                              }}
+                              className={`w-full px-2.5 py-2 rounded-lg text-xs font-mono flex items-center justify-between transition-all cursor-pointer ${
+                                isActive
+                                  ? 'bg-slate-800 text-white border border-cyan-400/80 shadow-sm ring-1 ring-cyan-500/30'
+                                  : 'text-slate-300 hover:text-white hover:bg-slate-900 border border-transparent'
+                              }`}
+                            >
+                              <span className="flex items-center gap-2">
+                                <span className="text-sm">{p.icon}</span>
+                                <span className={`font-bold ${isActive ? 'text-cyan-300' : 'text-slate-200'}`}>
+                                  {p.label}
+                                </span>
+                              </span>
+                              <div className="flex items-center gap-1.5">
+                                {st.label && (
+                                  <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono border ${st.badgeClass}`}>
+                                    {st.isReady ? '✓' : st.label}
+                                  </span>
+                                )}
+                                {isActive && (
+                                  <Check className="w-3.5 h-3.5 text-cyan-400" />
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Close Button in Header */}
+                <button
+                  type="button"
+                  onClick={handleRequestCloseModal}
+                  className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer border border-transparent hover:border-slate-700"
+                  title="Close modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
             </div>
 
