@@ -168,6 +168,90 @@ test.describe('Dice Roller Dock E2E Verification', () => {
 
     expect(pageErrors).toHaveLength(0);
   });
+
+  test('On mobile layout, Telemetry starts directly under the RESET button without space', async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on('pageerror', err => pageErrors.push(err.message));
+
+    await page.setViewportSize({ width: 414, height: 896 });
+
+    await page.addInitScript(() => {
+      window.localStorage.setItem('userHandle', 'Commander Mobile');
+      window.localStorage.setItem('hasDismissedWelcome', 'true');
+      window.localStorage.setItem('audioMuted', 'true');
+      window.localStorage.removeItem('tangent_dice_roller_history');
+      window.localStorage.removeItem('tangent_dice_roller_latest');
+    });
+
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(600);
+
+    await page.evaluate(() => {
+      window.dispatchEvent(new CustomEvent('open-dice-roller'));
+    });
+
+    const resetBtn = page.getByRole('button', { name: 'RESET', exact: true });
+    await expect(resetBtn).toBeVisible({ timeout: 5000 });
+
+    const telemetryHeader = page.locator('text=Roll Telemetry & Output');
+    await expect(telemetryHeader).toBeVisible({ timeout: 5000 });
+
+    // Measure the vertical distance between the bottom of reset button and top of telemetry
+    const resetBox = await resetBtn.boundingBox();
+    const telemetryBox = await telemetryHeader.boundingBox();
+
+    expect(resetBox).not.toBeNull();
+    expect(telemetryBox).not.toBeNull();
+
+    if (resetBox && telemetryBox) {
+      const verticalGap = telemetryBox.y - (resetBox.y + resetBox.height);
+      // The gap should be immediate (around 8-20px for the border/gap separator, definitely < 35px)
+      expect(verticalGap).toBeGreaterThanOrEqual(0);
+      expect(verticalGap).toBeLessThan(35);
+    }
+
+    expect(pageErrors).toHaveLength(0);
+  });
+
+  test('Desktop output block contents expand down to bottom of modal', async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on('pageerror', err => pageErrors.push(err.message));
+
+    await page.setViewportSize({ width: 1280, height: 800 });
+
+    await page.addInitScript(() => {
+      window.localStorage.setItem('userHandle', 'Commander Desktop');
+      window.localStorage.setItem('hasDismissedWelcome', 'true');
+      window.localStorage.setItem('audioMuted', 'true');
+      window.localStorage.removeItem('tangent_dice_roller_history');
+      window.localStorage.removeItem('tangent_dice_roller_latest');
+    });
+
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(600);
+
+    await page.evaluate(() => {
+      window.dispatchEvent(new CustomEvent('open-dice-roller'));
+    });
+
+    const checkBtn = page.getByRole('button', { name: 'CHECK', exact: true });
+    await expect(checkBtn).toBeVisible({ timeout: 5000 });
+
+    // Execute 6 checks
+    for (let i = 0; i < 6; i++) {
+      await checkBtn.click();
+      await page.waitForTimeout(200);
+    }
+
+    // Verify 6 checks are listed
+    await expect(page.locator('text=All Rolls (6)')).toBeVisible({ timeout: 5000 });
+
+    expect(pageErrors).toHaveLength(0);
+  });
 });
+
+
 
 

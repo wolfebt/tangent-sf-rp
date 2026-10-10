@@ -913,7 +913,9 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   if (!isOpen) return null;
 
   const currentModalWidth = size?.width || (typeof window !== 'undefined' ? window.innerWidth : 900);
-  const isCompactLayout = isMaximized ? false : currentModalWidth < 680;
+  const isCompactLayout = isMaximized 
+    ? false 
+    : ((typeof window !== 'undefined' && window.innerWidth < 768) || currentModalWidth < 680);
 
   const modalContent = (
     <div 
@@ -1300,19 +1302,19 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           When width is compact (<680px) or on mobile: single-column flex-col with dice roller controls on top (order-1) and output on the bottom (order-2).
           When width is standard (>=680px): side-by-side flex-row with Output Block on the LEFT (order-1) and Dice Roller on the RIGHT (order-2).
       */}
-      <div className={`flex flex-1 min-h-0 gap-3 ${
+      <div className={`flex flex-1 min-h-0 ${
         isCompactLayout 
-          ? 'flex-col overflow-y-auto' 
-          : 'flex-row overflow-hidden'
+          ? 'flex-col overflow-y-auto gap-2' 
+          : 'flex-row overflow-hidden gap-3'
       }`}>
         
         {/* Attached Output Block: Left side on standard view (order-1), bottom on compact/mobile (order-2) */}
         <div 
           ref={outputBlockRef}
-          className={`shrink-0 flex flex-col gap-2.5 overflow-y-auto no-scrollbar ${
+          className={`flex flex-col gap-2.5 ${
             isCompactLayout
-              ? 'order-2 w-full pt-2 border-t border-rose-500/20'
-              : 'order-1 w-[340px] lg:w-[380px] border-r border-rose-500/20 pr-3'
+              ? 'order-2 w-full pt-1.5 border-t border-rose-500/25 shrink-0'
+              : 'order-1 w-[340px] lg:w-[380px] border-r border-rose-500/20 pr-3 h-full min-h-0 shrink-0 overflow-hidden'
           }`}
         >
           {/* Subheader */}
@@ -1617,11 +1619,17 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
             </div>
 
             {history.length === 0 ? (
-              <div className="p-3 rounded-lg border border-dashed border-slate-800/80 bg-slate-950/40 text-center text-[10px] font-mono text-slate-500">
+              <div className={`rounded-lg border border-dashed border-slate-800/80 bg-slate-950/40 text-center text-[10px] font-mono text-slate-500 ${
+                isCompactLayout ? 'p-2.5' : 'flex-1 min-h-[100px] flex items-center justify-center p-3'
+              }`}>
                 No rolls recorded yet. All executed checks will be displayed and stored here.
               </div>
             ) : (
-              <div className="space-y-1.5 overflow-y-auto max-h-[220px] md:max-h-[300px] pr-0.5 no-scrollbar">
+              <div className={`space-y-1.5 pr-0.5 no-scrollbar ${
+                isCompactLayout 
+                  ? 'h-auto' 
+                  : 'flex-1 min-h-0 overflow-y-auto'
+              }`}>
                 {history.map((h, idx) => {
                   const isSelected = latestRoll && (latestRoll.id === h.id || latestRoll.timestamp === h.timestamp);
                   const isCrit = h.isCrit || h.outcome === 'Critical Success';
@@ -1713,7 +1721,11 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         </div>
 
         {/* Dice Roller Controls: Top on compact view (order-1), right side on standard view (order-2) */}
-        <div className={`flex-1 min-w-0 flex flex-col gap-2.5 overflow-y-auto no-scrollbar ${isCompactLayout ? 'order-1' : 'order-2'}`}>
+        <div className={`min-w-0 flex flex-col gap-2.5 ${
+          isCompactLayout 
+            ? 'order-1 w-full shrink-0' 
+            : 'order-2 flex-1 overflow-y-auto no-scrollbar'
+        }`}>
 
           {/* Check Purpose / Chat Identifier Field (Editable) + Save Formula Button */}
           <div className="flex items-center gap-2 bg-slate-950/70 p-2 rounded-lg border border-slate-800">
