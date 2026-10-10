@@ -27,6 +27,11 @@ import { DEFAULT_FEATURES } from '../data/featuresData.js';
 import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
 import { DEFAULT_ARMORING } from '../data/armoringData.js';
+import { DEFAULT_GEAR } from '../data/gearData.js';
+import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData.js';
+import { DEFAULT_MECHA } from '../data/mechaData.js';
+import { DEFAULT_ARCHITECTURE } from '../data/architectureData.js';
+import { DEFAULT_OTHER_PROPERTY } from '../data/otherPropertyData.js';
 import { syncIdentitySettingLevels } from '../engines/tangentIdentityEngine.js';
 
 /**
@@ -228,7 +233,7 @@ export const findClosestArchetype = (prompt, archetypesList = DEFAULT_ARCHETYPES
  * 2. Get Ranked Canonical Species Recommendations
  * Grounded in the selected Archetype and user prompt.
  */
-export const getSpeciesRecommendations = (archetype, prompt = '', speciesList = DEFAULT_SPECIES, count = 4) => {
+export const getSpeciesRecommendations = (archetype, prompt = '', speciesList = DEFAULT_SPECIES, count = 4, faction = null, origin = null, occupation = null) => {
   if (!Array.isArray(speciesList) || speciesList.length === 0) {
     const def = DEFAULT_SPECIES[0] || {};
     return [{ species: def, item: def, name: def.name || 'Human (Base)', id: def.id || 'species-human-base', score: 100, rationale: 'Canonical Species', isTopPick: true }];
@@ -320,6 +325,136 @@ export const getSpeciesRecommendations = (archetype, prompt = '', speciesList = 
       }
     }
 
+    // Faction demographic alignment
+    if (faction && Array.isArray(faction.recommended_species) && faction.recommended_species.length > 0) {
+      for (const rec of faction.recommended_species) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (spName.includes(recClean) || recClean.includes(spName)) {
+          score += 65;
+          reasons.push(`Canonically recommended species for ${faction.name || 'faction'}`);
+          break;
+        }
+      }
+    }
+
+    // Faction Guidance Keywords
+    if (faction?.keywords) {
+      const kwList = String(faction.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (spName.includes(kw) || (sp.description && sp.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with faction directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Faction Negative Keywords / Railguards
+    if (faction?.negative_keywords) {
+      const negList = String(faction.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (spName.includes(negKw) || (sp.description && sp.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with faction constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Origin demographic alignment
+    if (origin && Array.isArray(origin.recommended_species) && origin.recommended_species.length > 0) {
+      for (const rec of origin.recommended_species) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (spName.includes(recClean) || recClean.includes(spName)) {
+          score += 65;
+          reasons.push(`Canonically recommended species for ${origin.name || 'origin'} homeworld`);
+          break;
+        }
+      }
+    }
+
+    // Origin Guidance Keywords
+    if (origin?.keywords) {
+      const kwList = String(origin.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (spName.includes(kw) || (sp.description && sp.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with origin directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Origin Negative Keywords / Railguards
+    if (origin?.negative_keywords) {
+      const negList = String(origin.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (spName.includes(negKw) || (sp.description && sp.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with origin constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Occupation demographic alignment
+    if (occupation && Array.isArray(occupation.recommended_species) && occupation.recommended_species.length > 0) {
+      for (const rec of occupation.recommended_species) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (spName.includes(recClean) || recClean.includes(spName)) {
+          score += 65;
+          reasons.push(`Canonically recommended species for ${occupation.name || 'occupation'} vocation`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Guidance Keywords
+    if (occupation?.keywords) {
+      const kwList = String(occupation.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (spName.includes(kw) || (sp.description && sp.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with occupation directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Negative Keywords / Railguards
+    if (occupation?.negative_keywords) {
+      const negList = String(occupation.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (spName.includes(negKw) || (sp.description && sp.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with occupation constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Species Guidance Keywords: ADD WEIGHT
+    if (sp.keywords) {
+      const kwList = String(sp.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (pLower.includes(kw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(kw))) {
+          score += 35;
+          reasons.push(`Thematic keyword alignment '${kw}' (+weight)`);
+        }
+      }
+    }
+
+    // Species Negative Keywords / Railguards: REDUCE WEIGHT
+    if (sp.negative_keywords) {
+      const negList = String(sp.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (pLower.includes(negKw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(negKw))) {
+          score -= 85;
+          reasons.push(`Railguard constraint penalty '${negKw}' (-weight)`);
+        }
+      }
+    }
+
     if (reasons.length === 0) {
       reasons.push(`Canonical lineage profile`);
     }
@@ -348,11 +483,11 @@ export const getSpeciesRecommendations = (archetype, prompt = '', speciesList = 
  * 2. Select Canonical Species
  * Grounded in the closest Archetype and user prompt.
  */
-export const selectPillarSpecies = (archetype, prompt = '', speciesList = DEFAULT_SPECIES) => {
+export const selectPillarSpecies = (archetype, prompt = '', speciesList = DEFAULT_SPECIES, faction = null, origin = null, occupation = null) => {
   if (!Array.isArray(speciesList) || speciesList.length === 0) {
     return DEFAULT_SPECIES[0];
   }
-  const recs = getSpeciesRecommendations(archetype, prompt, speciesList, 1);
+  const recs = getSpeciesRecommendations(archetype, prompt, speciesList, 1, faction, origin, occupation);
   return recs[0]?.species || DEFAULT_SPECIES[0];
 };
 
@@ -360,7 +495,7 @@ export const selectPillarSpecies = (archetype, prompt = '', speciesList = DEFAUL
  * 3. Get Ranked Canonical Faction Recommendations
  * Aligns with Archetype's recommended_factions or prompt.
  */
-export const getFactionRecommendations = (archetype, prompt = '', factionsList = DEFAULT_FACTIONS, count = 4) => {
+export const getFactionRecommendations = (archetype, prompt = '', factionsList = DEFAULT_FACTIONS, count = 4, species = null, origin = null, occupation = null) => {
   if (!Array.isArray(factionsList) || factionsList.length === 0) {
     const def = DEFAULT_FACTIONS[0] || {};
     return [{ faction: def, item: def, name: def.name || def.title || def.id || 'Faction', id: def.id, score: 100, rationale: 'Canonical Faction', isTopPick: true }];
@@ -387,6 +522,179 @@ export const getFactionRecommendations = (archetype, prompt = '', factionsList =
         if (fn.includes(recClean) || recClean.includes(fn)) {
           score += 70;
           reasons.push(`Canonically recommended for ${archetype.name}`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Species' recommended_factions
+    if (Array.isArray(species?.recommended_factions) && species.recommended_factions.length > 0) {
+      for (const rec of species.recommended_factions) {
+        const recLower = String(rec).toLowerCase();
+        const recClean = recLower.replace(/\s*\(.*\)/, '').trim();
+        const fn = (fac.name || fac.title || fac.id || '').toLowerCase();
+        if (fn.includes(recClean) || recClean.includes(fn)) {
+          score += 65;
+          reasons.push(`Recommended lineage faction for ${species.name || 'species'}`);
+          break;
+        }
+      }
+    }
+
+    // Species Guidance Keywords
+    if (species?.keywords) {
+      const kwList = String(species.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (fName.includes(kw) || (fac.description && fac.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with species directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Species Negative Keywords / Railguards
+    if (species?.negative_keywords) {
+      const negList = String(species.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (fName.includes(negKw) || (fac.description && fac.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with species constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Faction's recommended_species
+    if (species && Array.isArray(fac.recommended_species) && fac.recommended_species.length > 0) {
+      const spName = (species.name || species.title || species.id || '').toLowerCase();
+      for (const rec of fac.recommended_species) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (spName.includes(recClean) || recClean.includes(spName)) {
+          score += 65;
+          reasons.push(`Canonically aligns with ${species.name || 'species'} demographic`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Origin's recommended_factions
+    if (origin && Array.isArray(origin.recommended_factions) && origin.recommended_factions.length > 0) {
+      for (const rec of origin.recommended_factions) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (fName.includes(recClean) || recClean.includes(fName)) {
+          score += 65;
+          reasons.push(`Canonically affiliated faction for ${origin.name || 'origin'} homeworld`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Faction's recommended_origins
+    if (origin && Array.isArray(fac.recommended_origins) && fac.recommended_origins.length > 0) {
+      const oName = (origin.name || origin.title || origin.id || '').toLowerCase();
+      for (const rec of fac.recommended_origins) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (oName.includes(recClean) || recClean.includes(oName)) {
+          score += 65;
+          reasons.push(`Canonically aligns with ${origin.name || 'origin'} territorial influence`);
+          break;
+        }
+      }
+    }
+
+    // Origin Guidance Keywords
+    if (origin?.keywords) {
+      const kwList = String(origin.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (fName.includes(kw) || (fac.description && fac.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with origin directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Origin Negative Keywords / Railguards
+    if (origin?.negative_keywords) {
+      const negList = String(origin.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (fName.includes(negKw) || (fac.description && fac.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with origin constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Occupation's recommended_factions
+    if (occupation && Array.isArray(occupation.recommended_factions) && occupation.recommended_factions.length > 0) {
+      for (const rec of occupation.recommended_factions) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (fName.includes(recClean) || recClean.includes(fName)) {
+          score += 65;
+          reasons.push(`Canonically recommended faction for ${occupation.name || 'occupation'} vocation`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Faction's recommended_occupations
+    if (occupation && Array.isArray(fac.recommended_occupations) && fac.recommended_occupations.length > 0) {
+      const ocName = (occupation.name || occupation.title || occupation.id || '').toLowerCase();
+      for (const rec of fac.recommended_occupations) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (ocName.includes(recClean) || recClean.includes(ocName)) {
+          score += 65;
+          reasons.push(`Canonically aligns with ${occupation.name || 'occupation'} professional doctrine`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Guidance Keywords
+    if (occupation?.keywords) {
+      const kwList = String(occupation.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (fName.includes(kw) || (fac.description && fac.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with occupation directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Negative Keywords / Railguards
+    if (occupation?.negative_keywords) {
+      const negList = String(occupation.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (fName.includes(negKw) || (fac.description && fac.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with occupation constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Faction Guidance Keywords: ADD WEIGHT
+    if (fac.keywords) {
+      const kwList = String(fac.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (pLower.includes(kw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(kw)) || (species?.name && species.name.toLowerCase().includes(kw))) {
+          score += 25;
+          reasons.push(`Faction directive alignment '${kw}' (+weight)`);
+          break;
+        }
+      }
+    }
+
+    // Faction Negative Keywords / Railguards: REDUCE WEIGHT
+    if (fac.negative_keywords) {
+      const negList = String(fac.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (pLower.includes(negKw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(negKw))) {
+          score -= 90;
+          reasons.push(`Faction railguard constraint penalty '${negKw}' (-weight)`);
           break;
         }
       }
@@ -426,13 +734,13 @@ export const getFactionRecommendations = (archetype, prompt = '', factionsList =
 
 /**
  * 3. Select Canonical Faction
- * Aligns with Archetype's recommended_factions or prompt.
+ * Aligns with Archetype's and Species' recommended_factions or prompt.
  */
-export const selectPillarFaction = (archetype, prompt = '', factionsList = DEFAULT_FACTIONS) => {
+export const selectPillarFaction = (archetype, prompt = '', factionsList = DEFAULT_FACTIONS, species = null, origin = null, occupation = null) => {
   if (!Array.isArray(factionsList) || factionsList.length === 0) {
     return DEFAULT_FACTIONS[0];
   }
-  const recs = getFactionRecommendations(archetype, prompt, factionsList, 1);
+  const recs = getFactionRecommendations(archetype, prompt, factionsList, 1, species, origin, occupation);
   return recs[0]?.faction || DEFAULT_FACTIONS[0];
 };
 
@@ -440,7 +748,7 @@ export const selectPillarFaction = (archetype, prompt = '', factionsList = DEFAU
  * 4. Get Ranked Canonical Origin Recommendations
  * Aligns with Archetype's recommended_origins or prompt.
  */
-export const getOriginRecommendations = (archetype, prompt = '', originsList = DEFAULT_ORIGINS, count = 4) => {
+export const getOriginRecommendations = (archetype, prompt = '', originsList = DEFAULT_ORIGINS, count = 4, species = null, faction = null, occupation = null) => {
   if (!Array.isArray(originsList) || originsList.length === 0) {
     const def = DEFAULT_ORIGINS[0] || {};
     return [{ origin: def, item: def, name: def.name || def.title || def.id || 'Origin', id: def.id, score: 100, rationale: 'Canonical Origin', isTopPick: true }];
@@ -466,6 +774,179 @@ export const getOriginRecommendations = (archetype, prompt = '', originsList = D
         if (on === recLower || on.includes(recLower) || recLower.includes(on)) {
           score += 70;
           reasons.push(`Canonically recommended origin for ${archetype.name}`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Species' recommended_origins
+    if (Array.isArray(species?.recommended_origins) && species.recommended_origins.length > 0) {
+      for (const rec of species.recommended_origins) {
+        const recLower = String(rec).toLowerCase().trim();
+        const on = (orig.name || orig.title || orig.id || '').toLowerCase();
+        if (on === recLower || on.includes(recLower) || recLower.includes(on)) {
+          score += 65;
+          reasons.push(`Recommended homeworld origin for ${species.name || 'species'}`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Faction's recommended_origins
+    if (Array.isArray(faction?.recommended_origins) && faction.recommended_origins.length > 0) {
+      for (const rec of faction.recommended_origins) {
+        const recLower = String(rec).toLowerCase().trim();
+        const on = (orig.name || orig.title || orig.id || '').toLowerCase();
+        if (on === recLower || on.includes(recLower) || recLower.includes(on)) {
+          score += 65;
+          reasons.push(`Recommended planetary origin for ${faction.name || 'faction'}`);
+          break;
+        }
+      }
+    }
+
+    // Faction Guidance Keywords
+    if (faction?.keywords) {
+      const kwList = String(faction.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (oName.includes(kw) || (orig.description && orig.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with faction directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Faction Negative Keywords / Railguards
+    if (faction?.negative_keywords) {
+      const negList = String(faction.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (oName.includes(negKw) || (orig.description && orig.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with faction constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Species Guidance Keywords
+    if (species?.keywords) {
+      const kwList = String(species.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (oName.includes(kw) || (orig.description && orig.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with species directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Species Negative Keywords / Railguards
+    if (species?.negative_keywords) {
+      const negList = String(species.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (oName.includes(negKw) || (orig.description && orig.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with species constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Origin's recommended_species
+    if (species && Array.isArray(orig.recommended_species) && orig.recommended_species.length > 0) {
+      const spName = (species.name || species.title || species.id || '').toLowerCase();
+      for (const rec of orig.recommended_species) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (spName.includes(recClean) || recClean.includes(spName)) {
+          score += 65;
+          reasons.push(`Canonically aligns with ${species.name || 'species'} homeworld demographic`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Origin's recommended_factions
+    if (faction && Array.isArray(orig.recommended_factions) && orig.recommended_factions.length > 0) {
+      const fName = (faction.name || faction.title || faction.id || '').toLowerCase();
+      for (const rec of orig.recommended_factions) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (fName.includes(recClean) || recClean.includes(fName)) {
+          score += 65;
+          reasons.push(`Canonically aligns with ${faction.name || 'faction'} jurisdiction`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Occupation's recommended_origins
+    if (occupation && Array.isArray(occupation.recommended_origins) && occupation.recommended_origins.length > 0) {
+      for (const rec of occupation.recommended_origins) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (oName.includes(recClean) || recClean.includes(oName)) {
+          score += 65;
+          reasons.push(`Canonically recommended origin for ${occupation.name || 'occupation'} vocation`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Origin's recommended_occupations
+    if (occupation && Array.isArray(orig.recommended_occupations) && orig.recommended_occupations.length > 0) {
+      const ocName = (occupation.name || occupation.title || occupation.id || '').toLowerCase();
+      for (const rec of orig.recommended_occupations) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (ocName.includes(recClean) || recClean.includes(ocName)) {
+          score += 65;
+          reasons.push(`Canonically aligns with ${occupation.name || 'occupation'} professional environment`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Guidance Keywords
+    if (occupation?.keywords) {
+      const kwList = String(occupation.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (oName.includes(kw) || (orig.description && orig.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with occupation directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Negative Keywords / Railguards
+    if (occupation?.negative_keywords) {
+      const negList = String(occupation.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (oName.includes(negKw) || (orig.description && orig.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with occupation constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Origin Guidance Keywords: ADD WEIGHT
+    if (orig.keywords) {
+      const kwList = String(orig.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (pLower.includes(kw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(kw)) || (species?.name && species.name.toLowerCase().includes(kw))) {
+          score += 25;
+          reasons.push(`Origin directive alignment '${kw}' (+weight)`);
+          break;
+        }
+      }
+    }
+
+    // Origin Negative Keywords / Railguards: REDUCE WEIGHT
+    if (orig.negative_keywords) {
+      const negList = String(orig.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (pLower.includes(negKw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(negKw))) {
+          score -= 90;
+          reasons.push(`Origin railguard constraint penalty '${negKw}' (-weight)`);
           break;
         }
       }
@@ -503,21 +984,21 @@ export const getOriginRecommendations = (archetype, prompt = '', originsList = D
 
 /**
  * 4. Select Canonical Origin
- * Aligns with Archetype's recommended_origins or prompt.
+ * Aligns with Archetype's, Species', and Faction's recommended_origins or prompt.
  */
-export const selectPillarOrigin = (archetype, prompt = '', originsList = DEFAULT_ORIGINS) => {
+export const selectPillarOrigin = (archetype, prompt = '', originsList = DEFAULT_ORIGINS, species = null, faction = null, occupation = null) => {
   if (!Array.isArray(originsList) || originsList.length === 0) {
     return DEFAULT_ORIGINS[0];
   }
-  const recs = getOriginRecommendations(archetype, prompt, originsList, 1);
+  const recs = getOriginRecommendations(archetype, prompt, originsList, 1, species, faction, occupation);
   return recs[0]?.origin || DEFAULT_ORIGINS[0];
 };
 
 /**
  * 5. Get Ranked Canonical Occupation Recommendations
- * Aligns with Archetype's recommended_occupations or prompt.
+ * Aligns with Archetype's and Species' recommended_occupations or prompt.
  */
-export const getOccupationRecommendations = (archetype, prompt = '', occupationsList = DEFAULT_OCCUPATIONS, count = 4) => {
+export const getOccupationRecommendations = (archetype, prompt = '', occupationsList = DEFAULT_OCCUPATIONS, count = 4, species = null, faction = null, origin = null) => {
   if (!Array.isArray(occupationsList) || occupationsList.length === 0) {
     const def = DEFAULT_OCCUPATIONS[0] || {};
     return [{ occupation: def, item: def, name: def.name || def.title || def.id || 'Occupation', id: def.id, score: 100, rationale: 'Canonical Occupation', isTopPick: true }];
@@ -543,6 +1024,180 @@ export const getOccupationRecommendations = (archetype, prompt = '', occupations
         if (ocn === recLower || ocn.includes(recLower) || recLower.includes(ocn)) {
           score += 70;
           reasons.push(`Canonically recommended career for ${archetype.name}`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Species' recommended_occupations
+    if (Array.isArray(species?.recommended_occupations) && species.recommended_occupations.length > 0) {
+      for (const rec of species.recommended_occupations) {
+        const recLower = String(rec).toLowerCase().trim();
+        const ocn = (occu.name || occu.title || occu.id || '').toLowerCase();
+        if (ocn === recLower || ocn.includes(recLower) || recLower.includes(ocn)) {
+          score += 65;
+          reasons.push(`Recommended cultural career for ${species.name || 'species'}`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Faction's recommended_occupations
+    if (Array.isArray(faction?.recommended_occupations) && faction.recommended_occupations.length > 0) {
+      for (const rec of faction.recommended_occupations) {
+        const recLower = String(rec).toLowerCase().trim();
+        const ocn = (occu.name || occu.title || occu.id || '').toLowerCase();
+        if (ocn === recLower || ocn.includes(recLower) || recLower.includes(ocn)) {
+          score += 65;
+          reasons.push(`Recommended profession for ${faction.name || 'faction'}`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Origin's recommended_occupations
+    if (origin && Array.isArray(origin.recommended_occupations) && origin.recommended_occupations.length > 0) {
+      for (const rec of origin.recommended_occupations) {
+        const recLower = String(rec).toLowerCase().trim();
+        const ocn = (occu.name || occu.title || occu.id || '').toLowerCase();
+        if (ocn === recLower || ocn.includes(recLower) || recLower.includes(ocn)) {
+          score += 65;
+          reasons.push(`Recommended profession for ${origin.name || 'origin'} homeworld`);
+          break;
+        }
+      }
+    }
+
+    // Faction Guidance Keywords
+    if (faction?.keywords) {
+      const kwList = String(faction.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (ocName.includes(kw) || (occu.description && occu.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with faction directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Faction Negative Keywords / Railguards
+    if (faction?.negative_keywords) {
+      const negList = String(faction.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (ocName.includes(negKw) || (occu.description && occu.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with faction constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Origin Guidance Keywords
+    if (origin?.keywords) {
+      const kwList = String(origin.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (ocName.includes(kw) || (occu.description && occu.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with origin directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Origin Negative Keywords / Railguards
+    if (origin?.negative_keywords) {
+      const negList = String(origin.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (ocName.includes(negKw) || (occu.description && occu.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with origin constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Species Guidance Keywords
+    if (species?.keywords) {
+      const kwList = String(species.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (ocName.includes(kw) || (occu.description && occu.description.toLowerCase().includes(kw))) {
+          score += 20;
+          reasons.push(`Aligns with species directive '${kw}'`);
+          break;
+        }
+      }
+    }
+
+    // Species Negative Keywords / Railguards
+    if (species?.negative_keywords) {
+      const negList = String(species.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (ocName.includes(negKw) || (occu.description && occu.description.toLowerCase().includes(negKw))) {
+          score -= 100;
+          reasons.push(`Railguard penalty: conflicts with species constraint '${negKw}'`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Occupation's recommended_species
+    if (species && Array.isArray(occu.recommended_species) && occu.recommended_species.length > 0) {
+      const spName = (species.name || species.title || species.id || '').toLowerCase();
+      for (const rec of occu.recommended_species) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (spName.includes(recClean) || recClean.includes(spName)) {
+          score += 65;
+          reasons.push(`Canonically aligns with ${species.name || 'species'} demographic`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Occupation's recommended_factions
+    if (faction && Array.isArray(occu.recommended_factions) && occu.recommended_factions.length > 0) {
+      const fName = (faction.name || faction.title || faction.id || '').toLowerCase();
+      for (const rec of occu.recommended_factions) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (fName.includes(recClean) || recClean.includes(fName)) {
+          score += 65;
+          reasons.push(`Canonically affiliated career for ${faction.name || 'faction'}`);
+          break;
+        }
+      }
+    }
+
+    // Priority: Check Occupation's recommended_origins
+    if (origin && Array.isArray(occu.recommended_origins) && occu.recommended_origins.length > 0) {
+      const oName = (origin.name || origin.title || origin.id || '').toLowerCase();
+      for (const rec of occu.recommended_origins) {
+        const recClean = String(rec).toLowerCase().replace(/\s*\(.*\)/, '').trim();
+        if (oName.includes(recClean) || recClean.includes(oName)) {
+          score += 65;
+          reasons.push(`Canonically recommended profession for ${origin.name || 'origin'} homeworld`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Guidance Keywords: ADD WEIGHT
+    if (occu.keywords) {
+      const kwList = String(occu.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kwList) {
+        if (pLower.includes(kw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(kw)) || (species?.name && species.name.toLowerCase().includes(kw))) {
+          score += 25;
+          reasons.push(`Occupation directive alignment '${kw}' (+weight)`);
+          break;
+        }
+      }
+    }
+
+    // Occupation Negative Keywords / Railguards: REDUCE WEIGHT
+    if (occu.negative_keywords) {
+      const negList = String(occu.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const negKw of negList) {
+        if (pLower.includes(negKw) || (archetype?.core_concept && archetype.core_concept.toLowerCase().includes(negKw))) {
+          score -= 90;
+          reasons.push(`Occupation railguard constraint penalty '${negKw}' (-weight)`);
           break;
         }
       }
@@ -580,13 +1235,13 @@ export const getOccupationRecommendations = (archetype, prompt = '', occupations
 
 /**
  * 5. Select Canonical Occupation
- * Aligns with Archetype's recommended_occupations or prompt.
+ * Aligns with Archetype's, Species', and Faction's recommended_occupations or prompt.
  */
-export const selectPillarOccupation = (archetype, prompt = '', occupationsList = DEFAULT_OCCUPATIONS) => {
+export const selectPillarOccupation = (archetype, prompt = '', occupationsList = DEFAULT_OCCUPATIONS, species = null, faction = null, origin = null) => {
   if (!Array.isArray(occupationsList) || occupationsList.length === 0) {
     return DEFAULT_OCCUPATIONS[0];
   }
-  const recs = getOccupationRecommendations(archetype, prompt, occupationsList, 1);
+  const recs = getOccupationRecommendations(archetype, prompt, occupationsList, 1, species, faction, origin);
   return recs[0]?.occupation || DEFAULT_OCCUPATIONS[0];
 };
 
@@ -683,7 +1338,9 @@ export const derivePillarSkills = ({
   faction,
   origin,
   occupation,
-  skillsList = ALL_CANONICAL_SKILLS
+  skillsList = ALL_CANONICAL_SKILLS,
+  techLevel,
+  metaLevel
 }) => {
   const factionAllocations = { skills: {} };
   const originAllocations = { skills: {} };
@@ -710,16 +1367,46 @@ export const derivePillarSkills = ({
     const list = Array.isArray(rawSkillList) ? rawSkillList.filter(Boolean) : [];
     if (list.length === 0) return;
 
+    const charTl = Number(techLevel ?? faction?.tech_level ?? faction?.tl ?? 3) || 3;
+    const charMl = Number(metaLevel ?? faction?.meta_level ?? faction?.ml ?? 0) || 0;
+    const combinedDirectives = [
+      species?.keywords, faction?.keywords, origin?.keywords, occupation?.keywords
+    ].filter(Boolean).join(' ').toLowerCase();
+    const combinedRailguards = [
+      species?.negative_keywords, faction?.negative_keywords, origin?.negative_keywords, occupation?.negative_keywords
+    ].filter(Boolean).join(' ').toLowerCase();
+
+    // Score and sort list by resonance score
+    const scoredItems = list.map(raw => {
+      const canon = findCanonicalSkill(typeof raw === 'object' ? (raw.skill || raw.name) : raw);
+      let score = 0;
+      if (canon) {
+        const aTl = canon.recommended_tl || [];
+        const aMl = canon.recommended_ml || [];
+        if (aTl.some(t => String(t).includes(String(charTl)))) score += 30;
+        if (aMl.some(m => String(m).includes(String(charMl)))) score += 20;
+        if (canon.keywords && combinedDirectives.includes(String(canon.keywords).toLowerCase())) score += 25;
+        if (canon.negative_keywords && combinedDirectives.includes(String(canon.negative_keywords).toLowerCase())) score -= 50;
+        if (combinedRailguards && combinedRailguards.includes((canon.name || '').toLowerCase())) score -= 80;
+      }
+      return { raw, canon, score };
+    }).sort((a, b) => b.score - a.score);
+
     let pointsLeft = totalPoints;
-    const count = Math.min(list.length, 5);
+    const count = Math.min(scoredItems.length, 5);
     const baseRank = Math.floor(totalPoints / count);
 
     for (let i = 0; i < count; i++) {
       if (pointsLeft <= 0) break;
-      const raw = list[i];
-      const canon = findCanonicalSkill(typeof raw === 'object' ? (raw.skill || raw.name) : raw);
+      const { canon, score } = scoredItems[i];
       if (canon) {
-        const allocRank = i === count - 1 ? pointsLeft : Math.min(baseRank, pointsLeft, 6);
+        // Enforce creation cap of 6 ranks per skill from a single background pool
+        // Penalized skills (negative score) are capped lower (max 2-3) to reflect railguards
+        const scoreCap = score < -20 ? 2 : (score < 0 ? 3 : 6);
+        const scoreBonus = score >= 20 ? 1 : 0;
+        const desiredRank = i === count - 1 ? pointsLeft : Math.min(baseRank + scoreBonus, pointsLeft);
+        const allocRank = Math.max(1, Math.min(desiredRank, scoreCap, pointsLeft));
+
         allocationTarget.skills[canon.name] = (allocationTarget.skills[canon.name] || 0) + allocRank;
         pointsLeft -= allocRank;
       }
@@ -750,6 +1437,48 @@ export const derivePillarSkills = ({
       const canon = findCanonicalSkill(sb.skill);
       if (canon) {
         speciesAllocations.skills[canon.name] = (speciesAllocations.skills[canon.name] || 0) + (sb.bonus || 2);
+      }
+    });
+  }
+  if (species && Array.isArray(species.recommended_skills)) {
+    species.recommended_skills.forEach(sk => {
+      const rawName = typeof sk === 'object' ? (sk.name || sk.id) : sk;
+      const canon = findCanonicalSkill(rawName);
+      if (canon) {
+        speciesAllocations.skills[canon.name] = (speciesAllocations.skills[canon.name] || 0) + 2;
+      }
+    });
+  }
+
+  // Faction Recommended Skills
+  if (faction && Array.isArray(faction.recommended_skills)) {
+    faction.recommended_skills.forEach(sk => {
+      const rawName = typeof sk === 'object' ? (sk.name || sk.id) : sk;
+      const canon = findCanonicalSkill(rawName);
+      if (canon) {
+        factionAllocations.skills[canon.name] = (factionAllocations.skills[canon.name] || 0) + 2;
+      }
+    });
+  }
+
+  // Origin Recommended Skills
+  if (origin && Array.isArray(origin.recommended_skills)) {
+    origin.recommended_skills.forEach(sk => {
+      const rawName = typeof sk === 'object' ? (sk.name || sk.id) : sk;
+      const canon = findCanonicalSkill(rawName);
+      if (canon) {
+        originAllocations.skills[canon.name] = (originAllocations.skills[canon.name] || 0) + 2;
+      }
+    });
+  }
+
+  // Occupation Recommended Skills
+  if (occupation && Array.isArray(occupation.recommended_skills)) {
+    occupation.recommended_skills.forEach(sk => {
+      const rawName = typeof sk === 'object' ? (sk.name || sk.id) : sk;
+      const canon = findCanonicalSkill(rawName);
+      if (canon) {
+        occuAllocations.skills[canon.name] = (occuAllocations.skills[canon.name] || 0) + 2;
       }
     });
   }
@@ -795,7 +1524,13 @@ export const derivePillarSkills = ({
       id: `skill_${i}_${name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
       name,
       rank: cappedRank,
-      baseAttr: canon.baseAttr || 'attr-intellect'
+      baseAttr: canon.baseAttr || 'attr-intellect',
+      recommended_tl: canon.recommended_tl || [],
+      recommended_ml: canon.recommended_ml || [],
+      keywords: canon.keywords || '',
+      negative_keywords: canon.negative_keywords || '',
+      tech_level: canon.tech_level ?? 0,
+      meta_level: canon.meta_level ?? 0
     });
 
     const cleanId = (canon.id || `skill-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`).replace(/^skill-/, '');
@@ -828,12 +1563,47 @@ export const derivePillarTraitsAndFeatures = ({
   origin,
   occupation,
   featuresList = DEFAULT_FEATURES,
-  traitsList = ALL_CANONICAL_TRAITS
+  traitsList = ALL_CANONICAL_TRAITS,
+  techLevel = 3,
+  metaLevel = 0
 }) => {
   const finalTraits = [];
   const finalFeatures = [];
   const seenTraits = new Set();
   const seenFeatures = new Set();
+
+  const charTl = Number(techLevel ?? faction?.tech_level ?? 3) || 3;
+  const charMl = Number(metaLevel ?? faction?.meta_level ?? 0) || 0;
+  const combinedDirectives = [
+    species?.keywords, faction?.keywords, origin?.keywords, occupation?.keywords
+  ].filter(Boolean).join(' ').toLowerCase();
+  const combinedRailguards = [
+    species?.negative_keywords, faction?.negative_keywords, origin?.negative_keywords, occupation?.negative_keywords
+  ].filter(Boolean).join(' ').toLowerCase();
+
+  const scoreFeature = (rawFeat) => {
+    const rawName = typeof rawFeat === 'object' ? (rawFeat.name || rawFeat.id) : rawFeat;
+    const cleanName = String(rawName).replace(/^feature-/i, '').replace(/[-_]/g, ' ').trim().toLowerCase();
+    const detail = featuresList.find(f => (f.name || f.id || '').toLowerCase() === cleanName) || {};
+
+    let score = 0;
+    const fTl = detail.recommended_tl || [];
+    const fMl = detail.recommended_ml || [];
+    if (fTl.some(t => String(t).includes(String(charTl)))) score += 30;
+    if (fMl.some(m => String(m).includes(String(charMl)))) score += 20;
+    if (detail.keywords && combinedDirectives.includes(String(detail.keywords).toLowerCase())) score += 25;
+    if (detail.negative_keywords && combinedDirectives.includes(String(detail.negative_keywords).toLowerCase())) score -= 50;
+    if (combinedRailguards && combinedRailguards.includes((detail.name || '').toLowerCase())) score -= 80;
+
+    return score;
+  };
+
+  const pickBestFeature = (rawFeatsList) => {
+    if (!Array.isArray(rawFeatsList) || rawFeatsList.length === 0) return null;
+    if (rawFeatsList.length === 1) return rawFeatsList[0];
+    const sorted = [...rawFeatsList].sort((a, b) => scoreFeature(b) - scoreFeature(a));
+    return sorted[0];
+  };
 
   const addTrait = (name, source, category, bp = 0, isGranted = true) => {
     if (!name) return;
@@ -871,7 +1641,13 @@ export const derivePillarTraitsAndFeatures = ({
       cp: isGranted ? 0 : (detail.cp || cp),
       isGranted,
       description: detail.description || detail.mechanic || `Feature granted by ${source}.`,
-      mechanic: detail.mechanic || detail.description || ''
+      mechanic: detail.mechanic || detail.description || '',
+      recommended_tl: detail.recommended_tl || [],
+      recommended_ml: detail.recommended_ml || [],
+      keywords: detail.keywords || '',
+      negative_keywords: detail.negative_keywords || '',
+      tech_level: detail.tech_level ?? 0,
+      meta_level: detail.meta_level ?? 0
     });
   };
 
@@ -880,6 +1656,12 @@ export const derivePillarTraitsAndFeatures = ({
     species.inherent_features.forEach(f => {
       const str = typeof f === 'object' ? (f.name || f.id) : String(f);
       addTrait(str, 'species', 'Species Inherent', 0, true);
+    });
+  }
+  if (species && Array.isArray(species.recommended_features)) {
+    species.recommended_features.forEach(feat => {
+      const str = typeof feat === 'object' ? (feat.name || feat.id) : String(feat);
+      addFeature(str, 'species', 'Species Feature', 2, true);
     });
   }
 
@@ -906,19 +1688,39 @@ export const derivePillarTraitsAndFeatures = ({
     });
   }
 
-  // 5. Faction Recommended Features
+  // 5. Faction Recommended Features (evaluated via TL/ML resonance and directives)
   if (faction) {
-    const recFeats = faction.recommended_features || faction.bonus_features || [];
-    if (Array.isArray(recFeats) && recFeats.length > 0) {
-      addFeature(recFeats[0], 'faction', 'Faction Feature', 2, true);
+    const rawFeats = faction.recommended_features || faction.bonus_features || [];
+    const recFeats = Array.isArray(rawFeats)
+      ? rawFeats
+      : (typeof rawFeats === 'string' ? rawFeats.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : []);
+    const best = pickBestFeature(recFeats);
+    if (best) {
+      addFeature(best, 'faction', 'Faction Feature', 2, true);
     }
   }
 
-  // 6. Occupation Recommended Features
+  // 6. Origin Recommended Features (evaluated via TL/ML resonance and directives)
+  if (origin) {
+    const rawFeats = origin.recommended_features || [];
+    const recFeats = Array.isArray(rawFeats)
+      ? rawFeats
+      : (typeof rawFeats === 'string' ? rawFeats.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : []);
+    const best = pickBestFeature(recFeats);
+    if (best) {
+      addFeature(best, 'origin', 'Origin Feature', 2, true);
+    }
+  }
+
+  // 7. Occupation Recommended Features (evaluated via TL/ML resonance and directives)
   if (occupation) {
-    const occuFeats = occupation.recommended_features || [];
-    if (Array.isArray(occuFeats) && occuFeats.length > 0) {
-      addFeature(occuFeats[0], 'occupation', 'Occupation Feature', 2, true);
+    const rawFeats = occupation.recommended_features || [];
+    const recFeats = Array.isArray(rawFeats)
+      ? rawFeats
+      : (typeof rawFeats === 'string' ? rawFeats.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : []);
+    const best = pickBestFeature(recFeats);
+    if (best) {
+      addFeature(best, 'occupation', 'Occupation Feature', 2, true);
     }
   }
 
@@ -937,35 +1739,119 @@ export const derivePillarProperty = ({
   faction,
   species,
   techLevel = 3,
+  metaLevel = 0,
   weaponryList = DEFAULT_WEAPONRY,
-  armoringList = DEFAULT_ARMORING
+  armoringList = DEFAULT_ARMORING,
+  gearList = DEFAULT_GEAR,
+  augmentationsList = DEFAULT_AUGMENTATIONS,
+  mechaList = DEFAULT_MECHA,
+  architectureList = DEFAULT_ARCHITECTURE,
+  otherList = DEFAULT_OTHER_PROPERTY
 }) => {
   const tl = Number(techLevel) || 3;
+  const ml = Number(metaLevel) || 0;
   const weapons = [];
   const armor = [];
   const gear = [];
+  const augmentations = [];
+  const mecha = [];
+  const architecture = [];
+  const other = [];
 
   // Tactical classification based on Archetype tactical role / concept
   const concept = (archetype?.core_concept || '').toLowerCase();
   const role = (archetype?.tactical_role || '').toLowerCase();
   const occuName = (occupation?.name || '').toLowerCase();
 
-  // Weapon selection from DEFAULT_WEAPONRY
-  const validWeapons = weaponryList.filter(w => (Number(w.tech_level) || 3) <= Math.max(1, tl));
+  const combinedDirectives = [
+    species?.keywords, faction?.keywords, occupation?.keywords
+  ].filter(Boolean).join(' ').toLowerCase();
 
-  let primaryWeapon = null;
-  let secondaryWeapon = null;
+  const combinedRailguards = [
+    species?.negative_keywords, faction?.negative_keywords, occupation?.negative_keywords
+  ].filter(Boolean).join(' ').toLowerCase();
+
+  // Weapon Scoring Heuristic (TL & ML resonance, keywords weight, negative keywords railguards)
+  const scoreWeapon = (w) => {
+    let score = 0;
+    const wTl = Array.isArray(w.recommended_tl) ? w.recommended_tl : (typeof w.recommended_tl === 'string' ? w.recommended_tl.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const wMl = Array.isArray(w.recommended_ml) ? w.recommended_ml : (typeof w.recommended_ml === 'string' ? w.recommended_ml.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const itemTl = Number(w.tech_level ?? w.tl ?? 3);
+    const itemMl = Number(w.meta_level ?? w.ml ?? 0);
+
+    // TL Resonance
+    if (wTl.some(t => String(t).toLowerCase().includes(String(tl)))) {
+      score += 35;
+    } else if (itemTl <= tl) {
+      score += 15;
+    } else {
+      score -= 40;
+    }
+
+    // ML Resonance
+    if (wMl.some(m => String(m).toLowerCase().includes(String(ml)))) {
+      score += 25;
+    } else if (itemMl === ml) {
+      score += 10;
+    }
+
+    // Directives / Keywords (+Weight)
+    if (w.keywords) {
+      const kws = String(w.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (combinedDirectives.includes(kw) || concept.includes(kw) || role.includes(kw) || occuName.includes(kw)) {
+          score += 30;
+          break;
+        }
+      }
+    }
+
+    // Negative Keywords / Railguards (-Weight)
+    if (w.negative_keywords) {
+      const negs = String(w.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const neg of negs) {
+        if (combinedDirectives.includes(neg) || concept.includes(neg) || role.includes(neg) || occuName.includes(neg)) {
+          score -= 60;
+          break;
+        }
+      }
+    }
+
+    // Character railguards check
+    if (combinedRailguards) {
+      const wpnName = (w.name || '').toLowerCase();
+      if (combinedRailguards.includes(wpnName)) {
+        score -= 80;
+      }
+    }
+
+    return score;
+  };
+
+  // Weapon selection from weaponryList calibrated to role and resonance
+  const validWeapons = weaponryList.filter(w => (Number(w.tech_level ?? w.tl) || 3) <= Math.max(1, tl));
+
+  let primaryCandidates = [];
+  let secondaryCandidates = [];
 
   if (role.includes('ranged') || concept.includes('ranged') || occuName.includes('soldier') || role.includes('sniper')) {
-    primaryWeapon = validWeapons.find(w => w.name?.toLowerCase().includes('rifle') || w.name?.toLowerCase().includes('plasma')) || validWeapons[0];
-    secondaryWeapon = validWeapons.find(w => w.name?.toLowerCase().includes('pistol')) || validWeapons[1];
+    primaryCandidates = validWeapons.filter(w => w.name?.toLowerCase().includes('rifle') || w.name?.toLowerCase().includes('plasma'));
+    secondaryCandidates = validWeapons.filter(w => w.name?.toLowerCase().includes('pistol'));
   } else if (role.includes('tank') || concept.includes('melee') || role.includes('frontline')) {
-    primaryWeapon = validWeapons.find(w => w.name?.toLowerCase().includes('blade') || w.name?.toLowerCase().includes('sword') || w.name?.toLowerCase().includes('hammer')) || validWeapons[0];
-    secondaryWeapon = validWeapons.find(w => w.name?.toLowerCase().includes('shotgun') || w.name?.toLowerCase().includes('pistol')) || validWeapons[1];
+    primaryCandidates = validWeapons.filter(w => w.name?.toLowerCase().includes('blade') || w.name?.toLowerCase().includes('sword') || w.name?.toLowerCase().includes('hammer'));
+    secondaryCandidates = validWeapons.filter(w => w.name?.toLowerCase().includes('shotgun') || w.name?.toLowerCase().includes('pistol'));
   } else {
     // Infiltrator / Diplomat / Savant
-    primaryWeapon = validWeapons.find(w => w.name?.toLowerCase().includes('pistol') || w.name?.toLowerCase().includes('dagger')) || validWeapons[0];
+    primaryCandidates = validWeapons.filter(w => w.name?.toLowerCase().includes('pistol') || w.name?.toLowerCase().includes('dagger'));
+    secondaryCandidates = validWeapons.filter(w => w.name?.toLowerCase().includes('knife') || w.name?.toLowerCase().includes('holdout') || w.name?.toLowerCase().includes('pistol'));
   }
+
+  primaryCandidates.sort((a, b) => scoreWeapon(b) - scoreWeapon(a));
+  secondaryCandidates.sort((a, b) => scoreWeapon(b) - scoreWeapon(a));
+  const sortedAllWeapons = [...validWeapons].sort((a, b) => scoreWeapon(b) - scoreWeapon(a));
+
+  const primaryWeapon = primaryCandidates[0] || sortedAllWeapons[0] || null;
+  const secondaryWeapon = secondaryCandidates.find(w => w.name !== primaryWeapon?.name) || sortedAllWeapons.find(w => w.name !== primaryWeapon?.name) || null;
 
   if (primaryWeapon) {
     weapons.push({
@@ -974,7 +1860,12 @@ export const derivePillarProperty = ({
       damage: primaryWeapon.damage || '2d6',
       damage_type: primaryWeapon.damage_type || 'Kinetic',
       range: primaryWeapon.range || '10/30/60',
-      tl: primaryWeapon.tech_level || tl,
+      tl: primaryWeapon.tech_level ?? primaryWeapon.tl ?? tl,
+      ml: primaryWeapon.meta_level ?? primaryWeapon.ml ?? ml,
+      recommended_tl: primaryWeapon.recommended_tl || [`TL ${primaryWeapon.tech_level ?? primaryWeapon.tl ?? tl}`],
+      recommended_ml: primaryWeapon.recommended_ml || [`ML ${primaryWeapon.meta_level ?? primaryWeapon.ml ?? ml}`],
+      keywords: primaryWeapon.keywords || '',
+      negative_keywords: primaryWeapon.negative_keywords || '',
       qty: 1
     });
   }
@@ -986,20 +1877,86 @@ export const derivePillarProperty = ({
       damage: secondaryWeapon.damage || '1d8',
       damage_type: secondaryWeapon.damage_type || 'Kinetic',
       range: secondaryWeapon.range || '5/15/30',
-      tl: secondaryWeapon.tech_level || tl,
+      tl: secondaryWeapon.tech_level ?? secondaryWeapon.tl ?? tl,
+      ml: secondaryWeapon.meta_level ?? secondaryWeapon.ml ?? ml,
+      recommended_tl: secondaryWeapon.recommended_tl || [`TL ${secondaryWeapon.tech_level ?? secondaryWeapon.tl ?? tl}`],
+      recommended_ml: secondaryWeapon.recommended_ml || [`ML ${secondaryWeapon.meta_level ?? secondaryWeapon.ml ?? ml}`],
+      keywords: secondaryWeapon.keywords || '',
+      negative_keywords: secondaryWeapon.negative_keywords || '',
       qty: 1
     });
   }
 
-  // Armor selection from DEFAULT_ARMORING
-  const validArmor = armoringList.filter(a => (Number(a.tech_level) || 3) <= Math.max(1, tl));
-  let chosenArmor = null;
+  // Armor Scoring Heuristic (TL & ML resonance, keywords weight, negative keywords railguards)
+  const scoreArmor = (a) => {
+    let score = 0;
+    const aTl = Array.isArray(a.recommended_tl) ? a.recommended_tl : (typeof a.recommended_tl === 'string' ? a.recommended_tl.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const aMl = Array.isArray(a.recommended_ml) ? a.recommended_ml : (typeof a.recommended_ml === 'string' ? a.recommended_ml.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const itemTl = Number(a.tech_level ?? a.tl ?? 3);
+    const itemMl = Number(a.meta_level ?? a.ml ?? 0);
 
-  if (role.includes('tank') || concept.includes('defense') || occuName.includes('soldier')) {
-    chosenArmor = validArmor.find(a => a.name?.toLowerCase().includes('combat') || a.name?.toLowerCase().includes('heavy')) || validArmor[0];
+    // TL Resonance
+    if (aTl.some(t => String(t).toLowerCase().includes(String(tl)))) {
+      score += 35;
+    } else if (itemTl <= tl) {
+      score += 15;
+    } else {
+      score -= 40;
+    }
+
+    // ML Resonance
+    if (aMl.some(m => String(m).toLowerCase().includes(String(ml)))) {
+      score += 25;
+    } else if (itemMl === ml) {
+      score += 10;
+    }
+
+    // Directives / Keywords (+Weight)
+    if (a.keywords) {
+      const kws = String(a.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (combinedDirectives.includes(kw) || concept.includes(kw) || role.includes(kw) || occuName.includes(kw)) {
+          score += 30;
+          break;
+        }
+      }
+    }
+
+    // Negative Keywords / Railguards (-Weight)
+    if (a.negative_keywords) {
+      const negs = String(a.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const neg of negs) {
+        if (combinedDirectives.includes(neg) || concept.includes(neg) || role.includes(neg) || occuName.includes(neg)) {
+          score -= 60;
+          break;
+        }
+      }
+    }
+
+    // Character railguards check
+    if (combinedRailguards) {
+      const armName = (a.name || '').toLowerCase();
+      if (combinedRailguards.includes(armName)) {
+        score -= 80;
+      }
+    }
+
+    return score;
+  };
+
+  // Armor selection from armoringList calibrated to role, directives, and resonance
+  const validArmor = armoringList.filter(a => (Number(a.tech_level ?? a.tl) || 3) <= Math.max(1, tl));
+
+  let armorCandidates = [];
+  if (role.includes('tank') || concept.includes('defense') || occuName.includes('soldier') || role.includes('frontline')) {
+    armorCandidates = validArmor.filter(a => a.name?.toLowerCase().includes('combat') || a.name?.toLowerCase().includes('heavy') || a.name?.toLowerCase().includes('plate'));
   } else {
-    chosenArmor = validArmor.find(a => a.name?.toLowerCase().includes('jacket') || a.name?.toLowerCase().includes('light') || a.name?.toLowerCase().includes('weave')) || validArmor[0];
+    armorCandidates = validArmor.filter(a => a.name?.toLowerCase().includes('jacket') || a.name?.toLowerCase().includes('light') || a.name?.toLowerCase().includes('weave') || a.name?.toLowerCase().includes('vest'));
   }
+
+  armorCandidates.sort((a, b) => scoreArmor(b) - scoreArmor(a));
+  const sortedAllArmor = [...validArmor].sort((a, b) => scoreArmor(b) - scoreArmor(a));
+  const chosenArmor = armorCandidates[0] || sortedAllArmor[0] || null;
 
   if (chosenArmor) {
     armor.push({
@@ -1007,36 +1964,448 @@ export const derivePillarProperty = ({
       name: chosenArmor.name,
       dr: chosenArmor.dr || 8,
       durability: chosenArmor.durability || '20',
-      tl: chosenArmor.tech_level || tl,
+      tl: chosenArmor.tech_level ?? chosenArmor.tl ?? tl,
+      ml: chosenArmor.meta_level ?? chosenArmor.ml ?? ml,
+      recommended_tl: chosenArmor.recommended_tl || [`TL ${chosenArmor.tech_level ?? chosenArmor.tl ?? tl}`],
+      recommended_ml: chosenArmor.recommended_ml || [`ML ${chosenArmor.meta_level ?? chosenArmor.ml ?? ml}`],
+      keywords: chosenArmor.keywords || '',
+      negative_keywords: chosenArmor.negative_keywords || '',
       qty: 1
     });
   }
 
-  // Tactical Gear Kit calibrated to Occupation
-  const gearItems = [
-    { name: `TL-${tl} Field Comm-Link`, qty: 1, weight: 0.5, notes: 'Secure encrypted planetary transmission' },
-    { name: `TL-${tl} Standard Trauma Medkit`, qty: 1, weight: 2, notes: 'Stabilizes critical injuries' },
-    { name: `TL-${tl} Multi-Optics Scanner`, qty: 1, weight: 1, notes: 'Infrared and biosignature tracking' }
+  // Gear Scoring Heuristic (TL & ML resonance, keywords weight, negative keywords railguards)
+  const scoreGearItem = (item) => {
+    let score = 0;
+    const gTl = Array.isArray(item.recommended_tl) ? item.recommended_tl : (typeof item.recommended_tl === 'string' ? item.recommended_tl.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const gMl = Array.isArray(item.recommended_ml) ? item.recommended_ml : (typeof item.recommended_ml === 'string' ? item.recommended_ml.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const itemTl = Number(item.tech_level ?? item.tl ?? 3);
+    const itemMl = Number(item.meta_level ?? item.ml ?? 0);
+
+    // TL Resonance
+    if (gTl.some(t => String(t).toLowerCase().includes(String(tl)))) {
+      score += 35;
+    } else if (itemTl <= tl) {
+      score += 15;
+    } else {
+      score -= 40;
+    }
+
+    // ML Resonance
+    if (gMl.some(m => String(m).toLowerCase().includes(String(ml)))) {
+      score += 25;
+    } else if (itemMl === ml) {
+      score += 10;
+    }
+
+    // Directives / Keywords (+Weight)
+    if (item.keywords) {
+      const kws = String(item.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (combinedDirectives.includes(kw) || concept.includes(kw) || role.includes(kw) || occuName.includes(kw)) {
+          score += 30;
+          break;
+        }
+      }
+    }
+
+    // Negative Keywords / Railguards (-Weight)
+    if (item.negative_keywords) {
+      const negs = String(item.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const neg of negs) {
+        if (combinedDirectives.includes(neg) || concept.includes(neg) || role.includes(neg) || occuName.includes(neg)) {
+          score -= 60;
+          break;
+        }
+      }
+    }
+
+    // Character railguards check
+    if (combinedRailguards) {
+      const itemName = (item.name || '').toLowerCase();
+      if (combinedRailguards.includes(itemName)) {
+        score -= 80;
+      }
+    }
+
+    return score;
+  };
+
+  // Tactical Gear Kit calibrated to Occupation & resonant gear
+  const baselineGear = [
+    { name: `TL-${tl} Field Comm-Link`, qty: 1, weight: 0.5, notes: 'Secure encrypted planetary transmission', keywords: 'comms, encryption, planetary', negative_keywords: 'primitive' },
+    { name: `TL-${tl} Standard Trauma Medkit`, qty: 1, weight: 2, notes: 'Stabilizes critical injuries', keywords: 'medical, trauma, healing', negative_keywords: 'toxic' },
+    { name: `TL-${tl} Multi-Optics Scanner`, qty: 1, weight: 1, notes: 'Infrared and biosignature tracking', keywords: 'scanner, sensor, recon, tracking', negative_keywords: 'blind' }
   ];
 
   if (occuName.includes('pilot') || occuName.includes('engineer')) {
-    gearItems.push({ name: `TL-${tl} Diagnostics Toolset`, qty: 1, weight: 3, notes: 'Vehicle and avionics repairs' });
+    baselineGear.push({ name: `TL-${tl} Diagnostics Toolset`, qty: 1, weight: 3, notes: 'Vehicle and avionics repairs', keywords: 'toolset, repair, mechanics, engineering', negative_keywords: 'primitive' });
   } else if (occuName.includes('agent') || occuName.includes('spy')) {
-    gearItems.push({ name: `TL-${tl} Cyberdeck Interface Cable`, qty: 1, weight: 0.5, notes: 'Direct terminal bypass' });
+    baselineGear.push({ name: `TL-${tl} Cyberdeck Interface Cable`, qty: 1, weight: 0.5, notes: 'Direct terminal bypass', keywords: 'cyberdeck, intrusion, hacking, covert', negative_keywords: 'heavy' });
   }
 
-  gearItems.forEach((g, idx) => {
+  // If gearList provided with matching items, incorporate resonant items
+  if (Array.isArray(gearList) && gearList.length > 0) {
+    const scoredList = gearList.map(g => ({ item: g, score: scoreGearItem(g) })).filter(g => g.score > 0);
+    scoredList.sort((a, b) => b.score - a.score);
+    for (const scored of scoredList.slice(0, 2)) {
+      if (!baselineGear.some(b => b.name.toLowerCase() === (scored.item.name || '').toLowerCase())) {
+        baselineGear.push({
+          id: scored.item.id,
+          name: scored.item.name,
+          qty: 1,
+          weight: Number(scored.item.weight) || 1,
+          notes: scored.item.description || scored.item.mechanic || '',
+          tl: scored.item.tech_level ?? scored.item.tl ?? tl,
+          ml: scored.item.meta_level ?? scored.item.ml ?? ml,
+          recommended_tl: scored.item.recommended_tl,
+          recommended_ml: scored.item.recommended_ml,
+          keywords: scored.item.keywords,
+          negative_keywords: scored.item.negative_keywords
+        });
+      }
+    }
+  }
+
+  baselineGear.forEach((g, idx) => {
     gear.push({
-      id: `gear_${Date.now()}_${idx}`,
+      id: g.id || `gear_${Date.now()}_${idx}`,
       name: g.name,
-      qty: g.qty,
-      weight: g.weight,
-      notes: g.notes,
-      tl
+      qty: g.qty || 1,
+      weight: g.weight || 1,
+      notes: g.notes || '',
+      tl: g.tl ?? tl,
+      ml: g.ml ?? ml,
+      recommended_tl: g.recommended_tl || [`TL ${g.tl ?? tl}`],
+      recommended_ml: g.recommended_ml || [`ML ${g.ml ?? ml}`],
+      keywords: g.keywords || '',
+      negative_keywords: g.negative_keywords || ''
     });
   });
 
-  return { weapons, armor, gear };
+  // Augmentation Scoring Heuristic (TL & ML resonance, keywords weight, negative keywords railguards)
+  const scoreAugmentation = (aug) => {
+    let score = 0;
+    const aTl = Array.isArray(aug.recommended_tl) ? aug.recommended_tl : (typeof aug.recommended_tl === 'string' ? aug.recommended_tl.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const aMl = Array.isArray(aug.recommended_ml) ? aug.recommended_ml : (typeof aug.recommended_ml === 'string' ? aug.recommended_ml.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const itemTl = Number(aug.tech_level ?? aug.tl ?? 3);
+    const itemMl = Number(aug.meta_level ?? aug.ml ?? 0);
+
+    // TL Resonance
+    if (aTl.some(t => String(t).toLowerCase().includes(String(tl)))) {
+      score += 35;
+    } else if (itemTl <= tl) {
+      score += 15;
+    } else {
+      score -= 40;
+    }
+
+    // ML Resonance
+    if (aMl.some(m => String(m).toLowerCase().includes(String(ml)))) {
+      score += 25;
+    } else if (itemMl === ml) {
+      score += 10;
+    }
+
+    // Directives / Keywords (+Weight)
+    if (aug.keywords) {
+      const kws = String(aug.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (combinedDirectives.includes(kw) || concept.includes(kw) || role.includes(kw) || occuName.includes(kw)) {
+          score += 30;
+          break;
+        }
+      }
+    }
+
+    // Negative Keywords / Railguards (-Weight)
+    if (aug.negative_keywords) {
+      const negs = String(aug.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const neg of negs) {
+        if (combinedDirectives.includes(neg) || concept.includes(neg) || role.includes(neg) || occuName.includes(neg)) {
+          score -= 60;
+          break;
+        }
+      }
+    }
+
+    // Character railguards check
+    if (combinedRailguards) {
+      const augName = (aug.name || '').toLowerCase();
+      if (combinedRailguards.includes(augName)) {
+        score -= 80;
+      }
+    }
+
+    return score;
+  };
+
+  const wantsCyberware = /cyber|augment|implant|bionic|neural|synth|overclock|transhuman|coprocessor|dermal|infiltrat|reflex/i.test(`${concept} ${role} ${occuName} ${combinedDirectives}`);
+  const validAugmentations = (augmentationsList || []).filter(aug => (Number(aug.tech_level ?? aug.tl) || 3) <= Math.max(1, tl));
+
+  if (wantsCyberware && validAugmentations.length > 0) {
+    const sortedAugs = [...validAugmentations].sort((a, b) => scoreAugmentation(b) - scoreAugmentation(a));
+    const chosenAug = sortedAugs[0];
+    if (chosenAug && scoreAugmentation(chosenAug) > -50) {
+      augmentations.push({
+        id: chosenAug.id || `aug_${Date.now()}_1`,
+        name: chosenAug.name,
+        category: chosenAug.category || chosenAug.augmentation_type || 'augmentations',
+        location: chosenAug.location || chosenAug.body_location || 'Systemic',
+        tl: chosenAug.tech_level ?? chosenAug.tl ?? tl,
+        ml: chosenAug.meta_level ?? chosenAug.ml ?? ml,
+        recommended_tl: chosenAug.recommended_tl || [`TL ${chosenAug.tech_level ?? chosenAug.tl ?? tl}`],
+        recommended_ml: chosenAug.recommended_ml || [`ML ${chosenAug.meta_level ?? chosenAug.ml ?? ml}`],
+        keywords: chosenAug.keywords || '',
+        negative_keywords: chosenAug.negative_keywords || '',
+        qty: 1
+      });
+    }
+  }
+
+  // Mecha Scoring Heuristic (TL & ML resonance, keywords weight, negative keywords railguards)
+  const scoreMecha = (m) => {
+    let score = 0;
+    const mTl = Array.isArray(m.recommended_tl) ? m.recommended_tl : (typeof m.recommended_tl === 'string' ? m.recommended_tl.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const mMl = Array.isArray(m.recommended_ml) ? m.recommended_ml : (typeof m.recommended_ml === 'string' ? m.recommended_ml.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const itemTl = Number(m.tech_level ?? m.tl ?? 3);
+    const itemMl = Number(m.meta_level ?? m.ml ?? 0);
+
+    // TL Resonance
+    if (mTl.some(t => String(t).toLowerCase().includes(String(tl)))) {
+      score += 35;
+    } else if (itemTl <= tl) {
+      score += 15;
+    } else {
+      score -= 40;
+    }
+
+    // ML Resonance
+    if (mMl.some(mItem => String(mItem).toLowerCase().includes(String(ml)))) {
+      score += 25;
+    } else if (itemMl === ml) {
+      score += 10;
+    }
+
+    // Directives / Keywords (+Weight)
+    if (m.keywords) {
+      const kws = String(m.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (combinedDirectives.includes(kw) || concept.includes(kw) || role.includes(kw) || occuName.includes(kw)) {
+          score += 30;
+          break;
+        }
+      }
+    }
+
+    // Negative Keywords / Railguards (-Weight)
+    if (m.negative_keywords) {
+      const negs = String(m.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const neg of negs) {
+        if (combinedDirectives.includes(neg) || concept.includes(neg) || role.includes(neg) || occuName.includes(neg)) {
+          score -= 60;
+          break;
+        }
+      }
+    }
+
+    // Character railguards check
+    if (combinedRailguards) {
+      const mechaName = (m.name || '').toLowerCase();
+      if (combinedRailguards.includes(mechaName)) {
+        score -= 80;
+      }
+    }
+
+    return score;
+  };
+
+  const wantsMecha = /mecha|pilot|walker|chassis|vehicle|tank|cockpit|armor frame/i.test(`${concept} ${role} ${occuName} ${combinedDirectives}`);
+  const validMecha = (mechaList || []).filter(m => (Number(m.tech_level ?? m.tl) || 3) <= Math.max(1, tl));
+
+  if (wantsMecha && validMecha.length > 0) {
+    const sortedMecha = [...validMecha].sort((a, b) => scoreMecha(b) - scoreMecha(a));
+    const chosenMecha = sortedMecha[0];
+    if (chosenMecha && scoreMecha(chosenMecha) > -50) {
+      mecha.push({
+        id: chosenMecha.id || `mecha_${Date.now()}_1`,
+        name: chosenMecha.name,
+        size: chosenMecha.size || 'Large',
+        frame: chosenMecha.frame || 'Walker',
+        sp: chosenMecha.sp || 100,
+        dr: chosenMecha.dr || 10,
+        tl: chosenMecha.tech_level ?? chosenMecha.tl ?? tl,
+        ml: chosenMecha.meta_level ?? chosenMecha.ml ?? ml,
+        recommended_tl: chosenMecha.recommended_tl || [`TL ${chosenMecha.tech_level ?? chosenMecha.tl ?? tl}`],
+        recommended_ml: chosenMecha.recommended_ml || [`ML ${chosenMecha.meta_level ?? chosenMecha.ml ?? ml}`],
+        keywords: chosenMecha.keywords || '',
+        negative_keywords: chosenMecha.negative_keywords || '',
+        qty: 1
+      });
+    }
+  }
+
+  // Architecture Scoring Heuristic (TL & ML resonance, keywords weight, negative keywords railguards)
+  const scoreArchitecture = (arch) => {
+    let score = 0;
+    const aTl = Array.isArray(arch.recommended_tl) ? arch.recommended_tl : (typeof arch.recommended_tl === 'string' ? arch.recommended_tl.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const aMl = Array.isArray(arch.recommended_ml) ? arch.recommended_ml : (typeof arch.recommended_ml === 'string' ? arch.recommended_ml.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const itemTl = Number(arch.tech_level ?? arch.tl ?? 3);
+    const itemMl = Number(arch.meta_level ?? arch.ml ?? 0);
+
+    // TL Resonance
+    if (aTl.some(t => String(t).toLowerCase().includes(String(tl)))) {
+      score += 35;
+    } else if (itemTl <= tl) {
+      score += 15;
+    } else {
+      score -= 40;
+    }
+
+    // ML Resonance
+    if (aMl.some(mItem => String(mItem).toLowerCase().includes(String(ml)))) {
+      score += 25;
+    } else if (itemMl === ml) {
+      score += 10;
+    }
+
+    // Directives / Keywords (+Weight)
+    if (arch.keywords) {
+      const kws = String(arch.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (combinedDirectives.includes(kw) || concept.includes(kw) || role.includes(kw) || occuName.includes(kw)) {
+          score += 30;
+          break;
+        }
+      }
+    }
+
+    // Negative Keywords / Railguards (-Weight)
+    if (arch.negative_keywords) {
+      const negs = String(arch.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const neg of negs) {
+        if (combinedDirectives.includes(neg) || concept.includes(neg) || role.includes(neg) || occuName.includes(neg)) {
+          score -= 60;
+          break;
+        }
+      }
+    }
+
+    // Character railguards check
+    if (combinedRailguards) {
+      const archName = (arch.name || '').toLowerCase();
+      if (combinedRailguards.includes(archName)) {
+        score -= 80;
+      }
+    }
+
+    return score;
+  };
+
+  const wantsArchitecture = /architect|builder|stronghold|habitat|outpost|facility|laboratory|safehouse|hideout|station|bunker|estate|citadel|refinery|workshop|armory/i.test(`${concept} ${role} ${occuName} ${combinedDirectives}`);
+  const validArchitecture = (architectureList || []).filter(arch => (Number(arch.tech_level ?? arch.tl) || 3) <= Math.max(1, tl));
+
+  if (wantsArchitecture && validArchitecture.length > 0) {
+    const sortedArchitecture = [...validArchitecture].sort((a, b) => scoreArchitecture(b) - scoreArchitecture(a));
+    const chosenArchitecture = sortedArchitecture[0];
+    if (chosenArchitecture && scoreArchitecture(chosenArchitecture) > -50) {
+      architecture.push({
+        id: chosenArchitecture.id || `arch_${Date.now()}_1`,
+        name: chosenArchitecture.name,
+        category: chosenArchitecture.category || 'architecture',
+        style: chosenArchitecture.style || 'Standard',
+        sp: chosenArchitecture.sp || 500,
+        dr: chosenArchitecture.dr || 15,
+        tl: chosenArchitecture.tech_level ?? chosenArchitecture.tl ?? tl,
+        ml: chosenArchitecture.meta_level ?? chosenArchitecture.ml ?? ml,
+        recommended_tl: chosenArchitecture.recommended_tl || [`TL ${chosenArchitecture.tech_level ?? chosenArchitecture.tl ?? tl}`],
+        recommended_ml: chosenArchitecture.recommended_ml || [`ML ${chosenArchitecture.meta_level ?? chosenArchitecture.ml ?? ml}`],
+        keywords: chosenArchitecture.keywords || '',
+        negative_keywords: chosenArchitecture.negative_keywords || '',
+        qty: 1
+      });
+    }
+  }
+
+  // Other Property / Personal Property Scoring Heuristic (TL & ML resonance, keywords weight, negative keywords railguards)
+  const scoreOtherItem = (item) => {
+    let score = 0;
+    const oTl = Array.isArray(item.recommended_tl) ? item.recommended_tl : (typeof item.recommended_tl === 'string' ? item.recommended_tl.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const oMl = Array.isArray(item.recommended_ml) ? item.recommended_ml : (typeof item.recommended_ml === 'string' ? item.recommended_ml.split(/[,;\n]+/).map(s => s.trim()) : []);
+    const itemTl = Number(item.tech_level ?? item.tl ?? 2);
+    const itemMl = Number(item.meta_level ?? item.ml ?? 0);
+
+    // TL Resonance
+    if (oTl.some(t => String(t).toLowerCase().includes(String(tl)))) {
+      score += 35;
+    } else if (itemTl <= tl) {
+      score += 15;
+    } else {
+      score -= 40;
+    }
+
+    // ML Resonance
+    if (oMl.some(mItem => String(mItem).toLowerCase().includes(String(ml)))) {
+      score += 25;
+    } else if (itemMl === ml) {
+      score += 10;
+    }
+
+    // Directives / Keywords (+Weight)
+    if (item.keywords) {
+      const kws = String(item.keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const kw of kws) {
+        if (combinedDirectives.includes(kw) || concept.includes(kw) || role.includes(kw) || occuName.includes(kw)) {
+          score += 30;
+          break;
+        }
+      }
+    }
+
+    // Negative Keywords / Railguards (-Weight)
+    if (item.negative_keywords) {
+      const negs = String(item.negative_keywords).split(/[,;\n]+/).map(k => k.trim().toLowerCase()).filter(Boolean);
+      for (const neg of negs) {
+        if (combinedDirectives.includes(neg) || concept.includes(neg) || role.includes(neg) || occuName.includes(neg)) {
+          score -= 60;
+          break;
+        }
+      }
+    }
+
+    // Character railguards check
+    if (combinedRailguards) {
+      const itemName = (item.name || '').toLowerCase();
+      if (combinedRailguards.includes(itemName)) {
+        score -= 80;
+      }
+    }
+
+    return score;
+  };
+
+  const validOther = (otherList || []).filter(item => (Number(item.tech_level ?? item.tl) || 2) <= Math.max(1, tl));
+  if (validOther.length > 0) {
+    const scoredOther = validOther.map(item => ({ item, score: scoreOtherItem(item) })).filter(s => s.score > -30);
+    scoredOther.sort((a, b) => b.score - a.score);
+    for (const scored of scoredOther.slice(0, 3)) {
+      other.push({
+        id: scored.item.id || `other_${Date.now()}_${other.length + 1}`,
+        name: scored.item.name,
+        category: scored.item.category || 'other',
+        weight: Number(scored.item.weight) || 1,
+        tl: scored.item.tech_level ?? scored.item.tl ?? tl,
+        ml: scored.item.meta_level ?? scored.item.ml ?? ml,
+        recommended_tl: scored.item.recommended_tl || [`TL ${scored.item.tech_level ?? scored.item.tl ?? tl}`],
+        recommended_ml: scored.item.recommended_ml || [`ML ${scored.item.meta_level ?? scored.item.ml ?? ml}`],
+        keywords: scored.item.keywords || '',
+        negative_keywords: scored.item.negative_keywords || '',
+        qty: 1
+      });
+    }
+  }
+
+  return { weapons, armor, gear, augmentations, mecha, architecture, other };
 };
 
 /**
@@ -1048,6 +2417,15 @@ export const derivePillarNarrative = ({
   faction,
   origin,
   occupation,
+  skills = [],
+  features = [],
+  gear = [],
+  weapons = [],
+  armor = [],
+  augmentations = [],
+  mecha = [],
+  architecture = [],
+  other = [],
   prompt = ''
 }) => {
   const aName = archetype?.name || 'Operative';
@@ -1081,7 +2459,39 @@ export const derivePillarNarrative = ({
     summary,
     'char-motive': motive,
     backstory,
-    appearance: `${spName} physiology tailored with functional ${ocName} tactical attire bearing subtle ${fName} insignia.`
+    appearance: `${spName} physiology tailored with functional ${ocName} tactical attire bearing subtle ${fName} insignia.`,
+    aiDirectives: {
+      thematicWeights: Array.from(new Set([
+        ...(species?.keywords ? String(species.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(faction?.keywords ? String(faction.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(origin?.keywords ? String(origin.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(occupation?.keywords ? String(occupation.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(Array.isArray(skills) ? skills.flatMap(s => s?.keywords ? String(s.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(features) ? features.flatMap(f => f?.keywords ? String(f.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(gear) ? gear.flatMap(g => g?.keywords ? String(g.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(weapons) ? weapons.flatMap(w => w?.keywords ? String(w.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(armor) ? armor.flatMap(a => a?.keywords ? String(a.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(augmentations) ? augmentations.flatMap(a => a?.keywords ? String(a.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(mecha) ? mecha.flatMap(m => m?.keywords ? String(m.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(architecture) ? architecture.flatMap(a => a?.keywords ? String(a.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(other) ? other.flatMap(o => o?.keywords ? String(o.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : [])
+      ])),
+      negativeRailguards: Array.from(new Set([
+        ...(species?.negative_keywords ? String(species.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(faction?.negative_keywords ? String(faction.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(origin?.negative_keywords ? String(origin.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(occupation?.negative_keywords ? String(occupation.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []),
+        ...(Array.isArray(skills) ? skills.flatMap(s => s?.negative_keywords ? String(s.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(features) ? features.flatMap(f => f?.negative_keywords ? String(f.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(gear) ? gear.flatMap(g => g?.negative_keywords ? String(g.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(weapons) ? weapons.flatMap(w => w?.negative_keywords ? String(w.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(armor) ? armor.flatMap(a => a?.negative_keywords ? String(a.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(augmentations) ? augmentations.flatMap(a => a?.negative_keywords ? String(a.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(mecha) ? mecha.flatMap(m => m?.negative_keywords ? String(m.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(architecture) ? architecture.flatMap(a => a?.negative_keywords ? String(a.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : []),
+        ...(Array.isArray(other) ? other.flatMap(o => o?.negative_keywords ? String(o.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : []) : [])
+      ]))
+    }
   };
 };
 
@@ -1177,8 +2587,10 @@ export const calculateRulesLedger = ({
     faction,
     species,
     techLevel: tl,
+    metaLevel: 0,
     weaponryList: dbData.weaponry || DEFAULT_WEAPONRY,
-    armoringList: dbData.armoring || DEFAULT_ARMORING
+    armoringList: dbData.armoring || DEFAULT_ARMORING,
+    gearList: dbData.gear && dbData.gear.length > 0 ? dbData.gear : DEFAULT_GEAR
   });
 
   return {
@@ -1256,31 +2668,40 @@ export const synthesizeCharacterWithBastion = ({
   const traitsList = dbData.traits && dbData.traits.length > 0 ? dbData.traits : ALL_CANONICAL_TRAITS;
   const weaponryList = dbData.weaponry && dbData.weaponry.length > 0 ? dbData.weaponry : DEFAULT_WEAPONRY;
   const armoringList = dbData.armoring && dbData.armoring.length > 0 ? dbData.armoring : DEFAULT_ARMORING;
+  const gearList = dbData.gear && dbData.gear.length > 0 ? dbData.gear : DEFAULT_GEAR;
+  const augmentationsList = dbData.augmentations && dbData.augmentations.length > 0 ? dbData.augmentations : DEFAULT_AUGMENTATIONS;
+  const mechaList = dbData.mecha && dbData.mecha.length > 0 ? dbData.mecha : DEFAULT_MECHA;
+  const architectureList = dbData.architecture && dbData.architecture.length > 0 ? dbData.architecture : DEFAULT_ARCHITECTURE;
+  const otherList = dbData.other && dbData.other.length > 0 ? dbData.other : DEFAULT_OTHER_PROPERTY;
 
   // 1. Pillar 1: Archetype (The Anchor)
   const archetype = preferredArchetype
     ? (archetypesList.find(a => a.name === preferredArchetype || a.id === preferredArchetype) || findClosestArchetype(prompt, archetypesList))
     : findClosestArchetype(prompt, archetypesList);
 
+  const occuHint = preferredOccupation
+    ? (occupationsList.find(oc => oc.name === preferredOccupation || oc.id === preferredOccupation) || null)
+    : null;
+
   // 2. Pillar 2: Species
   const species = preferredSpecies
-    ? (speciesList.find(s => s.name === preferredSpecies || s.id === preferredSpecies) || selectPillarSpecies(archetype, prompt, speciesList))
-    : selectPillarSpecies(archetype, prompt, speciesList);
+    ? (speciesList.find(s => s.name === preferredSpecies || s.id === preferredSpecies) || selectPillarSpecies(archetype, prompt, speciesList, null, null, occuHint))
+    : selectPillarSpecies(archetype, prompt, speciesList, null, null, occuHint);
 
   // 3. Pillar 3: Faction
   const faction = preferredFaction
-    ? (factionsList.find(f => f.name === preferredFaction || f.id === preferredFaction) || selectPillarFaction(archetype, prompt, factionsList))
-    : selectPillarFaction(archetype, prompt, factionsList);
+    ? (factionsList.find(f => f.name === preferredFaction || f.id === preferredFaction) || selectPillarFaction(archetype, prompt, factionsList, species, null, occuHint))
+    : selectPillarFaction(archetype, prompt, factionsList, species, null, occuHint);
 
   // 4. Pillar 4: Origin
   const origin = preferredOrigin
-    ? (originsList.find(o => o.name === preferredOrigin || o.id === preferredOrigin) || selectPillarOrigin(archetype, prompt, originsList))
-    : selectPillarOrigin(archetype, prompt, originsList);
+    ? (originsList.find(o => o.name === preferredOrigin || o.id === preferredOrigin) || selectPillarOrigin(archetype, prompt, originsList, species, faction, occuHint))
+    : selectPillarOrigin(archetype, prompt, originsList, species, faction, occuHint);
 
   // 5. Pillar 5: Occupation
   const occupation = preferredOccupation
-    ? (occupationsList.find(oc => oc.name === preferredOccupation || oc.id === preferredOccupation) || selectPillarOccupation(archetype, prompt, occupationsList))
-    : selectPillarOccupation(archetype, prompt, occupationsList);
+    ? (occupationsList.find(oc => oc.name === preferredOccupation || oc.id === preferredOccupation) || selectPillarOccupation(archetype, prompt, occupationsList, species, faction, origin))
+    : selectPillarOccupation(archetype, prompt, occupationsList, species, faction, origin);
 
   // Derive rules ledger and all aspects strictly from these 5 pillars
   const rulesLedger = calculateRulesLedger({
@@ -1291,17 +2712,17 @@ export const synthesizeCharacterWithBastion = ({
     occupation,
     techLevel,
     rawAttributes,
-    dbData: { skills: skillsList, features: featuresList, traits: traitsList, weaponry: weaponryList, armoringList }
+    dbData: { skills: skillsList, features: featuresList, traits: traitsList, weaponry: weaponryList, armoringList, gear: gearList, augmentationsList, mecha: mechaList, architecture: architectureList, other: otherList }
   });
 
   const attrData = derivePillarAttributes({ archetype, species });
   const activeRawAttrs = rawAttributes ? { ...rawAttributes } : attrData.rawAttributes;
   const finalAttrs = rulesLedger.finalAttributes;
 
-  const skillData = derivePillarSkills({ archetype, species, faction, origin, occupation, skillsList });
-  const traitFeatData = derivePillarTraitsAndFeatures({ archetype, species, faction, origin, occupation, featuresList, traitsList });
-  const propertyData = derivePillarProperty({ archetype, occupation, faction, species, techLevel, weaponryList, armoringList });
-  const narrativeData = derivePillarNarrative({ archetype, species, faction, origin, occupation, prompt });
+  const skillData = derivePillarSkills({ archetype, species, faction, origin, occupation, skillsList, techLevel, metaLevel: 3 });
+  const traitFeatData = derivePillarTraitsAndFeatures({ archetype, species, faction, origin, occupation, featuresList, traitsList, techLevel, metaLevel: 3 });
+  const propertyData = derivePillarProperty({ archetype, occupation, faction, species, techLevel, metaLevel: 0, weaponryList, armoringList, gearList, augmentationsList, mechaList, architectureList, otherList });
+  const narrativeData = derivePillarNarrative({ archetype, species, faction, origin, occupation, skills: skillData.finalSkillsList, features: traitFeatData.features, gear: propertyData.gear, weapons: propertyData.weapons, armor: propertyData.armor, augmentations: propertyData.augmentations, mecha: propertyData.mecha, architecture: propertyData.architecture, other: propertyData.other, prompt });
 
   const docId = `char_bastion_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
@@ -1372,6 +2793,10 @@ export const synthesizeCharacterWithBastion = ({
     weapons: propertyData.weapons,
     armor: propertyData.armor,
     gear: propertyData.gear,
+    augmentations: propertyData.augmentations || [],
+    mecha: propertyData.mecha || [],
+    architecture: propertyData.architecture || [],
+    other: propertyData.other || [],
 
     notes: [{ text: `[BASTION SYNTHESIS PROTOCOL]\nGenerated via 5 Canonical Pillars:\n- Archetype: ${archetype.name}\n- Species: ${species.name}\n- Faction: ${faction.name}\n- Origin: ${origin.name}\n- Occupation: ${occupation.name}\n\n${narrativeData.backstory}` }]
   };
@@ -1396,7 +2821,10 @@ export const synthesizeCharacterWithBastion = ({
       featuresCount: traitFeatData.features.length,
       weaponsCount: propertyData.weapons.length,
       armorCount: propertyData.armor.length,
-      gearCount: propertyData.gear.length
+      gearCount: propertyData.gear.length,
+      augmentationsCount: propertyData.augmentations?.length || 0,
+      mechaCount: propertyData.mecha?.length || 0,
+      architectureCount: propertyData.architecture?.length || 0
     }
   };
 };

@@ -115,7 +115,14 @@ export const OMNICORTEX_DATASETS = [
       { "target": "Apex Predator", "type": "feature", "value": 1, "mode": "choice_pool" }
     ],
     "body": "Markdown String (Comprehensive history, biology, culture, visual semiotics, and caste role. Self-contained; must embed parent taxon context)",
-    "note": "String (Architect / GM rules notes or null)"
+    "note": "String (Architect / GM rules notes or null)",
+    "recommended_factions": ["String (Array of recommended faction names or IDs for operator & AI guidance)"],
+    "recommended_origins": ["String (Array of recommended origin names or IDs for operator & AI guidance)"],
+    "recommended_occupations": ["String (Array of recommended occupation names or IDs for operator & AI guidance)"],
+    "recommended_skills": ["String (Array of recommended inherent or cultural skill names or IDs for operator & AI guidance)"],
+    "recommended_features": ["String (Array of recommended trait or feature names or IDs for operator & AI guidance)"],
+    "keywords": "String (Comma-separated thematic keywords and directives for operator and AI guidance)",
+    "negative_keywords": "String (Comma-separated negative constraints and railguards for operator and AI guidance)"
   }
 ]
 
@@ -131,7 +138,9 @@ export const OMNICORTEX_DATASETS = [
     expectedKeys: [
       'name', 'title', 'parent_species', 'description', 'stigma', 'homeworld',
       'tech_level', 'meta_level', 'prerequisite', 'type', 'size', 'movement',
-      'trait', 'costs', 'modifiers', 'body', 'note'
+      'trait', 'costs', 'modifiers', 'body', 'note',
+      'recommended_factions', 'recommended_origins', 'recommended_occupations',
+      'recommended_skills', 'recommended_features', 'keywords', 'negative_keywords'
     ],
     sampleItem: {
       name: "Dar",
@@ -159,7 +168,14 @@ export const OMNICORTEX_DATASETS = [
         { target: "Apex Predator", type: "feature", value: 1, mode: "choice_pool" }
       ],
       body: "### Biology & Heritage\nThe Dar are an agile hunter sub-species of the Auluran taxon. Covered in fine short fur with elongated ears and reflective tapetum lucidum eyes, they excel in three-dimensional environments...",
-      note: "Auluran base traits are natively embedded into the chassis."
+      note: "Auluran base traits are natively embedded into the chassis.",
+      recommended_factions: ["Auluran Pride Fleet", "Free Trade Consortium"],
+      recommended_origins: ["Aulura Prime Arboreal Canopy", "Deep Rim Outpost"],
+      recommended_occupations: ["Hunter-Scout", "Pathfinder"],
+      recommended_skills: ["Acrobatics", "Stealth", "Survival"],
+      recommended_features: ["Night Sight", "Fleet of Foot"],
+      keywords: "feline, agile, symbiote, stealth, arboreal",
+      negative_keywords: "heavy armor, aquatic, brute force, cybernetics"
     }
   },
 
@@ -189,6 +205,10 @@ export const OMNICORTEX_DATASETS = [
     "description": "String (Flavorful description and thematic narrative)",
     "tech_level": 0,
     "meta_level": 0,
+    "recommended_tl": ["String (Recommended operational Tech Levels, e.g. 'TL 1', 'TL 2', 'TL 3')"],
+    "recommended_ml": ["String (Recommended operational Meta Levels, e.g. 'ML 0')"],
+    "keywords": "String (Comma-separated thematic keywords and directives for operator and AI guidance)",
+    "negative_keywords": "String (Comma-separated negative constraints and railguards for operator and AI guidance)",
     "prerequisite": ["String (Required attributes, skills, features, or level)"],
     "costs": {
       "bp": 5,
@@ -221,8 +241,9 @@ export const OMNICORTEX_DATASETS = [
 **INPUT TEXT:**
 [INSERT RAW FEATURE TEXT HERE]`,
     expectedKeys: [
-      'name', 'type', 'description', 'tech_level', 'meta_level', 'prerequisite',
-      'costs', 'modifiers', 'mechanic', 'note', 'multi', 'staged'
+      'name', 'type', 'description', 'tech_level', 'meta_level',
+      'recommended_tl', 'recommended_ml', 'keywords', 'negative_keywords',
+      'prerequisite', 'costs', 'modifiers', 'mechanic', 'note', 'multi', 'staged'
     ],
     sampleItem: {
       name: "Deadeye Focus",
@@ -230,6 +251,10 @@ export const OMNICORTEX_DATASETS = [
       description: "Through rigorous breathing and target synchronization, you steady your aim even amid chaotic crossfire.",
       tech_level: 1,
       meta_level: 0,
+      recommended_tl: ["TL 1", "TL 2", "TL 3"],
+      recommended_ml: ["ML 0"],
+      keywords: "combat, accuracy, aim, ranged, focus",
+      negative_keywords: "melee, brute force, primitive",
       prerequisite: ["Firearms 3+", "Reflex 3+"],
       costs: {
         bp: 5,
@@ -277,8 +302,12 @@ export const OMNICORTEX_DATASETS = [
     "is_specialization": false,
     "base_skill": "String or null (If specialization, name of parent skill, otherwise null)",
     "description": "String (Narrative summary and domain of competence)",
+    "recommended_tl": ["String or Number (Recommended Tech Levels, e.g. 'TL 3', 'TL 4')"],
+    "recommended_ml": ["String or Number (Recommended Meta Levels, e.g. 'ML 0', 'ML 1')"],
     "tech_level": 0,
     "meta_level": 0,
+    "keywords": "String (Positive thematic directives and searchable domain keywords, comma-separated)",
+    "negative_keywords": "String (Negative railguards and aspects not recommended, comma-separated)",
     "mechanic": "String (DCs, opposed check procedures, governing attributes, situational mods)",
     "note": "String or null (Common specialties, synergy riders, tool requirements)"
   }
@@ -287,13 +316,16 @@ export const OMNICORTEX_DATASETS = [
 **PARSING HEURISTICS & RULES:**
 1. **Lowercase Enums:** type and subtype MUST be lowercase strings matching the allowed enums.
 2. **Specializations:** Set is_specialization: true only if the entry is an explicit sub-branch of an existing parent skill.
-3. **Output Requirement:** Output ONLY the valid JSON block.
+3. **Technological & Metaphysical Recommendations:** Extract recommended_tl and recommended_ml as string arrays matching the operational eras and psionic thresholds of the skill.
+4. **AI Directives & Railguards:** Extract keywords (adds weight for operator & AI) and negative_keywords (reduces weight / exclusions) as comma-separated strings.
+5. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW SKILL TEXT HERE]`,
     expectedKeys: [
       'name', 'type', 'subtype', 'is_specialization', 'base_skill',
-      'description', 'tech_level', 'meta_level', 'mechanic', 'note'
+      'description', 'recommended_tl', 'recommended_ml', 'tech_level', 'meta_level',
+      'keywords', 'negative_keywords', 'mechanic', 'note'
     ],
     sampleItem: {
       name: "Astrogation",
@@ -302,8 +334,12 @@ export const OMNICORTEX_DATASETS = [
       is_specialization: false,
       base_skill: null,
       description: "Calculation of hyperspace trajectories, gravity well avoidance, and orbital mechanics.",
+      recommended_tl: ["TL 3", "TL 4"],
+      recommended_ml: ["ML 0"],
       tech_level: 3,
       meta_level: 0,
+      keywords: "navigation, spatial, computation, piloting, starship",
+      negative_keywords: "primitive, melee, brute force",
       mechanic: "Governing Attribute: Intellect (Logic). Standard CR 15 to compute safe jump coordinates through chartered corridors.",
       note: "Requires navigational computer or star charts."
     }
@@ -452,12 +488,26 @@ export const OMNICORTEX_DATASETS = [
     "typical_archetypes": [
       "String (Typical character archetypes, e.g. 'The Munitions Magnate', 'The Field Medic', 'The Demolisher', 'The Veteran', 'The Marshal', 'The Raider')"
     ],
+    "recommended_species": [
+      "String (Recommended species demographics, e.g. 'Humans', 'Cyborgs')"
+    ],
+    "recommended_origins": [
+      "String (Recommended origins, e.g. 'Frontier Outpost', 'Industrial Heavy')"
+    ],
+    "recommended_occupations": [
+      "String (Recommended occupations, e.g. 'Soldier', 'Technical & Crafting')"
+    ],
+    "recommended_skills": [
+      "String (Recommended skills, e.g. 'Survival', 'Mechanics', 'Small Arms')"
+    ],
     "recommended_features": [
       "String (Tailored faction features available at 1 BP discount, e.g. 'Tough', 'Pain Tolerance', 'Endurance', 'Burst Attack', 'Weapon Improvisation', 'Gearhead', 'Benefit (Authority)', 'Tracker')"
     ],
     "bonus_features": [
       "String (Inherent or distinctive faction perks/traits, e.g. 'Independent Grit', 'Jack of All Trades')"
     ],
+    "keywords": "String (Comma-separated guidance keywords / directives, e.g. 'frontier, industrial, self-reliant, militaristic')",
+    "negative_keywords": "String (Comma-separated negative railguards, e.g. 'pacifist, primitive, core-loyalist')",
     "origin_profession_traits": [
       "String (Origin, career, or rank traits with game rules, e.g. 'Penal Recruit (Ranger): Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority')"
     ],
@@ -507,8 +557,9 @@ export const OMNICORTEX_DATASETS = [
       'outsider_view', 'law_order', 'government_type', 'leadership', 'succession',
       'tech_level', 'meta_level', 'wealth_modifier', 'primary_exports', 'economic_model',
       'military_doctrine', 'key_units', 'naval_assets', 'unique_tech_materials',
-      'skill_package', 'typical_archetypes', 'recommended_features', 'bonus_features',
-      'origin_profession_traits', 'setting_style', 'context_palette', 'lighting_mood',
+      'skill_package', 'typical_archetypes', 'recommended_species', 'recommended_origins',
+      'recommended_occupations', 'recommended_skills', 'recommended_features', 'bonus_features',
+      'keywords', 'negative_keywords', 'origin_profession_traits', 'setting_style', 'context_palette', 'lighting_mood',
       'image_prompt', 'attitude', 'goals', 'social_strengths', 'social_weaknesses',
       'scene_vignettes', 'expansion_modules', 'modifiers', 'costs', 'mechanic', 'note'
     ],
@@ -581,6 +632,12 @@ export const OMNICORTEX_DATASETS = [
         "Independent Grit",
         "Jack of All Trades"
       ],
+      recommended_species: ["Humans (Hardened Frontier Genotype)"],
+      recommended_origins: ["Frontier Outpost", "Industrial Heavy"],
+      recommended_occupations: ["Soldier", "Technical & Crafting", "Civilian & Labor"],
+      recommended_skills: ["Survival", "Mechanics", "Small Arms", "Pilot"],
+      keywords: "frontier, industrial, self-reliant, militaristic, grit, used-future",
+      negative_keywords: "pacifist, primitive, core-loyalist, psionic-elite",
       origin_profession_traits: [
         "Penal Recruit (Ranger): Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority (due to 'The Bit').",
         "Federal Authority (Marshal): Supreme Jurisdiction to commandeer vehicles/access scenes using Status/Intimidate."
@@ -648,19 +705,31 @@ export const OMNICORTEX_DATASETS = [
       { "target": "General Skill Pool", "type": "skill", "value": 2, "mode": "choice_pool" }
     ],
     "mechanic": "String (Operational rules, resource access, and career perks)",
+    "recommended_species": ["String (Recommended species suited for this occupation)"],
+    "recommended_factions": ["String (Recommended factions employing or commissioning this role)"],
+    "recommended_origins": ["String (Recommended origins where this vocation naturally emerges)"],
+    "recommended_skills": ["String (Recommended professional skills)"],
+    "recommended_features": ["String (Recommended features granted with -1 BP discount)"],
+    "keywords": "String (Comma-separated positive directives adding weight for AI and operators)",
+    "negative_keywords": "String (Comma-separated negative railguards reducing weight for AI and operators)",
     "note": "String or null (Common contacts, starting gear packages, GM hooks)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
 1. **Skill & Attribute Packages:** Convert granted vocational skills and attribute adjustments into discrete entries inside the modifiers array.
-2. **Output Requirement:** Output ONLY the valid JSON block.
+2. **Demographic & Mechanical Synergies:** Extract recommended_species, recommended_factions, recommended_origins, recommended_skills, and recommended_features (-1 BP discount) into string arrays.
+3. **AI Guidance:** Extract keywords (adds weight) and negative_keywords (reduces weight / railguards) for operator and AI reference.
+4. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW OCCUPATIONS TEXT HERE]`,
     expectedKeys: [
       'name', 'description', 'prerequisite', 'trait', 'tech_level',
-      'meta_level', 'modifiers', 'mechanic', 'note'
+      'meta_level', 'modifiers', 'mechanic',
+      'recommended_species', 'recommended_factions', 'recommended_origins',
+      'recommended_skills', 'recommended_features', 'keywords', 'negative_keywords',
+      'note'
     ],
     sampleItem: {
       name: "Void Marine",
@@ -675,6 +744,13 @@ export const OMNICORTEX_DATASETS = [
         { target: "Athletics", type: "skill", value: 1, mode: "inherent" }
       ],
       mechanic: "Suffers no penalties to movement or weapon recoil while operating in low or zero gravity.",
+      recommended_species: ["Human (Spacer)", "Synthetics"],
+      recommended_factions: ["Ascendancy Fleet", "Free Trade Consortium"],
+      recommended_origins: ["Deep Void & Station", "Military Stronghold"],
+      recommended_skills: ["Firearms", "Armor Handling", "Athletics"],
+      recommended_features: ["Zero-G Combatant", "Breach Specialist"],
+      keywords: "void, boarding, tactical, zero-g, kinetic",
+      negative_keywords: "diplomacy, unarmed, peaceful, primitive",
       note: "Standard issue includes sealed boarding vac-suit."
     }
   },
@@ -828,6 +904,10 @@ export const OMNICORTEX_DATASETS = [
     "description": "String (Flavorful description and visual appearance)",
     "tech_level": 3,
     "meta_level": 0,
+    "recommended_tl": ["String (Operational era, e.g., 'TL 3', 'TL 4')"],
+    "recommended_ml": ["String (Metaphysical threshold, e.g., 'ML 0', 'ML 1')"],
+    "keywords": "String (Comma-separated directives/search keywords, e.g., 'reflex, neural, overclock')",
+    "negative_keywords": "String (Comma-separated negative railguards, e.g., 'biological purist, unaugmented')",
     "design_dc": 20,
     "craft_dc": 20,
     "sp": 15,
@@ -876,6 +956,7 @@ export const OMNICORTEX_DATASETS = [
 [INSERT RAW AUGMENTATIONS TEXT HERE]`,
     expectedKeys: [
       'name', 'type', 'location', 'description', 'tech_level', 'meta_level',
+      'recommended_tl', 'recommended_ml', 'keywords', 'negative_keywords',
       'design_dc', 'craft_dc', 'sp', 'dr', 'stigma', 'classification',
       'creator', 'design', 'component', 'prerequisite', 'costs', 'sockets',
       'critical_details', 'modifiers', 'mechanic', 'note'
@@ -887,6 +968,10 @@ export const OMNICORTEX_DATASETS = [
       description: "A flexible mesh of plasteel fibers woven into the deep dermis to disperse kinetic trauma.",
       tech_level: 3,
       meta_level: 0,
+      recommended_tl: ["TL 3", "TL 4"],
+      recommended_ml: ["ML 0"],
+      keywords: "subdermal, armor, kinetic dispersion, dermal weave, ballistic",
+      negative_keywords: "biological purist, primitive, unaugmented",
       design_dc: 18,
       craft_dc: 18,
       sp: 20,
@@ -955,6 +1040,10 @@ export const OMNICORTEX_DATASETS = [
     "craft_dc": 16,
     "tech_level": 3,
     "meta_level": 0,
+    "recommended_tl": ["TL 2", "TL 3", "TL 4"],
+    "recommended_ml": ["ML 0"],
+    "keywords": "String (Comma-separated search keywords / positive directives, e.g. 'recon, surveillance, sensor, battery')",
+    "negative_keywords": "String (Comma-separated negative railguards / exclusions, e.g. 'heavy armor, melee, psionic')",
     "weight": 1.5,
     "sp": 10,
     "dr": 0,
@@ -1003,7 +1092,8 @@ export const OMNICORTEX_DATASETS = [
 [INSERT RAW GEAR TEXT HERE]`,
     expectedKeys: [
       'name', 'category', 'size', 'faction_skin', 'base_dc', 'craft_dc',
-      'tech_level', 'meta_level', 'weight', 'sp', 'dr', 'workspace_scale',
+      'tech_level', 'meta_level', 'recommended_tl', 'recommended_ml',
+      'keywords', 'negative_keywords', 'weight', 'sp', 'dr', 'workspace_scale',
       'computer_pr', 'software_level', 'epr_rating', 'supply_die',
       'enhancement_type', 'invocation_rank', 'scale_tier', 'daily_charges',
       'description', 'availability', 'prerequisite', 'costs', 'sockets',
@@ -1018,6 +1108,10 @@ export const OMNICORTEX_DATASETS = [
       craft_dc: 16,
       tech_level: 3,
       meta_level: 0,
+      recommended_tl: ["TL 2", "TL 3", "TL 4"],
+      recommended_ml: ["ML 0"],
+      keywords: "recon, surveillance, sensor, biosignature, handheld",
+      negative_keywords: "heavy armor, melee, psionic focus",
       weight: 0.8,
       sp: 10,
       dr: 1,
@@ -1082,6 +1176,10 @@ export const OMNICORTEX_DATASETS = [
     "description": "String (Tactical description, ergonomics, and aesthetic)",
     "tech_level": 3,
     "meta_level": 0,
+    "recommended_tl": ["TL 2", "TL 3", "TL 4"],
+    "recommended_ml": ["ML 0"],
+    "keywords": "String (Comma-separated search keywords / positive directives, e.g. 'ballistic, assault, kinetic, rapid fire, armor piercing')",
+    "negative_keywords": "String (Comma-separated negative railguards / exclusions, e.g. 'pacifist, non-lethal, primitive, stealth only')",
     "availability": "String (e.g., 'Common', 'Restricted', 'Military', 'Illegal')",
     "design_dc": 18,
     "craft_dc": 18,
@@ -1148,7 +1246,8 @@ export const OMNICORTEX_DATASETS = [
 **INPUT TEXT:**
 [INSERT RAW WEAPONRY TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'tech_level', 'meta_level', 'availability',
+      'name', 'description', 'tech_level', 'meta_level', 'recommended_tl', 'recommended_ml',
+      'keywords', 'negative_keywords', 'availability',
       'design_dc', 'craft_dc', 'size', 'weight', 'quality', 'durability',
       'prerequisite', 'skill', 'special', 'area', 'effect', 'range', 'target',
       'origin', 'creator', 'classification', 'damage', 'damage_type', 'ap',
@@ -1161,6 +1260,10 @@ export const OMNICORTEX_DATASETS = [
       description: "Compact bullpup energy weapon firing superheated magnetic plasma bolts with high muzzle velocity.",
       tech_level: 3,
       meta_level: 0,
+      recommended_tl: ["TL 2", "TL 3", "TL 4"],
+      recommended_ml: ["ML 0"],
+      keywords: "energy, plasma, carbine, rapid fire, thermal burn",
+      negative_keywords: "pacifist, non-lethal, primitive, acoustic",
       availability: "Restricted",
       design_dc: 20,
       craft_dc: 20,
@@ -1243,6 +1346,10 @@ export const OMNICORTEX_DATASETS = [
     "description": "String (Aesthetic description, materials, and silhouette)",
     "tech_level": 3,
     "meta_level": 0,
+    "recommended_tl": ["TL 2", "TL 3", "TL 4"],
+    "recommended_ml": ["ML 0"],
+    "keywords": "String (Comma-separated search keywords / positive directives, e.g. 'ballistic, powered exoskeleton, sealed, heavy plate, stealth mesh')",
+    "negative_keywords": "String (Comma-separated negative railguards / exclusions, e.g. 'stealth, high-mobility, unarmored, primitive, unpowered')",
     "availability": "String (e.g., 'Common', 'Restricted', 'Military')",
     "design_dc": 16,
     "craft_dc": 16,
@@ -1304,7 +1411,8 @@ export const OMNICORTEX_DATASETS = [
 **INPUT TEXT:**
 [INSERT RAW ARMORING TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'tech_level', 'meta_level', 'availability',
+      'name', 'description', 'tech_level', 'meta_level', 'recommended_tl', 'recommended_ml',
+      'keywords', 'negative_keywords', 'availability',
       'design_dc', 'craft_dc', 'size', 'weight', 'quality', 'durability',
       'prerequisite', 'skill', 'origin', 'creator', 'design', 'classification',
       'material', 'body_locations', 'coverage', 'max_dex', 'mobility_penalty',
@@ -1317,6 +1425,10 @@ export const OMNICORTEX_DATASETS = [
       description: "Segmented composite ceramite plates over high-density ballistic weave with neck and groin gorgets.",
       tech_level: 3,
       meta_level: 0,
+      recommended_tl: ["TL 2", "TL 3", "TL 4"],
+      recommended_ml: ["ML 0"],
+      keywords: "ballistic, sealed, reinforced, ceramite, tactical rig",
+      negative_keywords: "stealth, high-mobility, unarmored, primitive",
       availability: "Commercial",
       design_dc: 16,
       craft_dc: 16,
@@ -1427,7 +1539,11 @@ export const OMNICORTEX_DATASETS = [
     "modifications": [],
     "modifiers": [],
     "mechanic": "String (Reactor output, cockpit life support, ejection protocols, movement speeds)",
-    "note": "String or null (Maintenance cycles, fuel requirements, field repair DCs)"
+    "note": "String or null (Maintenance cycles, fuel requirements, field repair DCs)",
+    "recommended_tl": ["TL 3", "TL 4"],
+    "recommended_ml": ["ML 0"],
+    "keywords": "String (Comma-separated positive resonance directives e.g., 'heavy assault, frontline armor, bipedal walker, jump jets')",
+    "negative_keywords": "String (Comma-separated railguards / not recommended aspects e.g., 'stealth, civilian, aquatic, ultra-light')"
   }
 ]
 
@@ -1443,7 +1559,8 @@ export const OMNICORTEX_DATASETS = [
       'meta_level', 'craft_dc', 'sp', 'dr', 'propulsion', 'armor_plating',
       'vft_mode', 'pilot_agility', 'handling', 'description', 'availability',
       'prerequisite', 'costs', 'sockets', 'modifications', 'modifiers',
-      'mechanic', 'note'
+      'mechanic', 'note',
+      'recommended_tl', 'recommended_ml', 'keywords', 'negative_keywords'
     ],
     sampleItem: {
       name: "Centurion Mk-IV Assault Frame",
@@ -1482,7 +1599,11 @@ export const OMNICORTEX_DATASETS = [
       modifications: [],
       modifiers: [],
       mechanic: "Jump thrusters allow 60ft vertical clearance or 120ft forward boost. Cockpit is fully sealed with 48-hour life support.",
-      note: "Reactor core requires hydrogen cell replenishment every 120 hours."
+      note: "Reactor core requires hydrogen cell replenishment every 120 hours.",
+      recommended_tl: ["TL 3", "TL 4"],
+      recommended_ml: ["ML 0"],
+      keywords: "heavy assault, frontline armor, bipedal walker, jump jets, siege",
+      negative_keywords: "stealth, civilian, aquatic, ultra-light recon"
     }
   },
 
@@ -1543,7 +1664,11 @@ export const OMNICORTEX_DATASETS = [
     "modifications": [],
     "modifiers": [],
     "mechanic": "String (Life support capacity, sensor coverage, shield generator output, hangar limits)",
-    "note": "String or null (Integrated facilities, point defense hardpoints, core reactor specifications)"
+    "note": "String or null (Integrated facilities, point defense hardpoints, core reactor specifications)",
+    "recommended_tl": ["TL 3", "TL 4"],
+    "recommended_ml": ["ML 0"],
+    "keywords": "String (Comma-separated positive resonance directives e.g., 'orbital station, defense citadel, trade nexus, sealed habitat')",
+    "negative_keywords": "String (Comma-separated railguards / not recommended aspects e.g., 'fragile, makeshift, portable, personal mobility, open-air')"
   }
 ]
 
@@ -1558,7 +1683,8 @@ export const OMNICORTEX_DATASETS = [
       'environment', 'propulsion', 'tech_level', 'meta_level', 'sp', 'dr',
       'design_dc', 'craft_dc', 'security_level', 'primary_purpose',
       'description', 'prerequisite', 'costs', 'sockets', 'modifications',
-      'modifiers', 'mechanic', 'note'
+      'modifiers', 'mechanic', 'note',
+      'recommended_tl', 'recommended_ml', 'keywords', 'negative_keywords'
     ],
     sampleItem: {
       name: "Aegis Spire Orbital Station",
@@ -1597,7 +1723,11 @@ export const OMNICORTEX_DATASETS = [
       modifications: [],
       modifiers: [],
       mechanic: "Houses 12,000 residents with full life support recycling. Docking ring handles up to 20 starships.",
-      note: "Maintains independent point defense grid."
+      note: "Maintains independent point defense grid.",
+      recommended_tl: ["TL 4", "TL 5"],
+      recommended_ml: ["ML 0"],
+      keywords: "orbital station, defense citadel, trade nexus, sealed habitat, vacuum",
+      negative_keywords: "fragile, makeshift, portable, personal mobility, open-air"
     }
   },
 
@@ -1640,19 +1770,25 @@ export const OMNICORTEX_DATASETS = [
     },
     "modifiers": [],
     "mechanic": "String (Rules, shelf-life, consumption effects, trade utility)",
-    "note": "String or null (Package sizes, cargo transport notes)"
+    "note": "String or null (Package sizes, cargo transport notes)",
+    "recommended_tl": ["String or Number (e.g., 'TL 2', 'TL 3')"],
+    "recommended_ml": ["String or Number (e.g., 'ML 0')"],
+    "keywords": "String (Comma-separated positive tags / AI directives, e.g., 'survival, life support, atmospheric, emergency')",
+    "negative_keywords": "String (Comma-separated railguards / exclusions, e.g., 'weaponized, heavy vehicle, cybernetic, fragile')"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
 1. **Numeric Integrity:** weight, tech_level, meta_level, and costs.credits MUST be numbers.
-2. **Output Requirement:** Output ONLY the valid JSON block.
+2. **Guidance & Railguards:** Parse recommended tech/meta levels into arrays and thematic keywords/negative railguards into comma-separated strings to guide autonomous character equipping and AI reference.
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW OTHER TEXT HERE]`,
     expectedKeys: [
       'name', 'description', 'weight', 'tech_level', 'meta_level',
-      'availability', 'prerequisite', 'costs', 'modifiers', 'mechanic', 'note'
+      'availability', 'prerequisite', 'costs', 'modifiers', 'mechanic', 'note',
+      'recommended_tl', 'recommended_ml', 'keywords', 'negative_keywords'
     ],
     sampleItem: {
       name: "Emergency Atmospheric Scrubbing Canister",
@@ -1673,7 +1809,11 @@ export const OMNICORTEX_DATASETS = [
       },
       modifiers: [],
       mechanic: "Cleanses up to 500 cubic feet of toxic air for 4 hours upon activation.",
-      note: "Single-use disposable unit."
+      note: "Single-use disposable unit.",
+      recommended_tl: ["TL 2"],
+      recommended_ml: ["ML 0"],
+      keywords: "life support, atmospheric, emergency, consumable, canister",
+      negative_keywords: "permanent installation, heavy armor, weaponized"
     }
   },
 
@@ -1720,21 +1860,32 @@ export const OMNICORTEX_DATASETS = [
       "ap": 0
     },
     "mechanic": "String (Environmental tolerances, starting skill options, and cultural mechanics)",
+    "recommended_species": ["String (Recommended species common to this habitat)"],
+    "recommended_factions": ["String (Recommended factions with presence or jurisdiction)"],
+    "recommended_occupations": ["String (Recommended vocations and professions)"],
+    "recommended_skills": ["String (Recommended society and survival skills)"],
+    "recommended_features": ["String (Recommended features granted with -1 BP discount)"],
+    "keywords": "String (Comma-separated positive directives adding weight for AI and operators)",
+    "negative_keywords": "String (Comma-separated negative railguards reducing weight for AI and operators)",
     "note": "String or null (Common origin associations and GM hooks)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Array Normalization:** origin_traits and native_languages MUST be arrays of strings.
+1. **Array Normalization:** origin_traits, native_languages, recommended_species, recommended_factions, recommended_occupations, recommended_skills, and recommended_features MUST be arrays of strings.
 2. **Modifiers:** Convert granted starting skill bonuses or attribute perks into structured modifier objects.
-3. **Output Requirement:** Output ONLY the valid JSON block.
+3. **AI Guidance:** Extract keywords (adds weight) and negative_keywords (reduces weight / railguards) for operator and AI reference.
+4. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW ORIGINS TEXT HERE]`,
     expectedKeys: [
       'name', 'origin_type', 'description', 'tech_level', 'meta_level',
       'origin_traits', 'native_languages', 'environmental_adaptation',
-      'prerequisite', 'modifiers', 'costs', 'mechanic', 'note'
+      'prerequisite', 'modifiers', 'costs', 'mechanic',
+      'recommended_species', 'recommended_factions', 'recommended_occupations',
+      'recommended_skills', 'recommended_features', 'keywords', 'negative_keywords',
+      'note'
     ],
     sampleItem: {
       name: "Core World Metropolis",
@@ -1760,6 +1911,13 @@ export const OMNICORTEX_DATASETS = [
         ap: 0
       },
       mechanic: "Gain advantage on etiquette and bureaucratic navigation checks when dealing with sector authorities.",
+      recommended_species: ["Human (Standard)", "Cyborg Synthetics"],
+      recommended_factions: ["Ascendancy Corporate Hegemony", "Solar Coalition"],
+      recommended_occupations: ["Bureaucrat", "Diplomat", "Corporate Agent"],
+      recommended_skills: ["Academics", "Diplomacy", "Etiquette"],
+      recommended_features: ["Cosmopolitan", "Privileged Background"],
+      keywords: "urban, high-tech, bureaucratic, civilized",
+      negative_keywords: "feral, primitive, aquatic, extreme-gravity",
       note: "Standard starting stipend includes +500 Credits."
     }
   },

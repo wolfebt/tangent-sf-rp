@@ -3,7 +3,7 @@ import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { AudioService } from '../../../services/audioService';
 import { useToast } from '../../../context/ToastContext';
-import { Users, Globe, Search, LayoutGrid, List, Plus, Sparkles, Copy, Trash2, Edit3, Share2, Eye, EyeOff, Shield, Activity, Award, User, Lock, ExternalLink, Radio } from 'lucide-react';
+import { Users, Globe, Search, LayoutGrid, List, Plus, Sparkles, Copy, Trash2, Edit3, Share2, Eye, EyeOff, Shield, Activity, Award, User, Lock, Unlock, ExternalLink, Radio } from 'lucide-react';
 
 export const RosterCatalogView = ({
   personaRoster = [],
@@ -16,6 +16,7 @@ export const RosterCatalogView = ({
   onUpdateNote,
   onToggleVisibility,
   onToggleNetworkEngaged,
+  onToggleVttLock,
   onLoadPublicGallery,
   publicCatalog = [],
   onSelectPublicPersona,
@@ -24,6 +25,7 @@ export const RosterCatalogView = ({
   const { toast } = useToast();
   const [catalogTab, setCatalogTab] = useState('my-roster'); // 'my-roster' | 'public-gallery'
   const [searchQuery, setSearchQuery] = useState('');
+  const [rosterCategoryFilter, setRosterCategoryFilter] = useState('all'); // 'all' | 'directives' | 'railguards'
   const [viewMode, setViewMode] = useState('card'); // 'card' | 'table'
   const [editingNoteDocId, setEditingNoteDocId] = useState(null);
   const [noteTextState, setNoteTextState] = useState('');
@@ -62,8 +64,18 @@ export const RosterCatalogView = ({
 
   const activeSourceList = catalogTab === 'my-roster' ? personaRoster : publicCatalog;
 
-  // Filter roster by search query
+  // Filter roster by category filter and search query
   const filteredRoster = activeSourceList.filter((char) => {
+    if (rosterCategoryFilter === 'directives') {
+      const kw = char.keywords || char.directives;
+      const hasKw = Array.isArray(kw) ? kw.length > 0 : !!(kw && String(kw).trim());
+      if (!hasKw) return false;
+    } else if (rosterCategoryFilter === 'railguards') {
+      const negKw = char.negative_keywords || char.railguards || char.negativeKeywords;
+      const hasNegKw = Array.isArray(negKw) ? negKw.length > 0 : !!(negKw && String(negKw).trim());
+      if (!hasNegKw) return false;
+    }
+
     if (!searchQuery.trim()) return true;
     const query = searchQuery.toLowerCase();
     const name = (char['char-name'] || '').toLowerCase();
@@ -74,6 +86,8 @@ export const RosterCatalogView = ({
     const author = (char.authorHandle || char.creatorHandle || '').toLowerCase();
     const notesText = (char.notes && Array.isArray(char.notes) ? char.notes.map(n => n.text || '').join(' ') : '').toLowerCase();
     const tagsText = (char.tags ? (Array.isArray(char.tags) ? char.tags.join(' ') : String(char.tags)) : '').toLowerCase();
+    const kwText = (char.keywords ? (Array.isArray(char.keywords) ? char.keywords.join(' ') : String(char.keywords)) : '').toLowerCase();
+    const negKwText = (char.negative_keywords ? (Array.isArray(char.negative_keywords) ? char.negative_keywords.join(' ') : String(char.negative_keywords)) : '').toLowerCase();
 
     return (
       name.includes(query) ||
@@ -83,7 +97,9 @@ export const RosterCatalogView = ({
       occupation.includes(query) ||
       author.includes(query) ||
       notesText.includes(query) ||
-      tagsText.includes(query)
+      tagsText.includes(query) ||
+      kwText.includes(query) ||
+      negKwText.includes(query)
     );
   });
 
@@ -182,16 +198,44 @@ export const RosterCatalogView = ({
         </div>
 
         {/* Search & View Mode Switcher */}
-        <div className="flex items-center gap-2 self-stretch sm:self-auto min-w-0">
+        <div className="flex items-center gap-2 self-stretch sm:self-auto min-w-0 flex-wrap sm:flex-nowrap">
           <div className="relative flex-1 sm:w-64">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
               type="text"
-              placeholder="Search by name, species, faction, tags..."
+              placeholder="Search dossiers, directives, railguards..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 focus:border-cyan-500 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none transition-colors font-mono"
             />
+          </div>
+
+          {/* Directives & Railguards Filter Pills */}
+          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0 font-mono text-[11px]">
+            <button
+              type="button"
+              onClick={() => setRosterCategoryFilter(rosterCategoryFilter === 'directives' ? 'all' : 'directives')}
+              className={`px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                rosterCategoryFilter === 'directives'
+                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                  : 'text-slate-400 hover:text-emerald-300'
+              }`}
+              title="Filter by Directives (+KW)"
+            >
+              🧭 Directives
+            </button>
+            <button
+              type="button"
+              onClick={() => setRosterCategoryFilter(rosterCategoryFilter === 'railguards' ? 'all' : 'railguards')}
+              className={`px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                rosterCategoryFilter === 'railguards'
+                  ? 'bg-rose-950 text-rose-300 border border-rose-500/60 shadow-[0_0_8px_rgba(244,63,94,0.3)]'
+                  : 'text-slate-400 hover:text-rose-300'
+              }`}
+              title="Filter by Railguards (-KW)"
+            >
+              ⛔ Railguards
+            </button>
           </div>
 
           <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0">
@@ -274,19 +318,32 @@ export const RosterCatalogView = ({
                         <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-[9.5px] font-mono text-slate-300 uppercase">
                           {archetype !== 'Unspecified' ? archetype : 'Persona'}
                         </span>
-                        {isLocked && (
-                          <span 
-                            className="px-1.5 py-0.5 rounded-md bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[9.5px] font-mono font-bold uppercase flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
-                            title="Dossier Locked & Set for VTT"
-                          >
-                            <Lock size={10} className="text-cyan-400" />
-                            <span>Locked</span>
-                          </span>
-                        )}
                       </div>
 
                       {catalogTab === 'my-roster' ? (
                         <div className="flex items-center gap-1">
+                          {/* Relocated Lock for VTT as VTT on the card */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onToggleVttLock && onToggleVttLock(docId);
+                            }}
+                            className={`px-2 py-0.5 rounded-md text-[9.5px] font-mono font-bold uppercase transition-all flex items-center gap-1 cursor-pointer border ${
+                              isLocked
+                                ? 'bg-cyan-950/90 border-cyan-400 text-cyan-200 shadow-[0_0_8px_rgba(34,211,238,0.35)]'
+                                : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-cyan-300 hover:border-slate-600'
+                            }`}
+                            title={
+                              isLocked
+                                ? 'VTT Locked: Persona is locked and sealed for tactical play. Click to unlock for editing.'
+                                : 'VTT Open: Persona is in development mode. Click to lock for VTT play.'
+                            }
+                          >
+                            {isLocked ? <Lock size={10} className="text-cyan-400" /> : <Unlock size={10} className="text-slate-400" />}
+                            <span>VTT</span>
+                          </button>
+
                           <button
                             type="button"
                             onClick={(e) => {
@@ -476,14 +533,23 @@ export const RosterCatalogView = ({
                         <td className="py-3 px-3 text-slate-400">{archetype}</td>
                         <td className="py-3 px-3">
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            {isLocked && (
-                              <span 
-                                className="px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 text-[9px] uppercase font-bold flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
-                                title="Dossier Locked & Set for VTT"
+                            {catalogTab === 'my-roster' && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onToggleVttLock && onToggleVttLock(docId);
+                                }}
+                                className={`px-2 py-0.5 rounded text-[9px] uppercase font-bold border transition-colors flex items-center gap-1 cursor-pointer ${
+                                  isLocked
+                                    ? 'bg-cyan-950/80 text-cyan-300 border-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.3)]'
+                                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-cyan-300'
+                                }`}
+                                title={isLocked ? "VTT Locked: Persona is locked for tactical play. Click to unlock." : "VTT Open: Persona is in development. Click to lock for VTT."}
                               >
-                                <Lock size={9} className="text-cyan-400" />
-                                <span>Locked</span>
-                              </span>
+                                {isLocked ? <Lock size={9} className="text-cyan-400" /> : <Unlock size={9} className="text-slate-400" />}
+                                <span>VTT</span>
+                              </button>
                             )}
                             {catalogTab === 'my-roster' && (
                               <button

@@ -16,7 +16,7 @@ import MapWallNode from './map/MapWallNode';
 import WaypointRulerOverlay from './map/WaypointRulerOverlay';
 import UvttImportModal from './map/UvttImportModal';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
-import { toggleDoorState, damageWallSegment } from '../../../schemas/vttWallSchema';
+import { toggleDoorState, damageWallSegment, createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema';
 import SpatialAudio from '../../../services/spatialAudioService';
 import MapToolbar from './map/MapToolbar';
 import ArchitectConsoleRail from './map/ArchitectConsoleRail';
@@ -142,6 +142,24 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
     );
   }
 
+  if (t.renderType === 'rect') {
+    return (
+      <Rect
+        ref={shapeRef}
+        x={t.x}
+        y={t.y}
+        width={t.width || 40}
+        height={t.height || 40}
+        fill={t.color}
+        fillPatternImage={patternImg}
+        fillPatternRepeat="repeat"
+        stroke={t.strokeColor || t.color}
+        strokeWidth={t.strokeWidth || 1}
+        onClick={() => !isLocked && isEraser && onErase(t.id)}
+      />
+    );
+  }
+
   if (t.closed || t.renderType === 'polygon') {
     return (
       <Line
@@ -153,7 +171,7 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
         stroke={t.strokeColor || t.color}
         strokeWidth={t.strokeWidth || 1.5}
         closed={true}
-        tension={t.tension || 0.35}
+        tension={t.tension !== undefined ? t.tension : 0.35}
         lineCap="round"
         lineJoin="round"
         onClick={() => !isLocked && isEraser && onErase(t.id)}
@@ -342,10 +360,11 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     setActiveStudioTab('canvas');
   };
 
-  const handleApplyDecorations = (entities) => {
-    if (!currentMap || !entities) return;
+  const handleApplyDecorations = (entities = [], atmosphere = null, lights = [], doors = []) => {
+    if (!currentMap) return;
     recordHistory();
-    const newObjects = entities.map(e => ({
+
+    const newObjects = (entities || []).map(e => ({
       id: e.id || `entity-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
       name: e.unit_name,
       label: e.unit_name,
@@ -357,10 +376,88 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       category: e.category,
       type: e.category === 'token' ? 'npc' : 'doodad',
       isHazard: e.isHazard,
-      hazardDamage: e.hazardDamage
+      hazardDamage: e.hazardDamage,
+      isCover: e.isCover,
+      coverRating: e.coverRating,
+      isDecal: e.isDecal,
+      decalType: e.decalType
     }));
-    updateMap(activeMapId, { objects: [...(currentMap.objects || []), ...newObjects] });
-    showToast({ type: 'success', text: `Spatial Decorator placed ${newObjects.length} tactical entities!` });
+
+    // Interactive Doors (both portal objects and wall barrier segments)
+    const newDoorObjects = [];
+    const newWalls = [];
+
+    (doors || []).forEach(d => {
+      const isBarricaded = Boolean(d.isBarricaded);
+      const doorName = isBarricaded 
+        ? 'Barricaded Blast Door' 
+        : (d.doorType === 'airlock' ? 'Airlock Blast Door' : 'Security Bulkhead');
+
+      newDoorObjects.push({
+        id: `portal-${Date.now()}-${d.col}-${d.row}`,
+        name: doorName,
+        label: isBarricaded ? 'Barricaded Door' : (d.doorType === 'airlock' ? 'Airlock' : 'Door'),
+        x: d.col * gridSize + gridSize / 2,
+        y: d.row * gridSize + gridSize / 2,
+        width: gridSize,
+        height: gridSize,
+        category: 'door',
+        type: 'portal',
+        color: isBarricaded ? '#ef4444' : (d.doorType === 'airlock' ? '#38bdf8' : '#f59e0b'),
+        isOpen: false,
+        isLocked: isBarricaded || Boolean(d.isLocked),
+        isBarricaded
+      });
+
+      newWalls.push(createWallSegment(
+        { x: d.col * gridSize, y: d.row * gridSize + gridSize / 2 },
+        { x: (d.col + 1) * gridSize, y: d.row * gridSize + gridSize / 2 },
+        WALL_TYPES.DOOR,
+        {
+          id: `wall-door-${Date.now()}-${d.col}-${d.row}`,
+          label: doorName,
+          doorState: isBarricaded ? DOOR_STATES.LOCKED : DOOR_STATES.CLOSED,
+          breachHp: isBarricaded ? 80 : 40,
+          athleticsDc: isBarricaded ? 22 : 16,
+          hackDc: isBarricaded ? 18 : 14,
+          color: isBarricaded ? '#ef4444' : (d.doorType === 'airlock' ? '#38bdf8' : '#f59e0b')
+        }
+      ));
+    });
+
+    // Dynamic Lights
+    const newLights = (lights || []).map(lt => {
+      const anim = lt.animation || 'steady';
+      return {
+        id: lt.id || `light-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+        name: anim === 'flicker' ? 'Flickering Luminary' : anim === 'pulse' ? 'Warning Beacon' : 'Tactical Luminary',
+        x: lt.col * gridSize + gridSize / 2,
+        y: lt.row * gridSize + gridSize / 2,
+        radius: (lt.radius || 3.5) * gridSize,
+        color: lt.color || '#f59e0b',
+        intensity: lt.intensity ?? 0.85,
+        animation: anim
+      };
+    });
+
+    const updatePayload = {
+      objects: [...(currentMap.objects || []), ...newObjects, ...newDoorObjects],
+      walls: [...(currentMap.walls || []), ...newWalls],
+      lights: [...(currentMap.lights || []), ...newLights]
+    };
+
+    if (atmosphere?.ambient_color) {
+      updatePayload.ambientLight = atmosphere.ambient_color;
+    }
+    if (atmosphere?.weather) {
+      updatePayload.weatherFx = atmosphere.weather;
+    }
+
+    updateMap(activeMapId, updatePayload);
+    showToast({
+      type: 'success',
+      text: `Spatial Decorator injected ${newObjects.length} entities, ${newLights.length} lights, and ${newDoorObjects.length} doors!`
+    });
     setActiveStudioTab('canvas');
   };
 
@@ -938,6 +1035,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     objects: generatedObjects = [],
     lines: generatedLines = [],
     lights: generatedLights = [],
+    walls: generatedWalls = [],
     replaceExisting = true
   }) => {
     let targetId = activeMapId;
@@ -954,6 +1052,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         texts: [],
         fog: [],
         lights: generatedLights,
+        walls: generatedWalls,
         layers: DEFAULT_LAYERS
       });
       setActiveMapId(targetId);
@@ -966,12 +1065,14 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     const nextObjects = replaceExisting ? generatedObjects : [...objects, ...generatedObjects];
     const nextLines = replaceExisting ? generatedLines : [...lines, ...generatedLines];
     const nextLights = replaceExisting ? generatedLights : [...(currentMap?.lights || []), ...generatedLights];
+    const nextWalls = replaceExisting ? generatedWalls : [...(currentMap?.walls || []), ...generatedWalls];
 
     updateMap(targetId, {
       terrains: nextTerrains,
       objects: nextObjects,
       lines: nextLines,
-      lights: nextLights
+      lights: nextLights,
+      walls: nextWalls
     });
     showToast({
       type: 'success',
@@ -1923,7 +2024,17 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                       );
                     })}
                     {lines.map((l, i) => (
-                      <Line key={l.id || i} points={l.points} stroke={l.color || "#ef4444"} strokeWidth={l.strokeWidth || 5} tension={0.5} lineCap="round" lineJoin="round" onClick={() => !isLayerLocked('layer_terrain') && activeTool === 'eraser' && eraseElement(l.id)} />
+                      <Line
+                        key={l.id || i}
+                        points={l.points}
+                        stroke={l.stroke || l.color || "#ef4444"}
+                        strokeWidth={l.strokeWidth || 5}
+                        tension={l.tension !== undefined ? l.tension : (l.closed ? 0.2 : 0)}
+                        closed={l.closed || false}
+                        lineCap="round"
+                        lineJoin="round"
+                        onClick={() => !isLayerLocked('layer_terrain') && activeTool === 'eraser' && eraseElement(l.id)}
+                      />
                     ))}
                   </Group>
                 )}

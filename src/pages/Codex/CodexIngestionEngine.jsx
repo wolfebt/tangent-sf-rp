@@ -620,7 +620,9 @@ export const CodexIngestionEngine = ({
       const name = (item.name || '').toLowerCase();
       const desc = (item.description || item.mechanic || '').toLowerCase();
       const id = (item.id || '').toLowerCase();
-      return name.includes(term) || desc.includes(term) || id.includes(term);
+      const kw = (item.keywords ? String(item.keywords) : '').toLowerCase();
+      const negKw = (item.negative_keywords ? String(item.negative_keywords) : '').toLowerCase();
+      return name.includes(term) || desc.includes(term) || id.includes(term) || kw.includes(term) || negKw.includes(term);
     });
   }, [parsedItems, searchFilter]);
 

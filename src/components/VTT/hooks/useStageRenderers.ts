@@ -143,6 +143,14 @@ export function useStageRenderers({
           g.poly(t.points);
           g.fill({ color: colorHex, alpha: 0.85 });
           g.stroke({ width: t.strokeWidth || 2, color: colorHex, alpha: 0.95 });
+
+          if (t.edgeLines && t.edgeLines.length > 0) {
+            t.edgeLines.forEach((edge: [number, number, number, number]) => {
+              g.moveTo(edge[0], edge[1]);
+              g.lineTo(edge[2], edge[3]);
+            });
+            g.stroke({ width: 2, color: t.isLiquid ? 0x38bdf8 : 0x0ea5e9, alpha: 0.8 });
+          }
         } else {
           g.moveTo(t.points[0], t.points[1]);
           for (let i = 2; i < t.points.length; i += 2) {

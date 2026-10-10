@@ -102,8 +102,8 @@ export const SpriteSheetCutterModal: React.FC<SpriteSheetCutterModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-cyan-800 rounded-lg shadow-2xl w-full max-w-4xl flex flex-col h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-sm p-4 pt-14 sm:pt-16 pb-8 overflow-y-auto animate-in fade-in duration-200">
+      <div className="bg-slate-900 border border-cyan-800 rounded-lg shadow-2xl w-full max-w-4xl flex flex-col h-[84vh] max-h-[calc(100vh-5.5rem)] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-cyan-900/40">
           <div className="flex items-center space-x-2">

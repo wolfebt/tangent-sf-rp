@@ -40,7 +40,9 @@ import {
   Briefcase,
   Eye,
   Edit3,
-  Maximize2
+  Maximize2,
+  Package,
+  Building2
 } from 'lucide-react';
 
 // Specialized DBM Sub-Widgets
@@ -59,6 +61,19 @@ import {
   SocialStigmaSelector
 } from '../DBM/widgets/OmnicortexFieldSelector';
 import { categoryConfig } from '../DBM/categoryConfig';
+import { SpeciesArchitectGuidance } from './SpeciesArchitectGuidance';
+import { FactionArchitectGuidance } from './FactionArchitectGuidance';
+import { OriginArchitectGuidance } from './OriginArchitectGuidance';
+import { OccupationArchitectGuidance } from './OccupationArchitectGuidance';
+import { SkillArchitectGuidance } from './SkillArchitectGuidance';
+import { FeatureArchitectGuidance } from './FeatureArchitectGuidance';
+import { GearArchitectGuidance } from './GearArchitectGuidance';
+import { WeaponArchitectGuidance } from './WeaponArchitectGuidance';
+import { ArmorArchitectGuidance } from './ArmorArchitectGuidance';
+import { AugmentationArchitectGuidance } from './AugmentationArchitectGuidance';
+import { MechaArchitectGuidance } from './MechaArchitectGuidance';
+import { ArchitectureArchitectGuidance } from './ArchitectureArchitectGuidance';
+import { OtherArchitectGuidance } from './OtherArchitectGuidance';
 
 // Contexts & Services
 import { useDBM } from '../../context/DBMContext';
@@ -364,7 +379,15 @@ const NARRATIVE_FIELD_NAMES = new Set([
   'image_prompt',
   'context_palette',
   'lighting_mood',
-  'setting_style'
+  'setting_style',
+  'recommended_species',
+  'recommended_factions',
+  'recommended_origins',
+  'recommended_occupations',
+  'recommended_skills',
+  'recommended_features',
+  'keywords',
+  'negative_keywords'
 ]);
 
 const WIDGET_FIELD_NAMES = new Set([
@@ -976,6 +999,16 @@ export const AssetStudio = ({
         activeBorder: 'border-amber-500/60'
       };
     }
+    if (mId === 'skills') {
+      return {
+        label: 'Skill Mechanics',
+        sublabel: 'DCs & Specializations',
+        icon: Zap,
+        color: '#3b82f6',
+        activeBg: 'bg-blue-950/80',
+        activeBorder: 'border-blue-500/60'
+      };
+    }
     if (mId === 'archetypes') {
       return {
         label: 'Chassis & Attributes',
@@ -1060,16 +1093,18 @@ export const AssetStudio = ({
     const isOrigin = matrix.id === 'origins';
     const isOccu = matrix.id === 'occupations';
     const isArch = matrix.id === 'archetypes';
+    const isSkill = matrix.id === 'skills';
 
     const getSpecsLabel = () => {
       if (isOrigin) return 'Origin Overview';
       if (isOccu) return 'Career Overview';
       if (isArch) return 'Archetype Overview';
+      if (isSkill) return 'Skill Overview';
       return 'General Specs';
     };
 
     const getSpecsShort = () => {
-      if (isOrigin || isOccu || isArch) return 'OVERVIEW';
+      if (isOrigin || isOccu || isArch || isSkill) return 'OVERVIEW';
       return 'SPECS';
     };
 
@@ -1077,6 +1112,7 @@ export const AssetStudio = ({
       if (isOrigin) return 'Homeworld & 1.05 Rules';
       if (isOccu) return 'Profession & 1.06 Rules';
       if (isArch) return '80 BP Chassis & 1.02 Rules';
+      if (isSkill) return 'Domain & 1.07 Rules';
       return 'Registry Dossier';
     };
 
@@ -1084,6 +1120,7 @@ export const AssetStudio = ({
       if (isOrigin) return Globe;
       if (isOccu) return Briefcase;
       if (isArch) return Compass;
+      if (isSkill) return BookOpen;
       return FileText;
     };
 
@@ -1091,6 +1128,7 @@ export const AssetStudio = ({
       if (isOrigin) return '#10b981';
       if (isOccu) return '#f59e0b';
       if (isArch) return '#8b5cf6';
+      if (isSkill) return '#3b82f6';
       return '#06b6d4';
     };
 
@@ -1098,6 +1136,7 @@ export const AssetStudio = ({
       if (isOrigin) return 'bg-emerald-950/80';
       if (isOccu) return 'bg-amber-950/80';
       if (isArch) return 'bg-purple-950/80';
+      if (isSkill) return 'bg-blue-950/80';
       return 'bg-cyan-950/80';
     };
 
@@ -1105,6 +1144,7 @@ export const AssetStudio = ({
       if (isOrigin) return 'border-emerald-500/60';
       if (isOccu) return 'border-amber-500/60';
       if (isArch) return 'border-purple-500/60';
+      if (isSkill) return 'border-blue-500/60';
       return 'border-cyan-500/60';
     };
 
@@ -1122,7 +1162,7 @@ export const AssetStudio = ({
       {
         id: 'mechanics',
         label: mechanicsTabConfig.label,
-        shortLabel: isOrigin ? 'SKILLS & TRAITS' : isOccu ? 'SKILLS & FEATS' : isArch ? 'CHASSIS' : (isSpeciesStudio ? 'GENETICS' : 'MECHANICS'),
+        shortLabel: isOrigin ? 'SKILLS & TRAITS' : isOccu ? 'SKILLS & FEATS' : isArch ? 'CHASSIS' : isSkill ? 'RULES & DCS' : (isSpeciesStudio ? 'GENETICS' : 'MECHANICS'),
         sublabel: mechanicsTabConfig.sublabel,
         icon: mechanicsTabConfig.icon,
         color: mechanicsTabConfig.color,
@@ -1185,15 +1225,27 @@ export const AssetStudio = ({
     });
 
     if (matrix.id !== 'species') {
+      const isOriginsRel = matrix.id === 'origins';
+      const isFactionsRel = matrix.id === 'factions';
+      const isOccuRel = matrix.id === 'occupations';
+      const isSkillRel = matrix.id === 'skills';
+      const isFeatureRel = matrix.id === 'features';
+      const isOtherRel = matrix.id === 'other' || matrix.id === 'other_property' || formData.category === 'other' || resolvedKey === 'other';
+      const isGearRel = matrix.id === 'gear' || matrix.id === 'equipment';
+      const isWeaponryRel = matrix.id === 'weaponry';
+      const isArmorRel = matrix.id === 'armor' || matrix.id === 'armoring';
+      const isMechaRel = matrix.id === 'mecha' || matrix.id === 'vehicles';
+      const isArchitectureRel = matrix.id === 'architecture';
+      const isAugmentationsRel = matrix.id === 'augmentations' || matrix.id === 'augmentation' || matrix.id === 'cybernetics';
       items.push({
         id: 'relational',
-        label: 'Relational Links',
+        label: isOtherRel ? 'Other Property Relations' : isArchitectureRel ? 'Architecture Relations' : isMechaRel ? 'Mecha Relations' : isAugmentationsRel ? 'Augmentation Relations' : isArmorRel ? 'Armor Relations' : isWeaponryRel ? 'Weapon Relations' : isGearRel ? 'Gear Relations' : isFeatureRel ? 'Feature Relations' : isSkillRel ? 'Skill Relations' : isOccuRel ? 'Career Relations' : isOriginsRel ? 'Origin Relations' : isFactionsRel ? 'Faction Relations' : 'Relational Links',
         shortLabel: 'RELATIONS',
-        sublabel: 'Entity Connections',
-        icon: Compass,
-        color: '#3b82f6',
-        activeBg: 'bg-blue-950/80',
-        activeBorder: 'border-blue-500/60'
+        sublabel: (isOtherRel || isArchitectureRel || isMechaRel || isAugmentationsRel || isArmorRel || isWeaponryRel || isGearRel || isSkillRel || isFeatureRel) ? 'TL, ML & Guidance' : (isOccuRel || isOriginsRel || isFactionsRel) ? 'Synergies & Guidance' : 'Entity Connections',
+        icon: isOtherRel ? HelpCircle : isArchitectureRel ? Building2 : isMechaRel ? Bot : isAugmentationsRel ? Cpu : isArmorRel ? Shield : isWeaponryRel ? Crosshair : isGearRel ? Package : isFeatureRel ? Sparkles : isSkillRel ? BookOpen : isOccuRel ? Briefcase : isOriginsRel ? Globe : Compass,
+        color: isOtherRel ? '#94a3b8' : isArchitectureRel ? '#f59e0b' : isMechaRel ? '#f59e0b' : isAugmentationsRel ? '#ec4899' : isArmorRel ? '#f59e0b' : isWeaponryRel ? '#dc2626' : isGearRel ? '#64748b' : isFeatureRel ? '#a855f7' : isSkillRel ? '#3b82f6' : isOccuRel ? '#f59e0b' : isOriginsRel ? '#10b981' : '#3b82f6',
+        activeBg: isOtherRel ? 'bg-slate-900/90' : isArchitectureRel ? 'bg-amber-950/80' : isMechaRel ? 'bg-amber-950/80' : isAugmentationsRel ? 'bg-pink-950/80' : isArmorRel ? 'bg-amber-950/80' : isWeaponryRel ? 'bg-red-950/80' : isGearRel ? 'bg-slate-900/90' : isFeatureRel ? 'bg-purple-950/80' : isSkillRel ? 'bg-blue-950/80' : isOccuRel ? 'bg-amber-950/80' : isOriginsRel ? 'bg-emerald-950/80' : 'bg-blue-950/80',
+        activeBorder: isOtherRel ? 'border-slate-500/60' : isArchitectureRel ? 'border-amber-500/60' : isMechaRel ? 'border-amber-500/60' : isAugmentationsRel ? 'border-pink-500/60' : isArmorRel ? 'border-amber-500/60' : isWeaponryRel ? 'border-red-500/60' : isGearRel ? 'border-slate-500/60' : isFeatureRel ? 'border-purple-500/60' : isSkillRel ? 'border-blue-500/60' : isOccuRel ? 'border-amber-500/60' : isOriginsRel ? 'border-emerald-500/60' : 'border-blue-500/60'
       });
     }
 
@@ -1214,10 +1266,10 @@ export const AssetStudio = ({
   }, [mechanicsTabConfig, devMode, matrix.id, isProperty]);
 
   const content = (
-    <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full ${
+    <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full min-w-0 min-h-0 ${
       isModal 
-        ? 'fixed inset-0 z-[350] w-screen h-screen rounded-none border-0 max-w-none max-h-none' 
-        : 'border border-slate-800/90 rounded-2xl shadow-2xl max-w-7xl mx-auto h-full'
+        ? 'w-full h-full rounded-none border-0 max-w-none max-h-none' 
+        : 'border border-slate-800/90 rounded-2xl shadow-2xl w-full h-full'
     }`}>
       
       {/* ── Studio Top Header Bar ── */}
@@ -1325,13 +1377,13 @@ export const AssetStudio = ({
             <span className="hidden sm:inline">Ingestion</span>
           </button>
 
-          {/* Modal Close Button */}
-          {isModal && onClose && (
+          {/* Studio Close Button */}
+          {onClose && (
             <button
               type="button"
               onClick={onClose}
               className="p-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer ml-1"
-              title="Close Studio"
+              title="Close Studio (Return to Directory)"
             >
               <X size={16} />
             </button>
@@ -1374,7 +1426,7 @@ export const AssetStudio = ({
           className="w-18 sm:w-20 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col items-center justify-between py-2.5 px-1 select-none z-20 font-sans shadow-lg"
         >
           {/* Top Section: Matrix Brand Crest + Nav Buttons */}
-          <div className="flex flex-col items-center gap-1.5 w-full">
+          <div className="flex flex-col items-center gap-1.5 w-full overflow-y-auto no-scrollbar min-h-0">
             {/* Top Matrix Crest / Icon */}
             <div className="flex flex-col items-center justify-center py-1 mb-0.5">
               <div 
@@ -1451,7 +1503,7 @@ export const AssetStudio = ({
           </div>
 
           {/* Bottom Rail System Metadata / Status */}
-          <div className="w-full flex flex-col items-center gap-1.5 pt-2 border-t border-slate-800/80 mt-auto">
+          <div className="w-full flex flex-col items-center gap-1.5 pt-2 border-t border-slate-800/80 mt-auto shrink-0">
             <div className="flex items-center gap-1 text-[9px] font-mono text-slate-400 uppercase tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span className="truncate max-w-[60px]">{matrix.name}</span>
@@ -1479,7 +1531,7 @@ export const AssetStudio = ({
         )}
 
         {/* ── Main Studio Workbench (Left Forms + Right Live Metrics) ── */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col lg:flex-row gap-6 min-h-0">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 pb-12 sm:pb-16 flex flex-col lg:flex-row gap-6 min-h-0">
           
           {/* Left Column: Studio Forms & Configurators */}
           <div className="flex-1 flex flex-col gap-5 min-w-0">
@@ -1789,14 +1841,14 @@ export const AssetStudio = ({
                         {isEditMode ? (
                           <textarea
                             rows={3}
-                            value={formData.recommended_features || ''}
+                            value={Array.isArray(formData.recommended_features) ? formData.recommended_features.join(', ') : (formData.recommended_features || '')}
                             onChange={(e) => handleFieldChange('recommended_features', e.target.value)}
                             placeholder="E.g., Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker"
                             className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
                           />
                         ) : (
                           <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.recommended_features || 'None specified.'}
+                            {Array.isArray(formData.recommended_features) ? formData.recommended_features.join(', ') : (formData.recommended_features || 'None specified.')}
                           </div>
                         )}
                       </div>
@@ -2376,46 +2428,155 @@ export const AssetStudio = ({
                   </div>
                 )}
               </div>
+
+              {/* Species Studio: Architect Guidance & Recommendations for Factions, Origins, Occupations, and Keywords */}
+              {(isSpeciesStudio || matrix?.id === 'species') && (
+                <SpeciesArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              )}
             </div>
           )}
 
           {/* ── TAB 4: RELATIONAL LINKS ── */}
           {activeStudioTab === 'relational' && (
             <div className="space-y-4 animate-fade-in">
-              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl">
-                <h4 className="text-xs font-mono font-bold uppercase text-cyan-400 mb-2 flex items-center gap-1.5">
-                  <Compass size={14} />
-                  <span>Omnicortex Relational Entity Linking</span>
-                </h4>
-                <p className="text-xs text-slate-400 leading-relaxed mb-4">
-                  Link this {matrix.name} record to parent species lineages, homeworlds, factions, tactical requirements, or associated skills.
-                </p>
+              {matrix.id === 'features' ? (
+                <FeatureArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : matrix.id === 'skills' ? (
+                <SkillArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : matrix.id === 'factions' ? (
+                <FactionArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : matrix.id === 'origins' ? (
+                <OriginArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : matrix.id === 'occupations' ? (
+                <OccupationArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'gear' || matrix.id === 'equipment') ? (
+                <GearArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : matrix.id === 'weaponry' ? (
+                <WeaponArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'armor' || matrix.id === 'armoring') ? (
+                <ArmorArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'augmentations' || matrix.id === 'augmentation' || matrix.id === 'cybernetics') ? (
+                <AugmentationArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'mecha' || matrix.id === 'vehicles') ? (
+                <MechaArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'architecture') ? (
+                <ArchitectureArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (matrix.id === 'other' || matrix.id === 'other_property' || formData.category === 'other' || resolvedKey === 'other') ? (
+                <OtherArchitectGuidance
+                  formData={formData}
+                  handleFieldChange={handleFieldChange}
+                  isEditMode={isEditMode}
+                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
+                  dbData={dbData}
+                />
+              ) : (
+                <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl">
+                  <h4 className="text-xs font-mono font-bold uppercase text-cyan-400 mb-2 flex items-center gap-1.5">
+                    <Compass size={14} />
+                    <span>Omnicortex Relational Entity Linking</span>
+                  </h4>
+                  <p className="text-xs text-slate-400 leading-relaxed mb-4">
+                    Link this {matrix.name} record to parent species lineages, homeworlds, factions, tactical requirements, or associated skills.
+                  </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {['species', 'factions', 'skills', 'occupations', 'origins'].map(colKey => {
-                    const linked = formData[colKey] || formData[`${colKey}_id`] || [];
-                    const count = Array.isArray(linked) ? linked.length : (linked ? 1 : 0);
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {['species', 'factions', 'skills', 'occupations', 'origins'].map(colKey => {
+                      const linked = formData[colKey] || formData[`${colKey}_id`] || [];
+                      const count = Array.isArray(linked) ? linked.length : (linked ? 1 : 0);
 
-                    return (
-                      <div key={colKey} className="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
-                        <div>
-                          <div className="text-xs font-mono font-bold text-slate-200 uppercase">{colKey}</div>
-                          <div className="text-[10px] font-mono text-slate-500">{count} attached</div>
+                      return (
+                        <div key={colKey} className="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
+                          <div>
+                            <div className="text-xs font-mono font-bold text-slate-200 uppercase">{colKey}</div>
+                            <div className="text-[10px] font-mono text-slate-500">{count} attached</div>
+                          </div>
+                          {isEditMode && (
+                            <button
+                              type="button"
+                              onClick={() => setActiveSelectorField(colKey)}
+                              className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold uppercase transition-colors"
+                            >
+                              Browse
+                            </button>
+                          )}
                         </div>
-                        {isEditMode && (
-                          <button
-                            type="button"
-                            onClick={() => setActiveSelectorField(colKey)}
-                            className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold uppercase transition-colors"
-                          >
-                            Browse
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
@@ -2592,7 +2753,7 @@ export const AssetStudio = ({
 
   if (isModal) {
     return (
-      <div className="fixed inset-0 z-[350] w-screen h-screen bg-[#070a13] flex flex-col overflow-hidden select-none font-sans p-0 m-0">
+      <div className="fixed top-[52px] left-0 md:left-18 sm:md:left-20 right-0 bottom-0 z-[90] bg-[#070a13] flex flex-col overflow-hidden select-none font-sans p-0 m-0">
         {content}
       </div>
     );

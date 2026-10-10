@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
   categoryConfig, 
   DEVELOPMENT_FIELDS_GROUPS, 
@@ -23,23 +23,26 @@ import { DBMItemModal } from './DBMItemModal';
 import { ArchitectDevFieldsModal } from './ArchitectDevFieldsModal';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { Toast } from '../UI/Toast';
+import { BreadcrumbNav } from '../UI/BreadcrumbNav';
 
 import { useDBM } from '../../context/DBMContext';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
-import { PanelLeftOpen, ChevronRight, Menu } from 'lucide-react';
+import { PanelLeftOpen, ChevronRight, Menu, Crown, Bot } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { OmnicortexNavRail } from './OmnicortexNavRail';
 
 const EMPTY_CONFIG = {};
 
 export const DBMContainer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { currentUser, userHandle, loginWithGoogle, isAdmin, toggleAdminOverride } = useAuth();
   const confirm = useConfirm();
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchParams] = useSearchParams();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -104,6 +107,8 @@ export const DBMContainer = () => {
   const [filterTLs, setFilterTLs] = useState([]);
   const [filterMLs, setFilterMLs] = useState([]);
   const [filterTags, setFilterTags] = useState([]);
+  const [filterDirectives, setFilterDirectives] = useState([]);
+  const [filterRailguards, setFilterRailguards] = useState([]);
 
   // Currently active configuration
   const currentKey = activeSubcategory || activeCategory;
@@ -115,6 +120,8 @@ export const DBMContainer = () => {
     setFilterTLs([]);
     setFilterMLs([]);
     setFilterTags([]);
+    setFilterDirectives([]);
+    setFilterRailguards([]);
     setSortField('name');
     setSortAsc(true);
   }, [currentKey]);
@@ -150,6 +157,27 @@ export const DBMContainer = () => {
     if (val === undefined || val === null || val === '') return null;
     return val;
   };
+
+  // Extract available unique Directives and Railguards for filter options
+  const availableDirectives = useMemo(() => {
+    const set = new Set();
+    currentItems.forEach(item => {
+      if (item.keywords) {
+        String(item.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean).forEach(k => set.add(k));
+      }
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [currentItems]);
+
+  const availableRailguards = useMemo(() => {
+    const set = new Set();
+    currentItems.forEach(item => {
+      if (item.negative_keywords) {
+        String(item.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean).forEach(k => set.add(k));
+      }
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [currentItems]);
 
   // Filter & Sort Items
   const filteredItems = useMemo(() => {
@@ -197,7 +225,21 @@ export const DBMContainer = () => {
         if (!matchesTag) return false;
       }
 
-      // 6. Search Term (full-text search across multiple fields)
+      // 6. Filter by Directives (Positive Keywords) Category
+      if (filterDirectives.length > 0) {
+        const kws = item.keywords ? String(item.keywords).toLowerCase().split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
+        const matchesDirective = filterDirectives.some(d => kws.includes(d.toLowerCase()));
+        if (!matchesDirective) return false;
+      }
+
+      // 7. Filter by Railguards (Negative Keywords) Category
+      if (filterRailguards.length > 0) {
+        const negs = item.negative_keywords ? String(item.negative_keywords).toLowerCase().split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
+        const matchesRailguard = filterRailguards.some(r => negs.includes(r.toLowerCase()));
+        if (!matchesRailguard) return false;
+      }
+
+      // 8. Search Term (full-text search across multiple fields)
       if (searchTerm && searchTerm.trim()) {
         const term = searchTerm.toLowerCase().trim();
         const matches = (
@@ -214,7 +256,12 @@ export const DBMContainer = () => {
           (item.society && String(item.society).toLowerCase().includes(term)) ||
           (item.trait && (Array.isArray(item.trait) ? item.trait.some(t => String(t).toLowerCase().includes(term)) : String(item.trait).toLowerCase().includes(term))) ||
           (Array.isArray(item.tags) && item.tags.some(t => typeof t === 'string' && t.toLowerCase().includes(term))) ||
-          (typeof item.tags === 'string' && item.tags.toLowerCase().includes(term))
+          (typeof item.tags === 'string' && item.tags.toLowerCase().includes(term)) ||
+          (item.keywords && String(item.keywords).toLowerCase().includes(term)) ||
+          (item.negative_keywords && String(item.negative_keywords).toLowerCase().includes(term)) ||
+          (Array.isArray(item.recommended_factions) && item.recommended_factions.some(f => String(f).toLowerCase().includes(term))) ||
+          (Array.isArray(item.recommended_origins) && item.recommended_origins.some(o => String(o).toLowerCase().includes(term))) ||
+          (Array.isArray(item.recommended_occupations) && item.recommended_occupations.some(oc => String(oc).toLowerCase().includes(term)))
         );
         if (!matches) return false;
       }
@@ -262,16 +309,141 @@ export const DBMContainer = () => {
       const comparison = strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
       return sortAsc ? comparison : -comparison;
     });
-  }, [currentItems, filterTypes, filterSubtypes, filterTLs, filterMLs, filterTags, searchTerm, sortField, sortAsc]);
+  }, [currentItems, filterTypes, filterSubtypes, filterTLs, filterMLs, filterTags, filterDirectives, filterRailguards, searchTerm, sortField, sortAsc]);
+
+  // Synchronize category, subcategory, and active item with URL query parameters
+  useEffect(() => {
+    const catParam = searchParams.get('cat');
+    const subParam = searchParams.get('sub');
+    const itemParam = searchParams.get('item');
+
+    if (catParam && catParam !== activeCategory) {
+      setActiveCategory?.(catParam);
+    }
+    if (subParam !== undefined && subParam !== activeSubcategory) {
+      setActiveSubcategory?.(subParam || null);
+    }
+
+    if (itemParam) {
+      const targetList = dbData[subParam || catParam || currentKey] || [];
+      const matched = targetList.find(i => (i.id === itemParam || i.name === itemParam || encodeURIComponent(i.name) === itemParam));
+      if (matched && selectedItem?.id !== matched.id) {
+        setSelectedItem(matched);
+        setEditFormData({ ...matched });
+        setIsEditMode(isAdmin ? true : false);
+        setIsEntryModalOpen(true);
+      }
+    } else if (!itemParam && isEntryModalOpen) {
+      setIsEntryModalOpen(false);
+      setSelectedItem(null);
+    }
+  }, [searchParams, activeCategory, activeSubcategory, dbData, currentKey, isAdmin, setActiveCategory, setActiveSubcategory, selectedItem?.id, isEntryModalOpen]);
+
+  const handleNavigateCategory = useCallback((catKey, subKey = null, pushHistory = true) => {
+    navigateToCategory?.(catKey, subKey);
+    const newParams = new URLSearchParams();
+    newParams.set('cat', catKey);
+    if (subKey) newParams.set('sub', subKey);
+
+    const newSearch = `?${newParams.toString()}`;
+    if (location.search !== newSearch) {
+      if (pushHistory) {
+        navigate({ pathname: location.pathname, search: newSearch });
+      } else {
+        navigate({ pathname: location.pathname, search: newSearch }, { replace: true });
+      }
+    }
+    setIsEntryModalOpen(false);
+    setSelectedItem(null);
+  }, [navigateToCategory, navigate, location.pathname, location.search]);
 
   // Entry Management Logic
   const handleOpenItem = (item, edit = isAdmin) => {
     setSelectedItem(item);
     setEditFormData(item ? { ...item } : { name: '', description: '' });
-    // In Dev Mode (isAdmin), directly open in Manage mode. Non-admins open in read-only View mode.
     setIsEditMode(isAdmin ? true : false);
     setIsEntryModalOpen(true);
+
+    const newParams = new URLSearchParams(location.search);
+    if (!newParams.get('cat')) {
+      newParams.set('cat', activeCategory || 'species');
+    }
+    if (activeSubcategory && !newParams.get('sub')) {
+      newParams.set('sub', activeSubcategory);
+    }
+    if (item?.id) {
+      newParams.set('item', item.id);
+    }
+    const newSearch = `?${newParams.toString()}`;
+    if (location.search !== newSearch) {
+      navigate({ pathname: location.pathname, search: newSearch });
+    }
   };
+
+  const handleCloseItem = useCallback(() => {
+    setIsEntryModalOpen(false);
+    setSelectedItem(null);
+    if (searchParams.get('item')) {
+      const newParams = new URLSearchParams(location.search);
+      newParams.delete('item');
+      navigate({ pathname: location.pathname, search: `?${newParams.toString()}` });
+    }
+  }, [searchParams, location.search, location.pathname, navigate]);
+
+  const handleDBMBack = useCallback(() => {
+    if (isEntryModalOpen || selectedItem) {
+      handleCloseItem();
+      return;
+    }
+    if (activeSubcategory) {
+      handleNavigateCategory(activeCategory, null);
+      return;
+    }
+    if (activeCategory && activeCategory !== 'species') {
+      handleNavigateCategory('species', null);
+      return;
+    }
+    navigate('/');
+  }, [isEntryModalOpen, selectedItem, handleCloseItem, activeSubcategory, activeCategory, handleNavigateCategory, navigate]);
+
+  const getDBMBreadcrumbs = useCallback(() => {
+    const crumbs = [
+      { label: 'Tangent RP', to: '/' },
+      { 
+        label: 'Omnicortex DBM', 
+        to: '/dbm?cat=species', 
+        onClick: (activeCategory !== 'species' || activeSubcategory || selectedItem) ? () => handleNavigateCategory('species', null) : undefined 
+      }
+    ];
+
+    const catLabel = parentConfig?.label || categoryConfig[activeCategory]?.label || activeCategory;
+    crumbs.push({
+      label: catLabel,
+      onClick: (activeSubcategory || selectedItem) ? () => handleNavigateCategory(activeCategory, null) : undefined,
+      active: !activeSubcategory && !selectedItem,
+      badge: (!activeSubcategory && !selectedItem && currentItems?.length) ? `${currentItems.length}` : undefined
+    });
+
+    if (activeSubcategory) {
+      const subLabel = subConfig?.label || categoryConfig[activeSubcategory]?.label || activeSubcategory;
+      crumbs.push({
+        label: subLabel,
+        onClick: selectedItem ? () => handleNavigateCategory(activeCategory, activeSubcategory) : undefined,
+        active: !selectedItem,
+        badge: (!selectedItem && currentItems?.length) ? `${currentItems.length}` : undefined
+      });
+    }
+
+    if (selectedItem) {
+      crumbs.push({
+        label: selectedItem.name || selectedItem.title || 'Entry Studio',
+        active: true,
+        badge: selectedItem.type || undefined
+      });
+    }
+
+    return crumbs;
+  }, [activeCategory, activeSubcategory, selectedItem, parentConfig, subConfig, currentItems, handleNavigateCategory]);
 
   const handleCreateNew = async () => {
     if (!isAdmin) {
@@ -526,21 +698,80 @@ export const DBMContainer = () => {
         <OmnicortexNavRail
           activeSectionKey={activeCategory || currentKey}
           onSelectSection={(sectionKey) => {
-            navigateToCategory(sectionKey, null);
+            handleNavigateCategory(sectionKey, null);
           }}
           dbData={dbData}
           isAdmin={isAdmin}
           onOpenDevFields={() => setIsArchitectModalOpen && setIsArchitectModalOpen(true)}
-          onOpenUserGuide={() => navigateToCategory('user_guide', null)}
+          onOpenUserGuide={() => handleNavigateCategory('user_guide', null)}
           isMobileOpen={isSidebarOpen}
           onCloseMobile={() => setIsSidebarOpen && setIsSidebarOpen(false)}
         />
 
         {/* Right Main Content Panel */}
-        <section className="flex-1 flex flex-col overflow-hidden relative min-w-0 p-3 sm:p-4 pb-4 sm:pb-5">
+        <section className={`flex-1 flex flex-col overflow-hidden relative min-w-0 ${isEntryModalOpen ? 'p-0' : 'p-3 sm:p-4 pb-4 sm:pb-5'}`}>
+          {/* Breadcrumb Navigation Bar */}
+          <BreadcrumbNav
+            items={getDBMBreadcrumbs()}
+            onBack={handleDBMBack}
+            backTitle={
+              isEntryModalOpen || selectedItem
+                ? `Return to ${activeSubcategory ? (subConfig?.label || activeSubcategory) : (parentConfig?.label || activeCategory)} Directory`
+                : activeSubcategory
+                ? `Return to ${parentConfig?.label || activeCategory} Overview`
+                : activeCategory !== 'species'
+                ? 'Return to Species Directory'
+                : 'Return to Tangent Dashboard'
+            }
+            className="mb-2 rounded-xl"
+            rightSlot={
+              <div className="flex items-center gap-1.5 shrink-0">
+                {/* Mobile Rail Toggle Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsSidebarOpen && setIsSidebarOpen(prev => !prev)}
+                  className="md:hidden px-2 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold cursor-pointer"
+                  title="Toggle Omnicortex Navigation Rail"
+                >
+                  <Menu size={13} />
+                </button>
+
+                {/* Master Access Badge */}
+                <button
+                  type="button"
+                  onClick={() => toggleAdminOverride && toggleAdminOverride()}
+                  className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider border transition-all flex items-center gap-1 cursor-pointer ${
+                    isAdmin
+                      ? 'bg-amber-950/60 border-amber-500/60 text-amber-300'
+                      : 'bg-slate-900 border-slate-800 text-slate-400'
+                  }`}
+                  title={isAdmin ? 'Master Developer Access Active' : 'Player View (Read Only)'}
+                >
+                  <Crown size={11} className={isAdmin ? 'text-amber-400' : 'text-slate-500'} />
+                  <span className="hidden sm:inline">{isAdmin ? 'ADMIN' : 'VIEW'}</span>
+                </button>
+
+                {/* Bastion AI Assistant Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsBastionOpen(true)}
+                  className="px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/60 transition-colors flex items-center gap-1 cursor-pointer"
+                  title="Open Bastion AI"
+                >
+                  <Bot size={11} className="text-emerald-400" />
+                  <span className="hidden sm:inline">Bastion</span>
+                </button>
+              </div>
+            }
+          />
 
           {/* Subcategory Pills Bar (Handles both Canonical Parent Categories AND Developer Field Groups) */}
           {(() => {
+            // When an asset studio is active, suppress subcategory pills to maximize vertical space
+            if (isEntryModalOpen) {
+              return null;
+            }
+
             const activeKey = currentKey || activeCategory;
 
             // Developer fields use dedicated docked vertical navigation rail — suppress horizontal pills
@@ -590,7 +821,7 @@ export const DBMContainer = () => {
                     type="button"
                     onClick={() => {
                       AudioService.playTerminalBeep(1100, 0.02);
-                      navigateToCategory(parentKey, null);
+                      handleNavigateCategory(parentKey, null);
                     }}
                     className={`px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all shrink-0 whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                       isOverviewActive
@@ -615,9 +846,9 @@ export const DBMContainer = () => {
                       onClick={() => {
                         AudioService.playTerminalBeep(1150, 0.02);
                         if (pConfig.subcategories?.[subKey]) {
-                          navigateToCategory(parentKey, subKey);
+                          handleNavigateCategory(parentKey, subKey);
                         } else {
-                          navigateToCategory(subKey, null);
+                          handleNavigateCategory(subKey, null);
                         }
                       }}
                       className={`px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider rounded-lg transition-all shrink-0 whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
@@ -641,86 +872,106 @@ export const DBMContainer = () => {
             );
           })()}
 
-          {/* VIEW TYPE: PARENT LANDING PAGE */}
-          {(currentConfig.viewType === 'landing' || (currentConfig.isParent && !currentConfig.viewType)) && (
-            <DBMLandingView
-              parentKey={activeCategory}
-              onNavigateToSubItem={navigateToCategory}
-            />
-          )}
-
-          {/* VIEW TYPE: WIKI */}
-          {currentConfig.viewType === 'wiki' && (
-            <DBMWikiView
-              currentConfig={currentConfig}
-              handleCreateNew={handleCreateNew}
-              currentItems={currentItems}
-              handleOpenItem={handleOpenItem}
-              isAdmin={isAdmin}
-              handleDeleteEntry={handleDeleteEntry}
-              handleDuplicateEntry={handleDuplicateEntry}
-            />
-          )}
-
-          {/* VIEW TYPE: USER GUIDE */}
-          {!currentConfig.isParent && currentConfig.viewType === 'guide' && (
-            <DBMGuideView />
-          )}
-
-          {/* VIEW TYPE: TABLE DIRECTORY (Default for Species, Factions, Skills, Equipment) */}
-          {!currentConfig.isParent && (currentConfig.viewType === 'table' || !currentConfig.viewType) && (
-            <DBMTableView
+          {/* VIEW: ASSET STUDIO (IN-PLACE WHEN AN ITEM OR BLUEPRINT IS SELECTED) */}
+          {isEntryModalOpen ? (
+            <DBMItemModal
+              isOpen={isEntryModalOpen}
+              onClose={handleCloseItem}
+              isModal={false}
+              isEditMode={isEditMode}
+              setIsEditMode={setIsEditMode}
+              selectedItem={selectedItem}
+              editFormData={editFormData}
+              setEditFormData={setEditFormData}
               currentConfig={currentConfig}
               currentKey={currentKey}
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              handleImportJSON={handleImportJSON}
-              handleExportJSON={handleExportJSON}
-              handleCreateNew={handleCreateNew}
-              sortField={sortField}
-              setSortField={setSortField}
-              sortAsc={sortAsc}
-              setSortAsc={setSortAsc}
-              filteredItems={filteredItems}
-              handleOpenItem={handleOpenItem}
-              filterTypes={filterTypes}
-              setFilterTypes={setFilterTypes}
-              filterSubtypes={filterSubtypes}
-              setFilterSubtypes={setFilterSubtypes}
-              filterTLs={filterTLs}
-              setFilterTLs={setFilterTLs}
-              filterMLs={filterMLs}
-              setFilterMLs={setFilterMLs}
-              filterTags={filterTags}
-              setFilterTags={setFilterTags}
-              currentItems={currentItems}
+              onSave={handleSaveEntry}
+              onDelete={handleDeleteEntry}
+              onDuplicate={handleDuplicateEntry}
+              dbData={dbData}
+              saveEntry={saveEntry}
+              devMode={true}
               isAdmin={isAdmin}
-              handleDeleteEntry={handleDeleteEntry}
-              handleDuplicateEntry={handleDuplicateEntry}
             />
+          ) : (
+            <>
+              {/* VIEW TYPE: PARENT LANDING PAGE */}
+              {(currentConfig.viewType === 'landing' || (currentConfig.isParent && !currentConfig.viewType)) && (
+                <DBMLandingView
+                  parentKey={activeCategory}
+                  onNavigateToSubItem={(subKey) => {
+                    if (currentConfig?.subcategories?.[subKey]) {
+                      handleNavigateCategory(activeCategory, subKey);
+                    } else {
+                      handleNavigateCategory(subKey, null);
+                    }
+                  }}
+                  dbData={dbData}
+                />
+              )}
+
+              {/* VIEW TYPE: WIKI */}
+              {currentConfig.viewType === 'wiki' && (
+                <DBMWikiView
+                  currentConfig={currentConfig}
+                  handleCreateNew={handleCreateNew}
+                  currentItems={currentItems}
+                  handleOpenItem={handleOpenItem}
+                  isAdmin={isAdmin}
+                  handleDeleteEntry={handleDeleteEntry}
+                  handleDuplicateEntry={handleDuplicateEntry}
+                />
+              )}
+
+              {/* VIEW TYPE: USER GUIDE */}
+              {!currentConfig.isParent && currentConfig.viewType === 'guide' && (
+                <DBMGuideView />
+              )}
+
+              {/* VIEW TYPE: TABLE DIRECTORY (Default for Species, Factions, Skills, Equipment) */}
+              {!currentConfig.isParent && (currentConfig.viewType === 'table' || !currentConfig.viewType) && (
+                <DBMTableView
+                  currentConfig={currentConfig}
+                  currentKey={currentKey}
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  handleImportJSON={handleImportJSON}
+                  handleExportJSON={handleExportJSON}
+                  handleCreateNew={handleCreateNew}
+                  sortField={sortField}
+                  setSortField={setSortField}
+                  sortAsc={sortAsc}
+                  setSortAsc={setSortAsc}
+                  filteredItems={filteredItems}
+                  handleOpenItem={handleOpenItem}
+                  filterTypes={filterTypes}
+                  setFilterTypes={setFilterTypes}
+                  filterSubtypes={filterSubtypes}
+                  setFilterSubtypes={setFilterSubtypes}
+                  filterTLs={filterTLs}
+                  setFilterTLs={setFilterTLs}
+                  filterMLs={filterMLs}
+                  setFilterMLs={setFilterMLs}
+                  filterTags={filterTags}
+                  setFilterTags={setFilterTags}
+                  filterDirectives={filterDirectives}
+                  setFilterDirectives={setFilterDirectives}
+                  filterRailguards={filterRailguards}
+                  setFilterRailguards={setFilterRailguards}
+                  availableDirectives={availableDirectives}
+                  availableRailguards={availableRailguards}
+                  currentItems={currentItems}
+                  isAdmin={isAdmin}
+                  handleDeleteEntry={handleDeleteEntry}
+                  handleDuplicateEntry={handleDuplicateEntry}
+                />
+              )}
+            </>
           )}
         </section>
       </div>
 
-      {/* Modals */}
-      <DBMItemModal
-        isOpen={isEntryModalOpen}
-        onClose={() => setIsEntryModalOpen(false)}
-        isEditMode={isEditMode}
-        setIsEditMode={setIsEditMode}
-        selectedItem={selectedItem}
-        editFormData={editFormData}
-        setEditFormData={setEditFormData}
-        currentConfig={currentConfig}
-        currentKey={currentKey}
-        onSave={handleSaveEntry}
-        onDelete={handleDeleteEntry}
-        onDuplicate={handleDuplicateEntry}
-        dbData={dbData}
-        saveEntry={saveEntry}
-        devMode={true}
-        isAdmin={isAdmin}
-      />
+      {/* Embedded Dialog Modals */}
 
 
       <BastionChatModal

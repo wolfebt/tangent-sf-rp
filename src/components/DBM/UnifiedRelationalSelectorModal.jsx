@@ -52,6 +52,24 @@ export const SKILL_GROUP_ITEMS = [
   { id: 'grp_meta_skills', name: 'Meta Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Meta skill group.' }
 ];
 
+export const CANONICAL_TECH_LEVEL_ITEMS = [
+  { id: 'tl_0', name: 'TL 0', title: 'Stone Age / Primitive', type: 'Tech Level', level: 0, description: 'Primitive tools, fire, stone, muscle and wind power. Pre-industrial societies.' },
+  { id: 'tl_1', name: 'TL 1', title: 'Metal Age / Industrial', type: 'Tech Level', level: 1, description: 'Steam engines, early firearms, coal, mechanical clockwork, and combustion.' },
+  { id: 'tl_2', name: 'TL 2', title: 'Data Age / Digital', type: 'Tech Level', level: 2, description: 'Computers, fission, semiconductors, planetary networks, early robotics.' },
+  { id: 'tl_3', name: 'TL 3', title: 'Space Age / Stellar', type: 'Tech Level', level: 3, description: 'Fusion power, antigravity, laser weaponry, interplanetary travel, sub-light drives.' },
+  { id: 'tl_4', name: 'TL 4', title: 'Stellar Age / Galactic', type: 'Tech Level', level: 4, description: 'FTL jump drives, plasma armaments, neural cybernetics, nanotech, antimatter.' },
+  { id: 'tl_5', name: 'TL 5', title: 'Cosmological / Singularity', type: 'Tech Level', level: 5, description: 'Precursor artifacts, dark energy siphons, dimensional shifting, reality-bending.' }
+];
+
+export const CANONICAL_META_LEVEL_ITEMS = [
+  { id: 'ml_0', name: 'ML 0', title: 'Dormant / Mundane', type: 'Meta Level', level: 0, description: 'Standard physical baseline with no psionic sensitivity or meta-energy manipulation.' },
+  { id: 'ml_1', name: 'ML 1', title: 'Latent / Awakening', type: 'Meta Level', level: 1, description: 'Subconscious psychic resonance, intuitive premonitions, minor cantrips, empathic sparks.' },
+  { id: 'ml_2', name: 'ML 2', title: 'Manifested / Awakened', type: 'Meta Level', level: 2, description: 'Conscious psionic discipline mastery, kinetic manipulation, telepathic projections.' },
+  { id: 'ml_3', name: 'ML 3', title: 'Adept / Resonant', type: 'Meta Level', level: 3, description: 'High-order psychic techniques, barrier manifestation, temporal and spatial warping.' },
+  { id: 'ml_4', name: 'ML 4', title: 'Master / Conduit', type: 'Meta Level', level: 4, description: 'Profound reality distortion, localized dimensional breaches, planetary sensory range.' },
+  { id: 'ml_5', name: 'ML 5', title: 'Transcendent / Ascendant', type: 'Meta Level', level: 5, description: 'Cosmic consciousness, near-instantaneous manifestation, singularity metaphysical mastery.' }
+];
+
 const getAspectSubtypeOptions = (aspect, itemsMap = {}) => {
   if (aspect === 'attribute') {
     return [
@@ -251,12 +269,16 @@ export const UnifiedRelationalSelectorModal = ({
   const localFallback = activeDbData[sourceCollection] || [];
   const rawItems = items.length > 0 ? items : localFallback;
 
-  // Prepend Category / Group Options if source is features or skills
+  // Prepend Category / Group Options if source is features, skills, technology, or meta_level
   let categoryOptions = [];
   if (sourceCollection === 'features') {
     categoryOptions = FEATURE_CATEGORY_ITEMS;
   } else if (sourceCollection === 'skills') {
     categoryOptions = SKILL_GROUP_ITEMS;
+  } else if (sourceCollection === 'technology' || sourceCollection === 'tech_level' || sourceCollection === 'tl') {
+    categoryOptions = CANONICAL_TECH_LEVEL_ITEMS;
+  } else if (sourceCollection === 'meta_level' || sourceCollection === 'ml') {
+    categoryOptions = CANONICAL_META_LEVEL_ITEMS;
   }
 
   // Combine category options with database items and canonical base skills, ensuring no duplicates by name
@@ -295,9 +317,18 @@ export const UnifiedRelationalSelectorModal = ({
     });
   }
 
+  const hasAnyDirectives = allAvailableItems.some(i => Array.isArray(i.keywords) ? i.keywords.length > 0 : !!(i.keywords && String(i.keywords).trim()));
+  const hasAnyRailguards = allAvailableItems.some(i => Array.isArray(i.negative_keywords) ? i.negative_keywords.length > 0 : !!(i.negative_keywords && String(i.negative_keywords).trim()));
+
   const filteredItems = allAvailableItems.filter(item => {
     if (categoryFilter !== 'all') {
-      if (sourceCollection === 'species_movement') {
+      if (categoryFilter === 'directives') {
+        const hasKw = Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
+        if (!hasKw) return false;
+      } else if (categoryFilter === 'railguards') {
+        const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
+        if (!hasNegKw) return false;
+      } else if (sourceCollection === 'species_movement') {
         if (getMovementClassification(item) !== categoryFilter) return false;
       } else if (categoryFilter === 'groups') {
         if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
@@ -311,7 +342,10 @@ export const UnifiedRelationalSelectorModal = ({
       (item.name && item.name.toLowerCase().includes(term)) ||
       (item.description && item.description.toLowerCase().includes(term)) ||
       (item.type && item.type.toLowerCase().includes(term)) ||
-      (item.categoryLabel && item.categoryLabel.toLowerCase().includes(term))
+      (item.categoryLabel && item.categoryLabel.toLowerCase().includes(term)) ||
+      (item.keywords && String(item.keywords).toLowerCase().includes(term)) ||
+      (item.negative_keywords && String(item.negative_keywords).toLowerCase().includes(term)) ||
+      (Array.isArray(item.tags) && item.tags.some(t => String(t).toLowerCase().includes(term)))
     );
   });
 
@@ -430,7 +464,7 @@ export const UnifiedRelationalSelectorModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[300] flex flex-col bg-[#070a13] select-none font-sans w-screen h-screen overflow-hidden p-0 m-0">
+    <div className="fixed top-[52px] left-0 md:left-18 sm:md:left-20 right-0 bottom-0 z-[95] flex flex-col bg-[#070a13] select-none font-sans overflow-hidden p-0 m-0">
       <div className="bg-slate-900 w-full h-full flex flex-col overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-5 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
@@ -456,7 +490,7 @@ export const UnifiedRelationalSelectorModal = ({
             <div className="p-4 bg-slate-950/60 border-b border-slate-800 flex items-center gap-3 shrink-0">
               <input
                 type="text"
-                placeholder={`Search ${colConfig.label || sourceCollection}...`}
+                placeholder={`Search ${colConfig.label || sourceCollection}, directives, railguards...`}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 onKeyDown={e => {
@@ -585,6 +619,28 @@ export const UnifiedRelationalSelectorModal = ({
                 </button>
                 <button
                   type="button"
+                  onClick={() => setCategoryFilter('directives')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'directives'
+                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                      : 'bg-slate-900 text-emerald-400/80 hover:text-emerald-300 border border-slate-800'
+                  }`}
+                >
+                  🧭 Directives (+KW)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('railguards')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'railguards'
+                      ? 'bg-rose-950 text-rose-300 border border-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]'
+                      : 'bg-slate-900 text-rose-400/80 hover:text-rose-300 border border-slate-800'
+                  }`}
+                >
+                  ⛔ Railguards (-KW)
+                </button>
+                <button
+                  type="button"
                   onClick={() => setCategoryFilter('all')}
                   className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
                     categoryFilter === 'all'
@@ -655,6 +711,49 @@ export const UnifiedRelationalSelectorModal = ({
                 >
                   ⏱️ Stages ({allAvailableItems.filter(i => getMovementClassification(i) === 'stage').length})
                 </button>
+              </div>
+            )}
+
+            {/* Category Sub-Filter Header Bar for Directives & Railguards (All Other Collections) */}
+            {sourceCollection !== 'skills' && sourceCollection !== 'species_movement' && (hasAnyDirectives || hasAnyRailguards) && (
+              <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('all')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'all'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  All ({allAvailableItems.length})
+                </button>
+                {hasAnyDirectives && (
+                  <button
+                    type="button"
+                    onClick={() => setCategoryFilter('directives')}
+                    className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                      categoryFilter === 'directives'
+                        ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                        : 'bg-slate-900 text-emerald-400/80 hover:text-emerald-300 border border-slate-800'
+                    }`}
+                  >
+                    🧭 Directives (+KW)
+                  </button>
+                )}
+                {hasAnyRailguards && (
+                  <button
+                    type="button"
+                    onClick={() => setCategoryFilter('railguards')}
+                    className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                      categoryFilter === 'railguards'
+                        ? 'bg-rose-950 text-rose-300 border border-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]'
+                        : 'bg-slate-900 text-rose-400/80 hover:text-rose-300 border border-slate-800'
+                    }`}
+                  >
+                    ⛔ Railguards (-KW)
+                  </button>
+                )}
               </div>
             )}
 

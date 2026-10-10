@@ -149,6 +149,49 @@ export const TERRAIN_TEXTURE_PATTERNS = {
       <polygon points="50,5 70,20 60,80 50,80" fill="#c026d3" opacity="0.8"/>
       <polygon points="10,60 30,40 45,60 35,95 20,95" fill="#e879f9" opacity="0.6"/>
     </svg>
+  `),
+
+  badlandsMesa: svgToDataUrl(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+      <rect width="90" height="90" fill="#451a03"/>
+      <path d="M 0 25 Q 45 35, 90 25 L 90 55 Q 45 45, 0 55 Z" fill="#9a3412" opacity="0.75"/>
+      <path d="M 0 55 Q 45 65, 90 55 L 90 85 Q 45 75, 0 85 Z" fill="#7c2d12" opacity="0.85"/>
+      <line x1="0" y1="20" x2="90" y2="20" stroke="#ea580c" stroke-width="1.5" opacity="0.6"/>
+      <line x1="0" y1="50" x2="90" y2="50" stroke="#f97316" stroke-width="1.2" opacity="0.5"/>
+    </svg>
+  `),
+
+  ravineChasm: svgToDataUrl(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#0f172a"/>
+      <path d="M 15 0 L 35 45 L 20 100" stroke="#020617" stroke-width="8" fill="none" opacity="0.9"/>
+      <path d="M 85 0 L 65 55 L 80 100" stroke="#020617" stroke-width="8" fill="none" opacity="0.9"/>
+      <path d="M 35 45 L 65 55" stroke="#1e293b" stroke-width="4" fill="none" opacity="0.8"/>
+      <line x1="25" y1="20" x2="40" y2="30" stroke="#475569" stroke-width="1.5" opacity="0.6"/>
+      <line x1="60" y1="70" x2="75" y2="80" stroke="#475569" stroke-width="1.5" opacity="0.6"/>
+    </svg>
+  `),
+
+  seafloorBenthic: svgToDataUrl(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 90 90">
+      <rect width="90" height="90" fill="#021422"/>
+      <circle cx="20" cy="30" r="14" fill="#064e3b" opacity="0.6"/>
+      <circle cx="70" cy="65" r="16" fill="#065f46" opacity="0.5"/>
+      <circle cx="20" cy="30" r="3" fill="#34d399" opacity="0.8"/>
+      <circle cx="70" cy="65" r="4" fill="#2dd4bf" opacity="0.75"/>
+      <circle cx="45" cy="45" r="2" fill="#67e8f9" opacity="0.9"/>
+      <path d="M 10 80 Q 45 70, 80 85" stroke="#0f766e" stroke-width="2" fill="none" opacity="0.5"/>
+    </svg>
+  `),
+
+  mountainGranite: svgToDataUrl(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1e293b"/>
+      <polygon points="10,90 40,20 65,90" fill="#334155" opacity="0.8"/>
+      <polygon points="40,20 65,90 90,40" fill="#475569" opacity="0.7"/>
+      <polyline points="40,20 45,45 65,90" stroke="#94a3b8" stroke-width="2" fill="none" opacity="0.8"/>
+      <polygon points="35,30 40,20 48,28" fill="#f8fafc" opacity="0.9"/>
+    </svg>
   `)
 };
 

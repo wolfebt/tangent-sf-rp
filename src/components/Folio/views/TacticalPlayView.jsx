@@ -1499,9 +1499,19 @@ export const TacticalPlayView = ({
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-base sm:text-lg font-bold font-mono uppercase text-white tracking-wide truncate">
-                {characterData['char-name'] || 'UNNAMED PERSONA'}
-              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  if (folio?.triggerSave) folio.triggerSave();
+                  folio?.setActiveTab?.('catalog');
+                }}
+                className="text-base sm:text-lg font-bold font-mono uppercase text-white hover:text-cyan-300 tracking-wide truncate transition-colors cursor-pointer group flex items-center gap-1.5 text-left"
+                title="Active Persona — Click to Open Persona Catalog"
+              >
+                <span>{characterData['char-name'] || 'UNNAMED PERSONA'}</span>
+                <span className="text-[10px] text-slate-500 group-hover:text-cyan-400 font-normal hidden sm:inline">(&rarr; Catalog)</span>
+              </button>
               {isSynthetic ? (
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-950/80 border border-amber-500/60 text-amber-300 flex items-center gap-1">
                   <Cpu size={10} /> SYNTHETIC CHASSIS

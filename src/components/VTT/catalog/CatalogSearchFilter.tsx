@@ -17,14 +17,14 @@ export interface CatalogSearchFilterProps {
   totalCount?: number;
 }
 
-const QUICK_TAGS = ['#maps', '#hero', '#npc', '#clue', '#item'];
+const QUICK_TAGS = ['#maps', '#hero', '#npc', '#clue', '#item', '#directives', '#railguards'];
 
 export const CatalogSearchFilter: React.FC<CatalogSearchFilterProps> = ({
   searchQuery,
   onSearchChange,
   activeFilterTag,
   onSelectFilterTag,
-  placeholder = 'Search catalog...',
+  placeholder = 'Search catalog, directives, railguards...',
   totalCount
 }) => {
   return (
@@ -55,6 +55,15 @@ export const CatalogSearchFilter: React.FC<CatalogSearchFilterProps> = ({
       <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-0.5 text-[10px] font-mono">
         {QUICK_TAGS.map((tag) => {
           const isSelected = activeFilterTag === tag;
+          const isDirective = tag === '#directives';
+          const isRailguard = tag === '#railguards';
+          let activeClass = 'bg-cyan-950/80 text-cyan-300 border-cyan-500/60 font-bold';
+          if (isDirective) {
+            activeClass = 'bg-emerald-950/80 text-emerald-300 border-emerald-500/60 font-bold';
+          } else if (isRailguard) {
+            activeClass = 'bg-rose-950/80 text-rose-300 border-rose-500/60 font-bold';
+          }
+
           return (
             <button
               key={tag}
@@ -62,12 +71,18 @@ export const CatalogSearchFilter: React.FC<CatalogSearchFilterProps> = ({
               onClick={() => onSelectFilterTag(isSelected ? null : tag)}
               className={`px-1.5 py-0.5 rounded border transition-all cursor-pointer flex items-center gap-0.5 shrink-0 ${
                 isSelected
-                  ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/60 font-bold'
+                  ? activeClass
+                  : isDirective
+                  ? 'bg-slate-950 border-slate-850 text-emerald-500/70 hover:text-emerald-300 hover:border-emerald-700/60'
+                  : isRailguard
+                  ? 'bg-slate-950 border-slate-850 text-rose-500/70 hover:text-rose-300 hover:border-rose-700/60'
                   : 'bg-slate-950 border-slate-850 text-slate-500 hover:text-slate-300 hover:border-slate-700'
               }`}
             >
               <Hash size={9} />
-              <span>{tag.replace('#', '')}</span>
+              <span>
+                {isDirective ? 'directives (+KW)' : isRailguard ? 'railguards (-KW)' : tag.replace('#', '')}
+              </span>
             </button>
           );
         })}

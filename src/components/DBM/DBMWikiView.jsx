@@ -5,7 +5,7 @@ import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
 import { useConfirm } from '../../context/ConfirmContext';
 import { showToast } from '../../context/ToastContext';
-import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, Copy, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Users, ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, Copy, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu, ArrowLeft, ArrowRight, Flag, Globe, Briefcase, Tag, GraduationCap, Zap } from 'lucide-react';
 
 const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
   const interactions = useItemInteractions({
@@ -1267,6 +1267,162 @@ export const DBMWikiView = ({
                     Architect Notes:
                   </span>
                   {renderWikiContent(activeArticle.note)}
+                </div>
+              )}
+
+              {/* Architect Guidance & AI Reference Directives */}
+              {(Boolean(activeArticle.keywords) || 
+                Boolean(activeArticle.negative_keywords) ||
+                (Array.isArray(activeArticle.recommended_species) && activeArticle.recommended_species.length > 0) ||
+                (Array.isArray(activeArticle.recommended_factions) && activeArticle.recommended_factions.length > 0) || 
+                (Array.isArray(activeArticle.recommended_origins) && activeArticle.recommended_origins.length > 0) || 
+                (Array.isArray(activeArticle.recommended_occupations) && activeArticle.recommended_occupations.length > 0) ||
+                (Array.isArray(activeArticle.recommended_skills) && activeArticle.recommended_skills.length > 0) ||
+                (Array.isArray(activeArticle.recommended_features) && activeArticle.recommended_features.length > 0)) && (
+                <div className="bg-slate-950/90 border border-emerald-500/30 p-4 rounded-xl text-xs space-y-3 shadow-md">
+                  <div className="flex items-center gap-1.5 text-emerald-400 font-bold font-mono uppercase tracking-wider text-[11px]">
+                    <Sparkles size={13} className="text-emerald-400" />
+                    <span>Architect Guidance & AI Directives (Operator & BASTION Reference)</span>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                    {Array.isArray(activeArticle.recommended_species) && activeArticle.recommended_species.length > 0 && (
+                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+                        <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-sky-300 uppercase">
+                          <Users size={11} className="text-sky-400" />
+                          <span>Recommended Species</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {activeArticle.recommended_species.map(sp => (
+                            <span key={sp} className="px-2 py-0.5 rounded bg-sky-950/70 border border-sky-500/30 text-sky-200 text-[10px] font-mono">
+                              {sp}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {Array.isArray(activeArticle.recommended_factions) && activeArticle.recommended_factions.length > 0 && (
+                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+                        <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-sky-300 uppercase">
+                          <Flag size={11} className="text-sky-400" />
+                          <span>Recommended Factions</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {activeArticle.recommended_factions.map(f => (
+                            <span key={f} className="px-2 py-0.5 rounded bg-sky-950/70 border border-sky-500/30 text-sky-200 text-[10px] font-mono">
+                              {f}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {Array.isArray(activeArticle.recommended_origins) && activeArticle.recommended_origins.length > 0 && (
+                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+                        <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-300 uppercase">
+                          <Globe size={11} className="text-emerald-400" />
+                          <span>Recommended Origins</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {activeArticle.recommended_origins.map(o => (
+                            <span key={o} className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/30 text-emerald-200 text-[10px] font-mono">
+                              {o}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {Array.isArray(activeArticle.recommended_occupations) && activeArticle.recommended_occupations.length > 0 && (
+                      <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+                        <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-amber-300 uppercase">
+                          <Briefcase size={11} className="text-amber-400" />
+                          <span>Recommended Occupations</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {activeArticle.recommended_occupations.map(oc => (
+                            <span key={oc} className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/30 text-amber-200 text-[10px] font-mono">
+                              {oc}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {((Array.isArray(activeArticle.recommended_skills) && activeArticle.recommended_skills.length > 0) || 
+                    (Array.isArray(activeArticle.recommended_features) && activeArticle.recommended_features.length > 0)) && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                      {Array.isArray(activeArticle.recommended_skills) && activeArticle.recommended_skills.length > 0 && (
+                        <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+                          <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-cyan-300 uppercase">
+                            <GraduationCap size={11} className="text-cyan-400" />
+                            <span>Recommended Skills</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {activeArticle.recommended_skills.map(sk => (
+                              <span key={sk} className="px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/30 text-cyan-200 text-[10px] font-mono">
+                                {sk}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {Array.isArray(activeArticle.recommended_features) && activeArticle.recommended_features.length > 0 && (
+                        <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+                          <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-violet-300 uppercase">
+                            <Zap size={11} className="text-violet-400" />
+                            <span>Recommended Features</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {activeArticle.recommended_features.map(feat => (
+                              <span key={feat} className="px-2 py-0.5 rounded bg-violet-950/70 border border-violet-500/30 text-violet-200 text-[10px] font-mono">
+                                {feat}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {(activeArticle.keywords || activeArticle.negative_keywords) && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                      {activeArticle.keywords && (
+                        <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+                          <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-purple-300 uppercase">
+                            <Tag size={11} className="text-purple-400" />
+                            <span>Guidance Keywords (Directives)</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {String(activeArticle.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean).map(kw => (
+                              <span key={kw} className="px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/30 text-purple-200 text-[10px] font-mono">
+                                #{kw}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {activeArticle.negative_keywords && (
+                        <div className="p-2.5 rounded-lg bg-slate-900/80 border border-rose-900/40 space-y-1.5">
+                          <div className="flex items-center gap-1 text-[11px] font-mono font-bold text-rose-300 uppercase">
+                            <ShieldAlert size={11} className="text-rose-400" />
+                            <span>Negative Keywords (Railguards)</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {String(activeArticle.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean).map(kw => (
+                              <span key={kw} className="px-2 py-0.5 rounded bg-rose-950/70 border border-rose-500/30 text-rose-200 text-[10px] font-mono">
+                                ✕ #{kw}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
 

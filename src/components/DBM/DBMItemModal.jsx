@@ -72,6 +72,7 @@ export const DBMItemTransferBar = StudioTransferBar;
 export const DBMItemModal = ({
   isOpen,
   onClose,
+  isModal = false,
   isEditMode = false,
   setIsEditMode = () => {},
   selectedItem = null,
@@ -111,7 +112,7 @@ export const DBMItemModal = ({
     <AssetStudio
       isOpen={isOpen}
       onClose={onClose}
-      isModal={true}
+      isModal={isModal}
       matrix={matrix}
       initialData={targetItem}
       selectedItem={selectedItem}

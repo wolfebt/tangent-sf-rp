@@ -65,6 +65,7 @@ export { NodeGraphLayoutSolver } from './pcg/NodeGraphLayoutSolver.ts';
 export { SemanticZoneMask, SemanticFlag } from './executor/SemanticZoneMask.ts';
 export { CollisionClearanceTester } from './executor/CollisionClearanceTester.ts';
 export { PCGExecutor } from './executor/PCGExecutor.ts';
+export { PCGPromptAnalyzer } from './executor/PCGPromptAnalyzer.ts';
 export { MapContextAggregator } from './ai/MapContextAggregator.ts';
 
 // Stage 5: Tangent SF RP Rules Execution & Damage Pipelines

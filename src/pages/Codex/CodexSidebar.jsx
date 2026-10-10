@@ -128,7 +128,7 @@ const GROUP_DEFINITIONS = [
   }
 ];
 
-export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu }) => {
+export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu, forceRailMode = false }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { dbData } = useDBM() || {};
 
@@ -139,6 +139,8 @@ export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu }) =>
     }
     return false;
   });
+
+  const effectiveRailMode = forceRailMode || isRailMode;
 
   // Accordion open/close state for all 5 groups (all expanded by default)
   const [openSections, setOpenSections] = useState({
@@ -282,7 +284,7 @@ export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu }) =>
   const unclassifiedMatrices = filteredMatrices.filter(m => !allGroupedIds.includes(m.id));
 
   // ── 1. COMPACT GUIDANCE RAIL MODE ──
-  if (isRailMode) {
+  if (effectiveRailMode) {
     return (
       <aside 
         className="w-18 sm:w-20 bg-[#070a12]/95 backdrop-blur-xl border-r border-[#0D5C63]/50 py-2.5 px-1 flex flex-col items-center justify-between h-full shrink-0 select-none relative z-20 font-sans shadow-xl"

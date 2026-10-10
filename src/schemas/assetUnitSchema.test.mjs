@@ -134,3 +134,73 @@ test('Seed Units Catalog - Validates all entries in science_fantasy_core.json', 
     assert.ok(parsed.vtt_properties.z_index_layer, 'z_index_layer must exist');
   }
 });
+
+test('AssetUnitSchema - Validates Triggers and QuickJS Script sections', () => {
+  const reactiveUnit = createDefaultAssetUnit({
+    unit_id: 'prop_security_terminal_01',
+    name: 'Mainframe Access Console',
+    category: 'doodad',
+    vtt_properties: {
+      trigger: {
+        enabled: true,
+        triggerType: 'interact',
+        triggerRadiusFt: 5,
+        saveType: 'Tech (INT)',
+        saveDc: 15,
+        damageFormula: '1d10 emp',
+        damageType: 'emp',
+        appliedCondition: 'Stunned',
+        disarmDc: 14,
+        detectionDc: 10,
+        gmSecretNotes: 'Console wired with high-voltage capacitor feedback loop.',
+        oneShot: false
+      },
+      script: {
+        enabled: true,
+        autorun: false,
+        executionHook: 'on_interact',
+        sourceCode: 'const r = Dice.check2d10(2, 14); return r;',
+        timeoutMs: 500
+      }
+    }
+  });
+
+  assert.equal(reactiveUnit.vtt_properties.trigger?.enabled, true);
+  assert.equal(reactiveUnit.vtt_properties.trigger?.triggerType, 'interact');
+  assert.equal(reactiveUnit.vtt_properties.trigger?.saveType, 'Tech (INT)');
+  assert.equal(reactiveUnit.vtt_properties.trigger?.appliedCondition, 'Stunned');
+  assert.equal(reactiveUnit.vtt_properties.script?.enabled, true);
+  assert.equal(reactiveUnit.vtt_properties.script?.executionHook, 'on_interact');
+});
+
+test('AssetIngestionPipeline - Archetypes instantiate with comprehensive properties', async () => {
+  const { AssetIngestionPipeline, INGESTION_ARCHETYPES } = await import('../engine/assets/AssetIngestionPipeline.ts');
+  
+  assert.ok(INGESTION_ARCHETYPES.length >= 5, 'Should have multiple ingestion archetypes');
+
+  const terminalArch = INGESTION_ARCHETYPES.find(a => a.id === 'interactive_terminal');
+  assert.ok(terminalArch, 'interactive_terminal archetype must exist');
+  assert.equal(terminalArch.vttProperties.trigger?.enabled, true);
+  assert.equal(terminalArch.vttProperties.script?.enabled, true);
+
+  const mineArch = INGESTION_ARCHETYPES.find(a => a.id === 'proximity_mine');
+  assert.ok(mineArch, 'proximity_mine archetype must exist');
+  assert.equal(mineArch.vttProperties.trigger?.triggerType, 'proximity');
+  assert.equal(mineArch.vttProperties.trigger?.appliedCondition, 'Burning');
+
+  // Test single ingestion
+  const res = AssetIngestionPipeline.ingestSingleAsset({
+    name: 'Test Proximity Trap',
+    category: mineArch.category,
+    tags: mineArch.defaultTags,
+    imageDataUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+    vttProperties: mineArch.vttProperties
+  });
+
+  assert.equal(res.success, true);
+  assert.ok(res.asset);
+  assert.equal(res.asset?.vtt_properties.trigger?.enabled, true);
+  assert.equal(res.asset?.vtt_properties.trigger?.appliedCondition, 'Burning');
+  assert.equal(res.asset?.vtt_properties.script?.enabled, true);
+});
+

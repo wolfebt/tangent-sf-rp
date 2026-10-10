@@ -108,6 +108,26 @@ export function getBreadcrumbPath(nodes, targetId, currentPath = []) {
 }
 
 /**
+ * Returns an array of node objects { id, title } leading to targetId, or null if not found.
+ * @param {Array<object>} nodes 
+ * @param {string} targetId 
+ * @param {Array<{ id: string, title: string }>} currentPath 
+ * @returns {Array<{ id: string, title: string }>|null}
+ */
+export function getBreadcrumbNodePath(nodes, targetId, currentPath = []) {
+  if (!Array.isArray(nodes) || !targetId) return null;
+  for (const n of nodes) {
+    const newPath = [...currentPath, { id: n.id, title: n.title || 'Untitled' }];
+    if (n.id === targetId) return newPath;
+    if (n.children && n.children.length > 0) {
+      const found = getBreadcrumbNodePath(n.children, targetId, newPath);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+/**
  * Recursively removes a node by ID and returns { cleanedNodes, removedNode }.
  * Immutable operation.
  * @param {Array<object>} nodes 

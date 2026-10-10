@@ -17,6 +17,20 @@ import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
 import { DEFAULT_ORIGINS } from '../../data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
 
+const normalizeChipList = (val) => {
+  if (!val) return [];
+  if (Array.isArray(val)) {
+    return val.flatMap(item => {
+      if (typeof item === 'string') return item.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
+      if (typeof item === 'object' && item !== null) return item.name || item.title || item.id || '';
+      return String(item);
+    }).filter(Boolean);
+  }
+  if (typeof val === 'number') return [`${val}`];
+  if (typeof val === 'string') return val.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
+  return [];
+};
+
 const CHARACTER_FIELDS = [
   // Core Identity
   { key: 'char-name', label: 'Character Name', category: 'Core Identity' },
@@ -553,6 +567,16 @@ const BastionDrawer = ({ isOpen, onClose }) => {
             >
               ⚡ Generator
             </button>
+            <button
+              className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
+                activeTab === 'directives'
+                  ? 'bg-purple-950 text-purple-300 border border-purple-500/50 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
+              onClick={() => setActiveTab('directives')}
+            >
+              📜 Directives
+            </button>
           </div>
 
           {/* Tab 1: Chatbot */}
@@ -859,6 +883,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         <div className="grid grid-cols-1 gap-2">
                           {speciesRecs.map((rec) => {
                             const isSelected = (activeSpecies?.name === rec.species.name);
+                            const sp = rec.species;
+                            const recTL = sp.recommended_tl || sp.tech_level || 3;
+                            const recML = sp.recommended_ml || sp.meta_level || 0;
+                            const posChips = normalizeChipList(sp.keywords);
+                            const negChips = normalizeChipList(sp.negative_keywords);
+
                             return (
                               <div
                                 key={rec.species.name}
@@ -876,6 +906,9 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                                       <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono font-bold">
                                         {rec.attributeModifiersSummary}
                                       </span>
+                                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-slate-300 border border-slate-700 font-mono">
+                                        TL{recTL} / ML{recML}
+                                      </span>
                                       {rec.isTopPick && (
                                         <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-900/80 text-amber-200 border border-amber-600 font-bold">
                                           ⭐ Synergized Pick
@@ -886,6 +919,24 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                                     {rec.inherentTraits?.length > 0 && (
                                       <div className="text-[10px] text-slate-400 font-mono mt-1">
                                         Inherent: {rec.inherentTraits.slice(0, 3).join(', ')}
+                                      </div>
+                                    )}
+                                    {posChips.length > 0 && (
+                                      <div className="flex flex-wrap gap-1 mt-1">
+                                        {posChips.slice(0, 4).map((c, ci) => (
+                                          <span key={ci} className="px-1.5 py-0.2 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 text-[9px] font-mono">
+                                            🏷️ {c}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                    {negChips.length > 0 && (
+                                      <div className="flex flex-wrap gap-1 mt-0.5">
+                                        {negChips.slice(0, 3).map((c, ci) => (
+                                          <span key={ci} className="px-1.5 py-0.2 rounded bg-red-950/60 text-red-300 border border-red-800/60 text-[9px] font-mono">
+                                            ⚠️ {c}
+                                          </span>
+                                        ))}
                                       </div>
                                     )}
                                     <p className="text-[10px] text-cyan-300/80 italic mt-1 font-sans">
@@ -967,6 +1018,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         <div className="grid grid-cols-1 gap-1.5">
                           {factionRecs.map(rec => {
                             const isSelected = (activeFaction?.name === rec.faction.name);
+                            const fac = rec.faction;
+                            const recTL = fac.recommended_tl || fac.tech_level || 3;
+                            const recML = fac.recommended_ml || fac.meta_level || 0;
+                            const posChips = normalizeChipList(fac.keywords);
+                            const negChips = normalizeChipList(fac.negative_keywords);
+
                             return (
                               <div
                                 key={rec.faction.name}
@@ -977,10 +1034,33 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                                     : 'bg-slate-950 hover:bg-slate-900 border-slate-800'
                                 }`}
                               >
-                                <div className="min-w-0">
-                                  <span className="font-bold text-purple-300 text-xs block">{rec.faction.name}</span>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-1.5 flex-wrap">
+                                    <span className="font-bold text-purple-300 text-xs">{rec.faction.name}</span>
+                                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-purple-300 border border-purple-800 font-mono">
+                                      TL{recTL} / ML{recML}
+                                    </span>
+                                  </div>
                                   <span className="text-[10px] text-slate-400 block truncate">{rec.rationale}</span>
-                                  <span className="text-[9px] text-slate-500 font-mono">Skills: {rec.skillPackage?.slice(0, 3).join(', ')}</span>
+                                  <span className="text-[9px] text-slate-500 font-mono block">Skills: {rec.skillPackage?.slice(0, 3).join(', ')}</span>
+                                  {posChips.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 mt-0.5">
+                                      {posChips.slice(0, 3).map((c, ci) => (
+                                        <span key={ci} className="px-1.5 py-0.2 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 text-[8px] font-mono">
+                                          🏷️ {c}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                  {negChips.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 mt-0.5">
+                                      {negChips.slice(0, 2).map((c, ci) => (
+                                        <span key={ci} className="px-1.5 py-0.2 rounded bg-red-950/60 text-red-300 border border-red-800/60 text-[8px] font-mono">
+                                          ⚠️ {c}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                                 <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase shrink-0 ${
                                   isSelected ? 'bg-purple-600 text-white' : 'bg-slate-900 text-slate-400'
@@ -1001,6 +1081,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         <div className="grid grid-cols-1 gap-1.5">
                           {originRecs.map(rec => {
                             const isSelected = (activeOrigin?.name === rec.origin.name);
+                            const org = rec.origin;
+                            const recTL = org.recommended_tl || org.tech_level || 3;
+                            const recML = org.recommended_ml || org.meta_level || 0;
+                            const posChips = normalizeChipList(org.keywords);
+                            const negChips = normalizeChipList(org.negative_keywords);
+
                             return (
                               <div
                                 key={rec.origin.name}
@@ -1011,10 +1097,33 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                                     : 'bg-slate-950 hover:bg-slate-900 border-slate-800'
                                 }`}
                               >
-                                <div className="min-w-0">
-                                  <span className="font-bold text-emerald-300 text-xs block">{rec.origin.name}</span>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center gap-1.5 flex-wrap">
+                                    <span className="font-bold text-emerald-300 text-xs">{rec.origin.name}</span>
+                                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-emerald-300 border border-emerald-800 font-mono">
+                                      TL{recTL} / ML{recML}
+                                    </span>
+                                  </div>
                                   <span className="text-[10px] text-slate-400 block truncate">{rec.rationale}</span>
-                                  <span className="text-[9px] text-slate-500 font-mono">Skills: {rec.skills?.slice(0, 3).join(', ')}</span>
+                                  <span className="text-[9px] text-slate-500 font-mono block">Skills: {rec.skills?.slice(0, 3).join(', ')}</span>
+                                  {posChips.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 mt-0.5">
+                                      {posChips.slice(0, 3).map((c, ci) => (
+                                        <span key={ci} className="px-1.5 py-0.2 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 text-[8px] font-mono">
+                                          🏷️ {c}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                  {negChips.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 mt-0.5">
+                                      {negChips.slice(0, 2).map((c, ci) => (
+                                        <span key={ci} className="px-1.5 py-0.2 rounded bg-red-950/60 text-red-300 border border-red-800/60 text-[8px] font-mono">
+                                          ⚠️ {c}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                                 <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase shrink-0 ${
                                   isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-900 text-slate-400'
@@ -1069,6 +1178,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         <div className="grid grid-cols-1 gap-2">
                           {occupationRecs.map((rec) => {
                             const isSelected = (activeOccupation?.name === rec.occupation.name);
+                            const occ = rec.occupation;
+                            const recTL = occ.recommended_tl || occ.tech_level || 3;
+                            const recML = occ.recommended_ml || occ.meta_level || 0;
+                            const posChips = normalizeChipList(occ.keywords);
+                            const negChips = normalizeChipList(occ.negative_keywords);
+
                             return (
                               <div
                                 key={rec.occupation.name}
@@ -1080,9 +1195,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                                 }`}
                               >
                                 <div className="flex items-start justify-between gap-2">
-                                  <div className="min-w-0">
+                                  <div className="min-w-0 flex-1">
                                     <div className="flex items-center gap-1.5 flex-wrap">
                                       <span className="font-bold text-sky-300 text-xs">{rec.occupation.name}</span>
+                                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-sky-300 border border-sky-800 font-mono">
+                                        TL{recTL} / ML{recML}
+                                      </span>
                                       {rec.isTopPick && (
                                         <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-900/80 text-amber-200 border border-amber-600 font-bold">
                                           ⭐ Career Match
@@ -1093,6 +1211,24 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                                     <div className="text-[10px] text-slate-400 font-mono mt-1">
                                       Professional Skills: {rec.skills?.slice(0, 4).join(', ')}
                                     </div>
+                                    {posChips.length > 0 && (
+                                      <div className="flex flex-wrap gap-1 mt-1">
+                                        {posChips.slice(0, 4).map((c, ci) => (
+                                          <span key={ci} className="px-1.5 py-0.2 rounded bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 text-[8px] font-mono">
+                                            🏷️ {c}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                    {negChips.length > 0 && (
+                                      <div className="flex flex-wrap gap-1 mt-0.5">
+                                        {negChips.slice(0, 2).map((c, ci) => (
+                                          <span key={ci} className="px-1.5 py-0.2 rounded bg-red-950/60 text-red-300 border border-red-800/60 text-[8px] font-mono">
+                                            ⚠️ {c}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
                                     <p className="text-[10px] text-cyan-300/80 italic mt-1 font-sans">
                                       💡 {rec.rationale}
                                     </p>
@@ -1693,6 +1829,98 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   {genStatus.error || genStatus.success}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Tab 3: BASTION Key Instructions & Rules Directives */}
+          {activeTab === 'directives' && (
+            <div className="flex-1 flex flex-col p-4 overflow-y-auto space-y-3.5 text-xs bg-[#0d1117]/80 text-slate-300">
+              <div className="bg-slate-900/90 border border-purple-900/50 rounded-lg p-3 space-y-1">
+                <span className="text-[10px] text-purple-400 uppercase font-bold tracking-wider block">
+                  BASTION Key Operational Directives
+                </span>
+                <p className="text-[11px] text-slate-300">
+                  Canonical guidelines, setting tier economatrix, and resolution mechanics for all Tangent SFF RPG sessions.
+                </p>
+              </div>
+
+              {/* 1. The 5 Canonical Pillars Pipeline */}
+              <div className="p-3 bg-slate-950/90 border border-cyan-900/60 rounded-lg space-y-1.5">
+                <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider block">
+                  1. Canonical 5-Pillar Architecture
+                </span>
+                <p className="text-[11px] text-slate-300">
+                  Personas must synthesize sequentially through the 5 canonical pillars:
+                </p>
+                <div className="flex flex-wrap items-center gap-1 text-[10px] font-mono">
+                  <span className="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-600/60">1. Archetype</span>
+                  <span className="text-slate-600">→</span>
+                  <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-600/60">2. Species</span>
+                  <span className="text-slate-600">→</span>
+                  <span className="px-1.5 py-0.5 rounded bg-purple-950/80 text-purple-300 border border-purple-600/60">3. Faction</span>
+                  <span className="text-slate-600">→</span>
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-600/60">4. Origin</span>
+                  <span className="text-slate-600">→</span>
+                  <span className="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-600/60">5. Occupation</span>
+                </div>
+                <p className="text-[10px] text-slate-400">
+                  Every selection grounds the character in the Cortex database without fabricating extraneous canon.
+                </p>
+              </div>
+
+              {/* 2. Budget & Point Buy Economics */}
+              <div className="p-3 bg-slate-950/90 border border-amber-900/60 rounded-lg space-y-1.5">
+                <span className="text-[10px] text-amber-400 uppercase font-bold tracking-wider block">
+                  2. 150 CP Budget &amp; 60 SP Foundation
+                </span>
+                <div className="space-y-1 text-[10px] font-mono">
+                  <div>• <strong>150 CP Budget:</strong> Raw Stats (5 CP/pt, max +4 at creation), Traits (1 CP), Features (3 CP), TL/ML Upgrades (10 CP/tier).</div>
+                  <div>• <strong>60 SP Foundation:</strong> 20 Origin SP + 20 Faction SP + 20 Occupation SP (Rank 11 max cap).</div>
+                  <div>• <strong>Free Skills:</strong> Ranks beyond foundation pools cost 1 CP each.</div>
+                </div>
+              </div>
+
+              {/* 3. Setting Tiers & Economatrix Law */}
+              <div className="p-3 bg-slate-950/90 border border-purple-900/60 rounded-lg space-y-1.5">
+                <span className="text-[10px] text-purple-400 uppercase font-bold tracking-wider block">
+                  3. Setting Tiers (TL/ML) &amp; Economatrix
+                </span>
+                <p className="text-[11px] text-slate-300">
+                  Tech Level (TL 0–5) and Meta Level (ML 0–5) define equipment access and metaphysics. Baseline is <strong>TL3 / ML3 (0 CP)</strong>.
+                </p>
+                <div className="p-2 bg-slate-900 rounded border border-purple-800/50 font-mono text-[10px] text-purple-200">
+                  <div className="text-amber-300 font-bold">Cost = Base_Cost &times; 2<sup>TL</sup> &times; 1.5<sup>ML</sup></div>
+                  <div className="text-slate-400 text-[9px] mt-0.5">Asset prices scale exponentially by tier. Exceeding character TL/ML generates railguard alerts.</div>
+                </div>
+              </div>
+
+              {/* 4. Searchable Keywords & Railguards */}
+              <div className="p-3 bg-slate-950/90 border border-emerald-900/60 rounded-lg space-y-1.5">
+                <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-wider block">
+                  4. Keywords (+Weight) &amp; Negative Railguards
+                </span>
+                <div className="space-y-1 text-[11px]">
+                  <p className="text-emerald-300">
+                    <strong>Positive Keywords (+Weight):</strong> Match character concept and directives to earn BASTION synergy boosts and situational bonuses.
+                  </p>
+                  <p className="text-red-300">
+                    <strong>Negative Railguards (Exclusions):</strong> Prevent contraindicated weapon/armor combos, incompatible biology, or setting tier breaches.
+                  </p>
+                </div>
+              </div>
+
+              {/* 5. Dual 2d10 Combat Engine */}
+              <div className="p-3 bg-slate-950/90 border border-blue-900/60 rounded-lg space-y-1.5">
+                <span className="text-[10px] text-blue-400 uppercase font-bold tracking-wider block">
+                  5. Dual 2d10 Resolution Engine
+                </span>
+                <div className="space-y-0.5 text-[10px] font-mono text-slate-300">
+                  <div>• <strong>Core Roll:</strong> 2d10 + Stat + Skill Rank vs. CR 15.</div>
+                  <div>• <strong>Ties:</strong> Defender wins contested roll ties.</div>
+                  <div>• <strong>Degrees:</strong> &plusmn;5 above/below CR = &plusmn;1 Degree of Success/Failure.</div>
+                  <div>• <strong>Economy:</strong> 2 Actions + 1 Free/Reaction per combat round.</div>
+                </div>
+              </div>
             </div>
           )}
         </>

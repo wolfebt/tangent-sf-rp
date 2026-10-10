@@ -19,7 +19,9 @@ import {
   Flag,
   AlertOctagon,
   Compass,
-  Briefcase
+  Briefcase,
+  BookOpen,
+  HelpCircle
 } from 'lucide-react';
 
 /**
@@ -156,7 +158,11 @@ export const CODEX_MATRICES = [
       primary_purpose: 'Tactical Outpost',
       description: '',
       mechanic: '',
-      note: ''
+      note: '',
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Structure / Blueprint Name', type: 'text', required: true, placeholder: 'E.g., Aegis Spire Orbital Station' },
@@ -174,7 +180,11 @@ export const CODEX_MATRICES = [
       { name: 'primary_purpose', label: 'Primary Purpose / Function', type: 'text', placeholder: 'E.g., Weapons R&D, Mining Refinery, Defense Citadel' },
       { name: 'description', label: 'Design & Visual Overview', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Tactical Mechanics & Environmental Rules', type: 'textarea' },
-      { name: 'note', label: 'Architect / GM Notes', type: 'textarea' }
+      { name: 'note', label: 'Architect / GM Notes', type: 'textarea' },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'multiselect', source: 'technology' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'multiselect', source: 'meta_level' },
+      { name: 'keywords', label: 'Positive Resonance Keywords (+AI Weight)', type: 'text', placeholder: 'orbital station, bunker, arcology, subterranean, shield dome' },
+      { name: 'negative_keywords', label: 'Railguard & Incompatible Keywords (-AI Exclusion)', type: 'text', placeholder: 'fragile, makeshift, portable, personal mobility, open-air' }
     ],
     budgets: [
       { id: 'module_budget', label: 'Module Capacity', type: 'udu', tier: 'Module', maxField: 'durability', color: '#f59e0b' }
@@ -307,9 +317,14 @@ export const CODEX_MATRICES = [
       modules: [],
       downgrades: [],
       carried_shield: 'None',
-      faction_skin: 'Syndicate',
       tl: 3,
+      tech_level: 3,
       ml: 0,
+      meta_level: 0,
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: '',
       base_dc: 15,
       craft_dc: 15,
       durability: 20,
@@ -327,6 +342,10 @@ export const CODEX_MATRICES = [
       { name: 'quality', label: 'Crafting Quality', type: 'select', options: ['Bad', 'Poor', 'Standard', 'Good', 'Exceptional', 'Mastercrafted'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'array', placeholder: 'Select or add recommended TLs (from cortex)' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'array', placeholder: 'Select or add recommended MLs (from cortex)' },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. ballistic, powered exoskeleton, sealed, heavy plate, stealth mesh' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. stealth, high-mobility, unarmored, primitive, unpowered' },
       { name: 'craft_dc', label: 'Crafting / Armor DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines base armor valuation via Tangent Standard Curve' },
       { name: 'durability', label: 'Base Durability / Structure Points (SP)', type: 'number' },
       { name: 'dr_rating', label: 'Base Damage Resistance (DR)', type: 'number' },
@@ -375,6 +394,10 @@ export const CODEX_MATRICES = [
       location: 'Torso',
       tech_level: 3,
       meta_level: 0,
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: '',
       craft_dc: 20,
       nodes_consumed: 10,
       installed_mods_count: 1,
@@ -394,6 +417,10 @@ export const CODEX_MATRICES = [
       { name: 'location', label: 'Body Slot Location', type: 'select', options: ['Head', 'Torso', 'LeftArm', 'RightArm', 'LeftLeg', 'RightLeg', 'Systemic'] },
       { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'array', placeholder: 'E.g., TL 3, TL 4' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'array', placeholder: 'E.g., ML 0, ML 1' },
+      { name: 'keywords', label: 'Guidance Keywords (+Weight)', type: 'textarea', placeholder: 'E.g., reflex, neural coprocessor, overclock, cybernetic' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards (-Weight)', type: 'textarea', placeholder: 'E.g., biological purist, primitive, low tech' },
       { name: 'craft_dc', label: 'Surgical / Design DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'] },
       { name: 'nodes_consumed', label: 'Node Displacement (UDU Nodes)', type: 'number', min: 0, max: 200 },
       { name: 'bp_cost', label: 'Character Point (CP) Bio-Tolerance', type: 'number' },
@@ -449,7 +476,13 @@ export const CODEX_MATRICES = [
       supply_die: 'None',
       faction_skin: 'Syndicate',
       tl: 3,
+      tech_level: 3,
       ml: 0,
+      meta_level: 0,
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: '',
       cost: 640,
       weight: 1.5,
       component_slots: 4,
@@ -463,6 +496,10 @@ export const CODEX_MATRICES = [
       { name: 'category', label: 'Gear Category', type: 'select', options: ['Electronics', 'Medical & Pharma', 'Surveillance & Recon', 'Survival & Environmental', 'Tactical Utility', 'Data & Infiltration', 'Maintenance & Tools'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'array', placeholder: 'Select or add recommended TLs (from cortex)' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'array', placeholder: 'Select or add recommended MLs (from cortex)' },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. reconnaissance, field medical, stealth, infiltration' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. primitive, heavy armor, magical focus' },
       { name: 'craft_dc', label: 'Crafting CR', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines item market value via TSC formula' },
       { name: 'weight', label: 'Weight (kg)', type: 'number' },
       { name: 'cost', label: 'Credit Cost (Override)', type: 'number' },
@@ -485,6 +522,88 @@ export const CODEX_MATRICES = [
       { name: 'Med-Injector Hypo-Gun', prompt: 'Rapid pressurized trauma injector loaded with coagulant stimulants and cellular repair gel.' },
       { name: 'Quantum Cyberdeck Rig', prompt: 'Hardened handheld cybernetic deck with multi-frequency uplink jack and ICE-breaking firmware.' },
       { name: 'Grav-Grapple Tether', prompt: 'Wrist-mounted magnetic grapple cable capable of lifting 300kg with built-in repulsor descent.' }
+    ]
+  },
+  {
+    id: 'other',
+    name: 'OTHER PROPERTY',
+    label: 'Other Property Matrix',
+    icon: HelpCircle,
+    color: '#94a3b8', // Slate / Steel
+    theme: 'slate',
+    targetCollection: 'other',
+    altCollection: 'personal_property',
+    ingestionKey: 'other',
+    description: 'Catalog miscellaneous personal property, trade goods, raw commodities, consumables, field tools, and general items.',
+    category: 'Personal Property',
+    badge: 'Property Matrix',
+    isProperty: true,
+    hasSocketsAndUDU: true,
+    hasModifications: true,
+    hasDamageOrEffect: false,
+    defaultValues: {
+      name: '',
+      category: 'Commodities',
+      weight: 1.0,
+      tl: 2,
+      tech_level: 2,
+      ml: 0,
+      meta_level: 0,
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: '',
+      base_dc: 10,
+      craft_dc: 10,
+      cost: 50,
+      costs: {
+        bp: 0,
+        credits: 50,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      availability: 'Common',
+      prerequisite: [],
+      modifiers: [],
+      skill_modifiers: [],
+      description: '',
+      mechanic: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Item / Property Name', type: 'text', required: true, placeholder: 'E.g., Emergency Atmospheric Scrubbing Canister' },
+      { name: 'category', label: 'Property Classification', type: 'select', options: ['Commodities', 'Trade Goods', 'Consumables', 'Field Sundries', 'Raw Materials', 'Valuables & Relics', 'Miscellaneous'] },
+      { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'array', placeholder: 'Select or add recommended TLs (from cortex)' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'array', placeholder: 'Select or add recommended MLs (from cortex)' },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. survival, consumable, raw mineral, trade good, battery' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. weaponized, heavy vehicle, cybernetic, fragile' },
+      { name: 'craft_dc', label: 'Crafting / Valuation DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines item market value via TSC formula' },
+      { name: 'weight', label: 'Weight (kg)', type: 'number' },
+      { name: 'cost', label: 'Credit Cost (Override)', type: 'number' },
+      { name: 'availability', label: 'Market Availability', type: 'select', options: ['Everywhere', 'Common', 'Uncommon', 'Rare', 'Restricted / Military', 'Black Market Only'] },
+      { name: 'description', label: 'Item Overview & Appearance', type: 'textarea', aiEnabled: true },
+      { name: 'mechanic', label: 'Rules, Effects & Consumption Mechanics', type: 'textarea' },
+      { name: 'note', label: 'Quartermaster & Cargo Notes', type: 'textarea' }
+    ],
+    budgets: [
+      { id: 'socket_budget', label: 'Socket Budget', type: 'udu', tier: 'Socket', maxField: 'component_slots', color: '#94a3b8' }
+    ],
+    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
+    computeOnSave: (formData, engines) => {
+      if (engines?.items?.computeEquipmentStats) {
+        return engines.items.computeEquipmentStats(formData);
+      }
+      return createStandardComputeOnSave('Socket', 1)(formData, engines);
+    },
+    archetypes: [
+      { name: 'Emergency Atmospheric Scrubbing Canister', prompt: 'Pressurized chemical canister that neutralizes toxic air and restores breathable oxygen in sealed compartments.' },
+      { name: 'Refined Hyper-Density Fuel Pellet', prompt: 'Hexagonal canister containing stabilized plasma reactants for compact reactor recharge.' },
+      { name: 'Aetheric Divining Crystal Fragment', prompt: 'Faceted amethyst shard attuned to leyline resonance that vibrates when psionic fields fluctuate.' }
     ]
   },
   {
@@ -593,7 +712,11 @@ export const CODEX_MATRICES = [
       component_slots: 5,
       description: '',
       mechanic: '',
-      note: ''
+      note: '',
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Mecha / Chassis Designation', type: 'text', required: true, placeholder: 'E.g., Vanguard Mk-VI Stryker Frame' },
@@ -609,7 +732,11 @@ export const CODEX_MATRICES = [
       { name: 'component_slots', label: 'Hardpoint Mount Slots', type: 'number' },
       { name: 'description', label: 'Chassis Profile & Engineering Specs', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Armor Ratings, Maneuverability & Systems', type: 'textarea' },
-      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+      { name: 'note', label: 'Architect Notes', type: 'textarea' },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'multiselect', source: 'technology' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'multiselect', source: 'meta_level' },
+      { name: 'keywords', label: 'Positive Resonance Keywords (+AI Weight)', type: 'text', placeholder: 'heavy walker, frontline armor, bipedal, siege, jump jets' },
+      { name: 'negative_keywords', label: 'Railguard & Incompatible Keywords (-AI Exclusion)', type: 'text', placeholder: 'stealth, civilian, aquatic, ultra-light, recon' }
     ],
     budgets: [
       { id: 'mount_budget', label: 'Hardpoint Mount Budget', type: 'udu', tier: 'Mount', maxField: 'component_slots', color: '#f59e0b' }
@@ -864,6 +991,13 @@ export const CODEX_MATRICES = [
       society_skills: [],
       archetypes: [],
       traits: [],
+      recommended_species: [],
+      recommended_factions: [],
+      recommended_occupations: [],
+      recommended_skills: [],
+      recommended_features: [],
+      keywords: '',
+      negative_keywords: '',
       description: '',
       full_text: '',
       note: ''
@@ -893,6 +1027,13 @@ export const CODEX_MATRICES = [
       { name: 'society_skills', label: 'Society Skills (20 SP Pool)', type: 'array', placeholder: 'Skills granted for the 20-point pool' },
       { name: 'archetypes', label: 'Typical Archetypes / Vocations', type: 'array', placeholder: 'Typical background vocations (e.g. Farmer, Hunter, Pilot)' },
       { name: 'traits', label: 'Origin Traits List', type: 'array', placeholder: 'Traits selectable for this origin (2 free, +1 CP each for extra)' },
+      { name: 'recommended_species', label: 'Recommended Species', type: 'array', placeholder: 'Select or add species (from cortex)' },
+      { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Select or add factions (from cortex)' },
+      { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Select or add occupations (from cortex)' },
+      { name: 'recommended_skills', label: 'Recommended Society Skills', type: 'array', placeholder: 'Select or add skills (from cortex)' },
+      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Select or add features (from cortex)' },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. subterranean, mining, low-gravity' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. aquatic, zero-g, stealth' },
       { name: 'description', label: 'Environmental Overview & Technical Profile', type: 'textarea', aiEnabled: true },
       { name: 'full_text', label: 'Full Rules Text & Lore (1.05 Origins.md)', type: 'textarea', aiEnabled: true },
       { name: 'note', label: 'Architect & Worldbuilding Notes', type: 'textarea' }
@@ -930,7 +1071,13 @@ export const CODEX_MATRICES = [
       field: 'General / Other',
       skill_points: 20,
       professional_skills: [],
+      recommended_species: [],
+      recommended_factions: [],
+      recommended_origins: [],
+      recommended_skills: [],
       recommended_features: [],
+      keywords: '',
+      negative_keywords: '',
       traits: [],
       archetypes: [],
       description: '',
@@ -957,7 +1104,13 @@ export const CODEX_MATRICES = [
       },
       { name: 'skill_points', label: 'Professional Skill Points Pool', type: 'number', min: 0, max: 40, default: 20, helpText: 'Points granted to allocate across professional skills (standard: 20 SP, creation cap Rank 11)' },
       { name: 'professional_skills', label: 'Professional Skills (20 SP Pool)', type: 'array', placeholder: 'Skills granted for the 20-point pool' },
-      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Features discounted by 1 BP if chosen for this occupation' },
+      { name: 'recommended_species', label: 'Recommended Species', type: 'array', placeholder: 'Select or add species (from cortex)' },
+      { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Select or add factions (from cortex)' },
+      { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Select or add origins (from cortex)' },
+      { name: 'recommended_skills', label: 'Recommended Professional Skills', type: 'array', placeholder: 'Select or add skills (from cortex)' },
+      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Select or add features (from cortex)' },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. covert, tactical, cybernetic' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. brute force, heavy armor, primitive' },
       { name: 'traits', label: 'Occupational Traits List', type: 'array', placeholder: 'Traits selectable for this occupation (2 free, +2 BP each for extra)' },
       { name: 'archetypes', label: 'Associated Archetypes / Vocations', type: 'array', placeholder: 'Typical archetype pairings (e.g. Combatant, Psionic, Mystic)' },
       { name: 'description', label: 'Professional Overview & Career Dossier', type: 'textarea', aiEnabled: true },
@@ -973,6 +1126,68 @@ export const CODEX_MATRICES = [
       { name: 'Adept', prompt: 'Mental and arcane specialist with enhanced abilities, heightened senses, and discipline mastery.' },
       { name: 'Agent', prompt: 'Covert intelligence operative specializing in infiltration, alertness, and deception.' },
       { name: 'Soldier', prompt: 'Trained combat specialist proficient with military armaments and tactical discipline.' }
+    ]
+  },
+  {
+    id: 'skills',
+    name: 'SKILLS',
+    label: 'Skills & Proficiencies Matrix',
+    icon: BookOpen,
+    color: '#3b82f6', // Blue
+    theme: 'blue',
+    targetCollection: 'skills',
+    ingestionKey: 'skills',
+    description: 'Master canonical skills, specializations, operational proficiencies, recommended tech and meta levels, and AI guidance.',
+    category: 'Character Traits & Talents',
+    badge: 'Skill Matrix',
+    isProperty: false,
+    hasSocketsAndUDU: false,
+    hasModifications: false,
+    hasDamageOrEffect: false,
+    defaultValues: {
+      name: '',
+      type: 'mental',
+      subtype: 'knowledge',
+      is_specialization: false,
+      base_skill: '',
+      recommended_tl: [],
+      recommended_ml: [],
+      tech_level: 0,
+      tl: 0,
+      meta_level: 0,
+      ml: 0,
+      keywords: '',
+      negative_keywords: '',
+      description: '',
+      mechanic: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Skill Name', type: 'text', required: true, placeholder: 'E.g., Astrogation' },
+      { name: 'type', label: 'Skill Domain / Category', type: 'select', options: ['mental', 'physical', 'social', 'combat', 'meta'], required: true },
+      { name: 'subtype', label: 'Discipline / Subtype', type: 'select', options: ['knowledge', 'vocation', 'manipulation', 'expression', 'archaic', 'modern', 'advanced'] },
+      { name: 'is_specialization', label: 'Is Specialization', type: 'boolean' },
+      { name: 'base_skill', label: 'Base / Parent Skill', type: 'text', placeholder: 'Parent skill name if specialization' },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'array', placeholder: 'Select or add recommended TLs (from cortex)' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'array', placeholder: 'Select or add recommended MLs (from cortex)' },
+      { name: 'tech_level', label: 'Baseline Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'meta_level', label: 'Baseline Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. navigation, spatial, computation, piloting' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. primitive, melee, brute force' },
+      { name: 'description', label: 'Domain of Competence & Overview', type: 'textarea', aiEnabled: true },
+      { name: 'mechanic', label: 'DCs, Governing Attributes & Modifiers', type: 'textarea' },
+      { name: 'note', label: 'Specialties, Synergies & Architect Notes', type: 'textarea' }
+    ],
+    computedOutputs: [],
+    computeOnSave: (formData) => ({
+      tech_level: Number(formData.tech_level ?? formData.tl ?? 0) || 0,
+      meta_level: Number(formData.meta_level ?? formData.ml ?? 0) || 0,
+      computed_at: new Date().toISOString()
+    }),
+    archetypes: [
+      { name: 'Astrogation', prompt: 'Calculation of hyperspace trajectories, gravity well avoidance, and orbital mechanics.' },
+      { name: 'Cybernetics Operation', prompt: 'Interfacing, diagnostics, and operational overclocking of cybernetic neural links and prosthetics.' },
+      { name: 'Exotic Weaponry', prompt: 'Handling and combat discharge of non-standard, alien, or prototype armaments.' }
     ]
   },
   {
@@ -999,6 +1214,10 @@ export const CODEX_MATRICES = [
       tl: 0,
       meta_level: 0,
       ml: 0,
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: '',
       prerequisite: [],
       modifiers: [],
       costs: {},
@@ -1014,6 +1233,10 @@ export const CODEX_MATRICES = [
       { name: 'cp', label: 'Character Point (CP) Cost', type: 'number', min: -50, max: 100, helpText: 'Character point investment or flaw point rebate' },
       { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'relation', multiple: true, source: 'technology', placeholder: 'Select or add recommended Tech Levels...' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'relation', multiple: true, source: 'meta_level', placeholder: 'Select or add recommended Meta Levels...' },
+      { name: 'keywords', label: 'AI Directives & Search Keywords (+Weight)', type: 'text', placeholder: 'e.g. reflex, combat, defensive, speed' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards (-Weight)', type: 'text', placeholder: 'e.g. primitive, magic, heavy armor, brute force' },
       { name: 'multi', label: 'Multi-Rank / Repeatable', type: 'boolean' },
       { name: 'staged', label: 'Staged Scaling Feature', type: 'boolean' },
       { name: 'description', label: 'Description & Lore', type: 'textarea', aiEnabled: true },
@@ -1137,7 +1360,14 @@ export const CODEX_MATRICES = [
       disadvantages: [],
       description: '',
       mechanic: '',
-      note: ''
+      note: '',
+      recommended_factions: [],
+      recommended_origins: [],
+      recommended_occupations: [],
+      recommended_skills: [],
+      recommended_features: [],
+      keywords: '',
+      negative_keywords: ''
     },
     fields: [
       { name: 'name', label: 'Species / Lineage Name', type: 'text', required: true, placeholder: 'E.g., Vesperian Void-Stalkers' },
@@ -1146,7 +1376,14 @@ export const CODEX_MATRICES = [
       { name: 'size', label: 'Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal'] },
       { name: 'description', label: 'Physiology, Culture & Evolutionary Origin', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Inherent Racial Traits, Senses & Weaknesses', type: 'textarea' },
-      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+      { name: 'note', label: 'Architect Notes', type: 'textarea' },
+      { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Recommended faction allegiances' },
+      { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Recommended environmental origins' },
+      { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Recommended career backgrounds' },
+      { name: 'recommended_skills', label: 'Recommended Skills', type: 'array', placeholder: 'Recommended inherent or cultural skills' },
+      { name: 'recommended_features', label: 'Recommended Features', type: 'array', placeholder: 'Recommended racial traits and features' },
+      { name: 'keywords', label: 'Guidance Keywords', type: 'text', placeholder: 'E.g., predatory, arboreal, psionic, cyber-compatible' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text', placeholder: 'E.g., heavy armor, aquatic, brute force, cybernetics' }
     ],
     budgets: [
       { id: 'species_bp', label: 'Species Character Points', type: 'custom', max: 20, unit: 'CP', color: '#10b981' }
@@ -1418,7 +1655,13 @@ export const CODEX_MATRICES = [
       faction_skin: 'Syndicate',
       meta_ranks: 0,
       tl: 3,
+      tech_level: 3,
       ml: 0,
+      meta_level: 0,
+      recommended_tl: [],
+      recommended_ml: [],
+      keywords: '',
+      negative_keywords: '',
       base_dc: 20,
       craft_dc: 20,
       cost: 2560,
@@ -1437,6 +1680,10 @@ export const CODEX_MATRICES = [
       { name: 'wielding', label: 'Wielding Configuration', type: 'select', options: ['One-Handed', 'Two-Handed', 'Versatile', 'Independent', 'Mounted / Heavy Tripod'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'ml', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'array', placeholder: 'Select or add recommended TLs (from cortex)' },
+      { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'array', placeholder: 'Select or add recommended MLs (from cortex)' },
+      { name: 'keywords', label: 'Positive Directives / Keywords', type: 'text', placeholder: 'e.g. ballistic, assault, kinetic, rapid fire, armor piercing' },
+      { name: 'negative_keywords', label: 'Negative Directives / Railguards', type: 'text', placeholder: 'e.g. pacifist, non-lethal, primitive, stealth only' },
       { name: 'craft_dc', label: 'Crafting CR', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines weapon credit market value via Tangent Standard Curve' },
       { name: 'weight', label: 'Weight (kg)', type: 'number' },
       { name: 'ap', label: 'Armor Piercing (AP)', type: 'number' },
@@ -1541,8 +1788,14 @@ export const CODEX_MATRICES = [
       unique_tech_materials: '',
       skill_package: '',
       typical_archetypes: '',
-      recommended_features: '',
+      recommended_species: [],
+      recommended_origins: [],
+      recommended_occupations: [],
+      recommended_skills: [],
+      recommended_features: [],
       bonus_features: '',
+      keywords: '',
+      negative_keywords: '',
       origin_profession_traits: '',
       setting_style: '',
       context_palette: '',
@@ -1605,8 +1858,14 @@ export const CODEX_MATRICES = [
       // 6. Mechanics & Player Character Options
       { name: 'skill_package', label: 'Faction Skill Package (20 Points Allocation)', type: 'textarea', placeholder: 'E.g., Bluff (+4), Survival (+3), Streetwise (+3), Mechanics (+3), Pilot (+3), Combat/Utility (+4)' },
       { name: 'typical_archetypes', label: 'Typical Character Archetypes', type: 'textarea', placeholder: 'E.g., The Munitions Magnate, The Field Medic, The Demolisher, The Veteran, The Marshal, The Raider' },
-      { name: 'recommended_features', label: 'Recommended Features (1 BP Discount)', type: 'textarea', placeholder: 'E.g., Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker' },
+      { name: 'recommended_species', label: 'Recommended Species', type: 'array', placeholder: 'Recommended species demographics' },
+      { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Recommended planetary origins' },
+      { name: 'recommended_occupations', label: 'Recommended Occupations', type: 'array', placeholder: 'Recommended professions / careers' },
+      { name: 'recommended_skills', label: 'Recommended Skills', type: 'array', placeholder: 'Recommended inherent / cultural skills' },
+      { name: 'recommended_features', label: 'Recommended Features (-1 BP Discount)', type: 'array', placeholder: 'Discounted features for faction members' },
       { name: 'bonus_features', label: 'Bonus Features & Origin Traits', type: 'textarea', placeholder: 'E.g., Independent Grit, Jack of All Trades, Penal Recruit, Federal Authority' },
+      { name: 'keywords', label: 'Guidance Keywords', type: 'text', placeholder: 'E.g., militaristic, corporate, void-faring' },
+      { name: 'negative_keywords', label: 'Negative Keywords & Railguards', type: 'text', placeholder: 'E.g., pacifist, primitive, psionic-taboo' },
       { name: 'mechanic', label: 'Faction-Specific Rules & Mechanical Perks', type: 'textarea', placeholder: 'Special rule effects, reputation tracks, or faction-specific bonuses...' },
 
       // 7. Visual Synthesis Protocols (HI-FI INK)
@@ -1761,8 +2020,8 @@ export const CODEX_MATRICES = [
   }
 ];
 
-export const HARDWARE_MATRIX_IDS = ['architecture', 'armor', 'augmentations', 'equipment', 'mecha', 'weaponry'];
-export const CHARACTER_MATRIX_IDS = ['archetypes', 'occupations', 'origins', 'modular-characters', 'features', 'disadvantages'];
+export const HARDWARE_MATRIX_IDS = ['architecture', 'armor', 'augmentations', 'equipment', 'mecha', 'weaponry', 'other'];
+export const CHARACTER_MATRIX_IDS = ['archetypes', 'occupations', 'origins', 'skills', 'modular-characters', 'features', 'disadvantages'];
 export const BIOLOGICAL_SPECIES_MATRIX_IDS = ['species', 'species_type', 'species_size', 'species_movement', 'traits'];
 export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species', 'factions', 'species_type', 'species_size', 'species_movement', 'traits'];
 export const META_MATRIX_IDS = ['invocation', 'meta-tech'];

@@ -76,7 +76,7 @@ function syncFeatures() {
       category,
       type,
       cp,
-      costs: data.costs || { bp: cp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
+      costs: { bp: cp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0, ...(data.costs || {}) },
       is_ranked: Boolean(data.is_ranked),
       max_rank: data.max_rank || (data.is_ranked ? 4 : undefined),
       is_multiple: Boolean(data.is_multiple),
@@ -89,7 +89,7 @@ function syncFeatures() {
       body: body
     };
 
-    const featureObj = enrichItemWithModifiers(rawFeatureObj);
+    const featureObj = enrichItemWithModifiers(rawFeatureObj, {});
     featuresList.push(featureObj);
   }
 

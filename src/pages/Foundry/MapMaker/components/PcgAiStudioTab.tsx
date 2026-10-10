@@ -41,15 +41,19 @@ import {
   Undo2, 
   Zap,
   Lock,
-  X
+  X,
+  Columns,
+  ChevronDown
 } from 'lucide-react';
+import Split from 'react-split';
 
 import { CellularAutomataCaverns } from '../../../../engine/pcg/CellularAutomataCaverns';
 import { DrunkardsWalkTunnel } from '../../../../engine/pcg/DrunkardsWalkTunnel';
 import { NodeGraphLayoutSolver, type StoryFlowNode, type StoryFlowEdge } from '../../../../engine/pcg/NodeGraphLayoutSolver';
 import { SemanticZoneMask, SemanticFlag } from '../../../../engine/executor/SemanticZoneMask';
-import { PCGExecutor, type LLMScriptPayload } from '../../../../engine/executor/PCGExecutor';
+import { PCGExecutor } from '../../../../engine/executor/PCGExecutor';
 import { MarchingSquaresAutoTiler } from '../../../../engine/canvas/MarchingSquaresAutoTiler';
+import { createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../../schemas/vttWallSchema';
 import type { AssetUnit } from '../../../../schemas/assetUnitSchema';
 import coreSeedUnits from '../../../../data/seed_units/science_fantasy_core.json';
 import { generateLandmassGrid, convertGridToKonvaElements, BIOME_PALETTES, createPRNG } from '../map/landmassGenerator';
@@ -69,6 +73,7 @@ export interface PcgCommitPayload {
   objects?: any[];
   lines?: any[];
   lights?: any[];
+  walls?: any[];
   fog?: any[];
   atmosphere?: any;
   replaceExisting?: boolean;
@@ -84,7 +89,7 @@ export interface PcgAiStudioTabProps {
   terrainRenderMode?: 'organic' | 'hex' | 'grid';
   onCommitPcgSector?: (payload: PcgCommitPayload) => void;
   onApplyPcgTerrain?: (terrainGrid: boolean[][], biomeKey: string, replaceExisting?: boolean) => void;
-  onApplyDecorations?: (entities: any[], atmosphere?: any) => void;
+  onApplyDecorations?: (entities: any[], atmosphere?: any, lights?: any[], doors?: any[]) => void;
   onDeployToCanvas?: () => void;
   isModal?: boolean;
   onCloseModal?: () => void;
@@ -100,7 +105,14 @@ const PLANETARY_PRESETS = [
   { name: 'Sci-Fi Alien Ringland', algorithm: 'simplex', oceanLevel: 55, scale: 70, octaves: 8, roughness: 0.7, climateBias: -20, scatterDensity: 50, resolution: 200, erosionPasses: 1, falloff: false, rivers: true, palette: 'scifi' },
   { name: 'Ultra Tectonic Plates', algorithm: 'voronoi', oceanLevel: 42, scale: 120, octaves: 5, roughness: 0.5, climateBias: 0, scatterDensity: 30, resolution: 240, erosionPasses: 0, falloff: false, rivers: false, palette: 'terrestrial' },
   { name: 'Volcanic Ash Wasteland', algorithm: 'simplex', oceanLevel: 35, scale: 50, octaves: 7, roughness: 0.8, climateBias: 85, scatterDensity: 20, resolution: 200, erosionPasses: 1, falloff: true, rivers: true, palette: 'volcanic' },
-  { name: 'Glacial Fjords & Crags', algorithm: 'simplex', oceanLevel: 50, scale: 65, octaves: 8, roughness: 0.75, climateBias: -85, scatterDensity: 25, resolution: 240, erosionPasses: 2, falloff: true, rivers: true, palette: 'glacial' }
+  { name: 'Glacial Fjords & Crags', algorithm: 'simplex', oceanLevel: 50, scale: 65, octaves: 8, roughness: 0.75, climateBias: -85, scatterDensity: 25, resolution: 240, erosionPasses: 2, falloff: true, rivers: true, palette: 'glacial' },
+  { name: 'Badlands Canyon & Mesas', algorithm: 'simplex', oceanLevel: 25, scale: 75, octaves: 7, roughness: 0.65, climateBias: 60, scatterDensity: 30, resolution: 240, erosionPasses: 3, falloff: false, rivers: false, palette: 'badlands' },
+  { name: 'Hyper-Arid Dune Desert', algorithm: 'simplex', oceanLevel: 15, scale: 85, octaves: 6, roughness: 0.45, climateBias: 90, scatterDensity: 15, resolution: 240, erosionPasses: 1, falloff: false, rivers: false, palette: 'desert' },
+  { name: 'Jagged Tectonic Ravines', algorithm: 'voronoi', oceanLevel: 45, scale: 110, octaves: 8, roughness: 0.85, climateBias: 0, scatterDensity: 25, resolution: 240, erosionPasses: 2, falloff: false, rivers: true, palette: 'ravines' },
+  { name: 'Abyssal Pelagic Seafloor', algorithm: 'simplex', oceanLevel: 80, scale: 95, octaves: 7, roughness: 0.55, climateBias: -10, scatterDensity: 45, resolution: 240, erosionPasses: 2, falloff: true, rivers: false, palette: 'seafloor' },
+  { name: 'Sub-Zero Arctic Permafrost', algorithm: 'simplex', oceanLevel: 40, scale: 70, octaves: 7, roughness: 0.60, climateBias: -90, scatterDensity: 20, resolution: 240, erosionPasses: 2, falloff: true, rivers: true, palette: 'arctic' },
+  { name: 'Ancient Old-Growth Forest', algorithm: 'cellular', oceanLevel: 38, scale: 60, octaves: 6, roughness: 0.50, climateBias: -15, scatterDensity: 65, resolution: 240, erosionPasses: 1, falloff: true, rivers: true, palette: 'forest' },
+  { name: 'High-Altitude Alpine Mountains', algorithm: 'simplex', oceanLevel: 30, scale: 100, octaves: 8, roughness: 0.80, climateBias: -40, scatterDensity: 30, resolution: 240, erosionPasses: 3, falloff: false, rivers: true, palette: 'mountains' }
 ];
 
 const STARSHIP_PRESETS = [
@@ -130,6 +142,57 @@ const OUTPOST_PRESETS = [
   { name: 'Planetary Perimeter Bunker', moduleSize: 6, openRatio: 0.35, perimeterWall: true, blastDoors: true }
 ];
 
+const DECORATOR_PRESETS = [
+  {
+    label: 'Barricaded Blast & Amber Lights',
+    prompt: 'barricaded blast doors, flickering amber warning lights, carbon scoring on bulkheads'
+  },
+  {
+    label: 'Corporate Research Lab',
+    prompt: 'derelict corporate research lab with heavy tactical cover, plasma hazards, and barricaded blast doors'
+  },
+  {
+    label: 'Military Bunker (Red Alert)',
+    prompt: 'abandoned military bunker with emergency red flashing lights, heavy cover barricades, and blast craters'
+  },
+  {
+    label: 'Cryo-Containment Facility',
+    prompt: 'cryo-containment facility with cold blue luminaries, frozen terminals, and reinforced airlocks'
+  },
+  {
+    label: 'Smuggler Docking Bay',
+    prompt: 'smuggler docking bay with cargo clutter, yellow hazard striping, and locked blast doors'
+  },
+  {
+    label: 'Badlands Outpost (Dust & Mesas)',
+    prompt: 'arid badlands outpost with terracotta amber lights, boulder cover, chasm fissures, and sandstorm haze'
+  },
+  {
+    label: 'Desert Extraction Station',
+    prompt: 'desert refinery oasis with solar gold lights, sandbag barricades, and heavy smoke haze'
+  },
+  {
+    label: 'Tectonic Basalt Ravine',
+    prompt: 'deep basalt ravine rift with chasm rift blue beacons, sheer drop hazards, and heavy rock rubble cover'
+  },
+  {
+    label: 'Benthic Seafloor Research Pod',
+    prompt: 'deep sea benthic trench lab with bioluminescent green-blue glow, coral organic cover, and spore marine snow'
+  },
+  {
+    label: 'Arctic Glacial Outpost',
+    prompt: 'sub-zero arctic research bunker with pale blue luminaries, permafrost ice cover, and reinforced airlocks'
+  },
+  {
+    label: 'Old-Growth Forest Encampment',
+    prompt: 'dense ancient forest clearing with emerald green illumination, mossy tree cover, and drifting spores'
+  },
+  {
+    label: 'Alpine Mountain Observatory',
+    prompt: 'high mountain crag observatory with alpine starlight beacons, granite boulder cover, and blast doors'
+  }
+];
+
 // Tactical cell metadata for tactical maps
 interface TacticalCell {
   isFloor: boolean;
@@ -137,12 +200,15 @@ interface TacticalCell {
   liquidType?: 'magma' | 'acid' | 'water' | 'slime';
   isDoor?: boolean;
   doorType?: 'airlock' | 'bulkhead';
+  isBarricaded?: boolean;
   isLight?: boolean;
   lightColor?: string;
+  lightAnimation?: 'steady' | 'flicker' | 'pulse';
   isProp?: boolean;
   propName?: string;
   propCategory?: string;
   isBreach?: boolean;
+  isCarbonScoring?: boolean;
   isFrozen?: boolean;
 }
 
@@ -190,6 +256,27 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
   // History stack for in-studio edits (Undo)
   const [undoStack, setUndoStack] = useState<TacticalCell[][][]>([]);
+
+  // Split pane ratio state (stored in localStorage for persistent user preference)
+  const [splitSizes, setSplitSizes] = useState<number[]>(() => {
+    try {
+      const saved = localStorage.getItem('pcg_studio_split_sizes');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length === 2 && typeof parsed[0] === 'number') {
+          return parsed;
+        }
+      }
+    } catch {}
+    return [48, 52];
+  });
+
+  const handleSplitDragEnd = (newSizes: number[]) => {
+    setSplitSizes(newSizes);
+    try {
+      localStorage.setItem('pcg_studio_split_sizes', JSON.stringify(newSizes));
+    } catch {}
+  };
 
   // --------------------------------------------------------------------------
   // GENERATOR SPECIFIC STATES
@@ -264,6 +351,9 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
   // Master Active Tactical Grid (for non-planetary map types)
   const [tacticalGrid, setTacticalGrid] = useState<TacticalCell[][]>([]);
+
+  // Marching Squares Mode toggle for organic beveled contours vs blocky tiles
+  const [useMarchingSquares, setUseMarchingSquares] = useState<boolean>(true);
 
   // Randomize Seed
   const handleRandomizeSeed = () => {
@@ -748,6 +838,36 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       ctx.fillStyle = '#030712'; // Deep void
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      const floorBitmasks = useMarchingSquares
+        ? MarchingSquaresAutoTiler.calculateGridBitmasks(
+            cols,
+            rows,
+            (c, r) => (tacticalGrid[r]?.[c]?.isFloor ? (tacticalGrid[r][c].isLiquid ? `liquid_${tacticalGrid[r][c].liquidType || 'magma'}` : 'floor') : undefined)
+          )
+        : null;
+      const floorBitmasks8 = useMarchingSquares
+        ? MarchingSquaresAutoTiler.calculateGridBitmasks8Bit(
+            cols,
+            rows,
+            (c, r) => (tacticalGrid[r]?.[c]?.isFloor ? (tacticalGrid[r][c].isLiquid ? `liquid_${tacticalGrid[r][c].liquidType || 'magma'}` : 'floor') : undefined)
+          )
+        : null;
+
+      const sectorBitmasks = useMarchingSquares
+        ? MarchingSquaresAutoTiler.calculateGridBitmasks(
+            cols,
+            rows,
+            (c, r) => (tacticalGrid[r]?.[c]?.isFloor ? 'walkable' : undefined)
+          )
+        : null;
+      const sectorBitmasks8 = useMarchingSquares
+        ? MarchingSquaresAutoTiler.calculateGridBitmasks8Bit(
+            cols,
+            rows,
+            (c, r) => (tacticalGrid[r]?.[c]?.isFloor ? 'walkable' : undefined)
+          )
+        : null;
+
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           const cell = tacticalGrid[r][c];
@@ -771,17 +891,68 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                   ? '#292524' 
                   : '#0f172a';
             }
-            ctx.fillRect(x, y, cellPx, cellPx);
 
-            // Floor Bevel / Tech Tile
-            ctx.strokeStyle = '#1e293b';
-            ctx.lineWidth = 1;
-            ctx.strokeRect(x + 0.5, y + 0.5, cellPx - 1, cellPx - 1);
+            if (useMarchingSquares && floorBitmasks && floorBitmasks8) {
+              const b4 = floorBitmasks[r][c];
+              const b8 = floorBitmasks8[r][c];
+              const pts = MarchingSquaresAutoTiler.getMarchingPolygonPoints(x, y, cellPx, cellPx, b4, b8, 0.5);
+              if (pts.length >= 4) {
+                ctx.beginPath();
+                ctx.moveTo(pts[0], pts[1]);
+                for (let i = 2; i < pts.length; i += 2) {
+                  ctx.lineTo(pts[i], pts[i + 1]);
+                }
+                ctx.closePath();
+                ctx.fill();
+
+                // Floor Bevel / Tech Tile
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              } else {
+                ctx.fillRect(x, y, cellPx, cellPx);
+              }
+
+              // Smooth Marching Squares boundary contour (Wall perimeter)
+              if (sectorBitmasks && sectorBitmasks8) {
+                const sb4 = sectorBitmasks[r][c];
+                const sb8 = sectorBitmasks8[r][c];
+                if (sb4 !== 15 || sb8 !== 255) {
+                  const wallContours = MarchingSquaresAutoTiler.getMarchingContourLines(x, y, cellPx, cellPx, sb4, sb8, 0.5);
+                  if (wallContours.length > 0) {
+                    ctx.strokeStyle = activeMapType === 'starship' ? '#0284c7' : '#475569';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    for (const seg of wallContours) {
+                      ctx.moveTo(seg[0], seg[1]);
+                      ctx.lineTo(seg[2], seg[3]);
+                    }
+                    ctx.stroke();
+                  }
+                }
+              }
+            } else {
+              ctx.fillRect(x, y, cellPx, cellPx);
+
+              // Floor Bevel / Tech Tile
+              ctx.strokeStyle = '#1e293b';
+              ctx.lineWidth = 1;
+              ctx.strokeRect(x + 0.5, y + 0.5, cellPx - 1, cellPx - 1);
+            }
 
             // Door rendering
             if (cell.isDoor) {
               ctx.fillStyle = cell.doorType === 'airlock' ? '#38bdf8' : '#f59e0b';
               ctx.fillRect(x + 2, y + cellPx / 2 - 3, cellPx - 4, 6);
+
+              // Barricaded blast door reinforcement indicator
+              if (cell.isBarricaded) {
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x + 1, y + cellPx / 2 - 5, cellPx - 2, 10);
+                ctx.fillStyle = '#dc2626';
+                ctx.fillRect(x + cellPx / 2 - 3, y + cellPx / 2 - 4, 6, 8);
+              }
             }
 
             // Light rendering (Radial glow)
@@ -806,35 +977,50 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
             // Tactical Prop / Terminal / Cover
             if (cell.isProp) {
-              ctx.fillStyle = '#06b6d4';
+              const isCover = cell.propCategory === 'cover';
+              ctx.fillStyle = isCover ? '#f59e0b' : '#06b6d4';
               ctx.fillRect(x + cellPx * 0.25, y + cellPx * 0.25, cellPx * 0.5, cellPx * 0.5);
-              ctx.strokeStyle = '#22d3ee';
-              ctx.lineWidth = 1;
+              ctx.strokeStyle = isCover ? '#d97706' : '#22d3ee';
+              ctx.lineWidth = 1.5;
               ctx.strokeRect(x + cellPx * 0.25, y + cellPx * 0.25, cellPx * 0.5, cellPx * 0.5);
             }
 
-            // Breach / Blast mark
-            if (cell.isBreach) {
-              ctx.fillStyle = 'rgba(220, 38, 38, 0.4)';
+            // Breach / Carbon Scoring
+            if (cell.isBreach || cell.isCarbonScoring) {
+              ctx.fillStyle = cell.isCarbonScoring ? 'rgba(15, 23, 42, 0.7)' : 'rgba(220, 38, 38, 0.4)';
               ctx.fillRect(x, y, cellPx, cellPx);
+              ctx.strokeStyle = '#334155';
+              ctx.lineWidth = 1;
+              ctx.strokeRect(x + 2, y + 2, cellPx - 4, cellPx - 4);
             }
           } else {
             // Wall / Hull Bulkhead
             ctx.fillStyle = '#0b1120';
             ctx.fillRect(x, y, cellPx, cellPx);
 
-            // Highlight border if adjacent to floor
-            const hasFloorNeighbor = (
-              (r > 0 && tacticalGrid[r - 1][c]?.isFloor) ||
-              (r < rows - 1 && tacticalGrid[r + 1][c]?.isFloor) ||
-              (c > 0 && tacticalGrid[r][c - 1]?.isFloor) ||
-              (c < cols - 1 && tacticalGrid[r][c + 1]?.isFloor)
-            );
+            // Carbon scoring on bulkheads
+            if (cell.isCarbonScoring || cell.isBreach) {
+              ctx.fillStyle = 'rgba(245, 158, 11, 0.2)';
+              ctx.fillRect(x + 2, y + 2, cellPx - 4, cellPx - 4);
+              ctx.strokeStyle = '#78350f';
+              ctx.lineWidth = 1.5;
+              ctx.strokeRect(x + 2, y + 2, cellPx - 4, cellPx - 4);
+            }
 
-            if (hasFloorNeighbor) {
-              ctx.strokeStyle = activeMapType === 'starship' ? '#0284c7' : '#475569';
-              ctx.lineWidth = 2;
-              ctx.strokeRect(x + 1, y + 1, cellPx - 2, cellPx - 2);
+            // Highlight border if adjacent to floor (only in classic non-marching mode)
+            if (!useMarchingSquares) {
+              const hasFloorNeighbor = (
+                (r > 0 && tacticalGrid[r - 1][c]?.isFloor) ||
+                (r < rows - 1 && tacticalGrid[r + 1][c]?.isFloor) ||
+                (c > 0 && tacticalGrid[r][c - 1]?.isFloor) ||
+                (c < cols - 1 && tacticalGrid[r][c + 1]?.isFloor)
+              );
+
+              if (hasFloorNeighbor) {
+                ctx.strokeStyle = activeMapType === 'starship' ? '#0284c7' : '#475569';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x + 1, y + 1, cellPx - 2, cellPx - 2);
+              }
             }
           }
 
@@ -858,7 +1044,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
         }
       }
     }
-  }, [activeMapType, plGridResult, tacticalGrid, zoomLevel, showGridOverlay]);
+  }, [activeMapType, plGridResult, tacticalGrid, zoomLevel, showGridOverlay, useMarchingSquares]);
 
   // --------------------------------------------------------------------------
   // USER EDITING & DIRECT TACTILE BRUSH PAINTING
@@ -1103,68 +1289,60 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
   const handleRunSpatialDecorator = () => {
     setIsAiRunning(true);
-    setAiLogs(['Compiling tactical spatial layout into Semantic Zone Mask...', 'Analyzing clearance vectors & hazard bounds...']);
+    setAiLogs([
+      'Analyzing natural language directives for lighting, blast doors, cover & scorch marks...',
+      'Compiling tactical spatial layout into Semantic Zone Mask...'
+    ]);
 
     setTimeout(() => {
+      // 1. Record undo state before applying decorator
+      if (tacticalGrid.length > 0) {
+        setUndoStack(prev => [...prev.slice(-10), tacticalGrid.map(row => row.map(cell => ({ ...cell })))]);
+      }
+
+      // 2. Build semantic zone mask from current tactical grid
       const mask = new SemanticZoneMask(widthCells, heightCells);
       for (let r = 0; r < heightCells; r++) {
         for (let c = 0; c < widthCells; c++) {
-          if (tacticalGrid[r]?.[c]?.isFrozen) {
+          const cell = tacticalGrid[r]?.[c];
+          if (cell?.isFrozen) {
             mask.setFlag(c, r, SemanticFlag.FROZEN);
-          } else if (tacticalGrid[r]?.[c]?.isFloor) {
+          } else if (cell?.isFloor) {
             mask.setFlag(c, r, SemanticFlag.FLOOR);
+            if (cell.isDoor) {
+              mask.setFlag(c, r, SemanticFlag.DOORWAY);
+            }
+          } else {
+            mask.setFlag(c, r, SemanticFlag.WALL);
           }
         }
       }
 
       const catalog = coreSeedUnits as unknown as AssetUnit[];
-      const execute_scripts: any[] = [];
-
-      execute_scripts.push({
-        action: 'place_central',
-        query_tags: ['terminal', 'tactical'],
-        zone: [4, 4, widthCells - 5, heightCells - 5],
-        clearance: 1
-      });
-
-      execute_scripts.push({
-        action: 'scatter',
-        query_tags: ['crate', 'cover'],
-        zone: [2, 2, widthCells - 3, heightCells - 3],
-        density: 0.08,
-        limit: 8,
-        clearance: 1
-      });
-
-      if (aiPrompt.toLowerCase().includes('plasma') || aiPrompt.toLowerCase().includes('hazard') || aiPrompt.toLowerCase().includes('acid')) {
-        execute_scripts.push({
-          action: 'place_hazard',
-          query_tags: ['plasma', 'hazard'],
-          zone: [3, 3, widthCells - 4, heightCells - 4],
-          limit: 3
-        });
-      }
-
       const executor = new PCGExecutor(Date.now());
-      const payload: LLMScriptPayload = {
-        atmosphere_lighting: {
-          ambient_color: '#071626',
-          weather: aiPrompt.toLowerCase().includes('plasma') ? 'sparks' : 'smoke'
-        },
-        execute_scripts
-      };
 
-      const report = executor.execute({
-        scriptPayload: payload,
+      // 3. Compile high-specificity prompt into structured directives and execute
+      const report = executor.compileAndExecute({
+        prompt: aiPrompt,
         catalog,
-        mask
+        mask,
+        zone: [0, 0, widthCells - 1, heightCells - 1]
       });
 
-      setAiLogs(prev => [...prev, ...report.logs, `✓ Script execution verified: Placed ${report.totalPlaced} tactical entities.`]);
+      // 4. Update the live tactical grid so user sees changes in preview immediately
+      setTacticalGrid(prev => PCGExecutor.applyToTacticalGrid(prev, report));
+
+      // 5. Update AI logs and notify
+      setAiLogs(prev => [
+        ...prev,
+        ...report.logs,
+        `✓ Spatial Decorator Complete: Placed ${report.totalPlaced} entities (${report.doors.length} doors, ${report.lights.length} lights, ${report.bulkheadScorches.length} scorches).`
+      ]);
       setIsAiRunning(false);
 
+      // 6. Propagate decorations to MapMaker canvas/stage if callback provided
       if (onApplyDecorations) {
-        onApplyDecorations(report.placedEntities, report.atmosphere);
+        onApplyDecorations(report.placedEntities, report.atmosphere, report.lights, report.doors);
       }
     }, 450);
   };
@@ -1204,6 +1382,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
       const generatedObjects: any[] = [];
       const generatedLines: any[] = [];
       const generatedLights: any[] = [];
+      const generatedWalls: any[] = [];
 
       const biomeTheme = activeMapType === 'caverns' 
         ? 'rock_cavern' 
@@ -1215,15 +1394,31 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
         ? TERRAIN_TEXTURE_PATTERNS.metalDecking
         : null;
 
-      const floorBitmasks = MarchingSquaresAutoTiler.calculateGridBitmasks(
-        cols,
-        rows,
-        (c, r) => {
-          const cell = tacticalGrid[r]?.[c];
-          if (!cell || !cell.isFloor) return undefined;
-          return cell.isLiquid ? `liquid_${cell.liquidType || 'magma'}` : 'floor';
-        }
-      );
+      const getFloorMat = (c: number, r: number) => {
+        const cell = tacticalGrid[r]?.[c];
+        if (!cell || !cell.isFloor) return undefined;
+        return cell.isLiquid ? `liquid_${cell.liquidType || 'magma'}` : 'floor';
+      };
+
+      const floorBitmasks = MarchingSquaresAutoTiler.calculateGridBitmasks(cols, rows, getFloorMat);
+      const floorBitmasks8 = useMarchingSquares
+        ? MarchingSquaresAutoTiler.calculateGridBitmasks8Bit(cols, rows, getFloorMat)
+        : null;
+
+      const sectorBitmasks = useMarchingSquares
+        ? MarchingSquaresAutoTiler.calculateGridBitmasks(
+            cols,
+            rows,
+            (c, r) => (tacticalGrid[r]?.[c]?.isFloor ? 'walkable' : undefined)
+          )
+        : null;
+      const sectorBitmasks8 = useMarchingSquares
+        ? MarchingSquaresAutoTiler.calculateGridBitmasks8Bit(
+            cols,
+            rows,
+            (c, r) => (tacticalGrid[r]?.[c]?.isFloor ? 'walkable' : undefined)
+          )
+        : null;
 
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
@@ -1233,52 +1428,126 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
           if (cell.isFloor && layerFlags.terrains) {
             const bitmask = floorBitmasks[r][c];
-            const edgeLines = MarchingSquaresAutoTiler.getEdgeLines(x, y, cellSizePx, cellSizePx, bitmask);
-            generatedTerrains.push({
-              id: `pcg-floor-${Date.now()}-${r}-${c}`,
-              x,
-              y,
-              width: cellSizePx,
-              height: cellSizePx,
-              renderType: 'rect',
-              bitmask4Bit: bitmask,
-              edgeLines,
-              biomeType: cell.isLiquid ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge') : biomeTheme,
-              color: cell.isLiquid 
-                ? (cell.liquidType === 'magma' ? '#ea580c' : cell.liquidType === 'acid' ? '#65a30d' : '#0284c7') 
-                : '#1e293b',
-              textureUrl: floorTexture
-            });
+            const bitmask8 = floorBitmasks8 ? floorBitmasks8[r][c] : 0;
+
+            if (useMarchingSquares) {
+              const polyPoints = MarchingSquaresAutoTiler.getMarchingPolygonPoints(
+                x,
+                y,
+                cellSizePx,
+                cellSizePx,
+                bitmask,
+                bitmask8,
+                0.5
+              );
+              const edgeLines = MarchingSquaresAutoTiler.getMarchingContourLines(
+                x,
+                y,
+                cellSizePx,
+                cellSizePx,
+                bitmask,
+                bitmask8,
+                0.5
+              );
+
+              generatedTerrains.push({
+                id: `pcg-floor-${Date.now()}-${r}-${c}`,
+                x,
+                y,
+                width: cellSizePx,
+                height: cellSizePx,
+                renderType: 'polygon',
+                closed: true,
+                points: polyPoints,
+                tension: 0.15,
+                bitmask4Bit: bitmask,
+                bitmask8Bit: bitmask8,
+                edgeLines,
+                isLiquid: cell.isLiquid,
+                biomeType: cell.isLiquid ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge') : biomeTheme,
+                color: cell.isLiquid 
+                  ? (cell.liquidType === 'magma' ? '#ea580c' : cell.liquidType === 'acid' ? '#65a30d' : '#0284c7') 
+                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b'),
+                textureUrl: floorTexture
+              });
+            } else {
+              const edgeLines = MarchingSquaresAutoTiler.getEdgeLines(x, y, cellSizePx, cellSizePx, bitmask);
+              generatedTerrains.push({
+                id: `pcg-floor-${Date.now()}-${r}-${c}`,
+                x,
+                y,
+                width: cellSizePx,
+                height: cellSizePx,
+                renderType: 'rect',
+                bitmask4Bit: bitmask,
+                edgeLines,
+                isLiquid: cell.isLiquid,
+                biomeType: cell.isLiquid ? (cell.liquidType === 'magma' ? 'volcanicLava' : 'toxicSludge') : biomeTheme,
+                color: cell.isLiquid 
+                  ? (cell.liquidType === 'magma' ? '#ea580c' : cell.liquidType === 'acid' ? '#65a30d' : '#0284c7') 
+                  : (activeMapType === 'caverns' ? '#1e293b' : activeMapType === 'mining' ? '#292524' : '#1e293b'),
+                textureUrl: floorTexture
+              });
+            }
           }
 
           // Doors
           if (cell.isDoor && layerFlags.doors) {
+            const isBarricaded = Boolean(cell.isBarricaded);
+            const doorName = isBarricaded 
+              ? 'Barricaded Blast Door' 
+              : (cell.doorType === 'airlock' ? 'Airlock Blast Door' : 'Security Bulkhead');
+
+            // Interactive Door Portal Object
             generatedObjects.push({
               id: `pcg-door-${Date.now()}-${r}-${c}`,
-              name: cell.doorType === 'airlock' ? 'Airlock Blast Door' : 'Security Bulkhead',
-              label: cell.doorType === 'airlock' ? 'Airlock' : 'Door',
+              name: doorName,
+              label: isBarricaded ? 'Barricaded Door' : (cell.doorType === 'airlock' ? 'Airlock' : 'Door'),
               x: x + cellSizePx / 2,
               y: y + cellSizePx / 2,
               width: cellSizePx,
               height: cellSizePx,
               category: 'door',
               type: 'portal',
-              color: '#f59e0b',
+              color: isBarricaded ? '#ef4444' : (cell.doorType === 'airlock' ? '#38bdf8' : '#f59e0b'),
               isOpen: false,
-              isLocked: false
+              isLocked: isBarricaded || false,
+              isBarricaded
             });
+
+            // Interactive VTT Wall Segment
+            generatedWalls.push(createWallSegment(
+              { x, y: y + cellSizePx / 2 },
+              { x: x + cellSizePx, y: y + cellSizePx / 2 },
+              WALL_TYPES.DOOR,
+              {
+                id: `pcg-door-wall-${Date.now()}-${r}-${c}`,
+                label: doorName,
+                doorState: isBarricaded ? DOOR_STATES.LOCKED : DOOR_STATES.CLOSED,
+                breachHp: isBarricaded ? 80 : 40,
+                athleticsDc: isBarricaded ? 22 : 16,
+                hackDc: isBarricaded ? 18 : 14,
+                color: isBarricaded ? '#ef4444' : (cell.doorType === 'airlock' ? '#38bdf8' : '#f59e0b')
+              }
+            ));
           }
 
           // Lights
           if (cell.isLight && layerFlags.lights) {
+            const anim = cell.lightAnimation || 'steady';
+            const lightName = anim === 'flicker'
+              ? 'Flickering Luminary'
+              : (anim === 'pulse' ? 'Warning Beacon' : 'Tactical Luminary');
+
             generatedLights.push({
               id: `pcg-light-${Date.now()}-${r}-${c}`,
-              name: 'Tactical Luminary',
+              name: lightName,
               x: x + cellSizePx / 2,
               y: y + cellSizePx / 2,
               radius: cellSizePx * 3.5,
               color: cell.lightColor || '#38bdf8',
-              intensity: 0.85
+              intensity: 0.85,
+              animation: anim
             });
           }
 
@@ -1298,22 +1567,69 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
             });
           }
 
+          // Carbon Scoring & Blast Decals
+          if ((cell.isCarbonScoring || cell.isBreach) && layerFlags.scatters) {
+            generatedObjects.push({
+              id: `pcg-decal-${Date.now()}-${r}-${c}`,
+              name: cell.isCarbonScoring ? 'Bulkhead Carbon Scoring' : 'Structural Blast Breach',
+              label: cell.isCarbonScoring ? 'Carbon Scoring' : 'Blast Breach',
+              x,
+              y,
+              width: cellSizePx,
+              height: cellSizePx,
+              category: 'decal',
+              type: 'decal',
+              color: cell.isCarbonScoring ? '#334155' : '#ea580c',
+              isDecal: true,
+              decalType: cell.isCarbonScoring ? 'carbon_scoring' : 'breach'
+            });
+          }
+
           // Wall Perimeter lines
-          if (!cell.isFloor && layerFlags.walls) {
-            const hasFloorNeighbor = (
-              (r > 0 && tacticalGrid[r - 1][c]?.isFloor) ||
-              (r < rows - 1 && tacticalGrid[r + 1][c]?.isFloor) ||
-              (c > 0 && tacticalGrid[r][c - 1]?.isFloor) ||
-              (c < cols - 1 && tacticalGrid[r][c + 1]?.isFloor)
-            );
-            if (hasFloorNeighbor) {
-              generatedLines.push({
-                id: `pcg-wall-${Date.now()}-${r}-${c}`,
-                points: [x, y, x + cellSizePx, y, x + cellSizePx, y + cellSizePx, x, y + cellSizePx, x, y],
-                stroke: '#0284c7',
-                strokeWidth: 3,
-                closed: true
-              });
+          if (layerFlags.walls) {
+            if (useMarchingSquares) {
+              if (cell.isFloor && sectorBitmasks && sectorBitmasks8) {
+                const sb4 = sectorBitmasks[r][c];
+                const sb8 = sectorBitmasks8[r][c];
+                if (sb4 !== 15 || sb8 !== 255) {
+                  const contourSegments = MarchingSquaresAutoTiler.getMarchingContourLines(
+                    x,
+                    y,
+                    cellSizePx,
+                    cellSizePx,
+                    sb4,
+                    sb8,
+                    0.5
+                  );
+                  contourSegments.forEach((seg, idx) => {
+                    generatedLines.push({
+                      id: `pcg-wall-${Date.now()}-${r}-${c}-${idx}`,
+                      points: [seg[0], seg[1], seg[2], seg[3]],
+                      stroke: activeMapType === 'starship' ? '#0284c7' : '#475569',
+                      strokeWidth: 3,
+                      closed: false
+                    });
+                  });
+                }
+              }
+            } else {
+              if (!cell.isFloor) {
+                const hasFloorNeighbor = (
+                  (r > 0 && tacticalGrid[r - 1][c]?.isFloor) ||
+                  (r < rows - 1 && tacticalGrid[r + 1][c]?.isFloor) ||
+                  (c > 0 && tacticalGrid[r][c - 1]?.isFloor) ||
+                  (c < cols - 1 && tacticalGrid[r][c + 1]?.isFloor)
+                );
+                if (hasFloorNeighbor) {
+                  generatedLines.push({
+                    id: `pcg-wall-${Date.now()}-${r}-${c}`,
+                    points: [x, y, x + cellSizePx, y, x + cellSizePx, y + cellSizePx, x, y + cellSizePx, x, y],
+                    stroke: activeMapType === 'starship' ? '#0284c7' : '#475569',
+                    strokeWidth: 3,
+                    closed: true
+                  });
+                }
+              }
             }
           }
         }
@@ -1325,6 +1641,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
           objects: generatedObjects,
           lines: generatedLines,
           lights: generatedLights,
+          walls: generatedWalls,
           replaceExisting
         });
       }
@@ -1380,15 +1697,15 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
   return (
     <div className={`flex flex-col h-full bg-slate-950 text-slate-100 font-sans select-none overflow-hidden ${isModal ? 'p-4' : 'p-6'}`}>
-      {/* Studio Header & Map Type Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-cyan-900/60 shrink-0">
+      {/* Studio Header & Inline Generation Mode */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-cyan-900/60 shrink-0">
         <div className="flex items-center space-x-3">
-          <div className="p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+          <div className="p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)] shrink-0">
             <Cpu className="w-6 h-6 text-cyan-400" />
           </div>
           <div>
             <h1 className="text-base sm:text-lg font-mono font-bold uppercase text-slate-100 flex items-center gap-2">
-              <span>Procedural Content Generation (PCG) & AI Co-Pilot</span>
+              <span>Procedural Content Generation (PCG) &amp; AI Co-Pilot</span>
               <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">
                 100% Deterministic + Scripted
               </span>
@@ -1399,55 +1716,64 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
           </div>
         </div>
 
-        {/* Modal Close Button */}
-        {isModal && onCloseModal && (
-          <button
-            type="button"
-            onClick={onCloseModal}
-            className="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-950 hover:text-red-400 border border-slate-700 text-slate-400 text-lg flex items-center justify-center transition-all"
-            title="Close PCG Modal"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        )}
-      </div>
-
-      {/* Map Type Mode Selector Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto py-3 shrink-0 border-b border-slate-800/80 text-xs font-mono">
-        {[
-          { id: 'planetary', label: 'Planetary Landmass', icon: Globe2 },
-          { id: 'starship', label: 'Starship & Deckplan', icon: Rocket },
-          { id: 'caverns', label: 'Subterranean Cavern & Hive', icon: Mountain },
-          { id: 'mining', label: 'Mining Complex & Shafts', icon: Pickaxe },
-          { id: 'outpost', label: 'Modular Outpost & Station', icon: Layers },
-          { id: 'nodegraph', label: 'Story Flowchart Outpost', icon: Network },
-          { id: 'decorator', label: 'Gemini Spatial Decorator', icon: Sparkles }
-        ].map(tab => {
-          const Icon = tab.icon;
-          const isActive = activeMapType === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveMapType(tab.id as PcgMapType)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg font-bold transition-all shrink-0 ${
-                isActive
-                  ? 'bg-cyan-950 border border-cyan-400 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                  : 'bg-slate-900/60 border border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
-              }`}
+        {/* Generation Mode Selector (Moved up a row after the text) */}
+        <div className="flex items-center gap-3">
+          <label htmlFor="pcg-generator-mode-select" className="text-slate-400 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shrink-0">
+            <Sliders className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Generation Mode:</span>
+          </label>
+          <div className="relative inline-flex items-center">
+            <div className="absolute left-3 pointer-events-none text-cyan-400">
+              {activeMapType === 'planetary' && <Globe2 className="w-4 h-4" />}
+              {activeMapType === 'starship' && <Rocket className="w-4 h-4" />}
+              {activeMapType === 'caverns' && <Mountain className="w-4 h-4" />}
+              {activeMapType === 'mining' && <Pickaxe className="w-4 h-4" />}
+              {activeMapType === 'outpost' && <Layers className="w-4 h-4" />}
+              {activeMapType === 'nodegraph' && <Network className="w-4 h-4" />}
+              {activeMapType === 'decorator' && <Sparkles className="w-4 h-4" />}
+            </div>
+            <select
+              id="pcg-generator-mode-select"
+              value={activeMapType}
+              onChange={(e) => setActiveMapType(e.target.value as PcgMapType)}
+              className="appearance-none bg-slate-950 hover:bg-slate-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-200 font-mono text-xs font-bold rounded-lg pl-9 pr-9 py-2 shadow-[0_0_15px_rgba(6,182,212,0.15)] focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all cursor-pointer min-w-[260px] sm:min-w-[320px]"
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
-              <span>{tab.label}</span>
+              <option value="planetary">Planetary Landmass (Simplex / Voronoi)</option>
+              <option value="starship">Starship &amp; Deckplan (BSP / Hull Armor)</option>
+              <option value="caverns">Subterranean Cavern &amp; Hive (Cellular Automata)</option>
+              <option value="mining">Mining Complex &amp; Shafts (Drunkard's Walk)</option>
+              <option value="outpost">Modular Outpost &amp; Station (WFC Assemblies)</option>
+              <option value="nodegraph">Story Flowchart Outpost (Node-Graph Layout)</option>
+              <option value="decorator">Gemini Spatial Decorator (Prompt Dressing)</option>
+            </select>
+            <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-3 pointer-events-none" />
+          </div>
+
+          {/* Modal Close Button */}
+          {isModal && onCloseModal && (
+            <button
+              type="button"
+              onClick={onCloseModal}
+              className="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-950 hover:text-red-400 border border-slate-700 text-slate-400 text-lg flex items-center justify-center transition-all ml-1 shrink-0"
+              title="Close PCG Modal"
+            >
+              <X className="w-4 h-4" />
             </button>
-          );
-        })}
+          )}
+        </div>
       </div>
 
-      {/* Main Studio Body: Split View (Controls Left, Preview Right) */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 overflow-hidden py-4">
-        
-        {/* Left Column: Granular Controls & Preset Parameters (6 cols) */}
-        <div className="lg:col-span-6 flex flex-col gap-4 overflow-y-auto pr-1">
+      {/* Main Studio Body: Adjustable Split View (Controls Left, Preview Right) */}
+      <Split
+        sizes={splitSizes}
+        minSize={[320, 360]}
+        gutterSize={8}
+        direction="horizontal"
+        onDragEnd={handleSplitDragEnd}
+        className="flex-1 flex overflow-hidden split-horizontal py-2 min-h-0 w-full"
+      >
+        {/* Left Column: Granular Controls & Preset Parameters */}
+        <div className="h-full flex flex-col gap-4 overflow-y-auto pr-2 min-w-0">
 
           {/* Universal Parameters & Seed */}
           <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-3 shadow-lg">
@@ -1519,111 +1845,101 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
             </div>
           </div>
 
-          {/* Quick Presets Bar for Active Map Type */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-2">
-            <span className="text-[11px] font-mono uppercase font-bold text-slate-400 tracking-wider">
-              Curated Architectural Presets:
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {activeMapType === 'planetary' && PLANETARY_PRESETS.map((p, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    setPlAlgorithm(p.algorithm as any);
-                    setPlOceanLevel(p.oceanLevel);
-                    setPlScale(p.scale);
-                    setPlOctaves(p.octaves);
-                    setPlRoughness(p.roughness);
-                    setPlClimateBias(p.climateBias);
-                    setPlScatterDensity(p.scatterDensity);
-                    setPlResolution(p.resolution);
-                    setPlErosionPasses(p.erosionPasses);
-                    setPlEnableFalloff(p.falloff);
-                    setPlEnableRivers(p.rivers);
-                    setPlPaletteKey(p.palette);
-                  }}
-                  className="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500 rounded text-slate-300 transition-colors"
-                >
-                  {p.name}
-                </button>
-              ))}
-
-              {activeMapType === 'starship' && STARSHIP_PRESETS.map((p, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    setSsDepth(p.depth);
-                    setSsSymmetry(p.symmetry as any);
-                    setSsCorridorWidth(p.corridorWidth);
-                    setSsHullArmor(p.hullArmor);
-                    setSsAirlockCount(p.airlockCount);
-                    setSsTheme(p.theme);
-                  }}
-                  className="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500 rounded text-slate-300 transition-colors"
-                >
-                  {p.name}
-                </button>
-              ))}
-
-              {activeMapType === 'caverns' && CAVERN_PRESETS.map((p, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    setCaFillProb(p.fillProb);
-                    setCaSmoothIters(p.smoothIters);
-                    setCaLiquidRatio(p.liquidRatio);
-                    setCaLiquidType(p.liquidType as any);
-                    setCaScatterDensity(p.scatterDensity);
-                  }}
-                  className="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500 rounded text-slate-300 transition-colors"
-                >
-                  {p.name}
-                </button>
-              ))}
-
-              {activeMapType === 'mining' && MINING_PRESETS.map((p, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    setDwFloorRatio(p.floorRatio);
-                    setDwStraightBias(p.straightBias);
-                    setDwBranches(p.branches);
-                    setDwChambers(p.chambers);
-                    setDwRailTracks(p.railTracks);
-                  }}
-                  className="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500 rounded text-slate-300 transition-colors"
-                >
-                  {p.name}
-                </button>
-              ))}
-
-              {activeMapType === 'outpost' && OUTPOST_PRESETS.map((p, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    setOpModuleSize(p.moduleSize);
-                    setOpOpenRatio(p.openRatio);
-                    setOpPerimeterWall(p.perimeterWall);
-                    setOpBlastDoors(p.blastDoors);
-                  }}
-                  className="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500 rounded text-slate-300 transition-colors"
-                >
-                  {p.name}
-                </button>
-              ))}
-
-              {activeMapType === 'nodegraph' && (
-                <span className="text-xs text-slate-400 font-mono">Use Room Chain Editor below</span>
-              )}
-
-              {activeMapType === 'decorator' && (
-                <span className="text-xs text-slate-400 font-mono">Select directive theme prompt below</span>
-              )}
+          {/* Quick Presets Pulldown for Active Map Type */}
+          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3 space-y-1.5">
+            <label htmlFor="pcg-architectural-preset-select" className="text-[11px] font-mono uppercase font-bold text-slate-400 tracking-wider block">
+              Architectural Preset:
+            </label>
+            <div className="relative">
+              <select
+                id="pcg-architectural-preset-select"
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (!val) return;
+                  if (activeMapType === 'planetary') {
+                    const p = PLANETARY_PRESETS[Number(val)];
+                    if (p) {
+                      setPlAlgorithm(p.algorithm as any);
+                      setPlOceanLevel(p.oceanLevel);
+                      setPlScale(p.scale);
+                      setPlOctaves(p.octaves);
+                      setPlRoughness(p.roughness);
+                      setPlClimateBias(p.climateBias);
+                      setPlScatterDensity(p.scatterDensity);
+                      setPlResolution(p.resolution);
+                      setPlErosionPasses(p.erosionPasses);
+                      setPlEnableFalloff(p.falloff);
+                      setPlEnableRivers(p.rivers);
+                      setPlPaletteKey(p.palette);
+                    }
+                  } else if (activeMapType === 'starship') {
+                    const p = STARSHIP_PRESETS[Number(val)];
+                    if (p) {
+                      setSsDepth(p.depth);
+                      setSsSymmetry(p.symmetry as any);
+                      setSsCorridorWidth(p.corridorWidth);
+                      setSsHullArmor(p.hullArmor);
+                      setSsAirlockCount(p.airlockCount);
+                      setSsTheme(p.theme);
+                    }
+                  } else if (activeMapType === 'caverns') {
+                    const p = CAVERN_PRESETS[Number(val)];
+                    if (p) {
+                      setCaFillProb(p.fillProb);
+                      setCaSmoothIters(p.smoothIters);
+                      setCaLiquidRatio(p.liquidRatio);
+                      setCaLiquidType(p.liquidType as any);
+                      setCaScatterDensity(p.scatterDensity);
+                    }
+                  } else if (activeMapType === 'mining') {
+                    const p = MINING_PRESETS[Number(val)];
+                    if (p) {
+                      setDwFloorRatio(p.floorRatio);
+                      setDwStraightBias(p.straightBias);
+                      setDwBranches(p.branches);
+                      setDwChambers(p.chambers);
+                      setDwRailTracks(p.railTracks);
+                    }
+                  } else if (activeMapType === 'outpost') {
+                    const p = OUTPOST_PRESETS[Number(val)];
+                    if (p) {
+                      setOpModuleSize(p.moduleSize);
+                      setOpOpenRatio(p.openRatio);
+                      setOpPerimeterWall(p.perimeterWall);
+                      setOpBlastDoors(p.blastDoors);
+                    }
+                  } else if (activeMapType === 'decorator') {
+                    const p = DECORATOR_PRESETS[Number(val)];
+                    if (p) {
+                      setAiPrompt(p.prompt);
+                    }
+                  }
+                  e.target.value = '';
+                }}
+                defaultValue=""
+                className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+              >
+                <option value="" disabled>-- Load Architectural Preset --</option>
+                {activeMapType === 'planetary' && PLANETARY_PRESETS.map((p, idx) => (
+                  <option key={idx} value={idx}>{p.name}</option>
+                ))}
+                {activeMapType === 'starship' && STARSHIP_PRESETS.map((p, idx) => (
+                  <option key={idx} value={idx}>{p.name}</option>
+                ))}
+                {activeMapType === 'caverns' && CAVERN_PRESETS.map((p, idx) => (
+                  <option key={idx} value={idx}>{p.name}</option>
+                ))}
+                {activeMapType === 'mining' && MINING_PRESETS.map((p, idx) => (
+                  <option key={idx} value={idx}>{p.name}</option>
+                ))}
+                {activeMapType === 'outpost' && OUTPOST_PRESETS.map((p, idx) => (
+                  <option key={idx} value={idx}>{p.name}</option>
+                ))}
+                {activeMapType === 'decorator' && DECORATOR_PRESETS.map((p, idx) => (
+                  <option key={idx} value={idx}>{p.label}</option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
             </div>
           </div>
 
@@ -1655,67 +1971,134 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: 'simplex', label: 'Simplex HD' },
-                    { id: 'cellular', label: 'Cellular Island' },
-                    { id: 'voronoi', label: 'Voronoi Plates' }
-                  ].map(alg => (
-                    <button
-                      key={alg.id}
-                      type="button"
-                      onClick={() => setPlAlgorithm(alg.id as any)}
-                      className={`py-1.5 px-2 text-xs font-mono font-bold rounded border ${
-                        plAlgorithm === alg.id 
-                          ? 'bg-cyan-950 border-cyan-400 text-cyan-300' 
-                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
-                      }`}
+                {/* Generation Algorithm Pulldown */}
+                <div>
+                  <label className="text-slate-300 block mb-1">Landmass Generation Algorithm:</label>
+                  <div className="relative">
+                    <select
+                      value={plAlgorithm}
+                      onChange={e => setPlAlgorithm(e.target.value as any)}
+                      className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
                     >
-                      {alg.label}
-                    </button>
-                  ))}
+                      <option value="simplex">Simplex Noise (Realistic Continents &amp; Rivers)</option>
+                      <option value="cellular">Cellular Automata (Fragmented Archipelago Islands)</option>
+                      <option value="voronoi">Voronoi Plates (Tectonic Crust Plates &amp; Rifts)</option>
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                  </div>
                 </div>
 
-                {/* Granular Sliders */}
+                {/* Granular Pulldowns */}
                 <div className="space-y-3 font-mono text-xs">
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Ocean Level / Land Ratio:</span>
-                      <span className="text-cyan-400 font-bold">{plOceanLevel}%</span>
+                    <label className="text-slate-300 block mb-1">Ocean Level / Land Ratio:</label>
+                    <div className="relative">
+                      <select
+                        value={plOceanLevel}
+                        onChange={e => setPlOceanLevel(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[15, 25, 35, 45, 55, 65, 75, 85].includes(plOceanLevel) ? null : (
+                          <option value={plOceanLevel}>{plOceanLevel}% (Current Custom)</option>
+                        )}
+                        <option value={15}>15% - Arid / Super-Continent (Desert / Low Sea)</option>
+                        <option value={25}>25% - Low Water / Expansive Landmass</option>
+                        <option value={35}>35% - Broad Continents &amp; Large Inlets</option>
+                        <option value={45}>45% - Balanced Earth-Like Oceans (Default)</option>
+                        <option value={55}>55% - High Water / Archipelagos</option>
+                        <option value={65}>65% - Oceanic World / Scattered Island Chains</option>
+                        <option value={75}>75% - Deep Ocean Atolls</option>
+                        <option value={85}>85% - Water World / Micro-Islets</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={10} max={85} value={plOceanLevel} onChange={e => setPlOceanLevel(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Continental Scale:</span>
-                      <span className="text-cyan-400 font-bold">{plScale}</span>
+                    <label className="text-slate-300 block mb-1">Continental Feature Scale:</label>
+                    <div className="relative">
+                      <select
+                        value={plScale}
+                        onChange={e => setPlScale(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[25, 50, 80, 120, 180, 250].includes(plScale) ? null : (
+                          <option value={plScale}>{plScale} (Current Custom)</option>
+                        )}
+                        <option value={25}>25 - Micro Terrain / Rapid Biome Shifts</option>
+                        <option value={50}>50 - Moderate Landmasses &amp; Fjords</option>
+                        <option value={80}>80 - Standard Continents (Default)</option>
+                        <option value={120}>120 - Expansive Continental Plates</option>
+                        <option value={180}>180 - Massive Landmass Formations</option>
+                        <option value={250}>250 - Super-Continental Formations</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={15} max={300} value={plScale} onChange={e => setPlScale(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Fractal Octaves:</span>
-                      <span className="text-cyan-400 font-bold">{plOctaves} Octaves</span>
+                    <label className="text-slate-300 block mb-1">Fractal Octaves (Detail Density):</label>
+                    <div className="relative">
+                      <select
+                        value={plOctaves}
+                        onChange={e => setPlOctaves(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[1, 2, 4, 6, 8, 10].includes(plOctaves) ? null : (
+                          <option value={plOctaves}>{plOctaves} Octaves (Current Custom)</option>
+                        )}
+                        <option value={1}>1 Octave - Broad Smooth Contours</option>
+                        <option value={2}>2 Octaves - Low Detail</option>
+                        <option value={4}>4 Octaves - Standard Fractal Detail (Default)</option>
+                        <option value={6}>6 Octaves - High Roughness &amp; Inlets</option>
+                        <option value={8}>8 Octaves - Complex Rugged Coastlines</option>
+                        <option value={10}>10 Octaves - Maximum Detail Density</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={1} max={10} value={plOctaves} onChange={e => setPlOctaves(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Coastline Roughness:</span>
-                      <span className="text-cyan-400 font-bold">{plRoughness.toFixed(2)}</span>
+                    <label className="text-slate-300 block mb-1">Coastline Roughness:</label>
+                    <div className="relative">
+                      <select
+                        value={plRoughness}
+                        onChange={e => setPlRoughness(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[0.20, 0.35, 0.50, 0.65, 0.80, 0.95].some(v => Math.abs(v - plRoughness) < 0.01) ? null : (
+                          <option value={plRoughness}>{plRoughness.toFixed(2)} (Current Custom)</option>
+                        )}
+                        <option value={0.20}>0.20 - Smooth &amp; Gentle Shorelines</option>
+                        <option value={0.35}>0.35 - Moderate Wave Erosion</option>
+                        <option value={0.50}>0.50 - Standard Rugged Coast (Default)</option>
+                        <option value={0.65}>0.65 - Jagged Fjords &amp; Inlets</option>
+                        <option value={0.80}>0.80 - Heavily Fractured Crags</option>
+                        <option value={0.95}>0.95 - Ultra-Chaotic Coastlines</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={0.10} max={1.00} step={0.05} value={plRoughness} onChange={e => setPlRoughness(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Climate Bias:</span>
-                      <span className="text-cyan-400 font-bold">{plClimateBias > 0 ? `+${plClimateBias} (Arid)` : plClimateBias < 0 ? `${plClimateBias} (Glacial)` : '0 (Balanced)'}</span>
+                    <label className="text-slate-300 block mb-1">Thermal Climate Bias:</label>
+                    <div className="relative">
+                      <select
+                        value={plClimateBias}
+                        onChange={e => setPlClimateBias(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[-80, -40, 0, 40, 80].includes(plClimateBias) ? null : (
+                          <option value={plClimateBias}>{plClimateBias > 0 ? `+${plClimateBias}` : plClimateBias} (Current Custom)</option>
+                        )}
+                        <option value={-80}>-80 - Glacial Ice Age / Frozen Wastes</option>
+                        <option value={-40}>-40 - Sub-Polar Boreal Tundra</option>
+                        <option value={0}>0 - Balanced Temperate World (Default)</option>
+                        <option value={40}>+40 - Sub-Tropical &amp; Warm Plains</option>
+                        <option value={80}>+80 - Scorched Arid / Desert World</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={-100} max={100} value={plClimateBias} onChange={e => setPlClimateBias(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
                 </div>
 
@@ -1735,39 +2118,71 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                   </label>
                 </div>
 
-                {/* Biome Themes */}
+                {/* Biome Environmental Palette Pulldown */}
                 <div className="space-y-2 pt-2">
-                  <span className="text-xs font-mono font-bold text-slate-300">Biome Palette:</span>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[
-                      { id: 'terrestrial', label: 'Standard Earth' },
-                      { id: 'scifi', label: 'Sci-Fi Neon' },
-                      { id: 'volcanic', label: 'Volcanic Ash' },
-                      { id: 'glacial', label: 'Sub-Zero Glacial' }
-                    ].map(pal => {
-                      const colors = (BIOME_PALETTES as any)[pal.id];
-                      return (
-                        <button
-                          key={pal.id}
-                          type="button"
-                          onClick={() => setPlPaletteKey(pal.id)}
-                          className={`p-2 rounded border text-left flex flex-col gap-1 ${
-                            plPaletteKey === pal.id 
-                              ? 'bg-cyan-950 border-cyan-400' 
-                              : 'bg-slate-950 border-slate-800'
-                          }`}
-                        >
-                          <span className="text-xs font-mono font-bold text-slate-200">{pal.label}</span>
-                          <div className="flex gap-1">
-                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.ocean }} />
-                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.grass }} />
-                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.mountain }} />
-                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.snow }} />
-                          </div>
-                        </button>
-                      );
-                    })}
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="pcg-biome-palette-select" className="text-xs font-mono font-bold text-slate-300">
+                      Biome Environmental Palette:
+                    </label>
+                    <span className="text-[10px] font-mono text-cyan-400 capitalize px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60">
+                      {plPaletteKey}
+                    </span>
                   </div>
+                  <div className="relative">
+                    <select
+                      id="pcg-biome-palette-select"
+                      value={plPaletteKey}
+                      onChange={e => setPlPaletteKey(e.target.value)}
+                      className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                    >
+                      <option value="terrestrial">Standard Earth (Temperate Continents &amp; Plains)</option>
+                      <option value="badlands">Badlands (Terracotta Mesas &amp; Arid Canyons)</option>
+                      <option value="desert">Desert (Hyper-Arid Dunes &amp; Oasis Springs)</option>
+                      <option value="ravines">Ravines (Tectonic Basalt Chasms &amp; Rifts)</option>
+                      <option value="seafloor">Seafloor (Benthic Abyss &amp; Bioluminescent Vents)</option>
+                      <option value="arctic">Arctic (Sub-Zero Permafrost &amp; Ice Shelves)</option>
+                      <option value="forest">Forest (Old-Growth Canopies &amp; Emerald Glades)</option>
+                      <option value="mountains">Mountains (Alpine Granite Crags &amp; Scree Slopes)</option>
+                      <option value="scifi">Sci-Fi Neon (Alien Xenomoss &amp; Purple Wastes)</option>
+                      <option value="volcanic">Volcanic Ash (Scorched Basalt &amp; Magma Flows)</option>
+                      <option value="glacial">Glacial (Pack Ice Shelves &amp; Frozen Fjords)</option>
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                  </div>
+
+                  {/* Dynamic Elevation Palette Swatch Preview */}
+                  {(() => {
+                    const activePal = (BIOME_PALETTES as any)[plPaletteKey] || (BIOME_PALETTES as any).terrestrial;
+                    const swatches = [
+                      { label: 'Abyss', color: activePal.abyssal },
+                      { label: 'Deep Ocean', color: activePal.deepOcean },
+                      { label: 'Ocean', color: activePal.ocean },
+                      { label: 'Coast', color: activePal.beach },
+                      { label: 'Lowland', color: activePal.grass },
+                      { label: 'Midland', color: activePal.forest },
+                      { label: 'Highland', color: activePal.hills },
+                      { label: 'Peak', color: activePal.mountain },
+                      { label: 'Summit', color: activePal.snow }
+                    ];
+                    return (
+                      <div className="bg-slate-950/80 border border-slate-800 rounded-lg p-2 space-y-1.5">
+                        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                          <span>Elevation Strata Preview</span>
+                          <span className="text-cyan-400">Abyss &rarr; Summit</span>
+                        </div>
+                        <div className="flex h-3 w-full rounded overflow-hidden border border-slate-700/60 shadow-inner">
+                          {swatches.map((swatch, idx) => (
+                            <div
+                              key={idx}
+                              title={`${swatch.label}: ${swatch.color}`}
+                              className="flex-1 h-full transition-all duration-300"
+                              style={{ backgroundColor: swatch.color }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             )}
@@ -1779,73 +2194,107 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                   Starship Architectural Parameters
                 </span>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="text-slate-300 block mb-1">BSP Subdivision Depth:</label>
-                    <input type="range" min={2} max={6} value={ssDepth} onChange={e => setSsDepth(Number(e.target.value))} className="w-full accent-cyan-500" />
-                    <span className="text-cyan-400">{ssDepth} Levels</span>
+                    <div className="relative">
+                      <select
+                        value={ssDepth}
+                        onChange={e => setSsDepth(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        <option value={2}>2 Levels - Open Hangar / Cargo Bay</option>
+                        <option value={3}>3 Levels - Compact Corvette</option>
+                        <option value={4}>4 Levels - Standard Frigate (Default)</option>
+                        <option value={5}>5 Levels - Cruiser / Dense Cabins</option>
+                        <option value={6}>6 Levels - Battleship / Maximum Bulkheads</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                    </div>
                   </div>
 
                   <div>
                     <label className="text-slate-300 block mb-1">Spinal Corridor Width:</label>
-                    <input type="range" min={1} max={3} value={ssCorridorWidth} onChange={e => setSsCorridorWidth(Number(e.target.value))} className="w-full accent-cyan-500" />
-                    <span className="text-cyan-400">{ssCorridorWidth} Cells</span>
+                    <div className="relative">
+                      <select
+                        value={ssCorridorWidth}
+                        onChange={e => setSsCorridorWidth(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        <option value={1}>1 Cell - Narrow Maintenance Crawlway</option>
+                        <option value={2}>2 Cells - Standard Crew Thoroughfare (Default)</option>
+                        <option value={3}>3 Cells - Wide Main Concourse / Cargo Transit</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                    </div>
                   </div>
 
                   <div>
                     <label className="text-slate-300 block mb-1">Hull Armor Padding:</label>
-                    <input type="range" min={1} max={4} value={ssHullArmor} onChange={e => setSsHullArmor(Number(e.target.value))} className="w-full accent-cyan-500" />
-                    <span className="text-cyan-400">{ssHullArmor} Cells</span>
+                    <div className="relative">
+                      <select
+                        value={ssHullArmor}
+                        onChange={e => setSsHullArmor(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        <option value={1}>1 Cell - Light Scout Plating</option>
+                        <option value={2}>2 Cells - Reinforced Hull (Default)</option>
+                        <option value={3}>3 Cells - Heavy Armored Bulkheads</option>
+                        <option value={4}>4 Cells - Dreadnought Fortress Citadel</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                    </div>
                   </div>
 
                   <div>
                     <label className="text-slate-300 block mb-1">Airlock Seals:</label>
-                    <input type="range" min={2} max={6} value={ssAirlockCount} onChange={e => setSsAirlockCount(Number(e.target.value))} className="w-full accent-cyan-500" />
-                    <span className="text-cyan-400">{ssAirlockCount} Airlocks</span>
+                    <div className="relative">
+                      <select
+                        value={ssAirlockCount}
+                        onChange={e => setSsAirlockCount(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        <option value={2}>2 Airlocks - Port &amp; Starboard Egress</option>
+                        <option value={3}>3 Airlocks - Fore, Port, Starboard</option>
+                        <option value={4}>4 Airlocks - 4-Quadrant Perimeter (Default)</option>
+                        <option value={6}>6 Airlocks - Heavy Egress / Multi-Dock</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-slate-300 block mb-1">Hull Symmetry:</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[
-                      { id: 'bilateral', label: 'Bilateral Port/Stbd' },
-                      { id: 'none', label: 'Asymmetrical' },
-                      { id: 'fore_aft', label: 'Radial Spire' }
-                    ].map(sym => (
-                      <button
-                        key={sym.id}
-                        type="button"
-                        onClick={() => setSsSymmetry(sym.id as any)}
-                        className={`py-1.5 px-2 text-[11px] font-bold rounded border ${
-                          ssSymmetry === sym.id ? 'bg-cyan-950 border-cyan-400 text-cyan-300' : 'bg-slate-950 border-slate-800 text-slate-400'
-                        }`}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-slate-300 block mb-1">Hull Symmetry:</label>
+                    <div className="relative">
+                      <select
+                        value={ssSymmetry}
+                        onChange={e => setSsSymmetry(e.target.value as any)}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
                       >
-                        {sym.label}
-                      </button>
-                    ))}
+                        <option value="bilateral">Bilateral Port/Stbd Symmetry (Default)</option>
+                        <option value="none">Asymmetrical Hull Partitioning</option>
+                        <option value="fore_aft">Radial Spire / Fore-Aft Layout</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-slate-300 block mb-1">Deck Bulkhead Theme:</label>
-                  <div className="grid grid-cols-3 gap-2">
-                    {[
-                      { id: 'metal_deck', label: 'Metal Deck' },
-                      { id: 'industrial', label: 'Industrial' },
-                      { id: 'cyber_grid', label: 'Cyber Grid' }
-                    ].map(th => (
-                      <button
-                        key={th.id}
-                        type="button"
-                        onClick={() => setSsTheme(th.id)}
-                        className={`py-1.5 px-2 text-[11px] font-bold rounded border ${
-                          ssTheme === th.id ? 'bg-cyan-950 border-cyan-400 text-cyan-300' : 'bg-slate-950 border-slate-800 text-slate-400'
-                        }`}
+                  <div>
+                    <label className="text-slate-300 block mb-1">Deck Bulkhead Theme:</label>
+                    <div className="relative">
+                      <select
+                        value={ssTheme}
+                        onChange={e => setSsTheme(e.target.value)}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
                       >
-                        {th.label}
-                      </button>
-                    ))}
+                        <option value="metal_deck">Metal Deck (High-Tech Steel Plating)</option>
+                        <option value="industrial">Industrial (Reinforced Grating &amp; Hazards)</option>
+                        <option value="cyber_grid">Cyber Grid (Glow Lines &amp; Composites)</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1860,49 +2309,82 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
                 <div className="space-y-3">
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Initial Wall Fill Density:</span>
-                      <span className="text-cyan-400 font-bold">{Math.round(caFillProb * 100)}%</span>
+                    <label className="text-slate-300 block mb-1">Initial Wall Fill Density:</label>
+                    <div className="relative">
+                      <select
+                        value={caFillProb}
+                        onChange={e => setCaFillProb(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[0.38, 0.42, 0.45, 0.48, 0.52].some(v => Math.abs(v - caFillProb) < 0.005) ? null : (
+                          <option value={caFillProb}>{Math.round(caFillProb * 100)}% (Current Custom)</option>
+                        )}
+                        <option value={0.38}>38% - Sprawling Wide-Chamber Caverns</option>
+                        <option value={0.42}>42% - Moderate Natural Grottoes</option>
+                        <option value={0.45}>45% - Balanced Subterranean Caverns (Default)</option>
+                        <option value={0.48}>48% - Tight Organic Tunnels &amp; Passages</option>
+                        <option value={0.52}>52% - Dense Alien Hive Labyrinth</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={0.35} max={0.55} step={0.01} value={caFillProb} onChange={e => setCaFillProb(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Smoothing Passes:</span>
-                      <span className="text-cyan-400 font-bold">{caSmoothIters} Iterations</span>
+                    <label className="text-slate-300 block mb-1">Smoothing Passes (Cellular Iterations):</label>
+                    <div className="relative">
+                      <select
+                        value={caSmoothIters}
+                        onChange={e => setCaSmoothIters(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[1, 2, 4, 6, 8].includes(caSmoothIters) ? null : (
+                          <option value={caSmoothIters}>{caSmoothIters} Iterations (Current Custom)</option>
+                        )}
+                        <option value={1}>1 Iteration - Jagged &amp; Raw Formations</option>
+                        <option value={2}>2 Iterations - Rough Stone Edges</option>
+                        <option value={4}>4 Iterations - Balanced Smooth Caverns (Default)</option>
+                        <option value={6}>6 Iterations - Polished Underground Galleries</option>
+                        <option value={8}>8 Iterations - Highly Rounded Cavern Voids</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={1} max={8} value={caSmoothIters} onChange={e => setCaSmoothIters(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Liquid Basin Flooding:</span>
-                      <span className="text-cyan-400 font-bold">{Math.round(caLiquidRatio * 100)}%</span>
+                    <label className="text-slate-300 block mb-1">Liquid Basin Flooding:</label>
+                    <div className="relative">
+                      <select
+                        value={caLiquidRatio}
+                        onChange={e => setCaLiquidRatio(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[0, 0.10, 0.20, 0.30, 0.45].some(v => Math.abs(v - caLiquidRatio) < 0.02) ? null : (
+                          <option value={caLiquidRatio}>{Math.round(caLiquidRatio * 100)}% (Current Custom)</option>
+                        )}
+                        <option value={0}>0% - Bone Dry Caverns (No Pools)</option>
+                        <option value={0.10}>10% - Sparse Dripping Puddles</option>
+                        <option value={0.20}>20% - Standard Subterranean Pools (Default)</option>
+                        <option value={0.30}>30% - Subterranean Lakes &amp; Rivers</option>
+                        <option value={0.45}>45% - Heavily Flooded Waterlogged Abyss</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={0} max={0.45} step={0.05} value={caLiquidRatio} onChange={e => setCaLiquidRatio(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <span className="text-slate-300 block mb-1">Liquid Basin Substance:</span>
-                    <div className="grid grid-cols-4 gap-2">
-                      {[
-                        { id: 'water', label: 'Sub-Water' },
-                        { id: 'magma', label: 'Magma' },
-                        { id: 'acid', label: 'Acid' },
-                        { id: 'slime', label: 'Bio-Slime' }
-                      ].map(liq => (
-                        <button
-                          key={liq.id}
-                          type="button"
-                          onClick={() => setCaLiquidType(liq.id as any)}
-                          className={`py-1 px-2 text-[10px] font-bold rounded border ${
-                            caLiquidType === liq.id ? 'bg-cyan-950 border-cyan-400 text-cyan-300' : 'bg-slate-950 border-slate-800 text-slate-400'
-                          }`}
-                        >
-                          {liq.label}
-                        </button>
-                      ))}
+                    <label className="text-slate-300 block mb-1">Liquid Basin Substance:</label>
+                    <div className="relative">
+                      <select
+                        value={caLiquidType}
+                        onChange={e => setCaLiquidType(e.target.value as any)}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        <option value="water">Sub-Water (Standard Hydrological Caves)</option>
+                        <option value="magma">Magma / Lava (Volcanic Vent Network)</option>
+                        <option value="acid">Caustic Acid (Chemical Seepage Hazard)</option>
+                        <option value="slime">Bio-Slime (Xenobiotic Infestation Sludge)</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
                   </div>
 
@@ -1930,27 +2412,67 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
                 <div className="space-y-3">
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Excavation Ratio:</span>
-                      <span className="text-cyan-400 font-bold">{Math.round(dwFloorRatio * 100)}%</span>
+                    <label className="text-slate-300 block mb-1">Excavation Ratio:</label>
+                    <div className="relative">
+                      <select
+                        value={dwFloorRatio}
+                        onChange={e => setDwFloorRatio(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[0.18, 0.25, 0.32, 0.40, 0.48].some(v => Math.abs(v - dwFloorRatio) < 0.02) ? null : (
+                          <option value={dwFloorRatio}>{Math.round(dwFloorRatio * 100)}% (Current Custom)</option>
+                        )}
+                        <option value={0.18}>18% - Deep Exploratory Prospecting Shafts</option>
+                        <option value={0.25}>25% - Standard Mine Tunnel Network (Default)</option>
+                        <option value={0.32}>32% - Active Mining Complex</option>
+                        <option value={0.40}>40% - Extensive Vein Extraction System</option>
+                        <option value={0.48}>48% - Hollowed Core Mega-Mine</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={0.15} max={0.50} step={0.01} value={dwFloorRatio} onChange={e => setDwFloorRatio(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Drift Straightness Bias:</span>
-                      <span className="text-cyan-400 font-bold">{dwStraightBias.toFixed(2)}</span>
+                    <label className="text-slate-300 block mb-1">Drift Straightness Bias:</label>
+                    <div className="relative">
+                      <select
+                        value={dwStraightBias}
+                        onChange={e => setDwStraightBias(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[0.20, 0.35, 0.50, 0.70, 0.85].some(v => Math.abs(v - dwStraightBias) < 0.03) ? null : (
+                          <option value={dwStraightBias}>{dwStraightBias.toFixed(2)} (Current Custom)</option>
+                        )}
+                        <option value={0.20}>0.20 - Organic Meandering Drifts</option>
+                        <option value={0.35}>0.35 - Winding Exploration Trails</option>
+                        <option value={0.50}>0.50 - Balanced Blasted Shafts (Default)</option>
+                        <option value={0.70}>0.70 - Engineered Linear Mine Shafts</option>
+                        <option value={0.85}>0.85 - Laser-Bored Transport Adits</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={0.10} max={0.90} step={0.05} value={dwStraightBias} onChange={e => setDwStraightBias(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Chamber Stamps:</span>
-                      <span className="text-cyan-400 font-bold">{dwChambers} Quarries</span>
+                    <label className="text-slate-300 block mb-1">Excavation Chamber Quarries:</label>
+                    <div className="relative">
+                      <select
+                        value={dwChambers}
+                        onChange={e => setDwChambers(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[0, 1, 2, 4, 6, 8].includes(dwChambers) ? null : (
+                          <option value={dwChambers}>{dwChambers} Quarries (Current Custom)</option>
+                        )}
+                        <option value={0}>0 Quarries - Pure Transit Shafts Only</option>
+                        <option value={1}>1 Quarry - Central Extraction Pit</option>
+                        <option value={2}>2 Quarries - Dual Workings (Default)</option>
+                        <option value={4}>4 Quarries - Multi-Vein Mining Depot</option>
+                        <option value={6}>6 Quarries - Heavy Industrial Extraction Hub</option>
+                        <option value={8}>8 Quarries - Massive Strip-Mine Network</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={0} max={8} value={dwChambers} onChange={e => setDwChambers(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
                 </div>
               </div>
@@ -1965,19 +2487,41 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
                 <div className="space-y-3">
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Module Grid Size:</span>
-                      <span className="text-cyan-400 font-bold">{opModuleSize} × {opModuleSize} Cells</span>
+                    <label className="text-slate-300 block mb-1">Module Grid Size:</label>
+                    <div className="relative">
+                      <select
+                        value={opModuleSize}
+                        onChange={e => setOpModuleSize(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        <option value={4}>4 × 4 Cells - Compact Micro-Hab Module</option>
+                        <option value={6}>6 × 6 Cells - Standard Station Bay (Default)</option>
+                        <option value={8}>8 × 8 Cells - Large Laboratory &amp; Habitat</option>
+                        <option value={10}>10 × 10 Cells - Heavy Industrial Command Module</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={4} max={10} step={2} value={opModuleSize} onChange={e => setOpModuleSize(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-300">Module Density / Open Ratio:</span>
-                      <span className="text-cyan-400 font-bold">{Math.round(opOpenRatio * 100)}%</span>
+                    <label className="text-slate-300 block mb-1">Module Density / Open Ratio:</label>
+                    <div className="relative">
+                      <select
+                        value={opOpenRatio}
+                        onChange={e => setOpOpenRatio(Number(e.target.value))}
+                        className="w-full appearance-none bg-slate-950 border border-slate-700 hover:border-cyan-500 rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer pr-8"
+                      >
+                        {[0.25, 0.35, 0.45, 0.60, 0.75].some(v => Math.abs(v - opOpenRatio) < 0.03) ? null : (
+                          <option value={opOpenRatio}>{Math.round(opOpenRatio * 100)}% (Current Custom)</option>
+                        )}
+                        <option value={0.25}>25% - Fortified Heavy Bulkheads / Few Openings</option>
+                        <option value={0.35}>35% - Segmented Station Modules</option>
+                        <option value={0.45}>45% - Balanced Outpost Interior (Default)</option>
+                        <option value={0.60}>60% - Open-Plan Research Facility</option>
+                        <option value={0.75}>75% - Sprawling Multi-Bay Complex</option>
+                      </select>
+                      <ChevronDown className="w-4 h-4 text-cyan-400 absolute right-2.5 top-2.5 pointer-events-none" />
                     </div>
-                    <input type="range" min={0.20} max={0.80} step={0.05} value={opOpenRatio} onChange={e => setOpOpenRatio(Number(e.target.value))} className="w-full accent-cyan-500" />
                   </div>
 
                   <div className="flex gap-4 pt-1">
@@ -2055,16 +2599,40 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
             {/* 7. GEMINI SPATIAL DECORATOR CONTROLS */}
             {activeMapType === 'decorator' && (
               <div className="space-y-3 font-mono text-xs">
-                <span className="font-bold text-cyan-400 uppercase">
-                  Gemini Structured Spatial Decorator Prompt
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-cyan-400 uppercase">
+                    Gemini Structured Spatial Decorator Prompt
+                  </span>
+                  <span className="text-[10px] text-slate-500">Natural Language PCG</span>
+                </div>
+
+                {/* Quick Presets */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Quick Directive Presets:</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {DECORATOR_PRESETS.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setAiPrompt(preset.prompt)}
+                        className={`text-[10px] px-2.5 py-1 rounded border transition-all ${
+                          aiPrompt === preset.prompt
+                            ? 'bg-cyan-950 border-cyan-400 text-cyan-300 font-bold shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                            : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 <textarea
                   value={aiPrompt}
                   onChange={e => setAiPrompt(e.target.value)}
                   rows={3}
-                  className="w-full bg-slate-950 border border-cyan-900/80 rounded-lg p-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400"
-                  placeholder="e.g. Derelict corporate research lab with heavy tactical cover, plasma hazards, and barricaded blast doors."
+                  className="w-full bg-slate-950 border border-cyan-900/80 rounded-lg p-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-sans"
+                  placeholder="e.g. barricaded blast doors, flickering amber warning lights, carbon scoring on bulkheads"
                 />
 
                 <button
@@ -2227,10 +2795,10 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
         </div>
 
-        {/* Right Column: Live 2D Canvas Preview & Deploy Action (6 cols) */}
-        <div className="lg:col-span-6 flex flex-col gap-4 overflow-hidden">
+        {/* Right Column: Live 2D Canvas Preview & Deploy Action */}
+        <div className="h-full flex flex-col gap-4 overflow-hidden pl-2 min-w-0">
           
-          {/* Live Preview Header with Zoom Controls */}
+          {/* Live Preview Header with Zoom Controls & Split Presets */}
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between shrink-0 shadow-lg text-xs font-mono">
             <div className="flex items-center gap-2">
               <Eye className="w-4 h-4 text-cyan-400" />
@@ -2238,9 +2806,44 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
               <span className="text-[10px] text-slate-500">
                 ({activeMapType === 'planetary' ? `${plResolution}×${Math.floor((plResolution * 3) / 4)}` : `${widthCells}×${heightCells}`})
               </span>
+              {activeMapType !== 'planetary' && useMarchingSquares && (
+                <span className="px-1.5 py-0.5 text-[9px] rounded bg-cyan-950 text-cyan-400 border border-cyan-800 font-bold tracking-wider">
+                  MARCHING SQUARES
+                </span>
+              )}
             </div>
 
             <div className="flex items-center gap-2">
+              {/* Quick Split Ratio Presets */}
+              <div className="hidden sm:flex items-center gap-1 bg-slate-950 border border-slate-800 rounded px-1.5 py-0.5 text-[10px]">
+                <Columns className="w-3 h-3 text-cyan-400" />
+                <button
+                  type="button"
+                  onClick={() => handleSplitDragEnd([35, 65])}
+                  className={`px-1.5 py-0.5 rounded transition-colors ${Math.round(splitSizes[0]) <= 38 ? 'text-cyan-300 font-bold bg-cyan-950/80 border border-cyan-600/50' : 'text-slate-400 hover:text-slate-200'}`}
+                  title="Focus on Battlemap Canvas (35% Controls / 65% Canvas)"
+                >
+                  35/65
+                </button>
+                <span className="text-slate-700">|</span>
+                <button
+                  type="button"
+                  onClick={() => handleSplitDragEnd([50, 50])}
+                  className={`px-1.5 py-0.5 rounded transition-colors ${Math.round(splitSizes[0]) >= 45 && Math.round(splitSizes[0]) <= 55 ? 'text-cyan-300 font-bold bg-cyan-950/80 border border-cyan-600/50' : 'text-slate-400 hover:text-slate-200'}`}
+                  title="Balanced Split (50% Controls / 50% Canvas)"
+                >
+                  50/50
+                </button>
+                <span className="text-slate-700">|</span>
+                <button
+                  type="button"
+                  onClick={() => handleSplitDragEnd([65, 35])}
+                  className={`px-1.5 py-0.5 rounded transition-colors ${Math.round(splitSizes[0]) >= 62 ? 'text-cyan-300 font-bold bg-cyan-950/80 border border-cyan-600/50' : 'text-slate-400 hover:text-slate-200'}`}
+                  title="Focus on Generator Parameters (65% Controls / 35% Canvas)"
+                >
+                  65/35
+                </button>
+              </div>
               <button
                 type="button"
                 onClick={() => setShowGridOverlay(prev => !prev)}
@@ -2327,7 +2930,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
           {/* Deployment Actions Bar */}
           <div className="bg-slate-900 border border-cyan-800/80 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4 shrink-0 shadow-xl">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <span className="text-xs font-mono text-slate-400">Target Mode:</span>
               <div className="flex bg-slate-950 border border-slate-800 rounded p-0.5 text-xs font-mono">
                 <button
@@ -2349,6 +2952,25 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
                   Merge / Overlay
                 </button>
               </div>
+
+              {/* Marching Squares Mode Checkbox (Tactical maps) */}
+              {activeMapType !== 'planetary' && (
+                <label 
+                  className="flex items-center gap-1.5 cursor-pointer text-cyan-300 font-mono text-[11px] bg-cyan-950/70 px-2.5 py-1.5 rounded-lg border border-cyan-800/80 hover:border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.2)] transition-all"
+                  title="Enable Marching Squares auto-tiling and contouring to eliminate harsh right-angle tile edges"
+                >
+                  <input
+                    type="checkbox"
+                    checked={useMarchingSquares}
+                    onChange={e => setUseMarchingSquares(e.target.checked)}
+                    className="accent-cyan-400 rounded"
+                  />
+                  <span className="font-bold flex items-center gap-1.5">
+                    <span>Marching Squares Mode</span>
+                    <span className="text-[9px] px-1 py-0.2 rounded bg-cyan-900/60 text-cyan-300 uppercase">Smooth</span>
+                  </span>
+                </label>
+              )}
             </div>
 
             {/* Target Layers Checkboxes */}
@@ -2378,7 +3000,7 @@ export const PcgAiStudioTab: React.FC<PcgAiStudioTabProps> = ({
 
         </div>
 
-      </div>
+      </Split>
     </div>
   );
 };

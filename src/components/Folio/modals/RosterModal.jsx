@@ -3,7 +3,7 @@ import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { showToast } from '../../../context/ToastContext';
-import { Lock, Radio } from 'lucide-react';
+import { Lock, Unlock, Radio } from 'lucide-react';
 
 export const RosterModal = ({
   isOpen,
@@ -18,6 +18,7 @@ export const RosterModal = ({
   onUpdateNote,
   onToggleVisibility,
   onToggleNetworkEngaged,
+  onToggleVttLock,
   onLoadPublicGallery,
   publicCatalog = [],
   onSelectPublicPersona,
@@ -302,14 +303,23 @@ export const RosterModal = ({
                             <h4 className="text-base font-bold text-white uppercase tracking-wider">
                               {name}
                             </h4>
-                            {isLocked && (
-                              <span 
-                                className="px-1.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
-                                title="Dossier Locked & Set for VTT"
+                            {catalogTab === 'my-roster' && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onToggleVttLock && onToggleVttLock(docId);
+                                }}
+                                className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border transition-colors flex items-center gap-1 cursor-pointer ${
+                                  isLocked
+                                    ? 'bg-cyan-950/90 text-cyan-200 border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.35)]'
+                                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-cyan-300'
+                                }`}
+                                title={isLocked ? 'VTT Locked: Persona is locked and sealed for tactical play. Click to unlock.' : 'VTT Open: Persona is in development mode. Click to lock for VTT play.'}
                               >
-                                <Lock size={10} className="text-cyan-400" />
-                                <span>Locked</span>
-                              </span>
+                                {isLocked ? <Lock size={10} className="text-cyan-400" /> : <Unlock size={10} className="text-slate-400" />}
+                                <span>VTT</span>
+                              </button>
                             )}
                             {isActive && (
                               <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9px] font-bold uppercase tracking-wider">
@@ -547,16 +557,25 @@ export const RosterModal = ({
 
                     return (
                       <tr key={docId || name} className={`hover:bg-slate-850 transition-colors ${isActive ? 'bg-cyan-950/40' : ''}`}>
-                        <td className="p-3 whitespace-nowrap">
+                        <td className="p-3">
                           <div className="flex items-center gap-1.5 flex-wrap">
-                            {isLocked && (
-                              <span 
-                                className="px-1.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-bold uppercase flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
-                                title="Dossier Locked & Set for VTT"
+                            {catalogTab === 'my-roster' && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onToggleVttLock && onToggleVttLock(docId);
+                                }}
+                                className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border transition-colors flex items-center gap-1 cursor-pointer ${
+                                  isLocked
+                                    ? 'bg-cyan-950/90 text-cyan-200 border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.35)]'
+                                    : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-cyan-300'
+                                }`}
+                                title={isLocked ? 'VTT Locked: Persona is locked and sealed for tactical play. Click to unlock.' : 'VTT Open: Persona is in development mode. Click to lock for VTT play.'}
                               >
-                                <Lock size={9} className="text-cyan-400" />
-                                <span>Locked</span>
-                              </span>
+                                {isLocked ? <Lock size={9} className="text-cyan-400" /> : <Unlock size={9} className="text-slate-400" />}
+                                <span>VTT</span>
+                              </button>
                             )}
                             {isActive ? (
                               <span className="px-1.5 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9px] font-bold uppercase">

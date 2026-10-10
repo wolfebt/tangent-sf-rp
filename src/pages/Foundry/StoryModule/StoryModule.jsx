@@ -144,6 +144,20 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     }
   }, [scenarioIdParam, activeScenarioId, setActiveScenarioId]);
 
+  // Global AIME Co-Pilot toggle listener
+  useEffect(() => {
+    const handleAimeToggle = () => {
+      if (activeView === 'scenarios') {
+        setActiveCockpitDeck('aime');
+        setIsRightDockOpen(true);
+      } else {
+        setModal('floatingAime', true);
+      }
+    };
+    window.addEventListener('toggle-aime-copilot', handleAimeToggle);
+    return () => window.removeEventListener('toggle-aime-copilot', handleAimeToggle);
+  }, [activeView]);
+
   useEffect(() => {
     if (mapIdParam && setActiveMapId && activeMapId !== mapIdParam) {
       setActiveMapId(mapIdParam);
@@ -158,19 +172,13 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       if (v === 'mission_control' || v === 'dashboard' || v === 'mission-control' || v === 'hub') resolvedView = 'mission_control';
       else if (v === 'map' || v === 'map-maker' || v === 'mapmaker') resolvedView = 'map';
       else if (v === 'elements' || v === 'gallery' || v === 'assets') resolvedView = 'elements';
-      else if (v === 'vtt' || v === 'director' || v === 'live_director') {
-        const targetMapId = activeMap?.id || activeMapId || universeState?.maps?.[0]?.id || '';
-        const targetScenarioId = activeNode?.id || activeScenarioId || '';
-        const query = new URLSearchParams();
-        if (targetMapId) query.set('mapId', targetMapId);
-        if (targetScenarioId) query.set('scenarioId', targetScenarioId);
-        const qStr = query.toString();
-        navigate(`/stage${qStr ? `?${qStr}` : ''}`, { replace: true });
-        return;
-      }
-      else if (v === 'stage' || v === 'live' || v === 'live-studio' || v === 'ade-stage') {
+      else if (v === 'stage' || v === 'live' || v === 'live-studio' || v === 'ade-stage' || v === 'vtt' || v === 'director' || v === 'live_director') {
         resolvedView = 'stage';
-        if (tabParam) setStageWorkspaceTab(tabParam);
+        if (v === 'vtt' || v === 'director' || v === 'live_director' || v === 'live' || v === 'live-studio' || v === 'ade-stage') {
+          setStageWorkspaceTab(tabParam || 'run');
+        } else if (tabParam) {
+          setStageWorkspaceTab(tabParam);
+        }
       }
       else if (v === 'scripts' || v === 'presets' || v === 'automation') {
         resolvedView = 'stage';
@@ -244,7 +252,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       newParams.set('tab', resolvedTab);
     }
     const searchStr = newParams.toString();
-    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`, { replace: true });
+    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
   };
 
   const handleSwitchView = (newView, targetTab) => {
@@ -252,17 +260,11 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     let resolvedTargetTab = targetTab;
 
     if (newView === 'vtt' || newView === 'director' || newView === 'live_director') {
-      const targetMapId = activeMap?.id || activeMapId || universeState?.maps?.[0]?.id || '';
-      const targetScenarioId = activeNode?.id || activeScenarioId || '';
-      const query = new URLSearchParams();
-      if (targetMapId) query.set('mapId', targetMapId);
-      if (targetScenarioId) query.set('scenarioId', targetScenarioId);
-      const qStr = query.toString();
-      navigate(`/stage${qStr ? `?${qStr}` : ''}`);
-      return;
+      resolvedView = 'stage';
+      resolvedTargetTab = targetTab || 'run';
     } else if (newView === 'stage' || newView === 'live' || newView === 'live-studio' || newView === 'ade-stage') {
       resolvedView = 'stage';
-      resolvedTargetTab = targetTab || 'setup';
+      resolvedTargetTab = (newView === 'live' || newView === 'live-studio' || newView === 'ade-stage') ? (targetTab || 'run') : (targetTab || 'setup');
     } else if (newView === 'scripts' || newView === 'presets' || newView === 'automation') {
       resolvedView = 'stage';
       resolvedTargetTab = 'scripts';
@@ -308,7 +310,15 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     }
 
     const searchStr = newParams.toString();
-    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`, { replace: true });
+    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
+  };
+
+  const handleSelectScenario = (id) => {
+    if (setActiveScenarioId) setActiveScenarioId(id);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('scenarioId', id);
+    const searchStr = newParams.toString();
+    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
   };
 
   // Find active scenario node for format studios
@@ -341,13 +351,15 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
 
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative select-none">
-      {/* ── UNIFIED 3-ZONE GLASS-COCKPIT ADE TOOLBAR ── */}
+      {/* ── UNIFIED 3-ZONE GLASS-COCKPIT ADE TOOLBAR WITH BREADCRUMBS ── */}
       {activeView !== 'mission_control' && (
         <ADETopToolbar
           activeView={activeView}
           scenarioWorkspaceTab={scenarioWorkspaceTab}
+          stageWorkspaceTab={stageWorkspaceTab}
           onSwitchView={handleSwitchView}
           onSelectScenarioWorkspaceTab={handleSelectScenarioWorkspaceTab}
+          onSelectScenario={handleSelectScenario}
           isPrintModalOpen={isPrintModalOpen}
           onTogglePrintModal={setIsPrintModalOpen}
           isCatalogOpen={isCatalogOpen}
@@ -368,16 +380,14 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           }}
           isCompilerOpen={isCompilerOpen}
           onToggleCompiler={setIsCompilerOpen}
-          // Outliner Tree Toggle
           isTreeExpanded={isTreeExpanded}
           onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
-          // Right Cockpit Dock
           isRightDockOpen={isRightDockOpen}
           onToggleRightDock={() => setIsRightDockOpen(prev => !prev)}
           activeCockpitDeck={activeCockpitDeck}
           onSelectCockpitDeck={setActiveCockpitDeck}
-          // Exports
           activeNode={activeNode}
+          activeElement={editingModalElement}
           onExportMarkdown={() => exportElementMarkdown(activeNode, universeState)}
           onExportPDF={() => exportElementPDF(activeNode, universeState, userHandle, currentUser)}
         />
@@ -422,8 +432,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
                   handleSwitchView('scripts');
                 } else if (pillar === 'assets') {
                   handleSwitchView('elements');
-                } else if (pillar === 'live_director') {
-                  navigate('/stage');
+                } else if (pillar === 'stage' || pillar === 'live_director') {
+                  handleSwitchView('stage', pillar === 'live_director' ? 'run' : 'setup');
                 }
               }}
               onSwitchView={handleSwitchView}
@@ -467,11 +477,12 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               activeCockpitDeck={activeCockpitDeck}
               onSelectCockpitDeck={setActiveCockpitDeck}
               onOpenPrintModal={() => setIsPrintModalOpen(true)}
+              onSelectScenario={handleSelectScenario}
             />
           </div>
         )}
 
-        {/* VIEW 1.5: STAGE WORKSPACE (Compiler & Live VTT Runtime) */}
+        {/* VIEW 1.5: THE STAGE VTT (Stage Compiler & Live VTT Runtime) */}
         {activeView === 'stage' && (
           <div className="flex-1 min-w-0 h-full overflow-hidden">
             {isMobile ? (

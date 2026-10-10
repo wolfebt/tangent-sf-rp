@@ -18,8 +18,10 @@ import {
   Shield,
   Layers,
   X,
-  Command
+  Command,
+  Sparkles
 } from 'lucide-react';
+import { useAdeStore } from '../../pages/Foundry/store/adeStore';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
@@ -35,6 +37,41 @@ import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
 import { GameGroupModal } from '../Groups/GameGroupModal';
 import { TwoD10Icon } from '../UI/TwoD10Icon';
+import ToolbarProjectMenu from '../../pages/Foundry/StoryModule/toolbar/ToolbarProjectMenu';
+
+const formatSavedTime = (val) => {
+  if (!val) return '';
+  try {
+    if (val instanceof Date && !isNaN(val.getTime())) {
+      return val.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    if (typeof val === 'string') {
+      if (/^\d{1,2}:\d{2}(:\d{2})?(\s?[AP]M)?$/i.test(val.trim())) {
+        return val.trim();
+      }
+      const parsed = new Date(val);
+      if (!isNaN(parsed.getTime())) {
+        return parsed.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+      return val;
+    }
+    if (typeof val === 'number') {
+      const parsed = new Date(val);
+      if (!isNaN(parsed.getTime())) {
+        return parsed.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+    if (val && typeof val.toDate === 'function') {
+      const parsed = val.toDate();
+      if (parsed instanceof Date && !isNaN(parsed.getTime())) {
+        return parsed.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+  } catch {
+    // Return empty string safely on failure
+  }
+  return '';
+};
 
 export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
@@ -178,7 +215,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         <div className="flex items-center shrink-0">
           <NavLink 
             to="/" 
-            className="flex items-center gap-1.5 sm:gap-2 uppercase text-[#22d3ee] tangent-title-pulse select-none hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-3"
+            className="flex items-center gap-1.5 sm:gap-2 uppercase text-[#22d3ee] tangent-title-pulse select-none hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-2"
             title="Return to Operations Hub"
             onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
           >
@@ -190,6 +227,51 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               <span className="whitespace-nowrap leading-none text-cyan-400/80">Role Playing Engine</span>
             </div>
           </NavLink>
+
+          {/* Tactical Mode Switcher (Relocated beside Title Block) */}
+          {isFolio && (
+            <div className="inline-flex rounded-lg bg-slate-950/90 p-0.5 border border-slate-800 shrink-0 shadow-inner ml-0.5 sm:ml-1.5">
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  folio.setViewMode?.('builder');
+                }}
+                className={`px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
+                  folio.viewMode === 'builder'
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+                title="Switch to Folio Dossier Builder Mode"
+              >
+                <span>🛠️</span>
+                <span className="hidden md:inline">Build</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  folio.setViewMode?.('play');
+                }}
+                className={`px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
+                  (folio.viewMode === 'play' || folio.viewMode === 'preview')
+                    ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+                title="Switch to Live Tactical Sheet (VTT)"
+              >
+                <span>⚔️</span>
+                <span className="hidden md:inline">Tactical</span>
+              </button>
+            </div>
+          )}
+
+          {/* ADE Story Module Pulldown (Relocated beside Title Block) */}
+          {isFoundry && (
+            <div className="ml-1 sm:ml-2 shrink-0">
+              <ToolbarProjectMenu />
+            </div>
+          )}
         </div>
 
         {/* Center Section: Primary Navigation Suite (Persona, Network, Cortex, ADE, Rules, Dice) */}
@@ -199,20 +281,28 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1150, 0.02);
-              if (folio?.activeTab === 'catalog') {
-                folio.setActiveTab?.('identity');
+              if (isFolio) {
+                if (folio?.activeTab === 'catalog') {
+                  folio.setActiveTab?.('identity');
+                } else {
+                  folio.triggerSave?.();
+                  folio.setActiveTab?.('catalog');
+                }
+              } else {
+                navigate('/folio');
               }
-              navigate('/folio');
             }}
             className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
               isFolio
                 ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/70 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
                 : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/50'
             }`}
-            title="Persona Folio & Roster (/folio)"
+            title={isFolio ? "Persona Folio (Click to toggle Catalog / Dossier)" : "Persona Folio & Roster (/folio)"}
           >
             <Users size={14} className={isFolio ? 'text-cyan-300' : 'text-cyan-400'} />
-            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">PERSONA</span>
+            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap max-w-[130px] truncate">
+              {isFolio && folio?.characterData?.['char-name'] ? folio.characterData['char-name'] : 'PERSONA'}
+            </span>
             {heroCount > 0 && (
               <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
                 isFolio ? 'bg-cyan-400/30 text-cyan-200' : 'bg-slate-800 text-slate-400'
@@ -320,8 +410,61 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           </button>
         </nav>
 
-        {/* Right Section: Settings Button with User ID */}
+        {/* Right Section: Settings Button with User ID & Relocated CP Budget */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
+          {/* Starting CP Budget Indicator (Relocated beside User Settings) */}
+          {isFolio && folio?.characterData && (() => {
+            const startingCP = parseInt(folio.characterData['starting-cp'] || 150, 10);
+            const spentCP = typeof folio.computeSpentCP === 'function' ? folio.computeSpentCP() : 0;
+            const isOver = spentCP > startingCP;
+            return (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  window.dispatchEvent(new CustomEvent('open-folio-economy'));
+                }}
+                className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm active:scale-95 ${
+                  isOver
+                    ? 'bg-red-950/80 hover:bg-red-900 border-red-500/80 text-red-200 animate-pulse'
+                    : 'bg-[#12161f] hover:bg-[#181d28] border-cyan-500/40 hover:border-cyan-400 text-slate-300'
+                }`}
+                title={`Character Points Budget: ${spentCP}/${startingCP} CP spent. Click to modify starting budget or inspect economy breakdown.`}
+              >
+                <span className="text-[10px] text-slate-500 hidden md:inline">CP:</span>
+                <span className={isOver ? 'text-red-300 font-extrabold' : 'text-cyan-300 font-bold'}>
+                  {spentCP}/{startingCP}
+                </span>
+                <span className="text-[10px] text-cyan-400/80">⚙️</span>
+              </button>
+            );
+          })()}
+
+          {/* AIME Narrative Co-Pilot Button (Top Bar beside User Settings) */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1400, 0.03);
+              const isFoundry = location.pathname.startsWith('/foundry') || 
+                                location.pathname.startsWith('/story-foundry') || 
+                                location.pathname.startsWith('/live-studio') || 
+                                location.pathname.startsWith('/ade-stage') || 
+                                location.pathname.startsWith('/campaign-builder');
+              
+              useAdeStore.getState().setModal('floatingAime', true);
+              window.dispatchEvent(new CustomEvent('toggle-aime-copilot'));
+
+              if (!isFoundry) {
+                navigate('/foundry');
+              }
+            }}
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-amber-950/40 hover:bg-amber-950/80 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-amber-100 text-xs font-mono font-bold tracking-wider transition-all cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.2)] active:scale-95 shrink-0"
+            title="Launch AIME Narrative Co-Pilot AI Assistant"
+          >
+            <Sparkles size={13} className="text-amber-400 animate-pulse shrink-0" />
+            <span className="font-bold">AIME</span>
+          </button>
+
           <button
             type="button"
             onClick={() => {
@@ -334,7 +477,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 ? (cloudSaveStatus === 'saving'
                     ? 'Cloud Sync: Saving to Cloud...'
                     : cloudSaveStatus === 'saved'
-                    ? lastSavedTime ? `Cloud Synced at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Synced'
+                    ? (formatSavedTime(lastSavedTime) ? `Cloud Synced at ${formatSavedTime(lastSavedTime)}` : 'Cloud Synced')
                     : cloudSaveStatus === 'error'
                     ? 'Cloud Sync Failed (Click for Settings)'
                     : 'Local Storage Mode (Click for Settings)')
@@ -356,6 +499,20 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               {displayIdentity}
             </span>
             <Settings size={14} className="text-slate-400 group-hover:text-cyan-300 transition-colors shrink-0" />
+          </button>
+
+          {/* Mobile Navigation Drawer Toggle */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1000, 0.02);
+              setIsMobileNavOpen(true);
+            }}
+            className="sm:hidden p-1.5 rounded-lg bg-[#12161f] hover:bg-slate-800 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-200 transition-colors cursor-pointer"
+            title="Open System Matrix Menu"
+            aria-label="Open System Matrix Menu"
+          >
+            <Compass size={16} />
           </button>
         </div>
       </header>

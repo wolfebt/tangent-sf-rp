@@ -150,10 +150,17 @@ export default function AssetDrawingStudio({
       canvas.height = canvasResolution;
 
       const img = new Image();
-      img.crossOrigin = 'anonymous';
+      if (typeof initialImage === 'string' && !initialImage.startsWith('data:')) {
+        img.crossOrigin = 'anonymous';
+      }
       img.onload = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        saveToHistory();
+      };
+      img.onerror = () => {
+        console.warn('AssetDrawingStudio: Failed to load initial image, initializing clear canvas');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         saveToHistory();
       };
       img.src = initialImage;
@@ -966,6 +973,23 @@ export default function AssetDrawingStudio({
             className="hidden"
           />
 
+          {/* Save directly to Asset */}
+          {onSaveToAsset && (
+            <button
+              type="button"
+              onClick={() => {
+                const canvas = mainCanvasRef.current;
+                if (canvas) {
+                  onSaveToAsset(canvas.toDataURL('image/png'));
+                }
+              }}
+              className="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md shadow-emerald-950/60"
+              title="Save Image Directly to Asset Unit"
+            >
+              <span>💾</span> Save to Asset
+            </button>
+          )}
+
           {/* Export PNG */}
           <button
             type="button"
@@ -973,7 +997,7 @@ export default function AssetDrawingStudio({
             className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded text-xs font-bold transition-all"
             title="Download PNG"
           >
-            <span>💾</span> PNG
+            <span>📥</span> PNG
           </button>
 
           {/* Clear Canvas */}

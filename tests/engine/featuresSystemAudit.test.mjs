@@ -163,3 +163,116 @@ test('Features System: Multi-Source Discount Stacking to 1 CP Minimum', () => {
   assert.equal(stackedCost.discountCount, 2, '2 discount sources applied (individual + category)');
   assert.equal(stackedCost.totalDiscount, 2, '2 CP total discount applied');
 });
+
+test('Features System: 15 New Feature Additions Dataset Parity & Integrity', () => {
+  const newFeatureSpecs = [
+    {
+      id: 'general-absolute-pitch',
+      name: 'Absolute Pitch',
+      prereq: 'Awareness 1, Perform 1',
+      expectedModTargets: ['Auditory matching', 'Impersonation vocal', 'Acoustic security bypass']
+    },
+    {
+      id: 'general-algorithmic-cognition',
+      name: 'Algorithmic Cognition',
+      prereq: 'Lightning Calculator, Intellect 4',
+      expectedModTargets: ['Logic']
+    },
+    {
+      id: 'general-dual-hemispheric-processing',
+      name: 'Dual-Hemispheric Processing',
+      prereq: 'Intellect 3, Special (Congenital Trait)'
+    },
+    {
+      id: 'general-echolocation',
+      name: 'Echolocation',
+      prereq: 'Awareness 3, Must possess the Blindness flaw (or be visually deprived)'
+    },
+    {
+      id: 'general-eidetic-constructor',
+      name: 'Eidetic Constructor',
+      prereq: 'Eidetic Memory, Awareness 2',
+      expectedModTargets: ['Navigation', 'Architecture', 'Tactical']
+    },
+    {
+      id: 'general-extreme-endurance',
+      name: 'Extreme Endurance',
+      prereq: 'Stamina 3',
+      expectedModTargets: ['Stamina']
+    },
+    {
+      id: 'general-hyperthymesia',
+      name: 'Hyperthymesia',
+      prereq: 'Eidetic Memory, Wisdom 2'
+    },
+    {
+      id: 'general-hypoxia-tolerance',
+      name: 'Hypoxia Tolerance',
+      prereq: 'Stamina 1'
+    },
+    {
+      id: 'general-lactate-immunity',
+      name: 'Lactate Immunity',
+      prereq: 'Endurance, Stamina 4'
+    },
+    {
+      id: 'general-myostatin-hypertrophy',
+      name: 'Myostatin Hypertrophy',
+      prereq: 'Strength 3, Stamina 2',
+      expectedModTargets: ['Might', 'Athletics']
+    },
+    {
+      id: 'general-nociceptor-dampening',
+      name: 'Nociceptor Dampening',
+      prereq: 'Pain Tolerance, Stamina 2'
+    },
+    {
+      id: 'general-short-sleeper',
+      name: 'Short Sleeper',
+      prereq: 'Stamina 1'
+    },
+    {
+      id: 'general-synesthetic-savant',
+      name: 'Synesthetic Savant',
+      prereq: 'Intellect 2',
+      expectedModTargets: ['Memory', 'Disbelieve fake stimuli']
+    },
+    {
+      id: 'general-tetrachromacy',
+      name: 'Tetrachromacy',
+      prereq: 'Awareness 2, Special (Genetically Female, or engineered variant)',
+      expectedModTargets: ['Perception', 'Investigation', 'Tracking']
+    },
+    {
+      id: 'general-unbreakable-skeleton',
+      name: 'Unbreakable Skeleton',
+      prereq: 'Tough, Stamina 3'
+    }
+  ];
+
+  assert.equal(DEFAULT_FEATURES.length, 234, 'Canonical feature catalog contains all 234 features');
+
+  for (const spec of newFeatureSpecs) {
+    const feat = DEFAULT_FEATURES.find(f => f.id === spec.id);
+    assert(feat, `Feature ${spec.id} (${spec.name}) must exist in DEFAULT_FEATURES`);
+    assert.equal(feat.name, spec.name);
+    assert.equal(feat.category, 'General');
+    assert.equal(feat.type, 'general');
+    assert.equal(feat.cp, 3);
+    assert.equal(feat.costs.bp, 3);
+    assert.equal(feat.costs.credits, 0);
+    assert.equal(feat.prerequisites, spec.prereq);
+    assert.ok(feat.description && feat.description.length > 20, `${spec.name} has descriptive text`);
+    assert.ok(feat.mechanic && feat.mechanic.length > 20, `${spec.name} has mechanics`);
+
+    if (spec.expectedModTargets) {
+      for (const target of spec.expectedModTargets) {
+        assert(
+          feat.modifiers.some(m => m.target.toLowerCase() === target.toLowerCase()),
+          `Feature ${spec.name} should include modifier target ${target}`
+        );
+      }
+    }
+  }
+});
+

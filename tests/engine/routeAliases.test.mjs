@@ -36,14 +36,14 @@ export function resolveAdeRoute(viewParam, tabParam, defaultView = 'mission_cont
     resolvedView = 'elements';
     resolvedTab = null;
   }
-  // 4. Stage (Compiler Workspace)
-  else if (['stage', 'live', 'live-studio', 'ade-stage', 'scripts', 'presets', 'automation', 'control-panel', 'tactical'].includes(v)) {
+  // 4. The Stage VTT (Stage Compiler & Live Director Workspace)
+  else if (['stage', 'live', 'live-studio', 'ade-stage', 'vtt', 'director', 'live_director', 'stage-vtt', 'scripts', 'presets', 'automation', 'control-panel', 'tactical'].includes(v)) {
     resolvedView = 'stage';
     if (['scripts', 'presets', 'automation'].includes(v)) {
       resolvedTab = 'scripts';
     } else if (['control-panel', 'tactical'].includes(v)) {
       resolvedTab = 'encounters';
-    } else if (['live', 'live-studio', 'ade-stage'].includes(v)) {
+    } else if (['live', 'live-studio', 'ade-stage', 'vtt', 'director', 'live_director', 'stage-vtt'].includes(v)) {
       resolvedTab = 'run';
     } else {
       resolvedTab = t || 'setup';
@@ -65,6 +65,13 @@ export function resolveAdeRoute(viewParam, tabParam, defaultView = 'mission_cont
 
   return { resolvedView, resolvedTab };
 }
+
+test('Route Aliases: The Stage VTT consolidates vtt, director, and stage-vtt into stage run tab', () => {
+  assert.deepEqual(resolveAdeRoute('vtt'), { resolvedView: 'stage', resolvedTab: 'run' });
+  assert.deepEqual(resolveAdeRoute('director'), { resolvedView: 'stage', resolvedTab: 'run' });
+  assert.deepEqual(resolveAdeRoute('live_director'), { resolvedView: 'stage', resolvedTab: 'run' });
+  assert.deepEqual(resolveAdeRoute('stage-vtt'), { resolvedView: 'stage', resolvedTab: 'run' });
+});
 
 test('Route Aliases: Stage consolidates scripts and presets into stage scripts tab', () => {
   assert.deepEqual(resolveAdeRoute('scripts'), { resolvedView: 'stage', resolvedTab: 'scripts' });

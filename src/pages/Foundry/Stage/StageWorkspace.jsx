@@ -81,7 +81,7 @@ export default function StageWorkspace({
     { id: 'environment', label: 'Environmentals', icon: Sliders, color: 'text-amber-400' },
     { id: 'encounters', label: 'Encounters', icon: ShieldAlert, color: 'text-red-400' },
     { id: 'scripts', label: 'Scripts & Presets', icon: Code, color: 'text-emerald-400' },
-    { id: 'run', label: 'VTT Event Runner', icon: Play, color: 'text-purple-300' }
+    { id: 'run', label: 'Live VTT Director', icon: Play, color: 'text-purple-300' }
   ];
 
   const handleTabChange = (tabId) => {
@@ -93,27 +93,34 @@ export default function StageWorkspace({
     <div className="flex-1 h-full w-full bg-[#080d16] flex flex-col overflow-hidden font-mono text-slate-100">
       {/* ── STAGE WORKSPACE SUB-NAVIGATION BAR ── */}
       <div className="bg-[#0a0f1d] border-b border-slate-800 p-1.5 px-3 flex items-center justify-between gap-3 shrink-0 shadow-sm">
-        {/* Left: Tab Switcher */}
+        {/* Left: Tab Switcher (Staging Prep vs Live VTT Director) */}
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeStageTab === tab.id;
+            const isRun = tab.id === 'run';
 
             return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => handleTabChange(tab.id)}
-                className={`px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
-                  isActive
-                    ? 'bg-purple-950/80 text-purple-200 border border-purple-500/60 shadow-md shadow-purple-950/40'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850 border border-transparent'
-                }`}
-                title={tab.label}
-              >
-                <Icon size={12} className={isActive ? tab.color : 'text-slate-500'} />
-                <span>{tab.label}</span>
-              </button>
+              <React.Fragment key={tab.id}>
+                {isRun && <div className="w-px h-4 bg-purple-500/40 mx-1 shrink-0" />}
+                <button
+                  type="button"
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
+                    isActive
+                      ? (isRun
+                          ? 'bg-gradient-to-r from-purple-950 to-cyan-950 text-cyan-200 border border-cyan-400 shadow-md shadow-cyan-950/40'
+                          : 'bg-purple-950/80 text-purple-200 border border-purple-500/60 shadow-md shadow-purple-950/40')
+                      : (isRun
+                          ? 'text-cyan-400/90 hover:text-cyan-200 hover:bg-cyan-950/40 border border-cyan-500/30'
+                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850 border border-transparent')
+                  }`}
+                  title={isRun ? "Switch to Live VTT Battlemap & Director" : tab.label}
+                >
+                  <Icon size={12} className={isActive ? (isRun ? 'text-cyan-300' : tab.color) : (isRun ? 'text-cyan-400' : 'text-slate-500')} />
+                  <span>{tab.label}</span>
+                </button>
+              </React.Fragment>
             );
           })}
         </div>
@@ -121,7 +128,7 @@ export default function StageWorkspace({
         {/* Right: Stage Title & Weaver Handoff */}
         <div className="flex items-center gap-2 shrink-0">
           <span className="text-[11px] text-slate-400 font-bold truncate max-w-xs hidden md:inline">
-            Stage: <strong className="text-purple-300">{stageManifest.title || 'Untitled'}</strong>
+            The Stage VTT: <strong className="text-purple-300">{stageManifest.title || 'Untitled'}</strong>
           </span>
 
           {onSwitchView && (

@@ -54,7 +54,8 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     .split('\\+').join('+')
     .split('\\-').join('-')
     .replace(/[*_`]/g, '')
-    .replace(/[()[\]{}]/g, ' ');
+    .replace(/[()[\]{}]/g, ' ')
+    .replace(/\s+/g, ' ');
 
   const modifiers = [];
   const seenKeys = new Set();
@@ -85,15 +86,21 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
   }
 
   // 2. Advantage / Disadvantage on Checks / Saves
-  if (/roll\s*(?:all\s*)?(?:Fortitude|Reflex|Will|Willpower)\s*checks?\s*with\s*Advantage/i.test(combined)) {
-    const saveType = combined.match(/(Fortitude|Reflex|Will|Willpower)/i)?.[1] || 'Save';
-    addMod({
-      target: SAVE_TARGETS[saveType.toLowerCase()] || saveType,
-      type: 'save_advantage',
-      value: 1,
-      mode: 'inherent',
-      description: `Advantage on ${saveType} Checks`
-    });
+  const advRegex = /(?:roll|gain|make)\s*(?:all\s*)?(?:checks?\s*with\s*Advantage|Advantage\s*on\s*(?:all\s*)?(Fortitude|Reflex|Will|Willpower|Logic|Memory)\s*checks?|(Fortitude|Reflex|Will|Willpower|Logic|Memory)\s*checks?\s*(?:with|at)\s*Advantage)/gi;
+  let advMatch;
+  while ((advMatch = advRegex.exec(combined)) !== null) {
+    const rawTarget = advMatch[1] || advMatch[2];
+    if (rawTarget) {
+      const isSave = ['fortitude', 'reflex', 'will', 'willpower'].includes(rawTarget.toLowerCase());
+      const target = SAVE_TARGETS[rawTarget.toLowerCase()] || rawTarget;
+      addMod({
+        target,
+        type: isSave ? 'save_advantage' : 'check_advantage',
+        value: 1,
+        mode: 'inherent',
+        description: `Advantage on ${rawTarget} Checks`
+      });
+    }
   }
 
   if (/rolls?\s*all\s*checks\s*with\s*Disadvantage/i.test(combined)) {
@@ -107,7 +114,7 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
   }
 
   // 3. Specific Skill Bonuses / Penalties (e.g., "+5 to Disguise", "+1 bonus to intimidation and breach", "-2 Penalty to Insight")
-  const skillRegex = /([+-]\d+)\s*(?:bonus|penalty)?\s*(?:to|on)\s*([A-Za-z\s/&-]+?)(?:\s*(?:checks?|actions?|skills?|saves?|saving throws?|rolls?|[,.]|$))/gi;
+  const skillRegex = /([+-]\d+)\s*(?:bonus|penalty)?\s*(?:to|on)\s*(?:checks\s+involving\s*)?([A-Za-z\s/,&-]+?)(?:\s*(?:checks?|actions?|skills?|saves?|saving throws?|rolls?|\.|$))/gi;
   while ((match = skillRegex.exec(combined)) !== null) {
     const val = parseInt(match[1], 10);
     const rawTarget = match[2].trim();
@@ -117,10 +124,10 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     if (
       !['will', 'fortitude', 'reflex', 'wealth', 'tech level', 'karma', 'all', 'each', 'all fortitude', 'all reflex', 'all will'].includes(lower) &&
       rawTarget.length >= 3 &&
-      rawTarget.length <= 40
+      rawTarget.length <= 80
     ) {
       // Split compound targets like "intimidation and breach" or "Insight and Social"
-      const subTargets = rawTarget.split(/\s+and\s+|\s*,\s*|\s*\/\s*/i).map(s => s.replace(/^all\s+/i, '').trim()).filter(Boolean);
+      const subTargets = rawTarget.split(/\s+and\s+|\s+or\s+|\s*,\s*|\s*\/\s*/i).map(s => s.replace(/^(?:all|or|and)\s+/i, '').trim()).filter(Boolean);
       subTargets.forEach(st => {
         const stLower = st.toLowerCase();
         if (!['will', 'fortitude', 'reflex', 'wealth', 'tech level', 'karma', 'all', 'each'].includes(stLower) && st.length >= 3) {
@@ -208,7 +215,7 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
   }
 
   // 8. Conditions
-  if (/Sickened/i.test(combined)) {
+  if (/\bSickened\b/i.test(combined) && !/(?:immune to|resists?)\s+sickened/i.test(combined)) {
     addMod({
       target: 'Condition: Sickened',
       type: 'condition',
@@ -218,7 +225,7 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     });
   }
 
-  if (/Fatigued/i.test(combined)) {
+  if (/\bFatigued\b/i.test(combined) && !/(?:when fatigued|speed is not reduced|immune to|resists?)/i.test(combined)) {
     addMod({
       target: 'Condition: Fatigued',
       type: 'condition',

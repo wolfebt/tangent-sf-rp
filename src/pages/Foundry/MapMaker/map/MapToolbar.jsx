@@ -7,7 +7,7 @@ import { ArtistHubModal } from '../../../../components/StoryFoundry/ArtistHubMod
 import { 
   Tv, Palette, Copy, Check, ExternalLink, X, Compass, Shield,
   Globe, FolderOpen, Save, Download, Camera, Sparkles, Upload,
-  Layers, ChevronDown, FilePlus, Trash2, Grid, Sun, Radio, Play, Hammer, Box
+  Layers, ChevronDown, FilePlus, Trash2, Grid, Sun, Radio, Play, Box
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 
@@ -92,10 +92,10 @@ const MapToolbar = ({
   const currentMap = universeState.maps.find(m => m.id === activeMapId);
 
   return (
-    <div className="relative z-[100] bg-slate-950/95 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-between gap-2 select-none shadow-xl backdrop-blur-xl flex-wrap font-mono">
+    <div className="relative z-[100] bg-slate-950/95 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-start gap-2 select-none shadow-xl backdrop-blur-xl flex-nowrap overflow-x-auto no-scrollbar font-mono">
       
-      {/* ── ZONE A: MAP & PROJECT HUB (Left) ── */}
-      <div className="flex items-center gap-2 flex-wrap">
+      {/* ── ZONE A: MAP, TACTICAL HUB & UTILITIES ── */}
+      <div className="flex items-center gap-2 flex-nowrap shrink-0">
         {/* Brand Indicator */}
         <div className="flex items-center gap-1.5 mr-1 font-mono shrink-0">
           <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
@@ -104,69 +104,125 @@ const MapToolbar = ({
           </span>
         </div>
 
-        {/* Sector Switcher Pill */}
-        <div className="flex items-center gap-1 bg-slate-900 border border-slate-700/80 rounded-xl px-2 py-1 shadow-sm">
-          <Globe size={13} className="text-cyan-400 shrink-0" />
-          <select
-            value={activeMapId || ''}
-            onChange={(e) => {
-              const targetId = e.target.value;
-              if (targetId) setActiveMapId(targetId);
-            }}
-            className="bg-transparent text-cyan-300 font-bold text-xs outline-none cursor-pointer max-w-[140px] truncate"
-          >
-            {universeState.maps.map(m => (
-              <option key={m.id} value={m.id} className="bg-slate-900 text-slate-200">
-                {m.title || 'Untitled Map'} [{m.type}]
-              </option>
-            ))}
-          </select>
-
-          <button
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.03);
-              setIsModalOpen(true);
-            }}
-            className="p-1 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 rounded-lg transition-colors cursor-pointer"
-            title="Create New Tactical Map"
-          >
-            <FilePlus size={13} />
-          </button>
-
-          {onDeleteActiveMap && (
-            <button
-              onClick={() => {
-                AudioService.playTerminalBeep(800, 0.03);
-                onDeleteActiveMap();
-              }}
-              className="p-1 hover:bg-red-950/60 text-slate-500 hover:text-red-400 rounded-lg transition-colors cursor-pointer"
-              title="Delete Active Map"
-            >
-              <Trash2 size={13} />
-            </button>
-          )}
-        </div>
-
-        {/* Categorized Project & Tools Menu */}
+        {/* Consolidated Sector Map & Project Pulldown */}
         <div className="relative" ref={fileMenuRef}>
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
+              AudioService.playTerminalBeep(1000, 0.02);
               setIsFileMenuOpen(prev => !prev);
               setIsGridMenuOpen(false);
               setIsViewMenuOpen(false);
             }}
-            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 rounded-xl text-xs font-mono font-bold tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            title="Map Selector, File I/O, and Project Settings"
           >
-            <FolderOpen size={12} className="text-cyan-400" />
-            <span>PROJECT</span>
-            <ChevronDown size={11} className={`text-slate-400 transition-transform ${isFileMenuOpen ? 'rotate-180' : ''}`} />
+            <Globe size={13} className="text-cyan-400 shrink-0" />
+            <span className="max-w-[130px] md:max-w-[190px] truncate text-cyan-300 font-bold">
+              {currentMap?.title || 'Untitled Map'}
+            </span>
+            {currentMap?.type && (
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 uppercase tracking-wider hidden sm:inline">
+                [{currentMap.type}]
+              </span>
+            )}
+            <ChevronDown size={11} className={`text-slate-400 transition-transform duration-200 ${isFileMenuOpen ? 'rotate-180 text-cyan-400' : ''}`} />
           </button>
 
           {isFileMenuOpen && (
-            <div className="absolute left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-2 z-[120] backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
-              {/* Group 1: File Storage & Export */}
+            <div className="absolute left-0 mt-1.5 w-72 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-2 z-[120] backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+              {/* Group 1: Map Selector & Switcher */}
+              <div className="py-1">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider flex items-center justify-between">
+                  <span>Sector / Map Selector</span>
+                  <span className="text-slate-500">{universeState.maps?.length || 0} maps</span>
+                </div>
+
+                <div className="max-h-40 overflow-y-auto custom-scrollbar my-1">
+                  {universeState.maps?.map(m => {
+                    const isActive = m.id === activeMapId;
+                    return (
+                      <button
+                        key={m.id}
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1100, 0.02);
+                          setActiveMapId(m.id);
+                          setIsFileMenuOpen(false);
+                        }}
+                        className={`w-full text-left px-3.5 py-1.5 flex items-center justify-between text-xs transition-colors cursor-pointer ${
+                          isActive 
+                            ? 'bg-cyan-950/80 text-cyan-300 font-bold border-l-2 border-cyan-400' 
+                            : 'hover:bg-slate-800/70 text-slate-300 hover:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 truncate">
+                          <Globe size={12} className={isActive ? 'text-cyan-400' : 'text-slate-500'} />
+                          <span className="truncate">{m.title || 'Untitled Map'}</span>
+                          {m.type && (
+                            <span className="text-[9px] px-1 py-0.2 rounded bg-slate-800 text-slate-400 uppercase tracking-wider shrink-0">
+                              {m.type}
+                            </span>
+                          )}
+                        </div>
+                        {isActive && <Check size={12} className="text-cyan-400 shrink-0 ml-1.5" />}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Quick Map Actions: New Map & Delete */}
+                <div className="px-2 pt-1 flex items-center gap-1.5">
+                  <button
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.03);
+                      setIsFileMenuOpen(false);
+                      setIsModalOpen(true);
+                    }}
+                    className="flex-1 px-2.5 py-1 rounded-lg bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/40 text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    title="Create New Tactical Map"
+                  >
+                    <FilePlus size={12} />
+                    <span>New Map</span>
+                  </button>
+
+                  {onDeleteActiveMap && (universeState.maps?.length || 0) > 1 && (
+                    <button
+                      onClick={() => {
+                        AudioService.playTerminalBeep(800, 0.03);
+                        setIsFileMenuOpen(false);
+                        onDeleteActiveMap();
+                      }}
+                      className="px-2 py-1 rounded-lg bg-red-950/40 hover:bg-red-950/80 text-red-400 border border-red-500/30 text-[11px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Delete Active Map"
+                    >
+                      <Trash2 size={12} />
+                      <span>Delete</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Group 2: Deploy to The Stage (VTT) */}
+              <div className="py-1">
+                <a
+                  href={`/stage?mapId=${activeMapId || currentMap?.id || ''}`}
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1400, 0.05);
+                    setIsFileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 bg-gradient-to-r from-purple-950/60 via-cyan-950/60 to-slate-900 hover:from-purple-900/80 hover:to-cyan-900/80 text-cyan-200 hover:text-white flex items-center justify-between transition-colors cursor-pointer border-y border-cyan-500/30"
+                  title="Launch this Map into The Stage (Next-Gen WebGPU VTT Simulation Engine)"
+                >
+                  <div className="flex items-center gap-2">
+                    <Play size={12} fill="currentColor" className="text-amber-400" />
+                    <span className="font-bold">Deploy to The Stage</span>
+                  </div>
+                  <ExternalLink size={11} className="text-cyan-300 shrink-0" />
+                </a>
+              </div>
+
+              {/* Group 3: File Storage & Export */}
               <div className="py-1">
                 <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider">
                   File I/O & Export
@@ -290,58 +346,7 @@ const MapToolbar = ({
           )}
         </div>
 
-        {/* Undo / Redo */}
-        <div className="flex items-center gap-1 border-l border-slate-800 pl-2">
-          <button
-            onClick={handleUndo}
-            disabled={!undoStack || undoStack.length === 0}
-            className={`px-2 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
-              undoStack && undoStack.length > 0
-                ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-cyan-300 shadow-sm'
-                : 'bg-slate-950 border-slate-900 text-slate-600 cursor-not-allowed'
-            }`}
-            title="Undo (Ctrl+Z)"
-          >
-            ↩ Undo
-          </button>
-          <button
-            onClick={handleRedo}
-            disabled={!redoStack || redoStack.length === 0}
-            className={`px-2 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
-              redoStack && redoStack.length > 0
-                ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-cyan-300 shadow-sm'
-                : 'bg-slate-950 border-slate-900 text-slate-600 cursor-not-allowed'
-            }`}
-            title="Redo (Ctrl+Y)"
-          >
-            ↪ Redo
-          </button>
-        </div>
-      </div>
-
-      {/* ── ZONE B: MODE & DEPLOY TO VTT (Center) ── */}
-      <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-2xl p-0.5 shadow-inner gap-1">
-        <div className="px-3 py-1 rounded-xl text-xs font-mono font-bold uppercase flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm">
-          <Hammer size={12} className="text-amber-400" />
-          <span>2D Cartography Studio</span>
-        </div>
-
-        {/* Prominent Direct Deploy to The Stage VTT Button */}
-        <a
-          href={`/stage?mapId=${activeMapId || currentMap?.id || ''}`}
-          onClick={() => AudioService.playTerminalBeep(1400, 0.05)}
-          className="px-3.5 py-1 bg-gradient-to-r from-purple-900 via-cyan-900 to-slate-900 hover:from-purple-800 hover:to-cyan-800 border border-cyan-400 text-cyan-200 hover:text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
-          title="Launch this Map into The Stage (Next-Gen WebGPU VTT Simulation Engine)"
-        >
-          <Play size={12} fill="currentColor" className="text-amber-400" />
-          <span>Deploy to The Stage</span>
-          <ExternalLink size={11} className="text-cyan-300 ml-0.5" />
-        </a>
-      </div>
-
-      {/* ── ZONE C: CONTROLS, QUICK DRAWERS & TOOLS (Right) ── */}
-      <div className="flex items-center gap-1.5 flex-wrap">
-        {/* Grid Geometry Dropdown */}
+        {/* Grid Geometry Dropdown (Beside Map / Project Button) */}
         <div className="relative" ref={gridMenuRef}>
           <button
             onClick={(e) => {
@@ -437,91 +442,30 @@ const MapToolbar = ({
           )}
         </div>
 
-        {/* Tactical Drawers Cluster */}
-        <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl p-0.5 gap-0.5 shadow-sm">
-          {/* ADE Story Elements */}
+        {/* 3D Holographic Live Preview Toggle */}
+        {onToggle3DPreview && (
           <button
             type="button"
-            onClick={() => setShowStoryDrawer?.(prev => !prev)}
-            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-              showStoryDrawer
-                ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-[0_0_10px_rgba(168,85,247,0.3)]'
-                : 'text-purple-400 hover:text-purple-200 hover:bg-slate-800/80 border border-transparent'
+            onClick={onToggle3DPreview}
+            className={`px-2.5 py-1 rounded-xl text-xs font-mono uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shrink-0 shadow-sm border ${
+              is3DPreviewOpen
+                ? 'bg-cyan-950 text-cyan-200 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+                : 'bg-slate-900 hover:bg-slate-800 text-cyan-400 hover:text-cyan-200 border-slate-700/80'
             }`}
-            title="Open ADE Story Elements Drawer (Scenes, Personas, Clues, Traps, Handouts)"
+            title="Toggle Live 3D Holographic Architect Preview"
           >
-            <span>📖</span>
-            <span className="hidden xl:inline">ADE</span>
+            <Box size={14} className={is3DPreviewOpen ? 'text-cyan-300 animate-pulse' : 'text-cyan-400'} />
+            <span className="hidden sm:inline">3D Holo</span>
           </button>
+        )}
 
-          {/* Omnicortex Compendium */}
-          <button
-            type="button"
-            onClick={() => setShowOmnicortexDrawer?.(prev => !prev)}
-            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-              showOmnicortexDrawer
-                ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
-                : 'text-cyan-400 hover:text-cyan-200 hover:bg-slate-800/80 border border-transparent'
-            }`}
-            title="Open Omnicortex Codex (Bestiary, Equipment, Hazards, Vehicles)"
-          >
-            <span>🧠</span>
-            <span className="hidden xl:inline">Omnicortex</span>
-          </button>
-
-          {/* Unified VTT Tactical Console Drawer */}
-          <button
-            type="button"
-            onClick={onToggleVttDrawer}
-            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
-              isVttDrawerOpen
-                ? 'bg-emerald-950 text-emerald-200 border border-emerald-500/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
-                : 'text-emerald-400 hover:text-emerald-200 hover:bg-slate-800/80 border border-transparent'
-            }`}
-            title="Open Unified Tactical VTT Command Drawer (Grid, Teams, Hazards, Pings)"
-          >
-            <span>🎮</span>
-            <span className="hidden xl:inline">VTT Console</span>
-          </button>
-
-          {/* Stage Compiler Bridge */}
-          {onOpenInStage && (
-            <button
-              type="button"
-              onClick={onOpenInStage}
-              className="px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer bg-purple-950/80 hover:bg-purple-900 border border-purple-500/60 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.3)]"
-              title="Open active map in STAGE Compiler (Scenarios, Triggers, Encounters & VTT)"
-            >
-              <span>✨</span>
-              <span className="hidden xl:inline">Stage</span>
-            </button>
-          )}
-
-          {/* 3D Holographic Live Preview Toggle */}
-          {onToggle3DPreview && (
-            <button
-              type="button"
-              onClick={onToggle3DPreview}
-              className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                is3DPreviewOpen
-                  ? 'bg-cyan-950 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
-                  : 'text-cyan-400 hover:text-cyan-200 hover:bg-slate-800/80 border border-slate-700/60'
-              }`}
-              title="Toggle Live 3D Holographic Architect Preview"
-            >
-              <Box size={14} className={is3DPreviewOpen ? 'text-cyan-300 animate-pulse' : 'text-cyan-400'} />
-              <span className="hidden xl:inline">3D Holo</span>
-            </button>
-          )}
-        </div>
-
-        {/* Tactical Actions & Utilities */}
-        <div className="flex items-center gap-1 border-l border-slate-800 pl-1.5">
+        {/* Tactical Actions, Spectator, Shortcuts & Undo / Redo (Directly after 3D Holo) */}
+        <div className="flex items-center gap-1.5 shrink-0">
           {/* Live Spectator / Cast Button */}
           <button
             type="button"
             onClick={() => setIsCastModalOpen(true)}
-            className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-emerald-400 rounded-xl transition-all cursor-pointer"
+            className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-emerald-400 rounded-xl transition-all cursor-pointer shrink-0"
             title="Live Player Spectator Screen (TV / Dual Monitor Casting)"
           >
             <Tv size={14} />
@@ -531,7 +475,7 @@ const MapToolbar = ({
           <button
             type="button"
             onClick={() => setIsArtistHubOpen(true)}
-            className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-purple-400 rounded-xl transition-all cursor-pointer"
+            className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-purple-400 rounded-xl transition-all cursor-pointer shrink-0"
             title="Artist Hub Visual Prompt Synthesis"
           >
             <Palette size={14} />
@@ -541,7 +485,7 @@ const MapToolbar = ({
           <button
             type="button"
             onClick={onResetView}
-            className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-cyan-300 rounded-xl text-xs transition-colors cursor-pointer"
+            className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-cyan-300 rounded-xl text-xs transition-colors cursor-pointer shrink-0"
             title="Reset Camera View to Origin"
           >
             <Compass size={14} />
@@ -552,16 +496,44 @@ const MapToolbar = ({
             <button
               type="button"
               onClick={onOpenShortcuts}
-              className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-cyan-300 rounded-xl text-xs transition-colors cursor-pointer"
+              className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-400 hover:text-cyan-300 rounded-xl text-xs transition-colors cursor-pointer shrink-0"
               title="Keyboard Shortcuts Legend"
             >
               ⌨️
             </button>
           )}
 
+          {/* Undo / Redo (Relocated beside Keyboard Shortcuts) */}
+          <div className="flex items-center gap-1 border-l border-slate-800 pl-1.5 shrink-0">
+            <button
+              onClick={handleUndo}
+              disabled={!undoStack || undoStack.length === 0}
+              className={`px-2 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
+                undoStack && undoStack.length > 0
+                  ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-cyan-300 shadow-sm'
+                  : 'bg-slate-950 border-slate-900 text-slate-600 cursor-not-allowed'
+              }`}
+              title="Undo (Ctrl+Z)"
+            >
+              ↩ Undo
+            </button>
+            <button
+              onClick={handleRedo}
+              disabled={!redoStack || redoStack.length === 0}
+              className={`px-2 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
+                redoStack && redoStack.length > 0
+                  ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-cyan-300 shadow-sm'
+                  : 'bg-slate-950 border-slate-900 text-slate-600 cursor-not-allowed'
+              }`}
+              title="Redo (Ctrl+Y)"
+            >
+              ↪ Redo
+            </button>
+          </div>
+
           {selectedId && (
             <button 
-              className="px-2.5 py-1 bg-red-900 hover:bg-red-800 border border-red-600 text-white text-xs font-bold uppercase rounded-xl tracking-wider transition-colors cursor-pointer ml-1" 
+              className="px-2.5 py-1 bg-red-900 hover:bg-red-800 border border-red-600 text-white text-xs font-bold uppercase rounded-xl tracking-wider transition-colors cursor-pointer ml-1 shrink-0" 
               onClick={() => eraseElement(selectedId)}
               title="Delete Selected Asset"
             >

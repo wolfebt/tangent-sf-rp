@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Dices, 
   X, 
@@ -96,12 +97,13 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   const STORAGE_KEY_POS = 'tangent_dice_roller_pos';
   const STORAGE_KEY_SIZE = 'tangent_dice_roller_size';
 
-  const HEADER_BAR_OFFSET = 58; // GlobalHUD navbar height is 52px; ensures modal never creeps into or behind header bar
+  const MIN_TOP_OFFSET = 8;
+  const DEFAULT_TOP_OFFSET = 70; // Sensible default position below top bars when first opened
 
   const getDefaultModalGeometry = () => {
     if (typeof window === 'undefined') {
       return {
-        pos: { x: 40, y: HEADER_BAR_OFFSET + 8 },
+        pos: { x: 40, y: DEFAULT_TOP_OFFSET },
         size: { width: 900, height: 720 }
       };
     }
@@ -111,16 +113,16 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
 
     if (winW < 768) {
       return {
-        pos: { x: 8, y: HEADER_BAR_OFFSET },
-        size: { width: Math.max(320, winW - 16), height: Math.max(360, winH - HEADER_BAR_OFFSET - 20) }
+        pos: { x: 8, y: DEFAULT_TOP_OFFSET },
+        size: { width: Math.max(320, winW - 16), height: Math.max(360, winH - DEFAULT_TOP_OFFSET - 20) }
       };
     }
 
-    const maxModalH = Math.max(360, winH - HEADER_BAR_OFFSET - 24);
+    const maxModalH = Math.max(360, winH - 96);
     const width = Math.min(920, Math.max(540, winW - 48));
     const height = Math.min(740, maxModalH);
     const x = Math.max(16, (winW - width) / 2);
-    const y = Math.max(HEADER_BAR_OFFSET + 6, Math.min(winH - height - 16, Math.max(HEADER_BAR_OFFSET + 6, (winH - height) / 2)));
+    const y = Math.max(DEFAULT_TOP_OFFSET, Math.min(winH - height - 16, Math.max(DEFAULT_TOP_OFFSET, (winH - height) / 2)));
 
     return {
       pos: { x, y },
@@ -138,7 +140,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           const winH = typeof window !== 'undefined' ? window.innerHeight : 800;
           return {
             x: Math.max(8, Math.min(winW - 100, p.x)),
-            y: Math.max(HEADER_BAR_OFFSET, Math.min(winH - 80, p.y))
+            y: Math.max(MIN_TOP_OFFSET, Math.min(winH - 80, p.y))
           };
         }
       }
@@ -173,7 +175,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       const curH = size?.height || def.size.height;
       return {
         x: Math.max(8, Math.min(window.innerWidth - curW - 8, prev.x)),
-        y: Math.max(HEADER_BAR_OFFSET, Math.min(window.innerHeight - 50, prev.y))
+        y: Math.max(MIN_TOP_OFFSET, Math.min(window.innerHeight - 50, prev.y))
       };
     });
 
@@ -194,7 +196,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         const curW = size?.width || 900;
         return {
           x: Math.max(8, Math.min(window.innerWidth - curW - 8, prev.x)),
-          y: Math.max(HEADER_BAR_OFFSET, Math.min(window.innerHeight - 50, prev.y))
+          y: Math.max(MIN_TOP_OFFSET, Math.min(window.innerHeight - 50, prev.y))
         };
       });
     };
@@ -256,7 +258,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       const dy = ev.clientY - dragRef.current.startY;
 
       const newX = Math.max(8, Math.min(window.innerWidth - dragRef.current.width - 8, dragRef.current.initX + dx));
-      const newY = Math.max(HEADER_BAR_OFFSET, Math.min(window.innerHeight - 50, dragRef.current.initY + dy));
+      const newY = Math.max(MIN_TOP_OFFSET, Math.min(window.innerHeight - 50, dragRef.current.initY + dy));
 
       setPosition({ x: newX, y: newY });
     };
@@ -900,29 +902,29 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   const currentModalWidth = size?.width || (typeof window !== 'undefined' ? window.innerWidth : 900);
   const isCompactLayout = isMaximized ? false : currentModalWidth < 680;
 
-  return (
+  const modalContent = (
     <div 
       ref={modalRef}
       style={isMaximized ? {
         position: 'fixed',
         left: 8,
-        top: HEADER_BAR_OFFSET,
+        top: 8,
         width: 'calc(100vw - 16px)',
-        height: `calc(100dvh - ${HEADER_BAR_OFFSET + 16}px)`,
-        zIndex: 95
+        height: 'calc(100dvh - 16px)',
+        zIndex: 1000
       } : (position && size) ? {
         position: 'fixed',
         left: `${position.x}px`,
         top: `${position.y}px`,
         width: `${size.width}px`,
         height: `${size.height}px`,
-        zIndex: 95
+        zIndex: 1000
       } : {
         position: 'fixed',
-        zIndex: 95
+        zIndex: 1000
       }}
-      className={`overflow-hidden bg-[#0d1117]/95 backdrop-blur-md border border-rose-500/60 rounded-xl shadow-[0_0_35px_rgba(0,0,0,0.85),0_0_20px_rgba(244,63,94,0.3)] p-3 sm:p-4 flex flex-col gap-2.5 font-sans select-none animate-slide-up ${
-        !position || !size ? 'inset-x-2 top-[58px] bottom-16 sm:bottom-4 md:inset-auto md:bottom-4 md:right-4 w-[calc(100vw-1rem)] md:w-[860px] lg:w-[920px] max-h-[calc(100dvh-5rem)] md:max-h-[calc(100vh-70px)]' : ''
+      className={`overflow-hidden bg-[#0d1117]/95 backdrop-blur-md border border-rose-500/60 rounded-xl shadow-[0_0_35px_rgba(0,0,0,0.85),0_0_20px_rgba(244,63,94,0.3)] p-3 sm:p-4 flex flex-col gap-2.5 font-sans select-none animate-slide-up z-[1000] ${
+        !position || !size ? 'inset-x-2 top-[70px] bottom-16 sm:bottom-4 md:inset-auto md:bottom-4 md:right-4 w-[calc(100vw-1rem)] md:w-[860px] lg:w-[920px] max-h-[calc(100dvh-5rem)] md:max-h-[calc(100vh-70px)]' : ''
       }`}
     >
       
@@ -2344,6 +2346,8 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       )}
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 };
 
 export default DiceRollerDock;

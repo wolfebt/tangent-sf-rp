@@ -98,6 +98,16 @@ export const OMNICORTEX_DOMAINS = [
     ]
   },
   {
+    id: 'directives_domain',
+    label: 'Directives & Railguards',
+    icon: '🏷️',
+    color: 'emerald',
+    categories: [
+      { key: 'directives', label: 'AI Directives (+Keywords)', icon: '🏷️' },
+      { key: 'railguards', label: 'Railguards (-Keywords)', icon: '🛡️' }
+    ]
+  },
+  {
     id: 'metaphysics_domain',
     label: 'Metaphysics & Invocations',
     icon: '🔮',
@@ -224,6 +234,8 @@ export const OmnicortexCatalogView = ({
   const [selectedLineage, setSelectedLineage] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedStage, setSelectedStage] = useState('all');
+  const [selectedDirective, setSelectedDirective] = useState('all'); // 'all' | 'has_directives' | keyword
+  const [selectedRailguard, setSelectedRailguard] = useState('all'); // 'all' | 'has_railguards' | keyword
   const [showFilters, setShowFilters] = useState(false);
 
   // Compute total asset counts across all Omnicortex collections
@@ -242,11 +254,6 @@ export const OmnicortexCatalogView = ({
     label: activeCategoryKey.toUpperCase(),
     fields: { name: { type: 'text' }, description: { type: 'textarea' } }
   };
-
-  // Get raw items for active category
-  const rawItems = useMemo(() => {
-    return Array.isArray(dbData[activeCategoryKey]) ? dbData[activeCategoryKey] : [];
-  }, [dbData, activeCategoryKey]);
 
   // Get all items across all collections (for global search)
   const allConsolidatedItems = useMemo(() => {
@@ -267,13 +274,27 @@ export const OmnicortexCatalogView = ({
     return list;
   }, [dbData]);
 
-  // Extract unique filter options for active category
-  const { availableTypes, availableLineages, availableStages } = useMemo(() => {
+  // Get raw items for active category
+  const rawItems = useMemo(() => {
+    if (activeCategoryKey === 'directives') {
+      return allConsolidatedItems.filter(i => Boolean(i.keywords && String(i.keywords).trim()));
+    }
+    if (activeCategoryKey === 'railguards') {
+      return allConsolidatedItems.filter(i => Boolean(i.negative_keywords && String(i.negative_keywords).trim()));
+    }
+    return Array.isArray(dbData[activeCategoryKey]) ? dbData[activeCategoryKey] : [];
+  }, [dbData, activeCategoryKey, allConsolidatedItems]);
+
+  // Extract unique filter options for active category (including directives and railguards)
+  const { availableTypes, availableLineages, availableStages, availableDirectives, availableRailguards } = useMemo(() => {
     const types = new Set();
     const lineages = new Set();
     const stages = new Set();
+    const directives = new Set();
+    const railguards = new Set();
 
-    rawItems.forEach(item => {
+    const itemsToScan = isGlobalSearch ? allConsolidatedItems : rawItems;
+    itemsToScan.forEach(item => {
       if (item.parent_species) lineages.add(item.parent_species);
       if (item.lineage) lineages.add(item.lineage);
 
@@ -288,6 +309,13 @@ export const OmnicortexCatalogView = ({
       if (item.category && item.category !== activeCategoryKey) types.add(String(item.category));
       if (item.subtype) types.add(String(item.subtype));
       if (item.sphere) types.add(String(item.sphere));
+
+      if (item.keywords) {
+        String(item.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean).forEach(k => directives.add(k));
+      }
+      if (item.negative_keywords) {
+        String(item.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean).forEach(k => railguards.add(k));
+      }
     });
 
     return {
@@ -301,9 +329,11 @@ export const OmnicortexCatalogView = ({
         if (idxA !== -1) return -1;
         if (idxB !== -1) return 1;
         return a.localeCompare(b);
-      })
+      }),
+      availableDirectives: Array.from(directives).sort((a, b) => a.localeCompare(b)),
+      availableRailguards: Array.from(railguards).sort((a, b) => a.localeCompare(b))
     };
-  }, [rawItems, activeCategoryKey]);
+  }, [rawItems, allConsolidatedItems, activeCategoryKey, isGlobalSearch]);
 
   // Filter items based on active filters, search query, and global/local scope
   const filteredItems = useMemo(() => {
@@ -326,8 +356,10 @@ export const OmnicortexCatalogView = ({
         const homeworldMatch = (item.homeworld || '').toLowerCase().includes(q);
         const damageMatch = (item.damage || '').toLowerCase().includes(q);
         const weaponClassMatch = (item.classification || '').toLowerCase().includes(q);
+        const kwMatch = (item.keywords ? String(item.keywords) : '').toLowerCase().includes(q);
+        const negKwMatch = (item.negative_keywords ? String(item.negative_keywords) : '').toLowerCase().includes(q);
 
-        if (!nameMatch && !descMatch && !lineageMatch && !typeMatch && !categoryMatch && !tagMatch && !homeworldMatch && !damageMatch && !weaponClassMatch) {
+        if (!nameMatch && !descMatch && !lineageMatch && !typeMatch && !categoryMatch && !tagMatch && !homeworldMatch && !damageMatch && !weaponClassMatch && !kwMatch && !negKwMatch) {
           return false;
         }
       }
@@ -362,6 +394,26 @@ export const OmnicortexCatalogView = ({
         }
       }
 
+      // Directive (Positive Keywords) Category Filter
+      if (selectedDirective !== 'all') {
+        const kws = item.keywords ? String(item.keywords).toLowerCase().split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
+        if (selectedDirective === 'has_directives') {
+          if (kws.length === 0) return false;
+        } else if (!kws.includes(selectedDirective.toLowerCase())) {
+          return false;
+        }
+      }
+
+      // Railguard (Negative Keywords) Category Filter
+      if (selectedRailguard !== 'all') {
+        const negs = item.negative_keywords ? String(item.negative_keywords).toLowerCase().split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
+        if (selectedRailguard === 'has_railguards') {
+          if (negs.length === 0) return false;
+        } else if (!negs.includes(selectedRailguard.toLowerCase())) {
+          return false;
+        }
+      }
+
       // Type / Category filter
       if (selectedType !== 'all') {
         const itemType = item.type;
@@ -385,7 +437,7 @@ export const OmnicortexCatalogView = ({
 
       return true;
     }).sort((a, b) => (a.name || a.title || '').localeCompare(b.name || b.title || ''));
-  }, [isGlobalSearch, allConsolidatedItems, rawItems, searchQuery, selectedTL, selectedML, selectedLineage, selectedType, selectedStage]);
+  }, [isGlobalSearch, allConsolidatedItems, rawItems, searchQuery, selectedTL, selectedML, selectedLineage, selectedType, selectedStage, selectedDirective, selectedRailguard]);
 
   const toggleDomainCollapse = (domainId) => {
     setCollapsedDomains(prev => ({
@@ -412,6 +464,8 @@ export const OmnicortexCatalogView = ({
     setSelectedLineage('all');
     setSelectedType('all');
     setSelectedStage('all');
+    setSelectedDirective('all');
+    setSelectedRailguard('all');
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setIsDrawerOpen(false);
     }
@@ -662,7 +716,7 @@ export const OmnicortexCatalogView = ({
             <Search className="absolute left-3 top-2.5 text-slate-500 pointer-events-none" size={14} />
             <input
               type="text"
-              placeholder={isGlobalSearch ? "Global Search all species, weapons, cybernetics, spells, lore..." : `Search within ${activeConfig.label || 'category'} by name, stat, tag, keyword...`}
+              placeholder={isGlobalSearch ? "Global Search all species, weapons, cybernetics, directives, railguards, lore..." : `Search within ${activeConfig.label || 'category'} by name, stat, directive, railguard, keyword...`}
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full bg-slate-900 border border-slate-700 text-white pl-9 pr-8 py-2 rounded-lg text-xs outline-none focus:border-emerald-500 font-mono shadow-inner transition-colors"
@@ -751,6 +805,42 @@ export const OmnicortexCatalogView = ({
                 </div>
               )}
 
+              {/* Directive (Positive Keywords) Category Filter */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-emerald-400 text-[11px] font-bold flex items-center gap-1">
+                  <span>🏷️</span> Directives:
+                </span>
+                <select
+                  value={selectedDirective}
+                  onChange={e => setSelectedDirective(e.target.value)}
+                  className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500 max-w-[150px]"
+                >
+                  <option value="all">All Directives</option>
+                  <option value="has_directives">Has Directives (+Keywords)</option>
+                  {availableDirectives.map(d => (
+                    <option key={d} value={d}>{d}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Railguard (Negative Keywords) Category Filter */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-red-400 text-[11px] font-bold flex items-center gap-1">
+                  <span>🛡️</span> Railguards:
+                </span>
+                <select
+                  value={selectedRailguard}
+                  onChange={e => setSelectedRailguard(e.target.value)}
+                  className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-red-500 max-w-[150px]"
+                >
+                  <option value="all">All Railguards</option>
+                  <option value="has_railguards">Has Railguards (-Keywords)</option>
+                  {availableRailguards.map(r => (
+                    <option key={r} value={r}>{r}</option>
+                  ))}
+                </select>
+              </div>
+
               {/* Type / Subtype Filter (if available) */}
               {availableTypes.length > 0 && (
                 <div className="flex items-center gap-1.5">
@@ -769,7 +859,7 @@ export const OmnicortexCatalogView = ({
               )}
 
               {/* Reset Filters Button */}
-              {(selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all' || selectedStage !== 'all') && (
+              {(selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all' || selectedStage !== 'all' || selectedDirective !== 'all' || selectedRailguard !== 'all') && (
                 <button
                   type="button"
                   onClick={() => {
@@ -778,6 +868,8 @@ export const OmnicortexCatalogView = ({
                     setSelectedLineage('all');
                     setSelectedType('all');
                     setSelectedStage('all');
+                    setSelectedDirective('all');
+                    setSelectedRailguard('all');
                   }}
                   className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-rose-300 border border-rose-500/40 rounded text-xs font-bold transition-colors ml-auto"
                 >
@@ -832,78 +924,94 @@ export const OmnicortexCatalogView = ({
             </div>
           ) : viewMode === 'grid' ? (
             /* Card Grid View */
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3.5">
-              {filteredItems.map((item, idx) => {
-                const name = item.name || item.title || 'Unnamed Asset';
-                const catKey = item._categoryKey || activeCategoryKey;
-                const catLabel = item._categoryLabel || categoryConfig[catKey]?.label || catKey.toUpperCase();
-                const tl = item.tech_level !== undefined ? item.tech_level : item.tl;
-                const ml = item.meta_level !== undefined ? item.meta_level : item.ml;
-                const cp = item.cp !== undefined ? item.cp : (item.bp !== undefined ? item.bp : item.cost_cp);
-                const damage = item.damage;
-                const dr = item.dr || item.armor;
-                const sp = item.sp || item.hp;
-                const costCredits = item.costs?.credits || item.cost || item.price;
-                const lineage = item.parent_species || item.lineage;
-                const type = Array.isArray(item.type) ? item.type.join(', ') : (item.type || item.augmentation_type);
-                const stage = item.stage || item.augmentation_stage;
-                const isCopied = copiedItemId === (item.id || item.name);
+            (() => {
+              const isPropertyOrWorldCategory = (key) => [
+                'weaponry', 'armoring', 'gear', 'augmentations', 'mecha', 'architecture', 'other',
+                'gear_category', 'availability', 'material', 'resistance', 'mode', 'special', 'component', 'classification', 'creator', 'design',
+                'planetary_design', 'universe', 'setting', 'philosophy', 'technology', 'economatrix', 'scene'
+              ].includes(key);
+              const isPropertyOrWorldView = activeDomain?.id === 'armory_domain' || activeDomain?.id === 'world_domain' || isPropertyOrWorldCategory(activeCategoryKey);
 
-                return (
-                  <div
-                    key={`${catKey}_${item.id || item.name}_${idx}`}
-                    onClick={() => onOpenItem(item, catKey)}
-                    className="bg-slate-950/90 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/60 rounded-xl p-4 transition-all flex flex-col justify-between group shadow-sm hover:shadow-[0_0_15px_rgba(52,211,153,0.15)] cursor-pointer"
-                  >
-                    <div>
-                      {/* Card Header */}
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-1.5 flex-wrap mb-1">
-                            <span className="text-[9px] px-1.5 py-0.2 bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 rounded font-mono font-bold tracking-tight uppercase">
-                              {catLabel}
-                            </span>
-                            {stage && (
-                              <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold border ${
-                                stage.toLowerCase() === 'extreme' ? 'bg-purple-950/80 text-purple-300 border-purple-500/40' :
-                                stage.toLowerCase() === 'heavy' ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' :
-                                stage.toLowerCase() === 'standard' ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40' :
-                                'bg-slate-800/90 text-slate-300 border-slate-600/50'
+              return (
+                <div className={isPropertyOrWorldView ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5" : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3.5"}>
+                  {filteredItems.map((item, idx) => {
+                    const name = item.name || item.title || 'Unnamed Asset';
+                    const catKey = item._categoryKey || activeCategoryKey;
+                    const catLabel = item._categoryLabel || categoryConfig[catKey]?.label || catKey.toUpperCase();
+                    const tl = item.tech_level !== undefined ? item.tech_level : item.tl;
+                    const ml = item.meta_level !== undefined ? item.meta_level : item.ml;
+                    const cp = item.cp !== undefined ? item.cp : (item.bp !== undefined ? item.bp : item.cost_cp);
+                    const damage = item.damage;
+                    const dr = item.dr || item.armor;
+                    const sp = item.sp || item.hp;
+                    const costCredits = item.costs?.credits || item.cost || item.price;
+                    const lineage = item.parent_species || item.lineage;
+                    const type = Array.isArray(item.type) ? item.type.join(', ') : (item.type || item.augmentation_type);
+                    const stage = item.stage || item.augmentation_stage;
+                    const isCopied = copiedItemId === (item.id || item.name);
+                    const isCompactCard = isPropertyOrWorldView || isPropertyOrWorldCategory(catKey);
+
+                    return (
+                      <div
+                        key={`${catKey}_${item.id || item.name}_${idx}`}
+                        onClick={() => onOpenItem(item, catKey)}
+                        className={`bg-slate-950/90 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/60 rounded-xl transition-all flex flex-col justify-between group shadow-sm hover:shadow-[0_0_15px_rgba(52,211,153,0.15)] cursor-pointer ${
+                          isCompactCard ? 'p-3' : 'p-4'
+                        }`}
+                      >
+                        <div>
+                          {/* Card Header */}
+                          <div className={`flex items-start justify-between gap-2 ${isCompactCard ? 'mb-1.5' : 'mb-2'}`}>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-1.5 flex-wrap mb-1">
+                                <span className="text-[9px] px-1.5 py-0.2 bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 rounded font-mono font-bold tracking-tight uppercase">
+                                  {catLabel}
+                                </span>
+                                {stage && (
+                                  <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold border ${
+                                    stage.toLowerCase() === 'extreme' ? 'bg-purple-950/80 text-purple-300 border-purple-500/40' :
+                                    stage.toLowerCase() === 'heavy' ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' :
+                                    stage.toLowerCase() === 'standard' ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40' :
+                                    'bg-slate-800/90 text-slate-300 border-slate-600/50'
+                                  }`}>
+                                    Stage: {stage}
+                                  </span>
+                                )}
+                                {lineage && (
+                                  <span className="text-[9px] px-1.5 py-0.2 bg-purple-950/80 text-purple-300 border border-purple-500/40 rounded font-mono font-bold">
+                                    {lineage}
+                                  </span>
+                                )}
+                                {type && (
+                                  <span className="text-[9px] px-1.5 py-0.2 bg-slate-900 text-slate-300 border border-slate-700 rounded font-mono">
+                                    {type}
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className={`font-bold text-white group-hover:text-emerald-300 uppercase tracking-wide transition-colors font-sans truncate ${
+                                isCompactCard ? 'text-xs sm:text-sm' : 'text-sm'
                               }`}>
-                                Stage: {stage}
-                              </span>
-                            )}
-                            {lineage && (
-                              <span className="text-[9px] px-1.5 py-0.2 bg-purple-950/80 text-purple-300 border border-purple-500/40 rounded font-mono font-bold">
-                                {lineage}
-                              </span>
-                            )}
-                            {type && (
-                              <span className="text-[9px] px-1.5 py-0.2 bg-slate-900 text-slate-300 border border-slate-700 rounded font-mono">
-                                {type}
-                              </span>
-                            )}
+                                {name}
+                              </h3>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={(e) => handleCopyWikiLink(e, item)}
+                              className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-cyan-300 border border-slate-800 transition-colors shrink-0"
+                              title="Copy [[Wiki Link]] reference"
+                            >
+                              {isCopied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                            </button>
                           </div>
-                          <h3 className="text-sm font-bold text-white group-hover:text-emerald-300 uppercase tracking-wide transition-colors font-sans truncate">
-                            {name}
-                          </h3>
+
+                          {/* Description Excerpt */}
+                          <p className={`text-slate-400 font-sans ${
+                            isCompactCard ? 'text-[11px] line-clamp-2 leading-snug mb-2' : 'text-xs line-clamp-3 leading-relaxed mb-3'
+                          }`}>
+                            {item.description || item.body || item.mechanic || item.note || <em className="text-slate-600">No description available.</em>}
+                          </p>
                         </div>
-
-                        <button
-                          type="button"
-                          onClick={(e) => handleCopyWikiLink(e, item)}
-                          className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-cyan-300 border border-slate-800 transition-colors shrink-0"
-                          title="Copy [[Wiki Link]] reference"
-                        >
-                          {isCopied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-                        </button>
-                      </div>
-
-                      {/* Description Excerpt */}
-                      <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed mb-3 font-sans">
-                        {item.description || item.body || item.mechanic || item.note || <em className="text-slate-600">No description available.</em>}
-                      </p>
-                    </div>
 
                     {/* Stats & Meta Footer Bar */}
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2 text-[10px] font-mono text-slate-400 flex-wrap">
@@ -960,6 +1068,8 @@ export const OmnicortexCatalogView = ({
                 );
               })}
             </div>
+              );
+            })()
           ) : (
             /* Table Directory View */
             <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/80 shadow-md">

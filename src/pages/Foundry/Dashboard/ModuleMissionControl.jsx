@@ -9,7 +9,7 @@
  * - Direct Launchers: Live Studio, Deploy to Stage, Story Weaver, Map Architect, Scripts, Asset Forge
  * - Universal Package Exporter (Architect Master vs. Sanitized Operator Editions)
  * - Standalone File & Module Drag-and-Drop Ingestion Zone
- * - 5 Pillar Quick-Navigation Cards
+ * - 4 Pillar Quick-Navigation Cards (Weaver, Map, Stage VTT, Elements)
  */
 
 import React, { useState, useRef, useEffect, useMemo } from 'react';
@@ -814,7 +814,7 @@ export default function ModuleMissionControl({
             <span>{perspectiveMode === 'operator' ? 'OPERATOR' : 'ARCHITECT'}</span>
           </button>
 
-          {/* Prep VTT Module / Compiler Button */}
+          {/* Prep Stage VTT Package / Compiler Button */}
           <button
             type="button"
             onClick={() => {
@@ -822,38 +822,42 @@ export default function ModuleMissionControl({
               onOpenCompiler?.();
             }}
             className="px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 text-cyan-300 border border-cyan-500/50 hover:border-cyan-400 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
-            title="Compile Story, Maps, and Elements into a prepped VTT package"
+            title="Compile Story, Maps, and Elements into a prepped Stage VTT package"
           >
             <Wrench size={13} className="text-cyan-400" />
-            <span>PREP VTT MODULE</span>
+            <span>STAGE COMPILER</span>
           </button>
 
-          {/* Consolidated ADE Live Studio Launcher */}
+          {/* The Stage VTT In-Situ Launcher */}
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1400, 0.05);
-              navigate(`/foundry/live?scenarioId=${targetScenarioId}&mapId=${targetMapId}`);
+              if (onSwitchView) {
+                onSwitchView('stage', 'run');
+              } else {
+                navigate(`/foundry/live?scenarioId=${targetScenarioId}&mapId=${targetMapId}`);
+              }
             }}
             className="px-3 py-1 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 border border-cyan-400 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(34,211,238,0.4)] cursor-pointer"
-            title="Open consolidated ADE Live Studio (Split View with live WebGPU Stage & Story Weaver)"
+            title="Open in-situ The Stage VTT (Stage Compiler & Live Session Director)"
           >
             <Sparkles size={13} />
-            <span>LIVE STUDIO</span>
+            <span>THE STAGE VTT</span>
           </button>
 
-          {/* Deploy to STAGE VTT Launcher */}
+          {/* Standalone Fullscreen VTT Launcher */}
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1400, 0.05);
-              navigate(`/stage?mapId=${targetMapId}&scenarioId=${targetScenarioId}`);
+              window.open(`/stage?mapId=${encodeURIComponent(targetMapId)}&scenarioId=${encodeURIComponent(targetScenarioId)}`, '_blank');
             }}
-            className="px-3 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
-            title="Deploy active scenario and elements into The Stage VTT"
+            className="px-3 py-1 bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-cyan-300 border border-slate-700 hover:border-cyan-400 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+            title="Launch standalone full-screen VTT in new window/tab for live play"
           >
-            <Swords size={13} />
-            <span>DEPLOY TO STAGE</span>
+            <ExternalLink size={13} />
+            <span>STANDALONE VTT</span>
           </button>
 
           {/* Tactical Utilities Cluster */}
@@ -962,14 +966,14 @@ export default function ModuleMissionControl({
         </div>
       </div>
 
-      {/* ── SECTION 4: 5 PILLARS WORKSPACE CARDS ── */}
+      {/* ── SECTION 4: 4 PILLARS WORKSPACE CARDS ── */}
       <div className="mb-6 shrink-0">
         <h2 className="text-xs font-mono font-bold tracking-widest uppercase text-slate-400 mb-3 flex items-center gap-2">
           <Layers size={14} className="text-cyan-400" />
           Module Component Workspaces
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Pillar 1: Narrative Foundry */}
           <div 
             onClick={() => {
@@ -1016,7 +1020,7 @@ export default function ModuleMissionControl({
             </div>
           </div>
 
-          {/* Pillar 3: Tactical Stage */}
+          {/* Pillar 3: The Stage VTT */}
           <div 
             onClick={() => {
               if (onSwitchView) onSwitchView('stage');
@@ -1028,13 +1032,13 @@ export default function ModuleMissionControl({
               <div className="w-10 h-10 rounded-xl bg-purple-950/60 border border-purple-500/40 text-purple-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
                 <Sparkles size={20} />
               </div>
-              <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">3. Tactical Stage</h3>
+              <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">3. The Stage VTT</h3>
               <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                Compile stage manifests, map anchors, trigger flow, encounters & live staging.
+                Compile stage manifests, bind map anchors, wire trigger flow, and direct live tactical VTT sessions.
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-purple-500/20 flex items-center justify-between text-[11px] font-mono text-purple-400 font-bold">
-              <span>Enter Stage ↗</span>
+              <span>Enter Stage VTT ↗</span>
               <span className="text-[10px] text-slate-500">⌘3</span>
             </div>
           </div>
@@ -1059,26 +1063,6 @@ export default function ModuleMissionControl({
             <div className="mt-4 pt-3 border-t border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-emerald-400 font-bold">
               <span>Enter Forge ↗</span>
               <span className="text-[10px] text-slate-500">⌘4</span>
-            </div>
-          </div>
-
-          {/* Pillar 5: VTT Live Director */}
-          <div 
-            onClick={() => handleLaunchPillar('live_director', '/stage')}
-            className="p-4 rounded-2xl bg-[#0c121e]/90 hover:bg-[#131b2c] border border-cyan-500/30 hover:border-cyan-400 transition-all cursor-pointer group flex flex-col justify-between shadow-md"
-          >
-            <div>
-              <div className="w-10 h-10 rounded-xl bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
-                <Tv2 size={20} />
-              </div>
-              <h3 className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">5. VTT Live Director</h3>
-              <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                Run live sessions with real-time token tracking, proximity waypoint triggers & Cronicle log.
-              </p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-cyan-500/20 flex items-center justify-between text-[11px] font-mono text-cyan-400 font-bold">
-              <span>Enter Director ↗</span>
-              <span className="text-[10px] text-slate-500">⌘5</span>
             </div>
           </div>
         </div>

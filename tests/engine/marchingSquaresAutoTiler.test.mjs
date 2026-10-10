@@ -125,3 +125,83 @@ test('Phase 3.3: MarchingSquaresAutoTiler integration with MapGraphicsCompiler',
   assert.deepEqual(terrainTile.edgeLines[0], [50, 0, 50, 50]);
 });
 
+test('Marching Squares Mode: calculateGridBitmasks8Bit grid matrix', () => {
+  const layout = [
+    ['metal', 'metal', 'metal'],
+    ['metal', 'metal', 'metal'],
+    ['metal', 'metal', 'metal']
+  ];
+
+  const bitmasks8 = MarchingSquaresAutoTiler.calculateGridBitmasks8Bit(3, 3, (c, r) => layout[r][c]);
+  assert.equal(bitmasks8.length, 3);
+  assert.equal(bitmasks8[0].length, 3);
+
+  // Center cell [1, 1] has all 8 neighbors: bitmask = 255
+  assert.equal(bitmasks8[1][1], 255);
+
+  // Top-left cell [0, 0] has East (4), South (16), South-East (8): 4 + 16 + 8 = 28
+  assert.equal(bitmasks8[0][0], 28);
+});
+
+test('Marching Squares Mode: getMarchingPolygonPoints bevels outer and inner corners', () => {
+  // 1. Isolated cell (bitmask 0): all corners beveled -> diamond shape
+  const isolatedPts = MarchingSquaresAutoTiler.getMarchingPolygonPoints(0, 0, 50, 50, 0, 0, 0.5);
+  assert.ok(isolatedPts.length >= 8); // At least 4 beveled points
+  assert.deepEqual(isolatedPts, [0, 25, 25, 0, 50, 25, 25, 50]);
+
+  // 2. Fully connected internal floor cell (4-bit=15, 8-bit=255): clean square
+  const internalPts = MarchingSquaresAutoTiler.getMarchingPolygonPoints(0, 0, 50, 50, 15, 255, 0.5);
+  assert.deepEqual(internalPts, [0, 0, 50, 0, 50, 50, 0, 50]);
+
+  // 3. Inner corner notch (N=1, E=2, S=4, W=8 -> 4-bit=15, but NW diagonal missing in 8-bit)
+  // 8-bit without NW (128): 255 - 128 = 127
+  const notchPts = MarchingSquaresAutoTiler.getMarchingPolygonPoints(0, 0, 50, 50, 15, 127, 0.5);
+  // NW corner should have beveled notch points (0, 12.5) and (12.5, 0)
+  assert.equal(notchPts[0], 0);
+  assert.equal(notchPts[1], 12.5);
+  assert.equal(notchPts[2], 12.5);
+  assert.equal(notchPts[3], 0);
+});
+
+test('Marching Squares Mode: getMarchingContourLines perimeter tracing', () => {
+  // Isolated cell (bitmask 0): 4 beveled outer segments
+  const isolatedContours = MarchingSquaresAutoTiler.getMarchingContourLines(0, 0, 50, 50, 0, 0, 0.5);
+  assert.equal(isolatedContours.length, 4);
+  assert.deepEqual(isolatedContours[0], [0, 25, 25, 0]); // North outer bevel
+  assert.deepEqual(isolatedContours[1], [25, 0, 50, 25]); // East outer bevel
+  assert.deepEqual(isolatedContours[2], [50, 25, 25, 50]); // South outer bevel
+  assert.deepEqual(isolatedContours[3], [25, 50, 0, 25]); // West outer bevel
+
+  // Inner corner notch contour
+  const notchContours = MarchingSquaresAutoTiler.getMarchingContourLines(0, 0, 50, 50, 15, 127, 0.5);
+  assert.equal(notchContours.length, 1);
+  assert.deepEqual(notchContours[0], [0, 12.5, 12.5, 0]);
+});
+
+test('Marching Squares Mode: Sector terrain polygon element structure', () => {
+  const polyPoints = MarchingSquaresAutoTiler.getMarchingPolygonPoints(100, 100, 50, 50, 15, 255, 0.5);
+  const contourLines = MarchingSquaresAutoTiler.getMarchingContourLines(100, 100, 50, 50, 15, 255, 0.5);
+
+  const pcgTerrain = {
+    id: 'pcg-floor-test',
+    x: 100,
+    y: 100,
+    width: 50,
+    height: 50,
+    renderType: 'polygon',
+    closed: true,
+    points: polyPoints,
+    tension: 0.15,
+    bitmask4Bit: 15,
+    bitmask8Bit: 255,
+    edgeLines: contourLines,
+    color: '#1e293b'
+  };
+
+  assert.equal(pcgTerrain.renderType, 'polygon');
+  assert.equal(pcgTerrain.closed, true);
+  assert.equal(pcgTerrain.tension, 0.15);
+  assert.equal(pcgTerrain.points.length, 8);
+});
+
+

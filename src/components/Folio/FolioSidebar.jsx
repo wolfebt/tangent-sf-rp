@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { 
   User, 
+  Users,
   Activity, 
   Award, 
   Sparkles, 
@@ -162,6 +163,19 @@ export const FolioSidebar = ({
               title="Expand Full Folio Drawer"
             >
               <PanelLeftOpen size={15} />
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1150, 0.02);
+                if (onSave) onSave();
+                setActiveTab('catalog');
+                if (onClose) onClose();
+              }}
+              className="w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 flex items-center justify-center transition-all cursor-pointer"
+              title="Return to Persona Catalog / Dossiers"
+            >
+              <Users size={15} />
             </button>
             {onClose && (
               <button
@@ -389,19 +403,38 @@ export const FolioSidebar = ({
   // ── 2. EXPANDED SIDEBAR MODE ──
   return (
     <aside className="w-64 sm:w-72 bg-[#12161f]/95 backdrop-blur-xl border-r border-cyan-500/30 p-3 flex flex-col h-full shrink-0 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
-      {/* Persona Name Banner */}
-      <div className="px-2 shrink-0 min-w-0">
+      {/* Persona Name Banner - Triggers Catalog */}
+      <button
+        type="button"
+        onClick={() => {
+          AudioService.playTerminalBeep(1150, 0.02);
+          if (onSave) onSave();
+          setActiveTab('catalog');
+          if (onClose) onClose();
+        }}
+        className="w-full text-left px-2 py-1.5 rounded-xl hover:bg-cyan-950/40 border border-transparent hover:border-cyan-500/40 transition-all cursor-pointer group shrink-0 min-w-0"
+        title="Active Persona — Click to Open Persona Catalog"
+      >
+        <div className="flex items-center justify-between gap-1 mb-0.5">
+          <span className="text-[9.5px] font-mono font-bold uppercase tracking-wider text-cyan-400/80 group-hover:text-cyan-300 flex items-center gap-1">
+            <Users size={11} />
+            <span>Persona Dossier</span>
+          </span>
+          <span className="text-[9px] font-mono text-slate-500 group-hover:text-cyan-300 transition-colors flex items-center gap-0.5">
+            <span>Catalog</span>
+            <span className="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+          </span>
+        </div>
         <h2
-          className="m-0 text-[1.3rem] sm:text-[1.6rem] font-black leading-tight tracking-tight uppercase text-[#22d3ee] break-words"
+          className="m-0 text-[1.3rem] sm:text-[1.6rem] font-black leading-tight tracking-tight uppercase text-[#22d3ee] group-hover:text-cyan-200 transition-colors break-words"
           style={{
             WebkitTextStroke: '1px #c0c0c0',
             paintOrder: 'stroke fill'
           }}
-          title={charName || 'Unnamed Persona'}
         >
           {charName || 'Unnamed Persona'}
         </h2>
-      </div>
+      </button>
 
       {/* Persona Dossier Header Banner */}
       <div className="px-2 py-1.5 border-b border-cyan-500/30 shrink-0 flex items-center justify-between">

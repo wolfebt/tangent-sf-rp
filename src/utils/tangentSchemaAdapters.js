@@ -14,7 +14,10 @@ export const PROPERTY_CATEGORIES = new Set([
   'gear',
   'equipment',
   'mecha',
-  'architecture'
+  'architecture',
+  'other',
+  'other_property',
+  'personal_property'
 ]);
 
 export const isPropertyCategory = (category) => {

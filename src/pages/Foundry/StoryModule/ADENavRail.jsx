@@ -92,10 +92,10 @@ export const ADENavRail = ({
     },
     {
       id: 'stage',
-      aliasIds: ['live-studio', 'ade-stage'],
+      aliasIds: ['live-studio', 'ade-stage', 'vtt', 'live_director', 'stage_runtime', 'vtt_runtime'],
       label: 'STAGE',
-      sublabel: 'Tactical Stage & Compiler',
-      description: 'Stage Compiler, Map Anchors, Triggers, Flow, Encounters & Live VTT Staging',
+      sublabel: 'The Stage VTT',
+      description: 'Stage Compiler, Map Anchors, Triggers, Flow & Live VTT Session Director',
       icon: Sparkles,
       colorTheme: 'purple',
       onClick: () => {
@@ -114,19 +114,6 @@ export const ADENavRail = ({
       badge: elementsCount > 0 ? `${elementsCount}` : (totalGalleryCount > 0 ? `${totalGalleryCount}` : null),
       onClick: () => {
         if (onSwitchView) onSwitchView('elements');
-      }
-    },
-    {
-      id: 'vtt',
-      aliasIds: ['live_director', 'stage_runtime', 'vtt_runtime'],
-      label: 'VTT',
-      sublabel: 'VTT Live Director',
-      description: 'Run Live VTT Session, Tactical Tokens, Line-of-Sight & Combat Grid',
-      icon: Tv2,
-      colorTheme: 'cyan',
-      onClick: () => {
-        if (onSwitchView) onSwitchView('vtt');
-        else navigate('/stage');
       }
     }
   ];
@@ -239,18 +226,15 @@ export const ADENavRail = ({
         {/* Subtle Divider separating Hub and Module Workspaces */}
         <div className="w-6 h-px bg-slate-800/60 my-1" />
 
-        {/* Primary Studio Workspaces aligned with Hub order (WEAVER, MAP, STAGE, ELEMENTS, VTT) */}
+        {/* Primary Studio Workspaces aligned with Hub order (WEAVER, MAP, STAGE, ELEMENTS) */}
         {workspaceItems.map((item) => {
-          const isDesktopOnly = item.id === 'map' || item.id === 'stage' || item.id === 'vtt';
+          const isDesktopOnly = item.id === 'map' || item.id === 'stage';
           const isActive = (() => {
             if (item.id === 'stage') {
-              return activeView === 'stage' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage');
+              return activeView === 'stage' || activeView === 'vtt' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage') || (item.aliasIds && item.aliasIds.includes(activeView));
             }
             if (item.id === 'scenarios') {
               return activeView === 'scenarios' && activeScenarioWorkspaceTab !== 'stage';
-            }
-            if (item.id === 'vtt') {
-              return activeView === 'vtt' || (item.aliasIds && item.aliasIds.includes(activeView));
             }
             return activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
           })();

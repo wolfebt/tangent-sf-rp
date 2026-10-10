@@ -194,6 +194,28 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 - Spans: Hoverboards, motorcycles, ground cars, powered exoskeletons, power armor, bipedal/multipedal walkers, atmospheric fighter jets, shuttles, and starships.
 - All vehicle chassis use Structure Points (SP) with a Medium baseline of 60 SP, multiplied across the 14 volumetric size categories.
 - Incorporates modular socketing for weapon hardpoints, sensor suites, shield generators, and meta-tech invocation emitters.`
+  },
+  {
+    id: 'rule-architect-directives-keywords',
+    category: 'directives',
+    title: 'Architect Directives & Thematic Guidance Keywords (+Weight)',
+    citation: 'Codex 1.00 AI Guidance & Architect Directives',
+    tags: ['directives', 'keywords', 'guidance', 'positive keywords', 'thematic weight', 'synergy', 'ai guidance', 'cybernetic', 'high-tech'],
+    text: `Architect Directives and Thematic Guidance Keywords establish positive AI reference and synthesis weighting across Tangent SFF RP entities:
+- Species, Factions, Origins, Occupations, Skills, Features, and Equipment specify positive keywords (Directives).
+- When synthesizing or recommending character concepts, entities matching positive directive keywords receive significant synergy weight (+0.25 to +0.30 boost).
+- Directives guide natural thematic cohesion without rigid class lockouts, encouraging harmonious cross-pillar combinations.`
+  },
+  {
+    id: 'rule-architect-railguards-exclusions',
+    category: 'railguards',
+    title: 'Architect Railguards & Boundary Exclusions (-Weight / Exclusions)',
+    citation: 'Codex 1.00 AI Railguards & Boundary Exclusions',
+    tags: ['railguards', 'negative keywords', 'exclusions', 'boundary', 'restrictions', 'penalties', 'contraindications', 'synthetic exclusions'],
+    text: `Architect Railguards and Negative Boundary Exclusion Keywords enforce narrative integrity and prevent incongruous combinations in Tangent SFF RP:
+- Entities define negative keywords (Railguards) representing boundaries, thematic clashes, or physical incompatibilities.
+- When evaluating candidates, any entity triggering an active railguard keyword is heavily penalized (-0.50 score reduction) or excluded from recommendations.
+- Railguards ensure synthetic entities avoid biological sickness traits, primitive cultures avoid hyper-advanced cyberware defaults, and spiritual factions avoid incompatible dogma.`
   }
 ];
 
@@ -263,15 +285,56 @@ function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
       });
     }
 
-    // 4. Architect Confidential Notes Chunk
-    if (cleanNote) {
+    // 4. Architect Confidential Notes & Guidance Chunk
+    const recSpecies = Array.isArray(item.recommended_species) && item.recommended_species.length > 0 ? item.recommended_species.join(', ') : '';
+    const recFactions = Array.isArray(item.recommended_factions) && item.recommended_factions.length > 0 ? item.recommended_factions.join(', ') : '';
+    const recOrigins = Array.isArray(item.recommended_origins) && item.recommended_origins.length > 0 ? item.recommended_origins.join(', ') : '';
+    const recOccupations = Array.isArray(item.recommended_occupations) && item.recommended_occupations.length > 0 ? item.recommended_occupations.join(', ') : '';
+    const recSkills = Array.isArray(item.recommended_skills) && item.recommended_skills.length > 0 ? item.recommended_skills.join(', ') : '';
+    const recFeatures = Array.isArray(item.recommended_features) && item.recommended_features.length > 0 ? item.recommended_features.join(', ') : '';
+    const recTl = Array.isArray(item.recommended_tl) && item.recommended_tl.length > 0 ? item.recommended_tl.join(', ') : '';
+    const recMl = Array.isArray(item.recommended_ml) && item.recommended_ml.length > 0 ? item.recommended_ml.join(', ') : '';
+    const guidanceKeywords = item.keywords ? String(item.keywords).trim() : '';
+    const negativeKeywords = item.negative_keywords ? String(item.negative_keywords).trim() : '';
+
+    if (cleanNote || recSpecies || recFactions || recOrigins || recOccupations || recSkills || recFeatures || recTl || recMl || guidanceKeywords || negativeKeywords) {
+      let architectText = `Architect Worldbuilding & Adjudication Notes for ${item.name}:\n`;
+      if (cleanNote) architectText += `${cleanNote}\n`;
+      if (recSpecies) architectText += `Recommended Species: ${recSpecies}\n`;
+      if (recFactions) architectText += `Recommended Factions: ${recFactions}\n`;
+      if (recOrigins) architectText += `Recommended Origins: ${recOrigins}\n`;
+      if (recOccupations) architectText += `Recommended Occupations: ${recOccupations}\n`;
+      if (recSkills) architectText += `Recommended Skills: ${recSkills}\n`;
+      if (recFeatures) architectText += `Recommended Features: ${recFeatures}\n`;
+      if (recTl) architectText += `Recommended Tech Level (TL): ${recTl}\n`;
+      if (recMl) architectText += `Recommended Meta Level (ML): ${recMl}\n`;
+      if (guidanceKeywords) architectText += `Directives & Keywords: ${guidanceKeywords}\n`;
+      if (negativeKeywords) architectText += `Negative Directives & Railguards (NOT recommended): ${negativeKeywords}\n`;
+
+      const extraTags: string[] = [];
+      if (Array.isArray(item.recommended_species)) extraTags.push(...item.recommended_species);
+      if (Array.isArray(item.recommended_factions)) extraTags.push(...item.recommended_factions);
+      if (Array.isArray(item.recommended_origins)) extraTags.push(...item.recommended_origins);
+      if (Array.isArray(item.recommended_occupations)) extraTags.push(...item.recommended_occupations);
+      if (Array.isArray(item.recommended_skills)) extraTags.push(...item.recommended_skills);
+      if (Array.isArray(item.recommended_features)) extraTags.push(...item.recommended_features);
+      if (Array.isArray(item.recommended_tl)) extraTags.push(...item.recommended_tl);
+      if (Array.isArray(item.recommended_ml)) extraTags.push(...item.recommended_ml);
+      if (guidanceKeywords) {
+        extraTags.push(...guidanceKeywords.split(/[,;\s]+/).filter(Boolean));
+      }
+      if (negativeKeywords) {
+        const negTokens = negativeKeywords.split(/[,;\s]+/).filter(Boolean);
+        extraTags.push(...negTokens.map(t => `railguard-${t}`), ...negTokens, 'railguard', 'negative-keywords');
+      }
+
       chunks.push({
         id: `compendium-${item.id || item.name}-note`,
         category: cat,
-        title: `${item.name} [Architect Notes]`,
+        title: `${item.name} [Architect Notes & Railguards]`,
         citation: `${item.parent || 'Omnicortex'} > Architect Notes`,
-        text: `Architect Worldbuilding & Adjudication Notes for ${item.name}:\n${cleanNote}`,
-        tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, 'architect', 'notes', cat].filter(Boolean)
+        text: architectText.trim(),
+        tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, 'architect', 'notes', cat, ...extraTags].filter(Boolean)
       });
     }
   }
@@ -418,6 +481,7 @@ export async function loadCompendiumSeedDataset(): Promise<void> {
         for (const chunk of chunks) {
           CANONICAL_RULES_COMPENDIUM.push(chunk);
         }
+        recomputeEmbeddings();
 
         // Offload insertion and SQLite WASM FTS5 indexing of 700+ articles to the Web Worker
         const workerChunks = chunks.map(c => ({
@@ -452,7 +516,7 @@ export interface RagSearchResult {
 /**
  * Detects domain intent keywords to intelligently boost related categories
  */
-function detectIntentCategories(query: string): string[] {
+export function detectIntentCategories(query: string): string[] {
   const q = query.toLowerCase();
   const categories: string[] = [];
 
@@ -484,6 +548,12 @@ function detectIntentCategories(query: string): string[] {
   if (q.match(/\b(attribute|sub-attribute|strength|agility|stamina|intellect|wisdom|charisma|toughness|reflexes|fortitude|150 bp|bp|creation)\b/)) {
     categories.push('character_creation');
   }
+  if (q.match(/\b(directive|directives|positive keyword|positive keywords|pos keyword|pos keywords|thematic weight|thematic weights|guidance)\b/)) {
+    categories.push('directives');
+  }
+  if (q.match(/\b(railguard|railguards|negative keyword|negative keywords|neg keyword|neg keywords|boundary|boundaries|exclusion|contraindication|incompatible)\b/)) {
+    categories.push('railguards');
+  }
 
   return categories;
 }
@@ -491,9 +561,55 @@ function detectIntentCategories(query: string): string[] {
 /**
  * Queries the Omnicortex Vector RAG index for the top most relevant rule and lore chunks
  */
-export function queryOmnicortexRAG(query: string, topK: number = 4, categoryFilter?: string): RagSearchResult[] {
+export interface RagSearchOptions {
+  topK?: number;
+  categoryFilter?: string;
+  positiveKeywords?: string[] | string;
+  negativeKeywords?: string[] | string;
+  directiveKeywords?: string[] | string;
+  railguardKeywords?: string[] | string;
+  directiveCategories?: string[] | string;
+  railguardCategories?: string[] | string;
+}
+
+/**
+ * Queries the Omnicortex Vector RAG index for the top most relevant rule and lore chunks.
+ * Evaluates semantic vector similarity, adds weight for positive guidance keywords,
+ * and reduces weight for negative keywords and railguards.
+ */
+export function queryOmnicortexRAG(
+  query: string, 
+  topKOrOptions: number | RagSearchOptions = 4, 
+  categoryFilter?: string
+): RagSearchResult[] {
   if (!query || !query.trim()) {
     return [];
+  }
+
+  let topK = 4;
+  let activeCatFilter = categoryFilter;
+  let posKeywords: string[] = [];
+  let negKeywords: string[] = [];
+
+  if (typeof topKOrOptions === 'object' && topKOrOptions !== null) {
+    topK = topKOrOptions.topK ?? 4;
+    activeCatFilter = topKOrOptions.categoryFilter || categoryFilter;
+    const rawPos = topKOrOptions.positiveKeywords || topKOrOptions.directiveKeywords;
+    if (rawPos) {
+      posKeywords = (Array.isArray(rawPos) 
+        ? rawPos 
+        : String(rawPos).split(/[,;\n]+/)
+      ).map(k => k.trim().toLowerCase()).filter(Boolean);
+    }
+    const rawNeg = topKOrOptions.negativeKeywords || topKOrOptions.railguardKeywords;
+    if (rawNeg) {
+      negKeywords = (Array.isArray(rawNeg) 
+        ? rawNeg 
+        : String(rawNeg).split(/[,;\n]+/)
+      ).map(k => k.trim().toLowerCase()).filter(Boolean);
+    }
+  } else if (typeof topKOrOptions === 'number') {
+    topK = topKOrOptions;
   }
 
   // Trigger lazy loading of compendium seed in background if not yet loaded
@@ -504,19 +620,62 @@ export function queryOmnicortexRAG(query: string, topK: number = 4, categoryFilt
   const queryVector = computeTermVector(query, VOCABULARY);
   const detectedCategories = detectIntentCategories(query);
   const lowerQuery = query.toLowerCase();
+  const isQuerySpecificallyAboutRailguards = lowerQuery.includes('railguard') || lowerQuery.includes('avoid') || lowerQuery.includes('not recommended');
   const results: RagSearchResult[] = [];
 
   for (const chunk of CANONICAL_RULES_COMPENDIUM) {
     if (!chunk.embedding) continue;
-    if (categoryFilter && chunk.category !== categoryFilter) continue;
+    
+    // Category filtering with explicit directive and railguard category handling
+    if (activeCatFilter) {
+      if (activeCatFilter === 'directives' || activeCatFilter === 'positive_keywords') {
+        const isDirectiveChunk = chunk.category === 'directives' || 
+          chunk.tags.some(t => t.toLowerCase().includes('directive') || t.toLowerCase().includes('keyword')) ||
+          `${chunk.title} ${chunk.text}`.toLowerCase().includes('directive') ||
+          posKeywords.some(p => `${chunk.title} ${chunk.text}`.toLowerCase().includes(p));
+        if (!isDirectiveChunk) continue;
+      } else if (activeCatFilter === 'railguards' || activeCatFilter === 'negative_keywords') {
+        const isRailguardChunk = chunk.category === 'railguards' || 
+          chunk.tags.some(t => t.toLowerCase().startsWith('railguard-') || t.toLowerCase() === 'negative-keywords' || t.toLowerCase().includes('railguard')) ||
+          `${chunk.title} ${chunk.text}`.toLowerCase().includes('railguard') ||
+          negKeywords.some(n => `${chunk.title} ${chunk.text}`.toLowerCase().includes(n));
+        if (!isRailguardChunk) continue;
+      } else if (chunk.category !== activeCatFilter) {
+        continue;
+      }
+    }
 
     // Base vector cosine similarity
     let score = cosineSimilarity(queryVector, chunk.embedding);
 
-    // Boost score if keyword tags match query directly
+    const chunkContentLower = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`.toLowerCase();
+
+    // Positive Keywords: ADD WEIGHT
     for (const tag of chunk.tags) {
-      if (lowerQuery.includes(tag.toLowerCase())) {
-        score += 0.22;
+      const tagLower = tag.toLowerCase();
+      if (lowerQuery.includes(tagLower)) {
+        if (tagLower.startsWith('railguard-') || tagLower === 'negative-keywords') {
+          // Railguard tag matches query
+          if (!isQuerySpecificallyAboutRailguards) {
+            score -= 0.30; // Reduce weight for railguard aspects in general queries
+          }
+        } else {
+          score += 0.22;
+        }
+      }
+    }
+
+    // Explicit Positive Context Directives: ADD WEIGHT (+0.25)
+    for (const pKw of posKeywords) {
+      if (chunkContentLower.includes(pKw)) {
+        score += 0.25;
+      }
+    }
+
+    // Explicit Negative Context Railguards: REDUCE WEIGHT (-0.50)
+    for (const nKw of negKeywords) {
+      if (chunkContentLower.includes(nKw)) {
+        score -= 0.50;
       }
     }
 

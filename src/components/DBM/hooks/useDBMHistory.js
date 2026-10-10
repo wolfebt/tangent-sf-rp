@@ -35,6 +35,8 @@ export const useDBMHistory = (initialCategory = 'compendium', onNavigate) => {
         setActiveCategory(target);
         setActiveSubcategory(null);
       }
+    } else if (typeof window !== 'undefined' && window.history?.length > 1) {
+      window.history.back();
     }
   }, [history, historyIndex]);
 
@@ -51,6 +53,8 @@ export const useDBMHistory = (initialCategory = 'compendium', onNavigate) => {
         setActiveCategory(target);
         setActiveSubcategory(null);
       }
+    } else if (typeof window !== 'undefined' && window.history?.length > 1) {
+      window.history.forward();
     }
   }, [history, historyIndex]);
 

@@ -226,6 +226,12 @@ export const DBMTableView = ({
   setFilterMLs = () => {},
   filterTags = [],
   setFilterTags = () => {},
+  filterDirectives = [],
+  setFilterDirectives = () => {},
+  filterRailguards = [],
+  setFilterRailguards = () => {},
+  availableDirectives = [],
+  availableRailguards = [],
   currentItems = [],
   isAdmin = true,
   handleDeleteEntry,
@@ -495,16 +501,34 @@ export const DBMTableView = ({
     }
   };
 
+  const toggleFilterDirective = (dVal) => {
+    if (filterDirectives.includes(dVal)) {
+      setFilterDirectives(filterDirectives.filter(d => d !== dVal));
+    } else {
+      setFilterDirectives([...filterDirectives, dVal]);
+    }
+  };
+
+  const toggleFilterRailguard = (rVal) => {
+    if (filterRailguards.includes(rVal)) {
+      setFilterRailguards(filterRailguards.filter(r => r !== rVal));
+    } else {
+      setFilterRailguards([...filterRailguards, rVal]);
+    }
+  };
+
   const clearAllFilters = () => {
     setFilterTypes([]);
     setFilterSubtypes([]);
     setFilterTLs([]);
     setFilterMLs([]);
     setFilterTags([]);
+    setFilterDirectives([]);
+    setFilterRailguards([]);
     setSearchTerm('');
   };
 
-  const totalActiveFilterCount = filterTypes.length + filterSubtypes.length + filterTLs.length + filterMLs.length + filterTags.length;
+  const totalActiveFilterCount = filterTypes.length + filterSubtypes.length + filterTLs.length + filterMLs.length + filterTags.length + filterDirectives.length + filterRailguards.length;
   const isAnyFilterActive = totalActiveFilterCount > 0 || (searchTerm && searchTerm.trim().length > 0);
 
   const onImport = (e) => {
@@ -890,6 +914,102 @@ export const DBMTableView = ({
                       </div>
                     </div>
                   )}
+
+                  {/* 5. Directives (Positive Keywords) Category */}
+                  {availableDirectives.length > 0 && (
+                    <div>
+                      <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-1.5 flex justify-between items-center">
+                        <span className="flex items-center gap-1"><span>🏷️</span> Directives (+Keywords)</span>
+                        {filterDirectives.length > 0 && (
+                          <button
+                            onClick={() => setFilterDirectives([])}
+                            className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                          >
+                            clear
+                          </button>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {availableDirectives
+                          .filter(d => !filterSearchTerm || d.toLowerCase().includes(filterSearchTerm.toLowerCase()))
+                          .map(d => {
+                            const count = currentItems.filter(i => {
+                              const kws = i.keywords ? String(i.keywords).toLowerCase().split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
+                              return kws.includes(d.toLowerCase());
+                            }).length;
+                            const checked = filterDirectives.includes(d);
+
+                            return (
+                              <label
+                                key={d}
+                                className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
+                                  checked ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 truncate">
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => toggleFilterDirective(d)}
+                                    className="rounded border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer accent-emerald-500"
+                                  />
+                                  <span className="truncate">{d}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
+                              </label>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 6. Railguards (Negative Keywords) Category */}
+                  {availableRailguards.length > 0 && (
+                    <div>
+                      <div className="text-[10px] font-bold text-red-400 uppercase tracking-wider mb-1.5 flex justify-between items-center">
+                        <span className="flex items-center gap-1"><span>🛡️</span> Railguards (-Keywords)</span>
+                        {filterRailguards.length > 0 && (
+                          <button
+                            onClick={() => setFilterRailguards([])}
+                            className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                          >
+                            clear
+                          </button>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {availableRailguards
+                          .filter(r => !filterSearchTerm || r.toLowerCase().includes(filterSearchTerm.toLowerCase()))
+                          .map(r => {
+                            const count = currentItems.filter(i => {
+                              const negs = i.negative_keywords ? String(i.negative_keywords).toLowerCase().split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
+                              return negs.includes(r.toLowerCase());
+                            }).length;
+                            const checked = filterRailguards.includes(r);
+
+                            return (
+                              <label
+                                key={r}
+                                className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
+                                  checked ? 'bg-red-950/60 text-red-300 border border-red-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 truncate">
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => toggleFilterRailguard(r)}
+                                    className="rounded border-slate-700 text-red-500 focus:ring-0 cursor-pointer accent-red-500"
+                                  />
+                                  <span className="truncate">{r}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
+                              </label>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Popover Footer */}
@@ -1222,6 +1342,20 @@ export const DBMTableView = ({
             <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-950/90 text-emerald-300 border border-emerald-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(16,185,129,0.3)]">
               <span>🏷️ {tag}</span>
               <button onClick={() => toggleFilterTag(tag)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
+            </span>
+          ))}
+
+          {filterDirectives.map(d => (
+            <span key={d} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-950/90 text-emerald-300 border border-emerald-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(16,185,129,0.3)]">
+              <span>🏷️ Directives: {d}</span>
+              <button onClick={() => toggleFilterDirective(d)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
+            </span>
+          ))}
+
+          {filterRailguards.map(r => (
+            <span key={r} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-red-950/90 text-red-300 border border-red-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(239,68,68,0.3)]">
+              <span>🛡️ Railguard: {r}</span>
+              <button onClick={() => toggleFilterRailguard(r)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
             </span>
           ))}
 

@@ -3,9 +3,10 @@
  * @description Real-time visual shader customizer for recoloring, tinting, and styling map tiles.
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Palette, RefreshCw } from 'lucide-react';
 import type { VisualVariants } from '../../../schemas/assetUnitSchema';
+import { CORE_ASSET_SVGS } from '../../../engine/assets/assetVisualFallbacks';
 
 export interface ShaderTintCustomizerProps {
   imageUrl: string;
@@ -31,6 +32,12 @@ export const ShaderTintCustomizer: React.FC<ShaderTintCustomizerProps> = ({
   width = 240,
   height = 240
 }) => {
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setHasError(false);
+  }, [imageUrl]);
+
   const current = {
     tintColor: customization?.tintColor || '#ffffff',
     hueRotation: customization?.hueRotation ?? 0,
@@ -55,6 +62,8 @@ export const ShaderTintCustomizer: React.FC<ShaderTintCustomizerProps> = ({
     brightness(${current.brightness})
     contrast(${current.contrast})
   `;
+
+  const displaySrc = (!imageUrl || hasError) ? CORE_ASSET_SVGS.industrialMetalDeck : imageUrl;
 
   return (
     <div className="flex flex-col space-y-3 font-mono text-xs">
@@ -90,21 +99,18 @@ export const ShaderTintCustomizer: React.FC<ShaderTintCustomizerProps> = ({
       {/* Live Preview Viewport */}
       <div
         style={{ width: `${width}px`, height: `${height}px` }}
-        className="relative bg-slate-950 border border-slate-700 rounded overflow-hidden flex items-center justify-center mx-auto"
+        className="relative bg-[linear-gradient(45deg,#1e293b_25%,transparent_25%),linear-gradient(-45deg,#1e293b_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#1e293b_75%),linear-gradient(-45deg,transparent_75%,#1e293b_75%)] [background-size:16px_16px] [background-position:0_0,0_8px,8px_-8px,-8px_0] bg-slate-950 border border-slate-700 rounded overflow-hidden flex items-center justify-center mx-auto shadow-inner"
       >
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt="Shader Preview"
-            style={{
-              filter: filterStyle,
-              backgroundColor: current.tintColor !== '#ffffff' ? `${current.tintColor}33` : undefined
-            }}
-            className="w-full h-full object-contain p-2 transition-all duration-150"
-          />
-        ) : (
-          <span className="text-slate-600">No Image</span>
-        )}
+        <img
+          src={displaySrc}
+          alt="Shader Preview"
+          onError={() => setHasError(true)}
+          style={{
+            filter: filterStyle,
+            backgroundColor: current.tintColor !== '#ffffff' ? `${current.tintColor}33` : undefined
+          }}
+          className="w-full h-full object-contain p-2 transition-all duration-150"
+        />
       </div>
 
       {/* Sliders */}

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useDice } from '../../context/DiceContext';
-import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save, PanelLeftOpen, PanelLeftClose } from 'lucide-react';
+import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save, PanelLeftOpen, PanelLeftClose, Users } from 'lucide-react';
 import { Toast } from '../UI/Toast';
 import { useToast, showToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
@@ -29,6 +29,7 @@ import RosterCatalogView from './views/RosterCatalogView';
 import FeaturesHubView from './views/FeaturesHubView';
 import PropertyHubView from './views/PropertyHubView';
 import TacticalPlayView from './views/TacticalPlayView';
+import { BreadcrumbNav } from '../UI/BreadcrumbNav';
 
 // Lazy Loaded Heavy Modals & Drawers (Optimized Cold-Load Code Splitting)
 const CustomSelectorModal = React.lazy(() => import('./modals/CustomSelectorModal'));
@@ -57,7 +58,6 @@ const FolioContainer = () => {
     return false;
   });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [viewMode, setViewMode] = useState('builder');
 
   // Modal States
   const [isEconomyOpen, setIsEconomyOpen] = useState(false);
@@ -135,7 +135,10 @@ const FolioContainer = () => {
     unlockPersona,
     clonePersonaVariant,
     revertTrackedModification,
-    trackedModifications
+    trackedModifications,
+    viewMode,
+    setViewMode,
+    togglePersonaVttLock
   } = useFolio();
 
   const [isTrackedModsOpen, setIsTrackedModsOpen] = useState(false);
@@ -146,7 +149,7 @@ const FolioContainer = () => {
     if (isLocked) {
       setViewMode('play');
     }
-  }, [isLocked]);
+  }, [isLocked, setViewMode]);
 
   useEffect(() => {
     const handleSetViewMode = (e) => {
@@ -154,20 +157,188 @@ const FolioContainer = () => {
     };
     window.addEventListener('set-folio-view-mode', handleSetViewMode);
     return () => window.removeEventListener('set-folio-view-mode', handleSetViewMode);
+  }, [setViewMode]);
+
+  // Global Event Listener for Economy Modal
+  useEffect(() => {
+    const handleOpenEconomy = () => setIsEconomyOpen(true);
+    window.addEventListener('open-folio-economy', handleOpenEconomy);
+    return () => window.removeEventListener('open-folio-economy', handleOpenEconomy);
   }, []);
 
-  // Synchronize activeTab with URL query parameter (e.g., /folio?tab=catalog from Briefing)
+  // Synchronize activeTab and character selection with URL query parameter (e.g. /folio?tab=catalog or /folio?char=123&tab=skills)
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
+    const charParam = params.get('char');
+    const curDocId = characterData?.['character-doc-id'] || characterData?.id;
+
+    if (charParam && charParam !== curDocId) {
+      switchRosterCharacter?.(charParam);
+    }
+
     if (tabParam) {
-      if (tabParam === 'catalog') {
-        setActiveTab?.('catalog');
-      } else if (['identity', 'core-stats', 'stats', 'skills', 'features', 'abilities', 'combat', 'companions', 'property', 'narrative', 'other'].includes(tabParam)) {
-        setActiveTab?.(tabParam === 'stats' ? 'core-stats' : tabParam);
+      const validTabs = [
+        'catalog', 'identity', 'core-stats', 'stats', 'skills',
+        'features', 'features-traits', 'features-hindrances', 'features-augmentations', 'features-metaphysics', 'features-awakened',
+        'abilities', 'combat', 'companions',
+        'property', 'property-gear', 'property-vehicles', 'property-wealth', 'combat-gear',
+        'narrative', 'other'
+      ];
+      if (validTabs.includes(tabParam)) {
+        const resolvedTab = tabParam === 'stats' ? 'core-stats' : tabParam;
+        if (resolvedTab !== activeTab) {
+          setActiveTab?.(resolvedTab);
+        }
       }
     }
-  }, [location.search, setActiveTab]);
+  }, [location.search, characterData, switchRosterCharacter, activeTab, setActiveTab]);
+
+  // Seamless navigation helper that synchronizes active tab and character with browser history
+  const handleSelectTab = useCallback((newTab, newCharId = null, pushHistory = true) => {
+    triggerSave();
+    const charId = newCharId || characterData?.['character-doc-id'] || characterData?.id;
+    const searchParams = new URLSearchParams(location.search);
+
+    if (newTab === 'catalog') {
+      searchParams.set('tab', 'catalog');
+      searchParams.delete('char');
+    } else {
+      searchParams.set('tab', newTab);
+      if (charId) {
+        searchParams.set('char', charId);
+      }
+    }
+
+    const newSearch = `?${searchParams.toString()}`;
+    if (location.search !== newSearch) {
+      if (pushHistory) {
+        navigate({ pathname: location.pathname, search: newSearch });
+      } else {
+        navigate({ pathname: location.pathname, search: newSearch }, { replace: true });
+      }
+    }
+    setActiveTab?.(newTab);
+    setIsSidebarOpen(false);
+    if (viewMode === 'play' && newTab !== 'combat') {
+      setViewMode('builder');
+    }
+  }, [triggerSave, characterData, location.search, location.pathname, navigate, setActiveTab, viewMode, setViewMode]);
+
+  const handleSelectCharacter = useCallback((docId, targetTab = 'identity') => {
+    switchRosterCharacter(docId);
+    handleSelectTab(targetTab, docId, true);
+  }, [switchRosterCharacter, handleSelectTab]);
+
+  const handleReturnToCatalog = useCallback(() => {
+    handleSelectTab('catalog', null, true);
+  }, [handleSelectTab]);
+
+  const handleFolioBack = useCallback(() => {
+    if (viewMode === 'play') {
+      setViewMode('builder');
+      return;
+    }
+    if (activeTab.startsWith('features-')) {
+      handleSelectTab('features');
+      return;
+    }
+    if (activeTab.startsWith('property-') || activeTab === 'combat-gear') {
+      handleSelectTab('property');
+      return;
+    }
+    if (activeTab !== 'catalog') {
+      handleReturnToCatalog();
+      return;
+    }
+    navigate('/');
+  }, [viewMode, setViewMode, activeTab, handleSelectTab, handleReturnToCatalog, navigate]);
+
+  const getFolioBreadcrumbs = useCallback(() => {
+    const crumbs = [
+      { label: 'Tangent RP', to: '/' },
+      {
+        label: 'Folio',
+        to: '/folio?tab=catalog',
+        onClick: activeTab !== 'catalog' ? () => handleReturnToCatalog() : undefined
+      }
+    ];
+
+    if (activeTab === 'catalog') {
+      crumbs.push({
+        label: 'Persona Catalog',
+        active: true,
+        badge: personaRoster?.length ? `${personaRoster.length}` : undefined
+      });
+      return crumbs;
+    }
+
+    const charName = characterData?.['char-name'] || 'Persona';
+    const charDocId = characterData?.['character-doc-id'] || characterData?.id;
+
+    crumbs.push({
+      label: charName,
+      onClick: activeTab !== 'identity' ? () => handleSelectTab('identity', charDocId) : undefined,
+      active: activeTab === 'identity' && viewMode !== 'play',
+      badge: characterData?.['char-archetype'] || undefined
+    });
+
+    if (viewMode === 'play') {
+      crumbs.push({
+        label: 'Tactical VTT Sheet',
+        active: true,
+        color: 'text-amber-400',
+        badge: 'LIVE'
+      });
+      return crumbs;
+    }
+
+    if (activeTab === 'identity') {
+      return crumbs;
+    }
+
+    const tabHierarchyMap = {
+      'core-stats': { parent: null, label: 'Core Attributes' },
+      'skills': { parent: null, label: 'Skills & Masteries' },
+      'features': { parent: null, label: 'Features & Edge Hub' },
+      'features-traits': { parent: 'features', parentLabel: 'Features', label: 'Traits' },
+      'features-hindrances': { parent: 'features', parentLabel: 'Features', label: 'Hindrances' },
+      'features-augmentations': { parent: 'features', parentLabel: 'Features', label: 'Augmentations' },
+      'features-metaphysics': { parent: 'features', parentLabel: 'Features', label: 'Metaphysics' },
+      'features-awakened': { parent: 'features', parentLabel: 'Features', label: 'Awakened Disciplines' },
+      'abilities': { parent: null, label: 'Special Abilities' },
+      'combat': { parent: null, label: 'Tactical & Combat' },
+      'companions': { parent: null, label: 'Companions & Units' },
+      'property': { parent: null, label: 'Property & Assets Hub' },
+      'property-gear': { parent: 'property', parentLabel: 'Property', label: 'Equipment & Gear' },
+      'combat-gear': { parent: 'property', parentLabel: 'Property', label: 'Combat Gear' },
+      'property-vehicles': { parent: 'property', parentLabel: 'Property', label: 'Vehicles & Starships' },
+      'property-wealth': { parent: 'property', parentLabel: 'Property', label: 'Finances & Wealth' },
+      'narrative': { parent: null, label: 'Narrative & Background' },
+      'other': { parent: null, label: 'Notes & Log' }
+    };
+
+    const tabInfo = tabHierarchyMap[activeTab];
+    if (tabInfo) {
+      if (tabInfo.parent) {
+        crumbs.push({
+          label: tabInfo.parentLabel || 'Hub',
+          onClick: () => handleSelectTab(tabInfo.parent, charDocId)
+        });
+      }
+      crumbs.push({
+        label: tabInfo.label,
+        active: true
+      });
+    } else {
+      crumbs.push({
+        label: activeTab,
+        active: true
+      });
+    }
+
+    return crumbs;
+  }, [activeTab, handleReturnToCatalog, personaRoster, characterData, viewMode, handleSelectTab]);
 
   const handleManualSave = useCallback(async () => {
     if (saveCurrentToRoster) {
@@ -505,12 +676,7 @@ const FolioContainer = () => {
             viewMode={viewMode}
             setViewMode={setViewMode}
             activeTab={activeTab}
-            setActiveTab={(tab) => {
-              triggerSave();
-              setActiveTab(tab);
-              setIsSidebarOpen(false);
-              if (viewMode === 'play') setViewMode('builder');
-            }}
+            setActiveTab={(tab) => handleSelectTab(tab)}
             charName={characterData['char-name']}
             onOpenRoster={() => setIsRosterOpen(true)}
             onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
@@ -524,174 +690,124 @@ const FolioContainer = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117] min-w-0">
-        {/* Unified Mobile Action Bar (Consolidates Sections Drawer, Mode Switcher, Dice & Lock) */}
-        {isCharacterSelected && activeTab !== 'catalog' ? (
-          <div className="md:hidden flex items-center justify-between px-2.5 py-1.5 bg-[#101622] border-b border-slate-800 shrink-0 gap-1.5 z-20 shadow-md">
-            {/* Left: Sections Menu & Catalog Breadcrumb */}
+        {/* Breadcrumb Navigation & Workspace Controls Bar */}
+        <BreadcrumbNav
+          items={getFolioBreadcrumbs()}
+          onBack={handleFolioBack}
+          backTitle={
+            viewMode === 'play'
+              ? 'Return to Folio Builder'
+              : activeTab.startsWith('features-')
+              ? 'Return to Features Hub'
+              : activeTab.startsWith('property-') || activeTab === 'combat-gear'
+              ? 'Return to Property Hub'
+              : activeTab !== 'catalog'
+              ? 'Return to Persona Catalog'
+              : 'Return to Tangent SF RP Dashboard'
+          }
+          rightSlot={
             <div className="flex items-center gap-1.5 shrink-0">
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  setIsSidebarOpen(!isSidebarOpen);
-                }}
-                className={`w-9.5 h-9.5 min-w-[38px] min-h-[38px] aspect-square rounded-none flex flex-col items-center justify-center transition-all cursor-pointer select-none border-[3px] border-double shrink-0 ${
-                  isSidebarOpen
-                    ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_14px_rgba(34,211,238,0.55)]'
-                    : 'bg-[#090d16] hover:bg-cyan-950/80 border-cyan-400/80 hover:border-cyan-300 text-cyan-300 hover:text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
-                }`}
-                style={{ borderStyle: 'double' }}
-                title={isSidebarOpen ? "Close Folio Guide Rail" : "Open Folio Guide Rail"}
-                aria-label="Toggle Folio Guide Rail"
-              >
-                {isSidebarOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
-                <span className="text-[7.5px] font-mono font-extrabold uppercase tracking-tight leading-none mt-0.5">
-                  RAIL
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  triggerSave();
-                  setActiveTab('catalog');
-                }}
-                className="h-9.5 px-2 rounded-none text-xs font-mono font-bold uppercase text-slate-400 hover:text-cyan-300 bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-colors flex items-center justify-center"
-                title="Return to Catalog"
-              >
-                &larr;
-              </button>
-            </div>
+              {/* Rail Toggle Button */}
+              {isCharacterSelected && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    setIsSidebarOpen(prev => !prev);
+                  }}
+                  className={`min-h-[28px] px-2 rounded-md flex items-center gap-1 transition-all cursor-pointer select-none border font-mono font-bold text-[11px] uppercase tracking-wider active:scale-95 touch-manipulation md:hidden ${
+                    isSidebarOpen
+                      ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+                      : 'bg-slate-900/90 hover:bg-cyan-950/80 border-slate-700/80 hover:border-cyan-400 text-cyan-300'
+                  }`}
+                  title={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
+                >
+                  {isSidebarOpen ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} />}
+                  <span>Rail</span>
+                </button>
+              )}
 
-            {/* Center: Builder vs Tactical Mode Switcher */}
-            <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 shrink-0 shadow-inner">
-              <button
-                type="button"
-                onClick={() => setViewMode('builder')}
-                className={`px-2 py-1 rounded text-[10.5px] font-mono font-bold uppercase transition-all cursor-pointer ${
-                  viewMode === 'builder'
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                🛠️ Build
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('play')}
-                className={`px-2 py-1 rounded text-[10.5px] font-mono font-bold uppercase transition-all cursor-pointer ${
-                  (viewMode === 'play' || viewMode === 'preview')
-                    ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-                title="Switch to Live Tactical Sheet (VTT)"
-              >
-                ⚔️ Tactical
-              </button>
-            </div>
+              {/* Persona Catalog Shortcut if viewing a character */}
+              {isCharacterSelected && activeTab !== 'catalog' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    handleReturnToCatalog();
+                  }}
+                  className="min-h-[28px] px-2 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-cyan-300 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/60 cursor-pointer transition-all flex items-center gap-1 active:scale-95"
+                  title="Return to Persona Catalog / Dossiers"
+                >
+                  <Users size={13} className="text-cyan-400" />
+                  <span className="hidden sm:inline">Catalog</span>
+                </button>
+              )}
 
-            {/* Right: CP Budget, Dice Dock & Lock / Unlock */}
-            <div className="flex items-center gap-1 shrink-0">
-              {(() => {
-                const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
-                const spentCP = computeSpentCP();
-                const isOver = spentCP > startingCP;
-                return (
+              {/* Mode Switcher: Build vs Tac */}
+              {isCharacterSelected && activeTab !== 'catalog' && (
+                <div className="inline-flex rounded-md bg-slate-950 p-0.5 border border-slate-800 shadow-inner">
                   <button
                     type="button"
-                    onClick={() => setIsEconomyOpen(true)}
-                    className={`p-1 px-1.5 border rounded text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
-                      isOver
-                        ? 'bg-red-950 border-red-500 text-red-300 animate-pulse'
-                        : 'bg-slate-950 border-slate-800 text-cyan-300 hover:border-cyan-500/50'
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.02);
+                      setViewMode('builder');
+                    }}
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
+                      viewMode === 'builder'
+                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
+                        : 'text-slate-400 hover:text-slate-200'
                     }`}
-                    title={`Character Points Budget: ${spentCP}/${startingCP} CP. Click to inspect or modify.`}
+                    title="Builder Mode"
                   >
-                    <span>{spentCP}/{startingCP}</span>
+                    <span>🛠️</span>
+                    <span className="hidden sm:inline">Build</span>
                   </button>
-                );
-              })()}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.02);
+                      setViewMode('play');
+                    }}
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
+                      viewMode === 'play' || viewMode === 'preview'
+                        ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
+                        : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                    title="Switch to Live Tactical Sheet (VTT)"
+                  >
+                    <span>⚔️</span>
+                    <span className="hidden sm:inline">Tac</span>
+                  </button>
+                </div>
+              )}
 
+              {/* Dice Roller Button */}
               <button
                 type="button"
                 onClick={() => {
                   if (isDiceOpen) {
                     closeDiceRoller();
                   } else {
-                    openDiceRoller({ label: `${characterData['char-name'] || 'Persona'} Check`, characterName: characterData['char-name'] || 'Persona', autoRoll: false });
+                    openDiceRoller({
+                      label: `${characterData['char-name'] || 'Persona'} Check`,
+                      characterName: characterData['char-name'] || 'Persona',
+                      autoRoll: false
+                    });
                   }
                 }}
-                className={`p-1 px-1.5 border rounded text-[10.5px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors ${
+                className={`min-h-[28px] px-2 border rounded-md text-xs font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors active:scale-95 ${
                   isDiceOpen
                     ? 'bg-rose-950 border-rose-500/80 text-rose-300'
                     : 'bg-rose-950/40 hover:bg-rose-900/60 border-rose-500/50 text-rose-300'
                 }`}
-                title="Toggle Dice Tray"
+                title="Toggle Holographic Dice Tray"
+                aria-label="Toggle Dice Tray"
               >
-                <Dices size={12} className="text-rose-400" />
+                <Dices size={13} className="text-rose-400" />
               </button>
-
-              {!isLocked ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.03);
-                    if (lockPersona) {
-                      const ok = lockPersona();
-                      if (ok) setViewMode('play');
-                    }
-                  }}
-                  className="px-2 py-1 rounded bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10.5px] font-mono font-bold uppercase flex items-center gap-1 cursor-pointer transition-colors"
-                  title="Lock dossier for VTT Play"
-                >
-                  <Lock size={11} className="text-cyan-400" />
-                  <span>Lock</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.03);
-                    if (unlockPersona) {
-                      unlockPersona();
-                      setViewMode('builder');
-                    }
-                  }}
-                  className="px-2 py-1 rounded bg-amber-950/90 hover:bg-amber-900 border border-amber-500/60 text-amber-300 text-[10.5px] font-mono font-bold uppercase flex items-center gap-1 cursor-pointer transition-colors"
-                  title="Unlock sheet to make edits in Builder Mode"
-                >
-                  <Unlock size={11} className="text-amber-400" />
-                  <span>Unlock</span>
-                </button>
-              )}
             </div>
-          </div>
-        ) : activeTab === 'catalog' ? (
-          <div className="md:hidden flex items-center justify-between px-3 py-1.5 bg-[#121824] border-b border-slate-800">
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.02);
-                setIsSidebarOpen(!isSidebarOpen);
-              }}
-              className={`w-9.5 h-9.5 min-w-[38px] min-h-[38px] aspect-square rounded-none flex flex-col items-center justify-center transition-all cursor-pointer select-none border-[3px] border-double shrink-0 ${
-                isSidebarOpen
-                  ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_14px_rgba(34,211,238,0.55)]'
-                  : 'bg-[#090d16] hover:bg-cyan-950/80 border-cyan-400/80 hover:border-cyan-300 text-cyan-300 hover:text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
-              }`}
-              style={{ borderStyle: 'double' }}
-              title={isSidebarOpen ? "Close Folio Guide Rail" : "Open Folio Guide Rail"}
-              aria-label="Toggle Folio Guide Rail"
-            >
-              {isSidebarOpen ? <PanelLeftClose size={16} /> : <PanelLeftOpen size={16} />}
-              <span className="text-[7.5px] font-mono font-extrabold uppercase tracking-tight leading-none mt-0.5">
-                RAIL
-              </span>
-            </button>
-            <span className="text-xs font-mono font-bold text-cyan-300 uppercase">
-              Persona Catalog
-            </span>
-          </div>
-        ) : null}
+          }
+        />
 
         {/* Public Read-Only Banner */}
         {isReadOnly && (
@@ -751,137 +867,19 @@ const FolioContainer = () => {
           );
         })()}
 
-        {/* Tactical Play vs Builder Mode Switcher Banner (Desktop only - Mobile uses unified bar above) */}
-        {activeTab !== 'catalog' && (
-          <div className="hidden md:flex bg-[#101622] border-b border-slate-800 px-3 sm:px-5 py-2 items-center justify-between gap-2 shrink-0">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  triggerSave();
-                  setActiveTab('catalog');
-                }}
-                className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-cyan-300 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 transition-all flex items-center gap-1 cursor-pointer"
-                title="Return to Persona Catalog / Dossiers"
-              >
-                <span>&larr;</span>
-                <span className="hidden sm:inline">Catalog</span>
-              </button>
-
-              <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 shadow-inner">
-                <button
-                  type="button"
-                  onClick={() => setViewMode('builder')}
-                  className={`px-3 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                    viewMode === 'builder'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <span>🛠️ Builder Mode</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode('play')}
-                  className={`px-3 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                    (viewMode === 'play' || viewMode === 'preview')
-                      ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                  title="Switch to Live Tactical Sheet (VTT)"
-                >
-                  <span>⚔️ Tactical</span>
-                </button>
-              </div>
-
-              {isLocked ? (
-                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950/80 border border-cyan-500/60 text-cyan-300">
-                  <Lock size={10} className="text-cyan-400" />
-                  <span>VTT Ready</span>
-                </span>
-              ) : (
-                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-900 border border-slate-700 text-slate-400">
-                  <span>Development Phase</span>
-                </span>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2">
-              {/* Starting CP Budget Indicator & Modal Trigger */}
-              {(() => {
-                const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
-                const spentCP = computeSpentCP();
-                const isOver = spentCP > startingCP;
-                return (
-                  <button
-                    type="button"
-                    onClick={() => setIsEconomyOpen(true)}
-                    className={`px-2.5 py-1 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm ${
-                      isOver
-                        ? 'bg-red-950/80 hover:bg-red-900 border-red-500/80 text-red-200 animate-pulse'
-                        : 'bg-slate-950 hover:bg-slate-900 border-slate-800 hover:border-cyan-500/50 text-slate-300'
-                    }`}
-                    title={`Character Points Budget: ${spentCP}/${startingCP} CP spent. Click to modify starting budget (150 CP standard default) or inspect economy.`}
-                  >
-                    <span className="text-[10px] text-slate-500 hidden lg:inline">BUDGET:</span>
-                    <span className={isOver ? 'text-red-300 font-extrabold' : 'text-cyan-300 font-bold'}>
-                      {spentCP} / {startingCP} CP
-                    </span>
-                    <span className="text-[10px] text-cyan-400/80">⚙️</span>
-                  </button>
-                );
-              })()}
-
-              {!isLocked ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.03);
-                    if (lockPersona) {
-                      const ok = lockPersona();
-                      if (ok) setViewMode('play');
-                    }
-                  }}
-                  className="px-2.5 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all shadow-sm"
-                  title="Lock dossier and deploy directly into Tactical Play Mode"
-                >
-                  <Lock size={12} className="text-cyan-400" />
-                  <span>Lock for VTT (Play)</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.03);
-                    if (unlockPersona) {
-                      unlockPersona();
-                      setViewMode('builder');
-                    }
-                  }}
-                  className="px-2.5 py-1 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/60 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all shadow-sm"
-                  title="Unlock sheet to make edits in Builder Mode"
-                >
-                  <Unlock size={12} className="text-amber-400" />
-                  <span>Unlock Sheet</span>
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
         {/* Tab Content Display with ample padding to prevent viewport cutoff */}
         <div className={`flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20 ${(viewMode === 'play' || viewMode === 'preview') ? 'scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]' : ''}`} onBlur={() => triggerSave()}>
           {activeTab === 'catalog' ? (
             <RosterCatalogView
               personaRoster={personaRoster}
               activeDocId={characterData['character-doc-id']}
+              onToggleVttLock={togglePersonaVttLock}
               onSelectCharacter={(docId) => {
-                switchRosterCharacter(docId);
-                setActiveTab('identity');
+                handleSelectCharacter(docId, 'identity');
               }}
               onNewCharacter={() => {
                 handleNewCharacter();
-                setActiveTab('identity');
+                handleSelectTab('identity');
               }}
               onGuidedCreator={() => {
                 setIsGuidedCreatorOpen(true);
@@ -895,11 +893,11 @@ const FolioContainer = () => {
               publicCatalog={publicCatalog}
               onSelectPublicPersona={(char) => {
                 handleLoadCloud(char.id);
-                setActiveTab('identity');
+                handleSelectTab('identity', char.id);
               }}
               onClonePublicPersona={(char) => {
                 clonePublicPersona(char);
-                setActiveTab('identity');
+                handleSelectTab('identity');
               }}
             />
           ) : (viewMode === 'play' || viewMode === 'preview') ? (
@@ -933,7 +931,7 @@ const FolioContainer = () => {
               )}
               {activeTab === 'features' && (
                 <FeaturesHubView
-                  onSelectSection={(tabId) => setActiveTab(tabId)}
+                  onSelectSection={(tabId) => handleSelectTab(tabId)}
                   onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
                   onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
@@ -948,8 +946,8 @@ const FolioContainer = () => {
                     activeTab === 'features-metaphysics' || activeTab === 'features-awakened' ? 'metaphysics' :
                     'features'
                   }
-                  onBackToHub={() => setActiveTab('features')}
-                  onNavigate={(tabId) => setActiveTab(tabId)}
+                  onBackToHub={() => handleSelectTab('features')}
+                  onNavigate={(tabId) => handleSelectTab(tabId)}
                   onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
                   onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
@@ -967,7 +965,7 @@ const FolioContainer = () => {
               )}
               {activeTab === 'property' && (
                 <PropertyHubView
-                  onSelectSection={(tabId) => setActiveTab(tabId)}
+                  onSelectSection={(tabId) => handleSelectTab(tabId)}
                   onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
                 />
@@ -975,8 +973,8 @@ const FolioContainer = () => {
               {(activeTab.startsWith('property-') || activeTab === 'combat-gear') && (
                 <PropertyTab
                   activeSection={activeTab === 'combat-gear' ? 'gear' : activeTab.replace('property-', '')}
-                  onBackToHub={() => setActiveTab('property')}
-                  onNavigate={(tabId) => setActiveTab(tabId)}
+                  onBackToHub={() => handleSelectTab('property')}
+                  onNavigate={(tabId) => handleSelectTab(tabId)}
                   onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
                 />
@@ -1062,6 +1060,7 @@ const FolioContainer = () => {
             onClose={() => setIsRosterOpen(false)}
             personaRoster={personaRoster}
             activeDocId={characterData['character-doc-id']}
+            onToggleVttLock={togglePersonaVttLock}
             onSelectCharacter={(docId) => {
               switchRosterCharacter(docId);
               setActiveTab('identity');

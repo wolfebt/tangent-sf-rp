@@ -3,10 +3,26 @@
     "unit_id": "ter_martian_regolith",
     "name": "Martian Regolith",
     "category": "terrain_brush",
-    "tree_path": ["Environments", "Xeno-Biomes", "Desert", "Martian Surface"],
-    "tags": ["desert", "sand", "oxide", "difficult_terrain"],
-    "dimensions": [1, 1],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Environments",
+      "Xeno-Biomes",
+      "Desert",
+      "Martian Surface"
+    ],
+    "tags": [
+      "desert",
+      "sand",
+      "oxide",
+      "difficult_terrain"
+    ],
+    "dimensions": [
+      1,
+      1
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -14,8 +30,8 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/textures/ter_martian_regolith_thumb.webp",
-      "baseTexture": "/assets/textures/ter_martian_regolith.webp",
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ibXJCYXNlIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI3MCUiPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2MyNDEwYyIvPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSI2MCUiIHN0b3AtY29sb3I9IiM5YTM0MTIiLz4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzdjMmQxMiIvPgogICAgICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICAgIDwvZGVmcz4KICAgICAgPHJlY3Qgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIGZpbGw9InVybCgjbXJCYXNlKSIvPgogICAgICA8cGF0aCBkPSJNMCAyNCBRIDMyIDE2LCA2NCAyOCBUIDEyOCAyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWE1ODBjIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICAgIDxwYXRoIGQ9Ik0wIDU2IFEgNDAgNDYsIDgwIDYwIFQgMTI4IDUyIiBmaWxsPSJub25lIiBzdHJva2U9IiNlYTU4MGMiIHN0cm9rZS13aWR0aD0iMi41IiBvcGFjaXR5PSIwLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICA8cGF0aCBkPSJNMCA4OCBRIDMwIDc4LCA2NCA5MiBUIDEyOCA4NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWE1ODBjIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICAgIDxwYXRoIGQ9Ik0wIDExNCBRIDUwIDEwNiwgOTAgMTIwIFQgMTI4IDExMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmRiYTc0IiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC40IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgICAgPGNpcmNsZSBjeD0iMjgiIGN5PSI0MiIgcj0iMi41IiBmaWxsPSIjZmRiYTc0IiBvcGFjaXR5PSIwLjUiLz4KICAgICAgPGNpcmNsZSBjeD0iOTQiIGN5PSI3NCIgcj0iMiIgZmlsbD0iI2ZlZDdhYSIgb3BhY2l0eT0iMC42Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjQ4IiBjeT0iMTAyIiByPSIxLjUiIGZpbGw9IiNmOTczMTYiIG9wYWNpdHk9IjAuNyIvPgogICAgICA8Y2lyY2xlIGN4PSIxMTIiIGN5PSIzOCIgcj0iMyIgZmlsbD0iIzQzMTQwNyIgb3BhY2l0eT0iMC40Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjcyIiBjeT0iMTQiIHI9IjEuOCIgZmlsbD0iI2ZkYmE3NCIgb3BhY2l0eT0iMC41Ii8+CiAgICA8L3N2Zz4=",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ibXJCYXNlIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI3MCUiPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2MyNDEwYyIvPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSI2MCUiIHN0b3AtY29sb3I9IiM5YTM0MTIiLz4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzdjMmQxMiIvPgogICAgICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICAgIDwvZGVmcz4KICAgICAgPHJlY3Qgd2lkdGg9IjEyOCIgaGVpZ2h0PSIxMjgiIGZpbGw9InVybCgjbXJCYXNlKSIvPgogICAgICA8cGF0aCBkPSJNMCAyNCBRIDMyIDE2LCA2NCAyOCBUIDEyOCAyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWE1ODBjIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICAgIDxwYXRoIGQ9Ik0wIDU2IFEgNDAgNDYsIDgwIDYwIFQgMTI4IDUyIiBmaWxsPSJub25lIiBzdHJva2U9IiNlYTU4MGMiIHN0cm9rZS13aWR0aD0iMi41IiBvcGFjaXR5PSIwLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICA8cGF0aCBkPSJNMCA4OCBRIDMwIDc4LCA2NCA5MiBUIDEyOCA4NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZWE1ODBjIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgICAgIDxwYXRoIGQ9Ik0wIDExNCBRIDUwIDEwNiwgOTAgMTIwIFQgMTI4IDExMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmRiYTc0IiBzdHJva2Utd2lkdGg9IjEuNSIgb3BhY2l0eT0iMC40IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgICAgPGNpcmNsZSBjeD0iMjgiIGN5PSI0MiIgcj0iMi41IiBmaWxsPSIjZmRiYTc0IiBvcGFjaXR5PSIwLjUiLz4KICAgICAgPGNpcmNsZSBjeD0iOTQiIGN5PSI3NCIgcj0iMiIgZmlsbD0iI2ZlZDdhYSIgb3BhY2l0eT0iMC42Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjQ4IiBjeT0iMTAyIiByPSIxLjUiIGZpbGw9IiNmOTczMTYiIG9wYWNpdHk9IjAuNyIvPgogICAgICA8Y2lyY2xlIGN4PSIxMTIiIGN5PSIzOCIgcj0iMyIgZmlsbD0iIzQzMTQwNyIgb3BhY2l0eT0iMC40Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjcyIiBjeT0iMTQiIHI9IjEuOCIgZmlsbD0iI2ZkYmE3NCIgb3BhY2l0eT0iMC41Ii8+CiAgICA8L3N2Zz4=",
       "variants": [
         "/assets/textures/ter_martian_regolith_var_a.webp",
         "/assets/textures/ter_martian_regolith_var_b.webp"
@@ -38,10 +54,26 @@
     "unit_id": "ter_industrial_metal_deck",
     "name": "Industrial Deck Grating",
     "category": "terrain_brush",
-    "tree_path": ["Environments", "Constructed", "Industrial", "Steel Deck"],
-    "tags": ["metal", "scifi", "interior", "deck"],
-    "dimensions": [1, 1],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Environments",
+      "Constructed",
+      "Industrial",
+      "Steel Deck"
+    ],
+    "tags": [
+      "metal",
+      "scifi",
+      "interior",
+      "deck"
+    ],
+    "dimensions": [
+      1,
+      1
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -49,9 +81,11 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/textures/ter_metal_deck_thumb.webp",
-      "baseTexture": "/assets/textures/ter_metal_deck.webp",
-      "variants": ["/assets/textures/ter_metal_deck_var_a.webp"],
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiBmaWxsPSIjMWUyOTNiIi8+CiAgICAgIDxwYXRoIGQ9Ik0gMCAwIEwgMTI4IDEyOCBNIDMyIDAgTCAxMjggOTYgTSAwIDMyIEwgOTYgMTI4IE0gNjQgMCBMIDEyOCA2NCBNIDAgNjQgTCA2NCAxMjgiIHN0cm9rZT0iIzBmMTcyYSIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjgiLz4KICAgICAgPHBhdGggZD0iTSAwIDEyOCBMIDEyOCAwIE0gMCA5NiBMIDk2IDAgTSAzMiAxMjggTCAxMjggMzIgTSAwIDY0IEwgNjQgMCBNIDY0IDEyOCBMIDEyOCA2NCIgc3Ryb2tlPSIjMzM0MTU1IiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNiIvPgogICAgICA8cmVjdCB4PSI0IiB5PSI0IiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDc1NTY5IiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNCIgcng9IjQiLz4KICAgICAgPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjIuNSIgZmlsbD0iIzk0YTNiOCIvPgogICAgICA8Y2lyY2xlIGN4PSIxMjAiIGN5PSI4IiByPSIyLjUiIGZpbGw9IiM5NGEzYjgiLz4KICAgICAgPGNpcmNsZSBjeD0iOCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjY0IiBjeT0iNjQiIHI9IjMiIGZpbGw9IiMzOGJkZjgiIG9wYWNpdHk9IjAuOCIvPgogICAgPC9zdmc+",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiBmaWxsPSIjMWUyOTNiIi8+CiAgICAgIDxwYXRoIGQ9Ik0gMCAwIEwgMTI4IDEyOCBNIDMyIDAgTCAxMjggOTYgTSAwIDMyIEwgOTYgMTI4IE0gNjQgMCBMIDEyOCA2NCBNIDAgNjQgTCA2NCAxMjgiIHN0cm9rZT0iIzBmMTcyYSIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjgiLz4KICAgICAgPHBhdGggZD0iTSAwIDEyOCBMIDEyOCAwIE0gMCA5NiBMIDk2IDAgTSAzMiAxMjggTCAxMjggMzIgTSAwIDY0IEwgNjQgMCBNIDY0IDEyOCBMIDEyOCA2NCIgc3Ryb2tlPSIjMzM0MTU1IiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNiIvPgogICAgICA8cmVjdCB4PSI0IiB5PSI0IiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNDc1NTY5IiBzdHJva2Utd2lkdGg9IjIiIG9wYWNpdHk9IjAuNCIgcng9IjQiLz4KICAgICAgPGNpcmNsZSBjeD0iOCIgY3k9IjgiIHI9IjIuNSIgZmlsbD0iIzk0YTNiOCIvPgogICAgICA8Y2lyY2xlIGN4PSIxMjAiIGN5PSI4IiByPSIyLjUiIGZpbGw9IiM5NGEzYjgiLz4KICAgICAgPGNpcmNsZSBjeD0iOCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjEyMCIgY3k9IjEyMCIgcj0iMi41IiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjY0IiBjeT0iNjQiIHI9IjMiIGZpbGw9IiMzOGJkZjgiIG9wYWNpdHk9IjAuOCIvPgogICAgPC9zdmc+",
+      "variants": [
+        "/assets/textures/ter_metal_deck_var_a.webp"
+      ],
       "auto_tile": "none"
     },
     "vtt_properties": {
@@ -61,7 +95,7 @@
       "terrain": {
         "material": "metal_deck",
         "movementCost": 1,
-        "slipperyFriction": 1.0,
+        "slipperyFriction": 1,
         "footstepSfxCategory": "footstep_metal"
       }
     }
@@ -70,10 +104,27 @@
     "unit_id": "ter_bioluminescent_moss",
     "name": "Bioluminescent Xenomoss",
     "category": "terrain_brush",
-    "tree_path": ["Environments", "Xeno-Biomes", "Subterranean", "Bioluminescence"],
-    "tags": ["moss", "organic", "glow", "technomagic", "alien"],
-    "dimensions": [1, 1],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Environments",
+      "Xeno-Biomes",
+      "Subterranean",
+      "Bioluminescence"
+    ],
+    "tags": [
+      "moss",
+      "organic",
+      "glow",
+      "technomagic",
+      "alien"
+    ],
+    "dimensions": [
+      1,
+      1
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -81,9 +132,11 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/textures/ter_biolum_moss_thumb.webp",
-      "baseTexture": "/assets/textures/ter_biolum_moss.webp",
-      "variants": ["/assets/textures/ter_biolum_moss_var_a.webp"],
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iYmlvR2xvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMyMmQzZWUiIHN0b3Atb3BhY2l0eT0iMC45Ii8+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzEwYjk4MSIgc3RvcC1vcGFjaXR5PSIwLjQiLz4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzA1MmUxNiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICAgICAgPC9yYWRpYWxHcmFkaWVudD4KICAgICAgPC9kZWZzPgogICAgICA8cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzA1MmUxNiIvPgogICAgICA8Y2lyY2xlIGN4PSIzNiIgY3k9IjQwIiByPSIyOCIgZmlsbD0iIzE0NTMyZCIgb3BhY2l0eT0iMC44Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjkyIiBjeT0iNDgiIHI9IjI0IiBmaWxsPSIjMDY1ZjQ2IiBvcGFjaXR5PSIwLjc1Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjYwIiBjeT0iOTIiIHI9IjMyIiBmaWxsPSIjMTY2NTM0IiBvcGFjaXR5PSIwLjg1Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iNDAiIHI9IjE2IiBmaWxsPSJ1cmwoI2Jpb0dsb3cpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjkyIiBjeT0iNDgiIHI9IjE0IiBmaWxsPSJ1cmwoI2Jpb0dsb3cpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjYwIiBjeT0iOTIiIHI9IjIwIiBmaWxsPSJ1cmwoI2Jpb0dsb3cpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iNDAiIHI9IjQiIGZpbGw9IiM2N2U4ZjkiLz4KICAgICAgPGNpcmNsZSBjeD0iOTIiIGN5PSI0OCIgcj0iMyIgZmlsbD0iI2E3ZjNkMCIvPgogICAgICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjkyIiByPSI1IiBmaWxsPSIjNmVlN2I3Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjE4IiBjeT0iODUiIHI9IjIiIGZpbGw9IiMzOGJkZjgiLz4KICAgICAgPGNpcmNsZSBjeD0iMTA4IiBjeT0iMTgiIHI9IjIuNSIgZmlsbD0iIzM0ZDM5OSIvPgogICAgPC9zdmc+",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iYmlvR2xvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMyMmQzZWUiIHN0b3Atb3BhY2l0eT0iMC45Ii8+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzEwYjk4MSIgc3RvcC1vcGFjaXR5PSIwLjQiLz4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzA1MmUxNiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICAgICAgPC9yYWRpYWxHcmFkaWVudD4KICAgICAgPC9kZWZzPgogICAgICA8cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzA1MmUxNiIvPgogICAgICA8Y2lyY2xlIGN4PSIzNiIgY3k9IjQwIiByPSIyOCIgZmlsbD0iIzE0NTMyZCIgb3BhY2l0eT0iMC44Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjkyIiBjeT0iNDgiIHI9IjI0IiBmaWxsPSIjMDY1ZjQ2IiBvcGFjaXR5PSIwLjc1Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjYwIiBjeT0iOTIiIHI9IjMyIiBmaWxsPSIjMTY2NTM0IiBvcGFjaXR5PSIwLjg1Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iNDAiIHI9IjE2IiBmaWxsPSJ1cmwoI2Jpb0dsb3cpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjkyIiBjeT0iNDgiIHI9IjE0IiBmaWxsPSJ1cmwoI2Jpb0dsb3cpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjYwIiBjeT0iOTIiIHI9IjIwIiBmaWxsPSJ1cmwoI2Jpb0dsb3cpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iNDAiIHI9IjQiIGZpbGw9IiM2N2U4ZjkiLz4KICAgICAgPGNpcmNsZSBjeD0iOTIiIGN5PSI0OCIgcj0iMyIgZmlsbD0iI2E3ZjNkMCIvPgogICAgICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjkyIiByPSI1IiBmaWxsPSIjNmVlN2I3Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjE4IiBjeT0iODUiIHI9IjIiIGZpbGw9IiMzOGJkZjgiLz4KICAgICAgPGNpcmNsZSBjeD0iMTA4IiBjeT0iMTgiIHI9IjIuNSIgZmlsbD0iIzM0ZDM5OSIvPgogICAgPC9zdmc+",
+      "variants": [
+        "/assets/textures/ter_biolum_moss_var_a.webp"
+      ],
       "auto_tile": "marching_squares_8bit"
     },
     "vtt_properties": {
@@ -111,10 +164,27 @@
     "unit_id": "prop_holo_tactical_table",
     "name": "Holographic War Table",
     "category": "doodad",
-    "tree_path": ["Props", "Sci-Fi", "Command & Control", "Holotables"],
-    "tags": ["console", "command", "hologram", "cover_half", "illuminated"],
-    "dimensions": [2, 2],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Props",
+      "Sci-Fi",
+      "Command & Control",
+      "Holotables"
+    ],
+    "tags": [
+      "console",
+      "command",
+      "hologram",
+      "cover_half",
+      "illuminated"
+    ],
+    "dimensions": [
+      2,
+      2
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -122,8 +192,8 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/props/holo_table_thumb.webp",
-      "baseTexture": "/assets/props/holo_table.webp",
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iMjQiIGZpbGw9IiMwZjE3MmEiIHN0cm9rZT0iIzAyODRjNyIgc3Ryb2tlLXdpZHRoPSI0Ii8+CiAgICAgIDxlbGxpcHNlIGN4PSI2NCIgY3k9IjY0IiByeD0iNDYiIHJ5PSIzNCIgZmlsbD0iIzAzNjlhMSIgc3Ryb2tlPSIjMzhiZGY4IiBzdHJva2Utd2lkdGg9IjIuNSIvPgogICAgICA8ZWxsaXBzZSBjeD0iNjQiIGN5PSI2NCIgcng9IjMwIiByeT0iMjAiIGZpbGw9IiMwODJmNDkiIHN0cm9rZT0iIzIyZDNlZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjYsMyIvPgogICAgICA8Y2lyY2xlIGN4PSI2NCIgY3k9IjY0IiByPSI4IiBmaWxsPSIjMjJkM2VlIiBvcGFjaXR5PSIwLjkiLz4KICAgICAgPGNpcmNsZSBjeD0iNDgiIGN5PSI1NiIgcj0iMyIgZmlsbD0iI2ZhY2MxNSIvPgogICAgICA8Y2lyY2xlIGN4PSI3OCIgY3k9IjcwIiByPSIzLjUiIGZpbGw9IiNmNDNmNWUiLz4KICAgICAgPGxpbmUgeDE9IjQ4IiB5MT0iNTYiIHgyPSI2NCIgeTI9IjY0IiBzdHJva2U9IiNmZWYwOGEiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjciLz4KICAgICAgPGxpbmUgeDE9IjY0IiB5MT0iNjQiIHgyPSI3OCIgeTI9IjcwIiBzdHJva2U9IiNmNDNmNWUiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjciLz4KICAgICAgPHJlY3QgeD0iMjAiIHk9IjEwNCIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjgiIHJ4PSIzIiBmaWxsPSIjMWUyOTNiIiBzdHJva2U9IiMwMjg0YzciIHN0cm9rZS13aWR0aD0iMSIvPgogICAgPC9zdmc+",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiByeD0iMjQiIGZpbGw9IiMwZjE3MmEiIHN0cm9rZT0iIzAyODRjNyIgc3Ryb2tlLXdpZHRoPSI0Ii8+CiAgICAgIDxlbGxpcHNlIGN4PSI2NCIgY3k9IjY0IiByeD0iNDYiIHJ5PSIzNCIgZmlsbD0iIzAzNjlhMSIgc3Ryb2tlPSIjMzhiZGY4IiBzdHJva2Utd2lkdGg9IjIuNSIvPgogICAgICA8ZWxsaXBzZSBjeD0iNjQiIGN5PSI2NCIgcng9IjMwIiByeT0iMjAiIGZpbGw9IiMwODJmNDkiIHN0cm9rZT0iIzIyZDNlZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjYsMyIvPgogICAgICA8Y2lyY2xlIGN4PSI2NCIgY3k9IjY0IiByPSI4IiBmaWxsPSIjMjJkM2VlIiBvcGFjaXR5PSIwLjkiLz4KICAgICAgPGNpcmNsZSBjeD0iNDgiIGN5PSI1NiIgcj0iMyIgZmlsbD0iI2ZhY2MxNSIvPgogICAgICA8Y2lyY2xlIGN4PSI3OCIgY3k9IjcwIiByPSIzLjUiIGZpbGw9IiNmNDNmNWUiLz4KICAgICAgPGxpbmUgeDE9IjQ4IiB5MT0iNTYiIHgyPSI2NCIgeTI9IjY0IiBzdHJva2U9IiNmZWYwOGEiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjciLz4KICAgICAgPGxpbmUgeDE9IjY0IiB5MT0iNjQiIHgyPSI3OCIgeTI9IjcwIiBzdHJva2U9IiNmNDNmNWUiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjciLz4KICAgICAgPHJlY3QgeD0iMjAiIHk9IjEwNCIgd2lkdGg9Ijg4IiBoZWlnaHQ9IjgiIHJ4PSIzIiBmaWxsPSIjMWUyOTNiIiBzdHJva2U9IiMwMjg0YzciIHN0cm9rZS13aWR0aD0iMSIvPgogICAgPC9zdmc+",
       "variants": [],
       "auto_tile": "none"
     },
@@ -135,7 +205,10 @@
         "cover": "half_cover",
         "isDestructible": true,
         "structureHp": 40,
-        "armorDr": { "kinetic": 8, "energy": 12 },
+        "armorDr": {
+          "kinetic": 8,
+          "energy": 12
+        },
         "isContainer": false,
         "interactionTrigger": {
           "type": "terminal",
@@ -156,7 +229,10 @@
     },
     "scatter_rules": {
       "allow_rotation": true,
-      "scale_variance": [1.0, 1.0],
+      "scale_variance": [
+        1,
+        1
+      ],
       "avoid_center": false,
       "cluster_affinity": false,
       "clearance_radius_cells": 1
@@ -166,10 +242,27 @@
     "unit_id": "prop_plastisteel_cargo_crate",
     "name": "Plastisteel Cargo Crate",
     "category": "doodad",
-    "tree_path": ["Props", "Industrial", "Logistics", "Crates"],
-    "tags": ["crate", "container", "cover_full", "scatter", "industrial"],
-    "dimensions": [1, 1],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Props",
+      "Industrial",
+      "Logistics",
+      "Crates"
+    ],
+    "tags": [
+      "crate",
+      "container",
+      "cover_full",
+      "scatter",
+      "industrial"
+    ],
+    "dimensions": [
+      1,
+      1
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -177,8 +270,8 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/props/cargo_crate_thumb.webp",
-      "baseTexture": "/assets/props/cargo_crate.webp",
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHg9IjEyIiB5PSIyNCIgd2lkdGg9IjEwNCIgaGVpZ2h0PSI4MCIgcng9IjEwIiBmaWxsPSIjMzM0MTU1IiBzdHJva2U9IiNmNTllMGIiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgICA8cmVjdCB4PSIyMCIgeT0iMzIiIHdpZHRoPSI4OCIgaGVpZ2h0PSI2NCIgZmlsbD0iIzFlMjkzYiIgc3Ryb2tlPSIjNjQ3NDhiIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPGxpbmUgeDE9IjIwIiB5MT0iMzIiIHgyPSIxMDgiIHkyPSI5NiIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNyIvPgogICAgICA8bGluZSB4MT0iMjAiIHkxPSI5NiIgeDI9IjEwOCIgeTI9IjMyIiBzdHJva2U9IiNmNTllMGIiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC43Ii8+CiAgICAgIDxyZWN0IHg9IjUyIiB5PSI1MiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzBmMTcyYSIgc3Ryb2tlPSIjZmFjYzE1IiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgcj0iNCIgZmlsbD0iIzIyYzU1ZSIvPgogICAgICA8Y2lyY2xlIGN4PSIxOCIgY3k9IjMwIiByPSIzIiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjExMCIgY3k9IjMwIiByPSIzIiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjE4IiBjeT0iOTgiIHI9IjMiIGZpbGw9IiM5NGEzYjgiLz4KICAgICAgPGNpcmNsZSBjeD0iMTEwIiBjeT0iOTgiIHI9IjMiIGZpbGw9IiM5NGEzYjgiLz4KICAgIDwvc3ZnPg==",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHg9IjEyIiB5PSIyNCIgd2lkdGg9IjEwNCIgaGVpZ2h0PSI4MCIgcng9IjEwIiBmaWxsPSIjMzM0MTU1IiBzdHJva2U9IiNmNTllMGIiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgICA8cmVjdCB4PSIyMCIgeT0iMzIiIHdpZHRoPSI4OCIgaGVpZ2h0PSI2NCIgZmlsbD0iIzFlMjkzYiIgc3Ryb2tlPSIjNjQ3NDhiIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPGxpbmUgeDE9IjIwIiB5MT0iMzIiIHgyPSIxMDgiIHkyPSI5NiIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjMiIG9wYWNpdHk9IjAuNyIvPgogICAgICA8bGluZSB4MT0iMjAiIHkxPSI5NiIgeDI9IjEwOCIgeTI9IjMyIiBzdHJva2U9IiNmNTllMGIiIHN0cm9rZS13aWR0aD0iMyIgb3BhY2l0eT0iMC43Ii8+CiAgICAgIDxyZWN0IHg9IjUyIiB5PSI1MiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzBmMTcyYSIgc3Ryb2tlPSIjZmFjYzE1IiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgcj0iNCIgZmlsbD0iIzIyYzU1ZSIvPgogICAgICA8Y2lyY2xlIGN4PSIxOCIgY3k9IjMwIiByPSIzIiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjExMCIgY3k9IjMwIiByPSIzIiBmaWxsPSIjOTRhM2I4Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjE4IiBjeT0iOTgiIHI9IjMiIGZpbGw9IiM5NGEzYjgiLz4KICAgICAgPGNpcmNsZSBjeD0iMTEwIiBjeT0iOTgiIHI9IjMiIGZpbGw9IiM5NGEzYjgiLz4KICAgIDwvc3ZnPg==",
       "variants": [
         "/assets/props/cargo_crate_rust.webp",
         "/assets/props/cargo_crate_yellow.webp"
@@ -193,7 +286,10 @@
         "cover": "full_cover",
         "isDestructible": true,
         "structureHp": 60,
-        "armorDr": { "kinetic": 15, "energy": 10 },
+        "armorDr": {
+          "kinetic": 15,
+          "energy": 10
+        },
         "isContainer": true,
         "containerDetails": {
           "isLocked": true,
@@ -205,7 +301,10 @@
     },
     "scatter_rules": {
       "allow_rotation": true,
-      "scale_variance": [0.9, 1.1],
+      "scale_variance": [
+        0.9,
+        1.1
+      ],
       "avoid_center": true,
       "cluster_affinity": true,
       "clearance_radius_cells": 0
@@ -215,10 +314,28 @@
     "unit_id": "prop_cyber_lich_mainframe",
     "name": "Cyber-Lich Phylactery Server",
     "category": "doodad",
-    "tree_path": ["Props", "Technomagic", "Necrotechnology", "Phylacteries"],
-    "tags": ["lich", "phylactery", "necromancy", "server", "eldritch", "boss"],
-    "dimensions": [2, 2],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Props",
+      "Technomagic",
+      "Necrotechnology",
+      "Phylacteries"
+    ],
+    "tags": [
+      "lich",
+      "phylactery",
+      "necromancy",
+      "server",
+      "eldritch",
+      "boss"
+    ],
+    "dimensions": [
+      2,
+      2
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -226,8 +343,8 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/props/lich_server_thumb.webp",
-      "baseTexture": "/assets/props/lich_server.webp",
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHg9IjE4IiB5PSIxMCIgd2lkdGg9IjkyIiBoZWlnaHQ9IjEwOCIgcng9IjgiIGZpbGw9IiMwOTBkMTYiIHN0cm9rZT0iIzhiNWNmNiIgc3Ryb2tlLXdpZHRoPSI0Ii8+CiAgICAgIDxyZWN0IHg9IjI2IiB5PSIyMCIgd2lkdGg9Ijc2IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMWUxYjRiIiBzdHJva2U9IiNhODU1ZjciIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iMzIiIHI9IjMiIGZpbGw9IiMyMmM1NWUiLz4KICAgICAgPGNpcmNsZSBjeD0iNDYiIGN5PSIzMiIgcj0iMyIgZmlsbD0iIzIyYzU1ZSIvPgogICAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjMyIiByPSIzIiBmaWxsPSIjZjQzZjVlIi8+CiAgICAgIDxjaXJjbGUgY3g9Ijg4IiBjeT0iMzIiIHI9IjQiIGZpbGw9IiMzOGJkZjgiLz4KICAgICAgPHJlY3QgeD0iMjYiIHk9IjUwIiB3aWR0aD0iNzYiIGhlaWdodD0iNDIiIGZpbGw9IiMxNzI1NTQiIHN0cm9rZT0iIzA2YjZkNCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iNjQsNTQgNzgsNjQgNzIsODIgNTYsODIgNTAsNjQiIGZpbGw9IiMzYjA3NjQiIHN0cm9rZT0iI2MwMjZkMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDxjaXJjbGUgY3g9IjU4IiBjeT0iNjYiIHI9IjMiIGZpbGw9IiMyMmQzZWUiLz4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI2NiIgcj0iMyIgZmlsbD0iIzIyZDNlZSIvPgogICAgICA8cmVjdCB4PSIyNiIgeT0iOTgiIHdpZHRoPSI3NiIgaGVpZ2h0PSIxMiIgZmlsbD0iIzFlMjkzYiIgc3Ryb2tlPSIjNDc1NTY5IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDwvc3ZnPg==",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHg9IjE4IiB5PSIxMCIgd2lkdGg9IjkyIiBoZWlnaHQ9IjEwOCIgcng9IjgiIGZpbGw9IiMwOTBkMTYiIHN0cm9rZT0iIzhiNWNmNiIgc3Ryb2tlLXdpZHRoPSI0Ii8+CiAgICAgIDxyZWN0IHg9IjI2IiB5PSIyMCIgd2lkdGg9Ijc2IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMWUxYjRiIiBzdHJva2U9IiNhODU1ZjciIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iMzIiIHI9IjMiIGZpbGw9IiMyMmM1NWUiLz4KICAgICAgPGNpcmNsZSBjeD0iNDYiIGN5PSIzMiIgcj0iMyIgZmlsbD0iIzIyYzU1ZSIvPgogICAgICA8Y2lyY2xlIGN4PSI1NiIgY3k9IjMyIiByPSIzIiBmaWxsPSIjZjQzZjVlIi8+CiAgICAgIDxjaXJjbGUgY3g9Ijg4IiBjeT0iMzIiIHI9IjQiIGZpbGw9IiMzOGJkZjgiLz4KICAgICAgPHJlY3QgeD0iMjYiIHk9IjUwIiB3aWR0aD0iNzYiIGhlaWdodD0iNDIiIGZpbGw9IiMxNzI1NTQiIHN0cm9rZT0iIzA2YjZkNCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iNjQsNTQgNzgsNjQgNzIsODIgNTYsODIgNTAsNjQiIGZpbGw9IiMzYjA3NjQiIHN0cm9rZT0iI2MwMjZkMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDxjaXJjbGUgY3g9IjU4IiBjeT0iNjYiIHI9IjMiIGZpbGw9IiMyMmQzZWUiLz4KICAgICAgPGNpcmNsZSBjeD0iNzAiIGN5PSI2NiIgcj0iMyIgZmlsbD0iIzIyZDNlZSIvPgogICAgICA8cmVjdCB4PSIyNiIgeT0iOTgiIHdpZHRoPSI3NiIgaGVpZ2h0PSIxMiIgZmlsbD0iIzFlMjkzYiIgc3Ryb2tlPSIjNDc1NTY5IiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDwvc3ZnPg==",
       "variants": [],
       "auto_tile": "none"
     },
@@ -239,7 +356,10 @@
         "cover": "full_cover",
         "isDestructible": true,
         "structureHp": 150,
-        "armorDr": { "kinetic": 20, "energy": 25 },
+        "armorDr": {
+          "kinetic": 20,
+          "energy": 25
+        },
         "breakDc": 22,
         "isContainer": false,
         "interactionTrigger": {
@@ -264,10 +384,27 @@
     "unit_id": "wall_titanium_blast_bulkhead",
     "name": "Reinforced Blast Bulkhead",
     "category": "wall_portal",
-    "tree_path": ["Architecture", "Portals", "Bulkheads", "Heavy Doors"],
-    "tags": ["door", "bulkhead", "impassable", "security", "airlock"],
-    "dimensions": [2, 1],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Architecture",
+      "Portals",
+      "Bulkheads",
+      "Heavy Doors"
+    ],
+    "tags": [
+      "door",
+      "bulkhead",
+      "impassable",
+      "security",
+      "airlock"
+    ],
+    "dimensions": [
+      2,
+      1
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -275,9 +412,11 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/walls/bulkhead_thumb.webp",
-      "baseTexture": "/assets/walls/bulkhead_closed.webp",
-      "variants": ["/assets/walls/bulkhead_open.webp"],
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSIxMTIiIGhlaWdodD0iMTEyIiByeD0iMTIiIGZpbGw9IiMxZTI5M2IiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgICAgIDxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9Ijg4IiBoZWlnaHQ9Ijg4IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiNjYmQ1ZTEiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8bGluZSB4MT0iNjQiIHkxPSIyMCIgeDI9IjY0IiB5Mj0iMTA4IiBzdHJva2U9IiMzOGJkZjgiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgICA8Y2lyY2xlIGN4PSI2NCIgY3k9IjY0IiByPSIxNiIgZmlsbD0iIzMzNDE1NSIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjMiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgcj0iNiIgZmlsbD0iI2ZhY2MxNSIvPgogICAgICA8cmVjdCB4PSIyNCIgeT0iMjQiIHdpZHRoPSIyMCIgaGVpZ2h0PSI2IiBmaWxsPSIjZWFiMzA4Ii8+CiAgICAgIDxyZWN0IHg9Ijg0IiB5PSIyNCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjYiIGZpbGw9IiNlYWIzMDgiLz4KICAgICAgPHJlY3QgeD0iMjQiIHk9Ijk4IiB3aWR0aD0iMjAiIGhlaWdodD0iNiIgZmlsbD0iI2VhYjMwOCIvPgogICAgICA8cmVjdCB4PSI4NCIgeT0iOTgiIHdpZHRoPSIyMCIgaGVpZ2h0PSI2IiBmaWxsPSIjZWFiMzA4Ii8+CiAgICA8L3N2Zz4=",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxyZWN0IHg9IjgiIHk9IjgiIHdpZHRoPSIxMTIiIGhlaWdodD0iMTEyIiByeD0iMTIiIGZpbGw9IiMxZTI5M2IiIHN0cm9rZT0iIzk0YTNiOCIgc3Ryb2tlLXdpZHRoPSI1Ii8+CiAgICAgIDxyZWN0IHg9IjIwIiB5PSIyMCIgd2lkdGg9Ijg4IiBoZWlnaHQ9Ijg4IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiNjYmQ1ZTEiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8bGluZSB4MT0iNjQiIHkxPSIyMCIgeDI9IjY0IiB5Mj0iMTA4IiBzdHJva2U9IiMzOGJkZjgiIHN0cm9rZS13aWR0aD0iNCIvPgogICAgICA8Y2lyY2xlIGN4PSI2NCIgY3k9IjY0IiByPSIxNiIgZmlsbD0iIzMzNDE1NSIgc3Ryb2tlPSIjZjU5ZTBiIiBzdHJva2Utd2lkdGg9IjMiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgcj0iNiIgZmlsbD0iI2ZhY2MxNSIvPgogICAgICA8cmVjdCB4PSIyNCIgeT0iMjQiIHdpZHRoPSIyMCIgaGVpZ2h0PSI2IiBmaWxsPSIjZWFiMzA4Ii8+CiAgICAgIDxyZWN0IHg9Ijg0IiB5PSIyNCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjYiIGZpbGw9IiNlYWIzMDgiLz4KICAgICAgPHJlY3QgeD0iMjQiIHk9Ijk4IiB3aWR0aD0iMjAiIGhlaWdodD0iNiIgZmlsbD0iI2VhYjMwOCIvPgogICAgICA8cmVjdCB4PSI4NCIgeT0iOTgiIHdpZHRoPSIyMCIgaGVpZ2h0PSI2IiBmaWxsPSIjZWFiMzA4Ii8+CiAgICA8L3N2Zz4=",
+      "variants": [
+        "/assets/walls/bulkhead_open.webp"
+      ],
       "auto_tile": "none"
     },
     "vtt_properties": {
@@ -300,10 +439,27 @@
     "unit_id": "hazard_superheated_plasma_leak",
     "name": "Superheated Plasma Breach",
     "category": "hazard",
-    "tree_path": ["Hazards", "Technological", "Thermal", "Plasma"],
-    "tags": ["hazard", "plasma", "fire", "deadly", "energy"],
-    "dimensions": [1, 1],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Hazards",
+      "Technological",
+      "Thermal",
+      "Plasma"
+    ],
+    "tags": [
+      "hazard",
+      "plasma",
+      "fire",
+      "deadly",
+      "energy"
+    ],
+    "dimensions": [
+      1,
+      1
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -311,9 +467,11 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/hazards/plasma_leak_thumb.webp",
-      "baseTexture": "/assets/hazards/plasma_leak.webp",
-      "variants": ["/assets/hazards/plasma_leak_var_a.webp"],
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0icGxhc21hR2xvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiLz4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMzAlIiBzdG9wLWNvbG9yPSIjZmFjYzE1Ii8+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjcwJSIgc3RvcC1jb2xvcj0iI2VmNDQ0NCIvPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMTgxODFiIi8+CiAgICAgICAgPC9yYWRpYWxHcmFkaWVudD4KICAgICAgPC9kZWZzPgogICAgICA8cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzE4MTgxYiIvPgogICAgICA8ZWxsaXBzZSBjeD0iNjQiIGN5PSI2NCIgcng9IjUyIiByeT0iNDAiIGZpbGw9InVybCgjcGxhc21hR2xvdykiLz4KICAgICAgPHBhdGggZD0iTTE2IDY0IFEgNDAgNDAsIDY0IDY0IFQgMTEyIDY0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2N2U4ZjkiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iMC45Ii8+CiAgICAgIDxwYXRoIGQ9Ik02NCAxNiBRIDgwIDQwLCA2NCA2NCBUIDY0IDExMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmVmMDhhIiBzdHJva2Utd2lkdGg9IjMuNSIgb3BhY2l0eT0iMC44Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjY0IiBjeT0iNjQiIHI9IjEwIiBmaWxsPSIjZmZmZmZmIi8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iNTAiIHI9IjMiIGZpbGw9IiNmOTczMTYiLz4KICAgICAgPGNpcmNsZSBjeD0iOTAiIGN5PSI3NCIgcj0iMy41IiBmaWxsPSIjZjQzZjVlIi8+CiAgICA8L3N2Zz4=",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0icGxhc21hR2xvdyIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiLz4KICAgICAgICAgIDxzdG9wIG9mZnNldD0iMzAlIiBzdG9wLWNvbG9yPSIjZmFjYzE1Ii8+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjcwJSIgc3RvcC1jb2xvcj0iI2VmNDQ0NCIvPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMTgxODFiIi8+CiAgICAgICAgPC9yYWRpYWxHcmFkaWVudD4KICAgICAgPC9kZWZzPgogICAgICA8cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzE4MTgxYiIvPgogICAgICA8ZWxsaXBzZSBjeD0iNjQiIGN5PSI2NCIgcng9IjUyIiByeT0iNDAiIGZpbGw9InVybCgjcGxhc21hR2xvdykiLz4KICAgICAgPHBhdGggZD0iTTE2IDY0IFEgNDAgNDAsIDY0IDY0IFQgMTEyIDY0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2N2U4ZjkiIHN0cm9rZS13aWR0aD0iNCIgb3BhY2l0eT0iMC45Ii8+CiAgICAgIDxwYXRoIGQ9Ik02NCAxNiBRIDgwIDQwLCA2NCA2NCBUIDY0IDExMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmVmMDhhIiBzdHJva2Utd2lkdGg9IjMuNSIgb3BhY2l0eT0iMC44Ii8+CiAgICAgIDxjaXJjbGUgY3g9IjY0IiBjeT0iNjQiIHI9IjEwIiBmaWxsPSIjZmZmZmZmIi8+CiAgICAgIDxjaXJjbGUgY3g9IjM2IiBjeT0iNTAiIHI9IjMiIGZpbGw9IiNmOTczMTYiLz4KICAgICAgPGNpcmNsZSBjeD0iOTAiIGN5PSI3NCIgcj0iMy41IiBmaWxsPSIjZjQzZjVlIi8+CiAgICA8L3N2Zz4=",
+      "variants": [
+        "/assets/hazards/plasma_leak_var_a.webp"
+      ],
       "auto_tile": "marching_squares_4bit"
     },
     "vtt_properties": {
@@ -324,7 +482,10 @@
         "hazardType": "plasma_leak",
         "damageFormula": "3d10+6 plasma",
         "triggerTiming": "on_enter",
-        "saveDc": { "attribute": "agility", "target": 15 },
+        "saveDc": {
+          "attribute": "agility",
+          "target": 15
+        },
         "particlePreset": "plasma_sparks"
       },
       "dynamicLighting": {
@@ -342,10 +503,28 @@
     "unit_id": "veh_bipedal_titan_mech",
     "name": "Titan Heavy Assault Mech",
     "category": "vehicle",
-    "tree_path": ["Vehicles", "Combat Mecha", "Bipedal", "Heavy Assault"],
-    "tags": ["vehicle", "mech", "combat", "heavy", "hardpoints", "walker"],
-    "dimensions": [3, 3],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Vehicles",
+      "Combat Mecha",
+      "Bipedal",
+      "Heavy Assault"
+    ],
+    "tags": [
+      "vehicle",
+      "mech",
+      "combat",
+      "heavy",
+      "hardpoints",
+      "walker"
+    ],
+    "dimensions": [
+      3,
+      3
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -353,8 +532,8 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/vehicles/titan_mech_thumb.webp",
-      "baseTexture": "/assets/vehicles/titan_mech.webp",
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iNjQsMTYgOTIsMzQgODQsNzIgNDQsNzIgMzYsMzQiIGZpbGw9IiMxZTI5M2IiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iNTIsMzggNzYsMzggNzIsNTAgNTYsNTAiIGZpbGw9IiMyMmQzZWUiIHN0cm9rZT0iI2UwZjJmZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICAgICAgPHJlY3QgeD0iMTgiIHk9IjMwIiB3aWR0aD0iMTgiIGhlaWdodD0iNDIiIHJ4PSI0IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMwMjg0YzciIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8bGluZSB4MT0iMjciIHkxPSI3MiIgeDI9IjI3IiB5Mj0iODgiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgICAgPHJlY3QgeD0iOTIiIHk9IjMwIiB3aWR0aD0iMTgiIGhlaWdodD0iNDIiIHJ4PSI0IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMwMjg0YzciIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8bGluZSB4MT0iMTAxIiB5MT0iNzIiIHgyPSIxMDEiIHkyPSI4OCIgc3Ryb2tlPSIjMzhiZGY4IiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICA8cG9seWdvbiBwb2ludHM9IjQ0LDcyIDM2LDEwNCAyNiwxMTQgNDgsMTE0IDQ4LDk2IDUyLDcyIiBmaWxsPSIjMzM0MTU1IiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8cG9seWdvbiBwb2ludHM9Ijg0LDcyIDkyLDEwNCAxMDIsMTE0IDgwLDExNCA4MCw5NiA3Niw3MiIgZmlsbD0iIzMzNDE1NSIgc3Ryb2tlPSIjNjQ3NDhiIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSIyNCIgcj0iNCIgZmlsbD0iI2ZhY2MxNSIvPgogICAgPC9zdmc+",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iNjQsMTYgOTIsMzQgODQsNzIgNDQsNzIgMzYsMzQiIGZpbGw9IiMxZTI5M2IiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSIzIi8+CiAgICAgIDxwb2x5Z29uIHBvaW50cz0iNTIsMzggNzYsMzggNzIsNTAgNTYsNTAiIGZpbGw9IiMyMmQzZWUiIHN0cm9rZT0iI2UwZjJmZSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICAgICAgPHJlY3QgeD0iMTgiIHk9IjMwIiB3aWR0aD0iMTgiIGhlaWdodD0iNDIiIHJ4PSI0IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMwMjg0YzciIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8bGluZSB4MT0iMjciIHkxPSI3MiIgeDI9IjI3IiB5Mj0iODgiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgICAgPHJlY3QgeD0iOTIiIHk9IjMwIiB3aWR0aD0iMTgiIGhlaWdodD0iNDIiIHJ4PSI0IiBmaWxsPSIjMGYxNzJhIiBzdHJva2U9IiMwMjg0YzciIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8bGluZSB4MT0iMTAxIiB5MT0iNzIiIHgyPSIxMDEiIHkyPSI4OCIgc3Ryb2tlPSIjMzhiZGY4IiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogICAgICA8cG9seWdvbiBwb2ludHM9IjQ0LDcyIDM2LDEwNCAyNiwxMTQgNDgsMTE0IDQ4LDk2IDUyLDcyIiBmaWxsPSIjMzM0MTU1IiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8cG9seWdvbiBwb2ludHM9Ijg0LDcyIDkyLDEwNCAxMDIsMTE0IDgwLDExNCA4MCw5NiA3Niw3MiIgZmlsbD0iIzMzNDE1NSIgc3Ryb2tlPSIjNjQ3NDhiIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSIyNCIgcj0iNCIgZmlsbD0iI2ZhY2MxNSIvPgogICAgPC9zdmc+",
       "variants": [],
       "auto_tile": "none"
     },
@@ -363,17 +542,52 @@
       "blocks_vision": true,
       "z_index_layer": "tokens",
       "vehicleHull": {
-        "hullDr": { "kinetic": 30, "energy": 25 },
+        "hullDr": {
+          "kinetic": 30,
+          "energy": 25
+        },
         "structureMaxHp": 400,
         "speedMph": 35,
         "handlingModifier": -3,
         "passengerNodes": [
-          { "id": "cockpit_pilot", "role": "pilot", "cellOffset": [1, 1], "zOverride": "roof_canopy" },
-          { "id": "rear_gunner", "role": "gunner", "cellOffset": [1, 2], "zOverride": "roof_canopy" }
+          {
+            "id": "cockpit_pilot",
+            "role": "pilot",
+            "cellOffset": [
+              1,
+              1
+            ],
+            "zOverride": "roof_canopy"
+          },
+          {
+            "id": "rear_gunner",
+            "role": "gunner",
+            "cellOffset": [
+              1,
+              2
+            ],
+            "zOverride": "roof_canopy"
+          }
         ],
         "hardpointSockets": [
-          { "slotId": "right_arm_railgun", "tier": "mount", "relativeCoords": [2, 1], "arcFacingDegrees": 90 },
-          { "slotId": "left_arm_shield", "tier": "mount", "relativeCoords": [0, 1], "arcFacingDegrees": 270 }
+          {
+            "slotId": "right_arm_railgun",
+            "tier": "mount",
+            "relativeCoords": [
+              2,
+              1
+            ],
+            "arcFacingDegrees": 90
+          },
+          {
+            "slotId": "left_arm_shield",
+            "tier": "mount",
+            "relativeCoords": [
+              0,
+              1
+            ],
+            "arcFacingDegrees": 270
+          }
         ]
       }
     }
@@ -382,10 +596,28 @@
     "unit_id": "creature_cyber_lich_avatar",
     "name": "Cyber-Lich Grand Patriarch",
     "category": "creature",
-    "tree_path": ["Entities", "Bosses", "Technomagic", "Cyber-Undead"],
-    "tags": ["lich", "undead", "boss", "cybernetic", "adversary", "spellcaster"],
-    "dimensions": [2, 2],
-    "anchorPoint": [0.5, 0.5],
+    "tree_path": [
+      "Entities",
+      "Bosses",
+      "Technomagic",
+      "Cyber-Undead"
+    ],
+    "tags": [
+      "lich",
+      "undead",
+      "boss",
+      "cybernetic",
+      "adversary",
+      "spellcaster"
+    ],
+    "dimensions": [
+      2,
+      2
+    ],
+    "anchorPoint": [
+      0.5,
+      0.5
+    ],
     "provenance": {
       "source": "preset",
       "author": "Tangent SF Core",
@@ -393,8 +625,8 @@
       "dateAdded": "2026-10-07T00:00:00.000Z"
     },
     "visuals": {
-      "thumbnail": "/assets/tokens/cyber_lich_thumb.webp",
-      "baseTexture": "/assets/tokens/cyber_lich.webp",
+      "thumbnail": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ibGljaEF1cmEiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjYTg1NWY3IiBzdG9wLW9wYWNpdHk9IjAuOCIvPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSI2MCUiIHN0b3AtY29sb3I9IiMzYjA3NjQiIHN0b3Atb3BhY2l0eT0iMC41Ii8+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjA2MTciIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICAgIDwvZGVmcz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgcj0iNTYiIGZpbGw9InVybCgjbGljaEF1cmEpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjY0IiBjeT0iNjQiIHI9IjQ4IiBmaWxsPSJub25lIiBzdHJva2U9IiNjMDI2ZDMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iOCw0Ii8+CiAgICAgIDxlbGxpcHNlIGN4PSI2NCIgY3k9IjU2IiByeD0iMjYiIHJ5PSIyNCIgZmlsbD0iIzA5MGQxNiIgc3Ryb2tlPSIjMjJkM2VlIiBzdHJva2Utd2lkdGg9IjMiLz4KICAgICAgPHJlY3QgeD0iNTIiIHk9IjcwIiB3aWR0aD0iMjQiIGhlaWdodD0iMTYiIGZpbGw9IiMwOTBkMTYiIHN0cm9rZT0iIzIyZDNlZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDxjaXJjbGUgY3g9IjU0IiBjeT0iNTQiIHI9IjUiIGZpbGw9IiMyMmQzZWUiLz4KICAgICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI1NCIgcj0iNSIgZmlsbD0iIzIyZDNlZSIvPgogICAgICA8Y2lyY2xlIGN4PSI1NCIgY3k9IjU0IiByPSIyIiBmaWxsPSIjZmZmZmZmIi8+CiAgICAgIDxjaXJjbGUgY3g9Ijc0IiBjeT0iNTQiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KICAgICAgPHBhdGggZD0iTTQwIDMwIEw0OCAyMCBNODggMzAgTDgwIDIwIE02NCAxNCBMNjQgMjQiIHN0cm9rZT0iI2E4NTVmNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI5OCIgcj0iNiIgZmlsbD0iI2Y0M2Y1ZSIgb3BhY2l0eT0iMC44Ii8+CiAgICA8L3N2Zz4=",
+      "baseTexture": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+CiAgICAgIDxkZWZzPgogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ibGljaEF1cmEiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjYTg1NWY3IiBzdG9wLW9wYWNpdHk9IjAuOCIvPgogICAgICAgICAgPHN0b3Agb2Zmc2V0PSI2MCUiIHN0b3AtY29sb3I9IiMzYjA3NjQiIHN0b3Atb3BhY2l0eT0iMC41Ii8+CiAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjA2MTciIHN0b3Atb3BhY2l0eT0iMCIvPgogICAgICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICAgIDwvZGVmcz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI2NCIgcj0iNTYiIGZpbGw9InVybCgjbGljaEF1cmEpIi8+CiAgICAgIDxjaXJjbGUgY3g9IjY0IiBjeT0iNjQiIHI9IjQ4IiBmaWxsPSJub25lIiBzdHJva2U9IiNjMDI2ZDMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWRhc2hhcnJheT0iOCw0Ii8+CiAgICAgIDxlbGxpcHNlIGN4PSI2NCIgY3k9IjU2IiByeD0iMjYiIHJ5PSIyNCIgZmlsbD0iIzA5MGQxNiIgc3Ryb2tlPSIjMjJkM2VlIiBzdHJva2Utd2lkdGg9IjMiLz4KICAgICAgPHJlY3QgeD0iNTIiIHk9IjcwIiB3aWR0aD0iMjQiIGhlaWdodD0iMTYiIGZpbGw9IiMwOTBkMTYiIHN0cm9rZT0iIzIyZDNlZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDxjaXJjbGUgY3g9IjU0IiBjeT0iNTQiIHI9IjUiIGZpbGw9IiMyMmQzZWUiLz4KICAgICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI1NCIgcj0iNSIgZmlsbD0iIzIyZDNlZSIvPgogICAgICA8Y2lyY2xlIGN4PSI1NCIgY3k9IjU0IiByPSIyIiBmaWxsPSIjZmZmZmZmIi8+CiAgICAgIDxjaXJjbGUgY3g9Ijc0IiBjeT0iNTQiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KICAgICAgPHBhdGggZD0iTTQwIDMwIEw0OCAyMCBNODggMzAgTDgwIDIwIE02NCAxNCBMNjQgMjQiIHN0cm9rZT0iI2E4NTVmNyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICAgICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI5OCIgcj0iNiIgZmlsbD0iI2Y0M2Y1ZSIgb3BhY2l0eT0iMC44Ii8+CiAgICA8L3N2Zz4=",
       "variants": [],
       "auto_tile": "none"
     },

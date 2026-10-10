@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { categoryConfig } from '../../components/DBM/categoryConfig';
 import { useAuth } from '../../context/AuthContext';
 import { useDBM } from '../../context/DBMContext';
@@ -7,6 +8,7 @@ import { DBMWikiView } from '../../components/DBM/DBMWikiView';
 import { DBMItemModal, DBMItemTransferBar } from '../../components/DBM/DBMItemModal';
 import { BastionChatModal } from '../../components/DBM/BastionChatModal';
 import { Toast } from '../../components/UI/Toast';
+import { BreadcrumbNav } from '../../components/UI/BreadcrumbNav';
 import { useToast } from '../../context/ToastContext';
 import { useConfirm } from '../../context/ConfirmContext';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
@@ -23,6 +25,9 @@ import {
 } from 'lucide-react';
 
 export const CompendiumApp = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { currentUser, isAdmin } = useAuth();
   const dbm = useDBM() || {};
   const { toast } = useToast();
@@ -77,6 +82,26 @@ export const CompendiumApp = () => {
   const [bastionInput, setBastionInput] = useState('');
   const [apiKey] = useState(localStorage.getItem('geminiApiKey') || '');
 
+  // Synchronize active article with URL query parameter (?article=... or ?id=...)
+  useEffect(() => {
+    const articleParam = searchParams.get('article') || searchParams.get('id');
+    if (articleParam && currentRulesItems.length > 0) {
+      const match = currentRulesItems.find(
+        a => a.id === articleParam || a.name?.toLowerCase() === articleParam.toLowerCase() || a.title?.toLowerCase() === articleParam.toLowerCase()
+      );
+      if (match && selectedItem?.id !== match.id) {
+        setSelectedItem(match);
+        setActiveItemCategoryKey('compendium');
+        setEditFormData({ ...match });
+        setIsEditMode(false);
+        setIsEntryModalOpen(true);
+      }
+    } else if (!articleParam && isEntryModalOpen) {
+      setIsEntryModalOpen(false);
+      setSelectedItem(null);
+    }
+  }, [searchParams, currentRulesItems, selectedItem?.id, isEntryModalOpen]);
+
   // Handle open item for viewing / inspecting
   const handleOpenItem = (item, catKey = currentRulesKey, edit = false) => {
     AudioService.playTerminalBeep(1100, 0.02);
@@ -85,7 +110,55 @@ export const CompendiumApp = () => {
     setEditFormData(item ? { ...item } : { name: '', description: '' });
     setIsEditMode(isAdmin && edit ? true : false);
     setIsEntryModalOpen(true);
+
+    if (item?.id) {
+      const params = new URLSearchParams(location.search);
+      params.set('article', item.id);
+      navigate({ pathname: location.pathname, search: `?${params.toString()}` });
+    }
   };
+
+  const handleCloseItem = useCallback(() => {
+    setIsEntryModalOpen(false);
+    setSelectedItem(null);
+    if (searchParams.get('article') || searchParams.get('id')) {
+      const params = new URLSearchParams(location.search);
+      params.delete('article');
+      params.delete('id');
+      navigate({ pathname: location.pathname, search: `?${params.toString()}` });
+    }
+  }, [searchParams, location.search, location.pathname, navigate]);
+
+  const handleCompendiumBack = useCallback(() => {
+    if (isEntryModalOpen || selectedItem) {
+      handleCloseItem();
+      return;
+    }
+    navigate('/');
+  }, [isEntryModalOpen, selectedItem, handleCloseItem, navigate]);
+
+  const getCompendiumBreadcrumbs = useCallback(() => {
+    const crumbs = [
+      { label: 'Tangent RP', to: '/' },
+      { 
+        label: 'Compendium Archive', 
+        to: '/compendium',
+        onClick: (isEntryModalOpen || selectedItem) ? () => handleCloseItem() : undefined,
+        active: !isEntryModalOpen && !selectedItem,
+        badge: currentRulesItems?.length ? `${currentRulesItems.length}` : undefined
+      }
+    ];
+
+    if (selectedItem) {
+      crumbs.push({
+        label: selectedItem.name || selectedItem.title || 'Article Dossier',
+        active: true,
+        badge: selectedItem.entry_type || undefined
+      });
+    }
+
+    return crumbs;
+  }, [isEntryModalOpen, selectedItem, currentRulesItems, handleCloseItem]);
 
   // Handle create new compendium article (for rules)
   const handleCreateNew = async () => {
@@ -280,7 +353,18 @@ export const CompendiumApp = () => {
       </div>
 
       {/* Main Compendium Workspace */}
-      <div className="flex-1 flex overflow-hidden p-2 sm:p-3 pb-3 sm:pb-4 gap-3">
+      <div className="flex-1 flex flex-col overflow-hidden p-2 sm:p-3 pb-3 sm:pb-4 gap-2">
+        <BreadcrumbNav
+          items={getCompendiumBreadcrumbs()}
+          onBack={handleCompendiumBack}
+          backTitle={
+            isEntryModalOpen || selectedItem
+              ? 'Return to Compendium Archive'
+              : 'Return to Tangent Dashboard'
+          }
+          className="rounded-xl"
+        />
+
         <div className="flex-1 flex overflow-hidden">
           <DBMWikiView
             currentConfig={rulesConfig}
@@ -296,7 +380,7 @@ export const CompendiumApp = () => {
       {/* Complete Item Detail / Read-Only Dossier Modal */}
       <DBMItemModal
         isOpen={isEntryModalOpen}
-        onClose={() => setIsEntryModalOpen(false)}
+        onClose={handleCloseItem}
         isEditMode={isEditMode}
         setIsEditMode={setIsEditMode}
         selectedItem={selectedItem}

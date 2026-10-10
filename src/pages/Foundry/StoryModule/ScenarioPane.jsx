@@ -37,7 +37,8 @@ export default function ScenarioPane({
   activeCockpitDeck = 'inspector',
   onSelectCockpitDeck,
   onOpenGems,
-  onOpenPrintModal
+  onOpenPrintModal,
+  onSelectScenario
 }) {
   const { 
     universeState, 
@@ -58,6 +59,8 @@ export default function ScenarioPane({
     updateSavedElement,
     deleteSavedElement
   } = useStory();
+
+  const effectiveSelectScenario = onSelectScenario || setActiveScenarioId;
 
   const { toast } = useToast();
 
@@ -355,7 +358,7 @@ export default function ScenarioPane({
           setOutlinerTab={setOutlinerTab}
           elementsCatalog={elementsCatalog}
           activeScenarioId={activeScenarioId}
-          setActiveScenarioId={setActiveScenarioId}
+          setActiveScenarioId={effectiveSelectScenario}
           handleOpenAddModal={handleOpenAddModal}
           setEditingModalElement={setEditingModalElement}
           setIsEditElementModalOpen={setIsEditElementModalOpen}
@@ -393,7 +396,7 @@ export default function ScenarioPane({
         onToggleRightDock={onToggleRightDock}
         updateStory={updateStory}
         universeState={universeState}
-        setActiveScenarioId={setActiveScenarioId}
+        setActiveScenarioId={effectiveSelectScenario}
         linkedMap={linkedMap}
         allAvailableMaps={allAvailableMaps}
         setActiveMapId={setActiveMapId}

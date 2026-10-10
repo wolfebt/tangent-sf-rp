@@ -3,11 +3,15 @@ import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures';
 export function getBiomeTextureUrl(biomeType) {
   if (!biomeType) return null;
   if (['ocean', 'abyssal', 'deepOcean', 'shallowWater', 'river'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.waterOcean;
+  if (['seafloor', 'benthic', 'trench'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.seafloorBenthic || TERRAIN_TEXTURE_PATTERNS.waterOcean;
   if (['grass', 'plains'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.grassland;
   if (['forest', 'jungle', 'bioluminescent'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.forestCanopy;
+  if (['badlands', 'mesa', 'canyon'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.badlandsMesa || TERRAIN_TEXTURE_PATTERNS.desertSand;
+  if (['ravines', 'ravine', 'chasm', 'fissure', 'rift'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.ravineChasm || TERRAIN_TEXTURE_PATTERNS.topographicContour;
   if (['beach', 'desert', 'savanna'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.desertSand;
   if (['volcanic', 'lava', 'magma', 'ash'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.volcanicLava;
-  if (['snow', 'ice', 'polar', 'tundra', 'glacial'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.iceSheet;
+  if (['snow', 'ice', 'polar', 'tundra', 'glacial', 'arctic'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.iceSheet;
+  if (['mountains', 'granite', 'peaks'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.mountainGranite || TERRAIN_TEXTURE_PATTERNS.topographicContour;
   if (['mountain', 'highPeaks', 'crags', 'hills'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.topographicContour;
   if (['scifi', 'cyber', 'ecumenopolis'].includes(biomeType)) return TERRAIN_TEXTURE_PATTERNS.cyberGrid;
   return null;
@@ -122,6 +126,104 @@ export const BIOME_PALETTES = {
     highPeaks: '#334155',
     snow: '#f8fafc',
     river: '#60a5fa'
+  },
+  badlands: {
+    abyssal: '#1c0d06',
+    deepOcean: '#2e1509',
+    ocean: '#7c2d12',
+    shallowWater: '#b45309',
+    beach: '#d97706',
+    grass: '#c2410c',
+    forest: '#9a3412',
+    hills: '#7f1d1d',
+    mountain: '#451a03',
+    highPeaks: '#291004',
+    snow: '#fbcfe8',
+    river: '#ea580c'
+  },
+  desert: {
+    abyssal: '#1c1208',
+    deepOcean: '#2e1d0c',
+    ocean: '#0284c7',
+    shallowWater: '#38bdf8',
+    beach: '#fbbf24',
+    grass: '#f59e0b',
+    forest: '#d97706',
+    hills: '#b45309',
+    mountain: '#78350f',
+    highPeaks: '#451a03',
+    snow: '#fef3c7',
+    river: '#0ea5e9'
+  },
+  ravines: {
+    abyssal: '#020408',
+    deepOcean: '#0b1120',
+    ocean: '#1e3a8a',
+    shallowWater: '#2563eb',
+    beach: '#475569',
+    grass: '#334155',
+    forest: '#1e293b',
+    hills: '#475569',
+    mountain: '#64748b',
+    highPeaks: '#94a3b8',
+    snow: '#e2e8f0',
+    river: '#38bdf8'
+  },
+  seafloor: {
+    abyssal: '#010409',
+    deepOcean: '#030f24',
+    ocean: '#042a5c',
+    shallowWater: '#0284c7',
+    beach: '#0d9488',
+    grass: '#059669',
+    forest: '#047857',
+    hills: '#0f766e',
+    mountain: '#134e4a',
+    highPeaks: '#115e59',
+    snow: '#a7f3d0',
+    river: '#34d399'
+  },
+  arctic: {
+    abyssal: '#021422',
+    deepOcean: '#082f49',
+    ocean: '#0284c7',
+    shallowWater: '#38bdf8',
+    beach: '#bae6fd',
+    grass: '#7dd3fc',
+    forest: '#0369a1',
+    hills: '#cbd5e1',
+    mountain: '#94a3b8',
+    highPeaks: '#e2e8f0',
+    snow: '#ffffff',
+    river: '#a5f3fc'
+  },
+  forest: {
+    abyssal: '#021a12',
+    deepOcean: '#064e3b',
+    ocean: '#0284c7',
+    shallowWater: '#38bdf8',
+    beach: '#84cc16',
+    grass: '#15803d',
+    forest: '#166534',
+    hills: '#14532d',
+    mountain: '#1e3a1e',
+    highPeaks: '#3f6212',
+    snow: '#f0fdf4',
+    river: '#60a5fa'
+  },
+  mountains: {
+    abyssal: '#090e17',
+    deepOcean: '#111827',
+    ocean: '#1d4ed8',
+    shallowWater: '#60a5fa',
+    beach: '#64748b',
+    grass: '#3f6212',
+    forest: '#155e75',
+    hills: '#475569',
+    mountain: '#64748b',
+    highPeaks: '#334155',
+    snow: '#f8fafc',
+    river: '#93c5fd'
   },
   scifi: {
     abyssal: '#030712',
@@ -593,9 +695,15 @@ export function convertGridToKonvaElements(gridData, options) {
             texMod = ((px * 19 + py * 37) % 5 < 2) ? 12 : -10;
           } else if (bType.includes('desert') || bType.includes('sand') || bType.includes('beach')) {
             texMod = ((px * 23 + py * 41) % 9 < 4) ? 7 : -5;
+          } else if (bType.includes('badlands') || bType.includes('mesa') || bType.includes('canyon')) {
+            texMod = ((px * 29 + py * 17) % 8 < 4) ? 11 : -9;
+          } else if (bType.includes('ravine') || bType.includes('chasm') || bType.includes('rift')) {
+            texMod = ((px * 43 + py * 19) % 6 < 3) ? 15 : -12;
+          } else if (bType.includes('seafloor') || bType.includes('benthic') || bType.includes('trench')) {
+            texMod = ((px * 11 + py * 23) % 9 < 3) ? 14 : -6;
           } else if (bType.includes('volcanic') || bType.includes('lava')) {
             texMod = ((px * 17 + py * 31) % 6 < 3) ? 14 : -10;
-          } else if (bType.includes('snow') || bType.includes('ice')) {
+          } else if (bType.includes('snow') || bType.includes('ice') || bType.includes('arctic')) {
             texMod = ((px ^ py) % 9 === 0) ? 15 : -4;
           }
 

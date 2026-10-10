@@ -109,6 +109,17 @@ export class MapGraphicsCompiler {
         }
         ctx.closePath();
         ctx.fill();
+
+        if (t.edgeLines && t.edgeLines.length > 0) {
+          ctx.strokeStyle = t.isLiquid ? 'rgba(56, 189, 248, 0.8)' : 'rgba(14, 165, 233, 0.8)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          for (const edge of t.edgeLines) {
+            ctx.moveTo(edge[0], edge[1]);
+            ctx.lineTo(edge[2], edge[3]);
+          }
+          ctx.stroke();
+        }
       } else {
         // Default: Rectangular tile
         const x = t.x ?? 0;

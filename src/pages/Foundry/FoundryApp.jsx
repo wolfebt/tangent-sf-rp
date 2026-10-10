@@ -55,6 +55,9 @@ const FoundryAppInner = () => {
           <Route path="live-studio" element={<FoundryRouteRedirect view="stage" tab="run" />} />
           <Route path="ade-stage" element={<FoundryRouteRedirect view="stage" tab="run" />} />
           <Route path="live-studio-standalone" element={<FoundryRouteRedirect view="stage" tab="run" />} />
+          <Route path="vtt" element={<FoundryRouteRedirect view="stage" tab="run" />} />
+          <Route path="stage-vtt" element={<FoundryRouteRedirect view="stage" tab="run" />} />
+          <Route path="director" element={<FoundryRouteRedirect view="stage" tab="run" />} />
           <Route path="stage" element={<ADEStage />} />
           <Route path="ade" element={<StoryModule />} />
           <Route path="story" element={<StoryModule />} />

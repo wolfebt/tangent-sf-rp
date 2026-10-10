@@ -422,26 +422,20 @@ export const ScenarioOutlinerRail = ({
     }
   });
 
-  const [expandedCategories, setExpandedCategories] = useState(() => ({
-    Persona: true,
-    Location: true,
-    Faction: true,
-    Item: true,
-    Lore: true,
-    Tech: true,
-    Species: true,
-    Custom: true
-  }));
+  const [expandedCategories, setExpandedCategories] = useState(() => ({}));
 
   const [previewElementId, setPreviewElementId] = useState(null);
   const [isDraggingFilesOverRail, setIsDraggingFilesOverRail] = useState(false);
   const fileInputRef = useRef(null);
 
   const toggleCategory = (catId) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [catId]: !prev[catId]
-    }));
+    setExpandedCategories(prev => {
+      const isCurrentlyExpanded = Boolean(prev[catId] ?? (searchFilter && true));
+      return {
+        ...prev,
+        [catId]: !isCurrentlyExpanded
+      };
+    });
   };
 
   const handleViewModeChange = (mode) => {
@@ -782,7 +776,7 @@ export const ScenarioOutlinerRail = ({
           <span className="hidden sm:inline">Import</span>
         </button>
 
-        {outlinerTab === 'scenarios' ? (
+        {outlinerTab === 'scenarios' && (
           <div className="flex items-center gap-1">
             <button 
               type="button"
@@ -810,25 +804,6 @@ export const ScenarioOutlinerRail = ({
               <span>Add</span>
             </button>
           </div>
-        ) : (
-          <button 
-            type="button"
-            onClick={() => {
-              setEditingModalElement({
-                id: uuidv4(),
-                type: outlinerElementTypeFilter !== 'All' ? outlinerElementTypeFilter : 'Persona',
-                title: 'New World Element',
-                fields: {},
-                content: ''
-              });
-              setIsEditElementModalOpen(true);
-            }}
-            className="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0"
-            title="Create New World Element"
-          >
-            <Plus size={11} />
-            <span>New</span>
-          </button>
         )}
       </div>
 
@@ -878,9 +853,29 @@ export const ScenarioOutlinerRail = ({
               </button>
             </div>
 
-            <span className="text-[9px] text-slate-500 truncate">
-              {filteredOutlinerElements.length} element(s)
-            </span>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="text-[9px] text-slate-500 truncate">
+                {filteredOutlinerElements.length} element(s)
+              </span>
+              <button 
+                type="button"
+                onClick={() => {
+                  setEditingModalElement({
+                    id: uuidv4(),
+                    type: outlinerElementTypeFilter !== 'All' ? outlinerElementTypeFilter : 'Persona',
+                    title: 'New World Element',
+                    fields: {},
+                    content: ''
+                  });
+                  setIsEditElementModalOpen(true);
+                }}
+                className="px-2 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 text-[10px] font-bold rounded-lg uppercase transition-colors flex items-center gap-1 cursor-pointer shrink-0 shadow-sm"
+                title="Create New World Element"
+              >
+                <Plus size={11} />
+                <span>New</span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -960,6 +955,8 @@ export const ScenarioOutlinerRail = ({
 
               if (catElements.length === 0 && searchFilter) return null;
 
+              const isExpanded = Boolean(expandedCategories[cat.id] ?? (searchFilter && catElements.length > 0));
+
               return (
                 <div key={cat.id} className="border border-slate-800/80 rounded-xl overflow-hidden bg-slate-950/40">
                   {/* Category Header */}
@@ -969,7 +966,7 @@ export const ScenarioOutlinerRail = ({
                   >
                     <div className="flex items-center gap-1.5 min-w-0">
                       <span className="text-slate-400 text-[10px]">
-                        {expandedCategories[cat.id] ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+                        {isExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
                       </span>
                       <span className="text-xs">{cat.icon}</span>
                       <span className="font-bold text-slate-200 text-[11px] truncate">{cat.label}</span>
@@ -998,7 +995,7 @@ export const ScenarioOutlinerRail = ({
                   </div>
 
                   {/* Category Elements Body */}
-                  {expandedCategories[cat.id] && (
+                  {isExpanded && (
                     <div className="p-1.5 space-y-1.5 bg-slate-950/20">
                       {catElements.length === 0 ? (
                         <div className="text-[10px] text-slate-600 italic px-2 py-1">

@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { CODEX_MATRICES, getMatrixById } from './codexConfig';
 import { CodexSidebar } from './CodexSidebar';
 import { CodexMatrixBuilder } from './CodexMatrixBuilder';
@@ -7,6 +7,7 @@ import { CodexAiSynthesizerModal } from './CodexAiSynthesizerModal';
 import { CodexIngestionModal } from './CodexIngestionModal';
 import { OMNICORTEX_DATASETS } from './codexPromptRegistry';
 import { useDBM } from '../../context/DBMContext';
+import { BreadcrumbNav } from '../../components/UI/BreadcrumbNav';
 import { 
   Plus, 
   Search, 
@@ -37,6 +38,7 @@ import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 export const CodexApp = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const matrixParam = searchParams.get('matrix') || 'architecture';
   const datasetParam = searchParams.get('dataset') || '';
@@ -57,6 +59,41 @@ export const CodexApp = () => {
   const currentMatrix = getMatrixById(activeMatrixId);
   const [parsingDatasetKey, setParsingDatasetKey] = useState(currentMatrix.ingestionKey || 'species');
 
+  // Synchronize matrix, mode, and selected item from URL searchParams
+  useEffect(() => {
+    const matrix = searchParams.get('matrix');
+    const mode = searchParams.get('mode');
+    const itemId = searchParams.get('id');
+
+    if (matrix && matrix !== activeMatrixId) {
+      setActiveMatrixId(matrix);
+    }
+
+    if (mode === 'guided') {
+      setIsBuilderOpen(true);
+    } else if (mode === 'records') {
+      setIsBuilderOpen(false);
+      setViewSavedRecords(true);
+    } else if (mode === 'suite') {
+      setIsBuilderOpen(false);
+      setViewSavedRecords(false);
+    }
+
+    if (itemId && dbData) {
+      const allEntries = [
+        ...(dbData[currentMatrix.targetCollection] || []),
+        ...(currentMatrix.altCollection ? (dbData[currentMatrix.altCollection] || []) : [])
+      ];
+      const match = allEntries.find(e => e.id === itemId);
+      if (match && selectedItem?.id !== match.id) {
+        setSelectedItem(match);
+        setIsBuilderOpen(true);
+      }
+    } else if (!itemId && !mode && isBuilderOpen) {
+      // Keep mode as is if user was interacting
+    }
+  }, [searchParams, activeMatrixId, dbData, currentMatrix, selectedItem?.id, isBuilderOpen]);
+
   // Active matrix mode: 'guided' | 'records' | 'suite'
   const activeMode = useMemo(() => {
     if (isBuilderOpen) return 'guided';
@@ -73,11 +110,20 @@ export const CodexApp = () => {
     }
   }, [currentMatrix]);
 
-  const handleSelectMatrix = (matrixId, datasetKey) => {
+  const handleSelectMatrix = (matrixId, datasetKey, pushHistory = true) => {
     setActiveMatrixId(matrixId);
-    const params = { matrix: matrixId };
-    if (datasetKey) params.dataset = datasetKey;
-    setSearchParams(params);
+    const params = new URLSearchParams();
+    params.set('matrix', matrixId);
+    if (datasetKey) params.set('dataset', datasetKey);
+
+    const newSearch = `?${params.toString()}`;
+    if (location.search !== newSearch) {
+      if (pushHistory) {
+        navigate({ pathname: location.pathname, search: newSearch });
+      } else {
+        navigate({ pathname: location.pathname, search: newSearch }, { replace: true });
+      }
+    }
     setSelectedItem(null);
     setIsBuilderOpen(false);
     setPreviewItem(null);
@@ -86,8 +132,25 @@ export const CodexApp = () => {
     setViewSavedRecords(false);
   };
 
-  const handleSwitchMode = (mode) => {
+  const handleSwitchMode = (mode, pushHistory = true) => {
     AudioService.playTerminalBeep(1100, 0.02);
+    const params = new URLSearchParams(location.search);
+    params.set('matrix', activeMatrixId);
+    params.set('mode', mode);
+    if (mode !== 'guided') {
+      params.delete('id');
+      setSelectedItem(null);
+    }
+
+    const newSearch = `?${params.toString()}`;
+    if (location.search !== newSearch) {
+      if (pushHistory) {
+        navigate({ pathname: location.pathname, search: newSearch });
+      } else {
+        navigate({ pathname: location.pathname, search: newSearch }, { replace: true });
+      }
+    }
+
     if (mode === 'guided') {
       setIsBuilderOpen(true);
     } else if (mode === 'records') {
@@ -123,7 +186,9 @@ export const CodexApp = () => {
       const name = (i.name || i.title || '').toLowerCase();
       const desc = (i.description || i.mechanic || '').toLowerCase();
       const cat = (i.category || i.type || '').toString().toLowerCase();
-      return name.includes(term) || desc.includes(term) || cat.includes(term);
+      const kw = (i.keywords ? String(i.keywords) : '').toLowerCase();
+      const negKw = (i.negative_keywords ? String(i.negative_keywords) : '').toLowerCase();
+      return name.includes(term) || desc.includes(term) || cat.includes(term) || kw.includes(term) || negKw.includes(term);
     });
   }, [dbData, currentMatrix, searchTerm]);
 
@@ -143,6 +208,11 @@ export const CodexApp = () => {
     setSelectedItem(null);
     setIsBuilderOpen(true);
     setPreviewItem(null);
+    const params = new URLSearchParams(location.search);
+    params.set('matrix', activeMatrixId);
+    params.set('mode', 'guided');
+    params.delete('id');
+    navigate({ pathname: location.pathname, search: `?${params.toString()}` });
   };
 
   const handleEdit = (item) => {
@@ -150,7 +220,73 @@ export const CodexApp = () => {
     setSelectedItem(item);
     setIsBuilderOpen(true);
     setPreviewItem(null);
+    const params = new URLSearchParams(location.search);
+    params.set('matrix', activeMatrixId);
+    params.set('mode', 'guided');
+    if (item?.id) {
+      params.set('id', item.id);
+    }
+    navigate({ pathname: location.pathname, search: `?${params.toString()}` });
   };
+
+  const handleCodexBack = useCallback(() => {
+    if (isBuilderOpen || selectedItem) {
+      handleSwitchMode('records');
+      return;
+    }
+    if (activeMode === 'suite') {
+      handleSwitchMode('records');
+      return;
+    }
+    navigate('/');
+  }, [isBuilderOpen, selectedItem, activeMode, handleSwitchMode, navigate]);
+
+  const getCodexBreadcrumbs = useCallback(() => {
+    const crumbs = [
+      { label: 'Tangent RP', to: '/' },
+      { 
+        label: 'Rules Codex', 
+        onClick: () => handleSelectMatrix('architecture') 
+      },
+      { 
+        label: `${currentMatrix.name} Matrix`, 
+        onClick: (isBuilderOpen || activeMode !== 'records') ? () => handleSwitchMode('records') : undefined,
+        active: !isBuilderOpen && activeMode === 'records',
+        badge: matrixEntries?.length ? `${matrixEntries.length}` : undefined
+      }
+    ];
+
+    if (activeMode === 'suite') {
+      crumbs.push({
+        label: 'Interactive Suite',
+        active: true,
+        badge: 'APP'
+      });
+    } else if (isBuilderOpen) {
+      crumbs.push({
+        label: 'Studio',
+        onClick: selectedItem ? () => {
+          setSelectedItem(null);
+          const params = new URLSearchParams(location.search);
+          params.set('matrix', activeMatrixId);
+          params.set('mode', 'guided');
+          params.delete('id');
+          navigate({ pathname: location.pathname, search: `?${params.toString()}` });
+        } : undefined,
+        active: !selectedItem
+      });
+
+      if (selectedItem) {
+        crumbs.push({
+          label: selectedItem.name || selectedItem.title || 'Custom Asset',
+          active: true,
+          badge: selectedItem.type || undefined
+        });
+      }
+    }
+
+    return crumbs;
+  }, [currentMatrix, isBuilderOpen, activeMode, matrixEntries, selectedItem, location.search, location.pathname, navigate, activeMatrixId, handleSelectMatrix, handleSwitchMode]);
 
   const handleDuplicate = (item, e) => {
     if (e) e.stopPropagation();
@@ -212,7 +348,7 @@ export const CodexApp = () => {
       <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Floating Expand Tab (When Codex Sidebar Drawer is Collapsed) */}
-      {!isSidebarOpen && (
+      {!isSidebarOpen && !isBuilderOpen && (
         <button
           type="button"
           onClick={() => {
@@ -229,37 +365,61 @@ export const CodexApp = () => {
         </button>
       )}
 
-      {/* Left Navigation Collapsible Sidebar Drawer (Open by default) */}
+      {/* Left Navigation Collapsible Sidebar Drawer / Guidance Rail (Always shown in Studio mode) */}
       <div className={`fixed lg:relative z-40 h-full transition-all duration-300 shrink-0 ${
-        isSidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full lg:-ml-72 lg:opacity-0 pointer-events-none'
+        (isSidebarOpen || isBuilderOpen) ? 'translate-x-0 opacity-100' : '-translate-x-full lg:-ml-72 lg:opacity-0 pointer-events-none'
       }`}>
         <CodexSidebar
           activeMatrixId={activeMatrixId}
+          forceRailMode={isBuilderOpen}
           onSelectMatrix={(matrixId, datasetKey) => {
             handleSelectMatrix(matrixId, datasetKey);
-            if (window.innerWidth < 1024) setIsSidebarOpen(false);
+            if (!isBuilderOpen && window.innerWidth < 1024) setIsSidebarOpen(false);
           }}
-          onCloseMenu={() => setIsSidebarOpen(false)}
+          onCloseMenu={() => {
+            if (!isBuilderOpen) setIsSidebarOpen(false);
+          }}
         />
       </div>
 
       {/* Main Workspace Area */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden relative z-10 p-4 sm:p-6 lg:p-8">
+      <main className={`flex-1 flex flex-col h-full overflow-hidden relative z-10 ${
+        isBuilderOpen ? 'p-2 sm:p-3 pb-4' : 'p-4 sm:p-6 lg:p-8'
+      }`}>
         
+        {/* Breadcrumb Navigation Bar */}
+        <BreadcrumbNav
+          items={getCodexBreadcrumbs()}
+          onBack={handleCodexBack}
+          backTitle={
+            isBuilderOpen || selectedItem
+              ? `Return to ${currentMatrix.name} Records`
+              : activeMode === 'suite'
+              ? `Return to ${currentMatrix.name} Records`
+              : 'Return to Tangent Dashboard'
+          }
+          className="mb-3 rounded-xl"
+        />
+
         {/* Cockpit Command Bar (HUD) */}
         <header className="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 backdrop-blur-md border border-slate-800/80 shadow-lg shrink-0 mb-4">
           <div className="flex items-center gap-3 min-w-0">
             {/* Sidebar Toggle Button */}
             <button
               type="button"
+              disabled={isBuilderOpen}
               onClick={() => {
                 AudioService.playTerminalBeep(900, 0.02);
                 setIsSidebarOpen(prev => !prev);
               }}
-              className="p-2 rounded-xl bg-slate-950/80 hover:bg-slate-800 border border-slate-700/80 text-slate-300 hover:text-amber-300 transition-all cursor-pointer shrink-0"
-              title={isSidebarOpen ? "Collapse Codex Sidebar" : "Expand Codex Sidebar"}
+              className={`p-2 rounded-xl bg-slate-950/80 border border-slate-700/80 text-slate-300 transition-all shrink-0 ${
+                isBuilderOpen 
+                  ? 'opacity-60 cursor-default text-amber-400' 
+                  : 'hover:bg-slate-800 hover:text-amber-300 cursor-pointer'
+              }`}
+              title={isBuilderOpen ? "Guidance Rail pinned in Studio Mode" : (isSidebarOpen ? "Collapse Codex Sidebar" : "Expand Codex Sidebar")}
             >
-              <PanelLeftOpen size={16} className={`transition-transform duration-200 ${isSidebarOpen ? 'text-amber-400' : 'rotate-180 text-slate-400'}`} />
+              <PanelLeftOpen size={16} className={`transition-transform duration-200 ${(isSidebarOpen || isBuilderOpen) ? 'text-amber-400' : 'rotate-180 text-slate-400'}`} />
             </button>
 
             {/* Matrix Icon & Glowing Badge */}

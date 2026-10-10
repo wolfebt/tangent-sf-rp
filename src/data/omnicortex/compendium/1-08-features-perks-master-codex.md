@@ -249,6 +249,21 @@ These are just a few examples of the many Features available in Tangent. By care
 | **Quicker** | Quick, Agi 2 | \+20 to Movement Speed and \+2 Initiative. | 115 |
 | **Quickest** | Quicker, Agi 3 | \+30 to Movement Speed and \+3 Initiative. | 116 |
 | **Zero G Training** | \- | No Disadvantage for Zero G operations. | 117 |
+| **Absolute Pitch** | Awareness 1, Perform 1 | +4 on auditory matching, impersonation (vocal), acoustic bypass. | |
+| **Algorithmic Cognition** | Lightning Calculator, Int 4 | Free Action math/decryption; Advantage on Logic checks for math/codebreaking. | |
+| **Dual-Hemispheric Processing** | Int 3, Special (Congenital) | Read/scan at 10x speed; perform two mental tasks without multitasking penalty. | Special |
+| **Echolocation** | Awareness 3, Blindness flaw | Blindsight 60 ft; ignore darkness/invisibility; cannot be Flanked in sonar radius. | Special |
+| **Eidetic Constructor** | Eidetic Memory, Awareness 2 | Memorize structural layout after 1 round; +4 Navigation, Architecture, Tactical. | |
+| **Extreme Endurance** | Sta 3 | +4 Stamina checks (breath-holding, aerobic); movement speed not reduced by fatigue. | |
+| **Hyperthymesia** | Eidetic Memory, Wis 2 | Auto-succeed experienced Memory checks; immune to memory alteration and gaslighting. | |
+| **Hypoxia Tolerance** | Sta 1 | No altitude/low-oxygen penalties; require 50% less oxygen to survive. | |
+| **Lactate Immunity** | Endurance, Sta 4 | Immune to fatigue from running, swimming, aerobic exertion; run continuously for days. | |
+| **Myostatin Hypertrophy** | Str 3, Sta 2 | +2 Might and Athletics; count as one Size Category larger for grapple, lift, break. | |
+| **Nociceptor Dampening** | Pain Tolerance, Sta 2 | Immune to non-lethal Stun, shock, torture; no wound penalties; Awareness to notice hazard damage. | Drawback |
+| **Short Sleeper** | Sta 1 | Require 4 hours for Long Rest; Advantage on saves against sleep effects. | |
+| **Synesthetic Savant** | Int 2 | Advantage on Memory, Knowledge, crypto; +2 to disbelieve visual illusions. | |
+| **Tetrachromacy** | Awareness 2, Special | +4 Perception, Investigation, Tracking (visual); spot metameric camouflage. | Special |
+| **Unbreakable Skeleton** | Tough, Sta 3 | DR 5 vs Bludgeoning, Crushing, Falling; immune to bone fractures; +1 unarmed damage. | |
 
 ## 
 
@@ -1305,6 +1320,21 @@ Utility, health, and social capabilities.
 | **Quicker** | Quick, Agi 2 | \+20 to Movement Speed and \+2 Initiative. | 115 |
 | **Quickest** | Quicker, Agi 3 | \+30 to Movement Speed and \+3 Initiative. | 116 |
 | **Zero G Training** | \- | No Disadvantage for Zero G operations. | 117 |
+| **Absolute Pitch** | Awareness 1, Perform 1 | +4 on auditory matching, impersonation (vocal), acoustic bypass. | |
+| **Algorithmic Cognition** | Lightning Calculator, Int 4 | Free Action math/decryption; Advantage on Logic checks for math/codebreaking. | |
+| **Dual-Hemispheric Processing** | Int 3, Special (Congenital) | Read/scan at 10x speed; perform two mental tasks without multitasking penalty. | Special |
+| **Echolocation** | Awareness 3, Blindness flaw | Blindsight 60 ft; ignore darkness/invisibility; cannot be Flanked in sonar radius. | Special |
+| **Eidetic Constructor** | Eidetic Memory, Awareness 2 | Memorize structural layout after 1 round; +4 Navigation, Architecture, Tactical. | |
+| **Extreme Endurance** | Sta 3 | +4 Stamina checks (breath-holding, aerobic); movement speed not reduced by fatigue. | |
+| **Hyperthymesia** | Eidetic Memory, Wis 2 | Auto-succeed experienced Memory checks; immune to memory alteration and gaslighting. | |
+| **Hypoxia Tolerance** | Sta 1 | No altitude/low-oxygen penalties; require 50% less oxygen to survive. | |
+| **Lactate Immunity** | Endurance, Sta 4 | Immune to fatigue from running, swimming, aerobic exertion; run continuously for days. | |
+| **Myostatin Hypertrophy** | Str 3, Sta 2 | +2 Might and Athletics; count as one Size Category larger for grapple, lift, break. | |
+| **Nociceptor Dampening** | Pain Tolerance, Sta 2 | Immune to non-lethal Stun, shock, torture; no wound penalties; Awareness to notice hazard damage. | Drawback |
+| **Short Sleeper** | Sta 1 | Require 4 hours for Long Rest; Advantage on saves against sleep effects. | |
+| **Synesthetic Savant** | Int 2 | Advantage on Memory, Knowledge, crypto; +2 to disbelieve visual illusions. | |
+| **Tetrachromacy** | Awareness 2, Special | +4 Perception, Investigation, Tracking (visual); spot metameric camouflage. | Special |
+| **Unbreakable Skeleton** | Tough, Sta 3 | DR 5 vs Bludgeoning, Crushing, Falling; immune to bone fractures; +1 unarmed damage. | |
 
 &nbsp;
 
@@ -1725,6 +1755,141 @@ Utility, health, and social capabilities.
 
 * **Prerequisite:** Agility 1  
 * **Benefit:** You suffer **No Disadvantage** or penalties for operating in Zero Gravity. You gain a \+2 bonus to Acrobatics when maneuvering in Zero-G.
+
+### 
+
+## **Absolute Pitch**
+
+**Description:** The character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.
+
+* **Prerequisite:** Awareness 1, Perform 1  
+* **Benefit:** You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a +4 Bonus on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.
+
+### 
+
+## **Algorithmic Cognition**
+
+**Description:** The character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.
+
+* **Prerequisite:** Lightning Calculator, Intellect 4  
+* **Benefit:** You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a Free Action instead of a Standard or Full Round Action. You gain Advantage on all Logic checks involving mathematics or codebreaking.
+
+### 
+
+## **Dual-Hemispheric Processing**
+
+**Description:** Due to a congenital anomaly (such as the agenesis of the corpus callosum), the character's brain hemispheres operate with extreme independence. They can read two pages simultaneously and process localized data without global interference.
+
+* **Prerequisite:** Intellect 3, Special (Congenital Trait)  
+* **Benefit:** You can read, scan, and process textual or visual information at 10x normal speed. Furthermore, you may perform two different mental tasks (e.g., hacking a terminal while calculating astrogation routes) without suffering a multi-tasking penalty.
+
+### 
+
+## **Echolocation**
+
+**Description:** Through extreme cross-modal neuroplasticity, the character's visual cortex has been repurposed to process auditory data, acting as a high-resolution biological sonar.
+
+* **Prerequisite:** Awareness 3, Must possess the Blindness flaw (or be visually deprived)  
+* **Benefit:** By emitting sharp clicks, you gain Blindsight up to 60 feet. You ignore all concealment penalties caused by darkness, fog, or visual invisibility within this range. You cannot be Flanked by enemies within your sonar radius.
+
+### 
+
+## **Eidetic Constructor**
+
+**Description:** The character possesses unparalleled visual-spatial memory. They retain "frozen frames" of complex visual stimuli and can perfectly recreate them in physical space or memory.
+
+* **Prerequisite:** Eidetic Memory, Awareness 2  
+* **Benefit:** After observing an area, building, or object for 1 full round, you memorize its exact structural layout, dimensions, and structural columns. You gain a +4 Bonus to Navigation, Architecture, or Tactical checks involving that specific location.
+
+### 
+
+## **Extreme Endurance**
+
+**Description:** A rare point mutation (like the EPOR gene) causes the character's bone marrow to overproduce red blood cells, granting them a permanently maximized oxygen-carrying capacity.
+
+* **Prerequisite:** Stamina 3  
+* **Benefit:** You gain a +4 Bonus to all Stamina checks involving breath-holding, suffocation, or intense aerobic exertion. Your movement speed is not reduced when fatigued.
+
+### 
+
+## **Hyperthymesia**
+
+**Description:** Highly Superior Autobiographical Memory (HSAM). The character involuntarily and flawlessly records every moment of their life, immune to the standard reconstructive decay of memory.
+
+* **Prerequisite:** Eidetic Memory, Wisdom 2  
+* **Benefit:** You automatically succeed on any Memory check related to events you have personally experienced. You are Immune to memory alteration, gaslighting, or mind-altering effects that attempt to erase or rewrite your past.
+
+### 
+
+## **Hypoxia Tolerance**
+
+**Description:** Genetic variants (such as EPAS1/EGLN1) allow the character to thrive in environments with severely depleted oxygen without suffering altitude sickness or cardiovascular strain.
+
+* **Prerequisite:** Stamina 1  
+* **Benefit:** You suffer no penalties for operating in high-altitude, low-oxygen, or thin-atmosphere environments. You require 50% less oxygen to survive than a standard member of your species.
+
+### 
+
+## **Lactate Immunity**
+
+**Description:** The character's physiology clears lactic acid so efficiently that they effectively never hit a lactate threshold. Their muscles do not burn or fail from prolonged standard exertion.
+
+* **Prerequisite:** Endurance, Stamina 4  
+* **Benefit:** You are Immune to physical fatigue caused by running, swimming, or aerobic exertion. You can travel continuously at a run for days without requiring rest, provided you remain calorically fueled and hydrated.
+
+### 
+
+## **Myostatin Hypertrophy**
+
+**Description:** A homozygous mutation in the MSTN gene renders the myostatin protein non-functional, removing biological brakes on muscle fiber proliferation. The character possesses massive, dense musculature without needing to train.
+
+* **Prerequisite:** Strength 3, Stamina 2  
+* **Benefit:** You gain a +2 Bonus to Might and Athletics checks. For the purposes of Grappling, lifting weight, and breaking objects, you are treated as if you are one Size Category larger.
+
+### 
+
+## **Nociceptor Dampening**
+
+**Description:** A mutation in the transcription factors regulating peripheral pain signaling (such as ZFHX2) renders the character profoundly insensitive to noxious pain while retaining normal tactile sensation.
+
+* **Prerequisite:** Pain Tolerance, Stamina 2  
+* **Benefit:** You are Immune to non-lethal Stun damage, shock, and pain-compliance techniques (including torture). You do not suffer any negative mechanical modifiers from being severely wounded or burned. Drawback: You must make Awareness checks to notice if you are taking damage from environmental hazards (like standing on a hot surface).
+
+### 
+
+## **Short Sleeper**
+
+**Description:** A mutation in the DEC2 gene alters the character's circadian rhythm and orexin production. They experience highly concentrated, perfectly restorative sleep.
+
+* **Prerequisite:** Stamina 1  
+* **Benefit:** You only require 4 hours of sleep to gain the full benefits of a Long Rest. You are highly resistant to magical or chemical sleep effects, gaining Advantage on saves against them.
+
+### 
+
+## **Synesthetic Savant**
+
+**Description:** The character experiences profound, cross-modal sensory wiring (e.g., seeing numbers as colors and textures). This provides a permanent, involuntary mnemonic structure for data retention.
+
+* **Prerequisite:** Intellect 2  
+* **Benefit:** You gain Advantage on all Memory checks, Knowledge retrieval, and cryptography. Your unique perception makes you highly resistant to visual illusions, granting a +2 Bonus to disbelieve fake stimuli.
+
+### 
+
+## **Tetrachromacy**
+
+**Description:** The presence of a fourth class of cone cell in the retina allows the character to perceive millions of hues invisible to a standard trichromatic human.
+
+* **Prerequisite:** Awareness 2, Special (Genetically Female, or engineered variant)  
+* **Benefit:** You gain a +4 Bonus on Perception, Investigation, and Tracking checks that rely on visual details. You can instantly spot metameric camouflages (e.g., artificial foliage vs. real foliage, or subtle skin discoloration from poisons/shapeshifting).
+
+### 
+
+## **Unbreakable Skeleton**
+
+**Description:** A gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.
+
+* **Prerequisite:** Tough, Stamina 3  
+* **Benefit:** You gain Damage Resistance (DR) 5 specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional +1 Damage.
 
 &nbsp;
 

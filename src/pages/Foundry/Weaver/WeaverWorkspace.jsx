@@ -13,7 +13,7 @@
  *   6. Play: Granular interactive story studio driven by Folio personas, decision matrix, and dice checks.
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { 
   PenTool, 
   Lightbulb, 
@@ -22,7 +22,9 @@ import {
   Network, 
   Play, 
   BookOpen,
-  ArrowRight
+  ArrowRight,
+  ChevronDown,
+  Check
 } from 'lucide-react';
 import StoryWeaver from '../StoryModule/workspaces/StoryWeaver';
 import InteractiveStoryStudio from '../StoryModule/workspaces/InteractiveStoryStudio';
@@ -65,6 +67,19 @@ export default function WeaverWorkspace({
     { id: 'play', label: 'Interactive Play', icon: Play, color: 'text-purple-400' }
   ];
 
+  const [isTabDropdownOpen, setIsTabDropdownOpen] = useState(false);
+  const tabDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (tabDropdownRef.current && !tabDropdownRef.current.contains(e.target)) {
+        setIsTabDropdownOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handleClickOutside, true);
+    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
+  }, []);
+
   const handleTabChange = (tabId) => {
     AudioService.playTerminalBeep(1100, 0.02);
     if (onSelectTab) {
@@ -72,56 +87,89 @@ export default function WeaverWorkspace({
     }
   };
 
+  const activeTabObj = tabs.find(t => t.id === currentTab) || tabs[0];
+  const ActiveIcon = activeTabObj.icon;
+
+  const renderModePulldown = () => (
+    <div className="relative" ref={tabDropdownRef}>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          AudioService.playTerminalBeep(1000, 0.02);
+          setIsTabDropdownOpen(prev => !prev);
+        }}
+        className="px-2.5 py-1 bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm active:scale-95"
+        title="Switch Story Weaver Workspace Mode"
+      >
+        <ActiveIcon size={13} className={activeTabObj.color} />
+        <span className="uppercase text-slate-100 font-bold">{activeTabObj.label}</span>
+        <ChevronDown size={11} className={`text-slate-400 transition-transform duration-200 ${isTabDropdownOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+      </button>
+
+      {isTabDropdownOpen && (
+        <div className="absolute left-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-1.5 z-[120] backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider">
+            Weaver Mode
+          </div>
+          <div className="py-1">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = currentTab === tab.id;
+
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    handleTabChange(tab.id);
+                    setIsTabDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3.5 py-2 flex items-center justify-between text-xs transition-colors cursor-pointer ${
+                    isActive
+                      ? 'bg-cyan-950/80 text-cyan-300 font-bold border-l-2 border-cyan-400'
+                      : 'hover:bg-slate-800/70 text-slate-300 hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon size={13} className={isActive ? tab.color : 'text-slate-500'} />
+                    <span className="uppercase tracking-wider">{tab.label}</span>
+                  </div>
+                  {isActive && <Check size={12} className="text-cyan-400 shrink-0 ml-1.5" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderStageHandoff = () => (
+    onSwitchView ? (
+      <button
+        type="button"
+        onClick={() => onSwitchView('stage', 'setup')}
+        className="px-2.5 py-1 rounded-lg bg-purple-950/60 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
+        title="Compile and launch this scenario in Stage"
+      >
+        <span>Compile in Stage</span>
+        <ArrowRight size={11} />
+      </button>
+    ) : null
+  );
+
   return (
     <div className="flex-1 h-full w-full bg-[#080d16] flex flex-col overflow-hidden font-mono text-slate-100">
-      {/* ── WEAVER WORKSPACE SUB-NAVIGATION BAR ── */}
-      <div className="bg-[#090e1a] border-b border-slate-800 p-1.5 px-3 flex items-center justify-between gap-3 shrink-0 shadow-sm">
-        {/* Left: Tab Switcher */}
-        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = currentTab === tab.id;
-
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => handleTabChange(tab.id)}
-                className={`px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
-                  isActive
-                    ? 'bg-slate-900 text-white border border-slate-700 shadow-md shadow-black/40'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-850 border border-transparent'
-                }`}
-                title={tab.label}
-              >
-                <Icon size={12} className={isActive ? tab.color : 'text-slate-500'} />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+      {/* ── WEAVER WORKSPACE SUB-NAVIGATION BAR (Shown when not in Write & Author mode) ── */}
+      {currentTab !== 'write' && (
+        <div className="bg-[#090e1a] border-b border-slate-800 p-1.5 px-3 flex items-center justify-between gap-3 shrink-0 shadow-sm relative">
+          {renderModePulldown()}
+          <div className="flex items-center gap-2 shrink-0">
+            {renderStageHandoff()}
+          </div>
         </div>
-
-        {/* Right: Active Scenario Context Indicator & Stage Handoff */}
-        <div className="flex items-center gap-2 shrink-0">
-          {activeNode && (
-            <span className="text-[11px] text-slate-400 font-bold truncate max-w-xs hidden md:inline">
-              Scenario: <strong className="text-cyan-300">{activeNode.title}</strong>
-            </span>
-          )}
-
-          {onSwitchView && (
-            <button
-              type="button"
-              onClick={() => onSwitchView('stage', 'setup')}
-              className="px-2.5 py-1 rounded-lg bg-purple-950/60 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
-              title="Compile and launch this scenario in Stage"
-            >
-              <span>Compile in Stage</span>
-              <ArrowRight size={11} />
-            </button>
-          )}
-        </div>
-      </div>
+      )}
 
       {/* ── TAB VIEWPORTS ── */}
       <div className="flex-1 flex overflow-hidden min-h-0 relative">
@@ -136,6 +184,8 @@ export default function WeaverWorkspace({
               handleOpenAddModal={handleOpenAddModal}
               handleDeleteElement={handleDeleteElement}
               locationPath={locationPath}
+              modePulldown={renderModePulldown()}
+              stageHandoff={renderStageHandoff()}
             />
           </div>
         )}

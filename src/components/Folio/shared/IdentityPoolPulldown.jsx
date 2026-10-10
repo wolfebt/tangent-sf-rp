@@ -1084,6 +1084,19 @@ export const FeatureMultiselectPulldown = ({
     return extractPillarFeatureSets(characterData);
   }, [characterData]);
 
+  // Derived Category Filter Chips including Directives and Railguards
+  const featureCategoryChips = useMemo(() => {
+    const list = (viewMode === 'recommended' && groupFilters.length > 1) ? groupFilters : ['All'];
+    const currentList = viewMode === 'recommended' ? recommendedItems : featCatalog;
+    const hasDir = currentList.some(i => Array.isArray(i.keywords) ? i.keywords.length > 0 : !!(i.keywords && String(i.keywords).trim()));
+    const hasRail = currentList.some(i => Array.isArray(i.negative_keywords) ? i.negative_keywords.length > 0 : !!(i.negative_keywords && String(i.negative_keywords).trim()));
+
+    const chips = [...list.filter(g => g !== 'All' && g !== 'Directives' && g !== 'Railguards')];
+    if (hasDir) chips.push('Directives');
+    if (hasRail) chips.push('Railguards');
+    return ['All', ...chips];
+  }, [viewMode, groupFilters, recommendedItems, featCatalog]);
+
   // Displayed items in pulldown tray
   const displayedItems = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -1097,13 +1110,33 @@ export const FeatureMultiselectPulldown = ({
 
       // Group filter check
       if (activeGroupFilter !== 'All') {
-        const target = activeGroupFilter.toLowerCase();
-        const matchesGroup = cat.includes(target) || sourceTag.includes(target) || (item.category && item.category.toLowerCase() === target);
-        if (!matchesGroup) return false;
+        if (activeGroupFilter === 'Directives') {
+          const hasKw = Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
+          if (!hasKw) return false;
+        } else if (activeGroupFilter === 'Railguards') {
+          const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
+          if (!hasNegKw) return false;
+        } else {
+          const target = activeGroupFilter.toLowerCase();
+          const matchesGroup = cat.includes(target) || sourceTag.includes(target) || (item.category && item.category.toLowerCase() === target);
+          if (!matchesGroup) return false;
+        }
       }
 
       if (!query) return true;
-      return name.includes(query) || desc.includes(query) || cat.includes(query);
+      const kw = (item.keywords || '').toLowerCase();
+      const negKw = (item.negative_keywords || '').toLowerCase();
+      const recTl = Array.isArray(item.recommended_tl) ? item.recommended_tl.join(' ') : String(item.recommended_tl || '');
+      const recMl = Array.isArray(item.recommended_ml) ? item.recommended_ml.join(' ') : String(item.recommended_ml || '');
+      return (
+        name.includes(query) ||
+        desc.includes(query) ||
+        cat.includes(query) ||
+        kw.includes(query) ||
+        negKw.includes(query) ||
+        recTl.includes(query) ||
+        recMl.includes(query)
+      );
     });
   }, [viewMode, recommendedItems, featCatalog, searchQuery, activeGroupFilter]);
 
@@ -1273,12 +1306,14 @@ export const FeatureMultiselectPulldown = ({
             </div>
           </div>
 
-          {/* Group Filter Chips (if multiple groups exist) */}
-          {groupFilters.length > 2 && viewMode === 'recommended' && (
+          {/* Group Filter Chips (including Directives and Railguards) */}
+          {featureCategoryChips.length > 1 && (
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-mono no-scrollbar shrink-0">
               <Filter size={11} className="text-slate-500 shrink-0" />
-              {groupFilters.map(grp => {
+              {featureCategoryChips.map(grp => {
                 const grpPillars = pillarFeatureSets ? getPillarFeatureRecommendations(grp, pillarFeatureSets, characterData) : [];
+                const isDir = grp === 'Directives';
+                const isRail = grp === 'Railguards';
                 return (
                   <button
                     key={grp}
@@ -1286,12 +1321,16 @@ export const FeatureMultiselectPulldown = ({
                     onClick={() => setActiveGroupFilter(grp)}
                     className={`px-2 py-0.5 rounded-full border transition-all shrink-0 cursor-pointer flex items-center gap-1 ${
                       activeGroupFilter === grp
-                        ? 'bg-amber-500/30 border-amber-400 text-amber-200 font-bold shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                        ? isDir
+                          ? 'bg-amber-600 border-amber-400 text-white font-bold shadow'
+                          : isRail
+                          ? 'bg-rose-600 border-rose-400 text-white font-bold shadow'
+                          : 'bg-amber-500/30 border-amber-400 text-amber-200 font-bold shadow-[0_0_8px_rgba(245,158,11,0.3)]'
                         : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                     }`}
                   >
-                    <span>{grp}</span>
-                    <PillarMarkerDots recommendations={grpPillars} />
+                    <span>{isDir ? '🧭 Directives (+KW)' : isRail ? '⛔ Railguards (-KW)' : grp}</span>
+                    {grpPillars.length > 0 && <PillarMarkerDots recommendations={grpPillars} />}
                   </button>
                 );
               })}
@@ -1457,6 +1496,19 @@ export const TraitMultiselectPulldown = ({
     return expandTraitGroupPatterns(recommendedTraits, traitCatalog);
   }, [recommendedTraits, traitCatalog]);
 
+  // Derived Category Filter Chips including Directives and Railguards
+  const traitCategoryChips = useMemo(() => {
+    const list = groupFilters.length > 1 ? groupFilters : ['All'];
+    const currentList = viewMode === 'recommended' ? recommendedItems : traitCatalog;
+    const hasDir = currentList.some(i => Array.isArray(i.keywords) ? i.keywords.length > 0 : !!(i.keywords && String(i.keywords).trim()));
+    const hasRail = currentList.some(i => Array.isArray(i.negative_keywords) ? i.negative_keywords.length > 0 : !!(i.negative_keywords && String(i.negative_keywords).trim()));
+
+    const chips = [...list.filter(g => g !== 'All' && g !== 'Directives' && g !== 'Railguards')];
+    if (hasDir) chips.push('Directives');
+    if (hasRail) chips.push('Railguards');
+    return ['All', ...chips];
+  }, [groupFilters, viewMode, recommendedItems, traitCatalog]);
+
   // Filter items based on search query and group mode
   const displayedItems = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -1475,16 +1527,28 @@ export const TraitMultiselectPulldown = ({
         description: item.description || item.desc || item.mechanics || '',
         groupLabel: item.groupLabel || item.classification || 'Trait',
         sourceTag: item.sourceTag || 'General',
+        keywords: item.keywords || '',
+        negative_keywords: item.negative_keywords || '',
+        recommended_tl: item.recommended_tl,
+        recommended_ml: item.recommended_ml,
         bp: item.bp !== undefined ? item.bp : 1
       };
     }).filter(item => {
       // Group filter check
       if (activeGroupFilter !== 'All') {
-        const target = activeGroupFilter.toLowerCase();
-        const matchesGroup = (item.classification && item.classification.toLowerCase().includes(target)) ||
-          (item.tier && item.tier.toLowerCase() === target) ||
-          (item.sourceTag && item.sourceTag.toLowerCase().includes(target));
-        if (!matchesGroup) return false;
+        if (activeGroupFilter === 'Directives') {
+          const hasKw = Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
+          if (!hasKw) return false;
+        } else if (activeGroupFilter === 'Railguards') {
+          const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
+          if (!hasNegKw) return false;
+        } else {
+          const target = activeGroupFilter.toLowerCase();
+          const matchesGroup = (item.classification && item.classification.toLowerCase().includes(target)) ||
+            (item.tier && item.tier.toLowerCase() === target) ||
+            (item.sourceTag && item.sourceTag.toLowerCase().includes(target));
+          if (!matchesGroup) return false;
+        }
       }
 
       if (!query) return true;
@@ -1492,7 +1556,20 @@ export const TraitMultiselectPulldown = ({
       const desc = item.description.toLowerCase();
       const cat = item.category.toLowerCase();
       const tier = (item.tier || '').toLowerCase();
-      return name.includes(query) || desc.includes(query) || cat.includes(query) || tier.includes(query);
+      const kw = (item.keywords || '').toLowerCase();
+      const negKw = (item.negative_keywords || '').toLowerCase();
+      const recTl = Array.isArray(item.recommended_tl) ? item.recommended_tl.join(' ') : String(item.recommended_tl || '');
+      const recMl = Array.isArray(item.recommended_ml) ? item.recommended_ml.join(' ') : String(item.recommended_ml || '');
+      return (
+        name.includes(query) ||
+        desc.includes(query) ||
+        cat.includes(query) ||
+        tier.includes(query) ||
+        kw.includes(query) ||
+        negKw.includes(query) ||
+        recTl.includes(query) ||
+        recMl.includes(query)
+      );
     });
   }, [viewMode, recommendedItems, traitCatalog, searchQuery, activeGroupFilter, categoryLabel]);
 
@@ -1671,23 +1748,31 @@ export const TraitMultiselectPulldown = ({
             </div>
           </div>
 
-          {/* Group Classification Filter Badges */}
-          {groupFilters.length > 1 && (
+          {/* Group Classification Filter Badges (including Directives and Railguards) */}
+          {traitCategoryChips.length > 1 && (
             <div className="flex flex-wrap gap-1 shrink-0 pb-1 border-b border-slate-800">
-              {groupFilters.map(gf => (
-                <button
-                  key={gf}
-                  type="button"
-                  onClick={() => setActiveGroupFilter(gf)}
-                  className={`px-2 py-0.5 rounded text-[9px] font-mono border transition-all cursor-pointer ${
-                    activeGroupFilter === gf
-                      ? 'bg-emerald-700/80 border-emerald-400 text-white font-bold'
-                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
-                  }`}
-                >
-                  {gf}
-                </button>
-              ))}
+              {traitCategoryChips.map(gf => {
+                const isDir = gf === 'Directives';
+                const isRail = gf === 'Railguards';
+                return (
+                  <button
+                    key={gf}
+                    type="button"
+                    onClick={() => setActiveGroupFilter(gf)}
+                    className={`px-2 py-0.5 rounded text-[9px] font-mono border transition-all cursor-pointer ${
+                      activeGroupFilter === gf
+                        ? isDir
+                          ? 'bg-emerald-600 border-emerald-400 text-white font-bold'
+                          : isRail
+                          ? 'bg-rose-600 border-rose-400 text-white font-bold'
+                          : 'bg-emerald-700/80 border-emerald-400 text-white font-bold'
+                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:border-slate-700'
+                    }`}
+                  >
+                    {isDir ? '🧭 Directives (+KW)' : isRail ? '⛔ Railguards (-KW)' : gf}
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -1831,6 +1916,19 @@ export const SkillPoolRankPulldown = ({
     return expandSkillGroupPatterns(recommendedSkills, skillCatalog);
   }, [recommendedSkills, skillCatalog]);
 
+  // Derived Category Filter Chips including Directives and Railguards
+  const skillCategoryChips = useMemo(() => {
+    const list = (viewMode === 'recommended' && recommendedItems.length > 0 && groupFilters.length > 1) ? groupFilters : ['All'];
+    const currentList = (viewMode === 'recommended' && recommendedItems.length > 0) ? recommendedItems : skillCatalog;
+    const hasDir = currentList.some(i => Array.isArray(i.keywords) ? i.keywords.length > 0 : !!(i.keywords && String(i.keywords).trim()));
+    const hasRail = currentList.some(i => Array.isArray(i.negative_keywords) ? i.negative_keywords.length > 0 : !!(i.negative_keywords && String(i.negative_keywords).trim()));
+
+    const chips = [...list.filter(g => g !== 'All' && g !== 'Directives' && g !== 'Railguards')];
+    if (hasDir) chips.push('Directives');
+    if (hasRail) chips.push('Railguards');
+    return ['All', ...chips];
+  }, [viewMode, recommendedItems, groupFilters, skillCatalog]);
+
   // Displayed items in pulldown tray
   const displayedItems = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -1844,22 +1942,38 @@ export const SkillPoolRankPulldown = ({
 
       // Group filter check
       if (activeGroupFilter !== 'All') {
-        const target = activeGroupFilter.toLowerCase();
-        const targetSingular = target.endsWith('s') ? target.slice(0, -1) : target;
-        const matchesGroup = (
-          group.includes(target) || group.includes(targetSingular) ||
-          sub.includes(target) || sub.includes(targetSingular) ||
-          sourceTag.includes(target) || sourceTag.includes(targetSingular)
-        );
-        if (!matchesGroup) return false;
+        if (activeGroupFilter === 'Directives') {
+          const hasKw = Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
+          if (!hasKw) return false;
+        } else if (activeGroupFilter === 'Railguards') {
+          const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
+          if (!hasNegKw) return false;
+        } else {
+          const target = activeGroupFilter.toLowerCase();
+          const targetSingular = target.endsWith('s') ? target.slice(0, -1) : target;
+          const matchesGroup = (
+            group.includes(target) || group.includes(targetSingular) ||
+            sub.includes(target) || sub.includes(targetSingular) ||
+            sourceTag.includes(target) || sourceTag.includes(targetSingular)
+          );
+          if (!matchesGroup) return false;
+        }
       }
 
       if (!query) return true;
+      const kw = (item.keywords || '').toLowerCase();
+      const negKw = (item.negative_keywords || '').toLowerCase();
+      const recTl = Array.isArray(item.recommended_tl) ? item.recommended_tl.join(' ') : String(item.recommended_tl || '');
+      const recMl = Array.isArray(item.recommended_ml) ? item.recommended_ml.join(' ') : String(item.recommended_ml || '');
       return (
         name.includes(query) ||
         group.includes(query) ||
         sub.includes(query) ||
         sourceTag.includes(query) ||
+        kw.includes(query) ||
+        negKw.includes(query) ||
+        recTl.includes(query) ||
+        recMl.includes(query) ||
         (item.description && item.description.toLowerCase().includes(query))
       );
     });
@@ -2027,24 +2141,32 @@ export const SkillPoolRankPulldown = ({
             </div>
           </div>
 
-          {/* Group Filter Chips (if multiple groups exist) */}
-          {groupFilters.length > 2 && viewMode === 'recommended' && (
+          {/* Group Filter Chips (including Directives and Railguards) */}
+          {skillCategoryChips.length > 1 && (
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-mono no-scrollbar shrink-0">
               <Filter size={11} className="text-slate-500 shrink-0" />
-              {groupFilters.map(grp => (
-                <button
-                  key={grp}
-                  type="button"
-                  onClick={() => setActiveGroupFilter(grp)}
-                  className={`px-2 py-0.5 rounded-full border transition-all shrink-0 cursor-pointer ${
-                    activeGroupFilter === grp
-                      ? 'bg-emerald-500/30 border-emerald-400 text-emerald-200 font-bold shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-                      : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
-                  }`}
-                >
-                  {grp}
-                </button>
-              ))}
+              {skillCategoryChips.map(grp => {
+                const isDir = grp === 'Directives';
+                const isRail = grp === 'Railguards';
+                return (
+                  <button
+                    key={grp}
+                    type="button"
+                    onClick={() => setActiveGroupFilter(grp)}
+                    className={`px-2 py-0.5 rounded-full border transition-all shrink-0 cursor-pointer ${
+                      activeGroupFilter === grp
+                        ? isDir
+                          ? 'bg-emerald-600 border-emerald-400 text-white font-bold'
+                          : isRail
+                          ? 'bg-rose-600 border-rose-400 text-white font-bold'
+                          : 'bg-emerald-500/30 border-emerald-400 text-emerald-200 font-bold shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                        : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    {isDir ? '🧭 Directives (+KW)' : isRail ? '⛔ Railguards (-KW)' : grp}
+                  </button>
+                );
+              })}
             </div>
           )}
 

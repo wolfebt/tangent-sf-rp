@@ -6,7 +6,8 @@ import { collection, getDocs } from 'firebase/firestore';
 import { 
   X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, 
   Layers, Plus, Compass, Dna, Bot, RefreshCw, Wand2, ArrowRight, Zap,
-  Briefcase, Sword, Package, Boxes, Scale, Trash2, Minus, Building2
+  Briefcase, Sword, Package, Boxes, Scale, Trash2, Minus, Building2,
+  Tag, AlertTriangle, Info, CheckCircle2, Sliders, HelpCircle
 } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
@@ -19,10 +20,16 @@ import { DEFAULT_ARMORING } from '../../../data/armoringData';
 import { DEFAULT_GEAR } from '../../../data/gearData';
 import { DEFAULT_MECHA } from '../../../data/mechaData';
 import { DEFAULT_ARCHITECTURE } from '../../../data/architectureData';
+import { DEFAULT_OTHER_PROPERTY } from '../../../data/otherPropertyData';
 import { scaleCarryingCapacity } from '../../../engines/tangentScalingEngine';
 import {
   synthesizeCharacterWithBastion,
-  calculateRulesLedger
+  calculateRulesLedger,
+  getArchetypeRecommendations,
+  getSpeciesRecommendations,
+  getFactionRecommendations,
+  getOriginRecommendations,
+  getOccupationRecommendations
 } from '../../../services/bastionCharacterEngine';
 import {
   resolveIdentityPillarsSettingLevels,
@@ -42,6 +49,68 @@ import {
   getWeightConversion
 } from '../../../engines/tangentMeasurementEngine';
 import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
+
+/**
+ * Normalizes input list into an array of clean string labels.
+ */
+const normalizeChipList = (val) => {
+  if (!val) return [];
+  if (Array.isArray(val)) {
+    return val.map(item => (typeof item === 'object' && item !== null ? (item.name || item.title || item.id || `TL ${item.level ?? item.tl}`) : String(item))).filter(Boolean);
+  }
+  if (typeof val === 'number') return [`${val}`];
+  if (typeof val === 'string') return val.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
+  return [];
+};
+
+/**
+ * Checks if any positive keywords resonate with the character concept / persona draft.
+ */
+const getResonantKeywords = (itemKeywords, draft = {}) => {
+  const kwList = normalizeChipList(itemKeywords);
+  if (kwList.length === 0) return [];
+  const textPool = [
+    draft['char-concept'],
+    draft['char-archetype'],
+    draft['char-species'],
+    draft['char-origin'],
+    draft['char-secondary-origin'],
+    draft['char-faction'],
+    draft['char-occu'],
+    draft['char-secondary-occu'],
+    draft.role,
+    draft.summary
+  ].filter(Boolean).join(' ').toLowerCase();
+
+  return kwList.filter(kw => {
+    const k = kw.toLowerCase().trim();
+    return k.length > 2 && textPool.includes(k);
+  });
+};
+
+/**
+ * Checks if any negative keywords / railguards clash with the character concept / persona draft.
+ */
+const getRailguardConflicts = (itemNegativeKeywords, draft = {}) => {
+  const negList = normalizeChipList(itemNegativeKeywords);
+  if (negList.length === 0) return [];
+  const textPool = [
+    draft['char-concept'],
+    draft['char-archetype'],
+    draft['char-species'],
+    draft['char-origin'],
+    draft['char-secondary-origin'],
+    draft['char-faction'],
+    draft['char-occu'],
+    draft['char-secondary-occu'],
+    draft.role
+  ].filter(Boolean).join(' ').toLowerCase();
+
+  return negList.filter(nk => {
+    const k = nk.toLowerCase().trim();
+    return k.length > 2 && textPool.includes(k);
+  });
+};
 
 const getSpeciesAttrModifier = (sp, attrName) => {
   if (!sp) return 0;
@@ -195,6 +264,14 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const [featureCategoryFilter, setFeatureCategoryFilter] = useState('All');
   const [speciesLineageFilter, setSpeciesLineageFilter] = useState('All');
   const [speciesSearchQuery, setSpeciesSearchQuery] = useState('');
+  const [originSearchQuery, setOriginSearchQuery] = useState('');
+  const [factionSearchQuery, setFactionSearchQuery] = useState('');
+  const [occupationSearchQuery, setOccupationSearchQuery] = useState('');
+  const [archetypeSearchQuery, setArchetypeSearchQuery] = useState('');
+  const [originCategoryFilter, setOriginCategoryFilter] = useState('all');
+  const [factionCategoryFilter, setFactionCategoryFilter] = useState('all');
+  const [occupationCategoryFilter, setOccupationCategoryFilter] = useState('all');
+  const [isBastionRulesOpen, setIsBastionRulesOpen] = useState(false);
 
   // Property & Inventory state
   const [propertyCategoryFilter, setPropertyCategoryFilter] = useState('all');
@@ -207,7 +284,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     weight: 0.5,
     cost: 50,
     notes: '',
-    tl: 3
+    tl: 3,
+    ml: 0,
+    recommended_tl: '2, 3',
+    recommended_ml: '0',
+    keywords: '',
+    negative_keywords: ''
   });
 
   // Data Caches
@@ -224,7 +306,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     armor: DEFAULT_ARMORING,
     gear: DEFAULT_GEAR,
     mecha: DEFAULT_MECHA,
-    architecture: DEFAULT_ARCHITECTURE
+    architecture: DEFAULT_ARCHITECTURE,
+    other: DEFAULT_OTHER_PROPERTY
   });
   const [isLoadingData, setIsLoadingData] = useState(false);
 
@@ -253,6 +336,27 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const selectedSecondaryOccupationObj = useMemo(() => {
     return (dbData.occupations || []).find(oc => (oc.name || oc.title || oc.id) === draft['char-secondary-occu']);
   }, [dbData.occupations, draft['char-secondary-occu']]);
+
+  // Staged BASTION Recommendations Computations
+  const stagedArchetypeRecs = useMemo(() => {
+    return getArchetypeRecommendations(draft['char-concept'] || bastionPrompt || '', dbData.archetypes, 6);
+  }, [draft['char-concept'], bastionPrompt, dbData.archetypes]);
+
+  const stagedSpeciesRecs = useMemo(() => {
+    return getSpeciesRecommendations(selectedArchetypeObj, draft['char-concept'] || bastionPrompt || '', dbData.species, 6, selectedFactionObj, selectedOriginObj, selectedOccupationObj);
+  }, [selectedArchetypeObj, draft['char-concept'], bastionPrompt, dbData.species, selectedFactionObj, selectedOriginObj, selectedOccupationObj]);
+
+  const stagedOriginRecs = useMemo(() => {
+    return getOriginRecommendations(selectedArchetypeObj, draft['char-concept'] || bastionPrompt || '', dbData.origins, 6, selectedSpeciesObj, selectedFactionObj, selectedOccupationObj);
+  }, [selectedArchetypeObj, draft['char-concept'], bastionPrompt, dbData.origins, selectedSpeciesObj, selectedFactionObj, selectedOccupationObj]);
+
+  const stagedFactionRecs = useMemo(() => {
+    return getFactionRecommendations(selectedArchetypeObj, draft['char-concept'] || bastionPrompt || '', dbData.factions, 6, selectedSpeciesObj, selectedOriginObj, selectedOccupationObj);
+  }, [selectedArchetypeObj, draft['char-concept'], bastionPrompt, dbData.factions, selectedSpeciesObj, selectedOriginObj, selectedOccupationObj]);
+
+  const stagedOccupationRecs = useMemo(() => {
+    return getOccupationRecommendations(selectedArchetypeObj, draft['char-concept'] || bastionPrompt || '', dbData.occupations, 6, selectedSpeciesObj, selectedFactionObj, selectedOriginObj);
+  }, [selectedArchetypeObj, draft['char-concept'], bastionPrompt, dbData.occupations, selectedSpeciesObj, selectedFactionObj, selectedOriginObj]);
 
   // Derive Setting Levels specifically from Species or Faction
   const speciesSettingLevels = useMemo(() => {
@@ -333,8 +437,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         fetchCollectionWithFallback('skills', 'omnicortex/skills/items'),
         fetchCollectionWithFallback('traits', 'omnicortex/traits/items'),
         fetchCollectionWithFallback('features', 'omnicortex/features/items'),
-        fetchCollectionWithFallback('archetypes', 'omnicortex/archetypes/items')
-      ]).then(([species, origins, factions, occupations, cloudSkills, cloudTraits, cloudFeatures, cloudArchetypes]) => {
+        fetchCollectionWithFallback('archetypes', 'omnicortex/archetypes/items'),
+        fetchCollectionWithFallback('other', 'omnicortex/other/items')
+      ]).then(([species, origins, factions, occupations, cloudSkills, cloudTraits, cloudFeatures, cloudArchetypes, cloudOther]) => {
         // Merge cloud skills with canonical defaults
         const skillMap = new Map();
         ALL_CANONICAL_SKILLS.forEach(s => skillMap.set(s.name.toLowerCase(), s));
@@ -376,6 +481,15 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           if (key) speciesMap.set(key, { ...sp, name: name || key });
         });
 
+        // Merge cloud other property with canonical defaults
+        const otherMap = new Map();
+        DEFAULT_OTHER_PROPERTY.forEach(o => otherMap.set((o.id || o.name).toLowerCase(), o));
+        cloudOther.forEach(o => {
+          const name = o.name || o.title;
+          const key = (o.id || name || '').toLowerCase();
+          if (key) otherMap.set(key, { ...o, name: name || key, category: 'other' });
+        });
+
         setDbData({
           archetypes: Array.from(archetypeMap.values()),
           species: Array.from(speciesMap.values()),
@@ -389,7 +503,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           armor: DEFAULT_ARMORING,
           gear: DEFAULT_GEAR,
           mecha: DEFAULT_MECHA,
-          architecture: DEFAULT_ARCHITECTURE
+          architecture: DEFAULT_ARCHITECTURE,
+          other: Array.from(otherMap.values())
         });
         setIsLoadingData(false);
       }).catch(err => {
@@ -831,6 +946,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           weapons: character.weapons || [],
           armor: character.armor || [],
           gear: character.gear || [],
+          mecha: character.mecha || [],
+          architecture: character.architecture || [],
+          other: character.other || [],
           notes: character.notes || []
         }));
 
@@ -1226,6 +1344,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         weight: parseFloat(item.weight ?? item.wt ?? item.mass ?? 0.5) || 0,
         cost: parseInt(item.cost ?? item.price ?? 50, 10) || 0,
         tl: item.tl || item.tech_level || 3,
+        ml: item.ml || item.meta_level || 0,
+        recommended_tl: normalizeChipList(item.recommended_tl),
+        recommended_ml: normalizeChipList(item.recommended_ml),
+        keywords: item.keywords || '',
+        negative_keywords: item.negative_keywords || '',
         description: item.description || item.notes || item.mechanics || '',
         damage: item.damage || '',
         armor: item.armor || item.armor_value || '',
@@ -1277,6 +1400,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       weight: Math.max(0, parseFloat(customPropertyForm.weight) || 0),
       cost: Math.max(0, parseInt(customPropertyForm.cost, 10) || 0),
       tl: Math.min(5, Math.max(0, parseInt(customPropertyForm.tl, 10) || 3)),
+      ml: Math.min(5, Math.max(0, parseInt(customPropertyForm.ml, 10) || 0)),
+      recommended_tl: normalizeChipList(customPropertyForm.recommended_tl),
+      recommended_ml: normalizeChipList(customPropertyForm.recommended_ml),
+      keywords: customPropertyForm.keywords || '',
+      negative_keywords: customPropertyForm.negative_keywords || '',
       description: customPropertyForm.notes || '',
       notes: customPropertyForm.notes || ''
     });
@@ -1289,7 +1417,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       weight: 0.5,
       cost: 50,
       notes: '',
-      tl: 3
+      tl: 3,
+      ml: 0,
+      recommended_tl: '2, 3',
+      recommended_ml: '0',
+      keywords: '',
+      negative_keywords: ''
     });
     setIsAddingCustomProperty(false);
     showToast({ type: 'success', title: 'Custom Item Created', text: `Added "${customPropertyForm.name.trim()}" to manifest.` });
@@ -1328,8 +1461,37 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const renderConcept = () => {
     const filteredArchetypes = (dbData.archetypes || [])
       .filter(a => {
-        if (archetypeSphereFilter === 'All') return true;
-        return (a.sphere || '').toLowerCase().includes(archetypeSphereFilter.toLowerCase());
+        if (archetypeSphereFilter === 'Directives') {
+          const hasKw = Array.isArray(a.keywords) ? a.keywords.length > 0 : !!(a.keywords && String(a.keywords).trim());
+          if (!hasKw) return false;
+        } else if (archetypeSphereFilter === 'Railguards') {
+          const hasNegKw = Array.isArray(a.negative_keywords) ? a.negative_keywords.length > 0 : !!(a.negative_keywords && String(a.negative_keywords).trim());
+          if (!hasNegKw) return false;
+        } else if (archetypeSphereFilter !== 'All') {
+          if (!(a.sphere || '').toLowerCase().includes(archetypeSphereFilter.toLowerCase())) return false;
+        }
+
+        if (archetypeSearchQuery.trim()) {
+          const q = archetypeSearchQuery.toLowerCase().trim();
+          const name = (a.name || a.id || '').toLowerCase();
+          const concept = (a.core_concept || a.concept || a.description || '').toLowerCase();
+          const prim = (a.primary_attribute || '').toLowerCase();
+          const sec = (a.secondary_attribute || '').toLowerCase();
+          const role = (a.tactical_role || '').toLowerCase();
+          const kw = (Array.isArray(a.keywords) ? a.keywords.join(' ') : String(a.keywords || '')).toLowerCase();
+          const negKw = (Array.isArray(a.negative_keywords) ? a.negative_keywords.join(' ') : String(a.negative_keywords || '')).toLowerCase();
+          return (
+            name.includes(q) ||
+            concept.includes(q) ||
+            prim.includes(q) ||
+            sec.includes(q) ||
+            role.includes(q) ||
+            kw.includes(q) ||
+            negKw.includes(q)
+          );
+        }
+
+        return true;
       })
       .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
@@ -1482,22 +1644,56 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               <span className="text-[11px] font-semibold text-slate-400">100 Tangent Archetypes</span>
             </div>
 
-            {/* Sphere Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {['Sentinels', 'Operatives', 'Visionaries', 'Savants', 'All'].map(sp => (
+            {/* Search Input for Archetype */}
+            <div className="relative">
+              <input
+                type="text"
+                value={archetypeSearchQuery}
+                onChange={e => setArchetypeSearchQuery(e.target.value)}
+                placeholder="Search archetypes by name, concept, attributes, directives, or railguards..."
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-7 py-2 text-xs text-white placeholder-slate-500 focus:border-cyan-500 outline-none"
+              />
+              <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
+              {archetypeSearchQuery && (
                 <button
-                  key={sp}
                   type="button"
-                  onClick={() => setArchetypeSphereFilter(sp)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${
-                    archetypeSphereFilter === sp 
-                      ? 'bg-cyan-500 text-slate-950 font-bold shadow' 
-                      : 'bg-slate-800 text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  {sp}
-                </button>
-              ))}
+                  onClick={() => setArchetypeSearchQuery('')}
+                  className="absolute right-2 top-2 text-slate-500 hover:text-white text-xs cursor-pointer"
+                >✕</button>
+              )}
+            </div>
+
+            {/* Sphere & Directive/Railguard Filter Pills */}
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {['Sentinels', 'Operatives', 'Visionaries', 'Savants', 'All', 'Directives', 'Railguards'].map(sp => {
+                const isSelected = archetypeSphereFilter === sp;
+                const isDir = sp === 'Directives';
+                const isRail = sp === 'Railguards';
+                const count = sp === 'All' ? (dbData.archetypes || []).length
+                  : sp === 'Directives' ? (dbData.archetypes || []).filter(a => Array.isArray(a.keywords) ? a.keywords.length > 0 : !!(a.keywords && String(a.keywords).trim())).length
+                  : sp === 'Railguards' ? (dbData.archetypes || []).filter(a => Array.isArray(a.negative_keywords) ? a.negative_keywords.length > 0 : !!(a.negative_keywords && String(a.negative_keywords).trim())).length
+                  : (dbData.archetypes || []).filter(a => (a.sphere || '').toLowerCase().includes(sp.toLowerCase())).length;
+
+                return (
+                  <button
+                    key={sp}
+                    type="button"
+                    onClick={() => setArchetypeSphereFilter(sp)}
+                    className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all flex items-center gap-1 cursor-pointer ${
+                      isSelected
+                        ? isDir
+                          ? 'bg-cyan-600 text-white font-bold shadow'
+                          : isRail
+                          ? 'bg-rose-600 text-white font-bold shadow'
+                          : 'bg-cyan-500 text-slate-950 font-bold shadow'
+                        : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    <span>{isDir ? '🧭 Directives (+KW)' : isRail ? '⛔ Railguards (-KW)' : sp}</span>
+                    <span className="text-[10px] opacity-75 font-mono">({count})</span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Archetype Select Dropdown */}
@@ -1514,7 +1710,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none"
               >
                 <option value="">-- No Archetype (Custom Open Point-Buy) --</option>
-                {archetypeSphereFilter === 'All' ? (
+                {archetypeSphereFilter === 'All' && !archetypeSearchQuery.trim() ? (
                   groupedArchetypesForSelect.map(([sphereName, list]) => (
                     <optgroup key={sphereName} label={`─── ${sphereName.toUpperCase()} ───`} className="bg-slate-950 text-cyan-400 font-bold font-mono">
                       {list.map(a => (
@@ -1779,19 +1975,39 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       const title = (sp.title || '').toLowerCase();
       const desc = (sp.description || '').toLowerCase();
       const homeworld = (sp.homeworld || '').toLowerCase();
+      const kw = (sp.keywords || '').toLowerCase();
+      const negKw = (sp.negative_keywords || '').toLowerCase();
+      const recTl = Array.isArray(sp.recommended_tl) ? sp.recommended_tl.join(' ') : String(sp.recommended_tl || '');
+      const recMl = Array.isArray(sp.recommended_ml) ? sp.recommended_ml.join(' ') : String(sp.recommended_ml || '');
 
-      // Lineage filter
-      if (speciesLineageFilter !== 'All') {
+      // Lineage & Category filter
+      if (speciesLineageFilter === 'Directives') {
+        const hasKw = Array.isArray(sp.keywords) ? sp.keywords.length > 0 : !!(sp.keywords && String(sp.keywords).trim());
+        if (!hasKw) return false;
+      } else if (speciesLineageFilter === 'Railguards') {
+        const hasNegKw = Array.isArray(sp.negative_keywords) ? sp.negative_keywords.length > 0 : !!(sp.negative_keywords && String(sp.negative_keywords).trim());
+        if (!hasNegKw) return false;
+      } else if (speciesLineageFilter !== 'All') {
         const target = speciesLineageFilter.toLowerCase().split(' ')[0].replace(/[^a-z0-9]/g, '');
         const cleanParent = parentName.replace(/[^a-z0-9]/g, '');
         const cleanId = (sp.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
         if (!cleanParent.includes(target) && !cleanId.includes(target)) return false;
       }
 
-      // Search query
+      // Search query across name, description, lineage, homeworld, keywords, and railguards
       if (speciesSearchQuery.trim()) {
         const q = speciesSearchQuery.toLowerCase().trim();
-        return name.includes(q) || title.includes(q) || desc.includes(q) || parentName.includes(q) || homeworld.includes(q);
+        return (
+          name.includes(q) ||
+          title.includes(q) ||
+          desc.includes(q) ||
+          parentName.includes(q) ||
+          homeworld.includes(q) ||
+          kw.includes(q) ||
+          negKw.includes(q) ||
+          recTl.includes(q) ||
+          recMl.includes(q)
+        );
       }
 
       return true;
@@ -1803,37 +2019,38 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           <div>
             <h3 className="text-xl font-bold text-cyan-400 flex items-center gap-2">
               <Dna className="text-cyan-400" size={22} />
-              <span>Species & Transhuman Lineages</span>
+              <span>Species &amp; Transhuman Lineages</span>
             </h3>
-            <p className="text-sm text-slate-400">Select your character's species to establish inherent traits, attribute modifiers, and biology.</p>
+            <p className="text-sm text-slate-400">
+              Select your character's species to establish inherent traits, attribute modifiers, setting compatibility, and biology.
+            </p>
           </div>
 
           {/* Search bar */}
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full sm:w-72">
             <input
               type="text"
               value={speciesSearchQuery}
               onChange={e => setSpeciesSearchQuery(e.target.value)}
-              placeholder="Search 81 species..."
+              placeholder="Search by name, TL/ML, keywords, or railguards..."
               className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-cyan-500 outline-none"
             />
             <Search size={14} className="absolute left-2.5 top-2.5 text-slate-500" />
             {speciesSearchQuery && (
               <button
                 onClick={() => setSpeciesSearchQuery('')}
-                className="absolute right-2 top-2 text-slate-500 hover:text-white text-xs"
+                className="absolute right-2 top-2 text-slate-500 hover:text-white text-xs cursor-pointer"
               >✕</button>
             )}
           </div>
         </div>
-
 
         {/* Lineage Filter Pills */}
         <div className="flex flex-wrap gap-1.5 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
           <button
             type="button"
             onClick={() => setSpeciesLineageFilter('All')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all ${
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
               speciesLineageFilter === 'All'
                 ? 'bg-cyan-500 text-slate-950 font-bold shadow'
                 : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
@@ -1853,7 +2070,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 key={lin.id}
                 type="button"
                 onClick={() => setSpeciesLineageFilter(lin.name)}
-                className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
                   speciesLineageFilter === lin.name
                     ? 'bg-purple-600 text-white font-bold shadow-[0_0_10px_rgba(168,85,247,0.4)]'
                     : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
@@ -1869,6 +2086,34 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               </button>
             );
           })}
+          <button
+            type="button"
+            onClick={() => setSpeciesLineageFilter('Directives')}
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+              speciesLineageFilter === 'Directives'
+                ? 'bg-cyan-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+            }`}
+          >
+            <span>🧭 Directives (+KW)</span>
+            <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
+              {(dbData.species || []).filter(s => Array.isArray(s.keywords) ? s.keywords.length > 0 : !!(s.keywords && String(s.keywords).trim())).length}
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setSpeciesLineageFilter('Railguards')}
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+              speciesLineageFilter === 'Railguards'
+                ? 'bg-rose-600 text-white font-bold shadow-[0_0_10px_rgba(225,29,72,0.4)]'
+                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+            }`}
+          >
+            <span>⛔ Railguards (-KW)</span>
+            <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
+              {(dbData.species || []).filter(s => Array.isArray(s.negative_keywords) ? s.negative_keywords.length > 0 : !!(s.negative_keywords && String(s.negative_keywords).trim())).length}
+            </span>
+          </button>
         </div>
 
         {/* Species Grid */}
@@ -1879,6 +2124,25 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             const inherentMods = Array.isArray(sp.inherent_attribute_modifiers) ? sp.inherent_attribute_modifiers : [];
             const inherentFeats = getInherentSpeciesTraits(sp);
 
+            // BASTION recommendation lookup
+            const bastionRec = (stagedSpeciesRecs || []).find(r => 
+              (r.species?.name || r.species?.id || r.name || r.id || '').toLowerCase() === (sp.name || sp.id || '').toLowerCase()
+            );
+
+            // Recommended TL / ML tags & compatibility
+            const recTlList = normalizeChipList(sp.recommended_tl || (sp.tech_level !== undefined ? [sp.tech_level] : []));
+            const recMlList = normalizeChipList(sp.recommended_ml || (sp.meta_level !== undefined ? [sp.meta_level] : []));
+            const personaTl = draft.technologyLevel ?? 3;
+            const personaMl = draft.metaLevel ?? 3;
+            const tlMatches = recTlList.length === 0 || recTlList.some(t => String(t).includes(String(personaTl)));
+            const mlMatches = recMlList.length === 0 || recMlList.some(m => String(m).includes(String(personaMl)));
+
+            // Keywords & Railguards
+            const resonantKeywords = getResonantKeywords(sp.keywords, draft);
+            const railguardConflicts = getRailguardConflicts(sp.negative_keywords, draft);
+            const allKeywords = normalizeChipList(sp.keywords);
+            const allNegativeKeywords = normalizeChipList(sp.negative_keywords);
+
             return (
               <div
                 key={sp.id || sp.name}
@@ -1886,20 +2150,30 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   updateDraft('char-species', sp.name || sp.title || sp.id);
                   setSelectedSpeciesObj(sp);
                 }}
-                className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between gap-2.5 ${
                   isSelected
                     ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.25)] ring-1 ring-cyan-500/40'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-600 hover:bg-slate-800/80'
+                    : railguardConflicts.length > 0
+                      ? 'bg-slate-900/60 border-amber-800/60 hover:border-amber-600'
+                      : 'bg-slate-900/60 border-slate-800 hover:border-slate-600 hover:bg-slate-800/80'
                 }`}
               >
                 <div>
                   <div className="flex justify-between items-start mb-1.5 gap-2">
                     <div>
-                      <h4 className={`font-bold text-sm ${isSelected ? 'text-cyan-300' : 'text-white'}`}>
-                        {sp.name}
-                      </h4>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h4 className={`font-bold text-sm ${isSelected ? 'text-cyan-300' : 'text-white'}`}>
+                          {sp.name}
+                        </h4>
+                        {bastionRec && (
+                          <span className="px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-400 text-cyan-300 text-[10px] font-bold flex items-center gap-1 font-mono shadow-sm">
+                            <Bot size={11} className="text-cyan-400" />
+                            <span>BASTION Synergy ({bastionRec.score} pts)</span>
+                          </span>
+                        )}
+                      </div>
                       {sp.parent_species && (
-                        <span className="text-[10px] text-purple-300 font-mono flex items-center gap-1">
+                        <span className="text-[10px] text-purple-300 font-mono flex items-center gap-1 mt-0.5">
                           <span>🧬</span> {sp.parent_species}
                         </span>
                       )}
@@ -1911,7 +2185,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
                   <p className="text-xs text-slate-300 line-clamp-2 mb-2">{sp.description || 'Canonical species baseline.'}</p>
 
-                  {/* Attribute & Feature Tags */}
+                  {/* Attribute & Biology Tags */}
                   <div className="flex flex-wrap gap-1 mb-2">
                     {inherentMods.map((m, i) => {
                       const aName = typeof m === 'object' ? (m.attribute || m.name) : String(m);
@@ -1933,6 +2207,77 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                       </span>
                     )}
                   </div>
+
+                  {/* Setting Tiers: Recommended TL & ML */}
+                  <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                    {recTlList.length > 0 && (
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold border flex items-center gap-1 ${
+                        tlMatches 
+                          ? 'bg-cyan-950/90 text-cyan-300 border-cyan-500/40' 
+                          : 'bg-slate-950 text-slate-400 border-slate-700'
+                      }`}>
+                        <span>TL: {recTlList.join(', ')}</span>
+                        {tlMatches && <span className="text-[9px] text-emerald-400">✓</span>}
+                      </span>
+                    )}
+                    {recMlList.length > 0 && (
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold border flex items-center gap-1 ${
+                        mlMatches 
+                          ? 'bg-purple-950/90 text-purple-300 border-purple-500/40' 
+                          : 'bg-slate-950 text-slate-400 border-slate-700'
+                      }`}>
+                        <span>ML: {recMlList.join(', ')}</span>
+                        {mlMatches && <span className="text-[9px] text-purple-400">✓</span>}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Positive Keywords & Railguards */}
+                  {(allKeywords.length > 0 || allNegativeKeywords.length > 0) && (
+                    <div className="space-y-1 mb-2 pt-1 border-t border-slate-800/60">
+                      {allKeywords.length > 0 && (
+                        <div className="flex flex-wrap gap-1 items-center">
+                          <span className="text-[9px] font-mono text-emerald-400 uppercase tracking-wider font-bold">Directives:</span>
+                          {allKeywords.slice(0, 4).map((kw, i) => {
+                            const isResonant = resonantKeywords.some(rk => rk.toLowerCase() === kw.toLowerCase());
+                            return (
+                              <span
+                                key={i}
+                                className={`text-[9px] px-1.5 py-0.2 rounded font-mono ${
+                                  isResonant
+                                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 font-bold shadow-[0_0_8px_rgba(16,185,129,0.2)]'
+                                    : 'bg-slate-950 text-slate-400 border border-slate-800'
+                                }`}
+                              >
+                                +{kw}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {allNegativeKeywords.length > 0 && (
+                        <div className="flex flex-wrap gap-1 items-center">
+                          <span className="text-[9px] font-mono text-rose-400 uppercase tracking-wider font-bold">Railguards:</span>
+                          {allNegativeKeywords.slice(0, 3).map((nk, i) => {
+                            const isClash = railguardConflicts.some(rc => rc.toLowerCase() === nk.toLowerCase());
+                            return (
+                              <span
+                                key={i}
+                                className={`text-[9px] px-1.5 py-0.2 rounded font-mono ${
+                                  isClash
+                                    ? 'bg-red-950 text-red-300 border border-red-500/80 font-bold animate-pulse'
+                                    : 'bg-slate-950 text-rose-400/80 border border-rose-900/40'
+                                }`}
+                              >
+                                ⚠️ {nk}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {inherentFeats.length > 0 && (
@@ -1953,195 +2298,716 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   };
 
   const renderOriginFaction = () => {
+    // Filter Origins by search query and category
+    const filteredOrigins = (dbData.origins || []).filter(org => {
+      if (originCategoryFilter === 'directives') {
+        const hasKw = Array.isArray(org.keywords) ? org.keywords.length > 0 : !!(org.keywords && String(org.keywords).trim());
+        if (!hasKw) return false;
+      } else if (originCategoryFilter === 'railguards') {
+        const hasNegKw = Array.isArray(org.negative_keywords) ? org.negative_keywords.length > 0 : !!(org.negative_keywords && String(org.negative_keywords).trim());
+        if (!hasNegKw) return false;
+      }
+
+      if (!originSearchQuery.trim()) return true;
+      const q = originSearchQuery.toLowerCase().trim();
+      const name = (org.name || org.title || org.id || '').toLowerCase();
+      const desc = (org.description || '').toLowerCase();
+      const skills = extractNameList(org.society_skills).join(' ').toLowerCase();
+      const traits = extractNameList(org.traits || org.trait).join(' ').toLowerCase();
+      const kw = (org.keywords || '').toLowerCase();
+      const negKw = (org.negative_keywords || '').toLowerCase();
+      const recTl = Array.isArray(org.recommended_tl) ? org.recommended_tl.join(' ') : String(org.recommended_tl || '');
+      const recMl = Array.isArray(org.recommended_ml) ? org.recommended_ml.join(' ') : String(org.recommended_ml || '');
+      return (
+        name.includes(q) ||
+        desc.includes(q) ||
+        skills.includes(q) ||
+        traits.includes(q) ||
+        kw.includes(q) ||
+        negKw.includes(q) ||
+        recTl.includes(q) ||
+        recMl.includes(q)
+      );
+    });
+
+    // Filter Factions by search query and category
+    const filteredFactions = (dbData.factions || []).filter(fac => {
+      if (factionCategoryFilter === 'directives') {
+        const hasKw = Array.isArray(fac.keywords) ? fac.keywords.length > 0 : !!(fac.keywords && String(fac.keywords).trim());
+        if (!hasKw) return false;
+      } else if (factionCategoryFilter === 'railguards') {
+        const hasNegKw = Array.isArray(fac.negative_keywords) ? fac.negative_keywords.length > 0 : !!(fac.negative_keywords && String(fac.negative_keywords).trim());
+        if (!hasNegKw) return false;
+      }
+
+      if (!factionSearchQuery.trim()) return true;
+      const q = factionSearchQuery.toLowerCase().trim();
+      const name = (fac.name || fac.title || fac.id || '').toLowerCase();
+      const desc = (fac.description || '').toLowerCase();
+      const skills = extractNameList(fac.skill_package || fac.skills).join(' ').toLowerCase();
+      const feats = extractNameList(fac.features || fac.bonus_features || fac.benefits).join(' ').toLowerCase();
+      const kw = (fac.keywords || '').toLowerCase();
+      const negKw = (fac.negative_keywords || '').toLowerCase();
+      const recTl = Array.isArray(fac.recommended_tl) ? fac.recommended_tl.join(' ') : String(fac.recommended_tl || '');
+      const recMl = Array.isArray(fac.recommended_ml) ? fac.recommended_ml.join(' ') : String(fac.recommended_ml || '');
+      return (
+        name.includes(q) ||
+        desc.includes(q) ||
+        skills.includes(q) ||
+        feats.includes(q) ||
+        kw.includes(q) ||
+        negKw.includes(q) ||
+        recTl.includes(q) ||
+        recMl.includes(q)
+      );
+    });
+
     return (
-      <div className="space-y-6 w-full h-full flex flex-col">
+      <div className="space-y-5 w-full h-full flex flex-col">
         <div>
-          <h3 className="text-xl font-bold text-cyan-400">Origin & Faction</h3>
+          <h3 className="text-xl font-bold text-cyan-400">Origin &amp; Faction</h3>
           <p className="text-sm text-slate-400">
             Choose your homeworld origin and faction allegiance. Your chosen origin grants 20 SP for society skills and 2 bonus features/traits reflecting your upbringing environment, while your faction grants a 20 SP skill package and 2 organizational benefits.
           </p>
         </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
-        {/* Origin Column */}
-        <div className="space-y-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex flex-col">
-          <div>
-            <h4 className="font-bold text-amber-400 uppercase tracking-widest text-sm flex items-center gap-2">
-              <BookOpen size={16} /> Origin Homeworld (Primary)
-            </h4>
-            <p className="text-[11px] text-slate-400 mt-0.5">Defines your home environment and grants 20 SP & 2 traits.</p>
-          </div>
-
-          {dbData.origins.length === 0 ? (
-            <div className="space-y-2">
-              <p className="text-xs text-slate-500 italic">No origin presets found. Enter custom origin:</p>
-              <input 
-                type="text" 
-                value={draft['char-origin']} 
-                onChange={e => updateDraft('char-origin', e.target.value)}
-                placeholder="e.g. Core World, Outer Fringe, Orbital Station"
-                className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
-              />
-            </div>
-          ) : (
-            <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
-              {dbData.origins.map(org => {
-                const name = org.name || org.title || org.id;
-                const isSelected = draft['char-origin'] === name;
-                return (
-                  <div 
-                    key={org.id || name} onClick={() => updateDraft('char-origin', name)}
-                    className={`p-2.5 rounded-lg border text-sm cursor-pointer transition-all ${
-                      isSelected
-                        ? 'bg-amber-950/40 border-amber-500 text-amber-200 shadow-sm'
-                        : 'bg-slate-800/80 border-slate-700/80 text-slate-300 hover:border-slate-500'
-                    }`}
-                  >
-                    <div className="font-bold text-xs flex justify-between items-center">
-                      <span>{name}</span>
-                      {isSelected && <span className="text-[10px] text-amber-400 font-mono">PRIMARY</span>}
-                    </div>
-                    {org.description && <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-1">{org.description}</p>}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Optional Secondary Origin (Expands Options) */}
-          <div className="pt-3 border-t border-slate-800 space-y-2">
-            <div className="flex justify-between items-center">
+          {/* Origin Column */}
+          <div className="space-y-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex flex-col">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
               <div>
-                <span className="text-xs font-bold text-amber-300/90 block uppercase tracking-wide">
-                  Optional Secondary Origin
-                </span>
-                <span className="text-[10px] text-slate-400">
-                  Expands available skill & trait options without gaining extra points.
-                </span>
+                <h4 className="font-bold text-amber-400 uppercase tracking-widest text-sm flex items-center gap-2">
+                  <BookOpen size={16} /> Origin Homeworld (Primary)
+                </h4>
+                <p className="text-[11px] text-slate-400 mt-0.5">Defines your upbringing environment (20 SP &amp; 2 traits).</p>
               </div>
-              {draft['char-secondary-origin'] && (
+              <div className="relative w-full sm:w-56">
+                <input
+                  type="text"
+                  value={originSearchQuery}
+                  onChange={e => setOriginSearchQuery(e.target.value)}
+                  placeholder="Search origins, directives, railguards..."
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-7 pr-2 py-1 text-xs text-white placeholder-slate-500 focus:border-amber-400 outline-none"
+                />
+                <Search size={12} className="absolute left-2 top-2 text-slate-500" />
+                {originSearchQuery && (
+                  <button
+                    onClick={() => setOriginSearchQuery('')}
+                    className="absolute right-2 top-1 text-slate-500 hover:text-white text-xs cursor-pointer"
+                  >✕</button>
+                )}
+              </div>
+            </div>
+
+            {/* Origin Category Filter Pills */}
+            <div className="flex flex-wrap gap-1.5 pt-0.5">
+              {[
+                { id: 'all', label: 'All', count: (dbData.origins || []).length },
+                { id: 'directives', label: '🧭 Directives (+KW)', count: (dbData.origins || []).filter(o => Array.isArray(o.keywords) ? o.keywords.length > 0 : !!(o.keywords && String(o.keywords).trim())).length },
+                { id: 'railguards', label: '⛔ Railguards (-KW)', count: (dbData.origins || []).filter(o => Array.isArray(o.negative_keywords) ? o.negative_keywords.length > 0 : !!(o.negative_keywords && String(o.negative_keywords).trim())).length }
+              ].map(cat => (
                 <button
+                  key={cat.id}
                   type="button"
-                  onClick={() => updateDraft('char-secondary-origin', '')}
-                  className="text-[10px] text-slate-400 hover:text-red-400 uppercase font-mono cursor-pointer"
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-
-            <select
-              value={draft['char-secondary-origin'] || ''}
-              onChange={e => updateDraft('char-secondary-origin', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg p-2 text-xs text-slate-200 outline-none font-mono"
-            >
-              <option value="">-- No Secondary Origin --</option>
-              {dbData.origins
-                .filter(o => (o.name || o.title || o.id) !== draft['char-origin'])
-                .map(org => {
-                  const name = org.name || org.title || org.id;
-                  return (
-                    <option key={org.id || name} value={name}>
-                      + {name}
-                    </option>
-                  );
-                })}
-            </select>
-          </div>
-        </div>
-
-        {/* Faction Column */}
-        <div className="space-y-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-          <h4 className="font-bold text-emerald-400 uppercase tracking-widest text-sm flex items-center gap-2">
-            <Shield size={16} /> Faction Allegiance
-          </h4>
-          {dbData.factions.length === 0 ? (
-            <div className="space-y-2">
-              <p className="text-xs text-slate-500 italic">No faction presets found. Enter custom faction:</p>
-              <input 
-                type="text" 
-                value={draft['char-faction']} 
-                onChange={e => updateDraft('char-faction', e.target.value)}
-                placeholder="e.g. Sol Alliance, Syndicate Guild, Independent"
-                className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
-              />
-            </div>
-          ) : (
-            dbData.factions.map(fac => {
-              const name = fac.name || fac.title || fac.id;
-              return (
-                <div 
-                  key={fac.id || name} onClick={() => updateDraft('char-faction', name)}
-                  className={`p-3 rounded-lg border text-sm cursor-pointer transition-all ${
-                    draft['char-faction'] === name
-                      ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200'
-                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
+                  onClick={() => setOriginCategoryFilter(cat.id)}
+                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-all flex items-center gap-1 cursor-pointer ${
+                    originCategoryFilter === cat.id
+                      ? cat.id === 'directives'
+                        ? 'bg-amber-600 text-white font-bold shadow'
+                        : cat.id === 'railguards'
+                        ? 'bg-rose-600 text-white font-bold shadow'
+                        : 'bg-amber-500 text-slate-950 font-bold shadow'
+                      : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
                   }`}
                 >
-                  <div className="font-bold">{name}</div>
-                  {fac.description && <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{fac.description}</p>}
+                  <span>{cat.label}</span>
+                  <span className="text-[10px] opacity-75 font-mono">({cat.count})</span>
+                </button>
+              ))}
+            </div>
+
+            {dbData.origins.length === 0 ? (
+              <div className="space-y-2">
+                <p className="text-xs text-slate-500 italic">No origin presets found. Enter custom origin:</p>
+                <input 
+                  type="text" 
+                  value={draft['char-origin']} 
+                  onChange={e => updateDraft('char-origin', e.target.value)}
+                  placeholder="e.g. Core World, Outer Fringe, Orbital Station"
+                  className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
+                />
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-72 overflow-y-auto pr-1 flex-1">
+                {filteredOrigins.map(org => {
+                  const name = org.name || org.title || org.id;
+                  const isSelected = draft['char-origin'] === name;
+
+                  // BASTION recommendation lookup
+                  const bastionRec = (stagedOriginRecs || []).find(r => 
+                    (r.origin?.name || r.origin?.id || r.name || r.id || '').toLowerCase() === name.toLowerCase()
+                  );
+
+                  const recTlList = normalizeChipList(org.recommended_tl || (org.tech_level !== undefined ? [org.tech_level] : []));
+                  const recMlList = normalizeChipList(org.recommended_ml || (org.meta_level !== undefined ? [org.meta_level] : []));
+                  const resonantKeywords = getResonantKeywords(org.keywords, draft);
+                  const railguardConflicts = getRailguardConflicts(org.negative_keywords, draft);
+                  const allKeywords = normalizeChipList(org.keywords);
+                  const allNegativeKeywords = normalizeChipList(org.negative_keywords);
+
+                  return (
+                    <div 
+                      key={org.id || name} onClick={() => updateDraft('char-origin', name)}
+                      className={`p-3 rounded-lg border text-sm cursor-pointer transition-all flex flex-col gap-1.5 ${
+                        isSelected
+                          ? 'bg-amber-950/40 border-amber-500 text-amber-200 shadow-sm ring-1 ring-amber-500/30'
+                          : railguardConflicts.length > 0
+                            ? 'bg-slate-800/80 border-rose-900/60 text-slate-300 hover:border-rose-500'
+                            : 'bg-slate-800/80 border-slate-700/80 text-slate-300 hover:border-slate-500'
+                      }`}
+                    >
+                      <div className="font-bold text-xs flex justify-between items-center gap-2">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span>{name}</span>
+                          {bastionRec && (
+                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-950 border border-amber-500/50 text-amber-300 font-bold flex items-center gap-0.5">
+                              <Bot size={10} />
+                              <span>BASTION Synergy</span>
+                            </span>
+                          )}
+                        </div>
+                        {isSelected && <span className="text-[10px] text-amber-400 font-mono font-bold">PRIMARY</span>}
+                      </div>
+
+                      {org.description && <p className="text-[10px] text-slate-400 line-clamp-2">{org.description}</p>}
+
+                      {/* TL / ML Chips */}
+                      {(recTlList.length > 0 || recMlList.length > 0) && (
+                        <div className="flex flex-wrap gap-1 text-[9px] font-mono">
+                          {recTlList.length > 0 && (
+                            <span className="px-1.5 py-0.2 rounded bg-slate-950 text-cyan-300 border border-slate-700">
+                              TL: {recTlList.join(', ')}
+                            </span>
+                          )}
+                          {recMlList.length > 0 && (
+                            <span className="px-1.5 py-0.2 rounded bg-slate-950 text-purple-300 border border-slate-700">
+                              ML: {recMlList.join(', ')}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Keywords & Railguards */}
+                      {(allKeywords.length > 0 || allNegativeKeywords.length > 0) && (
+                        <div className="flex flex-wrap gap-1 pt-1 border-t border-slate-800/50">
+                          {allKeywords.slice(0, 3).map((kw, i) => {
+                            const isResonant = resonantKeywords.some(rk => rk.toLowerCase() === kw.toLowerCase());
+                            return (
+                              <span
+                                key={i}
+                                className={`text-[8.5px] px-1 py-0.2 rounded font-mono ${
+                                  isResonant
+                                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/50 font-bold'
+                                    : 'bg-slate-950 text-slate-400 border border-slate-800'
+                                }`}
+                              >
+                                +{kw}
+                              </span>
+                            );
+                          })}
+                          {allNegativeKeywords.slice(0, 2).map((nk, i) => (
+                            <span key={i} className="text-[8.5px] px-1 py-0.2 rounded font-mono bg-slate-950 text-rose-400 border border-rose-900/40">
+                              ⚠️ {nk}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Optional Secondary Origin */}
+            <div className="pt-3 border-t border-slate-800 space-y-2">
+              <div className="flex justify-between items-center">
+                <div>
+                  <span className="text-xs font-bold text-amber-300/90 block uppercase tracking-wide">
+                    Optional Secondary Origin
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    Expands available skill &amp; trait options without gaining extra points.
+                  </span>
                 </div>
-              );
-            })
-          )}
+                {draft['char-secondary-origin'] && (
+                  <button
+                    type="button"
+                    onClick={() => updateDraft('char-secondary-origin', '')}
+                    className="text-[10px] text-slate-400 hover:text-red-400 uppercase font-mono cursor-pointer"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              <select
+                value={draft['char-secondary-origin'] || ''}
+                onChange={e => updateDraft('char-secondary-origin', e.target.value)}
+                className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg p-2 text-xs text-slate-200 outline-none font-mono"
+              >
+                <option value="">-- No Secondary Origin --</option>
+                {dbData.origins
+                  .filter(o => (o.name || o.title || o.id) !== draft['char-origin'])
+                  .map(org => {
+                    const name = org.name || org.title || org.id;
+                    return (
+                      <option key={org.id || name} value={name}>
+                        + {name}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+          </div>
+
+          {/* Faction Column */}
+          <div className="space-y-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex flex-col">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+              <div>
+                <h4 className="font-bold text-emerald-400 uppercase tracking-widest text-sm flex items-center gap-2">
+                  <Shield size={16} /> Faction Allegiance
+                </h4>
+                <p className="text-[11px] text-slate-400 mt-0.5">Organizational benefits (20 SP &amp; 2 perks).</p>
+              </div>
+              <div className="relative w-full sm:w-56">
+                <input
+                  type="text"
+                  value={factionSearchQuery}
+                  onChange={e => setFactionSearchQuery(e.target.value)}
+                  placeholder="Search factions, directives, railguards..."
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-7 pr-2 py-1 text-xs text-white placeholder-slate-500 focus:border-emerald-400 outline-none"
+                />
+                <Search size={12} className="absolute left-2 top-2 text-slate-500" />
+                {factionSearchQuery && (
+                  <button
+                    onClick={() => setFactionSearchQuery('')}
+                    className="absolute right-2 top-1 text-slate-500 hover:text-white text-xs cursor-pointer"
+                  >✕</button>
+                )}
+              </div>
+            </div>
+
+            {/* Faction Category Filter Pills */}
+            <div className="flex flex-wrap gap-1.5 pt-0.5">
+              {[
+                { id: 'all', label: 'All', count: (dbData.factions || []).length },
+                { id: 'directives', label: '🧭 Directives (+KW)', count: (dbData.factions || []).filter(f => Array.isArray(f.keywords) ? f.keywords.length > 0 : !!(f.keywords && String(f.keywords).trim())).length },
+                { id: 'railguards', label: '⛔ Railguards (-KW)', count: (dbData.factions || []).filter(f => Array.isArray(f.negative_keywords) ? f.negative_keywords.length > 0 : !!(f.negative_keywords && String(f.negative_keywords).trim())).length }
+              ].map(cat => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setFactionCategoryFilter(cat.id)}
+                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-all flex items-center gap-1 cursor-pointer ${
+                    factionCategoryFilter === cat.id
+                      ? cat.id === 'directives'
+                        ? 'bg-emerald-600 text-white font-bold shadow'
+                        : cat.id === 'railguards'
+                        ? 'bg-rose-600 text-white font-bold shadow'
+                        : 'bg-emerald-500 text-slate-950 font-bold shadow'
+                      : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  <span>{cat.label}</span>
+                  <span className="text-[10px] opacity-75 font-mono">({cat.count})</span>
+                </button>
+              ))}
+            </div>
+
+            {dbData.factions.length === 0 ? (
+              <div className="space-y-2">
+                <p className="text-xs text-slate-500 italic">No faction presets found. Enter custom faction:</p>
+                <input 
+                  type="text" 
+                  value={draft['char-faction']} 
+                  onChange={e => updateDraft('char-faction', e.target.value)}
+                  placeholder="e.g. Sol Alliance, Syndicate Guild, Independent"
+                  className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
+                />
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-72 overflow-y-auto pr-1 flex-1">
+                {filteredFactions.map(fac => {
+                  const name = fac.name || fac.title || fac.id;
+                  const isSelected = draft['char-faction'] === name;
+
+                  // BASTION recommendation lookup
+                  const bastionRec = (stagedFactionRecs || []).find(r => 
+                    (r.faction?.name || r.faction?.id || r.name || r.id || '').toLowerCase() === name.toLowerCase()
+                  );
+
+                  const recTlList = normalizeChipList(fac.recommended_tl || (fac.tech_level !== undefined ? [fac.tech_level] : []));
+                  const recMlList = normalizeChipList(fac.recommended_ml || (fac.meta_level !== undefined ? [fac.meta_level] : []));
+                  const resonantKeywords = getResonantKeywords(fac.keywords, draft);
+                  const railguardConflicts = getRailguardConflicts(fac.negative_keywords, draft);
+                  const allKeywords = normalizeChipList(fac.keywords);
+                  const allNegativeKeywords = normalizeChipList(fac.negative_keywords);
+
+                  return (
+                    <div 
+                      key={fac.id || name} onClick={() => updateDraft('char-faction', name)}
+                      className={`p-3 rounded-lg border text-sm cursor-pointer transition-all flex flex-col gap-1.5 ${
+                        isSelected
+                          ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200 shadow-sm ring-1 ring-emerald-500/30'
+                          : railguardConflicts.length > 0
+                            ? 'bg-slate-800 border-rose-900/60 text-slate-300 hover:border-rose-500'
+                            : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
+                      }`}
+                    >
+                      <div className="font-bold flex justify-between items-center gap-2">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span>{name}</span>
+                          {bastionRec && (
+                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500/50 text-emerald-300 font-bold flex items-center gap-0.5">
+                              <Bot size={10} />
+                              <span>BASTION Synergy</span>
+                            </span>
+                          )}
+                        </div>
+                        {isSelected && <span className="text-[10px] text-emerald-400 font-mono font-bold">ACTIVE</span>}
+                      </div>
+
+                      {fac.description && <p className="text-[11px] text-slate-400 line-clamp-2">{fac.description}</p>}
+
+                      {/* TL / ML Chips */}
+                      {(recTlList.length > 0 || recMlList.length > 0) && (
+                        <div className="flex flex-wrap gap-1 text-[9px] font-mono">
+                          {recTlList.length > 0 && (
+                            <span className="px-1.5 py-0.2 rounded bg-slate-950 text-cyan-300 border border-slate-700">
+                              TL: {recTlList.join(', ')}
+                            </span>
+                          )}
+                          {recMlList.length > 0 && (
+                            <span className="px-1.5 py-0.2 rounded bg-slate-950 text-purple-300 border border-slate-700">
+                              ML: {recMlList.join(', ')}
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Keywords & Railguards */}
+                      {(allKeywords.length > 0 || allNegativeKeywords.length > 0) && (
+                        <div className="flex flex-wrap gap-1 pt-1 border-t border-slate-800/50">
+                          {allKeywords.slice(0, 3).map((kw, i) => {
+                            const isResonant = resonantKeywords.some(rk => rk.toLowerCase() === kw.toLowerCase());
+                            return (
+                              <span
+                                key={i}
+                                className={`text-[8.5px] px-1 py-0.2 rounded font-mono ${
+                                  isResonant
+                                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/50 font-bold'
+                                    : 'bg-slate-950 text-slate-400 border border-slate-800'
+                                }`}
+                              >
+                                +{kw}
+                              </span>
+                            );
+                          })}
+                          {allNegativeKeywords.slice(0, 2).map((nk, i) => (
+                            <span key={i} className="text-[8.5px] px-1 py-0.2 rounded font-mono bg-slate-950 text-rose-400 border border-rose-900/40">
+                              ⚠️ {nk}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
     );
   };
 
   const renderOccupation = () => {
+    const filteredOccupations = (dbData.occupations || []).filter(occ => {
+      if (occupationCategoryFilter === 'directives') {
+        const hasKw = Array.isArray(occ.keywords) ? occ.keywords.length > 0 : !!(occ.keywords && String(occ.keywords).trim());
+        if (!hasKw) return false;
+      } else if (occupationCategoryFilter === 'railguards') {
+        const hasNegKw = Array.isArray(occ.negative_keywords) ? occ.negative_keywords.length > 0 : !!(occ.negative_keywords && String(occ.negative_keywords).trim());
+        if (!hasNegKw) return false;
+      }
+
+      if (!occupationSearchQuery.trim()) return true;
+      const q = occupationSearchQuery.toLowerCase().trim();
+      const name = (occ.name || occ.title || occ.id || '').toLowerCase();
+      const desc = (occ.description || '').toLowerCase();
+      const skills = extractNameList(occ.professional_skills || occ.skills).join(' ').toLowerCase();
+      const traits = extractNameList(occ.traits || occ.trait).join(' ').toLowerCase();
+      const kw = (occ.keywords || '').toLowerCase();
+      const negKw = (occ.negative_keywords || '').toLowerCase();
+      const recTl = Array.isArray(occ.recommended_tl) ? occ.recommended_tl.join(' ') : String(occ.recommended_tl || '');
+      const recMl = Array.isArray(occ.recommended_ml) ? occ.recommended_ml.join(' ') : String(occ.recommended_ml || '');
+      return (
+        name.includes(q) ||
+        desc.includes(q) ||
+        skills.includes(q) ||
+        traits.includes(q) ||
+        kw.includes(q) ||
+        negKw.includes(q) ||
+        recTl.includes(q) ||
+        recMl.includes(q)
+      );
+    });
+
     return (
-      <div className="space-y-4 w-full">
-
-        {renderSelectionList(
-          'Occupation', 
-          dbData.occupations, 
-          draft['char-occu'], 
-          (occ) => updateDraft('char-occu', occ.name || occ.title || occ.id),
-          <Shield size={16} />
-        )}
-
-      {/* Optional Background Occupation (via Background Trait) */}
-      <div className="bg-slate-900/60 border border-sky-900/50 p-3.5 rounded-xl space-y-2">
-        <div className="flex justify-between items-center">
+      <div className="space-y-4 w-full h-full flex flex-col">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <span className="text-xs font-bold text-sky-300 block uppercase tracking-wider">
-              Optional Background Occupation (via Background Trait)
-            </span>
-            <span className="text-[10px] text-slate-400">
-              The Background trait enables selecting training from another profession, expanding trait options from that background.
-            </span>
+            <h3 className="text-xl font-bold text-cyan-400 flex items-center gap-2">
+              <Briefcase className="text-cyan-400" size={22} />
+              <span>Occupation &amp; Professional Career</span>
+            </h3>
+            <p className="text-sm text-slate-400">
+              Select your career archetype to establish your professional 20 SP skill package, career perks, and operational training.
+            </p>
           </div>
-          {draft['char-secondary-occu'] && (
-            <button
-              type="button"
-              onClick={() => updateDraft('char-secondary-occu', '')}
-              className="text-[10px] text-slate-400 hover:text-red-400 uppercase font-mono cursor-pointer"
-            >
-              Clear
-            </button>
-          )}
+
+          {/* Search bar */}
+          <div className="relative w-full sm:w-80">
+            <input
+              type="text"
+              value={occupationSearchQuery}
+              onChange={e => setOccupationSearchQuery(e.target.value)}
+              placeholder="Search careers by name, skills, TL/ML, directives, or railguards..."
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-cyan-500 outline-none"
+            />
+            <Search size={14} className="absolute left-2.5 top-2.5 text-slate-500" />
+            {occupationSearchQuery && (
+              <button
+                onClick={() => setOccupationSearchQuery('')}
+                className="absolute right-2 top-2 text-slate-500 hover:text-white text-xs cursor-pointer"
+              >✕</button>
+            )}
+          </div>
         </div>
 
-        <select
-          value={draft['char-secondary-occu'] || ''}
-          onChange={e => updateDraft('char-secondary-occu', e.target.value)}
-          className="w-full bg-slate-950 border border-slate-700 focus:border-sky-400 rounded-lg p-2 text-xs text-slate-200 outline-none font-mono"
-        >
-          <option value="">-- No Background Occupation --</option>
-          {dbData.occupations
-            .filter(oc => (oc.name || oc.title || oc.id) !== draft['char-occu'])
-            .map(oc => {
-              const name = oc.name || oc.title || oc.id;
-              return (
-                <option key={oc.id || name} value={name}>
-                  + {name}
-                </option>
-              );
-            })}
-        </select>
+        {/* Occupation Category Filter Pills */}
+        <div className="flex flex-wrap gap-1.5 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+          {[
+            { id: 'all', label: 'All Careers', count: (dbData.occupations || []).length },
+            { id: 'directives', label: '🧭 Directives (+KW)', count: (dbData.occupations || []).filter(o => Array.isArray(o.keywords) ? o.keywords.length > 0 : !!(o.keywords && String(o.keywords).trim())).length },
+            { id: 'railguards', label: '⛔ Railguards (-KW)', count: (dbData.occupations || []).filter(o => Array.isArray(o.negative_keywords) ? o.negative_keywords.length > 0 : !!(o.negative_keywords && String(o.negative_keywords).trim())).length }
+          ].map(cat => (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setOccupationCategoryFilter(cat.id)}
+              className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+                occupationCategoryFilter === cat.id
+                  ? cat.id === 'directives'
+                    ? 'bg-cyan-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                    : cat.id === 'railguards'
+                    ? 'bg-rose-600 text-white font-bold shadow-[0_0_10px_rgba(225,29,72,0.4)]'
+                    : 'bg-cyan-500 text-slate-950 font-bold shadow'
+                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+              }`}
+            >
+              <span>{cat.label}</span>
+              <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
+                {cat.count}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Occupations Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-y-auto pr-1 pb-2">
+          {filteredOccupations.map(occ => {
+            const name = occ.name || occ.title || occ.id;
+            const isSelected = draft['char-occu'] === name;
+
+            // BASTION recommendation lookup
+            const bastionRec = (stagedOccupationRecs || []).find(r => 
+              (r.occupation?.name || r.occupation?.id || r.name || r.id || '').toLowerCase() === name.toLowerCase()
+            );
+
+            const recTlList = normalizeChipList(occ.recommended_tl || (occ.tech_level !== undefined ? [occ.tech_level] : []));
+            const recMlList = normalizeChipList(occ.recommended_ml || (occ.meta_level !== undefined ? [occ.meta_level] : []));
+            const personaTl = draft.technologyLevel ?? 3;
+            const personaMl = draft.metaLevel ?? 3;
+            const tlMatches = recTlList.length === 0 || recTlList.some(t => String(t).includes(String(personaTl)));
+            const mlMatches = recMlList.length === 0 || recMlList.some(m => String(m).includes(String(personaMl)));
+
+            const resonantKeywords = getResonantKeywords(occ.keywords, draft);
+            const railguardConflicts = getRailguardConflicts(occ.negative_keywords, draft);
+            const allKeywords = normalizeChipList(occ.keywords);
+            const allNegativeKeywords = normalizeChipList(occ.negative_keywords);
+
+            const skillsList = extractNameList(occ.professional_skills || occ.skills);
+            const traitsList = extractNameList(occ.traits || occ.trait);
+
+            return (
+              <div 
+                key={occ.id || name} 
+                onClick={() => updateDraft('char-occu', name)}
+                className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between gap-2 ${
+                  isSelected 
+                    ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.25)] ring-1 ring-cyan-500/40' 
+                    : railguardConflicts.length > 0
+                      ? 'bg-slate-800/40 border-amber-900/60 hover:border-amber-600'
+                      : 'bg-slate-800/40 border-slate-700 hover:border-slate-500 hover:bg-slate-800/80'
+                }`}
+              >
+                <div>
+                  <div className="flex justify-between items-start mb-1.5 gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className={`font-bold flex items-center gap-1.5 ${isSelected ? 'text-cyan-300' : 'text-slate-200'}`}>
+                        <Briefcase size={14} className="text-cyan-400" />
+                        <span>{name}</span>
+                      </h4>
+                      {bastionRec && (
+                        <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-400 text-cyan-300 font-bold flex items-center gap-1 shadow-sm">
+                          <Bot size={10} />
+                          <span>BASTION Synergy ({bastionRec.score} pts)</span>
+                        </span>
+                      )}
+                    </div>
+                    {isSelected && <span className="text-[10px] text-cyan-400 font-mono font-bold">SELECTED</span>}
+                  </div>
+
+                  <p className="text-xs text-slate-400 line-clamp-2 mb-2">{occ.description || 'Professional career training.'}</p>
+
+                  {/* Skills & Traits Summary */}
+                  {skillsList.length > 0 && (
+                    <div className="text-[11px] text-slate-300 mb-1.5">
+                      <span className="text-slate-500 font-semibold font-mono text-[10px] uppercase">Core Skills: </span>
+                      <span>{skillsList.slice(0, 4).join(', ')}{skillsList.length > 4 ? ` +${skillsList.length - 4}` : ''}</span>
+                    </div>
+                  )}
+
+                  {/* Setting Tiers: Recommended TL & ML */}
+                  {(recTlList.length > 0 || recMlList.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                      {recTlList.length > 0 && (
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold border flex items-center gap-1 ${
+                          tlMatches 
+                            ? 'bg-cyan-950/90 text-cyan-300 border-cyan-500/40' 
+                            : 'bg-slate-950 text-slate-400 border-slate-700'
+                        }`}>
+                          <span>TL: {recTlList.join(', ')}</span>
+                          {tlMatches && <span className="text-[9px] text-emerald-400">✓</span>}
+                        </span>
+                      )}
+                      {recMlList.length > 0 && (
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold border flex items-center gap-1 ${
+                          mlMatches 
+                            ? 'bg-purple-950/90 text-purple-300 border-purple-500/40' 
+                            : 'bg-slate-950 text-slate-400 border-slate-700'
+                        }`}>
+                          <span>ML: {recMlList.join(', ')}</span>
+                          {mlMatches && <span className="text-[9px] text-purple-400">✓</span>}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Keywords & Railguards */}
+                  {(allKeywords.length > 0 || allNegativeKeywords.length > 0) && (
+                    <div className="space-y-1 pt-1 border-t border-slate-800/60">
+                      {allKeywords.length > 0 && (
+                        <div className="flex flex-wrap gap-1 items-center">
+                          <span className="text-[8.5px] font-mono text-emerald-400 uppercase tracking-wider font-bold">Directives:</span>
+                          {allKeywords.slice(0, 4).map((kw, i) => {
+                            const isResonant = resonantKeywords.some(rk => rk.toLowerCase() === kw.toLowerCase());
+                            return (
+                              <span
+                                key={i}
+                                className={`text-[8.5px] px-1.5 py-0.2 rounded font-mono ${
+                                  isResonant
+                                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 font-bold'
+                                    : 'bg-slate-950 text-slate-400 border border-slate-800'
+                                }`}
+                              >
+                                +{kw}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {allNegativeKeywords.length > 0 && (
+                        <div className="flex flex-wrap gap-1 items-center">
+                          <span className="text-[8.5px] font-mono text-rose-400 uppercase tracking-wider font-bold">Railguards:</span>
+                          {allNegativeKeywords.slice(0, 3).map((nk, i) => {
+                            const isClash = railguardConflicts.some(rc => rc.toLowerCase() === nk.toLowerCase());
+                            return (
+                              <span
+                                key={i}
+                                className={`text-[8.5px] px-1.5 py-0.2 rounded font-mono ${
+                                  isClash
+                                    ? 'bg-red-950 text-red-300 border border-red-500 font-bold animate-pulse'
+                                    : 'bg-slate-950 text-rose-400/80 border border-rose-900/40'
+                                }`}
+                              >
+                                ⚠️ {nk}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Optional Background Occupation (via Background Trait) */}
+        <div className="bg-slate-900/60 border border-sky-900/50 p-3.5 rounded-xl space-y-2 shrink-0">
+          <div className="flex justify-between items-center">
+            <div>
+              <span className="text-xs font-bold text-sky-300 block uppercase tracking-wider">
+                Optional Background Occupation (via Background Trait)
+              </span>
+              <span className="text-[10px] text-slate-400">
+                The Background trait enables selecting training from another profession, expanding trait options from that background.
+              </span>
+            </div>
+            {draft['char-secondary-occu'] && (
+              <button
+                type="button"
+                onClick={() => updateDraft('char-secondary-occu', '')}
+                className="text-[10px] text-slate-400 hover:text-red-400 uppercase font-mono cursor-pointer"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          <select
+            value={draft['char-secondary-occu'] || ''}
+            onChange={e => updateDraft('char-secondary-occu', e.target.value)}
+            className="w-full bg-slate-950 border border-slate-700 focus:border-sky-400 rounded-lg p-2 text-xs text-slate-200 outline-none font-mono"
+          >
+            <option value="">-- No Background Occupation --</option>
+            {dbData.occupations
+              .filter(oc => (oc.name || oc.title || oc.id) !== draft['char-occu'])
+              .map(oc => {
+                const name = oc.name || oc.title || oc.id;
+                return (
+                  <option key={oc.id || name} value={name}>
+                    + {name}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
       </div>
-    </div>
     );
   };
 
@@ -3073,22 +3939,34 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     const totalInventoryValue = calculateTotalCost(weaponsList) + calculateTotalCost(armorList) + calculateTotalCost(gearList) + calculateTotalCost(mechaList) + calculateTotalCost(architectureList) + calculateTotalCost(otherList);
     const totalItemCount = weaponsList.length + armorList.length + gearList.length + mechaList.length + architectureList.length + otherList.length;
 
+    // All property items unified for directive & railguard filtering
+    const allCatalogPropertyItems = [
+      ...(dbData.weapons || []).map(w => ({ ...w, propertyCategory: 'weapons' })),
+      ...(dbData.armor || []).map(a => ({ ...a, propertyCategory: 'armor' })),
+      ...(dbData.gear || []).map(g => ({ ...g, propertyCategory: 'gear' })),
+      ...(dbData.mecha || []).map(m => ({ ...m, propertyCategory: 'mecha' })),
+      ...(dbData.architecture || []).map(arc => ({ ...arc, propertyCategory: 'architecture' })),
+      ...(dbData.other || []).map(o => ({ ...o, propertyCategory: 'other' }))
+    ];
+
+    const directiveCatalogItems = allCatalogPropertyItems.filter(item => {
+      return Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
+    });
+
+    const railguardCatalogItems = allCatalogPropertyItems.filter(item => {
+      return Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
+    });
+
     // Catalog items based on active category
     let catalogItems = [];
-    if (propertyCategoryFilter === 'all' || propertyCategoryFilter === 'weapons') {
-      catalogItems = catalogItems.concat((dbData.weapons || []).map(w => ({ ...w, propertyCategory: 'weapons' })));
-    }
-    if (propertyCategoryFilter === 'all' || propertyCategoryFilter === 'armor') {
-      catalogItems = catalogItems.concat((dbData.armor || []).map(a => ({ ...a, propertyCategory: 'armor' })));
-    }
-    if (propertyCategoryFilter === 'all' || propertyCategoryFilter === 'gear') {
-      catalogItems = catalogItems.concat((dbData.gear || []).map(g => ({ ...g, propertyCategory: 'gear' })));
-    }
-    if (propertyCategoryFilter === 'all' || propertyCategoryFilter === 'mecha') {
-      catalogItems = catalogItems.concat((dbData.mecha || []).map(m => ({ ...m, propertyCategory: 'mecha' })));
-    }
-    if (propertyCategoryFilter === 'all' || propertyCategoryFilter === 'architecture') {
-      catalogItems = catalogItems.concat((dbData.architecture || []).map(arc => ({ ...arc, propertyCategory: 'architecture' })));
+    if (propertyCategoryFilter === 'all') {
+      catalogItems = allCatalogPropertyItems;
+    } else if (propertyCategoryFilter === 'directives') {
+      catalogItems = directiveCatalogItems;
+    } else if (propertyCategoryFilter === 'railguards') {
+      catalogItems = railguardCatalogItems;
+    } else {
+      catalogItems = allCatalogPropertyItems.filter(i => i.propertyCategory === propertyCategoryFilter);
     }
 
     if (propertySearchQuery.trim()) {
@@ -3097,7 +3975,19 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         const name = (item.name || item.id || '').toLowerCase();
         const desc = (item.description || item.notes || item.mechanics || '').toLowerCase();
         const type = (item.type || item.category || '').toLowerCase();
-        return name.includes(q) || desc.includes(q) || type.includes(q);
+        const kw = (item.keywords || '').toLowerCase();
+        const negKw = (item.negative_keywords || '').toLowerCase();
+        const recTl = String(item.recommended_tl || item.tl || '').toLowerCase();
+        const recMl = String(item.recommended_ml || item.ml || '').toLowerCase();
+        return (
+          name.includes(q) ||
+          desc.includes(q) ||
+          type.includes(q) ||
+          kw.includes(q) ||
+          negKw.includes(q) ||
+          recTl.includes(q) ||
+          recMl.includes(q)
+        );
       });
     }
 
@@ -3109,11 +3999,13 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       { id: 'gear', label: 'Gear', icon: '🎒', count: gearList.length },
       { id: 'mecha', label: 'Mech', icon: '🤖', count: mechaList.length },
       { id: 'architecture', label: 'Architecture', icon: '🏛️', count: architectureList.length },
-      { id: 'other', label: 'Other', icon: '📦', count: otherList.length }
+      { id: 'other', label: 'Other', icon: '📦', count: otherList.length },
+      { id: 'directives', label: 'Directives (+KW)', icon: '🧭', count: directiveCatalogItems.length },
+      { id: 'railguards', label: 'Railguards (-KW)', icon: '⛔', count: railguardCatalogItems.length }
     ];
 
     // Manifest categories to show in the right column
-    const manifestCategoriesToShow = propertyCategoryFilter === 'all' 
+    const manifestCategoriesToShow = ['all', 'directives', 'railguards'].includes(propertyCategoryFilter)
       ? [
           { key: 'weapons', label: 'Weaponry', icon: '⚔️', list: weaponsList, color: 'text-amber-400' },
           { key: 'armor', label: 'Armoring', icon: '🛡️', list: armorList, color: 'text-emerald-400' },
@@ -3283,6 +4175,59 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 </div>
               </div>
             </div>
+
+            {/* Recommended TL & ML + Searchable Keywords & Railguards */}
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
+              <div>
+                <label className="text-[10px] text-cyan-400 font-bold uppercase tracking-wider block mb-1 flex items-center gap-1">
+                  <Sliders size={11} /> Recommended TL
+                </label>
+                <input
+                  type="text"
+                  value={customPropertyForm.recommended_tl}
+                  onChange={e => setCustomPropertyForm(p => ({ ...p, recommended_tl: e.target.value }))}
+                  placeholder="e.g. 2, 3"
+                  className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-white font-mono text-xs outline-none focus:border-cyan-500"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] text-purple-400 font-bold uppercase tracking-wider block mb-1 flex items-center gap-1">
+                  <Sliders size={11} /> Recommended ML
+                </label>
+                <input
+                  type="text"
+                  value={customPropertyForm.recommended_ml}
+                  onChange={e => setCustomPropertyForm(p => ({ ...p, recommended_ml: e.target.value }))}
+                  placeholder="e.g. 0, 1"
+                  className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-white font-mono text-xs outline-none focus:border-purple-500"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block mb-1 flex items-center gap-1">
+                  <Tag size={11} /> Keywords (+Weight)
+                </label>
+                <input
+                  type="text"
+                  value={customPropertyForm.keywords}
+                  onChange={e => setCustomPropertyForm(p => ({ ...p, keywords: e.target.value }))}
+                  placeholder="e.g. Tactical, Kinetic, Mil-Spec"
+                  className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-white text-xs outline-none focus:border-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] text-red-400 font-bold uppercase tracking-wider block mb-1 flex items-center gap-1">
+                  <AlertTriangle size={11} /> Railguards (Negative)
+                </label>
+                <input
+                  type="text"
+                  value={customPropertyForm.negative_keywords}
+                  onChange={e => setCustomPropertyForm(p => ({ ...p, negative_keywords: e.target.value }))}
+                  placeholder="e.g. Fragile, Bulky, Civilian"
+                  className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-white text-xs outline-none focus:border-red-500"
+                />
+              </div>
+            </div>
+
             <div>
               <label className="text-[11px] text-slate-400 block mb-1">Notes / Description / Damage / AV</label>
               <input
@@ -3354,7 +4299,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   type="text"
                   value={propertySearchQuery}
                   onChange={e => setPropertySearchQuery(e.target.value)}
-                  placeholder="Search catalog..."
+                  placeholder="Search catalog, TL, directives, railguards..."
                   className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-7 pr-2 py-1 text-xs text-white placeholder-slate-500 focus:border-cyan-500 outline-none"
                 />
                 <Search size={12} className="absolute left-2 top-2 text-slate-500" />
@@ -3385,23 +4330,113 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   const isEquipped = Boolean(existingItem);
                   const equippedQty = existingItem ? (parseInt(existingItem.qty || existingItem.quantity || 1, 10)) : 0;
 
+                  const itemTL = parseInt(item.tl || item.tech_level || 3, 10);
+                  const itemML = parseInt(item.ml || item.meta_level || 0, 10);
+                  const recTL = item.recommended_tl || item.tl || '2, 3';
+                  const recML = item.recommended_ml || item.ml || '0';
+                  const exceedsTL = itemTL > (draft.technologyLevel ?? 3);
+                  const exceedsML = itemML > (draft.metaLevel ?? 3);
+
+                  const posChips = normalizeChipList(item.keywords);
+                  const negChips = normalizeChipList(item.negative_keywords);
+                  const resonantKw = getResonantKeywords(item.keywords, draft);
+                  const railguardClashes = getRailguardConflicts(item.negative_keywords, draft);
+
                   return (
                     <div
                       key={item.id || `${item.name}-${idx}`}
-                      className="p-2.5 rounded-lg border border-slate-800 bg-slate-950/70 hover:border-slate-700 flex flex-col justify-between gap-1.5 transition-all text-xs"
+                      className={`p-2.5 rounded-lg border flex flex-col justify-between gap-1.5 transition-all text-xs ${
+                        railguardClashes.length > 0
+                          ? 'border-red-500/40 bg-red-950/20'
+                          : resonantKw.length > 0
+                          ? 'border-cyan-500/40 bg-cyan-950/20'
+                          : 'border-slate-800 bg-slate-950/70 hover:border-slate-700'
+                      }`}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <div className="font-bold text-slate-200 flex items-center gap-1.5">
+                        <div className="min-w-0 flex-1">
+                          <div className="font-bold text-slate-200 flex items-center gap-1.5 flex-wrap">
                             <span>{item.name || item.id}</span>
-                            <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/80 px-1 rounded border border-cyan-800">
-                              TL{item.tl || item.tech_level || 3}
+                            <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-800">
+                              TL{itemTL}
                             </span>
+                            {itemML > 0 && (
+                              <span className="text-[9px] font-mono text-purple-400 bg-purple-950/80 px-1.5 py-0.5 rounded border border-purple-800">
+                                ML{itemML}
+                              </span>
+                            )}
+                            {exceedsTL ? (
+                              <span className="text-[9px] font-mono text-amber-300 bg-amber-950/80 px-1.5 py-0.2 rounded border border-amber-600/50">
+                                ⚠️ Exceeds TL{draft.technologyLevel ?? 3}
+                              </span>
+                            ) : exceedsML ? (
+                              <span className="text-[9px] font-mono text-purple-300 bg-purple-950/80 px-1.5 py-0.2 rounded border border-purple-600/50">
+                                ⚠️ Exceeds ML{draft.metaLevel ?? 3}
+                              </span>
+                            ) : (
+                              <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/60 px-1.5 py-0.2 rounded border border-emerald-700/40">
+                                ✅ TL/ML OK
+                              </span>
+                            )}
                           </div>
                           {item.description && (
-                            <p className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">{item.description}</p>
+                            <p className="text-[10px] text-slate-400 line-clamp-2 mt-0.5">{item.description}</p>
+                          )}
+
+                          {/* Recommended TL & ML info */}
+                          <div className="flex items-center gap-2 mt-1 text-[10px] text-slate-400 font-mono">
+                            <span>Rec TL: <strong className="text-cyan-300">{recTL}</strong></span>
+                            <span>•</span>
+                            <span>Rec ML: <strong className="text-purple-300">{recML}</strong></span>
+                          </div>
+
+                          {/* Positive Keywords with Resonance */}
+                          {posChips.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {posChips.map((chip, cIdx) => {
+                                const isResonant = resonantKw.some(r => r.toLowerCase() === chip.toLowerCase());
+                                return (
+                                  <span
+                                    key={cIdx}
+                                    className={`px-1.5 py-0.2 rounded text-[9px] font-mono flex items-center gap-0.5 ${
+                                      isResonant
+                                        ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 font-bold shadow-sm'
+                                        : 'bg-slate-900 text-slate-400 border border-slate-800'
+                                    }`}
+                                  >
+                                    <Tag size={8} className={isResonant ? 'text-emerald-400' : 'text-slate-500'} />
+                                    <span>{chip}</span>
+                                    {isResonant && <span className="text-[8px] text-emerald-400 font-bold ml-0.5">(+Resonance)</span>}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Negative Keywords / Railguards */}
+                          {negChips.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {negChips.map((chip, cIdx) => {
+                                const isClash = railguardClashes.some(r => r.toLowerCase() === chip.toLowerCase());
+                                return (
+                                  <span
+                                    key={cIdx}
+                                    className={`px-1.5 py-0.2 rounded text-[9px] font-mono flex items-center gap-0.5 ${
+                                      isClash
+                                        ? 'bg-red-950 text-red-300 border border-red-500 font-bold animate-pulse'
+                                        : 'bg-slate-900/60 text-slate-500 border border-slate-800'
+                                    }`}
+                                  >
+                                    <AlertTriangle size={8} className={isClash ? 'text-red-400' : 'text-slate-600'} />
+                                    <span>{chip}</span>
+                                    {isClash && <span className="text-[8px] text-red-300 font-bold ml-0.5">(⚠️ Conflict)</span>}
+                                  </span>
+                                );
+                              })}
+                            </div>
                           )}
                         </div>
+
                         <div className="text-right shrink-0">
                           <span className="font-mono font-bold text-amber-300 text-xs block">
                             {(parseInt(item.cost || item.price || 0, 10)).toLocaleString()} Cr
@@ -3834,6 +4869,223 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             )}
           </div>
 
+          {/* BASTION Tactical Assessment & Rules Ledger Panel */}
+          {(() => {
+            const pillarsList = [
+              { label: '1. Archetype', value: draft['char-archetype'], color: 'text-emerald-400', isSet: Boolean(draft['char-archetype'] && draft['char-archetype'] !== 'Custom') },
+              { label: '2. Species', value: draft['char-species'], color: 'text-cyan-400', isSet: Boolean(draft['char-species'] && draft['char-species'] !== 'None') },
+              { label: '3. Faction', value: draft['char-faction'], color: 'text-blue-400', isSet: Boolean(draft['char-faction'] && draft['char-faction'] !== 'Independent') },
+              { label: '4. Origin', value: draft['char-origin'], color: 'text-amber-400', isSet: Boolean(draft['char-origin'] && draft['char-origin'] !== 'None') },
+              { label: '5. Occupation', value: draft['char-occu'], color: 'text-purple-400', isSet: Boolean(draft['char-occu'] && draft['char-occu'] !== 'None') },
+            ];
+            const completedPillars = pillarsList.filter(p => p.isSet).length;
+
+            const allEquippedItems = [
+              ...(draft.weapons || []).map(w => ({ ...w, cat: 'Weapons' })),
+              ...(draft.armor || []).map(a => ({ ...a, cat: 'Armor' })),
+              ...(draft.gear || []).map(g => ({ ...g, cat: 'Gear' })),
+              ...(draft.mecha || []).map(m => ({ ...m, cat: 'Mecha' })),
+              ...(draft.architecture || []).map(arc => ({ ...arc, cat: 'Architecture' })),
+              ...(draft.other || []).map(o => ({ ...o, cat: 'Other' }))
+            ];
+
+            const charTL = draft.technologyLevel ?? 3;
+            const charML = draft.metaLevel ?? 3;
+
+            const outOfTierItems = allEquippedItems.filter(item => {
+              const itemTL = parseInt(item.tl || item.tech_level || 0, 10);
+              const itemML = parseInt(item.ml || item.meta_level || 0, 10);
+              return itemTL > charTL || itemML > charML;
+            });
+
+            const allPositiveKeywords = new Set();
+            const allNegativeKeywords = new Set();
+            const harvest = (kws, negKws) => {
+              normalizeChipList(kws).forEach(k => allPositiveKeywords.add(k));
+              normalizeChipList(negKws).forEach(nk => allNegativeKeywords.add(nk));
+            };
+
+            if (selectedArchetypeObj) harvest(selectedArchetypeObj.keywords, selectedArchetypeObj.negative_keywords);
+            if (selectedSpeciesObj) harvest(selectedSpeciesObj.keywords, selectedSpeciesObj.negative_keywords);
+            if (selectedFactionObj) harvest(selectedFactionObj.keywords, selectedFactionObj.negative_keywords);
+            if (selectedOriginObj) harvest(selectedOriginObj.keywords, selectedOriginObj.negative_keywords);
+            if (selectedOccupationObj) harvest(selectedOccupationObj.keywords, selectedOccupationObj.negative_keywords);
+
+            allEquippedItems.forEach(item => harvest(item.keywords, item.negative_keywords));
+
+            const posKeywordsList = Array.from(allPositiveKeywords);
+            const negKeywordsList = Array.from(allNegativeKeywords);
+
+            const resonantKeywords = getResonantKeywords(posKeywordsList, draft);
+            const railguardClashes = getRailguardConflicts(negKeywordsList, draft);
+
+            return (
+              <div className="p-4 rounded-xl border border-cyan-500/40 bg-gradient-to-b from-cyan-950/30 via-slate-900/60 to-slate-950/80 space-y-4 shadow-xl">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-cyan-800/50 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <Bot size={18} className="text-cyan-400" />
+                    <h4 className="font-black text-sm uppercase tracking-wider text-cyan-300">
+                      BASTION Tactical Assessment &amp; Rules Ledger
+                    </h4>
+                  </div>
+                  <div className="flex items-center gap-2 font-mono text-[11px]">
+                    <span className={`px-2 py-0.5 rounded border font-bold ${
+                      completedPillars === 5
+                        ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                        : 'bg-amber-950/80 border-amber-500 text-amber-300'
+                    }`}>
+                      {completedPillars === 5 ? '✅ 5/5 Pillars Synthesized' : `⚡ ${completedPillars}/5 Pillars Established`}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded border font-bold ${
+                      railguardClashes.length === 0
+                        ? 'bg-emerald-950/80 border-emerald-500 text-emerald-300'
+                        : 'bg-red-950/80 border-red-500 text-red-300 animate-pulse'
+                    }`}>
+                      {railguardClashes.length === 0 ? '🛡️ Railguards Clear' : `⚠️ ${railguardClashes.length} Railguard Clash`}
+                    </span>
+                  </div>
+                </div>
+
+                {/* 5 Canonical Pillars Status */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">
+                    Canonical 5-Pillar Architecture
+                  </span>
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+                    {pillarsList.map((p, idx) => (
+                      <div key={idx} className="p-2 rounded bg-slate-950 border border-slate-800 space-y-0.5">
+                        <span className="text-[9px] text-slate-500 uppercase font-bold block">{p.label}</span>
+                        <span className={`font-bold block truncate ${p.color}`}>
+                          {p.value || 'Not Configured'}
+                        </span>
+                        <span className="text-[9px] font-mono text-slate-500 block">
+                          {p.isSet ? '✅ Grounded' : '⚠️ Pending'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Setting Envelope & Hardware Alignment */}
+                <div className="p-3 bg-slate-950/80 rounded-lg border border-slate-800 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-300 font-bold uppercase text-[10px] tracking-wider flex items-center gap-1.5">
+                      <Sliders size={12} className="text-cyan-400" /> Setting Envelope Check (TL{charTL} / ML{charML})
+                    </span>
+                    <span className={`font-mono text-[10px] font-bold ${outOfTierItems.length === 0 ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      {outOfTierItems.length === 0 ? '✅ 100% Operational Compliance' : `⚠️ ${outOfTierItems.length} Assets Exceed Tiers`}
+                    </span>
+                  </div>
+                  {outOfTierItems.length > 0 ? (
+                    <div className="p-2 rounded bg-amber-950/40 border border-amber-600/40 text-[11px] text-amber-200">
+                      <span>The following assets exceed your persona's setting baseline: </span>
+                      <strong>{outOfTierItems.map(i => `${i.name || i.id} (TL${i.tl || 3}/ML${i.ml || 0})`).join(', ')}</strong>.
+                      <span className="block text-[10px] text-amber-400/80 mt-0.5">Consider upgrading your Tech/Meta Level or swapping equipment to prevent GM deployment warnings.</span>
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-slate-400">
+                      All equipped weapons, armor, field gear, mecha, architecture, and other assets are fully certified within your operational envelope.
+                    </p>
+                  )}
+                </div>
+
+                {/* Keyword Directives & Positive Resonance (+Weight) */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider flex items-center gap-1">
+                      <Tag size={11} className="text-emerald-400" /> Directives &amp; Keywords (+Weight Resonance)
+                    </span>
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                      {resonantKeywords.length} Resonances / {posKeywordsList.length} Total
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto pr-1">
+                    {posKeywordsList.length === 0 ? (
+                      <span className="text-[11px] text-slate-500 italic">No keywords registered on current chassis.</span>
+                    ) : (
+                      posKeywordsList.map((kw, idx) => {
+                        const isResonant = resonantKeywords.some(r => r.toLowerCase() === kw.toLowerCase());
+                        return (
+                          <span
+                            key={idx}
+                            className={`px-2 py-0.5 rounded text-[10px] font-mono flex items-center gap-1 ${
+                              isResonant
+                                ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 font-bold shadow-sm'
+                                : 'bg-slate-950 text-slate-400 border border-slate-800'
+                            }`}
+                          >
+                            <Tag size={9} className={isResonant ? 'text-emerald-400' : 'text-slate-500'} />
+                            <span>{kw}</span>
+                            {isResonant && <span className="text-[8px] text-emerald-400 font-bold">(+Resonance)</span>}
+                          </span>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+
+                {/* Railguards & Negative Keywords (Contraindications) */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider flex items-center gap-1">
+                      <AlertTriangle size={11} className="text-red-400" /> Railguards &amp; Contraindications
+                    </span>
+                    <span className={`text-[10px] font-mono font-bold ${railguardClashes.length === 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {railguardClashes.length === 0 ? '✅ 0 Conflicts' : `⚠️ ${railguardClashes.length} Active Conflicts`}
+                    </span>
+                  </div>
+                  {railguardClashes.length > 0 ? (
+                    <div className="p-2.5 rounded bg-red-950/40 border border-red-500/60 text-[11px] text-red-200 space-y-1">
+                      <div className="font-bold flex items-center gap-1.5">
+                        <AlertTriangle size={13} className="text-red-400" />
+                        <span>Railguard Conflicts Detected:</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {railguardClashes.map((c, cIdx) => (
+                          <span key={cIdx} className="px-1.5 py-0.5 rounded bg-red-900/80 border border-red-500 text-white font-mono text-[9px]">
+                            {c}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-[10px] text-red-300/80">
+                        These negative keywords conflict with your current character concept, archetype, or traits. Review allocations to ensure lore consistency.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-2 bg-slate-950/60 rounded border border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
+                      <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />
+                      <span>Zero railguard conflicts detected. Character allocations respect all canonical boundaries and exclusions.</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Dual 2d10 Resolution Combat Summary */}
+                <div className="p-3 bg-slate-950/80 rounded-lg border border-slate-800 text-[11px] space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-cyan-300 font-bold uppercase text-[10px] tracking-wider flex items-center gap-1.5">
+                      🎲 Dual 2d10 Resolution Engine Ledger
+                    </span>
+                    <span className="text-[10px] font-mono text-slate-400">Critical Rating: <strong>CR 15</strong></span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px] font-mono text-slate-300 pt-1">
+                    <div className="p-1.5 rounded bg-slate-900 border border-slate-800">
+                      <span className="text-slate-500 block text-[9px] uppercase">Core Roll</span>
+                      <span className="font-bold text-cyan-300">2d10 + Stat + Skill Rank</span>
+                    </div>
+                    <div className="p-1.5 rounded bg-slate-900 border border-slate-800">
+                      <span className="text-slate-500 block text-[9px] uppercase">Contested Tiebreaker</span>
+                      <span className="font-bold text-amber-300">Defender Wins Ties</span>
+                    </div>
+                    <div className="p-1.5 rounded bg-slate-900 border border-slate-800">
+                      <span className="text-slate-500 block text-[9px] uppercase">Action Economy</span>
+                      <span className="font-bold text-emerald-300">2 Actions + 1 Reaction / Rnd</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Budget Display */}
           <div className="bg-slate-950 p-4 rounded-lg flex justify-between items-center border border-slate-800">
             <div>
@@ -3909,6 +5161,15 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             >
               <Bot size={13} className="text-cyan-400" />
               <span>BASTION Auto-Build</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsBastionRulesOpen(true)}
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-purple-950/60 hover:bg-purple-900/60 text-purple-300 border border-purple-500/40 text-xs font-bold transition-all cursor-pointer shadow-sm hover:border-purple-400"
+              title="Open BASTION Key Instructions & Rules Manifesto"
+            >
+              <HelpCircle size={13} className="text-purple-400" />
+              <span>BASTION Instructions</span>
             </button>
           </div>
           <button onClick={onClose} className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
@@ -3998,6 +5259,174 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             </div>
           </div>
         </div>
+        {/* BASTION Key Instructions & Rules Modal */}
+        {isBastionRulesOpen && (
+          <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+            <div className="bg-[#0d1117] border border-purple-500/50 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden ring-1 ring-white/10">
+              <div className="flex justify-between items-center p-4 border-b border-purple-900/60 bg-purple-950/40">
+                <div className="flex items-center gap-2.5">
+                  <Bot size={22} className="text-purple-400" />
+                  <div>
+                    <h3 className="text-base font-black text-white uppercase tracking-wider">
+                      BASTION Key Instructions &amp; Rules Manifesto
+                    </h3>
+                    <p className="text-[11px] text-purple-300/80">Canonical Protocols, Setting Economatrix &amp; Resolution Rules</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsBastionRulesOpen(false)}
+                  className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer text-sm"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="p-6 overflow-y-auto space-y-5 text-xs text-slate-300 leading-relaxed font-sans">
+                {/* 1. The 5 Pillars Synthesis Protocol */}
+                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-cyan-500/40 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🏛️</span>
+                    <h4 className="font-bold text-sm text-cyan-300 uppercase tracking-wider">
+                      1. The 5 Canonical Pillars Pipeline
+                    </h4>
+                  </div>
+                  <p className="text-slate-300">
+                    Characters in Tangent SFF RPG must be canonically synthesized through the 5-pillar sequence:
+                  </p>
+                  <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
+                    <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-600/60 font-bold">1. Concept &amp; Archetype</span>
+                    <span className="text-slate-500">→</span>
+                    <span className="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-600/60 font-bold">2. Species Lineage</span>
+                    <span className="text-slate-500">→</span>
+                    <span className="px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-600/60 font-bold">3. Faction Allegiance</span>
+                    <span className="text-slate-500">→</span>
+                    <span className="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-600/60 font-bold">4. Homeworld Origin</span>
+                    <span className="text-slate-500">→</span>
+                    <span className="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-600/60 font-bold">5. Professional Occupation</span>
+                  </div>
+                  <p className="text-[11px] text-slate-400">
+                    BASTION never fabricates lore outside the Cortex database. Every option provides calibrated attribute modifiers, traits, features, and dedicated skill packages.
+                  </p>
+                </div>
+
+                {/* 2. Budget & Point Buy Economics */}
+                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/40 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">⚖️</span>
+                    <h4 className="font-bold text-sm text-amber-300 uppercase tracking-wider">
+                      2. 150 CP Starting Budget &amp; 60 SP Foundation
+                    </h4>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-[11px]">
+                    <div className="p-2 bg-slate-950 rounded border border-slate-800">
+                      <span className="text-amber-400 font-bold block">150 Character Points (CP):</span>
+                      <ul className="list-disc list-inside text-slate-400 space-y-0.5 mt-1">
+                        <li>Raw Core Attributes: 5 CP per point</li>
+                        <li>General Traits: 1 CP each</li>
+                        <li>General Features: 3 CP each</li>
+                        <li>Tech/Meta Tier Upgrades: 10 CP per level</li>
+                      </ul>
+                    </div>
+                    <div className="p-2 bg-slate-950 rounded border border-slate-800">
+                      <span className="text-emerald-400 font-bold block">60 SP Foundation Packages:</span>
+                      <ul className="list-disc list-inside text-slate-400 space-y-0.5 mt-1">
+                        <li>Origin Society Package: 20 SP</li>
+                        <li>Faction Allegiance Package: 20 SP</li>
+                        <li>Occupation Career Package: 20 SP</li>
+                        <li>Open Skill Point Buy: 1 CP per rank</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Setting Tiers & Economatrix Law */}
+                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-purple-500/40 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🔮</span>
+                    <h4 className="font-bold text-sm text-purple-300 uppercase tracking-wider">
+                      3. Setting Tiers (TL/ML) &amp; Economatrix Law
+                    </h4>
+                  </div>
+                  <p className="text-slate-300">
+                    Technology Level (TL 0–5) and Meta Level (ML 0–5) define the operational paradigm of the campaign setting and hardware capabilities. Baseline setting for standard personas is <strong>TL3 / ML3 (0 CP)</strong>.
+                  </p>
+                  <div className="p-2.5 bg-slate-950 rounded-lg border border-purple-800/60 font-mono text-[11px] text-purple-200">
+                    <div className="font-bold text-cyan-300">Canonical Economatrix Pricing Formula:</div>
+                    <div className="text-base text-amber-300 font-black py-1">
+                      Cost = Base_Cost &times; 2<sup>TL</sup> &times; 1.5<sup>ML</sup>
+                    </div>
+                    <div className="text-[10px] text-slate-400">
+                      Equipment from higher TL/ML incurs exponential cost scaling and requires corresponding persona clearance.
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Searchable Keywords (+Weight) vs. Negative Railguards */}
+                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-emerald-500/40 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🏷️</span>
+                    <h4 className="font-bold text-sm text-emerald-300 uppercase tracking-wider">
+                      4. Keywords (+Weight) &amp; Negative Railguards
+                    </h4>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                    <div className="p-2 bg-slate-950 rounded border border-emerald-800/40 space-y-1">
+                      <span className="text-emerald-400 font-bold block flex items-center gap-1">
+                        <Tag size={12} /> Positive Keywords (+Weight)
+                      </span>
+                      <p className="text-slate-400">
+                        Open descriptors entered by operators or tagged canonically. When character concept matches positive keywords, BASTION awards synergy score boosts and operators gain situational competence.
+                      </p>
+                    </div>
+                    <div className="p-2 bg-slate-950 rounded border border-red-800/40 space-y-1">
+                      <span className="text-red-400 font-bold block flex items-center gap-1">
+                        <AlertTriangle size={12} /> Negative Keywords (Railguards)
+                      </span>
+                      <p className="text-slate-400">
+                        Canonical boundaries, contraindications, and forbidden interactions. BASTION alerts operators whenever selections violate negative railguards to prevent contradictory narrative builds.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 5. Dual 2d10 Combat Resolution Engine */}
+                <div className="p-3.5 rounded-xl bg-slate-900/90 border border-blue-500/40 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🎲</span>
+                    <h4 className="font-bold text-sm text-blue-300 uppercase tracking-wider">
+                      5. Dual 2d10 Resolution Engine &amp; Combat Economy
+                    </h4>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[10px]">
+                    <div className="p-2 bg-slate-950 rounded border border-slate-800">
+                      <span className="text-cyan-400 font-bold block">CR 15 Benchmark:</span>
+                      <span className="text-slate-400 block mt-0.5">2d10 + Stat + Skill Rank vs. Critical Rating 15.</span>
+                    </div>
+                    <div className="p-2 bg-slate-950 rounded border border-slate-800">
+                      <span className="text-amber-400 font-bold block">Defender Wins Ties:</span>
+                      <span className="text-slate-400 block mt-0.5">Contested rolls favor the defending party on equal totals.</span>
+                    </div>
+                    <div className="p-2 bg-slate-950 rounded border border-slate-800">
+                      <span className="text-emerald-400 font-bold block">Action Economy:</span>
+                      <span className="text-slate-400 block mt-0.5">2 Standard Actions + 1 Reaction per tactical round.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 border-t border-slate-800 bg-slate-950 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsBastionRulesOpen(false)}
+                  className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
+                >
+                  Understood, Return to Guided Creator
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

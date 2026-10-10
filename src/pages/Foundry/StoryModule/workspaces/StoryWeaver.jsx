@@ -68,8 +68,12 @@ import {
   Bookmark,
   Columns,
   MoreHorizontal,
-  Trash2
+  Trash2,
+  PanelLeftClose,
+  PanelLeft
 } from 'lucide-react';
+import { useAdeStore } from '../../store/adeStore';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function StoryWeaver({ 
   activeNode, 
@@ -81,7 +85,10 @@ export default function StoryWeaver({
   viewportSplit,
   setViewportSplit,
   handleOpenAddModal,
-  handleDeleteElement
+  handleDeleteElement,
+  locationPath,
+  modePulldown,
+  stageHandoff
 }) {
   const { 
     universeState, 
@@ -103,6 +110,28 @@ export default function StoryWeaver({
 
   const { currentUser, userHandle } = useAuth();
   const navigate = useNavigate();
+
+  // Outliner tree collapse/expand state from ADE store
+  const { isTreeExpanded, toggleTreeExpanded } = useAdeStore(
+    useShallow((state) => ({
+      isTreeExpanded: state.isTreeExpanded,
+      toggleTreeExpanded: state.toggleTreeExpanded
+    }))
+  );
+
+  // Document Pulldown State (Consolidated POV, Epistemic Play, AI Assist, Actions)
+  const [isDocDropdownOpen, setIsDocDropdownOpen] = useState(false);
+  const docDropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (docDropdownRef.current && !docDropdownRef.current.contains(e.target)) {
+        setIsDocDropdownOpen(false);
+      }
+    };
+    window.addEventListener('pointerdown', handleClickOutside, true);
+    return () => window.removeEventListener('pointerdown', handleClickOutside, true);
+  }, []);
 
   // Story Element Extractor Modal State
   const [isExtractorModalOpen, setIsExtractorModalOpen] = useState(false);
@@ -155,10 +184,7 @@ export default function StoryWeaver({
   // Real-time collaborative CRDT state
   const [collabStatus, setCollabStatus] = useState(() => crdtCollabService.getCollabStatus());
 
-  // Story Wiki & In-Book Element Editor State
-  const [isWikiDrawerOpen, setIsWikiDrawerOpen] = useState(false);
-  const [wikiSearch, setWikiSearch] = useState('');
-  const [wikiTypeFilter, setWikiTypeFilter] = useState('All');
+  // In-Book Element Editor State
   const [editingWikiElement, setEditingWikiElement] = useState(null);
   const [isDragOverCanvas, setIsDragOverCanvas] = useState(false);
   const [recentlyDroppedElement, setRecentlyDroppedElement] = useState(null);
@@ -184,21 +210,6 @@ export default function StoryWeaver({
       return wikiTags.has(titleLower) || (titleLower.length >= 4 && allText.includes(titleLower));
     });
   }, [content, outline, sceneBeats, elementsCatalog]);
-
-  const filteredWikiElements = useMemo(() => {
-    const catalog = elementsCatalog || [];
-    return catalog.filter(el => {
-      const matchesSearch = !wikiSearch.trim() || 
-        el.title?.toLowerCase().includes(wikiSearch.toLowerCase()) ||
-        el.fields?.description?.toLowerCase().includes(wikiSearch.toLowerCase()) ||
-        el.fields?.oneLinePitch?.toLowerCase().includes(wikiSearch.toLowerCase());
-      
-      if (!matchesSearch) return false;
-      if (wikiTypeFilter === 'All') return true;
-      if (wikiTypeFilter === 'Referenced') return referencedElements.some(r => r.id === el.id);
-      return el.type?.toLowerCase() === wikiTypeFilter.toLowerCase();
-    });
-  }, [elementsCatalog, wikiSearch, wikiTypeFilter, referencedElements]);
 
   // Insert [[Wiki Link]] into active manuscript cursor
   const handleInsertWikiLink = (elementTitle) => {
@@ -923,39 +934,237 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] font-mono select-none">
-      {/* ── UNIFIED SCENARIO CONTEXT BAR (Single Clean Line) ── */}
-      <div className="px-3 py-1.5 border-b border-slate-800 bg-slate-950/95 flex items-center justify-between gap-2.5 shrink-0 flex-wrap text-xs font-mono">
-        {/* Left: Type Pill + Editable Title + CRDT Status */}
-        <div className="flex items-center gap-2 min-w-0">
-          {activeNode?.type && (
-            <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 font-bold uppercase shrink-0">
-              {activeNode.type}
-            </span>
-          )}
-          <input
-            type="text"
-            value={activeNode?.title || ''}
-            onChange={(e) => {
-              if (activeNode?.id) {
-                updateStory(activeNode.id, { title: e.target.value });
-              }
-            }}
-            placeholder="Scenario Title..."
-            className="text-xs font-bold text-slate-100 bg-transparent border-none outline-none focus:bg-slate-900/80 rounded px-1 max-w-[160px] sm:max-w-[220px] truncate"
-            title="Click to rename scenario"
-          />
-          {/* Real-time CRDT Co-Authoring Indicator */}
-          <div 
-            className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9.5px] font-mono tracking-tight bg-slate-900 border border-slate-800 text-slate-300 shrink-0"
-            title="CRDT Yjs P2P Prose Synchronization Active"
-          >
-            <span className={`w-1.5 h-1.5 rounded-full ${collabStatus.isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
-            <span>CRDT {collabStatus.isConnected ? 'LIVE' : 'READY'}</span>
-          </div>
-        </div>
+      {/* ── UNIFIED SCENARIO CONTEXT BAR (Consolidated Single Line) ── */}
+      <div className="px-3 py-1.5 border-b border-slate-800 bg-[#090e1a] flex items-center justify-between gap-2.5 shrink-0 flex-wrap text-xs font-mono">
+        {/* Left: Mode Pulldown + Document Pulldown + Outliner Toggle + Canvas/Outline Switch */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Mode Pulldown (When provided by parent WeaverWorkspace) */}
+          {modePulldown}
 
-        {/* Center: Mode Switcher Pills (Canvas / Outline / Split Map) + Telemetry */}
-        <div className="flex items-center gap-2.5 shrink-0">
+          {/* Document Pulldown (Consolidated POV, Epistemic Play, AI Assist, and Document Actions) */}
+          <div className="relative" ref={docDropdownRef}>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                AudioService.playTerminalBeep(1000, 0.02);
+                setIsDocDropdownOpen(prev => !prev);
+              }}
+              className="px-2.5 py-1 bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm active:scale-95"
+              title="Document settings, Point of View, Epistemic Play, AI Assist & actions"
+            >
+              <FileText size={13} className="text-cyan-400" />
+              <span className="uppercase text-slate-100 font-bold">Document</span>
+              <ChevronDown size={11} className={`text-slate-400 transition-transform duration-200 ${isDocDropdownOpen ? 'rotate-180 text-cyan-400' : ''}`} />
+            </button>
+
+            {isDocDropdownOpen && (
+              <div className="absolute left-0 mt-1.5 w-72 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-1.5 z-[130] backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800/80 animate-in fade-in slide-in-from-top-2 duration-150">
+                {/* 1. Point of View */}
+                <div className="p-2.5 space-y-1.5">
+                  <div className="flex items-center justify-between text-[10px] uppercase font-bold text-purple-400 tracking-wider">
+                    <div className="flex items-center gap-1.5">
+                      <UserCheck size={12} />
+                      <span>Point of View</span>
+                    </div>
+                    {activePov && <span className="text-[9px] text-purple-300 font-normal truncate max-w-[110px]">{activePov}</span>}
+                  </div>
+                  <select
+                    value={activePov}
+                    onChange={e => handlePovChange(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 hover:border-purple-500/50 text-purple-200 text-xs rounded-lg px-2 py-1 outline-none cursor-pointer"
+                  >
+                    <option value="" className="bg-slate-950 text-slate-400">POV: 3rd Person Omniscient</option>
+                    {povOptions.filter(o => o.type === 'folio').length > 0 && (
+                      <optgroup label="Hero Operatives (Folio)" className="bg-slate-950 text-purple-400 font-bold">
+                        {povOptions.filter(o => o.type === 'folio').map(op => (
+                          <option key={op.id} value={op.name} className="bg-slate-950 text-purple-200">
+                            👤 {op.label}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                    {povOptions.filter(o => o.type === 'story_persona').length > 0 && (
+                      <optgroup label="Story Personas (NPCs)" className="bg-slate-950 text-emerald-400 font-bold">
+                        {povOptions.filter(o => o.type === 'story_persona').map(p => (
+                          <option key={p.id} value={p.name} className="bg-slate-950 text-emerald-200">
+                            🎭 {p.label}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                  </select>
+                </div>
+
+                {/* 2. Epistemic Play */}
+                <div className="p-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      setIsEpistemicPanelOpen(true);
+                      AudioService.playTerminalBeep(1400, 0.03);
+                    }}
+                    className="w-full text-left px-3 py-2 hover:bg-emerald-950/60 rounded-xl text-slate-200 hover:text-emerald-300 flex items-center justify-between transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Terminal size={13} className="text-emerald-400 shrink-0" />
+                      <div>
+                        <div className="font-bold text-emerald-300">Epistemic Play</div>
+                        <div className="text-[10px] text-slate-400">Terminal Hacking &amp; NPC Interrogation</div>
+                      </div>
+                    </div>
+                    <ArrowRight size={11} className="text-slate-500" />
+                  </button>
+                </div>
+
+                {/* 3. AI Assist */}
+                <div className="p-1.5 space-y-0.5">
+                  <div className="px-2.5 py-1 text-[10px] uppercase font-bold text-cyan-400/80 tracking-wider flex items-center gap-1.5">
+                    <Wand2 size={11} className="text-cyan-400" />
+                    <span>AI Authoring Assist</span>
+                    {isAiWorking && <span className="text-[9px] text-cyan-300 animate-pulse ml-auto">{aiActionLabel || 'Generating...'}</span>}
+                  </div>
+                  <button
+                    type="button"
+                    disabled={isAiWorking}
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      handleAiPairAuthor('continue');
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 rounded-lg text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <span>⚡</span>
+                    <span>Continue Narrative</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isAiWorking}
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      handleAiPairAuthor('expand');
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 rounded-lg text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <span>✨</span>
+                    <span>Expand Details</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isAiWorking}
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      handleAiPairAuthor('polish');
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 rounded-lg text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <span>🪄</span>
+                    <span>Polish Prose</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isAiWorking}
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      handleAiPairAuthor('reactive_flavor');
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 rounded-lg text-cyan-300 hover:text-cyan-200 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <span>⚡</span>
+                    <span>Reactive Flavor</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isAiWorking}
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      handleExtractDeltas();
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 rounded-lg text-amber-300 hover:text-amber-200 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    <span>📜</span>
+                    <span>Deduce Deltas</span>
+                  </button>
+                </div>
+
+                {/* 4. Actions (... Menu) */}
+                <div className="p-1.5 space-y-0.5">
+                  <div className="px-2.5 py-1 text-[10px] uppercase font-bold text-slate-400 tracking-wider flex items-center gap-1.5">
+                    <MoreHorizontal size={11} className="text-slate-400" />
+                    <span>Document Actions</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      handleCopy();
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-slate-800 rounded-lg text-slate-200 flex items-center gap-2 cursor-pointer"
+                  >
+                    <Copy size={12} className="text-cyan-400" />
+                    <span>{copied ? 'Copied!' : 'Copy Prose'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsDocDropdownOpen(false);
+                      handleExportMarkdown();
+                    }}
+                    className="w-full text-left px-3 py-1.5 hover:bg-slate-800 rounded-lg text-slate-200 flex items-center gap-2 cursor-pointer"
+                  >
+                    <Download size={12} className="text-amber-400" />
+                    <span>Export Markdown (.md)</span>
+                  </button>
+                  {handleOpenAddModal && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsDocDropdownOpen(false);
+                        handleOpenAddModal(activeNode?.id);
+                      }}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 rounded-lg text-cyan-300 flex items-center gap-2 cursor-pointer"
+                    >
+                      <Plus size={12} />
+                      <span>+ Sub-Scenario</span>
+                    </button>
+                  )}
+                  {handleDeleteElement && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsDocDropdownOpen(false);
+                        handleDeleteElement(activeNode?.id, activeNode?.title);
+                      }}
+                      className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 rounded-lg text-red-400 hover:text-red-300 flex items-center gap-2 cursor-pointer"
+                    >
+                      <Trash2 size={12} />
+                      <span>Delete Scenario...</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Outliner Sidebar Toggle (beside Canvas / Outline) */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(900, 0.02);
+              toggleTreeExpanded();
+            }}
+            className={`px-2 py-1 rounded-xl border text-xs font-mono font-bold transition-all flex items-center gap-1 cursor-pointer shadow-sm ${
+              isTreeExpanded
+                ? 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 hover:bg-cyan-900/80 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
+                : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+            }`}
+            title={isTreeExpanded ? "Collapse Outliner Tree (Ctrl+[)" : "Expand Outliner Tree (Ctrl+[)"}
+          >
+            {isTreeExpanded ? <PanelLeftClose size={13} className="text-cyan-400" /> : <PanelLeft size={13} className="text-slate-400" />}
+            <span className="text-[10px] hidden sm:inline">OUTLINER</span>
+          </button>
+
+          {/* Canvas / Outline Switcher Pills */}
           <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-xl p-0.5 text-xs font-mono">
             {/* Canvas */}
             <button
@@ -1031,193 +1240,28 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
               </div>
             )}
           </div>
+        </div>
 
+        {/* Right: Words & Reading Time + CRDT + Stage Handoff */}
+        <div className="flex items-center gap-2.5 shrink-0">
           {/* Words & Reading Time */}
           <div className="hidden lg:flex items-center gap-2 text-[11px] text-slate-400">
             <span><strong className="text-slate-200">{words}</strong> words</span>
             <span>•</span>
             <span>~<strong className="text-slate-200">{readingTimeMinutes}</strong> min</span>
           </div>
-        </div>
 
-        {/* Right: POV + + Component + Wiki + AI Assist + Actions */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          {/* POV Lock */}
-          <div className="flex items-center gap-1 bg-slate-900 border border-slate-800 px-2 py-1 rounded-lg text-[10px]">
-            <UserCheck size={11} className="text-purple-400 shrink-0" />
-            <select
-              value={activePov}
-              onChange={e => handlePovChange(e.target.value)}
-              className="bg-transparent text-purple-300 font-bold outline-none cursor-pointer max-w-[120px] truncate"
-              title="Active Character Point of View"
-            >
-              <option value="" className="bg-slate-950 text-slate-400">POV: 3rd Person</option>
-              {povOptions.filter(o => o.type === 'folio').map(op => (
-                <option key={op.id} value={op.name} className="bg-slate-950 text-purple-200">
-                  👤 {op.label}
-                </option>
-              ))}
-              {povOptions.filter(o => o.type === 'story_persona').map(p => (
-                <option key={p.id} value={p.name} className="bg-slate-950 text-emerald-200">
-                  🎭 {p.label}
-                </option>
-              ))}
-            </select>
+          {/* CRDT Indicator */}
+          <div 
+            className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9.5px] font-mono tracking-tight bg-slate-900 border border-slate-800 text-slate-300 shrink-0"
+            title="CRDT Yjs P2P Prose Synchronization Active"
+          >
+            <span className={`w-1.5 h-1.5 rounded-full ${collabStatus.isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
+            <span>CRDT {collabStatus.isConnected ? 'LIVE' : 'READY'}</span>
           </div>
 
-          {/* Create Story Component / Element Extractor */}
-          <button
-            type="button"
-            onClick={() => {
-              const sel = window.getSelection()?.toString() || '';
-              setExtractInitialText(sel || (content ? content.replace(/<[^>]+>/g, ' ').slice(0, 300) : ''));
-              setIsExtractorModalOpen(true);
-              AudioService.playTerminalBeep(1200, 0.03);
-            }}
-            className="px-2.5 py-1 bg-gradient-to-r from-purple-950 to-indigo-950 hover:from-purple-900 hover:to-indigo-900 border border-purple-500/50 text-purple-200 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
-            title="Extract or create game component (Persona, Item, Smart Prop, Hazard) from story"
-          >
-            <Box size={11} className="text-purple-400" />
-            <span className="hidden sm:inline">+ Component</span>
-          </button>
-
-          {/* In-Book Story Wiki Button */}
-          <button
-            type="button"
-            onClick={() => {
-              setIsWikiDrawerOpen(prev => !prev);
-              AudioService.playTerminalBeep(1100, 0.02);
-            }}
-            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer border ${
-              isWikiDrawerOpen
-                ? 'bg-amber-950/80 border-amber-400 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-                : 'bg-slate-900 border-slate-800 text-slate-300 hover:text-amber-300 hover:border-amber-500/50'
-            }`}
-            title="Open In-Book Story Wiki & World Elements"
-          >
-            <span>📖</span>
-            <span className="hidden sm:inline">Wiki</span>
-            {referencedElements.length > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-amber-500/30 text-amber-300 text-[9px] font-bold">
-                {referencedElements.length}
-              </span>
-            )}
-          </button>
-
-          {/* Epistemic Play: Terminal Hacking & NPC Interrogation */}
-          <button
-            type="button"
-            onClick={() => {
-              setIsEpistemicPanelOpen(true);
-              AudioService.playTerminalBeep(1400, 0.03);
-            }}
-            className="px-2.5 py-1 bg-gradient-to-r from-emerald-950 to-teal-950 hover:from-emerald-900 hover:to-teal-900 border border-emerald-500/50 text-emerald-200 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
-            title="Open Epistemic Play: Open-Ended Terminal Hacking & Free-Form NPC Interrogation"
-          >
-            <Terminal size={11} className="text-emerald-400" />
-            <span className="hidden sm:inline">Epistemic Play</span>
-          </button>
-
-          {/* AI Authoring Dropdown */}
-          <div className="relative group">
-            <button
-              type="button"
-              disabled={isAiWorking}
-              className="px-2.5 py-1 bg-gradient-to-r from-cyan-950 to-purple-950 hover:from-cyan-900 hover:to-purple-900 border border-cyan-500/50 text-cyan-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 shadow-sm cursor-pointer disabled:opacity-50"
-            >
-              <Wand2 size={11} className="text-cyan-400" />
-              <span>AI Assist</span>
-              <ChevronDown size={10} className="text-slate-400" />
-            </button>
-
-            <div className="absolute right-0 mt-1 w-48 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs divide-y divide-slate-800 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity">
-              <button
-                onClick={() => handleAiPairAuthor('continue')}
-                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
-              >
-                <span>⚡</span> Continue Narrative
-              </button>
-              <button
-                onClick={() => handleAiPairAuthor('expand')}
-                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
-              >
-                <span>✨</span> Expand Details
-              </button>
-              <button
-                onClick={() => handleAiPairAuthor('polish')}
-                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-cyan-300 flex items-center gap-2 cursor-pointer"
-              >
-                <span>🪄</span> Polish Prose
-              </button>
-              <button
-                onClick={() => handleAiPairAuthor('reactive_flavor')}
-                className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 cursor-pointer"
-              >
-                <span>⚡</span> Reactive Flavor
-              </button>
-              <button
-                onClick={handleExtractDeltas}
-                className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 cursor-pointer"
-              >
-                <span>📜</span> Deduce Deltas
-              </button>
-            </div>
-          </div>
-
-          {/* Consolidated Actions Pulldown (Copy, Export, Sub-Scenario, Delete) */}
-          <div className="relative group">
-            <button
-              type="button"
-              className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer border border-transparent hover:border-slate-700"
-              title="Scenario Actions (Copy, Export, Sub-Elements, Delete)"
-            >
-              <MoreHorizontal size={14} />
-            </button>
-            <div className="absolute right-0 mt-1 w-48 bg-slate-900/98 border border-slate-700 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs divide-y divide-slate-800 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity">
-              <div className="py-1">
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 flex items-center gap-2 cursor-pointer"
-                >
-                  <Copy size={12} className="text-cyan-400" />
-                  <span>{copied ? 'Copied!' : 'Copy Prose'}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleExportMarkdown}
-                  className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 flex items-center gap-2 cursor-pointer"
-                >
-                  <Download size={12} className="text-amber-400" />
-                  <span>Export Markdown (.md)</span>
-                </button>
-              </div>
-              {(handleOpenAddModal || handleDeleteElement) && (
-                <div className="py-1">
-                  {handleOpenAddModal && (
-                    <button
-                      type="button"
-                      onClick={() => handleOpenAddModal(activeNode?.id)}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/60 text-cyan-300 flex items-center gap-2 cursor-pointer"
-                    >
-                      <Plus size={12} />
-                      <span>+ Sub-Scenario</span>
-                    </button>
-                  )}
-                  {handleDeleteElement && (
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteElement(activeNode?.id, activeNode?.title)}
-                      className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-300 flex items-center gap-2 cursor-pointer"
-                    >
-                      <Trash2 size={12} />
-                      <span>Delete Scenario...</span>
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
+          {/* Stage Handoff (When passed from WeaverWorkspace) */}
+          {stageHandoff}
         </div>
       </div>
 
@@ -1460,157 +1504,6 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
               onShowToast={showToast}
             />
           </div>
-
-          {/* IN-BOOK STORY WIKI & WORLD ELEMENTS DRAWER */}
-          {isWikiDrawerOpen && (
-            <div className="w-80 md:w-96 border-l border-slate-800 bg-[#0a0e18] flex flex-col shrink-0 h-full overflow-hidden shadow-2xl animate-in slide-in-from-right duration-200 z-20 font-mono">
-              {/* Drawer Header */}
-              <div className="p-3 border-b border-slate-800/80 bg-slate-950/90 flex items-center justify-between gap-2 shrink-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400 text-sm">📖</span>
-                  <span className="text-xs font-bold text-slate-100 tracking-wide">Story Wiki & Elements</span>
-                  <span className="text-[10px] text-slate-500">({elementsCatalog?.length || 0})</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => handleCreateNewElement('Persona')}
-                    className="p-1 px-2 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold flex items-center gap-1 cursor-pointer transition-colors"
-                    title="Create a new world element directly inside this book"
-                  >
-                    <Plus size={11} />
-                    <span>New</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsWikiDrawerOpen(false)}
-                    className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 cursor-pointer"
-                    title="Close Wiki Drawer"
-                  >
-                    <X size={13} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Search & Category Filter */}
-              <div className="p-2.5 border-b border-slate-800 space-y-2 bg-slate-950/40 shrink-0">
-                <div className="relative">
-                  <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input
-                    type="text"
-                    value={wikiSearch}
-                    onChange={(e) => setWikiSearch(e.target.value)}
-                    placeholder="Search world elements..."
-                    className="w-full pl-7 pr-2.5 py-1 bg-slate-900 border border-slate-700/80 rounded-lg text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-amber-400/60 font-sans"
-                  />
-                  {wikiSearch && (
-                    <button
-                      type="button"
-                      onClick={() => setWikiSearch('')}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
-                    >
-                      <X size={11} />
-                    </button>
-                  )}
-                </div>
-
-                {/* Filter Pills */}
-                <div className="flex items-center gap-1 overflow-x-auto scrollbar-none pb-0.5 text-[10px]">
-                  {['All', 'Referenced', 'Persona', 'Faction', 'Location', 'Item', 'Lore'].map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setWikiTypeFilter(t)}
-                      className={`px-2 py-0.5 rounded-full font-bold cursor-pointer transition-colors shrink-0 ${
-                        wikiTypeFilter === t
-                          ? 'bg-amber-400 text-black font-extrabold shadow-xs'
-                          : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
-                      }`}
-                    >
-                      {t}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Elements List */}
-              <div className="flex-1 overflow-y-auto p-2.5 space-y-2 scrollbar-thin">
-                {filteredWikiElements.length === 0 ? (
-                  <div className="p-6 text-center text-slate-500 text-xs font-mono space-y-2">
-                    <p>No world elements match criteria.</p>
-                    <button
-                      type="button"
-                      onClick={() => handleCreateNewElement('Persona')}
-                      className="text-amber-400 hover:underline cursor-pointer text-[11px] font-bold"
-                    >
-                      + Create new element
-                    </button>
-                  </div>
-                ) : (
-                  filteredWikiElements.map((elem) => {
-                    const isRef = referencedElements.some(r => r.id === elem.id);
-                    return (
-                      <div
-                        key={elem.id}
-                        className={`p-2.5 rounded-xl border transition-all ${
-                          isRef
-                            ? 'bg-amber-950/20 border-amber-500/40 shadow-sm'
-                            : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 hover:border-slate-700'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-1.5">
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className={`text-[8.5px] font-extrabold uppercase px-1.5 py-0.2 rounded border ${getTypePillStyle(elem.type)}`}>
-                                {elem.type}
-                              </span>
-                              <span className="font-bold text-slate-200 text-xs truncate max-w-[150px]">
-                                {elem.title}
-                              </span>
-                              {isRef && (
-                                <span className="text-[8px] px-1 py-0.2 rounded bg-amber-400/20 text-amber-300 font-bold border border-amber-500/30">
-                                  IN STORY
-                                </span>
-                              )}
-                            </div>
-                            <p className="text-[11px] text-slate-400 line-clamp-2 mt-1 font-sans">
-                              {elem.fields?.oneLinePitch || elem.fields?.description || elem.content?.replace(/<[^>]+>/g, ' ').slice(0, 100) || 'No description recorded.'}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Card Action Buttons */}
-                        <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-slate-800/60 text-[10px]">
-                          <button
-                            type="button"
-                            onClick={() => handleInsertWikiLink(elem.title)}
-                            className="px-2 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 flex items-center gap-1 cursor-pointer font-bold transition-colors"
-                            title={`Insert [[${elem.title}]] link into your prose`}
-                          >
-                            <Link2 size={10} />
-                            <span>+ [[Link]]</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setEditingWikiElement(elem);
-                              AudioService.playTerminalBeep(1100, 0.02);
-                            }}
-                            className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 flex items-center gap-1 cursor-pointer font-bold transition-colors"
-                            title={`Edit ${elem.title} in-situ`}
-                          >
-                            <Edit3 size={10} className="text-amber-400" />
-                            <span>Edit</span>
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            </div>
-          )}
         </div>
       ) : null}
 

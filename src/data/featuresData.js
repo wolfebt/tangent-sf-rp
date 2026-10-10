@@ -1,7 +1,7 @@
 /**
  * Canonical Features & Traits Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/features/
- * Total Features: 219
+ * Total Features: 234
  */
 
 export const FEATURE_CATEGORIES = [
@@ -306,15 +306,24 @@ export const DEFAULT_FEATURES = [
     "is_ranked": false,
     "is_multiple": false,
     "prerequisites": "Insightful Reason",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Logic Checks"
+      }
+    ],
     "description": "Inspired Reason is a Ability Feature: Roll Logic checks with Advantage",
     "mechanic": "Roll Logic checks with Advantage",
     "rules": "Prerequisite: Insightful Reason.",
     "special_rules": "Prerequisite: Insightful Reason.",
     "body": "# Inspired Reason\n\n**Category**: Ability Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Insightful Reason\n\n## Description\nInspired Reason is a Ability Feature: Roll Logic checks with Advantage\n\n## Mechanics & Benefit\nRoll Logic checks with Advantage",
     "mechanics": "Roll Logic checks with Advantage",
-    "notes": "[Rule] Prerequisite: Insightful Reason.\n[Prerequisite] Insightful Reason",
+    "notes": "[Modifier] Advantage on Logic Checks\n[Rule] Prerequisite: Insightful Reason.\n[Prerequisite] Insightful Reason",
     "notesList": [
+      "[Modifier] Advantage on Logic Checks",
       "[Rule] Prerequisite: Insightful Reason.",
       "[Prerequisite] Insightful Reason"
     ]
@@ -1074,15 +1083,48 @@ export const DEFAULT_FEATURES = [
     "is_ranked": false,
     "is_multiple": false,
     "prerequisites": "Combat Skill 1",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Defense specifically against Combat Maneuvers Trip",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Defense specifically against Combat Maneuvers Trip"
+      },
+      {
+        "target": "Disarm",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Disarm"
+      },
+      {
+        "target": "Grapple",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Grapple"
+      },
+      {
+        "target": "Bull Rush",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Bull Rush"
+      }
+    ],
     "description": "The character has trained to resist grappling and takedowns, using overall combat experience rather than just raw agility.",
     "mechanic": "You gain a **\\+4 Bonus to Defense** specifically against Combat Maneuvers (Trip, Disarm, Grapple, Bull Rush).",
     "rules": "38",
     "special_rules": "38",
     "body": "# Defensive Combat Training\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Skill 1\n\n## Description\nThe character has trained to resist grappling and takedowns, using overall combat experience rather than just raw agility.\n\n## Mechanics & Benefit\nYou gain a **\\+4 Bonus to Defense** specifically against Combat Maneuvers (Trip, Disarm, Grapple, Bull Rush).\n\n## Special Rules\n38",
     "mechanics": "You gain a **\\+4 Bonus to Defense** specifically against Combat Maneuvers (Trip, Disarm, Grapple, Bull Rush).",
-    "notes": "[Rule] 38\n[Prerequisite] Combat Skill 1",
+    "notes": "[Modifier] +4 to Defense specifically against Combat Maneuvers Trip\n[Modifier] +4 to Disarm\n[Modifier] +4 to Grapple\n[Modifier] +4 to Bull Rush\n[Rule] 38\n[Prerequisite] Combat Skill 1",
     "notesList": [
+      "[Modifier] +4 to Defense specifically against Combat Maneuvers Trip",
+      "[Modifier] +4 to Disarm",
+      "[Modifier] +4 to Grapple",
+      "[Modifier] +4 to Bull Rush",
       "[Rule] 38",
       "[Prerequisite] Combat Skill 1"
     ]
@@ -1453,6 +1495,13 @@ export const DEFAULT_FEATURES = [
         "value": 2,
         "mode": "inherent",
         "description": "+2 to Disarm attempts"
+      },
+      {
+        "target": "No attack of opportunity",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to No attack of opportunity"
       }
     ],
     "description": "Improved Disarm is a Combat Feature: +2 bonus on disarm attempts, no attack of opportunity.",
@@ -1461,9 +1510,10 @@ export const DEFAULT_FEATURES = [
     "special_rules": "26",
     "body": "# Improved Disarm\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Disarm is a Combat Feature: \\+2 bonus on disarm attempts, no attack of opportunity.\n\n## Mechanics & Benefit\n\\+2 bonus on disarm attempts, no attack of opportunity.\n\n## Special Rules\n26",
     "mechanics": "\\+2 bonus on disarm attempts, no attack of opportunity.",
-    "notes": "[Modifier] +2 to Disarm attempts\n[Rule] 26\n[Prerequisite] Combat Expertise",
+    "notes": "[Modifier] +2 to Disarm attempts\n[Modifier] +2 to No attack of opportunity\n[Rule] 26\n[Prerequisite] Combat Expertise",
     "notesList": [
       "[Modifier] +2 to Disarm attempts",
+      "[Modifier] +2 to No attack of opportunity",
       "[Rule] 26",
       "[Prerequisite] Combat Expertise"
     ]
@@ -1524,6 +1574,13 @@ export const DEFAULT_FEATURES = [
         "value": 2,
         "mode": "inherent",
         "description": "+2 to Trip attempts"
+      },
+      {
+        "target": "No attack of opportunity",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to No attack of opportunity"
       }
     ],
     "description": "Improved Trip is a Combat Feature: +2 bonus on trip attempts, no attack of opportunity.",
@@ -1532,9 +1589,10 @@ export const DEFAULT_FEATURES = [
     "special_rules": "30",
     "body": "# Improved Trip\n\n**Category**: Combat Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Combat Expertise\n\n## Description\nImproved Trip is a Combat Feature: \\+2 bonus on trip attempts, no attack of opportunity.\n\n## Mechanics & Benefit\n\\+2 bonus on trip attempts, no attack of opportunity.\n\n## Special Rules\n30",
     "mechanics": "\\+2 bonus on trip attempts, no attack of opportunity.",
-    "notes": "[Modifier] +2 to Trip attempts\n[Rule] 30\n[Prerequisite] Combat Expertise",
+    "notes": "[Modifier] +2 to Trip attempts\n[Modifier] +2 to No attack of opportunity\n[Rule] 30\n[Prerequisite] Combat Expertise",
     "notesList": [
       "[Modifier] +2 to Trip attempts",
+      "[Modifier] +2 to No attack of opportunity",
       "[Rule] 30",
       "[Prerequisite] Combat Expertise"
     ]
@@ -2611,6 +2669,62 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-absolute-pitch",
+    "name": "Absolute Pitch",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awareness 1, Perform 1",
+    "modifiers": [
+      {
+        "target": "Auditory matching",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Auditory matching"
+      },
+      {
+        "target": "Impersonation vocal",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Impersonation vocal"
+      },
+      {
+        "target": "Acoustic security bypass",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Acoustic security bypass"
+      }
+    ],
+    "description": "The character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.",
+    "mechanic": "You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.",
+    "rules": "None",
+    "special_rules": "None",
+    "body": "# Absolute Pitch\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 1, Perform 1\n\n## Description\nThe character possesses an exaggerated structural asymmetry in the planum temporale, allowing them to instantly identify, categorize, and perfectly recreate auditory frequencies without a reference tone.\n\n## Mechanics & Benefit\nYou can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.\n\n## Special Rules\nNone",
+    "mechanics": "You can perfectly memorize and mimic voices, musical notes, or mechanical frequencies. You gain a **+4 Bonus** on checks involving auditory matching, impersonation (vocal), or acoustic security bypass.",
+    "notes": "[Modifier] +4 to Auditory matching\n[Modifier] +4 to Impersonation vocal\n[Modifier] +4 to Acoustic security bypass\n[Rule] None\n[Prerequisite] Awareness 1, Perform 1",
+    "notesList": [
+      "[Modifier] +4 to Auditory matching",
+      "[Modifier] +4 to Impersonation vocal",
+      "[Modifier] +4 to Acoustic security bypass",
+      "[Rule] None",
+      "[Prerequisite] Awareness 1, Perform 1"
+    ]
+  },
+  {
     "id": "general-acrobatic-steps",
     "name": "Acrobatic Steps",
     "category": "General",
@@ -2639,6 +2753,46 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 105",
       "[Prerequisite] Agi 3, Nimble Moves"
+    ]
+  },
+  {
+    "id": "general-algorithmic-cognition",
+    "name": "Algorithmic Cognition",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Lightning Calculator, Intellect 4",
+    "modifiers": [
+      {
+        "target": "Logic",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Logic Checks"
+      }
+    ],
+    "description": "The character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.",
+    "mechanic": "You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.",
+    "rules": "Prerequisite: Lightning Calculator, Intellect 4.",
+    "special_rules": "Prerequisite: Lightning Calculator, Intellect 4.",
+    "body": "# Algorithmic Cognition\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Lightning Calculator, Intellect 4\n\n## Description\nThe character's brain bypasses standard working memory bottlenecks, allowing them to perform hypercalculia and extreme high-speed mental arithmetic natively.\n\n## Mechanics & Benefit\nYou may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.\n\n## Special Rules\nPrerequisite: Lightning Calculator, Intellect 4.",
+    "mechanics": "You may perform complex mathematical calculations, cryptanalysis, and algorithmic decryption as a **Free Action** instead of a Standard or Full Round Action. You gain **Advantage** on all Logic checks involving mathematics or codebreaking.",
+    "notes": "[Modifier] Advantage on Logic Checks\n[Rule] Prerequisite: Lightning Calculator, Intellect 4.\n[Prerequisite] Lightning Calculator, Intellect 4",
+    "notesList": [
+      "[Modifier] Advantage on Logic Checks",
+      "[Rule] Prerequisite: Lightning Calculator, Intellect 4.",
+      "[Prerequisite] Lightning Calculator, Intellect 4"
     ]
   },
   {
@@ -3024,11 +3178,11 @@ export const DEFAULT_FEATURES = [
     "prerequisites": "Agility 1, Athletics 1",
     "modifiers": [
       {
-        "target": "Athletics  Climbing",
+        "target": "Athletics Climbing",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Athletics  Climbing"
+        "description": "+2 to Athletics Climbing"
       }
     ],
     "description": "The character is a master mountaineer and vertical surface scaler.",
@@ -3037,9 +3191,9 @@ export const DEFAULT_FEATURES = [
     "special_rules": "Prerequisite: Agility 1, Athletics 1.",
     "body": "# Climber\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisites**: Agility 1, Athletics 1  \n\n## Description\nThe character is an expert climber capable of rapid ascent, surface scaling, and controlled vertical descent.\n\n## Mechanics & Benefit\n- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
     "mechanics": "- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:\n  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.\n  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.\n- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.",
-    "notes": "[Modifier] +2 to Athletics  Climbing\n[Rule] Prerequisite: Agility 1, Athletics 1.\n[Prerequisite] Agility 1, Athletics 1",
+    "notes": "[Modifier] +2 to Athletics Climbing\n[Rule] Prerequisite: Agility 1, Athletics 1.\n[Prerequisite] Agility 1, Athletics 1",
     "notesList": [
-      "[Modifier] +2 to Athletics  Climbing",
+      "[Modifier] +2 to Athletics Climbing",
       "[Rule] Prerequisite: Agility 1, Athletics 1.",
       "[Prerequisite] Agility 1, Athletics 1"
     ]
@@ -3244,6 +3398,124 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-dual-hemispheric-processing",
+    "name": "Dual-Hemispheric Processing",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Intellect 3, Special (Congenital Trait)",
+    "modifiers": [],
+    "description": "Due to a congenital anomaly (such as the agenesis of the corpus callosum), the character's brain hemispheres operate with extreme independence. They can read two pages simultaneously and process localized data without global interference.",
+    "mechanic": "You can read, scan, and process textual or visual information at **10x normal speed**. Furthermore, you may perform two different mental tasks (e.g., hacking a terminal while calculating astrogation routes) without suffering a multi-tasking penalty.",
+    "rules": "Special: Congenital Trait.",
+    "special_rules": "Special: Congenital Trait.",
+    "body": "# Dual-Hemispheric Processing\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 3, Special (Congenital Trait)\n\n## Description\nDue to a congenital anomaly (such as the agenesis of the corpus callosum), the character's brain hemispheres operate with extreme independence. They can read two pages simultaneously and process localized data without global interference.\n\n## Mechanics & Benefit\nYou can read, scan, and process textual or visual information at **10x normal speed**. Furthermore, you may perform two different mental tasks (e.g., hacking a terminal while calculating astrogation routes) without suffering a multi-tasking penalty.\n\n## Special Rules\nSpecial: Congenital Trait.",
+    "mechanics": "You can read, scan, and process textual or visual information at **10x normal speed**. Furthermore, you may perform two different mental tasks (e.g., hacking a terminal while calculating astrogation routes) without suffering a multi-tasking penalty.",
+    "notes": "[Rule] Special: Congenital Trait.\n[Prerequisite] Intellect 3, Special (Congenital Trait)",
+    "notesList": [
+      "[Rule] Special: Congenital Trait.",
+      "[Prerequisite] Intellect 3, Special (Congenital Trait)"
+    ]
+  },
+  {
+    "id": "general-echolocation",
+    "name": "Echolocation",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awareness 3, Must possess the Blindness flaw (or be visually deprived)",
+    "modifiers": [],
+    "description": "Through extreme cross-modal neuroplasticity, the character's visual cortex has been repurposed to process auditory data, acting as a high-resolution biological sonar.",
+    "mechanic": "By emitting sharp clicks, you gain **Blindsight up to 60 feet**. You ignore all concealment penalties caused by darkness, fog, or visual invisibility within this range. You cannot be Flanked by enemies within your sonar radius.",
+    "rules": "Prerequisite: Awareness 3, Blindness flaw or visual deprivation.",
+    "special_rules": "Prerequisite: Awareness 3, Blindness flaw or visual deprivation.",
+    "body": "# Echolocation\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 3, Must possess the Blindness flaw (or be visually deprived)\n\n## Description\nThrough extreme cross-modal neuroplasticity, the character's visual cortex has been repurposed to process auditory data, acting as a high-resolution biological sonar.\n\n## Mechanics & Benefit\nBy emitting sharp clicks, you gain **Blindsight up to 60 feet**. You ignore all concealment penalties caused by darkness, fog, or visual invisibility within this range. You cannot be Flanked by enemies within your sonar radius.\n\n## Special Rules\nPrerequisite: Awareness 3, Blindness flaw or visual deprivation.",
+    "mechanics": "By emitting sharp clicks, you gain **Blindsight up to 60 feet**. You ignore all concealment penalties caused by darkness, fog, or visual invisibility within this range. You cannot be Flanked by enemies within your sonar radius.",
+    "notes": "[Rule] Prerequisite: Awareness 3, Blindness flaw or visual deprivation.\n[Prerequisite] Awareness 3, Must possess the Blindness flaw (or be visually deprived)",
+    "notesList": [
+      "[Rule] Prerequisite: Awareness 3, Blindness flaw or visual deprivation.",
+      "[Prerequisite] Awareness 3, Must possess the Blindness flaw (or be visually deprived)"
+    ]
+  },
+  {
+    "id": "general-eidetic-constructor",
+    "name": "Eidetic Constructor",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Eidetic Memory, Awareness 2",
+    "modifiers": [
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Navigation"
+      },
+      {
+        "target": "Architecture",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Architecture"
+      },
+      {
+        "target": "Tactical",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Tactical"
+      }
+    ],
+    "description": "The character possesses unparalleled visual-spatial memory. They retain \"frozen frames\" of complex visual stimuli and can perfectly recreate them in physical space or memory.",
+    "mechanic": "After observing an area, building, or object for 1 full round, you memorize its exact structural layout, dimensions, and structural columns. You gain a **+4 Bonus** to Navigation, Architecture, or Tactical checks involving that specific location.",
+    "rules": "Prerequisite: Eidetic Memory, Awareness 2.",
+    "special_rules": "Prerequisite: Eidetic Memory, Awareness 2.",
+    "body": "# Eidetic Constructor\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Eidetic Memory, Awareness 2\n\n## Description\nThe character possesses unparalleled visual-spatial memory. They retain \"frozen frames\" of complex visual stimuli and can perfectly recreate them in physical space or memory.\n\n## Mechanics & Benefit\nAfter observing an area, building, or object for 1 full round, you memorize its exact structural layout, dimensions, and structural columns. You gain a **+4 Bonus** to Navigation, Architecture, or Tactical checks involving that specific location.\n\n## Special Rules\nPrerequisite: Eidetic Memory, Awareness 2.",
+    "mechanics": "After observing an area, building, or object for 1 full round, you memorize its exact structural layout, dimensions, and structural columns. You gain a **+4 Bonus** to Navigation, Architecture, or Tactical checks involving that specific location.",
+    "notes": "[Modifier] +4 to Navigation\n[Modifier] +4 to Architecture\n[Modifier] +4 to Tactical\n[Rule] Prerequisite: Eidetic Memory, Awareness 2.\n[Prerequisite] Eidetic Memory, Awareness 2",
+    "notesList": [
+      "[Modifier] +4 to Navigation",
+      "[Modifier] +4 to Architecture",
+      "[Modifier] +4 to Tactical",
+      "[Rule] Prerequisite: Eidetic Memory, Awareness 2.",
+      "[Prerequisite] Eidetic Memory, Awareness 2"
+    ]
+  },
+  {
     "id": "general-eidetic-memory",
     "name": "Eidetic Memory",
     "category": "General",
@@ -3315,6 +3587,46 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-extreme-endurance",
+    "name": "Extreme Endurance",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Stamina 3",
+    "modifiers": [
+      {
+        "target": "Stamina",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Stamina"
+      }
+    ],
+    "description": "A rare point mutation (like the EPOR gene) causes the character's bone marrow to overproduce red blood cells, granting them a permanently maximized oxygen-carrying capacity.",
+    "mechanic": "You gain a **+4 Bonus** to all Stamina checks involving breath-holding, suffocation, or intense aerobic exertion. Your movement speed is not reduced when fatigued.",
+    "rules": "Prerequisite: Stamina 3.",
+    "special_rules": "Prerequisite: Stamina 3.",
+    "body": "# Extreme Endurance\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 3\n\n## Description\nA rare point mutation (like the EPOR gene) causes the character's bone marrow to overproduce red blood cells, granting them a permanently maximized oxygen-carrying capacity.\n\n## Mechanics & Benefit\nYou gain a **+4 Bonus** to all Stamina checks involving breath-holding, suffocation, or intense aerobic exertion. Your movement speed is not reduced when fatigued.\n\n## Special Rules\nPrerequisite: Stamina 3.",
+    "mechanics": "You gain a **+4 Bonus** to all Stamina checks involving breath-holding, suffocation, or intense aerobic exertion. Your movement speed is not reduced when fatigued.",
+    "notes": "[Modifier] +4 to Stamina\n[Rule] Prerequisite: Stamina 3.\n[Prerequisite] Stamina 3",
+    "notesList": [
+      "[Modifier] +4 to Stamina",
+      "[Rule] Prerequisite: Stamina 3.",
+      "[Prerequisite] Stamina 3"
+    ]
+  },
+  {
     "id": "general-fast-heal",
     "name": "Fast Heal",
     "category": "General",
@@ -3373,6 +3685,34 @@ export const DEFAULT_FEATURES = [
         "value": 2,
         "mode": "inherent",
         "description": "+2 to Strike"
+      },
+      {
+        "target": "Damage",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Damage"
+      },
+      {
+        "target": "Bluff",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Bluff"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Insight"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Survival"
       }
     ],
     "description": "The character has studied a specific type of creature extensively, knowing their anatomy, tactics, and psychology.",
@@ -3381,9 +3721,13 @@ export const DEFAULT_FEATURES = [
     "special_rules": "\\[Multiple\\] Can be taken for different creature types.",
     "body": "# Favored Enemy\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 1\n\n## Description\nThe character has studied a specific type of creature extensively, knowing their anatomy, tactics, and psychology.\n\n## Mechanics & Benefit\nChoose a creature type (e.g., Humanoid \\[Human\\], Beast, Synthetic, Aberration). You gain a **\\+2 Bonus** to **Strike**, **Damage**, **Bluff**, **Insight**, and **Survival** checks against them.\n\n## Special Rules\n\\[Multiple\\] Can be taken for different creature types.",
     "mechanics": "Choose a creature type (e.g., Humanoid \\[Human\\], Beast, Synthetic, Aberration). You gain a **\\+2 Bonus** to **Strike**, **Damage**, **Bluff**, **Insight**, and **Survival** checks against them.",
-    "notes": "[Modifier] +2 to Strike\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Can be taken for different creature types.\n[Prerequisite] Awareness 1",
+    "notes": "[Modifier] +2 to Strike\n[Modifier] +2 to Damage\n[Modifier] +2 to Bluff\n[Modifier] +2 to Insight\n[Modifier] +2 to Survival\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Can be taken for different creature types.\n[Prerequisite] Awareness 1",
     "notesList": [
       "[Modifier] +2 to Strike",
+      "[Modifier] +2 to Damage",
+      "[Modifier] +2 to Bluff",
+      "[Modifier] +2 to Insight",
+      "[Modifier] +2 to Survival",
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] Can be taken for different creature types.",
@@ -3422,6 +3766,68 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-hyperthymesia",
+    "name": "Hyperthymesia",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Eidetic Memory, Wisdom 2",
+    "modifiers": [],
+    "description": "Highly Superior Autobiographical Memory (HSAM). The character involuntarily and flawlessly records every moment of their life, immune to the standard reconstructive decay of memory.",
+    "mechanic": "You automatically succeed on any Memory check related to events you have personally experienced. You are **Immune** to memory alteration, gaslighting, or mind-altering effects that attempt to erase or rewrite your past.",
+    "rules": "Prerequisite: Eidetic Memory, Wisdom 2.",
+    "special_rules": "Prerequisite: Eidetic Memory, Wisdom 2.",
+    "body": "# Hyperthymesia\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Eidetic Memory, Wisdom 2\n\n## Description\nHighly Superior Autobiographical Memory (HSAM). The character involuntarily and flawlessly records every moment of their life, immune to the standard reconstructive decay of memory.\n\n## Mechanics & Benefit\nYou automatically succeed on any Memory check related to events you have personally experienced. You are **Immune** to memory alteration, gaslighting, or mind-altering effects that attempt to erase or rewrite your past.\n\n## Special Rules\nPrerequisite: Eidetic Memory, Wisdom 2.",
+    "mechanics": "You automatically succeed on any Memory check related to events you have personally experienced. You are **Immune** to memory alteration, gaslighting, or mind-altering effects that attempt to erase or rewrite your past.",
+    "notes": "[Rule] Prerequisite: Eidetic Memory, Wisdom 2.\n[Prerequisite] Eidetic Memory, Wisdom 2",
+    "notesList": [
+      "[Rule] Prerequisite: Eidetic Memory, Wisdom 2.",
+      "[Prerequisite] Eidetic Memory, Wisdom 2"
+    ]
+  },
+  {
+    "id": "general-hypoxia-tolerance",
+    "name": "Hypoxia Tolerance",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Stamina 1",
+    "modifiers": [],
+    "description": "Genetic variants (such as EPAS1/EGLN1) allow the character to thrive in environments with severely depleted oxygen without suffering altitude sickness or cardiovascular strain.",
+    "mechanic": "You suffer no penalties for operating in high-altitude, low-oxygen, or thin-atmosphere environments. You require **50% less oxygen** to survive than a standard member of your species.",
+    "rules": "Prerequisite: Stamina 1.",
+    "special_rules": "Prerequisite: Stamina 1.",
+    "body": "# Hypoxia Tolerance\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1\n\n## Description\nGenetic variants (such as EPAS1/EGLN1) allow the character to thrive in environments with severely depleted oxygen without suffering altitude sickness or cardiovascular strain.\n\n## Mechanics & Benefit\nYou suffer no penalties for operating in high-altitude, low-oxygen, or thin-atmosphere environments. You require **50% less oxygen** to survive than a standard member of your species.\n\n## Special Rules\nPrerequisite: Stamina 1.",
+    "mechanics": "You suffer no penalties for operating in high-altitude, low-oxygen, or thin-atmosphere environments. You require **50% less oxygen** to survive than a standard member of your species.",
+    "notes": "[Rule] Prerequisite: Stamina 1.\n[Prerequisite] Stamina 1",
+    "notesList": [
+      "[Rule] Prerequisite: Stamina 1.",
+      "[Prerequisite] Stamina 1"
+    ]
+  },
+  {
     "id": "general-jack-of-all-trades",
     "name": "Jack-of-all-trades",
     "category": "General",
@@ -3450,6 +3856,37 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 98",
       "[Prerequisite] Intellect 2"
+    ]
+  },
+  {
+    "id": "general-lactate-immunity",
+    "name": "Lactate Immunity",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Endurance, Stamina 4",
+    "modifiers": [],
+    "description": "The character's physiology clears lactic acid so efficiently that they effectively never hit a lactate threshold. Their muscles do not burn or fail from prolonged standard exertion.",
+    "mechanic": "You are **Immune** to physical fatigue caused by running, swimming, or aerobic exertion. You can travel continuously at a run for days without requiring rest, provided you remain calorically fueled and hydrated.",
+    "rules": "Prerequisite: Endurance, Stamina 4.",
+    "special_rules": "Prerequisite: Endurance, Stamina 4.",
+    "body": "# Lactate Immunity\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Endurance, Stamina 4\n\n## Description\nThe character's physiology clears lactic acid so efficiently that they effectively never hit a lactate threshold. Their muscles do not burn or fail from prolonged standard exertion.\n\n## Mechanics & Benefit\nYou are **Immune** to physical fatigue caused by running, swimming, or aerobic exertion. You can travel continuously at a run for days without requiring rest, provided you remain calorically fueled and hydrated.\n\n## Special Rules\nPrerequisite: Endurance, Stamina 4.",
+    "mechanics": "You are **Immune** to physical fatigue caused by running, swimming, or aerobic exertion. You can travel continuously at a run for days without requiring rest, provided you remain calorically fueled and hydrated.",
+    "notes": "[Rule] Prerequisite: Endurance, Stamina 4.\n[Prerequisite] Endurance, Stamina 4",
+    "notesList": [
+      "[Rule] Prerequisite: Endurance, Stamina 4.",
+      "[Prerequisite] Endurance, Stamina 4"
     ]
   },
   {
@@ -3581,6 +4018,54 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-myostatin-hypertrophy",
+    "name": "Myostatin Hypertrophy",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Strength 3, Stamina 2",
+    "modifiers": [
+      {
+        "target": "Might",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Might"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Athletics"
+      }
+    ],
+    "description": "A homozygous mutation in the MSTN gene renders the myostatin protein non-functional, removing biological brakes on muscle fiber proliferation. The character possesses massive, dense musculature without needing to train.",
+    "mechanic": "You gain a **+2 Bonus** to Might and Athletics checks. For the purposes of Grappling, lifting weight, and breaking objects, you are treated as if you are **one Size Category larger**.",
+    "rules": "Prerequisite: Strength 3, Stamina 2.",
+    "special_rules": "Prerequisite: Strength 3, Stamina 2.",
+    "body": "# Myostatin Hypertrophy\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Strength 3, Stamina 2\n\n## Description\nA homozygous mutation in the MSTN gene renders the myostatin protein non-functional, removing biological brakes on muscle fiber proliferation. The character possesses massive, dense musculature without needing to train.\n\n## Mechanics & Benefit\nYou gain a **+2 Bonus** to Might and Athletics checks. For the purposes of Grappling, lifting weight, and breaking objects, you are treated as if you are **one Size Category larger**.\n\n## Special Rules\nPrerequisite: Strength 3, Stamina 2.",
+    "mechanics": "You gain a **+2 Bonus** to Might and Athletics checks. For the purposes of Grappling, lifting weight, and breaking objects, you are treated as if you are **one Size Category larger**.",
+    "notes": "[Modifier] +2 to Might\n[Modifier] +2 to Athletics\n[Rule] Prerequisite: Strength 3, Stamina 2.\n[Prerequisite] Strength 3, Stamina 2",
+    "notesList": [
+      "[Modifier] +2 to Might",
+      "[Modifier] +2 to Athletics",
+      "[Rule] Prerequisite: Strength 3, Stamina 2.",
+      "[Prerequisite] Strength 3, Stamina 2"
+    ]
+  },
+  {
     "id": "general-nimble-moves",
     "name": "Nimble Moves",
     "category": "General",
@@ -3609,6 +4094,37 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 104",
       "[Prerequisite] Agility 2"
+    ]
+  },
+  {
+    "id": "general-nociceptor-dampening",
+    "name": "Nociceptor Dampening",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Pain Tolerance, Stamina 2",
+    "modifiers": [],
+    "description": "A mutation in the transcription factors regulating peripheral pain signaling (such as ZFHX2) renders the character profoundly insensitive to noxious pain while retaining normal tactile sensation.",
+    "mechanic": "You are **Immune** to non-lethal Stun damage, shock, and pain-compliance techniques (including torture). You do not suffer any negative mechanical modifiers from being severely wounded or burned. Drawback: You must make Awareness checks to notice if you are taking damage from environmental hazards (like standing on a hot surface).",
+    "rules": "Prerequisite: Pain Tolerance, Stamina 2.",
+    "special_rules": "Prerequisite: Pain Tolerance, Stamina 2.",
+    "body": "# Nociceptor Dampening\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Pain Tolerance, Stamina 2\n\n## Description\nA mutation in the transcription factors regulating peripheral pain signaling (such as ZFHX2) renders the character profoundly insensitive to noxious pain while retaining normal tactile sensation.\n\n## Mechanics & Benefit\nYou are **Immune** to non-lethal Stun damage, shock, and pain-compliance techniques (including torture). You do not suffer any negative mechanical modifiers from being severely wounded or burned. Drawback: You must make Awareness checks to notice if you are taking damage from environmental hazards (like standing on a hot surface).\n\n## Special Rules\nPrerequisite: Pain Tolerance, Stamina 2.",
+    "mechanics": "You are **Immune** to non-lethal Stun damage, shock, and pain-compliance techniques (including torture). You do not suffer any negative mechanical modifiers from being severely wounded or burned. Drawback: You must make Awareness checks to notice if you are taking damage from environmental hazards (like standing on a hot surface).",
+    "notes": "[Rule] Prerequisite: Pain Tolerance, Stamina 2.\n[Prerequisite] Pain Tolerance, Stamina 2",
+    "notesList": [
+      "[Rule] Prerequisite: Pain Tolerance, Stamina 2.",
+      "[Prerequisite] Pain Tolerance, Stamina 2"
     ]
   },
   {
@@ -3920,6 +4436,37 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-short-sleeper",
+    "name": "Short Sleeper",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Stamina 1",
+    "modifiers": [],
+    "description": "A mutation in the DEC2 gene alters the character's circadian rhythm and orexin production. They experience highly concentrated, perfectly restorative sleep.",
+    "mechanic": "You only require **4 hours of sleep** to gain the full benefits of a Long Rest. You are highly resistant to magical or chemical sleep effects, gaining **Advantage** on saves against them.",
+    "rules": "Prerequisite: Stamina 1.",
+    "special_rules": "Prerequisite: Stamina 1.",
+    "body": "# Short Sleeper\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Stamina 1\n\n## Description\nA mutation in the DEC2 gene alters the character's circadian rhythm and orexin production. They experience highly concentrated, perfectly restorative sleep.\n\n## Mechanics & Benefit\nYou only require **4 hours of sleep** to gain the full benefits of a Long Rest. You are highly resistant to magical or chemical sleep effects, gaining **Advantage** on saves against them.\n\n## Special Rules\nPrerequisite: Stamina 1.",
+    "mechanics": "You only require **4 hours of sleep** to gain the full benefits of a Long Rest. You are highly resistant to magical or chemical sleep effects, gaining **Advantage** on saves against them.",
+    "notes": "[Rule] Prerequisite: Stamina 1.\n[Prerequisite] Stamina 1",
+    "notesList": [
+      "[Rule] Prerequisite: Stamina 1.",
+      "[Prerequisite] Stamina 1"
+    ]
+  },
+  {
     "id": "general-soar",
     "name": "Soar",
     "category": "General",
@@ -3979,11 +4526,11 @@ export const DEFAULT_FEATURES = [
     "prerequisites": "Athletics 1",
     "modifiers": [
       {
-        "target": "Athletics  Swimming",
+        "target": "Athletics Swimming",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Athletics  Swimming"
+        "description": "+2 to Athletics Swimming"
       }
     ],
     "description": "The character is an adept aquatic swimmer capable of high sustained speeds.",
@@ -3992,11 +4539,115 @@ export const DEFAULT_FEATURES = [
     "special_rules": "Prerequisite: Athletics 1.",
     "body": "# Swimmer\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisites**: Athletics 1  \n\n## Description\nThe character is an adept aquatic swimmer capable of high sustained speeds and extended submersion.\n\n## Mechanics & Benefit\n- **Speed Multiplier Boost**: Increases all Swimming speeds without affecting action penalties:\n  - **Standard Swimming**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** instead of half speed.\n  - **Glide Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Stroke Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n- **Aquatic Focus**: Gain **+2 bonus** to Athletics (Swimming) checks and double breath-holding capacity.",
     "mechanics": "- **Speed Multiplier Boost**: Increases all Swimming speeds without affecting action penalties:\n  - **Standard Swimming**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** instead of half speed.\n  - **Glide Pace**: Moves at **2x Base Speed (60 ft/rd)**.\n  - **Stroke Pace**: Moves at **3x Base Speed (90 ft/rd)**.\n- **Aquatic Focus**: Gain **+2 bonus** to Athletics (Swimming) checks and double breath-holding capacity.",
-    "notes": "[Modifier] +2 to Athletics  Swimming\n[Rule] Prerequisite: Athletics 1.\n[Prerequisite] Athletics 1",
+    "notes": "[Modifier] +2 to Athletics Swimming\n[Rule] Prerequisite: Athletics 1.\n[Prerequisite] Athletics 1",
     "notesList": [
-      "[Modifier] +2 to Athletics  Swimming",
+      "[Modifier] +2 to Athletics Swimming",
       "[Rule] Prerequisite: Athletics 1.",
       "[Prerequisite] Athletics 1"
+    ]
+  },
+  {
+    "id": "general-synesthetic-savant",
+    "name": "Synesthetic Savant",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Intellect 2",
+    "modifiers": [
+      {
+        "target": "Memory",
+        "type": "check_advantage",
+        "value": 1,
+        "mode": "inherent",
+        "description": "Advantage on Memory Checks"
+      },
+      {
+        "target": "Disbelieve fake stimuli",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Disbelieve fake stimuli"
+      }
+    ],
+    "description": "The character experiences profound, cross-modal sensory wiring (e.g., seeing numbers as colors and textures). This provides a permanent, involuntary mnemonic structure for data retention.",
+    "mechanic": "You gain **Advantage** on all Memory checks, Knowledge retrieval, and cryptography. Your unique perception makes you highly resistant to visual illusions, granting a **+2 Bonus** to disbelieve fake stimuli.",
+    "rules": "Prerequisite: Intellect 2.",
+    "special_rules": "Prerequisite: Intellect 2.",
+    "body": "# Synesthetic Savant\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Intellect 2\n\n## Description\nThe character experiences profound, cross-modal sensory wiring (e.g., seeing numbers as colors and textures). This provides a permanent, involuntary mnemonic structure for data retention.\n\n## Mechanics & Benefit\nYou gain **Advantage** on all Memory checks, Knowledge retrieval, and cryptography. Your unique perception makes you highly resistant to visual illusions, granting a **+2 Bonus** to disbelieve fake stimuli.\n\n## Special Rules\nPrerequisite: Intellect 2.",
+    "mechanics": "You gain **Advantage** on all Memory checks, Knowledge retrieval, and cryptography. Your unique perception makes you highly resistant to visual illusions, granting a **+2 Bonus** to disbelieve fake stimuli.",
+    "notes": "[Modifier] Advantage on Memory Checks\n[Modifier] +2 to Disbelieve fake stimuli\n[Rule] Prerequisite: Intellect 2.\n[Prerequisite] Intellect 2",
+    "notesList": [
+      "[Modifier] Advantage on Memory Checks",
+      "[Modifier] +2 to Disbelieve fake stimuli",
+      "[Rule] Prerequisite: Intellect 2.",
+      "[Prerequisite] Intellect 2"
+    ]
+  },
+  {
+    "id": "general-tetrachromacy",
+    "name": "Tetrachromacy",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Awareness 2, Special (Genetically Female, or engineered variant)",
+    "modifiers": [
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Perception"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Investigation"
+      },
+      {
+        "target": "Tracking",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent",
+        "description": "+4 to Tracking"
+      }
+    ],
+    "description": "The presence of a fourth class of cone cell in the retina allows the character to perceive millions of hues invisible to a standard trichromatic human.",
+    "mechanic": "You gain a **+4 Bonus** on Perception, Investigation, and Tracking checks that rely on visual details. You can instantly spot metameric camouflages (e.g., artificial foliage vs. real foliage, or subtle skin discoloration from poisons/shapeshifting).",
+    "rules": "Special: Genetically Female, or engineered variant.",
+    "special_rules": "Special: Genetically Female, or engineered variant.",
+    "body": "# Tetrachromacy\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Awareness 2, Special (Genetically Female, or engineered variant)\n\n## Description\nThe presence of a fourth class of cone cell in the retina allows the character to perceive millions of hues invisible to a standard trichromatic human.\n\n## Mechanics & Benefit\nYou gain a **+4 Bonus** on Perception, Investigation, and Tracking checks that rely on visual details. You can instantly spot metameric camouflages (e.g., artificial foliage vs. real foliage, or subtle skin discoloration from poisons/shapeshifting).\n\n## Special Rules\nSpecial: Genetically Female, or engineered variant.",
+    "mechanics": "You gain a **+4 Bonus** on Perception, Investigation, and Tracking checks that rely on visual details. You can instantly spot metameric camouflages (e.g., artificial foliage vs. real foliage, or subtle skin discoloration from poisons/shapeshifting).",
+    "notes": "[Modifier] +4 to Perception\n[Modifier] +4 to Investigation\n[Modifier] +4 to Tracking\n[Rule] Special: Genetically Female, or engineered variant.\n[Prerequisite] Awareness 2, Special (Genetically Female, or engineered variant)",
+    "notesList": [
+      "[Modifier] +4 to Perception",
+      "[Modifier] +4 to Investigation",
+      "[Modifier] +4 to Tracking",
+      "[Rule] Special: Genetically Female, or engineered variant.",
+      "[Prerequisite] Awareness 2, Special (Genetically Female, or engineered variant)"
     ]
   },
   {
@@ -4090,6 +4741,37 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] 110",
       "[Prerequisite] Wisdom 1"
+    ]
+  },
+  {
+    "id": "general-unbreakable-skeleton",
+    "name": "Unbreakable Skeleton",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Tough, Stamina 3",
+    "modifiers": [],
+    "description": "A gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.",
+    "mechanic": "You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.",
+    "rules": "Prerequisite: Tough, Stamina 3.",
+    "special_rules": "Prerequisite: Tough, Stamina 3.",
+    "body": "# Unbreakable Skeleton\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Tough, Stamina 3\n\n## Description\nA gain-of-function mutation in the LRP5 gene blocks inhibitory proteins, causing continuous, hyperactive bone formation. The character possesses a skeleton of extreme, unyielding density.\n\n## Mechanics & Benefit\nYou gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.\n\n## Special Rules\nPrerequisite: Tough, Stamina 3.",
+    "mechanics": "You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the Cripple Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.",
+    "notes": "[Rule] Prerequisite: Tough, Stamina 3.\n[Prerequisite] Tough, Stamina 3",
+    "notesList": [
+      "[Rule] Prerequisite: Tough, Stamina 3.",
+      "[Prerequisite] Tough, Stamina 3"
     ]
   },
   {
@@ -4855,11 +5537,25 @@ export const DEFAULT_FEATURES = [
     "prerequisites": "Computers 1",
     "modifiers": [
       {
-        "target": "Computer tasks  Hacking",
+        "target": "Computer tasks Hacking",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Computer tasks  Hacking"
+        "description": "+2 to Computer tasks Hacking"
+      },
+      {
+        "target": "Programming",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Programming"
+      },
+      {
+        "target": "Hardware Repair",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Hardware Repair"
       }
     ],
     "description": "The character lives in the digital realm, navigating code as easily as walking down the street.",
@@ -4868,9 +5564,11 @@ export const DEFAULT_FEATURES = [
     "special_rules": "134",
     "body": "# Computer Specialist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Computers 1\n\n## Description\nThe character lives in the digital realm, navigating code as easily as walking down the street.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).\n\n## Special Rules\n134",
     "mechanics": "Gain a **\\+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).",
-    "notes": "[Modifier] +2 to Computer tasks  Hacking\n[Rule] 134\n[Prerequisite] Computers 1",
+    "notes": "[Modifier] +2 to Computer tasks Hacking\n[Modifier] +2 to Programming\n[Modifier] +2 to Hardware Repair\n[Rule] 134\n[Prerequisite] Computers 1",
     "notesList": [
-      "[Modifier] +2 to Computer tasks  Hacking",
+      "[Modifier] +2 to Computer tasks Hacking",
+      "[Modifier] +2 to Programming",
+      "[Modifier] +2 to Hardware Repair",
       "[Rule] 134",
       "[Prerequisite] Computers 1"
     ]
@@ -5052,11 +5750,32 @@ export const DEFAULT_FEATURES = [
         "description": "+1 to Any Performance"
       },
       {
-        "target": "Performance types  Singing",
+        "target": "Performance types Singing",
         "type": "skill",
         "value": 3,
         "mode": "inherent",
-        "description": "+3 to Performance types  Singing"
+        "description": "+3 to Performance types Singing"
+      },
+      {
+        "target": "Dancing",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to Dancing"
+      },
+      {
+        "target": "Acting",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to Acting"
+      },
+      {
+        "target": "Etc",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent",
+        "description": "+3 to Etc"
       }
     ],
     "description": "The character is a born performer, capable of holding an audience's attention.",
@@ -5065,10 +5784,13 @@ export const DEFAULT_FEATURES = [
     "special_rules": "This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
     "body": "# Entertaining\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character is a born performer, capable of holding an audience's attention.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **Any Performance Check**.\n\n## Special Rules\nThis feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
     "mechanics": "Gain a **\\+1 Bonus** to **Any Performance Check**.",
-    "notes": "[Modifier] +1 to Any Performance\n[Modifier] +3 to Performance types  Singing\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...\n[Prerequisite] Charisma 1",
+    "notes": "[Modifier] +1 to Any Performance\n[Modifier] +3 to Performance types Singing\n[Modifier] +3 to Dancing\n[Modifier] +3 to Acting\n[Modifier] +3 to Etc\n[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...\n[Prerequisite] Charisma 1",
     "notesList": [
       "[Modifier] +1 to Any Performance",
-      "[Modifier] +3 to Performance types  Singing",
+      "[Modifier] +3 to Performance types Singing",
+      "[Modifier] +3 to Dancing",
+      "[Modifier] +3 to Acting",
+      "[Modifier] +3 to Etc",
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...",
       "[Prerequisite] Charisma 1"
@@ -5099,6 +5821,20 @@ export const DEFAULT_FEATURES = [
         "value": 2,
         "mode": "inherent",
         "description": "+2 to Mechanical-based Knowledge"
+      },
+      {
+        "target": "Operation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Operation"
+      },
+      {
+        "target": "Repair",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Repair"
       }
     ],
     "description": "The character has an intuitive understanding of machinery, engines, and mechanical systems.",
@@ -5107,9 +5843,11 @@ export const DEFAULT_FEATURES = [
     "special_rules": "140",
     "body": "# Gearhead\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Engineering 1 or Mechanics 1\n\n## Description\nThe character has an intuitive understanding of machinery, engines, and mechanical systems.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.\n\n## Special Rules\n140",
     "mechanics": "Gain a **\\+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.",
-    "notes": "[Modifier] +2 to Mechanical-based Knowledge\n[Rule] 140\n[Prerequisite] Engineering 1 or Mechanics 1",
+    "notes": "[Modifier] +2 to Mechanical-based Knowledge\n[Modifier] +2 to Operation\n[Modifier] +2 to Repair\n[Rule] 140\n[Prerequisite] Engineering 1 or Mechanics 1",
     "notesList": [
       "[Modifier] +2 to Mechanical-based Knowledge",
+      "[Modifier] +2 to Operation",
+      "[Modifier] +2 to Repair",
       "[Rule] 140",
       "[Prerequisite] Engineering 1 or Mechanics 1"
     ]
@@ -5480,11 +6218,11 @@ export const DEFAULT_FEATURES = [
         "description": "+2 to Attune"
       },
       {
-        "target": "Knowledge  Metaphysics",
+        "target": "Knowledge Metaphysics",
         "type": "skill",
         "value": 1,
         "mode": "inherent",
-        "description": "+1 to Knowledge  Metaphysics"
+        "description": "+1 to Knowledge Metaphysics"
       }
     ],
     "description": "The character has a knack for the arcane theory, even if they aren't a powerful caster.",
@@ -5493,10 +6231,10 @@ export const DEFAULT_FEATURES = [
     "special_rules": "150",
     "body": "# Magical Aptitude\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has a knack for the arcane theory, even if they aren't a powerful caster.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.\n\n## Special Rules\n150",
     "mechanics": "Gain a **\\+2 Bonus** to **Attune** checks and a **\\+1 Bonus** to **Knowledge (Metaphysics)**.",
-    "notes": "[Modifier] +2 to Attune\n[Modifier] +1 to Knowledge  Metaphysics\n[Rule] 150",
+    "notes": "[Modifier] +2 to Attune\n[Modifier] +1 to Knowledge Metaphysics\n[Rule] 150",
     "notesList": [
       "[Modifier] +2 to Attune",
-      "[Modifier] +1 to Knowledge  Metaphysics",
+      "[Modifier] +1 to Knowledge Metaphysics",
       "[Rule] 150"
     ]
   },
@@ -5525,6 +6263,13 @@ export const DEFAULT_FEATURES = [
         "value": 2,
         "mode": "inherent",
         "description": "+2 to Crafting"
+      },
+      {
+        "target": "The DC limit of what you can create allowing for more complex modifications",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to The DC limit of what you can create allowing for more complex modifications"
       }
     ],
     "description": "The character creates items of superior quality and durability.",
@@ -5533,9 +6278,10 @@ export const DEFAULT_FEATURES = [
     "special_rules": "151",
     "body": "# Master Craftsman\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Crafting 6\n\n## Description\nThe character creates items of superior quality and durability.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).\n\n## Special Rules\n151",
     "mechanics": "Gain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the DC limit of what you can create (allowing for more complex modifications).",
-    "notes": "[Modifier] +2 to Crafting\n[Rule] 151\n[Prerequisite] Crafting 6",
+    "notes": "[Modifier] +2 to Crafting\n[Modifier] +2 to The DC limit of what you can create allowing for more complex modifications\n[Rule] 151\n[Prerequisite] Crafting 6",
     "notesList": [
       "[Modifier] +2 to Crafting",
+      "[Modifier] +2 to The DC limit of what you can create allowing for more complex modifications",
       "[Rule] 151",
       "[Prerequisite] Crafting 6"
     ]
@@ -5630,11 +6376,11 @@ export const DEFAULT_FEATURES = [
     "prerequisites": "None",
     "modifiers": [
       {
-        "target": "Nature  Knowledge",
+        "target": "Nature Knowledge",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Nature  Knowledge"
+        "description": "+2 to Nature Knowledge"
       },
       {
         "target": "Survival",
@@ -5650,9 +6396,9 @@ export const DEFAULT_FEATURES = [
     "special_rules": "154",
     "body": "# Naturalist\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character is at home in the wild.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.\n\n## Special Rules\n154",
     "mechanics": "Gain a **\\+2 Bonus** to **Nature** (Knowledge) and **Survival** checks.",
-    "notes": "[Modifier] +2 to Nature  Knowledge\n[Modifier] +2 to Survival\n[Rule] 154",
+    "notes": "[Modifier] +2 to Nature Knowledge\n[Modifier] +2 to Survival\n[Rule] 154",
     "notesList": [
-      "[Modifier] +2 to Nature  Knowledge",
+      "[Modifier] +2 to Nature Knowledge",
       "[Modifier] +2 to Survival",
       "[Rule] 154"
     ]
@@ -5675,15 +6421,40 @@ export const DEFAULT_FEATURES = [
     "is_ranked": false,
     "is_multiple": false,
     "prerequisites": "None",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Sleight of Hand",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Sleight of Hand"
+      },
+      {
+        "target": "Disable Device Security",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Disable Device Security"
+      },
+      {
+        "target": "Mechanics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Mechanics"
+      }
+    ],
     "description": "The character has excellent manual dexterity for fine manipulation.",
     "mechanic": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
     "rules": "155",
     "special_rules": "155",
     "body": "# Nimble Fingers\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent manual dexterity for fine manipulation.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.\n\n## Special Rules\n155",
     "mechanics": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
-    "notes": "[Rule] 155",
+    "notes": "[Modifier] +2 to Sleight of Hand\n[Modifier] +2 to Disable Device Security\n[Modifier] +2 to Mechanics\n[Rule] 155",
     "notesList": [
+      "[Modifier] +2 to Sleight of Hand",
+      "[Modifier] +2 to Disable Device Security",
+      "[Modifier] +2 to Mechanics",
       "[Rule] 155"
     ]
   },
@@ -6170,15 +6941,40 @@ export const DEFAULT_FEATURES = [
     "is_ranked": false,
     "is_multiple": false,
     "prerequisites": "None",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Starship Operation Vocation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Starship Operation Vocation"
+      },
+      {
+        "target": "Pilot",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Pilot"
+      },
+      {
+        "target": "Any Space Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Any Space Survival"
+      }
+    ],
     "description": "The character was born or raised in the void; zero-g and vacuum are second nature.",
     "mechanic": "Gain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.",
     "rules": "168",
     "special_rules": "168",
     "body": "# Spacer\n\n**Category**: Skill Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: None\n\n## Description\nThe character was born or raised in the void; zero-g and vacuum are second nature.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.\n\n## Special Rules\n168",
     "mechanics": "Gain a **\\+2 Bonus** to **Starship Operation** (Vocation/Pilot) and any **Space Survival** checks.",
-    "notes": "[Rule] 168",
+    "notes": "[Modifier] +2 to Starship Operation Vocation\n[Modifier] +2 to Pilot\n[Modifier] +2 to Any Space Survival\n[Rule] 168",
     "notesList": [
+      "[Modifier] +2 to Starship Operation Vocation",
+      "[Modifier] +2 to Pilot",
+      "[Modifier] +2 to Any Space Survival",
       "[Rule] 168"
     ]
   },
@@ -6714,7 +7510,6 @@ export const DEFAULT_FEATURES = [
     "type": "special",
     "cp": 3,
     "costs": {
-      "cp": 3,
       "bp": 3,
       "credits": 0,
       "nodes": 0,

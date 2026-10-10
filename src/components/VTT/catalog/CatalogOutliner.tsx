@@ -208,17 +208,38 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     }
   };
 
-  // Filter helper supporting text search and tag filters
-  const matchesSearch = (text: string, tagType?: string) => {
+  // Filter helper supporting text search and tag filters (including directives & railguards)
+  const matchesSearch = (text: string, tagType?: string, entity?: any) => {
     if (activeFilterTag) {
       if (activeFilterTag === '#maps' && tagType !== 'map') return false;
       if (activeFilterTag === '#hero' && tagType !== 'hero') return false;
       if (activeFilterTag === '#npc' && tagType !== 'npc') return false;
       if (activeFilterTag === '#clue' && tagType !== 'clue') return false;
       if (activeFilterTag === '#item' && tagType !== 'item') return false;
+      if (activeFilterTag === '#directives') {
+        const kw = entity?.keywords || entity?.fields?.keywords || entity?.meta?.keywords;
+        const hasKw = Array.isArray(kw) ? kw.length > 0 : !!(kw && String(kw).trim());
+        if (!hasKw) return false;
+      }
+      if (activeFilterTag === '#railguards') {
+        const negKw = entity?.negative_keywords || entity?.negativeKeywords || entity?.fields?.negative_keywords || entity?.meta?.negative_keywords;
+        const hasNegKw = Array.isArray(negKw) ? negKw.length > 0 : !!(negKw && String(negKw).trim());
+        if (!hasNegKw) return false;
+      }
     }
     if (!searchQuery) return true;
-    return text.toLowerCase().includes(searchQuery.toLowerCase());
+    const q = searchQuery.toLowerCase();
+    if (text.toLowerCase().includes(q)) return true;
+    if (entity) {
+      const kw = entity.keywords || entity.fields?.keywords || entity.meta?.keywords;
+      const kwStr = (kw ? (Array.isArray(kw) ? kw.join(' ') : String(kw)) : '').toLowerCase();
+      if (kwStr.includes(q)) return true;
+
+      const negKw = entity.negative_keywords || entity.negativeKeywords || entity.fields?.negative_keywords || entity.meta?.negative_keywords;
+      const negKwStr = (negKw ? (Array.isArray(negKw) ? negKw.join(' ') : String(negKw)) : '').toLowerCase();
+      if (negKwStr.includes(q)) return true;
+    }
+    return false;
   };
 
   // Spawn Token onto Stage with icon & image alignment
@@ -489,7 +510,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             </div>
           ) : (
             maps
-              .filter((m: any) => matchesSearch(m.name || m.title || ''))
+              .filter((m: any) => matchesSearch(m.name || m.title || '', 'map', m))
               .map((map: any, idx: number) => {
                 const isSelected = map.id === activeMapId;
                 const tokenCount = (map.tokens || []).length;
@@ -544,7 +565,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             </div>
           ) : (
             scenarios
-              .filter((sc: any) => matchesSearch(sc.title || ''))
+              .filter((sc: any) => matchesSearch(sc.title || '', 'scenario', sc))
               .map((sc: any, idx: number) => (
                 <CatalogNodeItem
                   key={sc.id || idx}
@@ -564,12 +585,14 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               ))
           )}
 
-          {storyCards.length > 0 && (
+          {storyCards.filter((card: any) => matchesSearch(card.title || '', 'clue', card)).length > 0 && (
             <div className="pt-2 space-y-1">
               <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 px-1">
                 Narrative Beats & Cards ({storyCards.length})
               </div>
-              {storyCards.map((card: any, idx: number) => (
+              {storyCards
+                .filter((card: any) => matchesSearch(card.title || '', 'clue', card))
+                .map((card: any, idx: number) => (
                 <CatalogNodeItem
                   key={card.id || idx}
                   id={card.id || `card-${idx}`}
@@ -602,7 +625,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           ) : (
             <>
               {personaRoster
-                .filter((p: any) => matchesSearch(p.name || p['char-name'] || ''))
+                .filter((p: any) => matchesSearch(p.name || p['char-name'] || '', 'hero', p))
                 .map((p: any, idx: number) => {
                   const pId = p['character-doc-id'] || p.id || `hero-${idx}`;
                   const pName = p.name || p['char-name'] || 'Operative';
@@ -664,7 +687,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                 })}
 
               {adePersonas
-                .filter((p: any) => matchesSearch(p.title || p.name || ''))
+                .filter((p: any) => matchesSearch(p.title || p.name || '', 'hero', p))
                 .map((p: any, idx: number) => {
                   const pId = p.id || `ade-persona-${idx}`;
                   const pName = p.title || p.name || 'ADE Persona';
@@ -724,7 +747,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           </div>
 
           {/* Scenario Encounters */}
-          {scenarios.flatMap((s: any) => s.encounters || []).map((enc: any, idx: number) => {
+          {scenarios.flatMap((s: any) => s.encounters || []).filter((enc: any) => matchesSearch(enc.name || enc.title || '', 'npc', enc)).map((enc: any, idx: number) => {
             const encId = enc.id || `sc-enc-${idx}`;
             return (
               <CatalogNodeItem
@@ -755,7 +778,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
           {/* Omnicortex Bestiary & Adversaries */}
           {liveBestiary
-            .filter((sp: any) => matchesSearch(sp.name || ''))
+            .filter((sp: any) => matchesSearch(sp.name || '', 'npc', sp))
             .map((sp: any, idx: number) => {
               const spId = sp.id || `species-${idx}`;
               const isSyn = String(sp.name || sp.type || '').toLowerCase().includes('synthetic') || String(sp.name || '').toLowerCase().includes('mecha');
@@ -812,7 +835,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           </div>
 
           {liveFactions
-            .filter((f: any) => matchesSearch(f.name || ''))
+            .filter((f: any) => matchesSearch(f.name || '', 'faction', f))
             .map((f: any, idx: number) => {
               const fId = f.id || `fac-${idx}`;
               const icon = f.icon || '🛡️';
@@ -840,7 +863,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             })}
 
           {adeFactions
-            .filter((f: any) => matchesSearch(f.title || f.name || ''))
+            .filter((f: any) => matchesSearch(f.title || f.name || '', 'faction', f))
             .map((f: any, idx: number) => {
               const fId = f.id || `ade-fac-${idx}`;
               const icon = f.icon || '🛡️';
@@ -880,7 +903,9 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             <span className="text-sky-400 font-bold">{storyCards.length + (universeState?.lore?.length || 0) + adeLore.length}</span>
           </div>
 
-          {storyCards.map((card: any, idx: number) => (
+          {storyCards
+            .filter((card: any) => matchesSearch(card.title || '', 'clue', card))
+            .map((card: any, idx: number) => (
             <CatalogNodeItem
               key={card.id || `card-${idx}`}
               id={card.id || `card-${idx}`}
@@ -900,7 +925,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           ))}
 
           {adeLore
-            .filter((l: any) => matchesSearch(l.title || l.name || ''))
+            .filter((l: any) => matchesSearch(l.title || l.name || '', l.type === 'Clue' ? 'clue' : 'lore', l))
             .map((lore: any, idx: number) => {
               const lId = lore.id || `ade-lore-${idx}`;
               const icon = lore.icon || (lore.type === 'Clue' ? '🗝️' : '📜');
@@ -942,7 +967,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
           {/* Weaponry */}
           {liveWeaponry
-            .filter((w: any) => matchesSearch(w.name || ''))
+            .filter((w: any) => matchesSearch(w.name || '', 'item', w))
             .map((wpn: any, idx: number) => {
               const wId = wpn.id || `wpn-${idx}`;
               const icon = wpn.icon || '⚔️';
@@ -980,7 +1005,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
           {/* Armoring */}
           {liveArmoring
-            .filter((a: any) => matchesSearch(a.name || ''))
+            .filter((a: any) => matchesSearch(a.name || '', 'item', a))
             .map((arm: any, idx: number) => {
               const aId = arm.id || `arm-${idx}`;
               const icon = arm.icon || '🛡️';
@@ -1018,7 +1043,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
           {/* Gear & Hardware */}
           {liveGear
-            .filter((g: any) => matchesSearch(g.name || ''))
+            .filter((g: any) => matchesSearch(g.name || '', 'item', g))
             .map((gear: any, idx: number) => {
               const gId = gear.id || `gear-${idx}`;
               const icon = gear.icon || '📦';
@@ -1048,7 +1073,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
           {/* Augmentations & Cybernetics */}
           {liveAugmentations
-            .filter((aug: any) => matchesSearch(aug.name || ''))
+            .filter((aug: any) => matchesSearch(aug.name || '', 'item', aug))
             .map((aug: any, idx: number) => {
               const augId = aug.id || `aug-${idx}`;
               const icon = aug.icon || '⚡';
@@ -1078,7 +1103,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
 
           {/* ADE Custom Items */}
           {adeItems
-            .filter((it: any) => matchesSearch(it.title || it.name || ''))
+            .filter((it: any) => matchesSearch(it.title || it.name || '', 'item', it))
             .map((item: any, idx: number) => {
               const itId = item.id || `ade-item-${idx}`;
               const icon = item.icon || '📦';
@@ -1161,7 +1186,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           ) : (
             <div className="space-y-1.5">
               {customAssets
-                .filter(a => matchesSearch(a.name))
+                .filter(a => matchesSearch(a.name, 'asset', a))
                 .map(asset => (
                   <div
                     key={asset.id}
@@ -1261,7 +1286,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           ) : (
             <div className="space-y-1.5">
               {(universeState?.galleryModifiers || [])
-                .filter((mod: any) => !searchQuery || mod.name.toLowerCase().includes(searchQuery.toLowerCase()) || mod.category.toLowerCase().includes(searchQuery.toLowerCase()))
+                .filter((mod: any) => matchesSearch(mod.name + ' ' + (mod.category || ''), 'modifier', mod))
                 .map((mod: any) => (
                   <div
                     key={mod.id}

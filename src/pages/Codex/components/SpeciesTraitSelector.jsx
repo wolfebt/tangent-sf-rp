@@ -379,7 +379,7 @@ export const GeneticsNavRail = ({
       </div>
 
       {/* Rail Items */}
-      <div className={`flex ${isNested ? 'flex-col' : 'flex-row md:flex-col'} items-center gap-1.5 w-full`}>
+      <div className={`flex ${isNested ? 'flex-col' : 'flex-row md:flex-col'} items-center gap-1.5 w-full overflow-y-auto no-scrollbar min-h-0`}>
         {GENETICS_NAV_ITEMS.map(item => {
           const ItemIcon = item.icon;
           const isActive = activeTab === item.id;
@@ -995,9 +995,15 @@ export const SpeciesTraitSelector = ({
         if (traitTier === 'elite' && tTier !== 'elite') return false;
       }
 
-      // Classification filter
+      // Classification & Category filter
       if (classificationFilter !== 'all') {
-        if (trait.classification?.toLowerCase() !== classificationFilter.toLowerCase()) {
+        if (classificationFilter === 'directives') {
+          const hasKw = Array.isArray(trait.keywords) ? trait.keywords.length > 0 : !!(trait.keywords && String(trait.keywords).trim());
+          if (!hasKw) return false;
+        } else if (classificationFilter === 'railguards') {
+          const hasNegKw = Array.isArray(trait.negative_keywords) ? trait.negative_keywords.length > 0 : !!(trait.negative_keywords && String(trait.negative_keywords).trim());
+          if (!hasNegKw) return false;
+        } else if (trait.classification?.toLowerCase() !== classificationFilter.toLowerCase()) {
           return false;
         }
       }
@@ -1008,7 +1014,9 @@ export const SpeciesTraitSelector = ({
         const matchName = trait.name.toLowerCase().includes(q);
         const matchDesc = trait.description.toLowerCase().includes(q);
         const matchClass = (trait.classification || '').toLowerCase().includes(q);
-        if (!matchName && !matchDesc && !matchClass) return false;
+        const kw = (trait.keywords ? (Array.isArray(trait.keywords) ? trait.keywords.join(' ') : String(trait.keywords)) : '').toLowerCase();
+        const negKw = (trait.negative_keywords ? (Array.isArray(trait.negative_keywords) ? trait.negative_keywords.join(' ') : String(trait.negative_keywords)) : '').toLowerCase();
+        if (!matchName && !matchDesc && !matchClass && !kw.includes(q) && !negKw.includes(q)) return false;
       }
 
       return true;
@@ -1415,6 +1423,8 @@ export const SpeciesTraitSelector = ({
                 className="p-1 px-2 bg-slate-900 border border-slate-700 rounded-lg text-[11px] text-slate-300 font-mono focus:outline-none"
               >
                 <option value="all">All Classifications</option>
+                <option value="directives">🧭 Directives (+KW)</option>
+                <option value="railguards">⛔ Railguards (-KW)</option>
                 {availableClassifications.map(c => (
                   <option key={c} value={c}>{c}</option>
                 ))}
@@ -1426,7 +1436,7 @@ export const SpeciesTraitSelector = ({
                 <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
                 <input
                   type="text"
-                  placeholder="Search traits..."
+                  placeholder="Search traits, directives, railguards..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-8 pr-3 py-1 bg-slate-900 border border-slate-700 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-400 w-36 sm:w-48"
@@ -2422,7 +2432,7 @@ export const SpeciesTraitSelector = ({
 
       {/* ── EXPANDED FULL-WINDOW TRAITS CATALOG MODAL ── */}
       {isFullWindowCatalog && (
-        <div className="fixed inset-0 z-[300] w-screen h-screen bg-[#070a13] flex flex-col overflow-hidden select-none animate-fade-in font-mono">
+        <div className="fixed top-[52px] left-0 md:left-18 sm:md:left-20 right-0 bottom-0 z-[95] bg-[#070a13] flex flex-col overflow-hidden select-none animate-fade-in font-mono">
           {/* Full Window Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-purple-500/30 bg-purple-950/40">
             <div className="flex items-center gap-3">
@@ -2505,6 +2515,8 @@ export const SpeciesTraitSelector = ({
                 className="p-1.5 px-3 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200 font-mono focus:border-purple-400 focus:outline-none"
               >
                 <option value="all">All Classifications</option>
+                <option value="directives">🧭 Directives (+KW)</option>
+                <option value="railguards">⛔ Railguards (-KW)</option>
                 {availableClassifications.map(c => (
                   <option key={c} value={c}>{c}</option>
                 ))}
@@ -2516,7 +2528,7 @@ export const SpeciesTraitSelector = ({
               <Search size={15} className="absolute left-3 top-2.5 text-slate-500" />
               <input
                 type="text"
-                placeholder="Search by name, rule, or tag..."
+                placeholder="Search by name, rule, tag, directives, railguards..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-9 pr-8 py-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-400"

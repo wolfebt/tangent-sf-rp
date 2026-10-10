@@ -209,6 +209,75 @@ export const ScatterRulesSchema = z.object({
 });
 export type ScatterRules = z.infer<typeof ScatterRulesSchema>;
 
+export const TRIGGER_TYPES = [
+  'step_on',
+  'proximity',
+  'interact',
+  'manual',
+  'turn_start'
+] as const;
+export type TriggerType = (typeof TRIGGER_TYPES)[number];
+export const TriggerTypeSchema = z.enum(TRIGGER_TYPES);
+
+export const SAVE_TYPES = [
+  'Reflex (AGI)',
+  'Fortitude (STA)',
+  'Tech (INT)',
+  'Will (WIL)',
+  'none'
+] as const;
+export type SaveType = (typeof SAVE_TYPES)[number];
+export const SaveTypeSchema = z.enum(SAVE_TYPES);
+
+export const TRIGGER_CONDITIONS = [
+  'none',
+  'Burning',
+  'Stunned',
+  'Poisoned',
+  'Blinded',
+  'Prone',
+  'Suppressed',
+  'Emp'
+] as const;
+export type TriggerCondition = (typeof TRIGGER_CONDITIONS)[number];
+export const TriggerConditionSchema = z.enum(TRIGGER_CONDITIONS);
+
+export const TriggerDefinitionSchema = z.object({
+  enabled: z.boolean().default(false),
+  triggerType: TriggerTypeSchema.default('step_on'),
+  triggerRadiusFt: z.number().min(0).default(5),
+  saveType: SaveTypeSchema.default('Reflex (AGI)'),
+  saveDc: z.number().default(14),
+  damageFormula: z.string().optional(),
+  damageType: z.enum(['plasma', 'energy', 'kinetic', 'chemical', 'thermal', 'emp', 'lethal']).default('plasma'),
+  appliedCondition: TriggerConditionSchema.default('none'),
+  disarmDc: z.number().optional(),
+  detectionDc: z.number().optional(),
+  sfx: z.string().optional(),
+  gmSecretNotes: z.string().optional(),
+  oneShot: z.boolean().default(true)
+});
+export type TriggerDefinition = z.infer<typeof TriggerDefinitionSchema>;
+
+export const SCRIPT_HOOKS = [
+  'on_trigger',
+  'on_interact',
+  'on_turn_start',
+  'on_destruct',
+  'manual'
+] as const;
+export type ScriptHook = (typeof SCRIPT_HOOKS)[number];
+export const ScriptHookSchema = z.enum(SCRIPT_HOOKS);
+
+export const ScriptDefinitionSchema = z.object({
+  enabled: z.boolean().default(false),
+  autorun: z.boolean().default(false),
+  executionHook: ScriptHookSchema.default('on_interact'),
+  sourceCode: z.string().default('// QuickJS Macro Script\n// Available: Dice, MathOps, Trauma, StoryFlags, context\n\nconst roll = Dice.check2d10(2, 14);\nif (roll.success) {\n  StoryFlags.set("power_active", true);\n}\n'),
+  timeoutMs: z.number().default(500)
+});
+export type ScriptDefinition = z.infer<typeof ScriptDefinitionSchema>;
+
 // Full Polymorphic AssetUnit Schema
 export const AssetUnitSchema = z.object({
   unit_id: z.string(),
@@ -240,7 +309,9 @@ export const AssetUnitSchema = z.object({
     dynamicLighting: DynamicLightPropertiesSchema.optional(),
     hazard: HazardPropertiesSchema.optional(),
     vehicleHull: VehicleHullPropertiesSchema.optional(),
-    tokenEntity: TokenEntityPropertiesSchema.optional()
+    tokenEntity: TokenEntityPropertiesSchema.optional(),
+    trigger: TriggerDefinitionSchema.optional(),
+    script: ScriptDefinitionSchema.optional()
   }),
   
   scatter_rules: ScatterRulesSchema.optional()
@@ -286,7 +357,9 @@ export function createDefaultAssetUnit(partial: Partial<AssetUnit> & { unit_id: 
       dynamicLighting: partial.vtt_properties?.dynamicLighting,
       hazard: partial.vtt_properties?.hazard,
       vehicleHull: partial.vtt_properties?.vehicleHull,
-      tokenEntity: partial.vtt_properties?.tokenEntity
+      tokenEntity: partial.vtt_properties?.tokenEntity,
+      trigger: partial.vtt_properties?.trigger,
+      script: partial.vtt_properties?.script
     },
     scatter_rules: partial.scatter_rules
   };

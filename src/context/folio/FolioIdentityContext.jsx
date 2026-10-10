@@ -188,6 +188,7 @@ export const useFolioIdentity = () => {
 export const FolioIdentitySliceProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [activeTab, setActiveTab] = useState('identity');
+  const [viewMode, setViewMode] = useState('builder'); // 'builder' | 'play' | 'preview'
   const isCharacterSelected = Boolean(activeTab && activeTab !== 'catalog');
   const setIsCharacterSelected = useCallback((selected) => {
     if (!selected) {
@@ -275,7 +276,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       StorageService.setItem('personaFolioData', target);
       localStorage.setItem('personaFolioData', JSON.stringify(target));
       localStorage.setItem('tangent_folio_character', JSON.stringify(target));
-      setLastSavedTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setLastSavedTime(new Date());
     } catch (e) {
       console.warn('[FolioIdentity] Local save failed:', e);
     }
@@ -749,18 +750,112 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   const isPlayerOverride = allowPlayerOverride;
   const isFolioLockedOut = isLocked && !allowPlayerOverride;
 
+  // Synchronize viewMode with Persona Locking lifecycle
+  useEffect(() => {
+    if (isLocked) {
+      setViewMode('play');
+    }
+  }, [isLocked]);
+
+  useEffect(() => {
+    const handleSetViewMode = (e) => {
+      if (e?.detail) setViewMode(e.detail);
+    };
+    window.addEventListener('set-folio-view-mode', handleSetViewMode);
+    return () => window.removeEventListener('set-folio-view-mode', handleSetViewMode);
+  }, []);
+
   const lockPersona = useCallback(() => {
     updateField('is_locked', true);
     updateField('locked_at', new Date().toISOString());
     updateField('folio_phase', 'tactical');
+    setViewMode('play');
     showToast({ type: 'info', title: 'Persona Sealed', message: 'Persona is now locked for VTT tactical play.' });
   }, [updateField]);
 
   const unlockPersona = useCallback(() => {
     updateField('is_locked', false);
     updateField('folio_phase', 'development');
+    setViewMode('builder');
     showToast({ type: 'info', title: 'Persona Unlocked', message: 'Persona is in open development mode.' });
   }, [updateField]);
+
+  const togglePersonaVttLock = useCallback(async (docId, forceValue) => {
+    const user = auth.currentUser;
+    const currentDocId = characterData['character-doc-id'] || characterData.id;
+
+    let targetIsLocked;
+    setPersonaRoster(prev => {
+      const target = prev.find(p => (p['character-doc-id'] === docId || p.id === docId));
+      const currentLocked = Boolean(target?.is_locked || target?.folio_phase === 'locked' || target?.folio_phase === 'tactical');
+      targetIsLocked = typeof forceValue === 'boolean' ? forceValue : !currentLocked;
+
+      const next = prev.map(p => {
+        if (p['character-doc-id'] === docId || p.id === docId) {
+          return {
+            ...p,
+            is_locked: targetIsLocked,
+            folio_phase: targetIsLocked ? 'tactical' : 'development',
+            locked_at: targetIsLocked ? new Date().toISOString() : null,
+            updatedAt: new Date().toISOString()
+          };
+        }
+        return p;
+      });
+
+      StorageService.setItem('personaRoster', next);
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(next));
+        localStorage.setItem('tangent_folio_roster', JSON.stringify(next));
+      } catch (e) {}
+
+      return next;
+    });
+
+    if (currentDocId === docId) {
+      setCharacterData(prev => {
+        const nextChar = {
+          ...prev,
+          is_locked: targetIsLocked,
+          folio_phase: targetIsLocked ? 'tactical' : 'development',
+          locked_at: targetIsLocked ? new Date().toISOString() : null,
+          updatedAt: new Date().toISOString()
+        };
+        StorageService.setItem('personaFolioData', nextChar);
+        try {
+          localStorage.setItem('personaFolioData', JSON.stringify(nextChar));
+          localStorage.setItem('tangent_folio_character', JSON.stringify(nextChar));
+        } catch (e) {}
+        return nextChar;
+      });
+      if (targetIsLocked) {
+        setViewMode('play');
+      } else {
+        setViewMode('builder');
+      }
+    }
+
+    if (user?.uid) {
+      try {
+        const ref = doc(db, 'users', user.uid, 'personas', docId);
+        await setDoc(ref, {
+          is_locked: targetIsLocked,
+          folio_phase: targetIsLocked ? 'tactical' : 'development',
+          locked_at: targetIsLocked ? new Date().toISOString() : null,
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+      } catch (err) {
+        console.warn('Failed to update persona VTT lock in firestore:', err);
+      }
+    }
+
+    AudioService.playTerminalBeep(targetIsLocked ? 1300 : 900, 0.03);
+    showToast({
+      type: targetIsLocked ? 'success' : 'info',
+      title: targetIsLocked ? 'Persona Locked for VTT' : 'Persona Unlocked',
+      message: targetIsLocked ? 'Persona is sealed and VTT-ready.' : 'Persona is unlocked in builder mode.'
+    });
+  }, [characterData, updateField]);
 
   const setPersonaAllowPlayerOverride = useCallback((allow) => {
     updateField('player_override', Boolean(allow));
@@ -802,6 +897,8 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     updateField,
     activeTab,
     setActiveTab,
+    viewMode,
+    setViewMode,
     isCharacterSelected,
     setIsCharacterSelected,
     personaRoster,
@@ -811,6 +908,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     deleteRosterCharacter,
     duplicateRosterCharacter,
     togglePersonaNetworkEngaged,
+    togglePersonaVttLock,
     handleNewCharacter,
     handleSaveLocal,
     handleLoadLocal,

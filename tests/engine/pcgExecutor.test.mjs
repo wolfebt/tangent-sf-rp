@@ -4,6 +4,7 @@ import { SemanticZoneMask, SemanticFlag } from '../../src/engine/executor/Semant
 import { CollisionClearanceTester } from '../../src/engine/executor/CollisionClearanceTester.ts';
 import { MapContextAggregator } from '../../src/engine/ai/MapContextAggregator.ts';
 import { PCGExecutor } from '../../src/engine/executor/PCGExecutor.ts';
+import { PCGPromptAnalyzer } from '../../src/engine/executor/PCGPromptAnalyzer.ts';
 const mockCatalog = [
   {
     unit_id: 'prop_holo_table_01',
@@ -240,4 +241,168 @@ test('PCGExecutor - Executes place_central, scatter, place_hazard, and wall_peri
   assert.equal(wallAtDoor, undefined, 'Doorway threshold must not have a wall placed over it');
 
   assert.equal(report.atmosphere?.weather, 'sparks');
+});
+
+test('PCGPromptAnalyzer - Parses fine-grained prompt directives (amber lights, barricaded blast doors, carbon scoring)', () => {
+  const prompt = 'barricaded blast doors, flickering amber warning lights, carbon scoring on bulkheads';
+  const analysis = PCGPromptAnalyzer.analyze(prompt, [0, 0, 30, 20]);
+
+  // Verify lights analysis
+  assert.equal(analysis.detectedFeatures.lights.detected, true);
+  assert.equal(analysis.detectedFeatures.lights.color, '#f59e0b');
+  assert.equal(analysis.detectedFeatures.lights.colorName, 'amber warning');
+  assert.equal(analysis.detectedFeatures.lights.animation, 'flicker');
+
+  // Verify doors analysis
+  assert.equal(analysis.detectedFeatures.doors.detected, true);
+  assert.equal(analysis.detectedFeatures.doors.doorType, 'blast_door');
+  assert.equal(analysis.detectedFeatures.doors.isBarricaded, true);
+  assert.equal(analysis.detectedFeatures.doors.isLocked, true);
+
+  // Verify carbon scoring analysis
+  assert.equal(analysis.detectedFeatures.carbonScoring.detected, true);
+  assert.equal(analysis.detectedFeatures.carbonScoring.decalType, 'carbon_scoring');
+
+  // Verify compiled script actions
+  const actions = analysis.payload.execute_scripts.map(s => s.action);
+  assert.ok(actions.includes('inject_lights'), 'Should compile inject_lights action');
+  assert.ok(actions.includes('barricade_doors'), 'Should compile barricade_doors action');
+  assert.ok(actions.includes('scorch_bulkheads'), 'Should compile scorch_bulkheads action');
+});
+
+test('PCGExecutor.compileAndExecute - Injects contextual clutter, cover, barricaded doors, lights and bulkhead scorches', () => {
+  const mask = new SemanticZoneMask(20, 20);
+  // Fill room interior with walkable floor
+  mask.fillRect(1, 1, 18, 18, SemanticFlag.FLOOR);
+  // Set up perimeter walls
+  for (let c = 0; c <= 19; c++) {
+    mask.setFlag(c, 0, SemanticFlag.WALL);
+    mask.setFlag(c, 19, SemanticFlag.WALL);
+  }
+  for (let r = 1; r < 19; r++) {
+    mask.setFlag(0, r, SemanticFlag.WALL);
+    mask.setFlag(19, r, SemanticFlag.WALL);
+  }
+  // Create an explicit doorway chokepoint at (10, 1)
+  mask.setFlag(10, 1, SemanticFlag.DOORWAY);
+
+  const executor = new PCGExecutor(42);
+  const prompt = 'barricaded blast doors, flickering amber warning lights, carbon scoring on bulkheads';
+
+  const report = executor.compileAndExecute({
+    prompt,
+    catalog: mockCatalog,
+    mask,
+    zone: [0, 0, 19, 19]
+  });
+
+  assert.equal(report.success, true);
+
+  // 1. Verify lights injection
+  assert.ok(report.lights.length > 0, 'Should have injected luminaries');
+  assert.equal(report.lights[0].color, '#f59e0b');
+  assert.equal(report.lights[0].animation, 'flicker');
+
+  // 2. Verify barricaded blast doors
+  assert.ok(report.doors.length > 0, 'Should have placed doors');
+  const door = report.doors[0];
+  assert.equal(door.doorType, 'blast_door');
+  assert.equal(door.isBarricaded, true);
+  assert.equal(door.isLocked, true);
+
+  // 3. Verify bulkhead scorch marks
+  assert.ok(report.bulkheadScorches.length > 0, 'Should have placed bulkhead scorch marks');
+  assert.equal(report.bulkheadScorches[0].decalType, 'carbon_scoring');
+
+  // 4. Verify placedEntities contains doors, lights, scorch decals, and tactical cover
+  const placedDoors = report.placedEntities.filter(e => e.isDoor);
+  assert.ok(placedDoors.length > 0, 'placedEntities should include doors');
+  const placedLights = report.placedEntities.filter(e => e.isLight);
+  assert.ok(placedLights.length > 0, 'placedEntities should include lights');
+  const placedScorches = report.placedEntities.filter(e => e.isDecal);
+  assert.ok(placedScorches.length > 0, 'placedEntities should include decal scorches');
+  const placedCover = report.placedEntities.filter(e => e.isCover);
+  assert.ok(placedCover.length > 0, 'placedEntities should include adjacent barricade cover');
+});
+
+test('PCGExecutor.applyToTacticalGrid - Mutates in-memory tactical grid matrix with doors, lights, and scorches', () => {
+  // Create initial 10x10 empty tactical grid
+  const initialGrid = Array.from({ length: 10 }, () =>
+    Array.from({ length: 10 }, () => ({ isFloor: false }))
+  );
+  // Carve a 6x6 room in the middle
+  for (let r = 2; r <= 7; r++) {
+    for (let c = 2; c <= 7; c++) {
+      initialGrid[r][c].isFloor = true;
+    }
+  }
+
+  const mockReport = {
+    success: true,
+    totalPlaced: 3,
+    placedEntities: [
+      {
+        id: 'prop_cover_1',
+        unit_id: 'prop_cargo_crate_01',
+        unit_name: 'Reinforced Cargo Crate',
+        category: 'doodad',
+        col: 4,
+        row: 4,
+        width: 1,
+        height: 1,
+        rotationDegrees: 0,
+        scale: 1,
+        zIndexLayer: 'interactive_objects',
+        isCover: true
+      }
+    ],
+    lights: [
+      {
+        col: 5,
+        row: 5,
+        color: '#f59e0b',
+        animation: 'flicker',
+        radius: 3.5,
+        intensity: 0.85
+      }
+    ],
+    doors: [
+      {
+        col: 2,
+        row: 4,
+        doorType: 'blast_door',
+        isBarricaded: true,
+        isLocked: true
+      }
+    ],
+    bulkheadScorches: [
+      {
+        col: 1,
+        row: 4,
+        decalType: 'carbon_scoring'
+      }
+    ],
+    logs: []
+  };
+
+  const nextGrid = PCGExecutor.applyToTacticalGrid(initialGrid, mockReport);
+
+  // Door assertion
+  assert.equal(nextGrid[4][2].isDoor, true);
+  assert.equal(nextGrid[4][2].isBarricaded, true);
+  assert.equal(nextGrid[4][2].doorType, 'bulkhead');
+
+  // Light assertion
+  assert.equal(nextGrid[5][5].isLight, true);
+  assert.equal(nextGrid[5][5].lightColor, '#f59e0b');
+  assert.equal(nextGrid[5][5].lightAnimation, 'flicker');
+
+  // Scorch mark assertion
+  assert.equal(nextGrid[4][1].isCarbonScoring, true);
+  assert.equal(nextGrid[4][1].isBreach, true);
+
+  // Tactical cover prop assertion
+  assert.equal(nextGrid[4][4].isProp, true);
+  assert.equal(nextGrid[4][4].propName, 'Reinforced Cargo Crate');
+  assert.equal(nextGrid[4][4].propCategory, 'cover');
 });

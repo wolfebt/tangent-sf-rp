@@ -146,29 +146,13 @@ export default function ScenarioCanvasSwitch({
     : [50, 50];
 
   const isFullStage = scenarioWorkspaceTab === 'stage' && !isSplitView;
-  const isWeaverView = scenarioWorkspaceTab === 'weaver' || isSplitView;
+  const isWeaverView = scenarioWorkspaceTab !== 'stage' || isSplitView;
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#090d16] relative min-w-0 font-mono">
       {/* Top Stage Control Header (Suppressed when full-screen stage or Story Weaver is active) */}
       {!isFullStage && !isWeaverView && (
-        <div className="p-2.5 border-b border-slate-800 bg-slate-950/90 flex items-center justify-between gap-3 shrink-0 flex-wrap">
-          <div className="flex items-center gap-2.5 min-w-0 flex-1">
-            <span className={`text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md border shrink-0 ${getTypePillStyle(activeNode.type)}`}>
-              {activeNode.type}
-            </span>
-            <input 
-            type="text" 
-            value={activeNode.title || ''}
-            onChange={handleTitleChange}
-            className="text-sm md:text-base font-bold bg-transparent border-none outline-none text-white placeholder-slate-500 flex-1 truncate focus:bg-slate-900/60 rounded px-1 transition-colors"
-            placeholder="Element Title..."
-          />
-          <div className="hidden lg:flex items-center gap-1 text-[11px] font-mono text-slate-500 truncate shrink-0">
-            <span className="text-amber-400">📍</span>
-            <span className="truncate max-w-[200px]">{locationPath ? locationPath.join(' ❯ ') : 'Root'}</span>
-          </div>
-        </div>
+        <div className="p-2.5 border-b border-slate-800 bg-slate-950/90 flex items-center justify-end gap-3 shrink-0 flex-wrap">
 
         <div className="flex items-center gap-1.5 shrink-0">
           {studioMode === 'live_session' && (
