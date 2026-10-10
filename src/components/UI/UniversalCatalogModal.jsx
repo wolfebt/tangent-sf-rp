@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef, useDeferredValue } from 'react';
 import { 
   Search, 
   X, 
@@ -323,6 +323,7 @@ export const UniversalCatalogModal = ({
   const [cloudItems, setCloudItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState(filterCategory || 'ALL');
   const [selectedSpeciesCategories, setSelectedSpeciesCategories] = useState([]);
   const [isLineageDropdownOpen, setIsLineageDropdownOpen] = useState(false);
@@ -659,8 +660,10 @@ export const UniversalCatalogModal = ({
   }, [allRawItems, canonicalColKey]);
 
   // Filtered & Sorted items computation
+  // ⚡ Bolt Optimization: Use deferred search query to prevent main thread blocking and UI stutter
+  // during rapid typing while filtering a potentially large catalog array.
   const processedItems = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+    const query = deferredSearchQuery.trim().toLowerCase();
 
     // 1. Filtering
     let list = allRawItems.filter(item => {
@@ -906,7 +909,7 @@ export const UniversalCatalogModal = ({
     });
 
     return list;
-  }, [allRawItems, searchQuery, activeCategoryFilter, selectedSpeciesCategories, sortOption, filterCategory, filterCategoryExclude, canonicalColKey, characterData]);
+  }, [allRawItems, deferredSearchQuery, activeCategoryFilter, selectedSpeciesCategories, sortOption, filterCategory, filterCategoryExclude, canonicalColKey, characterData]);
 
   // Determine if an item is selected
   const isItemSelected = useCallback((item) => {
