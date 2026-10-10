@@ -55,7 +55,7 @@ export const getChannelAddressingMode = (channel) => {
 };
 
 export const ChatProvider = ({ children }) => {
-  const { currentUser, userHandle } = useAuth();
+  const { currentUser, userHandle, openAuthModal } = useAuth() || {};
   const folio = useFolio() || {};
   const { activePersona: folioActivePersona, personaRoster, roster, togglePersonaNetworkEngaged } = folio;
 
@@ -185,10 +185,10 @@ export const ChatProvider = ({ children }) => {
     }
   }, [folioActivePersona, selectedPersona, currentUserCharacters]);
 
-  // Initialize default channels in Firestore once
+  // Initialize default channels in Firestore once an authenticated user is connected or on mount
   useEffect(() => {
     ChatService.initDefaultChannels();
-  }, []);
+  }, [currentUser]);
 
   // Presence Heartbeat & Window Lifecyle Management
   useEffect(() => {
@@ -751,6 +751,7 @@ export const ChatProvider = ({ children }) => {
   const sendDiceRoll = useCallback(async (diceRollData, targetChannelId = null) => {
     if (!currentUser) {
       AudioService.playTerminalBeep(450, 0.08);
+      openAuthModal?.();
       showToast({
         type: 'error',
         title: 'Authentication Required',
@@ -841,6 +842,7 @@ export const ChatProvider = ({ children }) => {
 
     if (!currentUser) {
       AudioService.playTerminalBeep(450, 0.08);
+      openAuthModal?.();
       showToast({
         type: 'error',
         title: 'Authentication Required',
@@ -924,11 +926,14 @@ export const ChatProvider = ({ children }) => {
 
   // Start or open a 1-on-1 Direct Message with target user (and optional specific persona)
   const startDirectMessage = useCallback(async (targetUser, targetPersona = null) => {
-    if (!currentUser) throw new Error('You must be logged in to send direct messages');
+    if (!currentUser) {
+      openAuthModal?.();
+      throw new Error('You must be logged in to send direct messages');
+    }
     const dmChannel = await ChatService.getOrCreateDirectMessageChannel(currentUser, targetUser, targetPersona);
     selectChannel(dmChannel.id);
     return dmChannel;
-  }, [currentUser, selectChannel]);
+  }, [currentUser, selectChannel, openAuthModal]);
 
   // Create a new custom or team group channel (supports characterMembers)
   const createNewChannel = useCallback(async ({ name, topic, isPublic, type, members, characterMembers }) => {

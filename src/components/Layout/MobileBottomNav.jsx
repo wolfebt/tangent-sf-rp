@@ -189,7 +189,7 @@ export const MobileBottomNav = () => {
             </div>
 
             {/* Label */}
-            <span className={`text-[8px] font-mono font-bold uppercase tracking-wider leading-none mt-0.5 truncate max-w-full ${
+            <span className={`text-[8px] font-mono font-bold uppercase tracking-normal leading-none mt-0.5 truncate max-w-full ${
               isNetworkPulsing ? 'text-cyan-300 font-extrabold' : ''
             }`}>
               {item.label}

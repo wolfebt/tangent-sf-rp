@@ -44,11 +44,11 @@
   --color-accent-purple: #a855f7;                /* Electric Purple (strong accents: energy shields DR/AP, ADE studio, metaphysics) */
   --color-accent-purple-glow: rgba(168, 85, 247, 0.40);
 
-  /* Text Colors */
+  /* Text Colors — Calibrated for high readability & WCAG AA+ contrast on dark themes */
   --color-text-primary: #f8fafc;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
-  --color-text-disabled: #475569;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-text-disabled: #64748b;
 
   /* Borders & Dividers */
   --color-border-subtle: rgba(255, 255, 255, 0.08);
@@ -83,8 +83,24 @@
 
   /* Typography */
   --font-title: 'Orbitron', 'Outfit', 'Inter', system-ui, sans-serif;
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Dynamic UI Text Scale Factor (Default 1 = standard calibrated readability) */
+  --text-scale: 1;
+}
+
+/* UI Text Scale Modes — accessible text sizing without browser 150% scaling */
+[data-text-scale="comfortable"] {
+  --text-scale: 1.08;
+}
+
+[data-text-scale="large"] {
+  --text-scale: 1.16;
+}
+
+[data-text-scale="compact"] {
+  --text-scale: 0.94;
 }
 
 /* Global Unified Cross-Browser Custom Scrollbar (Charcoal track, Cyan thumb) */

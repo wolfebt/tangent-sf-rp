@@ -24,10 +24,11 @@ import {
   Minimize2,
   GripHorizontal,
   VolumeX,
-  Check
+  Check,
+  Percent
 } from 'lucide-react';
 import { TwoD10Icon } from './TwoD10Icon';
-import { rollDice, targetDCs, parseDiceExpression } from '../../services/diceService';
+import { rollDice, targetDCs, parseDiceExpression, calculateRollOdds } from '../../services/diceService';
 import { AudioService } from '../../services/audioService';
 import { useChat } from '../../context/ChatContext';
 import { useDice } from '../../context/DiceContext';
@@ -893,11 +894,22 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     }
   };
 
-  if (!isOpen) return null;
-
   const totalCalculatedMod = Math.max(-20, Math.min(20, baseModifier + adHocModifier));
   const currentCritThreshold = 21 - critRangeSize;
   const currentFumbleThreshold = 1 + fumbleRangeSize;
+
+  // Real-time odds calculation considering die type, advantage, crit/fumble modifiers, flat mod, and DC (Hook called unconditionally)
+  const currentOdds = useMemo(() => {
+    return calculateRollOdds(customExpr || '2d10', {
+      advantageDice,
+      flatModifier: totalCalculatedMod,
+      critRangeSize,
+      fumbleRangeSize,
+      targetDC
+    });
+  }, [customExpr, advantageDice, totalCalculatedMod, critRangeSize, fumbleRangeSize, targetDC]);
+
+  if (!isOpen) return null;
 
   const currentModalWidth = size?.width || (typeof window !== 'undefined' ? window.innerWidth : 900);
   const isCompactLayout = isMaximized ? false : currentModalWidth < 680;
@@ -969,10 +981,15 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
               handleRoll(customExpr || '2d10');
             }}
             className="w-32 sm:w-40 py-1.5 bg-gradient-to-r from-rose-500 via-rose-400 to-rose-500 hover:from-rose-400 hover:to-rose-300 active:scale-95 text-slate-950 font-black text-xs font-mono rounded-lg uppercase tracking-wider transition-all shadow-[0_0_18px_rgba(244,63,94,0.6)] border border-rose-300/80 flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
-            title="Execute Check with current modifiers & DC"
+            title={`Execute Check • Odds: ${currentOdds.hasDC ? `${currentOdds.successRate} Success` : 'Set DC for Success %'} | ${currentOdds.critRate} Crit | ${currentOdds.fumbleRate} Fumble`}
           >
             <TwoD10Icon size={14} className="text-slate-950" />
             <span>CHECK</span>
+            {currentOdds.hasDC && (
+              <span aria-hidden="true" className="hidden sm:inline-block px-1 py-0.2 rounded text-[8.5px] font-black bg-slate-950/20 text-slate-950/90 border border-slate-950/20">
+                {currentOdds.successRate}
+              </span>
+            )}
           </button>
 
           {/* Broadcast Pulldown Toggle (To the right of CHECK) */}
@@ -1493,6 +1510,27 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                 <span>Fumble: <strong className="text-yellow-400">&le;{latestRoll.fumbleThreshold}</strong></span>
               </div>
 
+              {/* Roll Odds Telemetry Strip */}
+              {(latestRoll.odds || currentOdds) && (
+                <div className="flex items-center justify-between text-[9px] font-mono py-0.5 px-2 bg-slate-950/60 rounded border border-slate-800/60 text-slate-300">
+                  <span className="text-rose-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                    <Percent size={9} className="text-rose-400" />
+                    <span>Roll Odds:</span>
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {(latestRoll.odds?.hasDC || (latestRoll.targetDC !== null && latestRoll.targetDC !== undefined && latestRoll.targetDC !== '')) && (
+                      <>
+                        <span>Pass: <strong className="text-emerald-400">{latestRoll.odds?.successRate ?? currentOdds.successRate ?? '-'}</strong></span>
+                        <span className="text-slate-600">•</span>
+                      </>
+                    )}
+                    <span>Crit: <strong className="text-emerald-400">{latestRoll.odds?.critRate ?? currentOdds.critRate}</strong></span>
+                    <span className="text-slate-600">•</span>
+                    <span>Fumble: <strong className="text-yellow-400">{latestRoll.odds?.fumbleRate ?? currentOdds.fumbleRate}</strong></span>
+                  </div>
+                </div>
+              )}
+
               {/* Slim Reroll Button */}
               <button
                 type="button"
@@ -1543,6 +1581,21 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                 <span>Crit: <strong className="text-emerald-400">&ge;{currentCritThreshold}</strong></span>
                 <span className="text-slate-600">•</span>
                 <span>Fumble: <strong className="text-yellow-400">&le;{currentFumbleThreshold}</strong></span>
+              </div>
+
+              {/* Standby Odds Forecast */}
+              <div className="flex items-center justify-between text-[9px] font-mono py-1 px-2 bg-slate-900/60 rounded border border-slate-800/60 text-slate-300">
+                <span className="text-rose-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                  <Percent size={10} className="text-rose-400" />
+                  <span>Forecast:</span>
+                </span>
+                <div className="flex items-center gap-2">
+                  <span>Pass: <strong className={currentOdds.hasDC ? 'text-emerald-400' : 'text-slate-500'}>{currentOdds.hasDC ? currentOdds.successRate : 'Set DC'}</strong></span>
+                  <span className="text-slate-600">•</span>
+                  <span>Crit: <strong className="text-emerald-400">{currentOdds.critRate}</strong></span>
+                  <span className="text-slate-600">•</span>
+                  <span>Fumble: <strong className="text-yellow-400">{currentOdds.fumbleRate}</strong></span>
+                </div>
               </div>
 
               <div className="text-[9.5px] font-mono text-slate-500 text-center py-1 bg-slate-900/40 rounded border border-slate-800/60">
@@ -2038,7 +2091,126 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
             </div>
           </div>
 
-          {/* 5 & 6. Quick & Custom Polyhedral Rolls Accordion (Collapsed by Default) */}
+          {/* 5. Tactical Odds Matrix / Probability Forecast */}
+          <div className="space-y-1.5 bg-slate-950/80 p-2.5 rounded-lg border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.12)]">
+            <div className="flex items-center justify-between text-[10px] font-mono">
+              <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
+                <Percent size={11} className="text-rose-400" />
+                <span>Tactical Odds Forecast:</span>
+              </span>
+              <span className="text-[9px] text-slate-400 flex items-center gap-1 font-mono">
+                <span className="font-bold text-cyan-300">{currentOdds.count}d{currentOdds.sides}</span>
+                {currentOdds.advantageDice !== 0 && (
+                  <span className={currentOdds.advantageDice > 0 ? 'text-emerald-400 font-bold' : 'text-yellow-400 font-bold'}>
+                    ({currentOdds.advantageDice > 0 ? `+${currentOdds.advantageDice} Adv` : `${currentOdds.advantageDice} Disadv`})
+                  </span>
+                )}
+                <span className="text-slate-600">•</span>
+                <span className="text-rose-300 font-bold">Net {currentOdds.appliedModifier >= 0 ? `+${currentOdds.appliedModifier}` : currentOdds.appliedModifier}</span>
+              </span>
+            </div>
+
+            {/* 3-Column Odds Grid */}
+            <div className="grid grid-cols-3 gap-1.5 pt-1 border-t border-slate-800/80">
+              {/* Success Odds Card */}
+              <div className={`p-2 rounded border flex flex-col justify-between transition-all ${
+                currentOdds.hasDC 
+                  ? 'bg-emerald-950/25 border-emerald-500/40 text-emerald-200 shadow-sm' 
+                  : 'bg-slate-900/60 border-slate-800 text-slate-400'
+              }`}>
+                <div className="flex items-center justify-between text-[9px] font-mono font-bold uppercase tracking-wider mb-1">
+                  <span className={currentOdds.hasDC ? 'text-emerald-400' : 'text-slate-400'}>Success</span>
+                  {currentOdds.hasDC && (
+                    <span className="text-[8px] text-emerald-300/80 font-mono">vs DC {currentOdds.targetDC}</span>
+                  )}
+                </div>
+                <div className="flex items-baseline gap-1 my-0.5">
+                  <span className={`text-lg sm:text-xl font-black font-mono tracking-tight leading-none ${
+                    currentOdds.hasDC ? 'text-emerald-300' : 'text-slate-500'
+                  }`}>
+                    {currentOdds.hasDC ? currentOdds.successRate : '—'}
+                  </span>
+                  {!currentOdds.hasDC && (
+                    <span className="text-[8px] text-slate-500 font-mono">(No DC)</span>
+                  )}
+                </div>
+                {/* Visual Probability Bar */}
+                <div className="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden mt-1 border border-slate-800">
+                  <div 
+                    className={`h-full transition-all duration-300 rounded-full ${
+                      currentOdds.hasDC 
+                        ? (currentOdds.successChance >= 0.75 
+                            ? 'bg-gradient-to-r from-emerald-500 to-cyan-400 shadow-[0_0_8px_rgba(16,185,129,0.5)]' 
+                            : currentOdds.successChance >= 0.5 
+                            ? 'bg-emerald-500' 
+                            : 'bg-amber-500')
+                        : 'bg-transparent'
+                    }`}
+                    style={{ width: currentOdds.hasDC ? `${Math.min(100, Math.max(0, currentOdds.successChance * 100))}%` : '0%' }}
+                  />
+                </div>
+                <span className="text-[8px] font-mono text-slate-400 mt-1 truncate">
+                  {currentOdds.hasDC 
+                    ? (currentOdds.overwhelmingChance > 0 ? `Overwhelm: ${currentOdds.overwhelmingRate}` : `Fail: ${currentOdds.failureRate}`)
+                    : 'Select DC above'}
+                </span>
+              </div>
+
+              {/* Critical Odds Card */}
+              <div className="p-2 rounded border bg-emerald-950/20 border-emerald-500/30 text-emerald-200 flex flex-col justify-between">
+                <div className="flex items-center justify-between text-[9px] font-mono font-bold uppercase tracking-wider mb-1">
+                  <span className="text-emerald-400 flex items-center gap-1">
+                    <Flame size={10} className="text-emerald-400" />
+                    <span>Critical</span>
+                  </span>
+                  <span className="text-[8px] text-slate-400 font-mono">&ge;{currentOdds.critThreshold}</span>
+                </div>
+                <div className="flex items-baseline gap-1 my-0.5">
+                  <span className="text-lg sm:text-xl font-black font-mono tracking-tight text-emerald-300 leading-none">
+                    {currentOdds.critRate}
+                  </span>
+                </div>
+                {/* Visual Probability Bar */}
+                <div className="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden mt-1 border border-slate-800">
+                  <div 
+                    className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300 shadow-[0_0_6px_rgba(16,185,129,0.4)]"
+                    style={{ width: `${Math.min(100, Math.max(0, currentOdds.critChance * 100))}%` }}
+                  />
+                </div>
+                <span className="text-[8px] font-mono text-slate-400 mt-1 truncate">
+                  {critRangeSize}pt Threat Range
+                </span>
+              </div>
+
+              {/* Fumble Odds Card */}
+              <div className="p-2 rounded border bg-yellow-950/20 border-yellow-500/30 text-yellow-200 flex flex-col justify-between">
+                <div className="flex items-center justify-between text-[9px] font-mono font-bold uppercase tracking-wider mb-1">
+                  <span className="text-yellow-400 flex items-center gap-1">
+                    <Skull size={10} className="text-yellow-400" />
+                    <span>Fumble</span>
+                  </span>
+                  <span className="text-[8px] text-slate-400 font-mono">&le;{currentOdds.fumbleThreshold}</span>
+                </div>
+                <div className="flex items-baseline gap-1 my-0.5">
+                  <span className="text-lg sm:text-xl font-black font-mono tracking-tight text-yellow-400 leading-none">
+                    {currentOdds.fumbleRate}
+                  </span>
+                </div>
+                {/* Visual Probability Bar */}
+                <div className="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden mt-1 border border-slate-800">
+                  <div 
+                    className="h-full bg-gradient-to-r from-yellow-500 to-amber-400 rounded-full transition-all duration-300 shadow-[0_0_6px_rgba(234,179,8,0.4)]"
+                    style={{ width: `${Math.min(100, Math.max(0, currentOdds.fumbleChance * 100))}%` }}
+                  />
+                </div>
+                <span className="text-[8px] font-mono text-slate-400 mt-1 truncate">
+                  {fumbleRangeSize}pt Threat Range
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 6. Quick & Custom Polyhedral Rolls Accordion (Collapsed by Default) */}
           <div className="bg-slate-950/70 rounded-lg border border-slate-800 overflow-hidden">
             <button
               type="button"
@@ -2149,6 +2321,14 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                         const fumbleThresh = 1 + fumbleSize;
                         const dc = s.targetDC !== undefined && s.targetDC !== null ? String(s.targetDC) : '';
 
+                        const presetOdds = calculateRollOdds(s.expr || '2d10', {
+                          advantageDice: adv,
+                          flatModifier: netMod,
+                          critRangeSize: critSize,
+                          fumbleRangeSize: fumbleSize,
+                          targetDC: dc
+                        });
+
                         const tooltipParts = [
                           `Formula: ${s.expr}`,
                           s.label ? `Purpose: ${s.label}` : null,
@@ -2156,7 +2336,10 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                           `Net Mod: ${netMod >= 0 ? `+${netMod}` : netMod} (Base: ${bMod >= 0 ? `+${bMod}` : bMod}${aMod !== 0 ? `, Ad-Hoc: ${aMod >= 0 ? `+${aMod}` : aMod}` : ''})`,
                           critSize > 1 ? `Crit: >=${critThresh}` : 'Crit: 20',
                           fumbleSize > 1 ? `Fumble: <=${fumbleThresh}` : 'Fumble: 2',
-                          dc ? `Target DC: ${dc}` : null
+                          dc ? `Target DC: ${dc}` : null,
+                          presetOdds.hasDC ? `Pass: ${presetOdds.successRate}` : null,
+                          `Crit: ${presetOdds.critRate}`,
+                          `Fumble: ${presetOdds.fumbleRate}`
                         ].filter(Boolean).join(' • ');
 
                         return (
@@ -2265,6 +2448,13 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                               {dc !== '' && (
                                 <span className="px-1.5 py-0.2 rounded font-bold bg-cyan-950/50 text-cyan-300 border border-cyan-500/40">
                                   DC {dc}
+                                </span>
+                              )}
+
+                              {/* Calculated Odds Pass Badge */}
+                              {presetOdds.hasDC && (
+                                <span className="px-1.5 py-0.2 rounded font-bold bg-emerald-950/40 text-emerald-300 border border-emerald-500/40">
+                                  {presetOdds.successRate} Pass
                                 </span>
                               )}
                             </div>

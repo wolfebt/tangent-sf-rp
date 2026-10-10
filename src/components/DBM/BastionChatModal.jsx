@@ -456,10 +456,10 @@ export const BastionChatModal = ({
       <>
         {/* Backdrop Overlay to close on outside click */}
         <div 
-          className="fixed top-[52px] inset-x-0 bottom-0 z-40 bg-black/40 backdrop-blur-[2px]" 
+          className="fixed top-[var(--header-height,52px)] inset-x-0 bottom-0 z-40 bg-black/40 backdrop-blur-[2px]" 
           onClick={onClose} 
         />
-        <div className="fixed top-[52px] bottom-0 right-0 z-50 w-80 sm:w-[440px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
+        <div className="fixed top-[var(--header-height,52px)] bottom-0 right-0 z-50 w-80 sm:w-[440px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
           {renderInnerContent()}
         </div>
       </>

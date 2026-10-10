@@ -225,4 +225,85 @@ assert(legacyCritSize === 1, 'Legacy critRangeSize must default to 1');
 assert(legacyFumbleSize === 1, 'Legacy fumbleRangeSize must default to 1');
 assert(legacyDC === '', 'Legacy targetDC must default to empty string');
 
-console.log('✅ All clamped dice engine and target DC tests passed!');
+// Test 11: Exact Odds Calculator (calculateRollOdds)
+console.log('Testing calculateRollOdds and PMF distribution...');
+import { calculateRollOdds, getDiceDistribution, formatProbability } from './diceService.js';
+
+// Standard 2d10 without DC
+const odds2d10NoDC = calculateRollOdds('2d10');
+assert(odds2d10NoDC.count === 2 && odds2d10NoDC.sides === 10, 'Must be 2d10');
+assert(odds2d10NoDC.critChance === 0.01, `Expected 1% crit chance, got ${odds2d10NoDC.critChance}`);
+assert(odds2d10NoDC.fumbleChance === 0.01, `Expected 1% fumble chance, got ${odds2d10NoDC.fumbleChance}`);
+assert(odds2d10NoDC.critRate === '1.0%', `Expected '1.0%', got ${odds2d10NoDC.critRate}`);
+assert(odds2d10NoDC.fumbleRate === '1.0%', `Expected '1.0%', got ${odds2d10NoDC.fumbleRate}`);
+assert(odds2d10NoDC.successChance === null, 'Success chance without DC must be null');
+assert(odds2d10NoDC.successRate === null, 'Success rate without DC must be null');
+
+// Standard 2d10 vs DC 10 (flat modifier 0)
+const odds2d10DC10 = calculateRollOdds('2d10', { targetDC: 10 });
+assert(Math.abs(odds2d10DC10.successChance - 0.64) < 1e-6, `Expected 64% success, got ${odds2d10DC10.successChance}`);
+assert(odds2d10DC10.successRate === '64.0%', `Expected '64.0%', got ${odds2d10DC10.successRate}`);
+assert(odds2d10DC10.critRate === '1.0%', `Expected '1.0%', got ${odds2d10DC10.critRate}`);
+assert(odds2d10DC10.fumbleRate === '1.0%', `Expected '1.0%', got ${odds2d10DC10.fumbleRate}`);
+
+// Standard 2d10 vs DC 15 with +3 modifier (needs natural >= 12, prob = 0.45)
+const odds2d10DC15Mod3 = calculateRollOdds('2d10', { targetDC: 15, flatModifier: 3 });
+assert(Math.abs(odds2d10DC15Mod3.successChance - 0.45) < 1e-6, `Expected 45% success, got ${odds2d10DC15Mod3.successChance}`);
+assert(odds2d10DC15Mod3.successRate === '45.0%', `Expected '45.0%', got ${odds2d10DC15Mod3.successRate}`);
+
+// 2d10 with +1 Advantage (3d10 keep 2 highest)
+const oddsAdv1 = calculateRollOdds('2d10', { advantageDice: 1 });
+assert(Math.abs(oddsAdv1.critChance - 0.028) < 1e-6, `Expected 2.8% crit chance with +1 adv, got ${oddsAdv1.critChance}`);
+assert(oddsAdv1.critRate === '2.8%', `Expected '2.8%', got ${oddsAdv1.critRate}`);
+assert(Math.abs(oddsAdv1.fumbleChance - 0.001) < 1e-6, `Expected 0.1% fumble chance with +1 adv, got ${oddsAdv1.fumbleChance}`);
+assert(oddsAdv1.fumbleRate === '0.1%', `Expected '0.1%', got ${oddsAdv1.fumbleRate}`);
+
+// 2d10 with -1 Disadvantage (3d10 keep 2 lowest)
+const oddsDis1 = calculateRollOdds('2d10', { advantageDice: -1 });
+assert(Math.abs(oddsDis1.critChance - 0.001) < 1e-6, `Expected 0.1% crit chance with -1 disadv, got ${oddsDis1.critChance}`);
+assert(oddsDis1.critRate === '0.1%', `Expected '0.1%', got ${oddsDis1.critRate}`);
+assert(Math.abs(oddsDis1.fumbleChance - 0.028) < 1e-6, `Expected 2.8% fumble chance with -1 disadv, got ${oddsDis1.fumbleChance}`);
+assert(oddsDis1.fumbleRate === '2.8%', `Expected '2.8%', got ${oddsDis1.fumbleRate}`);
+
+// Expanded Crit and Fumble Threat Ranges
+// critRangeSize 3 (18-20: 3+2+1 = 6%)
+const oddsCrit3 = calculateRollOdds('2d10', { critRangeSize: 3 });
+assert(Math.abs(oddsCrit3.critChance - 0.06) < 1e-6, `Expected 6% crit chance for size 3, got ${oddsCrit3.critChance}`);
+assert(oddsCrit3.critRate === '6.0%', `Expected '6.0%', got ${oddsCrit3.critRate}`);
+
+// fumbleRangeSize 4 (2-5: 1+2+3+4 = 10%)
+const oddsFumble4 = calculateRollOdds('2d10', { fumbleRangeSize: 4 });
+assert(Math.abs(oddsFumble4.fumbleChance - 0.10) < 1e-6, `Expected 10% fumble chance for size 4, got ${oddsFumble4.fumbleChance}`);
+assert(oddsFumble4.fumbleRate === '10.0%', `Expected '10.0%', got ${oddsFumble4.fumbleRate}`);
+
+// Both Crit and Fumble modified simultaneously
+const oddsBothMod = calculateRollOdds('2d10', { critRangeSize: 2, fumbleRangeSize: 3 });
+assert(Math.abs(oddsBothMod.critChance - 0.03) < 1e-6, `Expected 3% crit chance for size 2, got ${oddsBothMod.critChance}`);
+assert(Math.abs(oddsBothMod.fumbleChance - 0.06) < 1e-6, `Expected 6% fumble chance for size 3, got ${oddsBothMod.fumbleChance}`);
+
+// Critical Success superseding high DC
+const oddsHeroic = calculateRollOdds('2d10', { targetDC: 'heroic', flatModifier: 0 }); // DC 25, max sum 20
+assert(oddsHeroic.critChance === 0.01, 'Crit chance is 1%');
+assert(oddsHeroic.successChance === 0.01, 'Success chance must be 1% because nat 20 crit supersedes DC');
+
+// Critical Failure superseding low DC
+const oddsSimple = calculateRollOdds('2d10', { targetDC: 'simple', flatModifier: 0 }); // DC 0, min sum 2
+assert(oddsSimple.fumbleChance === 0.01, 'Fumble chance is 1%');
+assert(Math.abs(oddsSimple.successChance - 0.99) < 1e-6, 'Success chance must be 99% because nat 2 fumble fails even on DC 0');
+
+// Polyhedral 1d20 with +1 Advantage (2d20 keep 1 highest) vs DC 15 with +5 modifier
+const odds1d20 = calculateRollOdds('1d20', { advantageDice: 1, flatModifier: 5, targetDC: 15 });
+assert(odds1d20.count === 1 && odds1d20.sides === 20, 'Must be 1d20');
+assert(Math.abs(odds1d20.critChance - 0.0975) < 1e-6, `Expected 9.75% crit, got ${odds1d20.critChance}`);
+assert(Math.abs(odds1d20.fumbleChance - 0.0025) < 1e-6, `Expected 0.25% fumble, got ${odds1d20.fumbleChance}`);
+assert(Math.abs(odds1d20.successChance - 0.7975) < 1e-6, `Expected 79.75% success, got ${odds1d20.successChance}`);
+
+// Verify rollDice includes odds
+const rolledWithOdds = rollDice('2d10+2', { targetDC: 'challenging', critRangeSize: 2 });
+assert(rolledWithOdds.odds !== undefined, 'rollDice must include odds object');
+assert(typeof rolledWithOdds.odds.critRate === 'string', 'odds must include critRate');
+assert(typeof rolledWithOdds.odds.fumbleRate === 'string', 'odds must include fumbleRate');
+assert(typeof rolledWithOdds.odds.successRate === 'string', 'odds must include successRate');
+
+console.log('✅ All clamped dice engine, odds calculation, and target DC tests passed!');
+

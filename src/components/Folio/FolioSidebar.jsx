@@ -235,7 +235,7 @@ export const FolioSidebar = ({
 
                       {/* Visible Monospace Label */}
                       <span
-                        className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full leading-tight ${
+                        className={`font-mono text-[8.5px] uppercase tracking-normal text-center mt-0.5 truncate max-w-full leading-tight ${
                           isParentActive
                             ? 'text-cyan-300 font-extrabold [text-shadow:0_0_8px_rgba(34,211,238,0.5)]'
                             : 'text-slate-400 group-hover:text-slate-200'
@@ -369,7 +369,7 @@ export const FolioSidebar = ({
                           className={isChildActive ? 'text-cyan-300' : 'text-slate-400 hover:text-cyan-300'}
                         />
                       </div>
-                      <span className={`font-mono text-[7.5px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full leading-tight ${
+                      <span className={`font-mono text-[7.5px] uppercase tracking-normal text-center mt-0.5 truncate max-w-full leading-tight ${
                         isChildActive ? 'text-cyan-300 font-extrabold' : 'text-slate-400'
                       }`}>
                         {child.subLabel || child.label}

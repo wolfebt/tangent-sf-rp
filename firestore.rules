@@ -269,6 +269,7 @@ service cloud.firestore {
       // Allow read if channel is public or user is in members or is admin
       allow read: if resource.data.isPublic == true 
                   || resource.data.type == 'public'
+                  || channelId.matches('public_.*')
                   || (isAuthenticated() && (
                        (resource.data.members != null && request.auth.uid in resource.data.members)
                        || resource.data.createdById == request.auth.uid
@@ -276,7 +277,10 @@ service cloud.firestore {
                      ));
       allow create: if isAuthenticated() || isAdmin();
       allow update: if isAuthenticated() && (
-                       resource.data.createdById == request.auth.uid 
+                       resource.data.isPublic == true
+                       || resource.data.type == 'public'
+                       || channelId.matches('public_.*')
+                       || resource.data.createdById == request.auth.uid 
                        || (resource.data.members != null && request.auth.uid in resource.data.members)
                        || isAdmin()
                      );
@@ -287,20 +291,26 @@ service cloud.firestore {
 
       // Subcollection: Channel Messages
       match /messages/{messageId} {
-        allow read: if get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
-                    || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
-                    || (isAuthenticated() && (
-                         request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members
+        allow read: if channelId.matches('public_.*')
+                    || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
+                         get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
+                         || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
+                       ))
+                    || (isAuthenticated() && exists(/databases/$(database)/documents/channels/$(channelId)) && (
+                         ('members' in get(/databases/$(database)/documents/channels/$(channelId)).data && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members)
                          || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
                          || isAdmin()
                        ));
         allow create: if isAuthenticated() && (
                          request.resource.data.senderId == request.auth.uid || isAdmin()
                        ) && (
-                         get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
-                         || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
-                         || request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members
-                         || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
+                         channelId.matches('public_.*')
+                         || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
+                              get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
+                              || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
+                              || ('members' in get(/databases/$(database)/documents/channels/$(channelId)).data && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members)
+                              || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
+                            ))
                          || isAdmin()
                        );
         allow update, delete: if isAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin());

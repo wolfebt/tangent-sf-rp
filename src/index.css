@@ -1,6 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "./css/design-tokens.css";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-title: 'Orbitron', 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+:root {
+  --header-height: 52px;
+}
 
 /* Hide scrollbars utility (Tailwind v4 @utility pattern) */
 @utility no-scrollbar {
@@ -545,4 +555,135 @@ h1, h2, h3, h4, h5, h6 {
   height: 56px;
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
 }
+
+/* ==========================================================================
+   CALIBRATED TYPOGRAPHY & READABILITY SYSTEM
+   Elevates micro-text to legible scales at standard 100% display zoom.
+   Maintains container boundaries, padding, and flex flows without cutoffs or overlaps.
+   ========================================================================== */
+
+/* 1. Global typography smoothing and baseline readability */
+html, body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 2. Micro-text scale elevation (7px through 11.5px) */
+.text-\[6\.5px\],
+.text-\[7px\],
+.text-\[7\.5px\] {
+  font-size: calc(0.60rem * var(--text-scale, 1)) !important; /* ~9.6px (elevated from 6.5-7.5px) */
+  line-height: 1.25 !important;
+}
+
+.text-\[8px\],
+.text-\[8\.5px\] {
+  font-size: calc(0.65rem * var(--text-scale, 1)) !important; /* ~10.4px (elevated from 8-8.5px) */
+  line-height: 1.25 !important;
+}
+
+.text-\[9px\],
+.text-\[9\.5px\] {
+  font-size: calc(0.70rem * var(--text-scale, 1)) !important; /* ~11.2px (elevated from 9-9.5px) */
+  line-height: 1.3 !important;
+}
+
+.text-\[10px\],
+.text-\[10\.5px\] {
+  font-size: calc(0.76rem * var(--text-scale, 1)) !important; /* ~12.16px (elevated from 10-10.5px) */
+  line-height: 1.35 !important;
+}
+
+.text-\[11px\],
+.text-\[11\.5px\] {
+  font-size: calc(0.81rem * var(--text-scale, 1)) !important; /* ~12.96px (elevated from 11-11.5px) */
+  line-height: 1.35 !important;
+}
+
+/* 3. Standard text elevations for comfortable viewing */
+.text-xs {
+  font-size: calc(0.84rem * var(--text-scale, 1)) !important; /* ~13.44px (elevated from 12px) */
+  line-height: 1.4 !important;
+}
+
+.text-sm {
+  font-size: calc(0.92rem * var(--text-scale, 1)) !important; /* ~14.72px (elevated from 14px) */
+  line-height: 1.45 !important;
+}
+
+/* Responsive variants */
+@media (min-width: 640px) {
+  .sm\:text-\[8px\],
+  .sm\:text-\[8\.5px\] {
+    font-size: calc(0.65rem * var(--text-scale, 1)) !important;
+    line-height: 1.25 !important;
+  }
+  .sm\:text-\[9px\],
+  .sm\:text-\[9\.5px\] {
+    font-size: calc(0.70rem * var(--text-scale, 1)) !important;
+    line-height: 1.3 !important;
+  }
+  .sm\:text-\[10px\],
+  .sm\:text-\[10\.5px\] {
+    font-size: calc(0.76rem * var(--text-scale, 1)) !important;
+    line-height: 1.35 !important;
+  }
+  .sm\:text-\[11px\],
+  .sm\:text-\[11\.5px\] {
+    font-size: calc(0.81rem * var(--text-scale, 1)) !important;
+    line-height: 1.35 !important;
+  }
+  .sm\:text-xs {
+    font-size: calc(0.84rem * var(--text-scale, 1)) !important;
+    line-height: 1.4 !important;
+  }
+  .sm\:text-sm {
+    font-size: calc(0.92rem * var(--text-scale, 1)) !important;
+    line-height: 1.45 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:text-xs {
+    font-size: calc(0.84rem * var(--text-scale, 1)) !important;
+    line-height: 1.4 !important;
+  }
+  .md\:text-sm {
+    font-size: calc(0.92rem * var(--text-scale, 1)) !important;
+    line-height: 1.45 !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:text-xs {
+    font-size: calc(0.84rem * var(--text-scale, 1)) !important;
+    line-height: 1.4 !important;
+  }
+  .lg\:text-sm {
+    font-size: calc(0.92rem * var(--text-scale, 1)) !important;
+    line-height: 1.45 !important;
+  }
+}
+
+/* 4. Text contrast enhancements for dark theme panels */
+.text-slate-500 {
+  color: #8b9bb4 !important;
+}
+
+/* 5. Layout safety: prevent cutoff & overlap in compact elements */
+/* Circular indicator badges retain centered numbers without clipping descenders */
+[class*="rounded-full"][class*="text-\[8"],
+[class*="rounded-full"][class*="text-\[7"] {
+  min-height: 15px;
+  min-width: 15px;
+  line-height: 1;
+}
+
+/* Ensure flex children with truncate can shrink safely */
+.truncate {
+  min-width: 0;
+}
+
 

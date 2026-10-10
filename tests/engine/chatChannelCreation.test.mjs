@@ -138,7 +138,13 @@ async function runTests() {
   await ChatService.deleteChannel(privChan.id);
   const finalCache = await StorageService.getItem('tangent_channels_cache', []);
   assert.ok(!finalCache.some(c => c.id === privChan.id), 'Deleted channel must be removed from cache');
-  console.log('✔ Test 9 passed: deleteChannel successfully decommissions frequencies and evicts from cache');
+  // Test 10: Verify Public Channels Security and Matching Rules
+  DEFAULT_PUBLIC_CHANNELS.forEach(ch => {
+    assert.ok(ch.id.startsWith('public_'), `Public channel ${ch.id} must start with public_ prefix`);
+    assert.strictEqual(ch.isPublic, true, `Channel ${ch.id} must have isPublic set to true`);
+    assert.strictEqual(ch.type, 'public', `Channel ${ch.id} must have type set to public`);
+  });
+  console.log('✔ Test 10 passed: All default channels comply with firestore public security rules');
 
   console.log('\nAll Frequencies & Channels (Create, Edit, Delete) tests PASSED successfully!');
 }

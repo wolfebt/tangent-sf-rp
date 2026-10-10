@@ -88,6 +88,23 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   const [customEndpoint, setCustomEndpoint] = useState('');
   const [isAiDrawerOpen, setIsAiDrawerOpen] = useState(false);
 
+  // Display & Typography Scaling
+  const [textScale, setTextScale] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('tangent_text_scale') || 'standard';
+    }
+    return 'standard';
+  });
+
+  const handleTextScaleChange = (scale) => {
+    setTextScale(scale);
+    localStorage.setItem('tangent_text_scale', scale);
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-text-scale', scale);
+    }
+    AudioService.playTerminalBeep(1100, 0.02);
+  };
+
   // Audio Immersion
   const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
   const [audioVolume, setAudioVolume] = useState(() => Math.round((AudioService.volume || 0.35) * 100));
@@ -140,6 +157,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       setCustomEndpoint(localStorage.getItem('customEndpoint') || '');
       setIsAudioMuted(AudioService.muted);
       setAudioVolume(Math.round((AudioService.volume || 0.35) * 100));
+      setTextScale(localStorage.getItem('tangent_text_scale') || 'standard');
       setSaveMessage('');
 
       // Initialize Banner Form
@@ -272,6 +290,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
     localStorage.setItem('aiPlatform', aiPlatform);
     localStorage.setItem('otherAiApiKey', trimmedOtherKey);
     localStorage.setItem('customEndpoint', trimmedEndpoint);
+    localStorage.setItem('tangent_text_scale', textScale);
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-text-scale', textScale);
+    }
 
     if (currentUser) {
       try {
@@ -374,6 +396,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
   const TABS = [
     { id: 'identity', label: 'Identity & Profile', icon: User },
+    { id: 'display', label: 'Display & Typography', icon: Eye, badge: textScale !== 'standard' ? textScale.toUpperCase() : undefined },
     { id: 'audio', label: 'Audio & Immersion', icon: Volume2 },
     { id: 'ai', label: 'AI Neural Core', icon: Cpu, badge: aiPlatform },
     { id: 'manual', label: 'System Manual', icon: BookOpen },
@@ -547,7 +570,156 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                 </div>
               )}
 
-              {/* 2. AUDIO & IMMERSION TAB */}
+              {/* 2. DISPLAY & TYPOGRAPHY TAB */}
+              {activeTab === 'display' && (
+                <div className="space-y-4 animate-fadeIn">
+                  <div>
+                    <h4 className="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider mb-1 flex items-center gap-2">
+                      <Eye size={14} />
+                      <span>Display &amp; Typography Scaling</span>
+                    </h4>
+                    <p className="text-[11px] text-slate-400">
+                      Fine-tune font hierarchy, legibility, and sub-pixel scaling without breaking layout boundaries or requiring 150% browser zoom.
+                    </p>
+                  </div>
+
+                  {/* Scale Selection Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {[
+                      {
+                        id: 'standard',
+                        name: 'Standard (100% Balanced)',
+                        multiplier: '1.00x',
+                        tag: 'DEFAULT',
+                        desc: 'Calibrated baseline typography with elevated micro-labels (~12px) and Inter UI sans-serif. Recommended for 1080p and 1440p displays.'
+                      },
+                      {
+                        id: 'comfortable',
+                        name: 'Comfortable (+8%)',
+                        multiplier: '1.08x',
+                        tag: 'POPULAR',
+                        desc: 'Slightly enlarged labels and body text for relaxed reading across long roleplaying and GM sessions, without overflowing containers.'
+                      },
+                      {
+                        id: 'large',
+                        name: 'Large (+16%)',
+                        multiplier: '1.16x',
+                        tag: 'HIGH VISIBILITY',
+                        desc: 'Maximized readability for 4K / QHD monitors or low-strain viewing while keeping sidebars, grids, and action buttons locked.'
+                      },
+                      {
+                        id: 'compact',
+                        name: 'Compact (-6%)',
+                        multiplier: '0.94x',
+                        tag: 'DENSE',
+                        desc: 'Ultra-dense tactical layout designed for smaller netbook viewports or power operators demanding high information density.'
+                      }
+                    ].map((opt) => {
+                      const isSelected = textScale === opt.id;
+                      return (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => handleTextScaleChange(opt.id)}
+                          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
+                            isSelected
+                              ? 'bg-cyan-500/15 border-cyan-400/80 shadow-[0_0_15px_rgba(34,211,238,0.2)] text-white'
+                              : 'bg-slate-950/80 border-slate-800 hover:border-slate-700 text-slate-300 hover:bg-slate-900/60'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                                isSelected ? 'border-cyan-400 bg-cyan-400' : 'border-slate-600'
+                              }`}>
+                                {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-slate-950" />}
+                              </div>
+                              <span className="font-mono text-xs font-bold text-white tracking-wide">
+                                {opt.name}
+                              </span>
+                            </div>
+                            <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase tracking-wider ${
+                              isSelected
+                                ? 'bg-cyan-950 border border-cyan-500/60 text-cyan-300'
+                                : 'bg-slate-900 border border-slate-800 text-slate-400'
+                            }`}>
+                              {opt.multiplier}
+                            </span>
+                          </div>
+                          <p className="text-[10px] text-slate-400 leading-normal pl-5">
+                            {opt.desc}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Live Tactical Preview Box */}
+                  <div className="p-3.5 rounded-xl bg-slate-950 border border-cyan-500/30 space-y-2.5">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
+                      <div className="font-mono text-xs font-bold text-cyan-300 uppercase flex items-center gap-1.5">
+                        <Terminal size={13} className="text-cyan-400" />
+                        <span>Real-Time Typography Preview</span>
+                      </div>
+                      <span className="text-[9px] font-mono text-slate-400 uppercase">
+                        Scale Active: <span className="text-cyan-300 font-bold">{textScale.toUpperCase()}</span>
+                      </span>
+                    </div>
+
+                    {/* Preview Sample Card */}
+                    <div className="p-3 rounded-lg bg-[#070a12] border border-slate-800 space-y-2">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold font-mono text-cyan-300">
+                            UNIT #709 // CYBER-OPERATIVE
+                          </span>
+                          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 font-bold uppercase">
+                            ONLINE
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400">
+                          <span>HP: <strong className="text-emerald-400 font-bold">48/48</strong></span>
+                          <span>•</span>
+                          <span>SHIELD: <strong className="text-cyan-400 font-bold">100%</strong></span>
+                        </div>
+                      </div>
+
+                      <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
+                        Tactical neural link established. Sub-pixel anti-aliasing enhances glyph definition across high-contrast HUD components, campaign dossiers, and VTT encounter tables.
+                      </p>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1 border-t border-slate-800/60 font-mono text-[10px]">
+                        <div className="p-1.5 rounded bg-slate-900/60 border border-slate-800 flex flex-col">
+                          <span className="text-[8px] text-slate-400 uppercase">REFLEXES</span>
+                          <span className="text-xs font-bold text-cyan-300">16 (+3)</span>
+                        </div>
+                        <div className="p-1.5 rounded bg-slate-900/60 border border-slate-800 flex flex-col">
+                          <span className="text-[8px] text-slate-400 uppercase">INTELLECT</span>
+                          <span className="text-xs font-bold text-cyan-300">18 (+4)</span>
+                        </div>
+                        <div className="p-1.5 rounded bg-slate-900/60 border border-slate-800 flex flex-col">
+                          <span className="text-[8px] text-slate-400 uppercase">RESOLVE</span>
+                          <span className="text-xs font-bold text-cyan-300">14 (+2)</span>
+                        </div>
+                        <div className="p-1.5 rounded bg-slate-900/60 border border-slate-800 flex flex-col">
+                          <span className="text-[8px] text-slate-400 uppercase">STATUS</span>
+                          <span className="text-xs font-bold text-emerald-300">OPTIMAL</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Architectural Note */}
+                    <div className="p-2.5 rounded-lg bg-cyan-950/30 border border-cyan-500/20 text-[10px] text-cyan-300/90 font-mono flex items-start gap-2">
+                      <Sparkles size={14} className="shrink-0 text-cyan-400 mt-0.5" />
+                      <span>
+                        <strong>No Cutoff Guarantee:</strong> Text scale adjusts font sizes gracefully while container heights, flex grids, and sidebars remain locked to prevent cutoff or overlapping. You do not need to use 150% browser zoom.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 3. AUDIO & IMMERSION TAB */}
               {activeTab === 'audio' && (
                 <div className="space-y-4 animate-fadeIn">
                   <div>

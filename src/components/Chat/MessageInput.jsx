@@ -15,7 +15,8 @@ import {
   Lock,
   Radio,
   Zap,
-  Check
+  Check,
+  Key
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useFolio } from '../../context/FolioContext';
@@ -52,7 +53,7 @@ export const MessageInput = ({ isCompact = false }) => {
     isStandardChannel: checkIsStandard
   } = useChat();
   const { personaRoster, roster, characterData } = useFolio();
-  const { currentUser, userHandle } = useAuth();
+  const { currentUser, userHandle, openAuthModal } = useAuth() || {};
 
   const isTeam = checkIsTeam 
     ? checkIsTeam(activeChannel) 
@@ -106,6 +107,16 @@ export const MessageInput = ({ isCompact = false }) => {
 
   const handleSend = async (e) => {
     if (e) e.preventDefault();
+    if (!currentUser) {
+      AudioService.playTerminalBeep(450, 0.08);
+      openAuthModal?.();
+      showToast({
+        type: 'info',
+        title: 'Authentication Required',
+        text: 'Sign in with your Google account to transmit transmissions across the HoloNet.'
+      });
+      return;
+    }
     if (!text.trim() || isReadOnlyChannel) return;
 
     const msgToSend = text.trim();
@@ -133,6 +144,16 @@ export const MessageInput = ({ isCompact = false }) => {
 
   const handleQuickDiceRoll = async (e) => {
     if (e) e.preventDefault();
+    if (!currentUser) {
+      AudioService.playTerminalBeep(450, 0.08);
+      openAuthModal?.();
+      showToast({
+        type: 'info',
+        title: 'Authentication Required',
+        text: 'Sign in with your Google account to transmit tactical dice rolls.'
+      });
+      return;
+    }
     if (!diceExpr.trim()) return;
 
     try {
@@ -240,6 +261,34 @@ export const MessageInput = ({ isCompact = false }) => {
             </div>
           )}
 
+          {/* ── Guest Operative Read-Only Notification Banner ── */}
+          {!currentUser && (
+            <div className="mb-2 p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/40 flex items-center justify-between gap-3 text-xs font-mono text-amber-200 shadow-sm animate-in fade-in duration-150">
+              <div className="flex items-center gap-2 min-w-0">
+                <Lock size={14} className="text-amber-400 shrink-0" />
+                <div className="min-w-0">
+                  <span className="font-bold block text-amber-300 text-[11px] uppercase tracking-wide">
+                    OPERATIVE UPLINK DISCONNECTED (READ-ONLY)
+                  </span>
+                  <span className="text-[10px] text-slate-400 block truncate">
+                    You are in guest mode. Sign in with Google to transmit on HoloNet frequencies.
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  openAuthModal?.();
+                }}
+                className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider shrink-0 transition-all shadow-[0_0_12px_rgba(6,182,212,0.3)] cursor-pointer flex items-center gap-1.5"
+              >
+                <Key size={12} />
+                <span>SIGN IN</span>
+              </button>
+            </div>
+          )}
+
           {/* ── Streamlined Composer Top Bar: Unified Identity Switcher & Compact Quick-Tools ── */}
           <div className="flex items-center justify-between gap-2 mb-2 text-xs font-mono">
             {/* Unified Speaking Identity Switcher Pill */}
@@ -275,10 +324,14 @@ export const MessageInput = ({ isCompact = false }) => {
                   </>
                 ) : (
                   <>
-                    <User size={13} className="text-cyan-400" />
-                    <span>OOC: @{userHandle || 'Operator'}</span>
-                    <span className="text-[9.5px] px-1.5 py-0.2 bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 rounded ml-0.5">
-                      {isStandard ? 'STANDARD OPERATOR' : 'OPERATOR'}
+                    <User size={13} className={currentUser ? "text-cyan-400" : "text-amber-400"} />
+                    <span>{currentUser ? `OOC: @${userHandle || 'Operator'}` : `GUEST: @${userHandle || 'Operator'}`}</span>
+                    <span className={`text-[9.5px] px-1.5 py-0.2 rounded ml-0.5 font-bold ${
+                      currentUser
+                        ? 'bg-cyan-500/10 text-cyan-300 border border-cyan-500/30'
+                        : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                    }`}>
+                      {currentUser ? (isStandard ? 'STANDARD OPERATOR' : 'OPERATOR') : 'GUEST (READ-ONLY)'}
                     </span>
                   </>
                 )}
@@ -596,35 +649,51 @@ export const MessageInput = ({ isCompact = false }) => {
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={handleKeyDown}
+              onClick={() => {
+                if (!currentUser) openAuthModal?.();
+              }}
               placeholder={
-                isTeam
-                  ? `[SQUAD FREQ] Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
-                  : isStandard
-                    ? `[STANDARD RELAY] Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
-                    : speakingMode === 'IC'
-                      ? `Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
-                      : `Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
+                !currentUser
+                  ? `[GUEST READ-ONLY] Click or sign in to transmit into ${activeChannel?.displayName || 'frequency'}...`
+                  : isTeam
+                    ? `[SQUAD FREQ] Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
+                    : isStandard
+                      ? `[STANDARD RELAY] Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
+                      : speakingMode === 'IC'
+                        ? `Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
+                        : `Transmit as operator @${userHandle || 'Operator'} into ${activeChannel?.displayName || 'frequency'}...`
               }
               className={`w-full pl-3.5 pr-12 py-2.5 bg-slate-950 border rounded-xl text-xs sm:text-sm font-mono placeholder-slate-500 focus:outline-none transition-all shadow-inner ${
-                speakingMode === 'IC'
-                  ? 'border-purple-500/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400/30 text-purple-100'
-                  : 'border-slate-800 focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 text-slate-100'
+                !currentUser
+                  ? 'border-amber-500/30 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 text-amber-100 placeholder-amber-400/50'
+                  : speakingMode === 'IC'
+                    ? 'border-purple-500/50 focus:border-purple-400 focus:ring-1 focus:ring-purple-400/30 text-purple-100'
+                    : 'border-slate-800 focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 text-slate-100'
               }`}
             />
 
             <button
               type="submit"
-              disabled={!text.trim()}
+              disabled={currentUser ? !text.trim() : false}
+              onClick={(e) => {
+                if (!currentUser) {
+                  e.preventDefault();
+                  AudioService.playTerminalBeep(450, 0.08);
+                  openAuthModal?.();
+                }
+              }}
               className={`absolute right-1.5 top-1.5 bottom-1.5 px-3 rounded-lg flex items-center justify-center transition-all cursor-pointer ${
-                text.trim()
-                  ? speakingMode === 'IC'
-                    ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]'
-                    : 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_12px_rgba(6,182,212,0.3)]'
-                  : 'bg-slate-900 text-slate-600 cursor-not-allowed'
+                !currentUser
+                  ? 'bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold shadow-[0_0_10px_rgba(245,158,11,0.3)]'
+                  : text.trim()
+                    ? speakingMode === 'IC'
+                      ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-[0_0_12px_rgba(168,85,247,0.3)]'
+                      : 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                    : 'bg-slate-900 text-slate-600 cursor-not-allowed'
               }`}
-              title="Send Transmission (Enter)"
+              title={!currentUser ? "Sign In to Transmit" : "Send Transmission (Enter)"}
             >
-              <Send size={14} />
+              {!currentUser ? <Key size={13} /> : <Send size={14} />}
             </button>
           </form>
         </>

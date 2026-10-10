@@ -52,7 +52,7 @@ export const CommsPage = ({
     totalUnreadCount = 0
   } = useChat() || {};
 
-  const { currentUser } = useAuth() || {};
+  const { currentUser, openAuthModal } = useAuth() || {};
   const currentUserId = currentUser?.uid || 'guest';
 
   const {
@@ -223,9 +223,25 @@ export const CommsPage = ({
         {/* Right Status Indicators */}
         <div className="flex items-center gap-3 text-[11px] text-slate-400 font-mono shrink-0">
           <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
-            <span className="text-emerald-300 font-bold hidden sm:inline">RELAY ONLINE</span>
-            <span className="text-slate-500 text-[10px] hidden lg:inline">({onlineOperators.length} Active Operators)</span>
+            {currentUser ? (
+              <>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
+                <span className="text-emerald-300 font-bold hidden sm:inline">RELAY ONLINE</span>
+                <span className="text-slate-500 text-[10px] hidden lg:inline">({onlineOperators.length} Active Operators)</span>
+              </>
+            ) : (
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+                <span className="text-amber-300 font-bold hidden sm:inline">GUEST (READ-ONLY)</span>
+                <button
+                  type="button"
+                  onClick={() => openAuthModal?.()}
+                  className="px-2 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold cursor-pointer transition-colors"
+                >
+                  SIGN IN
+                </button>
+              </div>
+            )}
           </div>
           <span className="hidden md:inline text-slate-700">|</span>
           <span className="hidden md:inline text-slate-500 text-[10px]">ENCRYPTION: AES-256</span>

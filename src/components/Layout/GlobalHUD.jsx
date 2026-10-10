@@ -99,6 +99,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     location.pathname.startsWith('/campaign-builder') || 
                     location.pathname.startsWith('/spectator') || 
                     location.pathname.startsWith('/stage') || 
+                    location.pathname.startsWith('/ade') ||
                     location.pathname === '/vtt';
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
   const isTeams = location.pathname.startsWith('/teams') || location.pathname.startsWith('/groups') || location.pathname.startsWith('/squads');
@@ -207,213 +208,74 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   };
 
   const displayIdentity = userHandle ? `@${userHandle}` : (currentUser?.displayName || currentUser?.email || 'OPERATOR');
+  const headerRef = useRef(null);
+  const hasDynamicTabs = isFolio || isFoundry;
 
-  return (
-    <>
-      <header className="w-full h-[52px] min-h-[52px] bg-[#12161f]/95 backdrop-blur-md border-b border-cyan-500/30 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 z-[100] select-none shrink-0 font-sans shadow-md relative">
-        {/* Left Section: Brand Logo & Title */}
-        <div className="flex items-center shrink-0">
-          <NavLink 
-            to="/" 
-            className="flex items-center gap-1.5 sm:gap-2 uppercase text-[#22d3ee] tangent-title-pulse select-none hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-2"
-            title="Return to Operations Hub"
-            onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
-          >
-            <span className="text-[1.3rem] sm:text-[1.6rem] font-black leading-none tracking-tight">
-              TANGENT
-            </span>
-            <div className="flex flex-col justify-between self-stretch py-[2px] text-[0.48rem] sm:text-[0.56rem] font-bold uppercase tracking-wider leading-none">
-              <span className="whitespace-nowrap leading-none text-cyan-300">Science-Fantasy</span>
-              <span className="whitespace-nowrap leading-none text-cyan-400/80">Role Playing Engine</span>
-            </div>
-          </NavLink>
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        const height = headerRef.current.offsetHeight;
+        document.documentElement.style.setProperty('--header-height', `${height}px`);
+      }
+    };
 
-          {/* Tactical Mode Switcher (Relocated beside Title Block) */}
-          {isFolio && (
-            <div className="inline-flex rounded-lg bg-slate-950/90 p-0.5 border border-slate-800 shrink-0 shadow-inner ml-0.5 sm:ml-1.5">
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  folio.setViewMode?.('builder');
-                }}
-                className={`px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
-                  folio.viewMode === 'builder'
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-                title="Switch to Folio Dossier Builder Mode"
-              >
-                <span>🛠️</span>
-                <span className="hidden md:inline">Build</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  folio.setViewMode?.('play');
-                }}
-                className={`px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
-                  (folio.viewMode === 'play' || folio.viewMode === 'preview')
-                    ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-                title="Switch to Live Tactical Sheet (VTT)"
-              >
-                <span>⚔️</span>
-                <span className="hidden md:inline">Tactical</span>
-              </button>
-            </div>
-          )}
+    updateHeaderHeight();
 
-          {/* ADE Story Module Pulldown (Relocated beside Title Block) */}
-          {isFoundry && (
-            <div className="ml-1 sm:ml-2 shrink-0">
-              <ToolbarProjectMenu />
-            </div>
-          )}
-        </div>
+    let ro;
+    if (typeof ResizeObserver !== 'undefined' && headerRef.current) {
+      ro = new ResizeObserver(() => updateHeaderHeight());
+      ro.observe(headerRef.current);
+    }
 
-        {/* Center Section: Primary Navigation Suite (Persona, Network, Cortex, ADE, Rules, Dice) */}
-        <nav className="hidden sm:flex flex-1 items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5 min-w-0" aria-label="Primary Navigation">
-          {/* PERSONA */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.02);
-              if (isFolio) {
-                if (folio?.activeTab === 'catalog') {
-                  folio.setActiveTab?.('identity');
-                } else {
-                  folio.triggerSave?.();
-                  folio.setActiveTab?.('catalog');
-                }
-              } else {
-                navigate('/folio');
-              }
-            }}
-            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-              isFolio
-                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/70 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/50'
-            }`}
-            title={isFolio ? "Persona Folio (Click to toggle Catalog / Dossier)" : "Persona Folio & Roster (/folio)"}
-          >
-            <Users size={14} className={isFolio ? 'text-cyan-300' : 'text-cyan-400'} />
-            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap max-w-[130px] truncate">
-              {isFolio && folio?.characterData?.['char-name'] ? folio.characterData['char-name'] : 'PERSONA'}
-            </span>
-            {heroCount > 0 && (
-              <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
-                isFolio ? 'bg-cyan-400/30 text-cyan-200' : 'bg-slate-800 text-slate-400'
-              }`}>
-                {heroCount}
-              </span>
-            )}
-          </button>
+    window.addEventListener('resize', updateHeaderHeight);
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', updateHeaderHeight);
+    };
+  }, [location.pathname, isFolio, isFoundry]);
 
-          {/* NETWORK */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.02);
-              navigate('/network');
-            }}
-            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 relative ${
-              isNetwork
-                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/70 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
-            }`}
-            title="Tactical Squads & Operator Network (/network)"
-          >
-            <Radio size={14} className={isNetwork ? 'text-emerald-300' : 'text-emerald-400'} />
-            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">NETWORK</span>
-            {networkBadge && (
-              <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
-                hasNetworkPulse ? 'bg-amber-500 text-black font-extrabold animate-pulse' : 'bg-slate-800 text-slate-300'
-              }`}>
-                {networkBadge}
-              </span>
-            )}
-          </button>
+  const renderDynamicTabs = () => {
+    if (isFolio) {
+      return (
+        <div className="flex items-center justify-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          {/* Tactical Mode Switcher */}
+          <div className="inline-flex rounded-lg bg-slate-950/90 p-0.5 border border-slate-800 shrink-0 shadow-inner">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                folio.setViewMode?.('builder');
+              }}
+              className={`px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
+                folio.viewMode === 'builder'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Switch to Folio Dossier Builder Mode"
+            >
+              <span>🛠️</span>
+              <span>Build</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                folio.setViewMode?.('play');
+              }}
+              className={`px-2 sm:px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 active:scale-95 ${
+                (folio.viewMode === 'play' || folio.viewMode === 'preview')
+                  ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Switch to Live Tactical Sheet (VTT)"
+            >
+              <span>⚔️</span>
+              <span>Tactical</span>
+            </button>
+          </div>
 
-          {/* CORTEX */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.02);
-              navigate('/dbm');
-            }}
-            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-              isCortex
-                ? 'bg-amber-500/20 text-amber-300 border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
-            }`}
-            title="Omnicortex Master Database (/dbm)"
-          >
-            <Database size={14} className={isCortex ? 'text-amber-300' : 'text-amber-400'} />
-            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">CORTEX</span>
-          </button>
-
-          {/* ADE */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.02);
-              navigate('/foundry');
-            }}
-            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-              isFoundry
-                ? 'bg-purple-500/20 text-purple-300 border-purple-400/70 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-purple-300 border-slate-700/80 hover:border-purple-500/50'
-            }`}
-            title="ADE Studio & Story Foundry (/foundry)"
-          >
-            <Layers size={14} className={isFoundry ? 'text-purple-300' : 'text-purple-400'} />
-            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">ADE</span>
-          </button>
-
-          {/* RULES */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.02);
-              navigate('/compendium');
-            }}
-            onMouseEnter={() => {
-              loadCompendiumCatalog();
-            }}
-            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-              isCompendium
-                ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
-            }`}
-            title="Open Compendium & BASTION Rules Wiki (/compendium)"
-          >
-            <BookOpen size={14} className={isCompendium ? 'text-sky-300' : 'text-sky-400'} />
-            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">RULES</span>
-          </button>
-
-          {/* DICE */}
-          <button
-            type="button"
-            onClick={handleToggleDice}
-            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
-              isDiceActive
-                ? 'bg-rose-500/25 text-rose-300 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.4)]'
-                : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-300 border-slate-700/80 hover:border-rose-500/50'
-            }`}
-            title="Toggle Holographic Dice Tray"
-          >
-            <TwoD10Icon className={`w-3.5 h-3.5 ${isDiceActive ? 'text-rose-300' : 'text-rose-400'}`} />
-            <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">DICE</span>
-          </button>
-        </nav>
-
-        {/* Right Section: Settings Button with User ID & Relocated CP Budget */}
-        <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
-          {/* Starting CP Budget Indicator (Relocated beside User Settings) */}
-          {isFolio && folio?.characterData && (() => {
+          {/* Starting CP Budget Indicator */}
+          {folio?.characterData && (() => {
             const startingCP = parseInt(folio.characterData['starting-cp'] || 150, 10);
             const spentCP = typeof folio.computeSpentCP === 'function' ? folio.computeSpentCP() : 0;
             const isOver = spentCP > startingCP;
@@ -424,7 +286,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   AudioService.playTerminalBeep(1100, 0.02);
                   window.dispatchEvent(new CustomEvent('open-folio-economy'));
                 }}
-                className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm active:scale-95 ${
+                className={`px-2 sm:px-2.5 py-1 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-all shadow-sm active:scale-95 ${
                   isOver
                     ? 'bg-red-950/80 hover:bg-red-900 border-red-500/80 text-red-200 animate-pulse'
                     : 'bg-[#12161f] hover:bg-[#181d28] border-cyan-500/40 hover:border-cyan-400 text-slate-300'
@@ -439,82 +301,268 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               </button>
             );
           })()}
+        </div>
+      );
+    }
 
-          {/* AIME Narrative Co-Pilot Button (Top Bar beside User Settings) */}
+    if (isFoundry) {
+      return (
+        <div className="flex items-center justify-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          {/* ADE Story Module Pulldown */}
+          <ToolbarProjectMenu />
+
+          {/* AIME Narrative Co-Pilot Button (Only accessed from ADE section) */}
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1400, 0.03);
-              const isFoundry = location.pathname.startsWith('/foundry') || 
-                                location.pathname.startsWith('/story-foundry') || 
-                                location.pathname.startsWith('/live-studio') || 
-                                location.pathname.startsWith('/ade-stage') || 
-                                location.pathname.startsWith('/campaign-builder');
-              
               useAdeStore.getState().setModal('floatingAime', true);
               window.dispatchEvent(new CustomEvent('toggle-aime-copilot'));
-
-              if (!isFoundry) {
-                navigate('/foundry');
-              }
             }}
-            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-amber-950/40 hover:bg-amber-950/80 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-amber-100 text-xs font-mono font-bold tracking-wider transition-all cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.2)] active:scale-95 shrink-0"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-xl bg-amber-950/40 hover:bg-amber-950/80 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-amber-100 text-xs font-mono font-bold tracking-wider transition-all cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.2)] active:scale-95 shrink-0"
             title="Launch AIME Narrative Co-Pilot AI Assistant"
           >
             <Sparkles size={13} className="text-amber-400 animate-pulse shrink-0" />
             <span className="font-bold">AIME</span>
           </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1000, 0.02);
-              setIsSettingsOpen(true);
-            }}
-            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#181d28] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group shadow-[0_0_10px_rgba(34,211,238,0.15)]"
-            title={
-              currentUser
-                ? (cloudSaveStatus === 'saving'
-                    ? 'Cloud Sync: Saving to Cloud...'
-                    : cloudSaveStatus === 'saved'
-                    ? (formatSavedTime(lastSavedTime) ? `Cloud Synced at ${formatSavedTime(lastSavedTime)}` : 'Cloud Synced')
-                    : cloudSaveStatus === 'error'
-                    ? 'Cloud Sync Failed (Click for Settings)'
-                    : 'Local Storage Mode (Click for Settings)')
-                : 'Application Settings'
-            }
-          >
-            <span
-              className={`w-2 h-2 rounded-full shrink-0 ${
-                cloudSaveStatus === 'saving'
-                  ? 'bg-amber-400 animate-ping'
-                  : cloudSaveStatus === 'saved'
-                  ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                  : cloudSaveStatus === 'error'
-                  ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
-                  : currentUser ? 'bg-cyan-400' : 'bg-slate-500'
-              }`}
-            />
-            <span className="max-w-[110px] sm:max-w-[150px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">
-              {displayIdentity}
-            </span>
-            <Settings size={14} className="text-slate-400 group-hover:text-cyan-300 transition-colors shrink-0" />
-          </button>
-
-          {/* Mobile Navigation Drawer Toggle */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1000, 0.02);
-              setIsMobileNavOpen(true);
-            }}
-            className="sm:hidden p-1.5 rounded-lg bg-[#12161f] hover:bg-slate-800 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-200 transition-colors cursor-pointer"
-            title="Open System Matrix Menu"
-            aria-label="Open System Matrix Menu"
-          >
-            <Compass size={16} />
-          </button>
         </div>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <>
+      <header 
+        ref={headerRef}
+        className="w-full bg-[#12161f]/95 backdrop-blur-md border-b border-cyan-500/30 px-2 sm:px-4 pt-1.5 sm:pt-2 pb-1.5 sm:pb-2 flex flex-col z-[100] select-none shrink-0 font-sans shadow-md relative transition-all duration-150"
+      >
+        {/* Top Row: Brand, Primary Navigation Suite & User Settings */}
+        <div className="w-full flex items-start justify-between gap-2">
+          {/* Left Section: Brand Logo & Title (Top-aligned, doubled TANGENT height, centered subtitle text) */}
+          <div className="flex items-start shrink-0">
+            <NavLink 
+              to="/" 
+              className="flex items-center gap-1.5 sm:gap-2 uppercase text-[#22d3ee] tangent-title-pulse select-none hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-2"
+              title="Return to Operations Hub"
+              onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
+            >
+              <span className="text-[2.6rem] sm:text-[3.2rem] font-black leading-none tracking-tight">
+                TANGENT
+              </span>
+              <div className="flex flex-col justify-center self-stretch py-[1px] text-[9.5px] sm:text-[10.5px] font-bold uppercase tracking-wider leading-tight">
+                <span className="whitespace-nowrap leading-none text-cyan-300">Science-Fantasy</span>
+                <span className="whitespace-nowrap leading-none text-cyan-400/80">Role Playing Engine</span>
+              </div>
+            </NavLink>
+          </div>
+
+          {/* Center Section: Primary Navigation Suite (Persona, Network, Cortex, ADE, Rules, Dice) */}
+          <div className="hidden sm:flex flex-1 flex-col items-center justify-start min-w-0">
+            <nav className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar w-full py-0.5" aria-label="Primary Navigation">
+              {/* PERSONA */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  if (isFolio) {
+                    if (folio?.activeTab === 'catalog') {
+                      folio.setActiveTab?.('identity');
+                    } else {
+                      folio.triggerSave?.();
+                      folio.setActiveTab?.('catalog');
+                    }
+                  } else {
+                    navigate('/folio');
+                  }
+                }}
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                  isFolio
+                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/70 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/50'
+                }`}
+                title={isFolio ? "Persona Folio (Click to toggle Catalog / Dossier)" : "Persona Folio & Roster (/folio)"}
+              >
+                <Users size={14} className={isFolio ? 'text-cyan-300' : 'text-cyan-400'} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap max-w-[130px] truncate">
+                  {isFolio && folio?.characterData?.['char-name'] ? folio.characterData['char-name'] : 'PERSONA'}
+                </span>
+                {heroCount > 0 && (
+                  <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
+                    isFolio ? 'bg-cyan-400/30 text-cyan-200' : 'bg-slate-800 text-slate-400'
+                  }`}>
+                    {heroCount}
+                  </span>
+                )}
+              </button>
+
+              {/* NETWORK */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  navigate('/network');
+                }}
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 relative ${
+                  isNetwork
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/70 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
+                }`}
+                title="Tactical Squads & Operator Network (/network)"
+              >
+                <Radio size={14} className={isNetwork ? 'text-emerald-300' : 'text-emerald-400'} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">NETWORK</span>
+                {networkBadge && (
+                  <span className={`px-1 py-0.2 rounded text-[10px] font-mono leading-none ${
+                    hasNetworkPulse ? 'bg-amber-500 text-black font-extrabold animate-pulse' : 'bg-slate-800 text-slate-300'
+                  }`}>
+                    {networkBadge}
+                  </span>
+                )}
+              </button>
+
+              {/* CORTEX */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  navigate('/dbm');
+                }}
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                  isCortex
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
+                }`}
+                title="Omnicortex Master Database (/dbm)"
+              >
+                <Database size={14} className={isCortex ? 'text-amber-300' : 'text-amber-400'} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">CORTEX</span>
+              </button>
+
+              {/* ADE */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  navigate('/foundry');
+                }}
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                  isFoundry
+                    ? 'bg-purple-500/20 text-purple-300 border-purple-400/70 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-purple-300 border-slate-700/80 hover:border-purple-500/50'
+                }`}
+                title="ADE Studio & Story Foundry (/foundry)"
+              >
+                <Layers size={14} className={isFoundry ? 'text-purple-300' : 'text-purple-400'} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">ADE</span>
+              </button>
+
+              {/* RULES */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.02);
+                  navigate('/compendium');
+                }}
+                onMouseEnter={() => {
+                  loadCompendiumCatalog();
+                }}
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                  isCompendium
+                    ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
+                }`}
+                title="Open Compendium & BASTION Rules Wiki (/compendium)"
+              >
+                <BookOpen size={14} className={isCompendium ? 'text-sky-300' : 'text-sky-400'} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">RULES</span>
+              </button>
+
+              {/* DICE */}
+              <button
+                type="button"
+                onClick={handleToggleDice}
+                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                  isDiceActive
+                    ? 'bg-rose-500/25 text-rose-300 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.4)]'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-rose-300 border-slate-700/80 hover:border-rose-500/50'
+                }`}
+                title="Toggle Holographic Dice Tray"
+              >
+                <TwoD10Icon className={`w-3.5 h-3.5 ${isDiceActive ? 'text-rose-300' : 'text-rose-400'}`} />
+                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">DICE</span>
+              </button>
+            </nav>
+
+            {/* Dynamic Second Row: Centered under Main Tabs */}
+            {hasDynamicTabs && (
+              <div className="w-full flex items-center justify-center pt-1.5 pb-0.5 animate-in fade-in duration-150">
+                {renderDynamicTabs()}
+              </div>
+            )}
+          </div>
+
+          {/* Right Section: Settings Button with User ID (Vertically centered to match TANGENT text height) */}
+          <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0 self-start h-[42px] sm:h-[51.2px]">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1000, 0.02);
+                setIsSettingsOpen(true);
+              }}
+              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#181d28] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group shadow-[0_0_10px_rgba(34,211,238,0.15)]"
+              title={
+                currentUser
+                  ? (cloudSaveStatus === 'saving'
+                      ? 'Cloud Sync: Saving to Cloud...'
+                      : cloudSaveStatus === 'saved'
+                      ? (formatSavedTime(lastSavedTime) ? `Cloud Synced at ${formatSavedTime(lastSavedTime)}` : 'Cloud Synced')
+                      : cloudSaveStatus === 'error'
+                      ? 'Cloud Sync Failed (Click for Settings)'
+                      : 'Local Storage Mode (Click for Settings)')
+                  : 'Application Settings'
+              }
+            >
+              <span
+                className={`w-2 h-2 rounded-full shrink-0 ${
+                  cloudSaveStatus === 'saving'
+                    ? 'bg-amber-400 animate-ping'
+                    : cloudSaveStatus === 'saved'
+                    ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                    : cloudSaveStatus === 'error'
+                    ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
+                    : currentUser ? 'bg-cyan-400' : 'bg-slate-500'
+                }`}
+              />
+              <span className="max-w-[110px] sm:max-w-[150px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">
+                {displayIdentity}
+              </span>
+              <Settings size={14} className="text-slate-400 group-hover:text-cyan-300 transition-colors shrink-0" />
+            </button>
+
+            {/* Mobile Navigation Drawer Toggle */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1000, 0.02);
+                setIsMobileNavOpen(true);
+              }}
+              className="sm:hidden p-1.5 rounded-lg bg-[#12161f] hover:bg-slate-800 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-200 transition-colors cursor-pointer"
+              title="Open System Matrix Menu"
+              aria-label="Open System Matrix Menu"
+            >
+              <Compass size={16} />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Sub-Row: Dynamic tabs on mobile screens (< sm) */}
+        {hasDynamicTabs && (
+          <div className="sm:hidden w-full flex items-center justify-center pt-1.5 pb-0.5 border-t border-cyan-500/20 mt-1 animate-in fade-in duration-150">
+            {renderDynamicTabs()}
+          </div>
+        )}
       </header>
 
       {/* ── Slide-Out Mobile Navigation Drawer ── */}
