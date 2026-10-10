@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import FolioInput from '../shared/FolioInput';
 import { useFolio } from '../../../context/FolioContext';
 import { useAuth } from '../../../context/AuthContext';
@@ -41,6 +42,7 @@ import {
   Sparkles,
   Dna,
   User,
+  Users,
   Briefcase,
   Globe,
   Building2,
@@ -51,6 +53,7 @@ import {
   Search,
   Filter
 } from 'lucide-react';
+import { AudioService } from '../../../services/audioService';
 import {
   formatHeightWithConversion,
   getHeightConversion,
@@ -164,7 +167,10 @@ const getDisadvantageActiveStatus = (disRef, characterData) => {
   });
 };
 
-const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
+const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { 
     characterData, 
     updateField, 
@@ -181,8 +187,24 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     isLocked,
     isPlayerOverride,
     triggerSave,
-    saveCurrentToRoster
+    saveCurrentToRoster,
+    setActiveTab
   } = useFolio();
+
+  const handleReturnToCatalogClick = () => {
+    AudioService.playTerminalBeep(1150, 0.02);
+    if (typeof onReturnToCatalog === 'function') {
+      onReturnToCatalog();
+      return;
+    }
+    if (triggerSave) triggerSave();
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('tab', 'catalog');
+    searchParams.delete('char');
+    navigate({ pathname: location.pathname, search: `?${searchParams.toString()}` });
+    if (setActiveTab) setActiveTab('catalog');
+  };
+
   const dbm = useDBM();
   const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
@@ -3911,11 +3933,41 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in duration-150">
         {/* Left Column: Persona Profile */}
         <div className="space-y-4">
-          <div className="flex items-center gap-2 pb-2 mb-3 border-b border-slate-800">
-            <User className="w-4 h-4 text-cyan-400" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-              Persona Profile
-            </span>
+          <div className="flex items-center justify-between gap-2 pb-2 mb-3 border-b border-slate-800">
+            <div className="flex items-center gap-2 min-w-0">
+              <User className="w-4 h-4 text-cyan-400 shrink-0" />
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200 truncate">
+                Persona Profile
+              </span>
+            </div>
+
+            {/* Persona Name Tag as Catalog Link: Desktop style cyan and silver outline */}
+            <button
+              type="button"
+              onClick={handleReturnToCatalogClick}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 hover:border-cyan-300 transition-all cursor-pointer group shrink-0 active:scale-95 shadow-[0_0_10px_rgba(34,211,238,0.15)] text-right"
+              title="Active Persona — Click to Return to Persona Catalog"
+              aria-label={`Active Persona: ${characterData?.['char-name'] || 'Unnamed Persona'} - Return to Catalog`}
+            >
+              <Users size={12} className="text-cyan-400 group-hover:text-cyan-300 transition-colors shrink-0" />
+              <span
+                className="font-black text-xs sm:text-sm uppercase text-[#22d3ee] group-hover:text-cyan-200 transition-colors tracking-tight truncate max-w-[130px] xs:max-w-[180px] sm:max-w-[220px]"
+                style={{
+                  WebkitTextStroke: '1px #c0c0c0',
+                  paintOrder: 'stroke fill'
+                }}
+              >
+                {characterData?.['char-name'] || 'Unnamed Persona'}
+              </span>
+              {characterData?.['char-archetype'] && (
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-500/40 font-bold hidden xs:inline shrink-0">
+                  {characterData['char-archetype']}
+                </span>
+              )}
+              <span className="text-[9px] font-mono text-slate-500 group-hover:text-cyan-300 transition-colors hidden xxs:inline group-hover:translate-x-0.5 transform">
+                &rarr;
+              </span>
+            </button>
           </div>
           {renderBioSection()}
         </div>

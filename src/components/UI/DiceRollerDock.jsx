@@ -447,15 +447,16 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     const bModRaw = diceConfig.baseModifier !== undefined
       ? Number(diceConfig.baseModifier) || 0
       : (diceConfig.modifier !== undefined ? Number(diceConfig.modifier) || 0 : 0);
-    const bMod = Math.max(-20, Math.min(20, bModRaw));
+    const bMod = Math.max(0, Math.min(50, bModRaw));
     initialBaseModRef.current = bMod;
     setBaseModifier(bMod);
 
     const aMod = diceConfig.adHocModifier !== undefined ? Number(diceConfig.adHocModifier) || 0 : 0;
+    const clampedAdHoc = Math.max(-20, Math.min(20, aMod));
+    setAdHocModifier(clampedAdHoc);
 
-    // Enforce +/- 20 flat modifier boundary
-    const clampedTotal = Math.max(-20, Math.min(20, bMod + aMod));
-    setAdHocModifier(clampedTotal - bMod);
+    // Compute net modifier from base (0-50) and ad-hoc (-20 to +20)
+    const netTotal = bMod + clampedAdHoc;
 
     // Enforce +/- 5 advantage dice boundary
     let advDice = 0;
@@ -487,7 +488,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     // Compute expression from formula or base + ad-hoc modifier
     let expr = diceConfig.expression;
     if (!expr) {
-      expr = clampedTotal !== 0 ? `2d10${clampedTotal > 0 ? '+' : ''}${clampedTotal}` : '2d10';
+      expr = netTotal !== 0 ? `2d10${netTotal > 0 ? '+' : ''}${netTotal}` : '2d10';
     }
     setCustomExpr(expr);
 
@@ -498,7 +499,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         ...diceConfig,
         expression: expr,
         baseModifier: bMod,
-        adHocModifier: clampedTotal - bMod,
+        adHocModifier: clampedAdHoc,
         advantageDice: advDice,
         critRangeSize: diceConfig.critRangeSize || 1,
         fumbleRangeSize: diceConfig.fumbleRangeSize || 1,
@@ -523,7 +524,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     }
   }, [currentSquadChannel, groupChannels, activeChannelId, publicChannels, diceConfig?.targetChannelId, selectedChannelId]);
 
-  // Helper for Base Score changes (clamped to [-20, 20])
+  // Helper for Base Score changes (clamped to [0, 50])
   const handleBaseScoreChange = (newVal) => {
     let raw;
     if (typeof newVal === 'string') {
@@ -537,13 +538,13 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       raw = Number(newVal) || 0;
     }
 
-    const clampedBase = Math.max(-20, Math.min(20, raw));
+    const clampedBase = Math.max(0, Math.min(50, raw));
     setBaseModifier(clampedBase);
 
-    // Keep net total clamped [-20, 20]
-    const clampedTotal = Math.max(-20, Math.min(20, clampedBase + adHocModifier));
+    // Keep net total calculated
+    const netTotal = clampedBase + adHocModifier;
     if (customExpr.startsWith('2d10') || !customExpr.includes('d')) {
-      const expr = clampedTotal !== 0 ? `2d10${clampedTotal > 0 ? '+' : ''}${clampedTotal}` : '2d10';
+      const expr = netTotal !== 0 ? `2d10${netTotal > 0 ? '+' : ''}${netTotal}` : '2d10';
       setCustomExpr(expr);
     }
   };
@@ -565,17 +566,17 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     const clampedAdHoc = Math.max(-20, Math.min(20, raw));
     setAdHocModifier(clampedAdHoc);
 
-    // Keep net total clamped [-20, 20]
-    const clampedTotal = Math.max(-20, Math.min(20, baseModifier + clampedAdHoc));
+    // Keep net total calculated
+    const netTotal = baseModifier + clampedAdHoc;
     if (customExpr.startsWith('2d10') || !customExpr.includes('d')) {
-      const expr = clampedTotal !== 0 ? `2d10${clampedTotal > 0 ? '+' : ''}${clampedTotal}` : '2d10';
+      const expr = netTotal !== 0 ? `2d10${netTotal > 0 ? '+' : ''}${netTotal}` : '2d10';
       setCustomExpr(expr);
     }
   };
 
   // Comprehensive Reset: Clears all fields back to their base level score
   const handleResetAll = () => {
-    const baseScore = initialBaseModRef.current ?? 0;
+    const baseScore = Math.max(0, Math.min(50, initialBaseModRef.current ?? 0));
     const baseLabel = initialLabelRef.current ?? '';
     const baseDC = initialTargetDCRef.current ?? '';
 
@@ -592,19 +593,19 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   };
 
   const handleResetBaseScore = () => {
-    const baseScore = initialBaseModRef.current ?? 0;
+    const baseScore = Math.max(0, Math.min(50, initialBaseModRef.current ?? 0));
     setBaseModifier(baseScore);
-    const clampedTotal = Math.max(-20, Math.min(20, baseScore + adHocModifier));
+    const netTotal = baseScore + adHocModifier;
     if (customExpr.startsWith('2d10') || !customExpr.includes('d')) {
-      setCustomExpr(clampedTotal !== 0 ? `2d10${clampedTotal > 0 ? '+' : ''}${clampedTotal}` : '2d10');
+      setCustomExpr(netTotal !== 0 ? `2d10${netTotal > 0 ? '+' : ''}${netTotal}` : '2d10');
     }
   };
 
   const handleResetAdHoc = () => {
     setAdHocModifier(0);
-    const clampedTotal = Math.max(-20, Math.min(20, baseModifier));
+    const netTotal = baseModifier;
     if (customExpr.startsWith('2d10') || !customExpr.includes('d')) {
-      setCustomExpr(clampedTotal !== 0 ? `2d10${clampedTotal > 0 ? '+' : ''}${clampedTotal}` : '2d10');
+      setCustomExpr(netTotal !== 0 ? `2d10${netTotal > 0 ? '+' : ''}${netTotal}` : '2d10');
     }
   };
 
@@ -621,7 +622,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       expr: effectiveExpr,
       label: label || effectiveExpr,
       advantageDice: Number(advantageDice) || 0,
-      baseModifier: Number(baseModifier) || 0,
+      baseModifier: Math.max(0, Math.min(50, Number(baseModifier) || 0)),
       adHocModifier: Number(adHocModifier) || 0,
       critRangeSize: Number(critRangeSize) || 1,
       fumbleRangeSize: Number(fumbleRangeSize) || 1,
@@ -667,7 +668,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     const expr = s.expr || '2d10';
     const label = s.label || '';
     const adv = s.advantageDice !== undefined ? Number(s.advantageDice) || 0 : 0;
-    const bMod = s.baseModifier !== undefined ? Number(s.baseModifier) || 0 : 0;
+    const bMod = s.baseModifier !== undefined ? Math.max(0, Math.min(50, Number(s.baseModifier) || 0)) : 0;
     const aMod = s.adHocModifier !== undefined ? Number(s.adHocModifier) || 0 : 0;
     const cSize = s.critRangeSize !== undefined ? Number(s.critRangeSize) || 1 : 1;
     const fSize = s.fumbleRangeSize !== undefined ? Number(s.fumbleRangeSize) || 1 : 1;
@@ -746,10 +747,10 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     }
     const clampedAdv = Math.max(-5, Math.min(5, adv));
 
-    // Resolve clamped flatModifier (-20 to +20)
-    const bMod = overrideConfig?.baseModifier !== undefined ? Number(overrideConfig.baseModifier) || 0 : baseModifier;
-    const aMod = overrideConfig?.adHocModifier !== undefined ? Number(overrideConfig.adHocModifier) || 0 : adHocModifier;
-    const clampedFlatMod = Math.max(-20, Math.min(20, bMod + aMod));
+    // Resolve clamped flatModifier (-20 to +70)
+    const bMod = overrideConfig?.baseModifier !== undefined ? Math.max(0, Math.min(50, Number(overrideConfig.baseModifier) || 0)) : baseModifier;
+    const aMod = overrideConfig?.adHocModifier !== undefined ? Math.max(-20, Math.min(20, Number(overrideConfig.adHocModifier) || 0)) : adHocModifier;
+    const clampedFlatMod = Math.max(-20, Math.min(70, bMod + aMod));
 
     // Resolve clamped threat range sizes (1 to 5)
     const cSize = overrideConfig?.critRangeSize !== undefined 
@@ -894,7 +895,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     }
   };
 
-  const totalCalculatedMod = Math.max(-20, Math.min(20, baseModifier + adHocModifier));
+  const totalCalculatedMod = Math.max(-20, Math.min(70, baseModifier + adHocModifier));
   const currentCritThreshold = 21 - critRangeSize;
   const currentFumbleThreshold = 1 + fumbleRangeSize;
 
@@ -1905,28 +1906,28 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                 <div className="flex items-center gap-1 bg-slate-950/90 border border-slate-700/80 rounded p-0.5 px-1 justify-between">
                   <button
                     type="button"
-                    disabled={baseModifier <= -20}
+                    disabled={baseModifier <= 0}
                     onClick={() => handleBaseScoreChange(baseModifier - 1)}
                     className="w-12 h-5 flex items-center justify-center rounded bg-slate-800/80 hover:bg-slate-700/90 text-yellow-400 hover:text-yellow-300 border border-slate-700/60 hover:border-yellow-400 disabled:opacity-30 disabled:cursor-not-allowed text-xs font-mono font-bold cursor-pointer transition-all"
-                    title="Decrease base score (-1, min -20)"
+                    title="Decrease base score (-1, min 0)"
                   >
                     -
                   </button>
                   <input
                     type="number"
-                    min={-20}
-                    max={20}
+                    min={0}
+                    max={50}
                     value={baseModifier}
                     onChange={(e) => handleBaseScoreChange(e.target.value)}
                     className="w-12 text-center bg-transparent py-0.5 text-xs font-mono font-bold text-rose-300 focus:outline-none"
-                    title="Base Score (-20 to +20)"
+                    title="Base Score (0 to 50)"
                   />
                   <button
                     type="button"
-                    disabled={baseModifier >= 20}
+                    disabled={baseModifier >= 50}
                     onClick={() => handleBaseScoreChange(baseModifier + 1)}
                     className="w-12 h-5 flex items-center justify-center rounded bg-slate-800/80 hover:bg-slate-700/90 text-slate-300 hover:text-emerald-300 border border-slate-700/60 hover:border-emerald-500 disabled:opacity-30 disabled:cursor-not-allowed text-xs font-mono font-bold cursor-pointer transition-all"
-                    title="Increase base score (+1, max +20)"
+                    title="Increase base score (+1, max 50)"
                   >
                     +
                   </button>

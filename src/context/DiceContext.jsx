@@ -17,7 +17,7 @@ export const DiceProvider = ({ children }) => {
     expression: '2d10',
     baseModifier: 0,
     adHocModifier: 0,
-    flatModifier: 0,      // Clamped [-20, 20]
+    flatModifier: 0,      // Clamped [-20, 70]
     advantageDice: 0,     // Clamped [-5, 5]
     critRangeSize: 1,     // Clamped [1, 5]
     fumbleRangeSize: 1,   // Clamped [1, 5]
@@ -32,9 +32,11 @@ export const DiceProvider = ({ children }) => {
     const rollId = config.rollId || `${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     setDiceConfig(prev => {
       const baseMod = config.baseModifier !== undefined ? Number(config.baseModifier) || 0 : (config.modifier !== undefined ? Number(config.modifier) || 0 : 0);
+      const clampedBaseMod = Math.max(0, Math.min(50, baseMod));
       const adHocMod = config.adHocModifier !== undefined ? Number(config.adHocModifier) || 0 : 0;
-      const rawFlatMod = config.flatModifier !== undefined ? Number(config.flatModifier) || 0 : (baseMod + adHocMod);
-      const clampedFlatModifier = Math.max(-20, Math.min(20, rawFlatMod));
+      const clampedAdHocMod = Math.max(-20, Math.min(20, adHocMod));
+      const rawFlatMod = config.flatModifier !== undefined ? Number(config.flatModifier) || 0 : (clampedBaseMod + clampedAdHocMod);
+      const clampedFlatModifier = Math.max(-20, Math.min(70, rawFlatMod));
 
       // Separate advantageDice (-5 to 5)
       let advDice = 0;
@@ -62,8 +64,8 @@ export const DiceProvider = ({ children }) => {
         ...prev,
         label: config.label || 'Action Check',
         expression: expr,
-        baseModifier: baseMod,
-        adHocModifier: adHocMod,
+        baseModifier: clampedBaseMod,
+        adHocModifier: clampedAdHocMod,
         flatModifier: clampedFlatModifier,
         advantageDice: clampedAdvantage,
         critRangeSize: clampedCritSize,

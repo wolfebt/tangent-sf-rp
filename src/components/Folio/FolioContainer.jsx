@@ -280,7 +280,8 @@ const FolioContainer = () => {
       label: charName,
       onClick: activeTab !== 'identity' ? () => handleSelectTab('identity', charDocId) : undefined,
       active: activeTab === 'identity' && viewMode !== 'play',
-      badge: characterData?.['char-archetype'] || undefined
+      badge: characterData?.['char-archetype'] || undefined,
+      className: 'hidden md:flex'
     });
 
     if (viewMode === 'play') {
@@ -358,8 +359,8 @@ const FolioContainer = () => {
     const activeDocId = characterData['character-doc-id'];
     deleteRosterCharacter(activeDocId);
     setIsDeleteConfirmOpen(false);
-    if (setActiveTab) setActiveTab('catalog');
-  }, [characterData, deleteRosterCharacter, setActiveTab]);
+    handleReturnToCatalog();
+  }, [characterData, deleteRosterCharacter, handleReturnToCatalog]);
 
   const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
     setAddSkillModalMode(mode);
@@ -610,7 +611,7 @@ const FolioContainer = () => {
     const handleOpenEconomy = () => setIsEconomyOpen(true);
     const handleToggleBastion = () => setIsBastionOpen(prev => !prev);
     const handleOpenCatalog = () => {
-      setActiveTab('catalog');
+      handleReturnToCatalog();
       setIsSidebarOpen(false);
     };
     const handleOpenRoster = () => setIsRosterOpen(true);
@@ -694,6 +695,7 @@ const FolioContainer = () => {
         <BreadcrumbNav
           items={getFolioBreadcrumbs()}
           onBack={handleFolioBack}
+          showBack={!isCharacterSelected || activeTab === 'catalog'}
           backTitle={
             viewMode === 'play'
               ? 'Return to Folio Builder'
@@ -705,29 +707,30 @@ const FolioContainer = () => {
               ? 'Return to Persona Catalog'
               : 'Return to Tangent SF RP Dashboard'
           }
+          leftSlot={
+            isCharacterSelected ? (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  setIsSidebarOpen(prev => !prev);
+                }}
+                className={`min-h-[28px] px-2.5 py-1 rounded-md flex items-center gap-1.5 transition-all cursor-pointer select-none border font-mono font-bold text-[11px] uppercase tracking-wider active:scale-95 touch-manipulation md:hidden shrink-0 shadow-xs ${
+                  isSidebarOpen
+                    ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+                    : 'bg-slate-900/95 hover:bg-cyan-950/80 border-cyan-500/40 hover:border-cyan-400 text-cyan-300'
+                }`}
+                title={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
+                aria-label={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
+              >
+                {isSidebarOpen ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} className="text-cyan-400" />}
+                <span>Rail</span>
+              </button>
+            ) : null
+          }
           rightSlot={
             <div className="flex items-center gap-1.5 shrink-0">
-              {/* Rail Toggle Button */}
-              {isCharacterSelected && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    setIsSidebarOpen(prev => !prev);
-                  }}
-                  className={`min-h-[28px] px-2 rounded-md flex items-center gap-1 transition-all cursor-pointer select-none border font-mono font-bold text-[11px] uppercase tracking-wider active:scale-95 touch-manipulation md:hidden ${
-                    isSidebarOpen
-                      ? 'bg-cyan-500/25 border-cyan-300 text-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
-                      : 'bg-slate-900/90 hover:bg-cyan-950/80 border-slate-700/80 hover:border-cyan-400 text-cyan-300'
-                  }`}
-                  title={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
-                >
-                  {isSidebarOpen ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} />}
-                  <span>Rail</span>
-                </button>
-              )}
-
-              {/* Persona Catalog Shortcut if viewing a character */}
+              {/* Persona Catalog Shortcut on desktop/tablet only (mobile uses persona name tag as catalog link) */}
               {isCharacterSelected && activeTab !== 'catalog' && (
                 <button
                   type="button"
@@ -735,7 +738,7 @@ const FolioContainer = () => {
                     AudioService.playTerminalBeep(1100, 0.02);
                     handleReturnToCatalog();
                   }}
-                  className="min-h-[28px] px-2 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-cyan-300 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/60 cursor-pointer transition-all flex items-center gap-1 active:scale-95"
+                  className="hidden md:inline-flex min-h-[28px] px-2 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-cyan-300 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/60 cursor-pointer transition-all items-center gap-1 active:scale-95"
                   title="Return to Persona Catalog / Dossiers"
                 >
                   <Users size={13} className="text-cyan-400" />
@@ -918,6 +921,7 @@ const FolioContainer = () => {
                 <IdentityTab
                   onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
+                  onReturnToCatalog={handleReturnToCatalog}
                 />
               )}
               {activeTab === 'core-stats' && (
@@ -1062,13 +1066,12 @@ const FolioContainer = () => {
             activeDocId={characterData['character-doc-id']}
             onToggleVttLock={togglePersonaVttLock}
             onSelectCharacter={(docId) => {
-              switchRosterCharacter(docId);
-              setActiveTab('identity');
+              handleSelectCharacter(docId, 'identity');
               setIsRosterOpen(false);
             }}
             onNewCharacter={() => {
               handleNewCharacter();
-              setActiveTab('identity');
+              handleSelectTab('identity');
               setIsRosterOpen(false);
             }}
             onGuidedCreator={() => {
@@ -1083,12 +1086,12 @@ const FolioContainer = () => {
             publicCatalog={publicCatalog}
             onSelectPublicPersona={(char) => {
               handleLoadCloud(char.id);
-              setActiveTab('identity');
+              handleSelectTab('identity', char.id);
               setIsRosterOpen(false);
             }}
             onClonePublicPersona={(char) => {
               clonePublicPersona(char);
-              setActiveTab('identity');
+              handleSelectTab('identity');
               setIsRosterOpen(false);
             }}
           />
@@ -1110,7 +1113,7 @@ const FolioContainer = () => {
             isOpen={isGuidedCreatorOpen}
             onClose={() => setIsGuidedCreatorOpen(false)}
             onCharacterCreated={() => {
-              setActiveTab('identity');
+              handleSelectTab('identity');
             }}
           />
         )}

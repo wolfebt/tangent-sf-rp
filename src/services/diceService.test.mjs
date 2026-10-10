@@ -22,9 +22,9 @@ for (let i = 0; i < 50; i++) {
 }
 
 // Test 2: Input boundary clamping on executeTangentRoll
-const clampedOver = executeTangentRoll(12, 50, 99, 99);
+const clampedOver = executeTangentRoll(12, 100, 99, 99);
 assert(clampedOver.advantageDice === 5, `Expected advantageDice clamped to 5, got ${clampedOver.advantageDice}`);
-assert(clampedOver.appliedModifier === 20, `Expected modifier clamped to 20, got ${clampedOver.appliedModifier}`);
+assert(clampedOver.appliedModifier === 70, `Expected modifier clamped to 70, got ${clampedOver.appliedModifier}`);
 assert(clampedOver.critThreshold === 16, `Expected critThreshold for range size 5 to be 16, got ${clampedOver.critThreshold}`);
 assert(clampedOver.fumbleThreshold === 6, `Expected fumbleThreshold for range size 5 to be 6, got ${clampedOver.fumbleThreshold}`);
 assert(clampedOver.dicePool.length === 7, `Expected pool size 2 + 5 = 7, got ${clampedOver.dicePool.length}`);
@@ -224,6 +224,20 @@ assert(legacyAdHoc === 0, 'Legacy adHocModifier must default to 0');
 assert(legacyCritSize === 1, 'Legacy critRangeSize must default to 1');
 assert(legacyFumbleSize === 1, 'Legacy fumbleRangeSize must default to 1');
 assert(legacyDC === '', 'Legacy targetDC must default to empty string');
+
+// Test 10b: Base Score boundary [0, 50] support in 2d10 checks
+const rollBaseMin = rollDice('2d10', { flatModifier: 0 });
+assert(rollBaseMin.appliedModifier === 0, 'Base score 0 must yield modifier 0');
+assert(rollBaseMin.finalTotal >= 2 && rollBaseMin.finalTotal <= 20, '2d10 + 0 total must be in [2, 20]');
+
+const rollBaseMax = rollDice('2d10+50', { flatModifier: 50 });
+assert(rollBaseMax.appliedModifier === 50, 'Base score 50 must yield modifier 50');
+assert(rollBaseMax.finalTotal >= 52 && rollBaseMax.finalTotal <= 70, '2d10 + 50 total must be in [52, 70]');
+
+const rollBaseMaxWithAdHoc = rollDice('2d10+70', { flatModifier: 70 });
+assert(rollBaseMaxWithAdHoc.appliedModifier === 70, 'Base score 50 + ad-hoc 20 must yield modifier 70');
+assert(rollBaseMaxWithAdHoc.finalTotal >= 72 && rollBaseMaxWithAdHoc.finalTotal <= 90, '2d10 + 70 total must be in [72, 90]');
+
 
 // Test 11: Exact Odds Calculator (calculateRollOdds)
 console.log('Testing calculateRollOdds and PMF distribution...');

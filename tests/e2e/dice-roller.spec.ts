@@ -52,4 +52,54 @@ test.describe('Dice Roller Dock E2E Verification', () => {
 
     expect(pageErrors).toHaveLength(0);
   });
+
+  test('Base Score in Dice Roller Dock enforces minimum of 0 and maximum of 50', async ({ page }) => {
+    const pageErrors: string[] = [];
+    page.on('pageerror', err => pageErrors.push(err.message));
+
+    await page.addInitScript(() => {
+      window.localStorage.setItem('userHandle', 'Commander Test');
+      window.localStorage.setItem('hasDismissedWelcome', 'true');
+      window.localStorage.setItem('audioMuted', 'true');
+      window.localStorage.removeItem('tangent_dice_roller_history');
+      window.localStorage.removeItem('tangent_dice_roller_latest');
+    });
+
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    await page.waitForTimeout(600);
+
+    await page.evaluate(() => {
+      window.dispatchEvent(new CustomEvent('open-dice-roller'));
+    });
+
+    const baseScoreInput = page.locator('input[title="Base Score (0 to 50)"]');
+    await expect(baseScoreInput).toBeVisible({ timeout: 5000 });
+    await expect(baseScoreInput).toHaveAttribute('min', '0');
+    await expect(baseScoreInput).toHaveAttribute('max', '50');
+
+    // At default 0, minus button is disabled
+    const minusBtn = page.locator('button[title="Decrease base score (-1, min 0)"]');
+    const plusBtn = page.locator('button[title="Increase base score (+1, max 50)"]');
+    await expect(minusBtn).toBeDisabled();
+    await expect(plusBtn).toBeEnabled();
+
+    // Fill with 50
+    await baseScoreInput.fill('50');
+    await expect(baseScoreInput).toHaveValue('50');
+    await expect(plusBtn).toBeDisabled();
+    await expect(minusBtn).toBeEnabled();
+
+    // Fill with value exceeding 50, should be clamped to 50
+    await baseScoreInput.fill('99');
+    await expect(baseScoreInput).toHaveValue('50');
+
+    // Fill with value below 0, should be clamped to 0
+    await baseScoreInput.fill('-10');
+    await expect(baseScoreInput).toHaveValue('0');
+    await expect(minusBtn).toBeDisabled();
+
+    expect(pageErrors).toHaveLength(0);
+  });
 });
+

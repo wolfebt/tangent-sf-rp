@@ -31,6 +31,7 @@ export const BreadcrumbNav = ({
   onBack,
   showBack = true,
   backTitle = 'Back to previous page / section',
+  leftSlot = null,
   rightSlot = null,
   className = ''
 }) => {
@@ -55,15 +56,16 @@ export const BreadcrumbNav = ({
     }
   };
 
-  if (!items.length && !rightSlot) return null;
+  if (!items.length && !rightSlot && !leftSlot) return null;
 
   return (
     <nav
       aria-label="Breadcrumb"
       className={`flex items-center justify-between gap-2 px-3 py-1.5 bg-[#0a0f18]/90 border-b border-cyan-500/20 backdrop-blur-md text-xs font-mono select-none shrink-0 min-h-[38px] z-20 shadow-xs ${className}`}
     >
-      {/* Left: Back Button & Crumb Trail */}
+      {/* Left: Left Slot, Back Button & Crumb Trail */}
       <div className="flex items-center gap-1.5 min-w-0 overflow-x-auto no-scrollbar py-0.5">
+        {leftSlot}
         {showBack && (
           <button
             type="button"
@@ -86,9 +88,9 @@ export const BreadcrumbNav = ({
             const isClickable = !isLast && (Boolean(crumb.onClick) || Boolean(crumb.to));
 
             return (
-              <li key={`${crumb.label}-${idx}`} className="flex items-center gap-1 min-w-0 shrink-0">
+              <li key={`${crumb.label}-${idx}`} className={`flex items-center gap-1 min-w-0 shrink-0 ${crumb.className || ''}`}>
                 {idx > 0 && (
-                  <ChevronRight size={11} className="text-slate-600 shrink-0" aria-hidden="true" />
+                  <ChevronRight size={11} className={`text-slate-600 shrink-0 ${crumb.className ? crumb.className : ''}`} aria-hidden="true" />
                 )}
 
                 {isClickable ? (

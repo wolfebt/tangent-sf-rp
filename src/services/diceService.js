@@ -35,20 +35,20 @@ export const targetDCs = {
  * @param {number} [advantageDice=0] - Extra dice pool expansion (-5 to +5).
  *                                     Positive = Advantage (keep 2 highest).
  *                                     Negative = Disadvantage (keep 2 lowest).
- * @param {number} [flatModifier=0] - Flat modifier applied to the kept sum (-20 to +20).
+ * @param {number} [flatModifier=0] - Flat modifier applied to the kept sum (-20 to +70).
  * @param {number} [critRangeSize=1] - Critical threat range size (1 to 5: 1=20, 5=16-20).
  * @param {number} [fumbleRangeSize=1] - Fumble threat range size (1 to 5: 1=2, 5=2-6).
  * @returns {Object} Full clamped roll result containing dicePool, keptDice, totals, thresholds, and flags.
  */
 export function executeTangentRoll(
   advantageDice = 0,    // Accepts -5 to +5
-  flatModifier = 0,     // Accepts -20 to +20
+  flatModifier = 0,     // Accepts -20 to +70 (Base score 0 to 50 + Ad-Hoc -20 to +20)
   critRangeSize = 1,    // Accepts 1 to 5 (e.g., 1 = 20, 5 = 16-20)
   fumbleRangeSize = 1   // Accepts 1 to 5 (e.g., 1 = 2, 5 = 2-6)
 ) {
   // Clamp inputs to strictly enforce engine limits
   const clampedAdvantage = Math.max(-5, Math.min(5, Number(advantageDice) || 0));
-  const clampedModifier = Math.max(-20, Math.min(20, Number(flatModifier) || 0));
+  const clampedModifier = Math.max(-20, Math.min(70, Number(flatModifier) || 0));
   const clampedCritSize = Math.max(1, Math.min(5, Number(critRangeSize) || 1));
   const clampedFumbleSize = Math.max(1, Math.min(5, Number(fumbleRangeSize) || 1));
 
@@ -470,7 +470,7 @@ export function rollDice(expression = '2d10', options = {}) {
       advDice = -1;
     }
 
-    // Resolve flat modifier (-20 to +20)
+    // Resolve flat modifier (-20 to +70)
     let flatMod = 0;
     if (options.flatModifier !== undefined) {
       flatMod = Number(options.flatModifier) || 0;
@@ -572,7 +572,7 @@ export function rollDice(expression = '2d10', options = {}) {
   } else {
     flatMod = parsed.modifier || 0;
   }
-  const clampedModifier = Math.max(-50, Math.min(50, flatMod));
+  const clampedModifier = Math.max(-50, Math.min(70, flatMod));
 
   // Resolve threat range sizes (1 to 5)
   const critSize = Math.max(1, Math.min(5, Number(options.critRangeSize) || 1));
