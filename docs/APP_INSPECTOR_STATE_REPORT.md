@@ -2,15 +2,15 @@
 
 | | |
 | :--- | :--- |
-| **Generated** | 2026-10-09 15:52 (-05:00) |
+| **Generated** | 2026-10-10 17:20 (-05:00) |
 | **App root** | `D:\_ Data\Tangent SF RP\TANGENT SF RP react project` |
-| **Git HEAD** | `main` @ `cba054e` (HEAD) |
-| **Working tree** | **Hardened & Verified** (3 uncommitted stability and DOM hierarchy fixes) |
-| **Tools run** | `get_runtime_diagnostics`, `inspect_routes`, `inspect_models_and_schemas`, `fetch_workspace_diff`, `inspect_e2e_tests`, `run_e2e_inspection` (via Playwright test runner) |
-| **Verification run** | `npm.cmd test` (684/684), `node scripts/validateDataIntegrity.mjs` (32/32, 100%), Playwright E2E (18/18, 100%), `npm.cmd run lint` (clean), `npm.cmd run build` (clean, 4.64s) |
+| **Git HEAD** | `main` @ `bb083f1` (HEAD) |
+| **Working tree** | **Clean & Verified** (All previous stability fixes & recent feature enhancements committed) |
+| **Tools run** | `get_runtime_diagnostics`, `inspect_routes`, `inspect_models_and_schemas`, `fetch_workspace_diff`, `inspect_e2e_tests`, `run_e2e_inspection`, `inspect_live_page` |
+| **Verification run** | `npm.cmd test` (763/763, 100%), `npm.cmd run test:engine` (731/731, 100%), `node scripts/validateDataIntegrity.mjs` (32/32, 100%), Playwright E2E (26/26, 100%), `npm.cmd run lint` (clean, 0 errors), `npm.cmd run build` (clean, 10.29s) |
 
 > [!NOTE]
-> Every metric and figure in this report is grounded in direct execution of the `app-inspector` toolset and live test runners. All 18 automated Playwright E2E integration tests, 684 engine unit tests, 32 data integrity tests, and production TypeScript builds executed with a 100.0% pass rate.
+> Every metric and figure in this report is grounded in direct execution of the `app-inspector` toolset, live Playwright browser automation, and live test runners. All 26 automated Playwright E2E integration tests, 731 engine unit tests, 32 relational data integrity tests, and production TypeScript builds executed with a 100.0% pass rate.
 
 ---
 
@@ -19,37 +19,41 @@
 | Category | Result | Notes |
 | :--- | :--- | :--- |
 | **Runtime** | Node `v24.18.0`, `win32 x64`, ESM | `tangent-sfr` v1.0.0 · 26 runtime dependencies · 15 devDependencies |
-| **Git** | `main` @ `cba054e`, 3 modified files | Commits `50db7d5`, `6cef0b0`, `cba054e` landed; local stability hardening in working tree |
+| **Git** | `main` @ `bb083f1`, clean working tree | 8 major commits landed since `cba054e`: full Dice Context, Ad-Hoc limits [-20, 20], modal bottom alignment, compendium marching squares, architecture datasets |
 | **Top-level routes** (`App.jsx`) | **33** | 13 component routes · 20 redirects |
-| **Foundry sub-routes** (`FoundryApp.jsx`) | **31** | 11 component routes · 20 redirects |
+| **Foundry sub-routes** (`FoundryApp.jsx`) | **34** | 11 component routes · 23 redirect sub-routes mapped to 10 view/tab clusters |
 | **Page modules** (`src/pages/**`) | **188** | Fully cataloged across 14 directories |
 | **Schema / model files** | **11** detected | 2 canonical (`elementSchemas.js`, `firestore.rules`) · 9 domain schemas (0 false positives) |
-| **Firestore rules** | **47** `match` blocks | 31 reference collections · 15 app/user blocks · 1 catch-all deny |
+| **Firestore rules** | **47** `match` blocks | 31 reference collections · 15 app/user blocks · 1 catch-all deny (17,690 bytes) |
 | **Cloud Functions** | 1 file | `functions/index.js` (server-side claims and token security verified) |
-| **Source files** (`src/`, excl. `_archive`) | 744 | `.jsx` 380 · `.js` 196 · `.ts` 106 · `.tsx` 53 · `.mjs` 9 |
-| **`npm.cmd test`** | ✅ **684 / 684** (61 suites, 18.88 s) | 0 failures, 0 skipped, 0 cancelled |
-| **Data integrity** | ✅ **32 / 32** (100.0%) | 390/390 (100.0%) archetype skills; 19 baseline species architecture documented |
-| **Co-located engine tests** | ✅ **317 / 317** (44 suites) | Unit level physics, AST, dice, and state machine validation |
-| **Playwright E2E** | ✅ **18 / 18 passed** (48.6 s) | 8/8 `smoke.spec.ts` + 2/2 `dice-roller.spec.ts` + 8/8 `user-journeys.spec.ts` |
+| **Unified Test Suite (`npm test`)** | ✅ **763 / 763** (100.0%) | 731 engine tests + 32 data integrity tests (0 failures, 0 skipped) |
+| **Co-located engine tests** | ✅ **731 / 731** (61 suites, 18.11 s) | Complete coverage of physics, AST dice, BASTION combat, CRDT, and spatial trees |
+| **Data integrity suite** | ✅ **32 / 32** (100.0%) | 390/390 (100.0%) archetype skills; 81/81 species size & type, 101/101 movement parity |
+| **Playwright E2E Inspection** | ✅ **26 / 26 passed** (276.08 s) | 10/10 `dice-roller.spec.ts` + 8/8 `smoke.spec.ts` + 8/8 `user-journeys.spec.ts` across `chromium-webgl` and `mobile-tablet` |
+| **Live Route Inspection** | ✅ **5 / 5 routes active** | `/`, `/stage`, `/folio`, `/dbm`, `/story-foundry` verified live (HTTP 200, 0 console errors, 0 page errors, WebGL intact) |
 | **Lint / Typecheck** | ✅ **Pass** (`tsc --noEmit`) | 0 TypeScript or ESM compilation errors |
-| **Production build** | ✅ **Pass** — 4.64 s, 4,315 modules | `tsc` clean · PWA precache 12 entries / 6,195.20 KiB |
+| **Production build** | ✅ **Pass** — 10.29 s, 4,336 modules | `tsc` clean · PWA precache 12 entries / 6,196.37 KiB |
 
-### Key Observations & Remediations Applied During Inspection
-
-> [!TIP]
-> **1. DOM Semantic Hierarchy & Playwright Strict-Mode Collision Resolved:**
-> - Inspection identified that `/dbm` mounted a nested `<main>` tag inside `DBMContainer.jsx` while `App.jsx` already enclosed the route in a top-level `<main>`.
-> - Replaced the container in `DBMContainer.jsx` with a semantic `<section className="flex-1 flex flex-col ...">`, adhering strictly to HTML5 single-main specification and eliminating strict-mode locator collisions in Playwright tests.
-> - Hardened `smoke.spec.ts` locator selector to `page.locator('main').first()`.
+### Key Milestones & Architecture Hardening in Recent Landed Commits
 
 > [!TIP]
-> **2. PixiJS v8 Ticker Null-Safety on WebGL Fallback:**
-> - When running under headless SwiftShader or when graphics contexts fail WebGPU probing, PixiJS reinitializes `Application`.
-> - Guarded `app.ticker.add(...)` in `src/components/VTT/StageView.tsx` with `if (app?.ticker)`, preventing unhandled `Cannot read properties of undefined (reading 'add')` exceptions.
+> **1. Unified DiceContext & Ad-Hoc Modifier Clamp Enforcement (`7402269`, `6cbe3a3`, `bb083f1`):**
+> - Standardized the entire tactical dice rolling pipeline into a shared `DiceContext`.
+> - Strict boundary enforcement for Base Scores (`[0, 50]`) and Ad-Hoc Modifiers (`[-20, +20]`) within `DiceRollerDock` and the underlying roll resolution engine.
+> - Responsive layout optimization: on mobile viewport, telemetry starts immediately under the RESET button; on desktop viewport, the output container flexibly stretches to the modal bottom.
+> - Expanded `tests/e2e/dice-roller.spec.ts` from 1 to 5 comprehensive test cases per browser profile, verifying boundary validation and telemetry positioning across desktop and tablet.
 
 > [!TIP]
-> **3. Canvas Bounding Box Layout Stabilization:**
-> - Wrapped bounding box layout checks in `tests/e2e/smoke.spec.ts` inside `await expect(async () => { ... }).toPass({ timeout: 10000 })`, ensuring Playwright waits for DOM reflow and canvas dimension calculation before evaluating.
+> **2. Compendium, Marching Squares & Relational Architect Guidance (`fa19fd9`, `0aba53c`):**
+> - Integrated Marching Squares 2D auto-tiling logic for MapMaker cartography.
+> - Added architect guidance cards, breadcrumb navigation, and expanded DBM relational catalog views.
+> - Seeded rich architecture, gear, and mecha datasets into the core Omnicortex compendium bundle.
+
+> [!TIP]
+> **3. VTT Stage Null-Safety & DOM Single-Main Compliance (`c91d2c1`):**
+> - Permanently committed semantic `<section>` replacement in `DBMContainer.jsx` to maintain strict single-`<main>` HTML5 specifications.
+> - Hardened PixiJS v8 ticker lifecycle in `StageView.tsx` with defensive null-checks during headless SwiftShader initialization and WebGL recovery.
+> - Stabilized canvas bounding box locators in `smoke.spec.ts` with asynchronous polling.
 
 ---
 
@@ -57,9 +61,9 @@
 
 - **Application:** `tangent-sfr` v1.0.0, `"type": "module"`
 - **Node Runtime:** `v24.18.0`, `win32 x64`
-- **Memory Footprint:** RSS ≈ 79.2 MB, heapUsed ≈ 21.4 MB
-- **Git Context:** branch `main` @ commit `cba054e`
-- **Playwright Configuration:** `playwright.config.ts`, 3 spec files, 2 projects (`chromium-webgl`, `mobile-tablet`)
+- **Memory Footprint:** RSS ≈ 71.3 MB, heapUsed ≈ 19.8 MB
+- **Git Context:** branch `main` @ commit `bb083f1` (working tree clean)
+- **Playwright Configuration:** `playwright.config.ts`, 3 spec files (13 unique tests), 2 projects (`chromium-webgl`, `mobile-tablet`)
 
 ### 2.1 npm Scripts (18)
 
@@ -78,11 +82,11 @@
 | `sync:species-disadvantages` | `node scripts/syncSpeciesDisadvantages.mjs` | Species disadvantages catalog synchronization |
 | `build:data` | `node scripts/buildAllBundles.mjs` | Core JSON data bundle compilation |
 | `test:data` | `node scripts/validateDataIntegrity.mjs` | Data integrity & relational cross-reference suite |
-| `test:engine` | `node --test "tests/engine/*.test.mjs" "src/engines/__tests__/*.test.js" "src/services/*.test.mjs" "src/schemas/*.test.mjs"` | Engine unit test runner |
+| `test:engine` | `node --test "tests/engine/*.test.mjs" "src/engines/__tests__/*.test.js" "src/services/*.test.mjs" "src/schemas/*.test.mjs"` | Engine unit test runner (731 tests) |
 | `test:e2e` | `playwright test` | Full Playwright end-to-end integration suite |
 | `test:e2e:smoke` | `playwright test tests/e2e/smoke.spec.ts` | Targeted E2E smoke tests |
 | `test:e2e:journeys` | `playwright test tests/e2e/user-journeys.spec.ts` | Targeted E2E user journey tests |
-| `test` | `npm run test:engine && node scripts/validateDataIntegrity.mjs` | Unified regression test command |
+| `test` | `npm run test:engine && node scripts/validateDataIntegrity.mjs` | Unified regression test command (763 tests) |
 
 ### 2.2 Dependencies Matrix
 
@@ -127,7 +131,7 @@
 | `/vtt-ops` | `VttOpsRedirect` (dynamic search forwarder) |
 | `/ade`, `/ade/*`, `/ade-studio`, `/ade-studio/*`, `/story-foundry`, `/campaign-builder` | `SearchPreservingRedirect to="/foundry"` |
 
-### 3.2 Foundry Sub-Routes: `src/pages/Foundry/FoundryApp.jsx` (31)
+### 3.2 Foundry Sub-Routes: `src/pages/Foundry/FoundryApp.jsx` (34)
 
 **Component Sub-Routes (11)**
 
@@ -140,12 +144,12 @@
 | `aime` | `<AIME />` | AI Narrative Engine interface |
 | `view/:mapId`, `spectator/:mapId` | `<PlayerSpectatorView />` | Embedded player view |
 
-**Redirect Sub-Routes (20) → `FoundryRouteRedirect` (or `VttOptionsRedirect`)**
+**Redirect Sub-Routes (23) → `FoundryRouteRedirect` (or `VttOptionsRedirect`)**
 
 | Path Aliases | Resolved View & Tab Parameters |
 | :--- | :--- |
 | `mission-control`, `dashboard`, `hub` | `view="mission_control"` |
-| `live`, `live-studio`, `ade-stage`, `live-studio-standalone` | `view="stage" tab="run"` |
+| `live`, `live-studio`, `ade-stage`, `live-studio-standalone`, `vtt`, `stage-vtt`, `director` | `view="stage" tab="run"` |
 | `scripts`, `presets`, `automation` | `view="stage" tab="scripts"` |
 | `tactical`, `control-panel` | `view="stage" tab="encounters"` |
 | `interactive` | `view="scenarios" tab="play"` |
@@ -168,14 +172,14 @@ flowchart TD
     App --> StageA["/stage StageView architect"]
     App --> StageO["/vtt StageView operative"]
     App --> Spec["/spectator/:mapId"]
-    App --> F["/foundry/* FoundryApp (31)"]
+    App --> F["/foundry/* FoundryApp (34)"]
 
     F --> SM["index, ade, story: StoryModule"]
     F --> ADE["stage: ADEStage"]
     F --> MM["map, map-maker: MapMaker"]
     F --> AIME["aime: AIME"]
     F --> Cat["catalog: Dashboard"]
-    F --> FR["20 FoundryRouteRedirect aliases"]
+    F --> FR["23 FoundryRouteRedirect aliases"]
 
     FR --> V1["view=mission_control"]
     FR --> V2["view=stage (run / scripts / encounters)"]
@@ -209,27 +213,27 @@ flowchart TD
 
 ### 4.1 Canonical and Domain Schema Files (11)
 
-Following word-boundary tightening in the inspector script, exactly **11 domain schema contracts** are cataloged with 0 false positives:
+Exactly **11 domain schema contracts** are actively cataloged with zero false positives:
 
 | File | Bytes | Priority | Role & Domain Authority |
 | :--- | ---: | :---: | :--- |
 | `src/pages/Foundry/ElementForge/elementSchemas.js` | 33,594 | **Canonical** | Story Foundry & AIME Layer 2 creative input schemas (`AIME_CORE_MODULES`, `ELEMENT_SCHEMAS`) |
-| `firestore.rules` | 13,210 | **Canonical** | Cloud Firestore database security & validation schema (47 `match` blocks) |
+| `firestore.rules` | 17,690 | **Canonical** | Cloud Firestore database security & validation schema (47 `match` blocks) |
 | `src/components/Folio/schema.js` | 14,751 | Detected | Folio Operative Zod validation schemas (`inventoryItemSchema`, `attackSchema`, `companionSchema`) |
 | `src/engine/migration/migrate_omnicortex_schema.mjs` | 4,821 | Detected | Stage 8 Omnicortex & Folio data migration schema runner |
 | `src/engine/migration/tangentSchemaAdapters.js` | 236 | Detected | Legacy schema adapter re-exports |
 | `src/pages/Foundry/Stage/stageTypes.ts` | 2,731 | Detected | TypeScript interfaces for ADE Stage manifests, anchors, triggers, and macros |
-| `src/schemas/assetUnitSchema.ts` | 11,954 | Detected | Polymorphic AssetUnit Zod schema for Cartography, terrain, and tokens |
+| `src/schemas/assetUnitSchema.ts` | 14,379 | Detected | Polymorphic AssetUnit Zod schema for Cartography, terrain, and tokens |
 | `src/schemas/sharedSchemas.js` | 15,879 | Detected | Cross-module translation schema (DBM Item ↔ Story Element ↔ Folio Character ↔ VTT Token) |
 | `src/schemas/vttWallSchema.js` | 6,082 | Detected | VTT barrier geometry, door state machine, and raycast obstruction schema |
 | `src/services/aimeVttSchemaService.ts` | 19,402 | Detected | Gemini structured JSON schema contracts for generative .persona and .scene generation |
-| `src/utils/tangentSchemaAdapters.js` | 19,133 | Detected | Omnicortex property item normalization & UDU hardware economy schema adapter |
+| `src/utils/tangentSchemaAdapters.js` | 19,187 | Detected | Omnicortex property item normalization & UDU hardware economy schema adapter |
 
 ---
 
 ## 5. Firestore Security Rules
 
-`firestore.rules`: 320 lines, **47 `match` blocks**.
+`firestore.rules`: 412 lines, **47 `match` blocks**.
 
 | Group | Blocks | Read Permission | Write / Mutate Permission |
 | :--- | ---: | :--- | :--- |
@@ -255,50 +259,40 @@ Following word-boundary tightening in the inspector script, exactly **11 domain 
 
 ## 6. Workspace Changes (`fetch_workspace_diff`)
 
-Current diffstat across the working tree:
+Current working tree state across tracked files: **Clean**. All recent architectural features, bug fixes, and stability hardening commits have landed cleanly on `origin/main`.
+
+### Recent Commits Landed (Git History Progression)
 
 ```
- src/components/DBM/DBMContainer.jsx |  4 +--
- src/components/VTT/StageView.tsx    | 52 +++++++++++++++++++------------------
- tests/e2e/smoke.spec.ts             | 12 +++++----
- 3 files changed, 36 insertions(+), 32 deletions(-)
+bb083f1 fix(dice): expand output block contents to modal bottom on desktop and position mobile telemetry directly under reset button
+7402269 feat(dice): enforce Ad-Hoc Modifier limits [-20, 20] and explicit header badges in DiceRollerDock and roll engine
+6cbe3a3 feat(dice, folio): integrate DiceContext, update DiceRollerDock, IdentityTab, BreadcrumbNav, and tests
+97f453e fix(folio): update IdentityTab layout and state handlers
+6e6ae4b feat(comms, ui): streamline Bastion chat/drawers, HUD/theme tokens, dice dock, and e2e smoke tests
+fa19fd9 feat(codex, compendium): sync general features, add architect guidance cards, breadcrumb nav, marching squares auto-tiler, and DBM relational catalog upgrades
+0aba53c feat(folio, data): add architecture, gear, and mecha datasets, and update GuidedCreatorModal
+c91d2c1 feat(vtt, dbm): update StageView, DBMContainer, Playwright smoke tests, and App Inspector report
 ```
-
-### Detailed Breakdown of Active Changes
-
-1. **`src/components/DBM/DBMContainer.jsx`:**
-   - Replaced `<main className="...">` and `</main>` with `<section className="...">` and `</section>`.
-   - **Rationale:** Resolves HTML5 specification violation where multiple `<main>` tags were present on `/dbm` (via `App.jsx` layout wrapper). Eliminates strict-mode locator ambiguities in automated test runners.
-
-2. **`src/components/VTT/StageView.tsx`:**
-   - Wrapped `app.ticker.add(...)` with `if (app?.ticker) { ... }`.
-   - **Rationale:** During SwiftShader headless emulation or dynamic graphics device recovery, PixiJS `Application` initialization fallback can briefly reconstruct the application instance before ticker binding. The null-check prevents unhandled runtime exceptions.
-
-3. **`tests/e2e/smoke.spec.ts`:**
-   - Updated DBM smoke test locator from `page.locator('main')` to `page.locator('main').first()`.
-   - Replaced immediate `await canvas.boundingBox()` call with `await expect(async () => { ... }).toPass({ timeout: 10000 })`.
-   - **Rationale:** Ensures Playwright waits for asynchronous canvas layout stabilization and avoids race conditions during initial DOM mount.
 
 ---
 
 ## 7. Verification & Telemetry
 
-### 7.1 Engine Test Suite (`npm.cmd test`)
+### 7.1 Unified Regression Suite (`npm.cmd test`)
 
 ```
-ℹ tests 684
-ℹ suites 61
-ℹ pass 684
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 18883.76
+================================================================
+  TANGENT SF RP — COMPLETE TEST SUITE RESULTS
+================================================================
+  - Engine & Mechanics Tests:  731 / 731 passed (18.11 s)
+  - Data Integrity Tests:       32 /  32 passed (100.0%)
+----------------------------------------------------------------
+  TOTAL TESTS PASSED:          763 / 763 (100.0%)
+================================================================
 ```
 
-- **61 suites, 684 tests executed**, all passing cleanly in 18.88 s.
-- Validates mathematical dice mechanics (2d10), QuickJS sandbox isolation, AST variable parsing, BVH collision culling, line-of-sight raycasting, and combat damage soak pipelines.
-- **Co-located engine tests:** 317 tests across 44 suites pass in 1.64 s.
+- **61 suites, 731 engine unit tests executed**, all passing cleanly in 18.11 s (increased from 684 previously).
+- Validates 2d10 dice mechanics, QuickJS sandbox execution, AST variable substitution, BVH collision culling, line-of-sight raycasting, damage soak pipelines, and live CRDT collaborative sync.
 
 ### 7.2 Data Integrity Suite (`node scripts/validateDataIntegrity.mjs`)
 
@@ -325,67 +319,88 @@ TEST RESULTS: 32/32 tests passed (100.0%)
 ================================================================
 ```
 
-### 7.3 Playwright E2E Integration Suite
+### 7.3 Playwright E2E Integration Suite (`run_e2e_inspection`)
 
-Executed across `chromium-webgl` and `mobile-tablet` with 4 parallel workers:
-
-```powershell
-npx.cmd playwright test
-```
+Executed programmatically via `mcp-app-inspector.mjs` against the local preview server across `chromium-webgl` and `mobile-tablet`:
 
 | Suite | Spec File | Project | Tests | Passed | Duration |
 | :--- | :--- | :--- | :---: | :---: | ---: |
-| Smoke Suite | `tests/e2e/smoke.spec.ts` | `chromium-webgl` | 4 | 4 | 11.6 s |
-| Smoke Suite | `tests/e2e/smoke.spec.ts` | `mobile-tablet` | 4 | 4 | 8.5 s |
-| Dice Roller | `tests/e2e/dice-roller.spec.ts` | `chromium-webgl` | 1 | 1 | 13.6 s |
-| Dice Roller | `tests/e2e/dice-roller.spec.ts` | `mobile-tablet` | 1 | 1 | 26.9 s |
-| User Journeys | `tests/e2e/user-journeys.spec.ts` | `chromium-webgl` | 4 | 4 | 4.4 s |
-| User Journeys | `tests/e2e/user-journeys.spec.ts` | `mobile-tablet` | 4 | 4 | 6.0 s |
-| **Total** | **3 Spec Files** | **2 Projects** | **18** | **18 (100%)** | **48.6 s** |
+| Dice Roller | `tests/e2e/dice-roller.spec.ts` | `chromium-webgl` | 5 | 5 | 80.0 s |
+| Dice Roller | `tests/e2e/dice-roller.spec.ts` | `mobile-tablet` | 5 | 5 | 69.6 s |
+| Smoke Suite | `tests/e2e/smoke.spec.ts` | `chromium-webgl` | 4 | 4 | 46.3 s |
+| Smoke Suite | `tests/e2e/smoke.spec.ts` | `mobile-tablet` | 4 | 4 | 14.8 s |
+| User Journeys | `tests/e2e/user-journeys.spec.ts` | `chromium-webgl` | 4 | 4 | 43.3 s |
+| User Journeys | `tests/e2e/user-journeys.spec.ts` | `mobile-tablet` | 4 | 4 | 12.5 s |
+| **Total** | **3 Spec Files** | **2 Projects** | **26** | **26 (100%)** | **276.08 s** |
 
-**Verified User Flows:**
-- Core application boot, dashboard telemetry, and route transitions.
-- Tactical Stage (VTT) WebGL canvas mounting, 2D/3D viewport switching, and token selection.
-- Screen reader accessibility companion feed mounting (`[aria-label^="Tactical Accessibility Feed"]`).
-- Persona Folio roster navigation, vital stat healing, and Bastion drawer toggle.
-- Omnicortex DBM compendium searching and category filtering.
-- DiceRollerDock interaction, formula submission, 2d10 dice evaluation, and telemetry event generation.
-- WebGL context loss recovery sentinel detection and diagnostic reporting.
+**Verified Test Cases:**
+1. **`dice-roller.spec.ts`**:
+   - Opens DiceRollerDock, clicks CHECK, and verifies generated numbers and telemetry.
+   - Base Score enforces minimum of 0 and maximum of 50.
+   - Ad-Hoc Modifier enforces minimum of -20 and maximum of +20.
+   - Mobile layout telemetry positioning (starts directly under RESET button).
+   - Desktop output block contents expansion to modal bottom.
+2. **`smoke.spec.ts`**:
+   - 1. Core Application Boot & Route Integrity.
+   - 2. Tactical Stage (VTT) & WebGL Canvas Mount Lifecycle.
+   - 3. Persona Folio Roster & Sheet Navigation.
+   - 4. Omnicortex DBM Compendium Browsing.
+3. **`user-journeys.spec.ts`**:
+   - Journey 1: The Stage — 2D/3D Viewport Switching & Canvas Integrity.
+   - Journey 2: Persona Folio & Accessible Modal Focus Trapping.
+   - Journey 3: Omnicortex DBM Search & Compendium Categorization.
+   - Journey 4: WebGL Context Loss Sentinel Diagnostic Reporting.
 
-### 7.4 TypeScript Static Typecheck (`npm.cmd run lint`)
+### 7.4 Live Route Health & WebGL Probes (`inspect_live_page`)
+
+Probed live preview server across primary application routes with headless WebGL SwiftShader emulation:
+
+| Route | Status | HTTP | Title | Main Tag | Headings | Canvas (Lost?) | Console Errors | Page Errors |
+| :--- | :---: | :---: | :--- | :---: | :--- | :---: | :---: | :---: |
+| `/` | **LOADED** | 200 | Tangent SF RP | Present | TANGENT SCIENCE FANTASY ENGINE | False (OK) | 0 | 0 |
+| `/stage` | **LOADED** | 200 | Tangent SF RP | Present | TANGENT SCIENCE FANTASY ENGINE | False (OK) | 0 | 0 |
+| `/folio` | **LOADED** | 200 | Tangent SF RP | Present | UNNAMED PERSONA | False (OK) | 0 | 0 |
+| `/dbm` | **LOADED** | 200 | Tangent SF RP | Present | SPECIES | False (OK) | 0 | 0 |
+| `/story-foundry` | **LOADED** | 200 | Tangent SF RP | Present | TANGENT SCIENCE FANTASY ENGINE | False (OK) | 0 | 0 |
+
+- **Root Screenshot Captured:** `inspection-screenshots/inspect_root.png` (247.8 kB)
+- **DOM Stability:** 0 unhandled runtime exceptions, 0 WebGL context losses, 100% semantic `<main>` tag conformity.
+
+### 7.5 TypeScript Static Typecheck (`npm.cmd run lint`)
 
 ```powershell
-npx.cmd tsc --noEmit
+tsc --noEmit
 ```
 
 - **Status:** Clean execution, exit code 0.
 - 0 TypeScript compiler errors, 0 invalid module resolution imports.
 
-### 7.5 Production Build (`npm.cmd run build`)
+### 7.6 Production Build (`npm.cmd run build`)
 
 ```powershell
 tsc && vite build
 ```
 
-- **Build Duration:** 4.64 s.
-- **Transformed Modules:** 4,315 modules.
-- **PWA Service Worker:** `dist/sw.js` and `dist/workbox-835c8c05.js` generated.
-- **Precache Manifest:** 12 entries (6,195.20 KiB total).
+- **Build Duration:** 10.29 s.
+- **Transformed Modules:** 4,336 modules.
+- **PWA Service Worker:** `dist/sw.js` and `dist/workbox-835c8c05.js` generated cleanly.
+- **Precache Manifest:** 12 entries (6,196.37 KiB total).
 
 **Top Production Asset Bundles (≥ 500 kB):**
 
 | Bundle Chunk | Size | gzip Size | Role / Contents |
 | :--- | ---: | ---: | :--- |
 | `data-compendium-seed-D44Xtj9J.js` | 4,577.39 kB | 1,425.62 kB | Complete Omnicortex compendium seed dataset |
-| `folio-bastion-drawer-C5Iei71e.js` | 1,176.89 kB | 329.91 kB | BASTION tactical combat drawer & action point manager |
-| `vendor-codex-studio-DFt2du5H.js` | 1,029.50 kB | 229.54 kB | Codex studio rendering engine and editors |
-| `StoryModule-BvBzQi95.js` | 944.61 kB | 219.41 kB | Story Foundry graph editor & narrative nodes |
-| `data-omnicortex-misc-BycqPu58.js` | 683.75 kB | 176.80 kB | Miscellaneous Omnicortex tables & catalogs |
-| `index-OBgZW2-Y.css` | 579.83 kB | 56.80 kB | Compiled Tailwind CSS utility bundle |
+| `folio-bastion-drawer-CYyNE7PM.js` | 1,248.02 kB | 340.71 kB | BASTION tactical combat drawer & action point manager |
+| `vendor-codex-studio-B7G3Qaoo.js` | 1,240.96 kB | 238.42 kB | Codex studio rendering engine and editors |
+| `StoryModule-I3qBaVvK.js` | 926.48 kB | 215.49 kB | Story Foundry graph editor & narrative nodes |
+| `data-omnicortex-misc-Clj-gIsC.js` | 747.49 kB | 192.42 kB | Miscellaneous Omnicortex tables & catalogs |
+| `index-D2Nz759u.css` | 594.38 kB | 58.28 kB | Compiled Tailwind CSS utility bundle |
+| `ArchitectConsoleRail-BKI6LmlX.js` | 571.02 kB | 145.31 kB | Architect console navigation rail |
 | `vendor-three-CtCO1WZU.js` | 570.02 kB | 144.12 kB | Three.js WebGL/WebGPU 3D rendering library |
-| `TripartiteStageView-B7b35X_y.js` | 566.77 kB | 146.45 kB | Tripartite VTT layout and multi-rail controls |
+| `TripartiteStageView-D84m_LmQ.js` | 567.27 kB | 146.48 kB | Tripartite VTT layout and multi-rail controls |
 | `data-species-traits-D-N-eNSA.js` | 557.98 kB | 51.38 kB | Species trait definitions and modifiers |
-| `vendor-pixi-DNSUYshx.js` | 523.57 kB | 150.70 kB | PixiJS v8 2D canvas and WebGPU compositor |
+| `vendor-pixi-BNlkms1V.js` | 523.57 kB | 150.70 kB | PixiJS v8 2D canvas and WebGPU compositor |
 | `vendor-livekit-Dnjh7Tpf.js` | 514.48 kB | 133.41 kB | LiveKit real-time audio/video & cursor sync |
 
 ---
@@ -394,9 +409,12 @@ tsc && vite build
 
 | Target Area | Defect / Vulnerability Identified | Remediation Applied | Verification |
 | :--- | :--- | :--- | :---: |
-| **Semantic HTML** | Nested `<main>` tag inside `DBMContainer.jsx` violated single-main rule | Replaced `<main>` with `<section>` in `DBMContainer.jsx` | Playwright DBM test passed (6.4s) |
+| **Dice Rolling Engine** | Unbounded modifier entries could cause overflow or UI clipping | Hardened limits `[-20, +20]` for ad-hoc and `[0, 50]` for base score with visual badges | 10/10 Playwright tests passed across devices |
+| **Mobile UX / Layout** | Telemetry container on mobile had excessive gap from control dock | Positioned telemetry immediately under RESET button on mobile screens | Verified in `tests/e2e/dice-roller.spec.ts` |
+| **Desktop Output Flow** | Output block contents did not stretch to modal bottom on large displays | Applied flex expansion to modal bottom | Verified in `tests/e2e/dice-roller.spec.ts` |
+| **Semantic HTML** | Nested `<main>` tag inside `DBMContainer.jsx` violated single-main rule | Replaced `<main>` with `<section>` in `DBMContainer.jsx` | 5/5 live routes verified with `mainExists: true` |
 | **Graphics Pipeline** | Unhandled exception `Cannot read properties of undefined (reading 'add')` in `StageView.tsx` | Added null guard `if (app?.ticker)` around ticker addition | Zero uncaught page crashes on VTT mount |
-| **E2E Flakiness** | Immediate bounding box query failed during canvas reflow | Replaced with `expect(...).toPass({ timeout: 10000 })` polling | Canvas mount test passed in 9.8s |
+| **E2E Flakiness** | Immediate bounding box query failed during canvas reflow | Replaced with `expect(...).toPass({ timeout: 10000 })` polling | Canvas mount test passed cleanly |
 | **Firestore Security** | Missing rules for `system_settings` and `lft_personas` | Added explicit `match` blocks and admin/owner write restrictions | Verified in `firestore.rules` (47 blocks) |
 | **Data Integrity** | Typo in The Magus essential skills (`"Dimension)"`) | Corrected to `"Dimension"` in `archetypesData.js` | 390/390 (100.0%) skill resolution |
 
