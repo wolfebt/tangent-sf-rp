@@ -238,6 +238,20 @@ const rollBaseMaxWithAdHoc = rollDice('2d10+70', { flatModifier: 70 });
 assert(rollBaseMaxWithAdHoc.appliedModifier === 70, 'Base score 50 + ad-hoc 20 must yield modifier 70');
 assert(rollBaseMaxWithAdHoc.finalTotal >= 72 && rollBaseMaxWithAdHoc.finalTotal <= 90, '2d10 + 70 total must be in [72, 90]');
 
+// Test 10c: Ad-Hoc Modifier boundary [-20, +20] and baseModifier [0, 50] resolution in rollDice
+const rollExplicitAdHocMax = rollDice('2d10', { baseModifier: 50, adHocModifier: 20 });
+assert(rollExplicitAdHocMax.appliedModifier === 70, 'Base 50 + ad-hoc 20 must yield modifier 70');
+
+const rollClampedAdHocOver = rollDice('2d10', { baseModifier: 50, adHocModifier: 35 });
+assert(rollClampedAdHocOver.appliedModifier === 70, 'Ad-hoc > 20 must clamp to 20 (net 50 + 20 = 70)');
+
+const rollExplicitAdHocMin = rollDice('2d10', { baseModifier: 0, adHocModifier: -20 });
+assert(rollExplicitAdHocMin.appliedModifier === -20, 'Base 0 + ad-hoc -20 must yield modifier -20');
+
+const rollClampedAdHocUnder = rollDice('2d10', { baseModifier: 0, adHocModifier: -40 });
+assert(rollClampedAdHocUnder.appliedModifier === -20, 'Ad-hoc < -20 must clamp to -20 (net 0 - 20 = -20)');
+
+
 
 // Test 11: Exact Odds Calculator (calculateRollOdds)
 console.log('Testing calculateRollOdds and PMF distribution...');

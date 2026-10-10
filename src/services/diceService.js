@@ -474,6 +474,10 @@ export function rollDice(expression = '2d10', options = {}) {
     let flatMod = 0;
     if (options.flatModifier !== undefined) {
       flatMod = Number(options.flatModifier) || 0;
+    } else if (options.baseModifier !== undefined || options.adHocModifier !== undefined) {
+      const bMod = Math.max(0, Math.min(50, Number(options.baseModifier) || 0));
+      const aMod = Math.max(-20, Math.min(20, Number(options.adHocModifier) || 0));
+      flatMod = bMod + aMod;
     } else if (options.modifier !== undefined) {
       flatMod = Number(options.modifier) || 0;
     } else {
@@ -563,10 +567,14 @@ export function rollDice(expression = '2d10', options = {}) {
   }
   const clampedAdv = Math.max(-5, Math.min(5, advDice));
 
-  // Resolve flat modifier (-50 to +50)
+  // Resolve flat modifier (-50 to +70)
   let flatMod = 0;
   if (options.flatModifier !== undefined && options.flatModifier !== 0) {
     flatMod = Number(options.flatModifier) || 0;
+  } else if (options.baseModifier !== undefined || options.adHocModifier !== undefined) {
+    const bMod = Math.max(0, Math.min(50, Number(options.baseModifier) || 0));
+    const aMod = Math.max(-20, Math.min(20, Number(options.adHocModifier) || 0));
+    flatMod = bMod + aMod;
   } else if (options.modifier !== undefined && options.modifier !== 0) {
     flatMod = Number(options.modifier) || 0;
   } else {

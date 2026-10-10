@@ -623,7 +623,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       label: label || effectiveExpr,
       advantageDice: Number(advantageDice) || 0,
       baseModifier: Math.max(0, Math.min(50, Number(baseModifier) || 0)),
-      adHocModifier: Number(adHocModifier) || 0,
+      adHocModifier: Math.max(-20, Math.min(20, Number(adHocModifier) || 0)),
       critRangeSize: Number(critRangeSize) || 1,
       fumbleRangeSize: Number(fumbleRangeSize) || 1,
       targetDC: targetDC !== undefined && targetDC !== null ? String(targetDC) : '',
@@ -669,7 +669,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     const label = s.label || '';
     const adv = s.advantageDice !== undefined ? Number(s.advantageDice) || 0 : 0;
     const bMod = s.baseModifier !== undefined ? Math.max(0, Math.min(50, Number(s.baseModifier) || 0)) : 0;
-    const aMod = s.adHocModifier !== undefined ? Number(s.adHocModifier) || 0 : 0;
+    const aMod = s.adHocModifier !== undefined ? Math.max(-20, Math.min(20, Number(s.adHocModifier) || 0)) : 0;
     const cSize = s.critRangeSize !== undefined ? Number(s.critRangeSize) || 1 : 1;
     const fSize = s.fumbleRangeSize !== undefined ? Number(s.fumbleRangeSize) || 1 : 1;
     const dc = s.targetDC !== undefined && s.targetDC !== null ? String(s.targetDC) : '';
@@ -1893,7 +1893,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
               {/* Base Score (From Folio Check or Custom Input) */}
               <div className="space-y-1 bg-slate-900/70 p-1.5 rounded border border-slate-800/80">
                 <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
-                  <span className="font-bold text-rose-300 uppercase">Base Score:</span>
+                  <span className="font-bold text-rose-300 uppercase">Base Score: <span className="text-[8px] font-normal text-rose-400/80">(0 to 50)</span></span>
                   <button
                     type="button"
                     onClick={handleResetBaseScore}
@@ -1937,7 +1937,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
               {/* Ad-Hoc / Situational Modifier */}
               <div className="space-y-1 bg-slate-900/70 p-1.5 rounded border border-slate-800/80">
                 <div className="flex items-center justify-between text-[9px] font-mono text-slate-400">
-                  <span className="font-bold text-cyan-300 uppercase">Ad-Hoc Mod:</span>
+                  <span className="font-bold text-cyan-300 uppercase">Ad-Hoc Mod: <span className="text-[8px] font-normal text-cyan-400/80">(-/+ 20)</span></span>
                   <button
                     type="button"
                     onClick={handleResetAdHoc}
@@ -2313,8 +2313,8 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                       {savedDiceStrings.map((s) => {
                         const adv = s.advantageDice !== undefined ? Number(s.advantageDice) || 0 : 0;
-                        const bMod = s.baseModifier !== undefined ? Number(s.baseModifier) || 0 : 0;
-                        const aMod = s.adHocModifier !== undefined ? Number(s.adHocModifier) || 0 : 0;
+                        const bMod = s.baseModifier !== undefined ? Math.max(0, Math.min(50, Number(s.baseModifier) || 0)) : 0;
+                        const aMod = s.adHocModifier !== undefined ? Math.max(-20, Math.min(20, Number(s.adHocModifier) || 0)) : 0;
                         const netMod = bMod + aMod;
                         const critSize = s.critRangeSize !== undefined ? Number(s.critRangeSize) || 1 : 1;
                         const fumbleSize = s.fumbleRangeSize !== undefined ? Number(s.fumbleRangeSize) || 1 : 1;
