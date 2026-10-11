@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Radio, Cpu, Terminal, ArrowRight, Zap, Globe, Sparkles } from 'lucide-react';
+import { Shield, Radio, Cpu, Terminal, ArrowRight, Globe, Sparkles } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import { RingedPlanetLogo } from './RingedPlanetLogo';
 
 const DIAGNOSTIC_STEPS = [
   { label: 'INITIALIZING TANGENT OS KERNEL v4.20', code: 'SYS.CORE', delay: 300 },
@@ -187,9 +188,9 @@ export const SystemBootSplash = ({ onComplete, isStandalone = false }) => {
           <div className="absolute h-full w-[1px] bg-cyan-500/20" />
 
           {/* Central Pulsing Core Emblem */}
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-cyan-500/15 border border-cyan-400/80 backdrop-blur-md flex flex-col items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.5)]">
-            <Zap size={24} className="text-cyan-300 animate-pulse" />
-            <span className="text-[7px] font-mono font-bold text-cyan-200 tracking-tighter mt-0.5">CORE</span>
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-cyan-500/10 border border-cyan-400/80 backdrop-blur-md flex flex-col items-center justify-center shadow-[0_0_35px_rgba(34,211,238,0.55)] p-1">
+            <RingedPlanetLogo size={36} className="animate-pulse filter drop-shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
+            <span className="text-[7px] font-mono font-bold text-cyan-200 tracking-wider mt-0.5">TANGENT</span>
           </div>
         </div>
 

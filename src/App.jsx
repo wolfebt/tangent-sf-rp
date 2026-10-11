@@ -15,6 +15,7 @@ import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
 import { CommandPalette } from './components/UI/CommandPalette';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
+import { RingedPlanetLogo } from './components/UI/RingedPlanetLogo';
 
 // Lazy Loaded Top-Level Routes for Optimal Bundle Performance
 const Dashboard = lazy(() => import('./pages/Home'));
@@ -55,9 +56,8 @@ const NetworkRedirect = ({ defaultView = 'comms' }) => {
 const PageLoader = () => (
   <div className="flex-1 flex flex-col items-center justify-center bg-black text-cyan-400 font-mono text-xs tracking-wider h-full w-full select-none">
     <div className="p-6 rounded-2xl bg-[#12161f]/90 border border-cyan-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(34,211,238,0.15)] flex flex-col items-center space-y-3">
-      <div className="relative w-8 h-8 flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-cyan-400/20 border-t-cyan-400 rounded-full animate-spin"></div>
-        <div className="absolute w-2 h-2 rounded-full bg-cyan-400 animate-ping"></div>
+      <div className="relative w-12 h-12 flex items-center justify-center">
+        <RingedPlanetLogo size={38} className="animate-pulse filter drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]" />
       </div>
       <div className="text-center space-y-1">
         <div className="font-bold tracking-widest text-cyan-300">LOADING SYSTEM MODULE</div>
