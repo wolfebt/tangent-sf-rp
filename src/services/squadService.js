@@ -19,12 +19,23 @@ import { db } from '../firebase';
 import { StorageService } from './storageService';
 import { ChatService } from './chatService';
 
-// Helper to generate a random 6-character alphanumeric squad invite code
+// Helper to generate a secure random 6-character alphanumeric squad invite code
 const generateInviteCode = () => {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Length 32 (power of 2) avoids modulo bias
   let result = 'SQD-';
-  for (let i = 0; i < 6; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  const crypto = typeof window !== 'undefined' ? window.crypto : (typeof globalThis !== 'undefined' ? globalThis.crypto : null);
+
+  if (crypto && crypto.getRandomValues) {
+    const randomArray = new Uint32Array(6);
+    crypto.getRandomValues(randomArray);
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(randomArray[i] % chars.length);
+    }
+  } else {
+    // Fallback if crypto is unavailable
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
   }
   return result;
 };
