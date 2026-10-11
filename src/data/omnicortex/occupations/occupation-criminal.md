@@ -45,6 +45,38 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Doppelganger (Shifter)
+  - Changeling (Doppelganger Hybrid)
+  - Scrap (Junkframe Synthetic)
+  - Nocturne (Kovian)
+  - Cyberform Human
+  - Danai (Davae Hybrid)
+  - Kizin
+  - B’Dren Human
+  - Human (Base)
+  - Skin (Infiltrator Synthetic)
+recommended_factions:
+  - Criminal Faction Template
+  - Space Pirate Faction Template
+  - Incorporated Planetary Syndication (The Syndicate)
+  - The Outworlds
+  - Kovian Tribunal
+  - Rebel Faction Template
+recommended_origins:
+  - Urban
+  - Hostile
+  - Spacer
+  - Leisure
+keywords: >-
+  underworld-syndicate, black-market, illicit-contraband, pickpocket,
+  safe-cracker, getaway-pilot, loan-shark, forged-credentials, speakeasy,
+  fence-broker, shadow-economy, hideout, extortion, street-gang, numbers-runner,
+  razor-knife
+negative_keywords: >-
+  strict-law-enforcer, incorruptible-judge, transparent-accountability,
+  paladin-virtue, naive-honesty, municipal-hall-bureaucrat, pacifist-monk,
+  royal-chivalry
 ---
 
 # Criminal Occupation

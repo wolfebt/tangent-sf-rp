@@ -68,11 +68,27 @@ modifiers:
 cp_cost: 28
 cp: 28
 bp: 28
-description: 'A green-skinned, photosynthetic sub-species of Orll who generate nourishment and cellular healing directly from sunlight.'
+description: >-
+  A green-skinned, photosynthetic sub-species of Orll who generate nourishment
+  and cellular healing directly from sunlight.
 traits:
   - trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun
   - trait-exoskeleton-dr-3
   - trait-regenerative-sap
+recommended_factions:
+  - Coalition of Independent Worlds
+  - Environmental Faction Template
+recommended_origins:
+  - Hostile
+  - Agricultural
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Adept
+keywords: >-
+  photosynthetic-orll, sun-healer, green-chitin, solar-canopy,
+  natural-resilience
+negative_keywords: 'subterranean, dark-space, void'
 ---
 
 # Gra'or (Photosynthetic Orll Subspecies)

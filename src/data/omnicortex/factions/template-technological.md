@@ -1,26 +1,80 @@
 ---
 id: template-technological
-name: "Technological Faction Template"
+name: Technological Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Hard-Science Enclaves"
-driving_mandate: "Push the boundaries of technology at any cost"
-symbol_sigil: "The Innovators / The Mad Scientists / The Labs"
-capital_world: "Deep space research stations or highly restricted black-site moons"
-tech_level: "4+ (Bleeding edge prototypes)"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Humans/Synthetics (Highly Augmented)"
-typical_archetypes: ["The Mad Scientist","The Lead Engineer","The Hacker","The Field Tester","The Prototype Guard"]
-skill_package: ["Technology (+5)","Science (+5)","Computers (+4)","Mechanics (+3)","Medicine (+3)"]
-recommended_features: ["Gearhead","Tech Interface","Inventor","Master Craftsman","Computer Specialist","Coding Master","Lightning Calculator","Logic-Mind","Augmented","Benefit (Equipment)"]
-features: ["Gearhead","Tech Interface","Inventor","Master Craftsman","Computer Specialist","Coding Master","Lightning Calculator","Logic-Mind","Augmented","Benefit (Equipment)"]
-bonus_features: ["Gearhead"]
-description: "Hard-science enclaves pushing the boundaries of ethics and physics. They are amoral scientists and supreme engineers who believe that progress demands sacrifice. They possess the most advanced prototypes in the galaxy but lack the empathy to care about who gets hurt during the testing phase"
+faction_type: Generic Template
+archetype: Hard-Science Enclaves
+driving_mandate: Push the boundaries of technology at any cost
+symbol_sigil: The Innovators / The Mad Scientists / The Labs
+capital_world: Deep space research stations or highly restricted black-site moons
+tech_level: 4+ (Bleeding edge prototypes)
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Humans/Synthetics (Highly Augmented)
+typical_archetypes:
+  - The Mad Scientist
+  - The Lead Engineer
+  - The Hacker
+  - The Field Tester
+  - The Prototype Guard
+skill_package:
+  - Technology (+5)
+  - Science (+5)
+  - Computers (+4)
+  - Mechanics (+3)
+  - Medicine (+3)
+recommended_features:
+  - Gearhead
+  - Tech Interface
+  - Inventor
+  - Master Craftsman
+  - Computer Specialist
+  - Coding Master
+  - Lightning Calculator
+  - Logic-Mind
+  - Augmented
+  - Benefit (Equipment)
+features:
+  - Gearhead
+  - Tech Interface
+  - Inventor
+  - Master Craftsman
+  - Computer Specialist
+  - Coding Master
+  - Lightning Calculator
+  - Logic-Mind
+  - Augmented
+  - Benefit (Equipment)
+bonus_features:
+  - Gearhead
+description: >-
+  Hard-science enclaves pushing the boundaries of ethics and physics. They are
+  amoral scientists and supreme engineers who believe that progress demands
+  sacrifice. They possess the most advanced prototypes in the galaxy but lack
+  the empathy to care about who gets hurt during the testing phase
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Cyberform Human
+  - Android
+  - Mekan (Assimilation Unit)
+  - Intellect Construct (Pure AI)
+  - Dwerg Human
+recommended_origins:
+  - Industrial
+  - Research
+  - Urban
+recommended_occupations:
+  - Specialist
+  - Builder
+  - Scholar
+  - Adept
+keywords: >-
+  techno-priesthood, machine-veneration, high-cybernetics, cyber-doctrine,
+  cybernetic-communion
+negative_keywords: 'luddite-primitive, technophobia, organic-purity, anti-cybernetics'
 ---
 
 ## **25\. TECHNOLOGICAL**

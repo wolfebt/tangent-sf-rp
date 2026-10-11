@@ -1,26 +1,98 @@
 ---
 id: faction-ascendancy
-name: "The Ascendancy"
+name: The Ascendancy
 category: factions
-faction_type: "Major Polity"
-archetype: "Psionic Utopians / Sci-Fi Guardians"
-driving_mandate: "Unlock Human Potential; Defend the New Home"
-symbol_sigil: "The Rising Sun (Stylized, Blue/White)"
-capital_world: "Aurelia (The Crystal Spire)"
-tech_level: "3"
-meta_level: "5"
-wealth_modifier: "+1 (Developing Post-Scarcity)"
-prominent_species: "Humans and Human Psions (High Psionic Potential)"
-typical_archetypes: ["The Company Man","The Ghost","The Vagabond","The Pioneer","The Envoy","The Oracle","The Arbitrator","The Philosopher","The Strategist","The Astromancer","The Theoretician","The Xeno-Surveyor"]
-skill_package: ["Pilot (Space) (+4): A culture of explorers","Discipline (1 or 2 Meta-Skills) (+4): Mental training is mandatory","Science (Any) (+3): Understanding the universe","Medicine (+3): Advanced healing/biokenesis","Diplomacy (+3): Building alliances","Attune (+3): Interfacing with Psi-Tech"]
-recommended_features: ["Awakened","Tech Interface","Discipline Focus","Insightful Reason","Mental Alacrity","Gifted Pilot","Centering","Eidetic Memory","Telepathy","Magical Aptitude","Graceful","Zero G Training"]
-features: ["Awakened","Tech Interface","Discipline Focus","Insightful Reason","Mental Alacrity","Gifted Pilot","Centering","Eidetic Memory","Telepathy","Magical Aptitude","Graceful","Zero G Training"]
-bonus_features: ["Awakened Mind","Deep Attunement"]
-description: "The Ascendancy (\"The Exiles\") represents a schism in human history, formed by the Seventh Heir of the Impyrium who rejected the stagnation of the ancient empire. They seek a *tabula rasa* on the far side of \"The Reach.\" They look forward, drawing inspiration from the legendary \"Radiant Impyrium\" (the Golden Age) to recreate and surpass it through the advancement of TL4 Psi-Tech. They are High-Tech Utopians defined by Hope, Innovation, and Self-Reliance, viewing technology and the mind as one"
+faction_type: Major Polity
+archetype: Psionic Utopians / Sci-Fi Guardians
+driving_mandate: Unlock Human Potential; Defend the New Home
+symbol_sigil: 'The Rising Sun (Stylized, Blue/White)'
+capital_world: Aurelia (The Crystal Spire)
+tech_level: '3'
+meta_level: '5'
+wealth_modifier: +1 (Developing Post-Scarcity)
+prominent_species: Humans and Human Psions (High Psionic Potential)
+typical_archetypes:
+  - The Company Man
+  - The Ghost
+  - The Vagabond
+  - The Pioneer
+  - The Envoy
+  - The Oracle
+  - The Arbitrator
+  - The Philosopher
+  - The Strategist
+  - The Astromancer
+  - The Theoretician
+  - The Xeno-Surveyor
+skill_package:
+  - 'Pilot (Space) (+4): A culture of explorers'
+  - 'Discipline (1 or 2 Meta-Skills) (+4): Mental training is mandatory'
+  - 'Science (Any) (+3): Understanding the universe'
+  - 'Medicine (+3): Advanced healing/biokenesis'
+  - 'Diplomacy (+3): Building alliances'
+  - 'Attune (+3): Interfacing with Psi-Tech'
+recommended_features:
+  - Awakened
+  - Tech Interface
+  - Discipline Focus
+  - Insightful Reason
+  - Mental Alacrity
+  - Gifted Pilot
+  - Centering
+  - Eidetic Memory
+  - Telepathy
+  - Magical Aptitude
+  - Graceful
+  - Zero G Training
+features:
+  - Awakened
+  - Tech Interface
+  - Discipline Focus
+  - Insightful Reason
+  - Mental Alacrity
+  - Gifted Pilot
+  - Centering
+  - Eidetic Memory
+  - Telepathy
+  - Magical Aptitude
+  - Graceful
+  - Zero G Training
+bonus_features:
+  - Awakened Mind
+  - Deep Attunement
+description: >-
+  The Ascendancy ("The Exiles") represents a schism in human history, formed by
+  the Seventh Heir of the Impyrium who rejected the stagnation of the ancient
+  empire. They seek a *tabula rasa* on the far side of "The Reach." They look
+  forward, drawing inspiration from the legendary "Radiant Impyrium" (the Golden
+  Age) to recreate and surpass it through the advancement of TL4 Psi-Tech. They
+  are High-Tech Utopians defined by Hope, Innovation, and Self-Reliance, viewing
+  technology and the mind as one
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Impyrium Psion (Gen-E)
+  - Human (Base)
+  - Lin Human
+  - Celestine (Alterian)
+  - Eidolon (Aetherion Specialist)
+recommended_origins:
+  - Enlightened
+  - Research
+  - Colony
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Scout
+  - Representative
+keywords: >-
+  psionic-utopian, psi-tech, meritocratic, radiant-ideal, crystal-spire,
+  visionary, mental-discipline, the-reach-exiles
+negative_keywords: >-
+  stagnant-tradition, bureaucratic-decay, brute-force, anti-magic,
+  industrial-pollution, cybernetic-mutilation
 ---
 
 ## **ASCENDANCY**

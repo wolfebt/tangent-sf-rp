@@ -1,26 +1,84 @@
 ---
 id: template-cosmic-justice
-name: "Cosmic Justice Faction Template"
+name: Cosmic Justice Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Galactic Paladins"
-driving_mandate: "Protect the universe, enforce the law, maintain order, right wrongs"
-symbol_sigil: "The White Knights / The Law"
-capital_world: "Variable (Often a fortified, utopian citadel)"
-tech_level: "4"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Highly diverse"
-typical_archetypes: ["The Paladin","The Judge","The Investigator","The Arbiter","The Inquisitor","The Warden","The Peacekeeper","The Diplomat","The Ranger","The Truth-Seeker"]
-skill_package: ["Investigation (+5)","Combat (+5)","Diplomacy (+4)","Insight (+3)","Law (+3)"]
-recommended_features: ["Iron Will","Fearless","Inspiring Personality","Lie Detector","Benefit (Authority)","Weapon Focus","Defensive Combat Training","Indomitable Will","Resolute","Trustworthy"]
-features: ["Iron Will","Fearless","Inspiring Personality","Lie Detector","Benefit (Authority)","Weapon Focus","Defensive Combat Training","Indomitable Will","Resolute","Trustworthy"]
-bonus_features: ["Iron Will"]
-description: "Idealistic factions dedicated to protecting the universe from threats, enforcing universal law, and righting wrongs. They act as self-appointed guardians, attempting to balance inequalities and address discrimination wherever they find it"
+faction_type: Generic Template
+archetype: Galactic Paladins
+driving_mandate: 'Protect the universe, enforce the law, maintain order, right wrongs'
+symbol_sigil: The White Knights / The Law
+capital_world: 'Variable (Often a fortified, utopian citadel)'
+tech_level: '4'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Highly diverse
+typical_archetypes:
+  - The Paladin
+  - The Judge
+  - The Investigator
+  - The Arbiter
+  - The Inquisitor
+  - The Warden
+  - The Peacekeeper
+  - The Diplomat
+  - The Ranger
+  - The Truth-Seeker
+skill_package:
+  - Investigation (+5)
+  - Combat (+5)
+  - Diplomacy (+4)
+  - Insight (+3)
+  - Law (+3)
+recommended_features:
+  - Iron Will
+  - Fearless
+  - Inspiring Personality
+  - Lie Detector
+  - Benefit (Authority)
+  - Weapon Focus
+  - Defensive Combat Training
+  - Indomitable Will
+  - Resolute
+  - Trustworthy
+features:
+  - Iron Will
+  - Fearless
+  - Inspiring Personality
+  - Lie Detector
+  - Benefit (Authority)
+  - Weapon Focus
+  - Defensive Combat Training
+  - Indomitable Will
+  - Resolute
+  - Trustworthy
+bonus_features:
+  - Iron Will
+description: >-
+  Idealistic factions dedicated to protecting the universe from threats,
+  enforcing universal law, and righting wrongs. They act as self-appointed
+  guardians, attempting to balance inequalities and address discrimination
+  wherever they find it
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Janissary (Gen-E)
+  - Draconic Human
+  - Celestine (Alterian)
+recommended_origins:
+  - Enlightened
+  - Militaristic
+  - Urban
+recommended_occupations:
+  - Soldier
+  - Representative
+  - Agent
+  - Adept
+keywords: >-
+  interstellar-peacekeepers, cosmic-jurisprudence, galactic-marshal,
+  incorruptible-verdict, defensive-order
+negative_keywords: 'bribery, underworld-cartel, lawless-chaos, arbitrary-cruelty, vigilantism'
 ---
 
 ## **5\. COSMIC JUSTICE**

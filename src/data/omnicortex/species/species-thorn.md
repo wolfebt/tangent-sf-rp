@@ -39,7 +39,9 @@ modifiers: []
 cp_cost: 24
 cp: 24
 bp: 24
-description: 'Sentient, ambulatory humanoid plant beings made of interwoven thorny briars, floral cores, and photosynthetic sap.'
+description: >-
+  Sentient, ambulatory humanoid plant beings made of interwoven thorny briars,
+  floral cores, and photosynthetic sap.
 traits:
   - trait-adaptive-aspects
   - trait-ageless
@@ -52,6 +54,20 @@ traits:
   - trait-non-typical-anatomy-no-vital-organs
   - trait-regeneration-3-hp-rnd
   - trait-verdant-flesh-plant-entity
+recommended_factions:
+  - Environmental Faction Template
+  - The Alterian Enclave
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Hostile
+  - Agricultural
+  - Enlightened
+recommended_occupations:
+  - Adept
+  - Scout
+  - Drifter
+keywords: 'plant-humanoid, briar-armor, photosynthetic-sap, root-communion, verdant'
+negative_keywords: 'fire, industrial-pollution, herbicide'
 ---
 
 # Thorn (Verdant Plant Entity)

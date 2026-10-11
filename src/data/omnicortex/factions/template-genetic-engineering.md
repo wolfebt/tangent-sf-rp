@@ -1,26 +1,82 @@
 ---
 id: template-genetic-engineering
-name: "Genetic Engineering Faction Template"
+name: Genetic Engineering Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Biologic Ascendants"
-driving_mandate: "Achieve biological perfection; eradicate genetic flaws"
-symbol_sigil: "The Gene-Weavers / Splicers / The Ascendant"
-capital_world: "Variable (Often a highly engineered, pristine garden-world or sterile orbital lab)"
-tech_level: "4 (Biotechnology)"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Humans/Aliens (Genetically Modified)"
-typical_archetypes: ["The Bioengineer","The Perfected Warrior","The Apex Predator","The Healer","The Reject"]
-skill_package: ["Science (Biology) (+5)","Medicine (+5)","Survival (+4)","Athletics (+3)","Combat (Any) (+3)"]
-recommended_features: ["Biotechnology","Fast Heal","Tolerance","Augmented","Tough","Scent","Self Sufficient","Animal Affinity","Night Vision","Natural Weapons"]
-features: ["Biotechnology","Fast Heal","Tolerance","Augmented","Tough","Scent","Self Sufficient","Animal Affinity","Night Vision","Natural Weapons"]
-bonus_features: ["Biotechnology"]
-description: "Factions built entirely around the mastery of the genome. These biologic ascendants view natural evolution as a sluggish, flawed process. They utilize advanced bio-technology and cloning to perfectly adapt themselves to their environments, often creating customized castes for specific labor, scientific, or combat roles"
+faction_type: Generic Template
+archetype: Biologic Ascendants
+driving_mandate: Achieve biological perfection; eradicate genetic flaws
+symbol_sigil: The Gene-Weavers / Splicers / The Ascendant
+capital_world: >-
+  Variable (Often a highly engineered, pristine garden-world or sterile orbital
+  lab)
+tech_level: 4 (Biotechnology)
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Humans/Aliens (Genetically Modified)
+typical_archetypes:
+  - The Bioengineer
+  - The Perfected Warrior
+  - The Apex Predator
+  - The Healer
+  - The Reject
+skill_package:
+  - Science (Biology) (+5)
+  - Medicine (+5)
+  - Survival (+4)
+  - Athletics (+3)
+  - Combat (Any) (+3)
+recommended_features:
+  - Biotechnology
+  - Fast Heal
+  - Tolerance
+  - Augmented
+  - Tough
+  - Scent
+  - Self Sufficient
+  - Animal Affinity
+  - Night Vision
+  - Natural Weapons
+features:
+  - Biotechnology
+  - Fast Heal
+  - Tolerance
+  - Augmented
+  - Tough
+  - Scent
+  - Self Sufficient
+  - Animal Affinity
+  - Night Vision
+  - Natural Weapons
+bonus_features:
+  - Biotechnology
+description: >-
+  Factions built entirely around the mastery of the genome. These biologic
+  ascendants view natural evolution as a sluggish, flawed process. They utilize
+  advanced bio-technology and cloning to perfectly adapt themselves to their
+  environments, often creating customized castes for specific labor, scientific,
+  or combat roles
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Gen-E (Base Engineered Human)
+  - Janissary (Gen-E)
+  - Chimera (Gen-E)
+  - Davae (Gen-E)
+recommended_origins:
+  - Research
+  - Urban
+  - Militaristic
+recommended_occupations:
+  - Specialist
+  - Scholar
+  - Soldier
+  - Adept
+keywords: >-
+  eugenic-perfection, biomodification, genetic-synthesis, cellular-optimization,
+  genomic-vaults
+negative_keywords: 'genetic-purism, natural-stagnation, bio-conservatism, anti-enhancement'
 ---
 
 ## **8\. GENETIC ENGINEERING**

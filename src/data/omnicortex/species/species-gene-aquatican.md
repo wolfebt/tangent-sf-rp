@@ -40,12 +40,31 @@ modifiers: []
 cp_cost: 14
 cp: 14
 bp: 14
-description: 'Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea mining security, and submerged salvage.'
+description: >-
+  Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea
+  mining security, and submerged salvage.
 traits:
   - trait-adapted-deep-ocean
   - trait-amphibious
   - trait-natural-swim-speed-40ft
   - trait-hydrodynamic-skin
+recommended_factions:
+  - The Syndicate
+  - Corporate Faction Template
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Aquatic
+  - Research
+  - Industrial
+recommended_occupations:
+  - Soldier
+  - Specialist
+  - Agent
+  - Scout
+keywords: >-
+  pelagic, gilled, deep-trench, aquatic-combat, pressure-hardened,
+  underwater-sabotage
+negative_keywords: 'dehydration, desert-wasteland, fire, clumsy-on-land'
 ---
 
 # Aquatican (Syndicate Pelagic Operative)

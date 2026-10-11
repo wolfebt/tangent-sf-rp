@@ -42,11 +42,25 @@ modifiers: []
 cp_cost: 15
 cp: 15
 bp: 15
-description: 'Urban, corporate-bred humans renowned for financial acumen, mercantile trade empires, and silver-tongued contract negotiations.'
+description: >-
+  Urban, corporate-bred humans renowned for financial acumen, mercantile trade
+  empires, and silver-tongued contract negotiations.
 traits:
   - trait-calculating-mind
   - trait-silver-tongue
   - trait-syndicate-network
+recommended_factions:
+  - The Syndicate
+  - Corporate Faction Template
+recommended_origins:
+  - Urban
+  - Leisure
+recommended_occupations:
+  - Merchant
+  - Representative
+  - Citizen
+keywords: 'high-finance, silver-tongue, corporate-mogul, patron-patronage, boardroom'
+negative_keywords: 'wilderness-scavenger, destitute, hermit'
 ---
 
 # Premian Human (Merchant Folk)

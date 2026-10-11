@@ -1,26 +1,86 @@
 ---
 id: template-corporate
-name: "Corporate Faction Template"
+name: Corporate Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Profit-Driven Syndicates"
-driving_mandate: "Maximize profits, control resources, expand market share"
-symbol_sigil: "The Suits / The Board / The Brand"
-capital_world: "Variable (Corporate HQ Worlds)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Highly diverse (Humans prevalent)"
-typical_archetypes: ["The Executive","The Fixer","The Auditor","The Corporate Spy","The PR Rep","The Security Chief","The Data Broker","The R\\&D Scientist","The HR Enforcer","The Asset Liquidator"]
-skill_package: ["Finance (+5)","Diplomacy (Negotiation) (+5)","Computers (+4)","Insight (+3)","Streetwise (+3)"]
-recommended_features: ["Benefit (Wealth)","Benefit (Clearance)","Silver Tongue","Connected","Well-Informed","Golden Smile","Legal Immunity","Platinum Personality","Corporate Sponsorship","Ruthless Negotiation"]
-features: ["Benefit (Wealth)","Benefit (Clearance)","Silver Tongue","Connected","Well-Informed","Golden Smile","Legal Immunity","Platinum Personality","Corporate Sponsorship","Ruthless Negotiation"]
-bonus_features: ["Benefit (Wealth)"]
-description: "Factions characterized entirely by their focus on profit and market dominance. They operate as sovereign nations, wielding wealth and private security forces to control resources, expand their influence, and develop new technologies at the expense of ethics"
+faction_type: Generic Template
+archetype: Profit-Driven Syndicates
+driving_mandate: 'Maximize profits, control resources, expand market share'
+symbol_sigil: The Suits / The Board / The Brand
+capital_world: Variable (Corporate HQ Worlds)
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Highly diverse (Humans prevalent)
+typical_archetypes:
+  - The Executive
+  - The Fixer
+  - The Auditor
+  - The Corporate Spy
+  - The PR Rep
+  - The Security Chief
+  - The Data Broker
+  - The R\&D Scientist
+  - The HR Enforcer
+  - The Asset Liquidator
+skill_package:
+  - Finance (+5)
+  - Diplomacy (Negotiation) (+5)
+  - Computers (+4)
+  - Insight (+3)
+  - Streetwise (+3)
+recommended_features:
+  - Benefit (Wealth)
+  - Benefit (Clearance)
+  - Silver Tongue
+  - Connected
+  - Well-Informed
+  - Golden Smile
+  - Legal Immunity
+  - Platinum Personality
+  - Corporate Sponsorship
+  - Ruthless Negotiation
+features:
+  - Benefit (Wealth)
+  - Benefit (Clearance)
+  - Silver Tongue
+  - Connected
+  - Well-Informed
+  - Golden Smile
+  - Legal Immunity
+  - Platinum Personality
+  - Corporate Sponsorship
+  - Ruthless Negotiation
+bonus_features:
+  - Benefit (Wealth)
+description: >-
+  Factions characterized entirely by their focus on profit and market dominance.
+  They operate as sovereign nations, wielding wealth and private security forces
+  to control resources, expand their influence, and develop new technologies at
+  the expense of ethics
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Premian Human
+  - Cyberform Human
+  - Android
+recommended_origins:
+  - Urban
+  - Industrial
+  - Leisure
+recommended_occupations:
+  - Merchant
+  - Representative
+  - Agent
+  - Specialist
+keywords: >-
+  megacorporate-conglomerate, profit-motive, executive-privilege,
+  contract-binding, market-dominance
+negative_keywords: >-
+  philanthropy, socialist-collective, spiritual-devotion,
+  uncalculated-recklessness
 ---
 
 ## **3\. CORPORATE**

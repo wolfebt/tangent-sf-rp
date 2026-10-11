@@ -29,6 +29,34 @@ traits:
   - "trait-problem-solving-skills"
   - "trait-shared-wisdom"
   - "trait-spiritual-awareness"
+recommended_species:
+  - "Celestine (Alterian)"
+  - "Whisper"
+  - "Fey (Base)"
+  - "Sigal"
+  - "Draconian (Scaled Aeld)"
+  - "Ila (Progenitor Archon)"
+  - "U’Nonn (Progenitor Sovereign)"
+  - "Tenen (Sha’nor Spectral)"
+  - "Golem (Arcane Construct)"
+  - "Eidolon (Aetherion Specialist)"
+recommended_factions:
+  - "The Alterian Enclave"
+  - "The Ascendancy"
+  - "Elven Providence"
+  - "Dracon Dynasty"
+  - "Supernatural Faction Template"
+  - "Religious Cult Faction Template"
+  - "Space Religion Faction Template"
+recommended_occupations:
+  - "Adept"
+  - "Scholar"
+  - "Representative"
+  - "Specialist"
+  - "Agent"
+  - "Entertainer"
+keywords: "metaphysical, ley-line, psionic-sanctuary, crystal-spire, temple-enclave, ancient-archives, meditation-garden, resonance-core, esoteric-wisdom, arcane-orrery, mind-over-matter, harmonic-energy, illuminated-sanctum, philosophy, ascetic, transcendence, mystic-shrines"
+negative_keywords: "smog-factory-belt, brutal-trench-warfare, industrial-strip-mine, grimy-scrap-flotilla, cybernetic-meat-grinder, low-life-street-ganger, corporate-debt-enforcer, mechanized-assembly-line, dieselpunk-forge"
 description: >-
   Certain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them metaphysically active. Adept Occupations and Metafocus Disciplines flourish here.
 costs:

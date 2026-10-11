@@ -127,7 +127,37 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "Agri-Worlds are essential for mass food production. These worlds typically have low development and population, ranging from small rural houses, barns, and silos to expansive mega-structure Arcologies and preservation biospheres.",
-    "full_text": "### Origin Overview\nAgri-Worlds are essential for mass food production. These worlds typically have low development and population. Most communities range from small houses and other farm-related structures, including barns, silos and the like, to expansive mega-structure Arcologies. They also include most Preservation/Green Worlds, those purposefully left undeveloped but with self-sustaining small communities. Farming and preserved wilds are the focus of these worlds.\n\n### Society Skills (20 SP Pool)\nPiloting, Alertness, Knowledge (Nature, Survival, Technology), Vocation (any)\n\n### Typical Archetypes\nFarmer, Hunter, Preservationist, Pilot, Technician, Community Leader\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Animal Husbandry**: Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. (+2 to Animal Handling)\n- **Botanical Knowledge**: Extensive knowledge of plants, crops, and agricultural techniques. (+2 to Botany Checks)\n- **Community Building**: Values community and maintains cooperative relations. (Once per Day may reroll a Social Skill Check)\n- **Green Thumb**: Natural talent for nurturing plants in challenging environments. (Checks involving nurturing plants made at Advantage)\n- **Mechanical Skills**: Repair and maintain agricultural equipment, harvesters, conveyors, and irrigation pumps. (+2 to Mechanical Skill Checks)\n- **Resourcefulness**: Creative problem-solving with limited supplies. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Honed remote wilderness survival and foraging. (+2 Survival Skill Checks)\n- **Sustainable Practices**: Organic farming, crop rotation, and water conservation. (+2 to Agriculture checks in grow areas)"
+    "full_text": "### Origin Overview\nAgri-Worlds are essential for mass food production. These worlds typically have low development and population. Most communities range from small houses and other farm-related structures, including barns, silos and the like, to expansive mega-structure Arcologies. They also include most Preservation/Green Worlds, those purposefully left undeveloped but with self-sustaining small communities. Farming and preserved wilds are the focus of these worlds.\n\n### Society Skills (20 SP Pool)\nPiloting, Alertness, Knowledge (Nature, Survival, Technology), Vocation (any)\n\n### Typical Archetypes\nFarmer, Hunter, Preservationist, Pilot, Technician, Community Leader\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Animal Husbandry**: Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. (+2 to Animal Handling)\n- **Botanical Knowledge**: Extensive knowledge of plants, crops, and agricultural techniques. (+2 to Botany Checks)\n- **Community Building**: Values community and maintains cooperative relations. (Once per Day may reroll a Social Skill Check)\n- **Green Thumb**: Natural talent for nurturing plants in challenging environments. (Checks involving nurturing plants made at Advantage)\n- **Mechanical Skills**: Repair and maintain agricultural equipment, harvesters, conveyors, and irrigation pumps. (+2 to Mechanical Skill Checks)\n- **Resourcefulness**: Creative problem-solving with limited supplies. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Honed remote wilderness survival and foraging. (+2 Survival Skill Checks)\n- **Sustainable Practices**: Organic farming, crop rotation, and water conservation. (+2 to Agriculture checks in grow areas)",
+    "recommended_species": [
+      "Lin Human",
+      "Rautha Human",
+      "Human (Base)",
+      "Tozen",
+      "Ferren",
+      "Koban",
+      "Kannid",
+      "Koda (Auluran Worker)",
+      "Awakened Animal",
+      "Thorn"
+    ],
+    "recommended_factions": [
+      "Auluran Clans",
+      "Environmental Faction Template",
+      "Planetary Faction Template",
+      "Impyrium Dominion",
+      "The Outworlds",
+      "Coalition of Independent Worlds"
+    ],
+    "recommended_occupations": [
+      "Builder",
+      "Citizen",
+      "Scout",
+      "Specialist",
+      "Drifter",
+      "Merchant"
+    ],
+    "keywords": "agrarian, pastoral, bio-dome, mega-harvester, hydroponics, homestead, fertile-plains, crop-canopies, silo-arcology, soil-ecology, rural-frontier, green-biosphere, food-security, agricultural-combine, cultivation, earthy, golden-fields, season-cycles, solar-irrigators",
+    "negative_keywords": "cyberpunk-megacity, void-vacuum, zero-g-station, deep-abyss, volcanic-waste, neon-high-tech-sprawl, nanite-swarm, pure-synthetic-android, bleak-penal-colony, corporate-executive-boardroom, casino-strip, orbital-dockyard"
   },
   {
     "id": "origin-aquatic",
@@ -244,7 +274,35 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "This world is mostly covered in water, with over 85% of its surface being water of various depths. Habitats include anchored land installations, submerged pressurized domes, floating flotilla cities, and marine research platforms.",
-    "full_text": "### Origin Overview\nThis world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.\n\n### Society Skills (20 SP Pool)\nAthletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)\n\n### Typical Archetypes\nMariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Expert, Diver\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid adaptation to marine conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Aquatic Construction**: Building flotillas and submerged platforms. (+2 to all Construction Checks)\n- **Curiosity**: Investigative drive into pelagic depths. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handle Animal Checks while being Friendly)\n- **Environmental Awareness**: Sensing water pressure, temperature, and currents. (+2 Alertness)\n- **Sea Piloting**: Master navigation of submersibles, boats, hovercraft, and aircraft. (+2 to all Seacraft Operation)\n- **Resourcefulness**: Creative problem-solving at sea. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Underwater survival and predator evasion. (+2 Survival Skill Checks)"
+    "full_text": "### Origin Overview\nThis world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.\n\n### Society Skills (20 SP Pool)\nAthletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)\n\n### Typical Archetypes\nMariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Expert, Diver\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid adaptation to marine conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Aquatic Construction**: Building flotillas and submerged platforms. (+2 to all Construction Checks)\n- **Curiosity**: Investigative drive into pelagic depths. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handle Animal Checks while being Friendly)\n- **Environmental Awareness**: Sensing water pressure, temperature, and currents. (+2 Alertness)\n- **Sea Piloting**: Master navigation of submersibles, boats, hovercraft, and aircraft. (+2 to all Seacraft Operation)\n- **Resourcefulness**: Creative problem-solving at sea. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Underwater survival and predator evasion. (+2 Survival Skill Checks)",
+    "recommended_species": [
+      "Aquarian Human",
+      "Aquatican (Gen-E)",
+      "Mobula",
+      "Sefalin",
+      "Truldan",
+      "Praeti",
+      "Plasm",
+      "Caprian"
+    ],
+    "recommended_factions": [
+      "Environmental Faction Template",
+      "Coalition of Independent Worlds",
+      "Auluran Clans",
+      "The Entari Combine",
+      "Incorporated Planetary Syndication (The Syndicate)",
+      "The Alterian Enclave"
+    ],
+    "recommended_occupations": [
+      "Scout",
+      "Specialist",
+      "Builder",
+      "Drifter",
+      "Merchant",
+      "Agent"
+    ],
+    "keywords": "oceanic, deep-sea, submerged-arcology, flotilla-city, pelagic, coral-reef, bathyscaphe, hydro-mining, tidal-energy, bioluminescent, marine-ecology, kelp-forest, trench-explorer, waterworld, pressure-hull, aquanaut, nautical, wave-rider, saline",
+    "negative_keywords": "arid-desert, dune-sea, barren-wasteland, smog-heavy-industry, fire-lava-cavern, ash-wastes, deep-underground-tunnel, orbital-high-g-forge, dry-steppes, pure-vacuum-void"
   },
   {
     "id": "origin-colony",
@@ -370,7 +428,38 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or easily movable modular structures prevail on new planetary territories.",
-    "full_text": "### Origin Overview\nNew settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or other easily movable structures will be prevalent. It is simple to combine with another Origin (where the settlers come from or where they are building).\n\n### Society Skills (20 SP Pool)\nPiloting, Alertness, Knowledge (Any), Vocation (Any)\n\n### Typical Archetypes\nPioneer, Homesteader, Prospector, Engineer, Doctor, Soldier\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid adjustment to frontier obstacles. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Adventurous Spirit**: Audacity in exploring uncharted frontiers. (One Skill Check at Advantage per day)\n- **Community Building**: Fostering cooperative colony dynamics. (Once per Day may reroll a Social Skill Check)\n- **Diplomacy**: Inter-colony and faction negotiation. (+2 Diplomacy)\n- **Leadership**: Decisive guidance for frontier groups. (+2 Leadership)\n- **Problem Solving**: Technical and crisis resolution. (Once per Day may reroll a Mental Skill Check)\n- **Resource Management**: Optimal allocation of colony supplies. (Wealth Checks for Basic Resources made at Advantage)\n- **Scientific Knowledge**: Applied terraforming, geology, or biology. (+2 to Science Knowledge)\n- **Survival Skills**: Navigating untamed planetary frontiers. (+2 Survival Skill Checks)"
+    "full_text": "### Origin Overview\nNew settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or other easily movable structures will be prevalent. It is simple to combine with another Origin (where the settlers come from or where they are building).\n\n### Society Skills (20 SP Pool)\nPiloting, Alertness, Knowledge (Any), Vocation (Any)\n\n### Typical Archetypes\nPioneer, Homesteader, Prospector, Engineer, Doctor, Soldier\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid adjustment to frontier obstacles. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Adventurous Spirit**: Audacity in exploring uncharted frontiers. (One Skill Check at Advantage per day)\n- **Community Building**: Fostering cooperative colony dynamics. (Once per Day may reroll a Social Skill Check)\n- **Diplomacy**: Inter-colony and faction negotiation. (+2 Diplomacy)\n- **Leadership**: Decisive guidance for frontier groups. (+2 Leadership)\n- **Problem Solving**: Technical and crisis resolution. (Once per Day may reroll a Mental Skill Check)\n- **Resource Management**: Optimal allocation of colony supplies. (Wealth Checks for Basic Resources made at Advantage)\n- **Scientific Knowledge**: Applied terraforming, geology, or biology. (+2 to Science Knowledge)\n- **Survival Skills**: Navigating untamed planetary frontiers. (+2 Survival Skill Checks)",
+    "recommended_species": [
+      "Human (Base)",
+      "Lin Human",
+      "Premian Human",
+      "Dwerg Human",
+      "Cyberform Human",
+      "Wildling",
+      "Kheen Human",
+      "Frellin",
+      "Jorni",
+      "Mondi",
+      "Sentient Machine (Free Droid)"
+    ],
+    "recommended_factions": [
+      "The Outworlds",
+      "Coalition of Independent Worlds",
+      "Planetary Faction Template",
+      "Space Exploration Faction Template",
+      "Impyrium Dominion",
+      "Rebel Faction Template"
+    ],
+    "recommended_occupations": [
+      "Builder",
+      "Scout",
+      "Citizen",
+      "Soldier",
+      "Specialist",
+      "Drifter"
+    ],
+    "keywords": "frontier, prefab-habitat, settler, pioneer, homestead, prospector, geodesic-dome, rugged-survival, terraforming-array, modular-outpost, borderlands, expansionist, resource-staging, self-reliance, uncharted-horizon, dusty-trail, solar-array-grid",
+    "negative_keywords": "decadent-leisure-resort, ancient-gilded-spire, high-class-ballroom, megacity-cyber-sprawl, ancestral-temple, pure-void-deep-spacer, imperial-palace-court, corporate-high-executive-boardroom"
   },
   {
     "id": "origin-enlightened",
@@ -489,7 +578,38 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "Certain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them metaphysically active. Adept Occupations and Metafocus Disciplines flourish here.",
-    "full_text": "### Origin Overview\nCertain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them more metaphysically active. This could be in the form of a variety of metaphysical energies or patterns, but it is still a common occurrence. Structures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs. Adept Occupations (and Metafocus Disciplines) are more common in these worlds.\n\n### Society Skills (20 SP Pool)\nAlertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)\n\n### Typical Archetypes\nArcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handle Animal Checks while being Friendly)\n- **Curiosity**: Natural drive toward discovery. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Mentorship**: Nurturing student development. (Those under tutelage make Study Checks at Advantage)\n- **Open-Mindedness**: Dissolving cultural prejudice. (Reduce all Stigma Penalties by Wisdom score)\n- **Peaceful Nature**: Calming presence and mediation. (+2 to Diplomacy for peaceful meditations)\n- **Problem-Solving Skills**: Contemplative mental acuity. (Once per Day may reroll a Mental Skill Check)\n- **Shared Wisdom**: Guidance and tactical counsel. (Aid and Instruct checks made at Advantage)\n- **Spiritual Awareness**: Psychic and arcane resonance. (+1 to Attune and one Metafocus Skill)"
+    "full_text": "### Origin Overview\nCertain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them more metaphysically active. This could be in the form of a variety of metaphysical energies or patterns, but it is still a common occurrence. Structures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs. Adept Occupations (and Metafocus Disciplines) are more common in these worlds.\n\n### Society Skills (20 SP Pool)\nAlertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)\n\n### Typical Archetypes\nArcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handle Animal Checks while being Friendly)\n- **Curiosity**: Natural drive toward discovery. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Mentorship**: Nurturing student development. (Those under tutelage make Study Checks at Advantage)\n- **Open-Mindedness**: Dissolving cultural prejudice. (Reduce all Stigma Penalties by Wisdom score)\n- **Peaceful Nature**: Calming presence and mediation. (+2 to Diplomacy for peaceful meditations)\n- **Problem-Solving Skills**: Contemplative mental acuity. (Once per Day may reroll a Mental Skill Check)\n- **Shared Wisdom**: Guidance and tactical counsel. (Aid and Instruct checks made at Advantage)\n- **Spiritual Awareness**: Psychic and arcane resonance. (+1 to Attune and one Metafocus Skill)",
+    "recommended_species": [
+      "Celestine (Alterian)",
+      "Whisper",
+      "Fey (Base)",
+      "Sigal",
+      "Draconian (Scaled Aeld)",
+      "Ila (Progenitor Archon)",
+      "U’Nonn (Progenitor Sovereign)",
+      "Tenen (Sha’nor Spectral)",
+      "Golem (Arcane Construct)",
+      "Eidolon (Aetherion Specialist)"
+    ],
+    "recommended_factions": [
+      "The Alterian Enclave",
+      "The Ascendancy",
+      "Elven Providence",
+      "Dracon Dynasty",
+      "Supernatural Faction Template",
+      "Religious Cult Faction Template",
+      "Space Religion Faction Template"
+    ],
+    "recommended_occupations": [
+      "Adept",
+      "Scholar",
+      "Representative",
+      "Specialist",
+      "Agent",
+      "Entertainer"
+    ],
+    "keywords": "metaphysical, ley-line, psionic-sanctuary, crystal-spire, temple-enclave, ancient-archives, meditation-garden, resonance-core, esoteric-wisdom, arcane-orrery, mind-over-matter, harmonic-energy, illuminated-sanctum, philosophy, ascetic, transcendence, mystic-shrines",
+    "negative_keywords": "smog-factory-belt, brutal-trench-warfare, industrial-strip-mine, grimy-scrap-flotilla, cybernetic-meat-grinder, low-life-street-ganger, corporate-debt-enforcer, mechanized-assembly-line, dieselpunk-forge"
   },
   {
     "id": "origin-hostile",
@@ -605,7 +725,39 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "It is uncommon to find a civilization in a dangerous or poisonous world, but hardy survivor clans have chosen or been forced to live in radiation wastelands, toxic swamps, and extreme geothermal death worlds.",
-    "full_text": "### Origin Overview\nIt is uncommon to find a civilization in a dangerous or poisonous world, but some have chosen to live in such environments for various reasons. Structures must withstand corrosive rains, predator attacks, or seismic upheaval.\n\n### Society Skills (20 SP Pool)\nAthletics, Alertness, Knowledge (Survival), Combat (Any), Vocation (Any)\n\n### Typical Archetypes\nSurvivalist, Warrior, Scavenger, Shaman, Mutant, Outcast\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Combat Skills**: Defensive prowess against deadly fauna. (+2 to a Combat Skill of choice)\n- **Intuition**: Preternatural danger instinct. (Re-Roll any one failed Perception check per day)\n- **Mental Toughness**: Resistance to terror and despair. (+2 Willpower Checks)\n- **Physical Endurance**: Resistance to harsh toxins and fatigue. (+2 Fortitude Checks)\n- **Pilot Skills**: Hazardous terrain vehicular control. (+2 Piloting)\n- **Resourcefulness**: Scavenging and making every gram count. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Finding food, water, and shelter in death zones. (+2 Survival Skill Checks)\n- **Technical Skills**: Emergency equipment patching. (+1 to Mechanical, Electrical and Engineering Skill Checks)"
+    "full_text": "### Origin Overview\nIt is uncommon to find a civilization in a dangerous or poisonous world, but some have chosen to live in such environments for various reasons. Structures must withstand corrosive rains, predator attacks, or seismic upheaval.\n\n### Society Skills (20 SP Pool)\nAthletics, Alertness, Knowledge (Survival), Combat (Any), Vocation (Any)\n\n### Typical Archetypes\nSurvivalist, Warrior, Scavenger, Shaman, Mutant, Outcast\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Combat Skills**: Defensive prowess against deadly fauna. (+2 to a Combat Skill of choice)\n- **Intuition**: Preternatural danger instinct. (Re-Roll any one failed Perception check per day)\n- **Mental Toughness**: Resistance to terror and despair. (+2 Willpower Checks)\n- **Physical Endurance**: Resistance to harsh toxins and fatigue. (+2 Fortitude Checks)\n- **Pilot Skills**: Hazardous terrain vehicular control. (+2 Piloting)\n- **Resourcefulness**: Scavenging and making every gram count. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Finding food, water, and shelter in death zones. (+2 Survival Skill Checks)\n- **Technical Skills**: Emergency equipment patching. (+1 to Mechanical, Electrical and Engineering Skill Checks)",
+    "recommended_species": [
+      "Rautha Human",
+      "B’Dren Human",
+      "Vajar (Wilder)",
+      "Nocturne (Kovian)",
+      "Graa (Auluran Heavy)",
+      "Gra'or",
+      "Vassoth",
+      "Rakne (Kitin Stalker)",
+      "Eakren (Corrupted Aberration)",
+      "Risakin (Giant Folk)",
+      "Scrap (Junkframe Synthetic)"
+    ],
+    "recommended_factions": [
+      "The Outworlds",
+      "Post-apocalyptic Faction Template",
+      "Mutant Faction Template",
+      "Vajar Tribes",
+      "Kovian Tribunal",
+      "Mercenary Faction Template",
+      "Alien Faction Template"
+    ],
+    "recommended_occupations": [
+      "Soldier",
+      "Scout",
+      "Specialist",
+      "Drifter",
+      "Criminal",
+      "Builder"
+    ],
+    "keywords": "death-world, toxic-atmosphere, corrosive-rain, ash-wastes, volcanic-ridge, apex-predators, radiation-hazard, hardened-bunkers, respirator-gear, survivalist, harsh-biome, chem-scrubber, armored-carapace, extreme-elements, scavenged-scrap, danger-zone",
+    "negative_keywords": "pristine-luxury-resort, polished-marble-ballroom, carefree-tourism, fragile-glass-spire, gentle-pastoral-meadow, silk-velvet-lounge, serene-academic-cloister, high-society-banquet, unshielded-civilian-park"
   },
   {
     "id": "origin-industrial",
@@ -731,7 +883,37 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "These worlds are developed to exploit available natural resources and are designed for maximum efficiency. Heavy blast walls, automated smelters, toxic smokestacks, and modular worker complexes dominate.",
-    "full_text": "### Origin Overview\nThese worlds are developed to exploit available resources and are designed for maximum efficiency. Buildings are often reinforced or mobile, with simple designs. These worlds typically have a non-green operating philosophy that prioritizes profit and output.\n\n### Society Skills (20 SP Pool)\nKnowledge (any), Vocation (any)\n\n### Typical Archetypes\nMiner, Factory Worker, Engineer, Foreman, Security Officer, Corporate Executive\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Adjusting to changing shop-floor conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Mechanical Aptitude**: Operating and repairing factory systems. (+1 to Mechanical, Electrical and Engineering Skill Checks)\n- **Physical Strength**: Rugged industrial conditioning. (+2 Might Checks)\n- **Practicality**: Grounded logical deduction. (+2 Logic Checks)\n- **Problem-Solving Skills**: Rapid diagnostic intuition. (Once per Day may reroll a Mental Skill Check)\n- **Resourcefulness**: Creative fixes under production pressure. (Once per Day make a Skill Check of choice at Advantage)\n- **Risk-Taking**: Daring courage around heavy machinery. (+1 Karma Point)\n- **Specialized Knowledge**: Deep industrial craft expertise. (+2 to a Vocation Specialization)\n- **Teamwork**: Synergy with work crews. (additional +1 to Aid bonuses)"
+    "full_text": "### Origin Overview\nThese worlds are developed to exploit available resources and are designed for maximum efficiency. Buildings are often reinforced or mobile, with simple designs. These worlds typically have a non-green operating philosophy that prioritizes profit and output.\n\n### Society Skills (20 SP Pool)\nKnowledge (any), Vocation (any)\n\n### Typical Archetypes\nMiner, Factory Worker, Engineer, Foreman, Security Officer, Corporate Executive\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Adjusting to changing shop-floor conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Mechanical Aptitude**: Operating and repairing factory systems. (+1 to Mechanical, Electrical and Engineering Skill Checks)\n- **Physical Strength**: Rugged industrial conditioning. (+2 Might Checks)\n- **Practicality**: Grounded logical deduction. (+2 Logic Checks)\n- **Problem-Solving Skills**: Rapid diagnostic intuition. (Once per Day may reroll a Mental Skill Check)\n- **Resourcefulness**: Creative fixes under production pressure. (Once per Day make a Skill Check of choice at Advantage)\n- **Risk-Taking**: Daring courage around heavy machinery. (+1 Karma Point)\n- **Specialized Knowledge**: Deep industrial craft expertise. (+2 to a Vocation Specialization)\n- **Teamwork**: Synergy with work crews. (additional +1 to Aid bonuses)",
+    "recommended_species": [
+      "Dwerg Human",
+      "Cyberform Human",
+      "Koda (Auluran Worker)",
+      "Mekan (Assimilation Unit)",
+      "Protocol (Task Automaton)",
+      "Scrap (Junkframe Synthetic)",
+      "Biomechanical Synthetic",
+      "Human (Base)",
+      "Digon (Gen-E)",
+      "Orll"
+    ],
+    "recommended_factions": [
+      "The Mekan Collective",
+      "Incorporated Planetary Syndication (The Syndicate)",
+      "Technological Faction Template",
+      "Coalition of Independent Worlds",
+      "Corporate Faction Template",
+      "Impyrium Dominion"
+    ],
+    "recommended_occupations": [
+      "Builder",
+      "Specialist",
+      "Citizen",
+      "Soldier",
+      "Merchant",
+      "Agent"
+    ],
+    "keywords": "forge-world, heavy-industry, smelting-plant, foundry, assembly-line, slag-vats, cranes, gantry-grid, smog-stack, strip-mining, hydraulics, pneumatics, machining, high-pressure-steam, industrial-robotics, tooling, hardhat, rust-and-iron",
+    "negative_keywords": "pristine-natural-forest, serene-underwater-reef, gilded-royal-court, arcane-ley-line-sanctuary, untouched-wilderness, luxury-sunbathing-beach, zero-g-delicate-glass, pastoral-vineyard, fae-enchantment"
   },
   {
     "id": "origin-leisure",
@@ -857,7 +1039,37 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "These worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. High-end resort cities, private gambling spires, pristine beaches, and artistic sanctuaries cater to elites and tourists.",
-    "full_text": "### Origin Overview\nThese worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. They often cater to tourists, with notable resort or vacation spots where guest services are a priority. The wealthy/upper class will enjoy the leisurely side of the resorts, while those of lower station will likely be working - both are considered for this origin.\n\n### Society Skills (20 SP Pool)\nVocation (any), Social (any)\n\n### Typical Archetypes\nAesthete, Socialite, Concierge, Entertainer, Artisan, Security Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Effortless social adjustment. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Diplomacy**: Tact and dispute mediation. (+2 Diplomacy)\n- **Entertainment Skill**: Artistic, performance, or culinary talent. (+2 to a Non-Combat Skill of choice)\n- **Lifestyle Preferences**: Understanding luxury culture. (+1 Wealth and +1 Diplomacy)\n- **Non-Combat Focus**: Vocational and artistic excellence. (+2 to a Vocation Skill of choice)\n- **Optimistic**: Cheerful resilience under social tension. (+1 to Karma Pool)\n- **Management**: Asset and luxury facility coordination. (+1 Wealth and +1 Leadership)\n- **Resourcefulness**: Creative service problem-solving. (Once per Day make a Skill Check of choice at Advantage)\n- **Smooth talking**: High-society charm and silver-tongued poise. (+2 Etiquette Checks)"
+    "full_text": "### Origin Overview\nThese worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. They often cater to tourists, with notable resort or vacation spots where guest services are a priority. The wealthy/upper class will enjoy the leisurely side of the resorts, while those of lower station will likely be working - both are considered for this origin.\n\n### Society Skills (20 SP Pool)\nVocation (any), Social (any)\n\n### Typical Archetypes\nAesthete, Socialite, Concierge, Entertainer, Artisan, Security Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Effortless social adjustment. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Diplomacy**: Tact and dispute mediation. (+2 Diplomacy)\n- **Entertainment Skill**: Artistic, performance, or culinary talent. (+2 to a Non-Combat Skill of choice)\n- **Lifestyle Preferences**: Understanding luxury culture. (+1 Wealth and +1 Diplomacy)\n- **Non-Combat Focus**: Vocational and artistic excellence. (+2 to a Vocation Skill of choice)\n- **Optimistic**: Cheerful resilience under social tension. (+1 to Karma Pool)\n- **Management**: Asset and luxury facility coordination. (+1 Wealth and +1 Leadership)\n- **Resourcefulness**: Creative service problem-solving. (Once per Day make a Skill Check of choice at Advantage)\n- **Smooth talking**: High-society charm and silver-tongued poise. (+2 Etiquette Checks)",
+    "recommended_species": [
+      "Celestine (Alterian)",
+      "Fey (Base)",
+      "Argynt Human",
+      "Brae Human",
+      "Davae (Gen-E)",
+      "Danai (Davae Hybrid)",
+      "Kizin",
+      "Kongi",
+      "Skin (Infiltrator Synthetic)",
+      "Changeling (Doppelganger Hybrid)"
+    ],
+    "recommended_factions": [
+      "Space Tourism Faction Template",
+      "Incorporated Planetary Syndication (The Syndicate)",
+      "The Alterian Enclave",
+      "Dracon Dynasty",
+      "Corporate Faction Template",
+      "The Silvermoon Vanguard"
+    ],
+    "recommended_occupations": [
+      "Entertainer",
+      "Representative",
+      "Merchant",
+      "Citizen",
+      "Agent",
+      "Criminal"
+    ],
+    "keywords": "resort-world, luxury-retreat, pleasure-dome, infinity-pool, casino-strip, haute-cuisine, grand-amphitheater, opulent-suites, holographic-cabaret, hospitality, hedonism, concierge, star-gazing-pavilion, fine-wine, decadence, pampered, neon-nightlife",
+    "negative_keywords": "bleak-trench-warfare, industrial-ash-heap, toxic-radiation-bog, grimy-slag-pit, cramped-miner-submersible, rigorous-ascetic-monasticism, penal-forced-labor, extreme-deprivation, mud-and-blood"
   },
   {
     "id": "origin-militaristic",
@@ -984,7 +1196,37 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "Whether a fortified border fortress, orbital garrison, or dedicated planetary training ground, a pervasive military hierarchy governs every aspect of daily life. Fortified bunkers and security corridors prevail.",
-    "full_text": "### Origin Overview\nWhether an outpost, training facility or some other strategic world, there is a governing military presence. Structures will be reinforced, placed within a defendable area and often walled. Many personnel from this type of society will be of the Soldier Profession.\n\n### Society Skills (20 SP Pool)\nPhysical (any), Vocation (any), Combat (any)\n\n### Typical Archetypes\nShock Trooper, Sharpshooter, Combat Medic, Tactician, Military Engineer, Military Intelligence Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Combat Trained**: Specialized weapon drills and tactical combat. (+2 to a Combat Skill of choice)\n- **Disciplined**: Unwavering protocol adherence. (+2 Soldier Vocation)\n- **Honor-bound**: Self-sacrifice for battalion honor. (Any One check per day at Advantage, but must be for another)\n- **Leadership**: Commanding squad formations. (+2 Leadership Checks)\n- **Loyal**: Mental resistance to betrayal and psychic intrusion. (Domination and Mind-Control Resistance made at Advantage)\n- **Milspec Gear**: Familiarity with heavy ordinance. (+2 Equipment)\n- **Pilot Skills**: Military drop-craft and vehicle maneuvers. (+2 Piloting)\n- **Strategic**: Mission planning granting operational bonus pool. (Allies gain bonus pool equal to INT score + 2)\n- **Tough**: Physical and psychological resilience. (+1 Fortitude and Willpower Checks)"
+    "full_text": "### Origin Overview\nWhether an outpost, training facility or some other strategic world, there is a governing military presence. Structures will be reinforced, placed within a defendable area and often walled. Many personnel from this type of society will be of the Soldier Profession.\n\n### Society Skills (20 SP Pool)\nPhysical (any), Vocation (any), Combat (any)\n\n### Typical Archetypes\nShock Trooper, Sharpshooter, Combat Medic, Tactician, Military Engineer, Military Intelligence Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Combat Trained**: Specialized weapon drills and tactical combat. (+2 to a Combat Skill of choice)\n- **Disciplined**: Unwavering protocol adherence. (+2 Soldier Vocation)\n- **Honor-bound**: Self-sacrifice for battalion honor. (Any One check per day at Advantage, but must be for another)\n- **Leadership**: Commanding squad formations. (+2 Leadership Checks)\n- **Loyal**: Mental resistance to betrayal and psychic intrusion. (Domination and Mind-Control Resistance made at Advantage)\n- **Milspec Gear**: Familiarity with heavy ordinance. (+2 Equipment)\n- **Pilot Skills**: Military drop-craft and vehicle maneuvers. (+2 Piloting)\n- **Strategic**: Mission planning granting operational bonus pool. (Allies gain bonus pool equal to INT score + 2)\n- **Tough**: Physical and psychological resilience. (+1 Fortitude and Willpower Checks)",
+    "recommended_species": [
+      "Draconian (Scaled Aeld)",
+      "Janissary (Gen-E)",
+      "Impyrium Regi (Gen-E)",
+      "Rautha Human",
+      "Dar (Auluran Hunter)",
+      "Graa (Auluran Heavy)",
+      "Maantene (Kitin Leaper)",
+      "Qeric",
+      "Weti",
+      "Sentient Machine (Free Droid)"
+    ],
+    "recommended_factions": [
+      "Military Faction Template",
+      "Impyrium Dominion",
+      "Dracon Dynasty",
+      "Mercenary Faction Template",
+      "Radiant Impyrium",
+      "Cosmic Justice Faction Template"
+    ],
+    "recommended_occupations": [
+      "Soldier",
+      "Specialist",
+      "Scout",
+      "Agent",
+      "Builder",
+      "Representative"
+    ],
+    "keywords": "fortress-world, military-garrison, plasteel-bunkers, firing-range, parade-grounds, barbed-perimeters, defense-turrets, flak-emplacements, hardened-command-bunker, combat-readiness, drills, disciplined-ranks, munitions-depots, war-room, drop-ship-hangar",
+    "negative_keywords": "carefree-resort-beach, gilded-dance-ballroom, pacifist-commune, chaotic-unregulated-slums, fragile-glass-greenhouse, drug-riddled-cantina, unarmed-ascetic-hermitage, frivolous-haute-couture"
   },
   {
     "id": "origin-research",
@@ -1111,7 +1353,37 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject, housing clean rooms, orbital observatories, and supercomputer arrays.",
-    "full_text": "### Origin Overview\nA complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject. Structures can range from prefabricated or mobile to large laboratory complexes, depending on need and resources.\n\n### Society Skills (20 SP Pool)\nMental (any)\n\n### Typical Archetypes\nScientist, Analyst, Theorist, Archivist, Technician, Security Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Modifying hypotheses to anomalous conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Analytical thinking**: Rigorous empirical and logical analysis. (+2 Logic Checks)\n- **Attention to detail**: Catching micro-variations and anomalies. (+2 Alertness)\n- **Collaboration**: Academic synergy in research teams. (additional +1 to Aid bonuses received and granted)\n- **Curiosity**: Investigative passion for the unknown. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Intellectualism**: Deep scientific and academic training. (+2 Academics and +2 to a Mental Skill Specialization)\n- **Persistence**: Relentless pursuit of scientific truth. (+1 Karma Point)\n- **Problem-solving**: Creative theoretical breakthroughs. (Once per Day may reroll a Mental Skill Check)\n- **Studious**: Encyclopedic archival mastery. (+2 to a Knowledge of choice)"
+    "full_text": "### Origin Overview\nA complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject. Structures can range from prefabricated or mobile to large laboratory complexes, depending on need and resources.\n\n### Society Skills (20 SP Pool)\nMental (any)\n\n### Typical Archetypes\nScientist, Analyst, Theorist, Archivist, Technician, Security Officer\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Modifying hypotheses to anomalous conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Analytical thinking**: Rigorous empirical and logical analysis. (+2 Logic Checks)\n- **Attention to detail**: Catching micro-variations and anomalies. (+2 Alertness)\n- **Collaboration**: Academic synergy in research teams. (additional +1 to Aid bonuses received and granted)\n- **Curiosity**: Investigative passion for the unknown. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Intellectualism**: Deep scientific and academic training. (+2 Academics and +2 to a Mental Skill Specialization)\n- **Persistence**: Relentless pursuit of scientific truth. (+1 Karma Point)\n- **Problem-solving**: Creative theoretical breakthroughs. (Once per Day may reroll a Mental Skill Check)\n- **Studious**: Encyclopedic archival mastery. (+2 to a Knowledge of choice)",
+    "recommended_species": [
+      "Sigal",
+      "Celestine (Alterian)",
+      "Nian Human",
+      "Intellect Construct (Pure AI)",
+      "Android",
+      "Manelli (Kitin Diplomat)",
+      "Prokos (Auluran Biform)",
+      "Impyrium Psion (Gen-E)",
+      "Gen-E (Base Engineered Human)",
+      "Swarm (Micro-Drone Synthetic)"
+    ],
+    "recommended_factions": [
+      "The Ascendancy",
+      "Technological Faction Template",
+      "The Mekan Collective",
+      "Sentient Intelligence Faction Template",
+      "Genetic Engineering Faction Template",
+      "The Alterian Enclave"
+    ],
+    "recommended_occupations": [
+      "Scholar",
+      "Specialist",
+      "Builder",
+      "Agent",
+      "Scout",
+      "Representative"
+    ],
+    "keywords": "research-facility, cleanroom-laboratory, supercomputer-array, particle-accelerator, observational-dome, genetic-sequencing, quantum-analysis, test-chambers, data-servers, scientific-method, academic-archive, prototyping, telemetry, whiteboard-hypotheses",
+    "negative_keywords": "anti-intellectualism, feudal-superstition, primitive-mud-hut, unregulated-street-riot, lawless-mercenary-den, slag-heavy-smelting, decadent-carefree-party, trench-mud-war"
   },
   {
     "id": "origin-spacer",
@@ -1227,7 +1499,37 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "Some people do not have a home planet, instead choosing to travel the stars. They spend most of their time on generation ships, orbital trade rings, and hollowed-out asteroid stations, rarely setting foot on planetary dirt.",
-    "full_text": "### Origin Overview\nSome people do not have a home planet, instead choosing to travel the stars. They spend most of their time on ships and stations in space, and some have never set foot on a planet. Void clans, free-traders, and belt-miners embody this nomadic spaceborne existence.\n\n### Society Skills (20 SP Pool)\nPiloting, Alertness, Knowledge (Technology), Knowledge (Survival), Vocation (Any)\n\n### Typical Archetypes\nFreighter Captain, Explorer, Mercenary, Smuggler, Technician, Merchant\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Combat Training**: Zero-g and depressurized boarding warfare. (+2 to a Combat Skill of choice)\n- **Independence**: Deep-space self-reliance. (+1 Karma Point)\n- **Leadership Skills**: Managing starship crews in crisis. (+2 Leadership Checks)\n- **Pilot Skills**: Vacuum navigation and docking mastery. (+2 Piloting)\n- **Resourcefulness**: Life-support and fuel conservation. (Once per Day make a Skill Check of choice at Advantage)\n- **Smooth Talking**: Free-trader haggling and customs persuasion. (+2 Bluff)\n- **Technical Skills**: Starship maintenance and reactor repairs. (+1 to Mechanical, Electrical and Engineering Skill Checks)\n- **Toughness**: Resistance to cosmic radiation and decompression. (+1 Fortitude and Willpower Checks)"
+    "full_text": "### Origin Overview\nSome people do not have a home planet, instead choosing to travel the stars. They spend most of their time on ships and stations in space, and some have never set foot on a planet. Void clans, free-traders, and belt-miners embody this nomadic spaceborne existence.\n\n### Society Skills (20 SP Pool)\nPiloting, Alertness, Knowledge (Technology), Knowledge (Survival), Vocation (Any)\n\n### Typical Archetypes\nFreighter Captain, Explorer, Mercenary, Smuggler, Technician, Merchant\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Combat Training**: Zero-g and depressurized boarding warfare. (+2 to a Combat Skill of choice)\n- **Independence**: Deep-space self-reliance. (+1 Karma Point)\n- **Leadership Skills**: Managing starship crews in crisis. (+2 Leadership Checks)\n- **Pilot Skills**: Vacuum navigation and docking mastery. (+2 Piloting)\n- **Resourcefulness**: Life-support and fuel conservation. (Once per Day make a Skill Check of choice at Advantage)\n- **Smooth Talking**: Free-trader haggling and customs persuasion. (+2 Bluff)\n- **Technical Skills**: Starship maintenance and reactor repairs. (+1 to Mechanical, Electrical and Engineering Skill Checks)\n- **Toughness**: Resistance to cosmic radiation and decompression. (+1 Fortitude and Willpower Checks)",
+    "recommended_species": [
+      "Varen (Gatekeeper)",
+      "Cyberform Human",
+      "Human (Base)",
+      "Frellin",
+      "Jorni",
+      "Mobula",
+      "Sentient Machine (Free Droid)",
+      "Shell (Transferred Organic)",
+      "Chimera (Gen-E)",
+      "Scrap (Junkframe Synthetic)"
+    ],
+    "recommended_factions": [
+      "The Outworlds",
+      "Coalition of Independent Worlds",
+      "The Entari Combine",
+      "Space Exploration Faction Template",
+      "Space Pirate Faction Template",
+      "Mercenary Faction Template"
+    ],
+    "recommended_occupations": [
+      "Drifter",
+      "Scout",
+      "Merchant",
+      "Builder",
+      "Agent",
+      "Soldier"
+    ],
+    "keywords": "void-born, zero-g, orbital-station, pressurized-corridor, airlock, tramp-freighter, asteroid-belt, solar-sails, hull-plating, life-support, gravity-plates, nav-computer, docking-clamps, microgravity, bulkheads, spacefarer, stellar-void",
+    "negative_keywords": "deep-planetary-gravity-well, vast-open-prairie, mountainous-alpine-forest, submerged-coral-trench, heavy-mud-bog, ancient-stone-catacomb, open-atmosphere-storm, unpressurized-wilderness"
   },
   {
     "id": "origin-urban",
@@ -1344,7 +1646,38 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "People who live in cities, from large metropolises to vertical arcologies, experience high population density, rapid technological integration, ground and air vehicles, and vibrant street cultures.",
-    "full_text": "### Origin Overview\nPeople who live in cities, from large metropolises to smaller but highly developed areas, will experience the benefits and drawbacks of \"civilized society,\" which includes a high population density. Large high-rises will be the norm, and communities will be close together. Ground and air vehicles, including GEVs and hovercraft, will be commonplace.\n\n### Society Skills (20 SP Pool)\nStreetwise, Alertness, Knowledge (Culture), Knowledge (Technology), Social (Any), Vocation (Any)\n\n### Typical Archetypes\nStreet Fixer, Ganger Enforcer, Cyber-Runner, Rooftop Courier, Corporate Drone, City Gumshoe\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid reaction to volatile street politics. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Contacts**: Deep network of fixers and informants. (Gather Information checks at Advantage)\n- **Resourceful**: Surviving on wits and hustle. (Once per Day make a Skill Check of choice at Advantage)\n- **Social Skills**: Blending into high and low social strata. (+1 all Social Manipulation Skills and Culture Knowledge)\n- **Street Fighting**: Dirty infighting in tight corridors. (+1 Unarmed Combat and Defense)\n- **Streetwise**: Underworld savvy and territorial awareness. (+2 Streetwise, +1 in Home City)\n- **Tech-Savvy**: Practical expertise with cyber-grids and computers. (+2 to Knowledges of Computer and Technology)\n- **Urban Survival Skills**: Parkour, crowd evasion, and shadows. (+2 Athletics and Stealth Skills in Urban areas)"
+    "full_text": "### Origin Overview\nPeople who live in cities, from large metropolises to smaller but highly developed areas, will experience the benefits and drawbacks of \"civilized society,\" which includes a high population density. Large high-rises will be the norm, and communities will be close together. Ground and air vehicles, including GEVs and hovercraft, will be commonplace.\n\n### Society Skills (20 SP Pool)\nStreetwise, Alertness, Knowledge (Culture), Knowledge (Technology), Social (Any), Vocation (Any)\n\n### Typical Archetypes\nStreet Fixer, Ganger Enforcer, Cyber-Runner, Rooftop Courier, Corporate Drone, City Gumshoe\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid reaction to volatile street politics. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Contacts**: Deep network of fixers and informants. (Gather Information checks at Advantage)\n- **Resourceful**: Surviving on wits and hustle. (Once per Day make a Skill Check of choice at Advantage)\n- **Social Skills**: Blending into high and low social strata. (+1 all Social Manipulation Skills and Culture Knowledge)\n- **Street Fighting**: Dirty infighting in tight corridors. (+1 Unarmed Combat and Defense)\n- **Streetwise**: Underworld savvy and territorial awareness. (+2 Streetwise, +1 in Home City)\n- **Tech-Savvy**: Practical expertise with cyber-grids and computers. (+2 to Knowledges of Computer and Technology)\n- **Urban Survival Skills**: Parkour, crowd evasion, and shadows. (+2 Athletics and Stealth Skills in Urban areas)",
+    "recommended_species": [
+      "Human (Base)",
+      "Doppelganger (Shifter)",
+      "Changeling (Doppelganger Hybrid)",
+      "Cyberform Human",
+      "Skin (Infiltrator Synthetic)",
+      "Android",
+      "Kannid",
+      "Kizin",
+      "Danai (Davae Hybrid)",
+      "Nocturne (Kovian)"
+    ],
+    "recommended_factions": [
+      "Incorporated Planetary Syndication (The Syndicate)",
+      "Coalition of Independent Worlds",
+      "Corporate Faction Template",
+      "Criminal Faction Template",
+      "Impyrium Dominion",
+      "Political Faction Template",
+      "Interstellar Diplomats Faction Template"
+    ],
+    "recommended_occupations": [
+      "Criminal",
+      "Agent",
+      "Citizen",
+      "Entertainer",
+      "Specialist",
+      "Merchant"
+    ],
+    "keywords": "megacity, arcology, neon-drenched, rain-slicked-pavement, skyscraper-concourse, mass-transit-monorail, street-market, verticality, alleyway, cyberpunk-sprawl, overcrowded, high-population-density, holographic-billboards, underworld, smog-haze",
+    "negative_keywords": "untamed-wilderness, pristine-glacial-tundra, desert-sand-dunes, lonely-deep-space-station, pastoral-farming-valley, quiet-ancient-hermitage, submerged-oceanic-trench, feral-jungle-canopy"
   }
 ];
 

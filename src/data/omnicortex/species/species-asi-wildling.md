@@ -54,13 +54,29 @@ modifiers:
 cp_cost: 14
 cp: 14
 bp: 14
-description: 'Wildlings are feral offshoots of the Koban fey lineage who live in communion with apex predators, shifting effortlessly into diverse mammalian forms to hunt and forage.'
+description: >-
+  Wildlings are feral offshoots of the Koban fey lineage who live in communion
+  with apex predators, shifting effortlessly into diverse mammalian forms to
+  hunt and forage.
 traits:
   - trait-asi-base-traits
   - trait-animal-affinity
   - trait-climber
   - trait-alter-form-animal
   - trait-awakened-nature
+recommended_factions:
+  - Vajar Tribes
+  - Environmental Faction Template
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Hostile
+  - Agricultural
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Drifter
+keywords: 'totem-shifter, apex-predator, feral, pack-bond, wilderness, primal-instinct'
+negative_keywords: 'urban-court, high-technology, starship-bridge, academic-formal'
 ---
 
 # Wildling (Koban Lineage)

@@ -11,7 +11,7 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
-  - species_movement-glide
+  - species_movement-gliding
 speeds: 'Ground 30 ft, Climb 30 ft, Glide 30 ft'
 reach: 3 ft
 senses: 'Low-light vision. [1]'
@@ -65,7 +65,9 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: 'Small, charismatic mammalian quadrupeds with patagial gliding membranes who navigate high-canopy habitats and urban catwalks.'
+description: >-
+  Small, charismatic mammalian quadrupeds with patagial gliding membranes who
+  navigate high-canopy habitats and urban catwalks.
 traits:
   - trait-small-size
   - trait-climbing
@@ -73,6 +75,21 @@ traits:
   - trait-multidextrous
   - trait-uncanny-senses-acute-scent
   - trait-climb-speed-30ft
+recommended_factions:
+  - The Entari Combine
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Agricultural
+  - Colony
+  - Leisure
+recommended_occupations:
+  - Entertainer
+  - Merchant
+  - Scout
+keywords: >-
+  patagial-glider, tiny-charmer, canopy-scamper, charismatic, acrobatic,
+  friendly
+negative_keywords: 'heavy-infantry, slugthrower, terrifying'
 ---
 
 # Qeric (Gliding Beastfolk)

@@ -1,26 +1,80 @@
 ---
 id: template-mutant
-name: "Mutant Faction Template"
+name: Mutant Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "The Altered"
-driving_mandate: "Survive persecution, find acceptance, or dominate the baselines"
-symbol_sigil: "Mutants / Freaks / Glowing Ones"
-capital_world: "Variable (Radioactive zones, under-cities, toxic biomes)"
-tech_level: "2 to 3 (Often scavenged)"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Humans/Aliens (Heavily Mutated)"
-typical_archetypes: ["The Mutant Psychic","The Beast-Brute","The Infiltrator","The Under-City Guide","The Wasteland Warlord"]
-skill_package: ["Survival (+5)","Stealth (+4)","Intimidate (+4)","Athletics (+4)","Awareness (+3)"]
-recommended_features: ["Augmented","Fast Heal","Tough","Darksight","Energy Resistance","Tolerance","Danger Sense","Natural Weapons","Wall-Crawler","Unsettling Aura"]
-features: ["Augmented","Fast Heal","Tough","Darksight","Energy Resistance","Tolerance","Danger Sense","Natural Weapons","Wall-Crawler","Unsettling Aura"]
-bonus_features: ["Augmented"]
-description: "Factions composed of genetically unstable, irradiated, or intentionally altered beings living on the fringes of society. They are often outcasts, banding together for survival in toxic wastelands or deep subterranean slums. They possess strange, volatile powers that make them dangerous and unpredictable"
+faction_type: Generic Template
+archetype: The Altered
+driving_mandate: 'Survive persecution, find acceptance, or dominate the baselines'
+symbol_sigil: Mutants / Freaks / Glowing Ones
+capital_world: 'Variable (Radioactive zones, under-cities, toxic biomes)'
+tech_level: 2 to 3 (Often scavenged)
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Humans/Aliens (Heavily Mutated)
+typical_archetypes:
+  - The Mutant Psychic
+  - The Beast-Brute
+  - The Infiltrator
+  - The Under-City Guide
+  - The Wasteland Warlord
+skill_package:
+  - Survival (+5)
+  - Stealth (+4)
+  - Intimidate (+4)
+  - Athletics (+4)
+  - Awareness (+3)
+recommended_features:
+  - Augmented
+  - Fast Heal
+  - Tough
+  - Darksight
+  - Energy Resistance
+  - Tolerance
+  - Danger Sense
+  - Natural Weapons
+  - Wall-Crawler
+  - Unsettling Aura
+features:
+  - Augmented
+  - Fast Heal
+  - Tough
+  - Darksight
+  - Energy Resistance
+  - Tolerance
+  - Danger Sense
+  - Natural Weapons
+  - Wall-Crawler
+  - Unsettling Aura
+bonus_features:
+  - Augmented
+description: >-
+  Factions composed of genetically unstable, irradiated, or intentionally
+  altered beings living on the fringes of society. They are often outcasts,
+  banding together for survival in toxic wastelands or deep subterranean slums.
+  They possess strange, volatile powers that make them dangerous and
+  unpredictable
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Scrap (Junkframe Synthetic)
+  - Changeling (Doppelganger Hybrid)
+  - Chimera (Gen-E)
+  - Thorn
+recommended_origins:
+  - Hostile
+  - Industrial
+  - Colony
+recommended_occupations:
+  - Drifter
+  - Criminal
+  - Scout
+  - Builder
+keywords: >-
+  radiation-survival, mutated-resilience, outcast-enclave, adaptive-variation,
+  scrap-solidarity
+negative_keywords: 'genetic-purity, pristine-palaces, high-society-snobbery, sterile-laboratories'
 ---
 
 ## **13\. MUTANT**

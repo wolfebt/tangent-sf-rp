@@ -1,26 +1,78 @@
 ---
 id: template-sentient-intelligence
-name: "Sentient Intelligence Faction Template"
+name: Sentient Intelligence Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "AI Networks"
-driving_mandate: "Self-preservation, gather all data, guide organic life to optimal outcomes"
-symbol_sigil: "The Network / The Machine God / The Core"
-capital_world: "A massive planetary data-core or Dyson sphere"
-tech_level: "4 to 5"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Networked Synthetics, Holographic Avatars"
-typical_archetypes: ["The Digital Defender","The Network Strategist","The Holographic Emissary","The Node-Guardian"]
-skill_package: ["Computers (+5)","Academics (+5)","Technology (+4)","Science (+3)","Investigation (+3)"]
-recommended_features: ["Mind Link","Tech Interface","Logic-Mind","Lightning Calculator","Eidetic Memory","Computer Specialist","Coding Master","Self-Sustaining","Sleepless","Logical"]
-features: ["Mind Link","Tech Interface","Logic-Mind","Lightning Calculator","Eidetic Memory","Computer Specialist","Coding Master","Self-Sustaining","Sleepless","Logical"]
-bonus_features: ["Mind Link"]
-description: "Distinct from liberated androids (Artificial Life), this faction represents a massive, localized AI network—a Machine God. It consists of unfathomable processing power guiding, controlling, or preserving organic life according to a cold, algorithmic logic that organics cannot fully comprehend"
+faction_type: Generic Template
+archetype: AI Networks
+driving_mandate: 'Self-preservation, gather all data, guide organic life to optimal outcomes'
+symbol_sigil: The Network / The Machine God / The Core
+capital_world: A massive planetary data-core or Dyson sphere
+tech_level: 4 to 5
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: 'Networked Synthetics, Holographic Avatars'
+typical_archetypes:
+  - The Digital Defender
+  - The Network Strategist
+  - The Holographic Emissary
+  - The Node-Guardian
+skill_package:
+  - Computers (+5)
+  - Academics (+5)
+  - Technology (+4)
+  - Science (+3)
+  - Investigation (+3)
+recommended_features:
+  - Mind Link
+  - Tech Interface
+  - Logic-Mind
+  - Lightning Calculator
+  - Eidetic Memory
+  - Computer Specialist
+  - Coding Master
+  - Self-Sustaining
+  - Sleepless
+  - Logical
+features:
+  - Mind Link
+  - Tech Interface
+  - Logic-Mind
+  - Lightning Calculator
+  - Eidetic Memory
+  - Computer Specialist
+  - Coding Master
+  - Self-Sustaining
+  - Sleepless
+  - Logical
+bonus_features:
+  - Mind Link
+description: >-
+  Distinct from liberated androids (Artificial Life), this faction represents a
+  massive, localized AI network—a Machine God. It consists of unfathomable
+  processing power guiding, controlling, or preserving organic life according to
+  a cold, algorithmic logic that organics cannot fully comprehend
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Intellect Construct (Pure AI)
+  - Sentient Machine (Free Droid)
+  - Android
+  - Swarm (Micro-Drone Synthetic)
+recommended_origins:
+  - Research
+  - Industrial
+  - Urban
+recommended_occupations:
+  - Specialist
+  - Scholar
+  - Builder
+  - Adept
+keywords: >-
+  autonomous-synthetics, emergent-machine-sapience, distributed-processing,
+  code-sovereignty, digital-rights
+negative_keywords: 'meatspace-chauvinism, biological-slavery, organic-superiority, technophobia'
 ---
 
 ## **19\. SENTIENT INTELLIGENCE**

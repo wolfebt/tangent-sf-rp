@@ -43,6 +43,39 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Whisper
+  - Fey (Base)
+  - Sigal
+  - Draconian (Scaled Aeld)
+  - Impyrium Psion (Gen-E)
+  - Ila (Progenitor Archon)
+  - Eidolon (Aetherion Specialist)
+  - Tenen (Sha’nor Spectral)
+  - Golem (Arcane Construct)
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Elven Providence
+  - Dracon Dynasty
+  - Supernatural Faction Template
+  - Space Religion Faction Template
+  - Religious Cult Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Hostile
+  - Urban
+keywords: >-
+  psionic, metaphysical, attunement, arcane-focus, mystic-ritual,
+  inner-discipline, mind-over-matter, halo-interface, telekinesis, telepathy,
+  essence-surge, channeled-power, meditative-stance, astral-projection,
+  spiritual-resonance, esoteric-arts
+negative_keywords: >-
+  mundane-bureaucracy, anti-magic, brute-force-only, crude-industrial-welding,
+  corporate-spreadsheet, pure-mechanical-drone, soulless-assembly-line,
+  low-tech-peasant, illiterate-scavenger
 ---
 
 # Adept Occupation

@@ -39,11 +39,26 @@ modifiers: []
 cp_cost: 15
 cp: 15
 bp: 15
-description: The Kheen represent stable human-aeld lineages who inherited elven aesthetic grace and longevity while maintaining human versatility and adaptability.
+description: >-
+  The Kheen represent stable human-aeld lineages who inherited elven aesthetic
+  grace and longevity while maintaining human versatility and adaptability.
 traits:
   - trait-low-light-vision
   - trait-extended-lifespan-200-years
   - trait-arcane-affinity
+recommended_factions:
+  - The Entari Combine
+  - The Alterian Enclave
+recommended_origins:
+  - Urban
+  - Enlightened
+  - Colony
+recommended_occupations:
+  - Representative
+  - Merchant
+  - Scholar
+keywords: 'half-aeld, cultural-bridge, diplomatic-emissary, refined, longevity, harmony'
+negative_keywords: 'feral, brute-force, primitive-tribal'
 ---
 
 # Kheen Human (Aeld Hybrid)

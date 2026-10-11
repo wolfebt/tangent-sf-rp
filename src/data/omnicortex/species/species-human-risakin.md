@@ -63,11 +63,25 @@ modifiers:
 cp_cost: 27
 cp: 27
 bp: 27
-description: Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive musculature and skeletal density render them natural juggernauts.
+description: >-
+  Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
+  musculature and skeletal density render them natural juggernauts.
 traits:
   - trait-large-size-8-10ft-reach-10ft
   - trait-massive-bulk-dr-3
   - trait-colossal-carrying-capacity
+recommended_factions:
+  - The Outworlds
+  - Industrial Faction Template
+recommended_origins:
+  - Hostile
+  - Industrial
+recommended_occupations:
+  - Builder
+  - Soldier
+  - Drifter
+keywords: 'heavy-gravity, giant-human, hydraulic-power, massive-reach, crusher'
+negative_keywords: 'tight-ducts, stealth, tiny, agile-aerial'
 ---
 
 # Risakin (Heavy-World Giant)

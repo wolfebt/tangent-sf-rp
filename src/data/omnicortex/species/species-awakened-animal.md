@@ -41,11 +41,29 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Uplifted canines, felines, ursines, and avians granted full sapience and tactical communication through cybernetic collars or bio-genetic uplift programs.'
+description: >-
+  Uplifted canines, felines, ursines, and avians granted full sapience and
+  tactical communication through cybernetic collars or bio-genetic uplift
+  programs.
 traits:
   - trait-animal-physiology-natural-weapons-scent-low-light
   - trait-awakened-consciousness-human-level-sentience
   - trait-vocal-synthesizer-telepathic-collar
+recommended_factions:
+  - Coalition of Independent Worlds
+  - Environmental Faction Template
+recommended_origins:
+  - Agricultural
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Scout
+  - Drifter
+  - Citizen
+keywords: >-
+  uplifted-beast, quadruped-speed, acute-senses, pack-instinct,
+  companion-fighter
+negative_keywords: 'fine-tools, speech-inhibited, corporate-executive'
 ---
 
 # Awakened Animal (Uplifted Beast)

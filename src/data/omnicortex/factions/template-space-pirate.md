@@ -1,26 +1,80 @@
 ---
 id: template-space-pirate
-name: "Space Pirate Faction Template"
+name: Space Pirate Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Void Corsairs"
-driving_mandate: "Plunder wealth, evade the law, live absolutely free"
-symbol_sigil: "Corsairs / Void-Scum / Pirates"
-capital_world: "Hidden asteroid bases or moving scrap-flotillas (e.g., Tortuga Station)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Highly Diverse"
-typical_archetypes: ["The Pirate Captain","The Swashbuckler","The Quartermaster","The Boarding Specialist","The Smuggler"]
-skill_package: ["Pilot (Space) (+5)","Intimidate (+4)","Combat (Melee/Pistol) (+4)","Mechanics (+4)","Bluff (+3)"]
-recommended_features: ["Sneak Attack","Spacer","Weapon Focus (Cutlass/Pistol)","Zero-G Training","Gifted Pilot","Runner","Danger Sense","Combat Reflexes","Intimidating Presence","Black Market Access"]
-features: ["Sneak Attack","Spacer","Weapon Focus (Cutlass/Pistol)","Zero-G Training","Gifted Pilot","Runner","Danger Sense","Combat Reflexes","Intimidating Presence","Black Market Access"]
-bonus_features: ["Sneak Attack"]
-description: "Lawless flotillas and void corsairs raiding trade routes and controlling the black markets. They are a chaotic mix of deserters, outlaws, and thrill-seekers bound together by a loose code of honor and the promise of plunder"
+faction_type: Generic Template
+archetype: Void Corsairs
+driving_mandate: 'Plunder wealth, evade the law, live absolutely free'
+symbol_sigil: Corsairs / Void-Scum / Pirates
+capital_world: 'Hidden asteroid bases or moving scrap-flotillas (e.g., Tortuga Station)'
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Highly Diverse
+typical_archetypes:
+  - The Pirate Captain
+  - The Swashbuckler
+  - The Quartermaster
+  - The Boarding Specialist
+  - The Smuggler
+skill_package:
+  - Pilot (Space) (+5)
+  - Intimidate (+4)
+  - Combat (Melee/Pistol) (+4)
+  - Mechanics (+4)
+  - Bluff (+3)
+recommended_features:
+  - Sneak Attack
+  - Spacer
+  - Weapon Focus (Cutlass/Pistol)
+  - Zero-G Training
+  - Gifted Pilot
+  - Runner
+  - Danger Sense
+  - Combat Reflexes
+  - Intimidating Presence
+  - Black Market Access
+features:
+  - Sneak Attack
+  - Spacer
+  - Weapon Focus (Cutlass/Pistol)
+  - Zero-G Training
+  - Gifted Pilot
+  - Runner
+  - Danger Sense
+  - Combat Reflexes
+  - Intimidating Presence
+  - Black Market Access
+bonus_features:
+  - Sneak Attack
+description: >-
+  Lawless flotillas and void corsairs raiding trade routes and controlling the
+  black markets. They are a chaotic mix of deserters, outlaws, and
+  thrill-seekers bound together by a loose code of honor and the promise of
+  plunder
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Kizin
+  - Scrap (Junkframe Synthetic)
+  - Thorn
+  - Kannid
+recommended_origins:
+  - Spacer
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Criminal
+  - Drifter
+  - Soldier
+  - Merchant
+keywords: >-
+  void-raiders, privateers, orbital-boarding, black-flag, plunder,
+  hyperlane-ambush
+negative_keywords: 'legal-authorities, maritime-customs-compliance, pacifism, fragile-dignity'
 ---
 
 ## **21\. SPACE PIRATE**

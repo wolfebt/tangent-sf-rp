@@ -13,7 +13,9 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: -2
@@ -46,12 +48,29 @@ modifiers:
 cp_cost: 51
 cp: 51
 bp: 51
-description: 'Protocol units are dedicated administrative, medical, or security automatons built with rigid programming directives and extensive skill libraries.'
+description: >-
+  Protocol units are dedicated administrative, medical, or security automatons
+  built with rigid programming directives and extensive skill libraries.
 traits:
   - trait-synthetic-base-traits
   - trait-adaptive-task-aspects
   - trait-tech-assimilation-rapid-tool-swap
   - trait-flawless-etiquette-calculation
+recommended_factions:
+  - Corporate Faction Template
+  - The Syndicate
+  - The Entari Combine
+recommended_origins:
+  - Urban
+  - Research
+recommended_occupations:
+  - Specialist
+  - Citizen
+  - Representative
+keywords: >-
+  directive-processing, medical-protocol, administrative-bot, precision-servant,
+  etiquette
+negative_keywords: 'rogue-anarchy, combat-frenzy, wilderness'
 ---
 
 # Protocol (Specialized Directive Unit)

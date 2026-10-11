@@ -1745,6 +1745,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
     const skillBonuses = Array.isArray(selectedSpecies?.specific_skill_bonuses) ? selectedSpecies.specific_skill_bonuses : [];
     const speciesCost = economyBreakdown?.speciesCostBreakdown || (selectedSpecies ? calculateFullSpeciesCost?.(selectedSpecies, dbOptions) : null);
     const speciesSkillSP = parseInt(selectedSpecies?.bonus_skills || selectedSpecies?.bonus_skill_points || 0, 10);
+    const recFactions = extractNameList(selectedSpecies?.recommended_factions);
+    const recOrigins = extractNameList(selectedSpecies?.recommended_origins);
+    const recOccs = extractNameList(selectedSpecies?.recommended_occupations);
+    const keywordsList = selectedSpecies?.keywords ? String(selectedSpecies.keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
+    const negKeywordsList = selectedSpecies?.negative_keywords ? String(selectedSpecies.negative_keywords).split(/[,;\n]+/).map(k => k.trim()).filter(Boolean) : [];
 
     return (
       <div className={`bg-slate-950/90 rounded-xl overflow-hidden transition-all space-y-3 p-3 ${
@@ -2260,6 +2265,124 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                     </div>
                   )}
 
+                  {/* Species Recommended Cultural Pathways & Guidance Directives */}
+                  {(recFactions.length > 0 || recOrigins.length > 0 || recOccs.length > 0 || keywordsList.length > 0 || negKeywordsList.length > 0) && (
+                    <div className="p-3 rounded-lg bg-cyan-950/20 border border-cyan-500/30 space-y-2.5">
+                      <div className="flex items-center justify-between gap-1.5 text-xs font-mono font-bold uppercase text-cyan-400 tracking-wider">
+                        <span className="flex items-center gap-1.5">
+                          <span>★</span> Recommended Cultural Pathways & Guidance Directives
+                        </span>
+                        <span className="text-[10px] text-cyan-400/70 font-normal hidden sm:inline">
+                          Operator & AI Reference
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+                        {recFactions.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-purple-900/40 space-y-1.5">
+                            <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recFactions.map(facName => {
+                                const rawFac = characterData['char-faction'];
+                                const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
+                                const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
+                                return (
+                                  <span
+                                    key={facName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-purple-950 border-purple-500 text-purple-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {facName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recOrigins.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-emerald-900/40 space-y-1.5">
+                            <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOrigins.map(origName => {
+                                const rawOrig = characterData['char-origin'];
+                                const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
+                                const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
+                                return (
+                                  <span
+                                    key={origName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-emerald-950 border-emerald-500 text-emerald-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {origName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recOccs.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-sky-900/40 space-y-1.5">
+                            <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOccs.map(occName => {
+                                const rawOcc = characterData['char-occu'];
+                                const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
+                                const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
+                                return (
+                                  <span
+                                    key={occName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-sky-950 border-sky-500 text-sky-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {occName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Keywords & Railguards */}
+                      {(keywordsList.length > 0 || negKeywordsList.length > 0) && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1.5 border-t border-slate-800/60 text-[10px] font-mono">
+                          {keywordsList.length > 0 && (
+                            <div className="space-y-1">
+                              <span className="text-purple-400 font-bold uppercase block">Guidance Directives:</span>
+                              <div className="flex flex-wrap gap-1">
+                                {keywordsList.map(kw => (
+                                  <span key={kw} className="px-1.5 py-0.5 rounded bg-purple-950/60 border border-purple-500/30 text-purple-200">
+                                    #{kw}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {negKeywordsList.length > 0 && (
+                            <div className="space-y-1">
+                              <span className="text-rose-400 font-bold uppercase block">Negative Railguards:</span>
+                              <div className="flex flex-wrap gap-1">
+                                {negKeywordsList.map(kw => (
+                                  <span key={kw} className="px-1.5 py-0.5 rounded bg-rose-950/60 border border-rose-500/30 text-rose-200">
+                                    🚫 #{kw}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {selectedSpecies.description && (
                     <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60 font-sans">
                       {selectedSpecies.description}
@@ -2621,8 +2744,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
 
           {/* Sub-Tab 3: Consolidated Reference Dossier */}
           {activeSubTab === 'dossier' && (
-            selectedOccupation ? (
-              renderConsolidatedDossier('occupation', 'Occupation', (
+            selectedOccupation ? (() => {
+              const recSpecies = Array.isArray(selectedOccupation.recommended_species) ? selectedOccupation.recommended_species : [];
+              const recFactions = Array.isArray(selectedOccupation.recommended_factions) ? selectedOccupation.recommended_factions : [];
+              const recOrigins = Array.isArray(selectedOccupation.recommended_origins) ? selectedOccupation.recommended_origins : [];
+              const keywordsList = selectedOccupation.keywords ? String(selectedOccupation.keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
+              const negKeywordsList = selectedOccupation.negative_keywords ? String(selectedOccupation.negative_keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
+
+              return renderConsolidatedDossier('occupation', 'Occupation', (
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
                     <div>
@@ -2648,9 +2777,135 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                       {selectedOccupation.description}
                     </p>
                   )}
+
+                  {/* Occupation Recommended Cultural Pathways & Guidance Directives */}
+                  {(recSpecies.length > 0 || recFactions.length > 0 || recOrigins.length > 0 || keywordsList.length > 0 || negKeywordsList.length > 0) && (
+                    <div className="p-3 rounded-lg bg-sky-950/20 border border-sky-500/30 space-y-2.5">
+                      <div className="flex items-center justify-between gap-1.5 text-xs font-mono font-bold uppercase text-sky-400 tracking-wider">
+                        <span className="flex items-center gap-1.5">
+                          <span>★</span> Recommended Cultural Pathways & Guidance Directives
+                        </span>
+                        <span className="text-[10px] text-sky-400/70 font-normal hidden sm:inline">
+                          Operator & AI Reference
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+                        {recSpecies.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-sky-900/40 space-y-1.5">
+                            <span className="text-cyan-400 font-bold uppercase block text-[10px]">Species:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recSpecies.map(spName => {
+                                const rawSp = characterData['char-species'];
+                                const spVal = typeof rawSp === 'object' ? (rawSp?.name || rawSp?.title || '') : String(rawSp || '');
+                                const isCurrent = spVal.toLowerCase().includes(spName.toLowerCase()) || spName.toLowerCase().includes(spVal.toLowerCase());
+                                return (
+                                  <span
+                                    key={spName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-cyan-950 border-cyan-500 text-cyan-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {spName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recFactions.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-sky-900/40 space-y-1.5">
+                            <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recFactions.map(facName => {
+                                const rawFac = characterData['char-faction'];
+                                const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
+                                const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
+                                return (
+                                  <span
+                                    key={facName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-purple-950 border-purple-500 text-purple-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {facName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recOrigins.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-sky-900/40 space-y-1.5">
+                            <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOrigins.map(origName => {
+                                const rawOrig = characterData['char-origin'];
+                                const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
+                                const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
+                                return (
+                                  <span
+                                    key={origName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-emerald-950 border-emerald-500 text-emerald-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {origName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Keywords / Directives */}
+                      {keywordsList.length > 0 && (
+                        <div className="bg-slate-950/70 p-2.5 rounded border border-sky-900/40 space-y-1.5">
+                          <span className="text-sky-400 font-bold uppercase block text-[10px] flex items-center gap-1">
+                            <span>✦</span> Guidance Directives (Vocational & Aesthetic Prompt Cues):
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {keywordsList.map((tag, idx) => (
+                              <span
+                                key={idx}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono bg-sky-950/60 border border-sky-800/40 text-sky-300"
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Negative Keywords / Railguards */}
+                      {negKeywordsList.length > 0 && (
+                        <div className="bg-slate-950/70 p-2.5 rounded border border-rose-900/40 space-y-1.5">
+                          <span className="text-rose-400 font-bold uppercase block text-[10px] flex items-center gap-1">
+                            <span>🚫</span> Lore Guardrails (Avoid Incongruous Tropes):
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {negKeywordsList.map((tag, idx) => (
+                              <span
+                                key={idx}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono bg-rose-950/40 border border-rose-900/40 text-rose-300"
+                              >
+                                🚫 #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              ), selectedOccupation, browsePath, true)
-            ) : (
+              ), selectedOccupation, browsePath, true);
+            })() : (
               <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
                 <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
                 <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Occupation Selected</h4>
@@ -3015,8 +3270,14 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
 
           {/* Sub-Tab 3: Consolidated Reference Dossier */}
           {activeSubTab === 'dossier' && (
-            selectedOrigin ? (
-              renderConsolidatedDossier('origin', 'Origin', (
+            selectedOrigin ? (() => {
+              const recSpecies = Array.isArray(selectedOrigin.recommended_species) ? selectedOrigin.recommended_species : [];
+              const recFactions = Array.isArray(selectedOrigin.recommended_factions) ? selectedOrigin.recommended_factions : [];
+              const recOccs = Array.isArray(selectedOrigin.recommended_occupations) ? selectedOrigin.recommended_occupations : [];
+              const keywordsList = selectedOrigin.keywords ? String(selectedOrigin.keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
+              const negKeywordsList = selectedOrigin.negative_keywords ? String(selectedOrigin.negative_keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
+
+              return renderConsolidatedDossier('origin', 'Origin', (
                 <div className="space-y-3">
                   <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
                     <div>
@@ -3048,9 +3309,135 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                       {selectedOrigin.description}
                     </p>
                   )}
+
+                  {/* Origin Recommended Cultural Pathways & Guidance Directives */}
+                  {(recSpecies.length > 0 || recFactions.length > 0 || recOccs.length > 0 || keywordsList.length > 0 || negKeywordsList.length > 0) && (
+                    <div className="p-3 rounded-lg bg-emerald-950/20 border border-emerald-500/30 space-y-2.5">
+                      <div className="flex items-center justify-between gap-1.5 text-xs font-mono font-bold uppercase text-emerald-400 tracking-wider">
+                        <span className="flex items-center gap-1.5">
+                          <span>★</span> Recommended Cultural Pathways & Guidance Directives
+                        </span>
+                        <span className="text-[10px] text-emerald-400/70 font-normal hidden sm:inline">
+                          Operator & AI Reference
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+                        {recSpecies.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-emerald-900/40 space-y-1.5">
+                            <span className="text-cyan-400 font-bold uppercase block text-[10px]">Species:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recSpecies.map(spName => {
+                                const rawSp = characterData['char-species'];
+                                const spVal = typeof rawSp === 'object' ? (rawSp?.name || rawSp?.title || '') : String(rawSp || '');
+                                const isCurrent = spVal.toLowerCase().includes(spName.toLowerCase()) || spName.toLowerCase().includes(spVal.toLowerCase());
+                                return (
+                                  <span
+                                    key={spName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-cyan-950 border-cyan-500 text-cyan-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {spName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recFactions.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-emerald-900/40 space-y-1.5">
+                            <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recFactions.map(facName => {
+                                const rawFac = characterData['char-faction'];
+                                const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
+                                const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
+                                return (
+                                  <span
+                                    key={facName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-purple-950 border-purple-500 text-purple-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {facName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recOccs.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-emerald-900/40 space-y-1.5">
+                            <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOccs.map(occName => {
+                                const rawOcc = characterData['char-occu'];
+                                const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
+                                const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
+                                return (
+                                  <span
+                                    key={occName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-sky-950 border-sky-500 text-sky-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {occName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Keywords / Directives */}
+                      {keywordsList.length > 0 && (
+                        <div className="bg-slate-950/70 p-2.5 rounded border border-emerald-900/40 space-y-1.5">
+                          <span className="text-emerald-400 font-bold uppercase block text-[10px] flex items-center gap-1">
+                            <span>✦</span> Guidance Directives (Atmosphere & Aesthetic Prompt Cues):
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {keywordsList.map((tag, idx) => (
+                              <span
+                                key={idx}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/60 border border-emerald-800/40 text-emerald-300"
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Negative Keywords / Railguards */}
+                      {negKeywordsList.length > 0 && (
+                        <div className="bg-slate-950/70 p-2.5 rounded border border-rose-900/40 space-y-1.5">
+                          <span className="text-rose-400 font-bold uppercase block text-[10px] flex items-center gap-1">
+                            <span>🚫</span> Lore Guardrails (Avoid Incongruous Tropes):
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {negKeywordsList.map((tag, idx) => (
+                              <span
+                                key={idx}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono bg-rose-950/40 border border-rose-900/40 text-rose-300"
+                              >
+                                🚫 #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              ), selectedOrigin, browsePath, true)
-            ) : (
+              ), selectedOrigin, browsePath, true);
+            })() : (
               <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
                 <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
                 <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Origin Selected</h4>
@@ -3443,9 +3830,129 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
 
           {/* Sub-Tab 3: Consolidated Reference Dossier */}
           {activeSubTab === 'dossier' && (
-            selectedFaction ? (
-              renderConsolidatedDossier('faction', 'Faction Allegiance & Strategic Dossier', (
+            selectedFaction ? (() => {
+              const recSpecies = Array.isArray(selectedFaction.recommended_species) ? selectedFaction.recommended_species : [];
+              const recOrigins = Array.isArray(selectedFaction.recommended_origins) ? selectedFaction.recommended_origins : [];
+              const recOccs = Array.isArray(selectedFaction.recommended_occupations) ? selectedFaction.recommended_occupations : [];
+              const keywordsList = selectedFaction.keywords ? String(selectedFaction.keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
+              const negKeywordsList = selectedFaction.negative_keywords ? String(selectedFaction.negative_keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
+
+              return renderConsolidatedDossier('faction', 'Faction Allegiance & Strategic Dossier', (
                 <div className="space-y-3">
+                  {/* Faction Recommended Cultural Pathways & Guidance Directives */}
+                  {(recSpecies.length > 0 || recOrigins.length > 0 || recOccs.length > 0 || keywordsList.length > 0 || negKeywordsList.length > 0) && (
+                    <div className="p-3 rounded-lg bg-purple-950/20 border border-purple-500/30 space-y-2.5">
+                      <div className="flex items-center justify-between gap-1.5 text-xs font-mono font-bold uppercase text-purple-400 tracking-wider">
+                        <span className="flex items-center gap-1.5">
+                          <span>★</span> Recommended Cultural Pathways & Guidance Directives
+                        </span>
+                        <span className="text-[10px] text-purple-400/70 font-normal hidden sm:inline">
+                          Operator & AI Reference
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+                        {recSpecies.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-purple-900/40 space-y-1.5">
+                            <span className="text-cyan-400 font-bold uppercase block text-[10px]">Species:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recSpecies.map(spName => {
+                                const rawSp = characterData['char-species'];
+                                const spVal = typeof rawSp === 'object' ? (rawSp?.name || rawSp?.title || '') : String(rawSp || '');
+                                const isCurrent = spVal.toLowerCase().includes(spName.toLowerCase()) || spName.toLowerCase().includes(spVal.toLowerCase());
+                                return (
+                                  <span
+                                    key={spName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-cyan-950 border-cyan-500 text-cyan-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {spName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recOrigins.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-purple-900/40 space-y-1.5">
+                            <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOrigins.map(origName => {
+                                const rawOrig = characterData['char-origin'];
+                                const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
+                                const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
+                                return (
+                                  <span
+                                    key={origName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-emerald-950 border-emerald-500 text-emerald-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {origName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {recOccs.length > 0 && (
+                          <div className="bg-slate-950/80 p-2.5 rounded border border-purple-900/40 space-y-1.5">
+                            <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
+                            <div className="flex flex-wrap gap-1">
+                              {recOccs.map(occName => {
+                                const rawOcc = characterData['char-occu'];
+                                const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
+                                const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
+                                return (
+                                  <span
+                                    key={occName}
+                                    className={`px-2 py-0.5 rounded text-[10px] border ${
+                                      isCurrent
+                                        ? 'bg-sky-950 border-sky-500 text-sky-200 font-bold'
+                                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                                    }`}
+                                  >
+                                    {occName} {isCurrent ? '✓' : ''}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Directives & Guardrails */}
+                      {(keywordsList.length > 0 || negKeywordsList.length > 0) && (
+                        <div className="pt-2 border-t border-purple-900/40 space-y-1.5 text-xs font-mono">
+                          {keywordsList.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <span className="text-[10px] font-bold uppercase text-purple-400 shrink-0">Guidance Directives:</span>
+                              {keywordsList.map((kw, idx) => (
+                                <span key={idx} className="px-2 py-0.5 rounded-full bg-purple-950/80 border border-purple-600/50 text-purple-200 text-[10px]">
+                                  #{kw}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          {negKeywordsList.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                              <span className="text-[10px] font-bold uppercase text-rose-400 shrink-0">Lore Guardrails:</span>
+                              {negKeywordsList.map((nkw, idx) => (
+                                <span key={idx} className="px-2 py-0.5 rounded-full bg-rose-950/60 border border-rose-800/40 text-rose-300 text-[10px]">
+                                  🚫 #{nkw}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {/* Sociological profile */}
                   {(selectedFaction.core_beliefs || selectedFaction.social_structure) && (
                     <div className="space-y-2 bg-slate-900/60 p-3 rounded-lg border border-slate-800">
@@ -3497,8 +4004,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                     </p>
                   )}
                 </div>
-              ), selectedFaction, browsePath, true)
-            ) : (
+              ), selectedFaction, browsePath, true);
+            })() : (
               <div className="p-8 border border-dashed border-slate-800 rounded-xl bg-slate-900/30 text-center space-y-3">
                 <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
                 <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Faction Selected</h4>

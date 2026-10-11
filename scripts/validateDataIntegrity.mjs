@@ -12,6 +12,8 @@ import { DEFAULT_AUGMENTATIONS } from '../src/data/augmentationsData.js';
 import { DEFAULT_INVOCATIONS } from '../src/data/invocationsData.js';
 import { ALL_CANONICAL_SKILLS } from '../src/data/skillsData.js';
 import { DEFAULT_SPECIES_TYPES } from '../src/data/speciesTypesData.js';
+import { DEFAULT_ORIGINS } from '../src/data/originsData.js';
+import { DEFAULT_OCCUPATIONS } from '../src/data/occupationsData.js';
 import compendiumSeedData from '../src/data/compendiumSeed.json' with { type: 'json' };
 import { BASTION_MECHANICS_DATASET } from '../src/data/mechanicsData.js';
 
@@ -84,6 +86,155 @@ DEFAULT_SPECIES.forEach(s => {
 });
 const movRate = movTotal > 0 ? (movMatched / movTotal) * 100 : 0;
 assert(movRate === 100, `Species -> Movement resolution: ${movMatched}/${movTotal} (${movRate.toFixed(1)}%)`);
+
+// Species -> Recommendations & Keywords resolution
+const knownOriginNames = new Set(DEFAULT_ORIGINS.map(o => (o.name || o.title || '').toLowerCase()));
+let origTotal = 0, origMatched = 0;
+DEFAULT_SPECIES.forEach(s => {
+  (s.recommended_origins || []).forEach(o => {
+    origTotal++;
+    if (knownOriginNames.has(String(o).toLowerCase().trim())) origMatched++;
+  });
+});
+const origRate = origTotal > 0 ? (origMatched / origTotal) * 100 : 0;
+assert(origRate === 100, `Species -> Recommended Origins resolution: ${origMatched}/${origTotal} (${origRate.toFixed(1)}%)`);
+
+const knownOccuNames = new Set(DEFAULT_OCCUPATIONS.map(oc => (oc.name || oc.title || '').toLowerCase()));
+let occuTotal = 0, occuMatched = 0;
+DEFAULT_SPECIES.forEach(s => {
+  (s.recommended_occupations || []).forEach(oc => {
+    occuTotal++;
+    if (knownOccuNames.has(String(oc).toLowerCase().trim())) occuMatched++;
+  });
+});
+const occuRate = occuTotal > 0 ? (occuMatched / occuTotal) * 100 : 0;
+assert(occuRate === 100, `Species -> Recommended Occupations resolution: ${occuMatched}/${occuTotal} (${occuRate.toFixed(1)}%)`);
+
+const speciesWithFactions = DEFAULT_SPECIES.filter(s => Array.isArray(s.recommended_factions) && s.recommended_factions.length > 0).length;
+assert(speciesWithFactions === DEFAULT_SPECIES.length, `Species -> Recommended Factions coverage: ${speciesWithFactions}/${DEFAULT_SPECIES.length}`);
+
+const speciesWithKeywords = DEFAULT_SPECIES.filter(s => typeof s.keywords === 'string' && s.keywords.trim().length > 0).length;
+assert(speciesWithKeywords === DEFAULT_SPECIES.length, `Species -> Guidance Keywords coverage: ${speciesWithKeywords}/${DEFAULT_SPECIES.length}`);
+
+const speciesWithNegKeywords = DEFAULT_SPECIES.filter(s => typeof s.negative_keywords === 'string' && s.negative_keywords.trim().length > 0).length;
+assert(speciesWithNegKeywords === DEFAULT_SPECIES.length, `Species -> Negative Railguards coverage: ${speciesWithNegKeywords}/${DEFAULT_SPECIES.length}`);
+
+// Faction Recommendations & Guidance Directives
+const knownSpeciesNames = new Set(DEFAULT_SPECIES.map(sp => (sp.name || sp.title || '').toLowerCase()));
+let facSpTotal = 0, facSpMatched = 0;
+DEFAULT_FACTIONS.forEach(f => {
+  (f.recommended_species || []).forEach(sp => {
+    facSpTotal++;
+    if (knownSpeciesNames.has(String(sp).toLowerCase().trim())) facSpMatched++;
+  });
+});
+const facSpRate = facSpTotal > 0 ? (facSpMatched / facSpTotal) * 100 : 0;
+assert(facSpRate === 100, `Faction -> Recommended Species resolution: ${facSpMatched}/${facSpTotal} (${facSpRate.toFixed(1)}%)`);
+
+let facOrigTotal = 0, facOrigMatched = 0;
+DEFAULT_FACTIONS.forEach(f => {
+  (f.recommended_origins || []).forEach(o => {
+    facOrigTotal++;
+    if (knownOriginNames.has(String(o).toLowerCase().trim())) facOrigMatched++;
+  });
+});
+const facOrigRate = facOrigTotal > 0 ? (facOrigMatched / facOrigTotal) * 100 : 0;
+assert(facOrigRate === 100, `Faction -> Recommended Origins resolution: ${facOrigMatched}/${facOrigTotal} (${facOrigRate.toFixed(1)}%)`);
+
+let facOccuTotal = 0, facOccuMatched = 0;
+DEFAULT_FACTIONS.forEach(f => {
+  (f.recommended_occupations || []).forEach(oc => {
+    facOccuTotal++;
+    if (knownOccuNames.has(String(oc).toLowerCase().trim())) facOccuMatched++;
+  });
+});
+const facOccuRate = facOccuTotal > 0 ? (facOccuMatched / facOccuTotal) * 100 : 0;
+assert(facOccuRate === 100, `Faction -> Recommended Occupations resolution: ${facOccuMatched}/${facOccuTotal} (${facOccuRate.toFixed(1)}%)`);
+
+const factionsWithKeywords = DEFAULT_FACTIONS.filter(f => typeof f.keywords === 'string' && f.keywords.trim().length > 0).length;
+assert(factionsWithKeywords === DEFAULT_FACTIONS.length, `Faction -> Guidance Keywords coverage: ${factionsWithKeywords}/${DEFAULT_FACTIONS.length}`);
+
+const factionsWithNegKeywords = DEFAULT_FACTIONS.filter(f => typeof f.negative_keywords === 'string' && f.negative_keywords.trim().length > 0).length;
+assert(factionsWithNegKeywords === DEFAULT_FACTIONS.length, `Faction -> Negative Railguards coverage: ${factionsWithNegKeywords}/${DEFAULT_FACTIONS.length}`);
+
+// Origin Recommendations & Guidance Directives
+const knownFactionNames = new Set(DEFAULT_FACTIONS.map(f => (f.name || f.title || '').toLowerCase()));
+
+let origSpTotal = 0, origSpMatched = 0;
+DEFAULT_ORIGINS.forEach(orig => {
+  (orig.recommended_species || []).forEach(sp => {
+    origSpTotal++;
+    if (knownSpeciesNames.has(String(sp).toLowerCase().trim())) origSpMatched++;
+  });
+});
+const origSpRate = origSpTotal > 0 ? (origSpMatched / origSpTotal) * 100 : 0;
+assert(origSpRate === 100, `Origin -> Recommended Species resolution: ${origSpMatched}/${origSpTotal} (${origSpRate.toFixed(1)}%)`);
+
+let origFacTotal = 0, origFacMatched = 0;
+DEFAULT_ORIGINS.forEach(orig => {
+  (orig.recommended_factions || []).forEach(f => {
+    origFacTotal++;
+    if (knownFactionNames.has(String(f).toLowerCase().trim())) origFacMatched++;
+  });
+});
+const origFacRate = origFacTotal > 0 ? (origFacMatched / origFacTotal) * 100 : 0;
+assert(origFacRate === 100, `Origin -> Recommended Factions resolution: ${origFacMatched}/${origFacTotal} (${origFacRate.toFixed(1)}%)`);
+
+let origOccuTotal = 0, origOccuMatched = 0;
+DEFAULT_ORIGINS.forEach(orig => {
+  (orig.recommended_occupations || []).forEach(oc => {
+    origOccuTotal++;
+    if (knownOccuNames.has(String(oc).toLowerCase().trim())) origOccuMatched++;
+  });
+});
+const origOccuRate = origOccuTotal > 0 ? (origOccuMatched / origOccuTotal) * 100 : 0;
+assert(origOccuRate === 100, `Origin -> Recommended Occupations resolution: ${origOccuMatched}/${origOccuTotal} (${origOccuRate.toFixed(1)}%)`);
+
+const originsWithKeywords = DEFAULT_ORIGINS.filter(o => typeof o.keywords === 'string' && o.keywords.trim().length > 0).length;
+assert(originsWithKeywords === DEFAULT_ORIGINS.length, `Origin -> Guidance Keywords coverage: ${originsWithKeywords}/${DEFAULT_ORIGINS.length}`);
+
+const originsWithNegKeywords = DEFAULT_ORIGINS.filter(o => typeof o.negative_keywords === 'string' && o.negative_keywords.trim().length > 0).length;
+assert(originsWithNegKeywords === DEFAULT_ORIGINS.length, `Origin -> Negative Railguards coverage: ${originsWithNegKeywords}/${DEFAULT_ORIGINS.length}`);
+
+// Occupation Recommendations & Guidance Directives
+let occSpTotal = 0, occSpMatched = 0;
+DEFAULT_OCCUPATIONS.forEach(occ => {
+  (occ.recommended_species || []).forEach(sp => {
+    occSpTotal++;
+    if (knownSpeciesNames.has(String(sp).toLowerCase().trim())) occSpMatched++;
+    else console.warn(`Unmatched Occupation species: "${sp}" in ${occ.id}`);
+  });
+});
+const occSpRate = occSpTotal > 0 ? (occSpMatched / occSpTotal) * 100 : 0;
+assert(occSpRate === 100, `Occupation -> Recommended Species resolution: ${occSpMatched}/${occSpTotal} (${occSpRate.toFixed(1)}%)`);
+
+let occFacTotal = 0, occFacMatched = 0;
+DEFAULT_OCCUPATIONS.forEach(occ => {
+  (occ.recommended_factions || []).forEach(f => {
+    occFacTotal++;
+    if (knownFactionNames.has(String(f).toLowerCase().trim())) occFacMatched++;
+    else console.warn(`Unmatched Occupation faction: "${f}" in ${occ.id}`);
+  });
+});
+const occFacRate = occFacTotal > 0 ? (occFacMatched / occFacTotal) * 100 : 0;
+assert(occFacRate === 100, `Occupation -> Recommended Factions resolution: ${occFacMatched}/${occFacTotal} (${occFacRate.toFixed(1)}%)`);
+
+let occOrigTotal = 0, occOrigMatched = 0;
+DEFAULT_OCCUPATIONS.forEach(occ => {
+  (occ.recommended_origins || []).forEach(o => {
+    occOrigTotal++;
+    if (knownOriginNames.has(String(o).toLowerCase().trim())) occOrigMatched++;
+    else console.warn(`Unmatched Occupation origin: "${o}" in ${occ.id}`);
+  });
+});
+const occOrigRate = occOrigTotal > 0 ? (occOrigMatched / occOrigTotal) * 100 : 0;
+assert(occOrigRate === 100, `Occupation -> Recommended Origins resolution: ${occOrigMatched}/${occOrigTotal} (${occOrigRate.toFixed(1)}%)`);
+
+const occupationsWithKeywords = DEFAULT_OCCUPATIONS.filter(o => typeof o.keywords === 'string' && o.keywords.trim().length > 0).length;
+assert(occupationsWithKeywords === DEFAULT_OCCUPATIONS.length, `Occupation -> Guidance Keywords coverage: ${occupationsWithKeywords}/${DEFAULT_OCCUPATIONS.length}`);
+
+const occupationsWithNegKeywords = DEFAULT_OCCUPATIONS.filter(o => typeof o.negative_keywords === 'string' && o.negative_keywords.trim().length > 0).length;
+assert(occupationsWithNegKeywords === DEFAULT_OCCUPATIONS.length, `Occupation -> Negative Railguards coverage: ${occupationsWithNegKeywords}/${DEFAULT_OCCUPATIONS.length}`);
 
 // Archetype essential skills
 const SKILL_ALIASES = {

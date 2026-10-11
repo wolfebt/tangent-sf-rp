@@ -48,13 +48,31 @@ modifiers:
 cp_cost: 24
 cp: 24
 bp: 24
-description: 'Slender, glowing humanoids whose feet never touch the ground, communicating exclusively via harmonic telepathy and telekinetic flight.'
+description: >-
+  Slender, glowing humanoids whose feet never touch the ground, communicating
+  exclusively via harmonic telepathy and telekinetic flight.
 traits:
   - trait-awakened-psychic
   - trait-telepathic-150ft
   - trait-adaptive-aspects
   - trait-flight-telekinetic-levitation-30ft
   - trait-bioluminescent-body-glow
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Sentient Intelligence Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Spacer
+recommended_occupations:
+  - Scholar
+  - Adept
+  - Representative
+keywords: >-
+  harmonic-telepathy, floating-levitation, luminous, ancient-wisdom,
+  high-psionics
+negative_keywords: 'physical-brawling, dirt, manual-labor, heavy-armor'
 ---
 
 # Mondi (Psionic Luminous Entity)

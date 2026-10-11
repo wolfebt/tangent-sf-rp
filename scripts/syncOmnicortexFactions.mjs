@@ -33,6 +33,12 @@ function syncFactions() {
     const recFeatures = Array.isArray(data.recommended_features) ? data.recommended_features : (Array.isArray(data.features) ? data.features : []);
     const bonusFeats = Array.isArray(data.bonus_features) ? data.bonus_features : (recFeatures.length > 0 ? [recFeatures[0]] : []);
 
+    const recSpecies = Array.isArray(data.recommended_species) ? data.recommended_species : [];
+    const recOrigins = Array.isArray(data.recommended_origins) ? data.recommended_origins : [];
+    const recOccupations = Array.isArray(data.recommended_occupations) ? data.recommended_occupations : [];
+    const keywords = typeof data.keywords === 'string' ? data.keywords.trim() : (Array.isArray(data.keywords) ? data.keywords.join(', ') : '');
+    const negativeKeywords = typeof data.negative_keywords === 'string' ? data.negative_keywords.trim() : (Array.isArray(data.negative_keywords) ? data.negative_keywords.join(', ') : '');
+
     const factionObj = {
       id,
       name,
@@ -48,9 +54,14 @@ function syncFactions() {
       prominent_species: data.prominent_species || '',
       typical_archetypes: Array.isArray(data.typical_archetypes) ? data.typical_archetypes : [],
       skill_package: Array.isArray(data.skill_package) ? data.skill_package : (data.skill_package ? [data.skill_package] : []),
+      recommended_species: recSpecies,
+      recommended_origins: recOrigins,
+      recommended_occupations: recOccupations,
       recommended_features: recFeatures,
       features: recFeatures,
       bonus_features: bonusFeats,
+      keywords,
+      negative_keywords: negativeKeywords,
       description: data.description || '',
       costs: data.costs || { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],

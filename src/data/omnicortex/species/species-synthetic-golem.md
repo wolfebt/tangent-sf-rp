@@ -13,7 +13,9 @@ movement:
 speeds: Ground 30 ft
 reach: 10 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Strength
     bonus: 3
@@ -74,13 +76,28 @@ modifiers:
 cp_cost: 70
 cp: 70
 bp: 70
-description: 'Constructed from enchanted alloys, granite, or obsidian and animated by arcane runic cores, Golems are unstoppable heavy sentinels.'
+description: >-
+  Constructed from enchanted alloys, granite, or obsidian and animated by arcane
+  runic cores, Golems are unstoppable heavy sentinels.
 traits:
   - trait-synthetic-base-traits
   - trait-large-size
   - trait-stone-metal-alloy-body-dr-8
   - trait-magic-core-power
   - trait-spell-resistance-4-vs-magic
+recommended_factions:
+  - The Alterian Enclave
+  - The Silvermoon Vanguard
+recommended_origins:
+  - Enlightened
+  - Militaristic
+recommended_occupations:
+  - Soldier
+  - Builder
+keywords: >-
+  runic-stone, arcane-matrix, obsidian-sentinel, heavy-fortification,
+  unstoppable
+negative_keywords: 'agile-acrobatics, hacking, subtle-espionage'
 ---
 
 # Golem (Arcane / Heavy Magitech Construct)

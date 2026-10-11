@@ -1,26 +1,86 @@
 ---
 id: template-environmental
-name: "Environmental Faction Template"
+name: Environmental Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Eco-Militants"
-driving_mandate: "Protect the environment, promote sustainability, oppose destructive activities"
-symbol_sigil: "Eco-Militants / Tree-Huggers (derogatory)"
-capital_world: "Variable (Often pristine or recovering garden worlds)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Variable (Elves, Humans prevalent)"
-typical_archetypes: ["The Eco-Warrior","The Shaman","The Saboteur","The Terraformer","The Beastmaster","The Grove Warden","The Scavenger","The Outrider","The Herbalist","The Radical Activist"]
-skill_package: ["Nature (+5)","Survival (+5)","Stealth (+4)","Mechanics (Sabotage) (+3)","Athletics (+3)"]
-recommended_features: ["Naturalist","Animal Affinity","Wild Speech","Tracker","Self Sufficient","Camouflage","Tolerance","Danger Sense","Environmental Resistance","Climber"]
-features: ["Naturalist","Animal Affinity","Wild Speech","Tracker","Self Sufficient","Camouflage","Tolerance","Danger Sense","Environmental Resistance","Climber"]
-bonus_features: ["Naturalist"]
-description: "Militant and passionate factions deeply focused on environmental preservation. They actively oppose destructive industrial activities, promoting sustainability and protecting natural habitats through direct, often violent, action"
+faction_type: Generic Template
+archetype: Eco-Militants
+driving_mandate: 'Protect the environment, promote sustainability, oppose destructive activities'
+symbol_sigil: Eco-Militants / Tree-Huggers (derogatory)
+capital_world: Variable (Often pristine or recovering garden worlds)
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: 'Variable (Elves, Humans prevalent)'
+typical_archetypes:
+  - The Eco-Warrior
+  - The Shaman
+  - The Saboteur
+  - The Terraformer
+  - The Beastmaster
+  - The Grove Warden
+  - The Scavenger
+  - The Outrider
+  - The Herbalist
+  - The Radical Activist
+skill_package:
+  - Nature (+5)
+  - Survival (+5)
+  - Stealth (+4)
+  - Mechanics (Sabotage) (+3)
+  - Athletics (+3)
+recommended_features:
+  - Naturalist
+  - Animal Affinity
+  - Wild Speech
+  - Tracker
+  - Self Sufficient
+  - Camouflage
+  - Tolerance
+  - Danger Sense
+  - Environmental Resistance
+  - Climber
+features:
+  - Naturalist
+  - Animal Affinity
+  - Wild Speech
+  - Tracker
+  - Self Sufficient
+  - Camouflage
+  - Tolerance
+  - Danger Sense
+  - Environmental Resistance
+  - Climber
+bonus_features:
+  - Naturalist
+description: >-
+  Militant and passionate factions deeply focused on environmental preservation.
+  They actively oppose destructive industrial activities, promoting
+  sustainability and protecting natural habitats through direct, often violent,
+  action
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Dar (Auluran Hunter)
+  - Wildling
+  - Awakened Animal
+  - Fey (Base)
+recommended_origins:
+  - Agricultural
+  - Hostile
+  - Enlightened
+recommended_occupations:
+  - Scout
+  - Scholar
+  - Specialist
+  - Adept
+keywords: >-
+  ecological-preservation, terraforming-stewardship, biome-restoration,
+  planetary-harmony, deep-ecology
+negative_keywords: >-
+  strip-mining, industrial-effluent, ecological-destruction,
+  excessive-consumerism
 ---
 
 ## **7\. ENVIRONMENTAL**

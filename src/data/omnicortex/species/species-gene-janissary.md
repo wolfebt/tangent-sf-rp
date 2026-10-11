@@ -49,11 +49,30 @@ modifiers:
 cp_cost: 30
 cp: 30
 bp: 30
-description: 'The Janissaries are precision-crafted corporate enforcers possessing surgically implanted targeters, adrenal pumps, and uncompromising tactical conditioning.'
+description: >-
+  The Janissaries are precision-crafted corporate enforcers possessing
+  surgically implanted targeters, adrenal pumps, and uncompromising tactical
+  conditioning.
 traits:
   - trait-augmented-sub-dermal-targeter-adrenal-regulator
   - trait-conditioned-mind-4-vs-fear
   - trait-combat-specialization
+recommended_factions:
+  - The Syndicate
+  - Corporate Faction Template
+  - Mercenary Faction Template
+recommended_origins:
+  - Research
+  - Militaristic
+  - Urban
+recommended_occupations:
+  - Soldier
+  - Agent
+  - Specialist
+keywords: >-
+  cloned-enforcer, vat-grown, adrenal-boost, targeter-implant,
+  tactical-discipline, obedience
+negative_keywords: 'creative-freethinking, rebellious, pacifist, emotional-expression'
 ---
 
 # Janissary (Syndicate Elite Enforcer)

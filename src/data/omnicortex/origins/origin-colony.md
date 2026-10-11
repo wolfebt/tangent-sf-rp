@@ -26,6 +26,34 @@ traits:
   - "trait-resource-management"
   - "trait-scientific-knowledge"
   - "trait-survival-skills"
+recommended_species:
+  - "Human (Base)"
+  - "Lin Human"
+  - "Premian Human"
+  - "Dwerg Human"
+  - "Cyberform Human"
+  - "Wildling"
+  - "Kheen Human"
+  - "Frellin"
+  - "Jorni"
+  - "Mondi"
+  - "Sentient Machine (Free Droid)"
+recommended_factions:
+  - "The Outworlds"
+  - "Coalition of Independent Worlds"
+  - "Planetary Faction Template"
+  - "Space Exploration Faction Template"
+  - "Impyrium Dominion"
+  - "Rebel Faction Template"
+recommended_occupations:
+  - "Builder"
+  - "Scout"
+  - "Citizen"
+  - "Soldier"
+  - "Specialist"
+  - "Drifter"
+keywords: "frontier, prefab-habitat, settler, pioneer, homestead, prospector, geodesic-dome, rugged-survival, terraforming-array, modular-outpost, borderlands, expansionist, resource-staging, self-reliance, uncharted-horizon, dusty-trail, solar-array-grid"
+negative_keywords: "decadent-leisure-resort, ancient-gilded-spire, high-class-ballroom, megacity-cyber-sprawl, ancestral-temple, pure-void-deep-spacer, imperial-palace-court, corporate-high-executive-boardroom"
 description: >-
   New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or easily movable modular structures prevail on new planetary territories.
 costs:

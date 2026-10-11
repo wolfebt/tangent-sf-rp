@@ -13,7 +13,9 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers: []
 bonus_attribute_points: 2
 specific_skill_bonuses:
@@ -42,12 +44,29 @@ modifiers: []
 cp_cost: 29
 cp: 29
 bp: 29
-description: 'Skins are advanced bio-synthetic androids covered in warm, synthetic flesh, simulated vascular systems, and emotional emulators designed to pass as natural organics.'
+description: >-
+  Skins are advanced bio-synthetic androids covered in warm, synthetic flesh,
+  simulated vascular systems, and emotional emulators designed to pass as
+  natural organics.
 traits:
   - trait-synthetic-base-traits
   - trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans
   - trait-alter-self-advanced-cellular-surface
   - trait-thermal-simulation
+recommended_factions:
+  - The Syndicate
+  - Corporate Faction Template
+recommended_origins:
+  - Urban
+  - Research
+recommended_occupations:
+  - Agent
+  - Entertainer
+  - Criminal
+keywords: >-
+  synthetic-flesh, emotional-emulator, infiltrator-android, social-mimic,
+  sleeper-unit
+negative_keywords: 'clunky-metal, obvious-robot, conspicuous'
 ---
 
 # Skin (Synthetic Replicant / Infiltrator)

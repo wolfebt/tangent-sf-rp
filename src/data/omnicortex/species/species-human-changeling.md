@@ -45,10 +45,26 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Changelings are human-aeld hybrids carrying dormant shifter alleles. They can subtly alter their facial structure, voice, and eye pigments to adopt distinct personas.'
+description: >-
+  Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
+  subtly alter their facial structure, voice, and eye pigments to adopt distinct
+  personas.
 traits:
   - trait-alter-form-minor-facial-skin-hair-shift
   - trait-intuitive-empathy
+recommended_factions:
+  - The Syndicate
+  - The Alterian Enclave
+  - Criminal Faction Template
+recommended_origins:
+  - Urban
+  - Colony
+recommended_occupations:
+  - Agent
+  - Entertainer
+  - Criminal
+keywords: 'hybrid-shifter, persona-mimic, social-chameleon, subtle, disguise'
+negative_keywords: 'obvious, honest, rigid, static-features'
 ---
 
 # Changeling (Human-Aeld Hybrid)

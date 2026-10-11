@@ -1,26 +1,78 @@
 ---
 id: template-interstellar-diplomats
-name: "Interstellar Diplomats Faction Template"
+name: Interstellar Diplomats Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Peacemakers"
-driving_mandate: "Maintain stability, forge alliances, prevent galactic war"
-symbol_sigil: "The Talkers / The Middlemen / The White Flags"
-capital_world: "A neutral, heavily defended space station or garden world"
-tech_level: "4"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Cosmopolitan (A mix of all species)"
-typical_archetypes: ["The Ambassador","The Peacekeeper","The Analyst","The Bodyguard","The Spy"]
-skill_package: ["Diplomacy (+5)","Insight (+5)","Academics (+4)","History (+3)","Language (+3)"]
-recommended_features: ["Silver Tongue","Trustworthy","Golden Smile","Connected","Linguist","Scholar","Inspiring Personality","Benefit (Immunity)","Educated","Insightful Reason"]
-features: ["Silver Tongue","Trustworthy","Golden Smile","Connected","Linguist","Scholar","Inspiring Personality","Benefit (Immunity)","Educated","Insightful Reason"]
-bonus_features: ["Silver Tongue"]
-description: "Independent coalitions and neutral mediators who specialize in maintaining the fragile galactic peace. Operating out of neutral sectors, they forge treaties, mediate trade disputes, and oversee the rules of war"
+faction_type: Generic Template
+archetype: Peacemakers
+driving_mandate: 'Maintain stability, forge alliances, prevent galactic war'
+symbol_sigil: The Talkers / The Middlemen / The White Flags
+capital_world: 'A neutral, heavily defended space station or garden world'
+tech_level: '4'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Cosmopolitan (A mix of all species)
+typical_archetypes:
+  - The Ambassador
+  - The Peacekeeper
+  - The Analyst
+  - The Bodyguard
+  - The Spy
+skill_package:
+  - Diplomacy (+5)
+  - Insight (+5)
+  - Academics (+4)
+  - History (+3)
+  - Language (+3)
+recommended_features:
+  - Silver Tongue
+  - Trustworthy
+  - Golden Smile
+  - Connected
+  - Linguist
+  - Scholar
+  - Inspiring Personality
+  - Benefit (Immunity)
+  - Educated
+  - Insightful Reason
+features:
+  - Silver Tongue
+  - Trustworthy
+  - Golden Smile
+  - Connected
+  - Linguist
+  - Scholar
+  - Inspiring Personality
+  - Benefit (Immunity)
+  - Educated
+  - Insightful Reason
+bonus_features:
+  - Silver Tongue
+description: >-
+  Independent coalitions and neutral mediators who specialize in maintaining the
+  fragile galactic peace. Operating out of neutral sectors, they forge treaties,
+  mediate trade disputes, and oversee the rules of war
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Celestine (Alterian)
+  - Manelli (Kitin Diplomat)
+  - Lin Human
+  - Human (Base)
+recommended_origins:
+  - Enlightened
+  - Urban
+  - Leisure
+recommended_occupations:
+  - Representative
+  - Scholar
+  - Merchant
+  - Citizen
+keywords: >-
+  diplomatic-protocol, embassy-corps, treaty-negotiation, galactic-concord,
+  cultural-mediation
+negative_keywords: 'isolationist, shoot-first, warmongering, xenophobic, erratic-aggression'
 ---
 
 ## **10\. INTERSTELLAR DIPLOMATS**

@@ -80,11 +80,29 @@ modifiers:
 cp_cost: 29
 cp: 29
 bp: 29
-description: 'Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare.'
+description: >-
+  Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary
+  boarding actions and trench warfare.
 traits:
   - trait-brutal-3-melee-damage
   - trait-exoskeleton-partial-sub-dermal-plates-dr-3
   - trait-combat-rage-1-encounter
+recommended_factions:
+  - Impyrium Dominion
+  - Radiant Impyrium
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Hostile
+  - Industrial
+recommended_occupations:
+  - Soldier
+  - Builder
+  - Specialist
+keywords: >-
+  shock-trooper, reinforced-skeleton, heavy-infantry, high-pain-threshold,
+  boarding-party
+negative_keywords: 'subtle-espionage, delicate-craft, diplomacy, psionics, agile-flight'
 ---
 
 # Digon (Imperial Heavy Shock Trooper)

@@ -42,12 +42,28 @@ modifiers: []
 cp_cost: 22
 cp: 22
 bp: 22
-description: 'Magnificent winged humanoids possessing feathered plumage, eagle-like telescopic eyesight, and aerial supremacy.'
+description: >-
+  Magnificent winged humanoids possessing feathered plumage, eagle-like
+  telescopic eyesight, and aerial supremacy.
 traits:
   - trait-uncanny-senses-telescopic-vision-4
   - trait-flight-winged-speed-50ft
   - trait-hollow-bone-agility
   - trait-thermal-current-riding
+recommended_factions:
+  - The Entari Combine
+  - Coalition of Independent Worlds
+  - The Ascendancy
+recommended_origins:
+  - Colony
+  - Spacer
+  - Militaristic
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Representative
+keywords: 'avian-winged, eagle-eyes, marksman-sniper, aerial-supremacy, plumage, vantage'
+negative_keywords: 'subterranean, water-logging, cramped'
 ---
 
 # Praeti (Winged Avian Humanoid)

@@ -47,11 +47,27 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: Danai are genetic chimeras born from human and Davae transhumans. They display gentle bioluminescent patterns and natural mental connections to bio-synthetic equipment.
+description: >-
+  Danai are genetic chimeras born from human and Davae transhumans. They display
+  gentle bioluminescent patterns and natural mental connections to bio-synthetic
+  equipment.
 traits:
   - trait-awakened-mental-psychic
   - trait-biotechnology-affinity
   - trait-hive-connection-low-band-telepathy
+recommended_factions:
+  - The Ascendancy
+  - The Syndicate
+recommended_origins:
+  - Urban
+  - Research
+  - Colony
+recommended_occupations:
+  - Representative
+  - Specialist
+  - Scholar
+keywords: 'empathic-diplomat, bio-resonance, gentle-glow, mediator, hybrid-psion'
+negative_keywords: 'brutality, isolation, violent-outburst'
 ---
 
 # Danai (Human-Davae Hybrid)

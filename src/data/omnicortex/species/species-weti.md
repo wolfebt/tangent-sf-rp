@@ -61,12 +61,28 @@ modifiers:
 cp_cost: 21
 cp: 21
 bp: 21
-description: 'Tiny, hyper-intelligent simian creatures standing barely 18 inches tall, celebrated for repairing starship conduits, espionage, and rapid climbing.'
+description: >-
+  Tiny, hyper-intelligent simian creatures standing barely 18 inches tall,
+  celebrated for repairing starship conduits, espionage, and rapid climbing.
 traits:
   - trait-tiny-size-4-defense-4-stealth
   - trait-climbing-speed-30ft
   - trait-prehensile-tail
   - trait-quick-5ft-movement
+recommended_factions:
+  - The Entari Combine
+  - The Outworlds
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Spacer
+  - Industrial
+  - Colony
+recommended_occupations:
+  - Builder
+  - Specialist
+  - Scout
+keywords: '18-inch-simian, duct-repair, gremlin-mechanic, tiny-infiltrator, hyper-agile'
+negative_keywords: 'heavy-combat, high-strength, lumbering'
 ---
 
 # Weti (Simian Scout)

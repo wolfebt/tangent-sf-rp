@@ -35,7 +35,15 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: []
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - Acute Senses
+  - Agile Maneuvers
+  - Combat Expertise
+  - Combat Specialization
+  - Darksight
+  - Eidetic Memory
+  - Martial Arts
+  - Sense Magic
 stigma: Minor Xeno (-1)
 tech_level: '3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinement)'
 meta_level: '4 (High Magic: The Flow)'
@@ -54,11 +62,32 @@ modifiers:
 cp_cost: 26
 cp: 26
 bp: 26
-description: 'The Alterian Aeld (Celestines) are graceful, exceptionally long-lived scholars, diplomats, and magi-tech pioneers. They harmonize technology with arcane metaphysics, viewing magic as a rigorous science and operating with a profound long-term perspective.'
+description: >-
+  The Alterian Aeld (Celestines) are graceful, exceptionally long-lived
+  scholars, diplomats, and magi-tech pioneers. They harmonize technology with
+  arcane metaphysics, viewing magic as a rigorous science and operating with a
+  profound long-term perspective.
 traits:
   - trait-awakened-arcane
   - trait-long-lived-600-years
   - trait-sleepless-immune-to-sleep-effects
+recommended_factions:
+  - The Alterian Enclave
+  - The Silvermoon Vanguard
+  - The Ascendancy
+recommended_origins:
+  - Enlightened
+  - Research
+  - Urban
+recommended_occupations:
+  - Representative
+  - Scholar
+  - Adept
+  - Specialist
+keywords: >-
+  arcane-affinity, magi-tech, diplomacy, long-view, high-refinement, scholarly,
+  mediation, graceful
+negative_keywords: 'brute-force, heavy-armor, reckless, technophile-cybernetics, short-sighted'
 ---
 
 # Celestine (Alterian Aeld)

@@ -45,7 +45,10 @@ modifiers:
 cp_cost: 30
 cp: 30
 bp: 30
-description: 'Sha''nor are semi-corporeal shadow and void beings dwelling in cosmic rifts. Immortal and telepathic, they sustain themselves on ambient essence and deep void energy.'
+description: >-
+  Sha'nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
+  Immortal and telepathic, they sustain themselves on ambient essence and deep
+  void energy.
 traits:
   - trait-ageless
   - trait-alter-form-void-wisp-shadow-special-ability
@@ -58,6 +61,18 @@ traits:
   - trait-telepathic-100ft
   - trait-flight
   - trait-vampiric-4-essence-drain-need
+recommended_factions:
+  - Cosmic Horror Faction Template
+  - Supernatural Faction Template
+recommended_origins:
+  - Hostile
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Agent
+  - Drifter
+keywords: 'void-aberration, dark-matter, semi-corporeal, entropy-harbinger, phase-shift'
+negative_keywords: 'solar-radiance, biological-healing, clumsy'
 ---
 
 # Sha'nor (Void Aberration)

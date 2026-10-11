@@ -42,7 +42,10 @@ modifiers: []
 cp_cost: 17
 cp: 17
 bp: 17
-description: 'Sentient, translucent amorphous slime entities able to flow through sealed vents, reshape their mass into pseudo-limbs, and regenerate from fluid droplets.'
+description: >-
+  Sentient, translucent amorphous slime entities able to flow through sealed
+  vents, reshape their mass into pseudo-limbs, and regenerate from fluid
+  droplets.
 traits:
   - trait-adaptive-aspects-acid-thermal-immunity
   - trait-alter-form-amorphous-slime-pseudo-humanoid
@@ -51,6 +54,19 @@ traits:
   - trait-fast-healing
   - trait-regeneration-3-hp-rnd
   - trait-telepathic-100ft
+recommended_factions:
+  - Coalition of Independent Worlds
+  - Alien Faction Template
+recommended_origins:
+  - Hostile
+  - Industrial
+  - Colony
+recommended_occupations:
+  - Specialist
+  - Drifter
+  - Agent
+keywords: 'amorphous-ooze, vent-flow, shape-molding, fluid-regeneration, acid-immunity'
+negative_keywords: 'rigid-armor, fixed-clothing, skeletal'
 ---
 
 # Plasm (Amorphous Ooze Entity)

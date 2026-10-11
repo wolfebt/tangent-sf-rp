@@ -13,7 +13,9 @@ movement:
 speeds: Flight 60 ft
 reach: 1 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 1
@@ -63,13 +65,31 @@ modifiers:
 cp_cost: 78
 cp: 78
 bp: 78
-description: 'A cloud of billions of microscopic robotic drones functioning as a singular distributed intelligence, able to seep through vents and infiltrate secure systems.'
+description: >-
+  A cloud of billions of microscopic robotic drones functioning as a singular
+  distributed intelligence, able to seep through vents and infiltrate secure
+  systems.
 traits:
   - trait-synthetic-base-traits
   - trait-hive-mind-protocol
   - trait-fine-size-6-stealth-passes-through-keyholes
   - trait-dispersal-defense-immune-to-single-target-physical-attacks
   - trait-nano-flight-30ft
+recommended_factions:
+  - The Mekan Collective
+  - Sentient Intelligence Faction Template
+recommended_origins:
+  - Research
+  - Industrial
+  - Spacer
+recommended_occupations:
+  - Specialist
+  - Agent
+  - Builder
+keywords: >-
+  micro-drone-cloud, distributed-intelligence, vent-seepage, nanite-fabrication,
+  dispersed
+negative_keywords: 'single-bullet-target, solid-frame, skeletal'
 ---
 
 # Swarm (Nanite / Micro-Drone Collective)

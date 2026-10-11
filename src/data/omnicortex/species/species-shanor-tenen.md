@@ -38,7 +38,9 @@ modifiers: []
 cp_cost: 42
 cp: 42
 bp: 42
-description: 'Tenen are benign spectral Sha’nor who lack the predatory vampiric urge, drifting between realities as quiet chroniclers and spatial navigators.'
+description: >-
+  Tenen are benign spectral Sha’nor who lack the predatory vampiric urge,
+  drifting between realities as quiet chroniclers and spatial navigators.
 traits:
   - trait-ageless
   - trait-alter-form-advanced
@@ -50,6 +52,18 @@ traits:
   - trait-semi-corporeal-pass-through-walls
   - trait-telepathic
   - trait-flight
+recommended_factions:
+  - The Alterian Enclave
+  - The Outworlds
+recommended_origins:
+  - Enlightened
+  - Spacer
+recommended_occupations:
+  - Scholar
+  - Adept
+  - Scout
+keywords: 'benign-spectral, chronicler, twilight-rift, spatial-observer, intangible-glide'
+negative_keywords: 'predatory-vampire, physical-brawler, loud'
 ---
 
 # Tenen (Spectral Void Entity)

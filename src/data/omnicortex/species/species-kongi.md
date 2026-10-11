@@ -65,7 +65,9 @@ modifiers:
 cp_cost: 21
 cp: 21
 bp: 21
-description: Powerful simian beings combining immense upper-body strength with prehensile four-limb dexterity and climbing speed.
+description: >-
+  Powerful simian beings combining immense upper-body strength with prehensile
+  four-limb dexterity and climbing speed.
 traits:
   - trait-climber
   - trait-low-light-vision
@@ -73,6 +75,21 @@ traits:
   - trait-prehensile-tail-feet
   - trait-acute-scent
   - trait-climb-speed-30ft
+recommended_factions:
+  - Coalition of Independent Worlds
+  - Environmental Faction Template
+recommended_origins:
+  - Hostile
+  - Agricultural
+  - Industrial
+recommended_occupations:
+  - Builder
+  - Soldier
+  - Scout
+keywords: >-
+  simian-colossus, canopy-climber, prehensile-limbs, crushing-biceps,
+  mega-jungle
+negative_keywords: 'tiny-spaces, aerial-glide, frail'
 ---
 
 # Kongi (Simian Juggernaut)

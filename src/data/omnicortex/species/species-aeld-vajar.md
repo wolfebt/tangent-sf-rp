@@ -42,13 +42,31 @@ modifiers: []
 cp_cost: 19
 cp: 19
 bp: 19
-description: 'Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest symbiotic living. They wield shapeshifting and animalistic biomodifications with fierce territorial pride.'
+description: >-
+  Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest
+  symbiotic living. They wield shapeshifting and animalistic biomodifications
+  with fierce territorial pride.
 traits:
   - trait-awakened-nature
   - trait-ageless
   - trait-immune-to-sleep
   - trait-alter-form-adv-animal
   - trait-animalistic-mutation
+recommended_factions:
+  - Vajar Tribes
+  - The Alterian Enclave
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Hostile
+  - Agricultural
+  - Colony
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Drifter
+  - Adept
+keywords: 'feral, primal, tracker, wilderness, survivalist, predator, agile, tribal'
+negative_keywords: 'high-tech, urbanite, heavy-armor, bureaucratic, academic'
 ---
 
 # Vajar (Wilder Aeld)

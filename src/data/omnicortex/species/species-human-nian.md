@@ -56,11 +56,25 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: Hardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments.
+description: >-
+  Hardened frontier humans whose bones and skin grew calcified armor plating in
+  response to hyper-abrasive mineral environments.
 traits:
   - trait-brutal-2-melee-damage
   - trait-exoskeleton-partial-chitinous-plates-dr-2
   - trait-pain-tolerance
+recommended_factions:
+  - The Outworlds
+  - Mercenary Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Drifter
+  - Scout
+keywords: 'calcified-armor, abrasive-badlands, rugged-survivor, heavy-slugthrower, tough'
+negative_keywords: 'aristocratic, delicate, indoor-sedentary'
 ---
 
 # Nian Human (Armored Variant)

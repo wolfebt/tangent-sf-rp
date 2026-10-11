@@ -27,6 +27,33 @@ traits:
   - "trait-pilot-skills"
   - "trait-strategic"
   - "trait-tough"
+recommended_species:
+  - "Draconian (Scaled Aeld)"
+  - "Janissary (Gen-E)"
+  - "Impyrium Regi (Gen-E)"
+  - "Rautha Human"
+  - "Dar (Auluran Hunter)"
+  - "Graa (Auluran Heavy)"
+  - "Maantene (Kitin Leaper)"
+  - "Qeric"
+  - "Weti"
+  - "Sentient Machine (Free Droid)"
+recommended_factions:
+  - "Military Faction Template"
+  - "Impyrium Dominion"
+  - "Dracon Dynasty"
+  - "Mercenary Faction Template"
+  - "Radiant Impyrium"
+  - "Cosmic Justice Faction Template"
+recommended_occupations:
+  - "Soldier"
+  - "Specialist"
+  - "Scout"
+  - "Agent"
+  - "Builder"
+  - "Representative"
+keywords: "fortress-world, military-garrison, plasteel-bunkers, firing-range, parade-grounds, barbed-perimeters, defense-turrets, flak-emplacements, hardened-command-bunker, combat-readiness, drills, disciplined-ranks, munitions-depots, war-room, drop-ship-hangar"
+negative_keywords: "carefree-resort-beach, gilded-dance-ballroom, pacifist-commune, chaotic-unregulated-slums, fragile-glass-greenhouse, drug-riddled-cantina, unarmed-ascetic-hermitage, frivolous-haute-couture"
 description: >-
   Whether a fortified border fortress, orbital garrison, or dedicated planetary training ground, a pervasive military hierarchy governs every aspect of daily life. Fortified bunkers and security corridors prevail.
 costs:

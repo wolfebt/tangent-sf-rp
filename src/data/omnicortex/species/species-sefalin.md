@@ -40,7 +40,9 @@ modifiers: []
 cp_cost: 14
 cp: 14
 bp: 14
-description: 'Tentacled cephalopod humanoids from abyssal trenches possessing dynamic chromatophore skin, rapid limb regeneration, and formidable intellects.'
+description: >-
+  Tentacled cephalopod humanoids from abyssal trenches possessing dynamic
+  chromatophore skin, rapid limb regeneration, and formidable intellects.
 traits:
   - trait-adapted-deep-sea-pelagic
   - trait-awakened-psychic
@@ -51,6 +53,22 @@ traits:
   - trait-tentacles-4-prehensile-grasping-limbs
   - trait-quick-movement
   - trait-regeneration-3-hp-rnd
+recommended_factions:
+  - The Syndicate
+  - The Entari Combine
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Aquatic
+  - Research
+  - Industrial
+recommended_occupations:
+  - Scholar
+  - Specialist
+  - Builder
+keywords: >-
+  cephalopod-humanoid, chromatophore-skin, multi-tentacle, trench-genius,
+  bio-tech
+negative_keywords: 'arid-desert, rigid, clumsy'
 ---
 
 # Sefalin (Cephalopod Aberration)

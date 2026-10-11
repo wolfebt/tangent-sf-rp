@@ -48,6 +48,39 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Doppelganger (Shifter)
+  - Changeling (Doppelganger Hybrid)
+  - Skin (Infiltrator Synthetic)
+  - Nocturne (Kovian)
+  - Android
+  - Cyberform Human
+  - Danai (Davae Hybrid)
+  - Kannid
+  - Human (Base)
+  - Whisper
+recommended_factions:
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Kovian Tribunal
+  - Corporate Faction Template
+  - Criminal Faction Template
+  - Interstellar Diplomats Faction Template
+  - Political Faction Template
+  - The Alterian Enclave
+recommended_origins:
+  - Urban
+  - Spacer
+  - Hostile
+  - Research
+keywords: >-
+  covert-operative, espionage, infiltration, intelligence-handler,
+  surveillance-rig, classified-dossier, suppressed-sidearm, wiretap, disguise,
+  shadow-stealth, false-identity, tactical-hud, asset-extraction, counter-intel,
+  dead-drop, encrypted-comm
+negative_keywords: >-
+  loud-heavy-artillery, obvious-presence, careless-brawler, primitive-mud-hut,
+  flamboyant-circus-performer, transparent-honesty, naive-idealism,
+  static-sentry, clumsy-laborer
 ---
 
 # Agent Occupation

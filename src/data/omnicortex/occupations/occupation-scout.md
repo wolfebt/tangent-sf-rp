@@ -40,6 +40,38 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Vajar (Wilder)
+  - Ferren
+  - Koban
+  - Dar (Auluran Hunter)
+  - Tozen
+  - Frellin
+  - Rakne (Kitin Stalker)
+  - Maantene (Kitin Leaper)
+  - Wildling
+  - Human (Base)
+recommended_factions:
+  - The Outworlds
+  - Space Exploration Faction Template
+  - Coalition of Independent Worlds
+  - Auluran Clans
+  - Elven Providence
+  - Vajar Tribes
+recommended_origins:
+  - Hostile
+  - Colony
+  - Spacer
+  - Agricultural
+  - Aquatic
+keywords: >-
+  reconnaissance, forward-observer, wilderness-pathfinder, trail-marker,
+  ghillie-camo, binoculars, long-range-rifle, topological-map, stealth-stalking,
+  compass-bearing, bushcraft, survival-rations, perimeter-tripwire, high-vantage
+negative_keywords: >-
+  claustrophobic-desk, loud-clanking-armor, conspicuous-banner,
+  sedentary-indoor-worker, heavy-urban-drone, noisy-crowd, reckless-charger,
+  nearsighted
 ---
 
 # Scout Occupation

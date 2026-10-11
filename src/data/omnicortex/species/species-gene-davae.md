@@ -45,12 +45,28 @@ modifiers:
 cp_cost: 14
 cp: 14
 bp: 14
-description: Davae are telepathically networked transhumans engineered with oversized craniums and bioluminescent neurological nodes.
+description: >-
+  Davae are telepathically networked transhumans engineered with oversized
+  craniums and bioluminescent neurological nodes.
 traits:
   - trait-awakened-psychic
   - trait-telepathy-100ft
   - trait-biotechnology-mastery
   - trait-hive-connection-shared-telepathic-mesh
+recommended_factions:
+  - The Syndicate
+  - The Ascendancy
+  - Sentient Intelligence Faction Template
+recommended_origins:
+  - Research
+  - Enlightened
+  - Urban
+recommended_occupations:
+  - Scholar
+  - Adept
+  - Specialist
+keywords: 'hive-psion, neural-mesh, cranial-expansion, bio-computing, telepathic-network'
+negative_keywords: 'physical-labor, brute-force, solitary-isolation, psionic-null'
 ---
 
 # Davae (Hive Psion Transhuman)

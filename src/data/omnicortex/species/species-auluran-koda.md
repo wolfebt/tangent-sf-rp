@@ -51,7 +51,10 @@ modifiers:
 cp_cost: 12
 cp: 12
 bp: 12
-description: 'The Koda are the artisan and bio-architect caste of the Aulurans, possessing enhanced muscular density, digitigrade agility, and an innate knack for breeding chitinous structures.'
+description: >-
+  The Koda are the artisan and bio-architect caste of the Aulurans, possessing
+  enhanced muscular density, digitigrade agility, and an innate knack for
+  breeding chitinous structures.
 traits:
   - trait-auluran-base-traits
   - trait-digitigrade-legs
@@ -59,6 +62,22 @@ traits:
   - trait-quick
   - trait-martial-arts
   - trait-biotechnology-2-crafting
+recommended_factions:
+  - Auluran Clans
+  - The Entari Combine
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Colony
+  - Industrial
+  - Hostile
+recommended_occupations:
+  - Builder
+  - Soldier
+  - Specialist
+keywords: >-
+  feline-artisan, bio-architect, chitin-breeder, digitigrade, dense-muscle,
+  athletic
+negative_keywords: 'sedentary, fragile, metallic-machinery, technophobia'
 ---
 
 # Koda (Auluran Builder Caste)

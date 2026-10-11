@@ -1,26 +1,84 @@
 ---
 id: template-alien
-name: "Alien Faction Template"
+name: Alien Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Extraterrestrial Enigma"
-driving_mandate: "Expand territory, reproduce, eliminate threats, explore the universe"
-symbol_sigil: "The Xenos / The Outsiders / The Anomalies"
-capital_world: "Variable (Often a hostile or exotic biome)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Variable (Non-Human)"
-typical_archetypes: ["The Scout","The Hunter","The Emissary","The Bio-Shaper","The Survivor","The Brute","The Observer","The Hive-Node","The Infiltrator","The Xenologist"]
-skill_package: ["Survival (+5)","Athletics (+4)","Awareness (+4)","Stealth (+4)","Combat (Any) (+3)"]
-recommended_features: ["Alien Physiology","Natural Weapons","Environmental Adaptation","Scent","Fast Heal","Telepathy","Wall-Crawler","Toxic Resistance","Pheromone Control","Echolocation"]
-features: ["Alien Physiology","Natural Weapons","Environmental Adaptation","Scent","Fast Heal","Telepathy","Wall-Crawler","Toxic Resistance","Pheromone Control","Echolocation"]
-bonus_features: ["Alien Physiology"]
-description: "These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race"
+faction_type: Generic Template
+archetype: Extraterrestrial Enigma
+driving_mandate: 'Expand territory, reproduce, eliminate threats, explore the universe'
+symbol_sigil: The Xenos / The Outsiders / The Anomalies
+capital_world: Variable (Often a hostile or exotic biome)
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Variable (Non-Human)
+typical_archetypes:
+  - The Scout
+  - The Hunter
+  - The Emissary
+  - The Bio-Shaper
+  - The Survivor
+  - The Brute
+  - The Observer
+  - The Hive-Node
+  - The Infiltrator
+  - The Xenologist
+skill_package:
+  - Survival (+5)
+  - Athletics (+4)
+  - Awareness (+4)
+  - Stealth (+4)
+  - Combat (Any) (+3)
+recommended_features:
+  - Alien Physiology
+  - Natural Weapons
+  - Environmental Adaptation
+  - Scent
+  - Fast Heal
+  - Telepathy
+  - Wall-Crawler
+  - Toxic Resistance
+  - Pheromone Control
+  - Echolocation
+features:
+  - Alien Physiology
+  - Natural Weapons
+  - Environmental Adaptation
+  - Scent
+  - Fast Heal
+  - Telepathy
+  - Wall-Crawler
+  - Toxic Resistance
+  - Pheromone Control
+  - Echolocation
+bonus_features:
+  - Alien Physiology
+description: >-
+  These factions are composed of non-human species with origins and psychologies
+  that are fundamentally extraterrestrial. Their motives often seem inscrutable
+  or dangerous to humanity, driven by a biological imperative to expand,
+  explore, or ensure the survival of their race
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Orll
+  - Plasm
+  - Thorn
+  - Vassoth
+  - Caprian
+recommended_origins:
+  - Hostile
+  - Colony
+  - Research
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Specialist
+keywords: >-
+  extraterrestrial-enigma, non-humanoid-biology, xenobiological-adaptation,
+  instinctual-caste, alien-territory
+negative_keywords: 'human-centrism, terrestrial-culture, urban-bureaucracy, conventional-diplomacy'
 ---
 
 ## **1\. ALIEN**

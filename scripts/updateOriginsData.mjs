@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { ORIGIN_RECOMMENDATIONS_MAP } from './applyOriginRecommendations.mjs';
 
 const originsDataPath = 'd:/_ Data/Tangent SF RP/TANGENT SF RP react project/src/data/originsData.js';
 const omnicortexOriginsDir = 'd:/_ Data/Tangent SF RP/TANGENT SF RP react project/src/data/omnicortex/origins';
@@ -1533,6 +1534,16 @@ Street Fixer, Ganger Enforcer, Cyber-Runner, Rooftop Courier, Corporate Drone, C
   }
 ];
 
+// Attach recommendations to ALL_11_ORIGINS before saving
+ALL_11_ORIGINS.forEach(origin => {
+  const recs = ORIGIN_RECOMMENDATIONS_MAP[origin.id] || {};
+  origin.recommended_species = recs.recommended_species || [];
+  origin.recommended_factions = recs.recommended_factions || [];
+  origin.recommended_occupations = recs.recommended_occupations || [];
+  origin.keywords = recs.keywords || '';
+  origin.negative_keywords = recs.negative_keywords || '';
+});
+
 // Write updated originsData.js
 const fileContent = `/**
  * ═══════════════════════════════════════════════════════════════════
@@ -1572,6 +1583,14 @@ archetypes:
 ${origin.archetypes.map(a => `  - "${a}"`).join('\n')}
 traits:
 ${origin.traits.map(t => `  - "${t}"`).join('\n')}
+recommended_species:
+${origin.recommended_species.map(s => `  - "${s}"`).join('\n')}
+recommended_factions:
+${origin.recommended_factions.map(f => `  - "${f}"`).join('\n')}
+recommended_occupations:
+${origin.recommended_occupations.map(o => `  - "${o}"`).join('\n')}
+keywords: "${origin.keywords}"
+negative_keywords: "${origin.negative_keywords}"
 description: >-
   ${origin.description.replace(/\n/g, ' ')}
 costs:

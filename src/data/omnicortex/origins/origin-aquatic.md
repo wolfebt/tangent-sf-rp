@@ -27,6 +27,31 @@ traits:
   - "trait-sea-piloting"
   - "trait-resourcefulness"
   - "trait-survival-skills"
+recommended_species:
+  - "Aquarian Human"
+  - "Aquatican (Gen-E)"
+  - "Mobula"
+  - "Sefalin"
+  - "Truldan"
+  - "Praeti"
+  - "Plasm"
+  - "Caprian"
+recommended_factions:
+  - "Environmental Faction Template"
+  - "Coalition of Independent Worlds"
+  - "Auluran Clans"
+  - "The Entari Combine"
+  - "Incorporated Planetary Syndication (The Syndicate)"
+  - "The Alterian Enclave"
+recommended_occupations:
+  - "Scout"
+  - "Specialist"
+  - "Builder"
+  - "Drifter"
+  - "Merchant"
+  - "Agent"
+keywords: "oceanic, deep-sea, submerged-arcology, flotilla-city, pelagic, coral-reef, bathyscaphe, hydro-mining, tidal-energy, bioluminescent, marine-ecology, kelp-forest, trench-explorer, waterworld, pressure-hull, aquanaut, nautical, wave-rider, saline"
+negative_keywords: "arid-desert, dune-sea, barren-wasteland, smog-heavy-industry, fire-lava-cavern, ash-wastes, deep-underground-tunnel, orbital-high-g-forge, dry-steppes, pure-vacuum-void"
 description: >-
   This world is mostly covered in water, with over 85% of its surface being water of various depths. Habitats include anchored land installations, submerged pressurized domes, floating flotilla cities, and marine research platforms.
 costs:

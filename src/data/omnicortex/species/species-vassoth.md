@@ -65,12 +65,28 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding crushing constriction power, heat-sensing pits, and venomous strikes.'
+description: >-
+  Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
+  crushing constriction power, heat-sensing pits, and venomous strikes.
 traits:
   - trait-large-size-12-18ft-serpentine-body-reach-10ft
   - trait-awakened-serpentine-metaphysics
   - trait-constriction-deals-double-damage-on-successful-grapple-hold
   - trait-venomous-fangs-paralytic-poison-dc-15
+recommended_factions:
+  - Coalition of Independent Worlds
+  - Alien Faction Template
+  - Criminal Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+  - Militaristic
+recommended_occupations:
+  - Soldier
+  - Drifter
+  - Adept
+keywords: 'serpentine-colossus, crushing-constriction, heat-sensing-pits, venom, massive'
+negative_keywords: 'stealth-in-crowds, pilot-small-cockpit, tiny'
 ---
 
 # Vassoth (Serpentine Colossus)

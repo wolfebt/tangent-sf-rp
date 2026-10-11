@@ -40,13 +40,26 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Maantene are four-armed insectoid leapers of the Kitin hive. Agile and armored in heavy chitin, they serve as scouts and vanguard flankers.'
+description: >-
+  Maantene are four-armed insectoid leapers of the Kitin hive. Agile and armored
+  in heavy chitin, they serve as scouts and vanguard flankers.
 traits:
   - trait-kitin-base-traits-awakened-psychic-biotech-hive-connection-sleepless
   - trait-exoskeleton-dr-3
   - trait-multidextrous-4-arms
   - trait-leaper-20ft-jump
   - trait-quick-5ft-movement
+recommended_factions:
+  - Hive Mind Faction Template
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Scout
+  - Soldier
+keywords: 'four-armed, leaper, chitin-carapace, hive-psionics, insectoid-vanguard'
+negative_keywords: 'individualism, heavy-firearms, solitary'
 ---
 
 # Maantene (Kitin Insectoid Aberration)

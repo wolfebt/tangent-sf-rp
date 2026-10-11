@@ -60,12 +60,29 @@ modifiers:
 cp_cost: 27
 cp: 27
 bp: 27
-description: 'Base Fey are diminutive, winged beings of pure elemental and natural resonance. Mischievous, radiant, and immortal, they navigate mortal civilizations with wonder and cryptic intentions.'
+description: >-
+  Base Fey are diminutive, winged beings of pure elemental and natural
+  resonance. Mischievous, radiant, and immortal, they navigate mortal
+  civilizations with wonder and cryptic intentions.
 traits:
   - trait-asi-base-traits
   - trait-diminutive-size-4-stealth-4-might
   - trait-awakened-nature
   - trait-flight-gossamer-wings-30ft
+recommended_factions:
+  - Elven Providence
+  - The Alterian Enclave
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Leisure
+  - Hostile
+recommended_occupations:
+  - Adept
+  - Entertainer
+  - Drifter
+keywords: 'fey, immortal, glamour, illusions, flight, radiance, nature-magic, trickster'
+negative_keywords: 'cold-iron, heavy-machinery, industrial, blunt, scientific-rigor'
 ---
 
 # Fey (Base Asi)

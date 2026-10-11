@@ -1,26 +1,84 @@
 ---
 id: template-mercenary
-name: "Mercenary Faction Template"
+name: Mercenary Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Guns for Hire"
-driving_mandate: "Fulfill the contract, get paid, survive"
-symbol_sigil: "Mercs / Hired Guns / Dogs of War"
-capital_world: "Variable (Often operate from massive fleet-carriers or lawless frontier stations)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Highly diverse"
-typical_archetypes: ["The Shock Trooper","The Sniper","The Tactician","The Combat Medic","The Quartermaster"]
-skill_package: ["Combat (Any) (+5)","Tactics (+4)","Survival (+4)","Mechanics (+4)","Athletics (+3)"]
-recommended_features: ["Weapon Focus","Tough","Armor Proficiency","Combat Reflexes","Danger Sense","Burst Attack","Gearhead","Diehard","Endurance","Weapon Improvisation"]
-features: ["Weapon Focus","Tough","Armor Proficiency","Combat Reflexes","Danger Sense","Burst Attack","Gearhead","Diehard","Endurance","Weapon Improvisation"]
-bonus_features: ["Weapon Focus"]
-description: "Private Military Companies (PMCs) and independent warbands who fight for the highest bidder. They hold no allegiance to flags, kings, or causes—only to the contract"
+faction_type: Generic Template
+archetype: Guns for Hire
+driving_mandate: 'Fulfill the contract, get paid, survive'
+symbol_sigil: Mercs / Hired Guns / Dogs of War
+capital_world: >-
+  Variable (Often operate from massive fleet-carriers or lawless frontier
+  stations)
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Highly diverse
+typical_archetypes:
+  - The Shock Trooper
+  - The Sniper
+  - The Tactician
+  - The Combat Medic
+  - The Quartermaster
+skill_package:
+  - Combat (Any) (+5)
+  - Tactics (+4)
+  - Survival (+4)
+  - Mechanics (+4)
+  - Athletics (+3)
+recommended_features:
+  - Weapon Focus
+  - Tough
+  - Armor Proficiency
+  - Combat Reflexes
+  - Danger Sense
+  - Burst Attack
+  - Gearhead
+  - Diehard
+  - Endurance
+  - Weapon Improvisation
+features:
+  - Weapon Focus
+  - Tough
+  - Armor Proficiency
+  - Combat Reflexes
+  - Danger Sense
+  - Burst Attack
+  - Gearhead
+  - Diehard
+  - Endurance
+  - Weapon Improvisation
+bonus_features:
+  - Weapon Focus
+description: >-
+  Private Military Companies (PMCs) and independent warbands who fight for the
+  highest bidder. They hold no allegiance to flags, kings, or causes—only to the
+  contract
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Graa (Auluran Heavy)
+  - Janissary (Gen-E)
+  - Kizin
+  - Orll
+recommended_origins:
+  - Militaristic
+  - Colony
+  - Hostile
+  - Industrial
+recommended_occupations:
+  - Soldier
+  - Agent
+  - Drifter
+  - Specialist
+keywords: >-
+  guns-for-hire, the-contract, private-military, battlefield-veterans,
+  tactical-firepower, dogs-of-war
+negative_keywords: >-
+  pacifist, unpaid-charity, bureaucratic-inertia, civilian-pampering,
+  national-fanaticism
 ---
 
 ## **11\. MERCENARY**

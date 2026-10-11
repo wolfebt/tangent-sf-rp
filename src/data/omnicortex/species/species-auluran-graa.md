@@ -56,7 +56,10 @@ modifiers:
 cp_cost: 19
 cp: 19
 bp: 19
-description: 'The Graa are massive quadrupedal Auluran juggernauts. Lacking fine manipulative hands, they make up for it with crushing jaw power, thick hide, and devastating combat charges.'
+description: >-
+  The Graa are massive quadrupedal Auluran juggernauts. Lacking fine
+  manipulative hands, they make up for it with crushing jaw power, thick hide,
+  and devastating combat charges.
 traits:
   - trait-auluran-base-traits
   - trait-large-size
@@ -64,6 +67,21 @@ traits:
   - trait-quick-speed
   - trait-martial-arts
   - trait-quadruped-speed-40ft
+recommended_factions:
+  - Auluran Clans
+  - Mercenary Faction Template
+  - Military Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Scout
+  - Drifter
+keywords: >-
+  quadruped, beast-juggernaut, crushing-power, apex-carnivore, charge,
+  natural-armor
+negative_keywords: 'fine-manipulation, marksmanship, tool-crafting, academic, urban-formal'
 ---
 
 # Graa (Auluran Heavy Beast Caste)

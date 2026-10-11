@@ -54,7 +54,9 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: 'Reptilian swamp hunters possessing extraordinary regenerative biology, capable of re-growing severed limbs and enduring lethal trauma.'
+description: >-
+  Reptilian swamp hunters possessing extraordinary regenerative biology, capable
+  of re-growing severed limbs and enduring lethal trauma.
 traits:
   - trait-climber
   - trait-digitigrade
@@ -62,6 +64,18 @@ traits:
   - trait-long-prehensile-tail-trip-hold
   - trait-regeneration-3-hp-rnd-regrows-limbs
   - trait-swimmer
+recommended_factions:
+  - Coalition of Independent Worlds
+  - Mercenary Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Scout
+  - Drifter
+keywords: 'reptilian, rapid-regeneration, swamp-hunter, severed-limb-regrowth, hardy'
+negative_keywords: 'arid-desert, delicate, fragile'
 ---
 
 # Jorni (Reptilian Regenerator)

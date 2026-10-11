@@ -1,26 +1,80 @@
 ---
 id: template-military
-name: "Military Faction Template"
+name: Military Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Standing Armies"
-driving_mandate: "Defend the homeland, project power, follow orders"
-symbol_sigil: "The Grunts / The Uniforms / The Brass"
-capital_world: "Variable (Operating out of heavily fortified military starbases or capital worlds)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Variable (Usually homogenous to their ruling government)"
-typical_archetypes: ["The Officer","The Special Forces Operative","The Artillery Specialist","The Combat Pilot","The Drill Instructor"]
-skill_package: ["Combat (Any) (+5)","Tactics (+5)","Discipline (+4)","Athletics (+3)","Intimidate (+3)"]
-recommended_features: ["Combat Expertise","Coordinated Assist","Iron Will","Defensive Combat Training","Weapon Specialization","Enduring","Tough","Benefit (Status)","Master Plan","Skill Focus (Tactics)"]
-features: ["Combat Expertise","Coordinated Assist","Iron Will","Defensive Combat Training","Weapon Specialization","Enduring","Tough","Benefit (Status)","Master Plan","Skill Focus (Tactics)"]
-bonus_features: ["Combat Expertise"]
-description: "The primary, state-sponsored armed forces of a planetary system or sector, dedicated entirely to defense, conquest, and the enforcement of order. Unlike mercenaries, they fight for a flag, a cause, or a government"
+faction_type: Generic Template
+archetype: Standing Armies
+driving_mandate: 'Defend the homeland, project power, follow orders'
+symbol_sigil: The Grunts / The Uniforms / The Brass
+capital_world: >-
+  Variable (Operating out of heavily fortified military starbases or capital
+  worlds)
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Variable (Usually homogenous to their ruling government)
+typical_archetypes:
+  - The Officer
+  - The Special Forces Operative
+  - The Artillery Specialist
+  - The Combat Pilot
+  - The Drill Instructor
+skill_package:
+  - Combat (Any) (+5)
+  - Tactics (+5)
+  - Discipline (+4)
+  - Athletics (+3)
+  - Intimidate (+3)
+recommended_features:
+  - Combat Expertise
+  - Coordinated Assist
+  - Iron Will
+  - Defensive Combat Training
+  - Weapon Specialization
+  - Enduring
+  - Tough
+  - Benefit (Status)
+  - Master Plan
+  - Skill Focus (Tactics)
+features:
+  - Combat Expertise
+  - Coordinated Assist
+  - Iron Will
+  - Defensive Combat Training
+  - Weapon Specialization
+  - Enduring
+  - Tough
+  - Benefit (Status)
+  - Master Plan
+  - Skill Focus (Tactics)
+bonus_features:
+  - Combat Expertise
+description: >-
+  The primary, state-sponsored armed forces of a planetary system or sector,
+  dedicated entirely to defense, conquest, and the enforcement of order. Unlike
+  mercenaries, they fight for a flag, a cause, or a government
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Janissary (Gen-E)
+  - Rautha Human
+  - Argynt Human
+recommended_origins:
+  - Militaristic
+  - Industrial
+  - Urban
+recommended_occupations:
+  - Soldier
+  - Specialist
+  - Agent
+  - Representative
+keywords: >-
+  standing-armed-forces, chain-of-command, planetary-defense-network,
+  combined-arms, martial-doctrine
+negative_keywords: 'insubordination, mutinous, undisciplined-militia, pacifism, loose-mercenary'
 ---
 
 ## **12\. MILITARY**

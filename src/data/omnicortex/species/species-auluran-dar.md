@@ -48,13 +48,34 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: 'The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal, and biologically sophisticated, they wield living symbiote weapons and prehensile limbs with lethal grace.'
+description: >-
+  The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal,
+  and biologically sophisticated, they wield living symbiote weapons and
+  prehensile limbs with lethal grace.
 traits:
-  - trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons
+  - >-
+    trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons
   - trait-awakened-psychic
   - trait-climber
   - trait-martial-arts
   - trait-quick-5ft-movement
+recommended_factions:
+  - Auluran Clans
+  - Coalition of Independent Worlds
+  - Mercenary Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+  - Research
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  feline, hunter, arboreal, living-symbiotes, biotechnology, prehensile, agile,
+  psychic
+negative_keywords: 'clumsy, heavy-armor, aquatic, cybernetic-dependent, pacifist'
 ---
 
 # Dar (Auluran Hunter Caste)

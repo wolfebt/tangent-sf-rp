@@ -47,11 +47,27 @@ modifiers:
 cp_cost: 11
 cp: 11
 bp: 11
-description: B’Dren are slender humans native to tidally locked or twilight worlds. They possess dilated tapetum lucidum eyes providing superior nocturnal vision and rapid motor reflexes.
+description: >-
+  B’Dren are slender humans native to tidally locked or twilight worlds. They
+  possess dilated tapetum lucidum eyes providing superior nocturnal vision and
+  rapid motor reflexes.
 traits:
   - trait-low-light-vision
   - trait-quick-5ft-movement
   - trait-echo-sensitivity
+recommended_factions:
+  - The Outworlds
+  - Kovian Tribunal
+recommended_origins:
+  - Hostile
+  - Colony
+  - Spacer
+recommended_occupations:
+  - Scout
+  - Agent
+  - Specialist
+keywords: 'nocturnal, twilight-world, tapetum-eyes, low-light-reflex, dark-adapted'
+negative_keywords: 'blinding-sunlight, open-plains, desert-heat'
 ---
 
 # B’Dren Human (Nocturnal Variant)

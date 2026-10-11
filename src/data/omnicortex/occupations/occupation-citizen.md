@@ -38,6 +38,38 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Human (Base)
+  - Lin Human
+  - Premian Human
+  - Argynt Human
+  - Nian Human
+  - Dwerg Human
+  - Kheen Human
+  - Kannid
+  - Android
+  - Awakened Animal
+recommended_factions:
+  - Planetary Faction Template
+  - Coalition of Independent Worlds
+  - Impyrium Dominion
+  - Political Faction Template
+  - The Entari Combine
+  - Corporate Faction Template
+recommended_origins:
+  - Urban
+  - Agricultural
+  - Colony
+  - Industrial
+keywords: >-
+  civic-minded, municipal-records, neighborhood-cooperative, public-transit,
+  daily-commute, civil-servant, town-hall, local-commerce, community-solidarity,
+  law-abiding, family-homestead, storefront, census-registry,
+  civic-infrastructure
+negative_keywords: >-
+  bloodthirsty-berserker, eldritch-cultist, covert-assassin, rogue-warlord,
+  deep-abyss-monstrosity, outlaw-raider, lone-wolf-vigilante,
+  nihilistic-anarchist
 ---
 
 # Citizen Occupation

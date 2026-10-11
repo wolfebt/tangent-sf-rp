@@ -39,10 +39,29 @@ modifiers: []
 cp_cost: 14
 cp: 14
 bp: 14
-description: 'Gen-E transhumans are laboratory-engineered humans designed without congenital defects, carrying optimized immune systems and modular genetic code.'
+description: >-
+  Gen-E transhumans are laboratory-engineered humans designed without congenital
+  defects, carrying optimized immune systems and modular genetic code.
 traits:
   - trait-genetic-optimization-disease-immunity-retinal-filter
   - trait-custom-gene-blueprint-1-free-feature
+recommended_factions:
+  - The Syndicate
+  - The Ascendancy
+  - Genetic Engineering Faction Template
+recommended_origins:
+  - Research
+  - Urban
+  - Colony
+recommended_occupations:
+  - Specialist
+  - Citizen
+  - Soldier
+  - Representative
+keywords: >-
+  transhuman, genetic-optimization, disease-immunity, clean-genome, adaptive,
+  athletic
+negative_keywords: 'primitive, bio-purist, degenerative-defects, superstition'
 ---
 
 # Gen-E (Standard Engineered Transhuman)

@@ -1,26 +1,89 @@
 ---
 id: faction-kovian-tribunal
-name: "Kovian Tribunal"
+name: Kovian Tribunal
 category: factions
-faction_type: "Major Polity"
-archetype: "Supremacist / Isolationist / Magocracy"
-driving_mandate: "Purity through Shadow"
-symbol_sigil: "Obsidian Dagger piercing a Silver Crescent Moon"
-capital_world: "Umbra Sector Rogue Planets"
-tech_level: "4"
-meta_level: "3"
-wealth_modifier: "+2 (Hoarded ancient relics/stolen resources)"
-prominent_species: "Nocturne Elves"
-typical_archetypes: ["The Silent Blade","The Ghost","The Operative","The Saboteur","The Slicer","The Shadow-Stepper","The Zealot","The Doomsayer","The Magus","The Aristocrat","The Cryptographer","The Astromancer"]
+faction_type: Major Polity
+archetype: Supremacist / Isolationist / Magocracy
+driving_mandate: Purity through Shadow
+symbol_sigil: Obsidian Dagger piercing a Silver Crescent Moon
+capital_world: Umbra Sector Rogue Planets
+tech_level: '4'
+meta_level: '3'
+wealth_modifier: +2 (Hoarded ancient relics/stolen resources)
+prominent_species: Nocturne Elves
+typical_archetypes:
+  - The Silent Blade
+  - The Ghost
+  - The Operative
+  - The Saboteur
+  - The Slicer
+  - The Shadow-Stepper
+  - The Zealot
+  - The Doomsayer
+  - The Magus
+  - The Aristocrat
+  - The Cryptographer
+  - The Astromancer
 skill_package: []
-recommended_features: ["Darksight","Sneak Attack","Bleed","Blind-Fight","Stealthy","Evasiveness","Discipline Focus (Entropy)","Veiled Threat","Iron Will","Uncanny Dodge","Sense","Quick"]
-features: ["Darksight","Sneak Attack","Bleed","Blind-Fight","Stealthy","Evasiveness","Discipline Focus (Entropy)","Veiled Threat","Iron Will","Uncanny Dodge","Sense","Quick"]
-bonus_features: ["Shadowmeld","Incorruptible Will"]
-description: "The \"shadow self\" of Elven civilization, they seceded from the Enclave millennia ago. Inhabiting the Umbra Sector (rogue planets in dark nebulae), they have evolved a culture of Supremacy and Obfuscation. To a Kovian, darkness is armor. They believe the Elven genome is divine but diluted by Alterian tolerance. They do not trade; they take. Their technology is sleek, silent, and predatory"
+recommended_features:
+  - Darksight
+  - Sneak Attack
+  - Bleed
+  - Blind-Fight
+  - Stealthy
+  - Evasiveness
+  - Discipline Focus (Entropy)
+  - Veiled Threat
+  - Iron Will
+  - Uncanny Dodge
+  - Sense
+  - Quick
+features:
+  - Darksight
+  - Sneak Attack
+  - Bleed
+  - Blind-Fight
+  - Stealthy
+  - Evasiveness
+  - Discipline Focus (Entropy)
+  - Veiled Threat
+  - Iron Will
+  - Uncanny Dodge
+  - Sense
+  - Quick
+bonus_features:
+  - Shadowmeld
+  - Incorruptible Will
+description: >-
+  The "shadow self" of Elven civilization, they seceded from the Enclave
+  millennia ago. Inhabiting the Umbra Sector (rogue planets in dark nebulae),
+  they have evolved a culture of Supremacy and Obfuscation. To a Kovian,
+  darkness is armor. They believe the Elven genome is divine but diluted by
+  Alterian tolerance. They do not trade; they take. Their technology is sleek,
+  silent, and predatory
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Nocturne (Kovian)
+  - Doppelganger (Shifter)
+  - Tenen (Sha’nor Spectral)
+recommended_origins:
+  - Hostile
+  - Enlightened
+  - Urban
+recommended_occupations:
+  - Agent
+  - Criminal
+  - Adept
+  - Soldier
+keywords: >-
+  nocturne-supremacy, void-magocracy, shadow-assassins, entropy-discipline,
+  umbra-rogue-planets, xenophobic-isolation, obsidian-stealth
+negative_keywords: >-
+  harmonious-diplomacy, altruism, open-trade, forgiving, bright-aesthetic,
+  egalitarian, mercy
 ---
 
 ## **KOVIAN TRIBUNAL (NOCTURNE)**

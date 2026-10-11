@@ -48,11 +48,29 @@ modifiers:
 cp_cost: 17
 cp: 17
 bp: 17
-description: 'Cyberforms are transhumans who have replaced upwards of 60% of their organic bodies with cybernetic augmentations, internal processors, and sub-dermal nano-repair hives.'
+description: >-
+  Cyberforms are transhumans who have replaced upwards of 60% of their organic
+  bodies with cybernetic augmentations, internal processors, and sub-dermal
+  nano-repair hives.
 traits:
   - trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link
   - trait-bodyform-acclimation-0-cyber-strain
   - trait-companion-integrated-sub-ai-assistant
+recommended_factions:
+  - The Syndicate
+  - Technological Faction Template
+recommended_origins:
+  - Industrial
+  - Urban
+  - Research
+recommended_occupations:
+  - Specialist
+  - Builder
+  - Soldier
+keywords: >-
+  cyborg, neural-socket, optic-hub, titanium-replacement, high-tech,
+  nanite-repair
+negative_keywords: 'nature-magic, emp-vulnerable, biological-purist, low-tech'
 ---
 
 # Cyberform Human (Transhuman Cyborg)

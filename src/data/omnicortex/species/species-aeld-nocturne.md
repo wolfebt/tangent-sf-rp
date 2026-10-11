@@ -54,12 +54,32 @@ modifiers:
 cp_cost: 23
 cp: 23
 bp: 23
-description: 'The Nocturne (Kovians) are a fiercely disciplined, subterranean and void-dwelling elven faction. Prioritizing cold logic, genetic preservation, and shadow-craft, they harbor deep skepticism toward outsiders.'
+description: >-
+  The Nocturne (Kovians) are a fiercely disciplined, subterranean and
+  void-dwelling elven faction. Prioritizing cold logic, genetic preservation,
+  and shadow-craft, they harbor deep skepticism toward outsiders.
 traits:
   - trait-aeld-lineage-traits
   - trait-dark-sight
   - trait-cold-discipline
   - trait-indomitable-will
+recommended_factions:
+  - Kovian Tribunal
+  - The Alterian Enclave
+  - The Syndicate
+recommended_origins:
+  - Hostile
+  - Urban
+  - Militaristic
+recommended_occupations:
+  - Agent
+  - Soldier
+  - Adept
+  - Specialist
+keywords: >-
+  umbral, shadow-magic, covert, lethal, discipline, stealth, night-vision,
+  supremacist
+negative_keywords: 'gregarious, daylight-dependent, naive, diplomatic-mediator, reckless'
 ---
 
 # Nocturne (Kovian Aeld)

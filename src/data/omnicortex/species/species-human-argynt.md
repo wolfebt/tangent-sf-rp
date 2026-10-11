@@ -47,11 +47,26 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Distinguished by their distinctive silvery-blue skin resulting from colloidal mineral assimilation, Argynts are resilient human colonists adapted to harsh, radiation-heavy worlds.'
+description: >-
+  Distinguished by their distinctive silvery-blue skin resulting from colloidal
+  mineral assimilation, Argynts are resilient human colonists adapted to harsh,
+  radiation-heavy worlds.
 traits:
   - trait-improved-great-fortitude-4-vs-poison-disease
   - trait-dense-skeletal-structure
   - trait-radiation-tolerance
+recommended_factions:
+  - The Outworlds
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Hostile
+  - Industrial
+recommended_occupations:
+  - Builder
+  - Soldier
+  - Drifter
+keywords: 'radiation-immune, colloidal-silver, heavy-worlder, resilient, miner'
+negative_keywords: 'fragile, luxury, delicate, light-gravity'
 ---
 
 # Argynt Human (Heavy Gravity Variant)

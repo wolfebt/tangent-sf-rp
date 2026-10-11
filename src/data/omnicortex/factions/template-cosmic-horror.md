@@ -1,26 +1,82 @@
 ---
 id: template-cosmic-horror
-name: "Cosmic Horror Faction Template"
+name: Cosmic Horror Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Eldritch Cults"
-driving_mandate: "Summon or control eldritch entities, destroy all life, harness the unknown"
-symbol_sigil: "The Mad Ones / The Doomsayers"
-capital_world: "Variable (Dark corners of space, ancient ruins)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Variable (Often mutated or corrupted)"
-typical_archetypes: ["The Cultist","The Occultist","The Doomsayer","The Corrupted","The Void-Caller","The Awakened","The Sacrifice","The Harbinger","The Eldritch Scholar","The Mad Prophet"]
-skill_package: ["Discipline (+5)","Occult (+5)","Intimidate (+4)","Survival (+3)","Stealth (+3)"]
-recommended_features: ["Fearless (Madness)","Discipline Focus (Entropy)","Darksight","Iron Will","Unsettling Aura","Pain Tolerance","Eldritch Resistance","Veiled Threat","Wild Speech","Awakened"]
-features: ["Fearless (Madness)","Discipline Focus (Entropy)","Darksight","Iron Will","Unsettling Aura","Pain Tolerance","Eldritch Resistance","Veiled Threat","Wild Speech","Awakened"]
-bonus_features: ["Fearless (Madness)"]
-description: "Factions characterized by their connection to incomprehensible, eldritch entities. They seek to uncover the secrets of cosmic horror, harness the powers of the unknown, and spread their fanatical beliefs, often aiming to bring about the end of the universe"
+faction_type: Generic Template
+archetype: Eldritch Cults
+driving_mandate: 'Summon or control eldritch entities, destroy all life, harness the unknown'
+symbol_sigil: The Mad Ones / The Doomsayers
+capital_world: 'Variable (Dark corners of space, ancient ruins)'
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Variable (Often mutated or corrupted)
+typical_archetypes:
+  - The Cultist
+  - The Occultist
+  - The Doomsayer
+  - The Corrupted
+  - The Void-Caller
+  - The Awakened
+  - The Sacrifice
+  - The Harbinger
+  - The Eldritch Scholar
+  - The Mad Prophet
+skill_package:
+  - Discipline (+5)
+  - Occult (+5)
+  - Intimidate (+4)
+  - Survival (+3)
+  - Stealth (+3)
+recommended_features:
+  - Fearless (Madness)
+  - Discipline Focus (Entropy)
+  - Darksight
+  - Iron Will
+  - Unsettling Aura
+  - Pain Tolerance
+  - Eldritch Resistance
+  - Veiled Threat
+  - Wild Speech
+  - Awakened
+features:
+  - Fearless (Madness)
+  - Discipline Focus (Entropy)
+  - Darksight
+  - Iron Will
+  - Unsettling Aura
+  - Pain Tolerance
+  - Eldritch Resistance
+  - Veiled Threat
+  - Wild Speech
+  - Awakened
+bonus_features:
+  - Fearless (Madness)
+description: >-
+  Factions characterized by their connection to incomprehensible, eldritch
+  entities. They seek to uncover the secrets of cosmic horror, harness the
+  powers of the unknown, and spread their fanatical beliefs, often aiming to
+  bring about the end of the universe
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Tenen (Sha’nor Spectral)
+  - Eakren (Corrupted Aberration)
+  - Changeling (Doppelganger Hybrid)
+recommended_origins:
+  - Hostile
+  - Enlightened
+  - Research
+recommended_occupations:
+  - Adept
+  - Criminal
+  - Scholar
+keywords: >-
+  cosmic-dread, eldritch-cult, void-whispers, reality-warping,
+  forbidden-knowledge, aberrant-devotion
+negative_keywords: 'rational-humanism, bright-optimism, public-safety, mundane-stability'
 ---
 
 ## **6\. COSMIC HORROR**

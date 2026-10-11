@@ -48,12 +48,29 @@ modifiers:
 cp_cost: 20
 cp: 20
 bp: 20
-description: 'Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic judges, interrogators, and battle-psions.'
+description: >-
+  Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic
+  judges, interrogators, and battle-psions.
 traits:
   - trait-awakened-psionic
   - trait-status-impyrium-authority
   - trait-mind-wipe-resistance
   - trait-psychic-aura
+recommended_factions:
+  - Impyrium Dominion
+  - Radiant Impyrium
+recommended_origins:
+  - Enlightened
+  - Militaristic
+  - Urban
+recommended_occupations:
+  - Adept
+  - Agent
+  - Representative
+keywords: >-
+  inquisitor, telepathy, precognition, imperial-authority, mental-domination,
+  battle-psion
+negative_keywords: 'physical-labor, anti-authoritarian, tech-hack, primitive'
 ---
 
 # Impyrium Psion (Imperial Inquisitor)

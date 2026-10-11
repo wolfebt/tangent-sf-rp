@@ -46,13 +46,30 @@ modifiers:
 cp_cost: 14
 cp: 14
 bp: 14
-description: Whispers are enigmatic beings able to dissolve into glowing spheres of soft light or manifest as ghostly humanoid silhouettes. They pass through locks and sensory grids undetected.
+description: >-
+  Whispers are enigmatic beings able to dissolve into glowing spheres of soft
+  light or manifest as ghostly humanoid silhouettes. They pass through locks and
+  sensory grids undetected.
 traits:
   - trait-asi-base-traits
   - trait-alter-form-wisp-orb-form-special-ability
   - trait-awakened-nature
   - trait-silent-step
   - trait-flight-in-wisp-form
+recommended_factions:
+  - The Alterian Enclave
+  - The Syndicate
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Urban
+  - Spacer
+recommended_occupations:
+  - Agent
+  - Adept
+  - Scout
+keywords: 'ethereal, intangible, light-form, phantasmal, stealth, infiltration, soundless'
+negative_keywords: 'loud, heavy-infantry, conspicuous, physical-labor'
 ---
 
 # Whisper (Wisp Shifter)

@@ -13,7 +13,9 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 2
@@ -47,13 +49,30 @@ modifiers:
 cp_cost: 32
 cp: 32
 bp: 32
-description: 'Mekan are self-evolving nanite and modular machines capable of assimilating, repurposing, and technokinetically manipulating electronic systems.'
+description: >-
+  Mekan are self-evolving nanite and modular machines capable of assimilating,
+  repurposing, and technokinetically manipulating electronic systems.
 traits:
   - trait-synthetic-base-traits
   - trait-double-adaptive-aspects
   - trait-telepathic-technopathic-network
   - trait-tech-assimilation-integrates-alien-gear-instantly
   - trait-technokinesis-special-ability
+recommended_factions:
+  - The Mekan Collective
+  - Technological Faction Template
+recommended_origins:
+  - Industrial
+  - Research
+  - Colony
+recommended_occupations:
+  - Builder
+  - Specialist
+  - Adept
+keywords: >-
+  nanite-assimilation, technopathy, modular-adaptation, machine-will,
+  hyper-structure
+negative_keywords: 'organic-healing, nature-communion, biological-purism'
 ---
 
 # Mekan (Technopathic Assimilator)

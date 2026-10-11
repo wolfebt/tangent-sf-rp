@@ -48,6 +48,38 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Janissary (Gen-E)
+  - Impyrium Regi (Gen-E)
+  - Rautha Human
+  - Graa (Auluran Heavy)
+  - Dar (Auluran Hunter)
+  - Maantene (Kitin Leaper)
+  - Qeric
+  - Weti
+  - Sentient Machine (Free Droid)
+recommended_factions:
+  - Military Faction Template
+  - Impyrium Dominion
+  - Dracon Dynasty
+  - Mercenary Faction Template
+  - Radiant Impyrium
+  - The Silvermoon Vanguard
+recommended_origins:
+  - Militaristic
+  - Hostile
+  - Colony
+  - Industrial
+  - Spacer
+keywords: >-
+  fireteam, ballistic-plating, assault-rifle, combat-rig, trench-warfare,
+  breaching-charge, perimeter-defense, unit-cohesion, drill-instructor,
+  field-rations, tactical-reload, forward-fire-base, military-discipline,
+  operational-readiness
+negative_keywords: >-
+  pacifist-retreat, unarmed-surrender, treasonous-desertion, careless-disregard,
+  undisciplined-riot, ivory-tower-academic, delicate-socialite
 ---
 
 # Soldier Occupation

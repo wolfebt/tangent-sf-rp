@@ -47,12 +47,29 @@ modifiers:
 cp_cost: 20
 cp: 20
 bp: 20
-description: 'Varen are spacefaring humans attuned to hyper-space corridors and ancient gateway networks, possessing innate teleportation and spatial recall powers.'
+description: >-
+  Varen are spacefaring humans attuned to hyper-space corridors and ancient
+  gateway networks, possessing innate teleportation and spatial recall powers.
 traits:
   - trait-awakened-dimension-psychic
   - trait-indomitable-will
   - trait-teleportal-special-ability-short-jump
   - trait-homing-special-ability-spatial-recall
+recommended_factions:
+  - The Ascendancy
+  - The Alterian Enclave
+recommended_origins:
+  - Spacer
+  - Research
+  - Enlightened
+recommended_occupations:
+  - Scholar
+  - Adept
+  - Specialist
+keywords: >-
+  stargate-navigator, spatial-slipstream, awakened-teleport, gate-kin,
+  cosmic-recall
+negative_keywords: 'ground-bound, claustrophobic, tech-phobic'
 ---
 
 # Varen (Warp Gatekeeper Human)

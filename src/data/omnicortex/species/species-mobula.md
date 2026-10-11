@@ -53,7 +53,9 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: 'Aquatic-aerial biforms with winged patagia, sonar echolocation, and the ability to glide through atmospheric currents or dive into oceanic depths.'
+description: >-
+  Aquatic-aerial biforms with winged patagia, sonar echolocation, and the
+  ability to glide through atmospheric currents or dive into oceanic depths.
 traits:
   - trait-adapted-aquatic
   - trait-amphibious
@@ -61,6 +63,21 @@ traits:
   - trait-echolocation-60ft-sonar
   - trait-uncanny-sense-underwater-vision
   - trait-swim-glide-speed-40ft
+recommended_factions:
+  - Coalition of Independent Worlds
+  - Alien Faction Template
+recommended_origins:
+  - Aquatic
+  - Spacer
+  - Hostile
+recommended_occupations:
+  - Scout
+  - Drifter
+  - Specialist
+keywords: >-
+  manta-biform, aerial-glide, sonar-echolocation, pelagic-dive, winged,
+  gas-giant
+negative_keywords: 'confined-corridors, arid-desert, subterranean'
 ---
 
 # Mobula (Manta Biform)

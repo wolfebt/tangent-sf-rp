@@ -54,12 +54,30 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards, law enforcers, and close-quarters assault specialists.'
+description: >-
+  Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards,
+  law enforcers, and close-quarters assault specialists.
 traits:
   - trait-digitigrade
   - trait-quick-5ft-movement
   - trait-uncanny-senses-acute-scent-hearing-4
   - trait-pack-tactics-2-to-hit-when-flanking
+recommended_factions:
+  - Coalition of Independent Worlds
+  - The Entari Combine
+  - Military Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+  - Militaristic
+recommended_occupations:
+  - Soldier
+  - Scout
+  - Agent
+keywords: >-
+  canine-humanoid, tracker, loyal-bodyguard, scent-master, pack-tactics,
+  guardian
+negative_keywords: 'treason, lone-wolf, stealth-disguise'
 ---
 
 # Kannid (Canine Humanoid)

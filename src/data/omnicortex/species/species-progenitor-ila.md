@@ -73,12 +73,31 @@ modifiers:
 cp_cost: 96
 cp: 96
 bp: 96
-description: 'The Ila are god-like precursor architects of transcendent intelligence and luminous presence, founders of ancient megastructures and stargates.'
+description: >-
+  The Ila are god-like precursor architects of transcendent intelligence and
+  luminous presence, founders of ancient megastructures and stargates.
 traits:
-  - trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal
+  - >-
+    trait-progenitor-traits-awakened-x6-telepathy-telekinesis-fast-heal-regeneration-ageless-immortal
   - trait-corporeal-as-desired
   - trait-large-size
   - trait-flicker-movement-teleport-60ft-as-move-action
+recommended_factions:
+  - The Alterian Enclave
+  - Sentient Intelligence Faction Template
+  - Cosmic Justice Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Spacer
+recommended_occupations:
+  - Scholar
+  - Adept
+  - Representative
+keywords: >-
+  precursor-archon, megastructure-builder, deific-intellect,
+  luminous-singularity, ancient
+negative_keywords: 'primitive, mundane-labor, disposable, short-lived'
 ---
 
 # Ila (Precursor Entity)

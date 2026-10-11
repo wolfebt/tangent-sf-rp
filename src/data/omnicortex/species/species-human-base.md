@@ -39,10 +39,32 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by restless ambition and resilience, their versatility allows them to thrive in any environment and master any discipline.'
+description: >-
+  Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by
+  restless ambition and resilience, their versatility allows them to thrive in
+  any environment and master any discipline.
 traits:
   - trait-adaptability
   - trait-broad-horizons-1-feature-at-creation
+recommended_factions:
+  - The Ascendancy
+  - The Entari Combine
+  - Coalition of Independent Worlds
+  - The Syndicate
+  - Impyrium Dominion
+recommended_origins:
+  - Colony
+  - Urban
+  - Spacer
+  - Agricultural
+recommended_occupations:
+  - Citizen
+  - Soldier
+  - Merchant
+  - Scholar
+  - Scout
+keywords: 'adaptable, ubiquitous, ambitious, versatile, tenacious, core-lineage'
+negative_keywords: 'environmental-extremophile, biologically-inflexible'
 ---
 
 # Human (Standard Baseline)

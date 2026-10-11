@@ -40,13 +40,28 @@ modifiers: []
 cp_cost: 11
 cp: 11
 bp: 11
-description: 'Aquarians are oceanic-adapted humans with gill slits, webbed digits, and pressurized vascular systems suited for pelagic trenches and coastal orbital habitats.'
+description: >-
+  Aquarians are oceanic-adapted humans with gill slits, webbed digits, and
+  pressurized vascular systems suited for pelagic trenches and coastal orbital
+  habitats.
 traits:
   - trait-adapted-aquatic
   - trait-amphibious-gills-lungs
   - trait-aquatic-strength-2-in-water
   - trait-specialized-senses-underwater-vision-sonar
   - trait-natural-swim-speed-30ft
+recommended_factions:
+  - The Syndicate
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Aquatic
+  - Colony
+recommended_occupations:
+  - Scout
+  - Specialist
+  - Citizen
+keywords: 'aquatic, hydro-thrusters, diving, coastal-settler, pelagic-life'
+negative_keywords: 'arid-desert, heavy-foundry, claustrophobia'
 ---
 
 # Aquarian Human (Water Variant)

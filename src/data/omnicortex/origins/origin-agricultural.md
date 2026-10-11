@@ -27,6 +27,33 @@ traits:
   - "trait-resourcefulness"
   - "trait-survival-skills"
   - "trait-sustainable-practices"
+recommended_species:
+  - "Lin Human"
+  - "Rautha Human"
+  - "Human (Base)"
+  - "Tozen"
+  - "Ferren"
+  - "Koban"
+  - "Kannid"
+  - "Koda (Auluran Worker)"
+  - "Awakened Animal"
+  - "Thorn"
+recommended_factions:
+  - "Auluran Clans"
+  - "Environmental Faction Template"
+  - "Planetary Faction Template"
+  - "Impyrium Dominion"
+  - "The Outworlds"
+  - "Coalition of Independent Worlds"
+recommended_occupations:
+  - "Builder"
+  - "Citizen"
+  - "Scout"
+  - "Specialist"
+  - "Drifter"
+  - "Merchant"
+keywords: "agrarian, pastoral, bio-dome, mega-harvester, hydroponics, homestead, fertile-plains, crop-canopies, silo-arcology, soil-ecology, rural-frontier, green-biosphere, food-security, agricultural-combine, cultivation, earthy, golden-fields, season-cycles, solar-irrigators"
+negative_keywords: "cyberpunk-megacity, void-vacuum, zero-g-station, deep-abyss, volcanic-waste, neon-high-tech-sprawl, nanite-swarm, pure-synthetic-android, bleak-penal-colony, corporate-executive-boardroom, casino-strip, orbital-dockyard"
 description: >-
   Agri-Worlds are essential for mass food production. These worlds typically have low development and population, ranging from small rural houses, barns, and silos to expansive mega-structure Arcologies and preservation biospheres.
 costs:

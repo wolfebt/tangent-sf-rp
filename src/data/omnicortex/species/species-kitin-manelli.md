@@ -47,12 +47,30 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Manelli are humanoid-shaped Kitin who act as ambassadors, envoys, and translators between the hive mind and carbon civilizations.'
+description: >-
+  Manelli are humanoid-shaped Kitin who act as ambassadors, envoys, and
+  translators between the hive mind and carbon civilizations.
 traits:
   - trait-kitin-base-traits
   - trait-humanoid-stance
   - trait-pheromone-translator
   - trait-telepathic-voice
+recommended_factions:
+  - Hive Mind Faction Template
+  - The Entari Combine
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Colony
+  - Research
+  - Urban
+recommended_occupations:
+  - Representative
+  - Specialist
+  - Citizen
+keywords: >-
+  humanoid-kitin, hive-ambassador, telepathic-translator, carbon-bridge,
+  empathetic
+negative_keywords: 'berserker-rage, isolation, xenophobic'
 ---
 
 # Manelli (Kitin Humanoid Caste)

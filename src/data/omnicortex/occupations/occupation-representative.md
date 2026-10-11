@@ -46,6 +46,37 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Manelli (Kitin Diplomat)
+  - Human (Base)
+  - Argynt Human
+  - Draconian (Scaled Aeld)
+  - Frellin
+  - Ila (Progenitor Archon)
+  - U’Nonn (Progenitor Sovereign)
+  - Changeling (Doppelganger Hybrid)
+recommended_factions:
+  - Interstellar Diplomats Faction Template
+  - Political Faction Template
+  - The Entari Combine
+  - The Alterian Enclave
+  - The Ascendancy
+  - Dracon Dynasty
+  - Impyrium Dominion
+recommended_origins:
+  - Urban
+  - Enlightened
+  - Leisure
+  - Research
+keywords: >-
+  plenipotentiary, diplomatic-envoy, legislative-chamber, state-summit,
+  parliamentary-procedure, treaty-ratification, statesman, sovereign-mandate,
+  court-etiquette, ambassadorial-seal, orator, policy-memo, executive-decree,
+  consular-immunity
+negative_keywords: >-
+  feral-wildsman, vulgar-street-brawler, lawless-bandit, inarticulate-grunt,
+  chaotic-rioter, mud-scavenger, reclusive-hermit, reckless-provocateur
 ---
 
 # Representative Occupation

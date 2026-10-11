@@ -1,26 +1,101 @@
 ---
 id: faction-entari-combine
-name: "The Entari Combine"
+name: The Entari Combine
 category: factions
-faction_type: "Major Polity"
-archetype: "Eco-Futurist Luxury / Cosmopolitan Hub"
-driving_mandate: "Profit through Peace and Sustainability"
-symbol_sigil: "Interlinked Golden Rings"
-capital_world: "Entari Prime (The Garden World)"
-tech_level: "3"
-meta_level: "1"
-wealth_modifier: "+3 (Wealthy Baseline)"
-prominent_species: "Cosmopolitan (All species welcome; notable Sa-Sa-Si population)"
-typical_archetypes: ["The Bureaucrat","The Warden","The Company Man","The Broker","The Security Officer","The Thespian","The Virtuoso","The Envoy","The Senator","The Peacekeeper","The Xenologist","The Biologist"]
-skill_package: ["Diplomacy (+5)","Vocation (Merchant/Artisan) (+4)","History/Xenology (+3)","Insight (+3)","Language (+3)","Finance (+2)"]
-recommended_features: ["Benefit (Wealth)","Benefit (Immunity)","Inspiring Personality","Silver Tongue","Trustworthy","Linguist","Scholar","Medic","Golden Smile","Connected","Educated","Versatile Curator"]
-features: ["Benefit (Wealth)","Benefit (Immunity)","Inspiring Personality","Silver Tongue","Trustworthy","Linguist","Scholar","Medic","Golden Smile","Connected","Educated","Versatile Curator"]
-bonus_features: ["Industrial Connections","Deep Diver"]
-description: "Born from multiple hostile takeovers of a contested agro-world, Patron Marcus DeVree transformed the Entari system into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Synthetic Super-Intellect \"Bastion.\" The Combine operates as a Monarch-led Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's \"Neutral Ground,\" a stabilizing force where commerce and conversation supersede conflict, proving profitability does not require exploitation"
+faction_type: Major Polity
+archetype: Eco-Futurist Luxury / Cosmopolitan Hub
+driving_mandate: Profit through Peace and Sustainability
+symbol_sigil: Interlinked Golden Rings
+capital_world: Entari Prime (The Garden World)
+tech_level: '3'
+meta_level: '1'
+wealth_modifier: +3 (Wealthy Baseline)
+prominent_species: Cosmopolitan (All species welcome; notable Sa-Sa-Si population)
+typical_archetypes:
+  - The Bureaucrat
+  - The Warden
+  - The Company Man
+  - The Broker
+  - The Security Officer
+  - The Thespian
+  - The Virtuoso
+  - The Envoy
+  - The Senator
+  - The Peacekeeper
+  - The Xenologist
+  - The Biologist
+skill_package:
+  - Diplomacy (+5)
+  - Vocation (Merchant/Artisan) (+4)
+  - History/Xenology (+3)
+  - Insight (+3)
+  - Language (+3)
+  - Finance (+2)
+recommended_features:
+  - Benefit (Wealth)
+  - Benefit (Immunity)
+  - Inspiring Personality
+  - Silver Tongue
+  - Trustworthy
+  - Linguist
+  - Scholar
+  - Medic
+  - Golden Smile
+  - Connected
+  - Educated
+  - Versatile Curator
+features:
+  - Benefit (Wealth)
+  - Benefit (Immunity)
+  - Inspiring Personality
+  - Silver Tongue
+  - Trustworthy
+  - Linguist
+  - Scholar
+  - Medic
+  - Golden Smile
+  - Connected
+  - Educated
+  - Versatile Curator
+bonus_features:
+  - Industrial Connections
+  - Deep Diver
+description: >-
+  Born from multiple hostile takeovers of a contested agro-world, Patron Marcus
+  DeVree transformed the Entari system into the premier sovereign sanctuary of
+  the galaxy. It is a technological powerhouse disguised as a trade hub, hosting
+  the Synthetic Super-Intellect "Bastion." The Combine operates as a Monarch-led
+  Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's
+  "Neutral Ground," a stabilizing force where commerce and conversation
+  supersede conflict, proving profitability does not require exploitation
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Human (Base)
+  - Changeling (Doppelganger Hybrid)
+  - Android
+  - Sentient Machine (Free Droid)
+  - Lin Human
+recommended_origins:
+  - Leisure
+  - Urban
+  - Agricultural
+  - Enlightened
+recommended_occupations:
+  - Merchant
+  - Representative
+  - Entertainer
+  - Citizen
+  - Scholar
+keywords: >-
+  eco-futurist-luxury, cosmopolitan-hub, ethical-capitalism, galactic-sanctuary,
+  trade-neutrality, diplomatic-haven, bastion-intelligence,
+  sustainable-prosperity
+negative_keywords: >-
+  warmongering, militant-oppression, ruthless-exploitation, toxic-industrial,
+  xenophobia, austerity, violent-enforcement
 ---
 
 ## **THE ENTARI COMBINE**

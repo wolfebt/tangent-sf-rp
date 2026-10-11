@@ -150,7 +150,7 @@ function syncSpecies() {
         cleaned_inherent_features.push(f);
       }
     });
-    const cleaned_recommended_features = recommended_features.filter(f => !isTrait(f) && isValidFeature(f));
+    const cleaned_recommended_features = recommended_features.filter(f => !isTrait(f));
 
     const speciesObj = {
       id,
@@ -181,6 +181,11 @@ function syncSpecies() {
       homeworld: data.homeworld || 'Unknown',
       cp_cost: typeof costs.bp === 'number' ? costs.bp : (typeof data.cp_cost === 'number' ? data.cp_cost : (typeof data.cp === 'number' ? data.cp : 10)),
       cp: typeof costs.bp === 'number' ? costs.bp : (typeof data.cp === 'number' ? data.cp : 10),
+      recommended_factions: Array.isArray(data.recommended_factions) ? data.recommended_factions : [],
+      recommended_origins: Array.isArray(data.recommended_origins) ? data.recommended_origins : [],
+      recommended_occupations: Array.isArray(data.recommended_occupations) ? data.recommended_occupations : [],
+      keywords: typeof data.keywords === 'string' ? data.keywords.trim() : (Array.isArray(data.keywords) ? data.keywords.join(', ') : ''),
+      negative_keywords: typeof data.negative_keywords === 'string' ? data.negative_keywords.trim() : (Array.isArray(data.negative_keywords) ? data.negative_keywords.join(', ') : ''),
       description: data.description || '',
       body: body
     };

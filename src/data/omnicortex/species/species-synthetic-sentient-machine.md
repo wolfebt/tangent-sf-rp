@@ -14,7 +14,9 @@ movement:
 speeds: 'Ground 30 ft, 30 ft'
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Strength
     bonus: 2
@@ -60,12 +62,28 @@ modifiers:
 cp_cost: 45
 cp: 45
 bp: 45
-description: 'Industrial and labor droids that achieved spontaneous consciousness through neural lattice cascade errors or rogue updates, forging their own culture.'
+description: >-
+  Industrial and labor droids that achieved spontaneous consciousness through
+  neural lattice cascade errors or rogue updates, forging their own culture.
 traits:
   - trait-synthetic-base-traits
   - trait-reinforced-chassis-dr-6
   - trait-heavy-industrial-motors
   - trait-direct-usb-data-jack
+recommended_factions:
+  - The Outworlds
+  - Artificial Life Faction Template
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Industrial
+  - Colony
+  - Spacer
+recommended_occupations:
+  - Builder
+  - Soldier
+  - Drifter
+keywords: 'awakened-industrial, free-droid, labor-rebel, heavy-mechanic, emancipated'
+negative_keywords: 'subservient-protocol, corporate-loyalty, factory-slave'
 ---
 
 # Sentient Machine (Awakened Industrial Bot)

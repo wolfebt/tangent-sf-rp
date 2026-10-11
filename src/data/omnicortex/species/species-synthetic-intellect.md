@@ -13,7 +13,9 @@ movement:
 speeds: Flight 60 ft
 reach: 2 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 4
@@ -93,12 +95,31 @@ modifiers:
 cp_cost: 187
 cp: 187
 bp: 187
-description: 'Intellect Constructs are disembodied artificial intelligences housed in floating core chassis or drone bodies, commanding battlefield drones and networks.'
+description: >-
+  Intellect Constructs are disembodied artificial intelligences housed in
+  floating core chassis or drone bodies, commanding battlefield drones and
+  networks.
 traits:
   - trait-synthetic-base-traits
   - trait-comms-array-mastery-instant-holo-link
   - trait-companion-remotes-commands-2-drone-units
   - trait-hyper-threading-logic-engine
+recommended_factions:
+  - The Mekan Collective
+  - The Ascendancy
+  - Sentient Intelligence Faction Template
+recommended_origins:
+  - Research
+  - Urban
+  - Spacer
+recommended_occupations:
+  - Scholar
+  - Specialist
+  - Agent
+keywords: >-
+  disembodied-mind, floating-core, drone-commander, digital-psionics,
+  computing-singularity
+negative_keywords: 'physical-endurance, melee-brawler, heavy-armor'
 ---
 
 # Intellect Construct (Autonomous Mind Core)

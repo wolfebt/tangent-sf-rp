@@ -41,11 +41,26 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty. They possess patchworks of iridescent scales, heat tolerance, and commanding social presence.'
+description: >-
+  Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty.
+  They possess patchworks of iridescent scales, heat tolerance, and commanding
+  social presence.
 traits:
   - trait-dragonkin-traits-partial-scales-dr-1-heat-resistance
   - trait-status-dynasty-ties
   - trait-fiery-resolve
+recommended_factions:
+  - Dracon Dynasty
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Enlightened
+recommended_occupations:
+  - Soldier
+  - Representative
+  - Specialist
+keywords: 'dragon-blood, feudal-knight, iridescent-scales, heat-hardened, commanding'
+negative_keywords: 'cowardly, dishonorable, treacherous'
 ---
 
 # Draconic Human (Dragonkin Bloodline)

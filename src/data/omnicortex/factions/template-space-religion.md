@@ -1,26 +1,78 @@
 ---
 id: template-space-religion
-name: "Space Religion Faction Template"
+name: Space Religion Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Cosmic Devout"
-driving_mandate: "Protect holy sites, achieve enlightenment, spread peace"
-symbol_sigil: "The Pilgrims / The Monks / Star-Gazers"
-capital_world: "A sacred nebula, an ancient temple-world, or a drifting monastery ship"
-tech_level: "3 (Often integrated with ML 3/4)"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Variable"
-typical_archetypes: ["The Mystic","The Pilgrim","The Oracle","The Temple Guardian","The Chaplain"]
-skill_package: ["Discipline (+5)","History (+4)","Insight (+4)","Diplomacy (+4)","Attune (+3)"]
-recommended_features: ["Centering","Iron Will","Educated","Magical Aptitude","Harmonious Center","Trustworthy","Awakened","Defensive Combat Training","Sense","Insightful Reason"]
-features: ["Centering","Iron Will","Educated","Magical Aptitude","Harmonious Center","Trustworthy","Awakened","Defensive Combat Training","Sense","Insightful Reason"]
-bonus_features: ["Centering"]
-description: "Factions built around cosmic devotion, guarding ancient holy sites or seeking universal enlightenment through the stars. They blend high technology with deep mysticism, viewing the cosmos as a divine tapestry"
+faction_type: Generic Template
+archetype: Cosmic Devout
+driving_mandate: 'Protect holy sites, achieve enlightenment, spread peace'
+symbol_sigil: The Pilgrims / The Monks / Star-Gazers
+capital_world: 'A sacred nebula, an ancient temple-world, or a drifting monastery ship'
+tech_level: 3 (Often integrated with ML 3/4)
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Variable
+typical_archetypes:
+  - The Mystic
+  - The Pilgrim
+  - The Oracle
+  - The Temple Guardian
+  - The Chaplain
+skill_package:
+  - Discipline (+5)
+  - History (+4)
+  - Insight (+4)
+  - Diplomacy (+4)
+  - Attune (+3)
+recommended_features:
+  - Centering
+  - Iron Will
+  - Educated
+  - Magical Aptitude
+  - Harmonious Center
+  - Trustworthy
+  - Awakened
+  - Defensive Combat Training
+  - Sense
+  - Insightful Reason
+features:
+  - Centering
+  - Iron Will
+  - Educated
+  - Magical Aptitude
+  - Harmonious Center
+  - Trustworthy
+  - Awakened
+  - Defensive Combat Training
+  - Sense
+  - Insightful Reason
+bonus_features:
+  - Centering
+description: >-
+  Factions built around cosmic devotion, guarding ancient holy sites or seeking
+  universal enlightenment through the stars. They blend high technology with
+  deep mysticism, viewing the cosmos as a divine tapestry
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Celestine (Alterian)
+  - Ila (Progenitor Archon)
+  - Fey (Base)
+recommended_origins:
+  - Enlightened
+  - Spacer
+  - Research
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Representative
+  - Citizen
+keywords: >-
+  stellar-theology, celestial-pilgrimage, cosmos-worship, astro-monasticism,
+  solar-devotion
+negative_keywords: 'nihilism, atheistic-materialism, purely-secular, short-term-greed'
 ---
 
 ## **22\. SPACE RELIGION**

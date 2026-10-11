@@ -45,7 +45,10 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: Prokos are cold-adapted Auluran biforms from glacial fringe worlds. They can shift between a slender humanoid form for technology operation and a bulky furred predator form for tundra survival.
+description: >-
+  Prokos are cold-adapted Auluran biforms from glacial fringe worlds. They can
+  shift between a slender humanoid form for technology operation and a bulky
+  furred predator form for tundra survival.
 traits:
   - trait-auluran-base-traits
   - trait-digitigrade
@@ -54,6 +57,20 @@ traits:
   - trait-adapted-cold-environments
   - trait-alternate-form-humanoid-beast-form
   - trait-improved-great-fortitude
+recommended_factions:
+  - Auluran Clans
+  - Coalition of Independent Worlds
+  - The Outworlds
+recommended_origins:
+  - Hostile
+  - Colony
+  - Spacer
+recommended_occupations:
+  - Scout
+  - Drifter
+  - Specialist
+keywords: 'cryo-adapted, biform-shifter, tundra-hunter, dual-form, thermal-fur, resilient'
+negative_keywords: 'heat-intolerant, desert-dweller, static-form, fragile'
 ---
 
 # Prokos (Auluran Biform Shifter)

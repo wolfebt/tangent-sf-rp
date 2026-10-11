@@ -1,26 +1,79 @@
 ---
 id: template-post-apocalyptic
-name: "Post-apocalyptic Faction Template"
+name: Post-apocalyptic Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Wasteland Survivors"
-driving_mandate: "Rebuild, secure scarce resources, survive another day"
-symbol_sigil: "Scrappers / Dust-Eaters / The Forgotten"
-capital_world: "A ruined, shattered husk of a former world"
-tech_level: "2 to 3- (Scavenged)"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Humans (Often bearing minor radiation mutations)"
-typical_archetypes: ["The Scavenger","The Road-Warrior","The Wasteland Medic","The Tech-Priest (Artifact worshipper)","The Raider"]
-skill_package: ["Survival (+5)","Mechanics (Jury-Rigging) (+5)","Awareness (+4)","Athletics (+3)","Combat (Improvised) (+3)"]
-recommended_features: ["Self Sufficient","Endurance","Tough","Master Craftsman","Weapon Improvisation","Danger Sense","Beginner's Luck","Tolerance","Gearhead","Tracker"]
-features: ["Self Sufficient","Endurance","Tough","Master Craftsman","Weapon Improvisation","Danger Sense","Beginner's Luck","Tolerance","Gearhead","Tracker"]
-bonus_features: ["Self Sufficient"]
-description: "Survivors of a massive planetary catastrophe (nuclear, biological, or orbital bombardment). They scrape by in irradiated ruins, relying on scavenging and brutal survival instincts. They represent a severe regression in technology and society"
+faction_type: Generic Template
+archetype: Wasteland Survivors
+driving_mandate: 'Rebuild, secure scarce resources, survive another day'
+symbol_sigil: Scrappers / Dust-Eaters / The Forgotten
+capital_world: 'A ruined, shattered husk of a former world'
+tech_level: 2 to 3- (Scavenged)
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Humans (Often bearing minor radiation mutations)
+typical_archetypes:
+  - The Scavenger
+  - The Road-Warrior
+  - The Wasteland Medic
+  - The Tech-Priest (Artifact worshipper)
+  - The Raider
+skill_package:
+  - Survival (+5)
+  - Mechanics (Jury-Rigging) (+5)
+  - Awareness (+4)
+  - Athletics (+3)
+  - Combat (Improvised) (+3)
+recommended_features:
+  - Self Sufficient
+  - Endurance
+  - Tough
+  - Master Craftsman
+  - Weapon Improvisation
+  - Danger Sense
+  - Beginner's Luck
+  - Tolerance
+  - Gearhead
+  - Tracker
+features:
+  - Self Sufficient
+  - Endurance
+  - Tough
+  - Master Craftsman
+  - Weapon Improvisation
+  - Danger Sense
+  - Beginner's Luck
+  - Tolerance
+  - Gearhead
+  - Tracker
+bonus_features:
+  - Self Sufficient
+description: >-
+  Survivors of a massive planetary catastrophe (nuclear, biological, or orbital
+  bombardment). They scrape by in irradiated ruins, relying on scavenging and
+  brutal survival instincts. They represent a severe regression in technology
+  and society
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Rautha Human
+  - Scrap (Junkframe Synthetic)
+  - Thorn
+  - Jorni
+recommended_origins:
+  - Hostile
+  - Colony
+  - Industrial
+recommended_occupations:
+  - Drifter
+  - Scout
+  - Builder
+  - Criminal
+keywords: >-
+  wasteland-scavengers, ash-survival, ruin-foragers, scorched-earth,
+  resource-desperation
+negative_keywords: 'luxurious-excess, post-scarcity, high-fashion, fragile-aristocracy'
 ---
 
 ## **16\. POST-APOCALYPTIC**

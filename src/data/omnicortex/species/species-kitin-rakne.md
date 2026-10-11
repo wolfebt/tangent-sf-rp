@@ -66,13 +66,27 @@ modifiers:
 cp_cost: 22
 cp: 22
 bp: 22
-description: 'Rakne are multi-limbed, arachnid-like Kitin predators capable of scaling walls, spinning high-tensile silk webs, and delivering paralytic venom.'
+description: >-
+  Rakne are multi-limbed, arachnid-like Kitin predators capable of scaling
+  walls, spinning high-tensile silk webs, and delivering paralytic venom.
 traits:
   - trait-kitin-base-traits
   - trait-climber-ceiling-walk
   - trait-multidextrous-6-limbs
   - trait-quick-movement
   - trait-venomous-bite
+recommended_factions:
+  - Hive Mind Faction Template
+  - Criminal Faction Template
+recommended_origins:
+  - Hostile
+  - Spacer
+recommended_occupations:
+  - Scout
+  - Agent
+  - Soldier
+keywords: 'arachnid-kitin, silk-spinner, wall-climber, neurotoxin-ambush, multi-limbed'
+negative_keywords: 'open-plains, diplomatic-court, conspicuous'
 ---
 
 # Rakne (Kitin Arachnoid Aberration)

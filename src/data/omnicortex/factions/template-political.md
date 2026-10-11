@@ -1,26 +1,79 @@
 ---
 id: template-political
-name: "Political Faction Template"
+name: Political Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Ideological Blocs"
-driving_mandate: "Control the government, spread the ideology, pass favorable legislation"
-symbol_sigil: "The Suits / The Spin-Doctors / The Lobby"
-capital_world: "Usually operating out of major galactic capitals"
-tech_level: "3 to 4"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Highly Cosmopolitan"
-typical_archetypes: ["The Politician","The Campaign Strategist","The Lobbyist","The Spin-Doctor","The Black-Ops Fixer"]
-skill_package: ["Diplomacy (+5)","Insight (+5)","Bluff (+4)","History (+3)","Computers (Data-Mining) (+3)"]
-recommended_features: ["Silver Tongue","Connected","Inspiring Personality","Trustworthy","Golden Smile","Well-Informed","Benefit (Wealth)","Deceitful","Lie Detector","Benefit (Immunity)"]
-features: ["Silver Tongue","Connected","Inspiring Personality","Trustworthy","Golden Smile","Well-Informed","Benefit (Wealth)","Deceitful","Lie Detector","Benefit (Immunity)"]
-bonus_features: ["Silver Tongue"]
-description: "Ideological blocs and powerful lobbying groups fighting for control over existing governmental structures. They fight their wars in boardrooms, assembly halls, and the media, utilizing propaganda, subversion, and massive capital to shape the galaxy's laws to their advantage"
+faction_type: Generic Template
+archetype: Ideological Blocs
+driving_mandate: 'Control the government, spread the ideology, pass favorable legislation'
+symbol_sigil: The Suits / The Spin-Doctors / The Lobby
+capital_world: Usually operating out of major galactic capitals
+tech_level: 3 to 4
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Highly Cosmopolitan
+typical_archetypes:
+  - The Politician
+  - The Campaign Strategist
+  - The Lobbyist
+  - The Spin-Doctor
+  - The Black-Ops Fixer
+skill_package:
+  - Diplomacy (+5)
+  - Insight (+5)
+  - Bluff (+4)
+  - History (+3)
+  - Computers (Data-Mining) (+3)
+recommended_features:
+  - Silver Tongue
+  - Connected
+  - Inspiring Personality
+  - Trustworthy
+  - Golden Smile
+  - Well-Informed
+  - Benefit (Wealth)
+  - Deceitful
+  - Lie Detector
+  - Benefit (Immunity)
+features:
+  - Silver Tongue
+  - Connected
+  - Inspiring Personality
+  - Trustworthy
+  - Golden Smile
+  - Well-Informed
+  - Benefit (Wealth)
+  - Deceitful
+  - Lie Detector
+  - Benefit (Immunity)
+bonus_features:
+  - Silver Tongue
+description: >-
+  Ideological blocs and powerful lobbying groups fighting for control over
+  existing governmental structures. They fight their wars in boardrooms,
+  assembly halls, and the media, utilizing propaganda, subversion, and massive
+  capital to shape the galaxy's laws to their advantage
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Premian Human
+  - Lin Human
+  - Celestine (Alterian)
+recommended_origins:
+  - Urban
+  - Colony
+  - Enlightened
+recommended_occupations:
+  - Representative
+  - Citizen
+  - Agent
+  - Scholar
+keywords: >-
+  partisan-movement, ideological-coalition, parliamentary-bloc,
+  separatist-manifesto, popular-agitation
+negative_keywords: 'apolitical-passivity, military-autocracy, pure-anarchy, mindless-obedience'
 ---
 
 ## **15\. POLITICAL**

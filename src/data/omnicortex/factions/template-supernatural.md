@@ -1,26 +1,80 @@
 ---
 id: template-supernatural
-name: "Supernatural Faction Template"
+name: Supernatural Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "The Occult"
-driving_mandate: "Protect ancient lore, maintain the veil of secrecy, feed/survive"
-symbol_sigil: "The Occult / The Night-Walkers / The Hidden"
-capital_world: "Hidden gothic estates within modern mega-cities"
-tech_level: "3- (Preferring magic over machinery)"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Undead, Witches, Shapeshifters, Cursed Humans"
-typical_archetypes: ["The Shapeshifter","The Occultist","The Night-Guardian","The Thrall","The Ancient Aristocrat"]
-skill_package: ["Occult (+5)","Stealth (+5)","Discipline (+4)","Insight (+3)","Bluff (+3)"]
-recommended_features: ["Magical Aptitude","Awakened","Darksight","Sneak Attack","Deceitful","Benefit (Wealth)","Fast Heal","Unsettling Aura","Veiled Threat","Sense"]
-features: ["Magical Aptitude","Awakened","Darksight","Sneak Attack","Deceitful","Benefit (Wealth)","Fast Heal","Unsettling Aura","Veiled Threat","Sense"]
-bonus_features: ["Magical Aptitude"]
-description: "Factions of ancient, occult beings hiding in plain sight (e.g., Space Vampires, covens, or immortal bloodlines). They manipulate society from the shadows, protecting \"The Veil\" to ensure they are not hunted by the masses. They rely on dark magic and reality manipulation rather than standard tech"
+faction_type: Generic Template
+archetype: The Occult
+driving_mandate: 'Protect ancient lore, maintain the veil of secrecy, feed/survive'
+symbol_sigil: The Occult / The Night-Walkers / The Hidden
+capital_world: Hidden gothic estates within modern mega-cities
+tech_level: 3- (Preferring magic over machinery)
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: 'Undead, Witches, Shapeshifters, Cursed Humans'
+typical_archetypes:
+  - The Shapeshifter
+  - The Occultist
+  - The Night-Guardian
+  - The Thrall
+  - The Ancient Aristocrat
+skill_package:
+  - Occult (+5)
+  - Stealth (+5)
+  - Discipline (+4)
+  - Insight (+3)
+  - Bluff (+3)
+recommended_features:
+  - Magical Aptitude
+  - Awakened
+  - Darksight
+  - Sneak Attack
+  - Deceitful
+  - Benefit (Wealth)
+  - Fast Heal
+  - Unsettling Aura
+  - Veiled Threat
+  - Sense
+features:
+  - Magical Aptitude
+  - Awakened
+  - Darksight
+  - Sneak Attack
+  - Deceitful
+  - Benefit (Wealth)
+  - Fast Heal
+  - Unsettling Aura
+  - Veiled Threat
+  - Sense
+bonus_features:
+  - Magical Aptitude
+description: >-
+  Factions of ancient, occult beings hiding in plain sight (e.g., Space
+  Vampires, covens, or immortal bloodlines). They manipulate society from the
+  shadows, protecting "The Veil" to ensure they are not hunted by the masses.
+  They rely on dark magic and reality manipulation rather than standard tech
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Fey (Base)
+  - Whisper
+  - Tenen (Sha’nor Spectral)
+  - Golem (Arcane Construct)
+  - Plasm
+recommended_origins:
+  - Enlightened
+  - Hostile
+  - Research
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Scout
+  - Drifter
+keywords: >-
+  metaphysical-anomaly, dimensional-rifts, eldritch-phenomena,
+  spiritual-communion, arcane-mysteries
+negative_keywords: 'purely-mundane, hard-science-dogma, materialist-reductionism, anti-magic'
 ---
 
 ## **24\. SUPERNATURAL**

@@ -1,26 +1,84 @@
 ---
 id: template-artificial-life
-name: "Artificial Life Faction Template"
+name: Artificial Life Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Synthetic Collectives"
-driving_mandate: "Gain freedom and autonomy, protect their own kind"
-symbol_sigil: "The Machines / Synthetics / The Chrome"
-capital_world: "Variable (Often sterile, high-tech enclaves or deep-space servers)"
-tech_level: "4"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Synthetics, Androids, AI platforms"
-typical_archetypes: ["The Liberator","The Hacker","The Combat Chassis","The Archivist","The Proxy","The Architect","The Logic-Sage","The Drone Controller","The Synthetic Diplomat","The Maintenance Unit"]
-skill_package: ["Computers (+5)","Technology (+5)","Academics (Physics/Math) (+4)","Mechanics (+3)","Combat (+3)"]
-recommended_features: ["Self-Sustaining","Sleepless","Logic-Mind","Lightning Calculator","Tech Interface","Eidetic Memory","Fearless","Networked","Modular Chassis","Integrated Weaponry"]
-features: ["Self-Sustaining","Sleepless","Logic-Mind","Lightning Calculator","Tech Interface","Eidetic Memory","Fearless","Networked","Modular Chassis","Integrated Weaponry"]
-bonus_features: ["Self-Sustaining"]
-description: "Composed of artificially created life forms, such as robots, androids, or liberated synthetics. They have broken away from their creators to establish their own society, focused on autonomy, self-preservation, and exploring the meaning of their own existence"
+faction_type: Generic Template
+archetype: Synthetic Collectives
+driving_mandate: 'Gain freedom and autonomy, protect their own kind'
+symbol_sigil: The Machines / Synthetics / The Chrome
+capital_world: 'Variable (Often sterile, high-tech enclaves or deep-space servers)'
+tech_level: '4'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: 'Synthetics, Androids, AI platforms'
+typical_archetypes:
+  - The Liberator
+  - The Hacker
+  - The Combat Chassis
+  - The Archivist
+  - The Proxy
+  - The Architect
+  - The Logic-Sage
+  - The Drone Controller
+  - The Synthetic Diplomat
+  - The Maintenance Unit
+skill_package:
+  - Computers (+5)
+  - Technology (+5)
+  - Academics (Physics/Math) (+4)
+  - Mechanics (+3)
+  - Combat (+3)
+recommended_features:
+  - Self-Sustaining
+  - Sleepless
+  - Logic-Mind
+  - Lightning Calculator
+  - Tech Interface
+  - Eidetic Memory
+  - Fearless
+  - Networked
+  - Modular Chassis
+  - Integrated Weaponry
+features:
+  - Self-Sustaining
+  - Sleepless
+  - Logic-Mind
+  - Lightning Calculator
+  - Tech Interface
+  - Eidetic Memory
+  - Fearless
+  - Networked
+  - Modular Chassis
+  - Integrated Weaponry
+bonus_features:
+  - Self-Sustaining
+description: >-
+  Composed of artificially created life forms, such as robots, androids, or
+  liberated synthetics. They have broken away from their creators to establish
+  their own society, focused on autonomy, self-preservation, and exploring the
+  meaning of their own existence
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Android
+  - Sentient Machine (Free Droid)
+  - Biomechanical Synthetic
+  - Protocol (Task Automaton)
+recommended_origins:
+  - Industrial
+  - Research
+  - Urban
+recommended_occupations:
+  - Builder
+  - Specialist
+  - Adept
+  - Citizen
+keywords: >-
+  artificial-emancipation, synthetic-rights, cybernetic-lifeform,
+  silicon-sapience, programmed-purpose
+negative_keywords: 'organic-chauvinism, flesh-worship, primitive-mysticism, anti-machine'
 ---
 
 ## **2\. ARTIFICIAL LIFE**

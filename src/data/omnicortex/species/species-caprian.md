@@ -45,12 +45,27 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Horned, ungulate humanoids renowned as mountaineers, high-gravity scouts, and perimeter wardens.'
+description: >-
+  Horned, ungulate humanoids renowned as mountaineers, high-gravity scouts, and
+  perimeter wardens.
 traits:
   - trait-ungulate-legs-sure-footed-on-cliffs
   - trait-uncanny-senses-360-degree-vision-hearing
   - trait-quick-5ft-movement
   - trait-horn-strike-melee-1d6
+recommended_factions:
+  - The Alterian Enclave
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Hostile
+  - Colony
+  - Agricultural
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Specialist
+keywords: 'caprine, mountaineer, ungulate-legs, high-gravity, perimeter-warden, horns'
+negative_keywords: 'flat-plains, oceanic, slow, uncoordinated'
 ---
 
 # Caprian (Caprine Humanoid)

@@ -75,11 +75,26 @@ modifiers:
 cp_cost: 33
 cp: 33
 bp: 33
-description: 'Fierce, armored insectoid-humanoid berserkers revered for their devastating physical power and terrifying combat rages.'
+description: >-
+  Fierce, armored insectoid-humanoid berserkers revered for their devastating
+  physical power and terrifying combat rages.
 traits:
   - trait-exoskeleton-light-chitin-dr-3
   - trait-rage-4-str-2-defense-in-combat-1-enc
   - trait-heavy-strike-2-damage
+recommended_factions:
+  - Coalition of Independent Worlds
+  - The Outworlds
+  - Mercenary Faction Template
+recommended_origins:
+  - Hostile
+  - Militaristic
+recommended_occupations:
+  - Soldier
+  - Drifter
+  - Scout
+keywords: 'insectoid-berserker, brutal-strength, chitin-hide, combat-rage, scrap-weapons'
+negative_keywords: 'diplomacy, delicate-tech, scholar, peaceful'
 ---
 
 # Orll (Brute Insectoid Humanoid)

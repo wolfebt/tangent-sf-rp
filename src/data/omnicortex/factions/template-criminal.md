@@ -1,26 +1,86 @@
 ---
 id: template-criminal
-name: "Criminal Faction Template"
+name: Criminal Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Underworld Cartels"
-driving_mandate: "Accumulate wealth, power, or influence through illicit means"
-symbol_sigil: "The Mob / The Underworld / The Outfit"
-capital_world: "Variable (Black market hubs, lawless stations)"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Highly diverse"
-typical_archetypes: ["The Crime Boss","The Con Artist","The Enforcer","The Smuggler","The Slicer","The Fence","The Hitman","The Getaway Driver","The Extortionist","The Bouncer"]
-skill_package: ["Streetwise (+5)","Intimidate (+4)","Stealth (+4)","Mechanics (Security) (+4)","Combat (+3)"]
-recommended_features: ["Connected (Underworld)","Sneak Attack","Deceitful","Intimidating Presence","Black Market Access","Nimble Fingers","Street-Smart","Uncanny Dodge","Hidden Pockets","Danger Sense"]
-features: ["Connected (Underworld)","Sneak Attack","Deceitful","Intimidating Presence","Black Market Access","Nimble Fingers","Street-Smart","Uncanny Dodge","Hidden Pockets","Danger Sense"]
-bonus_features: ["Connected (Underworld)"]
-description: "Syndicates, cartels, and mafias operating in the shadows of galactic civilization. They are characterized by their involvement in illegal activities, accumulating wealth, power, and influence through illicit means while avoiding the gaze of official authorities"
+faction_type: Generic Template
+archetype: Underworld Cartels
+driving_mandate: 'Accumulate wealth, power, or influence through illicit means'
+symbol_sigil: The Mob / The Underworld / The Outfit
+capital_world: 'Variable (Black market hubs, lawless stations)'
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Highly diverse
+typical_archetypes:
+  - The Crime Boss
+  - The Con Artist
+  - The Enforcer
+  - The Smuggler
+  - The Slicer
+  - The Fence
+  - The Hitman
+  - The Getaway Driver
+  - The Extortionist
+  - The Bouncer
+skill_package:
+  - Streetwise (+5)
+  - Intimidate (+4)
+  - Stealth (+4)
+  - Mechanics (Security) (+4)
+  - Combat (+3)
+recommended_features:
+  - Connected (Underworld)
+  - Sneak Attack
+  - Deceitful
+  - Intimidating Presence
+  - Black Market Access
+  - Nimble Fingers
+  - Street-Smart
+  - Uncanny Dodge
+  - Hidden Pockets
+  - Danger Sense
+features:
+  - Connected (Underworld)
+  - Sneak Attack
+  - Deceitful
+  - Intimidating Presence
+  - Black Market Access
+  - Nimble Fingers
+  - Street-Smart
+  - Uncanny Dodge
+  - Hidden Pockets
+  - Danger Sense
+bonus_features:
+  - Connected (Underworld)
+description: >-
+  Syndicates, cartels, and mafias operating in the shadows of galactic
+  civilization. They are characterized by their involvement in illegal
+  activities, accumulating wealth, power, and influence through illicit means
+  while avoiding the gaze of official authorities
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Scrap (Junkframe Synthetic)
+  - Kizin
+  - Premian Human
+recommended_origins:
+  - Urban
+  - Industrial
+  - Colony
+recommended_occupations:
+  - Criminal
+  - Drifter
+  - Merchant
+  - Agent
+keywords: >-
+  underworld-cartel, black-market-contraband, racketeering, smuggling-networks,
+  code-of-silence
+negative_keywords: >-
+  lawful-governance, regulatory-compliance, transparent-audit,
+  altruistic-charity
 ---
 
 ## **4\. CRIMINAL**

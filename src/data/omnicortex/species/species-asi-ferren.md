@@ -62,13 +62,30 @@ modifiers:
 cp_cost: 18
 cp: 18
 bp: 18
-description: 'Ferren are nimble, tail-bearing fey creatures adapted to high-canopy ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes and wild jungles with equal ease.'
+description: >-
+  Ferren are nimble, tail-bearing fey creatures adapted to high-canopy
+  ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes
+  and wild jungles with equal ease.
 traits:
   - trait-asi-base-traits-ageless-obfuscate-sleepless
   - trait-prehensile-tail
   - trait-climber
   - trait-quick-5ft-movement
   - trait-adapted-arboreal
+recommended_factions:
+  - Elven Providence
+  - Coalition of Independent Worlds
+  - Environmental Faction Template
+recommended_origins:
+  - Agricultural
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Scout
+  - Entertainer
+  - Drifter
+keywords: 'arboreal, nimble, climber, canopy, playful, tail-agility, wilderness, nature'
+negative_keywords: 'heavy-armor, industrial, cybernetics, polluter, sedentary'
 ---
 
 # Ferren (Arboreal Fey)

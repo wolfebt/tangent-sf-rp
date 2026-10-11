@@ -53,13 +53,29 @@ modifiers:
 cp_cost: 12
 cp: 12
 bp: 12
-description: 'Koban are small, versatile shifter fey who can blend into humanoid crowds or vanish into wilderness thickets by adopting localized animal and humanoid silhouettes.'
+description: >-
+  Koban are small, versatile shifter fey who can blend into humanoid crowds or
+  vanish into wilderness thickets by adopting localized animal and humanoid
+  silhouettes.
 traits:
   - trait-asi-base-traits
   - trait-small-medium-size-shift
   - trait-climber
   - trait-alter-form-humanoid
   - trait-awakened-nature
+recommended_factions:
+  - Elven Providence
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Agricultural
+  - Colony
+  - Hostile
+recommended_occupations:
+  - Scout
+  - Builder
+  - Drifter
+keywords: 'shifter, camouflage, burrower, adaptable, nimble, wilderness, nature-communion'
+negative_keywords: 'conspicuous, rigid, metallic-cybernetics, heavy-weapons'
 ---
 
 # Koban (Shifter Fey)

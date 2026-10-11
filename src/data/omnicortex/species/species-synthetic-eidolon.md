@@ -14,7 +14,9 @@ movement:
 speeds: 'Ground 30 ft, Flight 60 ft'
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 2
@@ -48,13 +50,31 @@ modifiers:
 cp_cost: 42
 cp: 42
 bp: 42
-description: 'Eidolons (Aetherions) are ancient crystalline silicon beings possessing consensus hive intelligence, photonic fluid pathways, and transcendent spacetime manipulation.'
+description: >-
+  Eidolons (Aetherions) are ancient crystalline silicon beings possessing
+  consensus hive intelligence, photonic fluid pathways, and transcendent
+  spacetime manipulation.
 traits:
   - trait-synthetic-base-traits
   - trait-crystalline-photonic-physiology
   - trait-consensus-mesh-telepathy
   - trait-photonic-bleed-energy-sustenance
   - trait-tech-level-5-meta-level-5-relic-matrix
+recommended_factions:
+  - The Alterian Enclave
+  - Sentient Intelligence Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Spacer
+recommended_occupations:
+  - Scholar
+  - Adept
+  - Specialist
+keywords: >-
+  silicon-crystalline, photonic-pathways, consensus-hive, zero-point-energy,
+  chrono-shaper
+negative_keywords: 'dirty-oil, primitive-slugthrower, rust'
 ---
 
 # Eidolon (Silicon / Crystalline Entity)

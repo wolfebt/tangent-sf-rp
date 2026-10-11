@@ -27,6 +27,33 @@ traits:
   - "trait-persistence"
   - "trait-problem-solving"
   - "trait-studious"
+recommended_species:
+  - "Sigal"
+  - "Celestine (Alterian)"
+  - "Nian Human"
+  - "Intellect Construct (Pure AI)"
+  - "Android"
+  - "Manelli (Kitin Diplomat)"
+  - "Prokos (Auluran Biform)"
+  - "Impyrium Psion (Gen-E)"
+  - "Gen-E (Base Engineered Human)"
+  - "Swarm (Micro-Drone Synthetic)"
+recommended_factions:
+  - "The Ascendancy"
+  - "Technological Faction Template"
+  - "The Mekan Collective"
+  - "Sentient Intelligence Faction Template"
+  - "Genetic Engineering Faction Template"
+  - "The Alterian Enclave"
+recommended_occupations:
+  - "Scholar"
+  - "Specialist"
+  - "Builder"
+  - "Agent"
+  - "Scout"
+  - "Representative"
+keywords: "research-facility, cleanroom-laboratory, supercomputer-array, particle-accelerator, observational-dome, genetic-sequencing, quantum-analysis, test-chambers, data-servers, scientific-method, academic-archive, prototyping, telemetry, whiteboard-hypotheses"
+negative_keywords: "anti-intellectualism, feudal-superstition, primitive-mud-hut, unregulated-street-riot, lawless-mercenary-den, slag-heavy-smelting, decadent-carefree-party, trench-mud-war"
 description: >-
   A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject, housing clean rooms, orbital observatories, and supercomputer arrays.
 costs:

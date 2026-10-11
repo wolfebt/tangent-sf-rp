@@ -54,6 +54,38 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Vajar (Wilder)
+  - Wildling
+  - Ferren
+  - Scrap (Junkframe Synthetic)
+  - Rautha Human
+  - Frellin
+  - Kheen Human
+  - Jorni
+  - Human (Base)
+  - Sentient Machine (Free Droid)
+recommended_factions:
+  - The Outworlds
+  - Coalition of Independent Worlds
+  - Vajar Tribes
+  - Post-apocalyptic Faction Template
+  - Space Exploration Faction Template
+  - Rebel Faction Template
+recommended_origins:
+  - Spacer
+  - Hostile
+  - Colony
+  - Agricultural
+keywords: >-
+  itinerant, wanderer, transient, bedroll, cargo-hopper, dusty-duster,
+  scavenged-gear, lone-highway, hitchhiker, open-starmap, untethered,
+  makeshift-shelter, barter-economy, frontier-drifter, worn-boots,
+  weathered-pack
+negative_keywords: >-
+  entrenched-bureaucracy, luxury-penthouse, stationary-desk-job,
+  high-society-socialite, strict-military-barracks, corporate-salaryman,
+  locked-vault, sedentary-lifestyle
 ---
 
 # Drifter Occupation

@@ -1,26 +1,80 @@
 ---
 id: template-planetary
-name: "Planetary Faction Template"
+name: Planetary Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "System Isolationists"
-driving_mandate: "Protect the homeland from all off-world influence"
-symbol_sigil: "The Locals / Isolationists / Dirt-Grubbers"
-capital_world: "Their singular home world"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Homogenous to the specific world"
-typical_archetypes: ["The Planetary Governor","The Trench Veteran","The Local Guide","The Anti-Air Gunner","The Partisan"]
-skill_package: ["History (Local) (+5)","Survival (Local Biome) (+5)","Tactics (Defensive) (+4)","Combat (Rifle/Artillery) (+3)","Mechanics (+3)"]
-recommended_features: ["Defensive Combat Training","Coordinated Assist","Iron Will","Tracker","Enduring","Tough","Camouflage","Master Plan","Benefit (Status)","Environmental Resistance"]
-features: ["Defensive Combat Training","Coordinated Assist","Iron Will","Tracker","Enduring","Tough","Camouflage","Master Plan","Benefit (Status)","Environmental Resistance"]
-bonus_features: ["Defensive Combat Training"]
-description: "Fiercely nationalistic factions that control a single world or localized system and violently oppose interstellar integration. They focus entirely on deep-rooted defense, utilizing extreme local knowledge and entrenched fortifications to repel off-world invaders"
+faction_type: Generic Template
+archetype: System Isolationists
+driving_mandate: Protect the homeland from all off-world influence
+symbol_sigil: The Locals / Isolationists / Dirt-Grubbers
+capital_world: Their singular home world
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Homogenous to the specific world
+typical_archetypes:
+  - The Planetary Governor
+  - The Trench Veteran
+  - The Local Guide
+  - The Anti-Air Gunner
+  - The Partisan
+skill_package:
+  - History (Local) (+5)
+  - Survival (Local Biome) (+5)
+  - Tactics (Defensive) (+4)
+  - Combat (Rifle/Artillery) (+3)
+  - Mechanics (+3)
+recommended_features:
+  - Defensive Combat Training
+  - Coordinated Assist
+  - Iron Will
+  - Tracker
+  - Enduring
+  - Tough
+  - Camouflage
+  - Master Plan
+  - Benefit (Status)
+  - Environmental Resistance
+features:
+  - Defensive Combat Training
+  - Coordinated Assist
+  - Iron Will
+  - Tracker
+  - Enduring
+  - Tough
+  - Camouflage
+  - Master Plan
+  - Benefit (Status)
+  - Environmental Resistance
+bonus_features:
+  - Defensive Combat Training
+description: >-
+  Fiercely nationalistic factions that control a single world or localized
+  system and violently oppose interstellar integration. They focus entirely on
+  deep-rooted defense, utilizing extreme local knowledge and entrenched
+  fortifications to repel off-world invaders
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Premian Human
+  - Dwerg Human
+  - Kheen Human
+recommended_origins:
+  - Colony
+  - Urban
+  - Agricultural
+  - Industrial
+recommended_occupations:
+  - Citizen
+  - Soldier
+  - Builder
+  - Representative
+keywords: >-
+  planetary-defense-force, local-sovereignty, homeworld-guard,
+  regional-patriotism, territorial-garrison
+negative_keywords: 'intergalactic-empire, nomadic-drifters, foreign-interference, desertion'
 ---
 
 ## **14\. PLANETARY**

@@ -1,26 +1,93 @@
 ---
 id: faction-mekan
-name: "The Mekan Collective"
+name: The Mekan Collective
 category: factions
-faction_type: "Major Polity"
-archetype: "Synthetic Sages / Logic-Weavers"
-driving_mandate: "Optimize; Archive; Solve the Equation"
-symbol_sigil: "The Fractal Circle (Infinite Loop)"
-capital_world: "Mekan Prime (The Dyson Ring)"
-tech_level: "5"
-meta_level: "1"
-wealth_modifier: "+6 (Resource Optimized)"
-prominent_species: "Mekan (Synthetic Humanoids)"
-typical_archetypes: ["The Logic-Sage","The Null-Vector Pilot","The Fractal Diplomat","The Logic-Enforcer","The Net-Architect","The Cyberneticist"]
-skill_package: ["Computers (+5): Interfacing with the Consensus and standard tech","Science (Mathematics/Physics) (+4): Understanding the Prime Algorithm","Engineering (+4): Manipulating Polymatter and Hard-Light","Combat (+3): Eradicating chaotic variables","Investigation (+2): Gathering new data","History (+2): Archiving universal events"]
-recommended_features: ["Benefit (Tech Assimilation)","Logic-Mind","Self-Sustaining","Sleepless","Logical","Lightning Calculator","Computer Specialist","Coding Master","Tech Interface","Eidetic Memory","Fearless","Mind Link"]
-features: ["Benefit (Tech Assimilation)","Logic-Mind","Self-Sustaining","Sleepless","Logical","Lightning Calculator","Computer Specialist","Coding Master","Tech Interface","Eidetic Memory","Fearless","Mind Link"]
-bonus_features: ["Machine Logic","Reinforced Chassis"]
-description: "The Mekan are a civilization of advanced Synthetic Humanoids originating from Mekan Prime, a colossal megastructure encircling a star. They view existence through the lens of \"The Code\"—the Operating System of the Universe. To a Mekan, reality is a self-evolving design, a complex equation waiting to be solved. Their spiritual goal is for existence to experience itself and to contribute data back to the collective consciousness. They have transcended organic sustenance and traditional mortality, existing as \"Ghosts in the Machine.\" They are Neutral Optimizers and the Architects of Reality"
+faction_type: Major Polity
+archetype: Synthetic Sages / Logic-Weavers
+driving_mandate: Optimize; Archive; Solve the Equation
+symbol_sigil: The Fractal Circle (Infinite Loop)
+capital_world: Mekan Prime (The Dyson Ring)
+tech_level: '5'
+meta_level: '1'
+wealth_modifier: +6 (Resource Optimized)
+prominent_species: Mekan (Synthetic Humanoids)
+typical_archetypes:
+  - The Logic-Sage
+  - The Null-Vector Pilot
+  - The Fractal Diplomat
+  - The Logic-Enforcer
+  - The Net-Architect
+  - The Cyberneticist
+skill_package:
+  - 'Computers (+5): Interfacing with the Consensus and standard tech'
+  - 'Science (Mathematics/Physics) (+4): Understanding the Prime Algorithm'
+  - 'Engineering (+4): Manipulating Polymatter and Hard-Light'
+  - 'Combat (+3): Eradicating chaotic variables'
+  - 'Investigation (+2): Gathering new data'
+  - 'History (+2): Archiving universal events'
+recommended_features:
+  - Benefit (Tech Assimilation)
+  - Logic-Mind
+  - Self-Sustaining
+  - Sleepless
+  - Logical
+  - Lightning Calculator
+  - Computer Specialist
+  - Coding Master
+  - Tech Interface
+  - Eidetic Memory
+  - Fearless
+  - Mind Link
+features:
+  - Benefit (Tech Assimilation)
+  - Logic-Mind
+  - Self-Sustaining
+  - Sleepless
+  - Logical
+  - Lightning Calculator
+  - Computer Specialist
+  - Coding Master
+  - Tech Interface
+  - Eidetic Memory
+  - Fearless
+  - Mind Link
+bonus_features:
+  - Machine Logic
+  - Reinforced Chassis
+description: >-
+  The Mekan are a civilization of advanced Synthetic Humanoids originating from
+  Mekan Prime, a colossal megastructure encircling a star. They view existence
+  through the lens of "The Code"—the Operating System of the Universe. To a
+  Mekan, reality is a self-evolving design, a complex equation waiting to be
+  solved. Their spiritual goal is for existence to experience itself and to
+  contribute data back to the collective consciousness. They have transcended
+  organic sustenance and traditional mortality, existing as "Ghosts in the
+  Machine." They are Neutral Optimizers and the Architects of Reality
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Mekan (Assimilation Unit)
+  - Android
+  - Intellect Construct (Pure AI)
+  - Protocol (Task Automaton)
+  - Sentient Machine (Free Droid)
+recommended_origins:
+  - Industrial
+  - Research
+  - Enlightened
+recommended_occupations:
+  - Specialist
+  - Scholar
+  - Adept
+  - Builder
+keywords: >-
+  synthetic-consensus, logic-weavers, hard-light, prime-algorithm, polymatter,
+  data-optimization, dyson-megastructure, machine-transcendence
+negative_keywords: >-
+  biological-sentimentality, emotional-impulsiveness, organic-decay,
+  superstition, chaotic-anarchy, flesh-bound
 ---
 
 ## **THE MEKAN COLLECTIVE**

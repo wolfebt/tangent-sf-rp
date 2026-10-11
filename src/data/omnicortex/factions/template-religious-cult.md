@@ -1,26 +1,80 @@
 ---
 id: template-religious-cult
-name: "Religious Cult Faction Template"
+name: Religious Cult Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Fanatical Orders"
-driving_mandate: "Spread the true faith, prepare for the end, or ascend to a higher plane"
-symbol_sigil: "The Fanatics / The Cult / The Zealots"
-capital_world: "A hidden compound, a hollowed-out asteroid, or a deep-space temple"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Variable"
-typical_archetypes: ["The Prophet","The Inquisitor","The Ascetic","The Martyr","The Zealot Vanguard"]
-skill_package: ["Discipline (+5)","Intimidate (+4)","Insight (+4)","Melee Combat (+4)","Academics (Theology) (+3)"]
-recommended_features: ["Iron Will","Fearless","Indomitable Will","Resolute","Pain Tolerance","Diehard","Unsettling Aura","Power Attack","Channel Smite","Awakened"]
-features: ["Iron Will","Fearless","Indomitable Will","Resolute","Pain Tolerance","Diehard","Unsettling Aura","Power Attack","Channel Smite","Awakened"]
-bonus_features: ["Iron Will"]
-description: "Fanatical splinter groups following a charismatic leader, a bizarre cosmic event, or a dangerous dogma. They are highly insular, demanding absolute devotion from their members, and often prepare for a violent cosmic reckoning"
+faction_type: Generic Template
+archetype: Fanatical Orders
+driving_mandate: 'Spread the true faith, prepare for the end, or ascend to a higher plane'
+symbol_sigil: The Fanatics / The Cult / The Zealots
+capital_world: 'A hidden compound, a hollowed-out asteroid, or a deep-space temple'
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Variable
+typical_archetypes:
+  - The Prophet
+  - The Inquisitor
+  - The Ascetic
+  - The Martyr
+  - The Zealot Vanguard
+skill_package:
+  - Discipline (+5)
+  - Intimidate (+4)
+  - Insight (+4)
+  - Melee Combat (+4)
+  - Academics (Theology) (+3)
+recommended_features:
+  - Iron Will
+  - Fearless
+  - Indomitable Will
+  - Resolute
+  - Pain Tolerance
+  - Diehard
+  - Unsettling Aura
+  - Power Attack
+  - Channel Smite
+  - Awakened
+features:
+  - Iron Will
+  - Fearless
+  - Indomitable Will
+  - Resolute
+  - Pain Tolerance
+  - Diehard
+  - Unsettling Aura
+  - Power Attack
+  - Channel Smite
+  - Awakened
+bonus_features:
+  - Iron Will
+description: >-
+  Fanatical splinter groups following a charismatic leader, a bizarre cosmic
+  event, or a dangerous dogma. They are highly insular, demanding absolute
+  devotion from their members, and often prepare for a violent cosmic reckoning
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Tenen (Sha’nor Spectral)
+  - Awakened Animal
+  - Fey (Base)
+recommended_origins:
+  - Enlightened
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Drifter
+  - Representative
+keywords: >-
+  esoteric-devotion, charismatic-zealotry, dogmatic-creed, ritual-orthodoxy,
+  messianic-fervor
+negative_keywords: >-
+  secular-skepticism, empirical-rationalism, corporate-transaction,
+  cynical-pragmatism
 ---
 
 ## **18\. RELIGIOUS CULT**

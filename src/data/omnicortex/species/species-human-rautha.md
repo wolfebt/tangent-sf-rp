@@ -54,13 +54,28 @@ modifiers:
 cp_cost: 27
 cp: 27
 bp: 27
-description: 'Feline-influenced human transhumans bred for high-speed reconnaissance, urban parkour, and stealth operations.'
+description: >-
+  Feline-influenced human transhumans bred for high-speed reconnaissance, urban
+  parkour, and stealth operations.
 traits:
   - trait-fast-10ft-movement
   - trait-jumper-5ft-vertical
   - trait-low-light-vision
   - trait-prehensile-tail
   - trait-acute-scent
+recommended_factions:
+  - The Syndicate
+  - Mercenary Faction Template
+recommended_origins:
+  - Urban
+  - Hostile
+  - Militaristic
+recommended_occupations:
+  - Scout
+  - Agent
+  - Soldier
+keywords: 'feline-reflexes, parkour, urban-predator, stealth-recon, desert-hunter'
+negative_keywords: 'slow, clumsy, heavy-armor, aquatic'
 ---
 
 # Rautha Human (Predator Variant)

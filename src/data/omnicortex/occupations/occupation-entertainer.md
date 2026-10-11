@@ -40,6 +40,37 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Celestine (Alterian)
+  - Fey (Base)
+  - Ferren
+  - Argynt Human
+  - Brae Human
+  - Davae (Gen-E)
+  - Danai (Davae Hybrid)
+  - Kongi
+  - Human (Base)
+  - Changeling (Doppelganger Hybrid)
+recommended_factions:
+  - Space Tourism Faction Template
+  - The Entari Combine
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Elven Providence
+  - The Alterian Enclave
+  - Corporate Faction Template
+recommended_origins:
+  - Leisure
+  - Urban
+  - Enlightened
+keywords: >-
+  performer, holo-stage, spotlight, virtuoso, acoustics, arena-gladiator,
+  celebrity-aura, backstage-pass, charismatic-cadence, theatrical-costume,
+  musical-instrument, crowd-pleaser, ovation, media-broadcast,
+  vibrant-expression
+negative_keywords: >-
+  dull-drudgery, silent-monk-solitude, grim-trench-survival,
+  sterile-lab-isolation, emotionless-drone, illiterate-labor, secretive-recluse,
+  joyless-stoicism
 ---
 
 # Entertainer Occupation

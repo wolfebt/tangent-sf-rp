@@ -1,26 +1,104 @@
 ---
 id: faction-syndicate
-name: "Incorporated Planetary Syndication (The Syndicate)"
+name: Incorporated Planetary Syndication (The Syndicate)
 category: factions
-faction_type: "Major Polity"
-archetype: "Cyber-Corporate / High-Tech Cyberocracy"
-driving_mandate: "Eliminate Friction; Maximize Efficiency"
-symbol_sigil: "The Hexagon (representing the Hive/Mesh)"
-capital_world: "Premius (The Corporate Core)"
-tech_level: "4"
-meta_level: "2"
-wealth_modifier: "+3 (Highly Profitable)"
-prominent_species: "Humans (Syndicate Genotype - Sleek/Modified)"
-typical_archetypes: ["The Bureaucrat","The Munitions Magnate","The Company Man","The Ghost","The Broker","The Foreman","The Kingpin","The Socialite","The Decker","The Cyberneticist","The Net-Architect","The Saboteur"]
-skill_package: ["Computers (+4): Navigating the Mesh","Vocation (Any) (+4): Tradecraft training","Academics (+4): Foundation in logical principles","Technology (+4): Using/maintaining high-tech gear","Insight (+2): Reading people in negotiations","Diplomacy (+2): Closing the deal"]
-recommended_features: ["Underworld Connections","Augmented","Computer Specialist","Digital Expert","Benefit (Wealth)","Benefit (Clearance)","Silver Tongue","Connected","Coding Master","Gearhead","Tech Interface","Nimble Fingers","Well Informed"]
-features: ["Underworld Connections","Augmented","Computer Specialist","Digital Expert","Benefit (Wealth)","Benefit (Clearance)","Silver Tongue","Connected","Coding Master","Gearhead","Tech Interface","Nimble Fingers","Well Informed"]
-bonus_features: ["Underworld Connections","Neural Interface","Wealthy"]
-description: "The Syndicate represents a High-Tech Cyberocracy—a society run like a massive, efficient, interconnected business entity. The defining characteristic is the Seamless Integration of technology via the \"Mesh,\" a ubiquitous AR and data network that overlays the physical world, eliminating bureaucratic friction. Culturally, they view Transhumanism as a professional standard. They are pragmatic, agile, and pivot strategies instantly based on real-time analytics. Beneath the pristine corporate spires lie the \"Restriction Zones\" (Friction Layers), where unlicensed tech and native Premian culture thrive in the shadows"
+faction_type: Major Polity
+archetype: Cyber-Corporate / High-Tech Cyberocracy
+driving_mandate: Eliminate Friction; Maximize Efficiency
+symbol_sigil: The Hexagon (representing the Hive/Mesh)
+capital_world: Premius (The Corporate Core)
+tech_level: '4'
+meta_level: '2'
+wealth_modifier: +3 (Highly Profitable)
+prominent_species: Humans (Syndicate Genotype - Sleek/Modified)
+typical_archetypes:
+  - The Bureaucrat
+  - The Munitions Magnate
+  - The Company Man
+  - The Ghost
+  - The Broker
+  - The Foreman
+  - The Kingpin
+  - The Socialite
+  - The Decker
+  - The Cyberneticist
+  - The Net-Architect
+  - The Saboteur
+skill_package:
+  - 'Computers (+4): Navigating the Mesh'
+  - 'Vocation (Any) (+4): Tradecraft training'
+  - 'Academics (+4): Foundation in logical principles'
+  - 'Technology (+4): Using/maintaining high-tech gear'
+  - 'Insight (+2): Reading people in negotiations'
+  - 'Diplomacy (+2): Closing the deal'
+recommended_features:
+  - Underworld Connections
+  - Augmented
+  - Computer Specialist
+  - Digital Expert
+  - Benefit (Wealth)
+  - Benefit (Clearance)
+  - Silver Tongue
+  - Connected
+  - Coding Master
+  - Gearhead
+  - Tech Interface
+  - Nimble Fingers
+  - Well Informed
+features:
+  - Underworld Connections
+  - Augmented
+  - Computer Specialist
+  - Digital Expert
+  - Benefit (Wealth)
+  - Benefit (Clearance)
+  - Silver Tongue
+  - Connected
+  - Coding Master
+  - Gearhead
+  - Tech Interface
+  - Nimble Fingers
+  - Well Informed
+bonus_features:
+  - Underworld Connections
+  - Neural Interface
+  - Wealthy
+description: >-
+  The Syndicate represents a High-Tech Cyberocracy—a society run like a massive,
+  efficient, interconnected business entity. The defining characteristic is the
+  Seamless Integration of technology via the "Mesh," a ubiquitous AR and data
+  network that overlays the physical world, eliminating bureaucratic friction.
+  Culturally, they view Transhumanism as a professional standard. They are
+  pragmatic, agile, and pivot strategies instantly based on real-time analytics.
+  Beneath the pristine corporate spires lie the "Restriction Zones" (Friction
+  Layers), where unlicensed tech and native Premian culture thrive in the
+  shadows
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Premian Human
+  - Cyberform Human
+  - Android
+  - Skin (Infiltrator Synthetic)
+  - Sentient Machine (Free Droid)
+recommended_origins:
+  - Urban
+  - Industrial
+  - Research
+recommended_occupations:
+  - Merchant
+  - Agent
+  - Specialist
+  - Criminal
+  - Adept
+keywords: >-
+  cyber-corporate, the-mesh, high-tech-cyberocracy, transhumanist,
+  analytics-driven, slick-efficiency, corporate-espionage, algorithmic-control
+negative_keywords: >-
+  nature-worship, low-tech, mystic-ritual, altruistic, feudal-chivalry,
+  unaugmented-purism, primitive
 ---
 
 ## **INCORPORATED PLANETARY SYNDICATION (SYNDICATE)**

@@ -58,7 +58,9 @@ modifiers:
 cp_cost: 16
 cp: 16
 bp: 16
-description: 'Robust amphibian humanoids possessing color-shifting skin, long prehensile tongue strikes, and rapid aquatic regeneration.'
+description: >-
+  Robust amphibian humanoids possessing color-shifting skin, long prehensile
+  tongue strikes, and rapid aquatic regeneration.
 traits:
   - trait-amphibious
   - trait-chameleon-3-stealth-in-natural-environments
@@ -66,6 +68,21 @@ traits:
   - trait-fast-heal
   - trait-reach-5ft-melee-reach-with-tongue-limbs
   - trait-regeneration-2-hp-rnd
+recommended_factions:
+  - Coalition of Independent Worlds
+  - The Outworlds
+recommended_origins:
+  - Aquatic
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Scout
+  - Drifter
+  - Agent
+keywords: >-
+  amphibious, chameleon-camouflage, prehensile-tongue, mangrove-stalker,
+  regeneration
+negative_keywords: 'dry-desert, heavy-metal, fire'
 ---
 
 # Truldan (Amphibious Chameleonfolk)

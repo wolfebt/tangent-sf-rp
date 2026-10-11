@@ -66,7 +66,10 @@ modifiers:
 cp_cost: 31
 cp: 31
 bp: 31
-description: 'Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts, messengers, and navigators, they read wind currents and psychic frequencies with equal precision.'
+description: >-
+  Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
+  messengers, and navigators, they read wind currents and psychic frequencies
+  with equal precision.
 traits:
   - trait-asi-base-traits
   - trait-tiny-size
@@ -74,6 +77,20 @@ traits:
   - trait-telepathy-special-ability
   - trait-flight-winged-40ft
   - trait-dark-sight
+recommended_factions:
+  - The Entari Combine
+  - Coalition of Independent Worlds
+  - Elven Providence
+recommended_origins:
+  - Colony
+  - Spacer
+  - Enlightened
+recommended_occupations:
+  - Scout
+  - Representative
+  - Adept
+keywords: 'avian, feathered, telepathic, flight, messenger, wind-currents, sensory, tiny'
+negative_keywords: 'subterranean, heavy-armor, claustrophile, brute-force, slow'
 ---
 
 # Frellin (Avian Fey)

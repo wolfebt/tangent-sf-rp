@@ -49,12 +49,30 @@ modifiers:
 cp_cost: 28
 cp: 28
 bp: 28
-description: 'The apex of imperial bio-engineering: peerless aristocrats endowed with heightened intellect, natural psionic dominance, and undisputed political authority.'
+description: >-
+  The apex of imperial bio-engineering: peerless aristocrats endowed with
+  heightened intellect, natural psionic dominance, and undisputed political
+  authority.
 traits:
   - trait-adaptive-aspects
   - trait-awakened-psionic
   - trait-status-imperial-nobility
   - trait-aristocratic-immunity
+recommended_factions:
+  - Impyrium Dominion
+  - Radiant Impyrium
+recommended_origins:
+  - Urban
+  - Enlightened
+  - Leisure
+recommended_occupations:
+  - Representative
+  - Scholar
+  - Citizen
+keywords: >-
+  high-blood, aristocracy, imperial-regalia, command-aura, intellect,
+  gene-perfection
+negative_keywords: 'manual-labor, dirty-wastelands, subservient, scavenger'
 ---
 
 # Impyrium Regi (Imperial High Blood)

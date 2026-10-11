@@ -13,7 +13,9 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Charisma
     bonus: -2
@@ -47,12 +49,27 @@ modifiers:
 cp_cost: 47
 cp: 47
 bp: 47
-description: 'Scraps are self-assembled, autonomous synthetic beings constructed from recycled chassis, discarded starship components, and industrial hulls.'
+description: >-
+  Scraps are self-assembled, autonomous synthetic beings constructed from
+  recycled chassis, discarded starship components, and industrial hulls.
 traits:
   - trait-synthetic-base-traits
   - trait-heavy-augmentation-slots-3-free-cyber-slots
   - trait-field-self-repair-protocol
   - trait-scrap-plating-dr-6
+recommended_factions:
+  - The Outworlds
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Industrial
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Builder
+  - Drifter
+  - Criminal
+keywords: 'kit-bashed, junkframe, welded-chassis, scrapper-survivor, improvised-parts'
+negative_keywords: 'luxury-sleek, factory-standard, pureblood'
 ---
 
 # Scrap (Kit-Bashed Autonomous Frame)

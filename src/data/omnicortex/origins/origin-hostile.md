@@ -26,6 +26,35 @@ traits:
   - "trait-resourcefulness"
   - "trait-survival-skills"
   - "trait-technical-skills"
+recommended_species:
+  - "Rautha Human"
+  - "B’Dren Human"
+  - "Vajar (Wilder)"
+  - "Nocturne (Kovian)"
+  - "Graa (Auluran Heavy)"
+  - "Gra'or"
+  - "Vassoth"
+  - "Rakne (Kitin Stalker)"
+  - "Eakren (Corrupted Aberration)"
+  - "Risakin (Giant Folk)"
+  - "Scrap (Junkframe Synthetic)"
+recommended_factions:
+  - "The Outworlds"
+  - "Post-apocalyptic Faction Template"
+  - "Mutant Faction Template"
+  - "Vajar Tribes"
+  - "Kovian Tribunal"
+  - "Mercenary Faction Template"
+  - "Alien Faction Template"
+recommended_occupations:
+  - "Soldier"
+  - "Scout"
+  - "Specialist"
+  - "Drifter"
+  - "Criminal"
+  - "Builder"
+keywords: "death-world, toxic-atmosphere, corrosive-rain, ash-wastes, volcanic-ridge, apex-predators, radiation-hazard, hardened-bunkers, respirator-gear, survivalist, harsh-biome, chem-scrubber, armored-carapace, extreme-elements, scavenged-scrap, danger-zone"
+negative_keywords: "pristine-luxury-resort, polished-marble-ballroom, carefree-tourism, fragile-glass-spire, gentle-pastoral-meadow, silk-velvet-lounge, serene-academic-cloister, high-society-banquet, unshielded-civilian-park"
 description: >-
   It is uncommon to find a civilization in a dangerous or poisonous world, but hardy survivor clans have chosen or been forced to live in radiation wastelands, toxic swamps, and extreme geothermal death worlds.
 costs:

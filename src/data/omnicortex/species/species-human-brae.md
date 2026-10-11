@@ -60,11 +60,26 @@ modifiers:
 cp_cost: 21
 cp: 21
 bp: 21
-description: 'Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved aboard generational colony ships and tight subterranean refinery tubes.'
+description: >-
+  Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved
+  aboard generational colony ships and tight subterranean refinery tubes.
 traits:
   - trait-small-size-2-defense-2-stealth
   - trait-climber
   - trait-high-metabolism
+recommended_factions:
+  - The Entari Combine
+  - The Outworlds
+recommended_origins:
+  - Spacer
+  - Industrial
+  - Urban
+recommended_occupations:
+  - Builder
+  - Merchant
+  - Criminal
+keywords: 'diminutive, generational-ship, conduit-crawler, compact-tinkerer, nimble'
+negative_keywords: 'heavy-combat, towering, brute-force'
 ---
 
 # Brae Human (Small Stature Variant)

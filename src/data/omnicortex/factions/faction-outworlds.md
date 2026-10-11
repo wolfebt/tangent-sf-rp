@@ -1,26 +1,98 @@
 ---
 id: faction-outworlds
-name: "The Outworlds"
+name: The Outworlds
 category: factions
-faction_type: "Major Polity"
-archetype: "Frontier / Post-Apocalyptic / Kinetic Scrap"
-driving_mandate: "Autonomy; Establish a foothold; Survive another day"
-symbol_sigil: "Graffiti tags, repurposed warning signs"
-capital_world: "None (Decentralized)"
-tech_level: "3"
-meta_level: "1"
-wealth_modifier: "-1 or -2 (Generally impoverished, heavily reliant on barter)"
-prominent_species: "Highly diverse; all species represented"
-typical_archetypes: ["The Field Medic","The Veteran","The Foreman","The Homesteader","The Quartermaster","The Vagabond","The Manhunter","The Grifter","The Pioneer","The Raider","The Smuggler","The Salvage-Specialist"]
-skill_package: ["Mechanics (Jury-Rigging) (+5)","Survival (Scavenging) (+4)","Barter (+3)","Pilot (Any) (+3)","Combat (1 or 2 Skills) (+3)","Stealth (+2)"]
-recommended_features: ["Beginner's Luck","Jack-of-all-trades","Self Sufficient","Spacer","Master Craftsman","Gearhead","Endurance","Climber","Danger Sense","Gifted Pilot","Runner","Weapon Improvisation"]
-features: ["Beginner's Luck","Jack-of-all-trades","Self Sufficient","Spacer","Master Craftsman","Gearhead","Endurance","Climber","Danger Sense","Gifted Pilot","Runner","Weapon Improvisation"]
-bonus_features: ["Scavenger Instinct","Rugged Survival"]
-description: "The Outworlds represent the untamed expanse outside the rigid control of major powers. Covering frontier colony worlds, independent moons, and drift-stations, they are defined by extreme diversity and political fragmentation. There is no central government; governance ranges from absolute anarchy to strict micro-tyrannies. They are the engine of raw resources and home of true grit"
+faction_type: Major Polity
+archetype: Frontier / Post-Apocalyptic / Kinetic Scrap
+driving_mandate: Autonomy; Establish a foothold; Survive another day
+symbol_sigil: 'Graffiti tags, repurposed warning signs'
+capital_world: None (Decentralized)
+tech_level: '3'
+meta_level: '1'
+wealth_modifier: '-1 or -2 (Generally impoverished, heavily reliant on barter)'
+prominent_species: Highly diverse; all species represented
+typical_archetypes:
+  - The Field Medic
+  - The Veteran
+  - The Foreman
+  - The Homesteader
+  - The Quartermaster
+  - The Vagabond
+  - The Manhunter
+  - The Grifter
+  - The Pioneer
+  - The Raider
+  - The Smuggler
+  - The Salvage-Specialist
+skill_package:
+  - Mechanics (Jury-Rigging) (+5)
+  - Survival (Scavenging) (+4)
+  - Barter (+3)
+  - Pilot (Any) (+3)
+  - Combat (1 or 2 Skills) (+3)
+  - Stealth (+2)
+recommended_features:
+  - Beginner's Luck
+  - Jack-of-all-trades
+  - Self Sufficient
+  - Spacer
+  - Master Craftsman
+  - Gearhead
+  - Endurance
+  - Climber
+  - Danger Sense
+  - Gifted Pilot
+  - Runner
+  - Weapon Improvisation
+features:
+  - Beginner's Luck
+  - Jack-of-all-trades
+  - Self Sufficient
+  - Spacer
+  - Master Craftsman
+  - Gearhead
+  - Endurance
+  - Climber
+  - Danger Sense
+  - Gifted Pilot
+  - Runner
+  - Weapon Improvisation
+bonus_features:
+  - Scavenger Instinct
+  - Rugged Survival
+description: >-
+  The Outworlds represent the untamed expanse outside the rigid control of major
+  powers. Covering frontier colony worlds, independent moons, and
+  drift-stations, they are defined by extreme diversity and political
+  fragmentation. There is no central government; governance ranges from absolute
+  anarchy to strict micro-tyrannies. They are the engine of raw resources and
+  home of true grit
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Human (Base)
+  - Scrap (Junkframe Synthetic)
+  - Thorn
+  - Jorni
+  - Kizin
+recommended_origins:
+  - Hostile
+  - Colony
+  - Spacer
+  - Industrial
+recommended_occupations:
+  - Drifter
+  - Criminal
+  - Scout
+  - Builder
+keywords: >-
+  wild-frontier, used-futurism, scrap-salvage, self-rule, rugged-survival,
+  kinetic-weaponry, decentralized-anarchy, drift-stations
+negative_keywords: >-
+  aristocratic-privilege, clean-spires, corporate-monopoly, rigid-bureaucracy,
+  delicate, pampered
 ---
 
 ## **OUTWORLDS**

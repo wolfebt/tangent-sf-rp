@@ -49,11 +49,31 @@ modifiers:
 cp_cost: 13
 cp: 13
 bp: 13
-description: 'Draconians bridge ancient elven grace with the primal draconic essence. Scaled, proud, and martial, they serve as warrior-philosophers and guardians of sacred flame.'
+description: >-
+  Draconians bridge ancient elven grace with the primal draconic essence.
+  Scaled, proud, and martial, they serve as warrior-philosophers and guardians
+  of sacred flame.
 traits:
   - trait-aeld-lineage-traits
   - trait-dragonkin-heritage-scales-dr-2
   - trait-natural-weapon-claws-bite
+recommended_factions:
+  - Dracon Dynasty
+  - The Alterian Enclave
+  - Military Faction Template
+recommended_origins:
+  - Militaristic
+  - Enlightened
+  - Hostile
+recommended_occupations:
+  - Soldier
+  - Adept
+  - Representative
+  - Specialist
+keywords: >-
+  draconic, noble, armored-scales, martial-discipline, honor-bound,
+  breath-weapon, feudal
+negative_keywords: 'subterfuge, frail, cowardly, dishonorable, primitive'
 ---
 
 # Draconian (Scaled Aeld)

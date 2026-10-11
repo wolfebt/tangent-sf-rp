@@ -1,26 +1,79 @@
 ---
 id: template-rebel
-name: "Rebel Faction Template"
+name: Rebel Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Insurgents"
-driving_mandate: "Overthrow the oppressor and liberate the people"
-symbol_sigil: "The Rebels / Terrorists (by the state) / Freedom Fighters"
-capital_world: "Hidden bases in remote terrain or deep within urban slums"
-tech_level: "3"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Variable (Usually locals of the occupied world)"
-typical_archetypes: ["The Saboteur","The Guerrilla Fighter","The Charismatic Agitator","The Smuggler","The Rebel Medic"]
-skill_package: ["Stealth (+5)","Mechanics (Sabotage/Explosives) (+4)","Combat (Guerrilla) (+4)","Bluff (+4)","Streetwise (+3)"]
-recommended_features: ["Sneak Attack","Evasiveness","Weapon Improvisation","Deceitful","Inspiring Personality","Danger Sense","Runner","Nimble Fingers","Street-Smart","Blind-Fight"]
-features: ["Sneak Attack","Evasiveness","Weapon Improvisation","Deceitful","Inspiring Personality","Danger Sense","Runner","Nimble Fingers","Street-Smart","Blind-Fight"]
-bonus_features: ["Sneak Attack"]
-description: "Insurgents and freedom fighters locked in an asymmetrical war against an occupying force or oppressive government. They rely on hidden cells, sabotage, and the support of the local populace to bleed their technically superior enemies"
+faction_type: Generic Template
+archetype: Insurgents
+driving_mandate: Overthrow the oppressor and liberate the people
+symbol_sigil: The Rebels / Terrorists (by the state) / Freedom Fighters
+capital_world: Hidden bases in remote terrain or deep within urban slums
+tech_level: '3'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Variable (Usually locals of the occupied world)
+typical_archetypes:
+  - The Saboteur
+  - The Guerrilla Fighter
+  - The Charismatic Agitator
+  - The Smuggler
+  - The Rebel Medic
+skill_package:
+  - Stealth (+5)
+  - Mechanics (Sabotage/Explosives) (+4)
+  - Combat (Guerrilla) (+4)
+  - Bluff (+4)
+  - Streetwise (+3)
+recommended_features:
+  - Sneak Attack
+  - Evasiveness
+  - Weapon Improvisation
+  - Deceitful
+  - Inspiring Personality
+  - Danger Sense
+  - Runner
+  - Nimble Fingers
+  - Street-Smart
+  - Blind-Fight
+features:
+  - Sneak Attack
+  - Evasiveness
+  - Weapon Improvisation
+  - Deceitful
+  - Inspiring Personality
+  - Danger Sense
+  - Runner
+  - Nimble Fingers
+  - Street-Smart
+  - Blind-Fight
+bonus_features:
+  - Sneak Attack
+description: >-
+  Insurgents and freedom fighters locked in an asymmetrical war against an
+  occupying force or oppressive government. They rely on hidden cells, sabotage,
+  and the support of the local populace to bleed their technically superior
+  enemies
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Danai (Davae Hybrid)
+  - Sentient Machine (Free Droid)
+  - Premian Human
+recommended_origins:
+  - Colony
+  - Hostile
+  - Industrial
+recommended_occupations:
+  - Drifter
+  - Soldier
+  - Agent
+  - Criminal
+keywords: >-
+  insurgency, guerilla-resistance, freedom-fighters, covert-sabotage,
+  anti-hegemonic-underground
+negative_keywords: 'imperial-loyalty, compliant-citizenship, totalitarian-sympathy, authoritarian'
 ---
 
 ## **17\. REBEL**

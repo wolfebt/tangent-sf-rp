@@ -39,10 +39,28 @@ modifiers: []
 cp_cost: 12
 cp: 12
 bp: 12
-description: 'Spliced humans bearing animalistic genetic sequences granting horns, claws, reinforced skin, or thermal vision.'
+description: >-
+  Spliced humans bearing animalistic genetic sequences granting horns, claws,
+  reinforced skin, or thermal vision.
 traits:
   - trait-2-splice-mutations-natural-weapons-chitin-fur-tail
   - trait-mutation-power-special-perk
+recommended_factions:
+  - The Syndicate
+  - The Outworlds
+  - Mercenary Faction Template
+recommended_origins:
+  - Research
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Scout
+  - Drifter
+keywords: >-
+  gene-spliced, animalistic-traits, thermal-vision, natural-weapons, hardy,
+  predator-reflex
+negative_keywords: 'high-society-diplomat, pureblood-supremacy, delicate'
 ---
 
 # Chimera (Splice Transhuman)

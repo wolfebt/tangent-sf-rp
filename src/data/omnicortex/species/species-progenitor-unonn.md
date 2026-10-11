@@ -54,12 +54,28 @@ modifiers:
 cp_cost: 81
 cp: 81
 bp: 81
-description: U’Nonn are ancient primordial progenitors who command matter and energy directly through pure thought and deific metaphysical matrices.
+description: >-
+  U’Nonn are ancient primordial progenitors who command matter and energy
+  directly through pure thought and deific metaphysical matrices.
 traits:
   - trait-progenitor-heritage-base
   - trait-large-size
   - trait-absolute-mental-fortitude
   - trait-matter-reshaping-special-ability
+recommended_factions:
+  - Alien Faction Template
+  - Supernatural Faction Template
+recommended_origins:
+  - Enlightened
+  - Spacer
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Specialist
+keywords: >-
+  primordial-sovereign, reality-warping, pure-thought, deific-metaphysics,
+  void-command
+negative_keywords: 'subservient, mortal-fragility, physical-tool'
 ---
 
 # U’Nonn (Ancient Reality Shaper)

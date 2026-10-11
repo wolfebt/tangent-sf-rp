@@ -1,26 +1,96 @@
 ---
 id: faction-auluran-clans
-name: "Auluran Clans"
+name: Auluran Clans
 category: factions
-faction_type: "Major Polity"
-archetype: "Biomorphic Solarpunk / Eco-Militants"
-driving_mandate: "Grow the Garden; Choke the Weeds"
-symbol_sigil: "The Spiral Leaf"
-capital_world: "New Home (The World-Tree)"
-tech_level: "4"
-meta_level: "3"
-wealth_modifier: "+0 (Non-monetary, Resource Abundant)"
-prominent_species: "Aulurans (Dar, Koda, Graa)"
-typical_archetypes: ["The Warden","The Field Medic","The Beast-Handler","The Pathfinder","The Zealot","The Oracle","The Ascetic","The Spirit-Walker","The Magus","The Geneticist","The Planetologist","The Biologist"]
-skill_package: ["Nature (Biology): +5","Survival: +4","Medicine: +3","Stealth: +3","Animal Handling: +3","Combat: +2"]
-recommended_features: ["Biotechnology","Awakened","Naturalist","Animal Affinity","Wild Speech","Fast Heal","Scent","Stealthy","Climber","Self Sufficient","Tolerance","Sense"]
-features: ["Biotechnology","Awakened","Naturalist","Animal Affinity","Wild Speech","Fast Heal","Scent","Stealthy","Climber","Self Sufficient","Tolerance","Sense"]
-bonus_features: ["Zero-G Veteran","Bio-Crafting Intuition"]
-description: "The Aulurans are defined by radical adaptation following the genocide of their homeworld by the Impyrium. They fought back with Life—specifically, Emulated Biology. They terraform worlds using hyper-accelerated Organic Mimetics. Their tech is pseudo-living, utilizing synthetic tissues and neural-growth circuits. They view the galaxy through the lens of an immune system: outsiders are either compatible cells or pathogens"
+faction_type: Major Polity
+archetype: Biomorphic Solarpunk / Eco-Militants
+driving_mandate: Grow the Garden; Choke the Weeds
+symbol_sigil: The Spiral Leaf
+capital_world: New Home (The World-Tree)
+tech_level: '4'
+meta_level: '3'
+wealth_modifier: '+0 (Non-monetary, Resource Abundant)'
+prominent_species: 'Aulurans (Dar, Koda, Graa)'
+typical_archetypes:
+  - The Warden
+  - The Field Medic
+  - The Beast-Handler
+  - The Pathfinder
+  - The Zealot
+  - The Oracle
+  - The Ascetic
+  - The Spirit-Walker
+  - The Magus
+  - The Geneticist
+  - The Planetologist
+  - The Biologist
+skill_package:
+  - 'Nature (Biology): +5'
+  - 'Survival: +4'
+  - 'Medicine: +3'
+  - 'Stealth: +3'
+  - 'Animal Handling: +3'
+  - 'Combat: +2'
+recommended_features:
+  - Biotechnology
+  - Awakened
+  - Naturalist
+  - Animal Affinity
+  - Wild Speech
+  - Fast Heal
+  - Scent
+  - Stealthy
+  - Climber
+  - Self Sufficient
+  - Tolerance
+  - Sense
+features:
+  - Biotechnology
+  - Awakened
+  - Naturalist
+  - Animal Affinity
+  - Wild Speech
+  - Fast Heal
+  - Scent
+  - Stealthy
+  - Climber
+  - Self Sufficient
+  - Tolerance
+  - Sense
+bonus_features:
+  - Zero-G Veteran
+  - Bio-Crafting Intuition
+description: >-
+  The Aulurans are defined by radical adaptation following the genocide of their
+  homeworld by the Impyrium. They fought back with Life—specifically, Emulated
+  Biology. They terraform worlds using hyper-accelerated Organic Mimetics. Their
+  tech is pseudo-living, utilizing synthetic tissues and neural-growth circuits.
+  They view the galaxy through the lens of an immune system: outsiders are
+  either compatible cells or pathogens
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Dar (Auluran Hunter)
+  - Graa (Auluran Heavy)
+  - Koda (Auluran Worker)
+  - Prokos (Auluran Biform)
+recommended_origins:
+  - Hostile
+  - Agricultural
+  - Enlightened
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Specialist
+  - Adept
+keywords: >-
+  biomorphic-solarpunk, organic-mimetics, the-chorus, living-tech,
+  eco-militants, world-tree, predatory-caste, bio-adaptation
+negative_keywords: >-
+  cold-metal, mechanical-cybernetics, pollution, industrial-waste,
+  corporate-exploitation, inorganic-stagnation
 ---
 
 ## **AULURAN CLANS**

@@ -48,6 +48,35 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Human (Base)
+  - Dwerg Human
+  - Argynt Human
+  - Kannid
+  - Lin Human
+  - Varen (Gatekeeper)
+  - Changeling (Doppelganger Hybrid)
+  - Mekan (Assimilation Unit)
+recommended_factions:
+  - Incorporated Planetary Syndication (The Syndicate)
+  - The Entari Combine
+  - Coalition of Independent Worlds
+  - Corporate Faction Template
+  - The Outworlds
+  - Planetary Faction Template
+recommended_origins:
+  - Urban
+  - Spacer
+  - Leisure
+  - Agricultural
+keywords: >-
+  trade-caravan, commercial-ledger, import-export, supply-chain, profit-margin,
+  cargo-manifest, bulk-freight, bill-of-lading, market-stall, merchant-guild,
+  financial-leverage, credit-chip, trade-embargo, negotiation-table,
+  warehouse-depot
+negative_keywords: >-
+  charity-ascetic, penniless-vow, senseless-vandalism, reckless-spender,
+  anti-commercial-anarchist, self-destructive-rage, gift-economy-only
 ---
 
 # Merchant Occupation

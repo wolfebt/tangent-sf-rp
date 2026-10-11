@@ -1,26 +1,80 @@
 ---
 id: template-space-exploration
-name: "Space Exploration Faction Template"
+name: Space Exploration Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Deep Void Pioneers"
-driving_mandate: "Discover, map, make contact, and expand the frontiers of knowledge"
-symbol_sigil: "Void Pioneers / Surveyors / The Star-Mappers"
-capital_world: "Mobile fleet headquarters or major academic core worlds"
-tech_level: "4"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Diverse (Academic Elite)"
-typical_archetypes: ["The Xenologist","The Astronaut","The Surveyor","The Astromancer","The Void Medic"]
-skill_package: ["Pilot (Space) (+5)","Science (Any) (+5)","Survival (Void) (+4)","Awareness (+3)","Technology (+3)"]
-recommended_features: ["Spacer","Zero-G Training","Gifted Pilot","Educated","Scholar","Tech Interface","Self Sufficient","Endurance","Linguist","Insightful Reason"]
-features: ["Spacer","Zero-G Training","Gifted Pilot","Educated","Scholar","Tech Interface","Self Sufficient","Endurance","Linguist","Insightful Reason"]
-bonus_features: ["Spacer"]
-description: "Deep void pioneers focused entirely on charting the unknown. They prioritize science, discovery, and first contact over military conquest, venturing into the darkest, unmapped corners of the galaxy in highly advanced, poorly armed survey vessels"
+faction_type: Generic Template
+archetype: Deep Void Pioneers
+driving_mandate: 'Discover, map, make contact, and expand the frontiers of knowledge'
+symbol_sigil: Void Pioneers / Surveyors / The Star-Mappers
+capital_world: Mobile fleet headquarters or major academic core worlds
+tech_level: '4'
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Diverse (Academic Elite)
+typical_archetypes:
+  - The Xenologist
+  - The Astronaut
+  - The Surveyor
+  - The Astromancer
+  - The Void Medic
+skill_package:
+  - Pilot (Space) (+5)
+  - Science (Any) (+5)
+  - Survival (Void) (+4)
+  - Awareness (+3)
+  - Technology (+3)
+recommended_features:
+  - Spacer
+  - Zero-G Training
+  - Gifted Pilot
+  - Educated
+  - Scholar
+  - Tech Interface
+  - Self Sufficient
+  - Endurance
+  - Linguist
+  - Insightful Reason
+features:
+  - Spacer
+  - Zero-G Training
+  - Gifted Pilot
+  - Educated
+  - Scholar
+  - Tech Interface
+  - Self Sufficient
+  - Endurance
+  - Linguist
+  - Insightful Reason
+bonus_features:
+  - Spacer
+description: >-
+  Deep void pioneers focused entirely on charting the unknown. They prioritize
+  science, discovery, and first contact over military conquest, venturing into
+  the darkest, unmapped corners of the galaxy in highly advanced, poorly armed
+  survey vessels
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Human (Base)
+  - Lin Human
+  - Celestine (Alterian)
+  - Ila (Progenitor Archon)
+recommended_origins:
+  - Research
+  - Spacer
+  - Colony
+  - Enlightened
+recommended_occupations:
+  - Scout
+  - Scholar
+  - Specialist
+  - Drifter
+keywords: >-
+  deep-space-survey, pioneer-expeditions, astrogation-mapping,
+  first-contact-protocol, cosmic-curiosity
+negative_keywords: 'parochial-isolation, xenophobic-fear, stay-at-home, planetary-entrenchment'
 ---
 
 ## **20\. SPACE EXPLORATION**

@@ -1,26 +1,103 @@
 ---
 id: faction-dracon-dynasty
-name: "Dracon Dynasty"
+name: Dracon Dynasty
 category: factions
-faction_type: "Major Polity"
-archetype: "Feudal Technocracy / Space Monarchy"
-driving_mandate: "Protect the Realm; Expand through Diplomacy"
-symbol_sigil: "The Dragon Rampant"
-capital_world: "Draconis"
-tech_level: "3"
-meta_level: "3"
-wealth_modifier: "+2 (Old Money / High Resources)"
-prominent_species: "Humans, Draconic Descendants"
-typical_archetypes: ["The Protector","The Veteran","The Legionnaire","The High Commander","The Armorer","The Silent Blade","The Swashbuckler","The Aristocrat","The Priest","The Socialite","The Magus","The Architect"]
-skill_package: ["Combat (1 or 2 Skills) (+4): Knightly training","History (Lineage) (+4): Knowing who is in charge","Diplomacy (Command) (+3): Giving orders","Intimidate (+3): The Dragon's presence","Tactics (+3): Large scale warfare","Ride/Pilot (+3): Mounting beasts or mecha"]
-recommended_features: ["Benefit (Status)","Combat Specialist","Great Fortitude","Iron Will","Power Attack","Channel Smite","Animal Affinity","Born Leader","Empowered Strike","Tough","Weapon Specialization","Inspiring Personality"]
-features: ["Benefit (Status)","Combat Specialist","Great Fortitude","Iron Will","Power Attack","Channel Smite","Animal Affinity","Born Leader","Empowered Strike","Tough","Weapon Specialization","Inspiring Personality"]
-bonus_features: ["Benefit (Status)","Combat Specialist"]
-description: "The Dracon Dynasty stands as a bastion of stability and tradition in a chaotic galaxy. Founded by Dragons and currently ruled by their Draconic descendants, the faction claims a lineage of rule spanning 17 centuries. Established on the Draconic principles of Protection, Patience, and Long-term Stability, the Dynasty operates on a scale of time that others find difficult to comprehend. While technically a republic where worlds have representation, the society is stratified by a rigid Feudal Caste System. The ruling class views the citizenry through the lens of Noblesse Oblige—they are benevolent but authoritarian. While possessing a formidable military, they are the galaxy's premier diplomats, preferring to expand through alliance, marriage, and economic integration rather than brute force"
+faction_type: Major Polity
+archetype: Feudal Technocracy / Space Monarchy
+driving_mandate: Protect the Realm; Expand through Diplomacy
+symbol_sigil: The Dragon Rampant
+capital_world: Draconis
+tech_level: '3'
+meta_level: '3'
+wealth_modifier: +2 (Old Money / High Resources)
+prominent_species: 'Humans, Draconic Descendants'
+typical_archetypes:
+  - The Protector
+  - The Veteran
+  - The Legionnaire
+  - The High Commander
+  - The Armorer
+  - The Silent Blade
+  - The Swashbuckler
+  - The Aristocrat
+  - The Priest
+  - The Socialite
+  - The Magus
+  - The Architect
+skill_package:
+  - 'Combat (1 or 2 Skills) (+4): Knightly training'
+  - 'History (Lineage) (+4): Knowing who is in charge'
+  - 'Diplomacy (Command) (+3): Giving orders'
+  - 'Intimidate (+3): The Dragon''s presence'
+  - 'Tactics (+3): Large scale warfare'
+  - 'Ride/Pilot (+3): Mounting beasts or mecha'
+recommended_features:
+  - Benefit (Status)
+  - Combat Specialist
+  - Great Fortitude
+  - Iron Will
+  - Power Attack
+  - Channel Smite
+  - Animal Affinity
+  - Born Leader
+  - Empowered Strike
+  - Tough
+  - Weapon Specialization
+  - Inspiring Personality
+features:
+  - Benefit (Status)
+  - Combat Specialist
+  - Great Fortitude
+  - Iron Will
+  - Power Attack
+  - Channel Smite
+  - Animal Affinity
+  - Born Leader
+  - Empowered Strike
+  - Tough
+  - Weapon Specialization
+  - Inspiring Personality
+bonus_features:
+  - Benefit (Status)
+  - Combat Specialist
+description: >-
+  The Dracon Dynasty stands as a bastion of stability and tradition in a chaotic
+  galaxy. Founded by Dragons and currently ruled by their Draconic descendants,
+  the faction claims a lineage of rule spanning 17 centuries. Established on the
+  Draconic principles of Protection, Patience, and Long-term Stability, the
+  Dynasty operates on a scale of time that others find difficult to comprehend.
+  While technically a republic where worlds have representation, the society is
+  stratified by a rigid Feudal Caste System. The ruling class views the
+  citizenry through the lens of Noblesse Oblige—they are benevolent but
+  authoritarian. While possessing a formidable military, they are the galaxy's
+  premier diplomats, preferring to expand through alliance, marriage, and
+  economic integration rather than brute force
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Draconian (Scaled Aeld)
+  - Draconic Human
+  - Human (Base)
+  - Risakin (Giant Folk)
+  - Dwerg Human
+recommended_origins:
+  - Militaristic
+  - Colony
+  - Industrial
+  - Enlightened
+recommended_occupations:
+  - Soldier
+  - Representative
+  - Merchant
+  - Scholar
+keywords: >-
+  feudal-technocracy, dragon-knights, noblesse-oblige, space-monarchy,
+  ancestral-veneration, high-diplomacy, honorable-combat, draconic-lineage
+negative_keywords: >-
+  chaotic-anarchy, corporate-greed, disposable-technology, cowardly,
+  dishonorable, scrappy, swarm-tactics
 ---
 
 ## **THE DRACON DYNASTY**

@@ -1,26 +1,91 @@
 ---
 id: faction-radiant-impyrium
-name: "Radiant Impyrium"
+name: Radiant Impyrium
 category: factions
-faction_type: "Major Polity"
-archetype: "Enlightened Hegemony / Psychic Utopia"
-driving_mandate: "Universal Optimization; Eradicate Friction"
-symbol_sigil: "The Radiant Star (Glowing blue and gold 8-Pointed Star)"
-capital_world: "Imperion Prime"
-tech_level: "4"
-meta_level: "4"
-wealth_modifier: "+5 (Post-Scarcity perfection)"
-prominent_species: "Humans (Baseline & Regi)"
-typical_archetypes: ["The Bureaucrat","The Demolisher","The Shock Trooper","The Legionnaire","The High Commander","The Envoy","The Philosopher","The Strategist","The Magus","The Architect","The Theoretician","The Net-Architect"]
+faction_type: Major Polity
+archetype: Enlightened Hegemony / Psychic Utopia
+driving_mandate: Universal Optimization; Eradicate Friction
+symbol_sigil: The Radiant Star (Glowing blue and gold 8-Pointed Star)
+capital_world: Imperion Prime
+tech_level: '4'
+meta_level: '4'
+wealth_modifier: +5 (Post-Scarcity perfection)
+prominent_species: Humans (Baseline & Regi)
+typical_archetypes:
+  - The Bureaucrat
+  - The Demolisher
+  - The Shock Trooper
+  - The Legionnaire
+  - The High Commander
+  - The Envoy
+  - The Philosopher
+  - The Strategist
+  - The Magus
+  - The Architect
+  - The Theoretician
+  - The Net-Architect
 skill_package: []
-recommended_features: ["Awakened","Tech Interface","Centering Expert","Harmonious Center","Telepathy","Mind Link","Inspired Reason","Eidetic Memory","Educated","Magical Aptitude","Master Craftsman","Artificer"]
-features: ["Awakened","Tech Interface","Centering Expert","Harmonious Center","Telepathy","Mind Link","Inspired Reason","Eidetic Memory","Educated","Magical Aptitude","Master Craftsman","Artificer"]
-bonus_features: ["Solar Aura","High Imperial Status"]
-description: "The absolute peak of human achievement. A highly unified hegemony characterized by the seamless synergy of TL4 spacefaring and ML4 psionics. Directed by the Regi (bio-engineered processing nodes), they offer strategic worlds a place in their \"Grand Design.\" Refusal results in mathematical, detached eradication. Their technology is \"Psycho-Reactive,\" forged by psions manipulating matter. Society is defined by unyielding stoicism and extreme determination"
+recommended_features:
+  - Awakened
+  - Tech Interface
+  - Centering Expert
+  - Harmonious Center
+  - Telepathy
+  - Mind Link
+  - Inspired Reason
+  - Eidetic Memory
+  - Educated
+  - Magical Aptitude
+  - Master Craftsman
+  - Artificer
+features:
+  - Awakened
+  - Tech Interface
+  - Centering Expert
+  - Harmonious Center
+  - Telepathy
+  - Mind Link
+  - Inspired Reason
+  - Eidetic Memory
+  - Educated
+  - Magical Aptitude
+  - Master Craftsman
+  - Artificer
+bonus_features:
+  - Solar Aura
+  - High Imperial Status
+description: >-
+  The absolute peak of human achievement. A highly unified hegemony
+  characterized by the seamless synergy of TL4 spacefaring and ML4 psionics.
+  Directed by the Regi (bio-engineered processing nodes), they offer strategic
+  worlds a place in their "Grand Design." Refusal results in mathematical,
+  detached eradication. Their technology is "Psycho-Reactive," forged by psions
+  manipulating matter. Society is defined by unyielding stoicism and extreme
+  determination
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Impyrium Regi (Gen-E)
+  - Human (Base)
+  - Impyrium Psion (Gen-E)
+  - Janissary (Gen-E)
+recommended_origins:
+  - Enlightened
+  - Urban
+  - Research
+recommended_occupations:
+  - Adept
+  - Scholar
+  - Representative
+  - Soldier
+keywords: >-
+  enlightened-hegemony, psychic-utopia, psycho-reactive-tech, solar-golden-age,
+  stoic-perfection, regi-guidance, grand-design
+negative_keywords: >-
+  stagnant-decay, barbaric-chaos, primitive-tools, emotional-hysteria,
+  crude-scrap, dark-corruption
 ---
 
 ## **RADIANT IMPYRIUM (THE ENLIGHTENED AGE)**

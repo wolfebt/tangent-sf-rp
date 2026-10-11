@@ -63,7 +63,10 @@ modifiers:
 cp_cost: 66
 cp: 66
 bp: 66
-description: 'Sigal are diminutive, non-corporeal elemental wisps of concentrated consciousness and photon energy. While physically frail, their intellect, perfect memory, and telekinetic mastery are staggering.'
+description: >-
+  Sigal are diminutive, non-corporeal elemental wisps of concentrated
+  consciousness and photon energy. While physically frail, their intellect,
+  perfect memory, and telekinetic mastery are staggering.
 traits:
   - trait-asi-base-traits
   - trait-diminutive-size
@@ -72,6 +75,22 @@ traits:
   - trait-non-living-energy-entity
   - trait-telekinesis-special-ability
   - trait-perfect-memory
+recommended_factions:
+  - The Alterian Enclave
+  - The Ascendancy
+  - Sentient Intelligence Faction Template
+recommended_origins:
+  - Enlightened
+  - Research
+  - Spacer
+recommended_occupations:
+  - Scholar
+  - Adept
+  - Specialist
+keywords: >-
+  elemental, photon, telekinesis, high-intellect, non-corporeal, eidetic-memory,
+  radiant
+negative_keywords: 'melee-combat, physical-strength, heavy-armor, primitive, mud'
 ---
 
 # Sigal (Elemental Fey)

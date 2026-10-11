@@ -1,26 +1,94 @@
 ---
 id: faction-impyrium
-name: "Impyrium Dominion"
+name: Impyrium Dominion
 category: factions
-faction_type: "Major Polity"
-archetype: "Stagnant Hegemony / Imperial Brutalism"
-driving_mandate: "Preserve the Order; Reclaim the Lost"
-symbol_sigil: "The Star of Dominion (Heavy golden 8-Pointed Star)"
-capital_world: "Aurelia (The Throneworld)"
-tech_level: "4"
-meta_level: "3"
-wealth_modifier: "+4 (Vast inherited wealth, heavily consolidated)"
-prominent_species: "Humans"
-typical_archetypes: ["The Bureaucrat","The Protector","The Demolisher","The Shock Trooper","The Legionnaire","The High Commander","The Armorer","The Zealot","The Aristocrat","The Chronicler","The Priest","The Archivist"]
+faction_type: Major Polity
+archetype: Stagnant Hegemony / Imperial Brutalism
+driving_mandate: Preserve the Order; Reclaim the Lost
+symbol_sigil: The Star of Dominion (Heavy golden 8-Pointed Star)
+capital_world: Aurelia (The Throneworld)
+tech_level: '4'
+meta_level: '3'
+wealth_modifier: '+4 (Vast inherited wealth, heavily consolidated)'
+prominent_species: Humans
+typical_archetypes:
+  - The Bureaucrat
+  - The Protector
+  - The Demolisher
+  - The Shock Trooper
+  - The Legionnaire
+  - The High Commander
+  - The Armorer
+  - The Zealot
+  - The Aristocrat
+  - The Chronicler
+  - The Priest
+  - The Archivist
 skill_package: []
-recommended_features: ["Benefit (Status)","Benefit (Equipment)","Combat Expertise","Defensive Combat Training","Iron Will","Educated","Coordinated Assist","Master Plan","Indomitable Will","Meticulous","Weapon Focus","Skill Focus"]
-features: ["Benefit (Status)","Benefit (Equipment)","Combat Expertise","Defensive Combat Training","Iron Will","Educated","Coordinated Assist","Master Plan","Indomitable Will","Meticulous","Weapon Focus","Skill Focus"]
-bonus_features: ["Imperial Discipline","Authority"]
-description: "The oldest and arguably most powerful human civilization, now defined by Stagnant Grandeur. Following the loss of their psionic leaders (the Regi), the empire fractured into a simmering cold war between three surviving Houses. They are utterly obsessed with their own history, viewing themselves as the apex of civilization. They do not innovate; they act as \"Custodians,\" maintaining massive infrastructure as proof of their right to rule. Every action is dictated by the *Code of the Forefathers*"
+recommended_features:
+  - Benefit (Status)
+  - Benefit (Equipment)
+  - Combat Expertise
+  - Defensive Combat Training
+  - Iron Will
+  - Educated
+  - Coordinated Assist
+  - Master Plan
+  - Indomitable Will
+  - Meticulous
+  - Weapon Focus
+  - Skill Focus
+features:
+  - Benefit (Status)
+  - Benefit (Equipment)
+  - Combat Expertise
+  - Defensive Combat Training
+  - Iron Will
+  - Educated
+  - Coordinated Assist
+  - Master Plan
+  - Indomitable Will
+  - Meticulous
+  - Weapon Focus
+  - Skill Focus
+bonus_features:
+  - Imperial Discipline
+  - Authority
+description: >-
+  The oldest and arguably most powerful human civilization, now defined by
+  Stagnant Grandeur. Following the loss of their psionic leaders (the Regi), the
+  empire fractured into a simmering cold war between three surviving Houses.
+  They are utterly obsessed with their own history, viewing themselves as the
+  apex of civilization. They do not innovate; they act as "Custodians,"
+  maintaining massive infrastructure as proof of their right to rule. Every
+  action is dictated by the *Code of the Forefathers*
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Human (Base)
+  - Impyrium Regi (Gen-E)
+  - Impyrium Psion (Gen-E)
+  - Janissary (Gen-E)
+  - Argynt Human
+recommended_origins:
+  - Urban
+  - Militaristic
+  - Industrial
+  - Enlightened
+recommended_occupations:
+  - Soldier
+  - Representative
+  - Agent
+  - Scholar
+  - Adept
+keywords: >-
+  imperial-hegemony, golden-brutalism, heirloom-tech, bureaucratic-order,
+  aristocratic-pride, legionnaire, code-of-forefathers
+negative_keywords: >-
+  chaotic, scrappy, primitive, nomadic, frontier-anarchy, radical-cybernetics,
+  organic-growth
 ---
 
 ## **IMPYRIUM DOMINION (THE SHADOW OF THE SUN)**

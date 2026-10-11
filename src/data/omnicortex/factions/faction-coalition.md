@@ -1,26 +1,101 @@
 ---
 id: faction-coalition
-name: "Coalition of Independent Worlds"
+name: Coalition of Independent Worlds
 category: factions
-faction_type: "Major Polity"
-archetype: "Frontier Industrialists / Kleptocratic Republic"
-driving_mandate: "Protect the People; Secure the Frontier"
-symbol_sigil: "The Silver Star (Marshals) / The Cog and Wheat (Copia)"
-capital_world: "Copia (The Gilded Heart)"
-tech_level: "3"
-meta_level: "2"
-wealth_modifier: "0 (Standard baseline, but vastly unequal distribution)"
-prominent_species: "Humans (Hardened Frontier Genotype)"
-typical_archetypes: ["The Munitions Magnate","The Field Medic","The Demolisher","The Veteran","The Homesteader","The Marshal","The Vagabond","The Raider","The Activist","The Kingpin","The Revolutionary","The Detective"]
-skill_package: ["Bluff (+4)","Survival (+3)","Streetwise (+3)","Mechanics (+3)","Pilot (Ground/Atmo) (+3)","Remaining 4 allocated to Combat or Utility"]
-recommended_features: ["Tough","Pain Tolerance","Endurance","Burst Attack","Weapon Improvisation","Gearhead","Benefit (Authority)","Tracker","Fearless","Diehard","Crushing Blow","Headstrong"]
-features: ["Tough","Pain Tolerance","Endurance","Burst Attack","Weapon Improvisation","Gearhead","Benefit (Authority)","Tracker","Fearless","Diehard","Crushing Blow","Headstrong"]
-bonus_features: ["Independent Grit","Jack of All Trades"]
-description: "The \"Free Colonies\" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct"
+faction_type: Major Polity
+archetype: Frontier Industrialists / Kleptocratic Republic
+driving_mandate: Protect the People; Secure the Frontier
+symbol_sigil: The Silver Star (Marshals) / The Cog and Wheat (Copia)
+capital_world: Copia (The Gilded Heart)
+tech_level: '3'
+meta_level: '2'
+wealth_modifier: '0 (Standard baseline, but vastly unequal distribution)'
+prominent_species: Humans (Hardened Frontier Genotype)
+typical_archetypes:
+  - The Munitions Magnate
+  - The Field Medic
+  - The Demolisher
+  - The Veteran
+  - The Homesteader
+  - The Marshal
+  - The Vagabond
+  - The Raider
+  - The Activist
+  - The Kingpin
+  - The Revolutionary
+  - The Detective
+skill_package:
+  - Bluff (+4)
+  - Survival (+3)
+  - Streetwise (+3)
+  - Mechanics (+3)
+  - Pilot (Ground/Atmo) (+3)
+  - Remaining 4 allocated to Combat or Utility
+recommended_features:
+  - Tough
+  - Pain Tolerance
+  - Endurance
+  - Burst Attack
+  - Weapon Improvisation
+  - Gearhead
+  - Benefit (Authority)
+  - Tracker
+  - Fearless
+  - Diehard
+  - Crushing Blow
+  - Headstrong
+features:
+  - Tough
+  - Pain Tolerance
+  - Endurance
+  - Burst Attack
+  - Weapon Improvisation
+  - Gearhead
+  - Benefit (Authority)
+  - Tracker
+  - Fearless
+  - Diehard
+  - Crushing Blow
+  - Headstrong
+bonus_features:
+  - Independent Grit
+  - Jack of All Trades
+description: >-
+  The "Free Colonies" represent the rugged edge of civilization. Consisting of
+  over 40 independent systems populated by hardened survivors, miners, and
+  terraformers, they have tamed hostile worlds using industrial machinery and
+  sheer stubbornness. While claiming to be a democratic republic championing
+  freedom, it is functionally a Kleptocracy controlled by wealthy interests and
+  robber-barons. Despite the corruption at the top (centered in the wealthy
+  Copia system), the frontier spirit is defined by grit, self-determination, and
+  a fierce protective instinct
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Human (Base)
+  - Premian Human
+  - Rautha Human
+  - Dwerg Human
+  - Cyberform Human
+recommended_origins:
+  - Colony
+  - Industrial
+  - Hostile
+  - Agricultural
+recommended_occupations:
+  - Drifter
+  - Soldier
+  - Builder
+  - Criminal
+  - Scout
+keywords: >-
+  frontier-grit, industrial, independent-colonies, rugged, used-future,
+  survivalist, marshal-justice, self-determination
+negative_keywords: >-
+  high-society, aristocratic-refinement, pure-arcane, high-magic, deific,
+  post-scarcity
 ---
 
 ## **COALITION OF INDEPENDENT WORLDS**

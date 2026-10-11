@@ -26,6 +26,33 @@ traits:
   - "trait-risk-taking"
   - "trait-specialized-knowledge"
   - "trait-teamwork"
+recommended_species:
+  - "Dwerg Human"
+  - "Cyberform Human"
+  - "Koda (Auluran Worker)"
+  - "Mekan (Assimilation Unit)"
+  - "Protocol (Task Automaton)"
+  - "Scrap (Junkframe Synthetic)"
+  - "Biomechanical Synthetic"
+  - "Human (Base)"
+  - "Digon (Gen-E)"
+  - "Orll"
+recommended_factions:
+  - "The Mekan Collective"
+  - "Incorporated Planetary Syndication (The Syndicate)"
+  - "Technological Faction Template"
+  - "Coalition of Independent Worlds"
+  - "Corporate Faction Template"
+  - "Impyrium Dominion"
+recommended_occupations:
+  - "Builder"
+  - "Specialist"
+  - "Citizen"
+  - "Soldier"
+  - "Merchant"
+  - "Agent"
+keywords: "forge-world, heavy-industry, smelting-plant, foundry, assembly-line, slag-vats, cranes, gantry-grid, smog-stack, strip-mining, hydraulics, pneumatics, machining, high-pressure-steam, industrial-robotics, tooling, hardhat, rust-and-iron"
+negative_keywords: "pristine-natural-forest, serene-underwater-reef, gilded-royal-court, arcane-ley-line-sanctuary, untouched-wilderness, luxury-sunbathing-beach, zero-g-delicate-glass, pastoral-vineyard, fae-enchantment"
 description: >-
   These worlds are developed to exploit available natural resources and are designed for maximum efficiency. Heavy blast walls, automated smelters, toxic smokestacks, and modular worker complexes dominate.
 costs:

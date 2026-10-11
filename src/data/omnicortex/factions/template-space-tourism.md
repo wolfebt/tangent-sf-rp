@@ -1,26 +1,79 @@
 ---
 id: template-space-tourism
-name: "Space Tourism Faction Template"
+name: Space Tourism Faction Template
 category: factions
-faction_type: "Generic Template"
-archetype: "Luxury Fleet Providers"
-driving_mandate: "Provide unparalleled luxury and extract maximum credits from the elite"
-symbol_sigil: "The Cruisers / The Tourists / Credit-Spenders"
-capital_world: "Massive, city-sized luxury starliners"
-tech_level: "3+ (Cutting edge non-combat tech)"
-meta_level: "0"
-wealth_modifier: "0"
-prominent_species: "Cosmopolitan Elite"
-typical_archetypes: ["The Galactic Guide","The Thrill-Seeker","The Cruise Director","The VIP Security","The Socialite"]
-skill_package: ["Vocation (Hospitality/Entertainment) (+5)","Diplomacy (+4)","Bluff (+4)","Pilot (+4)","Insight (+3)"]
-recommended_features: ["Benefit (Wealth)","Golden Smile","Trustworthy","Silver Tongue","Platinum Personality","Connected","Versatile Curator","Graceful","Evasiveness","Educated"]
-features: ["Benefit (Wealth)","Golden Smile","Trustworthy","Silver Tongue","Platinum Personality","Connected","Versatile Curator","Graceful","Evasiveness","Educated"]
-bonus_features: ["Benefit (Wealth)"]
-description: "Mega-corporations focused entirely on high-end luxury travel, catering to the galaxy's ultra-rich. They operate massive, opulent cruise liners and exotic planetary resorts. They prioritize profit and experience above all, often ignoring the safety of the locals or the stability of the regions they visit"
+faction_type: Generic Template
+archetype: Luxury Fleet Providers
+driving_mandate: Provide unparalleled luxury and extract maximum credits from the elite
+symbol_sigil: The Cruisers / The Tourists / Credit-Spenders
+capital_world: 'Massive, city-sized luxury starliners'
+tech_level: 3+ (Cutting edge non-combat tech)
+meta_level: '0'
+wealth_modifier: '0'
+prominent_species: Cosmopolitan Elite
+typical_archetypes:
+  - The Galactic Guide
+  - The Thrill-Seeker
+  - The Cruise Director
+  - The VIP Security
+  - The Socialite
+skill_package:
+  - Vocation (Hospitality/Entertainment) (+5)
+  - Diplomacy (+4)
+  - Bluff (+4)
+  - Pilot (+4)
+  - Insight (+3)
+recommended_features:
+  - Benefit (Wealth)
+  - Golden Smile
+  - Trustworthy
+  - Silver Tongue
+  - Platinum Personality
+  - Connected
+  - Versatile Curator
+  - Graceful
+  - Evasiveness
+  - Educated
+features:
+  - Benefit (Wealth)
+  - Golden Smile
+  - Trustworthy
+  - Silver Tongue
+  - Platinum Personality
+  - Connected
+  - Versatile Curator
+  - Graceful
+  - Evasiveness
+  - Educated
+bonus_features:
+  - Benefit (Wealth)
+description: >-
+  Mega-corporations focused entirely on high-end luxury travel, catering to the
+  galaxy's ultra-rich. They operate massive, opulent cruise liners and exotic
+  planetary resorts. They prioritize profit and experience above all, often
+  ignoring the safety of the locals or the stability of the regions they visit
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Faction Template"
+faction_classification: Faction Template
+recommended_species:
+  - Premian Human
+  - Human (Base)
+  - Android
+  - Protocol (Task Automaton)
+recommended_origins:
+  - Leisure
+  - Urban
+  - Spacer
+recommended_occupations:
+  - Entertainer
+  - Merchant
+  - Citizen
+  - Specialist
+keywords: >-
+  orbital-luxury-cruises, zero-g-hospitality, recreational-resorts,
+  interstellar-getaways, VIP-concierge
+negative_keywords: 'austere-survival, grime, battlefield-horrors, toxic-hazards, poverty'
 ---
 
 ## **23\. SPACE TOURISM**

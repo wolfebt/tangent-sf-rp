@@ -13,7 +13,9 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers: []
 bonus_attribute_points: 2
 specific_skill_bonuses: []
@@ -34,11 +36,29 @@ modifiers: []
 cp_cost: 32
 cp: 32
 bp: 32
-description: Shells are synthetic sleeve bodies inhabited by digitized organic consciousnesses (transferred via cortical neural stacks upon biological death).
+description: >-
+  Shells are synthetic sleeve bodies inhabited by digitized organic
+  consciousnesses (transferred via cortical neural stacks upon biological
+  death).
 traits:
   - trait-synthetic-base-traits
   - trait-neural-stack-integration-organic-consciousness-housing
   - trait-ghost-in-the-machine-resilience
+recommended_factions:
+  - The Syndicate
+  - The Ascendancy
+recommended_origins:
+  - Urban
+  - Research
+  - Leisure
+recommended_occupations:
+  - Specialist
+  - Agent
+  - Citizen
+keywords: >-
+  cortical-stack, resleeve, transhuman-mind, digitized-consciousness,
+  sleeve-swap
+negative_keywords: 'permanent-death-fear, natural-aging, bio-purist'
 ---
 
 # Shell (Sleeve for Organic Mind)

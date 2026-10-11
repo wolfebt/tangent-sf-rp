@@ -56,7 +56,9 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: Riezen are colossal aggregate swarm entities composed of millions of synchronized micro-arthropods behaving as a unified conscious giant.
+description: >-
+  Riezen are colossal aggregate swarm entities composed of millions of
+  synchronized micro-arthropods behaving as a unified conscious giant.
 traits:
   - trait-kitin-base-traits
   - trait-blindsight-60ft
@@ -64,6 +66,18 @@ traits:
   - trait-fast-healing-regeneration
   - trait-telepathic-hive-node
   - trait-swarm-entity-resistant-to-single-target-attacks
+recommended_factions:
+  - Hive Mind Faction Template
+  - Alien Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Soldier
+  - Drifter
+  - Adept
+keywords: 'swarm-aggregate, micro-arthropod-colossus, hive-mind-colony, distributed-mass'
+negative_keywords: 'fine-jewelry, solitary-individual, tiny-cockpit'
 ---
 
 # Riezen (Kitin Swarm Colossus)

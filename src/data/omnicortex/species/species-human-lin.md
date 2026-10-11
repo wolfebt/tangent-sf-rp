@@ -49,13 +49,27 @@ modifiers:
 cp_cost: 17
 cp: 17
 bp: 17
-description: Tail-bearing canopy humans who merged their physiology with arboreal symbiotic plants to navigate colossal alien forests.
+description: >-
+  Tail-bearing canopy humans who merged their physiology with arboreal symbiotic
+  plants to navigate colossal alien forests.
 traits:
   - trait-adapted-arboreal
   - trait-awakened-nature-psychic
   - trait-biotech-synergy
   - trait-climber
   - trait-prehensile-tail
+recommended_factions:
+  - Environmental Faction Template
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Agricultural
+  - Hostile
+recommended_occupations:
+  - Scout
+  - Adept
+  - Drifter
+keywords: 'canopy-dweller, symbiotic-flora, arboreal-tail, green-worlder, athletic'
+negative_keywords: 'sterile-metal, deep-space, high-gravity'
 ---
 
 # Lin Human (Arboreal Canopy Folk)

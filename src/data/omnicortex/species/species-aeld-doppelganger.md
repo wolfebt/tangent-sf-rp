@@ -48,11 +48,31 @@ modifiers:
 cp_cost: 10
 cp: 10
 bp: 10
-description: 'Doppelgangers are an enigmatic elven offshoot possessing mutable cellular matrices. They can alter their physical form to mimic other humanoids perfectly, operating as intelligence operatives, infiltrators, and observers.'
+description: >-
+  Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
+  matrices. They can alter their physical form to mimic other humanoids
+  perfectly, operating as intelligence operatives, infiltrators, and observers.
 traits:
   - trait-aeld-lineage-traits
   - trait-alter-form-humanoid-special-ability
   - trait-sense-alignment-intent
+recommended_factions:
+  - The Alterian Enclave
+  - The Syndicate
+  - Criminal Faction Template
+recommended_origins:
+  - Urban
+  - Spacer
+  - Colony
+recommended_occupations:
+  - Agent
+  - Criminal
+  - Scout
+  - Entertainer
+keywords: >-
+  shapechanger, mimicry, espionage, stealth, deceptive, adaptive, infiltrator,
+  elusive
+negative_keywords: 'inflexible, heavy-armor, conspicuous, loud, static-form'
 ---
 
 # Doppelganger (Shifter Aeld)

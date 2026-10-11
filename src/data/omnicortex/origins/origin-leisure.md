@@ -26,6 +26,33 @@ traits:
   - "trait-management"
   - "trait-resourcefulness"
   - "trait-smooth-talking"
+recommended_species:
+  - "Celestine (Alterian)"
+  - "Fey (Base)"
+  - "Argynt Human"
+  - "Brae Human"
+  - "Davae (Gen-E)"
+  - "Danai (Davae Hybrid)"
+  - "Kizin"
+  - "Kongi"
+  - "Skin (Infiltrator Synthetic)"
+  - "Changeling (Doppelganger Hybrid)"
+recommended_factions:
+  - "Space Tourism Faction Template"
+  - "Incorporated Planetary Syndication (The Syndicate)"
+  - "The Alterian Enclave"
+  - "Dracon Dynasty"
+  - "Corporate Faction Template"
+  - "The Silvermoon Vanguard"
+recommended_occupations:
+  - "Entertainer"
+  - "Representative"
+  - "Merchant"
+  - "Citizen"
+  - "Agent"
+  - "Criminal"
+keywords: "resort-world, luxury-retreat, pleasure-dome, infinity-pool, casino-strip, haute-cuisine, grand-amphitheater, opulent-suites, holographic-cabaret, hospitality, hedonism, concierge, star-gazing-pavilion, fine-wine, decadence, pampered, neon-nightlife"
+negative_keywords: "bleak-trench-warfare, industrial-ash-heap, toxic-radiation-bog, grimy-slag-pit, cramped-miner-submersible, rigorous-ascetic-monasticism, penal-forced-labor, extreme-deprivation, mud-and-blood"
 description: >-
   These worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. High-end resort cities, private gambling spires, pristine beaches, and artistic sanctuaries cater to elites and tourists.
 costs:

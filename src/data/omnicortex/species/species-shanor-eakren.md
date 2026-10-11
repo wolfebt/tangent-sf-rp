@@ -40,11 +40,27 @@ modifiers: []
 cp_cost: 10
 cp: 10
 bp: 10
-description: Eakren are mortals who were caught in catastrophic void collapses and mutated into chimeric aberrational humanoids.
+description: >-
+  Eakren are mortals who were caught in catastrophic void collapses and mutated
+  into chimeric aberrational humanoids.
 traits:
   - trait-corrupted-void-traits
   - trait-aberrant-mutations-tentacles-eyes-claws
   - trait-void-resonance
+recommended_factions:
+  - The Outworlds
+  - Mutant Faction Template
+recommended_origins:
+  - Hostile
+  - Colony
+recommended_occupations:
+  - Drifter
+  - Soldier
+  - Scout
+keywords: >-
+  void-mutant, warp-touched, chaotic-physiology, resilient-aberration,
+  fringe-dweller
+negative_keywords: 'pureblood-society, stable-form, pristine'
 ---
 
 # Eakren (Void-Warped Mutant)

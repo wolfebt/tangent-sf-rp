@@ -1,26 +1,66 @@
 ---
 id: faction-vajar
-name: "Vajar Tribes"
+name: Vajar Tribes
 category: factions
-faction_type: "Major Polity"
-archetype: "Theocratic Tribalism / Primal Meritocracy"
-driving_mandate: "Adapt, survive, and protect the primal ecosystem"
-symbol_sigil: "Iron wolf's head wreathed in living roots"
-capital_world: "Vea'Sura (The Living Heart)"
-tech_level: "3"
-meta_level: "3"
-wealth_modifier: "+0 (Barter System)"
-prominent_species: "Vajar (Wild Elves)"
-typical_archetypes: ["The Warden","The Veteran","The Beast-Handler","The Pathfinder","The Raider","The Oracle","The Ascetic","The Spirit-Walker","The Magus","The Planetologist","The Biologist","The Pioneer"]
+faction_type: Major Polity
+archetype: Theocratic Tribalism / Primal Meritocracy
+driving_mandate: 'Adapt, survive, and protect the primal ecosystem'
+symbol_sigil: Iron wolf's head wreathed in living roots
+capital_world: Vea'Sura (The Living Heart)
+tech_level: '3'
+meta_level: '3'
+wealth_modifier: +0 (Barter System)
+prominent_species: Vajar (Wild Elves)
+typical_archetypes:
+  - The Warden
+  - The Veteran
+  - The Beast-Handler
+  - The Pathfinder
+  - The Raider
+  - The Oracle
+  - The Ascetic
+  - The Spirit-Walker
+  - The Magus
+  - The Planetologist
+  - The Biologist
+  - The Pioneer
 skill_package: []
 recommended_features: []
 features: []
-bonus_features: ["Primal Resilience","Beast Hunter"]
-description: "The Vajar represent the untamed, primal soul of the Elven species. They are shapeshifting Druids who reject static cities and industrial mass production. Operating at Tech Level 1, they forge metal using geothermal heat and elemental manipulation, backed by profound Metaphysics that renders conventional tech obsolete. They view their domain as an ecosystem to be preserved, and industrialization as an infection"
+bonus_features:
+  - Primal Resilience
+  - Beast Hunter
+description: >-
+  The Vajar represent the untamed, primal soul of the Elven species. They are
+  shapeshifting Druids who reject static cities and industrial mass production.
+  Operating at Tech Level 1, they forge metal using geothermal heat and
+  elemental manipulation, backed by profound Metaphysics that renders
+  conventional tech obsolete. They view their domain as an ecosystem to be
+  preserved, and industrialization as an infection
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Vajar (Wilder)
+  - Wildling
+  - Awakened Animal
+  - Ferren
+recommended_origins:
+  - Hostile
+  - Enlightened
+  - Agricultural
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Adept
+  - Drifter
+keywords: >-
+  primal-druidism, skin-walkers, iron-roots, pack-hierarchy, untamed-wilderness,
+  elemental-forging, wrath-of-nature
+negative_keywords: >-
+  high-tech-machinery, cybernetics, urban-sprawl, bureaucratic-filing,
+  civilized-court, pollution, artificial-ai
 ---
 
 ## **VAJAR TRIBES (WILDER)**

@@ -27,6 +27,34 @@ traits:
   - "trait-streetwise"
   - "trait-tech-savvy"
   - "trait-urban-survival"
+recommended_species:
+  - "Human (Base)"
+  - "Doppelganger (Shifter)"
+  - "Changeling (Doppelganger Hybrid)"
+  - "Cyberform Human"
+  - "Skin (Infiltrator Synthetic)"
+  - "Android"
+  - "Kannid"
+  - "Kizin"
+  - "Danai (Davae Hybrid)"
+  - "Nocturne (Kovian)"
+recommended_factions:
+  - "Incorporated Planetary Syndication (The Syndicate)"
+  - "Coalition of Independent Worlds"
+  - "Corporate Faction Template"
+  - "Criminal Faction Template"
+  - "Impyrium Dominion"
+  - "Political Faction Template"
+  - "Interstellar Diplomats Faction Template"
+recommended_occupations:
+  - "Criminal"
+  - "Agent"
+  - "Citizen"
+  - "Entertainer"
+  - "Specialist"
+  - "Merchant"
+keywords: "megacity, arcology, neon-drenched, rain-slicked-pavement, skyscraper-concourse, mass-transit-monorail, street-market, verticality, alleyway, cyberpunk-sprawl, overcrowded, high-population-density, holographic-billboards, underworld, smog-haze"
+negative_keywords: "untamed-wilderness, pristine-glacial-tundra, desert-sand-dunes, lonely-deep-space-station, pastoral-farming-valley, quiet-ancient-hermitage, submerged-oceanic-trench, feral-jungle-canopy"
 description: >-
   People who live in cities, from large metropolises to vertical arcologies, experience high population density, rapid technological integration, ground and air vehicles, and vibrant street cultures.
 costs:

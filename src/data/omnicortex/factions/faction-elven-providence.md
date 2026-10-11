@@ -1,26 +1,61 @@
 ---
 id: faction-elven-providence
-name: "Elven Providence"
+name: Elven Providence
 category: factions
-faction_type: "Major Polity"
-archetype: "Galactic Diplomats / Magi-Tech Architects"
-driving_mandate: "Preserve Ancient Legacy; Navigate Ideological Schisms"
-symbol_sigil: "The Solar Spire / Silver Crescent"
-capital_world: "Altheria (The Gilded World)"
-tech_level: "4"
-meta_level: "4"
-wealth_modifier: "+3"
-prominent_species: "Celestine, High Elves, Doppelgangers"
+faction_type: Major Polity
+archetype: Galactic Diplomats / Magi-Tech Architects
+driving_mandate: Preserve Ancient Legacy; Navigate Ideological Schisms
+symbol_sigil: The Solar Spire / Silver Crescent
+capital_world: Altheria (The Gilded World)
+tech_level: '4'
+meta_level: '4'
+wealth_modifier: '+3'
+prominent_species: 'Celestine, High Elves, Doppelgangers'
 typical_archetypes: []
-skill_package: ["Attune (+5)","Culture (+4)","Academics (+4)","Diplomacy (+4)","Combat (+3)"]
-recommended_features: ["Ancient Lineage","Ethereal Grace","Benefit (Status)"]
-features: ["Ancient Lineage","Ethereal Grace","Benefit (Status)"]
-bonus_features: ["Ancient Lineage","Ethereal Grace"]
-description: "Ancient, fractured civilization encompassing the Alterian Enclave, Silvermoon Vanguard, and Draconian Order across millennia of ideological schisms"
+skill_package:
+  - Attune (+5)
+  - Culture (+4)
+  - Academics (+4)
+  - Diplomacy (+4)
+  - Combat (+3)
+recommended_features:
+  - Ancient Lineage
+  - Ethereal Grace
+  - Benefit (Status)
+features:
+  - Ancient Lineage
+  - Ethereal Grace
+  - Benefit (Status)
+bonus_features:
+  - Ancient Lineage
+  - Ethereal Grace
+description: >-
+  Ancient, fractured civilization encompassing the Alterian Enclave, Silvermoon
+  Vanguard, and Draconian Order across millennia of ideological schisms
 costs:
   bp: 0
 modifiers: []
-faction_classification: "Major Galactic Power"
+faction_classification: Major Galactic Power
+recommended_species:
+  - Celestine (Alterian)
+  - Doppelganger (Shifter)
+  - Draconian (Scaled Aeld)
+  - Vajar (Wilder)
+recommended_origins:
+  - Enlightened
+  - Research
+  - Urban
+recommended_occupations:
+  - Representative
+  - Scholar
+  - Adept
+  - Scout
+keywords: >-
+  ancient-lineage, magi-tech-architects, schismatic-history, ethereal-grace,
+  elder-wisdom, harmonic-flow, pan-aeld-heritage
+negative_keywords: >-
+  crude-machinery, reckless-expansion, heavy-cybernetics,
+  short-lived-impulsiveness, unrefined
 ---
 
 ## **ELVEN PROVIDENCE (THE FACTIONAL SCHISMS)**

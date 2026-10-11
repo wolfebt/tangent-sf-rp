@@ -43,6 +43,38 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Dwerg Human
+  - Cyberform Human
+  - Koda (Auluran Worker)
+  - Protocol (Task Automaton)
+  - Scrap (Junkframe Synthetic)
+  - Biomechanical Synthetic
+  - Human (Base)
+  - Mekan (Assimilation Unit)
+  - Digon (Gen-E)
+  - Orll
+recommended_factions:
+  - The Mekan Collective
+  - Coalition of Independent Worlds
+  - Incorporated Planetary Syndication (The Syndicate)
+  - Technological Faction Template
+  - Corporate Faction Template
+  - Planetary Faction Template
+recommended_origins:
+  - Industrial
+  - Colony
+  - Spacer
+  - Agricultural
+keywords: >-
+  fabricator, structural-engineer, heavy-welder, blueprints, pneumatic-tools,
+  architectural-grid, habitat-assembly, repair-drone, hydraulic-lift, hardhat,
+  high-temp-torch, reinforced-scaffolding, modular-construction,
+  precision-machining, forge-craft
+negative_keywords: >-
+  fragile-aestheticism, theoretical-philosophy-only, careless-demolition,
+  aristocratic-idleness, ungrounded-mysticism, non-technical-bureaucrat,
+  frivolous-courtier, destructive-anarchy
 ---
 
 # Builder Occupation

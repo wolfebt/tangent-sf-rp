@@ -44,6 +44,35 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Sigal
+  - Celestine (Alterian)
+  - Nian Human
+  - Intellect Construct (Pure AI)
+  - Android
+  - Tozen
+  - Human (Base)
+  - Eidolon (Aetherion Specialist)
+  - Manelli (Kitin Diplomat)
+recommended_factions:
+  - The Ascendancy
+  - Technological Faction Template
+  - The Alterian Enclave
+  - Elven Providence
+  - Sentient Intelligence Faction Template
+  - The Mekan Collective
+recommended_origins:
+  - Research
+  - Enlightened
+  - Urban
+keywords: >-
+  academic-archive, peer-review, library-stacks, ancient-scrolls, data-crystal,
+  research-fellow, epistemological, historiography, dissertation, antiquarian,
+  field-notes, paleontology, theoretical-framework, scholarly-symposium
+negative_keywords: >-
+  willful-ignorance, superstitious-fear, book-burning, illiterate-thug,
+  mindless-violence, anti-intellectual-dogma, reckless-brawling,
+  unverified-rumor
 ---
 
 # Scholar Occupation

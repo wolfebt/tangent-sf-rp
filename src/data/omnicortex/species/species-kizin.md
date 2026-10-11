@@ -54,13 +54,29 @@ modifiers:
 cp_cost: 15
 cp: 15
 bp: 15
-description: 'Sleek feline humanoids known for sharp intellects, stealth, curiosity, and forensic deductive abilities.'
+description: >-
+  Sleek feline humanoids known for sharp intellects, stealth, curiosity, and
+  forensic deductive abilities.
 traits:
   - trait-digitigrade
   - trait-low-light-vision
   - trait-acute-scent
   - trait-silent-stride
   - trait-retractable-claws
+recommended_factions:
+  - The Entari Combine
+  - The Syndicate
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Urban
+  - Colony
+  - Research
+recommended_occupations:
+  - Agent
+  - Scholar
+  - Scout
+keywords: 'feline-intellect, forensic-investigator, stealth, deductive, agile, curious'
+negative_keywords: 'brute-force, heavy-armor, reckless'
 ---
 
 # Kizin (Feline Scout)

@@ -65,13 +65,29 @@ modifiers:
 cp_cost: 17
 cp: 17
 bp: 17
-description: 'Tozen are proud centauroid fey combining humanoid torsos with equine bodies. Revered for their wisdom, astronomical precision, and nomadic independence, they range the open steppes.'
+description: >-
+  Tozen are proud centauroid fey combining humanoid torsos with equine bodies.
+  Revered for their wisdom, astronomical precision, and nomadic independence,
+  they range the open steppes.
 traits:
   - trait-asi-base-traits
   - trait-awakened-natural-wisdom
   - trait-quadruped-speed-40ft
   - trait-quick-reflexes
   - trait-stable-stance
+recommended_factions:
+  - Elven Providence
+  - Coalition of Independent Worlds
+recommended_origins:
+  - Agricultural
+  - Colony
+  - Enlightened
+recommended_occupations:
+  - Scout
+  - Soldier
+  - Scholar
+keywords: 'centauroid, fleet-footed, astronomy, archery, open-steppes, proud, nomadic'
+negative_keywords: 'indoor-confined, starship-ductwork, urbanite, cramped-cockpits'
 ---
 
 # Tozen (Centaur Fey)

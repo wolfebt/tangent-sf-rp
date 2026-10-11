@@ -42,6 +42,38 @@ description: >-
 costs:
   bp: 0
 modifiers: []
+recommended_species:
+  - Sigal
+  - Cyberform Human
+  - Nian Human
+  - Intellect Construct (Pure AI)
+  - Android
+  - Dwerg Human
+  - Prokos (Auluran Biform)
+  - Skin (Infiltrator Synthetic)
+  - Swarm (Micro-Drone Synthetic)
+  - Human (Base)
+recommended_factions:
+  - Technological Faction Template
+  - The Ascendancy
+  - The Mekan Collective
+  - Genetic Engineering Faction Template
+  - Incorporated Planetary Syndication (The Syndicate)
+  - The Alterian Enclave
+recommended_origins:
+  - Research
+  - Industrial
+  - Urban
+  - Spacer
+  - Hostile
+keywords: >-
+  diagnostic-scanner, surgical-scalpel, terminal-debugger, flight-avionics,
+  cyber-deck, technical-niche, calibration-matrix, specialist-rig,
+  precision-telemetry, expert-system, protocol-analyzer, forensic-kit,
+  field-medic-trauma
+negative_keywords: >-
+  jack-of-all-trades-master-of-none, crude-brute-force, unscientific-guesswork,
+  superstitious-ritual, careless-operator, sloppy-execution, blunt-force
 ---
 
 # Specialist Occupation

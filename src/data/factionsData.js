@@ -37,6 +37,23 @@ export const DEFAULT_FACTIONS = [
       "Stealth (+4)",
       "Combat (Any) (+3)"
     ],
+    "recommended_species": [
+      "Orll",
+      "Plasm",
+      "Thorn",
+      "Vassoth",
+      "Caprian"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Colony",
+      "Research"
+    ],
+    "recommended_occupations": [
+      "Scout",
+      "Soldier",
+      "Specialist"
+    ],
     "recommended_features": [
       "Alien Physiology",
       "Natural Weapons",
@@ -64,15 +81,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Alien Physiology"
     ],
+    "keywords": "extraterrestrial-enigma, non-humanoid-biology, xenobiological-adaptation, instinctual-caste, alien-territory",
+    "negative_keywords": "human-centrism, terrestrial-culture, urban-bureaucracy, conventional-diplomacy",
     "description": "These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -123,6 +136,23 @@ export const DEFAULT_FACTIONS = [
       "Mechanics (+3)",
       "Combat (+3)"
     ],
+    "recommended_species": [
+      "Android",
+      "Sentient Machine (Free Droid)",
+      "Biomechanical Synthetic",
+      "Protocol (Task Automaton)"
+    ],
+    "recommended_origins": [
+      "Industrial",
+      "Research",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Builder",
+      "Specialist",
+      "Adept",
+      "Citizen"
+    ],
     "recommended_features": [
       "Self-Sustaining",
       "Sleepless",
@@ -150,15 +180,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Self-Sustaining"
     ],
+    "keywords": "artificial-emancipation, synthetic-rights, cybernetic-lifeform, silicon-sapience, programmed-purpose",
+    "negative_keywords": "organic-chauvinism, flesh-worship, primitive-mysticism, anti-machine",
     "description": "Composed of artificially created life forms, such as robots, androids, or liberated synthetics. They have broken away from their creators to establish their own society, focused on autonomy, self-preservation, and exploring the meaning of their own existence",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -212,6 +238,23 @@ export const DEFAULT_FACTIONS = [
       "Animal Handling: +3",
       "Combat: +2"
     ],
+    "recommended_species": [
+      "Dar (Auluran Hunter)",
+      "Graa (Auluran Heavy)",
+      "Koda (Auluran Worker)",
+      "Prokos (Auluran Biform)"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Agricultural",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Scout",
+      "Soldier",
+      "Specialist",
+      "Adept"
+    ],
     "recommended_features": [
       "Biotechnology",
       "Awakened",
@@ -244,15 +287,11 @@ export const DEFAULT_FACTIONS = [
       "Zero-G Veteran",
       "Bio-Crafting Intuition"
     ],
+    "keywords": "biomorphic-solarpunk, organic-mimetics, the-chorus, living-tech, eco-militants, world-tree, predatory-caste, bio-adaptation",
+    "negative_keywords": "cold-metal, mechanical-cybernetics, pollution, industrial-waste, corporate-exploitation, inorganic-stagnation",
     "description": "The Aulurans are defined by radical adaptation following the genocide of their homeworld by the Impyrium. They fought back with Life—specifically, Emulated Biology. They terraform worlds using hyper-accelerated Organic Mimetics. Their tech is pseudo-living, utilizing synthetic tissues and neural-growth circuits. They view the galaxy through the lens of an immune system: outsiders are either compatible cells or pathogens",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -306,6 +345,26 @@ export const DEFAULT_FACTIONS = [
       "Pilot (Ground/Atmo) (+3)",
       "Remaining 4 allocated to Combat or Utility"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Premian Human",
+      "Rautha Human",
+      "Dwerg Human",
+      "Cyberform Human"
+    ],
+    "recommended_origins": [
+      "Colony",
+      "Industrial",
+      "Hostile",
+      "Agricultural"
+    ],
+    "recommended_occupations": [
+      "Drifter",
+      "Soldier",
+      "Builder",
+      "Criminal",
+      "Scout"
+    ],
     "recommended_features": [
       "Tough",
       "Pain Tolerance",
@@ -338,15 +397,11 @@ export const DEFAULT_FACTIONS = [
       "Independent Grit",
       "Jack of All Trades"
     ],
+    "keywords": "frontier-grit, industrial, independent-colonies, rugged, used-future, survivalist, marshal-justice, self-determination",
+    "negative_keywords": "high-society, aristocratic-refinement, pure-arcane, high-magic, deific, post-scarcity",
     "description": "The \"Free Colonies\" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -397,6 +452,23 @@ export const DEFAULT_FACTIONS = [
       "Insight (+3)",
       "Streetwise (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Premian Human",
+      "Cyberform Human",
+      "Android"
+    ],
+    "recommended_origins": [
+      "Urban",
+      "Industrial",
+      "Leisure"
+    ],
+    "recommended_occupations": [
+      "Merchant",
+      "Representative",
+      "Agent",
+      "Specialist"
+    ],
     "recommended_features": [
       "Benefit (Wealth)",
       "Benefit (Clearance)",
@@ -424,15 +496,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Benefit (Wealth)"
     ],
+    "keywords": "megacorporate-conglomerate, profit-motive, executive-privilege, contract-binding, market-dominance",
+    "negative_keywords": "philanthropy, socialist-collective, spiritual-devotion, uncalculated-recklessness",
     "description": "Factions characterized entirely by their focus on profit and market dominance. They operate as sovereign nations, wielding wealth and private security forces to control resources, expand their influence, and develop new technologies at the expense of ethics",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -483,6 +551,21 @@ export const DEFAULT_FACTIONS = [
       "Survival (+3)",
       "Stealth (+3)"
     ],
+    "recommended_species": [
+      "Tenen (Sha’nor Spectral)",
+      "Eakren (Corrupted Aberration)",
+      "Changeling (Doppelganger Hybrid)"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Enlightened",
+      "Research"
+    ],
+    "recommended_occupations": [
+      "Adept",
+      "Criminal",
+      "Scholar"
+    ],
     "recommended_features": [
       "Fearless (Madness)",
       "Discipline Focus (Entropy)",
@@ -510,15 +593,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Fearless (Madness)"
     ],
+    "keywords": "cosmic-dread, eldritch-cult, void-whispers, reality-warping, forbidden-knowledge, aberrant-devotion",
+    "negative_keywords": "rational-humanism, bright-optimism, public-safety, mundane-stability",
     "description": "Factions characterized by their connection to incomprehensible, eldritch entities. They seek to uncover the secrets of cosmic horror, harness the powers of the unknown, and spread their fanatical beliefs, often aiming to bring about the end of the universe",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -569,6 +648,23 @@ export const DEFAULT_FACTIONS = [
       "Insight (+3)",
       "Law (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Janissary (Gen-E)",
+      "Draconic Human",
+      "Celestine (Alterian)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Militaristic",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Soldier",
+      "Representative",
+      "Agent",
+      "Adept"
+    ],
     "recommended_features": [
       "Iron Will",
       "Fearless",
@@ -596,15 +692,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Iron Will"
     ],
+    "keywords": "interstellar-peacekeepers, cosmic-jurisprudence, galactic-marshal, incorruptible-verdict, defensive-order",
+    "negative_keywords": "bribery, underworld-cartel, lawless-chaos, arbitrary-cruelty, vigilantism",
     "description": "Idealistic factions dedicated to protecting the universe from threats, enforcing universal law, and righting wrongs. They act as self-appointed guardians, attempting to balance inequalities and address discrimination wherever they find it",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -655,6 +747,23 @@ export const DEFAULT_FACTIONS = [
       "Mechanics (Security) (+4)",
       "Combat (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Scrap (Junkframe Synthetic)",
+      "Kizin",
+      "Premian Human"
+    ],
+    "recommended_origins": [
+      "Urban",
+      "Industrial",
+      "Colony"
+    ],
+    "recommended_occupations": [
+      "Criminal",
+      "Drifter",
+      "Merchant",
+      "Agent"
+    ],
     "recommended_features": [
       "Connected (Underworld)",
       "Sneak Attack",
@@ -682,15 +791,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Connected (Underworld)"
     ],
+    "keywords": "underworld-cartel, black-market-contraband, racketeering, smuggling-networks, code-of-silence",
+    "negative_keywords": "lawful-governance, regulatory-compliance, transparent-audit, altruistic-charity",
     "description": "Syndicates, cartels, and mafias operating in the shadows of galactic civilization. They are characterized by their involvement in illegal activities, accumulating wealth, power, and influence through illicit means while avoiding the gaze of official authorities",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -744,6 +849,25 @@ export const DEFAULT_FACTIONS = [
       "Tactics (+3): Large scale warfare",
       "Ride/Pilot (+3): Mounting beasts or mecha"
     ],
+    "recommended_species": [
+      "Draconian (Scaled Aeld)",
+      "Draconic Human",
+      "Human (Base)",
+      "Risakin (Giant Folk)",
+      "Dwerg Human"
+    ],
+    "recommended_origins": [
+      "Militaristic",
+      "Colony",
+      "Industrial",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Soldier",
+      "Representative",
+      "Merchant",
+      "Scholar"
+    ],
     "recommended_features": [
       "Benefit (Status)",
       "Combat Specialist",
@@ -776,15 +900,11 @@ export const DEFAULT_FACTIONS = [
       "Benefit (Status)",
       "Combat Specialist"
     ],
+    "keywords": "feudal-technocracy, dragon-knights, noblesse-oblige, space-monarchy, ancestral-veneration, high-diplomacy, honorable-combat, draconic-lineage",
+    "negative_keywords": "chaotic-anarchy, corporate-greed, disposable-technology, cowardly, dishonorable, scrappy, swarm-tactics",
     "description": "The Dracon Dynasty stands as a bastion of stability and tradition in a chaotic galaxy. Founded by Dragons and currently ruled by their Draconic descendants, the faction claims a lineage of rule spanning 17 centuries. Established on the Draconic principles of Protection, Patience, and Long-term Stability, the Dynasty operates on a scale of time that others find difficult to comprehend. While technically a republic where worlds have representation, the society is stratified by a rigid Feudal Caste System. The ruling class views the citizenry through the lens of Noblesse Oblige—they are benevolent but authoritarian. While possessing a formidable military, they are the galaxy's premier diplomats, preferring to expand through alliance, marriage, and economic integration rather than brute force",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -824,6 +944,23 @@ export const DEFAULT_FACTIONS = [
       "Diplomacy (+4)",
       "Combat (+3)"
     ],
+    "recommended_species": [
+      "Celestine (Alterian)",
+      "Doppelganger (Shifter)",
+      "Draconian (Scaled Aeld)",
+      "Vajar (Wilder)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Research",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Representative",
+      "Scholar",
+      "Adept",
+      "Scout"
+    ],
     "recommended_features": [
       "Ancient Lineage",
       "Ethereal Grace",
@@ -838,15 +975,11 @@ export const DEFAULT_FACTIONS = [
       "Ancient Lineage",
       "Ethereal Grace"
     ],
+    "keywords": "ancient-lineage, magi-tech-architects, schismatic-history, ethereal-grace, elder-wisdom, harmonic-flow, pan-aeld-heritage",
+    "negative_keywords": "crude-machinery, reckless-expansion, heavy-cybernetics, short-lived-impulsiveness, unrefined",
     "description": "Ancient, fractured civilization encompassing the Alterian Enclave, Silvermoon Vanguard, and Draconian Order across millennia of ideological schisms",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -897,6 +1030,23 @@ export const DEFAULT_FACTIONS = [
       "Mechanics (Sabotage) (+3)",
       "Athletics (+3)"
     ],
+    "recommended_species": [
+      "Dar (Auluran Hunter)",
+      "Wildling",
+      "Awakened Animal",
+      "Fey (Base)"
+    ],
+    "recommended_origins": [
+      "Agricultural",
+      "Hostile",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Scout",
+      "Scholar",
+      "Specialist",
+      "Adept"
+    ],
     "recommended_features": [
       "Naturalist",
       "Animal Affinity",
@@ -924,15 +1074,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Naturalist"
     ],
+    "keywords": "ecological-preservation, terraforming-stewardship, biome-restoration, planetary-harmony, deep-ecology",
+    "negative_keywords": "strip-mining, industrial-effluent, ecological-destruction, excessive-consumerism",
     "description": "Militant and passionate factions deeply focused on environmental preservation. They actively oppose destructive industrial activities, promoting sustainability and protecting natural habitats through direct, often violent, action",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -978,6 +1124,23 @@ export const DEFAULT_FACTIONS = [
       "Athletics (+3)",
       "Combat (Any) (+3)"
     ],
+    "recommended_species": [
+      "Gen-E (Base Engineered Human)",
+      "Janissary (Gen-E)",
+      "Chimera (Gen-E)",
+      "Davae (Gen-E)"
+    ],
+    "recommended_origins": [
+      "Research",
+      "Urban",
+      "Militaristic"
+    ],
+    "recommended_occupations": [
+      "Specialist",
+      "Scholar",
+      "Soldier",
+      "Adept"
+    ],
     "recommended_features": [
       "Biotechnology",
       "Fast Heal",
@@ -1005,15 +1168,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Biotechnology"
     ],
+    "keywords": "eugenic-perfection, biomodification, genetic-synthesis, cellular-optimization, genomic-vaults",
+    "negative_keywords": "genetic-purism, natural-stagnation, bio-conservatism, anti-enhancement",
     "description": "Factions built entirely around the mastery of the genome. These biologic ascendants view natural evolution as a sluggish, flawed process. They utilize advanced bio-technology and cloning to perfectly adapt themselves to their environments, often creating customized castes for specific labor, scientific, or combat roles",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1059,6 +1218,23 @@ export const DEFAULT_FACTIONS = [
       "Survival (+4)",
       "Stealth (+3)"
     ],
+    "recommended_species": [
+      "Maantene (Kitin Leaper)",
+      "Manelli (Kitin Diplomat)",
+      "Rakne (Kitin Stalker)",
+      "Riezen (Kitin Swarm Entity)"
+    ],
+    "recommended_origins": [
+      "Colony",
+      "Hostile",
+      "Agricultural"
+    ],
+    "recommended_occupations": [
+      "Specialist",
+      "Soldier",
+      "Scout",
+      "Builder"
+    ],
     "recommended_features": [
       "Mind Link",
       "Fearless",
@@ -1086,15 +1262,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Mind Link"
     ],
+    "keywords": "hive-consciousness, gestalt-psionics, swarm-cohesion, organic-specialization, collective-will",
+    "negative_keywords": "individualistic-ego, personal-wealth, rebellion, dissenting-opinion, selfish-gain",
     "description": "A civilization composed of billions of biological or synthetic drones controlled by a single, vast synaptic network or Queen. The concept of the \"individual\" is entirely foreign. They act with absolute, terrifying synchronicity",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1141,6 +1313,26 @@ export const DEFAULT_FACTIONS = [
       "The Archivist"
     ],
     "skill_package": [],
+    "recommended_species": [
+      "Human (Base)",
+      "Impyrium Regi (Gen-E)",
+      "Impyrium Psion (Gen-E)",
+      "Janissary (Gen-E)",
+      "Argynt Human"
+    ],
+    "recommended_origins": [
+      "Urban",
+      "Militaristic",
+      "Industrial",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Soldier",
+      "Representative",
+      "Agent",
+      "Scholar",
+      "Adept"
+    ],
     "recommended_features": [
       "Benefit (Status)",
       "Benefit (Equipment)",
@@ -1173,15 +1365,11 @@ export const DEFAULT_FACTIONS = [
       "Imperial Discipline",
       "Authority"
     ],
+    "keywords": "imperial-hegemony, golden-brutalism, heirloom-tech, bureaucratic-order, aristocratic-pride, legionnaire, code-of-forefathers",
+    "negative_keywords": "chaotic, scrappy, primitive, nomadic, frontier-anarchy, radical-cybernetics, organic-growth",
     "description": "The oldest and arguably most powerful human civilization, now defined by Stagnant Grandeur. Following the loss of their psionic leaders (the Regi), the empire fractured into a simmering cold war between three surviving Houses. They are utterly obsessed with their own history, viewing themselves as the apex of civilization. They do not innovate; they act as \"Custodians,\" maintaining massive infrastructure as proof of their right to rule. Every action is dictated by the *Code of the Forefathers*",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1235,6 +1423,25 @@ export const DEFAULT_FACTIONS = [
       "Insight (+2): Reading people in negotiations",
       "Diplomacy (+2): Closing the deal"
     ],
+    "recommended_species": [
+      "Premian Human",
+      "Cyberform Human",
+      "Android",
+      "Skin (Infiltrator Synthetic)",
+      "Sentient Machine (Free Droid)"
+    ],
+    "recommended_origins": [
+      "Urban",
+      "Industrial",
+      "Research"
+    ],
+    "recommended_occupations": [
+      "Merchant",
+      "Agent",
+      "Specialist",
+      "Criminal",
+      "Adept"
+    ],
     "recommended_features": [
       "Underworld Connections",
       "Augmented",
@@ -1270,15 +1477,11 @@ export const DEFAULT_FACTIONS = [
       "Neural Interface",
       "Wealthy"
     ],
+    "keywords": "cyber-corporate, the-mesh, high-tech-cyberocracy, transhumanist, analytics-driven, slick-efficiency, corporate-espionage, algorithmic-control",
+    "negative_keywords": "nature-worship, low-tech, mystic-ritual, altruistic, feudal-chivalry, unaugmented-purism, primitive",
     "description": "The Syndicate represents a High-Tech Cyberocracy—a society run like a massive, efficient, interconnected business entity. The defining characteristic is the Seamless Integration of technology via the \"Mesh,\" a ubiquitous AR and data network that overlays the physical world, eliminating bureaucratic friction. Culturally, they view Transhumanism as a professional standard. They are pragmatic, agile, and pivot strategies instantly based on real-time analytics. Beneath the pristine corporate spires lie the \"Restriction Zones\" (Friction Layers), where unlicensed tech and native Premian culture thrive in the shadows",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1324,6 +1527,23 @@ export const DEFAULT_FACTIONS = [
       "History (+3)",
       "Language (+3)"
     ],
+    "recommended_species": [
+      "Celestine (Alterian)",
+      "Manelli (Kitin Diplomat)",
+      "Lin Human",
+      "Human (Base)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Urban",
+      "Leisure"
+    ],
+    "recommended_occupations": [
+      "Representative",
+      "Scholar",
+      "Merchant",
+      "Citizen"
+    ],
     "recommended_features": [
       "Silver Tongue",
       "Trustworthy",
@@ -1351,15 +1571,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Silver Tongue"
     ],
+    "keywords": "diplomatic-protocol, embassy-corps, treaty-negotiation, galactic-concord, cultural-mediation",
+    "negative_keywords": "isolationist, shoot-first, warmongering, xenophobic, erratic-aggression",
     "description": "Independent coalitions and neutral mediators who specialize in maintaining the fragile galactic peace. Operating out of neutral sectors, they forge treaties, mediate trade disputes, and oversee the rules of war",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1406,6 +1622,22 @@ export const DEFAULT_FACTIONS = [
       "The Astromancer"
     ],
     "skill_package": [],
+    "recommended_species": [
+      "Nocturne (Kovian)",
+      "Doppelganger (Shifter)",
+      "Tenen (Sha’nor Spectral)"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Enlightened",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Agent",
+      "Criminal",
+      "Adept",
+      "Soldier"
+    ],
     "recommended_features": [
       "Darksight",
       "Sneak Attack",
@@ -1438,15 +1670,11 @@ export const DEFAULT_FACTIONS = [
       "Shadowmeld",
       "Incorruptible Will"
     ],
+    "keywords": "nocturne-supremacy, void-magocracy, shadow-assassins, entropy-discipline, umbra-rogue-planets, xenophobic-isolation, obsidian-stealth",
+    "negative_keywords": "harmonious-diplomacy, altruism, open-trade, forgiving, bright-aesthetic, egalitarian, mercy",
     "description": "The \"shadow self\" of Elven civilization, they seceded from the Enclave millennia ago. Inhabiting the Umbra Sector (rogue planets in dark nebulae), they have evolved a culture of Supremacy and Obfuscation. To a Kovian, darkness is armor. They believe the Elven genome is divine but diluted by Alterian tolerance. They do not trade; they take. Their technology is sleek, silent, and predatory",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1492,6 +1720,25 @@ export const DEFAULT_FACTIONS = [
       "Mechanics (+4)",
       "Athletics (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Graa (Auluran Heavy)",
+      "Janissary (Gen-E)",
+      "Kizin",
+      "Orll"
+    ],
+    "recommended_origins": [
+      "Militaristic",
+      "Colony",
+      "Hostile",
+      "Industrial"
+    ],
+    "recommended_occupations": [
+      "Soldier",
+      "Agent",
+      "Drifter",
+      "Specialist"
+    ],
     "recommended_features": [
       "Weapon Focus",
       "Tough",
@@ -1519,15 +1766,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Weapon Focus"
     ],
+    "keywords": "guns-for-hire, the-contract, private-military, battlefield-veterans, tactical-firepower, dogs-of-war",
+    "negative_keywords": "pacifist, unpaid-charity, bureaucratic-inertia, civilian-pampering, national-fanaticism",
     "description": "Private Military Companies (PMCs) and independent warbands who fight for the highest bidder. They hold no allegiance to flags, kings, or causes—only to the contract",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1573,6 +1816,23 @@ export const DEFAULT_FACTIONS = [
       "Athletics (+3)",
       "Intimidate (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Janissary (Gen-E)",
+      "Rautha Human",
+      "Argynt Human"
+    ],
+    "recommended_origins": [
+      "Militaristic",
+      "Industrial",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Soldier",
+      "Specialist",
+      "Agent",
+      "Representative"
+    ],
     "recommended_features": [
       "Combat Expertise",
       "Coordinated Assist",
@@ -1600,15 +1860,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Combat Expertise"
     ],
+    "keywords": "standing-armed-forces, chain-of-command, planetary-defense-network, combined-arms, martial-doctrine",
+    "negative_keywords": "insubordination, mutinous, undisciplined-militia, pacifism, loose-mercenary",
     "description": "The primary, state-sponsored armed forces of a planetary system or sector, dedicated entirely to defense, conquest, and the enforcement of order. Unlike mercenaries, they fight for a flag, a cause, or a government",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1654,6 +1910,23 @@ export const DEFAULT_FACTIONS = [
       "Athletics (+4)",
       "Awareness (+3)"
     ],
+    "recommended_species": [
+      "Scrap (Junkframe Synthetic)",
+      "Changeling (Doppelganger Hybrid)",
+      "Chimera (Gen-E)",
+      "Thorn"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Industrial",
+      "Colony"
+    ],
+    "recommended_occupations": [
+      "Drifter",
+      "Criminal",
+      "Scout",
+      "Builder"
+    ],
     "recommended_features": [
       "Augmented",
       "Fast Heal",
@@ -1681,15 +1954,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Augmented"
     ],
+    "keywords": "radiation-survival, mutated-resilience, outcast-enclave, adaptive-variation, scrap-solidarity",
+    "negative_keywords": "genetic-purity, pristine-palaces, high-society-snobbery, sterile-laboratories",
     "description": "Factions composed of genetically unstable, irradiated, or intentionally altered beings living on the fringes of society. They are often outcasts, banding together for survival in toxic wastelands or deep subterranean slums. They possess strange, volatile powers that make them dangerous and unpredictable",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1735,6 +2004,24 @@ export const DEFAULT_FACTIONS = [
       "Combat (Rifle/Artillery) (+3)",
       "Mechanics (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Premian Human",
+      "Dwerg Human",
+      "Kheen Human"
+    ],
+    "recommended_origins": [
+      "Colony",
+      "Urban",
+      "Agricultural",
+      "Industrial"
+    ],
+    "recommended_occupations": [
+      "Citizen",
+      "Soldier",
+      "Builder",
+      "Representative"
+    ],
     "recommended_features": [
       "Defensive Combat Training",
       "Coordinated Assist",
@@ -1762,15 +2049,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Defensive Combat Training"
     ],
+    "keywords": "planetary-defense-force, local-sovereignty, homeworld-guard, regional-patriotism, territorial-garrison",
+    "negative_keywords": "intergalactic-empire, nomadic-drifters, foreign-interference, desertion",
     "description": "Fiercely nationalistic factions that control a single world or localized system and violently oppose interstellar integration. They focus entirely on deep-rooted defense, utilizing extreme local knowledge and entrenched fortifications to repel off-world invaders",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1816,6 +2099,23 @@ export const DEFAULT_FACTIONS = [
       "History (+3)",
       "Computers (Data-Mining) (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Premian Human",
+      "Lin Human",
+      "Celestine (Alterian)"
+    ],
+    "recommended_origins": [
+      "Urban",
+      "Colony",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Representative",
+      "Citizen",
+      "Agent",
+      "Scholar"
+    ],
     "recommended_features": [
       "Silver Tongue",
       "Connected",
@@ -1843,15 +2143,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Silver Tongue"
     ],
+    "keywords": "partisan-movement, ideological-coalition, parliamentary-bloc, separatist-manifesto, popular-agitation",
+    "negative_keywords": "apolitical-passivity, military-autocracy, pure-anarchy, mindless-obedience",
     "description": "Ideological blocs and powerful lobbying groups fighting for control over existing governmental structures. They fight their wars in boardrooms, assembly halls, and the media, utilizing propaganda, subversion, and massive capital to shape the galaxy's laws to their advantage",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1897,6 +2193,23 @@ export const DEFAULT_FACTIONS = [
       "Athletics (+3)",
       "Combat (Improvised) (+3)"
     ],
+    "recommended_species": [
+      "Rautha Human",
+      "Scrap (Junkframe Synthetic)",
+      "Thorn",
+      "Jorni"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Colony",
+      "Industrial"
+    ],
+    "recommended_occupations": [
+      "Drifter",
+      "Scout",
+      "Builder",
+      "Criminal"
+    ],
     "recommended_features": [
       "Self Sufficient",
       "Endurance",
@@ -1924,15 +2237,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Self Sufficient"
     ],
+    "keywords": "wasteland-scavengers, ash-survival, ruin-foragers, scorched-earth, resource-desperation",
+    "negative_keywords": "luxurious-excess, post-scarcity, high-fashion, fragile-aristocracy",
     "description": "Survivors of a massive planetary catastrophe (nuclear, biological, or orbital bombardment). They scrape by in irradiated ruins, relying on scavenging and brutal survival instincts. They represent a severe regression in technology and society",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -1979,6 +2288,23 @@ export const DEFAULT_FACTIONS = [
       "The Net-Architect"
     ],
     "skill_package": [],
+    "recommended_species": [
+      "Impyrium Regi (Gen-E)",
+      "Human (Base)",
+      "Impyrium Psion (Gen-E)",
+      "Janissary (Gen-E)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Urban",
+      "Research"
+    ],
+    "recommended_occupations": [
+      "Adept",
+      "Scholar",
+      "Representative",
+      "Soldier"
+    ],
     "recommended_features": [
       "Awakened",
       "Tech Interface",
@@ -2011,15 +2337,11 @@ export const DEFAULT_FACTIONS = [
       "Solar Aura",
       "High Imperial Status"
     ],
+    "keywords": "enlightened-hegemony, psychic-utopia, psycho-reactive-tech, solar-golden-age, stoic-perfection, regi-guidance, grand-design",
+    "negative_keywords": "stagnant-decay, barbaric-chaos, primitive-tools, emotional-hysteria, crude-scrap, dark-corruption",
     "description": "The absolute peak of human achievement. A highly unified hegemony characterized by the seamless synergy of TL4 spacefaring and ML4 psionics. Directed by the Regi (bio-engineered processing nodes), they offer strategic worlds a place in their \"Grand Design.\" Refusal results in mathematical, detached eradication. Their technology is \"Psycho-Reactive,\" forged by psions manipulating matter. Society is defined by unyielding stoicism and extreme determination",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2065,6 +2387,23 @@ export const DEFAULT_FACTIONS = [
       "Bluff (+4)",
       "Streetwise (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Danai (Davae Hybrid)",
+      "Sentient Machine (Free Droid)",
+      "Premian Human"
+    ],
+    "recommended_origins": [
+      "Colony",
+      "Hostile",
+      "Industrial"
+    ],
+    "recommended_occupations": [
+      "Drifter",
+      "Soldier",
+      "Agent",
+      "Criminal"
+    ],
     "recommended_features": [
       "Sneak Attack",
       "Evasiveness",
@@ -2092,15 +2431,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Sneak Attack"
     ],
+    "keywords": "insurgency, guerilla-resistance, freedom-fighters, covert-sabotage, anti-hegemonic-underground",
+    "negative_keywords": "imperial-loyalty, compliant-citizenship, totalitarian-sympathy, authoritarian",
     "description": "Insurgents and freedom fighters locked in an asymmetrical war against an occupying force or oppressive government. They rely on hidden cells, sabotage, and the support of the local populace to bleed their technically superior enemies",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2146,6 +2481,23 @@ export const DEFAULT_FACTIONS = [
       "Melee Combat (+4)",
       "Academics (Theology) (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Tenen (Sha’nor Spectral)",
+      "Awakened Animal",
+      "Fey (Base)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Hostile",
+      "Colony"
+    ],
+    "recommended_occupations": [
+      "Adept",
+      "Scholar",
+      "Drifter",
+      "Representative"
+    ],
     "recommended_features": [
       "Iron Will",
       "Fearless",
@@ -2173,15 +2525,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Iron Will"
     ],
+    "keywords": "esoteric-devotion, charismatic-zealotry, dogmatic-creed, ritual-orthodoxy, messianic-fervor",
+    "negative_keywords": "secular-skepticism, empirical-rationalism, corporate-transaction, cynical-pragmatism",
     "description": "Fanatical splinter groups following a charismatic leader, a bizarre cosmic event, or a dangerous dogma. They are highly insular, demanding absolute devotion from their members, and often prepare for a violent cosmic reckoning",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2226,6 +2574,23 @@ export const DEFAULT_FACTIONS = [
       "Science (+3)",
       "Investigation (+3)"
     ],
+    "recommended_species": [
+      "Intellect Construct (Pure AI)",
+      "Sentient Machine (Free Droid)",
+      "Android",
+      "Swarm (Micro-Drone Synthetic)"
+    ],
+    "recommended_origins": [
+      "Research",
+      "Industrial",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Specialist",
+      "Scholar",
+      "Builder",
+      "Adept"
+    ],
     "recommended_features": [
       "Mind Link",
       "Tech Interface",
@@ -2253,15 +2618,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Mind Link"
     ],
+    "keywords": "autonomous-synthetics, emergent-machine-sapience, distributed-processing, code-sovereignty, digital-rights",
+    "negative_keywords": "meatspace-chauvinism, biological-slavery, organic-superiority, technophobia",
     "description": "Distinct from liberated androids (Artificial Life), this faction represents a massive, localized AI network—a Machine God. It consists of unfathomable processing power guiding, controlling, or preserving organic life according to a cold, algorithmic logic that organics cannot fully comprehend",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2307,6 +2668,24 @@ export const DEFAULT_FACTIONS = [
       "Awareness (+3)",
       "Technology (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Lin Human",
+      "Celestine (Alterian)",
+      "Ila (Progenitor Archon)"
+    ],
+    "recommended_origins": [
+      "Research",
+      "Spacer",
+      "Colony",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Scout",
+      "Scholar",
+      "Specialist",
+      "Drifter"
+    ],
     "recommended_features": [
       "Spacer",
       "Zero-G Training",
@@ -2334,15 +2713,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Spacer"
     ],
+    "keywords": "deep-space-survey, pioneer-expeditions, astrogation-mapping, first-contact-protocol, cosmic-curiosity",
+    "negative_keywords": "parochial-isolation, xenophobic-fear, stay-at-home, planetary-entrenchment",
     "description": "Deep void pioneers focused entirely on charting the unknown. They prioritize science, discovery, and first contact over military conquest, venturing into the darkest, unmapped corners of the galaxy in highly advanced, poorly armed survey vessels",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2388,6 +2763,24 @@ export const DEFAULT_FACTIONS = [
       "Mechanics (+4)",
       "Bluff (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Kizin",
+      "Scrap (Junkframe Synthetic)",
+      "Thorn",
+      "Kannid"
+    ],
+    "recommended_origins": [
+      "Spacer",
+      "Hostile",
+      "Colony"
+    ],
+    "recommended_occupations": [
+      "Criminal",
+      "Drifter",
+      "Soldier",
+      "Merchant"
+    ],
     "recommended_features": [
       "Sneak Attack",
       "Spacer",
@@ -2415,15 +2808,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Sneak Attack"
     ],
+    "keywords": "void-raiders, privateers, orbital-boarding, black-flag, plunder, hyperlane-ambush",
+    "negative_keywords": "legal-authorities, maritime-customs-compliance, pacifism, fragile-dignity",
     "description": "Lawless flotillas and void corsairs raiding trade routes and controlling the black markets. They are a chaotic mix of deserters, outlaws, and thrill-seekers bound together by a loose code of honor and the promise of plunder",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2469,6 +2858,23 @@ export const DEFAULT_FACTIONS = [
       "Diplomacy (+4)",
       "Attune (+3)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Celestine (Alterian)",
+      "Ila (Progenitor Archon)",
+      "Fey (Base)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Spacer",
+      "Research"
+    ],
+    "recommended_occupations": [
+      "Adept",
+      "Scholar",
+      "Representative",
+      "Citizen"
+    ],
     "recommended_features": [
       "Centering",
       "Iron Will",
@@ -2496,15 +2902,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Centering"
     ],
+    "keywords": "stellar-theology, celestial-pilgrimage, cosmos-worship, astro-monasticism, solar-devotion",
+    "negative_keywords": "nihilism, atheistic-materialism, purely-secular, short-term-greed",
     "description": "Factions built around cosmic devotion, guarding ancient holy sites or seeking universal enlightenment through the stars. They blend high technology with deep mysticism, viewing the cosmos as a divine tapestry",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2550,6 +2952,23 @@ export const DEFAULT_FACTIONS = [
       "Pilot (+4)",
       "Insight (+3)"
     ],
+    "recommended_species": [
+      "Premian Human",
+      "Human (Base)",
+      "Android",
+      "Protocol (Task Automaton)"
+    ],
+    "recommended_origins": [
+      "Leisure",
+      "Urban",
+      "Spacer"
+    ],
+    "recommended_occupations": [
+      "Entertainer",
+      "Merchant",
+      "Citizen",
+      "Specialist"
+    ],
     "recommended_features": [
       "Benefit (Wealth)",
       "Golden Smile",
@@ -2577,15 +2996,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Benefit (Wealth)"
     ],
+    "keywords": "orbital-luxury-cruises, zero-g-hospitality, recreational-resorts, interstellar-getaways, VIP-concierge",
+    "negative_keywords": "austere-survival, grime, battlefield-horrors, toxic-hazards, poverty",
     "description": "Mega-corporations focused entirely on high-end luxury travel, catering to the galaxy's ultra-rich. They operate massive, opulent cruise liners and exotic planetary resorts. They prioritize profit and experience above all, often ignoring the safety of the locals or the stability of the regions they visit",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2631,6 +3046,24 @@ export const DEFAULT_FACTIONS = [
       "Insight (+3)",
       "Bluff (+3)"
     ],
+    "recommended_species": [
+      "Fey (Base)",
+      "Whisper",
+      "Tenen (Sha’nor Spectral)",
+      "Golem (Arcane Construct)",
+      "Plasm"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Hostile",
+      "Research"
+    ],
+    "recommended_occupations": [
+      "Adept",
+      "Scholar",
+      "Scout",
+      "Drifter"
+    ],
     "recommended_features": [
       "Magical Aptitude",
       "Awakened",
@@ -2658,15 +3091,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Magical Aptitude"
     ],
+    "keywords": "metaphysical-anomaly, dimensional-rifts, eldritch-phenomena, spiritual-communion, arcane-mysteries",
+    "negative_keywords": "purely-mundane, hard-science-dogma, materialist-reductionism, anti-magic",
     "description": "Factions of ancient, occult beings hiding in plain sight (e.g., Space Vampires, covens, or immortal bloodlines). They manipulate society from the shadows, protecting \"The Veil\" to ensure they are not hunted by the masses. They rely on dark magic and reality manipulation rather than standard tech",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2712,6 +3141,24 @@ export const DEFAULT_FACTIONS = [
       "Mechanics (+3)",
       "Medicine (+3)"
     ],
+    "recommended_species": [
+      "Cyberform Human",
+      "Android",
+      "Mekan (Assimilation Unit)",
+      "Intellect Construct (Pure AI)",
+      "Dwerg Human"
+    ],
+    "recommended_origins": [
+      "Industrial",
+      "Research",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Specialist",
+      "Builder",
+      "Scholar",
+      "Adept"
+    ],
     "recommended_features": [
       "Gearhead",
       "Tech Interface",
@@ -2739,15 +3186,11 @@ export const DEFAULT_FACTIONS = [
     "bonus_features": [
       "Gearhead"
     ],
+    "keywords": "techno-priesthood, machine-veneration, high-cybernetics, cyber-doctrine, cybernetic-communion",
+    "negative_keywords": "luddite-primitive, technophobia, organic-purity, anti-cybernetics",
     "description": "Hard-science enclaves pushing the boundaries of ethics and physics. They are amoral scientists and supreme engineers who believe that progress demands sacrifice. They possess the most advanced prototypes in the galaxy but lack the empathy to care about who gets hurt during the testing phase",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2792,6 +3235,22 @@ export const DEFAULT_FACTIONS = [
       "Academics (+4)",
       "Combat (+3)"
     ],
+    "recommended_species": [
+      "Celestine (Alterian)",
+      "Fey (Base)",
+      "Changeling (Doppelganger Hybrid)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Research",
+      "Urban"
+    ],
+    "recommended_occupations": [
+      "Representative",
+      "Scholar",
+      "Adept",
+      "Specialist"
+    ],
     "recommended_features": [
       "Benefit (Status)",
       "Ancient Lineage",
@@ -2808,15 +3267,11 @@ export const DEFAULT_FACTIONS = [
       "Benefit (Status)",
       "Ancient Lineage"
     ],
+    "keywords": "arcane-affinity, magi-tech, long-view, high-refinement, diplomacy, crystalline-architecture, solar-sails, gerontocracy",
+    "negative_keywords": "brute-force, heavy-armor, reckless, technophile-cybernetics, short-sighted, crude-industrial",
     "description": "The self-appointed Elder Siblings of the galaxy, ruling from gilded spires and governing through long-view diplomacy and high magitech architecture",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2870,6 +3325,24 @@ export const DEFAULT_FACTIONS = [
       "Diplomacy (+3): Building alliances",
       "Attune (+3): Interfacing with Psi-Tech"
     ],
+    "recommended_species": [
+      "Impyrium Psion (Gen-E)",
+      "Human (Base)",
+      "Lin Human",
+      "Celestine (Alterian)",
+      "Eidolon (Aetherion Specialist)"
+    ],
+    "recommended_origins": [
+      "Enlightened",
+      "Research",
+      "Colony"
+    ],
+    "recommended_occupations": [
+      "Adept",
+      "Scholar",
+      "Scout",
+      "Representative"
+    ],
     "recommended_features": [
       "Awakened",
       "Tech Interface",
@@ -2902,15 +3375,11 @@ export const DEFAULT_FACTIONS = [
       "Awakened Mind",
       "Deep Attunement"
     ],
+    "keywords": "psionic-utopian, psi-tech, meritocratic, radiant-ideal, crystal-spire, visionary, mental-discipline, the-reach-exiles",
+    "negative_keywords": "stagnant-tradition, bureaucratic-decay, brute-force, anti-magic, industrial-pollution, cybernetic-mutilation",
     "description": "The Ascendancy (\"The Exiles\") represents a schism in human history, formed by the Seventh Heir of the Impyrium who rejected the stagnation of the ancient empire. They seek a *tabula rasa* on the far side of \"The Reach.\" They look forward, drawing inspiration from the legendary \"Radiant Impyrium\" (the Golden Age) to recreate and surpass it through the advancement of TL4 Psi-Tech. They are High-Tech Utopians defined by Hope, Innovation, and Self-Reliance, viewing technology and the mind as one",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -2964,6 +3433,26 @@ export const DEFAULT_FACTIONS = [
       "Language (+3)",
       "Finance (+2)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Changeling (Doppelganger Hybrid)",
+      "Android",
+      "Sentient Machine (Free Droid)",
+      "Lin Human"
+    ],
+    "recommended_origins": [
+      "Leisure",
+      "Urban",
+      "Agricultural",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Merchant",
+      "Representative",
+      "Entertainer",
+      "Citizen",
+      "Scholar"
+    ],
     "recommended_features": [
       "Benefit (Wealth)",
       "Benefit (Immunity)",
@@ -2996,15 +3485,11 @@ export const DEFAULT_FACTIONS = [
       "Industrial Connections",
       "Deep Diver"
     ],
+    "keywords": "eco-futurist-luxury, cosmopolitan-hub, ethical-capitalism, galactic-sanctuary, trade-neutrality, diplomatic-haven, bastion-intelligence, sustainable-prosperity",
+    "negative_keywords": "warmongering, militant-oppression, ruthless-exploitation, toxic-industrial, xenophobia, austerity, violent-enforcement",
     "description": "Born from multiple hostile takeovers of a contested agro-world, Patron Marcus DeVree transformed the Entari system into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Synthetic Super-Intellect \"Bastion.\" The Combine operates as a Monarch-led Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's \"Neutral Ground,\" a stabilizing force where commerce and conversation supersede conflict, proving profitability does not require exploitation",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -3052,6 +3537,24 @@ export const DEFAULT_FACTIONS = [
       "Investigation (+2): Gathering new data",
       "History (+2): Archiving universal events"
     ],
+    "recommended_species": [
+      "Mekan (Assimilation Unit)",
+      "Android",
+      "Intellect Construct (Pure AI)",
+      "Protocol (Task Automaton)",
+      "Sentient Machine (Free Droid)"
+    ],
+    "recommended_origins": [
+      "Industrial",
+      "Research",
+      "Enlightened"
+    ],
+    "recommended_occupations": [
+      "Specialist",
+      "Scholar",
+      "Adept",
+      "Builder"
+    ],
     "recommended_features": [
       "Benefit (Tech Assimilation)",
       "Logic-Mind",
@@ -3084,15 +3587,11 @@ export const DEFAULT_FACTIONS = [
       "Machine Logic",
       "Reinforced Chassis"
     ],
+    "keywords": "synthetic-consensus, logic-weavers, hard-light, prime-algorithm, polymatter, data-optimization, dyson-megastructure, machine-transcendence",
+    "negative_keywords": "biological-sentimentality, emotional-impulsiveness, organic-decay, superstition, chaotic-anarchy, flesh-bound",
     "description": "The Mekan are a civilization of advanced Synthetic Humanoids originating from Mekan Prime, a colossal megastructure encircling a star. They view existence through the lens of \"The Code\"—the Operating System of the Universe. To a Mekan, reality is a self-evolving design, a complex equation waiting to be solved. Their spiritual goal is for existence to experience itself and to contribute data back to the collective consciousness. They have transcended organic sustenance and traditional mortality, existing as \"Ghosts in the Machine.\" They are Neutral Optimizers and the Architects of Reality",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -3146,6 +3645,25 @@ export const DEFAULT_FACTIONS = [
       "Combat (1 or 2 Skills) (+3)",
       "Stealth (+2)"
     ],
+    "recommended_species": [
+      "Human (Base)",
+      "Scrap (Junkframe Synthetic)",
+      "Thorn",
+      "Jorni",
+      "Kizin"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Colony",
+      "Spacer",
+      "Industrial"
+    ],
+    "recommended_occupations": [
+      "Drifter",
+      "Criminal",
+      "Scout",
+      "Builder"
+    ],
     "recommended_features": [
       "Beginner's Luck",
       "Jack-of-all-trades",
@@ -3178,15 +3696,11 @@ export const DEFAULT_FACTIONS = [
       "Scavenger Instinct",
       "Rugged Survival"
     ],
+    "keywords": "wild-frontier, used-futurism, scrap-salvage, self-rule, rugged-survival, kinetic-weaponry, decentralized-anarchy, drift-stations",
+    "negative_keywords": "aristocratic-privilege, clean-spires, corporate-monopoly, rigid-bureaucracy, delicate, pampered",
     "description": "The Outworlds represent the untamed expanse outside the rigid control of major powers. Covering frontier colony worlds, independent moons, and drift-stations, they are defined by extreme diversity and political fragmentation. There is no central government; governance ranges from absolute anarchy to strict micro-tyrannies. They are the engine of raw resources and home of true grit",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -3232,6 +3746,23 @@ export const DEFAULT_FACTIONS = [
       "Investigation (+4)",
       "Combat (Melee) (+3)"
     ],
+    "recommended_species": [
+      "Doppelganger (Shifter)",
+      "Celestine (Alterian)",
+      "Changeling (Doppelganger Hybrid)",
+      "Skin (Infiltrator Synthetic)"
+    ],
+    "recommended_origins": [
+      "Urban",
+      "Hostile",
+      "Spacer"
+    ],
+    "recommended_occupations": [
+      "Agent",
+      "Criminal",
+      "Specialist",
+      "Soldier"
+    ],
     "recommended_features": [
       "Shapeshifter",
       "Mimic Voice",
@@ -3250,15 +3781,11 @@ export const DEFAULT_FACTIONS = [
       "Shapeshifter",
       "Clandestine Network"
     ],
+    "keywords": "covert-intelligence, deep-cover-infiltrator, shadow-inquisition, shapeshifting, classified-ops, surgical-strikes, paranoia-shield",
+    "negative_keywords": "high-visibility, flamboyant, public-celebrity, loud-artillery, trustful, open-diplomacy",
     "description": "A shadow faction engineered to hunt existential corruption. Officially non-existent to younger races, they manipulate galactic events from the shadows via infiltration and surgical strikes",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],
@@ -3305,21 +3832,34 @@ export const DEFAULT_FACTIONS = [
       "The Pioneer"
     ],
     "skill_package": [],
+    "recommended_species": [
+      "Vajar (Wilder)",
+      "Wildling",
+      "Awakened Animal",
+      "Ferren"
+    ],
+    "recommended_origins": [
+      "Hostile",
+      "Enlightened",
+      "Agricultural"
+    ],
+    "recommended_occupations": [
+      "Scout",
+      "Soldier",
+      "Adept",
+      "Drifter"
+    ],
     "recommended_features": [],
     "features": [],
     "bonus_features": [
       "Primal Resilience",
       "Beast Hunter"
     ],
+    "keywords": "primal-druidism, skin-walkers, iron-roots, pack-hierarchy, untamed-wilderness, elemental-forging, wrath-of-nature",
+    "negative_keywords": "high-tech-machinery, cybernetics, urban-sprawl, bureaucratic-filing, civilized-court, pollution, artificial-ai",
     "description": "The Vajar represent the untamed, primal soul of the Elven species. They are shapeshifting Druids who reject static cities and industrial mass production. Operating at Tech Level 1, they forge metal using geothermal heat and elemental manipulation, backed by profound Metaphysics that renders conventional tech obsolete. They view their domain as an ecosystem to be preserved, and industrialization as an infection",
     "costs": {
-      "bp": 0,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
+      "bp": 0
     },
     "modifiers": [],
     "modifications": [],

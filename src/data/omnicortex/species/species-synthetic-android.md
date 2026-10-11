@@ -13,7 +13,9 @@ movement:
 speeds: Ground 30 ft
 reach: 5 ft
 senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
-immunities: 'Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 1
@@ -59,7 +61,25 @@ modifiers:
 cp_cost: 42
 cp: 42
 bp: 42
-description: 'Androids are synthetic humanoids constructed with optronic neural networks, myomer musculature, and modular sub-systems. Immune to fatigue and disease, they represent tireless efficiency.'
+description: >-
+  Androids are synthetic humanoids constructed with optronic neural networks,
+  myomer musculature, and modular sub-systems. Immune to fatigue and disease,
+  they represent tireless efficiency.
+recommended_factions:
+  - The Syndicate
+  - Artificial Life Faction Template
+  - The Ascendancy
+recommended_origins:
+  - Industrial
+  - Urban
+  - Research
+recommended_occupations:
+  - Specialist
+  - Citizen
+  - Soldier
+  - Agent
+keywords: 'optronic-chassis, myomer-muscle, modular-hardware, tireless, emotion-neutral'
+negative_keywords: 'biological-disease, starvation, nature-magic'
 ---
 
 # Android (Synthetic Humanoid)
