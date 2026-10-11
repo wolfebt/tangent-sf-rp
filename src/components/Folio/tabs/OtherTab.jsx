@@ -1,6 +1,8 @@
 import React, { useRef, useLayoutEffect, useEffect, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import ChatParser from '../../UI/ChatParser';
+import { Link2 } from 'lucide-react';
 
 const AutoExpandingNoteTextarea = ({ value, onChange, placeholder, className, emptyShadowStyle }) => {
   const textareaRef = useRef(null);
@@ -109,6 +111,8 @@ const OtherTab = () => {
                 ? 'shadow-[inset_0_2px_6px_rgba(0,0,0,0.6),0_0_10px_rgba(6,182,212,0.18)] border-cyan-700/60 focus:shadow-[0_0_14px_rgba(6,182,212,0.35)]'
                 : 'border-slate-700';
 
+              const hasBracketLinks = typeof note.text === 'string' && /\[[^\]\r\n]+\]/.test(note.text);
+
               return (
                 <div key={index} className="flex gap-2 items-start bg-slate-950/60 p-2.5 rounded border border-slate-800/80">
                   <span className="text-xs font-mono text-cyan-500 font-bold mt-1">
@@ -116,16 +120,28 @@ const OtherTab = () => {
                   </span>
                   {isSheetLocked ? (
                     <div className="flex-1 px-2 py-1 text-xs text-slate-200 whitespace-pre-wrap font-sans leading-relaxed">
-                      {note.text}
+                      <ChatParser text={note.text} />
                     </div>
                   ) : (
-                    <AutoExpandingNoteTextarea
-                      value={note.text || ''}
-                      onChange={(val) => updateNote(index, val)}
-                      placeholder="Enter story notes, contacts, secrets, or quest logs..."
-                      className="flex-1 bg-slate-900 border focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none transition-all"
-                      emptyShadowStyle={emptyShadowStyle}
-                    />
+                    <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+                      <AutoExpandingNoteTextarea
+                        value={note.text || ''}
+                        onChange={(val) => updateNote(index, val)}
+                        placeholder="Enter story notes, contacts, secrets, or quest logs... Use [Entity] to link to Sections, Codex, or Catalog."
+                        className="w-full bg-slate-900 border focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none transition-all"
+                        emptyShadowStyle={emptyShadowStyle}
+                      />
+                      {hasBracketLinks && (
+                        <div className="p-1.5 rounded-lg bg-slate-950/90 border border-cyan-900/40 flex items-center gap-1.5 text-[11px] text-slate-400">
+                          <span className="text-[9.5px] font-mono font-bold text-cyan-400 uppercase tracking-wider shrink-0 flex items-center gap-1">
+                            <Link2 size={10} /> Active Links:
+                          </span>
+                          <div className="flex-1 overflow-x-auto no-scrollbar py-0.5">
+                            <ChatParser text={note.text} inline />
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   )}
                   {!isSheetLocked && (
                     <button

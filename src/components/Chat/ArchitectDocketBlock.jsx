@@ -24,6 +24,7 @@ import { useGroup } from '../../context/GroupContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService.js';
+import ChatParser from '../UI/ChatParser';
 
 const BLOCK_TAGS = [
   { label: 'Objective', color: 'bg-amber-500/20 text-amber-300 border-amber-500/40' },
@@ -338,15 +339,15 @@ export const ArchitectDocketBlock = ({
                     </div>
 
                     {block.caption && (
-                      <p className="text-[10px] text-slate-400 font-sans leading-relaxed">
-                        {block.caption}
-                      </p>
+                      <div className="text-[10px] text-slate-400 font-sans leading-relaxed">
+                        <ChatParser text={block.caption} />
+                      </div>
                     )}
                   </div>
                 ) : (
-                  <p className="text-[11px] text-slate-300 font-sans leading-relaxed whitespace-pre-wrap bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
-                    {block.content}
-                  </p>
+                  <div className="text-[11px] text-slate-300 font-sans leading-relaxed whitespace-pre-wrap bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
+                    <ChatParser text={block.content} />
+                  </div>
                 )}
 
                 {/* Footer metadata */}

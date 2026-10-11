@@ -17,6 +17,7 @@ import { useStory } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { AudioService } from '../../../../services/audioService';
+import ChatParser from '../../../../components/UI/ChatParser';
 import { generateContent, streamContent } from '../../../../services/aimeService';
 import { extractNarrativeDeltas } from '../../../../services/cronicleService';
 import crdtCollabService from '../../../../services/crdtCollabService';
@@ -1630,9 +1631,17 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   }
                 }}
                 rows={8}
-                placeholder="Define chronological scene-by-scene beats and tactical milestones..."
+                placeholder="Define chronological scene-by-scene beats and tactical milestones... Use [Entity] to link to Sections, Codex, or Catalog."
                 className="w-full bg-slate-950/90 border border-slate-800 focus:border-cyan-500/60 text-slate-100 p-3 rounded-xl text-xs leading-relaxed outline-none select-text"
               />
+              {sceneBeats && /\[[^\]\r\n]+\]/.test(sceneBeats) && (
+                <div className="p-2 rounded-xl bg-slate-950/90 border border-cyan-900/40 text-xs text-slate-400 flex items-center gap-2 mt-2 overflow-x-auto no-scrollbar">
+                  <span className="font-mono text-cyan-400 font-bold uppercase text-[9px] shrink-0">Active Links:</span>
+                  <div className="flex-1">
+                    <ChatParser text={sceneBeats} inline />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

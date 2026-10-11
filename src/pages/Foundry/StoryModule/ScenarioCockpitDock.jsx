@@ -19,6 +19,7 @@ import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanc
 import { downloadAimeAssetFile } from '../../../services/aimeAssetFileService';
 import { AudioService } from '../../../services/audioService';
 import AIMEChatBox from '../AIME/AIMEChatBox';
+import ChatParser from '../../../components/UI/ChatParser';
 import { 
   FileText, 
   Swords, 
@@ -319,6 +320,14 @@ export const ElementFieldsEditor = ({ activeNode, updateStory, elementsCatalog =
                 placeholder="Field value..."
                 className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-400 text-slate-100 p-2 rounded-lg text-xs outline-none"
               />
+              {cf.value && /\[[^\]\r\n]+\]/.test(cf.value) && (
+                <div className="p-1 px-1.5 rounded bg-slate-950/90 border border-cyan-900/40 text-[10px] text-slate-400 flex items-center gap-1.5 mt-1 overflow-x-auto no-scrollbar">
+                  <span className="font-mono text-cyan-400 font-bold uppercase text-[8.5px] shrink-0">Links:</span>
+                  <div className="flex-1">
+                    <ChatParser text={cf.value} inline />
+                  </div>
+                </div>
+              )}
             </div>
           ))}
 
@@ -810,9 +819,9 @@ export const ScenarioCockpitDockPanel = ({
                       </div>
 
                       {elem.content && (
-                        <p className="text-[10px] text-slate-400 line-clamp-2 leading-snug">
-                          {elem.content.replace(/<[^>]+>/g, '')}
-                        </p>
+                        <div className="text-[10px] text-slate-400 line-clamp-2 leading-snug">
+                          <ChatParser text={elem.content.replace(/<[^>]+>/g, '')} inline />
+                        </div>
                       )}
 
                       <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-850 text-[10px]">

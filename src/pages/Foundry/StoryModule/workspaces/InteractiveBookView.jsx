@@ -26,40 +26,29 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
+import ChatParser from '../../../../components/UI/ChatParser';
 
-// Helper to render [[Element Name]] or [[Element Name|Display Label]] as clickable lorebook wiki links
+// Unified helper to render [Target], [Label|Target], and [[Wiki Links]] using ChatParser
 function renderTextWithWikiLinks(text, onOpenLorebookDossier) {
   if (!text) return null;
-  const parts = text.split(/(\[\[[^\n\r\]]+\]\])/g);
-  return parts.map((part, index) => {
-    if (part.startsWith('[[') && part.endsWith(']]')) {
-      const inner = part.slice(2, -2).trim();
-      const [targetName, displayName] = inner.includes('|')
-        ? inner.split('|').map(s => s.trim())
-        : [inner, inner];
-      return (
-        <button
-          key={`wiki-${index}-${targetName}`}
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onOpenLorebookDossier?.({
-              title: targetName,
-              name: targetName,
-              type: 'Element',
-              triggerMatched: `[[${targetName}]] Wiki Link`
-            });
-          }}
-          className="inline-flex items-center gap-1 mx-1 px-1.5 py-0.5 rounded-md bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-cyan-200 font-sans text-xs font-semibold cursor-pointer transition-all hover:scale-105 align-baseline shadow-xs"
-          title={`Inspect Lorebook dossier for "${targetName}"`}
-        >
-          <Bookmark size={10} className="text-cyan-400 shrink-0" />
-          <span>{displayName || targetName}</span>
-        </button>
-      );
-    }
-    return <span key={`text-${index}`}>{part}</span>;
-  });
+  return (
+    <ChatParser 
+      text={text} 
+      inline 
+      onLinkClick={(resolved) => {
+        if (resolved.targetType === 'catalog' && onOpenLorebookDossier && resolved.rawEntity) {
+          onOpenLorebookDossier({
+            ...resolved.rawEntity,
+            title: resolved.title,
+            name: resolved.title,
+            type: resolved.rawEntity.type || 'Element',
+            rawElement: resolved.rawEntity,
+            triggerMatched: `[[${resolved.title}]] Wiki Link`
+          });
+        }
+      }} 
+    />
+  );
 }
 
 export default function InteractiveBookView({

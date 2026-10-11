@@ -8,6 +8,7 @@
 import { formatAimeGuidanceDirective, formatGemsPrompt } from '../pages/Foundry/StoryModule/guidanceGemsConfig.js';
 import { normalizeLinkedAssets } from '../pages/Foundry/ElementForge/components/assetHubUtils.js';
 import { scanDynamicLorebook } from './lorebookScanner.ts';
+import { extractAndResolveBracketContext, formatBracketContextForAI } from './hyperlinkResolver.js';
 
 /**
  * Builds the static, immutable KV prefix containing foundational BASTION rules,
@@ -85,16 +86,24 @@ function formatAssetSummary(asset, catalogItem) {
 export function synthesizeSuperPrompt({
   activeNode = null,
   guidance = null,
+  guidanceGems = null,
   assetHub = null,
   catalog = [],
+  elementsCatalog = [],
   taskPrompt = '',
+  customPrompt = '',
   campaignName = '',
   cronicle = null,
   storyFlags = null,
   lorebookConfig = null,
   folioCharacter = null,
+  dbData = null,
   returnPrefixStructure = false
-}) {
+} = {}) {
+  const effectiveCatalog = (Array.isArray(catalog) && catalog.length > 0) ? catalog : (elementsCatalog || []);
+  const effectiveTaskPrompt = taskPrompt || customPrompt || '';
+  const effectiveGuidance = guidance || guidanceGems || activeNode?.guidance || {};
+
   const sections = [];
 
   sections.push('=== [AIME DIRECTORIAL SUPER-PROMPT — THE ART OF AI CRAFTING] ===');
@@ -104,9 +113,8 @@ export function synthesizeSuperPrompt({
   }
 
   // ── LAYER 1: GUIDANCE (THE 'HOW') ──
-  const activeGuidance = guidance || activeNode?.guidance || {};
-  const guidanceDirective = formatAimeGuidanceDirective(activeGuidance);
-  const fallbackGems = formatGemsPrompt(activeGuidance);
+  const guidanceDirective = formatAimeGuidanceDirective(effectiveGuidance);
+  const fallbackGems = formatGemsPrompt(effectiveGuidance);
 
   sections.push('\n[LAYER 1: DIRECTORIAL GUIDANCE — THE STYLISTIC LENS]');
   if (guidanceDirective) {
@@ -205,12 +213,12 @@ export function synthesizeSuperPrompt({
   }
 
   // ── DYNAMIC RECURSIVE LOREBOOK SCAN (PHASE 1 ARCHITECTURE) ──
-  if (Array.isArray(catalog) && catalog.length > 0) {
+  if (Array.isArray(effectiveCatalog) && effectiveCatalog.length > 0) {
     try {
       const scanResult = scanDynamicLorebook({
-        input: taskPrompt,
+        input: effectiveTaskPrompt,
         activeScenario: activeNode,
-        catalog,
+        catalog: effectiveCatalog,
         storyFlags: storyFlags || {},
         config: lorebookConfig || {}
       });
@@ -223,10 +231,35 @@ export function synthesizeSuperPrompt({
     }
   }
 
+  // ── EXPLICIT BRACKETED REFERENCES & ENTITY HYDRATION (PHASE 2 INGESTION) ──
+  try {
+    const bracketEntities = extractAndResolveBracketContext(
+      [
+        effectiveTaskPrompt,
+        activeNode?.content,
+        activeNode?.description,
+        activeNode?.title,
+        activeNode?.fields,
+        folioCharacter?.notes,
+        folioCharacter?.backstory
+      ],
+      { elementsCatalog: effectiveCatalog, dbData: dbData || {} }
+    );
+
+    if (bracketEntities.length > 0) {
+      const formattedBracketBlock = formatBracketContextForAI(bracketEntities);
+      if (formattedBracketBlock) {
+        sections.push('\n' + formattedBracketBlock);
+      }
+    }
+  } catch (err) {
+    console.warn('[superPromptSynthesizer] Bracket context extraction failed:', err);
+  }
+
   // ── TASK INSTRUCTIONS ──
-  if (taskPrompt) {
+  if (effectiveTaskPrompt) {
     sections.push('\n[ARCHITECTURAL TASK]');
-    sections.push(taskPrompt);
+    sections.push(effectiveTaskPrompt);
   }
 
   const staticPrefix = buildStaticRulesPrefix({ campaignName, folioCharacter });

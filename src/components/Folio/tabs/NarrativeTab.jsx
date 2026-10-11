@@ -1,5 +1,6 @@
 import React, { useState, useRef, useLayoutEffect, useEffect, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import ChatParser from '../../UI/ChatParser';
 
 const AutoExpandingTextarea = ({ value, onChange, placeholder, className }) => {
   const textareaRef = useRef(null);
@@ -140,7 +141,7 @@ const NarrativeTab = () => {
                 {isSheetLocked ? (
                   <div className="w-full min-h-[32px] px-3 py-1.5 text-sm text-slate-200 whitespace-pre-wrap font-sans bg-slate-950/40 rounded border border-slate-800/60">
                     {characterData[field.id] ? (
-                      characterData[field.id]
+                      <ChatParser text={characterData[field.id]} />
                     ) : (
                       <span className="text-slate-600 italic text-xs font-mono">None</span>
                     )}

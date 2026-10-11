@@ -19,6 +19,7 @@ import { useCampaign, useStory } from '../../../../context/CampaignContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { useDBM } from '../../../../context/DBMContext';
 import { AudioService } from '../../../../services/audioService';
+import ChatParser from '../../../../components/UI/ChatParser';
 import { 
   streamContent, 
   generateContent, 
@@ -1208,9 +1209,9 @@ Respond in 2-3 concise in-character sentences.`;
                     </div>
                   </div>
 
-                  <p className="text-slate-100 text-sm leading-relaxed font-sans select-text">
-                    {beat.text}
-                  </p>
+                  <div className="text-slate-100 text-sm leading-relaxed font-sans select-text">
+                    <ChatParser text={beat.text} />
+                  </div>
 
                   {/* Neuro-Symbolic Structural Mandate Badge */}
                   {beat.mandate && (
@@ -1323,9 +1324,9 @@ Respond in 2-3 concise in-character sentences.`;
                     <span>Synthesizing Beat #{beats.length + 1}...</span>
                     <Loader2 size={12} className="animate-spin" />
                   </div>
-                  <p className="text-slate-100 text-sm leading-relaxed font-sans select-text whitespace-pre-wrap">
-                    {activeStreamingText}
-                  </p>
+                  <div className="text-slate-100 text-sm leading-relaxed font-sans select-text whitespace-pre-wrap">
+                    <ChatParser text={activeStreamingText} />
+                  </div>
                 </div>
               )}
 
@@ -1567,9 +1568,9 @@ Respond in 2-3 concise in-character sentences.`;
                         <span>{beat.timestamp}</span>
                       </div>
                     </div>
-                    <p className="text-slate-100 text-xs leading-relaxed font-sans select-text">
-                      {beat.text}
-                    </p>
+                    <div className="text-slate-100 text-xs leading-relaxed font-sans select-text">
+                      <ChatParser text={beat.text} />
+                    </div>
 
                     {/* Neuro-Symbolic Structural Mandate Badge */}
                     {beat.mandate && (
@@ -1633,9 +1634,9 @@ Respond in 2-3 concise in-character sentences.`;
                       <span>Synthesizing Beat #{beats.length + 1}...</span>
                       <Loader2 size={11} className="animate-spin" />
                     </div>
-                    <p className="text-slate-100 text-xs leading-relaxed font-sans whitespace-pre-wrap">
-                      {activeStreamingText}
-                    </p>
+                    <div className="text-slate-100 text-xs leading-relaxed font-sans whitespace-pre-wrap">
+                      <ChatParser text={activeStreamingText} />
+                    </div>
                   </div>
                 )}
                 <div ref={endOfBeatsRef} />

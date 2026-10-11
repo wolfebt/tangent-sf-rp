@@ -5,6 +5,7 @@ import { formatCronicleContextForAIME, extractNarrativeDeltas } from './cronicle
 import { synthesizeSuperPrompt, buildStaticRulesPrefix } from './superPromptSynthesizer.js';
 import { scanDynamicLorebook } from './lorebookScanner.ts';
 import { formatMandateForPrompt } from './ade/adeEngineBridge.ts';
+import { extractAndResolveBracketContext, formatBracketContextForAI } from './hyperlinkResolver.js';
 import { 
   TANGENT_STORY_BEAT_GBNF, 
   TANGENT_STORY_BEAT_JSON_SCHEMA,
@@ -47,7 +48,9 @@ export {
   generateAimePersonaSchema,
   generateAimeSceneSchema,
   convertPersonaToVttToken,
-  convertSceneToVttMap
+  convertSceneToVttMap,
+  extractAndResolveBracketContext,
+  formatBracketContextForAI
 };
 
 export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) ADE Studio.
@@ -71,9 +74,41 @@ NARRATIVE TRANSMUTATION OF RPG MECHANICS:
 - Factions & Lineages: Ground NPC motivations and dialogue in their driving mandates, cultural stigmas, and ideological rifts.`;
 
 export function formatContext(context, promptQuery = '') {
-  if (!context) return '';
-  if (typeof context === 'string') return context.trim();
+  if (!context) {
+    if (typeof promptQuery === 'string' && promptQuery.includes('[')) {
+      try {
+        const bracketEntities = extractAndResolveBracketContext([promptQuery]);
+        if (bracketEntities.length > 0) {
+          return formatBracketContextForAI(bracketEntities);
+        }
+      } catch (e) {
+        console.warn('Bracket context extraction skipped for empty context prompt:', e);
+      }
+    }
+    return '';
+  }
+
+  if (typeof context === 'string') {
+    let out = context.trim();
+    if (context.includes('[') || (typeof promptQuery === 'string' && promptQuery.includes('['))) {
+      try {
+        const bracketEntities = extractAndResolveBracketContext([context, promptQuery]);
+        if (bracketEntities.length > 0) {
+          const bracketBlock = formatBracketContextForAI(bracketEntities);
+          if (bracketBlock) {
+            out = out ? `${out}\n\n${bracketBlock}` : bracketBlock;
+          }
+        }
+      } catch (e) {
+        console.warn('Bracket context extraction skipped for string context:', e);
+      }
+    }
+    return out;
+  }
+
   try {
+    let out = '';
+
     // If activeNode or rich AIME layers are present, leverage the Super-Prompt Synthesizer
     if (context.activeNode || context.guidance || context.assetHub) {
       const superPrompt = synthesizeSuperPrompt({
@@ -86,7 +121,8 @@ export function formatContext(context, promptQuery = '') {
         cronicle: context.cronicle,
         storyFlags: context.storyFlags,
         lorebookConfig: context.lorebookConfig,
-        folioCharacter: context.folioCharacter || context.activeOperative
+        folioCharacter: context.folioCharacter || context.activeOperative,
+        dbData: context.dbData
       });
       if (superPrompt) return superPrompt;
     }
@@ -154,6 +190,24 @@ export function formatContext(context, promptQuery = '') {
       }
     } catch (e) {
       console.warn('Omnicortex RAG query skipped in formatContext:', e);
+    }
+
+    // Tier 3: Explicit Bracketed Context Extraction for fallback context object
+    try {
+      const customCatalog = context.customCatalog || context.catalog || [];
+      const dbData = context.dbData || {};
+      const bracketEntities = extractAndResolveBracketContext(
+        [promptQuery, context.activeNode, context.outline, context.sceneBeats, context.draft],
+        { elementsCatalog: customCatalog, dbData }
+      );
+      if (bracketEntities.length > 0) {
+        const bracketBlock = formatBracketContextForAI(bracketEntities);
+        if (bracketBlock) {
+          out += `\n${bracketBlock}\n`;
+        }
+      }
+    } catch (e) {
+      console.warn('Bracket context extraction skipped in formatContext fallback:', e);
     }
 
     return out.trim();
