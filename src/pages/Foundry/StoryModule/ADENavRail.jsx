@@ -24,7 +24,8 @@ import {
   GitBranch,
   Cpu,
   Map as MapIcon,
-  Tv2
+  Tv2,
+  Pin
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { ADE_THEMES as THEMES } from '../../../constants/adeThemes';
@@ -47,6 +48,27 @@ export const ADENavRail = ({
 }) => {
   const navigate = useNavigate();
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      return localStorage.getItem('tangent_ade_nav_pinned') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const togglePin = (e) => {
+    e?.stopPropagation?.();
+    const next = !isPinned;
+    AudioService.playTerminalBeep(next ? 1250 : 950, 0.02);
+    setIsPinned(next);
+    try {
+      localStorage.setItem('tangent_ade_nav_pinned', String(next));
+    } catch {}
+  };
+
+  const isExpanded = isPinned || isHovered;
 
   const totalGalleryCount = elementsCount + mapsCount + modifiersCount;
 
@@ -152,7 +174,10 @@ export const ADENavRail = ({
 
   const handleSelectWorkspace = (item) => {
     AudioService.playTerminalBeep(1150, 0.02);
-    setHoveredItem(null);
+    if (!isPinned) {
+      setIsHovered(false);
+      setHoveredItem(null);
+    }
     if (item.onClick) {
       item.onClick();
       return;
@@ -162,147 +187,224 @@ export const ADENavRail = ({
 
   const handleSelectUtility = (item) => {
     AudioService.playTerminalBeep(1200, 0.03);
-    setHoveredItem(null);
+    if (!isPinned) {
+      setIsHovered(false);
+      setHoveredItem(null);
+    }
     if (item.onClick) item.onClick();
   };
 
   return (
-    <nav
-      aria-label="ADE Studio Navigation Rail"
-      className="w-14 sm:w-16 shrink-0 h-full bg-[#080c14]/98 backdrop-blur-md border-r border-slate-800/90 flex flex-col items-center justify-between py-2 px-1 select-none z-20 font-sans shadow-xl"
-    >
-      {/* Top Section: Workspaces */}
-      <div className="flex flex-col items-center gap-1.5 w-full">
-        {/* Rail Brand Mini-Header */}
-        <div className="flex flex-col items-center justify-center py-1 mb-0.5">
-          <div className="text-[9px] font-mono font-bold tracking-widest text-purple-400 uppercase">
-            ADE
+    <>
+      {/* Desktop In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned) */}
+      <div
+        className={`hidden md:block shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
+          isPinned ? 'w-56 sm:w-60' : 'w-14 sm:w-16'
+        }`}
+        aria-hidden="true"
+      />
+
+      <nav
+        aria-label="ADE Studio Navigation Rail"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setHoveredItem(null);
+        }}
+        className={`fixed md:absolute top-0 bottom-0 left-0 h-full bg-[#080c14]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-between py-2 px-1 select-none z-30 font-sans transition-all duration-200 ease-out ${
+          isExpanded 
+            ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80' 
+            : 'w-14 sm:w-16 shadow-xl'
+        }`}
+      >
+        {/* Top Section: Workspaces */}
+        <div className="flex flex-col items-stretch gap-0.5 sm:gap-1 w-full flex-1 min-h-0 overflow-y-auto no-scrollbar py-0.5">
+          {/* Rail Brand Mini-Header with Pin Option */}
+          <div
+            className={`w-full flex items-center justify-between px-2.5 py-1 mb-1 border-b border-purple-500/20 shrink-0 transition-all duration-200 overflow-hidden ${
+              isExpanded ? 'opacity-100 h-7' : 'opacity-0 h-0 p-0 mb-0 border-b-0 pointer-events-none'
+            }`}
+          >
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="font-mono text-[10px] font-extrabold text-purple-400 uppercase tracking-widest truncate">
+                ADE STUDIO
+              </span>
+              <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-purple-950/60 border border-purple-500/30 text-purple-300 font-bold">
+                FOUNDRY
+              </span>
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
+              <span className="text-[8px] font-mono text-slate-500 uppercase tracking-wider hidden sm:inline">
+                WORKSPACES
+              </span>
+              <button
+                type="button"
+                onClick={togglePin}
+                className={`p-1 rounded-md transition-all cursor-pointer ${
+                  isPinned
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/70 border border-transparent'
+                }`}
+                title={isPinned ? "Unpin Rail (Auto-collapse on exit)" : "Pin Rail (Lock open)"}
+                aria-label={isPinned ? "Unpin Rail" : "Pin Rail"}
+              >
+                <Pin size={11} className={`transition-transform duration-200 ${isPinned ? 'rotate-45 text-purple-300' : 'text-slate-400 hover:text-slate-200'}`} />
+              </button>
+            </div>
           </div>
-          <div className="w-6 h-px bg-purple-500/30 mt-1" />
-        </div>
 
-        {/* Mission Control (Hub) */}
-        {(() => {
-          const isActive = activeView === hubItem.id || (hubItem.aliasIds && hubItem.aliasIds.includes(activeView));
-          const theme = THEMES[hubItem.colorTheme] || THEMES.cyan;
-          const Icon = hubItem.icon;
-          return (
-            <button
-              key={hubItem.id}
-              type="button"
-              onClick={() => handleSelectWorkspace(hubItem)}
-              onMouseEnter={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                setHoveredItem({ item: hubItem, theme, rect });
-              }}
-              onMouseLeave={() => setHoveredItem(null)}
-              className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer border ${
-                isActive
-                  ? theme.activeBtn
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
-              }`}
-            >
-              {isActive && (
-                <span className={`absolute -left-1 top-2 bottom-2 w-1 rounded-r-full ${theme.bar}`} />
-              )}
-              <div
-                className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                  isActive ? theme.activeBox : theme.iconBox
+          {/* Mission Control (Hub) */}
+          {(() => {
+            const isActive = activeView === hubItem.id || (hubItem.aliasIds && hubItem.aliasIds.includes(activeView));
+            const theme = THEMES[hubItem.colorTheme] || THEMES.cyan;
+            const Icon = hubItem.icon;
+            return (
+              <button
+                key={hubItem.id}
+                type="button"
+                onClick={() => handleSelectWorkspace(hubItem)}
+                onMouseEnter={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  setHoveredItem({ item: hubItem, theme, rect });
+                }}
+                onMouseLeave={() => setHoveredItem(null)}
+                className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 ${
+                  isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                } ${
+                  isActive
+                    ? theme.activeBtn
+                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
                 }`}
+                title={isExpanded ? undefined : `${hubItem.label} • ${hubItem.sublabel}`}
               >
-                <Icon size={16} />
-              </div>
-              <span
-                className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight transition-colors ${
-                  isActive ? theme.activeLabel : theme.idleLabel
-                }`}
-              >
-                {hubItem.label}
-              </span>
-            </button>
-          );
-        })()}
-
-        {/* Subtle Divider separating Hub and Module Workspaces */}
-        <div className="w-6 h-px bg-slate-800/60 my-1" />
-
-        {/* Primary Studio Workspaces aligned with Hub order (WEAVER, MAP, STAGE, ELEMENTS) */}
-        {workspaceItems.map((item) => {
-          const isDesktopOnly = item.id === 'map' || item.id === 'stage';
-          const isActive = (() => {
-            if (item.id === 'stage') {
-              return activeView === 'stage' || activeView === 'vtt' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage') || (item.aliasIds && item.aliasIds.includes(activeView));
-            }
-            if (item.id === 'scenarios') {
-              return activeView === 'scenarios' && activeScenarioWorkspaceTab !== 'stage';
-            }
-            return activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
-          })();
-          const theme = THEMES[item.colorTheme] || THEMES.cyan;
-          const Icon = item.icon;
-
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => handleSelectWorkspace(item)}
-              onMouseEnter={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                setHoveredItem({ item, theme, rect });
-              }}
-              onMouseLeave={() => setHoveredItem(null)}
-              className={`group relative w-full py-1.5 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer border ${
-                isDesktopOnly ? 'hidden md:flex' : ''
-              } ${
-                isActive
-                  ? theme.activeBtn
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
-              }`}
-            >
-              {/* Active Left Indicator Bar */}
-              {isActive && (
-                <span className={`absolute -left-1 top-2 bottom-2 w-1 rounded-r-full ${theme.bar}`} />
-              )}
-
-              {/* Icon Container */}
-              <div
-                className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                  isActive ? theme.activeBox : theme.iconBox
-                }`}
-              >
-                {typeof Icon === 'string' ? (
-                  <span className="text-sm">{Icon}</span>
-                ) : (
+                {isActive && (
+                  <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
+                )}
+                <div
+                  className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                    isActive ? theme.activeBox : theme.iconBox
+                  }`}
+                >
                   <Icon size={16} />
-                )}
-
-                {/* Badge */}
-                {item.badge && (
+                </div>
+                <div
+                  className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                    isExpanded ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                  }`}
+                >
                   <span
-                    className={`absolute -top-1.5 -right-1.5 px-1 py-0.2 min-w-[15px] h-[15px] rounded-full font-mono text-[8.5px] font-bold flex items-center justify-center shadow-md ${theme.badge}`}
+                    className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
+                      isActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
+                    }`}
                   >
-                    {item.badge}
+                    {hubItem.label}
                   </span>
-                )}
-              </div>
+                  <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                    {hubItem.sublabel}
+                  </span>
+                </div>
+              </button>
+            );
+          })()}
 
-              {/* Monospace Label */}
-              <span
-                className={`font-mono text-[8.5px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight transition-colors ${
-                  isActive ? theme.activeLabel : theme.idleLabel
+          {/* Subtle Divider */}
+          <div className="w-full h-px bg-slate-800/60 my-0.5 shrink-0" />
+
+          {/* Primary Studio Workspaces aligned with Hub order (WEAVER, MAP, STAGE, ELEMENTS) */}
+          {workspaceItems.map((item) => {
+            const isDesktopOnly = item.id === 'map' || item.id === 'stage';
+            const isActive = (() => {
+              if (item.id === 'stage') {
+                return activeView === 'stage' || activeView === 'vtt' || (activeView === 'scenarios' && activeScenarioWorkspaceTab === 'stage') || (item.aliasIds && item.aliasIds.includes(activeView));
+              }
+              if (item.id === 'scenarios') {
+                return activeView === 'scenarios' && activeScenarioWorkspaceTab !== 'stage';
+              }
+              return activeView === item.id || (item.aliasIds && item.aliasIds.includes(activeView));
+            })();
+            const theme = THEMES[item.colorTheme] || THEMES.cyan;
+            const Icon = item.icon;
+
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleSelectWorkspace(item)}
+                onMouseEnter={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  setHoveredItem({ item, theme, rect });
+                }}
+                onMouseLeave={() => setHoveredItem(null)}
+                className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 ${
+                  isDesktopOnly ? 'hidden md:flex' : ''
+                } ${
+                  isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                } ${
+                  isActive
+                    ? theme.activeBtn
+                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
                 }`}
+                title={isExpanded ? undefined : `${item.label} • ${item.sublabel}`}
               >
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
+                {/* Active Left Indicator Bar */}
+                {isActive && (
+                  <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
+                )}
 
-        {/* Section Divider */}
-        <div className="w-8 h-px bg-slate-800/80 my-1.5" />
+                {/* Icon Container */}
+                <div
+                  className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                    isActive ? theme.activeBox : theme.iconBox
+                  }`}
+                >
+                  {typeof Icon === 'string' ? (
+                    <span className="text-sm">{Icon}</span>
+                  ) : (
+                    <Icon size={16} />
+                  )}
 
-        {/* 2. Fast-Access Quick Modals Cluster */}
-        <div className="flex flex-col items-center gap-1 w-full">
+                  {/* Badge */}
+                  {item.badge && (
+                    <span
+                      className={`absolute -top-1 -right-1 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-md ${theme.badge}`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </div>
+
+                {/* Label to the Right */}
+                <div
+                  className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                    isExpanded ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1">
+                    <span
+                      className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
+                        isActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                    {item.badge && (
+                      <span className={`text-[8.5px] font-mono font-bold px-1.5 py-0.2 rounded-full ${theme.badge}`}>
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                    {item.sublabel}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+
+          {/* Section Divider */}
+          <div className="w-full h-px bg-slate-800/60 my-0.5 shrink-0" />
+
+          {/* Fast-Access Quick Modals Cluster */}
           {utilityItems.map((item) => {
             const theme = THEMES[item.colorTheme] || THEMES.cyan;
             const Icon = item.icon;
@@ -317,10 +419,13 @@ export const ADENavRail = ({
                   setHoveredItem({ item, theme, rect });
                 }}
                 onMouseLeave={() => setHoveredItem(null)}
-                className="group relative w-full py-1 px-0.5 rounded-lg flex flex-col items-center justify-center text-slate-400 hover:text-slate-100 hover:bg-slate-900/60 border border-transparent hover:border-slate-800/80 transition-all cursor-pointer"
+                className={`group relative w-full h-8 sm:h-8.5 rounded-xl flex items-center transition-all cursor-pointer border border-transparent hover:border-slate-800/80 hover:bg-slate-900/60 text-slate-400 hover:text-slate-100 shrink-0 ${
+                  isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                }`}
+                title={isExpanded ? undefined : `${item.label} • ${item.sublabel}`}
               >
                 <div
-                  className={`relative w-7 h-7 rounded-md flex items-center justify-center shrink-0 border transition-all ${theme.iconBox}`}
+                  className={`relative w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border transition-all ${theme.iconBox}`}
                 >
                   {typeof Icon === 'string' ? (
                     <span className="text-xs">{Icon}</span>
@@ -339,98 +444,144 @@ export const ADENavRail = ({
                   )}
                 </div>
 
-                <span className="font-mono text-[8px] uppercase tracking-wider text-center mt-0.5 truncate max-w-full text-slate-500 group-hover:text-slate-300">
-                  {item.label}
-                </span>
+                <div
+                  className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                    isExpanded ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider truncate leading-tight text-slate-300 group-hover:text-white">
+                      {item.label}
+                    </span>
+                    {item.badge && (
+                      <span className={`text-[8px] font-mono font-bold px-1.5 py-0.2 rounded-full ${theme.badge}`}>
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[8.5px] text-slate-500 group-hover:text-slate-400 truncate font-mono leading-tight mt-0.5">
+                    {item.sublabel}
+                  </span>
+                </div>
               </button>
             );
           })}
         </div>
-      </div>
 
-      {/* Bottom Section: Outliner Toggle & Guide */}
-      <div className="w-full flex flex-col items-center gap-1 pt-1.5 border-t border-slate-800/80 mt-auto">
-        {/* Outliner Tree Toggle */}
-        {onToggleTreeExpanded && (
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              onToggleTreeExpanded();
-            }}
-            className={`w-full py-1 px-0.5 rounded-lg flex flex-col items-center justify-center transition-all cursor-pointer border ${
-              isTreeExpanded
-                ? 'bg-cyan-950/40 border-cyan-500/30 text-cyan-300'
-                : 'text-slate-500 hover:text-slate-200 hover:bg-slate-900/50 border-transparent'
-            }`}
-            title={isTreeExpanded ? 'Collapse Scenario Outliner ([)' : 'Expand Scenario Outliner ([)'}
-          >
-            <div className="w-7 h-7 rounded-md bg-slate-900/90 border border-slate-800 flex items-center justify-center">
-              {isTreeExpanded ? (
-                <PanelLeftClose size={14} className="text-cyan-400" />
-              ) : (
-                <PanelLeft size={14} className="text-slate-400" />
-              )}
-            </div>
-            <span className="font-mono text-[8px] uppercase tracking-wider mt-0.5 text-slate-400">
-              {isTreeExpanded ? 'TREE' : 'OPEN'}
-            </span>
-          </button>
-        )}
-
-        {/* ADE Guide Manual */}
-        {onOpenGuide && (
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              onOpenGuide();
-            }}
-            className="w-full py-1 px-0.5 rounded-lg flex flex-col items-center justify-center text-slate-500 hover:text-slate-300 hover:bg-slate-900/50 transition-all cursor-pointer border border-transparent"
-            title="ADE User Guide & Manual"
-          >
-            <div className="w-7 h-7 rounded-md bg-slate-900/90 border border-slate-800 flex items-center justify-center">
-              <Compass size={14} className="text-slate-400" />
-            </div>
-            <span className="font-mono text-[8px] uppercase tracking-wider mt-0.5 text-slate-500">
-              GUIDE
-            </span>
-          </button>
-        )}
-      </div>
-
-      {/* Floating Tooltip Portal */}
-      {hoveredItem && typeof document !== 'undefined' && createPortal(
-        <div
-          role="tooltip"
-          className="fixed z-[999999] pointer-events-none px-2.5 py-1.5 rounded-lg bg-[#0c1017] border border-slate-700 text-slate-100 font-mono text-[11px] font-bold whitespace-nowrap shadow-2xl animate-in fade-in duration-100 hidden md:block"
-          style={{
-            left: `${hoveredItem.rect.right + 10}px`,
-            top: `${hoveredItem.rect.top + hoveredItem.rect.height / 2}px`,
-            transform: 'translateY(-50%)',
-            zIndex: 999999
-          }}
-        >
-          <div className="font-bold flex items-center gap-1.5">
-            <span
-              className="w-1.5 h-1.5 rounded-full inline-block"
-              style={{
-                backgroundColor: hoveredItem.theme?.bar
-                  ? hoveredItem.theme.bar.split(' ')[0].replace('bg-', '')
-                  : '#22d3ee'
+        {/* Bottom Section: Outliner Toggle & Guide */}
+        <div className="w-full flex flex-col items-center gap-1 pt-1.5 border-t border-slate-800/80 shrink-0">
+          {/* Outliner Tree Toggle */}
+          {onToggleTreeExpanded && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                if (!isPinned) {
+                  setIsHovered(false);
+                  setHoveredItem(null);
+                }
+                onToggleTreeExpanded();
               }}
-            />
-            <span>{hoveredItem.item.sublabel || hoveredItem.item.label}</span>
-          </div>
-          {hoveredItem.item.description && (
-            <div className="text-[9.5px] text-slate-400 font-normal mt-0.5 max-w-[220px] whitespace-normal">
-              {hoveredItem.item.description}
-            </div>
+              className={`w-full h-8 sm:h-8.5 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 ${
+                isHovered ? 'px-2 justify-start' : 'px-1 justify-center'
+              } ${
+                isTreeExpanded
+                  ? 'bg-cyan-950/40 border-cyan-500/30 text-cyan-300'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 border-transparent'
+              }`}
+              title={isHovered ? undefined : (isTreeExpanded ? 'Collapse Scenario Outliner ([)' : 'Expand Scenario Outliner ([)')}
+            >
+              <div className="w-7 h-7 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-center shrink-0">
+                {isTreeExpanded ? (
+                  <PanelLeftClose size={14} className="text-cyan-400" />
+                ) : (
+                  <PanelLeft size={14} className="text-slate-400" />
+                )}
+              </div>
+              <div
+                className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                  isPinned || isHovered ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                }`}
+              >
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider truncate leading-tight text-cyan-300">
+                  {isTreeExpanded ? 'TREE EXPANDED' : 'TREE COLLAPSED'}
+                </span>
+                <span className="text-[8.5px] text-slate-500 truncate font-mono leading-tight mt-0.5">
+                  Outliner Panel ([)
+                </span>
+              </div>
+            </button>
           )}
-        </div>,
-        document.body
-      )}
-    </nav>
+
+          {/* ADE Guide Manual */}
+          {onOpenGuide && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                if (!isPinned) {
+                  setIsHovered(false);
+                  setHoveredItem(null);
+                }
+                onOpenGuide();
+              }}
+              className={`w-full h-8 sm:h-8.5 rounded-xl flex items-center transition-all cursor-pointer border border-transparent hover:border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 shrink-0 ${
+                isHovered ? 'px-2 justify-start' : 'px-1 justify-center'
+              }`}
+              title={isHovered ? undefined : "ADE User Guide & Manual"}
+            >
+              <div className="w-7 h-7 rounded-lg bg-slate-900/90 border border-slate-800 flex items-center justify-center shrink-0">
+                <Compass size={14} className="text-slate-400" />
+              </div>
+              <div
+                className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                  isPinned || isHovered ? 'opacity-100 ml-2.5 max-w-[170px]' : 'opacity-0 max-w-0 pointer-events-none'
+                }`}
+              >
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider truncate leading-tight text-slate-300">
+                  ADE GUIDE
+                </span>
+                <span className="text-[8.5px] text-slate-500 truncate font-mono leading-tight mt-0.5">
+                  Documentation & Manual
+                </span>
+              </div>
+            </button>
+          )}
+        </div>
+
+        {/* Floating Tooltip Portal */}
+        {hoveredItem && (!isPinned && !isHovered || hoveredItem.item.description) && typeof document !== 'undefined' && createPortal(
+          <div
+            role="tooltip"
+            className="fixed pointer-events-none px-2.5 py-1.5 rounded-lg bg-[#0c1017] border border-slate-700 text-slate-100 font-mono text-[11px] font-bold whitespace-nowrap shadow-2xl animate-in fade-in duration-100 hidden md:block select-none"
+            style={{
+              left: `${(isPinned || isHovered) ? Math.max(252, hoveredItem.rect.right + 12) : hoveredItem.rect.right + 10}px`,
+              top: `${hoveredItem.rect.top + hoveredItem.rect.height / 2}px`,
+              transform: 'translateY(-50%)',
+              zIndex: 999999
+            }}
+          >
+            <div className="font-bold flex items-center gap-1.5">
+              <span
+                className="w-1.5 h-1.5 rounded-full inline-block"
+                style={{
+                  backgroundColor: hoveredItem.theme?.bar
+                    ? hoveredItem.theme.bar.split(' ')[0].replace('bg-', '')
+                    : '#22d3ee'
+                }}
+              />
+              <span>{hoveredItem.item.sublabel || hoveredItem.item.label}</span>
+            </div>
+            {hoveredItem.item.description && (
+              <div className="text-[9.5px] text-slate-400 font-normal mt-0.5 max-w-[220px] whitespace-normal font-sans">
+                {hoveredItem.item.description}
+              </div>
+            )}
+          </div>,
+          document.body
+        )}
+      </nav>
+    </>
   );
 };
 

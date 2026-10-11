@@ -22,7 +22,8 @@ import {
   HelpCircle,
   ExternalLink,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Pin
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { 
@@ -248,6 +249,28 @@ export const OmnicortexNavRail = ({
 }) => {
   const navigate = useNavigate();
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isPinned, setIsPinned] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      return localStorage.getItem('tangent_omnicortex_nav_pinned') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const togglePin = (e) => {
+    e?.stopPropagation?.();
+    const next = !isPinned;
+    AudioService.playTerminalBeep(next ? 1250 : 950, 0.02);
+    setIsPinned(next);
+    try {
+      localStorage.setItem('tangent_omnicortex_nav_pinned', String(next));
+    } catch {}
+  };
+
+  // Purely autocollapse when not hovered/pinned; lock open when isPinned; open on hover (on mobile viewports only, isMobileOpen controls drawer)
+  const isExpanded = isPinned || isHovered || (Boolean(isMobileOpen) && typeof window !== 'undefined' && window.innerWidth < 768);
 
   // Developer Fields Flyout State
   const [isDevPanelOpen, setIsDevPanelOpen] = useState(false);
@@ -309,6 +332,10 @@ export const OmnicortexNavRail = ({
   const handleItemClick = (section) => {
     AudioService.playTerminalBeep(1150, 0.02);
     onSelectSection(section.id, section);
+    if (!isPinned) {
+      setIsHovered(false);
+      setHoveredItem(null);
+    }
     if (onCloseMobile) onCloseMobile();
   };
 
@@ -321,208 +348,351 @@ export const OmnicortexNavRail = ({
           onClick={onCloseMobile}
         />
       )}
+      {/* Desktop In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned) */}
+      <div
+        className={`hidden md:block shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
+          isPinned ? 'w-56 sm:w-60' : 'w-14 sm:w-16'
+        }`}
+        aria-hidden="true"
+      />
+
       <nav
-        aria-label="Omnicortex Secondary Navigation Rail"
-        className={`w-18 sm:w-20 shrink-0 h-full bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col items-center justify-between py-2 sm:py-2.5 px-1 select-none z-40 md:z-20 font-sans shadow-lg transition-transform duration-300 fixed md:relative ${
+        aria-label="Omnicortex Navigation Rail"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setHoveredItem(null);
+        }}
+        className={`fixed md:absolute top-0 bottom-0 left-0 h-full bg-[#070a12]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-between py-2 px-1 select-none z-40 font-sans transition-all duration-200 ease-out ${
+          isExpanded 
+            ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80' 
+            : 'w-14 sm:w-16 shadow-lg'
+        } ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
-      {/* Main 16 Omnicortex Sections Scroll Area */}
-      <div className="flex-1 min-h-0 w-full flex flex-col items-center gap-1 overflow-y-auto no-scrollbar py-0.5">
-        {OMNICORTEX_SECTIONS.map((section) => {
-          const isItemActive = activeSectionKey === section.id || 
-            (section.isParent && Array.isArray(section.subItems) && section.subItems.includes(activeSectionKey));
-          
-          const themeKey = section.colorTheme || 'cyan';
-          const theme = SECTION_THEMES[themeKey] || SECTION_THEMES.cyan;
-          const Icon = section.icon;
-          const count = getSectionCount(section);
-
-          return (
+        {/* Expanded Drawer Top Header with Pin Option */}
+        <div
+          className={`w-full flex items-center justify-between px-2.5 py-1 mb-1 border-b border-slate-800/80 shrink-0 transition-all duration-200 overflow-hidden ${
+            isExpanded ? 'opacity-100 h-7' : 'opacity-0 h-0 p-0 mb-0 border-b-0 pointer-events-none'
+          }`}
+        >
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="font-mono text-[10px] font-extrabold text-cyan-400 uppercase tracking-widest truncate">
+              OMNICORTEX
+            </span>
+            <span className="text-[8.5px] font-mono px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-bold">
+              {totalAssetsCount}
+            </span>
+          </div>
+          <div className="flex items-center gap-1 shrink-0">
+            <span className="text-[8px] font-mono text-slate-500 uppercase tracking-wider hidden sm:inline">
+              SECTIONS
+            </span>
             <button
-              key={section.id}
               type="button"
-              onClick={() => handleItemClick(section)}
+              onClick={togglePin}
+              className={`p-1 rounded-md transition-all cursor-pointer ${
+                isPinned
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/70 border border-transparent'
+              }`}
+              title={isPinned ? "Unpin Rail (Auto-collapse on exit)" : "Pin Rail (Lock open)"}
+              aria-label={isPinned ? "Unpin Rail" : "Pin Rail"}
+            >
+              <Pin size={11} className={`transition-transform duration-200 ${isPinned ? 'rotate-45 text-cyan-300' : 'text-slate-400 hover:text-slate-200'}`} />
+            </button>
+          </div>
+        </div>
+
+        {/* Main 13 Omnicortex Sections Scroll Area */}
+        <div className="flex-1 min-h-0 w-full flex flex-col items-stretch gap-0.5 sm:gap-1 overflow-y-auto no-scrollbar py-0.5">
+          {OMNICORTEX_SECTIONS.map((section) => {
+            const isItemActive = activeSectionKey === section.id || 
+              (section.isParent && Array.isArray(section.subItems) && section.subItems.includes(activeSectionKey));
+            
+            const themeKey = section.colorTheme || 'cyan';
+            const theme = SECTION_THEMES[themeKey] || SECTION_THEMES.cyan;
+            const Icon = section.icon;
+            const count = getSectionCount(section);
+
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => handleItemClick(section)}
+                onMouseEnter={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  setHoveredItem({
+                    label: section.label,
+                    sublabel: section.sublabel,
+                    count,
+                    subItems: section.subItems,
+                    theme,
+                    rect
+                  });
+                }}
+                onMouseLeave={() => setHoveredItem(null)}
+                className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 ${
+                  isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                } ${
+                  isItemActive
+                    ? theme.activeBtn
+                    : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+                }`}
+                title={isExpanded ? undefined : `${section.label} (${count} records)`}
+              >
+                {/* Active Left Glowing Indicator Bar */}
+                {isItemActive && (
+                  <span className={`absolute left-0 top-1.5 bottom-1.5 w-1 rounded-r-full ${theme.bar}`} />
+                )}
+
+                {/* Icon Container with Badge */}
+                <div
+                  className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                    isItemActive ? theme.activeBox : theme.iconBox
+                  }`}
+                >
+                  <Icon size={16} />
+
+                  {/* Record Counter Badge */}
+                  {count > 0 && (
+                    <span
+                      className={`absolute -top-1 -right-1 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-sm ${theme.badge}`}
+                    >
+                      {count > 999 ? `${Math.floor(count / 1000)}k` : count}
+                    </span>
+                  )}
+                </div>
+
+                {/* Label & Descriptive Text to the Right of Icon (Collapsed in mini drawer, expanded on hover) */}
+                <div
+                  className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                    isExpanded 
+                      ? 'opacity-100 ml-2.5 max-w-[170px]' 
+                      : 'opacity-0 max-w-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1">
+                    <span
+                      className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
+                        isItemActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
+                      }`}
+                    >
+                      {section.shortLabel === 'DISADV' ? 'DISADVANTAGES' : section.shortLabel}
+                    </span>
+                    {count > 0 && (
+                      <span className="text-[9px] font-mono font-bold text-slate-400 shrink-0">
+                        {count}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                    {section.label}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Bottom Footer Section: Codex Launcher & Architect Tools */}
+        <div className="flex flex-col items-center gap-1 w-full pt-1.5 border-t border-slate-800/80 shrink-0">
+          {/* Rules Codex Matrices Quick Launcher */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.03);
+              if (!isPinned) {
+                setIsHovered(false);
+                setHoveredItem(null);
+              }
+              navigate('/codex');
+            }}
+            onMouseEnter={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              setHoveredItem({
+                label: 'RULES CODEX MATRICES',
+                sublabel: 'Guided Matrix Builders',
+                desc: 'Switch to the step-by-step Rules Codex builder suite (/codex)',
+                rect
+              });
+            }}
+            onMouseLeave={() => setHoveredItem(null)}
+            className={`w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 bg-purple-950/40 hover:bg-purple-900/60 border-purple-500/40 hover:border-purple-400 text-purple-300 hover:text-white shadow-sm ${
+              isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+            }`}
+            title={isExpanded ? undefined : "Open Rules Codex (/codex)"}
+          >
+            <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0">
+              <Boxes size={15} />
+            </div>
+            <div
+              className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                isExpanded 
+                  ? 'opacity-100 ml-2.5 max-w-[170px]' 
+                  : 'opacity-0 max-w-0 pointer-events-none'
+              }`}
+            >
+              <span className="font-mono text-[10.5px] font-bold text-purple-300 uppercase tracking-wider truncate leading-tight">
+                RULES CODEX
+              </span>
+              <span className="text-[8.5px] text-purple-400/80 truncate font-mono leading-tight mt-0.5">
+                Guided Matrix Builders
+              </span>
+            </div>
+          </button>
+
+          {/* Master Developer Access Fields Button (Admin Only) */}
+          {isAdmin && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1200, 0.02);
+                if (!isPinned) {
+                  setIsHovered(false);
+                  setHoveredItem(null);
+                }
+                setIsDevPanelOpen(prev => !prev);
+              }}
               onMouseEnter={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 setHoveredItem({
-                  label: section.label,
-                  sublabel: section.sublabel,
-                  count,
-                  subItems: section.subItems,
-                  theme,
+                  label: 'DEVELOPER FIELDS',
+                  sublabel: '5 Groups · 43 Schema Tables',
+                  desc: 'Toggle the Developer Fields drawer for Core Rules, Tech, Economy, Anatomy, Metaphysics, Crafting, and Spheres',
                   rect
                 });
               }}
               onMouseLeave={() => setHoveredItem(null)}
-              className={`group relative w-full py-1 px-0.5 rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer select-none border ${
-                isItemActive
-                  ? theme.activeBtn
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+              className={`w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 shadow-sm ${
+                isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+              } ${
+                isDevFieldActive || isDevPanelOpen
+                  ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
+                  : 'bg-amber-950/50 hover:bg-amber-900/60 border-amber-500/50 text-amber-300 hover:text-amber-100'
               }`}
-              title={`${section.label} (${count} records)`}
+              title={isExpanded ? undefined : "Developer Fields (43 Schema Tables)"}
             >
-              {/* Active Left Glowing Indicator Bar */}
-              {isItemActive && (
-                <span className={`absolute -left-1 top-2 bottom-2 w-1 rounded-r-full ${theme.bar}`} />
-              )}
-
-              {/* Icon Container with Badge */}
+              <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0">
+                <Wrench size={15} className={isDevPanelOpen ? 'rotate-45 transition-transform' : 'transition-transform'} />
+              </div>
               <div
-                className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
-                  isItemActive ? theme.activeBox : theme.iconBox
+                className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                  isExpanded 
+                    ? 'opacity-100 ml-2.5 max-w-[170px]' 
+                    : 'opacity-0 max-w-0 pointer-events-none'
                 }`}
               >
-                <Icon size={16} />
+                <div className="flex items-center justify-between gap-1">
+                  <span className="font-mono text-[10.5px] font-bold text-amber-300 uppercase tracking-wider truncate leading-tight">
+                    DEV FIELDS
+                  </span>
+                  <span className="text-[8.5px] font-mono px-1 rounded bg-amber-500/20 text-amber-300 font-bold shrink-0">
+                    43
+                  </span>
+                </div>
+                <span className="text-[8.5px] text-amber-400/80 truncate font-mono leading-tight mt-0.5">
+                  5 Schema Groups
+                </span>
+              </div>
+            </button>
+          )}
 
-                {/* Record Counter Badge */}
-                {count > 0 && (
-                  <span
-                    className={`absolute -top-1 -right-1 px-1 min-w-[14px] h-[14px] rounded-full font-mono text-[8px] font-bold flex items-center justify-center shadow-sm ${theme.badge}`}
-                  >
-                    {count > 999 ? `${Math.floor(count / 1000)}k` : count}
+          {/* System User Guide Button */}
+          {onOpenUserGuide && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                if (!isPinned) {
+                  setIsHovered(false);
+                  setHoveredItem(null);
+                }
+                onOpenUserGuide();
+              }}
+              onMouseEnter={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                setHoveredItem({
+                  label: 'USER GUIDE',
+                  sublabel: 'Omnicortex Documentation',
+                  desc: 'View comprehensive documentation for Omnicortex data management',
+                  rect
+                });
+              }}
+              onMouseLeave={() => setHoveredItem(null)}
+              className={`w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white shrink-0 ${
+                isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+              }`}
+              title={isExpanded ? undefined : "Omnicortex User Guide"}
+            >
+              <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0">
+                <HelpCircle size={15} />
+              </div>
+              <div
+                className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                  isExpanded 
+                    ? 'opacity-100 ml-2.5 max-w-[170px]' 
+                    : 'opacity-0 max-w-0 pointer-events-none'
+                }`}
+              >
+                <span className="font-mono text-[10.5px] font-bold text-slate-300 uppercase tracking-wider truncate leading-tight">
+                  USER GUIDE
+                </span>
+                <span className="text-[8.5px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                  Documentation
+                </span>
+              </div>
+            </button>
+          )}
+        </div>
+
+        {/* Floating Portal Tooltip for rich metadata */}
+        {hoveredItem &&
+          (!isExpanded || hoveredItem.desc || (hoveredItem.subItems && hoveredItem.subItems.length > 0)) &&
+          typeof document !== 'undefined' &&
+          createPortal(
+            <div
+              className="fixed pointer-events-none z-[9999] px-2.5 py-1.5 rounded-lg bg-[#0d121c]/95 border border-slate-700/80 shadow-[0_4px_20px_rgba(0,0,0,0.85)] backdrop-blur-md max-w-xs animate-in fade-in zoom-in-95 duration-100 font-sans select-none"
+              style={{
+                top: Math.max(8, Math.min(window.innerHeight - 80, hoveredItem.rect.top + hoveredItem.rect.height / 2 - 25)),
+                left: isExpanded ? Math.max(252, hoveredItem.rect.right + 12) : hoveredItem.rect.right + 10
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[11px] font-bold text-white uppercase tracking-wider">
+                  {hoveredItem.label}
+                </span>
+                {hoveredItem.count !== undefined && (
+                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-emerald-300 font-bold">
+                    {hoveredItem.count}
                   </span>
                 )}
               </div>
-
-              {/* Monospace Visible Label Underneath */}
-              <span
-                className={`font-mono text-[8px] sm:text-[8.5px] uppercase tracking-wider text-center mt-1 truncate max-w-full px-0.5 leading-tight select-none ${
-                  isItemActive ? theme.activeLabel : 'text-slate-400 group-hover:text-slate-200'
-                }`}
-              >
-                {section.shortLabel}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Bottom Footer Section: Codex Launcher & Architect Tools */}
-      <div className="flex flex-col items-center gap-1.5 w-full pt-1.5 border-t border-slate-800/80 shrink-0">
-        {/* Rules Codex Matrices Quick Launcher */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1200, 0.03);
-            navigate('/codex');
-          }}
-          onMouseEnter={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            setHoveredItem({
-              label: 'RULES CODEX MATRICES',
-              sublabel: 'Guided Matrix Builders',
-              desc: 'Switch to the step-by-step Rules Codex builder suite (/codex)',
-              rect
-            });
-          }}
-          onMouseLeave={() => setHoveredItem(null)}
-          className="p-1.5 rounded-lg bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 hover:border-purple-400 text-purple-300 hover:text-white transition-all cursor-pointer shadow-sm"
-          title="Open Rules Codex (/codex)"
-        >
-          <Boxes size={15} />
-        </button>
-
-        {/* Master Developer Access Fields Button (Admin Only) */}
-        {isAdmin && (
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.02);
-              setIsDevPanelOpen(prev => !prev);
-            }}
-            onMouseEnter={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setHoveredItem({
-                label: 'DEVELOPER FIELDS',
-                sublabel: '5 Groups · 43 Schema Tables',
-                desc: 'Toggle the Developer Fields drawer for Core Rules, Tech, Economy, Anatomy, Metaphysics, Crafting, and Spheres',
-                rect
-              });
-            }}
-            onMouseLeave={() => setHoveredItem(null)}
-            className={`p-1.5 rounded-lg border transition-all cursor-pointer shadow-sm ${
-              isDevFieldActive || isDevPanelOpen
-                ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
-                : 'bg-amber-950/50 hover:bg-amber-900/60 border-amber-500/50 text-amber-300 hover:text-amber-100'
-            }`}
-            title="Developer Fields (43 Schema Tables)"
-          >
-            <Wrench size={15} className={isDevPanelOpen ? 'rotate-45 transition-transform' : 'transition-transform'} />
-          </button>
-        )}
-
-        {/* System User Guide Button */}
-        {onOpenUserGuide && (
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              onOpenUserGuide();
-            }}
-            onMouseEnter={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setHoveredItem({
-                label: 'USER GUIDE',
-                sublabel: 'Omnicortex Documentation',
-                desc: 'View comprehensive documentation for Omnicortex data management',
-                rect
-              });
-            }}
-            onMouseLeave={() => setHoveredItem(null)}
-            className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer"
-            title="Omnicortex User Guide"
-          >
-            <HelpCircle size={15} />
-          </button>
-        )}
-      </div>
-
-      {/* Floating Portal Tooltip */}
-      {hoveredItem &&
-        typeof document !== 'undefined' &&
-        createPortal(
-          <div
-            className="fixed pointer-events-none z-[9999] px-2.5 py-1.5 rounded-lg bg-[#0d121c]/95 border border-slate-700/80 shadow-[0_4px_20px_rgba(0,0,0,0.8)] backdrop-blur-md max-w-xs animate-in fade-in zoom-in-95 duration-100 font-sans select-none"
-            style={{
-              top: Math.max(8, Math.min(window.innerHeight - 80, hoveredItem.rect.top + hoveredItem.rect.height / 2 - 25)),
-              left: hoveredItem.rect.right + 10
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-[11px] font-bold text-white uppercase tracking-wider">
-                {hoveredItem.label}
-              </span>
-              {hoveredItem.count !== undefined && (
-                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-emerald-300 font-bold">
-                  {hoveredItem.count}
-                </span>
+              {hoveredItem.sublabel && (
+                <div className="text-[10px] text-cyan-400 font-mono mt-0.5">
+                  {hoveredItem.sublabel}
+                </div>
               )}
-            </div>
-            {hoveredItem.sublabel && (
-              <div className="text-[10px] text-cyan-400 font-mono mt-0.5">
-                {hoveredItem.sublabel}
-              </div>
-            )}
-            {hoveredItem.desc && (
-              <div className="text-[9.5px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                {hoveredItem.desc}
-              </div>
-            )}
-            {hoveredItem.subItems && (
-              <div className="text-[9px] text-amber-300/80 font-mono mt-1">
-                Sub-items: {hoveredItem.subItems.join(', ')}
-              </div>
-            )}
-          </div>,
-          document.body
-        )}
-    </nav>
+              {hoveredItem.desc && (
+                <div className="text-[9.5px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                  {hoveredItem.desc}
+                </div>
+              )}
+              {hoveredItem.subItems && (
+                <div className="text-[9px] text-amber-300/80 font-mono mt-1">
+                  Sub-items: {hoveredItem.subItems.join(', ')}
+                </div>
+              )}
+            </div>,
+            document.body
+          )}
+      </nav>
 
       {/* ── DEVELOPER FIELDS VERTICAL MENU (Strictly Dev Mode) ── */}
       {isAdmin && isDevPanelOpen && (
         <aside
-          className="fixed md:relative z-30 md:z-10 top-0 bottom-0 left-18 sm:left-20 md:left-0 w-72 sm:w-80 bg-[#080d18]/98 backdrop-blur-2xl border-r border-amber-500/40 shadow-[12px_0_35px_rgba(0,0,0,0.85)] flex flex-col p-3 select-none font-sans animate-in slide-in-from-left-4 duration-200 shrink-0 h-full"
+          className="fixed md:relative z-30 md:z-10 top-0 bottom-0 left-14 sm:left-16 md:left-0 w-72 sm:w-80 bg-[#080d18]/98 backdrop-blur-2xl border-r border-amber-500/40 shadow-[12px_0_35px_rgba(0,0,0,0.85)] flex flex-col p-3 select-none font-sans animate-in slide-in-from-left-4 duration-200 shrink-0 h-full"
         >
           {/* Header Banner - Matching Screenshot media_1790164338449.png */}
           <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/60 flex items-center justify-between shadow-[0_0_15px_rgba(245,158,11,0.15)] shrink-0">
